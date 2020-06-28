@@ -1,0 +1,25 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "water",
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "item": "minecraft:wheat_seeds"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "output": "elementalcraft:growthshrine"
+}

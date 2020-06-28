@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:infusion",
+  "element": "earth",
+  "duration": 40,
+  "input": {
+    "item": "minecraft:stone"
+  },
+  "output": "elementalcraft:whiterock"
+}

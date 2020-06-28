@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ggg",
+    "gcg",
+    "ggg"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gold_nugget"
+    },
+    "c": {
+      "item": "elementalcraft:inertcrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:containedcrystal"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:extractor_improved"
+    ]
+  },
+  "criteria": {
+    "has_purecrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:purecrystal"
+          }
+        ]
+      }
+    },
+    "has_whiterock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:whiterock"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:extractor_improved"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_purecrystal",
+      "has_whiterock",
+      "has_the_recipe"
+    ]
+  ]
+}

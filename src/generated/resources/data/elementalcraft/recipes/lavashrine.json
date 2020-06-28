@@ -1,0 +1,25 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "fire",
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:firecrystal"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "output": "elementalcraft:lavashrine"
+}

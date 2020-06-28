@@ -1,0 +1,9 @@
+/.gradle
+/build
+/bin
+/run
+/.settings
+/.classpath
+/.project
+*.launch
+/src/generated/resources/.cache

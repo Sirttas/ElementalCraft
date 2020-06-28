@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "air",
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:hopper"
+    },
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "output": "elementalcraft:vacuumshrine"
+}

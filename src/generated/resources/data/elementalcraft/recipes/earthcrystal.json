@@ -1,0 +1,8 @@
+{
+  "type": "elementalcraft:infusion",
+  "element": "earth",
+  "input": {
+    "item": "elementalcraft:inertcrystal"
+  },
+  "output": "elementalcraft:earthcrystal"
+}

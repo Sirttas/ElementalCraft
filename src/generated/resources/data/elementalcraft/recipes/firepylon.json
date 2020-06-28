@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "fire",
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:firecrystal"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "output": "elementalcraft:firepylon"
+}

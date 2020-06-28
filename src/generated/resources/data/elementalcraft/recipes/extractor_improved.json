@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " e ",
+    "eie",
+    "wcw"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "e": {
+      "item": "elementalcraft:extractor"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:extractor_improved"
+  }
+}

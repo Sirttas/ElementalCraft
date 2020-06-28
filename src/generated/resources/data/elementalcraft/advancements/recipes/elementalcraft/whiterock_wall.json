@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:whiterock_wall"
+    ]
+  },
+  "criteria": {
+    "has_whiterock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:whiterock"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:whiterock_wall"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_whiterock",
+      "has_the_recipe"
+    ]
+  ]
+}
