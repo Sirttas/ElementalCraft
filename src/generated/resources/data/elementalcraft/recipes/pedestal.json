@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wnw",
+    "ici",
+    "www"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "c": {
+      "item": "elementalcraft:containedcrystal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "n": {
+      "item": "elementalcraft:infuser"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:pedestal"
+  }
+}

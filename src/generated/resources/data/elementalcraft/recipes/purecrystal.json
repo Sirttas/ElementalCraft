@@ -1,0 +1,21 @@
+{
+  "type": "elementalcraft:pureinfusion",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "item": "elementalcraft:firecrystal"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    }
+  ],
+  "output": "elementalcraft:purecrystal"
+}

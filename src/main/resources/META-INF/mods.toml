@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[31,)" 
+
+[[mods]] 
+modId="elementalcraft"
+version="${file.jarVersion}"
+displayName="ElementalCraft"
+description='''elementalcraft'''
+
+[[dependencies.elementalcraft]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31.2.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.elementalcraft]]
+    modId="curios"
+    mandatory=true
+    versionRange="[FORGE-1.15.2-2.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.elementalcraft]]
+    modId="jei"
+    mandatory=true
+    versionRange="[FORGE-1.15.2-2.0,)"
+    ordering="AFTER"
+    side="BOTH"

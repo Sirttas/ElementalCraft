@@ -1,0 +1,16 @@
+[
+{
+  "modid": "elementalcraft",
+  "name": "Elemental Craft",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Sirttas"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

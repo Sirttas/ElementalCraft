@@ -1,0 +1,30 @@
+package sirttas.elementalcraft.infusion;
+
+import java.util.List;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import sirttas.elementalcraft.ElementalCraft;
+
+@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+public class InfusionHandler {
+
+	@SubscribeEvent
+	public static void addInfusionTooltip(ItemTooltipEvent event) {
+		ItemStack stack = event.getItemStack();
+		List<ITextComponent> tooltip = event.getToolTip();
+
+		if (InfusionHelper.hasInfusion(stack)) {
+			OptionalInt indexOpt = IntStream.range(0, tooltip.size()).filter(i -> stack.getItem().getRegistryName().toString().equals(tooltip.get(i).getString())).findFirst();
+
+			tooltip.add(indexOpt.isPresent() ? indexOpt.getAsInt() : tooltip.size(),
+					new TranslationTextComponent("tooltip.elementalcraft.infused", new TranslationTextComponent(InfusionHelper.getInfusion(stack).getTranslationKey())));
+		}
+	}
+}

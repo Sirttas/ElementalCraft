@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:whiterock_slab"
+  }
+}

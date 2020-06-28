@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "elementalcraft:block/whiterock_slab",
+      "x": 180,
+      "uvlock": true
+    },
+    "type=bottom": {
+      "model": "elementalcraft:block/whiterock_slab"
+    },
+    "type=double": {
+      "model": "elementalcraft:block/whiterock"
+    }
+  }
+}
