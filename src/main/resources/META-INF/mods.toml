@@ -24,6 +24,6 @@ description='''elementalcraft'''
 [[dependencies.elementalcraft]]
     modId="jei"
     mandatory=true
-    versionRange="[FORGE-1.15.2-2.0,)"
+    versionRange="[FORGE-1.15.2-6.0,)"
     ordering="AFTER"
     side="BOTH"

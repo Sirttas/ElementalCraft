@@ -18,7 +18,7 @@ import sirttas.elementalcraft.gui.GuiHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 
-public class BinderRecipeCategory extends AbstractInstrumentRecipeCategory<TileBinder, BinderRecipe> {
+public class BindingRecipeCategory extends AbstractRecipeCategory<TileBinder, BinderRecipe> {
 
 	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "binding");
 
@@ -29,10 +29,10 @@ public class BinderRecipeCategory extends AbstractInstrumentRecipeCategory<TileB
 	private final IDrawable background;
 	private ItemStack binder = new ItemStack(ECItems.binder).copy();
 
-	public BinderRecipeCategory(IGuiHelper guiHelper) {
+	public BindingRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16);
 		icon = guiHelper.createDrawableIngredient(binder);
-		overlay = guiHelper.createDrawable(new ResourceLocation(ElementalCraft.MODID, "textures/gui/binding_overlay.png"), 0, 0, 124, 82);
+		overlay = guiHelper.createDrawable(new ResourceLocation(ElementalCraft.MODID, "textures/gui/binding_overlay.png"), 0, 0, 124, 83);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class BinderRecipeCategory extends AbstractInstrumentRecipeCategory<TileB
 
 	@Override
 	public String getTitle() {
-		return I18n.format("elementalcraft.jei.binder");
+		return I18n.format("elementalcraft.jei.binding");
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class BinderRecipeCategory extends AbstractInstrumentRecipeCategory<TileB
 			i++;
 		}
 		recipeLayout.getItemStacks().init(i, false, RADIUS, RADIUS);
-		recipeLayout.getItemStacks().set(i, new ItemStack(ECItems.tank).copy());
+		recipeLayout.getItemStacks().set(i, tank);
 		recipeLayout.getItemStacks().init(i + 1, false, RADIUS, RADIUS - 16);
 		recipeLayout.getItemStacks().set(i + 1, binder);
 

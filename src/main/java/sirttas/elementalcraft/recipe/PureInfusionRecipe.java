@@ -62,6 +62,11 @@ public class PureInfusionRecipe implements IRecipe<TilePureInfuser> {
 	}
 
 	@Override
+	public NonNullList<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	@Override
 	public IRecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}

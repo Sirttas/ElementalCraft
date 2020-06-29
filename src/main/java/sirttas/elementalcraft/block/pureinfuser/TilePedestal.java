@@ -1,8 +1,12 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -133,6 +137,24 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 			return ret;
 		}
 		return ItemStack.EMPTY;
+	}
+
+	private Optional<TilePureInfuser> getPureInfuser() {
+		return Stream.of(Direction.values()).filter(d -> d.getAxis().getPlane() == Direction.Plane.HORIZONTAL)
+				.map(d -> this.getWorld().getTileEntity(pos.offset(d, 3)))
+				.filter(TilePureInfuser.class::isInstance).map(TilePureInfuser.class::cast).findAny();
+	}
+
+	public boolean isPureInfuserRunning() {
+		Optional<TilePureInfuser> opt = getPureInfuser();
+
+		return opt.isPresent() && opt.get().isRunning();
+	}
+
+	public Direction getPureInfuserDirection() {
+		return Stream.of(Direction.values()).filter(d -> d.getAxis().getPlane() == Direction.Plane.HORIZONTAL)
+				.filter(d -> this.getWorld().getTileEntity(pos.offset(d, 3)) instanceof TilePureInfuser)
+				.findAny().orElse(Direction.UP);
 	}
 
 }

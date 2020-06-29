@@ -16,7 +16,7 @@ import sirttas.elementalcraft.gui.GuiHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 
-public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<TileInfuser, AbstractInfusionRecipe> {
+public class InfusionRecipeCategory extends AbstractRecipeCategory<TileInfuser, AbstractInfusionRecipe> {
 
 	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "infusion");
 
@@ -73,7 +73,7 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
 
 		recipeLayout.getItemStacks().init(1, false, 30, 24);
-		recipeLayout.getItemStacks().set(1, new ItemStack(ECItems.tank).copy());
+		recipeLayout.getItemStacks().set(1, tank);
 		recipeLayout.getItemStacks().init(2, false, 30, 8);
 		recipeLayout.getItemStacks().set(2, infuser);
 
