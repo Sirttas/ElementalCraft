@@ -34,6 +34,7 @@ import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNBTTags;
@@ -59,12 +60,13 @@ public class ECBlockLootProvider implements IDataProvider {
 				functionTable.put(block, ECBlockLootProvider::genSlab);
 			} else if (isTileInstanceOf(block, TileShrine.class)) {
 				functionTable.put(block, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT));
+			} else if (block instanceof BlockPedestal) {
+				functionTable.put(block, i -> genCopyNbt(i, ECNBTTags.ELEMENT_AMOUNT));
 			}
 		}
 
 		functionTable.put(ECBlocks.crystalOre, i -> genRegular(ECItems.inertCrystal));
 		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX));
-		functionTable.put(ECBlocks.pedestal, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT));
 	}
 
 	@Override

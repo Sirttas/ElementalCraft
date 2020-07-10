@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.block.extractor;
 
+import java.util.Optional;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -33,14 +35,12 @@ public class TileExtractor extends TileECTickable {
 		return te instanceof TileTank ? (TileTank) te : null;
 	}
 
-	protected BlockState getSourceState() {
-		return this.hasWorld() ? this.getWorld().getBlockState(pos.up()) : null;
+	protected Optional<BlockState> getSourceState() {
+		return this.hasWorld() ? Optional.ofNullable(this.getWorld().getBlockState(pos.up())) : Optional.empty();
 	}
 
 	public ElementType getSourceElementType() {
-		BlockState source = getSourceState();
-
-		return source != null && source.getBlock() == ECBlocks.source ? ElementType.getElementType(source) : ElementType.NONE;
+		return getSourceState().filter(s -> s.getBlock() == ECBlocks.source).map(ElementType::getElementType).orElse(ElementType.NONE);
 	}
 
 	protected int getExtractionAmount() {

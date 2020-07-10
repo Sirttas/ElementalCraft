@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "air",
+  "ingredients": [
+    {
+      "item": "elementalcraft:infuser"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    }
+  ],
+  "output": "elementalcraft:pedestal_air"
+}

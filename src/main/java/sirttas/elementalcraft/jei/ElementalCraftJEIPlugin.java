@@ -8,6 +8,7 @@ import mezz.jei.api.constants.VanillaRecipeCategoryUid;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.RecipeManager;
@@ -25,6 +26,11 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	@Override
 	public ResourceLocation getPluginUid() {
 		return ID;
+	}
+
+	@Override
+	public void registerItemSubtypes(ISubtypeRegistration registry) {
+		registry.useNbtForSubtypes(ECItems.receptacle);
 	}
 
 	@Override

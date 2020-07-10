@@ -68,7 +68,6 @@ public class PureInfusionRecipeCategory extends AbstractRecipeCategory<TilePureI
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, PureInfusionRecipe recipe, IIngredients ingredients) {
-		int i = 0;
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 
 		recipeLayout.getItemStacks().init(0, false, 42, 43);

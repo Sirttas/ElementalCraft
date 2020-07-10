@@ -1,14 +1,10 @@
 package sirttas.elementalcraft.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.math.Vec3d;
@@ -23,7 +19,7 @@ import sirttas.elementalcraft.ElementalCraft;
 public class ParticleSource extends SpriteTexturedParticle {
 
 	public static final String NAME = "source";
-	@ObjectHolder(ElementalCraft.MODID + ":" + ParticleSource.NAME) public static ParticleType<Data> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ParticleSource.NAME) public static ParticleType<ElementTypeParticleData> TYPE;
 
 	private final double coordX;
 	private final double coordY;
@@ -101,52 +97,11 @@ public class ParticleSource extends SpriteTexturedParticle {
 	}
 
 	public static IParticleData createData(ElementType elementType) {
-		return new Data(elementType);
+		return new ElementTypeParticleData(TYPE, elementType);
 	}
-
-	static class Data implements IParticleData {
-
-		private ElementType type;
-
-		public Data(ElementType type) {
-			this.type = type;
-		}
-
-		@Override
-		public ParticleType<Data> getType() {
-			return TYPE;
-		}
-
-		@Override
-		public void write(PacketBuffer buffer) {
-			// nothing to do
-		}
-
-		@Override
-		public String getParameters() {
-			return getType().getRegistryName().toString() + " " + getElementType().getName();
-		}
-
-		public ElementType getElementType() {
-			return this.type;
-		}
-	}
-
-	static final IParticleData.IDeserializer<Data> DESERIALIZER = new IParticleData.IDeserializer<Data>() {
-		@Override
-		public Data deserialize(ParticleType<Data> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-			reader.expect(' ');
-			return new Data(ElementType.byName(reader.readString()));
-		}
-
-		@Override
-		public Data read(ParticleType<Data> particleTypeIn, PacketBuffer buffer) {
-			return new Data(ElementType.byName(buffer.readString()));
-		}
-	};
 
 	@OnlyIn(Dist.CLIENT)
-	static class Factory implements IParticleFactory<Data> {
+	static class Factory implements IParticleFactory<ElementTypeParticleData> {
 		private final IAnimatedSprite spriteSet;
 
 		public Factory(IAnimatedSprite sprite) {
@@ -154,7 +109,7 @@ public class ParticleSource extends SpriteTexturedParticle {
 		}
 
 		@Override
-		public Particle makeParticle(Data data, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+		public Particle makeParticle(ElementTypeParticleData data, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
 			return new ParticleSource(worldIn, new Vec3d(x, y, z), this.spriteSet, data.getElementType());
 		}
 	}

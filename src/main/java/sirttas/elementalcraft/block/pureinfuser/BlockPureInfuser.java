@@ -37,12 +37,7 @@ public class BlockPureInfuser extends BlockECContainer {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-		final TilePureInfuser pureInfuser = (TilePureInfuser) world.getTileEntity(pos);
-
-		if (pureInfuser != null) {
-			return this.onSlotActivated(pureInfuser, player, player.getHeldItem(hand), 0);
-		}
-		return ActionResultType.PASS;
+		return onSingleSlotActivated(world, pos, player, hand);
 	}
 
 	@Override

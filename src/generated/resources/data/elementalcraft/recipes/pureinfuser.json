@@ -1,8 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ini",
-    "cpc",
+    "wnw",
+    "ici",
     "www"
   ],
   "key": {
@@ -17,9 +17,6 @@
     },
     "n": {
       "item": "elementalcraft:infuser"
-    },
-    "p": {
-      "item": "elementalcraft:pedestal"
     }
   },
   "result": {

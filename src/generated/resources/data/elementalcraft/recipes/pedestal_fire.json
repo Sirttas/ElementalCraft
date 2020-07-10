@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "fire",
+  "ingredients": [
+    {
+      "item": "elementalcraft:infuser"
+    },
+    {
+      "item": "elementalcraft:firecrystal"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    }
+  ],
+  "output": "elementalcraft:pedestal_fire"
+}

@@ -20,7 +20,6 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME) public static TileEntityType<TilePedestal> TYPE;
 
-	private ElementType elementType = ElementType.NONE;
 	private int elementAmount = 0;
 	protected int elementMax = 10000; // TODO CONFIG
 	private ItemStack stack;
@@ -41,13 +40,12 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 	@Override
 	public ElementType getElementType() {
-		return elementType;
+		return ((BlockPedestal) this.getBlockState().getBlock()).getElementType();
 	}
 
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		elementType = ElementType.byName(compound.getString(ECNBTTags.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
 		this.stack = NBTHelper.readItemStack(compound, ECNBTTags.ITEM);
 	}
@@ -55,7 +53,6 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.getName());
 		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
 		NBTHelper.writeItemStack(compound, ECNBTTags.ITEM, this.stack);
 		return compound;
@@ -63,7 +60,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 	@Override
 	public int inserElement(int count, ElementType type, boolean simulate) {
-		if (type != this.elementType && this.elementType != ElementType.NONE) {
+		if (type != this.getElementType()) {
 			return 0;
 		} else {
 			int newCount = elementAmount + count;
@@ -74,9 +71,6 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 			if (!simulate) {
 				elementAmount = newCount;
-				if (this.elementType == ElementType.NONE) {
-					this.elementType = type;
-				}
 			}
 			return ret;
 		}

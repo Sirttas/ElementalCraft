@@ -63,11 +63,13 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		return progress > 0;
 	}
 
+	// TODO extract (capability ?)
 	public TileTank getTank() {
 		TileEntity te = this.hasWorld() ? this.getWorld().getTileEntity(pos.down()) : null;
 		return te instanceof TileTank ? (TileTank) te : null;
 	}
 
+	// TODO extract (capability ?)
 	public ElementType getTankElementType() {
 		TileTank tank = getTank();
 

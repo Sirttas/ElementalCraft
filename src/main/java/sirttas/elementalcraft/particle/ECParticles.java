@@ -26,8 +26,8 @@ public class ECParticles {
 	public static void registerParticles(RegistryEvent.Register<ParticleType<?>> event) {
 		IForgeRegistry<ParticleType<?>> r = event.getRegistry();
 
-		RegistryHelper.register(r, new ParticleType<ParticleSource.Data>(false, ParticleSource.DESERIALIZER), ParticleSource.NAME);
-		RegistryHelper.register(r, new ParticleType<ParticleElementFlow.Data>(false, ParticleElementFlow.DESERIALIZER), ParticleElementFlow.NAME);
+		RegistryHelper.register(r, new ParticleType<ElementTypeParticleData>(false, ElementTypeParticleData.DESERIALIZER), ParticleSource.NAME);
+		RegistryHelper.register(r, new ParticleType<ElementTypeParticleData>(false, ElementTypeParticleData.DESERIALIZER), ParticleElementFlow.NAME);
 	}
 
 	@SuppressWarnings("resource")

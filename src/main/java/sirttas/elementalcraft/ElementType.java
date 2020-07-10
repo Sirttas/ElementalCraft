@@ -13,6 +13,7 @@ public enum ElementType implements IStringSerializable {
 	private float r;
 	private float g;
 	private float b;
+	private int color;
 	private String name;
 
 	ElementType(int r, int g, int b, String name) {
@@ -20,6 +21,7 @@ public enum ElementType implements IStringSerializable {
 		this.g = g / 255F;
 		this.b = b / 255F;
 		this.name = name;
+		this.color = (r << 16) | (g << 8) | b;
 	}
 
 	public float getRed() {
@@ -32,6 +34,10 @@ public enum ElementType implements IStringSerializable {
 
 	public float getBlue() {
 		return b;
+	}
+
+	public int getColor() {
+		return this == NONE ? -1 : color;
 	}
 
 	public static ElementType random() {
