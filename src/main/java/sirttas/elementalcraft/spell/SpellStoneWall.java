@@ -63,6 +63,6 @@ public class SpellStoneWall extends Spell implements ISelfCastedSpell {
 		if (!opt.isPresent()) {
 			return ActionResultType.PASS;
 		}
-		return cast(sender, sender.getPosition().offset(opt.get(), 3), opt.get());
+		return cast(sender, new BlockPos(sender.getPositionVec()).offset(opt.get(), 3), opt.get());
 	}
 }

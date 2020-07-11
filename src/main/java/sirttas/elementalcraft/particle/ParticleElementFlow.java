@@ -1,18 +1,14 @@
 package sirttas.elementalcraft.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ObjectHolder;
@@ -23,13 +19,13 @@ import sirttas.elementalcraft.ElementalCraft;
 public class ParticleElementFlow extends SpriteTexturedParticle {
 
 	public static final String NAME = "elementflow";
-	@ObjectHolder(ElementalCraft.MODID + ":" + ParticleElementFlow.NAME) public static ParticleType<Data> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ParticleElementFlow.NAME) public static ParticleType<ElementTypeParticleData> TYPE;
 
 	private final double coordX;
 	private final double coordY;
 	private final double coordZ;
 
-	private ParticleElementFlow(World worldIn, Vec3d coord, Vec3d speed, IAnimatedSprite sprite, ElementType type) {
+	private ParticleElementFlow(ClientWorld worldIn, Vector3d coord, Vector3d speed, IAnimatedSprite sprite, ElementType type) {
 		super(worldIn, coord.getX(), coord.getY(), coord.getZ());
 		this.motionX = speed.getX();
 		this.motionY = speed.getY();
@@ -97,52 +93,11 @@ public class ParticleElementFlow extends SpriteTexturedParticle {
 	}
 
 	public static IParticleData createData(ElementType elementType) {
-		return new Data(elementType);
+		return new ElementTypeParticleData(TYPE, elementType);
 	}
-
-	static class Data implements IParticleData {
-
-		private ElementType type;
-
-		public Data(ElementType type) {
-			this.type = type;
-		}
-
-		@Override
-		public ParticleType<Data> getType() {
-			return TYPE;
-		}
-
-		@Override
-		public void write(PacketBuffer buffer) {
-			// nothing to do
-		}
-
-		@Override
-		public String getParameters() {
-			return getType().getRegistryName().toString() + " " + getElementType().getName();
-		}
-
-		public ElementType getElementType() {
-			return this.type;
-		}
-	}
-
-	static final IParticleData.IDeserializer<Data> DESERIALIZER = new IParticleData.IDeserializer<Data>() {
-		@Override
-		public Data deserialize(ParticleType<Data> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-			reader.expect(' ');
-			return new Data(ElementType.byName(reader.readString()));
-		}
-
-		@Override
-		public Data read(ParticleType<Data> particleTypeIn, PacketBuffer buffer) {
-			return new Data(ElementType.byName(buffer.readString()));
-		}
-	};
 
 	@OnlyIn(Dist.CLIENT)
-	static class Factory implements IParticleFactory<Data> {
+	static class Factory implements IParticleFactory<ElementTypeParticleData> {
 		private final IAnimatedSprite spriteSet;
 
 		public Factory(IAnimatedSprite sprite) {
@@ -150,8 +105,8 @@ public class ParticleElementFlow extends SpriteTexturedParticle {
 		}
 
 		@Override
-		public Particle makeParticle(Data data, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			return new ParticleElementFlow(worldIn, new Vec3d(x, y, z), new Vec3d(xSpeed, ySpeed, zSpeed), this.spriteSet, data.getElementType());
+		public Particle makeParticle(ElementTypeParticleData data, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+			return new ParticleElementFlow(worldIn, new Vector3d(x, y, z), new Vector3d(xSpeed, ySpeed, zSpeed), this.spriteSet, data.getElementType());
 		}
 	}
 

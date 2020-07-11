@@ -12,11 +12,13 @@ public class ECDataGenerators {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent evt) {
 		if (evt.includeServer()) {
+			ECBlockTagsProvider blockTagsProvider = new ECBlockTagsProvider(evt.getGenerator());
+
 			evt.getGenerator().addProvider(new ECBlockLootProvider(evt.getGenerator()));
 			evt.getGenerator().addProvider(new ECBlockStateProvider(evt.getGenerator(), evt.getExistingFileHelper()));
 			evt.getGenerator().addProvider(new ECItemModelProvider(evt.getGenerator(), evt.getExistingFileHelper()));
-			evt.getGenerator().addProvider(new ECBlockTagsProvider(evt.getGenerator()));
-			evt.getGenerator().addProvider(new ECItemTagsProvider(evt.getGenerator()));
+			evt.getGenerator().addProvider(blockTagsProvider);
+			evt.getGenerator().addProvider(new ECItemTagsProvider(evt.getGenerator(), blockTagsProvider));
 			evt.getGenerator().addProvider(new ECRecipeProvider(evt.getGenerator(), evt.getExistingFileHelper()));
 		}
 	}

@@ -11,10 +11,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,12 +43,7 @@ public class BlockInfuser extends BlockECContainer {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-		final TileInfuser infuser = (TileInfuser) world.getTileEntity(pos);
-
-		if (infuser != null) {
-			return this.onSlotActivated(infuser, player, player.getHeldItem(hand), 0);
-		}
-		return ActionResultType.PASS;
+		return onSingleSlotActivated(world, pos, player, hand);
 	}
 	
 	@Override
@@ -57,7 +52,7 @@ public class BlockInfuser extends BlockECContainer {
 		TileInfuser infuser = (TileInfuser) world.getTileEntity(pos);
 
 		if (infuser != null && infuser.isRunning()) {
-			ParticleHelper.createElementFlowParticle(infuser.getTankElementType(), world, new Vec3d(pos), Direction.UP, rand);
+			ParticleHelper.createElementFlowParticle(infuser.getTankElementType(), world, Vector3d.func_237489_a_(pos), Direction.UP, rand);
 		}
 	}
 

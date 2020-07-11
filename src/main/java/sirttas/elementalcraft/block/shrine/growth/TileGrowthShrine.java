@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
@@ -20,13 +20,13 @@ public class TileGrowthShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGrowthShrine.NAME) public static TileEntityType<TileGrowthShrine> TYPE;
 
-	private static final List<Vec3i> RANGE;
+	private static final List<Vector3i> RANGE;
 
 	static {
 		int range = ECConfig.CONFIG.growthShrineRange.get();
 		RANGE = new ArrayList<>(((range * 2 + 1) ^ 2) * 4);
 
-		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> IntStream.range(0, 4).forEach(y -> RANGE.add(new Vec3i(x, y, z)))));
+		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> IntStream.range(0, 4).forEach(y -> RANGE.add(new Vector3i(x, y, z)))));
 	}
 
 	public TileGrowthShrine() {

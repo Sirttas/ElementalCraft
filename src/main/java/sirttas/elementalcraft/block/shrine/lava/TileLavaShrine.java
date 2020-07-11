@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
@@ -21,20 +21,19 @@ public class TileLavaShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static TileEntityType<TileLavaShrine> TYPE;
 
-	private static final List<Vec3i> RANGE;
+	private static final List<Vector3i> RANGE;
 
 	static {
 		int range = ECConfig.CONFIG.lavaShrineRange.get();
 		RANGE = new ArrayList<>(((range * 2 + 1) ^ 2) * 4);
 
-		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> RANGE.add(new Vec3i(x, 1, z))));
+		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> RANGE.add(new Vector3i(x, 1, z))));
 	}
 
 	public TileLavaShrine() {
 		super(TYPE, ElementType.FIRE);
 		this.elementMax *= 10;
 	}
-
 
 	@Override
 	public void tick() {
@@ -46,7 +45,8 @@ public class TileLavaShrine extends TileShrine {
 				BlockPos p = getPos().add(v);
 				BlockState blockstate = world.getBlockState(p);
 
-				if (ECTags.Blocks.LAVASHRINE_LIQUIFIABLES.contains(blockstate.getBlock()) && randomChance(ECConfig.CONFIG.lavaShrineChance.get()) && this.getElementAmount() >= consumeAmount) {
+				if (ECTags.Blocks.LAVASHRINE_LIQUIFIABLES.func_230235_a_/* contains */(blockstate.getBlock()) && randomChance(ECConfig.CONFIG.lavaShrineChance.get())
+						&& this.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);
 					world.setBlockState(p, Blocks.LAVA.getDefaultState());
 				}

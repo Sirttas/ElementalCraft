@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
@@ -18,8 +20,8 @@ public class GuiHelper {
 
 	private static final ResourceLocation GAUGE = new ResourceLocation(ElementalCraft.MODID, "textures/gui/element_gauge.png");
 
-	public static void blit(int x, int y, int u, int v, int width, int height) {
-		AbstractGui.blit(x, y, u, v, width, height, 256, 256);
+	public static void blit(MatrixStack matrixStack, int x, int y, int u, int v, int width, int height) {
+		AbstractGui.func_238463_a_/* blit */(matrixStack, x, y, u, v, width, height, 256, 256);
 	}
 
 	private static int getElementTypeOffset(ElementType type) {
@@ -38,20 +40,20 @@ public class GuiHelper {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void renderElementGauge(int x, int y, int amount, int max, ElementType type) {
+	public static void renderElementGauge(MatrixStack matrixStack, int x, int y, int amount, int max, ElementType type) {
 		Minecraft mc = Minecraft.getInstance();
 
 		mc.textureManager.bindTexture(GAUGE);
-		blit(x, y, 0, 0, 17, 17);
+		blit(matrixStack, x, y, 0, 0, 17, 17);
 
 		int progress = Math.max(0, (int) ((double) amount / (double) max * 17));
 
 		if (progress <= 1 && amount > 0) {
 			progress = 2;
 		}
-		blit(x, y + 17 - progress, getElementTypeOffset(type) * 17, 17 - progress, 17, progress);
+		blit(matrixStack, x, y + 17 - progress, getElementTypeOffset(type) * 17, 17 - progress, 17, progress);
 		if (showDebugInfo()) {
-			mc.fontRenderer.drawStringWithShadow(amount + "/" + max, x, y + 17, 16777215);
+			mc.fontRenderer.func_238405_a_/* drawStringWithShadow */(matrixStack, amount + "/" + max, x, y + 17, 16777215);
 		}
 	}
 

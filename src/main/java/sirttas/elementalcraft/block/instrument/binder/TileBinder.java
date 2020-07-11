@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -33,8 +34,8 @@ public class TileBinder extends TileInstrument {
 	}
 
 	@Override
-	public void read(CompoundNBT compound) {
-		super.read(compound);
+	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
+		super.func_230337_a_/* read */(state, compound);
 		this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, this.stacks);
 	}

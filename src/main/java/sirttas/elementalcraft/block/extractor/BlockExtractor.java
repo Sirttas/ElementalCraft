@@ -6,10 +6,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,7 +49,7 @@ public class BlockExtractor extends BlockECTileProvider {
 		TileExtractor extractor = (TileExtractor) world.getTileEntity(pos);
 
 		if (extractor != null && extractor.canExtract()) {
-			ParticleHelper.createElementFlowParticle(extractor.getSourceElementType(), world, new Vec3d(pos), Direction.DOWN, rand);
+			ParticleHelper.createElementFlowParticle(extractor.getSourceElementType(), world, Vector3d.func_237491_b_(pos), Direction.DOWN, rand);
 		}
 	}
 }

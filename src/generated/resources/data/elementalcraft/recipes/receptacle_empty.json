@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ggg",
+    "dcd",
+    "ggg"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:receptacle_empty"
+  }
+}

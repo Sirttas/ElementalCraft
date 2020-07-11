@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
+import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.TileExtractor;
@@ -40,6 +41,8 @@ import sirttas.elementalcraft.block.shrine.lava.BlockLavaShrine;
 import sirttas.elementalcraft.block.shrine.lava.TileLavaShrine;
 import sirttas.elementalcraft.block.shrine.ore.BlockOreShrine;
 import sirttas.elementalcraft.block.shrine.ore.TileOreShrine;
+import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
+import sirttas.elementalcraft.block.shrine.overload.TileOverloadShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
@@ -59,7 +62,10 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static BlockImprovedExtractor improvedExtractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static BlockInfuser infuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static BlockBinder binder;
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME) public static BlockPedestal pedestal;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static BlockPedestal firePedestal;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_WATER) public static BlockPedestal waterPedestal;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_EARTH) public static BlockPedestal earthPedestal;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static BlockPedestal airPedestal;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static BlockPureInfuser pureInfuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static BlockFireFurnace fireFurnace;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static BlockElementPipe elementPipe;
@@ -68,6 +74,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGrowthShrine.NAME) public static BlockGrowthShrine growthShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static BlockLavaShrine lavaShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static BlockOreShrine oreShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static BlockOverloadShrine overloadShrine;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
 	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static BlockEC crystalOre;
@@ -86,7 +93,10 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockImprovedExtractor(), BlockImprovedExtractor.NAME);
 		RegistryHelper.register(registry, new BlockInfuser(), BlockInfuser.NAME);
 		RegistryHelper.register(registry, new BlockBinder(), BlockBinder.NAME);
-		RegistryHelper.register(registry, new BlockPedestal(), BlockPedestal.NAME);
+		RegistryHelper.register(registry, new BlockPedestal(ElementType.FIRE), BlockPedestal.NAME_FIRE);
+		RegistryHelper.register(registry, new BlockPedestal(ElementType.WATER), BlockPedestal.NAME_WATER);
+		RegistryHelper.register(registry, new BlockPedestal(ElementType.EARTH), BlockPedestal.NAME_EARTH);
+		RegistryHelper.register(registry, new BlockPedestal(ElementType.AIR), BlockPedestal.NAME_AIR);
 		RegistryHelper.register(registry, new BlockPureInfuser(), BlockPureInfuser.NAME);
 		RegistryHelper.register(registry, new BlockFireFurnace(), BlockFireFurnace.NAME);
 		RegistryHelper.register(registry, new BlockElementPipe(), BlockElementPipe.NAME);
@@ -95,6 +105,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockGrowthShrine(), BlockGrowthShrine.NAME);
 		RegistryHelper.register(registry, new BlockLavaShrine(), BlockLavaShrine.NAME);
 		RegistryHelper.register(registry, new BlockOreShrine(), BlockOreShrine.NAME);
+		RegistryHelper.register(registry, new BlockOverloadShrine(), BlockOverloadShrine.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
 		RegistryHelper.register(registry, new BlockEC(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), "crystalore");
@@ -113,7 +124,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileImprovedExtractor::new, improvedExtractor).build(null), BlockImprovedExtractor.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileInfuser::new, infuser).build(null), BlockInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBinder::new, binder).build(null), BlockBinder.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.create(TilePedestal::new, pedestal).build(null), BlockPedestal.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TilePedestal::new, firePedestal, waterPedestal, earthPedestal, airPedestal).build(null), BlockPedestal.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePureInfuser::new, pureInfuser).build(null), BlockPureInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFireFurnace::new, fireFurnace).build(null), BlockFireFurnace.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileElementPipe::new, elementPipe).build(null), BlockElementPipe.NAME);
@@ -122,6 +133,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileGrowthShrine::new, growthShrine).build(null), BlockGrowthShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileLavaShrine::new, lavaShrine).build(null), BlockLavaShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOreShrine::new, oreShrine).build(null), BlockOreShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileOverloadShrine::new, overloadShrine).build(null), BlockOverloadShrine.NAME);
 	}
 
 	@SubscribeEvent

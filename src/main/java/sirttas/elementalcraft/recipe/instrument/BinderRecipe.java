@@ -159,7 +159,7 @@ public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 
 		@Override
 		public void write(PacketBuffer buffer, BinderRecipe recipe) {
-			buffer.writeString(recipe.getElementType().getName());
+			buffer.writeString(recipe.getElementType().func_176610_l/* getName */());
 			buffer.writeInt(recipe.getElementPerTick());
 			buffer.writeInt(recipe.getDuration());
 			buffer.writeItemStack(recipe.getRecipeOutput());

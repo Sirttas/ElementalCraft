@@ -12,11 +12,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -73,7 +73,7 @@ public class BlockFireFurnace extends BlockECContainer {
 		if (furnace != null && furnace.isRunning()) {
 			world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
 			world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
-			ParticleHelper.createElementFlowParticle(furnace.getTankElementType(), world, new Vec3d(pos), Direction.UP, rand);
+			ParticleHelper.createElementFlowParticle(furnace.getTankElementType(), world, Vector3d.func_237489_a_(pos), Direction.UP, rand);
 		}
 	}
 

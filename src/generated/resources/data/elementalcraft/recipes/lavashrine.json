@@ -3,7 +3,7 @@
   "element": "fire",
   "ingredients": [
     {
-      "item": "elementalcraft:shrinebase"
+      "item": "elementalcraft:firepylon"
     },
     {
       "item": "elementalcraft:firecrystal"

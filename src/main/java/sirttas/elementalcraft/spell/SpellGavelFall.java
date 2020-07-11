@@ -57,7 +57,7 @@ public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockC
 
 	@Override
 	public ActionResultType castOnEntity(Entity sender, Entity target) {
-		return spawnGravel(sender, target.getPosition());
+		return spawnGravel(sender, new BlockPos(target.getPositionVec()));
 	}
 
 }

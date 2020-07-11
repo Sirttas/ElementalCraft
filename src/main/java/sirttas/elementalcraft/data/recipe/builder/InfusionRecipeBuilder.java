@@ -86,7 +86,7 @@ public class InfusionRecipeBuilder {
 
 		@Override
 		public void serialize(JsonObject json) {
-			json.addProperty("element", this.elementType.getName());
+			json.addProperty("element", this.elementType.func_176610_l/* getName */());
 			if (consumption > 0) {
 				json.addProperty("consumption", consumption);
 			}

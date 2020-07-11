@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "elementalcraft:item/receptacle_empty",
+        "layer1": "elementalcraft:item/receptacle_source"
+    }
+}

@@ -2,16 +2,17 @@ package sirttas.elementalcraft.block.tank;
 
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,7 +39,7 @@ public class BlockTank extends BlockECTileProvider {
 	private static final VoxelShape SHAPE = VoxelShapes.or(BASE, GLASS, PIPE_1, PIPE_2, PIPE_3, PIPE_4, CONNECTOR);
 
 	public BlockTank() {
-		super(Block.Properties.create(Material.GLASS).hardnessAndResistance(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).notSolid());
+		super(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).notSolid());
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class BlockTank extends BlockECTileProvider {
 		TileTank tank = (TileTank) world.getTileEntity(pos);
 
 		if (tank != null && tank.getElementAmount() > 0 && tank.getElementType() != ElementType.NONE) {
-			ParticleHelper.createSourceParticle(tank.getElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), rand);
+			ParticleHelper.createSourceParticle(tank.getElementType(), world, Vector3d.func_237489_a_(pos).add(0, 0.2D, 0), rand);
 		}
 	}
 

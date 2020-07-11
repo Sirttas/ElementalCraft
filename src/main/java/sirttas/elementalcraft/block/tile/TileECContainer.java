@@ -50,6 +50,6 @@ public abstract class TileECContainer extends TileECTickable implements IInvento
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
 		this.clear();
-		read(packet.getNbtCompound());
+		super.onDataPacket(net, packet);
 	}
 }

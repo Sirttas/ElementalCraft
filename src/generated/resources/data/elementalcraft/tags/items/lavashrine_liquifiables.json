@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#forge:stone",
-    "#forge:cobblestone"
+    "minecraft:basalt"
   ]
 }

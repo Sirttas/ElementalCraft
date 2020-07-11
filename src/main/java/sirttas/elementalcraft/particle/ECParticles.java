@@ -1,7 +1,10 @@
 package sirttas.elementalcraft.particle;
 
+import java.util.function.Function;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleRenderType;
@@ -10,6 +13,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -19,6 +23,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
+@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECParticles {
 
@@ -26,8 +31,8 @@ public class ECParticles {
 	public static void registerParticles(RegistryEvent.Register<ParticleType<?>> event) {
 		IForgeRegistry<ParticleType<?>> r = event.getRegistry();
 
-		RegistryHelper.register(r, new ParticleType<ParticleSource.Data>(false, ParticleSource.DESERIALIZER), ParticleSource.NAME);
-		RegistryHelper.register(r, new ParticleType<ParticleElementFlow.Data>(false, ParticleElementFlow.DESERIALIZER), ParticleElementFlow.NAME);
+		register(r, ElementTypeParticleData.DESERIALIZER, ElementTypeParticleData::getCodec, ParticleSource.NAME);
+		register(r, ElementTypeParticleData.DESERIALIZER, ElementTypeParticleData::getCodec, ParticleElementFlow.NAME);
 	}
 
 	@SuppressWarnings("resource")
@@ -37,7 +42,7 @@ public class ECParticles {
 		Minecraft.getInstance().particles.registerFactory(ParticleElementFlow.TYPE, ParticleElementFlow.Factory::new);
 	}
 
-	@SuppressWarnings("deprecation")
+
 	static final IParticleRenderType EC_RENDER = new IParticleRenderType() {
 		@Override
 		public void beginRender(BufferBuilder buffer, TextureManager textureManager) {
@@ -60,4 +65,14 @@ public class ECParticles {
 			return "elementalcraft:renderer";
 		}
 	};
+
+	private static <T extends IParticleData> void register(IForgeRegistry<ParticleType<?>> reg, IParticleData.IDeserializer<T> deserializer, final Function<ParticleType<T>, Codec<T>> function,
+			String key) {
+		RegistryHelper.register(reg, new ParticleType<T>(false, deserializer) {
+			@Override
+			public Codec<T> func_230522_e_() {
+				return function.apply(this);
+			}
+		}, key);
+	}
 }

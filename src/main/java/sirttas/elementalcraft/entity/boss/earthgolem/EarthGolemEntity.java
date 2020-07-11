@@ -2,7 +2,8 @@ package sirttas.elementalcraft.entity.boss.earthgolem;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
@@ -27,6 +28,10 @@ public class EarthGolemEntity extends ECBossEntity {
 		super(type, worldIn);
 	}
 
+	public static AttributeModifierMap.MutableAttribute getAttributeModifier() {
+		return ECBossEntity.getAttributeModifier().func_233815_a_(Attributes.field_233821_d_/* MOVEMENT_SPEED */, 0).func_233815_a_(Attributes.field_233820_c_/* KNOCKBACK_RESISTANCE */, 5.0D);
+	}
+
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(2, new AttackGoal(this));
@@ -35,13 +40,6 @@ public class EarthGolemEntity extends ECBossEntity {
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-	}
-
-	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0F);
-		this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(5.0D);
 	}
 
 	@Override

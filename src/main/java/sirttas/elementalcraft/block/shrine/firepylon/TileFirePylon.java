@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.registries.ObjectHolder;
@@ -24,8 +25,7 @@ public class TileFirePylon extends TileShrine {
 
 	private List<LivingEntity> getEntities() {
 		return this.getWorld().getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.firePylonRange.get()),
-				e -> (!e.isSpectator() && !e.isImmuneToFire() && !e
-						.isBurning()
+				e -> (!e.isSpectator() && !e.isPotionActive(Effects.FIRE_RESISTANCE) && !e.isBurning()
 						&& !(InfusionHelper.hasInfusion(e, EquipmentSlotType.HEAD, ElementType.FIRE) || InfusionHelper.hasInfusion(e, EquipmentSlotType.CHEST, ElementType.FIRE)
 								|| InfusionHelper.hasInfusion(e, EquipmentSlotType.LEGS, ElementType.FIRE) || InfusionHelper.hasInfusion(e, EquipmentSlotType.FEET, ElementType.FIRE))));
 	}

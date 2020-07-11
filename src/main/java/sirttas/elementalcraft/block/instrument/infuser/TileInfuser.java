@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.instrument.infuser;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
@@ -32,8 +33,8 @@ public class TileInfuser extends TileInstrument {
 	}
 
 	@Override
-	public void read(CompoundNBT compound) {
-		super.read(compound);
+	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
+		super.func_230337_a_/* read */(state, compound);
 		this.stack = NBTHelper.readItemStack(compound, ECNBTTags.ITEM);
 	}
 

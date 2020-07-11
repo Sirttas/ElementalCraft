@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:pedestal"
+          "name": "elementalcraft:pedestal_air"
         }
       ],
       "conditions": [
@@ -20,11 +20,6 @@
           "function": "minecraft:copy_nbt",
           "source": "block_entity",
           "ops": [
-            {
-              "source": "element_type",
-              "target": "elementalcraft.tetagelement_type",
-              "op": "replace"
-            },
             {
               "source": "element_amount",
               "target": "elementalcraft.tetagelement_amount",

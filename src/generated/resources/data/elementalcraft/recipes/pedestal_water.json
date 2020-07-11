@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "water",
+  "ingredients": [
+    {
+      "item": "elementalcraft:infuser"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    }
+  ],
+  "output": "elementalcraft:pedestal_water"
+}

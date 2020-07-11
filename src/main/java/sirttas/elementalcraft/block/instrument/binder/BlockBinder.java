@@ -12,10 +12,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -70,7 +70,7 @@ public class BlockBinder extends BlockECContainer {
 		TileBinder binder = (TileBinder) world.getTileEntity(pos);
 
 		if (binder != null && binder.isRunning()) {
-			ParticleHelper.createElementFlowParticle(binder.getTankElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), Direction.UP, rand);
+			ParticleHelper.createElementFlowParticle(binder.getTankElementType(), world, Vector3d.func_237489_a_(pos).add(0, 0.2D, 0), Direction.UP, rand);
 		}
 	}
 

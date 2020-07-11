@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.instrument;
 
 import java.util.stream.IntStream;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -63,11 +64,13 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		return progress > 0;
 	}
 
+	// TODO extract (capability ?)
 	public TileTank getTank() {
 		TileEntity te = this.hasWorld() ? this.getWorld().getTileEntity(pos.down()) : null;
 		return te instanceof TileTank ? (TileTank) te : null;
 	}
 
+	// TODO extract (capability ?)
 	public ElementType getTankElementType() {
 		TileTank tank = getTank();
 
@@ -87,8 +90,8 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	}
 
 	@Override
-	public void read(CompoundNBT cmp) {
-		super.read(cmp);
+	public void func_230337_a_/* read */(BlockState state, CompoundNBT cmp) {
+		super.func_230337_a_/* read */(state, cmp);
 		progress = cmp.getFloat(ECNBTTags.PROGRESS);
 	}
 

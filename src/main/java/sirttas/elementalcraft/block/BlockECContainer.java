@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
@@ -14,6 +14,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -24,7 +25,7 @@ import sirttas.elementalcraft.property.ECProperties;
 
 public abstract class BlockECContainer extends ContainerBlock implements IBlockECTileProvider {
 
-	public BlockECContainer(Block.Properties properties) {
+	public BlockECContainer(AbstractBlock.Properties properties) {
 		super(properties);
 	}
 
@@ -40,11 +41,6 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 	@Nonnull
 	@Override
 	public abstract TileEntity createTileEntity(@Nonnull BlockState state, @Nonnull IBlockReader world);
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return false;
-	}
 
 	@Override
 	@Deprecated
@@ -100,6 +96,15 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 			((IForcableSync) inventory).forceSync();
 		}
 		return ret;
+	}
+
+	protected ActionResultType onSingleSlotActivated(World world, BlockPos pos, PlayerEntity player, Hand hand) {
+		final IInventory inv = (IInventory) world.getTileEntity(pos);
+
+		if (inv != null) {
+			return this.onSlotActivated(inv, player, player.getHeldItem(hand), 0);
+		}
+		return ActionResultType.PASS;
 	}
 
 	/**

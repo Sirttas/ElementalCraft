@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "earth",
+  "ingredients": [
+    {
+      "item": "elementalcraft:infuser"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    }
+  ],
+  "output": "elementalcraft:pedestal_earth"
+}
