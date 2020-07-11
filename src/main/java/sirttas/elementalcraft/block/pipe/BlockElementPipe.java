@@ -21,10 +21,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -61,7 +61,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 
 	private final List<VoxelShape> boxes;
 
-	private static boolean doesVectorColide(AxisAlignedBB bb, Vec3d vec) {
+	private static boolean doesVectorColide(AxisAlignedBB bb, Vector3d vec) {
 		return vec.x >= bb.minX && vec.y >= bb.minY && vec.z >= bb.minZ && vec.x <= bb.maxX && vec.y <= bb.maxY && vec.z <= bb.maxZ;
 	}
 
@@ -100,7 +100,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 
 	@Override
 	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-		worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
+		worldIn.getPendingBlockTicks().scheduleTick(pos, this, 1);
 		((TileElementPipe) worldIn.getTileEntity(pos)).refresh();
 	}
 
@@ -173,7 +173,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 		final RayTraceResult result = Minecraft.getInstance().objectMouseOver;
 
 		if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
-			final Vec3d hit = result.getHitVec();
+			final Vector3d hit = result.getHitVec();
 
 			for (final VoxelShape box : boxes) {
 				if (doesVectorColide(box.getBoundingBox().offset(pos), hit) && isRendered(box, state)) {

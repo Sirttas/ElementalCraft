@@ -22,7 +22,7 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECFeatures {
 
-	public static final Feature<NoFeatureConfig> SOURCE = new SourceFeature(NoFeatureConfig::deserialize);
+	public static final Feature<NoFeatureConfig> SOURCE = new SourceFeature(NoFeatureConfig.field_236558_a_);
 
 	@SubscribeEvent
 	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {

@@ -7,10 +7,13 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.inventory.IInventory;
-import sirttas.elementalcraft.block.instrument.IInstrument;
-import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import sirttas.elementalcraft.item.ECItems;
 
-public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument & IInventory, T extends AbstractInstrumentRecipe<K>> implements IRecipeCategory<T> {
+public abstract class AbstractRecipeCategory<K extends IInventory, T extends IRecipe<K>> implements IRecipeCategory<T> {
+
+	protected ItemStack tank = new ItemStack(ECItems.tank).copy();
 
 	@Override
 	public void setIngredients(T recipe, IIngredients ingredients) {

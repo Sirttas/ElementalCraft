@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -35,13 +35,13 @@ public class TileVacuumShrine extends TileShrine {
 		double pullSpeed = ECConfig.CONFIG.vacuumShrinePullSpeed.get();
 		TileEntity te = this.world.getTileEntity(pos.down());
 		IInventory inv = te instanceof IInventory ? (IInventory) te : null;
-		Vec3d pos3d = new Vec3d(this.getPos()).add(0.5D, 0.5D, 0.5D);
+		Vector3d pos3d = Vector3d.func_237489_a_(this.getPos()).add(0.5D, 0.5D, 0.5D);
 
 		super.tick();
 		getEntities().forEach(e -> {
 			if (this.consumeElement(consumeAmount) >= consumeAmount) {
-				e.setMotion(pos3d.subtract(e.getPositionVector()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
-				if (inv != null && pos3d.distanceTo(e.getPositionVector()) <= 1) {
+				e.setMotion(pos3d.subtract(e.getPositionVec()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
+				if (inv != null && pos3d.distanceTo(e.getPositionVec()) <= 1) {
 					e.setItem(HopperTileEntity.putStackInInventoryAllSlots(null, inv, e.getItem(), Direction.UP));
 				}
 			}

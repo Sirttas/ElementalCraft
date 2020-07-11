@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +16,7 @@ import sirttas.elementalcraft.property.ECProperties;
 
 public abstract class BlockECTileProvider extends BlockEC implements IBlockECTileProvider {
 
-	public BlockECTileProvider(Block.Properties properties) {
+	public BlockECTileProvider(AbstractBlock.Properties properties) {
 		super(properties);
 	}
 
@@ -32,11 +32,6 @@ public abstract class BlockECTileProvider extends BlockEC implements IBlockECTil
 	@Nonnull
 	@Override
 	public abstract TileEntity createTileEntity(@Nonnull BlockState state, @Nonnull IBlockReader world);
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return false;
-	}
 
 	@Override
 	@Deprecated

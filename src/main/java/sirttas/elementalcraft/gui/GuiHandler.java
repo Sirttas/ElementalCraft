@@ -28,8 +28,8 @@ public class GuiHandler {
 				IElementStorage storage = (IElementStorage) tile;
 
 				if (storage.doesRenderGauge() || GuiHelper.showDebugInfo()) {
-					GuiHelper.renderElementGauge(minecraft.getMainWindow().getScaledWidth() / 2 - 32, minecraft.getMainWindow().getScaledHeight() / 2 - 8, storage.getElementAmount(),
-							storage.getMaxElement(), storage.getElementType());
+					GuiHelper.renderElementGauge(event.getMatrixStack(), minecraft.getMainWindow().getScaledWidth() / 2 - 32, minecraft.getMainWindow().getScaledHeight() / 2 - 8,
+							storage.getElementAmount(), storage.getMaxElement(), storage.getElementType());
 				}
 			}
 		}

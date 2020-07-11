@@ -30,6 +30,8 @@ public class ECConfig {
 	public final IntValue oreShrineRange;
 	public final IntValue oreShrineConsumeAmount;
 	public final DoubleValue oreShrineChance;
+	public final IntValue overloadShrineConsumeAmount;
+	public final DoubleValue overloadShrineChance;
 	public final IntValue tankMaxAmount;
 	public final IntValue extractorExtractionAmount;
 	public final IntValue improvedExtractorExtractionAmount;
@@ -37,6 +39,7 @@ public class ECConfig {
 	public final IntValue pipeTransferAmount;
 
 	public final BooleanValue binderRecipeMatchOrder;
+	public final BooleanValue conserveReceptacle;
 
 	public final IntValue sourceSpawnChance;
 
@@ -69,13 +72,16 @@ public class ECConfig {
 		oreShrineRange = builder.comment("The range of the Ore Shrine.").defineInRange("oreShrineRange", 6, 0, 100);
 		oreShrineConsumeAmount = builder.comment("The amount of element consumed by the Ore Shrine.").defineInRange("oreShrineConsumeAmount", 500, 0, 1000);
 		oreShrineChance = builder.comment("The chance of the Lava Ore to tick.").defineInRange("oreShrineChance", 0.005D, 0D, 1D);
+		overloadShrineConsumeAmount = builder.comment("The amount of element consumed by the overload Shrine.").defineInRange("overloadShrineConsumeAmount", 500, 0, 1000);
+		overloadShrineChance = builder.comment("The chance of the Lava overload to tick.").defineInRange("overloadShrineChance", 0.005D, 0D, 1D);
 		tankMaxAmount = builder.comment("The max element amount a tank can hold.").defineInRange("tankMaxAmount", 100000, 0, 100000000);
 		extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
 		improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 25, 0, 500);
 		fireFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Furnace per tick.").defineInRange("fireFurnaceConsumeAmount", 10, 0, 100);
 		pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 100, 0, 10000);
 
-		binderRecipeMatchOrder = builder.comment("If or not binder recip require to be ordered.").define("binderRecipeMatchOrder", true);
+		binderRecipeMatchOrder = builder.comment("Define if or not binder recip require to be ordered.").define("binderRecipeMatchOrder", true);
+		conserveReceptacle = builder.comment("Define if a source receptacle will be conserved after use.").define("conserveReceptacle", false);
 
 		sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
 

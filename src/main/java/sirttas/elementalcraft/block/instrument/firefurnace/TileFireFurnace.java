@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.instrument.firefurnace;
 
 import java.util.Optional;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipe;
 import net.minecraft.item.crafting.IRecipeType;
@@ -35,8 +36,8 @@ public class TileFireFurnace extends TileInstrument {
 	}
 
 	@Override
-	public void read(CompoundNBT compound) {
-		super.read(compound);
+	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
+		super.func_230337_a_/* read */(state, compound);
 		this.input = NBTHelper.readItemStack(compound, ECNBTTags.INPUT);
 		this.output = NBTHelper.readItemStack(compound, ECNBTTags.OUTPUT);
 	}

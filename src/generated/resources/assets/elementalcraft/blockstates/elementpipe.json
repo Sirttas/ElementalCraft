@@ -1,0 +1,127 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_core"
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_side",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_side",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_side",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_side",
+        "x": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "down": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_side",
+        "x": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north_extract": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_extract",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east_extract": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_extract",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south_extract": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_extract",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west_extract": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_extract",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up_extract": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_extract",
+        "x": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "down_extract": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_extract",
+        "x": 90,
+        "uvlock": true
+      }
+    }
+  ]
+}

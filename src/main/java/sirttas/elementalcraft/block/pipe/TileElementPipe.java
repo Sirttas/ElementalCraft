@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -183,17 +184,17 @@ public class TileElementPipe extends TileECTickable {
 	}
 
 	@Override
-	public void read(CompoundNBT compound) {
-		super.read(compound);
+	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
+		super.func_230337_a_/* read */(state, compound);
 		for (Direction face : Direction.values()) {
-			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.getName())));
+			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.func_176610_l/* getName */())));
 		}
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		connections.forEach((k, v) -> compound.putInt(k.getName(), v.getValue()));
+		connections.forEach((k, v) -> compound.putInt(k.func_176610_l/* getName */(), v.getValue()));
 		return compound;
 	}
 

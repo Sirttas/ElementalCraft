@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.ElementType;
@@ -84,8 +85,8 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	}
 
 	@Override
-	public void read(CompoundNBT compound) {
-		super.read(compound);
+	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
+		super.func_230337_a_/* read */(state, compound);
 		elementType = ElementType.byName(compound.getString(ECNBTTags.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
 	}
@@ -93,7 +94,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.getName());
+		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.func_176610_l/* getName */());
 		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
 		return compound;
 	}

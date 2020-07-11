@@ -3,9 +3,7 @@ pipe element filter
 spells
 more element production
 capabilities
-move source
 sound
 tools with ec materials
-recipes data gen
-stonecutter recipes
 tool infusion jei
+element pipe interface

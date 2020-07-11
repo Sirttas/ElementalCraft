@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -16,7 +17,7 @@ import sirttas.elementalcraft.gui.GuiHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 
-public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<TileInfuser, AbstractInfusionRecipe> {
+public class InfusionRecipeCategory extends AbstractRecipeCategory<TileInfuser, AbstractInfusionRecipe> {
 
 	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "infusion");
 
@@ -58,13 +59,11 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 	}
 
 	@Override
-	public void draw(AbstractInfusionRecipe recipe, double mouseX, double mouseY) {
-		RenderSystem.enableAlphaTest();
+	public void draw(AbstractInfusionRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
 		RenderSystem.enableBlend();
-		overlay.draw(8, 20);
-		GuiHelper.renderElementGauge(31, 42, 1, 1, recipe.getElementType()); // TODO base on amount needed
+		overlay.draw(matrixStack, 8, 20);
+		GuiHelper.renderElementGauge(matrixStack, 31, 42, 1, 1, recipe.getElementType()); // TODO base on amount needed
 		RenderSystem.disableBlend();
-		RenderSystem.disableAlphaTest();
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
 
 		recipeLayout.getItemStacks().init(1, false, 30, 24);
-		recipeLayout.getItemStacks().set(1, new ItemStack(ECItems.tank).copy());
+		recipeLayout.getItemStacks().set(1, tank);
 		recipeLayout.getItemStacks().init(2, false, 30, 8);
 		recipeLayout.getItemStacks().set(2, infuser);
 

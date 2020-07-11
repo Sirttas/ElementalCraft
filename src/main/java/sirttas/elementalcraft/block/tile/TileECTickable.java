@@ -28,7 +28,7 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 
 			this.getWorld().notifyBlockUpdate(pos, bs, bs, 3);
 			markDirty();
-			this.getWorld().notifyNeighbors(pos, getBlockState().getBlock());
+			this.getWorld().notifyNeighborsOfStateChange(pos, getBlockState().getBlock());
 			NetworkHelper.dispatchTEToNearbyPlayers(this);
 			toSync = false;
 			tick = 0;

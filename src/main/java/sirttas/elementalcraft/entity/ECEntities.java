@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.Builder;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
@@ -29,6 +30,7 @@ public class ECEntities {
 	@OnlyIn(Dist.CLIENT)
 	public static void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EarthGolemEntity.TYPE, EarthGolemRenderer::new);
+		GlobalEntityTypeAttributes.put(EarthGolemEntity.TYPE, EarthGolemEntity.getAttributeModifier().func_233813_a_());
 	}
 
 	private static <T extends Entity> void register(IForgeRegistry<EntityType<?>> registry, Builder<T> builder, String name) {

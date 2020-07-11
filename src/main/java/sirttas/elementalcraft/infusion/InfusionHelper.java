@@ -11,15 +11,15 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag.INamedTag;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.nbt.ECNBTTags;
@@ -42,7 +42,7 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.SWORD, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_ASPECT));
 		addInfusionToMap(ItemClass.SWORD, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.SHARPNESS));
 		addInfusionToMap(ItemClass.SWORD, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, SharedMonsterAttributes.ATTACK_SPEED, ECConfig.CONFIG.swordAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, Attributes.field_233825_h_/*ATTACK_SPEED*/, ECConfig.CONFIG.swordAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FORTUNE));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.UNBREAKING));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.AIR, (s, m) -> addEnchantmentLevel(s, m, Enchantments.EFFICIENCY));
@@ -69,7 +69,7 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, SharedMonsterAttributes.MOVEMENT_SPEED, ECConfig.CONFIG.leggingsAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.field_233821_d_/*MOVEMENT_SPEED*/, ECConfig.CONFIG.leggingsAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.DEPTH_STRIDER));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
@@ -94,19 +94,19 @@ public class InfusionHelper {
 		EnchantmentHelper.setEnchantments(map, stack);
 	}
 
-	private static void addAttributeModifier(ItemStack stack, IAttribute attribute, double amount, EquipmentSlotType slot) {
-		stack.addAttributeModifier(attribute.getName(), new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
+	private static void addAttributeModifier(ItemStack stack, Attribute attribute, double amount, EquipmentSlotType slot) {
+		stack.addAttributeModifier(attribute, new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
 	}
 
-	private static void applyAttributeModifierInfusion(ItemStack stack, EquipmentSlotType slot, IAttribute attribute, double amount) {
+	private static void applyAttributeModifierInfusion(ItemStack stack, EquipmentSlotType slot, Attribute attribute, double amount) {
 		stack.getAttributeModifiers(slot).forEach((k, v) -> {
-			if (k.equals(attribute.getName())) {
+			if (k.equals(attribute)) {
 				addAttributeModifier(stack, attribute, v.getAmount() + amount, slot);
 			} else {
 				stack.addAttributeModifier(k, v, slot);
 			}
 		});
-		if (!stack.getAttributeModifiers(slot).containsKey(attribute.getName())) {
+		if (!stack.getAttributeModifiers(slot).containsKey(attribute)) {
 			addAttributeModifier(stack, attribute, amount, slot);
 		}
 	}
@@ -167,7 +167,7 @@ public class InfusionHelper {
 		CompoundNBT nbt = getInfusionTag(stack);
 
 		unapplyInfusion(stack);
-		nbt.putString(ECNBTTags.INFUSION_TYPE, type.getName());
+		nbt.putString(ECNBTTags.INFUSION_TYPE, type.func_176610_l/* getName */());
 		applyInfusion(stack);
 	}
 
@@ -175,11 +175,11 @@ public class InfusionHelper {
 		CompoundNBT nbt = getInfusionTag(stack);
 
 		unapplyInfusion(stack);
-		nbt.putString(ECNBTTags.INFUSION_TYPE, ElementType.NONE.getName());
+		nbt.putString(ECNBTTags.INFUSION_TYPE, ElementType.NONE.func_176610_l/* getName */());
 	}
 
 	public static boolean canAirInfusionFly(PlayerEntity player) {
-		return hasInfusion(player.getItemStackFromSlot(EquipmentSlotType.CHEST), ElementType.AIR) && !player.onGround && !player.abilities.isFlying && !player.isPassenger();
+		return hasInfusion(player.getItemStackFromSlot(EquipmentSlotType.CHEST), ElementType.AIR) && !player.func_233570_aj_/* isOnGround */() && !player.abilities.isFlying && !player.isPassenger();
 	}
 
 	public static boolean hasFireInfusionAutoSmelt(ItemStack stack) {
@@ -201,7 +201,7 @@ public class InfusionHelper {
 	}
 
 	private static Optional<ItemClass> getItemClass(ItemStack stack) {
-		return Stream.of(ItemClass.values()).filter(c -> c.tag.contains(stack.getItem())).findFirst();
+		return Stream.of(ItemClass.values()).filter(c -> c.tag.func_230235_a_/* contains */(stack.getItem())).findFirst();
 	}
 
 	private static CompoundNBT getInfusionTag(ItemStack stack) {
@@ -223,10 +223,10 @@ public class InfusionHelper {
 		SHIELD(ECTags.Items.INFUSABLE_SHILDS), BOW(ECTags.Items.INFUSABLE_BOWS), CROSSBOW(ECTags.Items.INFUSABLE_CROSSBOWS), HELMET(ECTags.Items.INFUSABLE_HELMETS),
 		CHESTPLATE(ECTags.Items.INFUSABLE_CHESTPLATES), LEGGINGS(ECTags.Items.INFUSABLE_LEGGINGS), BOOTS(ECTags.Items.INFUSABLE_BOOTS);
 		
-		Tag<Item> tag;
+		INamedTag<Item> tag;
 
-		ItemClass(Tag<Item> tag) {
-			this.tag = tag;
+		ItemClass(INamedTag<Item> tags) {
+			this.tag = tags;
 		}
 	}
 }

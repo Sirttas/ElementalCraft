@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"0": "elementalcraft:block/whiterock",
-		"particle": "elementalcraft:block/whiterock"
+		"0": "elementalcraft:block/whiterock_burnt",
+		"particle": "elementalcraft:block/whiterock_burnt"
 	},
 	"elements": [
 		{

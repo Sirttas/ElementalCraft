@@ -21,17 +21,17 @@ public class ECMaterials {
 	public static final IItemTier TOOL_FIRE = new ECItemTier(2, 250, 6.0F, 3.0F, 14, () -> Ingredient.fromItems(ECItems.fireCrystal));
 	public static final IItemTier TOOL_EARTH = new ECItemTier(2, 500, 6.0F, 2.0F, 14, () -> Ingredient.fromItems(ECItems.earthCrystal));
 	public static final IItemTier TOOL_AIR = new ECItemTier(2, 250, 7.0F, 2.0F, 14, () -> Ingredient.fromItems(ECItems.airCrystal));
-	public static final IItemTier TOOL_PURE = new ECItemTier(4, 2000, 9.0F, 4.0F, 19, () -> Ingredient.fromItems(ECItems.pureCrystal));
+	public static final IItemTier TOOL_PURE = new ECItemTier(5, 2500, 10.0F, 5.0F, 19, () -> Ingredient.fromItems(ECItems.pureCrystal));
 
-	public static final IArmorMaterial ARMOR_WATER = new ECArmorMaterial("iron", 15, new int[] { 2, 5, 6, 2 }, 11, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F,
+	public static final IArmorMaterial ARMOR_WATER = new ECArmorMaterial("iron", 15, new int[] { 2, 5, 6, 2 }, 11, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F, 0.0F,
 			() -> Ingredient.fromItems(ECItems.waterCrystal));
-	public static final IArmorMaterial ARMOR_FIRE = new ECArmorMaterial("iron", 17, new int[] { 3, 5, 7, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F,
+	public static final IArmorMaterial ARMOR_FIRE = new ECArmorMaterial("iron", 17, new int[] { 3, 5, 7, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F, 0.0F,
 			() -> Ingredient.fromItems(ECItems.fireCrystal));
-	public static final IArmorMaterial ARMOR_EARTH = new ECArmorMaterial("iron", 20, new int[] { 2, 5, 6, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F,
+	public static final IArmorMaterial ARMOR_EARTH = new ECArmorMaterial("iron", 20, new int[] { 2, 5, 6, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F, 0.0F,
 			() -> Ingredient.fromItems(ECItems.earthCrystal));
-	public static final IArmorMaterial ARMOR_AIR = new ECArmorMaterial("iron", 15, new int[] { 2, 5, 6, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F,
+	public static final IArmorMaterial ARMOR_AIR = new ECArmorMaterial("iron", 15, new int[] { 2, 5, 6, 2 }, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F, 0.0F,
 			() -> Ingredient.fromItems(ECItems.airCrystal));
-	public static final IArmorMaterial ARMOR_PURE = new ECArmorMaterial("diamond", 44, new int[] { 3, 6, 8, 3 }, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3.0F,
+	public static final IArmorMaterial ARMOR_PURE = new ECArmorMaterial("diamond", 44, new int[] { 3, 6, 8, 3 }, 16, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3.0F, 0.1F,
 			() -> Ingredient.fromItems(ECItems.pureCrystal));
 
 	private static class ECItemTier implements IItemTier {
@@ -93,14 +93,17 @@ public class ECMaterials {
 		private final SoundEvent soundEvent;
 		private final float toughness;
 		private final LazyValue<Ingredient> repairMaterial;
+		private final float field_234660_o_; // TODO what is this ?
 
-		private ECArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughnessIn, Supplier<Ingredient> repairMaterialSupplier) {
+		private ECArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughnessIn, float field_234660_o_,
+				Supplier<Ingredient> repairMaterialSupplier) {
 			this.name = nameIn;
 			this.maxDamageFactor = maxDamageFactorIn;
 			this.damageReductionAmountArray = damageReductionAmountsIn;
 			this.enchantability = enchantabilityIn;
 			this.soundEvent = equipSoundIn;
 			this.toughness = toughnessIn;
+			this.field_234660_o_ = field_234660_o_;
 			this.repairMaterial = new LazyValue<>(repairMaterialSupplier);
 		}
 
@@ -138,6 +141,11 @@ public class ECMaterials {
 		@Override
 		public float getToughness() {
 			return this.toughness;
+		}
+
+		@Override
+		public float func_230304_f_() {
+			return field_234660_o_;
 		}
 	}
 }
