@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "texture": "elementalcraft:item/fireite_ingot"
+  }
+}

@@ -1,6 +1,8 @@
 {
   "type": "elementalcraft:binding",
   "element": "fire",
+  "consumption": 100,
+  "duration": 200,
   "ingredients": [
     {
       "item": "elementalcraft:firepylon"
@@ -9,7 +11,7 @@
       "item": "elementalcraft:firecrystal"
     },
     {
-      "item": "elementalcraft:purecrystal"
+      "item": "elementalcraft:fireite_ingot"
     },
     {
       "item": "minecraft:obsidian"

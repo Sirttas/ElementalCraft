@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "elementalcraft:purerock_slab",
     "elementalcraft:whiterock_slab"
   ]
 }

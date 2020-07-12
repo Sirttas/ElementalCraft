@@ -49,6 +49,7 @@ public class TileLavaShrine extends TileShrine {
 						&& this.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);
 					world.setBlockState(p, Blocks.LAVA.getDefaultState());
+					world.playEvent(1501, p, 0);
 				}
 			});
 		}

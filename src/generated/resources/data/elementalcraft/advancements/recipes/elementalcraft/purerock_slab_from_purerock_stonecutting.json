@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:purerock_slab_from_purerock_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_purerock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:purerock"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:purerock_slab_from_purerock_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_purerock",
+      "has_the_recipe"
+    ]
+  ]
+}
