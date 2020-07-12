@@ -1,6 +1,8 @@
 {
   "type": "elementalcraft:binding",
   "element": "water",
+  "consumption": 50,
+  "duration": 300,
   "ingredients": [
     {
       "item": "elementalcraft:infuser"

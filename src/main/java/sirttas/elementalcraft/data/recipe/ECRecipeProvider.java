@@ -49,7 +49,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shapedRecipe(ECItems.shrineBase).key('w', ECBlocks.whiteRock).key('c', ECItems.inertCrystal).key('p', ECBlocks.elementPipe).patternLine(" p ").patternLine("pcp")
 				.patternLine("www").addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECItems.emptyReceptacle).key('c', ECItems.pureCrystal).key('d', Items.DIAMOND).key('g', Items.GOLD_INGOT).patternLine("ggg").patternLine("dcd")
-				.patternLine("ggg").addCriterion(HAS_PURECRYSTAL, this.hasItem(ECItems.pureCrystal)).build(consumer);
+				.patternLine("ggg").addCriterion(HAS_PURECRYSTAL, hasItem(ECItems.pureCrystal)).build(consumer);
 
 		prepareInstrumentRecipe(ECBlocks.tank).key('g', Items.GLASS).key('s', Items.STONE).patternLine("ici").patternLine("igi").patternLine("sss").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.extractor).patternLine(" c ").patternLine(" i ").patternLine("ici").build(consumer);
@@ -64,6 +64,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.fromItems(ECItems.inertCrystal), ECItems.waterCrystal, ElementType.WATER).build(consumer);
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.fromItems(ECItems.inertCrystal), ECItems.airCrystal, ElementType.AIR).build(consumer);
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.fromItems(ECItems.inertCrystal), ECItems.earthCrystal, ElementType.EARTH).build(consumer);
+
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.fromItems(Items.STONE), ECItems.whiteRock, ElementType.EARTH).withDuration(40).build(consumer);
 		
 		BinderRecipeBuilder.binderRecipe(ECItems.firePylon, ElementType.FIRE).addIngredient(ECItems.shrineBase).addIngredient(ECItems.fireCrystal).addIngredient(Items.LAVA_BUCKET)
@@ -72,25 +73,30 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.HOPPER).addIngredient(Items.DIAMOND).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.growthShrine, ElementType.WATER).addIngredient(ECItems.shrineBase).addIngredient(ECItems.waterCrystal).addIngredient(ECItems.earthCrystal)
 				.addIngredient(Items.WHEAT_SEEDS).addIngredient(Items.BONE_MEAL).addIngredient(Items.DIAMOND).build(consumer);
-		BinderRecipeBuilder.binderRecipe(ECItems.lavaShrine, ElementType.FIRE).addIngredient(ECItems.firePylon).addIngredient(ECItems.fireCrystal)
-				.addIngredient(ECItems.pureCrystal)
-				.addIngredient(Blocks.OBSIDIAN).addIngredient(Items.LAVA_BUCKET).addIngredient(Items.BLAZE_ROD).build(consumer);
+		BinderRecipeBuilder.binderRecipe(ECItems.lavaShrine, ElementType.FIRE).addIngredient(ECItems.firePylon).addIngredient(ECItems.fireCrystal).addIngredient(ECItems.fireiteIngot)
+				.addIngredient(Blocks.OBSIDIAN).addIngredient(Items.LAVA_BUCKET).addIngredient(Items.BLAZE_ROD).withConsumption(100).withDuration(200).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.oreShrine, ElementType.EARTH).addIngredient(ECItems.shrineBase).addIngredient(ECItems.earthCrystal).addIngredient(ECItems.pureCrystal)
-				.addIngredient(Items.DIAMOND_PICKAXE).build(consumer);
+				.addIngredient(Items.DIAMOND_PICKAXE).withConsumption(100).withDuration(200).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.overloadShrine, ElementType.AIR).addIngredient(ECItems.shrineBase).addIngredient(ECItems.airCrystal).addIngredient(ECItems.pureCrystal)
-				.addIngredient(Items.CLOCK).addIngredient(Items.ENDER_EYE).build(consumer);
+				.addIngredient(Items.CLOCK).addIngredient(Items.ENDER_EYE).withConsumption(100).withDuration(200).build(consumer);
 		
 		BinderRecipeBuilder.binderRecipe(ECItems.firePedestal, ElementType.FIRE).addIngredient(ECItems.infuser).addIngredient(ECItems.fireCrystal).addIngredient(ECItems.whiteRock)
-				.addIngredient(ECItems.whiteRock).build(consumer);
+				.addIngredient(ECItems.whiteRock).withConsumption(50).withDuration(300).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.waterPedestal, ElementType.WATER).addIngredient(ECItems.infuser).addIngredient(ECItems.waterCrystal).addIngredient(ECItems.whiteRock)
-				.addIngredient(ECItems.whiteRock).build(consumer);
+				.addIngredient(ECItems.whiteRock).withConsumption(50).withDuration(300).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.earthPedestal, ElementType.EARTH).addIngredient(ECItems.infuser).addIngredient(ECItems.earthCrystal).addIngredient(ECItems.whiteRock)
-				.addIngredient(ECItems.whiteRock).build(consumer);
+				.addIngredient(ECItems.whiteRock).withConsumption(50).withDuration(300).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.airPedestal, ElementType.AIR).addIngredient(ECItems.infuser).addIngredient(ECItems.airCrystal).addIngredient(ECItems.whiteRock)
-				.addIngredient(ECItems.whiteRock).build(consumer);
+				.addIngredient(ECItems.whiteRock).withConsumption(50).withDuration(300).build(consumer);
 		
+		BinderRecipeBuilder.binderRecipe(ECItems.fireiteIngot, ElementType.FIRE).addIngredient(ECItems.pureCrystal).addIngredient(Items.field_234759_km_ /* NETHERITE_INGOT */).withConsumption(200)
+				.build(consumer);
+
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.pureCrystal).setIngredient(Items.DIAMOND).setIngredient(ElementType.WATER, ECItems.waterCrystal)
 				.setIngredient(ElementType.FIRE, ECItems.fireCrystal).setIngredient(ElementType.EARTH, ECItems.earthCrystal).setIngredient(ElementType.AIR, ECItems.airCrystal).build(consumer);
+		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.pureRock).setIngredient(Items.OBSIDIAN).setIngredient(ElementType.WATER, Items.PRISMARINE)
+				.setIngredient(ElementType.FIRE, ECItems.fireiteIngot).setIngredient(ElementType.EARTH, ECItems.whiteRock).setIngredient(ElementType.AIR, Items.PURPUR_BLOCK)
+				.build(consumer);
 	}
 
 	private boolean exists(Block block) {

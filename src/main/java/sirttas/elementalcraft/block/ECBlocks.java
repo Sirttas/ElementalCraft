@@ -82,11 +82,16 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_slab") public static SlabBlock whiteRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_stairs") public static StairsBlock whiteRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_wall") public static WallBlock whiteRockWall;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock") public static BlockEC pureRock;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_slab") public static SlabBlock pureRockSlab;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static StairsBlock pureRockStairs;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static WallBlock pureRockWall;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		IForgeRegistry<Block> registry = event.getRegistry();
-		Block.Properties whiteRockProperties = Block.Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(1.5F, 6.0F);
+		Block.Properties whiteRockProperties = Block.Properties.create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(1.5F, 6.0F);
+		Block.Properties pureRockProperties = Block.Properties.create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(75.0F, 2400.0F);
 
 		RegistryHelper.register(registry, new BlockTank(), BlockTank.NAME);
 		RegistryHelper.register(registry, new BlockExtractor(), BlockExtractor.NAME);
@@ -113,6 +118,10 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new SlabBlock(whiteRockProperties), "whiterock_slab");
 		RegistryHelper.register(registry, new StairsBlock(() -> whiteRock.getDefaultState(), whiteRockProperties), "whiterock_stairs");
 		RegistryHelper.register(registry, new WallBlock(whiteRockProperties), "whiterock_wall");
+		RegistryHelper.register(registry, new BlockEC(pureRockProperties), "purerock");
+		RegistryHelper.register(registry, new SlabBlock(pureRockProperties), "purerock_slab");
+		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), pureRockProperties), "purerock_stairs");
+		RegistryHelper.register(registry, new WallBlock(pureRockProperties), "purerock_wall");
 	}
 
 	@SubscribeEvent

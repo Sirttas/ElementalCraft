@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:purerock",
+    "elementalcraft:purerock_slab",
+    "elementalcraft:purerock_stairs",
+    "elementalcraft:purerock_wall"
+  ]
+}

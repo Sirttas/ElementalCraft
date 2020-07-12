@@ -1,0 +1,14 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "fire",
+  "consumption": 200,
+  "ingredients": [
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "output": "elementalcraft:fireite_ingot"
+}

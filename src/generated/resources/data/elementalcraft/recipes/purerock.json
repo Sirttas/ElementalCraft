@@ -1,0 +1,21 @@
+{
+  "type": "elementalcraft:pureinfusion",
+  "ingredients": [
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "minecraft:prismarine"
+    },
+    {
+      "item": "elementalcraft:fireite_ingot"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "minecraft:purpur_block"
+    }
+  ],
+  "output": "elementalcraft:purerock"
+}

@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
@@ -48,6 +49,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":aircrystal") public static ItemEC airCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":purecrystal") public static ItemEC pureCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":shrinebase") public static ItemEC shrineBase;
+	@ObjectHolder(ElementalCraft.MODID + ":fireite_ingot") public static ItemEC fireiteIngot;
 
 	/** BLOCKS */
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static Item tank;
@@ -73,6 +75,11 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock") public static Item whiteRock;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_slab") public static Item whiteRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_stairs") public static Item whiteRockStairs;
+	@ObjectHolder(ElementalCraft.MODID + ":whiterock_wall") public static Item whiteRockWall;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock") public static Item pureRock;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_slab") public static Item pureRockSlab;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static Item pureRockStairs;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static Item pureRockWall;
 
 	private ECItems() {
 
@@ -94,6 +101,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "aircrystal");
 		RegistryHelper.register(registry, new ItemEC().setEffect(true), "purecrystal");
 		RegistryHelper.register(registry, new ItemEC(), "shrinebase");
+		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).func_234689_a_()), "fireite_ingot");
 
 		// TODO add tools
 	}

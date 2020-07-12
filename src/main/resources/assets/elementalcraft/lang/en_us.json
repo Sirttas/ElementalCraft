@@ -31,6 +31,7 @@
 "item.elementalcraft.earthcrystal": "Earth Crystal",
 "item.elementalcraft.aircrystal": "Air Crystal",
 "item.elementalcraft.shrinebase": "Shrine",
+"item.elementalcraft.fireite_ingot": "Fireite Ingot",
 
 "block.elementalcraft.tank": "Element Container",
 "block.elementalcraft.extractor": "Element Extractor",
@@ -57,6 +58,10 @@
 "block.elementalcraft.whiterock_slab": "White Rock Slab",
 "block.elementalcraft.whiterock_stairs": "White Rock Stairs",
 "block.elementalcraft.whiterock_wall": "White Rock Wall",
+"block.elementalcraft.purerock": "Pure Rock",
+"block.elementalcraft.purerock_slab": "Pure Rock Slab",
+"block.elementalcraft.purerock_stairs": "Pure Rock Stairs",
+"block.elementalcraft.purerock_wall": "Pure Rock Wall",
 
 "spell.elementalcraft.gravelfall": "Gravel Fall",
 "spell.elementalcraft.stonewall": "Stone Wall",
