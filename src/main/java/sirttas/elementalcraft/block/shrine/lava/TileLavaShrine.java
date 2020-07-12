@@ -49,6 +49,7 @@ public class TileLavaShrine extends TileShrine {
 				if (ECTags.Blocks.LAVASHRINE_LIQUIFIABLES.contains(blockstate.getBlock()) && randomChance(ECConfig.CONFIG.lavaShrineChance.get()) && this.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);
 					world.setBlockState(p, Blocks.LAVA.getDefaultState());
+					world.playEvent(1501, p, 0);
 				}
 			});
 		}

@@ -79,7 +79,7 @@ public class ECBlockLootProvider implements IDataProvider {
 	}
 
 	private boolean isTileInstanceOf(Block block, Class<?> clazz) {
-		return block.hasTileEntity(block.getDefaultState()) && clazz.isAssignableFrom(block.createTileEntity(block.getDefaultState(), null).getClass());
+		return block.hasTileEntity(block.getDefaultState()) && clazz.isAssignableFrom(block.getDefaultState().createTileEntity(null).getClass());
 	}
 
 	private void save(DirectoryCache cache, Block block) throws IOException {

@@ -21,8 +21,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		this.copy(BlockTags.WALLS, ItemTags.WALLS);
 		this.copy(BlockTags.FENCES, ItemTags.FENCES);
 		this.copy(Tags.Blocks.ORES, Tags.Items.ORES);
-
-		getBuilder(ECTags.Items.LAVASHRINE_LIQUIFIABLES).add(Tags.Items.STONE, Tags.Items.COBBLESTONE);
+		this.copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
 
 		getBuilder(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD);
 		getBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE);

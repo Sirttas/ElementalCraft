@@ -91,6 +91,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.pureCrystal).setIngredient(Items.DIAMOND).setIngredient(ElementType.WATER, ECItems.waterCrystal)
 				.setIngredient(ElementType.FIRE, ECItems.fireCrystal).setIngredient(ElementType.EARTH, ECItems.earthCrystal).setIngredient(ElementType.AIR, ECItems.airCrystal).build(consumer);
+		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.pureRock).setIngredient(Items.OBSIDIAN).setIngredient(ElementType.WATER, Items.PRISMARINE)
+				.setIngredient(ElementType.FIRE, Blocks.NETHER_BRICKS).setIngredient(ElementType.EARTH, ECItems.whiteRock).setIngredient(ElementType.AIR, Items.PURPUR_BLOCK).build(consumer);
 	}
 
 	private boolean exists(Block block) {

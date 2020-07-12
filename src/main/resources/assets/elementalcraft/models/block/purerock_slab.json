@@ -1,0 +1,8 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "side": "elementalcraft:block/purerock",
+    "bottom": "elementalcraft:block/purerock",
+    "top": "elementalcraft:block/purerock"
+  }
+}

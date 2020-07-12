@@ -33,5 +33,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 
 		getBuilder(Tags.Blocks.ORES).add(ECBlocks.crystalOre);
 		getBuilder(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Tags.Blocks.STONE, Tags.Blocks.COBBLESTONE);
+		getBuilder(ECTags.Blocks.PUREROCKS).add(ECBlocks.pureRock, ECBlocks.pureRockSlab, ECBlocks.pureRockStairs, ECBlocks.pureRockWall);
+		getBuilder(BlockTags.WITHER_IMMUNE).add(ECTags.Blocks.PUREROCKS);
 	}
 }

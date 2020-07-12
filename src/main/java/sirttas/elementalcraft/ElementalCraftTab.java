@@ -47,6 +47,10 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.whiteRockSlab, list);
 		addItem(ECBlocks.whiteRockStairs, list);
 		addItem(ECBlocks.whiteRockWall, list);
+		addItem(ECBlocks.pureRock, list);
+		addItem(ECBlocks.pureRockSlab, list);
+		addItem(ECBlocks.pureRockStairs, list);
+		addItem(ECBlocks.pureRockWall, list);
 
 		addItem(ECItems.focus, list);
 		addItem(ECItems.emptyReceptacle, list);

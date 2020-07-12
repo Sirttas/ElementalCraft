@@ -73,6 +73,11 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock") public static Item whiteRock;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_slab") public static Item whiteRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_stairs") public static Item whiteRockStairs;
+	@ObjectHolder(ElementalCraft.MODID + ":whiterock_wall") public static Item whiteRockWall;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock") public static Item pureRock;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_slab") public static Item pureRockSlab;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static Item pureRockStairs;
+	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static Item pureRockWall;
 
 	private ECItems() {
 
