@@ -24,6 +24,9 @@ public class ECConfig {
 	public final IntValue growthShrineRange;
 	public final IntValue growthShrineConsumeAmount;
 	public final DoubleValue growthShrineChance;
+	public final IntValue harvestShrineRange;
+	public final IntValue harvestShrineConsumeAmount;
+	public final DoubleValue harvestShrineChance;
 	public final IntValue lavaShrineRange;
 	public final IntValue lavaShrineConsumeAmount;
 	public final DoubleValue lavaShrineChance;
@@ -66,6 +69,9 @@ public class ECConfig {
 		growthShrineRange = builder.comment("The range of the Growth Shrine.").defineInRange("growthShrineRange", 4, 0, 100);
 		growthShrineConsumeAmount = builder.comment("The amount of element consumed by the Growth Shrine.").defineInRange("growthShrineConsumeAmount", 5, 0, 100);
 		growthShrineChance = builder.comment("The chance of the Growth Shrine to tick.").defineInRange("growthShrineChance", 0.02D, 0D, 1D);
+		harvestShrineRange = builder.comment("The range of the Harvest Shrine.").defineInRange("harvestShrineRange", 4, 0, 100);
+		harvestShrineConsumeAmount = builder.comment("The amount of element consumed by the Harvest Shrine.").defineInRange("harvestShrineConsumeAmount", 5, 0, 100);
+		harvestShrineChance = builder.comment("The chance of the Harvest Shrine to tick.").defineInRange("harvestShrineChance", 0.02D, 0D, 1D);
 		lavaShrineRange = builder.comment("The range of the Lava Shrine.").defineInRange("lavaShrineRange", 1, 0, 100);
 		lavaShrineConsumeAmount = builder.comment("The amount of element consumed by the Lava Shrine.").defineInRange("lavaShrineConsumeAmount", 5000, 0, 100000);
 		lavaShrineChance = builder.comment("The chance of the Lava Shrine to tick.").defineInRange("lavaShrineChance", 0.02D, 0D, 1D);

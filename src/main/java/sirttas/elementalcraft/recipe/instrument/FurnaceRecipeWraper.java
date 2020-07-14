@@ -63,6 +63,7 @@ public class FurnaceRecipeWraper implements IInstrumentRecipe<TileFireFurnace> {
 		if (input.getCount() <= 0) {
 			instrument.removeStackFromSlot(0);
 		}
+		instrument.addExperience(recipe.getExperience());
 	}
 
 	@Override

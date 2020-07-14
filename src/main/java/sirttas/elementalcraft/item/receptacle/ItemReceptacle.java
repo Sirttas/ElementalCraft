@@ -31,12 +31,13 @@ public class ItemReceptacle extends ItemEC {
 
 		if (newContext.canPlace()) {
 			world.setBlockState(newContext.getPos(), ECBlocks.source.getDefaultState().with(ECProperties.ELEMENT_TYPE, elementType));
-			context.getPlayer().setItemStackToSlot(context.getHand() == Hand.MAIN_HAND ? EquipmentSlotType.MAINHAND : EquipmentSlotType.OFFHAND,
-					Boolean.TRUE.equals(ECConfig.CONFIG.conserveReceptacle.get()) ? ReceptacleHelper.createStack(ElementType.NONE) : ItemStack.EMPTY);
+			if (!context.getPlayer().isCreative()) {
+				context.getPlayer().setItemStackToSlot(context.getHand() == Hand.MAIN_HAND ? EquipmentSlotType.MAINHAND : EquipmentSlotType.OFFHAND,
+						Boolean.TRUE.equals(ECConfig.CONFIG.conserveReceptacle.get()) ? ReceptacleHelper.createStack(ElementType.NONE) : ItemStack.EMPTY);
+			}
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;
-
 	}
 
 	@Override

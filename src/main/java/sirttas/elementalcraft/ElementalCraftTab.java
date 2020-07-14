@@ -39,6 +39,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.firePylon, list);
 		addItem(ECBlocks.vacuumShrine, list);
 		addItem(ECBlocks.growthShrine, list);
+		addItem(ECBlocks.harvestShrine, list);
 		addItem(ECBlocks.lavaShrine, list);
 		addItem(ECBlocks.oreShrine, list);
 		addItem(ECBlocks.overloadShrine, list);

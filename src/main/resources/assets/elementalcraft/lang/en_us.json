@@ -47,12 +47,15 @@
 "block.elementalcraft.firefurnace": "Fire Furance",
 "block.elementalcraft.source": "Element Source",
 "block.elementalcraft.elementpipe": "Element Pipe",
+
 "block.elementalcraft.firepylon": "Fire Pylon",
 "block.elementalcraft.vacuumshrine": "Vacuum Shrine",
 "block.elementalcraft.growthshrine": "Growth Shrine",
+"block.elementalcraft.harvestshrine": "Harvest Shrine",
 "block.elementalcraft.lavashrine": "Lava Shrine",
 "block.elementalcraft.oreshrine": "Ore Shrine",
-"block.elementalcraft.overloadshrine": "overload Shrine",
+"block.elementalcraft.overloadshrine": "Overload Shrine",
+
 "block.elementalcraft.crystalore": "Inert Crystal Ore",
 "block.elementalcraft.whiterock": "White Rock",
 "block.elementalcraft.whiterock_slab": "White Rock Slab",

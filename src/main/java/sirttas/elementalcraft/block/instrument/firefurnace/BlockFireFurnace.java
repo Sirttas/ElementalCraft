@@ -54,6 +54,7 @@ public class BlockFireFurnace extends BlockECContainer {
 
 		if (furnace != null) {
 			if (!ItemEC.isEmpty(furnace.getStackInSlot(1))) {
+				furnace.dropExperience(player);
 				return this.onSlotActivated(furnace, player, player.getHeldItem(hand), 1);
 			}
 			return this.onSlotActivated(furnace, player, player.getHeldItem(hand), 0);

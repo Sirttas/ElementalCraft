@@ -3,11 +3,14 @@ package sirttas.elementalcraft.block.instrument.firefurnace;
 import java.util.Optional;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
@@ -22,11 +25,13 @@ public class TileFireFurnace extends TileInstrument {
 
 	private ItemStack input;
 	private ItemStack output;
+	private float exp;
 
 	public TileFireFurnace() {
 		super(TYPE);
 		input = ItemStack.EMPTY;
 		output = ItemStack.EMPTY;
+		exp = 0;
 		this.setPasive(true);
 	}
 
@@ -40,6 +45,7 @@ public class TileFireFurnace extends TileInstrument {
 		super.func_230337_a_/* read */(state, compound);
 		this.input = NBTHelper.readItemStack(compound, ECNBTTags.INPUT);
 		this.output = NBTHelper.readItemStack(compound, ECNBTTags.OUTPUT);
+		this.exp = compound.getFloat(ECNBTTags.XP);
 	}
 
 	@Override
@@ -47,6 +53,7 @@ public class TileFireFurnace extends TileInstrument {
 		super.write(compound);
 		NBTHelper.writeItemStack(compound, ECNBTTags.INPUT, this.input);
 		NBTHelper.writeItemStack(compound, ECNBTTags.OUTPUT, this.output);
+		compound.putFloat(ECNBTTags.XP, this.exp);
 		return compound;
 	}
 
@@ -83,5 +90,22 @@ public class TileFireFurnace extends TileInstrument {
 			return new FurnaceRecipeWraper(opt.get());
 		}
 		return null;
+	}
+
+	public void dropExperience(PlayerEntity player) {
+		dropExperience(player.getPositionVec());
+	}
+
+	public void dropExperience(Vector3d pos) {
+		while (exp > 0) {
+			int j = ExperienceOrbEntity.getXPSplit((int) exp);
+			exp -= j;
+			world.addEntity(new ExperienceOrbEntity(world, pos.getX(), pos.getY() + 0.5D, pos.getZ() + 0.5D, j));
+		}
+		exp = 0;
+	}
+
+	public void addExperience(float exp) {
+		this.exp += exp;
 	}
 }
