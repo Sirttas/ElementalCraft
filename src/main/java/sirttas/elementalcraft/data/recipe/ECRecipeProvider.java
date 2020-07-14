@@ -75,6 +75,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.WHEAT_SEEDS).addIngredient(Items.BONE_MEAL).addIngredient(Items.DIAMOND).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.lavaShrine, ElementType.FIRE).addIngredient(ECItems.firePylon).addIngredient(ECItems.fireCrystal).addIngredient(ECItems.fireiteIngot)
 				.addIngredient(Blocks.OBSIDIAN).addIngredient(Items.LAVA_BUCKET).addIngredient(Items.BLAZE_ROD).withConsumption(100).withDuration(200).build(consumer);
+		BinderRecipeBuilder.binderRecipe(ECItems.harvestShrine, ElementType.EARTH).addIngredient(ECItems.growthShrine).addIngredient(ECItems.earthCrystal).addIngredient(Items.DIAMOND_HOE)
+				.addIngredient(Items.DIAMOND_AXE).addIngredient(Items.SHEARS).withConsumption(50).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.oreShrine, ElementType.EARTH).addIngredient(ECItems.shrineBase).addIngredient(ECItems.earthCrystal).addIngredient(ECItems.pureCrystal)
 				.addIngredient(Items.DIAMOND_PICKAXE).withConsumption(100).withDuration(200).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.overloadShrine, ElementType.AIR).addIngredient(ECItems.shrineBase).addIngredient(ECItems.airCrystal).addIngredient(ECItems.pureCrystal)
