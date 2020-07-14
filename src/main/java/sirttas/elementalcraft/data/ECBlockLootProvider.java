@@ -106,7 +106,7 @@ public class ECBlockLootProvider implements IDataProvider {
 		CopyNbt.Builder func = CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY);
 
 		for (String tag : tags) {
-			func = func.replaceOperation(tag, ECNBTTags.EC_NBT_TE + tag);
+			func = func.replaceOperation(tag, ECNBTTags.EC_NBT_TE + '.' + tag);
 		}
 		LootPool.Builder pool = LootPool.builder().name("main").rolls(ConstantRange.of(1)).addEntry(entry).acceptCondition(SurvivesExplosion.builder()).acceptFunction(func);
 

@@ -37,6 +37,8 @@ import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
 import sirttas.elementalcraft.block.shrine.growth.TileGrowthShrine;
+import sirttas.elementalcraft.block.shrine.harvest.BlockHarvestShrine;
+import sirttas.elementalcraft.block.shrine.harvest.TileHarvestShrine;
 import sirttas.elementalcraft.block.shrine.lava.BlockLavaShrine;
 import sirttas.elementalcraft.block.shrine.lava.TileLavaShrine;
 import sirttas.elementalcraft.block.shrine.ore.BlockOreShrine;
@@ -72,6 +74,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static BlockFirePylon firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static BlockVacuumShrine vacuumShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGrowthShrine.NAME) public static BlockGrowthShrine growthShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockHarvestShrine.NAME) public static BlockHarvestShrine harvestShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static BlockLavaShrine lavaShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static BlockOreShrine oreShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static BlockOverloadShrine overloadShrine;
@@ -108,6 +111,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
 		RegistryHelper.register(registry, new BlockVacuumShrine(), BlockVacuumShrine.NAME);
 		RegistryHelper.register(registry, new BlockGrowthShrine(), BlockGrowthShrine.NAME);
+		RegistryHelper.register(registry, new BlockHarvestShrine(), BlockHarvestShrine.NAME);
 		RegistryHelper.register(registry, new BlockLavaShrine(), BlockLavaShrine.NAME);
 		RegistryHelper.register(registry, new BlockOreShrine(), BlockOreShrine.NAME);
 		RegistryHelper.register(registry, new BlockOverloadShrine(), BlockOverloadShrine.NAME);
@@ -140,6 +144,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFirePylon::new, firePylon).build(null), BlockFirePylon.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileVacuumShrine::new, vacuumShrine).build(null), BlockVacuumShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileGrowthShrine::new, growthShrine).build(null), BlockGrowthShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileHarvestShrine::new, harvestShrine).build(null), BlockHarvestShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileLavaShrine::new, lavaShrine).build(null), BlockLavaShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOreShrine::new, oreShrine).build(null), BlockOreShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOverloadShrine::new, overloadShrine).build(null), BlockOverloadShrine.NAME);

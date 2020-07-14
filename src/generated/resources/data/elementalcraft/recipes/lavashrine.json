@@ -1,6 +1,8 @@
 {
   "type": "elementalcraft:binding",
   "element": "fire",
+  "consumption": 100,
+  "duration": 200,
   "ingredients": [
     {
       "item": "elementalcraft:firepylon"

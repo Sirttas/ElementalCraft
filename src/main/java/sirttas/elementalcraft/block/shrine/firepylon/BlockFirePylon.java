@@ -85,14 +85,10 @@ public class BlockFirePylon extends BlockECTileProvider {
 		DoubleBlockHalf doubleblockhalf = state.get(HALF);
 		BlockPos blockpos = doubleblockhalf == DoubleBlockHalf.LOWER ? pos.up() : pos.down();
 		BlockState blockstate = worldIn.getBlockState(blockpos);
+
 		if (blockstate.getBlock() == this && blockstate.get(HALF) != doubleblockhalf) {
 			worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
 			worldIn.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
-			ItemStack itemstack = player.getHeldItemMainhand();
-			if (!worldIn.isRemote && !player.isCreative() && player.canHarvestBlock(blockstate)) {
-				spawnDrops(state, worldIn, pos, (TileEntity) null, player, itemstack);
-				spawnDrops(blockstate, worldIn, blockpos, (TileEntity) null, player, itemstack);
-			}
 		}
 
 		super.onBlockHarvested(worldIn, pos, state, player);

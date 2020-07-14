@@ -20,4 +20,5 @@ public class ECNBTTags {
 	public static final String PROGRESS = "progress";
 	public static final String INPUT = "input";
 	public static final String OUTPUT = "output";
+	public static final String XP = "experience";
 }

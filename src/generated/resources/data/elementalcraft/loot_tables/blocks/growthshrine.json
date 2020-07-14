@@ -22,12 +22,12 @@
           "ops": [
             {
               "source": "element_type",
-              "target": "elementalcraft.tetagelement_type",
+              "target": "elementalcraft.tetag.element_type",
               "op": "replace"
             },
             {
               "source": "element_amount",
-              "target": "elementalcraft.tetagelement_amount",
+              "target": "elementalcraft.tetag.element_amount",
               "op": "replace"
             }
           ]
