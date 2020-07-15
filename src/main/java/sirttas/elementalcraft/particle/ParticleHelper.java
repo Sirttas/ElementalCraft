@@ -11,9 +11,9 @@ import sirttas.elementalcraft.block.BlockEC;
 
 public class ParticleHelper {
 	public static void createSourceParticle(ElementType type, World world, Vector3d pos, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 2 - 1) * BlockEC.BIT_SIZE;
-		double y = pos.getY() - 3 * BlockEC.BIT_SIZE;
-		double z = pos.getZ() + (rand.nextDouble() * 2 - 1) * BlockEC.BIT_SIZE;
+		double x = pos.getX() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;
+		double y = pos.getY() + 5 * BlockEC.BIT_SIZE;
+		double z = pos.getZ() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;
 
 		world.addParticle(ParticleSource.createData(type), x, y, z, 0F, 0F, 0F);
 	}

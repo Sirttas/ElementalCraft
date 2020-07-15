@@ -4,7 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.DoublePlantBlock;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -82,12 +82,18 @@ public class BlockFirePylon extends BlockECTileProvider {
 	 */
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (!worldIn.isRemote && player.isCreative()) {
-			DoublePlantBlock.func_241471_b_(worldIn, pos, state, player);
+		DoubleBlockHalf doubleblockhalf = state.get(HALF);
+		BlockPos blockpos = doubleblockhalf == DoubleBlockHalf.LOWER ? pos.up() : pos.down();
+		BlockState blockstate = worldIn.getBlockState(blockpos);
+
+		if (blockstate.getBlock() == this && blockstate.get(HALF) != doubleblockhalf) {
+			worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
+			worldIn.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
 		}
 
 		super.onBlockHarvested(worldIn, pos, state, player);
 	}
+
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return state.get(HALF) == DoubleBlockHalf.LOWER ? LOWER_SHAPE : UPPER_SHAPE;
@@ -105,11 +111,13 @@ public class BlockFirePylon extends BlockECTileProvider {
 		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
 		double z = pos.getZ() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
 
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
+		if (state.get(HALF) == DoubleBlockHalf.UPPER) {
+			TileShrine shrine = (TileShrine) world.getTileEntity(pos.down());
 
-		if (state.get(HALF) == DoubleBlockHalf.UPPER && shrine != null && shrine.isRunning()) {
-			world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
-			world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
+			if (shrine != null && shrine.isRunning()) {
+				world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+				world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
+			}
 		}
 	}
 }

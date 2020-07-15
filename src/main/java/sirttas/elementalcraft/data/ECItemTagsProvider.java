@@ -29,6 +29,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		func_240522_a_/* getBuilder */(ECTags.Items.INFUSABLE_PICKAXES).func_240534_a_/* add */(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE,
 				Items.field_234756_kK_/* NETHERITE_PICKAXE */);
 		func_240522_a_/* getBuilder */(ECTags.Items.INFUSABLE_AXES).func_240534_a_/* add */(Items.IRON_AXE, Items.GOLDEN_AXE, Items.DIAMOND_AXE, Items.field_234757_kL_/* NETHERITE_AXE */);
+		func_240522_a_/* getBuilder */(ECTags.Items.INFUSABLE_SHOVELS);
+		func_240522_a_/* getBuilder */(ECTags.Items.INFUSABLE_HOES);
+		func_240522_a_/* getBuilder */(ECTags.Items.INFUSABLE_SHILDS);
 		func_240522_a_/* getBuilder */(ECTags.Items.INFUSABLE_BOWS).func_240534_a_/* add */(Items.BOW);
 		func_240522_a_/* getBuilder */(ECTags.Items.INFUSABLE_CROSSBOWS).func_240534_a_/* add */(Items.CROSSBOW);
 
