@@ -54,8 +54,7 @@ public class ECConfig {
 	}
 
 	public ECConfig(ForgeConfigSpec.Builder builder) {
-		builder.comment("ElementalCraft config")
-				.push("elementalcraft");
+		builder.comment("ElementalCraft config").push("elementalcraft");
 
 		swordAirInfusionSpeedBonus = builder.comment("The bonus to sword attack speed provided by the air infusion.").defineInRange("swordAirInfusionSpeedBonus", 0.8D, 0D, 10D);
 		leggingsAirInfusionSpeedBonus = builder.comment("The bonus to movement speed provided by the air infusion.").defineInRange("leggingsAirInfusionSpeedBonus", 0.01D, 0D, 1D);

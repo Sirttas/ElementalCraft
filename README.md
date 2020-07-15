@@ -19,4 +19,4 @@
 <p>Harvest Shrine (Earth): Harvest crops under it</p>
 <p>growth Shrine (Water): Boost crop growth above it</p>
 <p>Vacuum Shrine (Air): Pull items toward it, ad store the in container under it</p>
-<p>Overload SHrine (Air): Boost working speed of other tile entities</p>
+<p>Overload Shrine (Air): Boost working speed of other tile entities</p>

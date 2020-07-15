@@ -74,7 +74,7 @@ public class BlockFireFurnace extends BlockECContainer {
 		if (furnace != null && furnace.isRunning()) {
 			world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
 			world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
-			ParticleHelper.createElementFlowParticle(furnace.getTankElementType(), world, Vector3d.func_237489_a_(pos), Direction.UP, rand);
+			ParticleHelper.createElementFlowParticle(furnace.getTankElementType(), world, Vector3d.func_237491_b_(pos), Direction.UP, rand);
 		}
 	}
 
