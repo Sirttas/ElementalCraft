@@ -9,7 +9,7 @@ import sirttas.elementalcraft.property.ECProperties;
 public class ItemEC extends Item implements IItemEC {
 
 	public ItemEC() {
-		this(ECProperties.DEFAULT_ITEM_PROPERTIES);
+		this(ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
 	}
 
 	public ItemEC(Properties properties) {

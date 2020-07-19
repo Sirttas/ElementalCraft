@@ -31,8 +31,7 @@ public class TileFirePylon extends TileShrine {
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
+	protected void doTick() {
 		getEntities().forEach(e -> e.setFire(this.consumeElement(ECConfig.CONFIG.firePylonConsumeAmount.get())));
 	}
 }

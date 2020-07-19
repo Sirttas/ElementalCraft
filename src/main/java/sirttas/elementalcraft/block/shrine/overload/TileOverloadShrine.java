@@ -16,7 +16,7 @@ public class TileOverloadShrine extends TileShrine {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static TileEntityType<TileOverloadShrine> TYPE;
 
 	public TileOverloadShrine() {
-		super(TYPE, ElementType.AIR);
+		super(TYPE, ElementType.AIR, ECConfig.CONFIG.overloadShrinePeriode.get());
 	}
 
 	Optional<ITickable> getTarget() {
@@ -24,11 +24,10 @@ public class TileOverloadShrine extends TileShrine {
 	}
 
 	@Override
-	public void tick() {
+	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.overloadShrineConsumeAmount.get();
 
-		super.tick();
-		if (this.hasWorld() && world instanceof ServerWorld && randomChance(ECConfig.CONFIG.overloadShrineChance.get()) && this.getElementAmount() >= consumeAmount) {
+		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
 			getTarget().ifPresent(t -> {
 				t.tick();
 				this.consumeElement(consumeAmount);

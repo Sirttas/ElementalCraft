@@ -1,17 +1,15 @@
 package sirttas.elementalcraft.item.receptacle;
 
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -20,7 +18,7 @@ public class ItemReceptacle extends ItemEC {
 	public static final String NAME = "receptacle";
 
 	public ItemReceptacle() {
-		super(ECProperties.ITEM_UNSTACKABLE);
+		super(ECProperties.Items.RECEPTACLE);
 	}
 
 	@Override
@@ -32,8 +30,13 @@ public class ItemReceptacle extends ItemEC {
 		if (newContext.canPlace()) {
 			world.setBlockState(newContext.getPos(), ECBlocks.source.getDefaultState().with(ECProperties.ELEMENT_TYPE, elementType));
 			if (!context.getPlayer().isCreative()) {
-				context.getPlayer().setItemStackToSlot(context.getHand() == Hand.MAIN_HAND ? EquipmentSlotType.MAINHAND : EquipmentSlotType.OFFHAND,
-						Boolean.TRUE.equals(ECConfig.CONFIG.conserveReceptacle.get()) ? ReceptacleHelper.createStack(ElementType.NONE) : ItemStack.EMPTY);
+				ItemStack stack = ReceptacleHelper.createStack(ElementType.NONE);
+
+				if (!ReceptacleHelper.areReceptaclesUnbreakable()) {
+					stack.setDamage(context.getItem().getDamage());
+					stack.damageItem(1, context.getPlayer(), p -> p.sendBreakAnimation(context.getHand()));
+				}
+				context.getPlayer().setHeldItem(context.getHand(), stack);
 			}
 			return ActionResultType.SUCCESS;
 		}
@@ -54,6 +57,11 @@ public class ItemReceptacle extends ItemEC {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		return repair.getItem() == Items.GOLD_INGOT;
 	}
 
 }

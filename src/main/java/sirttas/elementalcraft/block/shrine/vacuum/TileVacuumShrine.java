@@ -30,14 +30,13 @@ public class TileVacuumShrine extends TileShrine {
 
 
 	@Override
-	public void tick() {
+	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.vacuumShrineConsumeAmount.get();
 		double pullSpeed = ECConfig.CONFIG.vacuumShrinePullSpeed.get();
 		TileEntity te = this.world.getTileEntity(pos.down());
 		IInventory inv = te instanceof IInventory ? (IInventory) te : null;
 		Vector3d pos3d = Vector3d.func_237489_a_(this.getPos()).add(0.5D, 0.5D, 0.5D);
 
-		super.tick();
 		getEntities().forEach(e -> {
 			if (this.consumeElement(consumeAmount) >= consumeAmount) {
 				e.setMotion(pos3d.subtract(e.getPositionVec()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
