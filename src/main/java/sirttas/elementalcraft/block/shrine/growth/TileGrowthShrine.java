@@ -30,15 +30,14 @@ public class TileGrowthShrine extends TileShrine {
 	}
 
 	public TileGrowthShrine() {
-		super(TYPE, ElementType.WATER);
+		super(TYPE, ElementType.WATER, ECConfig.CONFIG.harvestShrinePeriode.get());
 	}
 
 	@Override
-	public void tick() {
+	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.growthShrineConsumeAmount.get();
 
-		super.tick();
-		if (this.hasWorld() && world instanceof ServerWorld && randomChance(0.05D)) {
+		if (this.hasWorld() && world instanceof ServerWorld) {
 			RANGE.forEach(v -> {
 				BlockPos p = getPos().add(v);
 				BlockState blockstate = world.getBlockState(p);

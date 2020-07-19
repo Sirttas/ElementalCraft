@@ -30,15 +30,14 @@ public class TileHarvestShrine extends TileShrine {
 	}
 
 	public TileHarvestShrine() {
-		super(TYPE, ElementType.EARTH);
+		super(TYPE, ElementType.EARTH, ECConfig.CONFIG.harvestShrinePeriode.get());
 	}
 
 	@Override
-	public void tick() {
+	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.harvestShrineConsumeAmount.get();
 
-		super.tick();
-		if (this.hasWorld() && world instanceof ServerWorld && randomChance(0.05D)) {
+		if (this.hasWorld() && world instanceof ServerWorld) {
 			RANGE.forEach(v -> {
 				BlockPos p = getPos().add(v);
 				BlockState blockstate = world.getBlockState(p);

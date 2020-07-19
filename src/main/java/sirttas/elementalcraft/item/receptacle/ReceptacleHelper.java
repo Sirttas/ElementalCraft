@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.receptacle;
 
 import net.minecraft.item.ItemStack;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNBTTags;
 
@@ -18,5 +19,9 @@ public class ReceptacleHelper {
 
 	public static ItemStack createStack(ElementType elementType) {
 		return elementType == ElementType.NONE ? new ItemStack(ECItems.emptyReceptacle) : setElementType(new ItemStack(ECItems.receptacle), elementType);
+	}
+
+	public static boolean areReceptaclesUnbreakable() {
+		return ECConfig.CONFIG.receptacleDurability.get() == 0;
 	}
 }
