@@ -24,7 +24,7 @@ public class TileOreShrine extends TileShrine {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static TileEntityType<TileOreShrine> TYPE;
 
 	public TileOreShrine() {
-		super(TYPE, ElementType.EARTH);
+		super(TYPE, ElementType.EARTH, ECConfig.CONFIG.oreShrinePeriode.get());
 	}
 
 	private Optional<BlockPos> findOre() {
@@ -36,11 +36,10 @@ public class TileOreShrine extends TileShrine {
 	}
 
 	@Override
-	public void tick() {
+	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.oreShrineConsumeAmount.get();
 
-		super.tick();
-		if (this.hasWorld() && world instanceof ServerWorld && randomChance(ECConfig.CONFIG.oreShrineChance.get()) && this.getElementAmount() >= consumeAmount) {
+		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
 			Optional<BlockPos> opt = findOre();
 
 			if (opt.isPresent()) {

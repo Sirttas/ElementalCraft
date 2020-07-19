@@ -30,7 +30,7 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 	}
 
 	public BlockECContainer() {
-		this(ECProperties.BLOCK_NOT_SOLID);
+		this(ECProperties.Blocks.BLOCK_NOT_SOLID);
 	}
 
 	@Override

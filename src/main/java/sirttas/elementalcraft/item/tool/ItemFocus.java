@@ -35,7 +35,7 @@ public class ItemFocus extends ItemECTool {
 	public static final String NAME = "focus";
 
 	public ItemFocus() {
-		super(ECProperties.ITEM_UNSTACKABLE, ECMaterials.TOOL_PURE);
+		super(ECProperties.Items.ITEM_UNSTACKABLE, ECMaterials.TOOL_PURE);
 	}
 
 	/**

@@ -31,17 +31,16 @@ public class TileLavaShrine extends TileShrine {
 	}
 
 	public TileLavaShrine() {
-		super(TYPE, ElementType.FIRE);
+		super(TYPE, ElementType.FIRE, ECConfig.CONFIG.lavaShrinePeriode.get());
 		this.elementMax *= 10;
 	}
 
 
 	@Override
-	public void tick() {
+	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.lavaShrineConsumeAmount.get();
 
-		super.tick();
-		if (this.hasWorld() && world instanceof ServerWorld && randomChance(0.05D) && this.getElementAmount() >= consumeAmount) {
+		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
 			RANGE.forEach(v -> {
 				BlockPos p = getPos().add(v);
 				BlockState blockstate = world.getBlockState(p);

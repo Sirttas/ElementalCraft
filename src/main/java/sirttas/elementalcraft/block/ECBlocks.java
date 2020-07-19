@@ -5,7 +5,6 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -93,8 +92,6 @@ public class ECBlocks {
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		IForgeRegistry<Block> registry = event.getRegistry();
-		Block.Properties whiteRockProperties = Block.Properties.create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(1.5F, 6.0F);
-		Block.Properties pureRockProperties = Block.Properties.create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(75.0F, 2400.0F);
 
 		RegistryHelper.register(registry, new BlockTank(), BlockTank.NAME);
 		RegistryHelper.register(registry, new BlockExtractor(), BlockExtractor.NAME);
@@ -118,14 +115,14 @@ public class ECBlocks {
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
 		RegistryHelper.register(registry, new BlockEC(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), "crystalore");
-		RegistryHelper.register(registry, new BlockEC(whiteRockProperties), "whiterock");
-		RegistryHelper.register(registry, new SlabBlock(whiteRockProperties), "whiterock_slab");
-		RegistryHelper.register(registry, new StairsBlock(() -> whiteRock.getDefaultState(), whiteRockProperties), "whiterock_stairs");
-		RegistryHelper.register(registry, new WallBlock(whiteRockProperties), "whiterock_wall");
-		RegistryHelper.register(registry, new BlockEC(pureRockProperties), "purerock");
-		RegistryHelper.register(registry, new SlabBlock(pureRockProperties), "purerock_slab");
-		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), pureRockProperties), "purerock_stairs");
-		RegistryHelper.register(registry, new WallBlock(pureRockProperties), "purerock_wall");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.WHITEROCK), "whiterock");
+		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_slab");
+		RegistryHelper.register(registry, new StairsBlock(() -> whiteRock.getDefaultState(), ECProperties.Blocks.WHITEROCK), "whiterock_stairs");
+		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.WHITEROCK), "whiterock_wall");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.PUREROCK), "purerock");
+		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.PUREROCK), "purerock_slab");
+		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
+		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.PUREROCK), "purerock_wall");
 	}
 
 	@SubscribeEvent
@@ -156,7 +153,7 @@ public class ECBlocks {
 
 		for (Block block : ForgeRegistries.BLOCKS) {
 			if (ElementalCraft.MODID.equals(block.getRegistryName().getNamespace())) {
-				RegistryHelper.register(registry, new BlockItem(block, ECProperties.DEFAULT_ITEM_PROPERTIES), block.getRegistryName());
+				RegistryHelper.register(registry, new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES), block.getRegistryName());
 			}
 		}
 	}

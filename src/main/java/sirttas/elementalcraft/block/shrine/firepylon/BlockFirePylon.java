@@ -111,11 +111,13 @@ public class BlockFirePylon extends BlockECTileProvider {
 		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
 		double z = pos.getZ() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
 
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
+		if (state.get(HALF) == DoubleBlockHalf.UPPER) {
+			TileShrine shrine = (TileShrine) world.getTileEntity(pos.down());
 
-		if (state.get(HALF) == DoubleBlockHalf.UPPER && shrine != null && shrine.isRunning()) {
-			world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
-			world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
+			if (shrine != null && shrine.isRunning()) {
+				world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+				world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
+			}
 		}
 	}
 }

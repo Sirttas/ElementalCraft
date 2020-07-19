@@ -12,7 +12,7 @@ public class ItemHungerlessRing extends ItemECBauble {
 	public static final String NAME = "hungerlessring";
 
 	public ItemHungerlessRing() {
-		super(ECProperties.ITEM_UNSTACKABLE);
+		super(ECProperties.Items.ITEM_UNSTACKABLE);
 	}
 
 	public void resetCooldown(ItemStack itemstack) {

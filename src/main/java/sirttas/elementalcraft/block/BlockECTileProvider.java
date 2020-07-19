@@ -21,7 +21,7 @@ public abstract class BlockECTileProvider extends BlockEC implements IBlockECTil
 	}
 
 	public BlockECTileProvider() {
-		this(ECProperties.BLOCK_NOT_SOLID);
+		this(ECProperties.Blocks.BLOCK_NOT_SOLID);
 	}
 
 	@Override

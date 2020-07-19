@@ -14,12 +14,20 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	private int elementAmount = 0;
 	protected int elementMax = ECConfig.CONFIG.shrineMaxAmount.get();
 	private boolean running = false;
+	private int tick = 0;
+	private int periode = 0;
 
 	public TileShrine(TileEntityType<?> tileEntityTypeIn, ElementType type) {
+		this(tileEntityTypeIn, type, 0);
+	}
+
+	public TileShrine(TileEntityType<?> tileEntityTypeIn, ElementType type, int periode) {
 		super(tileEntityTypeIn);
 		this.setPasive(true);
 		elementType = type;
+		this.periode = periode;
 	}
+
 
 	protected int consumeElement(int i) {
 		if (this.isPowered()) {
@@ -58,10 +66,17 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		}
 	}
 
+	protected abstract void doTick();
+
 	@Override
-	public void tick() {
+	public final void tick() {
 		super.tick();
 		running = false;
+		tick++;
+		if (tick % periode == 0) {
+			doTick();
+			tick = 0;
+		}
 	}
 
 	public boolean isRunning() {
