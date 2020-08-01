@@ -22,21 +22,22 @@ import sirttas.elementalcraft.block.shrine.harvest.BlockHarvestShrine;
 import sirttas.elementalcraft.block.shrine.lava.BlockLavaShrine;
 import sirttas.elementalcraft.block.shrine.ore.BlockOreShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
+import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
-import sirttas.elementalcraft.item.bauble.ItemHungerlessRing;
 import sirttas.elementalcraft.item.receptacle.ItemEmptyReceptacle;
 import sirttas.elementalcraft.item.receptacle.ItemReceptacle;
 import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
+import sirttas.elementalcraft.item.spell.ItemScroll;
 import sirttas.elementalcraft.item.tool.ItemFocus;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECItems {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + ItemHungerlessRing.NAME) public static ItemHungerlessRing hungerlessRing;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemFocus.NAME) public static ItemFocus focus;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemScroll.NAME) public static ItemScroll scroll;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemReceptacle.NAME) public static ItemReceptacle receptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemEmptyReceptacle.NAME) public static ItemEmptyReceptacle emptyReceptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemBossDimKey.NAME) public static ItemBossDimKey bossDimKey;
@@ -70,6 +71,8 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static Item lavaShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static Item oreShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static Item overloadShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static Item sweetShrine;
+
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static Item source;
 	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static Item crystalOre;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock") public static Item whiteRock;
@@ -90,6 +93,7 @@ public class ECItems {
 		IForgeRegistry<Item> registry = event.getRegistry();
 
 		RegistryHelper.register(registry, new ItemFocus(), ItemFocus.NAME);
+		RegistryHelper.register(registry, new ItemScroll(), ItemScroll.NAME);
 		RegistryHelper.register(registry, new ItemReceptacle(), ItemReceptacle.NAME);
 		RegistryHelper.register(registry, new ItemEmptyReceptacle(), ItemEmptyReceptacle.NAME);
 

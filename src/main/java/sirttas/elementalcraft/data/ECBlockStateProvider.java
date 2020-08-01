@@ -10,7 +10,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -51,26 +50,12 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	private void save(Block block) {
 		String name = block.getRegistryName().getPath();
 
-		if (block instanceof SlabBlock) { // From botania
-			ModelFile file = models().getExistingFile(prefix(name));
-			ModelFile fullFile = models().getExistingFile(prefix(name.substring(0, name.length() - 5)));
-
-			getVariantBuilder(block)
-				.partialState().with(SlabBlock.TYPE, SlabType.BOTTOM).setModels(new ConfiguredModel(file))
-				.partialState().with(SlabBlock.TYPE, SlabType.TOP).setModels(new ConfiguredModel(file, 180, 0, true))
-				.partialState().with(SlabBlock.TYPE, SlabType.DOUBLE).setModels(new ConfiguredModel(fullFile));
-
-		} else if (block instanceof StairsBlock) { // From botania
-			ModelFile stair = models().getExistingFile(prefix(name));
-			ModelFile inner = models().getExistingFile(prefix(name + "_inner"));
-			ModelFile outer = models().getExistingFile(prefix(name + "_outer"));
-
-			stairsBlock((StairsBlock) block, stair, inner, outer);
-		} else if (block instanceof WallBlock) { // From botania
-			ModelFile post = models().getExistingFile(prefix(name + "_post"));
-			ModelFile side = models().getExistingFile(prefix(name + "_side"));
-
-			wallBlock((WallBlock) block, post, side);
+		if (block instanceof SlabBlock) {
+			slabBlock((SlabBlock) block);
+		} else if (block instanceof StairsBlock) {
+			stairsBlock((StairsBlock) block);
+		} else if (block instanceof WallBlock) {
+			wallBlock((WallBlock) block);
 		} else if (block.getDefaultState().has(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
 			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
 			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
@@ -118,4 +103,32 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		return "ElementalCraft Blockstates";
 	}
 
+	private void slabBlock(SlabBlock block) {
+		String name = block.getRegistryName().getPath();
+		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
+		ModelFile bottom = models().slab(name, sourceName, sourceName, sourceName);
+		ModelFile top = models().slabTop(name + "_top", sourceName, sourceName, sourceName);
+		ModelFile full = models().getExistingFile(sourceName);
+
+		slabBlock(block, bottom, top, full);
+	}
+
+	private void stairsBlock(StairsBlock block) {
+		String name = block.getRegistryName().getPath();
+		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 7));
+		ModelFile stair = models().stairs(name, sourceName, sourceName, sourceName);
+		ModelFile inner = models().stairsInner(name + "_inner", sourceName, sourceName, sourceName);
+		ModelFile outer = models().stairsOuter(name + "_outer", sourceName, sourceName, sourceName);
+
+		stairsBlock(block, stair, inner, outer);
+	}
+	
+	private void wallBlock(WallBlock block) {
+		String name = block.getRegistryName().getPath();
+		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
+		ModelFile post = models().wallPost(name + "_post", sourceName);
+		ModelFile side = models().wallSide(name + "_side", sourceName);
+
+		wallBlock(block, post, side);
+	}
 }

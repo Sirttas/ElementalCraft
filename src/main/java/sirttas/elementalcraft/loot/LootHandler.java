@@ -1,5 +1,10 @@
 package sirttas.elementalcraft.loot;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootPool;
@@ -12,6 +17,9 @@ import sirttas.elementalcraft.ElementalCraft;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public final class LootHandler {
 
+	public static final Collection<String> INJECTED_TABLES = Collections
+			.unmodifiableCollection(Lists.newArrayList("abandoned_mineshaft", "desert_pyramid", "jungle_temple", "simple_dungeon", "stronghold_corridor", "village_blacksmith"));
+
 	@SubscribeEvent
 	public static void lootLoad(LootTableLoadEvent evt) {
 		String prefix = "minecraft:chests/";
@@ -20,17 +28,8 @@ public final class LootHandler {
 		if (name.startsWith(prefix)) {
 			String file = name.substring(name.indexOf(prefix) + prefix.length());
 
-			switch (file) {
-			case "abandoned_mineshaft":
-			case "desert_pyramid":
-			case "jungle_temple":
-			case "simple_dungeon":
-			case "stronghold_corridor":
-			case "village_blacksmith":
+			if (INJECTED_TABLES.contains(file)) {
 				evt.getTable().addPool(getInjectPool(file));
-				break;
-			default:
-				break;
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.spell;
+package sirttas.elementalcraft.spell.earth;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -14,6 +14,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import sirttas.elementalcraft.spell.ISelfCastedSpell;
+import sirttas.elementalcraft.spell.Spell;
 
 public class SpellStoneWall extends Spell implements ISelfCastedSpell {
 

@@ -13,6 +13,7 @@ public class ECDataGenerators {
 	public static void gatherData(GatherDataEvent evt) {
 		if (evt.includeServer()) {
 			evt.getGenerator().addProvider(new ECBlockLootProvider(evt.getGenerator()));
+			evt.getGenerator().addProvider(new ECInjectLootProvider(evt.getGenerator()));
 			evt.getGenerator().addProvider(new ECBlockStateProvider(evt.getGenerator(), evt.getExistingFileHelper()));
 			evt.getGenerator().addProvider(new ECItemModelProvider(evt.getGenerator(), evt.getExistingFileHelper()));
 			evt.getGenerator().addProvider(new ECBlockTagsProvider(evt.getGenerator()));

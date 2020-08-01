@@ -8,6 +8,7 @@
 
 "item.elementalcraft.hungerlessring": "Ring of the Hungerless",
 "item.elementalcraft.focus": "Focus",
+"item.elementalcraft.scroll": "Scroll",
 
 "item.elementalcraft.receptacle": "Source Receptacle",
 "item.elementalcraft.receptacle.none": "Empty Source Receptacle",
@@ -54,6 +55,7 @@
 "block.elementalcraft.lavashrine": "Lava Shrine",
 "block.elementalcraft.oreshrine": "Ore Shrine",
 "block.elementalcraft.overloadshrine": "Overload Shrine",
+"block.elementalcraft.sweetshrine": "Sweet Shrine",
 
 "block.elementalcraft.crystalore": "Inert Crystal Ore",
 "block.elementalcraft.whiterock": "White Rock",
@@ -67,10 +69,12 @@
 
 "spell.elementalcraft.gravelfall": "Gravel Fall",
 "spell.elementalcraft.stonewall": "Stone Wall",
+"spell.elementalcraft.fireball": "Fire Ball",
 
 "elementalcraft.jei.infusion": "Element Infusion",
 "elementalcraft.jei.binding": "Element Binding",
 "elementalcraft.jei.pureinfusion": "Pure Infusion",
 
-"tooltip.elementalcraft.infused": "%s infused"
+"tooltip.elementalcraft.infused": "%s infused",
+"tooltip.elementalcraft.scroll_of": "Scroll of %s"
 }

@@ -20,3 +20,8 @@
 <p>growth Shrine (Water): Boost crop growth above it</p>
 <p>Vacuum Shrine (Air): Pull items toward it, ad store the in container under it</p>
 <p>Overload Shrine (Air): Boost working speed of other tile entities</p>
+<p>Sweet Shrine (Water): Periodically refill hunger</p>
+
+<strong>Spells:</strong>
+
+<p>Comming soon(tm)</p>

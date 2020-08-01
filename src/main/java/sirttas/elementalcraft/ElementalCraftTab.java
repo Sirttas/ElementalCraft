@@ -43,6 +43,8 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.lavaShrine, list);
 		addItem(ECBlocks.oreShrine, list);
 		addItem(ECBlocks.overloadShrine, list);
+		addItem(ECBlocks.sweetShrine, list);
+
 		addItem(ECBlocks.crystalOre, list);
 		addItem(ECBlocks.whiteRock, list);
 		addItem(ECBlocks.whiteRockSlab, list);
@@ -54,6 +56,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.pureRockWall, list);
 
 		addItem(ECItems.focus, list);
+		addItem(ECItems.scroll, list);
 		addItem(ECItems.emptyReceptacle, list);
 		addItem(ECItems.receptacle, list);
 		addItem(ECItems.inertCrystal, list);

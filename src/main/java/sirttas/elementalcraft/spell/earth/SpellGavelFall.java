@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.spell;
+package sirttas.elementalcraft.spell.earth;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -10,6 +10,9 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import sirttas.elementalcraft.spell.IBlockCastedSpell;
+import sirttas.elementalcraft.spell.IEntityCastedSpell;
+import sirttas.elementalcraft.spell.Spell;
 
 public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockCastedSpell {
 

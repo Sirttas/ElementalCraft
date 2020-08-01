@@ -14,13 +14,6 @@ description='''elementalcraft'''
     ordering="NONE"
     side="BOTH"
 
-#[[dependencies.elementalcraft]]
-#    modId="curios"
-#    mandatory=true
-#    versionRange="[FORGE-1.15.2-2.0,)"
-#    ordering="AFTER"
-#    side="BOTH"
-
 [[dependencies.elementalcraft]]
     modId="jei"
     mandatory=true
