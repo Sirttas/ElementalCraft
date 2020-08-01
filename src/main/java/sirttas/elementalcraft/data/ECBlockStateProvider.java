@@ -1,29 +1,21 @@
 package sirttas.elementalcraft.data;
 
-import java.util.Map;
-
 import javax.annotation.Nonnull;
-
-import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
-import net.minecraft.block.WallHeight;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourcePackType;
-import net.minecraft.state.EnumProperty;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
@@ -58,23 +50,12 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	private void save(Block block) {
 		String name = block.getRegistryName().getPath();
 
-		if (block instanceof SlabBlock) { // From botania
-			ModelFile file = models().getExistingFile(prefix(name));
-			ModelFile fullFile = models().getExistingFile(prefix(name.substring(0, name.length() - 5)));
-
-			getVariantBuilder(block)
-				.partialState().with(SlabBlock.TYPE, SlabType.BOTTOM).setModels(new ConfiguredModel(file))
-				.partialState().with(SlabBlock.TYPE, SlabType.TOP).setModels(new ConfiguredModel(file, 180, 0, true))
-				.partialState().with(SlabBlock.TYPE, SlabType.DOUBLE).setModels(new ConfiguredModel(fullFile));
-
-		} else if (block instanceof StairsBlock) { // From botania
-			ModelFile stair = models().getExistingFile(prefix(name));
-			ModelFile inner = models().getExistingFile(prefix(name + "_inner"));
-			ModelFile outer = models().getExistingFile(prefix(name + "_outer"));
-
-			stairsBlock((StairsBlock) block, stair, inner, outer);
-		} else if (block instanceof WallBlock) { // From botania
-			fixedWallBlock((WallBlock) block);
+		if (block instanceof SlabBlock) {
+			slabBlock((SlabBlock) block);
+		} else if (block instanceof StairsBlock) {
+			stairsBlock((StairsBlock) block);
+		} else if (block instanceof WallBlock) {
+			wallBlock((WallBlock) block);
 		} else if (block.getDefaultState().func_235901_b_/* has */(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
 			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
 			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
@@ -122,30 +103,33 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		return "ElementalCraft Blockstates";
 	}
 
-	private static final Map<Direction, EnumProperty<WallHeight>> DIRECTION_TO_WALL_SIDE = ImmutableMap.<Direction, EnumProperty<WallHeight>>builder()
-			.put(Direction.NORTH, WallBlock.field_235613_c_)
-			.put(Direction.EAST, WallBlock.field_235612_b_)
-			.put(Direction.SOUTH, WallBlock.field_235614_d_)
-			.put(Direction.WEST, WallBlock.field_235615_e_).build();
-	
-	private void fixedWallBlock(WallBlock block) { // from botania - Ty vazkii!!
+	private void slabBlock(SlabBlock block) {
 		String name = block.getRegistryName().getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
-		ModelFile post = models().withExistingParent(name + "_post", "block/template_wall_post")
-				.texture("wall", sourceName);
-		ModelFile side = models().withExistingParent(name + "_side", "block/template_wall_side")
-				.texture("wall", sourceName);
-		ModelFile tallSide = models().withExistingParent(name + "_side_tall", "block/template_wall_side_tall")
-				.texture("wall", sourceName);
-		MultiPartBlockStateBuilder builder = getMultipartBuilder(block)
-				.part().modelFile(post).addModel()
-				.condition(WallBlock.UP, true).end();
+		ModelFile bottom = models().slab(name, sourceName, sourceName, sourceName);
+		ModelFile top = models().slabTop(name + "_top", sourceName, sourceName, sourceName);
+		ModelFile full = models().getExistingFile(sourceName);
 
-		DIRECTION_TO_WALL_SIDE.forEach((dir, value) -> {
-			builder.part().modelFile(side).rotationY((((int) dir.getHorizontalAngle()) + 180) % 360).uvLock(true).addModel()
-					.condition(value, WallHeight.LOW).end()
-					.part().modelFile(tallSide).rotationY((((int) dir.getHorizontalAngle()) + 180) % 360).uvLock(true).addModel()
-					.condition(value, WallHeight.TALL);
-		});
+		slabBlock(block, bottom, top, full);
+	}
+
+	private void stairsBlock(StairsBlock block) {
+		String name = block.getRegistryName().getPath();
+		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 7));
+		ModelFile stair = models().stairs(name, sourceName, sourceName, sourceName);
+		ModelFile inner = models().stairsInner(name + "_inner", sourceName, sourceName, sourceName);
+		ModelFile outer = models().stairsOuter(name + "_outer", sourceName, sourceName, sourceName);
+
+		stairsBlock(block, stair, inner, outer);
+	}
+	
+	private void wallBlock(WallBlock block) {
+		String name = block.getRegistryName().getPath();
+		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
+		ModelFile post = models().wallPost(name + "_post", sourceName);
+		ModelFile side = models().wallSide(name + "_side", sourceName);
+		ModelFile sideTall = models().wallSideTall(name + "_side_tall", sourceName);
+
+		wallBlock(block, post, side, sideTall);
 	}
 }

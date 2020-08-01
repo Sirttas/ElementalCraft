@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "main",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:sweetshrine"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "source": "block_entity",
+          "ops": [
+            {
+              "source": "element_type",
+              "target": "elementalcraft.tetag.element_type",
+              "op": "replace"
+            },
+            {
+              "source": "element_amount",
+              "target": "elementalcraft.tetag.element_amount",
+              "op": "replace"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

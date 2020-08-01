@@ -9,16 +9,20 @@ import net.minecraftforge.registries.ObjectHolder;
 import net.minecraftforge.registries.RegistryBuilder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.registry.RegistryHelper;
+import sirttas.elementalcraft.spell.earth.SpellGavelFall;
+import sirttas.elementalcraft.spell.earth.SpellStoneWall;
+import sirttas.elementalcraft.spell.fire.SpellFireBall;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Spells {
 
-	private static final ResourceLocation NAME = new ResourceLocation("elementalcraft:spells");
+	private static final ResourceLocation NAME = new ResourceLocation(ElementalCraft.MODID, "spells");
 	private static final int MIN_SPELL_ID = 0;
 	private static final int MAX_SPELL_ID = Short.MAX_VALUE - 1;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellGavelFall.NAME) public static SpellGavelFall gravelFall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellStoneWall.NAME) public static SpellStoneWall stoneWall;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFireBall.NAME) public static SpellFireBall fireBall;
 
 	@SubscribeEvent
 	public static void createSpellRegistry(RegistryEvent.NewRegistry event) {
@@ -35,5 +39,6 @@ public class Spells {
 
 		RegistryHelper.register(registry, new SpellGavelFall(), SpellGavelFall.NAME);
 		RegistryHelper.register(registry, new SpellStoneWall(), SpellStoneWall.NAME);
+		RegistryHelper.register(registry, new SpellFireBall(), SpellFireBall.NAME);
 	}
 }

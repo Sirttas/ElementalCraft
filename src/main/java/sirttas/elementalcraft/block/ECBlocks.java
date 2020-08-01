@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
@@ -44,6 +45,8 @@ import sirttas.elementalcraft.block.shrine.ore.BlockOreShrine;
 import sirttas.elementalcraft.block.shrine.ore.TileOreShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.shrine.overload.TileOverloadShrine;
+import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
+import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
@@ -77,6 +80,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static BlockLavaShrine lavaShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static BlockOreShrine oreShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static BlockOverloadShrine overloadShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static BlockSweetShrine sweetShrine;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
 	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static BlockEC crystalOre;
@@ -112,9 +116,10 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockLavaShrine(), BlockLavaShrine.NAME);
 		RegistryHelper.register(registry, new BlockOreShrine(), BlockOreShrine.NAME);
 		RegistryHelper.register(registry, new BlockOverloadShrine(), BlockOverloadShrine.NAME);
+		RegistryHelper.register(registry, new BlockSweetShrine(), BlockSweetShrine.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
-		RegistryHelper.register(registry, new BlockEC(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), "crystalore");
+		RegistryHelper.register(registry, new BlockEC(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), "crystalore");
 		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.WHITEROCK), "whiterock");
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_slab");
 		RegistryHelper.register(registry, new StairsBlock(() -> whiteRock.getDefaultState(), ECProperties.Blocks.WHITEROCK), "whiterock_stairs");
@@ -145,6 +150,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileLavaShrine::new, lavaShrine).build(null), BlockLavaShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOreShrine::new, oreShrine).build(null), BlockOreShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOverloadShrine::new, overloadShrine).build(null), BlockOverloadShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileSweetShrine::new, sweetShrine).build(null), BlockSweetShrine.NAME);
 	}
 
 	@SubscribeEvent

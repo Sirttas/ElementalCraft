@@ -34,7 +34,7 @@ public class BlockOverloadShrine extends BlockECTileProvider {
 	private static final VoxelShape PIPE_SOUTH = Block.makeCuboidShape(7D, 7D, 13D, 9D, 9D, 16D);
 	private static final VoxelShape PIPE_EAST = Block.makeCuboidShape(13D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape PIPE_WEST = Block.makeCuboidShape(0D, 7D, 7D, 3D, 9D, 9D);
-	private static final VoxelShape PIPE_UP = Block.makeCuboidShape(7D, 13D, 57D, 9D, 13D, 9D);
+	private static final VoxelShape PIPE_UP = Block.makeCuboidShape(7D, 13D, 7D, 9D, 16D, 9D);
 
 	private static final VoxelShape BASE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, BASE_4, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST, PIPE_UP);
 
