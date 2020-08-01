@@ -6,15 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootEntry;
@@ -28,6 +24,7 @@ import net.minecraft.loot.conditions.SurvivesExplosion;
 import net.minecraft.loot.functions.CopyNbt;
 import net.minecraft.loot.functions.ExplosionDecay;
 import net.minecraft.loot.functions.SetCount;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
@@ -36,6 +33,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNBTTags;
 
@@ -44,13 +42,11 @@ import sirttas.elementalcraft.nbt.ECNBTTags;
  *
  * 
  */
-public class ECBlockLootProvider implements IDataProvider {
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private final DataGenerator generator;
+public class ECBlockLootProvider extends AbstractECLootProvider {
 	private final Map<Block, Function<IItemProvider, Builder>> functionTable = new HashMap<>();
 
 	public ECBlockLootProvider(DataGenerator generator) {
-		this.generator = generator;
+		super(generator);
 
 		for (Block block : ForgeRegistries.BLOCKS) {
 			if (!ElementalCraft.MODID.equals(block.getRegistryName().getNamespace())) {
@@ -58,6 +54,8 @@ public class ECBlockLootProvider implements IDataProvider {
 			}
 			if (block instanceof SlabBlock) {
 				functionTable.put(block, ECBlockLootProvider::genSlab);
+			} else if (block instanceof BlockFirePylon) {
+				functionTable.put(block, ECBlockLootProvider::genFirePylon);
 			} else if (isTileInstanceOf(block, TileShrine.class)) {
 				functionTable.put(block, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT));
 			} else if (block instanceof BlockPedestal) {
@@ -86,8 +84,7 @@ public class ECBlockLootProvider implements IDataProvider {
 		Function<IItemProvider, Builder> func = functionTable.get(block);
 		Builder builder = func != null ? func.apply(block) : genRegular(block);
 		
-		IDataProvider.save(GSON, cache, LootTableManager.toJson(builder.setParameterSet(LootParameterSets.BLOCK).build()),
-				getPath(generator.getOutputFolder(), block.getRegistryName()));
+		save(cache, builder.setParameterSet(LootParameterSets.BLOCK), getPath(generator.getOutputFolder(), block.getRegistryName()));
 	}
 
 	private static Path getPath(Path root, ResourceLocation id) {
@@ -102,7 +99,17 @@ public class ECBlockLootProvider implements IDataProvider {
 	}
 
 	private static Builder genCopyNbt(IItemProvider item, String... tags) {
-		LootEntry.Builder<?> entry = ItemLootEntry.builder(item);
+		return genCopyNbt(ItemLootEntry.builder(item), tags);
+	}
+
+	private static Builder genFirePylon(IItemProvider item) {
+		LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
+				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockFirePylon.HALF, DoubleBlockHalf.LOWER)));
+
+		return genCopyNbt(entry, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT);
+	}
+
+	private static Builder genCopyNbt(LootEntry.Builder<?> entry, String... tags) {
 		CopyNbt.Builder func = CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY);
 
 		for (String tag : tags) {

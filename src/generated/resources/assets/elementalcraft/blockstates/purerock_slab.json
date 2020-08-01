@@ -1,9 +1,7 @@
 {
   "variants": {
     "type=top": {
-      "model": "elementalcraft:block/purerock_slab",
-      "x": 180,
-      "uvlock": true
+      "model": "elementalcraft:block/purerock_slab_top"
     },
     "type=bottom": {
       "model": "elementalcraft:block/purerock_slab"

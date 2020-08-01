@@ -1,8 +1,0 @@
-{
-  "parent": "block/outer_stairs",
-  "textures": {
-    "side": "elementalcraft:block/purerock",
-    "bottom": "elementalcraft:block/purerock",
-    "top": "elementalcraft:block/purerock"
-  }
-}

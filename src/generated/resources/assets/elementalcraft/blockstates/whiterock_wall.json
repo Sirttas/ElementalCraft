@@ -10,24 +10,6 @@
     },
     {
       "when": {
-        "north": "low"
-      },
-      "apply": {
-        "model": "elementalcraft:block/whiterock_wall_side",
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "north": "tall"
-      },
-      "apply": {
-        "model": "elementalcraft:block/whiterock_wall_side_tall",
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
         "east": "low"
       },
       "apply": {
@@ -43,6 +25,24 @@
       "apply": {
         "model": "elementalcraft:block/whiterock_wall_side_tall",
         "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "low"
+      },
+      "apply": {
+        "model": "elementalcraft:block/whiterock_wall_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "tall"
+      },
+      "apply": {
+        "model": "elementalcraft:block/whiterock_wall_side_tall",
         "uvlock": true
       }
     },

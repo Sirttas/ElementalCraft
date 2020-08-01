@@ -74,7 +74,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		super.tick();
 		running = false;
 		tick++;
-		if (tick % periode == 0) {
+		if (periode == 0 || tick % periode == 0) {
 			doTick();
 			tick = 0;
 		}
