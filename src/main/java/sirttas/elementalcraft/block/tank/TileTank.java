@@ -17,11 +17,22 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static TileEntityType<TileTank> TYPE;
 
 	private int elementAmount = 0;
-	private int elementAmountMax = ECConfig.CONFIG.tankMaxAmount.get();
+	private int elementAmountMax = 100000;
 	private ElementType elementType = ElementType.NONE;
+	private boolean small = false;
+
+	public TileTank(int elementAmountMax) {
+		super(TYPE);
+		this.elementAmountMax = elementAmountMax;
+	}
+
+	public TileTank(boolean small) {
+		this(small ? ECConfig.CONFIG.tankMaxAmount.get() : ECConfig.CONFIG.tankSmallMaxAmount.get());
+		this.setSmall(small);
+	}
 
 	public TileTank() {
-		super(TYPE);
+		this(false);
 	}
 
 	@Override
@@ -80,6 +91,14 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 		return elementAmountMax;
 	}
 
+	public boolean isSmall() {
+		return small;
+	}
+
+	public void setSmall(boolean small) {
+		this.small = small;
+	}
+
 	@Override
 	public boolean doesRenderGauge() {
 		return true;
@@ -91,6 +110,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 		elementType = ElementType.byName(compound.getString(ECNBTTags.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
 		elementAmountMax = compound.getInt(ECNBTTags.ELEMENT_MAX);
+		small = compound.getBoolean(ECNBTTags.SMALL);
 	}
 
 	@Override
@@ -99,6 +119,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.func_176610_l/* getName */());
 		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
 		compound.putInt(ECNBTTags.ELEMENT_MAX, elementAmountMax);
+		compound.putBoolean(ECNBTTags.SMALL, small);
 		return compound;
 	}
 

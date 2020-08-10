@@ -18,7 +18,6 @@ import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTable.Builder;
-import net.minecraft.loot.LootTableManager;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.conditions.SurvivesExplosion;
 import net.minecraft.loot.functions.CopyNbt;
@@ -64,7 +63,8 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		}
 
 		functionTable.put(ECBlocks.crystalOre, i -> genRegular(ECItems.inertCrystal));
-		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX));
+		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX, ECNBTTags.SMALL));
+		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX, ECNBTTags.SMALL));
 	}
 
 	@Override

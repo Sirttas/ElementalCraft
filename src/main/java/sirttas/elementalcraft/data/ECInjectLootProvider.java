@@ -20,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.LootHandler;
+import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.loot.function.RandomSpell;
 
 /**
@@ -31,6 +32,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 
 	public ECInjectLootProvider(DataGenerator generator) {
 		super(generator);
+		ECLootFunctions.setup();
 	}
 
 	@Override

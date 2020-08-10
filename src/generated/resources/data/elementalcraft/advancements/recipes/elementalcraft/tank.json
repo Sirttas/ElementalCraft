@@ -16,6 +16,16 @@
         ]
       }
     },
+    "has_whiterock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:whiterock"
+          }
+        ]
+      }
+    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
@@ -26,6 +36,7 @@
   "requirements": [
     [
       "has_containedcrystal",
+      "has_whiterock",
       "has_the_recipe"
     ]
   ]

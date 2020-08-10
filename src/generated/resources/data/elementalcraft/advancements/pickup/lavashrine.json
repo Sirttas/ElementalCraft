@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_lavashrine": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:lavashrine"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_lavashrine"
+    ]
+  ]
+}

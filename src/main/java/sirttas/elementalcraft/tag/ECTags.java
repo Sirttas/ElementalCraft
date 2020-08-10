@@ -32,6 +32,7 @@ public class ECTags {
 	public static class Blocks {
 		public static final INamedTag<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
 		public static final INamedTag<Block> PUREROCKS = createTag("purerocks");
+		public static final INamedTag<Block> SMALL_TANK_COMPATIBLES = createTag("small_tank_compatibles");
 
 		private static INamedTag<Block> createTag(String name) {
 			return BlockTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);

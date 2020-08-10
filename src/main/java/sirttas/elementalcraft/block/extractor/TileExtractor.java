@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.extractor;
 import java.util.Optional;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
@@ -30,10 +29,7 @@ public class TileExtractor extends TileECTickable {
 		return getSourceElementType() != ElementType.NONE;
 	}
 
-	public TileTank getTank() {
-		TileEntity te = this.hasWorld() ? this.getWorld().getTileEntity(pos.down()) : null;
-		return te instanceof TileTank ? (TileTank) te : null;
-	}
+
 
 	protected Optional<BlockState> getSourceState() {
 		return this.hasWorld() ? Optional.ofNullable(this.getWorld().getBlockState(pos.up())) : Optional.empty();
@@ -53,7 +49,6 @@ public class TileExtractor extends TileECTickable {
 		if (canExtract()) {
 			getTank().inserElement(getExtractionAmount(), getSourceElementType(), false);
 		}
-
 	}
 
 	public boolean canExtract() {

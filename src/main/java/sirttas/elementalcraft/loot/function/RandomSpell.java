@@ -19,18 +19,15 @@ import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootFunction;
 import net.minecraft.loot.LootFunctionType;
 import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.loot.functions.LootFunctionManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 public class RandomSpell extends LootFunction {
 	private final List<Spell> spellList;
 
-	private static final LootFunctionType type = LootFunctionManager.func_237451_a_/* registerFunction */(ElementalCraft.MODID + ":random_spell", new RandomSpell.Serializer());
-
+	static LootFunctionType type;
 	private static final String SPELLS = "spells";
 
 	private RandomSpell(ILootCondition[] condition, Collection<Spell> spellList) {

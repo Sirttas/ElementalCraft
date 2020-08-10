@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_watercrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:watercrystal"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_watercrystal"
+    ]
+  ]
+}

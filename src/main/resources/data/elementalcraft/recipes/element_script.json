@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+   "ingredients": [
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "elementalcraft:inertcrystal"
+    }
+  ],
+  "result": {
+    "item": "patchouli:guide_book",
+    "nbt": {
+   		"patchouli:book": "elementalcraft:element_book"
+    }
+  }
+}

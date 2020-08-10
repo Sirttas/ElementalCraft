@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '2.0.5-1.16.1'
+version = '2.0.6-1.16.1'
 group = 'sirttas.elementalcraft' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'elementalcraft'
 
@@ -92,17 +92,16 @@ sourceSets.main.resources {
 
 repositories {
     mavenCentral()
-    maven {
-        url = "https://maven.theillusivec4.top/"
-    }
+    maven { url = "https://maven.theillusivec4.top/" }
     maven {
     	name = "Progwml6 maven"
     	url = "https://dvs1.progwml6.com/files/maven/"
-  }
-  maven {
+  	}
+  	maven {
    		name = "ModMaven"
     	url = "https://modmaven.k-4u.nl"
-  }
+  	}
+  	maven { url 'https://maven.blamejared.com' }
 }
 
 dependencies {
@@ -111,8 +110,8 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.1-32.0.98'
     
-    // TODO runtimeOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-1.15.2-2.0.2.2")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-1.15.2-2.0.2.2:api")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16-39:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16-39")
     
     compileOnly fg.deobf("mezz.jei:jei-1.16.1:7.0.0.2:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.1:7.0.0.2")
