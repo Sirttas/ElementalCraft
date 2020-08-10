@@ -9,6 +9,7 @@
 "item.elementalcraft.hungerlessring": "Ring of the Hungerless",
 "item.elementalcraft.focus": "Focus",
 "item.elementalcraft.scroll": "Scroll",
+"item.elementalcraft.element_book": "Elementopedia",
 
 "item.elementalcraft.receptacle": "Source Receptacle",
 "item.elementalcraft.receptacle.none": "Empty Source Receptacle",
@@ -33,6 +34,7 @@
 "item.elementalcraft.aircrystal": "Air Crystal",
 "item.elementalcraft.shrinebase": "Shrine",
 
+"block.elementalcraft.tank_small": "Small Element Container",
 "block.elementalcraft.tank": "Element Container",
 "block.elementalcraft.extractor": "Element Extractor",
 "block.elementalcraft.extractor_improved": "Improved Element Extractor",
@@ -76,5 +78,28 @@
 "elementalcraft.jei.pureinfusion": "Pure Infusion",
 
 "tooltip.elementalcraft.infused": "%s infused",
-"tooltip.elementalcraft.scroll_of": "Scroll of %s"
+"tooltip.elementalcraft.scroll_of": "Scroll of %s",
+
+"elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().",
+
+"elementalcraft.category.basics": "Basics",
+"elementalcraft.category.instruments": "Instruments",
+"elementalcraft.category.instruments.desc": "$(thing)Instruments$() are the main crafting tools in $(thing)ElementalCraft$().$(br)They consume $(thing)elements$() and require to be on top of a $(ec:tank)Container$().",
+"elementalcraft.category.crafting": "crafting",
+"elementalcraft.category.crafting.desc": "Here is everything you need to know about $(thing)ElementalCraft$().",
+
+"elementalcraft.entry.crystals": "Crystals",
+
+"elementalcraft.page.source0": "$(thing)Sources$() are naturaly occuring spots where $(thing)elements$() converge.$(br2)It's strangly recomended to explore a bit and find $(thing)sources$() at least one for each $(thing)element$().$(br)It is also recomended to mark their spot to find them back easyer when you need them.",
+"elementalcraft.page.source1": "An $(thing)Air Source$() found naturaly.",
+"elementalcraft.page.inertcrystal0": "To get $(item)Inert Crystal$() start digging undergroud and mine $(item)Inert Crystal Ore$().",
+"elementalcraft.page.containedcrystal0": "$(item)Contained Crystals$() are the main components of $(thing)instruments$().$(br)By coating an $(item)Inert Crystal$() with $(thing)gold$() you are able to preven it to get altered by $(thing)elements$() without lousing its ability to interact with them.",
+"elementalcraft.page.elementpipe0": "$(item)Pipes$() are used to transport $(thing)elements$() across distance, their main use is to provide $(thing)instruments$() with the required $(thing)element$().$(br2)you can conficure a $(item)pipe$() by right clicking a section or the core to change it from $(thing)connected$(), $(thing)disconected$(), $(thing)insert$() or $(thing)extract$().",
+"elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). in an $(ec:infuser).",
+
+"elementalcraft.page.tank0": "The $(item)Element Container$() is a an advanced $(thing)element$() storage, it can store more $(thing)elements$() than the $(l:elmentalcraft:instruments/tank_small)Small Container$() and is compatible with all $(thing)instruments$().",
+"elementalcraft.page.extractor0": "Use an $(item)Extractor$() to extract $(thing)elements$() form $(ec:source)sources$().$(br2)To do so place the $(item)Extractor$() above a $(ec:tank)Container$() and below the $(ec:source)source$() you want to extract.",
+"elementalcraft.page.infuser0": "Now that you can extract $(thing)elements$() it's time to infuse it.$(br2)To do so you need an $(item)Infuser$() and put it on top of a $(ec:tank)Container$().$(br)D'ont forget to connect it to the $(ec:extractor)Extractor$()'s $(ec:tank)Container$() with a $(ec:pipe)pipe$().",
+"elementalcraft.page.infusion0": "To infuse an item simply right click the $(ec:infuser)Infuser$() while holding the item you want to infuse.$(br)Try it now with an $(item)Inert Crystal$().",
+"elementalcraft.page.tank_small0": "The $(item)Small Element Container$() is a simple $(thing)element$() storage, it can $(thing)elements$() provide to $(thing)instruments$().$(br2)All $(thing)instruments$() need to be placed on top of a $(item)Container$() to operate.$(br)The $(item)Small Element Container$() can only work with $(ec:extractor)Extractors$() and $(ec:infuser)Infusers$().$(br)You can alos transer $(thing)elements$() from one $(item)Container$() to another using $(ec:pipe)pipes$()."
 }

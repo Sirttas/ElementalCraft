@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.block.tile;
 
+import java.util.Optional;
+
 import javax.annotation.Nonnull;
 
 import net.minecraft.item.ItemStack;
@@ -8,6 +10,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.BlockPos;
+import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.nbt.ECNBTTags;
 
 public abstract class TileEC extends TileEntity {
@@ -58,6 +62,10 @@ public abstract class TileEC extends TileEntity {
 		CompoundNBT root = stack.getTag();
 		root.putBoolean(ECNBTTags.EC_NBT_TE, true);
 		this.write(root);
+	}
+
+	public <T> Optional<T> getTileEntityAs(BlockPos pos, Class<T> clazz) {
+		return this.hasWorld() ? BlockEC.getTileEntityAs(this.getWorld(), pos, clazz) : Optional.empty();
 	}
 
 }

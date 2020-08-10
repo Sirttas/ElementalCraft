@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.0.6-1.15.2'
+version = '1.0.7-1.15.2'
 group = 'sirttas.elementalcraft' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'elementalcraft'
 
@@ -92,17 +92,16 @@ sourceSets.main.resources {
 
 repositories {
     mavenCentral()
-    maven {
-        url = "https://maven.theillusivec4.top/"
-    }
+    maven { url = "https://maven.theillusivec4.top/" }
     maven {
     	name = "Progwml6 maven"
     	url = "https://dvs1.progwml6.com/files/maven/"
-  }
-  maven {
+  	}
+  	maven {
    		name = "ModMaven"
     	url = "https://modmaven.k-4u.nl"
-  }
+  	}
+  	maven { url 'https://maven.blamejared.com' }
 }
 
 dependencies {
@@ -110,6 +109,9 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.15.2-31.2.0'
+    
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.2-35.2:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.2-35.2")
     
     compileOnly fg.deobf("mezz.jei:jei-1.15.2:6.0.0.2:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.15.2:6.0.0.2")

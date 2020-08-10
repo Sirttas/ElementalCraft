@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_shrinebase": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:shrinebase"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_shrinebase"
+    ]
+  ]
+}

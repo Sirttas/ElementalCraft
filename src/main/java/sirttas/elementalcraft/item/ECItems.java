@@ -42,6 +42,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemEmptyReceptacle.NAME) public static ItemEmptyReceptacle emptyReceptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemBossDimKey.NAME) public static ItemBossDimKey bossDimKey;
 
+	@ObjectHolder("patchouli:guide_book") public static Item elementScript;
 	@ObjectHolder(ElementalCraft.MODID + ":inertcrystal") public static ItemEC inertCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":containedcrystal") public static ItemEC containedCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":firecrystal") public static ItemEC fireCrystal;

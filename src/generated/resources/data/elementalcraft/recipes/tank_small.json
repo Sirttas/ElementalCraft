@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " p ",
+    "pgp",
+    " p "
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "p": {
+      "item": "elementalcraft:elementpipe"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:tank_small"
+  }
+}

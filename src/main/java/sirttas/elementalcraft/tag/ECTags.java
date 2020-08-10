@@ -33,6 +33,7 @@ public class ECTags {
 	public static class Blocks {
 		public static final Tag<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
 		public static final Tag<Block> PUREROCKS = createTag("purerocks");
+		public static final Tag<Block> SMALL_TANK_COMPATIBLES = createTag("small_tank_compatibles");
 
 		private static Tag<Block> createTag(String name) {
 			return new BlockTags.Wrapper(new ResourceLocation(ElementalCraft.MODID, name));

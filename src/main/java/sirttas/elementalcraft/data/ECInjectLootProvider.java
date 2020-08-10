@@ -16,11 +16,12 @@ import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraft.world.storage.loot.RandomValueRange;
+import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.LootHandler;
-import sirttas.elementalcraft.loot.fonction.RandomSpell;
+import sirttas.elementalcraft.loot.function.RandomSpell;
 
 /**
  * greatly inspired by Botania
@@ -31,6 +32,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 
 	public ECInjectLootProvider(DataGenerator generator) {
 		super(generator);
+		LootFunctionManager.registerFunction(new RandomSpell.Serializer());
 	}
 
 	@Override

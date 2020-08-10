@@ -1,0 +1,19 @@
+{
+  "name": "block.elementalcraft.elementpipe",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:elementpipe",
+  "advancement": "elementalcraft:pickup/containedcrystal",
+   "turnin": "elementalcraft:pickup/elementpipe",
+  "priority": true,
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.elementpipe0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:elementpipe"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.block.tile.renderer;
 
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -7,6 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.binder.RendererBinder;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.RendererFireFurnace;
@@ -26,5 +29,10 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(TilePedestal.TYPE, d -> new SingleItemRenderer<TilePedestal>(d, new Vec3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TilePureInfuser.TYPE, d -> new SingleItemRenderer<TilePureInfuser>(d, new Vec3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TileFireFurnace.TYPE, RendererFireFurnace::new);
+	}
+
+	public static void initRenderLayouts() {
+		RenderTypeLookup.setRenderLayer(ECBlocks.tank, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.tankSmall, RenderType.getCutout());
 	}
 }

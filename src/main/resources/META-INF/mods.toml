@@ -20,3 +20,10 @@ description='''elementalcraft'''
     versionRange="[FORGE-1.15.2-6.0,)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.elementalcraft]]
+    modId="patchouli"
+    mandatory=true
+    versionRange="[1.15.2-1.2,)"
+    ordering="AFTER"
+    side="BOTH"

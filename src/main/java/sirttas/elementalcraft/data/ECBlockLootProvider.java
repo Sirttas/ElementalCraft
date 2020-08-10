@@ -63,7 +63,8 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		}
 
 		functionTable.put(ECBlocks.crystalOre, i -> genRegular(ECItems.inertCrystal));
-		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX));
+		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX, ECNBTTags.SMALL));
+		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX, ECNBTTags.SMALL));
 	}
 
 	@Override
