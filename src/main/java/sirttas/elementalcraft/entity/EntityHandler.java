@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.event;
+package sirttas.elementalcraft.entity;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;

@@ -5,9 +5,7 @@ import java.util.stream.IntStream;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.item.ItemEC;
@@ -48,11 +46,13 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	}
 
 	protected void makeProgress() {
+		TileTank tank = getTank();
+
 		if (recipe != null && progress >= recipe.getDuration()) {
 			process();
 			progress = 0;
-		} else if (this.isReciptAvalable() && canProgress() && getTank().extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
-			getTank().extractElement(recipe.getElementPerTick(), recipe.getElementType(), false);
+		} else if (this.isReciptAvalable() && canProgress() && tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
+			tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), false);
 			progress++;
 		} else {
 			progress = 0;
@@ -62,19 +62,6 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	@Override
 	public boolean isRunning() {
 		return progress > 0;
-	}
-
-	// TODO extract (capability ?)
-	public TileTank getTank() {
-		TileEntity te = this.hasWorld() ? this.getWorld().getTileEntity(pos.down()) : null;
-		return te instanceof TileTank ? (TileTank) te : null;
-	}
-
-	// TODO extract (capability ?)
-	public ElementType getTankElementType() {
-		TileTank tank = getTank();
-
-		return tank != null ? tank.getElementType() : ElementType.NONE;
 	}
 
 	@Override

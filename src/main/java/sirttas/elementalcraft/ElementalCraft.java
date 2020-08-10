@@ -3,8 +3,6 @@ package sirttas.elementalcraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -13,9 +11,10 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.tile.renderer.ECRenderers;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.ECEntities;
+import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.world.ECFeatures;
 
@@ -33,14 +32,14 @@ public class ElementalCraft {
 	private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECFeatures.addToWorldgen();
+		ECLootFunctions.setup();
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ECConfig.SPEC);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	private void setupClient(FMLClientSetupEvent event) {
-		RenderTypeLookup.setRenderLayer(ECBlocks.tank, RenderType.getCutout());
-		
+		ECRenderers.initRenderLayouts();
 		ECEntities.registerRenderers();
 	}
 }

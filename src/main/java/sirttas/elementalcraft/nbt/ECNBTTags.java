@@ -9,6 +9,7 @@ public class ECNBTTags {
 	public static final String ELEMENT_TYPE = "element_type";
 	public static final String ELEMENT_AMOUNT = "element_amount";
 	public static final String ELEMENT_MAX = "element_max";
+	public static final String SMALL = "small";
 
 	public static final String INFUSION = "infusion";
 	public static final String INFUSION_TYPE = "type";

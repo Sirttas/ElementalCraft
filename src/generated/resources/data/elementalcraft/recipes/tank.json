@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ici",
-    "igi",
-    "sss"
+    "pgp",
+    "www"
   ],
   "key": {
     "i": {
@@ -12,11 +12,14 @@
     "c": {
       "item": "elementalcraft:containedcrystal"
     },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
     "g": {
       "item": "minecraft:glass"
     },
-    "s": {
-      "item": "minecraft:stone"
+    "p": {
+      "item": "elementalcraft:elementpipe"
     }
   },
   "result": {

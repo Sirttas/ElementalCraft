@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_tank_small": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:tank_small"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_tank_small"
+    ]
+  ]
+}

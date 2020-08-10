@@ -34,6 +34,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.airPedestal, list);
 		addItem(ECBlocks.pureInfuser, list);
 		addItem(ECBlocks.fireFurnace, list);
+		addItem(ECBlocks.tankSmall, list);
 		addItem(ECBlocks.tank, list);
 		addItem(ECBlocks.elementPipe, list);
 		addItem(ECBlocks.firePylon, list);
@@ -55,6 +56,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.pureRockStairs, list);
 		addItem(ECBlocks.pureRockWall, list);
 
+		addItem(ECItems.elementScript, list);
 		addItem(ECItems.focus, list);
 		addItem(ECItems.scroll, list);
 		addItem(ECItems.emptyReceptacle, list);

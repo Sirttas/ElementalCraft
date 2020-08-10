@@ -21,6 +21,7 @@ public class ECDataGenerators {
 			evt.getGenerator().addProvider(blockTagsProvider);
 			evt.getGenerator().addProvider(new ECItemTagsProvider(evt.getGenerator(), blockTagsProvider));
 			evt.getGenerator().addProvider(new ECRecipeProvider(evt.getGenerator(), evt.getExistingFileHelper()));
+			evt.getGenerator().addProvider(new ECAdvancementProvider(evt.getGenerator()));
 		}
 	}
 

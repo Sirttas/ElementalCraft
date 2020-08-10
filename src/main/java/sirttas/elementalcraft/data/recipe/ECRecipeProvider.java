@@ -30,6 +30,7 @@ import sirttas.elementalcraft.item.ECItems;
 public class ECRecipeProvider extends RecipeProvider {
 
 	private static final String HAS_INERTCRYSTAL = "has_inertcrystal";
+	private static final String HAS_CONTAINEDCRYSTAL = "has_containedcrystal";
 	private static final String HAS_PURECRYSTAL = "has_purecrystal";
 	private static final String HAS_WHITEROCK = "has_whiterock";
 
@@ -51,7 +52,9 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shapedRecipe(ECItems.emptyReceptacle).key('c', ECItems.pureCrystal).key('d', Items.DIAMOND).key('g', Items.GOLD_INGOT).patternLine("ggg").patternLine("dcd")
 				.patternLine("ggg").addCriterion(HAS_PURECRYSTAL, hasItem(ECItems.pureCrystal)).build(consumer);
 
-		prepareInstrumentRecipe(ECBlocks.tank).key('g', Items.GLASS).key('s', Items.STONE).patternLine("ici").patternLine("igi").patternLine("sss").build(consumer);
+		ShapedRecipeBuilder.shapedRecipe(ECBlocks.tankSmall).key('g', Items.GLASS).key('p', ECBlocks.elementPipe).patternLine(" p ").patternLine("pgp").patternLine(" p ")
+				.addCriterion(HAS_CONTAINEDCRYSTAL, hasItem(ECItems.containedCrystal)).build(consumer);
+		prepareWhitterockInstrumentRecipe(ECBlocks.tank).key('g', Items.GLASS).key('p', ECBlocks.elementPipe).patternLine("ici").patternLine("pgp").patternLine("www").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.extractor).patternLine(" c ").patternLine(" i ").patternLine("ici").build(consumer);
 		prepareWhitterockInstrumentRecipe(ECBlocks.improvedExtractor, ECItems.pureCrystal).key('e', ECBlocks.extractor).patternLine(" e ").patternLine("eie").patternLine("wcw").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.infuser).key('n', Items.IRON_NUGGET).patternLine("n n").patternLine("ici").build(consumer);

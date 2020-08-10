@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_pedestal_earth": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:pedestal_earth"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_pedestal_earth"
+    ]
+  ]
+}

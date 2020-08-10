@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_infuser": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:infuser"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_infuser"
+    ]
+  ]
+}

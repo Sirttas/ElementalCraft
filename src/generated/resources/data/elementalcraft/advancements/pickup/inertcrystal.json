@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_inertcrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:inertcrystal"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_inertcrystal"
+    ]
+  ]
+}

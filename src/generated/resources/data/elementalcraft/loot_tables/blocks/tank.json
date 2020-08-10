@@ -34,6 +34,11 @@
               "source": "element_max",
               "target": "elementalcraft.tetag.element_max",
               "op": "replace"
+            },
+            {
+              "source": "small",
+              "target": "elementalcraft.tetag.small",
+              "op": "replace"
             }
           ]
         }

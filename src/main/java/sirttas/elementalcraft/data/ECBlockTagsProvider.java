@@ -35,6 +35,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		func_240522_a_/* getBuilder */(Tags.Blocks.ORES).func_240534_a_/* add */(ECBlocks.crystalOre);
 		func_240522_a_/* getBuilder */(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).func_240534_a_/* add */(Blocks.field_235337_cO_/* BASALT */, Blocks.field_235338_cP_/* POLISHED_BASALT */);
 		func_240522_a_/* getBuilder */(ECTags.Blocks.PUREROCKS).func_240534_a_/* add */(ECBlocks.pureRock, ECBlocks.pureRockSlab, ECBlocks.pureRockStairs, ECBlocks.pureRockWall);
+		func_240522_a_/* getBuilder */(ECTags.Blocks.SMALL_TANK_COMPATIBLES).func_240534_a_/* add */(ECBlocks.extractor).func_240534_a_/* add */(ECBlocks.infuser);
 		func_240522_a_/* getBuilder */(BlockTags.WITHER_IMMUNE).func_240531_a_/* add */(ECTags.Blocks.PUREROCKS);
 	}
 }

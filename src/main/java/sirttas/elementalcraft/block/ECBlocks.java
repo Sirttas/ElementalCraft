@@ -51,6 +51,7 @@ import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
+import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.registry.RegistryHelper;
@@ -61,6 +62,7 @@ public class ECBlocks {
 	private ECBlocks() {
 	}
 
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static BlockTankSmall tankSmall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static BlockTank tank;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static BlockExtractor extractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static BlockImprovedExtractor improvedExtractor;
@@ -97,6 +99,7 @@ public class ECBlocks {
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		IForgeRegistry<Block> registry = event.getRegistry();
 
+		RegistryHelper.register(registry, new BlockTankSmall(), BlockTankSmall.NAME);
 		RegistryHelper.register(registry, new BlockTank(), BlockTank.NAME);
 		RegistryHelper.register(registry, new BlockExtractor(), BlockExtractor.NAME);
 		RegistryHelper.register(registry, new BlockImprovedExtractor(), BlockImprovedExtractor.NAME);
@@ -134,7 +137,7 @@ public class ECBlocks {
 	public static void initTileEntities(RegistryEvent.Register<TileEntityType<?>> evt) {
 		IForgeRegistry<TileEntityType<?>> r = evt.getRegistry();
 
-		RegistryHelper.register(r, TileEntityType.Builder.create(TileTank::new, tank).build(null), BlockTank.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileTank::new, tank, tankSmall).build(null), BlockTank.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileExtractor::new, extractor).build(null), BlockExtractor.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileImprovedExtractor::new, improvedExtractor).build(null), BlockImprovedExtractor.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileInfuser::new, infuser).build(null), BlockInfuser.NAME);

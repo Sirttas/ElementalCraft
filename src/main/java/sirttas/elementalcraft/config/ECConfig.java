@@ -43,6 +43,7 @@ public class ECConfig {
 	public final IntValue sweetShrinePeriode;
 
 	public final IntValue tankMaxAmount;
+	public final IntValue tankSmallMaxAmount;
 	public final IntValue extractorExtractionAmount;
 	public final IntValue improvedExtractorExtractionAmount;
 	public final IntValue fireFurnaceConsumeAmount;
@@ -89,11 +90,11 @@ public class ECConfig {
 		oreShrinePeriode = builder.comment("The nember of tick betwenn two Ore Shrine activations.").defineInRange("oreShrinePeriode", 200, 0, 2400);
 		overloadShrineConsumeAmount = builder.comment("The amount of element consumed by the overload Shrine.").defineInRange("overloadShrineConsumeAmount", 500, 0, 1000);
 		overloadShrinePeriode = builder.comment("The nember of tick betwenn two Overload Shrine activations.").defineInRange("overloadShrinePeriode", 5, 0, 2400);
-
 		sweetShrineRange = builder.comment("The range of the Sweet Shrine.").defineInRange("sweetShrineRange", 10, 0, 100);
 		sweetShrineConsumeAmount = builder.comment("The amount of element consumed by the Sweet Shrine.").defineInRange("sweetShrineConsumeAmount", 100, 0, 1000);
 		sweetShrinePeriode = builder.comment("The nember of tick betwenn two Sweet Shrine activations.").defineInRange("sweetShrinePeriode", 40, 0, 2400);
 
+		tankSmallMaxAmount = builder.comment("The max element amount a small tank can hold.").defineInRange("tankSmallMaxAmount", 1000, 0, 100000000);
 		tankMaxAmount = builder.comment("The max element amount a tank can hold.").defineInRange("tankMaxAmount", 100000, 0, 100000000);
 		extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
 		improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 25, 0, 500);

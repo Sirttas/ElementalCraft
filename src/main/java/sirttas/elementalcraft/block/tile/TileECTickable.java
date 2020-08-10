@@ -3,7 +3,10 @@ package sirttas.elementalcraft.block.tile;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.network.NetworkHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 public abstract class TileECTickable extends TileEC implements ITickableTileEntity, IForcableSync {
 
@@ -43,5 +46,17 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 
 	protected void setPasive(boolean pasive) {
 		this.pasive = pasive;
+	}
+
+	// TODO extract (capability ?)
+	public TileTank getTank() {
+		return getTileEntityAs(pos.down(), TileTank.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_TANK_COMPATIBLES.func_230235_a_/* contains */(this.getBlockState().getBlock())).orElse(null);
+	}
+
+	// TODO extract (capability ?)
+	public ElementType getTankElementType() {
+		TileTank tank = getTank();
+
+		return tank != null ? tank.getElementType() : ElementType.NONE;
 	}
 }
