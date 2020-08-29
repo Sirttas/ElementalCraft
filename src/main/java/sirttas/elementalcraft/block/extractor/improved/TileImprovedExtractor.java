@@ -10,7 +10,7 @@ public class TileImprovedExtractor extends TileExtractor {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static TileEntityType<TileImprovedExtractor> TYPE;
 
-	// TODO make it exaust sources
+	// TODO make it exhaust sources
 	public TileImprovedExtractor() {
 		super(TYPE);
 	}

@@ -15,9 +15,8 @@ public abstract class ECBossEntity extends MonsterEntity {
 	}
 
 	public static AttributeModifierMap.MutableAttribute getAttributeModifier() {
-		return MonsterEntity.func_234295_eP_().func_233815_a_(Attributes.field_233818_a_/* MAX_HEALTH */, 500.0D).func_233815_a_(Attributes.field_233823_f_/* ATTACK_DAMAGE */, 10.0D)
-				.func_233815_a_(Attributes.field_233819_b_/* FOLLOW8RANGE */, 64.0D).func_233815_a_(Attributes.field_233826_i_/* ARMOR */, 4.0D)
-				.func_233815_a_(Attributes.field_233820_c_/* KNOCKBACK_RESISTANCE */, 1.0D);
+		return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MAX_HEALTH, 500.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 10.0D)
+				.createMutableAttribute(Attributes.FOLLOW_RANGE, 64.0D).createMutableAttribute(Attributes.ARMOR, 4.0D).createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
 	@Override

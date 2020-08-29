@@ -56,7 +56,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			stairsBlock((StairsBlock) block);
 		} else if (block instanceof WallBlock) {
 			wallBlock((WallBlock) block);
-		} else if (block.getDefaultState().func_235901_b_/* has */(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
+		} else if (block.getDefaultState().hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
 			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
 			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
 			

@@ -42,7 +42,7 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.SWORD, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_ASPECT));
 		addInfusionToMap(ItemClass.SWORD, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.SHARPNESS));
 		addInfusionToMap(ItemClass.SWORD, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, Attributes.field_233825_h_/*ATTACK_SPEED*/, ECConfig.CONFIG.swordAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, Attributes.ATTACK_SPEED, ECConfig.CONFIG.swordAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FORTUNE));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.UNBREAKING));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.AIR, (s, m) -> addEnchantmentLevel(s, m, Enchantments.EFFICIENCY));
@@ -69,7 +69,7 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.field_233821_d_/*MOVEMENT_SPEED*/, ECConfig.CONFIG.leggingsAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.MOVEMENT_SPEED, ECConfig.CONFIG.leggingsAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.DEPTH_STRIDER));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
@@ -127,7 +127,7 @@ public class InfusionHelper {
 	public static void unapplyInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		if (nbt.getBoolean(ECNBTTags.INFUSION_APPLIED)) {
+		if (isApplied(stack)) {
 			applyInfusion(stack, -1);
 			nbt.putBoolean(ECNBTTags.INFUSION_APPLIED, false);
 		}
@@ -136,7 +136,7 @@ public class InfusionHelper {
 	public static void applyInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		if (!nbt.getBoolean(ECNBTTags.INFUSION_APPLIED)) {
+		if (hasInfusion(stack) && !isApplied(stack)) {
 			applyInfusion(stack, 1);
 			nbt.putBoolean(ECNBTTags.INFUSION_APPLIED, true);
 		}
@@ -145,7 +145,7 @@ public class InfusionHelper {
 	public static ElementType getInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		if (nbt.contains(ECNBTTags.INFUSION_TYPE)) {
+		if (!stack.isEmpty() && nbt.contains(ECNBTTags.INFUSION_TYPE)) {
 			return ElementType.byName(nbt.getString(ECNBTTags.INFUSION_TYPE));
 		}
 		return ElementType.NONE;
@@ -166,20 +166,24 @@ public class InfusionHelper {
 	public static void setInfusion(ItemStack stack, ElementType type) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		unapplyInfusion(stack);
-		nbt.putString(ECNBTTags.INFUSION_TYPE, type.func_176610_l/* getName */());
-		applyInfusion(stack);
+		if (!stack.isEmpty()) {
+			unapplyInfusion(stack);
+			nbt.putString(ECNBTTags.INFUSION_TYPE, type.getString());
+			applyInfusion(stack);
+		}
 	}
 
 	public static void removeInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		unapplyInfusion(stack);
-		nbt.putString(ECNBTTags.INFUSION_TYPE, ElementType.NONE.func_176610_l/* getName */());
+		if (!stack.isEmpty()) {
+			unapplyInfusion(stack);
+			nbt.putString(ECNBTTags.INFUSION_TYPE, ElementType.NONE.getString());
+		}
 	}
 
 	public static boolean canAirInfusionFly(PlayerEntity player) {
-		return hasInfusion(player.getItemStackFromSlot(EquipmentSlotType.CHEST), ElementType.AIR) && !player.func_233570_aj_/* isOnGround */() && !player.abilities.isFlying && !player.isPassenger();
+		return hasInfusion(player.getItemStackFromSlot(EquipmentSlotType.CHEST), ElementType.AIR) && !player.isOnGround() && !player.abilities.isFlying && !player.isPassenger();
 	}
 
 	public static boolean hasFireInfusionAutoSmelt(ItemStack stack) {
@@ -201,7 +205,7 @@ public class InfusionHelper {
 	}
 
 	private static Optional<ItemClass> getItemClass(ItemStack stack) {
-		return Stream.of(ItemClass.values()).filter(c -> c.tag.func_230235_a_/* contains */(stack.getItem())).findFirst();
+		return Stream.of(ItemClass.values()).filter(c -> c.tag.contains(stack.getItem())).findFirst();
 	}
 
 	private static CompoundNBT getInfusionTag(ItemStack stack) {
@@ -228,5 +232,11 @@ public class InfusionHelper {
 		ItemClass(INamedTag<Item> tags) {
 			this.tag = tags;
 		}
+	}
+
+	public static boolean isApplied(ItemStack stack) {
+		CompoundNBT nbt = getInfusionTag(stack);
+
+		return hasInfusion(stack) && nbt.getBoolean(ECNBTTags.INFUSION_APPLIED);
 	}
 }

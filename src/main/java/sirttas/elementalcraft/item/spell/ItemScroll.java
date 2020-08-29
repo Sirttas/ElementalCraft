@@ -4,9 +4,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Multimap;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -91,5 +96,13 @@ public class ItemScroll extends ItemEC {
 				items.add(stack);
 			});
 		}
+	}
+
+	@Override
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack) {
+		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
+			return SpellHelper.getSpell(stack).getAttributeModifiers();
+		}
+		return super.getAttributeModifiers(equipmentSlot, stack);
 	}
 }

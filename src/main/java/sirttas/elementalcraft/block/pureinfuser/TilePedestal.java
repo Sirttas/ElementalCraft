@@ -45,8 +45,8 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	}
 
 	@Override
-	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
-		super.func_230337_a_/* read */(state, compound);
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
 		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
 		this.stack = NBTHelper.readItemStack(compound, ECNBTTags.ITEM);
 	}

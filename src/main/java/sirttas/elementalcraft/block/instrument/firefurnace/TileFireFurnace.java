@@ -16,7 +16,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
 import sirttas.elementalcraft.nbt.ECNBTTags;
 import sirttas.elementalcraft.nbt.NBTHelper;
-import sirttas.elementalcraft.recipe.instrument.FurnaceRecipeWraper;
+import sirttas.elementalcraft.recipe.instrument.FurnaceRecipeWrapper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 public class TileFireFurnace extends TileInstrument {
@@ -41,8 +41,8 @@ public class TileFireFurnace extends TileInstrument {
 	}
 
 	@Override
-	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
-		super.func_230337_a_/* read */(state, compound);
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
 		this.input = NBTHelper.readItemStack(compound, ECNBTTags.INPUT);
 		this.output = NBTHelper.readItemStack(compound, ECNBTTags.OUTPUT);
 		this.exp = compound.getFloat(ECNBTTags.XP);
@@ -87,7 +87,7 @@ public class TileFireFurnace extends TileInstrument {
 		Optional<FurnaceRecipe> opt = this.getWorld().getRecipeManager().getRecipe(IRecipeType.SMELTING, this, this.getWorld());
 
 		if (opt.isPresent()) {
-			return new FurnaceRecipeWraper(opt.get());
+			return new FurnaceRecipeWrapper(opt.get());
 		}
 		return null;
 	}

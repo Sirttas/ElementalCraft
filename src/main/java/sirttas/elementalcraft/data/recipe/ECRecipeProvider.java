@@ -97,7 +97,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BinderRecipeBuilder.binderRecipe(ECItems.airPedestal, ElementType.AIR).addIngredient(ECItems.infuser).addIngredient(ECItems.airCrystal).addIngredient(ECItems.whiteRock)
 				.addIngredient(ECItems.whiteRock).withConsumption(50).withDuration(300).build(consumer);
 		
-		BinderRecipeBuilder.binderRecipe(ECItems.fireiteIngot, ElementType.FIRE).addIngredient(ECItems.pureCrystal).addIngredient(Items.field_234759_km_ /* NETHERITE_INGOT */).withConsumption(200)
+		BinderRecipeBuilder.binderRecipe(ECItems.fireiteIngot, ElementType.FIRE).addIngredient(ECItems.pureCrystal).addIngredient(Items.NETHERITE_INGOT).withConsumption(200)
 				.build(consumer);
 
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.pureCrystal).setIngredient(Items.DIAMOND).setIngredient(ElementType.WATER, ECItems.waterCrystal)

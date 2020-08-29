@@ -13,7 +13,7 @@ public class ReceptacleHelper {
 	}
 
 	private static ItemStack setElementType(ItemStack stack, ElementType elementType) {
-		stack.getOrCreateTag().putString(ECNBTTags.ELEMENT_TYPE, elementType.func_176610_l/* getName */());
+		stack.getOrCreateTag().putString(ECNBTTags.ELEMENT_TYPE, elementType.getString());
 		return stack;
 	}
 

@@ -103,7 +103,7 @@ public class BinderRecipeBuilder {
 
 		@Override
 		public void serialize(JsonObject json) {
-			json.addProperty("element", this.elementType.func_176610_l/* getName */());
+			json.addProperty("element", this.elementType.getString());
 			if (consumption > 0) {
 				json.addProperty("consumption", consumption);
 			}

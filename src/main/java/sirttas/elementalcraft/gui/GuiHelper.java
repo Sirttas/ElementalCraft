@@ -21,7 +21,7 @@ public class GuiHelper {
 	private static final ResourceLocation GAUGE = new ResourceLocation(ElementalCraft.MODID, "textures/gui/element_gauge.png");
 
 	public static void blit(MatrixStack matrixStack, int x, int y, int u, int v, int width, int height) {
-		AbstractGui.func_238463_a_/* blit */(matrixStack, x, y, u, v, width, height, 256, 256);
+		AbstractGui.blit(matrixStack, x, y, u, v, width, height, 256, 256);
 	}
 
 	private static int getElementTypeOffset(ElementType type) {
@@ -53,7 +53,7 @@ public class GuiHelper {
 		}
 		blit(matrixStack, x, y + 17 - progress, getElementTypeOffset(type) * 17, 17 - progress, 17, progress);
 		if (showDebugInfo()) {
-			mc.fontRenderer.func_238405_a_/* drawStringWithShadow */(matrixStack, amount + "/" + max, x, y + 17, 16777215);
+			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 17, 16777215);
 		}
 	}
 

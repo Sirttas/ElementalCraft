@@ -27,15 +27,15 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	protected void registerTags() {
 		Predicate<Block> filter = b -> ElementalCraft.MODID.equals(b.getRegistryName().getNamespace());
 
-		func_240522_a_/* getBuilder */(BlockTags.SLABS).func_240534_a_/* add */(registry.stream().filter(filter).filter(b -> b instanceof SlabBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
-		func_240522_a_/* getBuilder */(BlockTags.STAIRS).func_240534_a_/* add */(registry.stream().filter(filter).filter(b -> b instanceof StairsBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
-		func_240522_a_/* getBuilder */(BlockTags.WALLS).func_240534_a_/* add */(registry.stream().filter(filter).filter(b -> b instanceof WallBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
-		func_240522_a_/* getBuilder */(BlockTags.FENCES).func_240534_a_/* add */(registry.stream().filter(filter).filter(b -> b instanceof FenceBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
+		getOrCreateBuilder(BlockTags.SLABS).add(registry.stream().filter(filter).filter(b -> b instanceof SlabBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
+		getOrCreateBuilder(BlockTags.STAIRS).add(registry.stream().filter(filter).filter(b -> b instanceof StairsBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
+		getOrCreateBuilder(BlockTags.WALLS).add(registry.stream().filter(filter).filter(b -> b instanceof WallBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
+		getOrCreateBuilder(BlockTags.FENCES).add(registry.stream().filter(filter).filter(b -> b instanceof FenceBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
 
-		func_240522_a_/* getBuilder */(Tags.Blocks.ORES).func_240534_a_/* add */(ECBlocks.crystalOre);
-		func_240522_a_/* getBuilder */(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).func_240534_a_/* add */(Blocks.field_235337_cO_/* BASALT */, Blocks.field_235338_cP_/* POLISHED_BASALT */);
-		func_240522_a_/* getBuilder */(ECTags.Blocks.PUREROCKS).func_240534_a_/* add */(ECBlocks.pureRock, ECBlocks.pureRockSlab, ECBlocks.pureRockStairs, ECBlocks.pureRockWall);
-		func_240522_a_/* getBuilder */(ECTags.Blocks.SMALL_TANK_COMPATIBLES).func_240534_a_/* add */(ECBlocks.extractor).func_240534_a_/* add */(ECBlocks.infuser);
-		func_240522_a_/* getBuilder */(BlockTags.WITHER_IMMUNE).func_240531_a_/* add */(ECTags.Blocks.PUREROCKS);
+		getOrCreateBuilder(Tags.Blocks.ORES).add(ECBlocks.crystalOre);
+		getOrCreateBuilder(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT);
+		getOrCreateBuilder(ECTags.Blocks.PUREROCKS).add(ECBlocks.pureRock, ECBlocks.pureRockSlab, ECBlocks.pureRockStairs, ECBlocks.pureRockWall);
+		getOrCreateBuilder(ECTags.Blocks.SMALL_TANK_COMPATIBLES).add(ECBlocks.extractor).add(ECBlocks.infuser);
+		getOrCreateBuilder(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);
 	}
 }

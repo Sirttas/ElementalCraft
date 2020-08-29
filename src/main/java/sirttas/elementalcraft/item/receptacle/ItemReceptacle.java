@@ -45,7 +45,7 @@ public class ItemReceptacle extends ItemEC {
 
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		return this.getTranslationKey() + '.' + ReceptacleHelper.getElementType(stack).func_176610_l/* getName */();
+		return this.getTranslationKey() + '.' + ReceptacleHelper.getElementType(stack).getString();
 	}
 
 	@Override

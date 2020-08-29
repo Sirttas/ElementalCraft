@@ -80,7 +80,7 @@ public class ECAdvancementProvider implements IDataProvider {
 	 * a certain item.
 	 */
 	protected static InventoryChangeTrigger.Instance hasItem(ItemPredicate... predicate) {
-		return new InventoryChangeTrigger.Instance(EntityPredicate.AndPredicate.field_234582_a_, MinMaxBounds.IntBound.UNBOUNDED, MinMaxBounds.IntBound.UNBOUNDED, MinMaxBounds.IntBound.UNBOUNDED,
+		return new InventoryChangeTrigger.Instance(EntityPredicate.AndPredicate.ANY_AND, MinMaxBounds.IntBound.UNBOUNDED, MinMaxBounds.IntBound.UNBOUNDED, MinMaxBounds.IntBound.UNBOUNDED,
 				predicate);
 	}
 

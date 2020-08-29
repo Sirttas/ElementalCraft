@@ -1,5 +1,5 @@
 {
-  "name": "block.elementalcraft.infusion",
+  "name": "elementalcraft.entry.infusion",
   "category": "elementalcraft:crafting",
   "icon": "elementalcraft:infuser",
   "advancement": "elementalcraft:pickup/infuser",

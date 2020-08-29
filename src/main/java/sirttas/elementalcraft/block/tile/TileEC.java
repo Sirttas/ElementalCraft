@@ -31,7 +31,7 @@ public abstract class TileEC extends TileEntity {
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-		func_230337_a_/* read */(this.getBlockState(), packet.getNbtCompound());
+		read(this.getBlockState(), packet.getNbtCompound());
 	}
 
 	@Nonnull
@@ -48,7 +48,7 @@ public abstract class TileEC extends TileEntity {
 		if (!root.contains(ECNBTTags.EC_NBT_TE)) {
 			return;
 		}
-		this.func_230337_a_/* read */(this.getBlockState(), root);
+		this.read(this.getBlockState(), root);
 	}
 
 	public void writeToItemStack(ItemStack stack) {

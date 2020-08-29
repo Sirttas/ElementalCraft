@@ -40,12 +40,12 @@ public class ElementTypeParticleData implements IParticleData {
 
 	@Override
 	public void write(PacketBuffer buffer) {
-		buffer.writeString(elementType.func_176610_l/* getName */());
+		buffer.writeString(elementType.getString());
 	}
 
 	@Override
 	public String getParameters() {
-		return getType().getRegistryName().toString() + " " + getElementType().func_176610_l/* getName */();
+		return getType().getRegistryName().toString() + " " + getElementType().getString();
 	}
 
 	public ElementType getElementType() {
