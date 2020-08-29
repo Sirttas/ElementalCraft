@@ -100,7 +100,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 
 		@Override
 		public void write(PacketBuffer buffer, InfusionRecipe recipe) {
-			buffer.writeString(recipe.getElementType().func_176610_l/* getName */());
+			buffer.writeString(recipe.getElementType().getString());
 			buffer.writeInt(recipe.getElementPerTick());
 			buffer.writeInt(recipe.getDuration());
 			recipe.getIngredients().get(0).write(buffer);

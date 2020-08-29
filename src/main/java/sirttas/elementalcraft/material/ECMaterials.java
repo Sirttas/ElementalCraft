@@ -83,8 +83,7 @@ public class ECMaterials {
 		}
 	}
 
-	private static class ECArmorMaterial implements IArmorMaterial
-	{
+	private static class ECArmorMaterial implements IArmorMaterial {
 
 		private final String name;
 		private final int maxDamageFactor;
@@ -93,9 +92,10 @@ public class ECMaterials {
 		private final SoundEvent soundEvent;
 		private final float toughness;
 		private final LazyValue<Ingredient> repairMaterial;
-		private final float field_234660_o_; // TODO what is this ?
+		private final float knockbackResistance;
 
-		private ECArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughnessIn, float field_234660_o_,
+		private ECArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughnessIn,
+				float knockbackResistance,
 				Supplier<Ingredient> repairMaterialSupplier) {
 			this.name = nameIn;
 			this.maxDamageFactor = maxDamageFactorIn;
@@ -103,7 +103,7 @@ public class ECMaterials {
 			this.enchantability = enchantabilityIn;
 			this.soundEvent = equipSoundIn;
 			this.toughness = toughnessIn;
-			this.field_234660_o_ = field_234660_o_;
+			this.knockbackResistance = knockbackResistance;
 			this.repairMaterial = new LazyValue<>(repairMaterialSupplier);
 		}
 
@@ -144,8 +144,8 @@ public class ECMaterials {
 		}
 
 		@Override
-		public float func_230304_f_() {
-			return field_234660_o_;
+		public float getKnockbackResistance() {
+			return knockbackResistance;
 		}
 	}
 }

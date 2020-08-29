@@ -30,7 +30,7 @@ public class ECEntities {
 	@OnlyIn(Dist.CLIENT)
 	public static void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EarthGolemEntity.TYPE, EarthGolemRenderer::new);
-		GlobalEntityTypeAttributes.put(EarthGolemEntity.TYPE, EarthGolemEntity.getAttributeModifier().func_233813_a_());
+		GlobalEntityTypeAttributes.put(EarthGolemEntity.TYPE, EarthGolemEntity.getAttributeModifier().create());
 	}
 
 	private static <T extends Entity> void register(IForgeRegistry<EntityType<?>> registry, Builder<T> builder, String name) {

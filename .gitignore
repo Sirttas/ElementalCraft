@@ -7,3 +7,4 @@
 /.project
 *.launch
 /src/generated/resources/.cache
+/.idea/

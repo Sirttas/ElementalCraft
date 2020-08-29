@@ -2,11 +2,13 @@
 	"name": "item.elementalcraft.element_book",
 	"landing_text": "elementalcraft.landing",
 	"creative_tab": "elementalcraft",
+	"model ": "patchouli:book_red",
 	"i18n": true, 
 	"version": 1,
 	"macros": {
 		"$(ec:source)": "$(l:elmentalcraft:basics/source)",
 		"$(ec:tank)": "$(l:elmentalcraft:instruments/tank)",
+		"$(ec:tank_small)": "$(l:elmentalcraft:instruments/tank_small)",
 		"$(ec:pipe)": "$(l:elmentalcraft:basics/elementpipe)",
 		"$(ec:infuser)": "$(l:elmentalcraft:instruments/infuser)",
 		"$(ec:extractor)": "$(l:elmentalcraft:instruments/extractor)"

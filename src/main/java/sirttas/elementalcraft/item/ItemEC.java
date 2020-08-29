@@ -1,5 +1,8 @@
 package sirttas.elementalcraft.item;
 
+import java.util.List;
+
+import mezz.jei.color.ColorGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,5 +44,14 @@ public class ItemEC extends Item implements IItemEC {
 
 	public static final boolean isEmpty(ItemStack stack) {
 		return stack == null || stack.isEmpty();
+	}
+
+	public static final int lookupColor(ItemStack stack) {
+		List<Integer> colors = ColorGetter.getColors(stack, 2);
+
+		if (colors != null && !colors.isEmpty()) {
+			return colors.get(0);
+		}
+		return -1;
 	}
 }

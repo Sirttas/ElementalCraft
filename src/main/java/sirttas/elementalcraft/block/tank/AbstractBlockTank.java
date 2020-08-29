@@ -35,7 +35,7 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 		TileTank tank = (TileTank) world.getTileEntity(pos);
 
 		if (tank != null && tank.getElementAmount() > 0 && tank.getElementType() != ElementType.NONE) {
-			ParticleHelper.createSourceParticle(tank.getElementType(), world, Vector3d.func_237491_b_(pos).add(0, 0.2D, 0), rand);
+			ParticleHelper.createSourceParticle(tank.getElementType(), world, Vector3d.copy(pos).add(0, 0.2D, 0), rand);
 		}
 	}
 

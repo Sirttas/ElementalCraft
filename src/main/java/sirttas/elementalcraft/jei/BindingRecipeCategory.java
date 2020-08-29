@@ -65,7 +65,7 @@ public class BindingRecipeCategory extends AbstractRecipeCategory<TileBinder, Bi
 	public void draw(BinderRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
 		RenderSystem.enableBlend();
 		overlay.draw(matrixStack, 10, 10);
-		GuiHelper.renderElementGauge(matrixStack, RADIUS + 1, RADIUS + 18, 1, 1, recipe.getElementType()); // TODO base on amount needed
+		GuiHelper.renderElementGauge(matrixStack, RADIUS + 1, RADIUS + 18, (int) Math.log(recipe.getElementPerTick() * recipe.getDuration()), 4, recipe.getElementType());
 		RenderSystem.disableBlend();
 	}
 

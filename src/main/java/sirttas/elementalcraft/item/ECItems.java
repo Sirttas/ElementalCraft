@@ -27,6 +27,8 @@ import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
+import sirttas.elementalcraft.item.pureore.ItemPureOre;
+import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.item.receptacle.ItemEmptyReceptacle;
 import sirttas.elementalcraft.item.receptacle.ItemReceptacle;
 import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
@@ -42,6 +44,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemReceptacle.NAME) public static ItemReceptacle receptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemEmptyReceptacle.NAME) public static ItemEmptyReceptacle emptyReceptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemBossDimKey.NAME) public static ItemBossDimKey bossDimKey;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemPureOre.NAME) public static ItemPureOre pureOre;
 
 	@ObjectHolder("patchouli:guide_book") public static Item elementScript;
 	@ObjectHolder(ElementalCraft.MODID + ":inertcrystal") public static ItemEC inertCrystal;
@@ -99,6 +102,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemScroll(), ItemScroll.NAME);
 		RegistryHelper.register(registry, new ItemReceptacle(), ItemReceptacle.NAME);
 		RegistryHelper.register(registry, new ItemEmptyReceptacle(), ItemEmptyReceptacle.NAME);
+		RegistryHelper.register(registry, new ItemPureOre(), ItemPureOre.NAME);
 
 		RegistryHelper.register(registry, new ItemEC(), "inertcrystal");
 		RegistryHelper.register(registry, new ItemEC(), "containedcrystal");
@@ -108,7 +112,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "aircrystal");
 		RegistryHelper.register(registry, new ItemEC().setEffect(true), "purecrystal");
 		RegistryHelper.register(registry, new ItemEC(), "shrinebase");
-		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).func_234689_a_()), "fireite_ingot");
+		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).isBurnable()), "fireite_ingot");
 
 		// TODO add tools
 	}
@@ -116,6 +120,7 @@ public class ECItems {
 	@SubscribeEvent
 	public static void registerItemColors(ColorHandlerEvent.Item event) {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), receptacle);
+		event.getItemColors().register((s, l) -> l == 0 ? -1 : PureOreHelper.getColor(s), pureOre);
 	}
 
 }

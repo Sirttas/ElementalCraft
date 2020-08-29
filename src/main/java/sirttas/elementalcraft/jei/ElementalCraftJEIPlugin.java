@@ -32,6 +32,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	public void registerItemSubtypes(ISubtypeRegistration registry) {
 		registry.useNbtForSubtypes(ECItems.scroll);
 		registry.useNbtForSubtypes(ECItems.receptacle);
+		registry.useNbtForSubtypes(ECItems.pureOre);
 	}
 
 	@Override

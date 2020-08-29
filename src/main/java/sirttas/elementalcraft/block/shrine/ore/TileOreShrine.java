@@ -11,6 +11,7 @@ import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ObjectHolder;
@@ -32,7 +33,7 @@ public class TileOreShrine extends TileShrine {
 
 		return IntStream.range(-range, range + 1)
 				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, pos.getY() + 1).mapToObj(y -> new BlockPos(pos.getX() + x, y, pos.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> Tags.Blocks.ORES.func_230235_a_/* contains */(world.getBlockState(p).getBlock())).findAny();
+				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> Tags.Blocks.ORES.contains(world.getBlockState(p).getBlock())).findAny();
 	}
 
 	@Override
@@ -42,14 +43,14 @@ public class TileOreShrine extends TileShrine {
 		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
 			Optional<BlockPos> opt = findOre();
 
-			if (opt.isPresent()) {
-				BlockState blockstate = world.getBlockState(opt.get());
+			opt.ifPresent(p -> {
+				BlockState blockstate = world.getBlockState(p);
 
-				blockstate.getDrops(new LootContext.Builder((ServerWorld) this.world).withRandom(this.world.rand).withParameter(LootParameters.POSITION, opt.get()).withParameter(LootParameters.TOOL,
-						ItemStack.EMPTY)).forEach(s -> Block.spawnAsEntity(this.world, this.pos, s));
+				blockstate.getDrops(new LootContext.Builder((ServerWorld) this.world).withRandom(this.world.rand).withParameter(LootParameters.field_237457_g_/* POSITION */, Vector3d.copyCentered(p))
+						.withParameter(LootParameters.TOOL, ItemStack.EMPTY)).forEach(s -> Block.spawnAsEntity(this.world, this.pos, s));
 				this.world.setBlockState(opt.get(), Blocks.STONE.getDefaultState());
 				this.consumeElement(consumeAmount);
-			}
+			});
 		}
 	}
 }

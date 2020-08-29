@@ -10,11 +10,11 @@ import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
 
-public class FurnaceRecipeWraper implements IInstrumentRecipe<TileFireFurnace> {
+public class FurnaceRecipeWrapper implements IInstrumentRecipe<TileFireFurnace> {
 
 	private AbstractCookingRecipe recipe;
 
-	public FurnaceRecipeWraper(AbstractCookingRecipe recipe) {
+	public FurnaceRecipeWrapper(AbstractCookingRecipe recipe) {
 		this.recipe = recipe;
 	}
 

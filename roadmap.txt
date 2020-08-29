@@ -10,3 +10,33 @@ element pipe interface
 runewords
 elemental animals with kibbles ? also: https://www.reddit.com/r/MinecraftModIdeas/comments/hzzolz/mod_idea_elemental_horses/
 source exaust
+https://github.com/Kompreya/Kompy-Textures
+more crafting items
+
+
+book entries
+    crafting
+        tool infusion
+        binding
+        pure infusion
+        purification
+    instruments
+        fire furnace
+        improved extractor
+        purifier
+    shrines
+        fire pylone
+        ore shrines
+        lava shrines
+        sweet shrines
+        vacuum shrines
+        harves shrines
+        growth shrine
+        overload shrine
+    advanced
+        receptacle
+        pure infuser
+        pure rock
+    spells (ALL)
+
+

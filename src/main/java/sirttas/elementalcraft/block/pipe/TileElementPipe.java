@@ -151,9 +151,9 @@ public class TileElementPipe extends TileECTickable {
 
 	public ActionResultType activatePipe(Direction face) {
 		TileEntity tile = getAdjacentTile(face);
-		ConnectionType conection = this.getConection(face);
+		ConnectionType connection = this.getConection(face);
 
-		switch (conection) {
+		switch (connection) {
 		case INSERT:
 			if (tile instanceof IElementSender) {
 				this.setConection(face, ConnectionType.EXTRACT);
@@ -184,17 +184,17 @@ public class TileElementPipe extends TileECTickable {
 	}
 
 	@Override
-	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
-		super.func_230337_a_/* read */(state, compound);
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
 		for (Direction face : Direction.values()) {
-			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.func_176610_l/* getName */())));
+			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.getString())));
 		}
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		connections.forEach((k, v) -> compound.putInt(k.func_176610_l/* getName */(), v.getValue()));
+		connections.forEach((k, v) -> compound.putInt(k.getString(), v.getValue()));
 		return compound;
 	}
 

@@ -105,8 +105,8 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	}
 
 	@Override
-	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
-		super.func_230337_a_/* read */(state, compound);
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
 		elementType = ElementType.byName(compound.getString(ECNBTTags.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
 		elementAmountMax = compound.getInt(ECNBTTags.ELEMENT_MAX);
@@ -116,7 +116,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.func_176610_l/* getName */());
+		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.getString());
 		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
 		compound.putInt(ECNBTTags.ELEMENT_MAX, elementAmountMax);
 		compound.putBoolean(ECNBTTags.SMALL, small);

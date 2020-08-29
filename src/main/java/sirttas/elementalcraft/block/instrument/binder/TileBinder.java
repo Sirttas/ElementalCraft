@@ -34,8 +34,8 @@ public class TileBinder extends TileInstrument {
 	}
 
 	@Override
-	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
-		super.func_230337_a_/* read */(state, compound);
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
 		this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, this.stacks);
 	}

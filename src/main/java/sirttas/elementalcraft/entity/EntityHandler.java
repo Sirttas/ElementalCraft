@@ -31,7 +31,7 @@ public class EntityHandler {
 		} else {
 			player.stopFallFlying();
 		}
-		lastJump = player.movementInput.jump || player.func_233570_aj_/* isOnGround */();
+		lastJump = player.movementInput.jump || player.isOnGround();
 	}
 
 	@SubscribeEvent

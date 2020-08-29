@@ -6,7 +6,7 @@ public interface IInstrument extends IInventory {
 
 	boolean canProgress();
 
-	boolean isReciptAvalable();
+	boolean isRecipeAvailable();
 
 	void process();
 

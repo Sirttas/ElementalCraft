@@ -2,6 +2,8 @@ package sirttas.elementalcraft;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
@@ -33,11 +35,11 @@ public enum ElementType implements IStringSerializable {
 		}
 	};
 
-	private float r;
-	private float g;
-	private float b;
-	private int color;
-	private String name;
+	private final float r;
+	private final float g;
+	private final float b;
+	private final int color;
+	private final String name;
 
 	ElementType(int r, int g, int b, String name) {
 		this.r = r / 255F;
@@ -79,8 +81,9 @@ public enum ElementType implements IStringSerializable {
 		}
 	}
 
+	@Nonnull
 	@Override
-	public String func_176610_l/* getName */() {
+	public String getString() {
 		return this.name;
 	}
 
@@ -98,7 +101,7 @@ public enum ElementType implements IStringSerializable {
 	}
 
 	public String getTranslationKey() {
-		return "element.elementalcraft." + func_176610_l/* getName */();
+		return "element.elementalcraft." + getString();
 	}
 
 }

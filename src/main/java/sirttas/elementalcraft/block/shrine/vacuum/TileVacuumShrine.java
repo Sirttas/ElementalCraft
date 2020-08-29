@@ -35,7 +35,7 @@ public class TileVacuumShrine extends TileShrine {
 		double pullSpeed = ECConfig.CONFIG.vacuumShrinePullSpeed.get();
 		TileEntity te = this.world.getTileEntity(pos.down());
 		IInventory inv = te instanceof IInventory ? (IInventory) te : null;
-		Vector3d pos3d = Vector3d.func_237489_a_(this.getPos()).add(0.5D, 0.5D, 0.5D);
+		Vector3d pos3d = Vector3d.copyCentered(this.getPos());
 
 		getEntities().forEach(e -> {
 			if (this.consumeElement(consumeAmount) >= consumeAmount) {

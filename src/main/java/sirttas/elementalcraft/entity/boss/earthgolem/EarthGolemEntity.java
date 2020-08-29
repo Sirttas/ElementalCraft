@@ -29,7 +29,7 @@ public class EarthGolemEntity extends ECBossEntity {
 	}
 
 	public static AttributeModifierMap.MutableAttribute getAttributeModifier() {
-		return ECBossEntity.getAttributeModifier().func_233815_a_(Attributes.field_233821_d_/* MOVEMENT_SPEED */, 0).func_233815_a_(Attributes.field_233820_c_/* KNOCKBACK_RESISTANCE */, 5.0D);
+		return ECBossEntity.getAttributeModifier().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0).createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 5.0D);
 	}
 
 	@Override

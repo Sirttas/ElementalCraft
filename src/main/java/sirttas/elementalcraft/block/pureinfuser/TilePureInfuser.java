@@ -116,8 +116,8 @@ public class TilePureInfuser extends TileECContainer {
 	}
 
 	@Override
-	public void func_230337_a_/* read */(BlockState state, CompoundNBT compound) {
-		super.func_230337_a_/* read */(state, compound);
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
 		this.stack = NBTHelper.readItemStack(compound, ECNBTTags.ITEM);
 		progress = compound.getFloat(ECNBTTags.PROGRESS);
 
