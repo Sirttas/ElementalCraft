@@ -15,6 +15,8 @@ import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.RendererFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
+import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
 
@@ -29,6 +31,7 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(TilePedestal.TYPE, d -> new SingleItemRenderer<TilePedestal>(d, new Vec3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TilePureInfuser.TYPE, d -> new SingleItemRenderer<TilePureInfuser>(d, new Vec3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TileFireFurnace.TYPE, RendererFireFurnace::new);
+		ClientRegistry.bindTileEntityRenderer(TilePurifier.TYPE, RendererPurifier::new);
 	}
 
 	public static void initRenderLayouts() {

@@ -127,7 +127,7 @@ public class InfusionHelper {
 	public static void unapplyInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		if (nbt.getBoolean(ECNBTTags.INFUSION_APPLIED)) {
+		if (nbt != null && isApplied(stack)) {
 			applyInfusion(stack, -1);
 			nbt.putBoolean(ECNBTTags.INFUSION_APPLIED, false);
 		}
@@ -136,7 +136,7 @@ public class InfusionHelper {
 	public static void applyInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		if (!nbt.getBoolean(ECNBTTags.INFUSION_APPLIED)) {
+		if (nbt != null && hasInfusion(stack) && !isApplied(stack)) {
 			applyInfusion(stack, 1);
 			nbt.putBoolean(ECNBTTags.INFUSION_APPLIED, true);
 		}
@@ -145,7 +145,7 @@ public class InfusionHelper {
 	public static ElementType getInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		if (nbt.contains(ECNBTTags.INFUSION_TYPE)) {
+		if (!stack.isEmpty() && nbt != null && nbt.contains(ECNBTTags.INFUSION_TYPE)) {
 			return ElementType.byName(nbt.getString(ECNBTTags.INFUSION_TYPE));
 		}
 		return ElementType.NONE;
@@ -166,16 +166,26 @@ public class InfusionHelper {
 	public static void setInfusion(ItemStack stack, ElementType type) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		unapplyInfusion(stack);
-		nbt.putString(ECNBTTags.INFUSION_TYPE, type.getName());
-		applyInfusion(stack);
+		if (nbt == null) {
+			CompoundNBT ecTag = NBTHelper.getECTag(stack);
+
+			nbt = new CompoundNBT();
+			ecTag.put(ECNBTTags.INFUSION, nbt);
+		}
+		if (!stack.isEmpty()) {
+			unapplyInfusion(stack);
+			nbt.putString(ECNBTTags.INFUSION_TYPE, type.getName());
+			applyInfusion(stack);
+		}
 	}
 
 	public static void removeInfusion(ItemStack stack) {
 		CompoundNBT nbt = getInfusionTag(stack);
 
-		unapplyInfusion(stack);
-		nbt.putString(ECNBTTags.INFUSION_TYPE, ElementType.NONE.getName());
+		if (!stack.isEmpty() && nbt != null) {
+			unapplyInfusion(stack);
+			NBTHelper.getECTag(stack).remove(ECNBTTags.INFUSION);
+		}
 	}
 
 	public static boolean canAirInfusionFly(PlayerEntity player) {
@@ -209,11 +219,10 @@ public class InfusionHelper {
 
 		if (nbt == null) {
 			nbt = new CompoundNBT();
-			nbt.putBoolean(ECNBTTags.INFUSION_APPLIED, false);
 			stack.setTag(nbt);
 		}
 		if (!nbt.contains(ECNBTTags.INFUSION)) {
-			nbt.put(ECNBTTags.INFUSION, new CompoundNBT());
+			return null;
 		}
 		return nbt.getCompound(ECNBTTags.INFUSION);
 	}
@@ -228,5 +237,11 @@ public class InfusionHelper {
 		ItemClass(Tag<Item> tag) {
 			this.tag = tag;
 		}
+	}
+
+	public static boolean isApplied(ItemStack stack) {
+		CompoundNBT nbt = getInfusionTag(stack);
+
+		return nbt != null && hasInfusion(stack) && nbt.getBoolean(ECNBTTags.INFUSION_APPLIED);
 	}
 }

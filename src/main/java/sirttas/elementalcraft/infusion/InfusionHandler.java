@@ -6,6 +6,8 @@ import java.util.stream.IntStream;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,6 +27,10 @@ public class InfusionHandler {
 
 			tooltip.add(indexOpt.isPresent() ? indexOpt.getAsInt() : tooltip.size(),
 					new TranslationTextComponent("tooltip.elementalcraft.infused", new TranslationTextComponent(InfusionHelper.getInfusion(stack).getTranslationKey())));
+			if (!InfusionHelper.isApplied(stack)) {
+				tooltip.add(indexOpt.isPresent() ? indexOpt.getAsInt() : tooltip.size(),
+						new StringTextComponent("This item is infuse but the infusion is never applied, this should never had happened!!").applyTextStyle(TextFormatting.RED));
+			}
 		}
 	}
 }

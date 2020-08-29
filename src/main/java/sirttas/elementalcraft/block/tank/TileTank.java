@@ -26,7 +26,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	}
 
 	public TileTank(boolean small) {
-		this(small ? ECConfig.CONFIG.tankMaxAmount.get() : ECConfig.CONFIG.tankSmallMaxAmount.get());
+		this(small ? ECConfig.CONFIG.tankSmallMaxAmount.get() : ECConfig.CONFIG.tankMaxAmount.get());
 		this.setSmall(small);
 	}
 

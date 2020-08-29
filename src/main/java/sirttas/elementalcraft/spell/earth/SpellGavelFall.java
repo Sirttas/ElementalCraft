@@ -1,7 +1,10 @@
 package sirttas.elementalcraft.spell.earth;
 
+import com.google.common.collect.Multimap;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -61,6 +64,14 @@ public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockC
 	@Override
 	public ActionResultType castOnEntity(Entity sender, Entity target) {
 		return spawnGravel(sender, target.getPosition());
+	}
+
+	@Override
+	public Multimap<String, AttributeModifier> getAttributeModifiers() {
+		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers();
+
+		multimap.put(PlayerEntity.REACH_DISTANCE.getName(), new AttributeModifier(REACH_DISTANCE_MODIFIER, "Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
+		return multimap;
 	}
 
 }

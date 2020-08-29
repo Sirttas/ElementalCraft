@@ -62,7 +62,7 @@ public class InfusionRecipeCategory extends AbstractRecipeCategory<TileInfuser, 
 		RenderSystem.enableAlphaTest();
 		RenderSystem.enableBlend();
 		overlay.draw(8, 20);
-		GuiHelper.renderElementGauge(31, 42, 1, 1, recipe.getElementType()); // TODO base on amount needed
+		GuiHelper.renderElementGauge(31, 42, (int) Math.log(recipe.getElementPerTick() * recipe.getDuration()), 4, recipe.getElementType());
 		RenderSystem.disableBlend();
 		RenderSystem.disableAlphaTest();
 	}

@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.0.7-1.15.2'
+version = '1.0.8-1.15.2'
 group = 'sirttas.elementalcraft' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'elementalcraft'
 
@@ -34,6 +34,7 @@ minecraft {
     // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
+            properties 'fml.earlyprogresswindow': 'false'
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
@@ -114,7 +115,7 @@ dependencies {
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.2-35.2")
     
     compileOnly fg.deobf("mezz.jei:jei-1.15.2:6.0.0.2:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.15.2:6.0.0.2")
+    implementation fg.deobf("mezz.jei:jei-1.15.2:6.0.0.2")
     
     // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
 	//compile "org.apache.commons:commons-collections4:4.0"

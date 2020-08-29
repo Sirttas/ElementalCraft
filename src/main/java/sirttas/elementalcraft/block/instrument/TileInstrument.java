@@ -21,7 +21,7 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	}
 
 	@Override
-	public boolean isReciptAvalable() {
+	public boolean isRecipeAvailable() {
 		if (recipe != null && recipe.matches(this)) {
 			return true;
 		}
@@ -50,7 +50,7 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		if (recipe != null && progress >= recipe.getDuration()) {
 			process();
 			progress = 0;
-		} else if (this.isReciptAvalable() && canProgress() && tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
+		} else if (this.isRecipeAvailable() && tank != null && canProgress() && tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
 			tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), false);
 			progress++;
 		} else {

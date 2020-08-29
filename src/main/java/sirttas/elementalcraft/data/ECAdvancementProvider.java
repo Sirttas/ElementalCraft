@@ -3,9 +3,6 @@ package sirttas.elementalcraft.data;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,7 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 
 public class ECAdvancementProvider implements IDataProvider {
-	private static final Logger LOGGER = LogManager.getLogger();
+
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
 	private final DataGenerator generator;
 

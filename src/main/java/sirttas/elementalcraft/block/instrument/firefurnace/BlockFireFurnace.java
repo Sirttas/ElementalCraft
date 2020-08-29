@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -55,7 +56,7 @@ public class BlockFireFurnace extends BlockECContainer {
 		if (furnace != null) {
 			if (!ItemEC.isEmpty(furnace.getStackInSlot(1))) {
 				furnace.dropExperience(player);
-				return this.onSlotActivated(furnace, player, player.getHeldItem(hand), 1);
+				return this.onSlotActivated(furnace, player, ItemStack.EMPTY, 1);
 			}
 			return this.onSlotActivated(furnace, player, player.getHeldItem(hand), 0);
 		}

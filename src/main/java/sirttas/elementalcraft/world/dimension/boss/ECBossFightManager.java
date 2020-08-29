@@ -21,6 +21,7 @@ public class ECBossFightManager {
 	private final ServerWorld world;
 	private final ServerBossInfo bossInfo = (ServerBossInfo) new ServerBossInfo(new StringTextComponent(""), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS).setCreateFog(true);
 
+	@SuppressWarnings("unused")
 	private ElementType type;
 	private ECBossEntity boss;
 

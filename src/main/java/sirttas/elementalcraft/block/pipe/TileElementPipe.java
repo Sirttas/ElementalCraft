@@ -1,11 +1,5 @@
 package sirttas.elementalcraft.block.pipe;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -18,6 +12,12 @@ import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.block.tile.element.IElementSender;
 import sirttas.elementalcraft.config.ECConfig;
+
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class TileElementPipe extends TileECTickable {
 
@@ -150,9 +150,9 @@ public class TileElementPipe extends TileECTickable {
 
 	public ActionResultType activatePipe(Direction face) {
 		TileEntity tile = getAdjacentTile(face);
-		ConnectionType conection = this.getConection(face);
+		ConnectionType connection = this.getConection(face);
 
-		switch (conection) {
+		switch (connection) {
 		case INSERT:
 			if (tile instanceof IElementSender) {
 				this.setConection(face, ConnectionType.EXTRACT);

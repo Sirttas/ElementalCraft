@@ -1,20 +1,21 @@
 package sirttas.elementalcraft;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.IStringSerializable;
 import sirttas.elementalcraft.property.ECProperties;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public enum ElementType implements IStringSerializable {
 
 	NONE(0, 0, 0, "none"), WATER(43, 173, 255, "water"), FIRE(247, 107, 27, "fire"), EARTH(76, 133, 102, "earth"), AIR(238, 255, 219, "air");
 
-	private float r;
-	private float g;
-	private float b;
-	private int color;
-	private String name;
+	private final float r;
+	private final float g;
+	private final float b;
+	private final int color;
+	private final String name;
 
 	ElementType(int r, int g, int b, String name) {
 		this.r = r / 255F;
@@ -56,6 +57,7 @@ public enum ElementType implements IStringSerializable {
 		}
 	}
 
+	@Nonnull
 	@Override
 	public String getName() {
 		return this.name;

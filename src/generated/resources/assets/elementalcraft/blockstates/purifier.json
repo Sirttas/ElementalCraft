@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "elementalcraft:block/purifier"
+    },
+    "facing=south": {
+      "model": "elementalcraft:block/purifier",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "elementalcraft:block/purifier",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "elementalcraft:block/purifier",
+      "y": 90
+    }
+  }
+}

@@ -10,6 +10,18 @@
     {
       "type": "text",
       "text": "elementalcraft.page.whiterock0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:whiterock_stairs"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:whiterock_slab"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:whiterock_wall"
     }
   ]
 }
