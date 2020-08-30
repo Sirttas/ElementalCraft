@@ -47,7 +47,11 @@ public class ECConfig {
 	public final IntValue extractorExtractionAmount;
 	public final IntValue improvedExtractorExtractionAmount;
 	public final IntValue fireFurnaceConsumeAmount;
+	public final IntValue purifierConsumeAmount;
+	public final IntValue purifierDuration;
 	public final IntValue pipeTransferAmount;
+
+	public final BooleanValue pureOreSmeltingRecipeInjection;
 
 	public final BooleanValue binderRecipeMatchOrder;
 	public final IntValue receptacleDurability;
@@ -100,8 +104,11 @@ public class ECConfig {
 		extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
 		improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 25, 0, 500);
 		fireFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Furnace per tick.").defineInRange("fireFurnaceConsumeAmount", 10, 0, 100);
+		purifierConsumeAmount = builder.comment("The amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierConsumeAmount", 25, 0, 1000);
+		purifierDuration = builder.comment("The nember of tick for a Ore Purifier co procces one item.").defineInRange("purifierDuration", 100, 0, 2400);
 		pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 100, 0, 10000);
 
+		pureOreSmeltingRecipeInjection = builder.comment("Set to false if you want to manualy manage processing of pure ore.").define("pureOreSmeltingRecipeInjection", true);
 		binderRecipeMatchOrder = builder.comment("Define if or not binder recip require to be ordered.").define("binderRecipeMatchOrder", true);
 		receptacleDurability = builder.comment("Define source receptacle durablility (0 for unbreakable).").defineInRange("receptacleDurability", 20, 0, 1000);
 

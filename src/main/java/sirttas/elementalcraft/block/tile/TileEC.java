@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public abstract class TileEC extends TileEntity {
 
@@ -45,7 +45,7 @@ public abstract class TileEC extends TileEntity {
 			return;
 		}
 		CompoundNBT root = stack.getTag();
-		if (!root.contains(ECNBTTags.EC_NBT_TE)) {
+		if (!root.contains(ECNames.EC_NBT_TE)) {
 			return;
 		}
 		this.read(root);
@@ -60,7 +60,7 @@ public abstract class TileEC extends TileEntity {
 		}
 
 		CompoundNBT root = stack.getTag();
-		root.putBoolean(ECNBTTags.EC_NBT_TE, true);
+		root.putBoolean(ECNames.EC_NBT_TE, true);
 		this.write(root);
 	}
 

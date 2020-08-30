@@ -7,28 +7,34 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
 
 public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
+	private final ResourceLocation id;
 	private final ItemStack ore;
 	private final Ingredient input;
 
 	public PurifierRecipe(ItemStack ore) {
+		ResourceLocation oreName = ore.getItem().getRegistryName();
+
 		this.ore = ore;
 		this.input = Ingredient.fromStacks(ore);
+		this.id = new ResourceLocation(ElementalCraft.MODID, oreName.getNamespace() + '_' + oreName.getPath() + "_to_pure_ore");
 	}
 
 	@Override
 	public int getElementPerTick() {
-		return 25;
+		return ECConfig.CONFIG.purifierConsumeAmount.get();
 	}
 
 	@Override
 	public int getDuration() {
-		return 100;
+		return ECConfig.CONFIG.purifierDuration.get();
 	}
 
 	@Override
@@ -66,7 +72,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	@Override
 	public ResourceLocation getId() {
-		return null;
+		return id;
 	}
 
 	@Override

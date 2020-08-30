@@ -10,7 +10,7 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
@@ -117,16 +117,16 @@ public class TilePureInfuser extends TileECContainer {
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		this.stack = NBTHelper.readItemStack(compound, ECNBTTags.ITEM);
-		progress = compound.getFloat(ECNBTTags.PROGRESS);
+		this.stack = NBTHelper.readItemStack(compound, ECNames.ITEM);
+		progress = compound.getFloat(ECNames.PROGRESS);
 
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		NBTHelper.writeItemStack(compound, ECNBTTags.ITEM, this.stack);
-		compound.putFloat(ECNBTTags.PROGRESS, progress);
+		NBTHelper.writeItemStack(compound, ECNames.ITEM, this.stack);
+		compound.putFloat(ECNames.PROGRESS, progress);
 		return compound;
 	}
 

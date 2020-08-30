@@ -15,6 +15,11 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.pureore.PureOreHelper;
+import sirttas.elementalcraft.jei.category.BindingRecipeCategory;
+import sirttas.elementalcraft.jei.category.InfusionRecipeCategory;
+import sirttas.elementalcraft.jei.category.PureInfusionRecipeCategory;
+import sirttas.elementalcraft.jei.category.PurificationRecipeCategory;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
@@ -40,6 +45,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new InfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BindingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new PureInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new PurificationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -48,6 +54,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECItems.infuser), InfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.binder), BindingRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.pureInfuser), PureInfusionRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.purifier), PurificationRecipeCategory.UID);
 	}
 
 	@SuppressWarnings("resource")
@@ -58,5 +65,6 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(recipeManager.getRecipes(AbstractInfusionRecipe.TYPE).values(), InfusionRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(BinderRecipe.TYPE).values(), BindingRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(PureInfusionRecipe.TYPE).values(), PureInfusionRecipeCategory.UID);
+		registry.addRecipes(PureOreHelper.getRecipes(), PurificationRecipeCategory.UID);
 	}
 }

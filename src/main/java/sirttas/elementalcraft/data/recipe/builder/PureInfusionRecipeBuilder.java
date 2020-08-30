@@ -18,6 +18,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 public class PureInfusionRecipeBuilder {
@@ -130,7 +131,7 @@ public class PureInfusionRecipeBuilder {
 			}
 
 			json.add("ingredients", jsonarray);
-			json.addProperty("output", ForgeRegistries.ITEMS.getKey(this.output).toString());
+			json.addProperty(ECNames.OUTPUT, ForgeRegistries.ITEMS.getKey(this.output).toString());
 		}
 
 		@Override

@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 public abstract class TileInstrument extends TileECContainer implements IInstrument {
@@ -71,14 +71,14 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	@Override
 	public CompoundNBT write(CompoundNBT cmp) {
 		super.write(cmp);
-		cmp.putFloat(ECNBTTags.PROGRESS, progress);
+		cmp.putFloat(ECNames.PROGRESS, progress);
 		return cmp;
 	}
 
 	@Override
 	public void read(CompoundNBT cmp) {
 		super.read(cmp);
-		progress = cmp.getFloat(ECNBTTags.PROGRESS);
+		progress = cmp.getFloat(ECNames.PROGRESS);
 	}
 
 	@Override

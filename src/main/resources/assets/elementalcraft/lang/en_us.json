@@ -48,7 +48,7 @@
 "block.elementalcraft.pedestal_air": "Air Pedestal",
 "block.elementalcraft.pureinfuser": "Pure Infuser",
 "block.elementalcraft.firefurnace": "Fire Furance",
-"block.elementalcraft.purifier": "Purifier",
+"block.elementalcraft.purifier": "Ore Purifier",
 "block.elementalcraft.source": "Element Source",
 "block.elementalcraft.elementpipe": "Element Pipe",
 
@@ -78,6 +78,7 @@
 "elementalcraft.jei.infusion": "Element Infusion",
 "elementalcraft.jei.binding": "Element Binding",
 "elementalcraft.jei.pureinfusion": "Pure Infusion",
+"elementalcraft.jei.purification": "Ore Purification",
 
 "tooltip.elementalcraft.infused": "%s infused",
 "tooltip.elementalcraft.scroll_of": "Scroll of %s",

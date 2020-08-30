@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.jei;
+package sirttas.elementalcraft.jei.category;
 
 import java.util.List;
 
@@ -14,11 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
-import sirttas.elementalcraft.gui.GuiHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 
-public class BindingRecipeCategory extends AbstractRecipeCategory<TileBinder, BinderRecipe> {
+public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<TileBinder, BinderRecipe> {
 
 	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "binding");
 
@@ -65,7 +64,7 @@ public class BindingRecipeCategory extends AbstractRecipeCategory<TileBinder, Bi
 		RenderSystem.enableAlphaTest();
 		RenderSystem.enableBlend();
 		overlay.draw(10, 10);
-		GuiHelper.renderElementGauge(RADIUS + 1, RADIUS + 18, (int) Math.log(recipe.getElementPerTick() * recipe.getDuration()), 4, recipe.getElementType());
+		renderElementGauge(RADIUS + 1, RADIUS + 18, recipe);
 		RenderSystem.disableBlend();
 		RenderSystem.disableAlphaTest();
 	}

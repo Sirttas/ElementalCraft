@@ -25,13 +25,13 @@ public class RendererFireFurnace extends RendererEC<TileFireFurnace> {
 		ItemStack stack2 = te.getStackInSlot(1);
 		
 		if (!ItemEC.isEmpty(stack) || !ItemEC.isEmpty(stack2)) {
-			matrixStack.translate(0.5F, 0.2F, 0.5F);
+			matrixStack.translate(0.5F, 0.3F, 0.5F);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(getAngle(partialTicks)));
 			if (!ItemEC.isEmpty(stack)) {
 				renderItem(stack, matrixStack, buffer, light, overlay);
 			}
 			if (!ItemEC.isEmpty(stack2)) {
-				matrixStack.translate(0, 0.6F, 0);
+				matrixStack.translate(0, 0.5F, 0);
 				renderItem(stack2, matrixStack, buffer, light, overlay);
 			}
 		}

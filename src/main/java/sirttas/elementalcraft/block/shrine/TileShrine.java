@@ -6,7 +6,7 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public abstract class TileShrine extends TileECTickable implements IElementReceiver {
 
@@ -101,15 +101,15 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		elementType = ElementType.byName(compound.getString(ECNBTTags.ELEMENT_TYPE));
-		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
+		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
+		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.getName());
-		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
+		compound.putString(ECNames.ELEMENT_TYPE, elementType.getName());
+		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
 		return compound;
 	}
 

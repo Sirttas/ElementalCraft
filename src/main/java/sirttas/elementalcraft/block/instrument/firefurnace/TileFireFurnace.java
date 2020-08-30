@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.FurnaceRecipeWrapper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
@@ -42,17 +42,17 @@ public class TileFireFurnace extends TileInstrument {
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		this.input = NBTHelper.readItemStack(compound, ECNBTTags.INPUT);
-		this.output = NBTHelper.readItemStack(compound, ECNBTTags.OUTPUT);
-		this.exp = compound.getFloat(ECNBTTags.XP);
+		this.input = NBTHelper.readItemStack(compound, ECNames.INPUT);
+		this.output = NBTHelper.readItemStack(compound, ECNames.OUTPUT);
+		this.exp = compound.getFloat(ECNames.XP);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		NBTHelper.writeItemStack(compound, ECNBTTags.INPUT, this.input);
-		NBTHelper.writeItemStack(compound, ECNBTTags.OUTPUT, this.output);
-		compound.putFloat(ECNBTTags.XP, this.exp);
+		NBTHelper.writeItemStack(compound, ECNames.INPUT, this.input);
+		NBTHelper.writeItemStack(compound, ECNames.OUTPUT, this.output);
+		compound.putFloat(ECNames.XP, this.exp);
 		return compound;
 	}
 

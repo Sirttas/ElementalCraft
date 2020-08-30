@@ -7,7 +7,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
@@ -34,15 +34,15 @@ public class TilePurifier extends TileInstrument {
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		this.input = NBTHelper.readItemStack(compound, ECNBTTags.INPUT);
-		this.output = NBTHelper.readItemStack(compound, ECNBTTags.OUTPUT);
+		this.input = NBTHelper.readItemStack(compound, ECNames.INPUT);
+		this.output = NBTHelper.readItemStack(compound, ECNames.OUTPUT);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		NBTHelper.writeItemStack(compound, ECNBTTags.INPUT, this.input);
-		NBTHelper.writeItemStack(compound, ECNBTTags.OUTPUT, this.output);
+		NBTHelper.writeItemStack(compound, ECNames.INPUT, this.input);
+		NBTHelper.writeItemStack(compound, ECNames.OUTPUT, this.output);
 		return compound;
 	}
 

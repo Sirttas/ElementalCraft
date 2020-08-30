@@ -9,7 +9,7 @@ import sirttas.elementalcraft.block.tile.TileEC;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.block.tile.element.IElementSender;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public class TileTank extends TileEC implements IElementSender, IElementReceiver {
 
@@ -106,19 +106,19 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		elementType = ElementType.byName(compound.getString(ECNBTTags.ELEMENT_TYPE));
-		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
-		elementAmountMax = compound.getInt(ECNBTTags.ELEMENT_MAX);
-		small = compound.getBoolean(ECNBTTags.SMALL);
+		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
+		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
+		elementAmountMax = compound.getInt(ECNames.ELEMENT_MAX);
+		small = compound.getBoolean(ECNames.SMALL);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.getName());
-		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
-		compound.putInt(ECNBTTags.ELEMENT_MAX, elementAmountMax);
-		compound.putBoolean(ECNBTTags.SMALL, small);
+		compound.putString(ECNames.ELEMENT_TYPE, elementType.getName());
+		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+		compound.putInt(ECNames.ELEMENT_MAX, elementAmountMax);
+		compound.putBoolean(ECNames.SMALL, small);
 		return compound;
 	}
 

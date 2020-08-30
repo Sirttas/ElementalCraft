@@ -34,7 +34,7 @@ import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 
 /**
  * greatly inspired by Botania
@@ -56,15 +56,15 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 			} else if (block instanceof BlockFirePylon) {
 				functionTable.put(block, ECBlockLootProvider::genFirePylon);
 			} else if (isTileInstanceOf(block, TileShrine.class)) {
-				functionTable.put(block, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT));
+				functionTable.put(block, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT));
 			} else if (block instanceof BlockPedestal) {
-				functionTable.put(block, i -> genCopyNbt(i, ECNBTTags.ELEMENT_AMOUNT));
+				functionTable.put(block, i -> genCopyNbt(i, ECNames.ELEMENT_AMOUNT));
 			}
 		}
 
 		functionTable.put(ECBlocks.crystalOre, i -> genRegular(ECItems.inertCrystal));
-		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX, ECNBTTags.SMALL));
-		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT, ECNBTTags.ELEMENT_MAX, ECNBTTags.SMALL));
+		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
+		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
 	}
 
 	@Override
@@ -106,14 +106,14 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
 				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockFirePylon.HALF, DoubleBlockHalf.LOWER)));
 
-		return genCopyNbt(entry, ECNBTTags.ELEMENT_TYPE, ECNBTTags.ELEMENT_AMOUNT);
+		return genCopyNbt(entry, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT);
 	}
 
 	private static Builder genCopyNbt(LootEntry.Builder<?> entry, String... tags) {
 		CopyNbt.Builder func = CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY);
 
 		for (String tag : tags) {
-			func = func.replaceOperation(tag, ECNBTTags.EC_NBT_TE + '.' + tag);
+			func = func.replaceOperation(tag, ECNames.EC_NBT_TE + '.' + tag);
 		}
 		LootPool.Builder pool = LootPool.builder().name("main").rolls(ConstantRange.of(1)).addEntry(entry).acceptCondition(SurvivesExplosion.builder()).acceptFunction(func);
 
