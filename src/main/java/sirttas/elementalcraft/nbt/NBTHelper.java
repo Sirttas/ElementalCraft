@@ -6,20 +6,22 @@ import net.minecraft.nbt.CompoundNBT;
 public class NBTHelper {
 
 	public static ItemStack readItemStack(CompoundNBT cmp, String tag) {
-		if (cmp.contains(tag)) {
+		if (cmp != null && cmp.contains(tag)) {
 			return ItemStack.read(cmp.getCompound(tag));
 		}
 		return ItemStack.EMPTY;
 	}
 
 	public static CompoundNBT writeItemStack(CompoundNBT cmp, String tag, ItemStack stack) {
-		if (stack != null) {
-			CompoundNBT stackNbt = new CompoundNBT();
-			stack.write(stackNbt);
-			cmp.put(tag, stackNbt);
-			return stackNbt;
-		} else if (cmp.contains(tag)) {
-			cmp.remove(tag);
+		if (cmp != null) {
+			if (stack != null) {
+				CompoundNBT stackNbt = new CompoundNBT();
+				stack.write(stackNbt);
+				cmp.put(tag, stackNbt);
+				return stackNbt;
+			} else if (cmp.contains(tag)) {
+				cmp.remove(tag);
+			}
 		}
 		return null;
 	}
@@ -27,14 +29,23 @@ public class NBTHelper {
 	public static CompoundNBT getECTag(ItemStack stack) {
 		CompoundNBT nbt = stack.getTag();
 
+		if (nbt == null || !nbt.contains(ECNames.EC_NBT)) {
+			return null;
+		}
+		return nbt.getCompound(ECNames.EC_NBT);
+	}
+
+	public static CompoundNBT getOrCreateECTag(ItemStack stack) {
+		CompoundNBT nbt = stack.getTag();
+
 		if (nbt == null) {
 			nbt = new CompoundNBT();
 			stack.setTag(nbt);
 		}
-		if (!nbt.contains(ECNBTTags.EC_NBT)) {
-			nbt.put(ECNBTTags.EC_NBT, new CompoundNBT());
+		if (!nbt.contains(ECNames.EC_NBT)) {
+			nbt.put(ECNames.EC_NBT, new CompoundNBT());
 		}
-		return nbt.getCompound(ECNBTTags.EC_NBT);
+		return nbt.getCompound(ECNames.EC_NBT);
 	}
 
 }

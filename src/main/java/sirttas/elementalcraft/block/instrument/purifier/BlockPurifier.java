@@ -4,11 +4,17 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
@@ -28,18 +34,45 @@ public class BlockPurifier extends BlockECContainer {
 
 	public static final String NAME = "purifier";
 
-	private static final VoxelShape OVEN_SLAB = Block.makeCuboidShape(0D, 2D, 0D, 16D, 12D, 16D);
-	private static final VoxelShape TOP_BOWL = Block.makeCuboidShape(3D, 11D, 3D, 13D, 12D, 13D);
-	private static final VoxelShape MIDDLE_1 = Block.makeCuboidShape(0D, 4D, 3D, 16D, 10D, 13D);
-	private static final VoxelShape MIDDLE_2 = Block.makeCuboidShape(3D, 4D, 0D, 13D, 10D, 16D);
-	private static final VoxelShape EMPTY_SPACE = VoxelShapes.or(TOP_BOWL, MIDDLE_1, MIDDLE_2);
-	private static final VoxelShape OVEN = VoxelShapes.combineAndSimplify(OVEN_SLAB, EMPTY_SPACE, IBooleanFunction.ONLY_FIRST);
+	private static final VoxelShape OVEN_SLAB = Block.makeCuboidShape(0D, 2D, 0D, 16D, 4D, 16D);
+	private static final VoxelShape OVEN_SLAB_2 = Block.makeCuboidShape(0D, 10D, 0D, 16D, 12D, 16D);
 	private static final VoxelShape CONNECTION = Block.makeCuboidShape(6D, 0D, 6D, 10D, 2D, 10D);
-	private static final VoxelShape PILLAT_1 = Block.makeCuboidShape(1D, 0D, 1D, 3D, 2D, 3D);
-	private static final VoxelShape PILLAT_2 = Block.makeCuboidShape(13D, 0D, 1D, 15D, 2D, 3D);
-	private static final VoxelShape PILLAT_3 = Block.makeCuboidShape(1D, 0D, 13D, 3D, 2D, 15D);
-	private static final VoxelShape PILLAT_4 = Block.makeCuboidShape(13D, 0D, 13D, 15D, 2D, 15D);
-	private static final VoxelShape SHAPE = VoxelShapes.or(OVEN, CONNECTION, PILLAT_1, PILLAT_2, PILLAT_3, PILLAT_4);
+	private static final VoxelShape PILLAT_1 = Block.makeCuboidShape(1D, 0D, 1D, 3D, 10D, 3D);
+	private static final VoxelShape PILLAT_2 = Block.makeCuboidShape(13D, 0D, 1D, 15D, 10D, 3D);
+	private static final VoxelShape PILLAT_3 = Block.makeCuboidShape(1D, 0D, 13D, 3D, 10D, 15D);
+	private static final VoxelShape PILLAT_4 = Block.makeCuboidShape(13D, 0D, 13D, 15D, 10D, 15D);
+	private static final VoxelShape MAIN_SHAPE = VoxelShapes.or(OVEN_SLAB, OVEN_SLAB_2, CONNECTION, PILLAT_1, PILLAT_2, PILLAT_3, PILLAT_4);
+
+	private static final VoxelShape NORTH_EMPTY_SPACE = Block.makeCuboidShape(6D, 4D, 0D, 10D, 8D, 4D);
+	private static final VoxelShape NORTH_OVEN_BLOCK = Block.makeCuboidShape(4D, 4D, 0D, 12D, 10D, 7D);
+	private static final VoxelShape NORTH_OVEN_BLOCK_2 = Block.makeCuboidShape(6D, 4D, 7D, 10D, 8D, 11D);
+	private static final VoxelShape NORTH_OVEN = VoxelShapes.combineAndSimplify(VoxelShapes.or(NORTH_OVEN_BLOCK, NORTH_OVEN_BLOCK_2), NORTH_EMPTY_SPACE, IBooleanFunction.ONLY_FIRST);
+
+	private static final VoxelShape SOUTH_EMPTY_SPACE = Block.makeCuboidShape(6D, 4D, 12D, 10D, 8D, 16D);
+	private static final VoxelShape SOUTH_OVEN_BLOCK = Block.makeCuboidShape(4D, 4D, 9D, 12D, 10D, 16D);
+	private static final VoxelShape SOUTH_OVEN_BLOCK_2 = Block.makeCuboidShape(6D, 4D, 5D, 10D, 8D, 9D);
+	private static final VoxelShape SOUTH_OVEN = VoxelShapes.combineAndSimplify(VoxelShapes.or(SOUTH_OVEN_BLOCK, SOUTH_OVEN_BLOCK_2), SOUTH_EMPTY_SPACE, IBooleanFunction.ONLY_FIRST);
+
+	private static final VoxelShape WEST_EMPTY_SPACE = Block.makeCuboidShape(0D, 4D, 6D, 4D, 8D, 10D);
+	private static final VoxelShape WEST_OVEN_BLOCK = Block.makeCuboidShape(0D, 4D, 4D, 7D, 10D, 12D);
+	private static final VoxelShape WEST_OVEN_BLOCK_2 = Block.makeCuboidShape(7D, 4D, 6D, 11D, 8D, 10D);
+	private static final VoxelShape WEST_OVEN = VoxelShapes.combineAndSimplify(VoxelShapes.or(WEST_OVEN_BLOCK, WEST_OVEN_BLOCK_2), WEST_EMPTY_SPACE, IBooleanFunction.ONLY_FIRST);
+
+	private static final VoxelShape EAST_EMPTY_SPACE = Block.makeCuboidShape(12D, 4D, 6D, 16D, 8D, 10D);
+	private static final VoxelShape EAST_OVEN_BLOCK = Block.makeCuboidShape(9D, 4D, 4D, 16D, 10D, 12D);
+	private static final VoxelShape EAST_OVEN_BLOCK_2 = Block.makeCuboidShape(5D, 4D, 6D, 9D, 8D, 10D);
+	private static final VoxelShape EAST_OVEN = VoxelShapes.combineAndSimplify(VoxelShapes.or(EAST_OVEN_BLOCK, EAST_OVEN_BLOCK_2), EAST_EMPTY_SPACE, IBooleanFunction.ONLY_FIRST);
+
+	private static final VoxelShape NORTH_SHAPE = VoxelShapes.or(MAIN_SHAPE, NORTH_OVEN);
+	private static final VoxelShape SOUTH_SHAPE = VoxelShapes.or(MAIN_SHAPE, SOUTH_OVEN);
+	private static final VoxelShape EAST_SHAPE = VoxelShapes.or(MAIN_SHAPE, EAST_OVEN);
+	private static final VoxelShape WEST_SHAPE = VoxelShapes.or(MAIN_SHAPE, WEST_OVEN);
+
+	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+
+	public BlockPurifier() {
+		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
+	}
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
@@ -52,13 +85,13 @@ public class BlockPurifier extends BlockECContainer {
 
 		if (purifier != null) {
 			if (!ItemEC.isEmpty(purifier.getStackInSlot(1))) {
-				return this.onSlotActivated(purifier, player, player.getHeldItem(hand), 1);
+				return this.onSlotActivated(purifier, player, ItemStack.EMPTY, 1);
 			}
 			return this.onSlotActivated(purifier, player, player.getHeldItem(hand), 0);
 		}
 		return ActionResultType.PASS;
 	}
-	
+
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
@@ -71,6 +104,33 @@ public class BlockPurifier extends BlockECContainer {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPE;
+		switch (state.get(FACING)) {
+		case NORTH:
+			return NORTH_SHAPE;
+		case SOUTH:
+			return SOUTH_SHAPE;
+		case WEST:
+			return WEST_SHAPE;
+		case EAST:
+			return EAST_SHAPE;
+		default:
+			return MAIN_SHAPE;
+		}
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+	}
+
+	@Deprecated
+	@Override
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.with(FACING, rot.rotate(state.get(FACING)));
+	}
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 }

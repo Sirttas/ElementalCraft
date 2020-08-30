@@ -14,6 +14,7 @@ import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.BlockFireFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.BlockInfuser;
+import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
@@ -69,6 +70,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static Item airPedestal;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static Item pureInfuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static Item fireFurnace;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static Item purifier;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static Item elementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static Item firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static Item vacuumShrine;

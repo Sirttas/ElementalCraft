@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 public abstract class TileInstrument extends TileECContainer implements IInstrument {
@@ -51,7 +51,7 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		if (recipe != null && progress >= recipe.getDuration()) {
 			process();
 			progress = 0;
-		} else if (this.isRecipeAvailable() && canProgress() && tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
+		} else if (this.isRecipeAvailable() && tank != null && canProgress() && tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
 			tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), false);
 			progress++;
 		} else {
@@ -72,14 +72,14 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	@Override
 	public CompoundNBT write(CompoundNBT cmp) {
 		super.write(cmp);
-		cmp.putFloat(ECNBTTags.PROGRESS, progress);
+		cmp.putFloat(ECNames.PROGRESS, progress);
 		return cmp;
 	}
 
 	@Override
 	public void read(BlockState state, CompoundNBT cmp) {
 		super.read(state, cmp);
-		progress = cmp.getFloat(ECNBTTags.PROGRESS);
+		progress = cmp.getFloat(ECNames.PROGRESS);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -31,6 +32,7 @@ public class ElementalCraft {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
 		MinecraftForge.EVENT_BUS.addListener(this::setupServer);
+		MinecraftForge.EVENT_BUS.addListener(this::clientLoggin);
 	}
 
 	private void setup(FMLCommonSetupEvent event) {
@@ -45,6 +47,10 @@ public class ElementalCraft {
 	private void setupClient(FMLClientSetupEvent event) {
 		ECRenderers.initRenderLayouts();
 		ECEntities.registerRenderers();
+	}
+
+	private void clientLoggin(ClientPlayerNetworkEvent.LoggedInEvent event) {
+		PureOreHelper.generatePureOres(event.getPlayer().getEntityWorld().getRecipeManager());
 	}
 
 	private void setupServer(FMLServerStartedEvent event) {

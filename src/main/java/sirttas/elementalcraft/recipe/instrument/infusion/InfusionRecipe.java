@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class InfusionRecipe extends AbstractInfusionRecipe {
@@ -81,8 +82,8 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 			ElementType type = ElementType.byName(JSONUtils.getString(json, "element"));
 			int elementPerTick = JSONUtils.getInt(json, "consumption", 10);
 			int duration = JSONUtils.getInt(json, "duration", 100);
-			Ingredient input = RecipeHelper.deserializeIngredient(json, "input");
-			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, "output"))));
+			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
+			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, ECNames.OUTPUT))));
 
 			return this.factory.create(recipeId, type, elementPerTick, duration, output, input);
 		}

@@ -10,6 +10,20 @@
 	"elements": [
 		{
 			"name": "botom",
+			"from": [0, 10, 0],
+			"to": [16, 12, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 21, 8]},
+			"faces": {
+				"north": {"uv": [0, 4, 16, 6], "texture": "#0"},
+				"east": {"uv": [0, 4, 16, 6], "texture": "#0"},
+				"south": {"uv": [0, 4, 16, 6], "texture": "#0"},
+				"west": {"uv": [0, 4, 16, 6], "texture": "#0"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "botom",
 			"from": [0, 2, 0],
 			"to": [16, 4, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13, 8]},
@@ -157,7 +171,7 @@
 		{
 			"name": "top",
 			"origin": [8, 16, 8],
-			"children": [0,
+			"children": [0, 1,
 				{
 					"name": "group",
 					"origin": [8, 15, 8],
@@ -167,12 +181,12 @@
 					"name": "group",
 					"origin": [8, 18, 8],
 					"children": []
-				}, 1, 2, 3, 4, 5]
+				}, 2, 3, 4, 5, 6]
 		},
 		{
 			"name": "pilars",
 			"origin": [9, 8, 9],
-			"children": [6, 7, 8, 9, 10]
+			"children": [7, 8, 9, 10, 11]
 		}
 	]
 }

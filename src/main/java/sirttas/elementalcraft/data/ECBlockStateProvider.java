@@ -18,6 +18,7 @@ import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 
@@ -92,6 +93,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(extract).rotationY(270).uvLock(true).addModel().condition(BlockElementPipe.WEST_EXTRACT, true).end()
 				.part().modelFile(extract).rotationX(270).uvLock(true).addModel().condition(BlockElementPipe.UP_EXTRACT, true).end()
 				.part().modelFile(extract).rotationX(90).uvLock(true).addModel().condition(BlockElementPipe.DOWN_EXTRACT, true).end();
+		} else if (block instanceof BlockPurifier) {
+			horizontalBlock(block, models().getExistingFile(prefix(name)));
 		} else {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
 		}

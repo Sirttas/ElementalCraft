@@ -14,7 +14,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
 public class TilePedestal extends TileECContainer implements IElementReceiver {
@@ -47,15 +47,15 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
-		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
-		this.stack = NBTHelper.readItemStack(compound, ECNBTTags.ITEM);
+		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
+		this.stack = NBTHelper.readItemStack(compound, ECNames.ITEM);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
-		NBTHelper.writeItemStack(compound, ECNBTTags.ITEM, this.stack);
+		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+		NBTHelper.writeItemStack(compound, ECNames.ITEM, this.stack);
 		return compound;
 	}
 

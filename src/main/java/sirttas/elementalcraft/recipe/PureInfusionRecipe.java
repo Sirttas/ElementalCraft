@@ -21,6 +21,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public class PureInfusionRecipe implements IRecipe<TilePureInfuser> {
 
@@ -121,7 +122,7 @@ public class PureInfusionRecipe implements IRecipe<TilePureInfuser> {
 			int elementPerTick = JSONUtils.getInt(json, "consumption", 100);
 			int duration = JSONUtils.getInt(json, "duration", 600);
 			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getJsonArray(json, "ingredients"));
-			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, "output"))));
+			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, ECNames.OUTPUT))));
 
 			return this.factory.create(recipeId, elementPerTick, duration, output, ingredients);
 		}

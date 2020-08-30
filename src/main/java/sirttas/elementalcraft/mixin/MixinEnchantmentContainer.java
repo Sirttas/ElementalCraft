@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -38,12 +39,12 @@ public abstract class MixinEnchantmentContainer extends Container {
 	}
 
 	@Inject(method = "enchantItem", at = @At("HEAD"))
-	public void onEnchantItem(PlayerEntity playerIn, int id, CallbackInfo ci) {
+	public void onEnchantItem(PlayerEntity playerIn, int id, CallbackInfoReturnable<Boolean> ci) {
 		InfusionHelper.unapplyInfusion(getstack());
 	}
 
 	@Inject(method = "enchantItem", at = @At("TAIL"))
-	public void onEnchantItemReturn(PlayerEntity playerIn, int id, CallbackInfo ci) {
+	public void onEnchantItemReturn(PlayerEntity playerIn, int id, CallbackInfoReturnable<Boolean> ci) {
 		InfusionHelper.applyInfusion(getstack());
 	}
 }

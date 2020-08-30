@@ -52,15 +52,16 @@ public class FurnaceRecipeWrapper implements IInstrumentRecipe<TileFireFurnace> 
 	public void process(TileFireFurnace instrument) {
 		ItemStack input = instrument.getStackInSlot(0);
 		ItemStack output = instrument.getStackInSlot(1);
+		ItemStack result = recipe.getCraftingResult(instrument);
 
-		if (getRecipeOutput().isItemEqual(output) && output.getCount() < output.getMaxStackSize()) {
+		if (result.isItemEqual(output) && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
 			input.shrink(1);
-			output.grow(1);
+			output.grow(result.getCount());
 		} else if (ItemEC.isEmpty(output)) {
 			input.shrink(1);
-			instrument.setInventorySlotContents(1, getRecipeOutput().copy());
+			instrument.setInventorySlotContents(1, result.copy());
 		}
-		if (input.getCount() <= 0) {
+		if (input.isEmpty()) {
 			instrument.removeStackFromSlot(0);
 		}
 		instrument.addExperience(recipe.getExperience());

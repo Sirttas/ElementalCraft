@@ -2,7 +2,7 @@ package sirttas.elementalcraft.nbt;
 
 import sirttas.elementalcraft.ElementalCraft;
 
-public class ECNBTTags {
+public class ECNames {
 	public static final String EC_NBT = ElementalCraft.MODID;
 	public static final String EC_NBT_TE = EC_NBT + ".tetag";
 
