@@ -10,10 +10,11 @@ import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public class ECProperties {
 
-	public static final EnumProperty<ElementType> ELEMENT_TYPE = EnumProperty.create("element_type", ElementType.class);
+	public static final EnumProperty<ElementType> ELEMENT_TYPE = EnumProperty.create(ECNames.ELEMENT_TYPE, ElementType.class);
 
 	public static class Blocks {
 		public static final AbstractBlock.Properties DEFAULT_BLOCK_PROPERTIES = AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(2).sound(SoundType.METAL)

@@ -45,7 +45,7 @@ public final class ECMessage {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();
 
-			switch (msg.getType()) {
+			switch (msg.getType()) { // NOSONAR
 			case AIR_INFUSION:
 				if (InfusionHelper.canAirInfusionFly(player)) {
 					player.startFallFlying();

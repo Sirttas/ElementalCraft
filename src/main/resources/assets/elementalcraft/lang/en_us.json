@@ -49,6 +49,7 @@
 "block.elementalcraft.pedestal_air": "Air Pedestal",
 "block.elementalcraft.pureinfuser": "Pure Infuser",
 "block.elementalcraft.firefurnace": "Fire Furance",
+"block.elementalcraft.purifier": "Ore Purifier",
 "block.elementalcraft.source": "Element Source",
 "block.elementalcraft.elementpipe": "Element Pipe",
 
@@ -78,6 +79,7 @@
 "elementalcraft.jei.infusion": "Element Infusion",
 "elementalcraft.jei.binding": "Element Binding",
 "elementalcraft.jei.pureinfusion": "Pure Infusion",
+"elementalcraft.jei.purification": "Ore Purification",
 
 "tooltip.elementalcraft.infused": "%s infused",
 "tooltip.elementalcraft.scroll_of": "Scroll of %s",
@@ -97,12 +99,12 @@
 
 "elementalcraft.page.source0": "$(thing)Sources$() are naturaly occuring spots where $(thing)elements$() converge.$(br2)It's strangly recomended to explore a bit and find $(thing)sources$() at least one for each $(thing)element$().$(br)It is also recomended to mark their spot to find them back easyer when you need them.",
 "elementalcraft.page.source1": "An $(thing)Air Source$() found naturaly.",
-"elementalcraft.page.inertcrystal0": "To get $(item)Inert Crystal$() start digging undergrouud and mine $(item)Inert Crystal Ore$().",
+"elementalcraft.page.inertcrystal0": "To get $(item)Inert Crystal$() start digging underground and mine $(item)Inert Crystal Ore$().",
 "elementalcraft.page.containedcrystal0": "$(item)Contained Crystals$() are the main components of $(thing)instruments$().$(br)By coating an $(item)Inert Crystal$() with $(thing)gold$() you are able to preven it to get altered by $(thing)elements$() without lousing its ability to interact with them.",
 "elementalcraft.page.elementpipe0": "$(item)Pipes$() are used to transport $(thing)elements$() across distance, their main use is to provide $(thing)instruments$() with the required $(thing)element$().$(br2)you can conficure a $(item)pipe$() by right clicking a section or the core to change it from $(thing)connected$(), $(thing)disconected$(), $(thing)insert$() or $(thing)extract$().",
 "elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). in an $(ec:infuser).",
 
-"elementalcraft.page.tank0": "The $(item)Element Container$() is a an advanced $(thing)element$() storage, it can store more $(thing)elements$() than the $(ec:tank_smalll)Small Container$() and is compatible with all $(thing)instruments$().",
+"elementalcraft.page.tank0": "The $(item)Element Container$() is a an advanced $(thing)element$() storage, it can store more $(thing)elements$() than the $(ec:tank_small)Small Container$() and is compatible with all $(thing)instruments$().",
 "elementalcraft.page.extractor0": "Use an $(item)Extractor$() to extract $(thing)elements$() form $(ec:source)sources$().$(br2)To do so place the $(item)Extractor$() above a $(ec:tank)Container$() and below the $(ec:source)source$() you want to extract.",
 "elementalcraft.page.infuser0": "Now that you can extract $(thing)elements$() it's time to infuse it.$(br2)To do so you need an $(item)Infuser$() and put it on top of a $(ec:tank)Container$().$(br)D'ont forget to connect it to the $(ec:extractor)Extractor$()'s $(ec:tank)Container$() with a $(ec:pipe)pipe$().",
 "elementalcraft.page.infusion0": "To infuse an item simply right click the $(ec:infuser)Infuser$() while holding the item you want to infuse.$(br)Try it now with an $(item)Inert Crystal$().",

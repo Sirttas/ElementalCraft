@@ -14,6 +14,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 public class InfusionRecipeBuilder {
@@ -93,8 +94,8 @@ public class InfusionRecipeBuilder {
 			if (duration > 0) {
 				json.addProperty("duration", duration);
 			}
-			json.add("input", this.ingredient.serialize());
-			json.addProperty("output", ForgeRegistries.ITEMS.getKey(this.output).toString());
+			json.add(ECNames.INPUT, this.ingredient.serialize());
+			json.addProperty(ECNames.OUTPUT, ForgeRegistries.ITEMS.getKey(this.output).toString());
 		}
 
 		@Override

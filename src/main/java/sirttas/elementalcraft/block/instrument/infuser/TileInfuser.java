@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
@@ -35,13 +35,13 @@ public class TileInfuser extends TileInstrument {
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
-		this.stack = NBTHelper.readItemStack(compound, ECNBTTags.ITEM);
+		this.stack = NBTHelper.readItemStack(compound, ECNames.ITEM);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		NBTHelper.writeItemStack(compound, ECNBTTags.ITEM, this.stack);
+		NBTHelper.writeItemStack(compound, ECNames.ITEM, this.stack);
 		return compound;
 	}
 

@@ -27,6 +27,8 @@ import sirttas.elementalcraft.block.instrument.firefurnace.BlockFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.BlockInfuser;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
+import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pipe.TileElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
@@ -74,6 +76,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static BlockPedestal airPedestal;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static BlockPureInfuser pureInfuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static BlockFireFurnace fireFurnace;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static BlockPurifier purifier;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static BlockElementPipe elementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static BlockFirePylon firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static BlockVacuumShrine vacuumShrine;
@@ -111,6 +114,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockPedestal(ElementType.AIR), BlockPedestal.NAME_AIR);
 		RegistryHelper.register(registry, new BlockPureInfuser(), BlockPureInfuser.NAME);
 		RegistryHelper.register(registry, new BlockFireFurnace(), BlockFireFurnace.NAME);
+		RegistryHelper.register(registry, new BlockPurifier(), BlockPurifier.NAME);
 		RegistryHelper.register(registry, new BlockElementPipe(), BlockElementPipe.NAME);
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
 		RegistryHelper.register(registry, new BlockVacuumShrine(), BlockVacuumShrine.NAME);
@@ -145,6 +149,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePedestal::new, firePedestal, waterPedestal, earthPedestal, airPedestal).build(null), BlockPedestal.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePureInfuser::new, pureInfuser).build(null), BlockPureInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFireFurnace::new, fireFurnace).build(null), BlockFireFurnace.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TilePurifier::new, purifier).build(null), BlockPurifier.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileElementPipe::new, elementPipe).build(null), BlockElementPipe.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFirePylon::new, firePylon).build(null), BlockFirePylon.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileVacuumShrine::new, vacuumShrine).build(null), BlockVacuumShrine.NAME);

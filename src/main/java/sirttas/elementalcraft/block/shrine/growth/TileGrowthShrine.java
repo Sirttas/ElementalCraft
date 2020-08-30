@@ -30,7 +30,7 @@ public class TileGrowthShrine extends TileShrine {
 	}
 
 	public TileGrowthShrine() {
-		super(TYPE, ElementType.WATER, ECConfig.CONFIG.harvestShrinePeriode.get());
+		super(TYPE, ElementType.WATER, ECConfig.CONFIG.growthShrinePeriode.get());
 	}
 
 	@Override

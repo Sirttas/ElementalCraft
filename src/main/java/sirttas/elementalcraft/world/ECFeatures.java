@@ -21,6 +21,7 @@ import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -47,7 +48,7 @@ public class ECFeatures {
 		ConfiguredFeature<?, ?> source = register(new ResourceLocation(ElementalCraft.MODID, "source"),
 				SOURCE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.field_244001_l).func_242729_a(ECConfig.CONFIG.sourceSpawnChance.get()));
 
-		for (Biome biome : WorldGenRegistries.field_243657_i) { // TODO exclude biomes
+		for (Biome biome : ForgeRegistries.BIOMES) { // TODO exclude biomes
 			addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, biome, crystalOre);
 			addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, biome, source);
 		}

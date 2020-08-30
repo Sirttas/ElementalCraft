@@ -20,6 +20,7 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 
@@ -122,7 +123,7 @@ public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 			int elementPerTick = JSONUtils.getInt(json, "consumption", 25);
 			int duration = JSONUtils.getInt(json, "duration", 100);
 			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getJsonArray(json, "ingredients"));
-			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, "output"))));
+			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, ECNames.OUTPUT))));
 
 			return this.factory.create(recipeId, type, elementPerTick, duration, output, ingredients);
 		}

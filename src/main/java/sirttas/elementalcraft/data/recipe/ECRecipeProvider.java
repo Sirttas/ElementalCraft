@@ -54,13 +54,15 @@ public class ECRecipeProvider extends RecipeProvider {
 
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.tankSmall).key('g', Items.GLASS).key('p', ECBlocks.elementPipe).patternLine(" p ").patternLine("pgp").patternLine(" p ")
 				.addCriterion(HAS_CONTAINEDCRYSTAL, hasItem(ECItems.containedCrystal)).build(consumer);
-		prepareWhitterockInstrumentRecipe(ECBlocks.tank).key('g', Items.GLASS).key('p', ECBlocks.elementPipe).patternLine("ici").patternLine("pgp").patternLine("www").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.tank).key('g', Items.GLASS).key('p', ECBlocks.elementPipe).patternLine("ici").patternLine("pgp").patternLine("www").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.extractor).patternLine(" c ").patternLine(" i ").patternLine("ici").build(consumer);
-		prepareWhitterockInstrumentRecipe(ECBlocks.improvedExtractor, ECItems.pureCrystal).key('e', ECBlocks.extractor).patternLine(" e ").patternLine("eie").patternLine("wcw").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.improvedExtractor, ECItems.pureCrystal).key('e', ECBlocks.extractor).patternLine(" e ").patternLine("eie").patternLine("wcw").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.infuser).key('n', Items.IRON_NUGGET).patternLine("n n").patternLine("ici").build(consumer);
-		prepareWhitterockInstrumentRecipe(ECBlocks.binder).patternLine("i i").patternLine("wcw").build(consumer);
-		prepareWhitterockInstrumentRecipe(ECBlocks.pureInfuser).key('n', ECBlocks.infuser).patternLine("wnw").patternLine("ici").patternLine("www").build(consumer);
-		prepareWhitterockInstrumentRecipe(ECBlocks.fireFurnace, ECItems.fireCrystal).key('f', Blocks.FURNACE).patternLine("www").patternLine("wfw").patternLine("ici").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.binder).patternLine("i i").patternLine("wcw").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.pureInfuser).key('n', ECBlocks.infuser).patternLine("wnw").patternLine("ici").patternLine("www").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.fireFurnace, ECItems.fireCrystal).key('f', Blocks.FURNACE).patternLine("www").patternLine("wfw").patternLine("ici").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.purifier, ECItems.pureCrystal).key('e', ECItems.earthCrystal).key('g', Items.GOLD_INGOT).patternLine("gcg").patternLine("wew").patternLine("ici")
+				.build(consumer);
 		prepareInstrumentRecipe(ECBlocks.elementPipe, ECItems.containedCrystal, 4).patternLine("ici").build(consumer);
 		
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.fromItems(ECItems.inertCrystal), ECItems.fireCrystal, ElementType.FIRE).build(consumer);
@@ -142,11 +144,11 @@ public class ECRecipeProvider extends RecipeProvider {
 		return ShapedRecipeBuilder.shapedRecipe(result, count).key('i', Items.IRON_INGOT).key('c', crystal).addCriterion("has_" + crystal.asItem().getRegistryName().getPath(), hasItem(crystal));
 	}
 
-	private ShapedRecipeBuilder prepareWhitterockInstrumentRecipe(IItemProvider result) {
+	private ShapedRecipeBuilder prepareWhiterockInstrumentRecipe(IItemProvider result) {
 		return prepareInstrumentRecipe(result, ECItems.containedCrystal, 1).key('w', ECBlocks.whiteRock).addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock));
 	}
 
-	private ShapedRecipeBuilder prepareWhitterockInstrumentRecipe(IItemProvider result, IItemProvider crystal) {
+	private ShapedRecipeBuilder prepareWhiterockInstrumentRecipe(IItemProvider result, IItemProvider crystal) {
 		return prepareInstrumentRecipe(result, crystal, 1).key('w', ECBlocks.whiteRock).addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock));
 	}
 }

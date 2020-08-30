@@ -6,7 +6,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.item.pureore.PureOreHelper.PureOre;
 
 public class ItemPureOre extends ItemEC {
 
@@ -25,9 +24,7 @@ public class ItemPureOre extends ItemEC {
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
 		if (this.isInGroup(group)) {
-			for (PureOre ore : PureOreHelper.PURE_ORE_MAP.values()) {
-				items.add(ore.pureOre.copy());
-			}
+			PureOreHelper.PURE_ORE_MAP.keySet().stream().distinct().forEach(o -> items.add(PureOreHelper.createPureOre(o)));
 		}
 	}
 }

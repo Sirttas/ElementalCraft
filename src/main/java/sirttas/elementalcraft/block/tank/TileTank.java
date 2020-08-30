@@ -10,7 +10,7 @@ import sirttas.elementalcraft.block.tile.TileEC;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.block.tile.element.IElementSender;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.nbt.ECNBTTags;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public class TileTank extends TileEC implements IElementSender, IElementReceiver {
 
@@ -27,7 +27,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	}
 
 	public TileTank(boolean small) {
-		this(small ? ECConfig.CONFIG.tankMaxAmount.get() : ECConfig.CONFIG.tankSmallMaxAmount.get());
+		this(small ? ECConfig.CONFIG.tankSmallMaxAmount.get() : ECConfig.CONFIG.tankMaxAmount.get());
 		this.setSmall(small);
 	}
 
@@ -107,19 +107,19 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
-		elementType = ElementType.byName(compound.getString(ECNBTTags.ELEMENT_TYPE));
-		elementAmount = compound.getInt(ECNBTTags.ELEMENT_AMOUNT);
-		elementAmountMax = compound.getInt(ECNBTTags.ELEMENT_MAX);
-		small = compound.getBoolean(ECNBTTags.SMALL);
+		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
+		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
+		elementAmountMax = compound.getInt(ECNames.ELEMENT_MAX);
+		small = compound.getBoolean(ECNames.SMALL);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putString(ECNBTTags.ELEMENT_TYPE, elementType.getString());
-		compound.putInt(ECNBTTags.ELEMENT_AMOUNT, elementAmount);
-		compound.putInt(ECNBTTags.ELEMENT_MAX, elementAmountMax);
-		compound.putBoolean(ECNBTTags.SMALL, small);
+		compound.putString(ECNames.ELEMENT_TYPE, elementType.getString());
+		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+		compound.putInt(ECNames.ELEMENT_MAX, elementAmountMax);
+		compound.putBoolean(ECNames.SMALL, small);
 		return compound;
 	}
 
