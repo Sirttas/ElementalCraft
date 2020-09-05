@@ -92,7 +92,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static BlockSweetShrine sweetShrine;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
-	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static BlockEC crystalOre;
+	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static BlockCrystalOre crystalOre;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock") public static BlockEC whiteRock;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_slab") public static SlabBlock whiteRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_stairs") public static StairsBlock whiteRockStairs;
@@ -132,7 +132,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockSweetShrine(), BlockSweetShrine.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
-		RegistryHelper.register(registry, new BlockEC(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), "crystalore");
+		RegistryHelper.register(registry, new BlockCrystalOre(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), "crystalore");
 		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.WHITEROCK), "whiterock");
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_slab");
 		RegistryHelper.register(registry, new StairsBlock(() -> whiteRock.getDefaultState(), ECProperties.Blocks.WHITEROCK), "whiterock_stairs");

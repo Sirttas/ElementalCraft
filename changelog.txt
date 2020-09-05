@@ -1,0 +1,4 @@
+2.2.0-1.16.2:
+
+- fix crystal ore loot table and xp drop
+- fix a crash during pure ore initialization #1
