@@ -5,7 +5,12 @@ import java.util.UUID;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -34,6 +39,28 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 
 	public Multimap<String, AttributeModifier> getAttributeModifiers() {
 		return HashMultimap.create();
+	}
+
+	public boolean consume(Entity sender) { // NOSONAR
+		return true;
+	}
+
+	protected boolean consume(Entity sender, IItemProvider item, int count) {
+		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
+			PlayerInventory inv = ((PlayerEntity) sender).inventory;
+			int slot = inv.getSlotFor(new ItemStack(item));
+
+			if (slot >= 0) {
+				ItemStack ret = inv.decrStackSize(slot, count);
+
+				if (!ret.isEmpty()) {
+					return consume(sender, item, count - ret.getCount());
+				}
+				return true;
+			}
+			return false;
+		}
+		return true;
 	}
 
 }

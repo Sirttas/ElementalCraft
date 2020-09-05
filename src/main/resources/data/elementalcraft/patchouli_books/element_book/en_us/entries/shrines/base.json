@@ -1,9 +1,9 @@
 {
-  "name": "block.elementalcraft.shrinebase",
+  "name": "item.elementalcraft.shrinebase",
   "category": "elementalcraft:shrines",
   "icon": "elementalcraft:shrinebase",
   "advancement": "elementalcraft:pickup/binder",
-   "turnin": "elementalcraft:pickup/shrinebase",
+  "turnin": "elementalcraft:pickup/shrinebase",
   "sortnum": 100,
   "pages": [
     {

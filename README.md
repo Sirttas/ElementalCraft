@@ -2,7 +2,7 @@
 
 ElementalCraft is a magic mod based around the 4 elements: fire, water, earth and air.
 
-You first need to find sources of these elements and use an extractor to exploit them. First for crafting with infusion and binding, then you will use it to power shrines. Shrines can have a powerful impact on the world around them from crop growth to lava generation.
+This project features new resources: Elements, ways to gather those elements and use them for different crafts: infusion, binding, etc. You can also use shrines to channel elements in the world and act on it for things like crop growth, turning stone into lava or extracting ores. You can also use an infuser to improve existing enchantments or add new abilities to tools.
 
 This project is still in early development stage, a lot of features are subject to change. It is meant to be played in modpacks and try to use as much as possible features like datapack (Tags and recipes) and forge config.
 

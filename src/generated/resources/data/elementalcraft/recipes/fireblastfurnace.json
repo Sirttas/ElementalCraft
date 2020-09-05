@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wcw",
+    "gFg",
+    "ifi"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "item": "elementalcraft:swift_alloy_ingot"
+    },
+    "F": {
+      "item": "minecraft:blast_furnace"
+    },
+    "g": {
+      "item": "elementalcraft:burnt_glass"
+    },
+    "f": {
+      "item": "elementalcraft:firecrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:fireblastfurnace"
+  }
+}

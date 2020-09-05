@@ -24,7 +24,7 @@ public class ItemPureOre extends ItemEC {
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
 		if (this.isInGroup(group)) {
-			PureOreHelper.PURE_ORE_MAP.keySet().stream().distinct().forEach(o -> items.add(PureOreHelper.createPureOre(o)));
+			PureOreHelper.getOres().forEach(o -> items.add(PureOreHelper.createPureOre(o)));
 		}
 	}
 }

@@ -6,14 +6,14 @@
     "ici"
   ],
   "key": {
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
     "c": {
       "item": "elementalcraft:firecrystal"
     },
     "w": {
       "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "item": "elementalcraft:drenched_iron_ingot"
     },
     "f": {
       "item": "minecraft:furnace"

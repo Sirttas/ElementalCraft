@@ -1,11 +1,13 @@
 modLoader="javafml"
-loaderVersion="[31,)" 
+loaderVersion="[31,)"
+license="LGPL 2.1"
+authors="Sirttas"
 
 [[mods]] 
 modId="elementalcraft"
 version="${file.jarVersion}"
 displayName="ElementalCraft"
-description='''elementalcraft'''
+description='''ElementalCraft is a magic mod based around the 4 elements: fire, water, earth and air.'''
 
 [[dependencies.elementalcraft]]
     modId="forge"

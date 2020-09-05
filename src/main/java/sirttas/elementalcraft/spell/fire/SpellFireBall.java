@@ -22,4 +22,9 @@ public class SpellFireBall extends Spell implements ISelfCastedSpell {
 
 		return ActionResultType.SUCCESS;
 	}
+
+	@Override
+	public boolean consume(Entity sender) { // NOSONAR
+		return false;
+	}
 }

@@ -1,5 +1,8 @@
 package sirttas.elementalcraft.jei.category;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -23,6 +26,7 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 	private final IDrawable overlay;
 	private final IDrawable background;
 	private ItemStack infuser = new ItemStack(ECItems.infuser).copy();
+	protected List<ItemStack> tanks = Lists.newArrayList(tank, new ItemStack(ECItems.tankSmall).copy());
 
 
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
@@ -72,7 +76,7 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
 
 		recipeLayout.getItemStacks().init(1, false, 30, 24);
-		recipeLayout.getItemStacks().set(1, tank);
+		recipeLayout.getItemStacks().set(1, tanks);
 		recipeLayout.getItemStacks().init(2, false, 30, 8);
 		recipeLayout.getItemStacks().set(2, infuser);
 

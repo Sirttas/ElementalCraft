@@ -10,6 +10,8 @@
 		"$(ec:tank_small)": "$(l:elmentalcraft:instruments/tank_small)",
 		"$(ec:pipe)": "$(l:elmentalcraft:basics/elementpipe)",
 		"$(ec:infuser)": "$(l:elmentalcraft:instruments/infuser)",
-		"$(ec:extractor)": "$(l:elmentalcraft:instruments/extractor)"
+		"$(ec:extractor)": "$(l:elmentalcraft:instruments/extractor)",
+		"$(ec:binder)": "$(l:elmentalcraft:instruments/binder)",
+		"$(ec:firefurnace)": "$(l:elmentalcraft:instruments/firefurnace)"
 	}
 }

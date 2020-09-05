@@ -12,7 +12,7 @@
       "item": "minecraft:lava_bucket"
     },
     {
-      "item": "minecraft:gold_ingot"
+      "tag": "forge:ingots/gold"
     }
   ],
   "output": "elementalcraft:firepylon"

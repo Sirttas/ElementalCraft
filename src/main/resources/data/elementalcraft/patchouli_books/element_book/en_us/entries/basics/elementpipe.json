@@ -3,7 +3,7 @@
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:elementpipe",
   "advancement": "elementalcraft:pickup/containedcrystal",
-   "turnin": "elementalcraft:pickup/elementpipe",
+  "turnin": "elementalcraft:pickup/elementpipe",
   "priority": true,
   "sortnum": 3,
   "pages": [

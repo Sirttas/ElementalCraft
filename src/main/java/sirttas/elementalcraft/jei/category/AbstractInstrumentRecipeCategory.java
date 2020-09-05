@@ -7,7 +7,7 @@ import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractRecipeCategory<K, T> {
 
 	protected int getGaugeValue(T recipe) {
-		return (int) Math.log10(recipe.getElementPerTick() * recipe.getDuration()) - 2;
+		return (int) Math.log10(recipe.getElementPerTick() * recipe.getDuration()) - 1;
 	}
 
 	protected void renderElementGauge(int x, int y, T recipe) {

@@ -1,10 +1,12 @@
 package sirttas.elementalcraft.infusion;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.ObjIntConsumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.minecraft.enchantment.Enchantment;
@@ -18,12 +20,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.Tag;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
+import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class InfusionHelper {
@@ -94,8 +101,19 @@ public class InfusionHelper {
 		EnchantmentHelper.setEnchantments(map, stack);
 	}
 
+	public static List<ToolInfusionRecipe> getRecipes() {
+		return Stream.of(ElementType.values()).filter(e -> e != ElementType.NONE).flatMap(e -> Stream.of(ItemClass.values()).flatMap(c -> c.tag.getAllElements().stream()
+				.map(i -> new DisplayToolInfusionRecipe(i, e)))) .collect(Collectors.toList());
+	}
+
 	private static void addAttributeModifier(ItemStack stack, IAttribute attribute, double amount, EquipmentSlotType slot) {
-		stack.addAttributeModifier(attribute.getName(), new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
+		if (SharedMonsterAttributes.ATTACK_SPEED.equals(attribute)) {
+			stack.addAttributeModifier(attribute.getName(), new AttributeModifier(Item.ATTACK_SPEED_MODIFIER, "Weapon modifier", amount, AttributeModifier.Operation.ADDITION), slot);
+		} else if (SharedMonsterAttributes.ATTACK_DAMAGE.equals(attribute)) {
+			stack.addAttributeModifier(attribute.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", amount, AttributeModifier.Operation.ADDITION), slot);
+		} else {
+			stack.addAttributeModifier(attribute.getName(), new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
+		}
 	}
 
 	private static void applyAttributeModifierInfusion(ItemStack stack, EquipmentSlotType slot, IAttribute attribute, double amount) {
@@ -226,6 +244,12 @@ public class InfusionHelper {
 		return nbt.getCompound(ECNames.INFUSION);
 	}
 
+	public static boolean isApplied(ItemStack stack) {
+		CompoundNBT nbt = getInfusionTag(stack);
+
+		return nbt != null && hasInfusion(stack) && nbt.getBoolean(ECNames.INFUSION_APPLIED);
+	}
+
 	public enum ItemClass {
 		SWORD(ECTags.Items.INFUSABLE_SWORDS), PICKAXE(ECTags.Items.INFUSABLE_PICKAXES), AXE(ECTags.Items.INFUSABLE_AXES), SHOVEL(ECTags.Items.INFUSABLE_SHOVELS), HOE(ECTags.Items.INFUSABLE_HOES),
 		SHIELD(ECTags.Items.INFUSABLE_SHILDS), BOW(ECTags.Items.INFUSABLE_BOWS), CROSSBOW(ECTags.Items.INFUSABLE_CROSSBOWS), HELMET(ECTags.Items.INFUSABLE_HELMETS),
@@ -238,9 +262,27 @@ public class InfusionHelper {
 		}
 	}
 
-	public static boolean isApplied(ItemStack stack) {
-		CompoundNBT nbt = getInfusionTag(stack);
+	private static class DisplayToolInfusionRecipe extends ToolInfusionRecipe {
 
-		return nbt != null && hasInfusion(stack) && nbt.getBoolean(ECNames.INFUSION_APPLIED);
+		Item item;
+
+		private DisplayToolInfusionRecipe(Item item, ElementType elementType) {
+			this.item = item;
+			this.with(elementType);
+			this.id = new ResourceLocation(ElementalCraft.MODID, item.getRegistryName().getNamespace() + '_' + item.getRegistryName().getPath() + "_tool_infusion_with_" + elementType.getName());
+		}
+
+		@Override
+		public NonNullList<Ingredient> getIngredients() {
+			return NonNullList.from(Ingredient.EMPTY, Ingredient.fromItems(item));
+		}
+
+		@Override
+		public ItemStack getRecipeOutput() {
+			ItemStack stack = new ItemStack(item);
+
+			setInfusion(stack, elementType);
+			return stack;
+		}
 	}
 }

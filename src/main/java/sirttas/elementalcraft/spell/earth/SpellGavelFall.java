@@ -7,8 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
@@ -29,31 +27,24 @@ public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockC
 		world.addEntity(entity);
 	}
 
-	private ActionResultType checkAndSpawn(Entity sender, World world, BlockPos pos) {
-		if (world.isAirBlock(pos)) {
-			if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
-				PlayerInventory inv = ((PlayerEntity) sender).inventory;
-				int slot = inv.getSlotFor(new ItemStack(Items.GRAVEL));
+	@Override
+	public boolean consume(Entity sender) {
+		return consume(sender, Items.GRAVEL, 3);
+	}
 
-				if (slot >= 0) {
-					inv.getStackInSlot(slot).shrink(1);
-					spawn(world, pos);
-					return ActionResultType.SUCCESS;
-				}
-			} else {
-				spawn(world, pos);
-				return ActionResultType.SUCCESS;
-			}
+	private void checkAndSpawn(World world, BlockPos pos) {
+		if (world.isAirBlock(pos)) {
+			spawn(world, pos);
 		}
-		return ActionResultType.PASS;
 	}
 
 	private ActionResultType spawnGravel(Entity sender, BlockPos pos) {
 		World world = sender.getEntityWorld();
 
-		checkAndSpawn(sender, world, pos.up(4));
-		checkAndSpawn(sender, world, pos.up(5));
-		return checkAndSpawn(sender, world, pos.up(6));
+		checkAndSpawn(world, pos.up(4));
+		checkAndSpawn(world, pos.up(5));
+		checkAndSpawn(world, pos.up(6));
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override
