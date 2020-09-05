@@ -3,7 +3,7 @@
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:containedcrystal",
   "advancement": "elementalcraft:pickup/inertcrystal",
-   "turnin": "elementalcraft:pickup/containedcrystal",
+  "turnin": "elementalcraft:pickup/containedcrystal",
   "priority": true,
   "sortnum": 2,
   "pages": [

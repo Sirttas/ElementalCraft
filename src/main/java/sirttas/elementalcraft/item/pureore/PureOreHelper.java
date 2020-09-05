@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
@@ -12,6 +13,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
+import net.minecraft.item.crafting.BlastingRecipe;
 import net.minecraft.item.crafting.FurnaceRecipe;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
@@ -31,7 +33,7 @@ import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
 
 public class PureOreHelper {
 
-	protected static final Map<Item, Entry> PURE_ORE_MAP = new HashMap<>();
+	private static final Map<Item, Entry> PURE_ORE_MAP = new HashMap<>();
 
 	public static ItemStack getOre(ItemStack stack) {
 		return NBTHelper.readItemStack(NBTHelper.getECTag(stack), ECNames.ORE);
@@ -52,40 +54,66 @@ public class PureOreHelper {
 		return Optional.of(stack).map(PureOreHelper::getOre).map(i -> PURE_ORE_MAP.get(i.getItem())).map(o -> o.color).orElse(-1);
 	}
 
+	public static List<Item> getOres() {
+		return PURE_ORE_MAP.keySet().stream().distinct().collect(Collectors.toList());
+	}
+
+	public static List<PurifierRecipe> getRecipes() {
+		return PURE_ORE_MAP.keySet().stream().map(k -> new PurifierRecipe(new ItemStack(k))).collect(Collectors.toList());
+	}
+
 	public static void generatePureOres(RecipeManager recipeManager) {
-		Map<ResourceLocation, IRecipe<IInventory>> recipes = makeMutable(recipeManager.getRecipes(IRecipeType.SMELTING));
+		Map<ResourceLocation, IRecipe<IInventory>> smeltingRecipes = makeMutable(recipeManager.getRecipes(IRecipeType.SMELTING));
+		Map<ResourceLocation, IRecipe<IInventory>> blastingRecipes = makeMutable(recipeManager.getRecipes(IRecipeType.BLASTING));
 
 		for (Item ore : Tags.Items.ORES.getAllElements()) {
-			recipes.values().stream().filter(r -> r.getIngredients().get(0).test(new ItemStack(ore))).filter(AbstractCookingRecipe.class::isInstance).map(AbstractCookingRecipe.class::cast).findAny()
-					.ifPresent(r -> addOre(ore, r));
+			getRecipe(smeltingRecipes, ore).map(r -> addOre(ore, r)).ifPresent(e -> getRecipe(blastingRecipes, ore).ifPresent(r -> e.blastingRecipe = r));
 		}
 
 		if (Boolean.TRUE.equals(ECConfig.CONFIG.pureOreSmeltingRecipeInjection.get())) {
 			recipeManager.recipes = makeMutable(recipeManager.recipes);
-			recipes.putAll(PURE_ORE_MAP.values().stream().distinct().map(PureOreHelper::buildRecipe).collect(Collectors.toMap(IRecipe::getId, o -> o)));
-			recipeManager.recipes.put(IRecipeType.SMELTING, recipes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+			inject(recipeManager, IRecipeType.SMELTING, smeltingRecipes, PureOreHelper::buildSmeltingRecipe);
+			inject(recipeManager, IRecipeType.BLASTING, blastingRecipes, PureOreHelper::buildBlastingRecipe);
 		}
+	}
+
+	private static void inject(RecipeManager recipeManager, IRecipeType<?> recipeType, Map<ResourceLocation, IRecipe<IInventory>> map, Function<Entry, AbstractCookingRecipe> func) {
+		map.putAll(PURE_ORE_MAP.values().stream().distinct().map(func).collect(Collectors.toMap(IRecipe::getId, o -> o)));
+		recipeManager.recipes.put(recipeType, map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+	}
+
+	private static Optional<AbstractCookingRecipe> getRecipe(Map<ResourceLocation, IRecipe<IInventory>> map, Item ore) {
+		return map.values().stream().filter(r -> r.getIngredients().get(0).test(new ItemStack(ore))).filter(AbstractCookingRecipe.class::isInstance).map(AbstractCookingRecipe.class::cast).findAny();
 	}
 
 	private static <K, V> Map<K, V> makeMutable(Map<K, V> map) {
 		return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
-	private static FurnaceRecipe buildRecipe(Entry entry) {
+	private static AbstractCookingRecipe buildSmeltingRecipe(Entry entry) {
 		return new FurnaceRecipe(new ResourceLocation(ElementalCraft.MODID, entry.smeltingRecipe.getId().getNamespace() + "_pure_" + entry.smeltingRecipe.getId().getPath()),
 				entry.smeltingRecipe.getGroup(), new PureOreCompoundIngredient(entry.ingredients), entry.smeltingRecipe.getRecipeOutput().copy(), entry.smeltingRecipe.getExperience(),
 				entry.smeltingRecipe.getCookTime());
 	}
 
-	private static void addOre(Item item, AbstractCookingRecipe recipe) {
+	private static AbstractCookingRecipe buildBlastingRecipe(Entry entry) {
+		return new BlastingRecipe(new ResourceLocation(ElementalCraft.MODID, entry.blastingRecipe.getId().getNamespace() + "_pure_" + entry.blastingRecipe.getId().getPath()),
+				entry.blastingRecipe.getGroup(), new PureOreCompoundIngredient(entry.ingredients), entry.blastingRecipe.getRecipeOutput().copy(), entry.blastingRecipe.getExperience(),
+				entry.blastingRecipe.getCookTime());
+	}
+
+	private static Entry addOre(Item item, AbstractCookingRecipe recipe) {
 		for (Entry entry : PURE_ORE_MAP.values()) {
 			if (entry.smeltingRecipe.equals(recipe)) {
 				PURE_ORE_MAP.put(item, entry);
 				entry.ingredients.add(new PureOreIngredient(createPureOre(item)));
-				return;
+				return entry;
 			}
 		}
-		PURE_ORE_MAP.put(item, new Entry(item, recipe));
+		Entry entry = new Entry(item, recipe);
+
+		PURE_ORE_MAP.put(item, entry);
+		return entry;
 	}
 
 	protected static class Entry {
@@ -95,6 +123,7 @@ public class PureOreHelper {
 		ItemStack result;
 		int color;
 		AbstractCookingRecipe smeltingRecipe;
+		AbstractCookingRecipe blastingRecipe;
 
 		public Entry(Item ore, AbstractCookingRecipe recipe) {
 			this.ore = ore;
@@ -118,10 +147,6 @@ public class PureOreHelper {
 			super(children);
 		}
 
-	}
-
-	public static List<PurifierRecipe> getRecipes() {
-		return PURE_ORE_MAP.keySet().stream().map(k -> new PurifierRecipe(new ItemStack(k))).collect(Collectors.toList());
 	}
 
 }

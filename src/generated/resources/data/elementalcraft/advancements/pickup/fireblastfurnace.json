@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_fireblastfurnace": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:fireblastfurnace"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fireblastfurnace"
+    ]
+  ]
+}

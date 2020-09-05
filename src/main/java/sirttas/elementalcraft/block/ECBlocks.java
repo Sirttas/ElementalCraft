@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
 import net.minecraft.block.material.Material;
@@ -25,6 +26,8 @@ import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.BlockFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
+import sirttas.elementalcraft.block.instrument.firefurnace.blast.BlockFireBlastFurnace;
+import sirttas.elementalcraft.block.instrument.firefurnace.blast.TileFireBlastFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.BlockInfuser;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
 import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
@@ -76,6 +79,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static BlockPedestal airPedestal;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static BlockPureInfuser pureInfuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static BlockFireFurnace fireFurnace;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireBlastFurnace.NAME) public static BlockFireBlastFurnace fireBlastFurnace;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static BlockPurifier purifier;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static BlockElementPipe elementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static BlockFirePylon firePylon;
@@ -97,6 +101,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_slab") public static SlabBlock pureRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static StairsBlock pureRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static WallBlock pureRockWall;
+	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static BlockEC burntGlass;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -114,6 +119,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockPedestal(ElementType.AIR), BlockPedestal.NAME_AIR);
 		RegistryHelper.register(registry, new BlockPureInfuser(), BlockPureInfuser.NAME);
 		RegistryHelper.register(registry, new BlockFireFurnace(), BlockFireFurnace.NAME);
+		RegistryHelper.register(registry, new BlockFireBlastFurnace(), BlockFireBlastFurnace.NAME);
 		RegistryHelper.register(registry, new BlockPurifier(), BlockPurifier.NAME);
 		RegistryHelper.register(registry, new BlockElementPipe(), BlockElementPipe.NAME);
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
@@ -135,6 +141,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.PUREROCK), "purerock_slab");
 		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.PUREROCK), "purerock_wall");
+		RegistryHelper.register(registry, new BlockEC(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass");
 	}
 
 	@SubscribeEvent
@@ -149,6 +156,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePedestal::new, firePedestal, waterPedestal, earthPedestal, airPedestal).build(null), BlockPedestal.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePureInfuser::new, pureInfuser).build(null), BlockPureInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFireFurnace::new, fireFurnace).build(null), BlockFireFurnace.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileFireBlastFurnace::new, fireBlastFurnace).build(null), BlockFireBlastFurnace.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePurifier::new, purifier).build(null), BlockPurifier.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileElementPipe::new, elementPipe).build(null), BlockElementPipe.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFirePylon::new, firePylon).build(null), BlockFirePylon.NAME);

@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:fireblastfurnace"
+    ]
+  },
+  "criteria": {
+    "has_purecrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:purecrystal"
+          }
+        ]
+      }
+    },
+    "has_whiterock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:whiterock"
+          }
+        ]
+      }
+    },
+    "has_fireite_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:fireite_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:fireblastfurnace"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_purecrystal",
+      "has_whiterock",
+      "has_fireite_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

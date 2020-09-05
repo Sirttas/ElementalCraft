@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "elementalcraft:drenched_iron_nugget"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:drenched_iron_ingot"
+  }
+}

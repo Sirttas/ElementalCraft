@@ -6,17 +6,17 @@
     "www"
   ],
   "key": {
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
     "c": {
       "item": "elementalcraft:containedcrystal"
     },
     "w": {
       "item": "elementalcraft:whiterock"
     },
+    "i": {
+      "item": "elementalcraft:drenched_iron_ingot"
+    },
     "g": {
-      "item": "minecraft:glass"
+      "item": "elementalcraft:burnt_glass"
     },
     "p": {
       "item": "elementalcraft:elementpipe"

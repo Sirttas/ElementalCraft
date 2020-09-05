@@ -5,14 +5,14 @@
     "ici"
   ],
   "key": {
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
     "c": {
       "item": "elementalcraft:containedcrystal"
     },
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
     "n": {
-      "item": "minecraft:iron_nugget"
+      "tag": "forge:nuggets/iron"
     }
   },
   "result": {

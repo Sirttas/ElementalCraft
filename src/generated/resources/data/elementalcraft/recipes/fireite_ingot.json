@@ -7,7 +7,7 @@
       "item": "elementalcraft:purecrystal"
     },
     {
-      "item": "minecraft:netherite_ingot"
+      "tag": "forge:ingots/netherite"
     }
   ],
   "output": "elementalcraft:fireite_ingot"

@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.extractor",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:extractor",
-  "advancement": "elementalcraft:pickup/tank",
+  "advancement": "elementalcraft:pickup/tank_small",
   "turnin": "elementalcraft:pickup/extractor",
   "priority": true,
   "sortnum": 5,
