@@ -3,6 +3,7 @@ package sirttas.elementalcraft.item.pureore;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -78,7 +79,7 @@ public class PureOreHelper {
 	}
 
 	private static void inject(RecipeManager recipeManager, IRecipeType<?> recipeType, Map<ResourceLocation, IRecipe<IInventory>> map, Function<Entry, AbstractCookingRecipe> func) {
-		map.putAll(PURE_ORE_MAP.values().stream().distinct().map(func).collect(Collectors.toMap(IRecipe::getId, o -> o)));
+		map.putAll(PURE_ORE_MAP.values().stream().distinct().map(func).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o)));
 		recipeManager.recipes.put(recipeType, map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 	}
 
@@ -97,9 +98,10 @@ public class PureOreHelper {
 	}
 
 	private static AbstractCookingRecipe buildBlastingRecipe(Entry entry) {
-		return new BlastingRecipe(new ResourceLocation(ElementalCraft.MODID, entry.blastingRecipe.getId().getNamespace() + "_pure_" + entry.blastingRecipe.getId().getPath()),
+		return entry.blastingRecipe != null ? new BlastingRecipe(new ResourceLocation(ElementalCraft.MODID, entry.blastingRecipe.getId().getNamespace() + "_pure_" + entry.blastingRecipe.getId()
+				.getPath()),
 				entry.blastingRecipe.getGroup(), new PureOreCompoundIngredient(entry.ingredients), entry.blastingRecipe.getRecipeOutput().copy(), entry.blastingRecipe.getExperience(),
-				entry.blastingRecipe.getCookTime());
+				entry.blastingRecipe.getCookTime()) : null;
 	}
 
 	private static Entry addOre(Item item, AbstractCookingRecipe recipe) {
