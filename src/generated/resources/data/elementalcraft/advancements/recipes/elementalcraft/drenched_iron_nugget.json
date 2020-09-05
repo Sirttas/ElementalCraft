@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:drenched_iron_nugget"
+    ]
+  },
+  "criteria": {
+    "has_drenched_iron_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:drenched_iron_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:drenched_iron_nugget"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_iron_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

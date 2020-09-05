@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_burnt_glass": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:burnt_glass"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_burnt_glass"
+    ]
+  ]
+}

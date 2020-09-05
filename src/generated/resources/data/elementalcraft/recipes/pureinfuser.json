@@ -6,14 +6,14 @@
     "www"
   ],
   "key": {
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
     "c": {
       "item": "elementalcraft:containedcrystal"
     },
     "w": {
       "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "item": "elementalcraft:swift_alloy_ingot"
     },
     "n": {
       "item": "elementalcraft:infuser"

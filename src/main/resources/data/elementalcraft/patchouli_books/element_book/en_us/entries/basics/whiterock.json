@@ -3,7 +3,7 @@
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:whiterock",
   "advancement": "elementalcraft:pickup/infuser",
-   "turnin": "elementalcraft:pickup/whiterock",
+  "turnin": "elementalcraft:pickup/whiterock",
   "priority": true,
   "sortnum": 7,
   "pages": [

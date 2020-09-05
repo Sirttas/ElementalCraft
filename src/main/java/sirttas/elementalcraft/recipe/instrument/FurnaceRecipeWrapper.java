@@ -6,20 +6,20 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
+import sirttas.elementalcraft.block.instrument.firefurnace.AbstractTileFireFurnace;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
 
-public class FurnaceRecipeWrapper implements IInstrumentRecipe<TileFireFurnace> {
+public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IInstrumentRecipe<AbstractTileFireFurnace<T>> {
 
-	private AbstractCookingRecipe recipe;
+	private T recipe;
 
-	public FurnaceRecipeWrapper(AbstractCookingRecipe recipe) {
+	public FurnaceRecipeWrapper(T recipe) {
 		this.recipe = recipe;
 	}
 
 	@Override
-	public ItemStack getCraftingResult(TileFireFurnace inv) {
+	public ItemStack getCraftingResult(AbstractTileFireFurnace<T> inv) {
 		return recipe.getCraftingResult(inv);
 	}
 
@@ -49,7 +49,7 @@ public class FurnaceRecipeWrapper implements IInstrumentRecipe<TileFireFurnace> 
 	}
 
 	@Override
-	public void process(TileFireFurnace instrument) {
+	public void process(AbstractTileFireFurnace<T> instrument) {
 		ItemStack input = instrument.getStackInSlot(0);
 		ItemStack output = instrument.getStackInSlot(1);
 		ItemStack result = recipe.getCraftingResult(instrument);
@@ -83,7 +83,7 @@ public class FurnaceRecipeWrapper implements IInstrumentRecipe<TileFireFurnace> 
 	}
 
 	@Override
-	public boolean matches(TileFireFurnace inv) {
+	public boolean matches(AbstractTileFireFurnace<T> inv) {
 		return inv.getTankElementType() == ElementType.FIRE && recipe.matches(inv, null);
 	}
 

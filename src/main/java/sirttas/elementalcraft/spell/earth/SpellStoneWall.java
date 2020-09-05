@@ -5,9 +5,6 @@ import java.util.stream.Stream;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -25,37 +22,30 @@ public class SpellStoneWall extends Spell implements ISelfCastedSpell {
 		world.setBlockState(pos, Blocks.STONE.getDefaultState());
 	}
 
-	private ActionResultType checkAndSpawn(Entity sender, World world, BlockPos pos) {
-		if (world.isAirBlock(pos)) {
-			if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
-				PlayerInventory inv = ((PlayerEntity) sender).inventory;
-				int slot = inv.getSlotFor(new ItemStack(Items.STONE));
+	@Override
+	public boolean consume(Entity sender) {
+		return consume(sender, Items.STONE, 9);
+	}
 
-				if (slot >= 0) {
-					inv.getStackInSlot(slot).shrink(1);
-					spawn(world, pos);
-					return ActionResultType.SUCCESS;
-				}
-			} else {
-				spawn(world, pos);
-				return ActionResultType.SUCCESS;
-			}
+	private void checkAndSpawn(World world, BlockPos pos) {
+		if (world.isAirBlock(pos)) {
+			spawn(world, pos);
 		}
-		return ActionResultType.PASS;
 	}
 
 	public ActionResultType cast(Entity sender, BlockPos pos, Direction direction) {
 		World world = sender.getEntityWorld();
 
-		checkAndSpawn(sender, world, pos);
-		checkAndSpawn(sender, world, pos.offset(direction.rotateY()));
-		checkAndSpawn(sender, world, pos.offset(direction.rotateYCCW()));
-		checkAndSpawn(sender, world, pos.up(1));
-		checkAndSpawn(sender, world, pos.up(2));
-		checkAndSpawn(sender, world, pos.offset(direction.rotateY()).up(1));
-		checkAndSpawn(sender, world, pos.offset(direction.rotateY()).up(2));
-		checkAndSpawn(sender, world, pos.offset(direction.rotateYCCW()).up(1));
-		return checkAndSpawn(sender, world, pos.offset(direction.rotateYCCW()).up(2));
+		checkAndSpawn(world, pos);
+		checkAndSpawn(world, pos.offset(direction.rotateY()));
+		checkAndSpawn(world, pos.offset(direction.rotateYCCW()));
+		checkAndSpawn(world, pos.up(1));
+		checkAndSpawn(world, pos.up(2));
+		checkAndSpawn(world, pos.offset(direction.rotateY()).up(1));
+		checkAndSpawn(world, pos.offset(direction.rotateY()).up(2));
+		checkAndSpawn(world, pos.offset(direction.rotateYCCW()).up(1));
+		checkAndSpawn(world, pos.offset(direction.rotateYCCW()).up(2));
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override

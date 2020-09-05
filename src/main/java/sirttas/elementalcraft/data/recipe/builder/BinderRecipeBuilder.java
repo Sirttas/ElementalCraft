@@ -13,7 +13,7 @@ import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,7 +51,7 @@ public class BinderRecipeBuilder {
 		return this;
 	}
 
-	public BinderRecipeBuilder addIngredient(Tag<Item> tagIn) {
+	public BinderRecipeBuilder addIngredient(INamedTag<Item> tagIn) {
 		return this.addIngredient(Ingredient.fromTag(tagIn));
 	}
 

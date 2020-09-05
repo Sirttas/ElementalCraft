@@ -14,6 +14,7 @@ import sirttas.elementalcraft.block.instrument.binder.RendererBinder;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.RendererFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
+import sirttas.elementalcraft.block.instrument.firefurnace.blast.TileFireBlastFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
 import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
@@ -31,11 +32,15 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(TilePedestal.TYPE, d -> new SingleItemRenderer<TilePedestal>(d, new Vector3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TilePureInfuser.TYPE, d -> new SingleItemRenderer<TilePureInfuser>(d, new Vector3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TileFireFurnace.TYPE, RendererFireFurnace::new);
+		ClientRegistry.bindTileEntityRenderer(TileFireBlastFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TilePurifier.TYPE, RendererPurifier::new);
 	}
 
 	public static void initRenderLayouts() {
 		RenderTypeLookup.setRenderLayer(ECBlocks.tank, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.tankSmall, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.fireBlastFurnace, RenderType.getTranslucent());
+		RenderTypeLookup.setRenderLayer(ECBlocks.burntGlass, RenderType.getTranslucent());
+		RenderTypeLookup.setRenderLayer(ECBlocks.source, RenderType.getTranslucent());
 	}
 }

@@ -13,6 +13,7 @@ import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.BlockFireFurnace;
+import sirttas.elementalcraft.block.instrument.firefurnace.blast.BlockFireBlastFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.BlockInfuser;
 import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
@@ -28,6 +29,7 @@ import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
+import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.item.pureore.ItemPureOre;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.item.receptacle.ItemEmptyReceptacle;
@@ -55,10 +57,15 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":earthcrystal") public static ItemEC earthCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":aircrystal") public static ItemEC airCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":purecrystal") public static ItemEC pureCrystal;
+	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_ingot") public static ItemEC drenchedIronIngot;
+	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_nugget") public static ItemEC drenchedIronNugget;
+	@ObjectHolder(ElementalCraft.MODID + ":swift_alloy_ingot") public static ItemEC swiftAlloyIngot;
+	@ObjectHolder(ElementalCraft.MODID + ":swift_alloy_nugget") public static ItemEC swiftAlloyNugget;
 	@ObjectHolder(ElementalCraft.MODID + ":shrinebase") public static ItemEC shrineBase;
 	@ObjectHolder(ElementalCraft.MODID + ":fireite_ingot") public static ItemEC fireiteIngot;
 
 	/** BLOCKS */
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static Item tankSmall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static Item tank;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static Item extractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static Item improvedExtractor;
@@ -70,6 +77,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static Item airPedestal;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static Item pureInfuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static Item fireFurnace;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireBlastFurnace.NAME) public static Item fireBlastFurnace;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static Item purifier;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static Item elementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static Item firePylon;
@@ -91,6 +99,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_slab") public static Item pureRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static Item pureRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static Item pureRockWall;
+	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static Item burntGlass;
 
 	private ECItems() {
 
@@ -113,6 +122,10 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "earthcrystal");
 		RegistryHelper.register(registry, new ItemEC(), "aircrystal");
 		RegistryHelper.register(registry, new ItemEC().setEffect(true), "purecrystal");
+		RegistryHelper.register(registry, new ItemEC(), "drenched_iron_ingot");
+		RegistryHelper.register(registry, new ItemEC(), "drenched_iron_nugget");
+		RegistryHelper.register(registry, new ItemEC(), "swift_alloy_ingot");
+		RegistryHelper.register(registry, new ItemEC(), "swift_alloy_nugget");
 		RegistryHelper.register(registry, new ItemEC(), "shrinebase");
 		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).isBurnable()), "fireite_ingot");
 

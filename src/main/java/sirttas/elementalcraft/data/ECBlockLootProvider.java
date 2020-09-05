@@ -6,11 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import net.minecraft.advancements.criterion.EnchantmentPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootEntry;
@@ -19,6 +23,7 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.conditions.BlockStateProperty;
+import net.minecraft.loot.conditions.MatchTool;
 import net.minecraft.loot.conditions.SurvivesExplosion;
 import net.minecraft.loot.functions.CopyNbt;
 import net.minecraft.loot.functions.ExplosionDecay;
@@ -65,6 +70,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		functionTable.put(ECBlocks.crystalOre, i -> genRegular(ECItems.inertCrystal));
 		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
 		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
+		functionTable.put(ECBlocks.burntGlass, i -> genOnlySilkTouch(ECBlocks.burntGlass));
 	}
 
 	@Override
@@ -96,6 +102,13 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		LootPool.Builder pool = LootPool.builder().name("main").rolls(ConstantRange.of(1)).addEntry(entry).acceptCondition(SurvivesExplosion.builder());
 
 		return LootTable.builder().addLootPool(pool);
+	}
+
+	private static Builder genOnlySilkTouch(IItemProvider item) {
+		return LootTable.builder()
+				.addLootPool(LootPool.builder().name("main")
+						.acceptCondition(MatchTool.builder(ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
+						.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(item)));
 	}
 
 	private static Builder genCopyNbt(IItemProvider item, String... tags) {
@@ -131,5 +144,4 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	public String getName() {
 		return "ElementalCraft block loot tables";
 	}
-
 }

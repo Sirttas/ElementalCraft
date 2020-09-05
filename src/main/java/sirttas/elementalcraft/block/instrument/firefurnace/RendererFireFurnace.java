@@ -12,14 +12,14 @@ import sirttas.elementalcraft.block.tile.renderer.RendererEC;
 import sirttas.elementalcraft.item.ItemEC;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererFireFurnace extends RendererEC<TileFireFurnace> {
+public class RendererFireFurnace extends RendererEC<AbstractTileFireFurnace<?>> {
 
 	public RendererFireFurnace(TileEntityRendererDispatcher rendererDispatcher) {
 		super(rendererDispatcher);
 	}
 
 	@Override
-	public void render(TileFireFurnace te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(AbstractTileFireFurnace<?> te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
 		ItemStack stack = te.getStackInSlot(0);
 		ItemStack stack2 = te.getStackInSlot(1);
 		

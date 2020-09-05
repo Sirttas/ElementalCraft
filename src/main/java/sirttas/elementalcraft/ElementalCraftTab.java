@@ -34,6 +34,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.airPedestal, list);
 		addItem(ECBlocks.pureInfuser, list);
 		addItem(ECBlocks.fireFurnace, list);
+		addItem(ECBlocks.fireBlastFurnace, list);
 		addItem(ECBlocks.purifier, list);
 		addItem(ECBlocks.tankSmall, list);
 		addItem(ECBlocks.tank, list);
@@ -52,6 +53,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.whiteRockSlab, list);
 		addItem(ECBlocks.whiteRockStairs, list);
 		addItem(ECBlocks.whiteRockWall, list);
+		addItem(ECBlocks.burntGlass, list);
 		addItem(ECBlocks.pureRock, list);
 		addItem(ECBlocks.pureRockSlab, list);
 		addItem(ECBlocks.pureRockStairs, list);
@@ -70,6 +72,10 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.earthCrystal, list);
 		addItem(ECItems.airCrystal, list);
 		addItem(ECItems.pureCrystal, list);
+		addItem(ECItems.drenchedIronIngot, list);
+		addItem(ECItems.drenchedIronNugget, list);
+		addItem(ECItems.swiftAlloyIngot, list);
+		addItem(ECItems.swiftAlloyNugget, list);
 		addItem(ECItems.fireiteIngot, list);
 		addItem(ECItems.shrineBase, list);
 	}

@@ -1,3 +1,4 @@
+https://mcp.thiakil.com/
 bosses
 pipe element filter
 spells
@@ -5,38 +6,14 @@ more element production
 capabilities
 sound
 tools with ec materials
-tool infusion jei
 element pipe interface
 runewords
 elemental animals with kibbles ? also: https://www.reddit.com/r/MinecraftModIdeas/comments/hzzolz/mod_idea_elemental_horses/
 source exaust
 https://github.com/Kompreya/Kompy-Textures
-more crafting items
-
-
-book entries
-    crafting
-        tool infusion
-        binding
-        pure infusion
-        purification
-    instruments
-        fire furnace
-        improved extractor
-        purifier
-    shrines
-        fire pylone
-        ore shrines
-        lava shrines
-        sweet shrines
-        vacuum shrines
-        harves shrines
-        growth shrine
-        overload shrine
-    advanced
-        receptacle
-        pure infuser
-        pure rock
-    spells (ALL)
-
-
+https://game-icons.net/
+use infused tools in crafts ?
+pipe speed variant
+instrument output withdrawer
+source name by elements
+world gen config

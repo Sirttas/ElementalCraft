@@ -13,7 +13,7 @@
       "item": "minecraft:diamond"
     },
     "g": {
-      "item": "minecraft:gold_ingot"
+      "tag": "forge:ingots/gold"
     }
   },
   "result": {

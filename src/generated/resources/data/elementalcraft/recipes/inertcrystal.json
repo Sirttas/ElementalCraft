@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "elementalcraft:crystalore"
+  },
+  "result": "elementalcraft:inertcrystal",
+  "experience": 0.5,
+  "cookingtime": 200
+}

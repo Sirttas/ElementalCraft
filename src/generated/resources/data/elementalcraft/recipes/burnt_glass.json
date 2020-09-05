@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:infusion",
+  "element": "fire",
+  "duration": 40,
+  "input": {
+    "tag": "forge:glass"
+  },
+  "output": "elementalcraft:burnt_glass"
+}

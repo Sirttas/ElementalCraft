@@ -60,6 +60,9 @@ public class ItemScroll extends ItemEC {
 		} else if (spell instanceof ISelfCastedSpell) {
 			result = ((ISelfCastedSpell) spell).castOnSelf(playerIn);
 		}
+		if (!result.equals(ActionResultType.PASS) && !spell.consume(playerIn)) {
+			playerIn.setHeldItem(handIn, ItemStack.EMPTY);
+		}
 		return new ActionResult<>(result, stack);
 	}
 
