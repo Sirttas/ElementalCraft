@@ -48,7 +48,8 @@ public class ECRecipeProvider extends RecipeProvider {
 	protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 		registerSlabsStairsWalls(consumer);
 
-		ShapedRecipeBuilder.shapedRecipe(ECItems.containedCrystal).key('g', Items.GOLD_NUGGET).key('c', ECItems.inertCrystal).patternLine("ggg").patternLine("gcg").patternLine("ggg")
+		ShapedRecipeBuilder.shapedRecipe(ECItems.containedCrystal).key('g', Items.GOLD_NUGGET).key('c', ECItems.inertCrystal).patternLine(" g ").patternLine("gcg")
+				.patternLine(" g ")
 				.addCriterion(HAS_INERTCRYSTAL, hasItem(ECItems.inertCrystal)).build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECItems.shrineBase).key('w', ECBlocks.whiteRock).key('c', ECItems.inertCrystal).key('p', ECBlocks.elementPipe).patternLine(" p ").patternLine("pcp")
 				.patternLine("www").addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).build(consumer);
