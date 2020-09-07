@@ -1,3 +1,8 @@
+2.2.1-1.16.2::
+
+- contained crystal now require 4 gold nuggets instead of 8
+- fix a crash during server start
+
 2.2.0-1.16.2:
 
 - fix crystal ore loot table and xp drop
