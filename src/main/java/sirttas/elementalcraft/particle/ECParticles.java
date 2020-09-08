@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.particles.ParticleType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,15 +20,15 @@ import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECParticles {
 
 	@SubscribeEvent
 	public static void registerParticles(RegistryEvent.Register<ParticleType<?>> event) {
 		IForgeRegistry<ParticleType<?>> r = event.getRegistry();
 
-		RegistryHelper.register(r, new ParticleType<ElementTypeParticleData>(false, ElementTypeParticleData.DESERIALIZER), ParticleSource.NAME);
-		RegistryHelper.register(r, new ParticleType<ElementTypeParticleData>(false, ElementTypeParticleData.DESERIALIZER), ParticleElementFlow.NAME);
+		RegistryHelper.register(r, ParticleSource.TYPE, ParticleSource.NAME);
+		RegistryHelper.register(r, ParticleElementFlow.TYPE, ParticleElementFlow.NAME);
 	}
 
 	@SuppressWarnings("resource")

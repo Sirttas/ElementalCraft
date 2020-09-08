@@ -3,9 +3,12 @@ package sirttas.elementalcraft.entity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.infusion.InfusionHelper;
@@ -24,6 +27,7 @@ public class EntityHandler {
 		}
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	private static void clientAirInfusionFly(ClientPlayerEntity player) {
 		if (InfusionHelper.canAirInfusionFly(player) && (player.isElytraFlying() || (player.movementInput.jump && !lastJump && !player.isElytraFlying()))) {
 			player.startFallFlying();
@@ -38,9 +42,12 @@ public class EntityHandler {
 	public static void onLivingUpdate(LivingUpdateEvent event) {
 		LivingEntity entity = event.getEntityLiving();
 
-		if (entity instanceof ClientPlayerEntity) {
-			clientAirInfusionFly((ClientPlayerEntity) event.getEntityLiving());
-		} else if (entity instanceof ServerPlayerEntity) {
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+			if (entity instanceof ClientPlayerEntity) {
+				clientAirInfusionFly((ClientPlayerEntity) event.getEntityLiving());
+			}
+		});
+		if (entity instanceof ServerPlayerEntity) {
 			ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
 
 			if (player.isElytraFlying() && InfusionHelper.canAirInfusionFly(player)) {

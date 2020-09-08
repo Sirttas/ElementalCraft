@@ -6,8 +6,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 
+@OnlyIn(Dist.CLIENT)
 public class ElementTypeParticleData implements IParticleData {
 
 	private ElementType elementType;

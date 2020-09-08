@@ -129,7 +129,6 @@ public class ECItems {
 		// TODO add tools
 	}
 
-	@SubscribeEvent
 	public static void registerItemColors(ColorHandlerEvent.Item event) {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), receptacle);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : PureOreHelper.getColor(s), pureOre);

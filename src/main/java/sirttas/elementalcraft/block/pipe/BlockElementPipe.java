@@ -29,6 +29,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 import sirttas.elementalcraft.block.BlockECTileProvider;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.block.tile.element.IElementSender;
@@ -170,14 +171,16 @@ public class BlockElementPipe extends BlockECTileProvider {
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		final RayTraceResult result = Minecraft.getInstance().objectMouseOver;
+		if (Thread.currentThread().getThreadGroup() != SidedThreadGroups.SERVER) {
+			final RayTraceResult result = Minecraft.getInstance().objectMouseOver;
 
-		if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
-			final Vec3d hit = result.getHitVec();
+			if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
+				final Vec3d hit = result.getHitVec();
 
-			for (final VoxelShape box : boxes) {
-				if (doesVectorColide(box.getBoundingBox().offset(pos), hit) && isRendered(box, state)) {
-					return box;
+				for (final VoxelShape box : boxes) {
+					if (doesVectorColide(box.getBoundingBox().offset(pos), hit) && isRendered(box, state)) {
+						return box;
+					}
 				}
 			}
 		}

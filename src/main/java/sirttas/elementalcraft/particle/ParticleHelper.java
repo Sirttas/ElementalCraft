@@ -6,9 +6,12 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
 
+@OnlyIn(Dist.CLIENT)
 public class ParticleHelper {
 	public static void createSourceParticle(ElementType type, World world, Vec3d pos, Random rand) {
 		double x = pos.getX() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;

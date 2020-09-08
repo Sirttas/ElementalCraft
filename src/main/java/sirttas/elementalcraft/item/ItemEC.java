@@ -46,6 +46,7 @@ public class ItemEC extends Item implements IItemEC {
 		return stack == null || stack.isEmpty();
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	public static final int lookupColor(ItemStack stack) {
 		List<Integer> colors = ColorGetter.getColors(stack, 2);
 
