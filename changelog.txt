@@ -1,3 +1,9 @@
+2.2.3-1.16.2:
+
+- fix a dedicated server not working at all
+- fix a bug where instruments could return a null stack
+
+
 2.2.2-1.16.2:
 
 - fix a dedicated server crash

@@ -11,15 +11,13 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.ElementalCraft;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleElementFlow extends SpriteTexturedParticle {
 
 	public static final String NAME = "elementflow";
-	@ObjectHolder(ElementalCraft.MODID + ":" + ParticleElementFlow.NAME) public static ParticleType<ElementTypeParticleData> TYPE;
+	public static final ParticleType<ElementTypeParticleData> TYPE = ElementTypeParticleData.createParticeLtype();
 
 	private final double coordX;
 	private final double coordY;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -29,6 +30,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.block.BlockECTileProvider;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.block.tile.element.IElementSender;
@@ -66,7 +68,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 	}
 
 	public BlockElementPipe() {
-		super(Block.Properties.create(Material.IRON).hardnessAndResistance(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).notSolid().tickRandomly());
+		super(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).notSolid().tickRandomly());
 		boxes = new ArrayList<>(7);
 		boxes.add(BASE_SHAPE);
 		boxes.add(EAST_SHAPE);
@@ -170,18 +172,20 @@ public class BlockElementPipe extends BlockECTileProvider {
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		final RayTraceResult result = Minecraft.getInstance().objectMouseOver;
+		return DistExecutor.unsafeRunForDist(() -> () -> {
+			final RayTraceResult result = Minecraft.getInstance().objectMouseOver;
 
-		if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
-			final Vector3d hit = result.getHitVec();
+			if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
+				final Vector3d hit = result.getHitVec();
 
-			for (final VoxelShape box : boxes) {
-				if (doesVectorColide(box.getBoundingBox().offset(pos), hit) && isRendered(box, state)) {
-					return box;
+				for (final VoxelShape box : boxes) {
+					if (doesVectorColide(box.getBoundingBox().offset(pos), hit) && isRendered(box, state)) {
+						return box;
+					}
 				}
 			}
-		}
-		return getCurentShape(state);
+			return getCurentShape(state);
+		}, () -> () -> getCurentShape(state));
 	}
 
 

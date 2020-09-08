@@ -6,6 +6,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sirttas.elementalcraft.block.tile.renderer.ECRenderers;
 import sirttas.elementalcraft.entity.ECEntities;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
 
 public class ClientProxy implements IProxy {
@@ -13,6 +14,8 @@ public class ClientProxy implements IProxy {
 	@Override
 	public void registerHandlers() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(ECItems::registerItemColors);
+
 		MinecraftForge.EVENT_BUS.addListener(this::clientLoggin);
 	}
 

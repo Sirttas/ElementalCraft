@@ -26,11 +26,10 @@ public class ElementalCraft {
 
 	public static final Logger T = LogManager.getLogger(MODID);
 
-	public static IProxy proxy = new IProxy() {
-	};
+	private IProxy proxy = new IProxy() {};
 
 	public ElementalCraft() {
-		DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> () -> proxy = new ClientProxy()); // NOSONAR
+		DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> proxy = new ClientProxy()); // NOSONAR
 		proxy.registerHandlers();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		MinecraftForge.EVENT_BUS.addListener(this::setupServer);
@@ -43,8 +42,6 @@ public class ElementalCraft {
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ECConfig.SPEC);
 	}
-
-
 
 	private void setupServer(FMLServerStartedEvent event) {
 		PureOreHelper.generatePureOres(event.getServer().getRecipeManager());
