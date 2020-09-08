@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Multimap;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,6 +19,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -45,10 +45,9 @@ public class ItemScroll extends ItemEC {
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
-	@SuppressWarnings("resource")
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		final RayTraceResult ray = Minecraft.getInstance().objectMouseOver;
+		final RayTraceResult ray = rayTrace(worldIn, playerIn, RayTraceContext.FluidMode.NONE);
 		ActionResultType result = ActionResultType.PASS;
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		Spell spell = SpellHelper.getSpell(stack);

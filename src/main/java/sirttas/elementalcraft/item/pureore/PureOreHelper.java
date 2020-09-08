@@ -23,9 +23,11 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
@@ -144,8 +146,9 @@ public class PureOreHelper {
 			ingredients = Lists.newArrayList(new PureOreIngredient(createPureOre(ore)));
 			smeltingRecipe = recipe;
 			result = recipe.getRecipeOutput().copy();
-			color = ItemEC.lookupColor(result);
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ItemEC.lookupColor(result));
 		}
+
 	}
 
 	private static class PureOreIngredient extends NBTIngredient {

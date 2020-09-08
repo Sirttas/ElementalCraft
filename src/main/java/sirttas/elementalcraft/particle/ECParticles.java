@@ -1,10 +1,7 @@
 package sirttas.elementalcraft.particle;
 
-import java.util.function.Function;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.serialization.Codec;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleRenderType;
@@ -13,8 +10,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,15 +21,15 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @SuppressWarnings("deprecation")
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECParticles {
 
 	@SubscribeEvent
 	public static void registerParticles(RegistryEvent.Register<ParticleType<?>> event) {
 		IForgeRegistry<ParticleType<?>> r = event.getRegistry();
 
-		register(r, ElementTypeParticleData.DESERIALIZER, ElementTypeParticleData::getCodec, ParticleSource.NAME);
-		register(r, ElementTypeParticleData.DESERIALIZER, ElementTypeParticleData::getCodec, ParticleElementFlow.NAME);
+		RegistryHelper.register(r, ParticleSource.TYPE, ParticleSource.NAME);
+		RegistryHelper.register(r, ParticleElementFlow.TYPE, ParticleElementFlow.NAME);
 	}
 
 	@SuppressWarnings("resource")
@@ -65,14 +62,4 @@ public class ECParticles {
 			return "elementalcraft:renderer";
 		}
 	};
-
-	private static <T extends IParticleData> void register(IForgeRegistry<ParticleType<?>> reg, IParticleData.IDeserializer<T> deserializer, final Function<ParticleType<T>, Codec<T>> function,
-			String key) {
-		RegistryHelper.register(reg, new ParticleType<T>(false, deserializer) {
-			@Override
-			public Codec<T> func_230522_e_() {
-				return function.apply(this);
-			}
-		}, key);
-	}
 }

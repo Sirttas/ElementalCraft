@@ -20,7 +20,7 @@ mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = '2.2.2-1.16.2'
+version = '2.2.3-1.16.2'
 group = 'sirttas.elementalcraft' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'elementalcraft'
 
@@ -60,7 +60,7 @@ minecraft {
 
         server {
         	properties 'mixin.env.disableRefMap': 'true'
-            workingDirectory project.file('run')
+            workingDirectory project.file('run-server')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'

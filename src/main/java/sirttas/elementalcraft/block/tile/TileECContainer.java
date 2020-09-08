@@ -42,7 +42,7 @@ public abstract class TileECContainer extends TileECTickable implements IInvento
 		stack.setCount(newCount);
 		if (stack.getCount() <= 0) {
 			this.removeStackFromSlot(slot);
-			return null;
+			return ItemStack.EMPTY;
 		}
 		return stack;
 	}

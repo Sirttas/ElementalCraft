@@ -9,12 +9,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
 public class InfusionHandler {
 
 	@SubscribeEvent
