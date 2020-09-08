@@ -1,4 +1,9 @@
-2.2.1-1.16.2::
+2.2.2-1.16.2:
+
+- fix a dedicated server crash
+
+
+2.2.1-1.16.2:
 
 - contained crystal now require 4 gold nuggets instead of 8
 - fix a crash during server start
