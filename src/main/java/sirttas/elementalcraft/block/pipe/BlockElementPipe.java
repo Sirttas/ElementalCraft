@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -20,6 +21,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -29,7 +32,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.common.thread.SidedThreadGroups;
+import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.block.BlockECTileProvider;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.block.tile.element.IElementSender;
@@ -167,26 +170,44 @@ public class BlockElementPipe extends BlockECTileProvider {
 		return result;
 	}
 
-	@SuppressWarnings("resource")
+	private RayTraceResult rayTrace(IBlockReader world, Entity entity) {
+		return DistExecutor.runForDist(() -> () -> Minecraft.getInstance().objectMouseOver, () -> () -> {
+			if (entity instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) entity;
+				float f = player.rotationPitch;
+				float f1 = player.rotationYaw;
+				Vec3d vec3d = player.getEyePosition(1.0F);
+				float f2 = MathHelper.cos(-f1 * ((float) Math.PI / 180F) - (float) Math.PI);
+				float f3 = MathHelper.sin(-f1 * ((float) Math.PI / 180F) - (float) Math.PI);
+				float f4 = -MathHelper.cos(-f * ((float) Math.PI / 180F));
+				float f5 = MathHelper.sin(-f * ((float) Math.PI / 180F));
+				float f6 = f3 * f4;
+				float f7 = f2 * f4;
+				double d0 = player.getAttribute(PlayerEntity.REACH_DISTANCE).getValue();
+				Vec3d vec3d1 = vec3d.add(f6 * d0, f5 * d0, f7 * d0);
+
+				return world.rayTraceBlocks(new RayTraceContext(vec3d, vec3d1, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, player));
+			}
+			return null;
+		});
+	}
+
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (Thread.currentThread().getThreadGroup() != SidedThreadGroups.SERVER) {
-			final RayTraceResult result = Minecraft.getInstance().objectMouseOver;
+		final RayTraceResult result = rayTrace(worldIn, context.getEntity());
 
-			if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
-				final Vec3d hit = result.getHitVec();
+		if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
+			final Vec3d hit = result.getHitVec();
 
-				for (final VoxelShape box : boxes) {
-					if (doesVectorColide(box.getBoundingBox().offset(pos), hit) && isRendered(box, state)) {
-						return box;
-					}
+			for (final VoxelShape box : boxes) {
+				if (doesVectorColide(box.getBoundingBox().offset(pos), hit) && isRendered(box, state)) {
+					return box;
 				}
 			}
 		}
 		return getCurentShape(state);
 	}
-
 
 	@Override
 	@Deprecated
