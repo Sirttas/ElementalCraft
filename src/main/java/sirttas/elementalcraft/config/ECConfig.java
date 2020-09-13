@@ -47,6 +47,7 @@ public class ECConfig {
 	public final IntValue extractorExtractionAmount;
 	public final IntValue improvedExtractorExtractionAmount;
 	public final IntValue fireFurnaceConsumeAmount;
+	public final IntValue fireBlastFurnaceConsumeAmount;
 	public final IntValue purifierConsumeAmount;
 	public final IntValue purifierDuration;
 	public final IntValue impairedPipeTransferAmount;
@@ -105,7 +106,8 @@ public class ECConfig {
 		tankMaxAmount = builder.comment("The max element amount a tank can hold.").defineInRange("tankMaxAmount", 100000, 0, 100000000);
 		extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
 		improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 25, 0, 500);
-		fireFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Furnace per tick.").defineInRange("fireFurnaceConsumeAmount", 10, 0, 100);
+		fireFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Furnace per tick.").defineInRange("fireFurnaceConsumeAmount", 10, 0, 500);
+		fireBlastFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Blast Furnace per tick.").defineInRange("fireBlastFurnaceConsumeAmount", 20, 0, 500);
 		purifierConsumeAmount = builder.comment("The amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierConsumeAmount", 25, 0, 1000);
 		purifierDuration = builder.comment("The nember of tick for a Ore Purifier co procces one item.").defineInRange("purifierDuration", 100, 0, 2400);
 		impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);

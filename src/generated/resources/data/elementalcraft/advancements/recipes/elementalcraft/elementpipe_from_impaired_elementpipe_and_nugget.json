@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:improved_elementpipe_from_elementpipe_and_nugget"
+      "elementalcraft:elementpipe_from_impaired_elementpipe_and_nugget"
     ]
   },
   "criteria": {
-    "has_swift_alloy_nugget": {
+    "has_drenched_iron_nugget": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:swift_alloy_nugget"
+            "item": "elementalcraft:drenched_iron_nugget"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:improved_elementpipe_from_elementpipe_and_nugget"
+        "recipe": "elementalcraft:elementpipe_from_impaired_elementpipe_and_nugget"
       }
     }
   },
   "requirements": [
     [
-      "has_swift_alloy_nugget",
+      "has_drenched_iron_nugget",
       "has_the_recipe"
     ]
   ]

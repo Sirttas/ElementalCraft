@@ -71,7 +71,8 @@ public class PureOreHelper {
 		Map<ResourceLocation, IRecipe<IInventory>> smeltingRecipes = makeMutable(recipeManager.getRecipes(IRecipeType.SMELTING));
 		Map<ResourceLocation, IRecipe<IInventory>> blastingRecipes = makeMutable(recipeManager.getRecipes(IRecipeType.BLASTING));
 
-		ElementalCraft.T.info("Pure ore generation started");
+		ElementalCraft.T.info("Pure ore generation started. Ores found: {}",
+				() -> Tags.Items.ORES.getAllElements().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
 		for (Item ore : Tags.Items.ORES.getAllElements()) {
 			getRecipe(smeltingRecipes, ore).map(r -> addOre(ore, r)).ifPresent(e -> getRecipe(blastingRecipes, ore).ifPresent(r -> e.blastingRecipe = r));
 		}
