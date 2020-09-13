@@ -34,22 +34,18 @@ public abstract class TileECContainer extends TileECTickable implements IInvento
 
 	@Override
 	public ItemStack decrStackSize(int slot, int count) {
-		ItemStack oldStack = getStackInSlot(slot);
-		int newCount = (count > oldStack.getCount()) ? oldStack.getCount() : count;
-
-		oldStack.grow(-newCount);
-		ItemStack stack = oldStack.copy();
-		stack.setCount(newCount);
-		if (stack.getCount() <= 0) {
-			this.removeStackFromSlot(slot);
-			return ItemStack.EMPTY;
-		}
-		return stack;
+		return slot >= 0 && slot < this.getSizeInventory() && !this.getStackInSlot(slot).isEmpty() && count > 0 ? this.getStackInSlot(slot).split(count) : ItemStack.EMPTY;
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
 		this.clear();
 		super.onDataPacket(net, packet);
+	}
+
+	@Override
+	public void markDirty() {
+		this.forceSync();
+		super.markDirty();
 	}
 }

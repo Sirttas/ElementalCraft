@@ -1,3 +1,10 @@
+- pipes now control the amount of elements passing through them
+- impaired and improved element pipe
+- add crafting end particle effect for infuser and  binder
+- burnt glass pane
+- added instrument output retriever
+- Added altars: structures with a source
+
 1.1.4-1.15.2 and 2.2.4-1.16.2:
 
 - fix regression with pipes

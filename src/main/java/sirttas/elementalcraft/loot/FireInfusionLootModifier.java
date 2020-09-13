@@ -64,5 +64,10 @@ public class FireInfusionLootModifier extends LootModifier {
 		public FireInfusionLootModifier read(ResourceLocation location, JsonObject object, ILootCondition[] conditions) {
 			return new FireInfusionLootModifier(conditions);
 		}
+
+		@Override
+		public JsonObject write(FireInfusionLootModifier instance) {
+			return makeConditions(instance.conditions);
+		}
 	}
 }

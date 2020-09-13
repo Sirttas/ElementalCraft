@@ -7,10 +7,10 @@
   ],
   "key": {
     "g": {
-      "item": "minecraft:glass"
+      "tag": "forge:glass"
     },
     "p": {
-      "item": "elementalcraft:elementpipe"
+      "item": "elementalcraft:elementpipe_impaired"
     }
   },
   "result": {

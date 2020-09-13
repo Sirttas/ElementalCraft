@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.particle;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3d;
@@ -19,6 +20,14 @@ public class ParticleHelper {
 		double z = pos.getZ() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;
 
 		world.addParticle(ParticleSource.createData(type), x, y, z, 0F, 0F, 0F);
+	}
+
+	public static void createCraftingParticle(ElementType type, World world, Vector3d pos, Random rand) {
+		double x = pos.getX() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;
+		double y = pos.getY() + 5 * BlockEC.BIT_SIZE;
+		double z = pos.getZ() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;
+
+		IntStream.range(0, 10).forEach(i -> world.addParticle(ParticleElementCrafting.createData(type), x, y, z, 0F, 0F, 0F));
 	}
 
 	public static void createElementFlowParticle(ElementType type, World world, Vector3d pos, Direction direction, Random rand) {

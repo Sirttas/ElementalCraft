@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:elementpipe_from_impaired_elementpipe_and_ingot"
+    ]
+  },
+  "criteria": {
+    "has_drenched_iron_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:drenched_iron_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:elementpipe_from_impaired_elementpipe_and_ingot"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_iron_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

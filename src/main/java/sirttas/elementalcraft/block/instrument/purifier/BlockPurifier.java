@@ -27,7 +27,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.BlockECContainer;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockPurifier extends BlockECContainer {
@@ -84,7 +83,7 @@ public class BlockPurifier extends BlockECContainer {
 		final TilePurifier purifier = (TilePurifier) world.getTileEntity(pos);
 
 		if (purifier != null) {
-			if (!ItemEC.isEmpty(purifier.getStackInSlot(1))) {
+			if (!purifier.getStackInSlot(1).isEmpty()) {
 				return this.onSlotActivated(purifier, player, ItemStack.EMPTY, 1);
 			}
 			return this.onSlotActivated(purifier, player, player.getHeldItem(hand), 0);

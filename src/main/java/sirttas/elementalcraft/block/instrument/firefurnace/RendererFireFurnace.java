@@ -9,7 +9,6 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.tile.renderer.RendererEC;
-import sirttas.elementalcraft.item.ItemEC;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererFireFurnace extends RendererEC<AbstractTileFireFurnace<?>> {
@@ -23,13 +22,13 @@ public class RendererFireFurnace extends RendererEC<AbstractTileFireFurnace<?>> 
 		ItemStack stack = te.getStackInSlot(0);
 		ItemStack stack2 = te.getStackInSlot(1);
 		
-		if (!ItemEC.isEmpty(stack) || !ItemEC.isEmpty(stack2)) {
+		if (!stack.isEmpty() || !stack2.isEmpty()) {
 			matrixStack.translate(0.5F, 0.3F, 0.5F);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(getAngle(partialTicks)));
-			if (!ItemEC.isEmpty(stack)) {
+			if (!stack.isEmpty()) {
 				renderItem(stack, matrixStack, buffer, light, overlay);
 			}
-			if (!ItemEC.isEmpty(stack2)) {
+			if (!stack2.isEmpty()) {
 				matrixStack.translate(0, 0.5F, 0);
 				renderItem(stack2, matrixStack, buffer, light, overlay);
 			}

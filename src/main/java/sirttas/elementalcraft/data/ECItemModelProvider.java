@@ -7,9 +7,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 
@@ -29,7 +29,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 					ResourceLocation parent = new ResourceLocation(ElementalCraft.MODID, "block/" + name);
 
 					if (this.exists(parent)) {
-						withExistingParent(name, parent);
+						withExistingParent(name, parent).transforms();
 					} else {
 						getBuilder(name).parent(new UncheckedModelFile(parent));
 					}

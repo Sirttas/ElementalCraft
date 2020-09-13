@@ -1,10 +1,11 @@
 package sirttas.elementalcraft.block.pipe;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -26,10 +27,19 @@ public class TileElementPipe extends TileECTickable {
 
 	private Map<Direction, ConnectionType> connections;
 	private boolean updateState = true;
+	private int transferedAmount;
+	private int maxTransferAmount;
+
 
 	public TileElementPipe() {
+		this(ECConfig.CONFIG.pipeTransferAmount.get());
+	}
+
+	public TileElementPipe(int maxTransferAmount) {
 		super(TYPE);
 		this.connections = new EnumMap<>(Direction.class);
+		transferedAmount = 0;
+		this.maxTransferAmount = maxTransferAmount;
 	}
 
 	private TileEntity getAdjacentTile(Direction face) {
@@ -57,34 +67,6 @@ public class TileElementPipe extends TileECTickable {
 		updateState = true;
 	}
 
-	private IElementReceiver searchReceiver(List<TileElementPipe> pipes, ElementType type, int count) {
-		pipes.add(this);
-		for (Entry<Direction, ConnectionType> connection : connections.entrySet()) {
-			TileEntity entity = getAdjacentTile(connection.getKey());
-
-			if (entity instanceof TileElementPipe && connection.getValue() == ConnectionType.CONNECT) {
-				TileElementPipe other = (TileElementPipe) entity;
-
-				if (!pipes.contains(other)) {
-					IElementReceiver ret = other.searchReceiver(pipes, type, count);
-
-					if (ret != null) {
-						return ret;
-					}
-				}
-			} else if (entity instanceof IElementReceiver && connection.getValue() == ConnectionType.INSERT) {
-				IElementReceiver receiver = (IElementReceiver) entity;
-
-				if (receiver.inserElement(count, type, true) < count) {
-					return receiver;
-				}
-			} else {
-				refresh(connection.getKey());
-			}
-		}
-		return null;
-	}
-
 	private void refresh(Direction face) {
 		TileEntity other = getAdjacentTile(face);
 
@@ -110,15 +92,17 @@ public class TileElementPipe extends TileECTickable {
 	}
 
 	private void transferElement(IElementSender sender) {
-		int transferAmount = ECConfig.CONFIG.pipeTransferAmount.get();
-
+		int amount = this.maxTransferAmount - this.transferedAmount;
 		ElementType type = sender.getElementType();
 
 		if (type != ElementType.NONE) {
-			IElementReceiver receiver = this.searchReceiver(new ArrayList<TileElementPipe>(), type, sender.extractElement(transferAmount, type, true));
+			Path path = new Path();
+			IElementReceiver receiver = path.searchReceiver(this, type, sender.extractElement(amount, type, true));
 
 			if (receiver != null) {
-				receiver.inserElement(sender.extractElement(transferAmount, type, false), type, false);
+				int resultingAmount = amount - receiver.inserElement(sender.extractElement(path.amount, type, false), type, false);
+
+				path.pipes.forEach(p -> p.transferedAmount += resultingAmount);
 			}
 		}
 	}
@@ -127,6 +111,7 @@ public class TileElementPipe extends TileECTickable {
 	public void tick() {
 		super.tick();
 		refresh();
+		transferedAmount = 0;
 		connections.forEach((k, v) -> {
 			if (v == ConnectionType.EXTRACT) {
 				TileEntity entity = getAdjacentTile(k);
@@ -189,12 +174,14 @@ public class TileElementPipe extends TileECTickable {
 		for (Direction face : Direction.values()) {
 			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.getString())));
 		}
+		this.maxTransferAmount = compound.getInt("max_transfer_amount");
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		connections.forEach((k, v) -> compound.putInt(k.getString(), v.getValue()));
+		compound.putInt("max_transfer_amount", this.maxTransferAmount);
 		return compound;
 	}
 
@@ -218,6 +205,43 @@ public class TileElementPipe extends TileECTickable {
 				}
 			}
 			return NONE;
+		}
+	}
+
+	private static class Path {
+		List<TileElementPipe> visited = Lists.newArrayListWithCapacity(100);
+		List<TileElementPipe> pipes = Lists.newArrayListWithCapacity(100);
+		int amount;
+
+		private IElementReceiver searchReceiver(TileElementPipe pipe, ElementType type, int lastCount) {
+			int count = Math.min(lastCount, pipe.maxTransferAmount - pipe.transferedAmount);
+
+			if (count > 0 && !visited.contains(pipe)) {
+				visited.add(pipe);
+				for (Entry<Direction, ConnectionType> connection : pipe.connections.entrySet()) {
+					TileEntity entity = pipe.getAdjacentTile(connection.getKey());
+
+					if (entity instanceof TileElementPipe && connection.getValue() == ConnectionType.CONNECT) {
+						IElementReceiver ret = searchReceiver((TileElementPipe) entity, type, count);
+
+						if (ret != null) {
+							this.pipes.add(pipe);
+							return ret;
+						}
+					} else if (entity instanceof IElementReceiver && connection.getValue() == ConnectionType.INSERT) {
+						IElementReceiver receiver = (IElementReceiver) entity;
+
+						if (receiver.inserElement(count, type, true) < count) {
+							this.amount = count;
+							this.pipes.add(pipe);
+							return receiver;
+						}
+					} else {
+						pipe.refresh(connection.getKey());
+					}
+				}
+			}
+			return null;
 		}
 	}
 }

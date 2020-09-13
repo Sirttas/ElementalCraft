@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:elementpipe_impaired"
+    },
+    {
+      "item": "elementalcraft:drenched_iron_nugget"
+    },
+    {
+      "item": "elementalcraft:drenched_iron_nugget"
+    },
+    {
+      "item": "elementalcraft:drenched_iron_nugget"
+    },
+    {
+      "item": "elementalcraft:drenched_iron_nugget"
+    },
+    {
+      "item": "elementalcraft:drenched_iron_nugget"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:elementpipe"
+  }
+}

@@ -6,10 +6,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
-import sirttas.elementalcraft.item.ItemEC;
+import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
@@ -30,7 +31,7 @@ public class TileBinder extends TileInstrument {
 	}
 
 	public int getItemCount() {
-		return (int) stacks.stream().filter(i -> !ItemEC.isEmpty(i)).count();
+		return (int) stacks.stream().filter(i -> !i.isEmpty()).count();
 	}
 
 	@Override
@@ -61,7 +62,7 @@ public class TileBinder extends TileInstrument {
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		if (index < stacks.size()) {
 			stacks.set(index, stack);
-		} else if (ItemEC.isEmpty(stack)) {
+		} else if (stack.isEmpty()) {
 			stacks.add(stack);
 		}
 	}
@@ -75,6 +76,14 @@ public class TileBinder extends TileInstrument {
 	@Override
 	protected IInstrumentRecipe<TileBinder> lookupRecipe() {
 		return this.getWorld().getRecipeManager().getRecipe(BinderRecipe.TYPE, this, this.getWorld()).orElse(null);
+	}
+
+	@Override
+	public void process() {
+		super.process();
+		if (this.world.isRemote) {
+			ParticleHelper.createCraftingParticle(getTankElementType(), world, Vector3d.copy(pos), world.rand);
+		}
 	}
 
 }

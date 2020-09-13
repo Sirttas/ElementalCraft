@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iw ",
+    "hdi",
+    "iw "
+  ],
+  "key": {
+    "i": {
+      "item": "elementalcraft:swift_alloy_ingot"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "d": {
+      "item": "minecraft:dispenser"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:instrument_retriever"
+  }
+}

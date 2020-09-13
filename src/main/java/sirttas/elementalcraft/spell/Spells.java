@@ -9,6 +9,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import net.minecraftforge.registries.RegistryBuilder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.registry.RegistryHelper;
+import sirttas.elementalcraft.spell.air.SpellItemPull;
 import sirttas.elementalcraft.spell.earth.SpellGavelFall;
 import sirttas.elementalcraft.spell.earth.SpellStoneWall;
 import sirttas.elementalcraft.spell.fire.SpellFireBall;
@@ -23,6 +24,7 @@ public class Spells {
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellGavelFall.NAME) public static SpellGavelFall gravelFall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellStoneWall.NAME) public static SpellStoneWall stoneWall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFireBall.NAME) public static SpellFireBall fireBall;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellItemPull.NAME) public static SpellItemPull itemPull;
 
 	@SubscribeEvent
 	public static void createSpellRegistry(RegistryEvent.NewRegistry event) {
@@ -40,5 +42,6 @@ public class Spells {
 		RegistryHelper.register(registry, new SpellGavelFall(), SpellGavelFall.NAME);
 		RegistryHelper.register(registry, new SpellStoneWall(), SpellStoneWall.NAME);
 		RegistryHelper.register(registry, new SpellFireBall(), SpellFireBall.NAME);
+		RegistryHelper.register(registry, new SpellItemPull(), SpellItemPull.NAME);
 	}
 }
