@@ -49,7 +49,9 @@ public class ECConfig {
 	public final IntValue fireFurnaceConsumeAmount;
 	public final IntValue purifierConsumeAmount;
 	public final IntValue purifierDuration;
+	public final IntValue impairedPipeTransferAmount;
 	public final IntValue pipeTransferAmount;
+	public final IntValue improvedPipeTransferAmount;
 
 	public final BooleanValue pureOreSmeltingRecipeInjection;
 
@@ -57,6 +59,7 @@ public class ECConfig {
 	public final IntValue receptacleDurability;
 
 	public final IntValue sourceSpawnChance;
+	public final IntValue sourceAltarDistance;
 
 	static {
 		Pair<ECConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(ECConfig::new);
@@ -93,7 +96,7 @@ public class ECConfig {
 		oreShrineConsumeAmount = builder.comment("The amount of element consumed by the Ore Shrine.").defineInRange("oreShrineConsumeAmount", 500, 0, 1000);
 		oreShrinePeriode = builder.comment("The nember of tick betwenn two Ore Shrine activations.").defineInRange("oreShrinePeriode", 200, 0, 2400);
 		overloadShrineConsumeAmount = builder.comment("The amount of element consumed by the overload Shrine.").defineInRange("overloadShrineConsumeAmount", 500, 0, 1000);
-		overloadShrinePeriode = builder.comment("The nember of tick betwenn two Overload Shrine activations.").defineInRange("overloadShrinePeriode", 5, 0, 2400);
+		overloadShrinePeriode = builder.comment("The nember of tick betwenn two Overload Shrine activations.").defineInRange("overloadShrinePeriode", 3, 0, 2400);
 		sweetShrineRange = builder.comment("The range of the Sweet Shrine.").defineInRange("sweetShrineRange", 10, 0, 100);
 		sweetShrineConsumeAmount = builder.comment("The amount of element consumed by the Sweet Shrine.").defineInRange("sweetShrineConsumeAmount", 100, 0, 1000);
 		sweetShrinePeriode = builder.comment("The nember of tick betwenn two Sweet Shrine activations.").defineInRange("sweetShrinePeriode", 40, 0, 2400);
@@ -105,13 +108,16 @@ public class ECConfig {
 		fireFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Furnace per tick.").defineInRange("fireFurnaceConsumeAmount", 10, 0, 100);
 		purifierConsumeAmount = builder.comment("The amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierConsumeAmount", 25, 0, 1000);
 		purifierDuration = builder.comment("The nember of tick for a Ore Purifier co procces one item.").defineInRange("purifierDuration", 100, 0, 2400);
-		pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 100, 0, 10000);
+		impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
+		pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
+		improvedPipeTransferAmount = builder.comment("The amount of element transferred by improved pipes.").defineInRange("improvedPipeTransferAmount", 100, 0, 10000);
 
 		pureOreSmeltingRecipeInjection = builder.comment("Set to false if you want to manualy manage processing of pure ore.").define("pureOreSmeltingRecipeInjection", true);
 		binderRecipeMatchOrder = builder.comment("Define if or not binder recip require to be ordered.").define("binderRecipeMatchOrder", true);
 		receptacleDurability = builder.comment("Define source receptacle durablility (0 for unbreakable).").defineInRange("receptacleDurability", 20, 0, 1000);
 
 		sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
+		sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 16, 0, 100);
 
 		builder.pop();
 	}

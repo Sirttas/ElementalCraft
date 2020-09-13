@@ -6,9 +6,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
+import sirttas.elementalcraft.block.retriever.BlockRetriever;
+import sirttas.elementalcraft.block.retriever.RetrieverHelper;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECContainer;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
@@ -16,6 +18,7 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 
 	protected float progress = 0;
 	private IInstrumentRecipe<TileInstrument> recipe;
+	protected int outputSlot = 0;
 
 	public TileInstrument(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn);
@@ -32,10 +35,27 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 
 	protected abstract <T extends TileInstrument> IInstrumentRecipe<T> lookupRecipe();
 
+	private void sendOutputToRetriever() {
+		ItemStack output = this.getStackInSlot(outputSlot);
+
+		for (Direction direction : Direction.values()) {
+			BlockState blockState = world.getBlockState(pos.offset(direction));
+
+			if (blockState.getBlock() instanceof BlockRetriever && blockState.get(BlockRetriever.SOURCE) == direction.getOpposite()) {
+				output = RetrieverHelper.retrive(blockState, world, pos.offset(direction), output);
+				this.setInventorySlotContents(outputSlot, output);
+				if (output.isEmpty()) {
+					return;
+				}
+			}
+		}
+	}
+
 	@Override
 	public void process() {
 		recipe.process(this);
 		recipe = null;
+		sendOutputToRetriever();
 		this.forceSync();
 	}
 
@@ -97,7 +117,7 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	@Override
 	public boolean isEmpty() {
 		for (int i = 0; i <= getSizeInventory(); i++) {
-			if (!ItemEC.isEmpty(this.getStackInSlot(i))) {
+			if (!this.getStackInSlot(i).isEmpty()) {
 				return false;
 			}
 		}

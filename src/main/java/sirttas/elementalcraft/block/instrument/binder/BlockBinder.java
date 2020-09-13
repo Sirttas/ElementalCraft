@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.BlockECContainer;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockBinder extends BlockECContainer {
@@ -49,14 +48,14 @@ public class BlockBinder extends BlockECContainer {
 		ItemStack heldItem = player.getHeldItem(hand);
 
 		if (binder != null) {
-			if (ItemEC.isEmpty(heldItem) && !binder.isEmpty()) {
+			if (heldItem.isEmpty() && !binder.isEmpty()) {
 				for (int i = 0; i < binder.getSizeInventory(); i++) {
 					this.onSlotActivated(binder, player, heldItem, i);
 				}
 				return ActionResultType.SUCCESS;
 			}
 			for (int i = 0; i < binder.getSizeInventory(); i++) {
-				if (ItemEC.isEmpty(binder.getStackInSlot(i))) {
+				if (binder.getStackInSlot(i).isEmpty()) {
 					return this.onSlotActivated(binder, player, heldItem, i);
 				}
 			}

@@ -8,7 +8,7 @@
       "item": "elementalcraft:containedcrystal"
     },
     "i": {
-      "tag": "forge:ingots/iron"
+      "item": "elementalcraft:drenched_iron_ingot"
     }
   },
   "result": {

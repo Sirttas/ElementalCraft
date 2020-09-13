@@ -20,7 +20,8 @@ public class TileOverloadShrine extends TileShrine {
 	}
 
 	Optional<ITickable> getTarget() {
-		return Optional.ofNullable(world.getTileEntity(pos.offset(this.getBlockState().get(BlockOverloadShrine.FACING)))).filter(ITickable.class::isInstance).map(ITickable.class::cast);
+		return this.hasWorld() ? Optional.of(world.getTileEntity(pos.offset(this.getBlockState().get(BlockOverloadShrine.FACING)))).filter(ITickable.class::isInstance).map(ITickable.class::cast)
+				: Optional.empty();
 	}
 
 	@Override

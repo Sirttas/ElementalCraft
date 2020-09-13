@@ -66,7 +66,11 @@ public enum ElementType implements IStringSerializable {
 	}
 
 	public static ElementType random() {
-		int random = new Random().nextInt(4);
+		return random(new Random());
+	}
+
+	public static ElementType random(Random rand) {
+		int random = rand.nextInt(4);
 		switch (random) {
 		case 0:
 			return WATER;

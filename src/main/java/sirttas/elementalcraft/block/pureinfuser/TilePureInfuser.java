@@ -10,7 +10,6 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECContainer;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
@@ -25,6 +24,7 @@ public class TilePureInfuser extends TileECContainer {
 
 	public TilePureInfuser() {
 		super(TYPE);
+		this.setPasive(true);
 	}
 
 
@@ -100,6 +100,7 @@ public class TilePureInfuser extends TileECContainer {
 
 		if (pedestal != null) {
 			pedestal.setInventorySlotContents(0, stack);
+			pedestal.forceSync();
 		}
 	}
 
@@ -138,7 +139,7 @@ public class TilePureInfuser extends TileECContainer {
 
 	@Override
 	public boolean isEmpty() {
-		return ItemEC.isEmpty(stack);
+		return stack.isEmpty();
 	}
 
 	@Override

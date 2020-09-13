@@ -5,9 +5,9 @@
   "package": "sirttas.elementalcraft.mixin",
   "refmap": "elementalcraft.refmap.json",
   "mixins": [
-    "AccessorBiomeGenerationSettings",
     "MixinRepairContainer",
-    "MixinEnchantmentContainer"
+    "MixinEnchantmentContainer",
+    "MixinDimensionStructuresSettings"
   ],
   "injectors": {
     "defaultRequire": 1

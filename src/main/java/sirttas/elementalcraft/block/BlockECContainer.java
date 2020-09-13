@@ -20,7 +20,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.block.tile.IForcableSync;
 import sirttas.elementalcraft.block.tile.TileEC;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
 
 public abstract class BlockECContainer extends ContainerBlock implements IBlockECTileProvider {
@@ -57,8 +56,8 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 		ItemStack stack = inventory.getStackInSlot(index);
 		TileEntity entity = (TileEntity) inventory;
 
-		if (ItemEC.isEmpty(heldItem) || (!ItemEC.isEmpty(stack) && !stack.isItemEqual(heldItem))) {
-			if (!ItemEC.isEmpty(stack)) {
+		if (heldItem.isEmpty() || (!stack.isEmpty() && !stack.isItemEqual(heldItem))) {
+			if (!stack.isEmpty()) {
 				if (entity.hasWorld() && !entity.getWorld().isRemote()) {
 					ItemEntity invItem = new ItemEntity(entity.getWorld(), player.getPosX(), player.getPosY() + 0.25, player.getPosZ(), inventory.getStackInSlot(index));
 					entity.getWorld().addEntity(invItem);
@@ -67,7 +66,7 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 				return ActionResultType.SUCCESS;
 			}
 			return ActionResultType.PASS;
-		} else if (ItemEC.isEmpty(stack) && inventory.isItemValidForSlot(index, heldItem)) {
+		} else if (stack.isEmpty() && inventory.isItemValidForSlot(index, heldItem)) {
 			int size = Math.min(heldItem.getCount(), inventory.getInventoryStackLimit());
 
 			stack = heldItem.copy();
@@ -77,7 +76,7 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 			}
 			inventory.setInventorySlotContents(index, stack);
 			return ActionResultType.SUCCESS;
-		} else if (!ItemEC.isEmpty(stack) && stack.isItemEqual(heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getInventoryStackLimit()) {
+		} else if (!stack.isEmpty() && stack.isItemEqual(heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getInventoryStackLimit()) {
 			int size = Math.min(heldItem.getCount(), inventory.getInventoryStackLimit() - stack.getCount());
 
 			if (!player.isCreative()) {
