@@ -7,7 +7,6 @@ import net.minecraft.util.registry.Registry;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
 import sirttas.elementalcraft.block.tank.TileTank;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
 public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<TileInfuser> {
@@ -25,7 +24,7 @@ public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<Ti
 		ItemStack stack = inv.getStackInSlot(0);
 		TileTank tank = inv.getTank();
 		
-		return !ItemEC.isEmpty(stack) && tank != null && tank.getElementAmount() >= this.getElementPerTick();
+		return !stack.isEmpty() && tank != null && tank.getElementAmount() >= this.getElementPerTick();
 	}
 
 	public AbstractInfusionRecipe(ResourceLocation id, ElementType type) {

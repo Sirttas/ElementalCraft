@@ -2,9 +2,7 @@ package sirttas.elementalcraft.particle;
 
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.math.Vec3d;
@@ -14,23 +12,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 
 @OnlyIn(Dist.CLIENT)
-public class ParticleElementFlow extends SpriteTexturedParticle {
+public class ParticleElementFlow extends AbstractECParticle {
 
 	public static final String NAME = "elementflow";
 	public static final ParticleType<ElementTypeParticleData> TYPE = new ParticleType<>(false, ElementTypeParticleData.DESERIALIZER);
 
-	private final double coordX;
-	private final double coordY;
-	private final double coordZ;
-
 	private ParticleElementFlow(World worldIn, Vec3d coord, Vec3d speed, IAnimatedSprite sprite, ElementType type) {
-		super(worldIn, coord.getX(), coord.getY(), coord.getZ());
+		super(worldIn, coord);
 		this.motionX = speed.getX();
 		this.motionY = speed.getY();
 		this.motionZ = speed.getZ();
-		this.coordX = coord.getX();
-		this.coordY = coord.getY();
-		this.coordZ = coord.getZ();
 		this.prevPosX = coordX + motionX;
 		this.prevPosY = coordY + motionY;
 		this.prevPosZ = coordZ + motionZ;
@@ -45,33 +36,6 @@ public class ParticleElementFlow extends SpriteTexturedParticle {
 		this.canCollide = false;
 		this.maxAge = this.rand.nextInt(10) + 30;
 		this.selectSpriteRandomly(sprite);
-	}
-
-	@Override
-	public IParticleRenderType getRenderType() {
-		return ECParticles.EC_RENDER;
-	}
-
-	@Override
-	public void move(double x, double y, double z) {
-		this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
-		this.resetPositionToBB();
-	}
-
-	@Override
-	public int getBrightnessForRender(float partialTick) {
-		int i = super.getBrightnessForRender(partialTick);
-		float f = (float) this.age / (float) this.maxAge;
-		f = f * f;
-		f = f * f;
-		int j = i & 255;
-		int k = i >> 16 & 255;
-		k = k + (int) (f * 15.0F * 16.0F);
-		if (k > 240) {
-			k = 240;
-		}
-
-		return j | k << 16;
 	}
 
 	@Override

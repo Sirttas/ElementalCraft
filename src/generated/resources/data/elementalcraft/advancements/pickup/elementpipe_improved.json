@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_elementpipe_improved": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:elementpipe_improved"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_elementpipe_improved"
+    ]
+  ]
+}

@@ -12,7 +12,6 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
@@ -26,6 +25,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 	public TilePedestal() {
 		super(TYPE);
+		this.setPasive(true);
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 	@Override
 	public boolean isEmpty() {
-		return ItemEC.isEmpty(stack);
+		return stack.isEmpty();
 	}
 
 	@Override

@@ -23,6 +23,7 @@ public class TilePurifier extends TileInstrument {
 		super(TYPE);
 		input = ItemStack.EMPTY;
 		output = ItemStack.EMPTY;
+		outputSlot = 1;
 		this.setPasive(true);
 	}
 

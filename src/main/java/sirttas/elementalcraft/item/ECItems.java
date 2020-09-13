@@ -18,6 +18,7 @@ import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
+import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
 import sirttas.elementalcraft.block.shrine.harvest.BlockHarvestShrine;
@@ -77,7 +78,10 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static Item fireFurnace;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireBlastFurnace.NAME) public static Item fireBlastFurnace;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static Item purifier;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME_IMPAIRED) public static Item impairedElementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static Item elementPipe;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME_IMPROVED) public static Item improvedElementPipe;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRetriever.NAME) public static Item instrumentRetriever;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static Item firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static Item vacuumShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGrowthShrine.NAME) public static Item growthShrine;
@@ -98,6 +102,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static Item pureRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static Item pureRockWall;
 	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static Item burntGlass;
+	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass_pane") public static Item burntGlassPane;
 
 	private ECItems() {
 

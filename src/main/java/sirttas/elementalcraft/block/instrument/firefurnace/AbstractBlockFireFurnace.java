@@ -17,7 +17,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.block.BlockECContainer;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public abstract class AbstractBlockFireFurnace extends BlockECContainer {
@@ -35,7 +34,7 @@ public abstract class AbstractBlockFireFurnace extends BlockECContainer {
 		final AbstractTileFireFurnace<?> furnace = (AbstractTileFireFurnace<?>) world.getTileEntity(pos);
 	
 		if (furnace != null) {
-			if (!ItemEC.isEmpty(furnace.getStackInSlot(1))) {
+			if (!furnace.getStackInSlot(1).isEmpty()) {
 				furnace.dropExperience(player);
 				return this.onSlotActivated(furnace, player, ItemStack.EMPTY, 1);
 			}

@@ -90,7 +90,7 @@ public class PureOreHelper {
 	}
 
 	private static void inject(RecipeManager recipeManager, IRecipeType<?> recipeType, Map<ResourceLocation, IRecipe<IInventory>> map, Function<Entry, AbstractCookingRecipe> func) {
-		map.putAll(PURE_ORE_MAP.values().stream().distinct().map(func).filter(Objects::nonNull).collect(Collectors.toList()).stream().collect(Collectors.toMap(IRecipe::getId, o -> o)));
+		map.putAll(PURE_ORE_MAP.values().stream().distinct().map(func).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o)));
 		recipeManager.recipes.put(recipeType, map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 	}
 

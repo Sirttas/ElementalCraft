@@ -1,3 +1,11 @@
+- new blocks: impaired and improved element pipe
+- new block: burnt glass pane
+- new block: instrument output retriever
+- pipes now control the amount of elements passing through them
+- added crafting end particle effect for infuser and  binder
+- added altars: structures with a source
+- fix desync bug with instruments
+
 1.1.4-1.15.2 and 2.2.4-1.16.2:
 
 - fix regression with pipes

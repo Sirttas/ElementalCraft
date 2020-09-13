@@ -29,6 +29,7 @@ public class ECParticles {
 
 		RegistryHelper.register(r, ParticleSource.TYPE, ParticleSource.NAME);
 		RegistryHelper.register(r, ParticleElementFlow.TYPE, ParticleElementFlow.NAME);
+		RegistryHelper.register(r, ParticleElementCrafting.TYPE, ParticleElementCrafting.NAME);
 	}
 
 	@SuppressWarnings("resource")
@@ -36,6 +37,7 @@ public class ECParticles {
 	public static void registerFactories(ParticleFactoryRegisterEvent evt) {
 		Minecraft.getInstance().particles.registerFactory(ParticleSource.TYPE, ParticleSource.Factory::new);
 		Minecraft.getInstance().particles.registerFactory(ParticleElementFlow.TYPE, ParticleElementFlow.Factory::new);
+		Minecraft.getInstance().particles.registerFactory(ParticleElementCrafting.TYPE, ParticleElementCrafting.Factory::new);
 	}
 
 	@SuppressWarnings("deprecation")

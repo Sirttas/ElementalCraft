@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 import sirttas.elementalcraft.network.message.ECMessage;
-import sirttas.elementalcraft.network.message.MessageHandler;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public class EntityHandler {
@@ -31,7 +30,7 @@ public class EntityHandler {
 	private static void clientAirInfusionFly(ClientPlayerEntity player) {
 		if (InfusionHelper.canAirInfusionFly(player) && (player.isElytraFlying() || (player.movementInput.jump && !lastJump && !player.isElytraFlying()))) {
 			player.startFallFlying();
-			MessageHandler.CHANNEL.sendToServer(ECMessage.AIR_INFUSION);
+			ECMessage.AIR_INFUSION.send();
 		} else {
 			player.stopFallFlying();
 		}

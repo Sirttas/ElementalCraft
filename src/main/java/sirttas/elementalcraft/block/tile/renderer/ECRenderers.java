@@ -41,6 +41,7 @@ public final class ECRenderers {
 		RenderTypeLookup.setRenderLayer(ECBlocks.tankSmall, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.fireBlastFurnace, RenderType.getTranslucent());
 		RenderTypeLookup.setRenderLayer(ECBlocks.burntGlass, RenderType.getTranslucent());
+		RenderTypeLookup.setRenderLayer(ECBlocks.burntGlassPane, RenderType.getTranslucent());
 		RenderTypeLookup.setRenderLayer(ECBlocks.source, RenderType.getTranslucent());
 	}
 }

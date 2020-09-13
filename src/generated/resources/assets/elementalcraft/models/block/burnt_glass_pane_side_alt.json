@@ -1,0 +1,7 @@
+{
+  "parent": "block/template_glass_pane_side_alt",
+  "textures": {
+    "pane": "elementalcraft:block/burnt_glass",
+    "edge": "elementalcraft:block/burnt_glass"
+  }
+}

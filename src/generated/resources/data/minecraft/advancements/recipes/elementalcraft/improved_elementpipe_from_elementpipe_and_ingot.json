@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:improved_elementpipe_from_elementpipe_and_ingot"
+    ]
+  },
+  "criteria": {
+    "has_swift_alloy_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:swift_alloy_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:improved_elementpipe_from_elementpipe_and_ingot"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_swift_alloy_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

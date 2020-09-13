@@ -20,7 +20,6 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.TileExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
-import sirttas.elementalcraft.block.extractor.improved.TileImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.BlockFireFurnace;
@@ -37,6 +36,7 @@ import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
 import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
+import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
@@ -57,6 +57,7 @@ import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
 import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.block.tank.TileTank;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
@@ -80,7 +81,10 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static BlockFireFurnace fireFurnace;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireBlastFurnace.NAME) public static BlockFireBlastFurnace fireBlastFurnace;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static BlockPurifier purifier;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME_IMPAIRED) public static BlockElementPipe impairedElementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static BlockElementPipe elementPipe;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME_IMPROVED) public static BlockElementPipe improvedElementPipe;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRetriever.NAME) public static BlockRetriever instrumentRetriever;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static BlockFirePylon firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static BlockVacuumShrine vacuumShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGrowthShrine.NAME) public static BlockGrowthShrine growthShrine;
@@ -101,6 +105,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static StairsBlock pureRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static WallBlock pureRockWall;
 	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static BlockEC burntGlass;
+	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass_pane") public static ECPaneBlock burntGlassPane;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -120,7 +125,10 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockFireFurnace(), BlockFireFurnace.NAME);
 		RegistryHelper.register(registry, new BlockFireBlastFurnace(), BlockFireBlastFurnace.NAME);
 		RegistryHelper.register(registry, new BlockPurifier(), BlockPurifier.NAME);
-		RegistryHelper.register(registry, new BlockElementPipe(), BlockElementPipe.NAME);
+		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.impairedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPAIRED);
+		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.pipeTransferAmount.get()), BlockElementPipe.NAME);
+		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.improvedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPROVED);
+		RegistryHelper.register(registry, new BlockRetriever(), BlockRetriever.NAME);
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
 		RegistryHelper.register(registry, new BlockVacuumShrine(), BlockVacuumShrine.NAME);
 		RegistryHelper.register(registry, new BlockGrowthShrine(), BlockGrowthShrine.NAME);
@@ -141,6 +149,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.PUREROCK), "purerock_wall");
 		RegistryHelper.register(registry, new BlockEC(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass");
+		RegistryHelper.register(registry, new ECPaneBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass_pane");
 	}
 
 	@SubscribeEvent
@@ -148,8 +157,7 @@ public class ECBlocks {
 		IForgeRegistry<TileEntityType<?>> r = evt.getRegistry();
 
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileTank::new, tank, tankSmall).build(null), BlockTank.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.create(TileExtractor::new, extractor).build(null), BlockExtractor.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.create(TileImprovedExtractor::new, improvedExtractor).build(null), BlockImprovedExtractor.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileExtractor::new, extractor, improvedExtractor).build(null), BlockExtractor.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileInfuser::new, infuser).build(null), BlockInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBinder::new, binder).build(null), BlockBinder.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePedestal::new, firePedestal, waterPedestal, earthPedestal, airPedestal).build(null), BlockPedestal.NAME);
@@ -157,7 +165,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFireFurnace::new, fireFurnace).build(null), BlockFireFurnace.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFireBlastFurnace::new, fireBlastFurnace).build(null), BlockFireBlastFurnace.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePurifier::new, purifier).build(null), BlockPurifier.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.create(TileElementPipe::new, elementPipe).build(null), BlockElementPipe.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileElementPipe::new, impairedElementPipe, elementPipe, improvedElementPipe).build(null), BlockElementPipe.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFirePylon::new, firePylon).build(null), BlockFirePylon.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileVacuumShrine::new, vacuumShrine).build(null), BlockVacuumShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileGrowthShrine::new, growthShrine).build(null), BlockGrowthShrine.NAME);

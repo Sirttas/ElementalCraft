@@ -1,11 +1,12 @@
 package sirttas.elementalcraft;
 
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.util.IStringSerializable;
 import sirttas.elementalcraft.property.ECProperties;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public enum ElementType implements IStringSerializable {
 
@@ -42,7 +43,11 @@ public enum ElementType implements IStringSerializable {
 	}
 
 	public static ElementType random() {
-		int random = new Random().nextInt(4);
+		return random(new Random());
+	}
+
+	public static ElementType random(Random rand) {
+		int random = rand.nextInt(4);
 		switch (random) {
 		case 0:
 			return WATER;

@@ -3,12 +3,13 @@ package sirttas.elementalcraft.block.instrument.infuser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
+import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
@@ -46,7 +47,7 @@ public class TileInfuser extends TileInstrument {
 
 	@Override
 	public boolean isEmpty() {
-		return ItemEC.isEmpty(stack);
+		return stack.isEmpty();
 	}
 
 	@Override
@@ -76,6 +77,14 @@ public class TileInfuser extends TileInstrument {
 	protected IInstrumentRecipe<TileInfuser> lookupRecipe() {
 		return toolInfusionRecipe.matches(this) ? toolInfusionRecipe.with(this.getTankElementType())
 				: this.getWorld().getRecipeManager().getRecipe(AbstractInfusionRecipe.TYPE, this, this.getWorld()).orElse(null);
+	}
+
+	@Override
+	public void process() {
+		super.process();
+		if (this.world.isRemote) {
+			ParticleHelper.createCraftingParticle(getTankElementType(), world, new Vec3d(pos), world.rand);
+		}
 	}
 
 }

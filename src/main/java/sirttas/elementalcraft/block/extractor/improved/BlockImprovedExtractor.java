@@ -9,6 +9,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.TileExtractor;
+import sirttas.elementalcraft.config.ECConfig;
 
 public class BlockImprovedExtractor extends BlockExtractor {
 
@@ -28,7 +29,7 @@ public class BlockImprovedExtractor extends BlockExtractor {
 
 	@Override
 	public TileExtractor createTileEntity(BlockState state, IBlockReader world) {
-		return new TileImprovedExtractor();
+		return new TileExtractor(ECConfig.CONFIG.improvedExtractorExtractionAmount.get());
 	}
 
 	@Override

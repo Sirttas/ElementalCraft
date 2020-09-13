@@ -10,7 +10,6 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
 
 public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
@@ -89,7 +88,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 		if (result.isItemEqual(output) && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
 			in.shrink(1);
 			output.grow(result.getCount());
-		} else if (ItemEC.isEmpty(output)) {
+		} else if (output.isEmpty()) {
 			in.shrink(1);
 			instrument.setInventorySlotContents(1, result.copy());
 		}

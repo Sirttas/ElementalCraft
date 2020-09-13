@@ -56,7 +56,10 @@
   "block.elementalcraft.fireblastfurnace": "Fire Blast Furnace",
   "block.elementalcraft.purifier": "Ore Purifier",
   "block.elementalcraft.source": "Element Source",
+  "block.elementalcraft.elementpipe_impaired": "Impaired Element Pipe",
   "block.elementalcraft.elementpipe": "Element Pipe",
+  "block.elementalcraft.elementpipe_improved": "Improved Element Pipe",
+  "block.elementalcraft.instrument_retriever": "Instrument Output Retriever",
 
   "block.elementalcraft.firepylon": "Fire Pylon",
   "block.elementalcraft.vacuumshrine": "Vacuum Shrine",
@@ -77,10 +80,13 @@
   "block.elementalcraft.purerock_stairs": "Pure Rock Stairs",
   "block.elementalcraft.purerock_wall": "Pure Rock Wall",
   "block.elementalcraft.burnt_glass": "Burnt Glass",
+  "block.elementalcraft.burnt_glass_pane": "Burnt Glass Pane",
 
   "spell.elementalcraft.gravelfall": "Gravel Fall",
   "spell.elementalcraft.stonewall": "Stone Wall",
   "spell.elementalcraft.fireball": "Fire Ball",
+  "spell.elementalcraft.item_pull": "Item Pull",
+
 
   "elementalcraft.jei.infusion": "Element Infusion",
   "elementalcraft.jei.tool_infusion": "Element Tool Infusion",
@@ -112,7 +118,7 @@
   "elementalcraft.page.source1": "An $(thing)Air Source$() found naturally.",
   "elementalcraft.page.inertcrystal0": "To get $(item)Inert Crystal$() start digging underground and mine $(item)Inert Crystal Ore$().",
   "elementalcraft.page.containedcrystal0": "$(item)Contained Crystals$() are the main components of $(thing)instruments$().$(br)By coating an $(item)Inert Crystal$() with $(thing)gold$() you are able to prevent it to get altered by $(thing)elements$() without lousing its ability to interact with them.",
-  "elementalcraft.page.elementpipe0": "$(item)Pipes$() are used to transport $(thing)elements$() across distance, their main use is to provide $(thing)instruments$() with the required $(thing)element$().$(br2)you can configure a $(item)pipe$() by right clicking a section or the core to change it from $(thing)connected$(), $(thing)disconnected$(), $(thing)insert$() or $(thing)extract$().",
+  "elementalcraft.page.elementpipe0": "$(item)Pipes$() are used to transport $(thing)elements$() across distance, their main use is to provide $(thing)instruments$() with the required $(thing)element$().$(br2)you can configure a $(item)pipe$() by right clicking a section or the core to change it from $(thing)connected$(), $(thing)disconnected$(), $(thing)insert$() or $(thing)extract$().$(br2)$(item)Pipes$() existe in three tiers: impaired, normal and improved.",
   "elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). in an $(ec:infuser).",
 
   "elementalcraft.page.tank0": "The $(item)Element Container$() is a an advanced $(thing)element$() storage, it can store more $(thing)elements$() than the $(ec:tank_small)Small Container$() and is compatible with all $(thing)instruments$().",
@@ -141,5 +147,7 @@
 
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$().",
   "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the mos powerfull crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)to operate it needs to be circle with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$().$(br)Once this setup is done you can start crafting by puting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main on on the $(thing)pure infuser$().",
-    "elementalcraft.page.purerock0": "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts event a $(thing)Wither$()."
+  "elementalcraft.page.purerock0": "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts event a $(thing)Wither$().",
+  "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely twicked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon completed crafting and store it in a $(item)chest$() for exemple.$(br2)You ca reoriente its input and output by right clicking them.."
+  
 }

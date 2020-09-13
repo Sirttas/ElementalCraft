@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.instrument.firefurnace.AbstractTileFireFurnace;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.ItemEC;
 
 public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IInstrumentRecipe<AbstractTileFireFurnace<T>> {
 
@@ -57,7 +56,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 		if (result.isItemEqual(output) && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
 			input.shrink(1);
 			output.grow(result.getCount());
-		} else if (ItemEC.isEmpty(output)) {
+		} else if (output.isEmpty()) {
 			input.shrink(1);
 			instrument.setInventorySlotContents(1, result.copy());
 		}

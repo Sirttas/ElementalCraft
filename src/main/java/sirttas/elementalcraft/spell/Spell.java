@@ -45,6 +45,10 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 		return true;
 	}
 
+	public boolean canConsume(Entity sender) { // NOSONAR
+		return true;
+	}
+
 	protected boolean consume(Entity sender, IItemProvider item, int count) {
 		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
 			PlayerInventory inv = ((PlayerEntity) sender).inventory;
@@ -61,6 +65,13 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 			return false;
 		}
 		return true;
+	}
+
+	protected boolean canConsume(Entity sender, IItemProvider item, int count) {
+		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
+			return ((PlayerEntity) sender).inventory.count(item.asItem()) >= count;
+		}
+		return false;
 	}
 
 }

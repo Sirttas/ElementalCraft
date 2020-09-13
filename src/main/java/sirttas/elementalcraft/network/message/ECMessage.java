@@ -9,22 +9,15 @@ import sirttas.elementalcraft.infusion.InfusionHelper;
 
 public final class ECMessage {
 
-	public static final ECMessage AIR_INFUSION = create(MessageType.AIR_INFUSION);
+	public static final ECMessage AIR_INFUSION = new ECMessage(MessageType.AIR_INFUSION);
 
 	private MessageType type = null;
 
 	private ECMessage() {
 	}
 
-	private static ECMessage create(MessageType type) {
-		ECMessage msg = new ECMessage();
-
-		msg.type = type;
-		return msg;
-	}
-
-	public MessageType getType() {
-		return type;
+	private ECMessage(MessageType type) {
+		this.type = type;
 	}
 
 	public enum MessageType {
@@ -34,18 +27,18 @@ public final class ECMessage {
 	// message handling
 
 	public static ECMessage decode(PacketBuffer buf) {
-		return ECMessage.create(buf.readEnumValue(MessageType.class));
+		return new ECMessage(buf.readEnumValue(MessageType.class));
 	}
 
-	public static void encode(ECMessage msg, PacketBuffer buf) {
-		buf.writeEnumValue(msg.getType());
+	public void encode(PacketBuffer buf) {
+		buf.writeEnumValue(type);
 	}
 
-	public static void handle(ECMessage msg, Supplier<NetworkEvent.Context> ctx) {
+	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayerEntity player = ctx.get().getSender();
 
-			switch (msg.getType()) { // NOSONAR
+			switch (type) { // NOSONAR
 			case AIR_INFUSION:
 				if (InfusionHelper.canAirInfusionFly(player)) {
 					player.startFallFlying();
@@ -56,5 +49,9 @@ public final class ECMessage {
 			}
 		});
 		ctx.get().setPacketHandled(true);
+	}
+
+	public void send() {
+		MessageHandler.CHANNEL.sendToServer(this);
 	}
 }

@@ -19,8 +19,8 @@ import sirttas.elementalcraft.loot.function.RandomSpell;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.network.proxy.ClientProxy;
 import sirttas.elementalcraft.network.proxy.IProxy;
-import sirttas.elementalcraft.world.ECFeatures;
 import sirttas.elementalcraft.world.dimension.boss.BossDimension;
+import sirttas.elementalcraft.world.feature.ECFeatures;
 
 @Mod(ElementalCraft.MODID)
 public class ElementalCraft {

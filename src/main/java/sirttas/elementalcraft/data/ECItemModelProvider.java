@@ -29,7 +29,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 					ResourceLocation parent = new ResourceLocation(ElementalCraft.MODID, "block/" + name);
 
 					if (this.exists(parent)) {
-						withExistingParent(name, parent);
+						withExistingParent(name, parent).transforms();
 					} else {
 						getBuilder(name).parent(new UncheckedModelFile(parent));
 					}
