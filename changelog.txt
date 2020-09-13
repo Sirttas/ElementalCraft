@@ -1,3 +1,12 @@
+1.15.2-1.1.6 and 1.16.2-2.2.6:
+
+- Fire Blast Furnace now consume more elements; config: fireBlastFurnaceConsumeAmount
+- fix datapack
+- fix overload shrine not working
+
+
+1.15.2-1.1.5 and 1.16.2-2.2.5:
+
 - new blocks: impaired and improved element pipe
 - new block: burnt glass pane
 - new block: instrument output retriever
