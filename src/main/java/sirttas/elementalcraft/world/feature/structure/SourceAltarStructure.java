@@ -14,6 +14,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.ScatteredStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
@@ -31,6 +32,8 @@ public class SourceAltarStructure extends ScatteredStructure<NoFeatureConfig> {
 
 	public static final String NAME = "source_altar";
 
+	public static final IStructurePieceType PIECE_TYPE = Piece::new;
+	
 	private static final ResourceLocation SMALL = new ResourceLocation(ElementalCraft.MODID, "altar/small");
 	private static final ResourceLocation MEDIUM = new ResourceLocation(ElementalCraft.MODID, "altar/medium");
 
@@ -82,7 +85,7 @@ public class SourceAltarStructure extends ScatteredStructure<NoFeatureConfig> {
 		private ElementType elementType;
 
 		public Piece(TemplateManager templateManager, ResourceLocation templateName, ElementType elementType, BlockPos pos) {
-			super(Piece::new, 0);
+			super(PIECE_TYPE, 0);
 			this.templatePosition = pos;
 			this.templateName = templateName;
 			this.elementType = elementType;
@@ -90,7 +93,7 @@ public class SourceAltarStructure extends ScatteredStructure<NoFeatureConfig> {
 		}
 
 		public Piece(TemplateManager templateManager, CompoundNBT nbt) {
-			super(Piece::new, nbt);
+			super(PIECE_TYPE, nbt);
 			this.templateName = new ResourceLocation(nbt.getString("Template"));
 			this.elementType = ElementType.byName(nbt.getString("ElementType"));
 			initTemplate(templateManager);

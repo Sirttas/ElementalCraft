@@ -6,6 +6,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
@@ -36,6 +37,7 @@ public class ECFeatures {
 
 		RegistryHelper.register(r, new SourceFeature(), SourceFeature.NAME);
 		RegistryHelper.register(r, new SourceAltarStructure(), SourceAltarStructure.NAME);
+		IStructurePieceType.register(SourceAltarStructure.PIECE_TYPE, ElementalCraft.MODID + ":" + SourceAltarStructure.NAME);
 	}
 
 	public static void addToWorldgen() {

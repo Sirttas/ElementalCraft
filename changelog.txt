@@ -1,3 +1,8 @@
+1.15.2-1.1.7
+
+- fix a bug during chunk save
+
+
 1.15.2-1.1.6 and 1.16.2-2.2.6:
 
 - Fire Blast Furnace now consume more elements; config: fireBlastFurnaceConsumeAmount
