@@ -64,7 +64,7 @@ public class SourceAltarStructure extends Structure<NoFeatureConfig> {
 		@Override
 		public void func_230364_a_/* init */(DynamicRegistries dynamicRegistries, ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn,
 				NoFeatureConfig config) {
-			this.components.add(new Piece(templateManagerIn, this.rand.nextInt(4) < 2 ? SMALL : MEDIUM, ElementType.random(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
+			this.components.add(new Piece(templateManagerIn, this.rand.nextInt(8) < 6 ? SMALL : MEDIUM, ElementType.random(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
 			this.recalculateStructureSize();
 
 		}
