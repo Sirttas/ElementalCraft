@@ -1,4 +1,11 @@
-1.15.2-1.1.7
+1.15.2-1.1.8 and 1.16.2-2.2.7:
+
+- improved loot tables
+- reorganized config
+- fix a crash while placing pedestal and pure infuser
+
+
+1.15.2-1.1.7:
 
 - fix a bug during chunk save
 

@@ -24,6 +24,7 @@ public class TilePureInfuser extends TileECContainer {
 	public TilePureInfuser() {
 		super(TYPE);
 		this.setPasive(true);
+		stack = ItemStack.EMPTY;
 	}
 
 

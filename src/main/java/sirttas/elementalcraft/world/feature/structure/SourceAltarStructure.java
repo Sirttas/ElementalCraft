@@ -74,7 +74,7 @@ public class SourceAltarStructure extends ScatteredStructure<NoFeatureConfig> {
 
 		@Override
 		public void init(ChunkGenerator<?> generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn) {
-			this.components.add(new Piece(templateManagerIn, this.rand.nextInt(4) < 2 ? SMALL : MEDIUM, ElementType.random(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
+			this.components.add(new Piece(templateManagerIn, this.rand.nextInt(8) < 6 ? SMALL : MEDIUM, ElementType.random(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
 			this.recalculateStructureSize();
 		}
 	}
