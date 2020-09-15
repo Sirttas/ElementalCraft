@@ -27,6 +27,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	public TilePedestal() {
 		super(TYPE);
 		this.setPasive(true);
+		stack = ItemStack.EMPTY;
 	}
 
 	@Override

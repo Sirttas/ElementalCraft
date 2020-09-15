@@ -1,14 +1,89 @@
 {
-  "type": "minecraft:block",
+  "type": "minecraft:chest",
   "pools": [
     {
       "name": "main",
       "rolls": {
-        "min": 1.0,
+        "min": 0.0,
         "max": 2.0,
         "type": "minecraft:uniform"
       },
       "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 3.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "elementalcraft:drenched_iron_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 2.0,
+                "max": 5.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "elementalcraft:drenched_iron_nugget"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 2.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "elementalcraft:swift_alloy_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 7,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 2.0,
+                "max": 4.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "elementalcraft:swift_alloy_nugget"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "elementalcraft:random_spell"
+            }
+          ],
+          "name": "elementalcraft:scroll"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "elementalcraft:receptacle_empty"
+        },
         {
           "type": "minecraft:item",
           "weight": 20,
@@ -83,51 +158,6 @@
             }
           ],
           "name": "elementalcraft:aircrystal"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "elementalcraft:drenched_iron_ingot"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 2.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "elementalcraft:swift_alloy_ingot"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "functions": [
-            {
-              "function": "elementalcraft:random_spell"
-            }
-          ],
-          "name": "elementalcraft:scroll"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "name": "elementalcraft:receptacle_empty"
         }
       ]
     }
