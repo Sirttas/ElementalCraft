@@ -37,7 +37,7 @@ public class TileGrowthShrine extends TileShrine {
 	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.growthShrineConsumeAmount.get();
 
-		if (this.hasWorld() && world instanceof ServerWorld) {
+		if (world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
 			RANGE.forEach(v -> {
 				BlockPos p = getPos().add(v);
 				BlockState blockstate = world.getBlockState(p);
