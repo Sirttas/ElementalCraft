@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -27,7 +26,7 @@ public class TileOverloadShrine extends TileShrine {
 	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.overloadShrineConsumeAmount.get();
 
-		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
+		if (this.getElementAmount() >= consumeAmount) {
 			getTarget().ifPresent(t -> {
 				t.tick();
 				this.consumeElement(consumeAmount);

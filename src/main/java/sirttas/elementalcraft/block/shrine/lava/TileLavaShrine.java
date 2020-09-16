@@ -9,7 +9,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -39,7 +38,7 @@ public class TileLavaShrine extends TileShrine {
 	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.lavaShrineConsumeAmount.get();
 
-		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
+		if (this.getElementAmount() >= consumeAmount) {
 			RANGE.forEach(v -> {
 				BlockPos p = getPos().add(v);
 				BlockState blockstate = world.getBlockState(p);
