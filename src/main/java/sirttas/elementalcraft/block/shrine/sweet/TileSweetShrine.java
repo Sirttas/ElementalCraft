@@ -8,7 +8,6 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -31,9 +30,9 @@ public class TileSweetShrine extends TileShrine {
 
 	@Override
 	protected void doTick() {
-		int consumeAmount = ECConfig.CONFIG.overloadShrineConsumeAmount.get();
+		int consumeAmount = ECConfig.CONFIG.sweetShrineConsumeAmount.get();
 
-		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
+		if (this.getElementAmount() >= consumeAmount) {
 			getEntities(PlayerEntity.class).forEach(e -> {
 				if (this.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);

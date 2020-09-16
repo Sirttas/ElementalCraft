@@ -42,6 +42,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		if (ret > 0) {
 			running = true;
 		}
+		this.forceSync();
 		return ret;
 	}
 
@@ -72,10 +73,12 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	public final void tick() {
 		super.tick();
 		running = false;
-		tick++;
-		if (periode == 0 || tick % periode == 0) {
-			doTick();
-			tick = 0;
+		if (this.hasWorld()) {
+			tick++;
+			if (periode == 0 || tick % periode == 0) {
+				doTick();
+				tick = 0;
+			}
 		}
 	}
 

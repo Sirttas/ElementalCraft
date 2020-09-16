@@ -39,7 +39,7 @@ public class TileOreShrine extends TileShrine {
 	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.oreShrineConsumeAmount.get();
 
-		if (this.hasWorld() && world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
+		if (world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
 			Optional<BlockPos> opt = findOre();
 
 			if (opt.isPresent()) {

@@ -9,7 +9,6 @@ import net.minecraft.block.CropsBlock;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -37,7 +36,7 @@ public class TileHarvestShrine extends TileShrine {
 	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.harvestShrineConsumeAmount.get();
 
-		if (this.hasWorld() && world instanceof ServerWorld) {
+		if (this.getElementAmount() >= consumeAmount) {
 			RANGE.forEach(v -> {
 				BlockPos p = getPos().add(v);
 				BlockState blockstate = world.getBlockState(p);
