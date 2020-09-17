@@ -1,8 +1,13 @@
+1.15.2-1.1.10 and 1.16.2-2.2.9:
+
+- fix error when another mod doesn't correctly inject a loot table
+- fix a crash when the overloading shrine didn't have a valid target
+
+
 1.15.2-1.1.9 and 1.16.2-2.2.8:
 
 - fix a bug where the sweet shrine wouldn't use the correct config
 - fix desync bug with shrines and pedestals
-
 
 
 1.15.2-1.1.8 and 1.16.2-2.2.7:

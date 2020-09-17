@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -15,7 +16,6 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.property.ECProperties;
@@ -28,11 +28,11 @@ public class BlockEC extends Block implements IBlockEC {
 		this(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
 	}
 
-	public BlockEC(Block.Properties properties) {
+	public BlockEC(AbstractBlock.Properties properties) {
 		super(properties);
 	}
 
-	public static <T> Optional<T> getTileEntityAs(@Nonnull World world, BlockPos pos, Class<T> clazz) {
+	public static <T> Optional<T> getTileEntityAs(@Nonnull IBlockReader world, BlockPos pos, Class<T> clazz) {
 		return Optional.ofNullable(world.getTileEntity(pos)).filter(clazz::isInstance).map(clazz::cast);
 	}
 
