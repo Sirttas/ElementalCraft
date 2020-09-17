@@ -117,6 +117,7 @@
       ]
     },
     {
+      "name": "vanilla_1",
       "rolls": {
         "min": 1.0,
         "max": 3.0,
@@ -256,6 +257,7 @@
       ]
     },
     {
+      "name": "vanilla_2",
       "rolls": 2,
       "entries": [
         {

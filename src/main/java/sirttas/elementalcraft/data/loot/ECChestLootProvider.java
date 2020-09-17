@@ -117,7 +117,7 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	}
 	
 	private static LootTable.Builder addVanilla(LootTable.Builder builder) {
-		return builder.addLootPool(LootPool.builder().rolls(RandomValueRange.of(1.0F, 3.0F))
+		return builder.addLootPool(LootPool.builder().rolls(RandomValueRange.of(1.0F, 3.0F)).name("vanilla_1")
 				.addEntry(ItemLootEntry.builder(Items.IRON_INGOT).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 4.0F))))
 				.addEntry(ItemLootEntry.builder(Items.GOLD_INGOT).weight(5).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 4.0F))))
 				.addEntry(ItemLootEntry.builder(Items.BREAD).weight(20))
@@ -128,7 +128,7 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 				.addEntry(ItemLootEntry.builder(Items.MELON_SEEDS).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(2.0F, 4.0F))))
 				.addEntry(ItemLootEntry.builder(Items.PUMPKIN_SEEDS).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(2.0F, 4.0F))))
 				.addEntry(ItemLootEntry.builder(Items.BEETROOT_SEEDS).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(2.0F, 4.0F)))))
-		.addLootPool(LootPool.builder().rolls(ConstantRange.of(2))
+		.addLootPool(LootPool.builder().rolls(ConstantRange.of(2)).name("vanilla_2")
 				.addEntry(ItemLootEntry.builder(Items.BONE).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F))))
 				.addEntry(ItemLootEntry.builder(Items.GUNPOWDER).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F))))
 				.addEntry(ItemLootEntry.builder(Items.ROTTEN_FLESH).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F))))

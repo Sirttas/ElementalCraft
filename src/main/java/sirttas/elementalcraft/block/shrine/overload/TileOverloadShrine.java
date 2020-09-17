@@ -7,6 +7,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.config.ECConfig;
 
@@ -19,7 +20,7 @@ public class TileOverloadShrine extends TileShrine {
 	}
 
 	Optional<ITickableTileEntity> getTarget() {
-		return Optional.of(world.getTileEntity(pos.offset(this.getBlockState().get(BlockOverloadShrine.FACING)))).filter(ITickableTileEntity.class::isInstance).map(ITickableTileEntity.class::cast);
+		return BlockEC.getTileEntityAs(world, pos.offset(this.getBlockState().get(BlockOverloadShrine.FACING)), ITickableTileEntity.class);
 	}
 
 	@Override
