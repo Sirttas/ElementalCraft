@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/infuser",
   "turnin": "elementalcraft:pickup/whiterock",
   "priority": true,
-  "sortnum": 7,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",
@@ -17,11 +17,8 @@
     },
     {
       "type": "crafting",
-      "recipe": "elementalcraft:whiterock_slab"
-    },
-    {
-      "type": "crafting",
-      "recipe": "elementalcraft:whiterock_wall"
+      "recipe": "elementalcraft:whiterock_slab",
+      "recipe2": "elementalcraft:whiterock_wall"
     }
   ]
 }

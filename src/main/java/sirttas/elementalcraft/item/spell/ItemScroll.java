@@ -4,36 +4,22 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Multimap;
-
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
-import sirttas.elementalcraft.spell.IBlockCastedSpell;
-import sirttas.elementalcraft.spell.IEntityCastedSpell;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.spell.Spells;
 
-public class ItemScroll extends ItemEC {
+public class ItemScroll extends AbstractItemSpellHolder {
 
 	public static final String NAME = "scroll";
 
@@ -41,27 +27,9 @@ public class ItemScroll extends ItemEC {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
 	}
 
-	/**
-	 * Called when the equipped item is right clicked.
-	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		final RayTraceResult ray = rayTrace(worldIn, playerIn, RayTraceContext.FluidMode.NONE);
-		ActionResultType result = ActionResultType.PASS;
-		ItemStack stack = playerIn.getHeldItem(handIn);
-		Spell spell = SpellHelper.getSpell(stack);
-
-		if (spell instanceof IEntityCastedSpell && ray.getType() == RayTraceResult.Type.ENTITY) {
-			result = ((IEntityCastedSpell) spell).castOnEntity(playerIn, ((EntityRayTraceResult) ray).getEntity());
-		} else if (spell instanceof IBlockCastedSpell && ray.getType() == RayTraceResult.Type.BLOCK) {
-			result = ((IBlockCastedSpell) spell).castOnBlock(playerIn, ((BlockRayTraceResult) ray).getPos());
-		} else if (spell instanceof ISelfCastedSpell) {
-			result = ((ISelfCastedSpell) spell).castOnSelf(playerIn);
-		}
-		if (!result.equals(ActionResultType.PASS) && !spell.consume(playerIn)) {
-			playerIn.setHeldItem(handIn, ItemStack.EMPTY);
-		}
-		return new ActionResult<>(result, stack);
+	protected void consume(ItemStack stack) {
+		stack.setCount(0);
 	}
 
 	/**
@@ -72,8 +40,9 @@ public class ItemScroll extends ItemEC {
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		Spell spell = SpellHelper.getSpell(stack);
 
-		if (spell != null) {
-			tooltip.add(spell.getDisplayName());
+		if (spell != Spells.none) {
+			tooltip.add(spell.getDisplayName().applyTextStyle(TextFormatting.GRAY));
+			addAttributeTooltip(tooltip, spell);
 		}
 	}
 
@@ -81,7 +50,7 @@ public class ItemScroll extends ItemEC {
 	public ITextComponent getDisplayName(ItemStack stack) {
 		Spell spell = SpellHelper.getSpell(stack);
 
-		if (spell != null) {
+		if (spell != Spells.none) {
 			return new TranslationTextComponent("tooltip.elementalcraft.scroll_of", spell.getDisplayName());
 		}
 		return super.getDisplayName(stack);
@@ -91,19 +60,13 @@ public class ItemScroll extends ItemEC {
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
 		if (this.isInGroup(group)) {
 			Spell.REGISTRY.forEach(s -> {
-				ItemStack stack = new ItemStack(this);
+				if (s.getSpellType() != Spell.Type.NONE) {
+					ItemStack stack = new ItemStack(this);
 
-				SpellHelper.setSpell(stack, s);
-				items.add(stack);
+					SpellHelper.setSpell(stack, s);
+					items.add(stack);
+				}
 			});
 		}
-	}
-
-	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack) {
-		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
-			return SpellHelper.getSpell(stack).getAttributeModifiers();
-		}
-		return super.getAttributeModifiers(equipmentSlot, stack);
 	}
 }

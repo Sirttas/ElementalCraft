@@ -4,7 +4,7 @@
   "icon": "elementalcraft:sweetshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/sweetshrine",
-  "sortnum": 104,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",

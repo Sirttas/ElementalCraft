@@ -25,7 +25,6 @@ public class TileExtractor extends TileECTickable {
 
 	public TileExtractor(int extractionAmount) {
 		super(TYPE);
-		this.setPasive(true);
 		this.extractionAmount = extractionAmount;
 	}
 

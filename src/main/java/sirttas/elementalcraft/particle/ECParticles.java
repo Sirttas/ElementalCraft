@@ -18,6 +18,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.particle.element.ParticleElementCrafting;
+import sirttas.elementalcraft.particle.element.ParticleElementFlow;
+import sirttas.elementalcraft.particle.element.ParticleSource;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

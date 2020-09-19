@@ -23,6 +23,8 @@ public class ECTags {
 		public static final Tag<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
 		public static final Tag<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
 
+		public static final Tag<Item> SPELL_HOLDERS = createTag("spell_holders");
+
 		public static final Tag<Item> PUREROCKS = createTag("purerocks");
 
 		private static Tag<Item> createTag(String name) {

@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.particle;
+package sirttas.elementalcraft.particle.element;
 
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
@@ -10,18 +10,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.particle.AbstractECParticle;
 
 @OnlyIn(Dist.CLIENT)
-public class ParticleElementFlow extends AbstractECParticle {
+public class ParticleElementCrafting extends AbstractECParticle {
 
-	public static final String NAME = "elementflow";
+	public static final String NAME = "elementcrafting";
 	public static final ParticleType<ElementTypeParticleData> TYPE = new ParticleType<>(false, ElementTypeParticleData.DESERIALIZER);
 
-	private ParticleElementFlow(World worldIn, Vec3d coord, Vec3d speed, IAnimatedSprite sprite, ElementType type) {
+	private ParticleElementCrafting(World worldIn, Vec3d coord, IAnimatedSprite sprite, ElementType type) {
 		super(worldIn, coord);
-		this.motionX = speed.getX();
-		this.motionY = speed.getY();
-		this.motionZ = speed.getZ();
+		this.motionX = (this.rand.nextFloat() - 0.5F);
+		this.motionY = (this.rand.nextFloat() - 0.5F);
+		this.motionZ = (this.rand.nextFloat() - 0.5F);
 		this.prevPosX = coordX + motionX;
 		this.prevPosY = coordY + motionY;
 		this.prevPosZ = coordZ + motionZ;
@@ -34,7 +35,7 @@ public class ParticleElementFlow extends AbstractECParticle {
 		this.particleGreen = f * type.getGreen();
 		this.particleBlue = f * type.getBlue();
 		this.canCollide = false;
-		this.maxAge = this.rand.nextInt(10) + 30;
+		this.maxAge = this.rand.nextInt(10) + 5;
 		this.selectSpriteRandomly(sprite);
 	}
 
@@ -59,7 +60,7 @@ public class ParticleElementFlow extends AbstractECParticle {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	static class Factory implements IParticleFactory<ElementTypeParticleData> {
+	public static class Factory implements IParticleFactory<ElementTypeParticleData> {
 		private final IAnimatedSprite spriteSet;
 
 		public Factory(IAnimatedSprite sprite) {
@@ -68,7 +69,7 @@ public class ParticleElementFlow extends AbstractECParticle {
 
 		@Override
 		public Particle makeParticle(ElementTypeParticleData data, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			return new ParticleElementFlow(worldIn, new Vec3d(x, y, z), new Vec3d(xSpeed, ySpeed, zSpeed), this.spriteSet, data.getElementType());
+			return new ParticleElementCrafting(worldIn, new Vec3d(x, y, z), this.spriteSet, data.getElementType());
 		}
 	}
 

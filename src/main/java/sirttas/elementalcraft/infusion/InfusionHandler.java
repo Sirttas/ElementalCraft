@@ -27,7 +27,7 @@ public class InfusionHandler {
 			OptionalInt indexOpt = IntStream.range(0, tooltip.size()).filter(i -> stack.getItem().getRegistryName().toString().equals(tooltip.get(i).getString())).findFirst();
 
 			tooltip.add(indexOpt.isPresent() ? indexOpt.getAsInt() : tooltip.size(),
-					new TranslationTextComponent("tooltip.elementalcraft.infused", new TranslationTextComponent(InfusionHelper.getInfusion(stack).getTranslationKey())));
+					new TranslationTextComponent("tooltip.elementalcraft.infused", InfusionHelper.getInfusion(stack).getDisplayName()).applyTextStyle(TextFormatting.YELLOW));
 			if (!InfusionHelper.isApplied(stack)) {
 				tooltip.add(indexOpt.isPresent() ? indexOpt.getAsInt() : tooltip.size(),
 						new StringTextComponent("This item is infuse but the infusion is never applied, this should never had happened!!").applyTextStyle(TextFormatting.RED));

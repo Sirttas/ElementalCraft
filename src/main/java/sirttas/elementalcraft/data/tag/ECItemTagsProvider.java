@@ -1,11 +1,17 @@
 package sirttas.elementalcraft.data.tag;
 
+import java.util.Comparator;
+import java.util.function.Predicate;
+
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
+import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.item.spell.AbstractItemSpellHolder;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class ECItemTagsProvider extends ItemTagsProvider {
@@ -16,6 +22,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 	@Override
 	protected void registerTags() {
+		Predicate<Item> filter = i -> ElementalCraft.MODID.equals(i.getRegistryName().getNamespace());
+
 		this.copy(BlockTags.SLABS, ItemTags.SLABS);
 		this.copy(BlockTags.STAIRS, ItemTags.STAIRS);
 		this.copy(BlockTags.WALLS, ItemTags.WALLS);
@@ -34,5 +42,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getBuilder(ECTags.Items.INFUSABLE_CHESTPLATES).add(Items.IRON_CHESTPLATE, Items.GOLDEN_CHESTPLATE, Items.DIAMOND_CHESTPLATE);
 		getBuilder(ECTags.Items.INFUSABLE_LEGGINGS).add(Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS, Items.DIAMOND_LEGGINGS);
 		getBuilder(ECTags.Items.INFUSABLE_BOOTS).add(Items.IRON_BOOTS, Items.GOLDEN_BOOTS, Items.DIAMOND_BOOTS);
+
+		getBuilder(ECTags.Items.SPELL_HOLDERS)
+				.add(registry.stream().filter(filter).filter(i -> i instanceof AbstractItemSpellHolder).sorted(Comparator.comparing(Item::getRegistryName)).toArray(Item[]::new));
 	}
 }

@@ -24,7 +24,6 @@ public class TileInfuser extends TileInstrument {
 	public TileInfuser() {
 		super(TYPE);
 		stack = ItemStack.EMPTY;
-		this.setPasive(true);
 	}
 
 	@Override

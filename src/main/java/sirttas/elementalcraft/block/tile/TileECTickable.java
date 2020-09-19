@@ -15,9 +15,6 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	}
 
 	private boolean toSync = true;
-	private int tick = 0;
-
-	private boolean pasive = false;
 
 	@Override
 	public void forceSync() {
@@ -25,8 +22,7 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	}
 
 	private void sync() {
-		tick++;
-		if (toSync || (tick >= 10 && !this.pasive)) {
+		if (toSync) {
 			BlockState bs = this.getWorld().getBlockState(pos);
 
 			this.getWorld().notifyBlockUpdate(pos, bs, bs, 3);
@@ -34,18 +30,12 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 			this.getWorld().notifyNeighbors(pos, getBlockState().getBlock());
 			NetworkHelper.dispatchTEToNearbyPlayers(this);
 			toSync = false;
-			tick = 0;
 		}
 	}
 
 	@Override
 	public void tick() {
 		sync();
-	}
-
-
-	protected void setPasive(boolean pasive) {
-		this.pasive = pasive;
 	}
 
 	// TODO extract (capability ?)

@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/containedcrystal",
   "turnin": "elementalcraft:pickup/tank_small",
   "priority": true,
-  "sortnum": 4,
+  "sortnum": 0,
   "pages": [
     {
       "type": "text",

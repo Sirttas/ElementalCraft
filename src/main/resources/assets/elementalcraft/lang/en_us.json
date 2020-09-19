@@ -19,6 +19,11 @@
   "item.elementalcraft.receptacle.earth": "Earth Source Receptacle",
   "item.elementalcraft.receptacle.air": "Air Source Receptacle",
   "item.elementalcraft.receptacle_empty": "Empty Source Receptacle",
+  "item.elementalcraft.element_holder": "Element Holder",
+  "item.elementalcraft.element_holder_fire": "Fire Element Holder",
+  "item.elementalcraft.element_holder_water": "Water Element Holder",
+  "item.elementalcraft.element_holder_earth": "Earth Element Holder",
+  "item.elementalcraft.element_holder_air": "Air Element Holder",
 
   "item.elementalcraft.puresword": "Pure Sword",
   "item.elementalcraft.firesword": "Fire Sword",
@@ -82,11 +87,15 @@
   "block.elementalcraft.burnt_glass": "Burnt Glass",
   "block.elementalcraft.burnt_glass_pane": "Burnt Glass Pane",
 
+  "spell.elementalcraft.none": "",
   "spell.elementalcraft.gravelfall": "Gravel Fall",
   "spell.elementalcraft.stonewall": "Stone Wall",
   "spell.elementalcraft.fireball": "Fire Ball",
   "spell.elementalcraft.item_pull": "Item Pull",
-
+  "spell.elementalcraft.ender_strike": "Ender Strike",
+  "spell.elementalcraft.animal_growth": "Animal Growth",
+  
+  "spell.elementalcraft.heal": "Healing",
 
   "elementalcraft.jei.infusion": "Element Infusion",
   "elementalcraft.jei.tool_infusion": "Element Tool Infusion",
@@ -97,6 +106,10 @@
   "tooltip.elementalcraft.infused": "%s infused",
   "tooltip.elementalcraft.scroll_of": "Scroll of %s",
   "tooltip.elementalcraft.pure_ore": "Pure %s Chunk",
+  "tooltip.elementalcraft.on_spell_use": "Durring spell cast:",
+  "tooltip.elementalcraft.spell_effect_on_use": "When applied:",
+  "tooltip.elementalcraft.spell_consume": "Consume %s",
+  "tooltip.elementalcraft.percent_full": "%s%% full",
 
   "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().",
 
@@ -110,6 +123,8 @@
   "elementalcraft.category.shrines.desc": "$(thing)Shrines$() are powerful tools that channel $(thing)elements$() in the world around them to act on it.",
   "elementalcraft.category.advanced": "Advanced",
   "elementalcraft.category.advanced.desc": "Advanced and powerfull late-game tools.",
+  "elementalcraft.category.spells": "Spells",
+  "elementalcraft.category.spells.desc": "Spells allows you to directly affect the world around you.",
 
   "elementalcraft.entry.infusion": "Infusion",
   "elementalcraft.entry.binding": "Binding",
@@ -120,6 +135,8 @@
   "elementalcraft.page.containedcrystal0": "$(item)Contained Crystals$() are the main components of $(thing)instruments$().$(br)By coating an $(item)Inert Crystal$() with $(thing)gold$() you are able to prevent it to get altered by $(thing)elements$() without lousing its ability to interact with them.",
   "elementalcraft.page.elementpipe0": "$(item)Pipes$() are used to transport $(thing)elements$() across distance, their main use is to provide $(thing)instruments$() with the required $(thing)element$().$(br2)you can configure a $(item)pipe$() by right clicking a section or the core to change it from $(thing)connected$(), $(thing)disconnected$(), $(thing)insert$() or $(thing)extract$().$(br2)$(item)Pipes$() existe in three tiers: impaired, normal and improved.",
   "elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). in an $(ec:infuser).",
+  "elementalcraft.page.element_holder0": "$(item)Element Holders$() can hold $(thing)elements$(), for transport or use by $(thing)spells$().$(br)To fill them hold right click on a $(thing)source$() of the same $(thing)element$() type. You can also transpher $(thing)element$() back to a receiver by holding right click on it.",
+  "elementalcraft.page.focus0": "A $(item)focus$() can hold multiple $(thing)spells$().$(br)You can add $(thing)spells$() to it by putting the $(item)focus$() in an $(intem)anvil$() with the $(item)scroll$() of the $(thing)spell$().You can circle through $(thing)spells$() by holding shift and scrolling.",
 
   "elementalcraft.page.tank0": "The $(item)Element Container$() is a an advanced $(thing)element$() storage, it can store more $(thing)elements$() than the $(ec:tank_small)Small Container$() and is compatible with all $(thing)instruments$().",
   "elementalcraft.page.extractor0": "Use an $(item)Extractor$() to extract $(thing)elements$() form $(ec:source)sources$().$(br2)To do so place the $(item)Extractor$() above a $(ec:tank)Container$() and below the $(ec:source)source$() you want to extract.",
@@ -148,6 +165,13 @@
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$().",
   "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the mos powerfull crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)to operate it needs to be circle with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$().$(br)Once this setup is done you can start crafting by puting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main on on the $(thing)pure infuser$().",
   "elementalcraft.page.purerock0": "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts event a $(thing)Wither$().",
-  "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely twicked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon completed crafting and store it in a $(item)chest$() for exemple.$(br2)You ca reoriente its input and output by right clicking them.."
+  "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely twicked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon completed crafting and store it in a $(item)chest$() for exemple.$(br2)You ca reoriente its input and output by right clicking them.",
+  
+  "elementalcraft.page.fireball0": "Throw a $(thing)fire ball$() in the dirrection you are looking at.$(br)Consumes $(thing)fire$().",
+  "elementalcraft.page.gravelfall0": "Summon a column of $(item)gravel$() above the targeted $(thing)block$() or $(thing)entity$().$(br)Consumes $(thing)earth$() and three $(item)gravel$().",
+  "elementalcraft.page.stonewall0": "Summon a three by three $(thing)stone wall$() in front of you to protect you from attacks.$(br)Consumes $(thing)earth$() and nine $(item)stone$().",
+  "elementalcraft.page.healing0": "Heal you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
+  "elementalcraft.page.ender_strike0": "Teleport behind targeted $(thing)entity$() or closest $(thing)monster$() and strike it with increased damage.$(br)Consumes $(thing)air$().",
+  "elementalcraft.page.item_pull0": "Pull all nearby $(item)items to you.$(br)Consumes $(thing)air$()."
   
 }

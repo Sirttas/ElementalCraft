@@ -11,6 +11,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
+import sirttas.elementalcraft.particle.element.ParticleElementCrafting;
+import sirttas.elementalcraft.particle.element.ParticleElementFlow;
+import sirttas.elementalcraft.particle.element.ParticleSource;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleHelper {

@@ -43,7 +43,9 @@ public class RandomSpell extends LootFunction {
 			List<Spell> list = Lists.newArrayList();
 
 			for (Spell sp : Spell.REGISTRY) {
-				list.add(sp);
+				if (sp.getSpellType() != Spell.Type.NONE) {
+					list.add(sp);
+				}
 			}
 			spell = list.get(random.nextInt(list.size()));
 		} else {

@@ -21,7 +21,6 @@ public class TileBinder extends TileInstrument {
 
 	public TileBinder() {
 		super(TYPE);
-		this.setPasive(true);
 	}
 
 	@Override

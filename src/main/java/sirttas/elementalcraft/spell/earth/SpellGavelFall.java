@@ -7,10 +7,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.IBlockCastedSpell;
 import sirttas.elementalcraft.spell.IEntityCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
@@ -19,17 +21,16 @@ public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockC
 
 	public static final String NAME = "gravelfall";
 
+	public SpellGavelFall() {
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).cooldown(ECConfig.CONFIG.gravelFallCooldown.get()).consumeAmount(ECConfig.CONFIG.gravelFallConsumeAmount.get()));
+	}
+
 	private void spawn(World world, BlockPos pos) {
 		FallingBlockEntity entity = new FallingBlockEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, Blocks.GRAVEL.getDefaultState());
 
 		entity.fallTime = 1;
 		entity.setHurtEntities(true);
 		world.addEntity(entity);
-	}
-
-	@Override
-	public boolean consume(Entity sender) {
-		return consume(sender, Items.GRAVEL, 3);
 	}
 
 	private void checkAndSpawn(World world, BlockPos pos) {
@@ -58,10 +59,19 @@ public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockC
 	}
 
 	@Override
-	public Multimap<String, AttributeModifier> getAttributeModifiers() {
-		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers();
+	public boolean consume(Entity sender) {
+		boolean value = consume(sender, Blocks.GRAVEL, 3);
+		
+		return super.consume(sender) && value;
+	}
 
-		multimap.put(PlayerEntity.REACH_DISTANCE.getName(), new AttributeModifier(REACH_DISTANCE_MODIFIER, "Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
+	@Override
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
+		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(equipmentSlot);
+
+		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
+			multimap.put(PlayerEntity.REACH_DISTANCE.getName(), new AttributeModifier(REACH_DISTANCE_MODIFIER, "Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
+		}
 		return multimap;
 	}
 

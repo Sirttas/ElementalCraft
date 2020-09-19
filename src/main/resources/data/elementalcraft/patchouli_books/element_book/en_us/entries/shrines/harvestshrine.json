@@ -4,7 +4,7 @@
   "icon": "elementalcraft:harvestshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/harvestshrine",
-  "sortnum": 107,
+  "sortnum": 7,
   "pages": [
     {
       "type": "text",

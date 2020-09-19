@@ -52,7 +52,7 @@ public class BlockSource extends BlockEC {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return showShape(context) ? SHAPE : VoxelShapes.empty();
+		return showShape(state, context) ? SHAPE : VoxelShapes.empty();
 
 	}
 
@@ -61,10 +61,10 @@ public class BlockSource extends BlockEC {
 		return VoxelShapes.empty();
 	}
 
-	private boolean showShape(ISelectionContext context) {
+	private boolean showShape(BlockState state, ISelectionContext context) {
 		return Optional.ofNullable(context.getEntity()).filter(LivingEntity.class::isInstance).map(LivingEntity.class::cast)
 				.filter(e -> Stream.of(e.getHeldItemMainhand(), e.getHeldItemOffhand())
-						.anyMatch(s -> s.getItem() instanceof ISourceInteractable && ((ISourceInteractable) s.getItem()).canIteractWithSource(s)))
+						.anyMatch(s -> s.getItem() instanceof ISourceInteractable && ((ISourceInteractable) s.getItem()).canIteractWithSource(s, state)))
 				.isPresent();
 	}
 

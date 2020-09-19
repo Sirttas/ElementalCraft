@@ -24,7 +24,6 @@ public class TilePurifier extends TileInstrument {
 		input = ItemStack.EMPTY;
 		output = ItemStack.EMPTY;
 		outputSlot = 1;
-		this.setPasive(true);
 	}
 
 	@Override

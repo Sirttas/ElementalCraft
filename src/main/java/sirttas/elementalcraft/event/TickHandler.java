@@ -10,7 +10,7 @@ import sirttas.elementalcraft.ElementalCraft;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
 public class TickHandler {
 	
-	private static int ticksInGame = 0;
+	private static long ticksInGame = 0;
 	
 	@SubscribeEvent
 	public static void clientTickEnd(TickEvent.ClientTickEvent event) {
@@ -19,7 +19,7 @@ public class TickHandler {
 		}
 	}
 
-	public static int getTicksInGame() {
+	public static long getTicksInGame() {
 		return ticksInGame;
 	}
 }
