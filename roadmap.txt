@@ -2,7 +2,6 @@ https://mcp.thiakil.com/
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
 bosses
 pipe element filter
-spells
 more element production
 capabilities
 sound
@@ -14,7 +13,14 @@ source exaust
 https://github.com/Kompreya/Kompy-Textures
 https://game-icons.net/
 use infused tools in crafts ?
+ellementalist
 illementalist
 source name by elements
 world gen config
 shrines upgrades
+rework particles
+difuser
+spell craft
+
+spells:
+	Arctic Breath

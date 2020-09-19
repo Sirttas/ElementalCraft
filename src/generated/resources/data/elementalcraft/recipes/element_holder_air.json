@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "geg",
+    "iti",
+    "gcg"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gold_ingot"
+    },
+    "e": {
+      "item": "elementalcraft:extractor"
+    },
+    "t": {
+      "item": "elementalcraft:tank_small"
+    },
+    "i": {
+      "item": "elementalcraft:drenched_iron_ingot"
+    },
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:element_holder_air"
+  }
+}

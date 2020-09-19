@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/tank_small",
   "turnin": "elementalcraft:pickup/extractor",
   "priority": true,
-  "sortnum": 5,
+  "sortnum": 1,
   "pages": [
     {
       "type": "text",

@@ -93,7 +93,7 @@ public class BlockFirePylon extends BlockECTileProvider {
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
 		if (!worldIn.isRemote && player.isCreative()) {
-			DoublePlantBlock.func_241471_b_(worldIn, pos, state, player);
+			DoublePlantBlock.removeBottomHalf(worldIn, pos, state, player);
 		}
 
 		super.onBlockHarvested(worldIn, pos, state, player);

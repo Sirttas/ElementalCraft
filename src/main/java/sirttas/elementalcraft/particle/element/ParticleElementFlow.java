@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.particle;
+package sirttas.elementalcraft.particle.element;
 
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
@@ -10,6 +10,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.particle.AbstractECParticle;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleElementFlow extends AbstractECParticle {
@@ -59,7 +60,7 @@ public class ParticleElementFlow extends AbstractECParticle {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	static class Factory implements IParticleFactory<ElementTypeParticleData> {
+	public static class Factory implements IParticleFactory<ElementTypeParticleData> {
 		private final IAnimatedSprite spriteSet;
 
 		public Factory(IAnimatedSprite sprite) {

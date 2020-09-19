@@ -44,7 +44,9 @@ public class RandomSpell extends LootFunction {
 			List<Spell> list = Lists.newArrayList();
 
 			for (Spell sp : Spell.REGISTRY) {
-				list.add(sp);
+				if (sp.getSpellType() != Spell.Type.NONE) {
+					list.add(sp);
+				}
 			}
 			spell = list.get(random.nextInt(list.size()));
 		} else {
@@ -64,8 +66,8 @@ public class RandomSpell extends LootFunction {
 
 	public static class Serializer extends LootFunction.Serializer<RandomSpell> {
 		@Override
-		public void func_230424_a_/* serialize */(JsonObject object, RandomSpell functionClazz, JsonSerializationContext serializationContext) {
-			super.func_230424_a_/* serialize */(object, functionClazz, serializationContext);
+		public void serialize(JsonObject object, RandomSpell functionClazz, JsonSerializationContext serializationContext) {
+			super.serialize(object, functionClazz, serializationContext);
 			if (!functionClazz.spellList.isEmpty()) {
 				JsonArray jsonarray = new JsonArray();
 
@@ -100,7 +102,7 @@ public class RandomSpell extends LootFunction {
 	}
 
 	@Override
-	public LootFunctionType func_230425_b_() {
+	public LootFunctionType getFunctionType() {
 		return type;
 	}
 }

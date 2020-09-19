@@ -16,6 +16,8 @@ public class ECNames {
 	public static final String INFUSION_APPLIED = "applied";
 
 	public static final String SPELL = "spell";
+	public static final String SPELL_LIST = "spell_list";
+	public static final String COUNT = "count";
 	public static final String COOLDOWN = "cooldown";
 	public static final String ITEM = "item";
 	public static final String PROGRESS = "progress";

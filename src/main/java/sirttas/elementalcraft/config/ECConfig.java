@@ -24,23 +24,23 @@ public class ECConfig {
 	public final IntValue growthShrineRange;
 	public final IntValue growthShrineConsumeAmount;
 	public final DoubleValue growthShrineChance;
-	public final IntValue growthShrinePeriode;
+	public final DoubleValue growthShrinePeriode;
 	public final IntValue harvestShrineRange;
 	public final IntValue harvestShrineConsumeAmount;
 	public final DoubleValue harvestShrineChance;
-	public final IntValue harvestShrinePeriode;
+	public final DoubleValue harvestShrinePeriode;
 	public final IntValue lavaShrineRange;
 	public final IntValue lavaShrineConsumeAmount;
 	public final DoubleValue lavaShrineChance;
-	public final IntValue lavaShrinePeriode;
+	public final DoubleValue lavaShrinePeriode;
 	public final IntValue oreShrineRange;
 	public final IntValue oreShrineConsumeAmount;
-	public final IntValue oreShrinePeriode;
+	public final DoubleValue oreShrinePeriode;
 	public final IntValue overloadShrineConsumeAmount;
-	public final IntValue overloadShrinePeriode;
+	public final DoubleValue overloadShrinePeriode;
 	public final IntValue sweetShrineRange;
 	public final IntValue sweetShrineConsumeAmount;
-	public final IntValue sweetShrinePeriode;
+	public final DoubleValue sweetShrinePeriode;
 
 	public final IntValue tankMaxAmount;
 	public final IntValue tankSmallMaxAmount;
@@ -59,10 +59,29 @@ public class ECConfig {
 
 	public final IntValue receptacleDurability;
 	public final IntValue elementHolderMaxAmount;
-	public final IntValue elementHolderExtractionAmount;
+	public final IntValue elementHolderTransferAmount;
+	public final IntValue focusMaxSpell;
 
 	public final IntValue sourceSpawnChance;
 	public final IntValue sourceAltarDistance;
+
+	public final IntValue enderStrikeConsumeAmount;
+	public final IntValue enderStrikeCooldown;
+	public final IntValue enderStrikeRange;
+	public final IntValue itemPullConsumeAmount;
+	public final IntValue itemPullCooldown;
+	public final IntValue itemPullRange;
+	public final IntValue gravelFallConsumeAmount;
+	public final IntValue gravelFallCooldown;
+	public final IntValue stoneWallConsumeAmount;
+	public final IntValue stoneWallCooldown;
+	public final IntValue fireBallConsumeAmount;
+	public final IntValue fireBallCooldown;
+	public final IntValue animalGrowthConsumeAmount;
+	public final IntValue animalGrowthCooldown;
+
+	public final IntValue healConsumeAmount;
+	public final IntValue healCooldown;
 
 	static {
 		Pair<ECConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(ECConfig::new);
@@ -91,28 +110,28 @@ public class ECConfig {
 		growthShrineRange = builder.comment("The range of the Growth Shrine.").defineInRange("growthShrineRange", 4, 0, 100);
 		growthShrineConsumeAmount = builder.comment("The amount of element consumed by the Growth Shrine.").defineInRange("growthShrineConsumeAmount", 5, 0, 100);
 		growthShrineChance = builder.comment("The chance of the Growth Shrine to tick.").defineInRange("growthShrineChance", 0.02D, 0D, 1D);
-		growthShrinePeriode = builder.comment("The nember of tick betwenn two GFrowth Shrine activations.").defineInRange("growthShrinePeriode", 20, 0, 2400);
+		growthShrinePeriode = builder.comment("The nember of tick betwenn two GFrowth Shrine activations.").defineInRange("growthShrinePeriode", 20D, 0, 2400);
 		builder.pop().push("harvestShrine");
 		harvestShrineRange = builder.comment("The range of the Harvest Shrine.").defineInRange("harvestShrineRange", 4, 0, 100);
 		harvestShrineConsumeAmount = builder.comment("The amount of element consumed by the Harvest Shrine.").defineInRange("harvestShrineConsumeAmount", 5, 0, 100);
 		harvestShrineChance = builder.comment("The chance of the Harvest Shrine to tick.").defineInRange("harvestShrineChance", 0.02D, 0D, 1D);
-		harvestShrinePeriode = builder.comment("The nember of tick betwenn two Harvest Shrine activations.").defineInRange("harvestShrinePeriode", 20, 0, 2400);
+		harvestShrinePeriode = builder.comment("The nember of tick betwenn two Harvest Shrine activations.").defineInRange("harvestShrinePeriode", 20D, 0, 2400);
 		builder.pop().push("lavaShrine");
 		lavaShrineRange = builder.comment("The range of the Lava Shrine.").defineInRange("lavaShrineRange", 1, 0, 100);
 		lavaShrineConsumeAmount = builder.comment("The amount of element consumed by the Lava Shrine.").defineInRange("lavaShrineConsumeAmount", 5000, 0, 100000);
 		lavaShrineChance = builder.comment("The chance of the Lava Shrine to tick.").defineInRange("lavaShrineChance", 0.02D, 0D, 1D);
-		lavaShrinePeriode = builder.comment("The nember of tick betwenn two Lava Shrine activations.").defineInRange("lavaShrinePeriode", 20, 0, 2400);
+		lavaShrinePeriode = builder.comment("The nember of tick betwenn two Lava Shrine activations.").defineInRange("lavaShrinePeriode", 20D, 0, 2400);
 		builder.pop().push("oreShrine");
 		oreShrineRange = builder.comment("The range of the Ore Shrine.").defineInRange("oreShrineRange", 6, 0, 100);
-		oreShrineConsumeAmount = builder.comment("The amount of element consumed by the Ore Shrine.").defineInRange("oreShrineConsumeAmount", 500, 0, 1000);
-		oreShrinePeriode = builder.comment("The nember of tick betwenn two Ore Shrine activations.").defineInRange("oreShrinePeriode", 200, 0, 2400);
+		oreShrineConsumeAmount = builder.comment("The amount of element consumed by the Ore Shrine.").defineInRange("oreShrineConsumeAmount", 100, 0, 1000);
+		oreShrinePeriode = builder.comment("The nember of tick betwenn two Ore Shrine activations.").defineInRange("oreShrinePeriode", 200D, 0, 2400);
 		builder.pop().push("overloadShrine");
 		overloadShrineConsumeAmount = builder.comment("The amount of element consumed by the overload Shrine.").defineInRange("overloadShrineConsumeAmount", 500, 0, 1000);
-		overloadShrinePeriode = builder.comment("The nember of tick betwenn two Overload Shrine activations.").defineInRange("overloadShrinePeriode", 3, 0, 2400);
+		overloadShrinePeriode = builder.comment("The nember of tick betwenn two Overload Shrine activations.").defineInRange("overloadShrinePeriode", 3D, 0, 2400);
 		builder.pop().push("sweetShrine");
 		sweetShrineRange = builder.comment("The range of the Sweet Shrine.").defineInRange("sweetShrineRange", 10, 0, 100);
 		sweetShrineConsumeAmount = builder.comment("The amount of element consumed by the Sweet Shrine.").defineInRange("sweetShrineConsumeAmount", 100, 0, 1000);
-		sweetShrinePeriode = builder.comment("The nember of tick betwenn two Sweet Shrine activations.").defineInRange("sweetShrinePeriode", 40, 0, 2400);
+		sweetShrinePeriode = builder.comment("The nember of tick betwenn two Sweet Shrine activations.").defineInRange("sweetShrinePeriode", 40D, 0, 2400);
 
 		builder.pop(2).comment("Instruments config").push("instruments").push("tank");
 		tankSmallMaxAmount = builder.comment("The max element amount a small element container can hold.").defineInRange("tankSmallMaxAmount", 1000, 0, 100000000);
@@ -138,12 +157,39 @@ public class ECConfig {
 		builder.pop().comment("Items config").push("items");
 		receptacleDurability = builder.comment("Define source receptacle durablility (0 for unbreakable).").defineInRange("receptacleDurability", 20, 0, 1000);
 		elementHolderMaxAmount = builder.comment("The max element amount an element holder can hold.").defineInRange("elementHolderMaxAmount", 10000, 0, 100000000);
-		elementHolderExtractionAmount = builder.comment("The amount of element extracted by an element holder.").defineInRange("elementHolderExtractionAmount", 25, 0, 1000);
+		elementHolderTransferAmount = builder.comment("The amount of element transfered by an element holder.").defineInRange("elementHolderTransferAmount", 25, 0, 1000);
+		focusMaxSpell = builder.comment("The max number of spells on a focus.").defineInRange("focusMaxSpell", 10, 1, 20);
 
 		builder.pop().comment("Worldgen config").push("worldgen");
 		sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
 		sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 16, 0, 100);
 
-		builder.pop();
+		builder.pop().comment("Spells config").push("spells").push("enderStrike");
+		enderStrikeConsumeAmount = builder.comment("The amount of element consumed by the ender strike.").defineInRange("enderStrikeConsumeAmount", 1000, 0, 10000);
+		enderStrikeCooldown = builder.comment("The cooldown the ender strike.").defineInRange("enderStrikeCooldown", 60, 0, 10000);
+		enderStrikeRange = builder.comment("The range the ender strike.").defineInRange("enderStrikeRange", 20, 0, 200);
+		builder.pop().push("itemPull");
+		itemPullConsumeAmount = builder.comment("The amount of element consumed by the item pull.").defineInRange("itemPullConsumeAmount", 1000, 0, 10000);
+		itemPullCooldown = builder.comment("The cooldown the item pull.").defineInRange("itemPullCooldown", 200, 0, 10000);
+		itemPullRange = builder.comment("The range theitem pull.").defineInRange("itemPullRange", 10, 0, 200);
+		builder.pop().push("gravelFall");
+		gravelFallConsumeAmount = builder.comment("The amount of element consumed by the gravel fall.").defineInRange("gravelFallConsumeAmount", 250, 0, 10000);
+		gravelFallCooldown = builder.comment("The cooldown the gravel fall.").defineInRange("gravelFallCooldown", 40, 0, 10000);
+		builder.pop().push("stoneWall");
+		stoneWallConsumeAmount = builder.comment("The amount of element consumed by the stone wall.").defineInRange("stoneWallConsumeAmount", 500, 0, 10000);
+		stoneWallCooldown = builder.comment("The cooldown the stone wall.").defineInRange("stoneWallCooldown", 100, 0, 10000);
+		builder.pop().push("fireBall");
+		fireBallConsumeAmount = builder.comment("The amount of element consumed by the fire ball.").defineInRange("fireBallConsumeAmount", 500, 0, 10000);
+		fireBallCooldown = builder.comment("The cooldown the fire ball.").defineInRange("fireBallCooldown", 100, 0, 10000);
+		builder.pop().push("animalGrowth");
+		animalGrowthConsumeAmount = builder.comment("The amount of element consumed by the animal growth.").defineInRange("animalGrowthConsumeAmount", 2000, 0, 10000);
+		animalGrowthCooldown = builder.comment("The cooldown the animal growth.").defineInRange("animalGrowthCooldown", 200, 0, 10000);
+
+		builder.pop().push("heal");
+		healConsumeAmount = builder.comment("The amount of element consumed by the heal.").defineInRange("healConsumeAmount", 1000, 0, 10000);
+		healCooldown = builder.comment("The cooldown the heal.").defineInRange("healCooldown", 600, 0, 10000);
+
+
+		builder.pop(2);
 	}
 }

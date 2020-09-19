@@ -21,11 +21,6 @@ public class ItemEmptyReceptacle extends ItemEC implements ISourceInteractable {
 	}
 
 	@Override
-	public boolean canIteractWithSource(ItemStack stack) {
-		return true;
-	}
-
-	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		World world = context.getWorld();
 		BlockPos pos = context.getPos();

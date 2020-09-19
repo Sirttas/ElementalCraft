@@ -11,6 +11,8 @@ import com.mojang.serialization.codecs.PrimitiveCodec;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import sirttas.elementalcraft.property.ECProperties;
 
 public enum ElementType implements IStringSerializable {
@@ -106,6 +108,10 @@ public enum ElementType implements IStringSerializable {
 
 	public String getTranslationKey() {
 		return "element.elementalcraft." + getString();
+	}
+
+	public ITextComponent getDisplayName() {
+		return new TranslationTextComponent(getTranslationKey());
 	}
 
 }

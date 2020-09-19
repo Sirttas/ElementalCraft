@@ -64,7 +64,7 @@ public class ECBossFightManager {
 	}
 
 	private void spawnBoss() {
-		BlockPos pos = world.func_241135_u_/* getSpawn */();
+		BlockPos pos = world.getSpawnPoint();
 
 		// TODO move boss out of spawn
 		boss = EarthGolemEntity.TYPE.create(world); // TODO change based on type

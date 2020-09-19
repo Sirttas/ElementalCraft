@@ -4,7 +4,7 @@
   "icon": "elementalcraft:receptacle_empty",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/receptacle_empty",
-  "sortnum": 15,
+  "sortnum": 1,
   "pages": [
     {
       "type": "text",

@@ -3,7 +3,7 @@
   "category": "elementalcraft:crafting",
   "icon": "elementalcraft:binder",
   "advancement": "elementalcraft:pickup/binder",
-  "sortnum": 11,
+  "sortnum": 1,
   "pages": [
     {
       "type": "text",

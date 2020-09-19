@@ -7,7 +7,7 @@ import sirttas.elementalcraft.ElementalCraft;
 
 public class MessageHandler {
 
-	private static final String PROTOCOL_VERSION = "1";
+	private static final String PROTOCOL_VERSION = "2";
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(ElementalCraft.MODID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals,
 			PROTOCOL_VERSION::equals);
 

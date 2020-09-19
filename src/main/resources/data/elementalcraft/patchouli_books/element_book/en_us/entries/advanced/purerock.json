@@ -4,7 +4,7 @@
   "icon": "elementalcraft:purerock",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/purerock",
-  "sortnum": 17,
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",

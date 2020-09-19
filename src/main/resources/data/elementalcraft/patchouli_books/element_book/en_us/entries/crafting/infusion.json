@@ -3,7 +3,7 @@
   "category": "elementalcraft:crafting",
   "icon": "elementalcraft:infuser",
   "advancement": "elementalcraft:pickup/infuser",
-  "sortnum": 8,
+  "sortnum": 0,
   "pages": [
     {
       "type": "text",

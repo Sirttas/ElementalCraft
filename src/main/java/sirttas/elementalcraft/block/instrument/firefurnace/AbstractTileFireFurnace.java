@@ -29,7 +29,6 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 		exp = 0;
 		outputSlot = 1;
 		this.recipeType = recipeType;
-		this.setPasive(true);
 	}
 
 	public AbstractTileFireFurnace(TileEntityType<?> tileEntityTypeIn) {

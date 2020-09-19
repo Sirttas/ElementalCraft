@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " ic",
+    " si",
+    "d  "
+  ],
+  "key": {
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "c": {
+      "item": "elementalcraft:containedcrystal"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "i": {
+      "item": "elementalcraft:swift_alloy_ingot"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:focus"
+  }
+}

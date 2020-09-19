@@ -18,7 +18,6 @@ public class TileFirePylon extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static TileEntityType<TileFirePylon> TYPE;
 
-
 	public TileFirePylon() {
 		super(TYPE, ElementType.FIRE);
 	}
@@ -32,6 +31,10 @@ public class TileFirePylon extends TileShrine {
 
 	@Override
 	protected void doTick() {
-		getEntities().forEach(e -> e.setFire(this.consumeElement(ECConfig.CONFIG.firePylonConsumeAmount.get())));
+		int consumeAmount = ECConfig.CONFIG.firePylonConsumeAmount.get();
+
+		if (this.getElementAmount() >= consumeAmount) {
+			getEntities().forEach(e -> e.setFire(this.consumeElement(consumeAmount)));
+		}
 	}
 }

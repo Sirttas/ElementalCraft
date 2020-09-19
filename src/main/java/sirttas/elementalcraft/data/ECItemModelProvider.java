@@ -12,6 +12,7 @@ import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.item.holder.ItemElementHolder;
 
 public class ECItemModelProvider extends ItemModelProvider {
 
@@ -29,10 +30,12 @@ public class ECItemModelProvider extends ItemModelProvider {
 					ResourceLocation parent = new ResourceLocation(ElementalCraft.MODID, "block/" + name);
 
 					if (this.exists(parent)) {
-						withExistingParent(name, parent).transforms();
+						withExistingParent(name, parent);
 					} else {
 						getBuilder(name).parent(new UncheckedModelFile(parent));
 					}
+				} else if (item instanceof ItemElementHolder) {
+					withExistingParent(name, new ResourceLocation(ElementalCraft.MODID, "item/template_element_holder"));
 				} else {
 					singleTexture(name, new ResourceLocation("minecraft", "item/generated"), "layer0", new ResourceLocation(ElementalCraft.MODID, "item/" + name));
 				}

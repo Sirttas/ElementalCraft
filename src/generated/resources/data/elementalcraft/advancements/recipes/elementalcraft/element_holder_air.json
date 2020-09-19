@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:element_holder_air"
+    ]
+  },
+  "criteria": {
+    "has_aircrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:aircrystal"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:element_holder_air"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_aircrystal",
+      "has_the_recipe"
+    ]
+  ]
+}

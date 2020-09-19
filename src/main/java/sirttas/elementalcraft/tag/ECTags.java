@@ -22,6 +22,8 @@ public class ECTags {
 		public static final INamedTag<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
 		public static final INamedTag<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
 
+		public static final INamedTag<Item> SPELL_HOLDERS = createTag("spell_holders");
+
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
 
 		private static INamedTag<Item> createTag(String name) {
