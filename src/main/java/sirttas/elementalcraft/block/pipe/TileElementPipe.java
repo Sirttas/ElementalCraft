@@ -64,6 +64,7 @@ public class TileElementPipe extends TileECTickable {
 
 	private void setConection(Direction face, ConnectionType type) {
 		connections.put(face, type);
+		this.forceSync();
 		updateState = true;
 	}
 

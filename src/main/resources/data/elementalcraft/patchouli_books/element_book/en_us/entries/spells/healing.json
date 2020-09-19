@@ -1,0 +1,14 @@
+{
+  "name": "spell.elementalcraft.hrealing",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll",
+  "advancement": "elementalcraft:pickup/scroll",
+  "turnin": "elementalcraft:pickup/scroll",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.hrealing0"
+    }
+  ]
+}

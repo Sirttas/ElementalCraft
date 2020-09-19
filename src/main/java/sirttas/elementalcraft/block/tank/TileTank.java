@@ -40,10 +40,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 		if (type != this.elementType && this.elementType != ElementType.NONE) {
 			return this.extractElement(count, this.elementType, simulate);
 		} else {
-			int newCount = elementAmount + count;
-
-			newCount = newCount < elementAmountMax ? newCount : elementAmountMax;
-
+			int newCount = Math.min(elementAmount + count, elementAmountMax);
 			int ret = count - newCount + elementAmount;
 
 			if (!simulate) {
@@ -61,10 +58,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 		if (type != this.elementType) {
 			return 0;
 		}
-		int newCount = elementAmount - count;
-
-		newCount = newCount > 0 ? newCount : 0;
-
+		int newCount = Math.max(elementAmount - count, 0);
 		int ret = elementAmount - newCount;
 
 		if (!simulate) {

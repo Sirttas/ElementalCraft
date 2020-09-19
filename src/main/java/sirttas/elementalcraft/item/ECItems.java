@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
+import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
@@ -31,13 +32,14 @@ import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
 import sirttas.elementalcraft.block.tank.BlockTankSmall;
+import sirttas.elementalcraft.item.holder.ItemElementHolder;
 import sirttas.elementalcraft.item.pureore.ItemPureOre;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.item.receptacle.ItemEmptyReceptacle;
 import sirttas.elementalcraft.item.receptacle.ItemReceptacle;
 import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
+import sirttas.elementalcraft.item.spell.ItemFocus;
 import sirttas.elementalcraft.item.spell.ItemScroll;
-import sirttas.elementalcraft.item.tool.ItemFocus;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -47,6 +49,10 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemScroll.NAME) public static ItemScroll scroll;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemReceptacle.NAME) public static ItemReceptacle receptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemEmptyReceptacle.NAME) public static ItemEmptyReceptacle emptyReceptacle;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_FIRE) public static ItemElementHolder fireElementHolder;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_WATER) public static ItemElementHolder waterElementHolder;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_EARTH) public static ItemElementHolder earthElementHolder;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_AIR) public static ItemElementHolder airElementHolder;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemBossDimKey.NAME) public static ItemBossDimKey bossDimKey;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemPureOre.NAME) public static ItemPureOre pureOre;
 
@@ -118,6 +124,10 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemScroll(), ItemScroll.NAME);
 		RegistryHelper.register(registry, new ItemReceptacle(), ItemReceptacle.NAME);
 		RegistryHelper.register(registry, new ItemEmptyReceptacle(), ItemEmptyReceptacle.NAME);
+		RegistryHelper.register(registry, new ItemElementHolder(ElementType.FIRE), ItemElementHolder.NAME_FIRE);
+		RegistryHelper.register(registry, new ItemElementHolder(ElementType.WATER), ItemElementHolder.NAME_WATER);
+		RegistryHelper.register(registry, new ItemElementHolder(ElementType.EARTH), ItemElementHolder.NAME_EARTH);
+		RegistryHelper.register(registry, new ItemElementHolder(ElementType.AIR), ItemElementHolder.NAME_AIR);
 		RegistryHelper.register(registry, new ItemPureOre(), ItemPureOre.NAME);
 
 		RegistryHelper.register(registry, new ItemEC(), "inertcrystal");
@@ -132,7 +142,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "swift_alloy_ingot");
 		RegistryHelper.register(registry, new ItemEC(), "swift_alloy_nugget");
 		RegistryHelper.register(registry, new ItemEC(), "shrinebase");
-		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).isBurnable()), "fireite_ingot");
+		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).isImmuneToFire()), "fireite_ingot");
 
 		// TODO add tools
 	}
@@ -140,6 +150,8 @@ public class ECItems {
 	public static void registerItemColors(ColorHandlerEvent.Item event) {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), receptacle);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : PureOreHelper.getColor(s), pureOre);
+		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ItemElementHolder) s.getItem()).getElementType().getColor(), 
+				fireElementHolder, waterElementHolder, earthElementHolder, airElementHolder);
 	}
 
 }

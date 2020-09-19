@@ -4,7 +4,7 @@
   "icon": "elementalcraft:growthshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/growthshrine",
-  "sortnum": 106,
+  "sortnum": 6,
   "pages": [
     {
       "type": "text",

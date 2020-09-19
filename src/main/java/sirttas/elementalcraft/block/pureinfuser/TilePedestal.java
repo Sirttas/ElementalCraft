@@ -26,7 +26,6 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 	public TilePedestal() {
 		super(TYPE);
-		this.setPasive(true);
 		stack = ItemStack.EMPTY;
 	}
 
@@ -65,10 +64,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 		if (type != this.getElementType()) {
 			return 0;
 		} else {
-			int newCount = elementAmount + count;
-
-			newCount = newCount < elementMax ? newCount : elementMax;
-
+			int newCount = Math.min(elementAmount + count, elementMax);
 			int ret = count - newCount + elementAmount;
 
 			if (!simulate) {
@@ -79,8 +75,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	}
 
 	public int consumeElement(int i) {
-		int newCount = elementAmount - i;
-		newCount = newCount > 0 ? newCount : 0;
+		int newCount = Math.max(elementAmount - i, 0);
 		int ret = elementAmount - newCount;
 
 		elementAmount = newCount;

@@ -53,7 +53,7 @@ public class ECFeatures {
 				Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, ECBlocks.crystalOre.getDefaultState(), 9)).func_242733_d(64).func_242728_a()
 						.func_242731_b(20));
 		ConfiguredFeature<?, ?> sourceConfig = register(SourceFeature.NAME,
-				source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.field_244001_l).func_242729_a(ECConfig.CONFIG.sourceSpawnChance.get()));
+				source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242729_a(ECConfig.CONFIG.sourceSpawnChance.get()));
 
 		StructureFeature<?, ?> sourceAltar = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, NoFeatureConfig.field_236559_b_, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
 
@@ -61,18 +61,18 @@ public class ECFeatures {
 			addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, biome, crystalOre);
 			addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, biome, sourceConfig);
 
-			if (ECBiomes.LAND.stream().anyMatch(k -> k.func_240901_a_().equals(biome.getRegistryName()))) {
+			if (ECBiomes.LAND.stream().anyMatch(k -> k.getLocation().equals(biome.getRegistryName()))) {
 				addStructure(biome, sourceAltar);
 			}
 		}
 	}
 
 	public static void addFeature(GenerationStage.Decoration decoration, Biome biome, ConfiguredFeature<?, ?> feature) {
-		List<List<Supplier<ConfiguredFeature<?, ?>>>> features = biome.func_242440_e().func_242498_c();
+		List<List<Supplier<ConfiguredFeature<?, ?>>>> features = biome.getGenerationSettings().getFeatures();
 
 		if (features instanceof ImmutableList) {
 			features = features.stream().map(l -> l.stream().collect(Collectors.toList())).collect(Collectors.toList());
-			biome.func_242440_e().field_242484_f = features;
+			biome.getGenerationSettings().features = features;
 		}
 
 		while (features.size() <= decoration.ordinal()) {
@@ -82,16 +82,16 @@ public class ECFeatures {
 	}
 
 	public static void addStructure(Biome biome, StructureFeature<?, ?> structure) {
-		List<Supplier<StructureFeature<?, ?>>> structures = biome.func_242440_e().field_242485_g;
+		List<Supplier<StructureFeature<?, ?>>> structures = biome.getGenerationSettings().structures;
 
 		if (structures instanceof ImmutableList) {
 			structures = structures.stream().collect(Collectors.toList());
-			biome.func_242440_e().field_242485_g = structures;
+			biome.getGenerationSettings().structures = structures;
 		}
 
 		structures.add(() -> structure);
 
-		Map<Integer, List<Structure<?>>> structuresByStage = biome.field_242421_g;
+		Map<Integer, List<Structure<?>>> structuresByStage = biome.biomeStructures;
 		int step = structure.field_236268_b_.func_236396_f_().ordinal();
 
 		if (!structuresByStage.containsKey(step)) {
@@ -101,12 +101,12 @@ public class ECFeatures {
 	}
 
 	private static <C extends IFeatureConfig> ConfiguredFeature<C, ?> register(String name, ConfiguredFeature<C, ?> feature) {
-		return Registry.register(WorldGenRegistries.field_243653_e, new ResourceLocation(ElementalCraft.MODID, name), feature);
+		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(ElementalCraft.MODID, name), feature);
 	}
 
 	private static <C extends IFeatureConfig> StructureFeature<C, ?> registerStructure(String name, Structure<C> structure, C config, IStructurePieceType structurePieceType) {
 		ResourceLocation location = new ResourceLocation(ElementalCraft.MODID, name);
-		StructureFeature<C, ?> structureFeature = Registry.register(WorldGenRegistries.field_243654_f, location, new StructureFeature<>(structure, config));
+		StructureFeature<C, ?> structureFeature = Registry.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, location, new StructureFeature<>(structure, config));
 		
 		Registry.register(Registry.STRUCTURE_PIECE, location, structurePieceType);
 		Structure.field_236365_a_.put(structure.getStructureName(), structure);

@@ -4,7 +4,7 @@
   "icon": "elementalcraft:lavashrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/lavashrine",
-  "sortnum": 103,
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",

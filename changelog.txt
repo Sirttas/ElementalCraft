@@ -1,3 +1,15 @@
+1.15.2-1.1.11 and 1.16.2-2.2.10:
+
+- new item: Element holder
+- new item: Focus
+- new spell: heal
+- new spell: ender strike
+- new spell: animal growth
+- lot of spell improvements
+- update client/server sync mechanism
+- improve shrines performances
+
+
 1.15.2-1.1.10 and 1.16.2-2.2.9:
 
 - fix error when another mod doesn't correctly inject a loot table
@@ -17,7 +29,7 @@
 - fix a crash while placing pedestal and pure infuser
 
 
-1.15.2-1.1.7:
+1.15.2-1.1.7
 
 - fix a bug during chunk save
 
@@ -39,10 +51,12 @@
 - added altars: structures with a source
 - fix desync bug with instruments
 
+
 1.1.4-1.15.2 and 2.2.4-1.16.2:
 
 - fix regression with pipes
 - correct text
+
 
 1.1.3-1.15.2 and 2.2.3-1.16.2:
 

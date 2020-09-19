@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "elementalcraft:item/element_holder_base",
+        "layer1": "elementalcraft:item/element_holder_element"
+    }
+}

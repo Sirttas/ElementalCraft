@@ -4,7 +4,7 @@
   "icon": "elementalcraft:shrinebase",
   "advancement": "elementalcraft:pickup/binder",
   "turnin": "elementalcraft:pickup/shrinebase",
-  "sortnum": 100,
+  "sortnum": 0,
   "pages": [
     {
       "type": "text",

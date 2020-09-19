@@ -5,12 +5,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.vector.Vector3d;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellFireBall extends Spell implements ISelfCastedSpell {
 
 	public static final String NAME = "fireball";
+
+	public SpellFireBall() {
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).cooldown(ECConfig.CONFIG.fireBallCooldown.get()).consumeAmount(ECConfig.CONFIG.fireBallConsumeAmount.get()));
+	}
 
 	@Override
 	public ActionResultType castOnSelf(Entity sender) {
@@ -21,10 +27,5 @@ public class SpellFireBall extends Spell implements ISelfCastedSpell {
 		sender.world.addEntity(fireballentity);
 
 		return ActionResultType.SUCCESS;
-	}
-
-	@Override
-	public boolean consume(Entity sender) { // NOSONAR
-		return false;
 	}
 }

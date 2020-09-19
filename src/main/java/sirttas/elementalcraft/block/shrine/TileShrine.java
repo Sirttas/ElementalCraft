@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.config.ECConfig;
@@ -15,16 +16,15 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	private int elementAmount = 0;
 	protected int elementMax = ECConfig.CONFIG.shrineMaxAmount.get();
 	private boolean running = false;
-	private int tick = 0;
-	private int periode = 0;
+	private double tick = 0;
+	private double periode = 1;
 
 	public TileShrine(TileEntityType<?> tileEntityTypeIn, ElementType type) {
-		this(tileEntityTypeIn, type, 0);
+		this(tileEntityTypeIn, type, 1);
 	}
 
-	public TileShrine(TileEntityType<?> tileEntityTypeIn, ElementType type, int periode) {
+	public TileShrine(TileEntityType<?> tileEntityTypeIn, ElementType type, double periode) {
 		super(tileEntityTypeIn);
-		this.setPasive(true);
 		elementType = type;
 		this.periode = periode;
 	}
@@ -34,9 +34,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		if (this.isPowered()) {
 			return 0;
 		}
-		int newCount = elementAmount - i;
-		newCount = newCount > 0 ? newCount : 0;
-
+		int newCount = Math.max(elementAmount - i, 0);
 		int ret = elementAmount - newCount;
 
 		elementAmount = newCount;
@@ -52,10 +50,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		if (type != this.elementType && this.elementType != ElementType.NONE) {
 			return 0;
 		} else {
-			int newCount = elementAmount + count;
-
-			newCount = newCount < elementMax ? newCount : elementMax;
-
+			int newCount = Math.min(elementAmount + count, elementMax);
 			int ret = count - newCount + elementAmount;
 
 			if (!simulate) {
@@ -76,9 +71,13 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		running = false;
 		if (this.hasWorld()) {
 			tick++;
-			if (periode == 0 || tick % periode == 0) {
+			if (periode == 0) {
+				ElementalCraft.T.warn("Shrine periode should not be 0");
+				periode = 1;
+			}
+			while (tick >= periode) {
 				doTick();
-				tick = 0;
+				tick -= periode;
 			}
 		}
 	}

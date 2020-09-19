@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.jei;
 
+import javax.annotation.Nonnull;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
@@ -15,12 +17,14 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
-import sirttas.elementalcraft.jei.category.*;
+import sirttas.elementalcraft.jei.category.BindingRecipeCategory;
+import sirttas.elementalcraft.jei.category.InfusionRecipeCategory;
+import sirttas.elementalcraft.jei.category.PureInfusionRecipeCategory;
+import sirttas.elementalcraft.jei.category.PurificationRecipeCategory;
+import sirttas.elementalcraft.jei.category.ToolInfusionRecipeCategory;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
-
-import javax.annotation.Nonnull;
 
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
@@ -36,6 +40,10 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.useNbtForSubtypes(ECItems.scroll);
 		registry.useNbtForSubtypes(ECItems.receptacle);
 		registry.useNbtForSubtypes(ECItems.pureOre);
+		registry.useNbtForSubtypes(ECItems.airElementHolder);
+		registry.useNbtForSubtypes(ECItems.earthElementHolder);
+		registry.useNbtForSubtypes(ECItems.fireElementHolder);
+		registry.useNbtForSubtypes(ECItems.waterElementHolder);
 	}
 
 	@Override

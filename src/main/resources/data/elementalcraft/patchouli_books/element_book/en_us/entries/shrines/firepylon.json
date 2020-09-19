@@ -4,7 +4,7 @@
   "icon": "elementalcraft:firepylon",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/firepylon",
-  "sortnum": 101,
+  "sortnum": 1,
   "pages": [
     {
       "type": "text",

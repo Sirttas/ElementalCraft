@@ -4,7 +4,7 @@
   "icon": "elementalcraft:oreshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/oreshrine",
-  "sortnum": 102,
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

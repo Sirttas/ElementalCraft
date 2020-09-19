@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ggg",
+    "gig",
     "dcd",
-    "ggg"
+    "gig"
   ],
   "key": {
     "c": {
@@ -14,6 +14,9 @@
     },
     "g": {
       "tag": "forge:ingots/gold"
+    },
+    "i": {
+      "item": "elementalcraft:swift_alloy_ingot"
     }
   },
   "result": {

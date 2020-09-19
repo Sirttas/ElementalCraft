@@ -4,7 +4,7 @@
   "icon": "elementalcraft:overloadshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/overloadshrine",
-  "sortnum": 108,
+  "sortnum": 8,
   "pages": [
     {
       "type": "text",

@@ -28,22 +28,24 @@ public class TileVacuumShrine extends TileShrine {
 		return this.getWorld().getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.vacuumShrineRange.get()));
 	}
 
-
 	@Override
 	protected void doTick() {
 		int consumeAmount = ECConfig.CONFIG.vacuumShrineConsumeAmount.get();
-		double pullSpeed = ECConfig.CONFIG.vacuumShrinePullSpeed.get();
-		TileEntity te = this.world.getTileEntity(pos.down());
-		IInventory inv = te instanceof IInventory ? (IInventory) te : null;
-		Vector3d pos3d = Vector3d.copyCentered(this.getPos());
 
-		getEntities().forEach(e -> {
-			if (this.consumeElement(consumeAmount) >= consumeAmount) {
-				e.setMotion(pos3d.subtract(e.getPositionVec()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
-				if (inv != null && pos3d.distanceTo(e.getPositionVec()) <= 1) {
-					e.setItem(HopperTileEntity.putStackInInventoryAllSlots(null, inv, e.getItem(), Direction.UP));
+		if (this.consumeElement(consumeAmount) >= consumeAmount) {
+			double pullSpeed = ECConfig.CONFIG.vacuumShrinePullSpeed.get();
+			TileEntity te = this.world.getTileEntity(pos.down());
+			IInventory inv = te instanceof IInventory ? (IInventory) te : null;
+			Vector3d pos3d = Vector3d.copyCentered(this.getPos());
+
+			getEntities().forEach(e -> {
+				if (this.consumeElement(consumeAmount) >= consumeAmount) {
+					e.setMotion(pos3d.subtract(e.getPositionVec()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
+					if (inv != null && pos3d.distanceTo(e.getPositionVec()) <= 1) {
+						e.setItem(HopperTileEntity.putStackInInventoryAllSlots(null, inv, e.getItem(), Direction.UP));
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 }
