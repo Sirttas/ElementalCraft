@@ -81,9 +81,6 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 
 	@Override
 	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack) {
-		Multimap<Attribute, AttributeModifier> value = super.getAttributeModifiers(equipmentSlot, stack);
-
-		value.putAll(SpellHelper.getSpell(stack).getAttributeModifiers(equipmentSlot));
-		return value;
+		return SpellHelper.getSpell(stack).getAttributeModifiers(equipmentSlot);
 	}
 }

@@ -1,3 +1,9 @@
+1.16.2-2.2.11:
+
+- fix a crash on startup
+- fix holder display
+
+
 1.15.2-1.1.11 and 1.16.2-2.2.10:
 
 - new item: Element holder
