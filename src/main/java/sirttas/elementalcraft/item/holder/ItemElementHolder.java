@@ -127,6 +127,11 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		return 1000;
 	}
 
+	@Override
+	public boolean isDamageable() {
+		return true;
+	}
+
 	public int getElementAmount(ItemStack stack) {
 		return stack.getTag() == null ? 0 : stack.getTag().getInt(ECNames.ELEMENT_AMOUNT);
 	}
