@@ -68,13 +68,9 @@ public class ECFeatures {
 	}
 
 	public static void addFeature(GenerationStage.Decoration decoration, Biome biome, ConfiguredFeature<?, ?> feature) {
-		List<List<Supplier<ConfiguredFeature<?, ?>>>> features = biome.getGenerationSettings().getFeatures();
+		List<List<Supplier<ConfiguredFeature<?, ?>>>> features = biome.getGenerationSettings().getFeatures().stream().map(l -> l.stream().collect(Collectors.toList())).collect(Collectors.toList());
 
-		if (features instanceof ImmutableList) {
-			features = features.stream().map(l -> l.stream().collect(Collectors.toList())).collect(Collectors.toList());
-			biome.getGenerationSettings().features = features;
-		}
-
+		biome.getGenerationSettings().features = features;
 		while (features.size() <= decoration.ordinal()) {
 			features.add(new ArrayList<>());
 		}
