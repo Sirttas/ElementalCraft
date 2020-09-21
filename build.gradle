@@ -20,7 +20,7 @@ mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = '1.16.2-2.2.11'
+version = '1.16.2-2.2.12'
 group = 'sirttas.elementalcraft' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'elementalcraft'
 

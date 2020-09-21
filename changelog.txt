@@ -1,3 +1,8 @@
+1.16.2-2.2.12:
+
+- fix a crash on startup
+
+
 1.16.2-2.2.11:
 
 - fix a crash on startup
