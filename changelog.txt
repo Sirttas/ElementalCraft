@@ -1,3 +1,9 @@
+1.15.2-1.1.13 and 1.16.2-2.2.14:
+
+- added animal growth patchouli entry
+- fix block content not copied when moved
+
+
 1.16.2-2.2.12:
 
 - fix a crash on startup
