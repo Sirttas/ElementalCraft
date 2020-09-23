@@ -22,7 +22,7 @@
           "ops": [
             {
               "source": "element_amount",
-              "target": "elementalcraft.tetag.element_amount",
+              "target": "BlockEntityTag.element_amount",
               "op": "replace"
             }
           ]

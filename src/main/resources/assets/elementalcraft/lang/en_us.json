@@ -172,6 +172,6 @@
   "elementalcraft.page.stonewall0": "Summon a three by three $(thing)stone wall$() in front of you to protect you from attacks.$(br)Consumes $(thing)earth$() and nine $(item)stone$().",
   "elementalcraft.page.healing0": "Heal you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
   "elementalcraft.page.ender_strike0": "Teleport behind targeted $(thing)entity$() or closest $(thing)monster$() and strike it with increased damage.$(br)Consumes $(thing)air$().",
-  "elementalcraft.page.item_pull0": "Pull all nearby $(item)items to you.$(br)Consumes $(thing)air$()."
-  
+  "elementalcraft.page.item_pull0": "Pull all nearby $(item)items to you.$(br)Consumes $(thing)air$().",
+  "elementalcraft.page.animal_growth0": "Fully grow targeted $(thing)animal child$().$(br)Consumes $(thing)water$()."
 }

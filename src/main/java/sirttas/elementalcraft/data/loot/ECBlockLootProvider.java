@@ -136,7 +136,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		CopyNbt.Builder func = CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY);
 
 		for (String tag : tags) {
-			func = func.replaceOperation(tag, ECNames.EC_NBT_TE + '.' + tag);
+			func = func.replaceOperation(tag, ECNames.BLOCK_ENTITY_TAG + '.' + tag);
 		}
 		LootPool.Builder pool = LootPool.builder().name("main").rolls(ConstantRange.of(1)).addEntry(entry).acceptCondition(SurvivesExplosion.builder()).acceptFunction(func);
 
