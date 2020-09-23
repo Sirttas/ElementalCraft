@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -19,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.block.tile.IForcableSync;
-import sirttas.elementalcraft.block.tile.TileEC;
 import sirttas.elementalcraft.property.ECProperties;
 
 public abstract class BlockECContainer extends ContainerBlock implements IBlockECTileProvider {
@@ -109,21 +107,6 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 			return this.onSlotActivated(inv, player, player.getHeldItem(hand), 0);
 		}
 		return ActionResultType.PASS;
-	}
-
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place
-	 * logic
-	 */
-	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-		TileEC te = (TileEC) worldIn.getTileEntity(pos);
-		te.readFromItemStack(stack);
-		if (worldIn.isRemote) {
-			return;
-		}
-		worldIn.markBlockRangeForRenderUpdate(pos, state, state);
 	}
 
 	@SuppressWarnings("deprecation")

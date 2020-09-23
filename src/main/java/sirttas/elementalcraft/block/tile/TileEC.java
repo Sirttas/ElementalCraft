@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -12,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.nbt.ECNames;
 
 public abstract class TileEC extends TileEntity {
 
@@ -38,30 +36,6 @@ public abstract class TileEC extends TileEntity {
 	@Override
 	public final CompoundNBT getUpdateTag() {
 		return write(new CompoundNBT());
-	}
-
-	public void readFromItemStack(ItemStack stack) {
-		if (stack == null || stack.getTag() == null) {
-			return;
-		}
-		CompoundNBT root = stack.getTag();
-		if (!root.contains(ECNames.EC_NBT_TE)) {
-			return;
-		}
-		this.read(root);
-	}
-
-	public void writeToItemStack(ItemStack stack) {
-		if (stack == null) {
-			return;
-		}
-		if (stack.getTag() == null) {
-			stack.setTag(new CompoundNBT());
-		}
-
-		CompoundNBT root = stack.getTag();
-		root.putBoolean(ECNames.EC_NBT_TE, true);
-		this.write(root);
 	}
 
 	public <T> Optional<T> getTileEntityAs(BlockPos pos, Class<T> clazz) {
