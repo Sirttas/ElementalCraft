@@ -52,7 +52,7 @@ public class BlockInfuser extends BlockECContainer {
 		TileInfuser infuser = (TileInfuser) world.getTileEntity(pos);
 
 		if (infuser != null && infuser.isRunning()) {
-			ParticleHelper.createElementFlowParticle(infuser.getTankElementType(), world, Vector3d.copy(pos), Direction.UP, rand);
+			ParticleHelper.createElementFlowParticle(infuser.getTankElementType(), world, Vector3d.copy(pos), Direction.UP, 1, rand);
 		}
 	}
 

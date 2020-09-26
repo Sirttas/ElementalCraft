@@ -4,12 +4,12 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -61,7 +61,7 @@ public class ItemReceptacle extends ItemEC {
 
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == Items.GOLD_INGOT;
+		return repair.getItem() == ECItems.swiftAlloyIngot;
 	}
 
 }

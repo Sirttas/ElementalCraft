@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "main",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:enderlockshrine"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "source": "block_entity",
+          "ops": [
+            {
+              "source": "element_type",
+              "target": "BlockEntityTag.element_type",
+              "op": "replace"
+            },
+            {
+              "source": "element_amount",
+              "target": "BlockEntityTag.element_amount",
+              "op": "replace"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

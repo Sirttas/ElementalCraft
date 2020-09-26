@@ -20,6 +20,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
@@ -42,6 +44,9 @@ public class SpellEnderStrike extends Spell implements ISelfCastedSpell, IEntity
 			LivingEntity livingSender = (LivingEntity) sender;
 			Vector3d newPos = target.getPositionVec().add(target.getLookVec().inverse().normalize());
 
+			if (MinecraftForge.EVENT_BUS.post(new EnderTeleportEvent(livingSender, newPos.x, newPos.y + 0.5F, newPos.z, 0))) {
+				return ActionResultType.CONSUME;
+			}
 			if (livingSender.attemptTeleport(newPos.x, newPos.y + 0.5F, newPos.z, true)) {
 				livingSender.lookAt(EntityAnchorArgument.Type.EYES, target.getPositionVec());
 				livingSender.getEntityWorld().playSound(null, livingSender.prevPosX, livingSender.prevPosY, livingSender.prevPosZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT,

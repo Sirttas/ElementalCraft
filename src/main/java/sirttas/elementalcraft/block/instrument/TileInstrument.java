@@ -29,6 +29,9 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		if (recipe != null && recipe.matches(this)) {
 			return true;
 		}
+		if (recipe != null) {
+			this.forceSync();
+		}
 		recipe = this.lookupRecipe();
 		return recipe != null;
 	}

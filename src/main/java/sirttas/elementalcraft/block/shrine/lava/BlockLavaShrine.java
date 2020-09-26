@@ -14,11 +14,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.shrine.BlockShrine;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 
-public class BlockLavaShrine extends BlockECTileProvider {
+public class BlockLavaShrine extends BlockShrine {
 
 	public static final String NAME = "lavashrine";
 
@@ -34,6 +35,9 @@ public class BlockLavaShrine extends BlockECTileProvider {
 
 	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, BASE_4, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST);
 
+	public BlockLavaShrine() {
+		super(ElementType.FIRE);
+	}
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
@@ -48,15 +52,11 @@ public class BlockLavaShrine extends BlockECTileProvider {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(TileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
 		double x = pos.getX() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
 		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
 		double z = pos.getZ() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
 
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
-
-		if (shrine != null && shrine.isRunning()) {
-			world.addParticle(ParticleTypes.LAVA, x, y, z, 0.0D, 0.0D, 0.0D);
-		}
+		world.addParticle(ParticleTypes.LAVA, x, y, z, 0.0D, 0.0D, 0.0D);
 	}
 }

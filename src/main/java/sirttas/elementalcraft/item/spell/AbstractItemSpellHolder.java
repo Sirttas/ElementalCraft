@@ -39,7 +39,7 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 
 	protected void addAttributeTooltip(List<ITextComponent> tooltip, Spell spell) {
 		tooltip.add(new StringTextComponent(""));
-		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.spell_consume", spell.getElementType().getDisplayName()).mergeStyle(TextFormatting.YELLOW));
+		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.consumes", spell.getElementType().getDisplayName()).mergeStyle(TextFormatting.YELLOW));
 		spell.addInformation(tooltip);
 		addAttributeMultimapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), new TranslationTextComponent("tooltip.elementalcraft.on_spell_use").mergeStyle(TextFormatting.GRAY));
 	}
@@ -65,7 +65,7 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 		} else if (spell instanceof ISelfCastedSpell) {
 			result = ((ISelfCastedSpell) spell).castOnSelf(playerIn);
 		}
-		if (!result.equals(ActionResultType.PASS) && !playerIn.isCreative()) {
+		if (result.isSuccessOrConsume() && !playerIn.isCreative()) {
 			if (!spell.consume(playerIn)) {
 				consume(stack);
 				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> playerIn.renderBrokenItemStack(stack));

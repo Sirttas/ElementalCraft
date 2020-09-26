@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.data.tag;
 
 import java.util.Comparator;
-import java.util.function.Predicate;
 
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
@@ -22,10 +21,13 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		super(generatorIn, blockTagsProvider, ElementalCraft.MODID, existingFileHelper);
 	}
 
+	private Item[] getItemsForClass(Class<?> clazz) {
+		return registry.stream().filter(i -> ElementalCraft.MODID.equals(i.getRegistryName().getNamespace()) && clazz.isInstance(i)).sorted(Comparator.comparing(Item::getRegistryName))
+				.toArray(Item[]::new);
+	}
+
 	@Override
 	protected void registerTags() {
-		Predicate<Item> filter = i -> ElementalCraft.MODID.equals(i.getRegistryName().getNamespace());
-
 		copy(BlockTags.SLABS, ItemTags.SLABS);
 		copy(BlockTags.STAIRS, ItemTags.STAIRS);
 		copy(BlockTags.WALLS, ItemTags.WALLS);
@@ -34,6 +36,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
 		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
+		this.copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
 
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE);
@@ -49,7 +52,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_LEGGINGS).add(Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS, Items.DIAMOND_LEGGINGS, Items.NETHERITE_LEGGINGS);
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_BOOTS).add(Items.IRON_BOOTS, Items.GOLDEN_BOOTS, Items.DIAMOND_BOOTS, Items.NETHERITE_BOOTS);
 
-		getOrCreateBuilder(ECTags.Items.SPELL_HOLDERS)
-				.add(registry.stream().filter(filter).filter(i -> i instanceof AbstractItemSpellHolder).sorted(Comparator.comparing(Item::getRegistryName)).toArray(Item[]::new));
+		getOrCreateBuilder(ECTags.Items.SPELL_HOLDERS).add(getItemsForClass(AbstractItemSpellHolder.class));
 	}
 }

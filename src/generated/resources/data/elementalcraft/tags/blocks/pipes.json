@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:elementpipe",
+    "elementalcraft:elementpipe_impaired",
+    "elementalcraft:elementpipe_improved"
+  ]
+}

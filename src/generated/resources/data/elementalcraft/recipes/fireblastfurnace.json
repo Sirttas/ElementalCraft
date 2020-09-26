@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "wfw",
+    "www",
     "gFg",
     "ici"
   ],
   "key": {
     "c": {
-      "item": "elementalcraft:purecrystal"
+      "item": "elementalcraft:firecrystal"
     },
     "w": {
       "item": "elementalcraft:whiterock"
@@ -20,9 +20,6 @@
     },
     "g": {
       "item": "elementalcraft:burnt_glass"
-    },
-    "f": {
-      "item": "elementalcraft:fireite_ingot"
     }
   },
   "result": {

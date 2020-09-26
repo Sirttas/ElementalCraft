@@ -21,6 +21,9 @@ shrines upgrades
 rework particles
 difuser
 spell craft
+hardened handle
+spell particles
 
 spells:
 	Arctic Breath
+	mud golem

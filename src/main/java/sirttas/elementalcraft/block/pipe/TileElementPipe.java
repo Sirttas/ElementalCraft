@@ -101,7 +101,7 @@ public class TileElementPipe extends TileECTickable {
 			IElementReceiver receiver = path.searchReceiver(this, type, sender.extractElement(amount, type, true));
 
 			if (receiver != null) {
-				int resultingAmount = amount - receiver.inserElement(sender.extractElement(path.amount, type, false), type, false);
+				int resultingAmount = path.amount - receiver.inserElement(sender.extractElement(path.amount, type, false), type, false);
 
 				path.pipes.forEach(p -> p.transferedAmount += resultingAmount);
 			}

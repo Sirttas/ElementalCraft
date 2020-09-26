@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_enderlockshrine": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:enderlockshrine"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_enderlockshrine"
+    ]
+  ]
+}

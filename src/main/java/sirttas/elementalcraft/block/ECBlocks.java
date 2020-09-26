@@ -38,6 +38,8 @@ import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
 import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
+import sirttas.elementalcraft.block.shrine.enderlock.BlockEnderLockShrine;
+import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
@@ -94,6 +96,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static BlockOreShrine oreShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static BlockOverloadShrine overloadShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static BlockSweetShrine sweetShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static BlockEnderLockShrine enderLockShrine;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
 	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static BlockCrystalOre crystalOre;
@@ -138,6 +141,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockOreShrine(), BlockOreShrine.NAME);
 		RegistryHelper.register(registry, new BlockOverloadShrine(), BlockOverloadShrine.NAME);
 		RegistryHelper.register(registry, new BlockSweetShrine(), BlockSweetShrine.NAME);
+		RegistryHelper.register(registry, new BlockEnderLockShrine(), BlockEnderLockShrine.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
 		RegistryHelper.register(registry, new BlockCrystalOre(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), "crystalore");
@@ -175,6 +179,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOreShrine::new, oreShrine).build(null), BlockOreShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOverloadShrine::new, overloadShrine).build(null), BlockOverloadShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileSweetShrine::new, sweetShrine).build(null), BlockSweetShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileEnderLockShrine::new, enderLockShrine).build(null), BlockEnderLockShrine.NAME);
 	}
 
 	@SubscribeEvent
