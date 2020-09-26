@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tileentity.TileEntity;
@@ -25,11 +24,12 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 
-public class BlockFirePylon extends BlockECTileProvider {
+public class BlockFirePylon extends BlockPylonShrine {
 
 	public static final String NAME = "firepylon";
 
@@ -57,12 +57,7 @@ public class BlockFirePylon extends BlockECTileProvider {
 	private static final VoxelShape UPPER_SHAPE = VoxelShapes.or(UPPER_BASE, UPPER_TOP);
 
 	public BlockFirePylon() {
-		this.setDefaultState(this.stateContainer.getBaseState().with(HALF, DoubleBlockHalf.LOWER));
-	}
-
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return state.get(HALF) == DoubleBlockHalf.LOWER;
+		super(ElementType.FIRE);
 	}
 
 	@Override
@@ -70,10 +65,6 @@ public class BlockFirePylon extends BlockECTileProvider {
 		return state.get(HALF) == DoubleBlockHalf.LOWER ? new TileFirePylon() : null;
 	}
 
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place
-	 * logic
-	 */
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		worldIn.setBlockState(pos.up(), state.with(HALF, DoubleBlockHalf.UPPER), 3);
@@ -105,24 +96,13 @@ public class BlockFirePylon extends BlockECTileProvider {
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HALF);
-	}
-
-	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(TileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
 		double x = pos.getX() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
 		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
 		double z = pos.getZ() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
 
-		if (state.get(HALF) == DoubleBlockHalf.UPPER) {
-			TileShrine shrine = (TileShrine) world.getTileEntity(pos.down());
-
-			if (shrine != null && shrine.isRunning()) {
-				world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
-				world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
-			}
-		}
+		world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+		world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
 	}
 }

@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_purecrystal": {
+    "has_firecrystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:purecrystal"
+            "item": "elementalcraft:firecrystal"
           }
         ]
       }
@@ -26,16 +26,6 @@
         ]
       }
     },
-    "has_fireite_ingot": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "elementalcraft:fireite_ingot"
-          }
-        ]
-      }
-    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
@@ -45,9 +35,8 @@
   },
   "requirements": [
     [
-      "has_purecrystal",
+      "has_firecrystal",
       "has_whiterock",
-      "has_fireite_ingot",
       "has_the_recipe"
     ]
   ]

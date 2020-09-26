@@ -1,3 +1,21 @@
+1.15.2-1.1.14 and 1.16.2-2.2.15:
+
+- new spell: tree fall
+- new spell: purification
+- new spell: ripening
+- new spell: flame cleave
+- new shrine: ender lock shrine
+- added pipe tag
+- balanced shrines
+- element container now connects to pipes
+- made the fire blast furnace available earlier in the mod progress
+- reduced inert crystal ore span frequency
+- remove duplicated pure ore
+- added particles to pure infuser on craft completion
+- receptacles now needs swift alloy to be repaired
+- fix a bug where shrines particles would not display properly
+
+
 1.15.2-1.1.13 and 1.16.2-2.2.14:
 
 - added animal growth patchouli entry

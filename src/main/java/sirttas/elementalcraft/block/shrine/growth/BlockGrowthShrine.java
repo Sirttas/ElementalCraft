@@ -1,23 +1,17 @@
 package sirttas.elementalcraft.block.shrine.growth;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.BoneMealItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.BlockECTileProvider;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.block.shrine.BlockShrine;
 
-public class BlockGrowthShrine extends BlockECTileProvider {
+public class BlockGrowthShrine extends BlockShrine {
 
 	public static final String NAME = "growthshrine";
 
@@ -38,6 +32,10 @@ public class BlockGrowthShrine extends BlockECTileProvider {
 
 	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, PIPE_UP, PIPE_UP_N, PIPE_UP_S, PIPE_UP_E, PIPE_UP_W, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST);
 
+	public BlockGrowthShrine() {
+		super(ElementType.WATER);
+	}
+
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileGrowthShrine();
@@ -46,15 +44,5 @@ public class BlockGrowthShrine extends BlockECTileProvider {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
-
-		if (shrine != null && shrine.isRunning()) {
-			BoneMealItem.spawnBonemealParticles(world, pos, 1);
-		}
 	}
 }

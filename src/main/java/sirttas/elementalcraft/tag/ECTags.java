@@ -25,6 +25,7 @@ public class ECTags {
 		public static final INamedTag<Item> SPELL_HOLDERS = createTag("spell_holders");
 
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
+		public static final INamedTag<Item> PIPES = createTag("pipes");
 
 		private static INamedTag<Item> createTag(String name) {
 			return ItemTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
@@ -33,8 +34,10 @@ public class ECTags {
 
 	public static class Blocks {
 		public static final INamedTag<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
-		public static final INamedTag<Block> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Block> SMALL_TANK_COMPATIBLES = createTag("small_tank_compatibles");
+
+		public static final INamedTag<Block> PUREROCKS = createTag("purerocks");
+		public static final INamedTag<Block> PIPES = createTag("pipes");
 
 		private static INamedTag<Block> createTag(String name) {
 			return BlockTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);

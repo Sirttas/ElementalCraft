@@ -26,6 +26,7 @@ public class TileOreShrine extends TileShrine {
 
 	public TileOreShrine() {
 		super(TYPE, ElementType.EARTH, ECConfig.CONFIG.oreShrinePeriode.get());
+		this.elementMax *= 10;
 	}
 
 	private Optional<BlockPos> findOre() {

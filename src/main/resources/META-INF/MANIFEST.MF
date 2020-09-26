@@ -1,1 +1,1 @@
-MixinConnector: sirttas.elementalcraft.mixin.Connector
+MixinConfigs: elementalcraft.mixins.json

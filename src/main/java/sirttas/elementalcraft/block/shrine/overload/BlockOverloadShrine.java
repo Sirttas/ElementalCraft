@@ -1,11 +1,8 @@
 package sirttas.elementalcraft.block.shrine.overload;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.BoneMealItem;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -15,13 +12,10 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.BlockECTileProvider;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.block.shrine.BlockShrine;
 
-public class BlockOverloadShrine extends BlockECTileProvider {
+public class BlockOverloadShrine extends BlockShrine {
 
 	public static final String NAME = "overloadshrine";
 
@@ -47,7 +41,7 @@ public class BlockOverloadShrine extends BlockECTileProvider {
 	public static final DirectionProperty FACING = DirectionProperty.create("facing", d -> d != Direction.DOWN);
 
 	public BlockOverloadShrine() {
-		super();
+		super(ElementType.AIR);
 		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.UP));
 	}
 
@@ -83,15 +77,5 @@ public class BlockOverloadShrine extends BlockECTileProvider {
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		Direction direction = context.getFace().getOpposite();
 		return this.getDefaultState().with(FACING, direction.getAxis() == Direction.Axis.Y ? Direction.UP : direction);
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
-
-		if (shrine != null && shrine.isRunning()) {
-			BoneMealItem.spawnBonemealParticles(world, pos, 1);
-		}
 	}
 }

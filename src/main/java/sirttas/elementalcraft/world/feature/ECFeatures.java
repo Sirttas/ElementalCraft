@@ -51,7 +51,7 @@ public class ECFeatures {
 	public static void addToWorldgen() {
 		ConfiguredFeature<?, ?> crystalOre = register("crystal_ore",
 				Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, ECBlocks.crystalOre.getDefaultState(), 9)).func_242733_d(64).func_242728_a()
-						.func_242731_b(20));
+						.func_242731_b(10));
 		ConfiguredFeature<?, ?> sourceConfig = register(SourceFeature.NAME,
 				source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242729_a(ECConfig.CONFIG.sourceSpawnChance.get()));
 

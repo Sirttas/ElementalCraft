@@ -21,6 +21,7 @@ import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
+import sirttas.elementalcraft.block.shrine.enderlock.BlockEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
 import sirttas.elementalcraft.block.shrine.harvest.BlockHarvestShrine;
@@ -98,6 +99,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static Item oreShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static Item overloadShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static Item sweetShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static Item enderLockShrine;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static Item source;
 	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static Item crystalOre;

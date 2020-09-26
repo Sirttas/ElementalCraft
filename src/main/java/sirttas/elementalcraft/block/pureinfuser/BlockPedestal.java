@@ -63,7 +63,7 @@ public class BlockPedestal extends BlockECContainer {
 		if (pedestal != null && pedestal.isPureInfuserRunning()) {
 			Direction offset = pedestal.getPureInfuserDirection();
 			
-			ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copy(pos.offset(offset)).add(0, 0.7, 0), offset, rand);
+			ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copy(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, rand);
 		}
 	}
 

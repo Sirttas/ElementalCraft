@@ -63,7 +63,9 @@ public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockC
 	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
 		Multimap<Attribute, AttributeModifier> multimap = super.getAttributeModifiers(equipmentSlot);
 
-		multimap.put(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier(REACH_DISTANCE_MODIFIER, "Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
+		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
+			multimap.put(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier(REACH_DISTANCE_MODIFIER, "Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
+		}
 		return multimap;
 	}
 
