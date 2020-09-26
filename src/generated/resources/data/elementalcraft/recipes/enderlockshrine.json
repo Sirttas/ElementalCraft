@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "water",
+  "consumption": 50,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "item": "minecraft:obsidian"
+    }
+  ],
+  "output": "elementalcraft:enderlockshrine"
+}

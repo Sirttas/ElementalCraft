@@ -93,8 +93,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareWhiterockInstrumentRecipe(ECBlocks.pureInfuser).key('i', ECItems.swiftAlloyIngot).key('n', ECBlocks.infuser).patternLine("wnw").patternLine("ici").patternLine("www").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.fireFurnace, ECItems.fireCrystal).key('i', ECItems.drenchedIronIngot).key('f', Blocks.FURNACE).patternLine("www").patternLine("wfw")
 				.patternLine("ici").build(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.fireBlastFurnace, ECItems.pureCrystal).key('i', ECItems.swiftAlloyIngot).key('F', Blocks.BLAST_FURNACE).key('g', ECBlocks.burntGlass)
-				.key('f', ECItems.fireCrystal).patternLine("wcw").patternLine("gFg").patternLine("ifi").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.fireBlastFurnace, ECItems.fireCrystal).key('i', ECItems.swiftAlloyIngot).key('F', Blocks.BLAST_FURNACE).key('g', ECBlocks.burntGlass)
+				.patternLine("www").patternLine("gFg").patternLine("ici").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.purifier, ECItems.pureCrystal).key('i', ECItems.swiftAlloyIngot).key('e', ECItems.earthCrystal).key('g', Tags.Items.INGOTS_GOLD).patternLine("gcg")
 				.patternLine("wew").patternLine("ici").build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.instrumentRetriever).key('i', ECItems.swiftAlloyIngot).key('h', Blocks.HOPPER).key('d', Blocks.DISPENSER).key('w', ECBlocks.whiteRock)
@@ -139,6 +139,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.CLOCK).addIngredient(Items.ENDER_EYE).withConsumption(100).withDuration(200).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.sweetShrine, ElementType.WATER).addIngredient(ECItems.shrineBase).addIngredient(ECItems.waterCrystal).addIngredient(ECItems.earthCrystal)
 				.addIngredient(Items.SUGAR).addIngredient(Items.HONEY_BOTTLE).addIngredient(Items.MILK_BUCKET).withConsumption(50).build(consumer);
+		BinderRecipeBuilder.binderRecipe(ECItems.enderLockShrine, ElementType.WATER).addIngredient(ECItems.shrineBase).addIngredient(ECItems.waterCrystal).addIngredient(ECItems.airCrystal)
+				.addIngredient(Items.ENDER_EYE).addIngredient(Items.DRAGON_BREATH).addIngredient(Items.OBSIDIAN).withConsumption(50).build(consumer);
+
 
 		BinderRecipeBuilder.binderRecipe(ECItems.firePedestal, ElementType.FIRE).addIngredient(ECItems.infuser).addIngredient(ECItems.fireCrystal).addIngredient(ECItems.whiteRock)
 				.addIngredient(ECItems.whiteRock).withConsumption(50).withDuration(300).build(consumer);

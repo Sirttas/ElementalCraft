@@ -44,7 +44,7 @@ public class ECFeatures {
 		for (Biome biome : ForgeRegistries.BIOMES) { // TODO exclude biomes
 			biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
 					Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ECBlocks.crystalOre.getDefaultState(), 9))
-							.withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(20, 0, 0, 64)))); // TODO config
+							.withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 0, 0, 64)))); // TODO config
 
 			biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION,
 					source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP.configure(new ChanceConfig(ECConfig.CONFIG.sourceSpawnChance.get()))));

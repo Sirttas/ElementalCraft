@@ -97,7 +97,7 @@ public class BlockPurifier extends BlockECContainer {
 		TilePurifier purifier = (TilePurifier) world.getTileEntity(pos);
 
 		if (purifier != null && purifier.isRunning()) {
-			ParticleHelper.createElementFlowParticle(purifier.getTankElementType(), world, new Vec3d(pos), Direction.UP, rand);
+			ParticleHelper.createElementFlowParticle(purifier.getTankElementType(), world, new Vec3d(pos), Direction.UP, 1, rand);
 		}
 	}
 

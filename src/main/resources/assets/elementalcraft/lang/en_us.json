@@ -74,6 +74,7 @@
   "block.elementalcraft.oreshrine": "Ore Shrine",
   "block.elementalcraft.overloadshrine": "Overload Shrine",
   "block.elementalcraft.sweetshrine": "Sweet Shrine",
+  "block.elementalcraft.enderlockshrine": "Ender Lock Shrine",
 
   "block.elementalcraft.crystalore": "Inert Crystal Ore",
   "block.elementalcraft.whiterock": "White Rock",
@@ -94,6 +95,10 @@
   "spell.elementalcraft.item_pull": "Item Pull",
   "spell.elementalcraft.ender_strike": "Ender Strike",
   "spell.elementalcraft.animal_growth": "Animal Growth",
+  "spell.elementalcraft.tree_fall": "Tree Fall",
+  "spell.elementalcraft.purification": "Purification",
+  "spell.elementalcraft.ripening": "Ripening",
+  "spell.elementalcraft.flame_cleave": "Flame Cleave",
   
   "spell.elementalcraft.heal": "Healing",
 
@@ -108,7 +113,7 @@
   "tooltip.elementalcraft.pure_ore": "Pure %s Chunk",
   "tooltip.elementalcraft.on_spell_use": "Durring spell cast:",
   "tooltip.elementalcraft.spell_effect_on_use": "When applied:",
-  "tooltip.elementalcraft.spell_consume": "Consume %s",
+  "tooltip.elementalcraft.consumes": "Consumes %s",
   "tooltip.elementalcraft.percent_full": "%s%% full",
 
   "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().",
@@ -161,6 +166,7 @@
   "elementalcraft.page.growthshrine0": "The $(item)Growth Shrine$() accelerate $(thing)crops$() growth above it.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.harvestshrine0": "The $(item)Harvest Shrine$() harvest $(thing)crops$() below above it.$(br2)It consumes $(thing)earth element$().",
   "elementalcraft.page.overloadshrine0": "The $(item)Overload Shrine$() boost the speed of the $(item)block$() its facing.$(br2)It consumes $(thing)air element$().",
+  "elementalcraft.page.enderlock0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:elmentalcraft:spells/ender_strike)Ender strinke$() d'ont works.$(br2)It consumes $(thing)water element$().",
 
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$().",
   "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the mos powerfull crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)to operate it needs to be circle with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$().$(br)Once this setup is done you can start crafting by puting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main on on the $(thing)pure infuser$().",
@@ -171,7 +177,12 @@
   "elementalcraft.page.gravelfall0": "Summon a column of $(item)gravel$() above the targeted $(thing)block$() or $(thing)entity$().$(br)Consumes $(thing)earth$() and three $(item)gravel$().",
   "elementalcraft.page.stonewall0": "Summon a three by three $(thing)stone wall$() in front of you to protect you from attacks.$(br)Consumes $(thing)earth$() and nine $(item)stone$().",
   "elementalcraft.page.healing0": "Heal you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
-  "elementalcraft.page.ender_strike0": "Teleport behind targeted $(thing)entity$() or closest $(thing)monster$() and strike it with increased damage.$(br)Consumes $(thing)air$().",
+  "elementalcraft.page.ender_strike0": "Teleport behind targeted $(thing)entity$() or closest $(thing)monster$() and strike it with increased damage. Be careful not to use it near an $(l:elmentalcraft:shrines/enderlockshrine)Ender lock shrine$().$(br)Consumes $(thing)air$().",
   "elementalcraft.page.item_pull0": "Pull all nearby $(item)items to you.$(br)Consumes $(thing)air$().",
-  "elementalcraft.page.animal_growth0": "Fully grow targeted $(thing)animal child$().$(br)Consumes $(thing)water$()."
+  "elementalcraft.page.animal_growth0": "Fully grow targeted $(thing)animal child$().$(br)Consumes $(thing)water$().",
+  "elementalcraft.page.tree_fall0": "Cut down targeted $(thing)tree$().$(br)Consumes $(thing)earth$().",
+  "elementalcraft.page.purification0": "Remove all negative $(thing)effects$() on you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
+  "elementalcraft.page.ripening0": "Fully mature targeted $(thing)crops$().$(br)Consumes $(thing)water$().",
+    "elementalcraft.page.flame_cleave": "Hit all $(thing)entities$() around you with a burnig circular attack.$(br)Consumes $(thing)fire$()."
+  
 }

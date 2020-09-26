@@ -50,6 +50,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.oreShrine, list);
 		addItem(ECBlocks.overloadShrine, list);
 		addItem(ECBlocks.sweetShrine, list);
+		addItem(ECBlocks.enderLockShrine, list);
 
 		addItem(ECBlocks.crystalOre, list);
 		addItem(ECBlocks.whiteRock, list);

@@ -55,11 +55,15 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 		return null;
 	}
 
+	private boolean canInsertStack(IInventory inventory, ItemStack stack, ItemStack heldItem) {
+		return stack.isItemEqual(heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getInventoryStackLimit();
+	}
+
 	private ActionResultType onSlotActivatedUnsync(IInventory inventory, PlayerEntity player, ItemStack heldItem, int index) {
 		ItemStack stack = inventory.getStackInSlot(index);
 		TileEntity entity = (TileEntity) inventory;
 
-		if (heldItem.isEmpty() || (!stack.isEmpty() && !stack.isItemEqual(heldItem))) {
+		if (heldItem.isEmpty() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem))) {
 			if (!stack.isEmpty()) {
 				if (entity.hasWorld() && !entity.getWorld().isRemote()) {
 					ItemEntity invItem = new ItemEntity(entity.getWorld(), player.getPosX(), player.getPosY() + 0.25, player.getPosZ(), inventory.getStackInSlot(index));
@@ -79,7 +83,7 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 			}
 			inventory.setInventorySlotContents(index, stack);
 			return ActionResultType.SUCCESS;
-		} else if (!stack.isEmpty() && stack.isItemEqual(heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getInventoryStackLimit()) {
+		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem)) {
 			int size = Math.min(heldItem.getCount(), inventory.getInventoryStackLimit() - stack.getCount());
 
 			if (!player.isCreative()) {
@@ -94,7 +98,7 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 	protected ActionResultType onSlotActivated(IInventory inventory, PlayerEntity player, ItemStack heldItem, int index) {
 		ActionResultType ret = this.onSlotActivatedUnsync(inventory, player, heldItem, index);
 
-		if (ret.isSuccess() && inventory instanceof IForcableSync) {
+		if (ret.isSuccessOrConsume() && inventory instanceof IForcableSync) {
 			((IForcableSync) inventory).forceSync();
 		}
 		return ret;

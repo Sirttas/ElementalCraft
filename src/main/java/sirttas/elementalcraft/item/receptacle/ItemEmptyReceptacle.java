@@ -4,11 +4,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -41,7 +41,7 @@ public class ItemEmptyReceptacle extends ItemEC implements ISourceInteractable {
 
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == Items.GOLD_INGOT;
+		return repair.getItem() == ECItems.swiftAlloyIngot;
 	}
 
 }

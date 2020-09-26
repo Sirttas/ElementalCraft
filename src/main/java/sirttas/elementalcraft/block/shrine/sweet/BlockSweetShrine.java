@@ -1,23 +1,17 @@
 package sirttas.elementalcraft.block.shrine.sweet;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.BoneMealItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.BlockECTileProvider;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.block.shrine.BlockShrine;
 
-public class BlockSweetShrine extends BlockECTileProvider {
+public class BlockSweetShrine extends BlockShrine {
 
 	public static final String NAME = "sweetshrine";
 
@@ -44,6 +38,10 @@ public class BlockSweetShrine extends BlockECTileProvider {
 	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, BASE_4, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST, PIPE_UP, IRON_NORTH_1, IRON_NORTH_2, IRON_SOUTH_1,
 			IRON_SOUTH_2, IRON_EAST_1, IRON_EAST_2, IRON_WEST_1, IRON_WEST_2);
 
+	public BlockSweetShrine() {
+		super(ElementType.WATER);
+	}
+
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileSweetShrine();
@@ -53,15 +51,5 @@ public class BlockSweetShrine extends BlockECTileProvider {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
-
-		if (shrine != null && shrine.isRunning()) {
-			BoneMealItem.spawnBonemealParticles(world, pos, 1);
-		}
 	}
 }

@@ -5,12 +5,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
+import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 public class TilePureInfuser extends TileECContainer {
@@ -35,6 +37,9 @@ public class TilePureInfuser extends TileECContainer {
 		if (recipe != null && recipe.matches(this)) {
 			return true;
 		}
+		if (recipe != null) {
+			this.forceSync();
+		}
 		recipe = this.getWorld().getRecipeManager().getRecipe(PureInfusionRecipe.TYPE, this, this.getWorld()).orElse(null);
 		return recipe != null;
 	}
@@ -43,6 +48,9 @@ public class TilePureInfuser extends TileECContainer {
 		recipe.process(this);
 		recipe = null;
 		this.forceSync();
+		if (this.world.isRemote) {
+			ParticleHelper.createCraftingParticle(ElementType.NONE, world, new Vec3d(pos).add(0, 0.7, 0), world.rand);
+		}
 	}
 
 	@Override

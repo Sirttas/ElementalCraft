@@ -80,7 +80,7 @@ public class TileBinder extends TileInstrument {
 	public void process() {
 		super.process();
 		if (this.world.isRemote) {
-			ParticleHelper.createCraftingParticle(getTankElementType(), world, new Vec3d(pos), world.rand);
+			ParticleHelper.createCraftingParticle(getTankElementType(), world, new Vec3d(pos).add(0, 0.2, 0), world.rand);
 		}
 	}
 

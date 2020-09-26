@@ -35,7 +35,7 @@ public class ParticleElementFlow extends AbstractECParticle {
 		this.particleGreen = f * type.getGreen();
 		this.particleBlue = f * type.getBlue();
 		this.canCollide = false;
-		this.maxAge = this.rand.nextInt(10) + 30;
+		this.maxAge = (int) ((this.rand.nextInt(10) + 30) * speed.length());
 		this.selectSpriteRandomly(sprite);
 	}
 

@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.data.tag;
 
 import java.util.Comparator;
-import java.util.function.Predicate;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -20,10 +19,13 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		super(generatorIn);
 	}
 
+	private Item[] getItemsForClass(Class<?> clazz) {
+		return registry.stream().filter(i -> ElementalCraft.MODID.equals(i.getRegistryName().getNamespace()) && clazz.isInstance(i)).sorted(Comparator.comparing(Item::getRegistryName))
+				.toArray(Item[]::new);
+	}
+
 	@Override
 	protected void registerTags() {
-		Predicate<Item> filter = i -> ElementalCraft.MODID.equals(i.getRegistryName().getNamespace());
-
 		this.copy(BlockTags.SLABS, ItemTags.SLABS);
 		this.copy(BlockTags.STAIRS, ItemTags.STAIRS);
 		this.copy(BlockTags.WALLS, ItemTags.WALLS);
@@ -31,6 +33,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		this.copy(Tags.Blocks.GLASS_PANES, Tags.Items.GLASS_PANES);
 		this.copy(Tags.Blocks.ORES, Tags.Items.ORES);
 		this.copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
+		this.copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
 
 		getBuilder(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD);
 		getBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE);
@@ -43,7 +46,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getBuilder(ECTags.Items.INFUSABLE_LEGGINGS).add(Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS, Items.DIAMOND_LEGGINGS);
 		getBuilder(ECTags.Items.INFUSABLE_BOOTS).add(Items.IRON_BOOTS, Items.GOLDEN_BOOTS, Items.DIAMOND_BOOTS);
 
-		getBuilder(ECTags.Items.SPELL_HOLDERS)
-				.add(registry.stream().filter(filter).filter(i -> i instanceof AbstractItemSpellHolder).sorted(Comparator.comparing(Item::getRegistryName)).toArray(Item[]::new));
+		getBuilder(ECTags.Items.SPELL_HOLDERS).add(getItemsForClass(AbstractItemSpellHolder.class));
 	}
 }

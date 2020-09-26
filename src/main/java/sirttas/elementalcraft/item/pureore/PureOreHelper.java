@@ -8,8 +8,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.inventory.IInventory;
@@ -51,7 +49,7 @@ public class PureOreHelper {
 	public static ItemStack createPureOre(Item item) {
 		ItemStack stack = new ItemStack(ECItems.pureOre);
 
-		NBTHelper.writeItemStack(NBTHelper.getOrCreateECTag(stack), ECNames.ORE, new ItemStack(item));
+		NBTHelper.writeItemStack(NBTHelper.getOrCreateECTag(stack), ECNames.ORE, new ItemStack(PURE_ORE_MAP.containsKey(item) ? PURE_ORE_MAP.get(item).ore : item));
 		return stack;
 	}
 
@@ -60,7 +58,7 @@ public class PureOreHelper {
 	}
 
 	public static List<Item> getOres() {
-		return PURE_ORE_MAP.keySet().stream().distinct().collect(Collectors.toList());
+		return PURE_ORE_MAP.values().stream().distinct().map(o -> o.ore).distinct().collect(Collectors.toList());
 	}
 
 	public static List<PurifierRecipe> getRecipes() {
@@ -104,24 +102,24 @@ public class PureOreHelper {
 	}
 
 	private static String buildId(ResourceLocation source) {
-		return source.getNamespace() + "_pure_" + source.getPath().replace('/', '_') + '_' + RandomStringUtils.randomAlphabetic(10).toLowerCase(); // TODO rework to remove the random string
+		return source.getNamespace() + "_pure_" + source.getPath().replace('/', '_');
 	}
 
 	private static AbstractCookingRecipe buildSmeltingRecipe(Entry entry) {
 		return new FurnaceRecipe(new ResourceLocation(ElementalCraft.MODID, buildId(entry.smeltingRecipe.getId())), entry.smeltingRecipe.getGroup(), new PureOreCompoundIngredient(entry.ingredients),
-				entry.smeltingRecipe.getRecipeOutput().copy(), entry.smeltingRecipe.getExperience(), entry.smeltingRecipe.getCookTime());
+				entry.result, entry.smeltingRecipe.getExperience(), entry.smeltingRecipe.getCookTime());
 	}
 
 	private static AbstractCookingRecipe buildBlastingRecipe(Entry entry) {
 		return entry.blastingRecipe != null
-				? new BlastingRecipe(new ResourceLocation(ElementalCraft.MODID, buildId(entry.smeltingRecipe.getId())), entry.blastingRecipe.getGroup(),
-						new PureOreCompoundIngredient(entry.ingredients), entry.blastingRecipe.getRecipeOutput().copy(), entry.blastingRecipe.getExperience(), entry.blastingRecipe.getCookTime())
+				? new BlastingRecipe(new ResourceLocation(ElementalCraft.MODID, buildId(entry.blastingRecipe.getId())), entry.blastingRecipe.getGroup(),
+						new PureOreCompoundIngredient(entry.ingredients), entry.result, entry.blastingRecipe.getExperience(), entry.blastingRecipe.getCookTime())
 				: null;
 	}
 
 	private static Entry addOre(Item item, AbstractCookingRecipe recipe) {
 		for (Entry entry : PURE_ORE_MAP.values()) {
-			if (entry.smeltingRecipe.equals(recipe)) {
+			if (entry.result.isItemEqual(recipe.getRecipeOutput()) || entry.smeltingRecipe.getIngredients().get(0).test(new ItemStack(item))) {
 				PURE_ORE_MAP.put(item, entry);
 				entry.ingredients.add(new PureOreIngredient(createPureOre(item)));
 				return entry;

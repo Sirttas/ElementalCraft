@@ -68,7 +68,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	public final void tick() {
 		super.tick();
 		running = false;
-		if (this.hasWorld()) {
+		if (this.hasWorld() && !this.isPowered()) {
 			tick++;
 			if (periode == 0) {
 				ElementalCraft.T.warn("Shrine periode should not be 0");
@@ -105,6 +105,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		super.read(compound);
 		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
+		running = compound.getBoolean(ECNames.RUNNING);
 	}
 
 	@Override
@@ -112,6 +113,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		super.write(compound);
 		compound.putString(ECNames.ELEMENT_TYPE, elementType.getName());
 		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+		compound.putBoolean(ECNames.RUNNING, running);
 		return compound;
 	}
 

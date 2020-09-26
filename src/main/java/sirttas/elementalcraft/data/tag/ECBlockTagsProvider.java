@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.data.tag;
 
 import java.util.Comparator;
-import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.FenceBlock;
@@ -15,6 +14,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.Tags;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class ECBlockTagsProvider extends BlockTagsProvider {
@@ -23,15 +23,19 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		super(generatorIn);
 	}
 
+	private Block[] getBlocksForClass(Class<?> clazz) {
+		return registry.stream().filter(b -> ElementalCraft.MODID.equals(b.getRegistryName().getNamespace()) && clazz.isInstance(b)).sorted(Comparator.comparing(Block::getRegistryName))
+				.toArray(Block[]::new);
+	}
+
 	@Override
 	protected void registerTags() {
-		Predicate<Block> filter = b -> ElementalCraft.MODID.equals(b.getRegistryName().getNamespace());
-
-		getBuilder(BlockTags.SLABS).add(registry.stream().filter(filter).filter(b -> b instanceof SlabBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
-		getBuilder(BlockTags.STAIRS).add(registry.stream().filter(filter).filter(b -> b instanceof StairsBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
-		getBuilder(BlockTags.WALLS).add(registry.stream().filter(filter).filter(b -> b instanceof WallBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
-		getBuilder(BlockTags.FENCES).add(registry.stream().filter(filter).filter(b -> b instanceof FenceBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
-		getBuilder(Tags.Blocks.GLASS_PANES).add(registry.stream().filter(filter).filter(b -> b instanceof PaneBlock).sorted(Comparator.comparing(Block::getRegistryName)).toArray(Block[]::new));
+		getBuilder(BlockTags.SLABS).add(getBlocksForClass(SlabBlock.class));
+		getBuilder(BlockTags.STAIRS).add(getBlocksForClass(StairsBlock.class));
+		getBuilder(BlockTags.WALLS).add(getBlocksForClass(WallBlock.class));
+		getBuilder(BlockTags.FENCES).add(getBlocksForClass(FenceBlock.class));
+		getBuilder(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(PaneBlock.class));
+		getBuilder(ECTags.Blocks.PIPES).add(getBlocksForClass(BlockElementPipe.class));
 
 		getBuilder(Tags.Blocks.ORES).add(ECBlocks.crystalOre);
 		getBuilder(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Tags.Blocks.STONE, Tags.Blocks.COBBLESTONE);

@@ -107,13 +107,7 @@ public class InfusionHelper {
 	}
 
 	private static void addAttributeModifier(ItemStack stack, IAttribute attribute, double amount, EquipmentSlotType slot) {
-		if (SharedMonsterAttributes.ATTACK_SPEED.equals(attribute)) {
-			stack.addAttributeModifier(attribute.getName(), new AttributeModifier(Item.ATTACK_SPEED_MODIFIER, "Weapon modifier", amount, AttributeModifier.Operation.ADDITION), slot);
-		} else if (SharedMonsterAttributes.ATTACK_DAMAGE.equals(attribute)) {
-			stack.addAttributeModifier(attribute.getName(), new AttributeModifier(Item.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", amount, AttributeModifier.Operation.ADDITION), slot);
-		} else {
-			stack.addAttributeModifier(attribute.getName(), new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
-		}
+		stack.addAttributeModifier(attribute.getName(), new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
 	}
 
 	private static void applyAttributeModifierInfusion(ItemStack stack, EquipmentSlotType slot, IAttribute attribute, double amount) {

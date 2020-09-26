@@ -69,7 +69,7 @@ public class BlockBinder extends BlockECContainer {
 		TileBinder binder = (TileBinder) world.getTileEntity(pos);
 
 		if (binder != null && binder.isRunning()) {
-			ParticleHelper.createElementFlowParticle(binder.getTankElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), Direction.UP, rand);
+			ParticleHelper.createElementFlowParticle(binder.getTankElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), Direction.UP, 1, rand);
 		}
 	}
 

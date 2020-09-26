@@ -24,6 +24,7 @@ import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
+import sirttas.elementalcraft.block.tank.BlockTank;
 
 public class ECBlockStateProvider extends BlockStateProvider {
 
@@ -80,6 +81,15 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(side).rotationY(90).addModel().condition(BlockOverloadShrine.FACING, Direction.EAST).end()
 				.part().modelFile(side).rotationY(180).addModel().condition(BlockOverloadShrine.FACING, Direction.SOUTH).end()
 				.part().modelFile(side).rotationY(270).addModel().condition(BlockOverloadShrine.FACING, Direction.WEST).end();
+		}  else if (block instanceof BlockTank) {
+			ModelFile base = models().getExistingFile(prefix(name));
+			ModelFile connector = models().getExistingFile(prefix(name + "_connector"));
+
+			getMultipartBuilder(block).part().modelFile(base).addModel().end()
+				.part().modelFile(connector).addModel().condition(BlockTank.NORTH, true).end()
+				.part().modelFile(connector).rotationY(90).addModel().condition(BlockTank.EAST, true).end()
+				.part().modelFile(connector).rotationY(180).addModel().condition(BlockTank.SOUTH, true).end()
+				.part().modelFile(connector).rotationY(270).addModel().condition(BlockTank.WEST, true).end();
 		} else if (block instanceof BlockRetriever) {
 			ModelFile core = models().getExistingFile(prefix(name + "_core"));
 			ModelFile source = models().getExistingFile(prefix(name + "_source"));

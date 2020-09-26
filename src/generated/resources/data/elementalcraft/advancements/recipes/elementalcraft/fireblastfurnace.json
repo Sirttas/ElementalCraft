@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_purecrystal": {
+    "has_firecrystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:purecrystal"
+            "item": "elementalcraft:firecrystal"
           }
         ]
       }
@@ -35,7 +35,7 @@
   },
   "requirements": [
     [
-      "has_purecrystal",
+      "has_firecrystal",
       "has_whiterock",
       "has_the_recipe"
     ]

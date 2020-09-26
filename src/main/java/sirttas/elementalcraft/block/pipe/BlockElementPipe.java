@@ -30,8 +30,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.block.BlockECTileProvider;
-import sirttas.elementalcraft.block.tile.element.IElementReceiver;
-import sirttas.elementalcraft.block.tile.element.IElementSender;
 
 public class BlockElementPipe extends BlockECTileProvider {
 
@@ -72,19 +70,10 @@ public class BlockElementPipe extends BlockECTileProvider {
 		this.maxTransferAmount = maxTransferAmount;
 	}
 
-	public boolean canConnectTo(IBlockReader worldIn, BlockPos pos) {
-		Block block = worldIn.getBlockState(pos).getBlock();
-		TileEntity entity = worldIn.getTileEntity(pos);
-
-		return block.equals(this) || entity instanceof IElementSender || entity instanceof IElementReceiver;
-	}
-
-
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
 		container.add(NORTH, SOUTH, EAST, WEST, UP, DOWN, NORTH_EXTRACT, SOUTH_EXTRACT, EAST_EXTRACT, WEST_EXTRACT, UP_EXTRACT, DOWN_EXTRACT);
 	}
-
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {

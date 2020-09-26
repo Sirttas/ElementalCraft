@@ -1,23 +1,17 @@
 package sirttas.elementalcraft.block.shrine.harvest;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.BoneMealItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.BlockECTileProvider;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.block.shrine.BlockShrine;
 
-public class BlockHarvestShrine extends BlockECTileProvider {
+public class BlockHarvestShrine extends BlockShrine {
 
 	public static final String NAME = "harvestshrine";
 
@@ -38,6 +32,10 @@ public class BlockHarvestShrine extends BlockECTileProvider {
 
 	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_UP, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST);
 
+	public BlockHarvestShrine() {
+		super(ElementType.EARTH);
+	}
+
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileHarvestShrine();
@@ -46,15 +44,5 @@ public class BlockHarvestShrine extends BlockECTileProvider {
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
-
-		if (shrine != null && shrine.isRunning()) {
-			BoneMealItem.spawnBonemealParticles(world, pos, 1);
-		}
 	}
 }

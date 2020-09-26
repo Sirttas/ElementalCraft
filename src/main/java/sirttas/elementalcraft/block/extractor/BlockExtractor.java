@@ -49,7 +49,7 @@ public class BlockExtractor extends BlockECTileProvider {
 		TileExtractor extractor = (TileExtractor) world.getTileEntity(pos);
 
 		if (extractor != null && extractor.canExtract()) {
-			ParticleHelper.createElementFlowParticle(extractor.getSourceElementType(), world, new Vec3d(pos), Direction.DOWN, rand);
+			ParticleHelper.createElementFlowParticle(extractor.getSourceElementType(), world, new Vec3d(pos), Direction.DOWN, 1, rand);
 		}
 	}
 }

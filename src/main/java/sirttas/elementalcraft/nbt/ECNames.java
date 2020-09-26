@@ -24,6 +24,7 @@ public class ECNames {
 	public static final String INPUT = "input";
 	public static final String OUTPUT = "output";
 	public static final String XP = "experience";
+	public static final String RUNNING = "running";
 
 	public static final String ORE = "ore";
 	public static final String RESULT = "result";

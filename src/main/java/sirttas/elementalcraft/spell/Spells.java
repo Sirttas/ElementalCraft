@@ -18,8 +18,12 @@ import sirttas.elementalcraft.spell.air.SpellEnderStrike;
 import sirttas.elementalcraft.spell.air.SpellItemPull;
 import sirttas.elementalcraft.spell.earth.SpellGavelFall;
 import sirttas.elementalcraft.spell.earth.SpellStoneWall;
+import sirttas.elementalcraft.spell.earth.SpellTreeFall;
 import sirttas.elementalcraft.spell.fire.SpellFireBall;
+import sirttas.elementalcraft.spell.fire.SpellFlameCleave;
 import sirttas.elementalcraft.spell.water.SpellAnimalGrowth;
+import sirttas.elementalcraft.spell.water.SpellPurification;
+import sirttas.elementalcraft.spell.water.SpellRipening;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Spells {
@@ -36,6 +40,10 @@ public class Spells {
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellItemPull.NAME) public static SpellItemPull itemPull;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellEnderStrike.NAME) public static SpellEnderStrike enderStrike;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellAnimalGrowth.NAME) public static SpellAnimalGrowth animalGrowth;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellTreeFall.NAME) public static SpellTreeFall treeFall;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellPurification.NAME) public static SpellPurification purification;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellRipening.NAME) public static SpellRipening ripening;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static SpellRipening flameCleave;
 
 	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
 
@@ -61,6 +69,10 @@ public class Spells {
 		RegistryHelper.register(registry, new SpellItemPull(), SpellItemPull.NAME);
 		RegistryHelper.register(registry, new SpellEnderStrike(), SpellEnderStrike.NAME);
 		RegistryHelper.register(registry, new SpellAnimalGrowth(), SpellAnimalGrowth.NAME);
+		RegistryHelper.register(registry, new SpellTreeFall(), SpellTreeFall.NAME);
+		RegistryHelper.register(registry, new SpellPurification(), SpellPurification.NAME);
+		RegistryHelper.register(registry, new SpellRipening(), SpellRipening.NAME);
+		RegistryHelper.register(registry, new SpellFlameCleave(), SpellFlameCleave.NAME);
 
 		RegistryHelper.register(registry, new EffectSpell(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER)
 				.cooldown(ECConfig.CONFIG.healCooldown.get()).consumeAmount(ECConfig.CONFIG.healConsumeAmount.get()), new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");
