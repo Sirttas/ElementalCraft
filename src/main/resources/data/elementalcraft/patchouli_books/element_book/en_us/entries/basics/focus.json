@@ -4,7 +4,7 @@
   "icon": "elementalcraft:focus",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/focus",
-  "sortnum": 6,
+  "sortnum": 7,
   "pages": [
     {
       "type": "text",

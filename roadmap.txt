@@ -3,7 +3,6 @@ https://mcp.thiakil.com/
 bosses
 pipe element filter
 more element production
-capabilities
 sound
 tools with ec materials
 element pipe interface
@@ -20,7 +19,6 @@ world gen config
 shrines upgrades
 rework particles
 difuser
-spell craft
 hardened handle
 spell particles
 

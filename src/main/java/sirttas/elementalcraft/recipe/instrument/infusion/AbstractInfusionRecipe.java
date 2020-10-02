@@ -21,7 +21,7 @@ public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<Ti
 
 	@Override
 	public boolean matches(TileInfuser inv) {
-		ItemStack stack = inv.getStackInSlot(0);
+		ItemStack stack = inv.getItem();
 		TileTank tank = inv.getTank();
 		
 		return !stack.isEmpty() && tank != null && tank.getElementAmount() >= this.getElementPerTick();

@@ -14,7 +14,7 @@ public class ToolInfusionRecipe extends AbstractInfusionRecipe {
 
 	@Override
 	public boolean matches(TileInfuser instrument) {
-		ItemStack stack = instrument.getStackInSlot(0);
+		ItemStack stack = instrument.getItem();
 
 		if (super.matches(instrument) && InfusionHelper.isInfusable(stack)) {
 			return InfusionHelper.getInfusion(stack) != instrument.getTankElementType();
@@ -34,7 +34,7 @@ public class ToolInfusionRecipe extends AbstractInfusionRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(TileInfuser instrument) {
-		ItemStack stack = instrument.getStackInSlot(0).copy();
+		ItemStack stack = instrument.getItem();
 
 		InfusionHelper.setInfusion(stack, instrument.getTankElementType());
 		return stack;

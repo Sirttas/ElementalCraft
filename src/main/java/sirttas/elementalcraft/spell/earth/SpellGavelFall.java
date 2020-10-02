@@ -14,11 +14,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.IBlockCastedSpell;
-import sirttas.elementalcraft.spell.IEntityCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellGavelFall extends Spell implements IEntityCastedSpell, IBlockCastedSpell {
+public class SpellGavelFall extends Spell {
 
 	public static final String NAME = "gravelfall";
 

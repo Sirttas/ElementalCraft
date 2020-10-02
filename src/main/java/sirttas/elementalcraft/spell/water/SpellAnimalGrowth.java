@@ -5,10 +5,9 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.ActionResultType;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.IEntityCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellAnimalGrowth extends Spell implements IEntityCastedSpell {
+public class SpellAnimalGrowth extends Spell {
 
 	public static final String NAME = "animal_growth";
 

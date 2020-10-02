@@ -1,85 +1,59 @@
 package sirttas.elementalcraft.block;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.tile.IForcableSync;
-import sirttas.elementalcraft.property.ECProperties;
+import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
-public abstract class BlockECContainer extends ContainerBlock implements IBlockECTileProvider {
+public abstract class BlockECContainer extends BlockECTileProvider {
+
+	public BlockECContainer() {
+		super();
+	}
 
 	public BlockECContainer(AbstractBlock.Properties properties) {
 		super(properties);
 	}
 
-	public BlockECContainer() {
-		this(ECProperties.Blocks.BLOCK_NOT_SOLID);
+	private boolean canInsertStack(IItemHandler inventory, ItemStack stack, ItemStack heldItem, int slot) {
+		return stack.isItemEqual(heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
 	}
 
-	@Override
-	public final boolean hasTileEntity(BlockState state) {
-		return true;
-	}
+	private ActionResultType onSlotActivatedUnsync(IItemHandler inventory, PlayerEntity player, ItemStack heldItem, int slot) {
+		ItemStack stack = inventory.getStackInSlot(slot);
+		World world = player.getEntityWorld();
 
-	@Nonnull
-	@Override
-	public abstract TileEntity createTileEntity(@Nonnull BlockState state, @Nonnull IBlockReader world);
-
-	@Override
-	@Deprecated
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
-	}
-
-	@Override
-	public final TileEntity createNewTileEntity(IBlockReader worldIn) {
-		return null;
-	}
-
-	private boolean canInsertStack(IInventory inventory, ItemStack stack, ItemStack heldItem) {
-		return stack.isItemEqual(heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getInventoryStackLimit();
-	}
-
-	private ActionResultType onSlotActivatedUnsync(IInventory inventory, PlayerEntity player, ItemStack heldItem, int index) {
-		ItemStack stack = inventory.getStackInSlot(index);
-		TileEntity entity = (TileEntity) inventory;
-
-		if (heldItem.isEmpty() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem))) {
+		if (heldItem.isEmpty() || player.isSneaking() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem, slot))) {
 			if (!stack.isEmpty()) {
-				if (entity.hasWorld() && !entity.getWorld().isRemote()) {
-					ItemEntity invItem = new ItemEntity(entity.getWorld(), player.getPosX(), player.getPosY() + 0.25, player.getPosZ(), inventory.getStackInSlot(index));
-					entity.getWorld().addEntity(invItem);
+				ItemStack extracted = inventory.extractItem(slot, stack.getCount(), false);
+
+				if (!world.isRemote()) {
+					world.addEntity(new ItemEntity(world, player.getPosX(), player.getPosY() + 0.25, player.getPosZ(), extracted));
 				}
-				inventory.removeStackFromSlot(index);
 				return ActionResultType.SUCCESS;
 			}
 			return ActionResultType.PASS;
-		} else if (stack.isEmpty() && inventory.isItemValidForSlot(index, heldItem)) {
-			int size = Math.min(heldItem.getCount(), inventory.getInventoryStackLimit());
+		} else if (stack.isEmpty() && inventory.isItemValid(slot, heldItem)) {
+			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot));
 
 			stack = heldItem.copy();
 			stack.setCount(size);
 			if (!player.isCreative()) {
 				heldItem.shrink(size);
 			}
-			inventory.setInventorySlotContents(index, stack);
+			inventory.insertItem(slot, stack, false);
 			return ActionResultType.SUCCESS;
-		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem)) {
-			int size = Math.min(heldItem.getCount(), inventory.getInventoryStackLimit() - stack.getCount());
+		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
+			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
 
 			if (!player.isCreative()) {
 				heldItem.shrink(size);
@@ -90,8 +64,8 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 		return ActionResultType.PASS;
 	}
 
-	protected ActionResultType onSlotActivated(IInventory inventory, PlayerEntity player, ItemStack heldItem, int index) {
-		ActionResultType ret = this.onSlotActivatedUnsync(inventory, player, heldItem, index);
+	protected ActionResultType onSlotActivated(IItemHandler inventory, PlayerEntity player, ItemStack heldItem, int slot) {
+		ActionResultType ret = this.onSlotActivatedUnsync(inventory, player, heldItem, slot);
 
 		if (ret.isSuccessOrConsume() && inventory instanceof IForcableSync) {
 			((IForcableSync) inventory).forceSync();
@@ -100,7 +74,7 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 	}
 
 	protected ActionResultType onSingleSlotActivated(World world, BlockPos pos, PlayerEntity player, Hand hand) {
-		final IInventory inv = (IInventory) world.getTileEntity(pos);
+		final IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 
 		if (inv != null) {
 			return this.onSlotActivated(inv, player, player.getHeldItem(hand), 0);
@@ -112,11 +86,12 @@ public abstract class BlockECContainer extends ContainerBlock implements IBlockE
 	@Override
 	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
-			TileEntity tileentity = worldIn.getTileEntity(pos);
-			if (tileentity instanceof IInventory) {
-				InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
-				worldIn.updateComparatorOutputLevel(pos, this);
+			IItemHandler inv = ECInventoryHelper.getItemHandlerAt(worldIn, pos, null);
+			
+			for (int i = 0; i < inv.getSlots(); i++) {
+				InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), inv.getStackInSlot(i));
 			}
+			worldIn.updateComparatorOutputLevel(pos, this);
 
 			super.onReplaced(state, worldIn, pos, newState, isMoving);
 		}

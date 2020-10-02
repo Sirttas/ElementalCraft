@@ -1,8 +1,9 @@
 package sirttas.elementalcraft.block.instrument;
 
-import net.minecraft.inventory.IInventory;
+import sirttas.elementalcraft.block.tile.IForcableSync;
+import sirttas.elementalcraft.inventory.IInventoryTile;
 
-public interface IInstrument extends IInventory {
+public interface IInstrument extends IForcableSync, IInventoryTile {
 
 	boolean canProgress();
 
@@ -13,5 +14,4 @@ public interface IInstrument extends IInventory {
 	float getProgress();
 
 	boolean isRunning();
-
 }

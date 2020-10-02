@@ -66,7 +66,7 @@ public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 
 	private boolean matchesOrdered(TileBinder inv) {
 		for (int i = 0; i < inv.getItemCount(); i++) {
-			if (!ingredients.get(i).test(inv.getStackInSlot(i))) {
+			if (!ingredients.get(i).test(inv.getInventory().getStackInSlot(i))) {
 				return false;
 			}
 		}
@@ -76,7 +76,7 @@ public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 	private boolean matchesUnordered(TileBinder inv) {
 		return ingredients.stream().allMatch(ing -> {
 			for (int i = 0; i < inv.getItemCount(); i++) {
-				if (ing.test(inv.getStackInSlot(i))) {
+				if (ing.test(inv.getInventory().getStackInSlot(i))) {
 					return true;
 				}
 			}

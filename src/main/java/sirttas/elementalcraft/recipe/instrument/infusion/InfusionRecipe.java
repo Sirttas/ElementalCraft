@@ -47,7 +47,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 
 	@Override
 	public boolean matches(TileInfuser inv) {
-		ItemStack stack = inv.getStackInSlot(0);
+		ItemStack stack = inv.getItem();
 
 		if (super.matches(inv) && inv.getTankElementType() == getElementType()) {
 			return input.test(stack);

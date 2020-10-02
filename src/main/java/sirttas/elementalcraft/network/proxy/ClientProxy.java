@@ -8,6 +8,7 @@ import sirttas.elementalcraft.block.tile.renderer.ECRenderers;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.pureore.PureOreHelper;
+import sirttas.elementalcraft.spell.SpellTickManager;
 
 public class ClientProxy implements IProxy {
 
@@ -17,6 +18,7 @@ public class ClientProxy implements IProxy {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(ECItems::registerItemColors);
 
 		MinecraftForge.EVENT_BUS.addListener(this::clientLoggin);
+		MinecraftForge.EVENT_BUS.addListener(SpellTickManager::clientTick);
 	}
 
 	private void setupClient(FMLClientSetupEvent event) {

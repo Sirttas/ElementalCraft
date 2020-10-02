@@ -57,6 +57,7 @@ import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
+import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
 import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.block.tank.TileTank;
@@ -88,6 +89,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static BlockElementPipe elementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME_IMPROVED) public static BlockElementPipe improvedElementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRetriever.NAME) public static BlockRetriever instrumentRetriever;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSpellDesk.NAME) public static BlockSpellDesk spellDesk;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static BlockFirePylon firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static BlockVacuumShrine vacuumShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGrowthShrine.NAME) public static BlockGrowthShrine growthShrine;
@@ -133,6 +135,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.pipeTransferAmount.get()), BlockElementPipe.NAME);
 		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.improvedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPROVED);
 		RegistryHelper.register(registry, new BlockRetriever(), BlockRetriever.NAME);
+		RegistryHelper.register(registry, new BlockSpellDesk(), BlockSpellDesk.NAME);
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
 		RegistryHelper.register(registry, new BlockVacuumShrine(), BlockVacuumShrine.NAME);
 		RegistryHelper.register(registry, new BlockGrowthShrine(), BlockGrowthShrine.NAME);

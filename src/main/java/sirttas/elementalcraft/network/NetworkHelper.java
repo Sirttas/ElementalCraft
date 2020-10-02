@@ -7,6 +7,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 
 /**
  * This class come from Botania code
@@ -27,9 +28,6 @@ public class NetworkHelper {
 	}
 
 	public static void dispatchTEToNearbyPlayers(World world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile != null) {
-			dispatchTEToNearbyPlayers(tile);
-		}
+		TileEntityHelper.getTileEntity(world, pos).ifPresent(NetworkHelper::dispatchTEToNearbyPlayers);
 	}
 }

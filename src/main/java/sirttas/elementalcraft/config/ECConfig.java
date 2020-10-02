@@ -89,6 +89,10 @@ public class ECConfig {
 	public final IntValue ripeningCooldown;
 	public final IntValue flameCleaveConsumeAmount;
 	public final IntValue flameCleaveCooldown;
+	public final DoubleValue flameCleaveRange;
+	public final IntValue infernoConsumeAmount;
+	public final IntValue infernoCooldown;
+	public final DoubleValue infernoRange;
 
 	public final IntValue healConsumeAmount;
 	public final IntValue healCooldown;
@@ -185,7 +189,7 @@ public class ECConfig {
 		builder.pop().push("itemPull");
 		itemPullConsumeAmount = builder.comment("The amount of element consumed by the item pull.").defineInRange("itemPullConsumeAmount", 1000, 0, 10000);
 		itemPullCooldown = builder.comment("The cooldown the item pull.").defineInRange("itemPullCooldown", 200, 0, 10000);
-		itemPullRange = builder.comment("The range theitem pull.").defineInRange("itemPullRange", 10, 0, 200);
+		itemPullRange = builder.comment("The range the item pull.").defineInRange("itemPullRange", 10, 0, 200);
 		builder.pop().push("gravelFall");
 		gravelFallConsumeAmount = builder.comment("The amount of element consumed by the gravel fall.").defineInRange("gravelFallConsumeAmount", 250, 0, 10000);
 		gravelFallCooldown = builder.comment("The cooldown the gravel fall.").defineInRange("gravelFallCooldown", 40, 0, 10000);
@@ -208,8 +212,13 @@ public class ECConfig {
 		ripeningConsumeAmount = builder.comment("The amount of element consumed by the ripening.").defineInRange("ripeningConsumeAmount", 200, 0, 10000);
 		ripeningCooldown = builder.comment("The cooldown the ripening.").defineInRange("ripeningCooldown", 20, 0, 10000);
 		builder.pop().push("flameCleave");
-		flameCleaveConsumeAmount = builder.comment("The amount of element consumed by the flameCleave.").defineInRange("flameCleaveConsumeAmount", 1000, 0, 10000);
-		flameCleaveCooldown = builder.comment("The cooldown the flameCleave.").defineInRange("flameCleaveCooldown", 60, 0, 10000);
+		flameCleaveConsumeAmount = builder.comment("The amount of element consumed by the flame Cleave.").defineInRange("flameCleaveConsumeAmount", 1000, 0, 10000);
+		flameCleaveCooldown = builder.comment("The cooldown the flame Cleave.").defineInRange("flameCleaveCooldown", 60, 0, 10000);
+		flameCleaveRange = builder.comment("The range the flame Cleave.").defineInRange("flameCleaveRange", 3D, 0, 20);
+		builder.pop().push("inferno");
+		infernoConsumeAmount = builder.comment("The amount of element consumed by the inferno.").defineInRange("infernoConsumeAmount", 10, 0, 10000);
+		infernoCooldown = builder.comment("The cooldown the inferno.").defineInRange("infernoCooldown", 120, 0, 10000);
+		infernoRange = builder.comment("The range the inferno.").defineInRange("infernoRange", 5D, 0, 20);
 
 		builder.pop().push("heal");
 		healConsumeAmount = builder.comment("The amount of element consumed by the heal.").defineInRange("healConsumeAmount", 1000, 0, 10000);
