@@ -12,8 +12,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -31,6 +33,7 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 	private String translationKey;
 	protected final int cooldown;
 	protected final int consumeAmount;
+	protected final int useDuration;
 	protected final ElementType elementType;
 	protected final Type type;
 
@@ -39,6 +42,7 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 		this.elementType = properties.elementType;
 		this.consumeAmount = properties.consumeAmount;
 		this.cooldown = properties.cooldown;
+		this.useDuration = properties.useDuration;
 	}
 
 	public String getTranslationKey() {
@@ -59,6 +63,22 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 
 	public Multimap<String, AttributeModifier> getOnUseAttributeModifiers() {
 		return HashMultimap.create();
+	}
+
+	public ActionResultType castOnEntity(Entity sender, Entity target) { // NOSONAR
+		return ActionResultType.PASS;
+	}
+
+	public ActionResultType castOnBlock(Entity sender, BlockPos target) { // NOSONAR
+		return ActionResultType.PASS;
+	}
+
+	public ActionResultType castOnSelf(Entity sender) { // NOSONAR
+		return ActionResultType.PASS;
+	}
+
+	public void addSpellInstance(SpellInstance instance) {
+		SpellTickManager.getInstance(instance.sender.world).addSpellInstance(instance);
 	}
 
 	public boolean consume(Entity sender) {
@@ -112,8 +132,17 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 		return type;
 	}
 
+	public int getUseDuration() {
+		return useDuration;
+	}
+
 	public void addInformation(List<ITextComponent> tooltip) {
 		// provided for override
+	}
+
+	@Override
+	public String toString() {
+		return this.getRegistryName().getPath();
 	}
 
 	public enum Type {
@@ -123,6 +152,7 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 	public static final class Properties {
 		private int cooldown;
 		private int consumeAmount;
+		private int useDuration;
 		private ElementType elementType;
 		private final Type type;
 
@@ -146,6 +176,12 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 			this.consumeAmount = consumeAmount;
 			return this;
 		}
+
+		public Properties useDuration(int useDuration) {
+			this.useDuration = useDuration;
+			return this;
+		}
+
 
 		public Properties elementType(ElementType elementType) {
 			this.elementType = elementType;

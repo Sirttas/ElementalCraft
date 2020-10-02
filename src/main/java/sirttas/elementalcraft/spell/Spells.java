@@ -21,6 +21,7 @@ import sirttas.elementalcraft.spell.earth.SpellStoneWall;
 import sirttas.elementalcraft.spell.earth.SpellTreeFall;
 import sirttas.elementalcraft.spell.fire.SpellFireBall;
 import sirttas.elementalcraft.spell.fire.SpellFlameCleave;
+import sirttas.elementalcraft.spell.fire.SpellInferno;
 import sirttas.elementalcraft.spell.water.SpellAnimalGrowth;
 import sirttas.elementalcraft.spell.water.SpellPurification;
 import sirttas.elementalcraft.spell.water.SpellRipening;
@@ -43,7 +44,8 @@ public class Spells {
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellTreeFall.NAME) public static SpellTreeFall treeFall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellPurification.NAME) public static SpellPurification purification;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellRipening.NAME) public static SpellRipening ripening;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static SpellRipening flameCleave;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static SpellFlameCleave flameCleave;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellInferno.NAME) public static SpellInferno inferno;
 
 	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
 
@@ -73,6 +75,7 @@ public class Spells {
 		RegistryHelper.register(registry, new SpellPurification(), SpellPurification.NAME);
 		RegistryHelper.register(registry, new SpellRipening(), SpellRipening.NAME);
 		RegistryHelper.register(registry, new SpellFlameCleave(), SpellFlameCleave.NAME);
+		RegistryHelper.register(registry, new SpellInferno(), SpellInferno.NAME);
 
 		RegistryHelper.register(registry, new EffectSpell(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER)
 				.cooldown(ECConfig.CONFIG.healCooldown.get()).consumeAmount(ECConfig.CONFIG.healConsumeAmount.get()), new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");

@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockExtractor extends BlockECTileProvider {
@@ -46,10 +47,7 @@ public class BlockExtractor extends BlockECTileProvider {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileExtractor extractor = (TileExtractor) world.getTileEntity(pos);
-
-		if (extractor != null && extractor.canExtract()) {
-			ParticleHelper.createElementFlowParticle(extractor.getSourceElementType(), world, new Vec3d(pos), Direction.DOWN, 1, rand);
-		}
+		TileEntityHelper.getTileEntityAs(world, pos, TileExtractor.class).filter(TileExtractor::canExtract)
+				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, new Vec3d(pos), Direction.DOWN, 1, rand));
 	}
 }

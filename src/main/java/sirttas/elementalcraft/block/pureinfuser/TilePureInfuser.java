@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -10,8 +11,9 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECContainer;
+import sirttas.elementalcraft.inventory.InventoryTileWrapper;
+import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.nbt.ECNames;
-import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
@@ -19,13 +21,13 @@ public class TilePureInfuser extends TileECContainer {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static TileEntityType<TilePureInfuser> TYPE;
 
-	private ItemStack stack;
 	private float progress = 0;
 	private PureInfusionRecipe recipe;
+	private final SingleItemInventory inventory;
 
 	public TilePureInfuser() {
 		super(TYPE);
-		stack = ItemStack.EMPTY;
+		inventory = new SingleItemInventory(this::forceSync);
 	}
 
 
@@ -40,7 +42,7 @@ public class TilePureInfuser extends TileECContainer {
 		if (recipe != null) {
 			this.forceSync();
 		}
-		recipe = this.getWorld().getRecipeManager().getRecipe(PureInfusionRecipe.TYPE, this, this.getWorld()).orElse(null);
+		recipe = this.getWorld().getRecipeManager().getRecipe(PureInfusionRecipe.TYPE, InventoryTileWrapper.from(this), this.getWorld()).orElse(null);
 		return recipe != null;
 	}
 
@@ -77,7 +79,7 @@ public class TilePureInfuser extends TileECContainer {
 	public ItemStack getStackInPedestal(ElementType type) {
 		TilePedestal pedestal = getPedestal(type);
 
-		return pedestal != null ? pedestal.getStackInSlot(0) : ItemStack.EMPTY;
+		return pedestal != null ? pedestal.getItem() : ItemStack.EMPTY;
 	}
 
 	public TilePedestal getPedestal(ElementType type) {
@@ -106,7 +108,7 @@ public class TilePureInfuser extends TileECContainer {
 		TilePedestal pedestal = getPedestal(direction);
 
 		if (pedestal != null) {
-			pedestal.setInventorySlotContents(0, stack);
+			pedestal.getInventory().setInventorySlotContents(0, stack);
 			pedestal.forceSync();
 		}
 	}
@@ -126,7 +128,6 @@ public class TilePureInfuser extends TileECContainer {
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		this.stack = NBTHelper.readItemStack(compound, ECNames.ITEM);
 		progress = compound.getFloat(ECNames.PROGRESS);
 
 	}
@@ -134,58 +135,23 @@ public class TilePureInfuser extends TileECContainer {
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		NBTHelper.writeItemStack(compound, ECNames.ITEM, this.stack);
 		compound.putFloat(ECNames.PROGRESS, progress);
 		return compound;
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return 1;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return stack.isEmpty();
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int index) {
-		return index == 0 ? stack : ItemStack.EMPTY;
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-		if (index == 0) {
-			this.stack = stack;
-		}
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		return index == 0;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 1;
-	}
-
-	@Override
 	public void clear() {
+		super.clear();
 		recipe = null;
 		progress = 0;
-		this.stack = ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		if (index == 0) {
-			ItemStack ret = stack;
+	public IInventory getInventory() {
+		return inventory;
+	}
 
-			this.stack = ItemStack.EMPTY;
-			return ret;
-		}
-		return ItemStack.EMPTY;
+	public ItemStack getItem() {
+		return inventory.getStackInSlot(0);
 	}
 }

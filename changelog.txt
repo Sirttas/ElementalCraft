@@ -1,3 +1,14 @@
+1.15.2-1.1.15 and 1.16.2-2.2.16:
+
+- new block: Spell Desk
+- new spell: inferno
+- you can now empty any instrument by right clicking while sneaking
+- reworked inventories, should be better on the long run but may introduce new bugs for now
+- Spell cooldown is now on spells instead of items
+- fix ender lock shrine loot table
+- fix a bug where hopper would continue to insert items in instruments
+
+
 1.15.2-1.1.14 and 1.16.2-2.2.15:
 
 - new spell: tree fall

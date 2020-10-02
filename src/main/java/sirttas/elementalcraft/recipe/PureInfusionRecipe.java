@@ -6,7 +6,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
@@ -15,7 +14,6 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
@@ -23,7 +21,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
 import sirttas.elementalcraft.nbt.ECNames;
 
-public class PureInfusionRecipe implements IRecipe<TilePureInfuser> {
+public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser> {
 
 	public static final String NAME = "pureinfusion";
 	public static final IRecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(NAME), new IRecipeType<PureInfusionRecipe>() {
@@ -54,8 +52,10 @@ public class PureInfusionRecipe implements IRecipe<TilePureInfuser> {
 		return output;
 	}
 
+	@Override
 	public boolean matches(TilePureInfuser inv) {
-		return ingredients.get(0).test(inv.getStackInSlot(0)) 
+		return ingredients.get(0).test(inv
+				.getItem()) 
 				&& ingredients.get(1).test(inv.getStackInPedestal(ElementType.WATER)) 
 				&& ingredients.get(2).test(inv.getStackInPedestal(ElementType.FIRE))
 				&& ingredients.get(3).test(inv.getStackInPedestal(ElementType.EARTH)) 
@@ -92,20 +92,18 @@ public class PureInfusionRecipe implements IRecipe<TilePureInfuser> {
 		return this.getRecipeOutput().copy();
 	}
 
+	@Override
 	public void process(TilePureInfuser instrument) {
-		instrument.setInventorySlotContents(0, this.getCraftingResult(instrument));
+		instrument.getInventory().setInventorySlotContents(0, this.getCraftingResult(instrument));
 		instrument.emptyPedestals();
 	}
 
 	@Override
-	public boolean matches(TilePureInfuser inv, World worldIn) {
-		return matches(inv);
-	}
-
 	public int getDuration() {
 		return duration;
 	}
 
+	@Override
 	public int getElementPerTick() {
 		return elementPerTick;
 	}

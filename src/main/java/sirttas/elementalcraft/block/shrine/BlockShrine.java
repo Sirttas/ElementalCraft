@@ -19,6 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 
 public abstract class BlockShrine extends BlockECTileProvider {
 
@@ -37,11 +38,7 @@ public abstract class BlockShrine extends BlockECTileProvider {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileShrine shrine = (TileShrine) world.getTileEntity(pos);
-
-		if (shrine != null && shrine.isRunning()) {
-			this.doAnimateTick(shrine, state, world, pos, rand);
-		}
+		TileEntityHelper.getTileEntityAs(world, pos, TileShrine.class).filter(TileShrine::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
 	}
 
 	@OnlyIn(Dist.CLIENT)

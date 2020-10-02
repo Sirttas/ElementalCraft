@@ -3,6 +3,7 @@ package sirttas.elementalcraft.data;
 import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
@@ -20,10 +21,10 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
+import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
 
 public class ECBlockStateProvider extends BlockStateProvider {
@@ -63,13 +64,6 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			wallBlock((WallBlock) block);
 		} else if (block instanceof PaneBlock) {
 			paneBlock((PaneBlock) block);
-		} else if (block.getDefaultState().has(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
-			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
-			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
-			
-			getVariantBuilder(block)
-				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(upper))
-				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(lower));
 		} else if (block instanceof BlockOverloadShrine) {
 			ModelFile base = models().getExistingFile(prefix(name + "_base"));
 			ModelFile top = models().getExistingFile(prefix(name + "_top"));
@@ -115,8 +109,20 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			} else {
 				pipeBlock((BlockElementPipe) block, name, "iron");
 			}
-		} else if (block instanceof BlockPurifier) {
+		} else if (block instanceof BlockSpellDesk) {
+			ModelFile standard = models().getExistingFile(prefix(name));
+			ModelFile withPaper = models().getExistingFile(prefix(name + "_with_paper"));
+
+			horizontalBlock(block, s -> Boolean.TRUE.equals(s.get(BlockSpellDesk.HAS_PAPER)) ? withPaper : standard);
+		} else if (block.getDefaultState().has(HorizontalBlock.HORIZONTAL_FACING)) {
 			horizontalBlock(block, models().getExistingFile(prefix(name)));
+		} else if (block.getDefaultState().has(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
+			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
+			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
+
+			getVariantBuilder(block).partialState()
+				.with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(upper)).partialState()
+				.with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(lower));
 		} else {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
 		}

@@ -24,7 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeEffectInstance;
 import sirttas.elementalcraft.item.ItemEC;
 
-public class EffectSpell extends Spell implements ISelfCastedSpell, IEntityCastedSpell {
+public class EffectSpell extends Spell {
 
 	private final List<IForgeEffectInstance> effects;
 

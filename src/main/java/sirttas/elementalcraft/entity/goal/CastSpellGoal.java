@@ -2,26 +2,21 @@ package sirttas.elementalcraft.entity.goal;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.ActionResultType;
-import sirttas.elementalcraft.spell.IEntityCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellTickManager;
 
 public class CastSpellGoal extends Goal {
 
 	private CreatureEntity caster;
 	private Spell spell;
-	private ActionResultType lasCastResult;
 
 	public CastSpellGoal(CreatureEntity caster, Spell spell) {
 		this.caster = caster;
 		this.spell = spell;
-		this.lasCastResult = ActionResultType.PASS;
 	}
 
 	private void cast() {
-		if (this.spell instanceof IEntityCastedSpell) {
-			lasCastResult = ((IEntityCastedSpell) this.spell).castOnEntity(caster, caster.getAttackTarget());
-		}
+		this.spell.castOnEntity(caster, caster.getAttackTarget());
 	}
 
 	@Override
@@ -36,11 +31,7 @@ public class CastSpellGoal extends Goal {
 
 	@Override
 	public boolean shouldExecute() {
-		return caster.getAttackTarget() != null;
+		return caster.getAttackTarget() != null && !SpellTickManager.getInstance(caster.world).hasCooldown(caster, spell);
 	}
 
-	@Override
-	public boolean shouldContinueExecuting() {
-		return this.shouldExecute() && lasCastResult == ActionResultType.SUCCESS;
-	}
 }

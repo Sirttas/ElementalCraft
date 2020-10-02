@@ -6,12 +6,13 @@ import java.util.stream.Collectors;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import sirttas.elementalcraft.inventory.IInventoryTile;
+import sirttas.elementalcraft.inventory.InventoryTileWrapper;
 import sirttas.elementalcraft.item.ECItems;
 
-public abstract class AbstractRecipeCategory<K extends IInventory, T extends IRecipe<K>> implements IRecipeCategory<T> {
+public abstract class AbstractRecipeCategory<K extends IInventoryTile, T extends IRecipe<InventoryTileWrapper<K>>> implements IRecipeCategory<T> {
 
 	protected ItemStack tank = new ItemStack(ECItems.tank).copy();
 

@@ -1,12 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 
-public abstract class AbstractInstrumentRecipe<T extends IInstrument & IInventory> implements IInstrumentRecipe<T> {
+public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements IInstrumentRecipe<T> {
 
 	protected ElementType elementType;
 	protected ResourceLocation id;
@@ -32,13 +30,8 @@ public abstract class AbstractInstrumentRecipe<T extends IInstrument & IInventor
 	}
 
 	@Override
-	public ItemStack getCraftingResult(T inv) {
-		return this.getRecipeOutput().copy();
-	}
-
-	@Override
 	public void process(T instrument) {
-		instrument.setInventorySlotContents(0, this.getCraftingResult(instrument));
+		instrument.getInventory().setInventorySlotContents(0, this.getCraftingResult(instrument));
 	}
 
 }

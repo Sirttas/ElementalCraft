@@ -23,12 +23,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.spell.IBlockCastedSpell;
-import sirttas.elementalcraft.spell.IEntityCastedSpell;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.tag.ECTags;
+import sirttas.elementalcraft.spell.SpellTickManager;
 
 public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHolder {
 
@@ -48,32 +45,44 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 	 */
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ActionResultType result = ActionResultType.PASS;
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		Spell spell = SpellHelper.getSpell(stack);
 		Multimap<String, AttributeModifier> attributes = spell.getOnUseAttributeModifiers();
 
 		playerIn.getAttributes().applyAttributeModifiers(attributes);
+		
+		ActionResultType result = castSpell(playerIn, spell, EntityHelper.rayTrace(playerIn, playerIn.getAttribute(PlayerEntity.REACH_DISTANCE).getValue()));
 
-		final RayTraceResult ray = EntityHelper.rayTrace(playerIn, playerIn.getAttribute(PlayerEntity.REACH_DISTANCE).getValue());
-
-		if (spell instanceof IEntityCastedSpell && ray.getType() == RayTraceResult.Type.ENTITY) {
-			result = ((IEntityCastedSpell) spell).castOnEntity(playerIn, ((EntityRayTraceResult) ray).getEntity());
-		} else if (spell instanceof IBlockCastedSpell && ray.getType() == RayTraceResult.Type.BLOCK) {
-			result = ((IBlockCastedSpell) spell).castOnBlock(playerIn, ((BlockRayTraceResult) ray).getPos());
-		} else if (spell instanceof ISelfCastedSpell) {
-			result = ((ISelfCastedSpell) spell).castOnSelf(playerIn);
-		}
 		if (result.isSuccessOrConsume() && !playerIn.isCreative()) {
 			if (!spell.consume(playerIn)) {
 				consume(stack);
 				DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> playerIn.renderBrokenItemStack(stack));
 			}
-			playerIn.getCooldownTracker().setCooldown(this, spell.getCooldown());
-			ECTags.Items.SPELL_HOLDERS.getAllElements().forEach(i -> playerIn.getCooldownTracker().setCooldown(i, spell.getCooldown()));
+			if (result.isSuccess()) {
+				SpellTickManager.getInstance(worldIn).setCooldown(playerIn, spell);
+			}
 		}
 		playerIn.getAttributes().removeAttributeModifiers(attributes);
 		return new ActionResult<>(result, stack);
+	}
+
+	private ActionResultType castSpell(PlayerEntity playerIn, Spell spell, final RayTraceResult ray) {
+		ActionResultType result = ActionResultType.PASS;
+
+		if (SpellTickManager.getInstance(playerIn.world).hasCooldown(playerIn, spell)) {
+			return result;
+		}
+		
+		if (ray.getType() == RayTraceResult.Type.ENTITY) {
+			result = spell.castOnEntity(playerIn, ((EntityRayTraceResult) ray).getEntity());
+		}
+		if (ray.getType() == RayTraceResult.Type.BLOCK && !result.isSuccessOrConsume()) {
+			result = spell.castOnBlock(playerIn, ((BlockRayTraceResult) ray).getPos());
+		}
+		if (!result.isSuccessOrConsume()) {
+			result = spell.castOnSelf(playerIn);
+		}
+		return result;
 	}
 
 	protected abstract void consume(ItemStack stack);

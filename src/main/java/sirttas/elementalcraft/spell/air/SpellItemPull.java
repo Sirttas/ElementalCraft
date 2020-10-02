@@ -9,10 +9,9 @@ import net.minecraft.world.World;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.particle.ParticleHelper;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellItemPull extends Spell implements ISelfCastedSpell {
+public class SpellItemPull extends Spell {
 
 	public static final String NAME = "item_pull";
 

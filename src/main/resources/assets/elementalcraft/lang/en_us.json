@@ -65,6 +65,7 @@
   "block.elementalcraft.elementpipe": "Element Pipe",
   "block.elementalcraft.elementpipe_improved": "Improved Element Pipe",
   "block.elementalcraft.instrument_retriever": "Instrument Output Retriever",
+  "block.elementalcraft.spell_desk": "Spell Desk",
 
   "block.elementalcraft.firepylon": "Fire Pylon",
   "block.elementalcraft.vacuumshrine": "Vacuum Shrine",
@@ -99,6 +100,7 @@
   "spell.elementalcraft.purification": "Purification",
   "spell.elementalcraft.ripening": "Ripening",
   "spell.elementalcraft.flame_cleave": "Flame Cleave",
+  "spell.elementalcraft.inferno": "Inferno",
   
   "spell.elementalcraft.heal": "Healing",
 
@@ -142,6 +144,7 @@
   "elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). in an $(ec:infuser).",
   "elementalcraft.page.element_holder0": "$(item)Element Holders$() can hold $(thing)elements$(), for transport or use by $(thing)spells$().$(br)To fill them hold right click on a $(thing)source$() of the same $(thing)element$() type. You can also transpher $(thing)element$() back to a receiver by holding right click on it.",
   "elementalcraft.page.focus0": "A $(item)focus$() can hold multiple $(thing)spells$().$(br)You can add $(thing)spells$() to it by putting the $(item)focus$() in an $(intem)anvil$() with the $(item)scroll$() of the $(thing)spell$().You can circle through $(thing)spells$() by holding shift and scrolling.",
+  "elementalcraft.page.spell_desk0": "To craft $(thing)spells$() you need first nedd to craft $(item)spell desk$().$(br)To use it just rightclick it with some $(item)paper$() and then with som $(item)infused crystal$(), the bigger the crystal stack the more chance you will have to get a spell, the resulting spell is allinged with the same $(thing)element as the used crystal.",
 
   "elementalcraft.page.tank0": "The $(item)Element Container$() is a an advanced $(thing)element$() storage, it can store more $(thing)elements$() than the $(ec:tank_small)Small Container$() and is compatible with all $(thing)instruments$().",
   "elementalcraft.page.extractor0": "Use an $(item)Extractor$() to extract $(thing)elements$() form $(ec:source)sources$().$(br2)To do so place the $(item)Extractor$() above a $(ec:tank)Container$() and below the $(ec:source)source$() you want to extract.",
@@ -183,6 +186,6 @@
   "elementalcraft.page.tree_fall0": "Cut down targeted $(thing)tree$().$(br)Consumes $(thing)earth$().",
   "elementalcraft.page.purification0": "Remove all negative $(thing)effects$() on you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
   "elementalcraft.page.ripening0": "Fully mature targeted $(thing)crops$().$(br)Consumes $(thing)water$().",
-    "elementalcraft.page.flame_cleave": "Hit all $(thing)entities$() around you with a burnig circular attack.$(br)Consumes $(thing)fire$()."
-  
+  "elementalcraft.page.flame_cleave0": "Hit all $(thing)entities$() around you with a burnig circular attack.$(br)Consumes $(thing)fire$().",
+  "elementalcraft.page.inferno0": "Breath fire in front of you dealing damage to all the $(thing)entities$() in a cone.$(br)Consumes $(thing)fire$()."
 }

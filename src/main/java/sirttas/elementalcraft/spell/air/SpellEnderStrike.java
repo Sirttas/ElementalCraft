@@ -23,11 +23,9 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.IEntityCastedSpell;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellEnderStrike extends Spell implements ISelfCastedSpell, IEntityCastedSpell {
+public class SpellEnderStrike extends Spell {
 
 	public static final String NAME = "ender_strike";
 
@@ -43,7 +41,7 @@ public class SpellEnderStrike extends Spell implements ISelfCastedSpell, IEntity
 			Vec3d newPos = target.getPositionVector().add(target.getLookVec().inverse().normalize());
 
 			if (MinecraftForge.EVENT_BUS.post(new EnderTeleportEvent(livingSender, newPos.x, newPos.y + 0.5F, newPos.z, 0))) {
-				return ActionResultType.CONSUME;
+				return ActionResultType.SUCCESS;
 			}
 			if (livingSender.attemptTeleport(newPos.x, newPos.y + 0.5F, newPos.z, true)) {
 				livingSender.lookAt(EntityAnchorArgument.Type.EYES, target.getPositionVec());

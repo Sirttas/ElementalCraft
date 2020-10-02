@@ -7,10 +7,9 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.Vec3d;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellFireBall extends Spell implements ISelfCastedSpell {
+public class SpellFireBall extends Spell {
 
 	public static final String NAME = "fireball";
 

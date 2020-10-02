@@ -15,6 +15,7 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.Items;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.IItemProvider;
@@ -37,8 +38,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
+import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
+import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNames;
 
@@ -59,12 +62,14 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 			}
 			if (block instanceof SlabBlock) {
 				functionTable.put(block, ECBlockLootProvider::genSlab);
-			} else if (block instanceof BlockFirePylon) {
-				functionTable.put(block, ECBlockLootProvider::genFirePylon);
+			} else if (block instanceof BlockPylonShrine) {
+				functionTable.put(block, ECBlockLootProvider::genPylonShrine);
 			} else if (isTileInstanceOf(block, TileShrine.class)) {
 				functionTable.put(block, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT));
 			} else if (block instanceof BlockPedestal) {
 				functionTable.put(block, i -> genCopyNbt(i, ECNames.ELEMENT_AMOUNT));
+			} else if (block instanceof BlockSpellDesk) {
+				functionTable.put(block, ECBlockLootProvider::genSpellDesk);
 			}
 		}
 
@@ -106,6 +111,11 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		return LootTable.builder().addLootPool(pool);
 	}
 
+	private static Builder genSpellDesk(IItemProvider block) {
+		return genRegular(block).addLootPool(LootPool.builder().name("paper").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(Items.PAPER))
+				.acceptCondition(BlockStateProperty.builder((Block) block).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withBoolProp(BlockSpellDesk.HAS_PAPER, true))));
+	}
+
 	private static Builder genOnlySilkTouch(IItemProvider item) {
 		return LootTable.builder()
 				.addLootPool(LootPool.builder().name("main")
@@ -125,7 +135,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		return genCopyNbt(ItemLootEntry.builder(item), tags);
 	}
 
-	private static Builder genFirePylon(IItemProvider item) {
+	private static Builder genPylonShrine(IItemProvider item) {
 		LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
 				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockFirePylon.HALF, DoubleBlockHalf.LOWER)));
 

@@ -21,6 +21,8 @@ public class ECNames {
 	public static final String COOLDOWN = "cooldown";
 	public static final String ITEM = "item";
 	public static final String PROGRESS = "progress";
+
+	public static final String INVENTORY = "inventory";
 	public static final String INPUT = "input";
 	public static final String OUTPUT = "output";
 	public static final String XP = "experience";

@@ -10,10 +10,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.IBlockCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellRipening extends Spell implements IBlockCastedSpell {
+public class SpellRipening extends Spell {
 
 	public static final String NAME = "ripening";
 

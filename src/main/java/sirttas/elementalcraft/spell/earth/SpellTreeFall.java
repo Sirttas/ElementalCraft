@@ -13,10 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.IBlockCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellTreeFall extends Spell implements IBlockCastedSpell {
+public class SpellTreeFall extends Spell {
 
 	public static final String NAME = "tree_fall";
 

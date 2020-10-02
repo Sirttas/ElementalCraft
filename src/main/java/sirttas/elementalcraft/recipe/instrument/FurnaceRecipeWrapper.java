@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument;
 
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -19,7 +20,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Override
 	public ItemStack getCraftingResult(AbstractTileFireFurnace<T> inv) {
-		return recipe.getCraftingResult(inv);
+		return recipe.getCraftingResult(inv.getInventory());
 	}
 
 	@Override
@@ -49,19 +50,20 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Override
 	public void process(AbstractTileFireFurnace<T> instrument) {
-		ItemStack input = instrument.getStackInSlot(0);
-		ItemStack output = instrument.getStackInSlot(1);
-		ItemStack result = recipe.getCraftingResult(instrument);
+		IInventory inv = instrument.getInventory();
+		ItemStack input = inv.getStackInSlot(0);
+		ItemStack output = inv.getStackInSlot(1);
+		ItemStack result = recipe.getCraftingResult(inv);
 
 		if (result.isItemEqual(output) && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
 			input.shrink(1);
 			output.grow(result.getCount());
 		} else if (output.isEmpty()) {
 			input.shrink(1);
-			instrument.setInventorySlotContents(1, result.copy());
+			inv.setInventorySlotContents(1, result.copy());
 		}
 		if (input.isEmpty()) {
-			instrument.removeStackFromSlot(0);
+			inv.removeStackFromSlot(0);
 		}
 		instrument.addExperience(recipe.getExperience());
 	}
@@ -82,8 +84,9 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public boolean matches(AbstractTileFireFurnace<T> inv) {
-		return inv.getTankElementType() == ElementType.FIRE && recipe.matches(inv, null);
+	public boolean matches(AbstractTileFireFurnace<T> instrument) {
+		return instrument.getTankElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), instrument.getWorld());
 	}
+
 
 }

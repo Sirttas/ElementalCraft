@@ -21,6 +21,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockPedestal extends BlockECContainer {
@@ -58,13 +59,11 @@ public class BlockPedestal extends BlockECContainer {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TilePedestal pedestal = (TilePedestal) world.getTileEntity(pos);
+		TileEntityHelper.getTileEntityAs(world, pos, TilePedestal.class).filter(TilePedestal::isPureInfuserRunning).ifPresent(p -> {
+			Direction offset = p.getPureInfuserDirection();
 
-		if (pedestal != null && pedestal.isPureInfuserRunning()) {
-			Direction offset = pedestal.getPureInfuserDirection();
-			
-			ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, new Vec3d(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, rand);
-		}
+			ParticleHelper.createElementFlowParticle(p.getElementType(), world, new Vec3d(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, rand);
+		});
 	}
 
 	@Override

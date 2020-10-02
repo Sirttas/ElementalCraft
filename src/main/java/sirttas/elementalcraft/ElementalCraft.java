@@ -19,6 +19,7 @@ import sirttas.elementalcraft.loot.function.RandomSpell;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.network.proxy.ClientProxy;
 import sirttas.elementalcraft.network.proxy.IProxy;
+import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.world.dimension.boss.BossDimension;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 
@@ -35,6 +36,7 @@ public class ElementalCraft {
 		proxy.registerHandlers();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		MinecraftForge.EVENT_BUS.addListener(this::setupServer);
+		MinecraftForge.EVENT_BUS.addListener(SpellTickManager::serverTick);
 	}
 
 	private void setup(FMLCommonSetupEvent event) {

@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockInfuser extends BlockECContainer {
@@ -49,11 +50,8 @@ public class BlockInfuser extends BlockECContainer {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileInfuser infuser = (TileInfuser) world.getTileEntity(pos);
-
-		if (infuser != null && infuser.isRunning()) {
-			ParticleHelper.createElementFlowParticle(infuser.getTankElementType(), world, new Vec3d(pos), Direction.UP, 1, rand);
-		}
+		TileEntityHelper.getTileEntityAs(world, pos, TileInfuser.class).filter(TileInfuser::isRunning)
+				.ifPresent(i -> ParticleHelper.createElementFlowParticle(i.getTankElementType(), world, new Vec3d(pos), Direction.UP, 1, rand));
 	}
 
 	@Override

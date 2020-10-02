@@ -20,7 +20,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
+import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockBinder extends BlockECContainer {
@@ -46,17 +49,18 @@ public class BlockBinder extends BlockECContainer {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TileBinder binder = (TileBinder) world.getTileEntity(pos);
 		ItemStack heldItem = player.getHeldItem(hand);
+		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 
 		if (binder != null) {
-			if (heldItem.isEmpty() && !binder.isEmpty()) {
-				for (int i = 0; i < binder.getSizeInventory(); i++) {
-					this.onSlotActivated(binder, player, heldItem, i);
+			if ((heldItem.isEmpty() || player.isSneaking()) && !binder.getInventory().isEmpty()) {
+				for (int i = 0; i < inv.getSlots(); i++) {
+					this.onSlotActivated(inv, player, heldItem, i);
 				}
 				return ActionResultType.SUCCESS;
 			}
-			for (int i = 0; i < binder.getSizeInventory(); i++) {
-				if (binder.getStackInSlot(i).isEmpty()) {
-					return this.onSlotActivated(binder, player, heldItem, i);
+			for (int i = 0; i < inv.getSlots(); i++) {
+				if (inv.getStackInSlot(i).isEmpty()) {
+					return this.onSlotActivated(inv, player, heldItem, i);
 				}
 			}
 		}
@@ -66,11 +70,8 @@ public class BlockBinder extends BlockECContainer {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileBinder binder = (TileBinder) world.getTileEntity(pos);
-
-		if (binder != null && binder.isRunning()) {
-			ParticleHelper.createElementFlowParticle(binder.getTankElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), Direction.UP, 1, rand);
-		}
+		TileEntityHelper.getTileEntityAs(world, pos, TileBinder.class).filter(TileBinder::isRunning)
+				.ifPresent(b -> ParticleHelper.createElementFlowParticle(b.getTankElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), Direction.UP, 1, rand));
 	}
 
 	@Override

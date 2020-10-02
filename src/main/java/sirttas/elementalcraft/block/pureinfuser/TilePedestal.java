@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.pureinfuser;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
@@ -12,8 +13,8 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
+import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.nbt.ECNames;
-import sirttas.elementalcraft.nbt.NBTHelper;
 
 public class TilePedestal extends TileECContainer implements IElementReceiver {
 
@@ -21,11 +22,11 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 	private int elementAmount = 0;
 	protected int elementMax = 10000; // TODO CONFIG
-	private ItemStack stack;
+	private final SingleItemInventory inventory;
 
 	public TilePedestal() {
 		super(TYPE);
-		stack = ItemStack.EMPTY;
+		inventory = new SingleItemInventory(this::forceSync);
 	}
 
 	@Override
@@ -47,14 +48,12 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
-		this.stack = NBTHelper.readItemStack(compound, ECNames.ITEM);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
-		NBTHelper.writeItemStack(compound, ECNames.ITEM, this.stack);
 		return compound;
 	}
 
@@ -82,58 +81,9 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 		return ret;
 	}
 
-	@Override
-	public int getSizeInventory() {
-		return 1;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return stack.isEmpty();
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int index) {
-		return index == 0 ? stack : ItemStack.EMPTY;
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-		if (index == 0) {
-			this.stack = stack;
-		}
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		return index == 0;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 1;
-	}
-
-	@Override
-	public void clear() {
-		this.stack = ItemStack.EMPTY;
-	}
-
-	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		if (index == 0) {
-			ItemStack ret = stack;
-
-			this.stack = ItemStack.EMPTY;
-			return ret;
-		}
-		return ItemStack.EMPTY;
-	}
-
 	private Optional<TilePureInfuser> getPureInfuser() {
 		return Stream.of(Direction.values()).filter(d -> d.getAxis().getPlane() == Direction.Plane.HORIZONTAL)
-				.map(d -> this.getWorld().getTileEntity(pos.offset(d, 3)))
-				.filter(TilePureInfuser.class::isInstance).map(TilePureInfuser.class::cast).findAny();
+				.map(d -> this.getWorld().getTileEntity(pos.offset(d, 3))).filter(TilePureInfuser.class::isInstance).map(TilePureInfuser.class::cast).findAny();
 	}
 
 	public boolean isPureInfuserRunning() {
@@ -146,6 +96,15 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 		return Stream.of(Direction.values()).filter(d -> d.getAxis().getPlane() == Direction.Plane.HORIZONTAL)
 				.filter(d -> this.getWorld().getTileEntity(pos.offset(d, 3)) instanceof TilePureInfuser)
 				.findAny().orElse(Direction.UP);
+	}
+
+	@Override
+	public IInventory getInventory() {
+		return inventory;
+	}
+
+	public ItemStack getItem() {
+		return inventory.getStackInSlot(0);
 	}
 
 }

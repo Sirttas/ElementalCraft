@@ -11,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
@@ -21,8 +20,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
@@ -60,11 +59,6 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		return 72000;
 	}
 
-	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
-	}
-
 	protected boolean isValidSource(BlockState state) {
 		return state.getBlock().equals(ECBlocks.source) && state.get(ECProperties.ELEMENT_TYPE) == elementType;
 	}
@@ -83,7 +77,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 			this.inserElement(stack, ECConfig.CONFIG.elementHolderTransferAmount.get());
 			return ActionResultType.SUCCESS;
 		}
-		return BlockEC.getTileEntityAs(context.getWorld(), context.getPos(), IElementReceiver.class).map(r -> {
+		return TileEntityHelper.getTileEntityAs(context.getWorld(), context.getPos(), IElementReceiver.class).map(r -> {
 			int amount = Math.min(getElementAmount(stack), ECConfig.CONFIG.elementHolderTransferAmount.get());
 
 			if (r.getElementType() == elementType) {

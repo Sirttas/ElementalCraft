@@ -11,11 +11,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.IEntityCastedSpell;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellPurification extends Spell implements ISelfCastedSpell, IEntityCastedSpell {
+public class SpellPurification extends Spell {
 
 	public static final String NAME = "purification";
 

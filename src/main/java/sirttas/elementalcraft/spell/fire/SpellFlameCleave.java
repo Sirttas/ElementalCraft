@@ -15,10 +15,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellFlameCleave extends Spell implements ISelfCastedSpell {
+public class SpellFlameCleave extends Spell {
 
 	public static final String NAME = "flame_cleave";
 
@@ -30,13 +29,14 @@ public class SpellFlameCleave extends Spell implements ISelfCastedSpell {
 	@Override
 	public ActionResultType castOnSelf(Entity sender) {
 		World world = sender.getEntityWorld();
+		Double range = ECConfig.CONFIG.flameCleaveRange.get();
 
 		if (sender instanceof LivingEntity) {
 			LivingEntity livingSender = (LivingEntity) sender;
 			float damageBase = (float) livingSender.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
 			float damageMult = (1 + EnchantmentHelper.getSweepingDamageRatio(livingSender));
 
-			for (LivingEntity target : world.getEntitiesWithinAABB(LivingEntity.class, livingSender.getBoundingBox().grow(4D, 0.25D, 4D))) {
+			for (LivingEntity target : world.getEntitiesWithinAABB(LivingEntity.class, livingSender.getBoundingBox().grow(range + 1, 0.25D, range + 1))) {
 				hitTarget(livingSender, target, damageBase, damageMult);
 			}
 
@@ -52,12 +52,14 @@ public class SpellFlameCleave extends Spell implements ISelfCastedSpell {
 
 
 	private void hitTarget(LivingEntity sender, LivingEntity target, float damageBase, float damageMult) {
-		if (target != sender && !sender.isOnSameTeam(target) && (!(target instanceof ArmorStandEntity) || !((ArmorStandEntity) target).hasMarker()) && sender.getDistanceSq(target) < 9.0D) {
+		Double range = ECConfig.CONFIG.flameCleaveRange.get();
+
+		if (target != sender && !sender.isOnSameTeam(target) && (!(target instanceof ArmorStandEntity) || !((ArmorStandEntity) target).hasMarker()) && sender.getDistanceSq(target) < range * range) {
 			float damage = damageMult * (damageBase + EnchantmentHelper.getModifierForCreature(sender.getHeldItemMainhand(), target.getCreatureAttribute()));
 
 			if (damage > 0) {
 				target.knockBack(sender, 0.4F, sender.getPosX() - target.getPosX(), sender.getPosZ() - target.getPosZ());
-				target.attackEntityFrom(sender instanceof PlayerEntity ? DamageSource.causePlayerDamage((PlayerEntity) sender) : DamageSource.causeMobDamage(sender), damage);
+				target.attackEntityFrom((sender instanceof PlayerEntity ? DamageSource.causePlayerDamage((PlayerEntity) sender) : DamageSource.causeMobDamage(sender)).setFireDamage(), damage);
 				target.setFire(5);
 
 				EnchantmentHelper.applyThornEnchantments(target, sender);
@@ -81,5 +83,5 @@ public class SpellFlameCleave extends Spell implements ISelfCastedSpell {
 				sender.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
 			}
 		}
-}
+	}
 }

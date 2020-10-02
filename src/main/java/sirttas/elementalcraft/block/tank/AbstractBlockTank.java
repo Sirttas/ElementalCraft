@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public abstract class AbstractBlockTank extends BlockECTileProvider {
@@ -32,11 +33,8 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, World world, BlockPos pos, Random rand) {
-		TileTank tank = (TileTank) world.getTileEntity(pos);
-	
-		if (tank != null && tank.getElementAmount() > 0 && tank.getElementType() != ElementType.NONE) {
-			ParticleHelper.createSourceParticle(tank.getElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), rand);
-		}
+		TileEntityHelper.getTileEntityAs(world, pos, TileTank.class).filter(t -> t.getElementAmount() > 0 && t.getElementType() != ElementType.NONE)
+				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), world, new Vec3d(pos).add(0, 0.2D, 0), rand));
 	}
 
 }

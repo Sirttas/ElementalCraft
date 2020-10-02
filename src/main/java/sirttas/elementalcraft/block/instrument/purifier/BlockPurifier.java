@@ -26,7 +26,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
+import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockPurifier extends BlockECContainer {
@@ -81,12 +84,13 @@ public class BlockPurifier extends BlockECContainer {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TilePurifier purifier = (TilePurifier) world.getTileEntity(pos);
+		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 
 		if (purifier != null) {
-			if (!purifier.getStackInSlot(1).isEmpty()) {
-				return this.onSlotActivated(purifier, player, ItemStack.EMPTY, 1);
+			if (!purifier.getInventory().getStackInSlot(1).isEmpty()) {
+				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
 			}
-			return this.onSlotActivated(purifier, player, player.getHeldItem(hand), 0);
+			return this.onSlotActivated(inv, player, player.getHeldItem(hand), 0);
 		}
 		return ActionResultType.PASS;
 	}
@@ -94,11 +98,8 @@ public class BlockPurifier extends BlockECContainer {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TilePurifier purifier = (TilePurifier) world.getTileEntity(pos);
-
-		if (purifier != null && purifier.isRunning()) {
-			ParticleHelper.createElementFlowParticle(purifier.getTankElementType(), world, new Vec3d(pos), Direction.UP, 1, rand);
-		}
+		TileEntityHelper.getTileEntityAs(world, pos, TilePurifier.class).filter(TilePurifier::isRunning)
+				.ifPresent(p -> ParticleHelper.createElementFlowParticle(p.getTankElementType(), world, new Vec3d(pos), Direction.UP, 1, rand));
 	}
 
 	@Override
