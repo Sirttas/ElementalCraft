@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,15 +20,16 @@ public class RendererBinder extends RendererEC<TileBinder> {
 	@Override
 	public void render(TileBinder te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
 		float tick = getAngle(partialTicks);
+		IInventory inv = te.getInventory();
 		
 		matrixStack.translate(0.5F, 0.4F, 0.5F);
 		if (te.getItemCount() == 1) {
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(tick));
-			renderItem(te.getStackInSlot(0), matrixStack, buffer, light, overlay);
+			renderItem(inv.getStackInSlot(0), matrixStack, buffer, light, overlay);
 		} else {
 			matrixStack.scale(0.5F, 0.5F, 0.5F);
 			for (int i = 0; i < te.getItemCount(); i++) {
-				ItemStack stack = te.getStackInSlot(i);
+				ItemStack stack = inv.getStackInSlot(i);
 
 				if (!stack.isEmpty()) {
 					matrixStack.rotate(Vector3f.YP.rotationDegrees(360 / te.getItemCount()));

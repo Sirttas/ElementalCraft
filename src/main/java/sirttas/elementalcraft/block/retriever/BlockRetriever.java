@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
@@ -23,7 +24,9 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.BlockEC;
+import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
 public class BlockRetriever extends BlockEC {
 
@@ -147,5 +150,10 @@ public class BlockRetriever extends BlockEC {
 		return ActionResultType.PASS;
 	}
 
+	public static ItemStack retrive(BlockState state, IBlockReader world, BlockPos pos, ItemStack output) {
+		Direction direction = state.get(TARGET);
+
+		return ItemHandlerHelper.insertItem(ECInventoryHelper.getItemHandlerAt(world, pos.offset(direction), direction.getOpposite()), output, false);
+	}
 
 }

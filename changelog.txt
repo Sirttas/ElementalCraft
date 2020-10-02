@@ -1,3 +1,19 @@
+1.16.3-2.3.0:
+
+- fix worldgen in 1.16.3 (issue #3)
+
+
+1.15.2-1.1.15 and 1.16.2-2.2.16:
+
+- new block: Spell Desk
+- new spell: inferno
+- you can now empty any instrument by right clicking while sneaking
+- reworked inventories, should be better on the long run but may introduce new bugs for now
+- Spell cooldown is now on spells instead of items
+- fix ender lock shrine loot table
+- fix a bug where hopper would continue to insert items in instruments
+
+
 1.15.2-1.1.14 and 1.16.2-2.2.15:
 
 - new spell: tree fall
@@ -64,7 +80,7 @@
 - fix a crash while placing pedestal and pure infuser
 
 
-1.15.2-1.1.7
+1.15.2-1.1.7:
 
 - fix a bug during chunk save
 
@@ -113,4 +129,4 @@
 1.1.0-1.15.2 and 2.2.0-1.16.2:
 
 - fix crystal ore loot table and xp drop
-- fix a crash during pure ore initialization #1
+- fix a crash during pure ore initialization (issue #1)

@@ -9,6 +9,9 @@
     "MixinEnchantmentContainer",
     "MixinDimensionStructuresSettings"
   ],
+  "client": [
+    "MixinItemRenderer"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

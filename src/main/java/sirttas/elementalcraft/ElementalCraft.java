@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -18,6 +19,7 @@ import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.network.proxy.ClientProxy;
 import sirttas.elementalcraft.network.proxy.IProxy;
+import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 
 @Mod(ElementalCraft.MODID)
@@ -33,11 +35,12 @@ public class ElementalCraft {
 		proxy.registerHandlers();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		MinecraftForge.EVENT_BUS.addListener(this::setupServer);
+		MinecraftForge.EVENT_BUS.addListener(SpellTickManager::serverTick);
+		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECFeatures::onBiomeLoad);
 	}
 
 	private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
-		ECFeatures.addToWorldgen();
 		ECLootFunctions.setup();
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ECConfig.SPEC);

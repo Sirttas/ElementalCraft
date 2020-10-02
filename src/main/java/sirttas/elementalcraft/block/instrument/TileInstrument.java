@@ -1,14 +1,12 @@
 package sirttas.elementalcraft.block.instrument;
 
-import java.util.stream.IntStream;
-
 import net.minecraft.block.BlockState;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
-import sirttas.elementalcraft.block.retriever.RetrieverHelper;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.nbt.ECNames;
@@ -17,7 +15,7 @@ import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 public abstract class TileInstrument extends TileECContainer implements IInstrument {
 
 	protected float progress = 0;
-	private IInstrumentRecipe<TileInstrument> recipe;
+	private IInstrumentRecipe<IInstrument> recipe;
 	protected int outputSlot = 0;
 
 	public TileInstrument(TileEntityType<?> tileEntityTypeIn) {
@@ -36,17 +34,18 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		return recipe != null;
 	}
 
-	protected abstract <T extends TileInstrument> IInstrumentRecipe<T> lookupRecipe();
+	protected abstract <T extends IInstrument> IInstrumentRecipe<T> lookupRecipe();
 
 	private void sendOutputToRetriever() {
-		ItemStack output = this.getStackInSlot(outputSlot);
+		IInventory inventory = this.getInventory();
 
 		for (Direction direction : Direction.values()) {
 			BlockState blockState = world.getBlockState(pos.offset(direction));
 
 			if (blockState.getBlock() instanceof BlockRetriever && blockState.get(BlockRetriever.SOURCE) == direction.getOpposite()) {
-				output = RetrieverHelper.retrive(blockState, world, pos.offset(direction), output);
-				this.setInventorySlotContents(outputSlot, output);
+				ItemStack output = BlockRetriever.retrive(blockState, world, pos.offset(direction), inventory.getStackInSlot(outputSlot));
+				
+				inventory.setInventorySlotContents(outputSlot, output);
 				if (output.isEmpty()) {
 					return;
 				}
@@ -67,6 +66,7 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		super.tick();
 		makeProgress();
 	}
+
 
 	protected void makeProgress() {
 		TileTank tank = getTank();
@@ -112,26 +112,8 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 
 	@Override
 	public void clear() {
+		super.clear();
 		recipe = null;
 		progress = 0;
-		IntStream.range(0, getSizeInventory()).forEach(i -> this.setInventorySlotContents(i, ItemStack.EMPTY));
-	}
-
-	@Override
-	public boolean isEmpty() {
-		for (int i = 0; i <= getSizeInventory(); i++) {
-			if (!this.getStackInSlot(i).isEmpty()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		ItemStack ret = getStackInSlot(index);
-
-		setInventorySlotContents(index, ItemStack.EMPTY);
-		return ret;
 	}
 }

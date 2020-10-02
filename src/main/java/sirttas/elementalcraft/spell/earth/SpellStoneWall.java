@@ -12,10 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.spell.ISelfCastedSpell;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellStoneWall extends Spell implements ISelfCastedSpell {
+public class SpellStoneWall extends Spell {
 
 	public static final String NAME = "stonewall";
 

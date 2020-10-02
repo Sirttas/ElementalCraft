@@ -99,6 +99,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.patternLine("wew").patternLine("ici").build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.instrumentRetriever).key('i', ECItems.swiftAlloyIngot).key('h', Blocks.HOPPER).key('d', Blocks.DISPENSER).key('w', ECBlocks.whiteRock)
 				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).patternLine("iw ").patternLine("hdi").patternLine("iw ").build(consumer);
+		ShapedRecipeBuilder.shapedRecipe(ECBlocks.spellDesk).key('i', ECItems.drenchedIronIngot).key('l', Blocks.LECTERN).key('w', ECBlocks.whiteRock)
+				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).patternLine("wlw").patternLine(" i ").patternLine(" w ").build(consumer);
 
 		prepareInstrumentRecipe(ECBlocks.impairedElementPipe, ECItems.containedCrystal, 4).key('i', Tags.Items.INGOTS_IRON).patternLine("ici").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.elementPipe, ECItems.containedCrystal, 4).key('i', ECItems.drenchedIronIngot).patternLine("ici").build(consumer);

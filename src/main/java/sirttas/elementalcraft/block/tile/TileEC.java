@@ -10,7 +10,6 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
-import sirttas.elementalcraft.block.BlockEC;
 
 public abstract class TileEC extends TileEntity {
 
@@ -39,7 +38,7 @@ public abstract class TileEC extends TileEntity {
 	}
 
 	public <T> Optional<T> getTileEntityAs(BlockPos pos, Class<T> clazz) {
-		return this.hasWorld() ? BlockEC.getTileEntityAs(this.getWorld(), pos, clazz) : Optional.empty();
+		return this.hasWorld() ? TileEntityHelper.getTileEntityAs(this.getWorld(), pos, clazz) : Optional.empty();
 	}
 
 }

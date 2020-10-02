@@ -1,16 +1,11 @@
 package sirttas.elementalcraft.block;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
@@ -30,10 +25,6 @@ public class BlockEC extends Block implements IBlockEC {
 
 	public BlockEC(AbstractBlock.Properties properties) {
 		super(properties);
-	}
-
-	public static <T> Optional<T> getTileEntityAs(@Nonnull IBlockReader world, BlockPos pos, Class<T> clazz) {
-		return Optional.ofNullable(world.getTileEntity(pos)).filter(clazz::isInstance).map(clazz::cast);
 	}
 
 	protected RayTraceResult rayTrace(IBlockReader world, Entity entity) {

@@ -3,10 +3,13 @@ package sirttas.elementalcraft.particle;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
@@ -54,5 +57,19 @@ public class ParticleHelper {
 			double d5 = rand.nextFloat() * k;
 			world.addParticle(ParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
 		}
+	}
+
+	public static void createItemBreakParticle(World world, Vector3d pos, Random rand, ItemStack stack, int count) {
+		for (int i = 0; i < count; ++i) {
+			Vector3d speed = new Vector3d(0, rand.nextDouble() * 0.1 + 0.1, 0);
+			Vector3d loc = pos.add(0, (rand.nextDouble() * 0.2 - 0.2), 0);
+
+			if (world instanceof ServerWorld) {
+				((ServerWorld) world).spawnParticle(new ItemParticleData(ParticleTypes.ITEM, stack), loc.x, loc.y, loc.z, 1, speed.x, speed.y + 0.05D, speed.z, 0.0D);
+			} else {
+				world.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), loc.x, loc.y, loc.z, speed.x, speed.y + 0.05D, speed.z);
+			}
+		}
+
 	}
 }

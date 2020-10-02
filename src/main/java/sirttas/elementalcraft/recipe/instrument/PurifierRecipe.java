@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument;
 
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
@@ -38,7 +39,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	@Override
 	public boolean matches(TilePurifier inv) {
-		return PureOreHelper.isValidOre(ore) && input.test(inv.getStackInSlot(0));
+		return inv.getTankElementType() == ElementType.EARTH && PureOreHelper.isValidOre(ore) && input.test(inv.getInventory().getStackInSlot(0));
 	}
 
 	@Override
@@ -75,14 +76,10 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 	}
 
 	@Override
-	public ItemStack getCraftingResult(TilePurifier inv) {
-		return this.getRecipeOutput().copy();
-	}
-
-	@Override
 	public void process(TilePurifier instrument) {
-		ItemStack in = instrument.getStackInSlot(0);
-		ItemStack output = instrument.getStackInSlot(1);
+		IInventory inv = instrument.getInventory();
+		ItemStack in = inv.getStackInSlot(0);
+		ItemStack output = inv.getStackInSlot(1);
 		ItemStack result = getCraftingResult(instrument);
 
 		if (result.isItemEqual(output) && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
@@ -90,10 +87,10 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 			output.grow(result.getCount());
 		} else if (output.isEmpty()) {
 			in.shrink(1);
-			instrument.setInventorySlotContents(1, result.copy());
+			inv.setInventorySlotContents(1, result.copy());
 		}
 		if (in.isEmpty()) {
-			instrument.removeStackFromSlot(0);
+			inv.removeStackFromSlot(0);
 		}
 	}
 

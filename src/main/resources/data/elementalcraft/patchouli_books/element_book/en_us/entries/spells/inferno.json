@@ -1,0 +1,14 @@
+{
+  "name": "spell.elementalcraft.inferno",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll",
+  "advancement": "elementalcraft:pickup/scroll",
+  "turnin": "elementalcraft:pickup/scroll",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.inferno0"
+    }
+  ]
+}
