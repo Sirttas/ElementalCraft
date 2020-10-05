@@ -64,15 +64,16 @@ public class ECConfig {
 	public final IntValue elementHolderTransferAmount;
 	public final IntValue focusMaxSpell;
 
+	public final BooleanValue disableWorldGen;
 	public final IntValue sourceSpawnChance;
 	public final IntValue sourceAltarDistance;
 
 	public final IntValue enderStrikeConsumeAmount;
 	public final IntValue enderStrikeCooldown;
-	public final IntValue enderStrikeRange;
+	public final DoubleValue enderStrikeRange;
 	public final IntValue itemPullConsumeAmount;
 	public final IntValue itemPullCooldown;
-	public final IntValue itemPullRange;
+	public final DoubleValue itemPullRange;
 	public final IntValue gravelFallConsumeAmount;
 	public final IntValue gravelFallCooldown;
 	public final IntValue stoneWallConsumeAmount;
@@ -93,6 +94,9 @@ public class ECConfig {
 	public final IntValue infernoConsumeAmount;
 	public final IntValue infernoCooldown;
 	public final DoubleValue infernoRange;
+	public final IntValue dashConsumeAmount;
+	public final IntValue dashCooldown;
+	public final DoubleValue dashRange;
 
 	public final IntValue healConsumeAmount;
 	public final IntValue healCooldown;
@@ -179,17 +183,18 @@ public class ECConfig {
 		focusMaxSpell = builder.comment("The max number of spells on a focus.").defineInRange("focusMaxSpell", 10, 1, 20);
 
 		builder.pop().comment("Worldgen config").push("worldgen");
+		disableWorldGen = builder.comment("Disable all elementalcraft world gen.").define("disableWorldGen", false);
 		sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
 		sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 16, 0, 100);
 
 		builder.pop().comment("Spells config").push("spells").push("enderStrike");
 		enderStrikeConsumeAmount = builder.comment("The amount of element consumed by the ender strike.").defineInRange("enderStrikeConsumeAmount", 1000, 0, 10000);
 		enderStrikeCooldown = builder.comment("The cooldown the ender strike.").defineInRange("enderStrikeCooldown", 60, 0, 10000);
-		enderStrikeRange = builder.comment("The range the ender strike.").defineInRange("enderStrikeRange", 20, 0, 200);
+		enderStrikeRange = builder.comment("The range the ender strike.").defineInRange("enderStrikeRange", 20D, 0, 200);
 		builder.pop().push("itemPull");
 		itemPullConsumeAmount = builder.comment("The amount of element consumed by the item pull.").defineInRange("itemPullConsumeAmount", 1000, 0, 10000);
 		itemPullCooldown = builder.comment("The cooldown the item pull.").defineInRange("itemPullCooldown", 200, 0, 10000);
-		itemPullRange = builder.comment("The range the item pull.").defineInRange("itemPullRange", 10, 0, 200);
+		itemPullRange = builder.comment("The range the item pull.").defineInRange("itemPullRange", 10D, 0, 200);
 		builder.pop().push("gravelFall");
 		gravelFallConsumeAmount = builder.comment("The amount of element consumed by the gravel fall.").defineInRange("gravelFallConsumeAmount", 250, 0, 10000);
 		gravelFallCooldown = builder.comment("The cooldown the gravel fall.").defineInRange("gravelFallCooldown", 40, 0, 10000);
@@ -219,6 +224,10 @@ public class ECConfig {
 		infernoConsumeAmount = builder.comment("The amount of element consumed by the inferno.").defineInRange("infernoConsumeAmount", 10, 0, 10000);
 		infernoCooldown = builder.comment("The cooldown the inferno.").defineInRange("infernoCooldown", 120, 0, 10000);
 		infernoRange = builder.comment("The range the inferno.").defineInRange("infernoRange", 5D, 0, 20);
+		builder.pop().push("dash");
+		dashConsumeAmount = builder.comment("The amount of element consumed by the dash.").defineInRange("dashConsumeAmount", 400, 0, 10000);
+		dashCooldown = builder.comment("The cooldown the dash.").defineInRange("dashCooldown", 40, 0, 10000);
+		dashRange = builder.comment("The range the dash.").defineInRange("dashRange", 6D, 0, 200);
 
 		builder.pop().push("heal");
 		healConsumeAmount = builder.comment("The amount of element consumed by the heal.").defineInRange("healConsumeAmount", 1000, 0, 10000);

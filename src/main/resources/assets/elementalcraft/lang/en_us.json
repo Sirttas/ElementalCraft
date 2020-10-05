@@ -42,6 +42,7 @@
   "item.elementalcraft.drenched_iron_nugget": "Drenched Iron Nugget",
   "item.elementalcraft.swift_alloy_ingot": "Swift Alloy Ingot",
   "item.elementalcraft.swift_alloy_nugget": "Swift Alloy Nugget",
+  "item.elementalcraft.hardened_handle": "Hardened Handle",
   "item.elementalcraft.shrinebase": "Shrine",
   "item.elementalcraft.fireite_ingot": "Firerite Ingot",
 
@@ -101,6 +102,7 @@
   "spell.elementalcraft.ripening": "Ripening",
   "spell.elementalcraft.flame_cleave": "Flame Cleave",
   "spell.elementalcraft.inferno": "Inferno",
+  "spell.elementalcraft.dash": "Dash",
   
   "spell.elementalcraft.heal": "Healing",
 
@@ -187,5 +189,6 @@
   "elementalcraft.page.purification0": "Remove all negative $(thing)effects$() on you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
   "elementalcraft.page.ripening0": "Fully mature targeted $(thing)crops$().$(br)Consumes $(thing)water$().",
   "elementalcraft.page.flame_cleave0": "Hit all $(thing)entities$() around you with a burnig circular attack.$(br)Consumes $(thing)fire$().",
-  "elementalcraft.page.inferno0": "Breath fire in front of you dealing damage to all the $(thing)entities$() in a cone.$(br)Consumes $(thing)fire$()."
+  "elementalcraft.page.inferno0": "Breath fire in front of you dealing damage to all the $(thing)entities$() in a cone.$(br)Consumes $(thing)fire$().",
+  "elementalcraft.page.dash0": "Dash in targeted direction.$(br)Consumes $(thing)air$()."
 }

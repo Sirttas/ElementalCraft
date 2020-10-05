@@ -14,6 +14,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.spell.Spell.Properties;
+import sirttas.elementalcraft.spell.air.SpellDash;
 import sirttas.elementalcraft.spell.air.SpellEnderStrike;
 import sirttas.elementalcraft.spell.air.SpellItemPull;
 import sirttas.elementalcraft.spell.earth.SpellGavelFall;
@@ -29,7 +30,7 @@ import sirttas.elementalcraft.spell.water.SpellRipening;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Spells {
 
-	private static final ResourceLocation NAME = new ResourceLocation(ElementalCraft.MODID, "spell");
+	private static final ResourceLocation NAME = ElementalCraft.createRL("spell");
 	private static final int MIN_SPELL_ID = 0;
 	private static final int MAX_SPELL_ID = Short.MAX_VALUE - 1;
 
@@ -46,6 +47,7 @@ public class Spells {
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellRipening.NAME) public static SpellRipening ripening;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static SpellFlameCleave flameCleave;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellInferno.NAME) public static SpellInferno inferno;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellDash.NAME) public static SpellDash dash;
 
 	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
 
@@ -55,7 +57,7 @@ public class Spells {
 			.setName(NAME)
 			.setIDRange(MIN_SPELL_ID, MAX_SPELL_ID)
 			.setType(Spell.class)
-			.setDefaultKey(new ResourceLocation(ElementalCraft.MODID, "none"))
+			.setDefaultKey(ElementalCraft.createRL("none"))
 			.create();
 	}
 
@@ -76,6 +78,7 @@ public class Spells {
 		RegistryHelper.register(registry, new SpellRipening(), SpellRipening.NAME);
 		RegistryHelper.register(registry, new SpellFlameCleave(), SpellFlameCleave.NAME);
 		RegistryHelper.register(registry, new SpellInferno(), SpellInferno.NAME);
+		RegistryHelper.register(registry, new SpellDash(), SpellDash.NAME);
 
 		RegistryHelper.register(registry, new EffectSpell(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER)
 				.cooldown(ECConfig.CONFIG.healCooldown.get()).consumeAmount(ECConfig.CONFIG.healConsumeAmount.get()), new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");

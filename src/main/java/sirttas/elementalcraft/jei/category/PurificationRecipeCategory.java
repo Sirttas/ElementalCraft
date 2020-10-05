@@ -18,7 +18,7 @@ import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
 
 public class PurificationRecipeCategory extends AbstractInstrumentRecipeCategory<TilePurifier, PurifierRecipe> {
 
-	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "purification");
+	public static final ResourceLocation UID = ElementalCraft.createRL("purification");
 
 	private final IDrawable icon;
 	private final IDrawable overlay;
@@ -29,7 +29,7 @@ public class PurificationRecipeCategory extends AbstractInstrumentRecipeCategory
 	public PurificationRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(75, 59);
 		icon = guiHelper.createDrawableIngredient(purifier);
-		overlay = guiHelper.createDrawable(new ResourceLocation(ElementalCraft.MODID, "textures/gui/infusion_overlay.png"), 0, 0, 65, 16);
+		overlay = guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/infusion_overlay.png"), 0, 0, 65, 16);
 	}
 
 	@Override

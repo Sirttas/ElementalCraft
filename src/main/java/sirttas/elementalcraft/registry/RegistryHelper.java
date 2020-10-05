@@ -13,6 +13,6 @@ public class RegistryHelper {
 
 	public static <V extends IForgeRegistryEntry<V>> void register(IForgeRegistry<V> reg, IForgeRegistryEntry<V> thing,
 			String name) {
-		register(reg, thing, new ResourceLocation(ElementalCraft.MODID, name));
+		register(reg, thing, ElementalCraft.createRL(name));
 	}
 }

@@ -1,0 +1,18 @@
+{
+  "type": "elementalcraft:binding",
+  "element": "earth",
+  "consumption": 10,
+  "duration": 50,
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    }
+  ],
+  "output": "elementalcraft:hardened_handle"
+}

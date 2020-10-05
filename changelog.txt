@@ -1,3 +1,10 @@
+1.15.2-1.1.16 and 1.16.23-2.3.1:
+
+- new item: Hardened Handle
+- new spell: dash
+- improved worldgen filter
+
+
 1.16.3-2.3.0:
 
 - fix worldgen in 1.16.3 (issue #3)

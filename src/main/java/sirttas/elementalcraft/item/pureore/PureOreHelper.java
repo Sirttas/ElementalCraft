@@ -69,23 +69,23 @@ public class PureOreHelper {
 		Map<ResourceLocation, IRecipe<IInventory>> smeltingRecipes = makeMutable(recipeManager.getRecipes(IRecipeType.SMELTING));
 		Map<ResourceLocation, IRecipe<IInventory>> blastingRecipes = makeMutable(recipeManager.getRecipes(IRecipeType.BLASTING));
 
-		ElementalCraft.T.info("Pure ore generation started. Ores found: {}",
+		ElementalCraft.LOGGER.info("Pure ore generation started. Ores found: {}",
 				() -> Tags.Items.ORES.getAllElements().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
 		for (Item ore : Tags.Items.ORES.getAllElements()) {
 			getRecipe(smeltingRecipes, ore).map(r -> addOre(ore, r)).ifPresent(e -> getRecipe(blastingRecipes, ore).ifPresent(r -> e.blastingRecipe = r));
 		}
 
 		if (Boolean.TRUE.equals(ECConfig.CONFIG.pureOreSmeltingRecipeInjection.get())) {
-			ElementalCraft.T.info("Pure ore recipe injection");
+			ElementalCraft.LOGGER.info("Pure ore recipe injection");
 			try {
 				recipeManager.recipes = makeMutable(recipeManager.recipes);
 				inject(recipeManager, IRecipeType.SMELTING, smeltingRecipes, PureOreHelper::buildSmeltingRecipe);
 				inject(recipeManager, IRecipeType.BLASTING, blastingRecipes, PureOreHelper::buildBlastingRecipe);
 			} catch (Exception e) {
-				ElementalCraft.T.error("Error in pure ore recipe injection", e);
+				ElementalCraft.LOGGER.error("Error in pure ore recipe injection", e);
 			}
 		}
-		ElementalCraft.T.info("Pure ore generation ended");
+		ElementalCraft.LOGGER.info("Pure ore generation ended");
 	}
 
 	private static void inject(RecipeManager recipeManager, IRecipeType<?> recipeType, Map<ResourceLocation, IRecipe<IInventory>> map, Function<Entry, AbstractCookingRecipe> func) {
@@ -106,13 +106,13 @@ public class PureOreHelper {
 	}
 
 	private static AbstractCookingRecipe buildSmeltingRecipe(Entry entry) {
-		return new FurnaceRecipe(new ResourceLocation(ElementalCraft.MODID, buildId(entry.smeltingRecipe.getId())), entry.smeltingRecipe.getGroup(), new PureOreCompoundIngredient(entry.ingredients),
+		return new FurnaceRecipe(ElementalCraft.createRL(buildId(entry.smeltingRecipe.getId())), entry.smeltingRecipe.getGroup(), new PureOreCompoundIngredient(entry.ingredients),
 				entry.result, entry.smeltingRecipe.getExperience(), entry.smeltingRecipe.getCookTime());
 	}
 
 	private static AbstractCookingRecipe buildBlastingRecipe(Entry entry) {
 		return entry.blastingRecipe != null
-				? new BlastingRecipe(new ResourceLocation(ElementalCraft.MODID, buildId(entry.blastingRecipe.getId())), entry.blastingRecipe.getGroup(),
+				? new BlastingRecipe(ElementalCraft.createRL(buildId(entry.blastingRecipe.getId())), entry.blastingRecipe.getGroup(),
 						new PureOreCompoundIngredient(entry.ingredients), entry.result, entry.blastingRecipe.getExperience(), entry.blastingRecipe.getCookTime())
 				: null;
 	}

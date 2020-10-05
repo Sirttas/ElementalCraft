@@ -17,6 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.property.ECProperties;
 
 public class ItemEC extends Item implements IItemEC {
@@ -53,10 +54,14 @@ public class ItemEC extends Item implements IItemEC {
 
 	@OnlyIn(Dist.CLIENT)
 	public static final int lookupColor(ItemStack stack) {
-		List<Integer> colors = ColorGetter.getColors(stack, 2);
-
-		if (colors != null && !colors.isEmpty()) {
-			return colors.get(0);
+		try {
+			List<Integer> colors = ColorGetter.getColors(stack, 2);
+	
+			if (colors != null && !colors.isEmpty()) {
+				return colors.get(0);
+			}
+		} catch (NoClassDefFoundError e) {
+			ElementalCraft.LOGGER.warn("JEI not present, can't lookup item colors", e);
 		}
 		return -1;
 	}

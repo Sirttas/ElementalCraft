@@ -3,7 +3,7 @@ package sirttas.elementalcraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.DistExecutor;
@@ -25,13 +25,11 @@ import sirttas.elementalcraft.world.feature.ECFeatures;
 @Mod(ElementalCraft.MODID)
 public class ElementalCraft {
 	public static final String MODID = "elementalcraft";
+	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-	public static final Logger T = LogManager.getLogger(MODID);
-
-	private IProxy proxy = new IProxy() {};
+	private IProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> () -> new IProxy() {});
 
 	public ElementalCraft() {
-		DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> proxy = new ClientProxy()); // NOSONAR
 		proxy.registerHandlers();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		MinecraftForge.EVENT_BUS.addListener(this::setupServer);
@@ -48,6 +46,10 @@ public class ElementalCraft {
 
 	private void setupServer(FMLServerStartedEvent event) {
 		PureOreHelper.generatePureOres(event.getServer().getRecipeManager());
+	}
+
+	public static ResourceLocation createRL(String name) {
+		return new ResourceLocation(MODID, name);
 	}
 }
 
