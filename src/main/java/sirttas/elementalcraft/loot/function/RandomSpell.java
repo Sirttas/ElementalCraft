@@ -65,7 +65,7 @@ public class RandomSpell extends LootFunction {
 
 	public static class Serializer extends LootFunction.Serializer<RandomSpell> {
 		public Serializer() {
-			super(new ResourceLocation(ElementalCraft.MODID, "random_spell"), RandomSpell.class);
+			super(ElementalCraft.createRL("random_spell"), RandomSpell.class);
 		}
 
 		@Override

@@ -71,7 +71,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		if (this.hasWorld() && !this.isPowered()) {
 			tick++;
 			if (periode == 0) {
-				ElementalCraft.T.warn("Shrine periode should not be 0");
+				ElementalCraft.LOGGER.warn("Shrine periode should not be 0");
 				periode = 1;
 			}
 			while (tick >= periode) {

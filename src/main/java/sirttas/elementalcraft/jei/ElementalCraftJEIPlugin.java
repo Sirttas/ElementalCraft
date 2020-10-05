@@ -28,7 +28,7 @@ import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
-	private static final ResourceLocation ID = new ResourceLocation(ElementalCraft.MODID, "main");
+	private static final ResourceLocation ID = ElementalCraft.createRL("main");
 
 	@Override
 	public ResourceLocation getPluginUid() {

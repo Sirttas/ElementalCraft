@@ -55,7 +55,7 @@ public class ECAdvancementProvider implements IDataProvider {
 	}
 
 	private Advancement.Builder itemPickup(IItemProvider item) {
-		return Advancement.Builder.builder().withParentId(new ResourceLocation(ElementalCraft.MODID, "main/root")).withCriterion("has_" + item.asItem().getRegistryName().getPath(),
+		return Advancement.Builder.builder().withParentId(ElementalCraft.createRL("main/root")).withCriterion("has_" + item.asItem().getRegistryName().getPath(),
 				this.hasItem(item));
 	}
 

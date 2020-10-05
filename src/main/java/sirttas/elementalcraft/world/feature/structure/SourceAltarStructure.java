@@ -34,8 +34,8 @@ public class SourceAltarStructure extends ScatteredStructure<NoFeatureConfig> {
 
 	public static final IStructurePieceType PIECE_TYPE = Piece::new;
 	
-	private static final ResourceLocation SMALL = new ResourceLocation(ElementalCraft.MODID, "altar/small");
-	private static final ResourceLocation MEDIUM = new ResourceLocation(ElementalCraft.MODID, "altar/medium");
+	private static final ResourceLocation SMALL = ElementalCraft.createRL("altar/small");
+	private static final ResourceLocation MEDIUM = ElementalCraft.createRL("altar/medium");
 
 	public SourceAltarStructure() {
 		super(NoFeatureConfig::deserialize);
@@ -121,7 +121,7 @@ public class SourceAltarStructure extends ScatteredStructure<NoFeatureConfig> {
 		@Override
 		protected void handleDataMarker(String function, BlockPos pos, IWorld worldIn, Random rand, MutableBoundingBox sbb) {
 			if ("chest".equals(function)) {
-				this.generateChest(worldIn, sbb, rand, pos, new ResourceLocation(ElementalCraft.MODID, "chests/altar/small_" + elementType.getName()), null);
+				this.generateChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/small_" + elementType.getName()), null);
 				worldIn.notifyNeighbors(pos, Blocks.CHEST);
 			} else if ("source".equals(function)) {
 				worldIn.setBlockState(pos, ECBlocks.source.getDefaultState().with(ECProperties.ELEMENT_TYPE, elementType), 3);

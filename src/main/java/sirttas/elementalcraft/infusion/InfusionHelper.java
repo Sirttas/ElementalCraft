@@ -24,7 +24,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.config.ECConfig;
@@ -263,7 +262,7 @@ public class InfusionHelper {
 		private DisplayToolInfusionRecipe(Item item, ElementType elementType) {
 			this.item = item;
 			this.with(elementType);
-			this.id = new ResourceLocation(ElementalCraft.MODID, item.getRegistryName().getNamespace() + '_' + item.getRegistryName().getPath() + "_tool_infusion_with_" + elementType.getName());
+			this.id = ElementalCraft.createRL(item.getRegistryName().getNamespace() + '_' + item.getRegistryName().getPath() + "_tool_infusion_with_" + elementType.getName());
 		}
 
 		@Override

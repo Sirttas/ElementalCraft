@@ -27,7 +27,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 				String name = item.getRegistryName().getPath();
 
 				if (item instanceof BlockItem) {
-					ResourceLocation parent = new ResourceLocation(ElementalCraft.MODID, "block/" + name);
+					ResourceLocation parent = ElementalCraft.createRL("block/" + name);
 
 					if (this.exists(parent)) {
 						withExistingParent(name, parent);
@@ -35,10 +35,10 @@ public class ECItemModelProvider extends ItemModelProvider {
 						getBuilder(name).parent(new UncheckedModelFile(parent));
 					}
 				} else if (item instanceof ItemElementHolder) {
-					withExistingParent(name, new ResourceLocation(ElementalCraft.MODID, "item/template_element_holder"));
+					withExistingParent(name, ElementalCraft.createRL("item/template_element_holder"));
 				} else {
 					// FIXME (forge bug net.minecraftforge.client.model.generators.serializeLoc)
-					singleTexture(name, new ResourceLocation("minecraft", "item/generated"), new ResourceLocation(ElementalCraft.MODID, "item/" + name));
+					singleTexture(name, new ResourceLocation("minecraft", "item/generated"), ElementalCraft.createRL("item/" + name));
 				}
 			}
 		}

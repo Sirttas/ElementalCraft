@@ -65,7 +65,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.pureRockStairs, list);
 		addItem(ECBlocks.pureRockWall, list);
 
-		addItem(ECItems.elementScript, list);
+		addItem(ECItems.elementopedia, list);
 		addItem(ECItems.focus, list);
 		addItem(ECItems.scroll, list);
 		addItem(ECItems.emptyReceptacle, list);
@@ -86,6 +86,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.drenchedIronNugget, list);
 		addItem(ECItems.swiftAlloyIngot, list);
 		addItem(ECItems.swiftAlloyNugget, list);
+		addItem(ECItems.hardenedHandle, list);
 		addItem(ECItems.shrineBase, list);
 	}
 

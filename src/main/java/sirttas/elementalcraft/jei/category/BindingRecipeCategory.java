@@ -19,7 +19,7 @@ import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 
 public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<TileBinder, BinderRecipe> {
 
-	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "binding");
+	public static final ResourceLocation UID = ElementalCraft.createRL("binding");
 
 	private static final int RADIUS = 42;
 
@@ -31,7 +31,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16);
 		icon = guiHelper.createDrawableIngredient(binder);
-		overlay = guiHelper.createDrawable(new ResourceLocation(ElementalCraft.MODID, "textures/gui/binding_overlay.png"), 0, 0, 124, 83);
+		overlay = guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/binding_overlay.png"), 0, 0, 124, 83);
 	}
 
 	@Override

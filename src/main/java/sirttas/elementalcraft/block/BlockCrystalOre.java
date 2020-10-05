@@ -6,6 +6,8 @@ import net.minecraft.util.math.MathHelper;
 
 public class BlockCrystalOre extends BlockEC {
 
+	public static final String NAME = "crystalore";
+
 	public BlockCrystalOre(Properties properties) {
 		super(properties);
 	}

@@ -28,7 +28,7 @@ public final class LootHandler {
 	}
 
 	private static LootEntry.Builder<?> getInjectEntry(String name, int weight) {
-		ResourceLocation table = new ResourceLocation(ElementalCraft.MODID, name);
+		ResourceLocation table = ElementalCraft.createRL(name);
 
 		return TableLootEntry.builder(table).weight(weight);
 	}

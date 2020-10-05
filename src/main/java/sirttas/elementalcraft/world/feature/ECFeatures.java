@@ -22,7 +22,6 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.registry.RegistryHelper;
-import sirttas.elementalcraft.world.biome.ECBiomes;
 import sirttas.elementalcraft.world.feature.structure.SourceAltarStructure;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -41,17 +40,23 @@ public class ECFeatures {
 	}
 
 	public static void addToWorldgen() {
-		for (Biome biome : ForgeRegistries.BIOMES) { // TODO exclude biomes
-			biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-					Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ECBlocks.crystalOre.getDefaultState(), 9))
-							.withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 0, 0, 64)))); // TODO config
+		if (Boolean.FALSE.equals(ECConfig.CONFIG.disableWorldGen.get())) {
+			for (Biome biome : ForgeRegistries.BIOMES) {
+				Biome.Category category = biome.getCategory();
 
-			biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION,
-					source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP.configure(new ChanceConfig(ECConfig.CONFIG.sourceSpawnChance.get()))));
-			biome.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES,
-					sourceAltar.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
-			if (ECBiomes.LAND.contains(biome)) {
-				biome.addStructure(sourceAltar.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+				if (!category.equals(Biome.Category.THEEND) && !category.equals(Biome.Category.NETHER)) {
+				biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+						Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ECBlocks.crystalOre.getDefaultState(), 9))
+								.withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 0, 0, 64)))); // TODO config
+	
+				biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION,
+						source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP.configure(new ChanceConfig(ECConfig.CONFIG.sourceSpawnChance.get()))));
+				biome.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES,
+						sourceAltar.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+				if (!category.equals(Biome.Category.OCEAN) && !category.equals(Biome.Category.BEACH) && !category.equals(Biome.Category.RIVER) && !category.equals(Biome.Category.SWAMP)) {
+					biome.addStructure(sourceAltar.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+				}
+			}
 			}
 		}
 	}

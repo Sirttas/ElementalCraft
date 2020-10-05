@@ -50,7 +50,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private ResourceLocation prefix(String name) {
-		return new ResourceLocation(ElementalCraft.MODID, "block/" + name);
+		return ElementalCraft.createRL("block/" + name);
 	}
 
 	private void save(Block block) {

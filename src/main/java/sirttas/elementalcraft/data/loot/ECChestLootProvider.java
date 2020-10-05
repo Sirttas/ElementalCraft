@@ -38,11 +38,11 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 
 	@Override
 	public void act(DirectoryCache cache) throws IOException {
-		save(cache, genInject(), new ResourceLocation(ElementalCraft.MODID, "inject"));
-		save(cache, genFire(), new ResourceLocation(ElementalCraft.MODID, "altar/small_fire"));
-		save(cache, genWater(), new ResourceLocation(ElementalCraft.MODID, "altar/small_water"));
-		save(cache, genAir(), new ResourceLocation(ElementalCraft.MODID, "altar/small_air"));
-		save(cache, genEarth(), new ResourceLocation(ElementalCraft.MODID, "altar/small_earth"));
+		save(cache, genInject(), ElementalCraft.createRL("inject"));
+		save(cache, genFire(), ElementalCraft.createRL("altar/small_fire"));
+		save(cache, genWater(), ElementalCraft.createRL("altar/small_water"));
+		save(cache, genAir(), ElementalCraft.createRL("altar/small_air"));
+		save(cache, genEarth(), ElementalCraft.createRL("altar/small_earth"));
 	}
 
 	private static Path getPath(Path root, ResourceLocation id) {

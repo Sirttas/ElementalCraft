@@ -5,7 +5,6 @@ import java.util.function.Function;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -57,7 +56,7 @@ public class BossDimension extends Dimension {
 	private final ECBossFightManager bossFightManager;
 
 	public static DimensionType getDimensionType() {
-		return DimensionManager.registerOrGetDimension(new ResourceLocation(ElementalCraft.MODID, NAME), ECDimensions.bossDimension, null, true);
+		return DimensionManager.registerOrGetDimension(ElementalCraft.createRL(NAME), ECDimensions.bossDimension, null, true);
 	}
 
 	public BossDimension(World world, DimensionType type) {

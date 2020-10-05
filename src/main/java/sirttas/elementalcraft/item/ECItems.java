@@ -9,6 +9,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.BlockCrystalOre;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
@@ -56,7 +57,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemBossDimKey.NAME) public static ItemBossDimKey bossDimKey;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemPureOre.NAME) public static ItemPureOre pureOre;
 
-	@ObjectHolder("patchouli:guide_book") public static Item elementScript;
+	@ObjectHolder("patchouli:guide_book") public static Item elementopedia;
 	@ObjectHolder(ElementalCraft.MODID + ":inertcrystal") public static ItemEC inertCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":containedcrystal") public static ItemEC containedCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":firecrystal") public static ItemEC fireCrystal;
@@ -68,6 +69,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_nugget") public static ItemEC drenchedIronNugget;
 	@ObjectHolder(ElementalCraft.MODID + ":swift_alloy_ingot") public static ItemEC swiftAlloyIngot;
 	@ObjectHolder(ElementalCraft.MODID + ":swift_alloy_nugget") public static ItemEC swiftAlloyNugget;
+	@ObjectHolder(ElementalCraft.MODID + ":hardened_handle") public static ItemEC hardenedHandle;
 	@ObjectHolder(ElementalCraft.MODID + ":shrinebase") public static ItemEC shrineBase;
 
 	/** BLOCKS */
@@ -100,7 +102,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static Item enderLockShrine;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static Item source;
-	@ObjectHolder(ElementalCraft.MODID + ":crystalore") public static Item crystalOre;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystalOre.NAME) public static Item crystalOre;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock") public static Item whiteRock;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_slab") public static Item whiteRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_stairs") public static Item whiteRockStairs;
@@ -141,6 +143,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "drenched_iron_nugget");
 		RegistryHelper.register(registry, new ItemEC(), "swift_alloy_ingot");
 		RegistryHelper.register(registry, new ItemEC(), "swift_alloy_nugget");
+		RegistryHelper.register(registry, new ItemEC(), "hardened_handle");
 		RegistryHelper.register(registry, new ItemEC(), "shrinebase");
 
 		// TODO add tools

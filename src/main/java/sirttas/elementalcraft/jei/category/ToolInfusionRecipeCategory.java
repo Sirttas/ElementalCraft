@@ -7,7 +7,7 @@ import sirttas.elementalcraft.ElementalCraft;
 
 public class ToolInfusionRecipeCategory extends InfusionRecipeCategory {
 
-	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "tool_infusion");
+	public static final ResourceLocation UID = ElementalCraft.createRL("tool_infusion");
 
 	public ToolInfusionRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper);

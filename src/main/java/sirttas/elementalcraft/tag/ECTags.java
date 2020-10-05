@@ -5,7 +5,6 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 
 public class ECTags {
@@ -29,7 +28,7 @@ public class ECTags {
 		public static final Tag<Item> PIPES = createTag("pipes");
 
 		private static Tag<Item> createTag(String name) {
-			return new ItemTags.Wrapper(new ResourceLocation(ElementalCraft.MODID, name));
+			return new ItemTags.Wrapper(ElementalCraft.createRL(name));
 		}
 	}
 
@@ -41,7 +40,7 @@ public class ECTags {
 		public static final Tag<Block> PIPES = createTag("pipes");
 
 		private static Tag<Block> createTag(String name) {
-			return new BlockTags.Wrapper(new ResourceLocation(ElementalCraft.MODID, name));
+			return new BlockTags.Wrapper(ElementalCraft.createRL(name));
 		}
 	}
 }
