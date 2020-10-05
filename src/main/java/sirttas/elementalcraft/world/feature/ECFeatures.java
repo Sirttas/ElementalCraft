@@ -60,7 +60,7 @@ public class ECFeatures {
 	public static void onBiomeLoad(BiomeLoadingEvent event) {
 		Biome.Category category = event.getCategory();
 		
-		if (category != Biome.Category.THEEND && category != Biome.Category.NETHER) {
+		if (Boolean.FALSE.equals(ECConfig.CONFIG.disableWorldGen.get()) && category != Biome.Category.THEEND && category != Biome.Category.NETHER) {
 			event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, crystalOreConfig);
 			event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, sourceConfig);
 	
@@ -82,11 +82,11 @@ public class ECFeatures {
 
 
 	private static <C extends IFeatureConfig> ConfiguredFeature<C, ?> register(String name, ConfiguredFeature<C, ?> feature) {
-		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(ElementalCraft.MODID, name), feature);
+		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, ElementalCraft.createRL(name), feature);
 	}
 
 	private static <C extends IFeatureConfig> StructureFeature<C, ?> registerStructure(String name, Structure<C> structure, C config, IStructurePieceType structurePieceType) {
-		ResourceLocation location = new ResourceLocation(ElementalCraft.MODID, name);
+		ResourceLocation location = ElementalCraft.createRL(name);
 		StructureFeature<C, ?> structureFeature = Registry.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, location, new StructureFeature<>(structure, config));
 		
 		Registry.register(Registry.STRUCTURE_PIECE, location, structurePieceType);

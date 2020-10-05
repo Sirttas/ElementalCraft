@@ -20,7 +20,7 @@ import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 public class PureInfusionRecipeCategory extends AbstractRecipeCategory<TilePureInfuser, PureInfusionRecipe> {
 
-	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "pureinfusion");
+	public static final ResourceLocation UID = ElementalCraft.createRL("pureinfusion");
 
 	private final IDrawable icon;
 	private final IDrawable overlay;
@@ -30,7 +30,7 @@ public class PureInfusionRecipeCategory extends AbstractRecipeCategory<TilePureI
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(132, 100);
 		icon = guiHelper.createDrawableIngredient(pureInfuser);
-		overlay = guiHelper.createDrawable(new ResourceLocation(ElementalCraft.MODID, "textures/gui/pureinfusion_overlay.png"), 0, 0, 124, 83);
+		overlay = guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/pureinfusion_overlay.png"), 0, 0, 124, 83);
 	}
 
 	@Override

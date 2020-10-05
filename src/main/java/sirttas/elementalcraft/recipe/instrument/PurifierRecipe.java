@@ -24,7 +24,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 		this.ore = ore;
 		this.input = Ingredient.fromStacks(ore);
-		this.id = new ResourceLocation(ElementalCraft.MODID, oreName.getNamespace() + '_' + oreName.getPath() + "_to_pure_ore");
+		this.id = ElementalCraft.createRL(oreName.getNamespace() + '_' + oreName.getPath() + "_to_pure_ore");
 	}
 
 	@Override

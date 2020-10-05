@@ -18,7 +18,7 @@ import sirttas.elementalcraft.ElementalCraft;
  */
 public class GuiHelper {
 
-	private static final ResourceLocation GAUGE = new ResourceLocation(ElementalCraft.MODID, "textures/gui/element_gauge.png");
+	private static final ResourceLocation GAUGE = ElementalCraft.createRL("textures/gui/element_gauge.png");
 
 	public static void blit(MatrixStack matrixStack, int x, int y, int u, int v, int width, int height) {
 		AbstractGui.blit(matrixStack, x, y, u, v, width, height, 256, 256);

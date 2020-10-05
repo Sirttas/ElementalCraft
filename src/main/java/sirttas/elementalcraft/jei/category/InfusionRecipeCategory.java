@@ -21,7 +21,7 @@ import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 
 public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<TileInfuser, AbstractInfusionRecipe> {
 
-	public static final ResourceLocation UID = new ResourceLocation(ElementalCraft.MODID, "infusion");
+	public static final ResourceLocation UID = ElementalCraft.createRL("infusion");
 
 	private final IDrawable icon;
 	private final IDrawable overlay;
@@ -33,7 +33,7 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(75, 59);
 		icon = guiHelper.createDrawableIngredient(infuser);
-		overlay = guiHelper.createDrawable(new ResourceLocation(ElementalCraft.MODID, "textures/gui/infusion_overlay.png"), 0, 0, 65, 16);
+		overlay = guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/infusion_overlay.png"), 0, 0, 65, 16);
 	}
 
 	@Override
