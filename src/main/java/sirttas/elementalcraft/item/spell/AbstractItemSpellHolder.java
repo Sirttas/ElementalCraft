@@ -56,7 +56,7 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 		if (result.isSuccessOrConsume() && !playerIn.isCreative()) {
 			if (!spell.consume(playerIn)) {
 				consume(stack);
-				DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> playerIn.renderBrokenItemStack(stack));
+				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> playerIn.renderBrokenItemStack(stack));
 			}
 			if (result.isSuccess()) {
 				SpellTickManager.getInstance(worldIn).setCooldown(playerIn, spell);

@@ -26,7 +26,7 @@ public class BlockEC extends Block implements IBlockEC {
 	}
 
 	protected RayTraceResult rayTrace(IBlockReader world, Entity entity) {
-		return DistExecutor.runForDist(() -> () -> Minecraft.getInstance().objectMouseOver, () -> () -> {
+		return DistExecutor.unsafeRunForDist(() -> () -> Minecraft.getInstance().objectMouseOver, () -> () -> {
 			if (entity instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) entity;
 				float f = player.rotationPitch;

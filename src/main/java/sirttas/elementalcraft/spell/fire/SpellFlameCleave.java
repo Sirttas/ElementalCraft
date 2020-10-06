@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellFlameCleave extends Spell {
@@ -42,9 +43,14 @@ public class SpellFlameCleave extends Spell {
 
 			world.playSound(null, livingSender.getPosX(), livingSender.getPosY(), livingSender.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, livingSender.getSoundCategory(), 1.0F, 1.0F);
 			if (livingSender instanceof PlayerEntity) {
-				((PlayerEntity) livingSender).spawnSweepParticles();
+				PlayerEntity playerSender = (PlayerEntity) livingSender;
+
+				playerSender.spawnSweepParticles();
+				playerSender.resetCooldown();
+				EntityHelper.swingArm(playerSender);
 			}
 			world.playEvent(null, 2004, livingSender.getPosition(), 0);
+
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;
@@ -59,7 +65,7 @@ public class SpellFlameCleave extends Spell {
 
 			if (damage > 0) {
 				target.knockBack(sender, 0.4F, sender.getPosX() - target.getPosX(), sender.getPosZ() - target.getPosZ());
-				target.attackEntityFrom((sender instanceof PlayerEntity ? DamageSource.causePlayerDamage((PlayerEntity) sender) : DamageSource.causeMobDamage(sender)).setFireDamage(), damage);
+				target.attackEntityFrom(sender instanceof PlayerEntity ? DamageSource.causePlayerDamage((PlayerEntity) sender) : DamageSource.causeMobDamage(sender), damage);
 				target.setFire(5);
 
 				EnchantmentHelper.applyThornEnchantments(target, sender);

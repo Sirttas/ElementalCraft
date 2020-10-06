@@ -35,7 +35,7 @@ public class EffectSpell extends Spell {
 
 	private ActionResultType applyEffect(Entity target) {
 		if (target instanceof LivingEntity) {
-			effects.forEach(e -> ((LivingEntity) target).addPotionEffect(e.getEffectInstance()));
+			effects.forEach(e -> ((LivingEntity) target).addPotionEffect(new EffectInstance(e.getEffectInstance())));
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;

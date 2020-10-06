@@ -145,7 +145,7 @@ public class PureOreHelper {
 			ingredients = Lists.newArrayList(new PureOreIngredient(createPureOre(ore)));
 			smeltingRecipe = recipe;
 			result = recipe.getRecipeOutput().copy();
-			DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> color = ItemEC.lookupColor(result));
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ItemEC.lookupColor(result));
 		}
 
 	}

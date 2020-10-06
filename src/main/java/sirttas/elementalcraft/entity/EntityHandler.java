@@ -41,7 +41,7 @@ public class EntityHandler {
 	public static void onLivingUpdate(LivingUpdateEvent event) {
 		LivingEntity entity = event.getEntityLiving();
 
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			if (entity instanceof ClientPlayerEntity) {
 				clientAirInfusionFly((ClientPlayerEntity) event.getEntityLiving());
 			}

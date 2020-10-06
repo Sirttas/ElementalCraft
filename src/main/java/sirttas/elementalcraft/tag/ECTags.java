@@ -26,6 +26,7 @@ public class ECTags {
 
 		public static final Tag<Item> PUREROCKS = createTag("purerocks");
 		public static final Tag<Item> PIPES = createTag("pipes");
+		public static final Tag<Item> SHRINES = createTag("shrines");
 
 		private static Tag<Item> createTag(String name) {
 			return new ItemTags.Wrapper(ElementalCraft.createRL(name));
@@ -38,6 +39,7 @@ public class ECTags {
 
 		public static final Tag<Block> PUREROCKS = createTag("purerocks");
 		public static final Tag<Block> PIPES = createTag("pipes");
+		public static final Tag<Block> SHRINES = createTag("shrines");
 
 		private static Tag<Block> createTag(String name) {
 			return new BlockTags.Wrapper(ElementalCraft.createRL(name));

@@ -2,15 +2,19 @@ package sirttas.elementalcraft.entity;
 
 import java.util.stream.Stream;
 
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 
 public class EntityHelper {
 
@@ -30,4 +34,11 @@ public class EntityHelper {
 		return entityResult != null && entityResult.getHitVec().subtract(eyePos).length() <= blockResult.getHitVec().subtract(eyePos).length() ? entityResult : blockResult;
 	}
 
+	public static void swingArm(PlayerEntity player) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			if (player instanceof ClientPlayerEntity) {
+				((ClientPlayerEntity) player).swingArm(Hand.MAIN_HAND);
+			}
+		});
+	}
 }

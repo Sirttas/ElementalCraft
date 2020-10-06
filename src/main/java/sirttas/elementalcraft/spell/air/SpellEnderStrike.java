@@ -4,7 +4,6 @@ import java.util.Comparator;
 
 import com.google.common.collect.Multimap;
 
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -13,16 +12,14 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellEnderStrike extends Spell {
@@ -53,11 +50,7 @@ public class SpellEnderStrike extends Spell {
 
 					playerSender.attackTargetEntityWithCurrentItem(target);
 					playerSender.resetCooldown();
-					DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-						if (playerSender instanceof ClientPlayerEntity) {
-							((ClientPlayerEntity) playerSender).swingArm(Hand.MAIN_HAND);
-						}
-					});
+					EntityHelper.swingArm(playerSender);
 				} else {
 					livingSender.attackEntityAsMob(target);
 				}

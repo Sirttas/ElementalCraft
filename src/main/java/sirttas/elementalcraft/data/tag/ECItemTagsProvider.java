@@ -34,6 +34,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		this.copy(Tags.Blocks.ORES, Tags.Items.ORES);
 		this.copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
 		this.copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
+		this.copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
 
 		getBuilder(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD);
 		getBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE);

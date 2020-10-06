@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import sirttas.elementalcraft.event.TickHandler;
 
-@SuppressWarnings("deprecation")
 public abstract class RendererEC<T extends TileEntity> extends TileEntityRenderer<T> {
 
 	public RendererEC(TileEntityRendererDispatcher rendererDispatcherIn) {

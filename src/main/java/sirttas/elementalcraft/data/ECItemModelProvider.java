@@ -37,7 +37,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 				} else if (item instanceof ItemElementHolder) {
 					withExistingParent(name, ElementalCraft.createRL("item/template_element_holder"));
 				} else {
-					// FIXME (forge bug net.minecraftforge.client.model.generators.serializeLoc)
+					// FIXME (forge bug net.minecraftforge.client.model.generators.ModelBuilder.serializeLoc)
 					singleTexture(name, new ResourceLocation("minecraft", "item/generated"), ElementalCraft.createRL("item/" + name));
 				}
 			}

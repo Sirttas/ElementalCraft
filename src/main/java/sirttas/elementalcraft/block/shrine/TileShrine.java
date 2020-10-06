@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECTickable;
@@ -79,6 +80,11 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 				tick -= periode;
 			}
 		}
+	}
+
+
+	public Direction getUpgradeDirection() {
+		return Direction.DOWN;
 	}
 
 	public boolean isRunning() {

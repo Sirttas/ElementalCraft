@@ -28,7 +28,7 @@ public class ElementalCraft {
 	public static final String MODID = "elementalcraft";
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-	private IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> () -> new IProxy() {});
+	private IProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> () -> new IProxy() {});
 
 	public ElementalCraft() {
 		proxy.registerHandlers();
