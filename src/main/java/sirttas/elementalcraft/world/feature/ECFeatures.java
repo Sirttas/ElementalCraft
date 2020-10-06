@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.world.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
@@ -68,16 +63,6 @@ public class ECFeatures {
 				event.getGeneration().withStructure(sourceAltar);
 			}
 		}
-	}
-
-	public static void addFeature(GenerationStage.Decoration decoration, Biome biome, ConfiguredFeature<?, ?> feature) {
-		List<List<Supplier<ConfiguredFeature<?, ?>>>> features = biome.getGenerationSettings().getFeatures().stream().map(l -> l.stream().collect(Collectors.toList())).collect(Collectors.toList());
-
-		biome.getGenerationSettings().features = features;
-		while (features.size() <= decoration.ordinal()) {
-			features.add(new ArrayList<>());
-		}
-		features.get(decoration.ordinal()).add(() -> feature);
 	}
 
 

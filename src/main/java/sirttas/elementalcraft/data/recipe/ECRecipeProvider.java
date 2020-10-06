@@ -67,7 +67,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.key('c', ECItems.earthCrystal).patternLine("geg").patternLine("iti").patternLine("gcg").addCriterion("has_earthcrystal", hasItem(ECItems.earthCrystal)).build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECItems.airElementHolder).key('g', Items.GOLD_INGOT).key('e', ECBlocks.extractor).key('t', ECBlocks.tankSmall).key('i', ECItems.drenchedIronIngot)
 				.key('c', ECItems.airCrystal).patternLine("geg").patternLine("iti").patternLine("gcg").addCriterion("has_aircrystal", hasItem(ECItems.airCrystal)).build(consumer);
-		ShapedRecipeBuilder.shapedRecipe(ECItems.focus).key('d', Items.DIAMOND).key('c', ECItems.containedCrystal).key('s', Items.STICK).key('i', ECItems.swiftAlloyIngot).patternLine(" ic")
+		ShapedRecipeBuilder.shapedRecipe(ECItems.focus).key('d', Items.DIAMOND).key('c', ECItems.containedCrystal).key('s', ECItems.hardenedHandle).key('i', ECItems.swiftAlloyIngot).patternLine(" ic")
 				.patternLine(" si").patternLine("d  ").addCriterion(HAS_CONTAINEDCRYSTAL, hasItem(ECItems.containedCrystal)).build(consumer);
 
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.burntGlassPane, 16).key('#', ECBlocks.burntGlass).patternLine("###").patternLine("###").addCriterion("has_burnt_glass", hasItem(ECBlocks.burntGlass))
@@ -157,6 +157,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Tags.Items.DUSTS_REDSTONE).addIngredient(ECItems.airCrystal).withConsumption(10).withDuration(50).build(consumer);
 		BinderRecipeBuilder.binderRecipe(ECItems.fireiteIngot, ElementType.FIRE).addIngredient(ECItems.pureCrystal).addIngredient(Tags.Items.INGOTS_NETHERITE).withConsumption(200)
 				.build(consumer);
+		BinderRecipeBuilder.binderRecipe(ECItems.hardenedHandle, ElementType.EARTH).addIngredient(Items.STICK).addIngredient(ECBlocks.whiteRock).addIngredient(ECItems.earthCrystal).withConsumption(10)
+			.withDuration(50).build(consumer);
 
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.pureCrystal).setIngredient(Items.DIAMOND).setIngredient(ElementType.WATER, ECItems.waterCrystal)
 				.setIngredient(ElementType.FIRE, ECItems.fireCrystal).setIngredient(ElementType.EARTH, ECItems.earthCrystal).setIngredient(ElementType.AIR, ECItems.airCrystal).build(consumer);

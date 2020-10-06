@@ -9,6 +9,6 @@
 /src/generated/resources/.cache
 /.idea/
 /run-server/
-/Users/
-.factorypath
 /logs/
+/.factorypath
+/Users/
