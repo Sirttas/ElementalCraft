@@ -17,6 +17,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
+import sirttas.elementalcraft.block.shrine.BlockShrine;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class ECBlockTagsProvider extends BlockTagsProvider {
@@ -38,6 +39,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(BlockTags.FENCES).add(getBlocksForClass(FenceBlock.class));
 		getOrCreateBuilder(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(PaneBlock.class));
 		getOrCreateBuilder(ECTags.Blocks.PIPES).add(getBlocksForClass(BlockElementPipe.class));
+		getOrCreateBuilder(ECTags.Blocks.SHRINES).add(getBlocksForClass(BlockShrine.class));
 
 		getOrCreateBuilder(Tags.Blocks.ORES).add(ECBlocks.crystalOre);
 		getOrCreateBuilder(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT);

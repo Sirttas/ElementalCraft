@@ -1,3 +1,17 @@
+1.15.2-1.2.0:
+
+- updated forge to 31.1.45 for mixins
+- port mixins from 1.16 version
+	- you can now enchant infused items
+	- spell cooldown now display correctly
+	
+
+1.15.2-1.2.0 and 1.16.3-2.3.2:
+
+- added shrine tags
+- fix healing spell working only once
+
+
 1.15.2-1.1.16 and 1.16.23-2.3.1:
 
 - new item: Hardened Handle
