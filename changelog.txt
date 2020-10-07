@@ -1,3 +1,10 @@
+1.15.2-1.2.1 and 1.16.3-2.3.3:
+
+- stone Wall Can now replace replaceable blocks
+- fix a server crash related to spell
+- fix a bug where client wouldn't see pure ore when connected on a remote server
+
+
 1.15.2-1.2.0:
 
 - updated forge to 31.1.45 for mixins

@@ -34,7 +34,7 @@ public class SpellStoneWall extends Spell {
 	}
 
 	private void checkAndSpawn(World world, BlockPos pos) {
-		if (world.isAirBlock(pos)) {
+		if (world.getBlockState(pos).getMaterial().isReplaceable()) {
 			spawn(world, pos);
 		}
 	}
