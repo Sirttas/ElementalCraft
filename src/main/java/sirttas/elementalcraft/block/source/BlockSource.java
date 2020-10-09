@@ -32,7 +32,7 @@ public class BlockSource extends BlockEC {
 	public static final String NAME = "source";
 
 	public BlockSource() {
-		super(AbstractBlock.Properties.create(Material.AIR).hardnessAndResistance(-1.0F, 3600000.0F).notSolid().noDrops());
+		super(AbstractBlock.Properties.create(Material.AIR).hardnessAndResistance(-1.0F, 3600000.0F).notSolid().noDrops().setAir());
 		this.setDefaultState(this.stateContainer.getBaseState().with(ECProperties.ELEMENT_TYPE, ElementType.NONE));
 	}
 
