@@ -36,6 +36,12 @@ public class BlockSource extends BlockEC {
 	}
 
 	@Override
+	@Deprecated
+	public boolean isAir(BlockState state) {
+		return true;
+	}
+
+	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
 		container.add(ECProperties.ELEMENT_TYPE);
 	}

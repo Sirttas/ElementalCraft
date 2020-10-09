@@ -61,8 +61,10 @@ public class PureOreHelper {
 		return PURE_ORE_MAP.values().stream().distinct().map(o -> o.ore).distinct().collect(Collectors.toList());
 	}
 
+
 	public static List<PurifierRecipe> getRecipes() {
-		return PURE_ORE_MAP.keySet().stream().map(k -> new PurifierRecipe(new ItemStack(k))).collect(Collectors.toList());
+		return PURE_ORE_MAP.entrySet().stream().collect(Collectors.groupingBy(e -> e.getValue().result, Collectors.mapping(e -> new ItemStack(e.getKey()), Collectors.toList()))).values().stream()
+				.filter(e -> !e.isEmpty()).map(JEIPurifierRecipe::new).collect(Collectors.toList());
 	}
 
 	public static void generatePureOres(RecipeManager recipeManager) {
@@ -162,6 +164,16 @@ public class PureOreHelper {
 		protected PureOreCompoundIngredient(List<Ingredient> children) {
 			super(children);
 		}
+
+	}
+
+	private static class JEIPurifierRecipe extends PurifierRecipe {
+
+		public JEIPurifierRecipe(List<ItemStack> ores) {
+			super(ores.get(0));
+			input = Ingredient.fromStacks(ores.stream().toArray(ItemStack[]::new));
+		}
+
 
 	}
 
