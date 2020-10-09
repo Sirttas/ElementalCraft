@@ -17,7 +17,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	private final ResourceLocation id;
 	private final ItemStack ore;
-	private final Ingredient input;
+	protected Ingredient input;
 
 	public PurifierRecipe(ItemStack ore) {
 		ResourceLocation oreName = ore.getItem().getRegistryName();
@@ -39,7 +39,9 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	@Override
 	public boolean matches(TilePurifier inv) {
-		return inv.getTankElementType() == ElementType.EARTH && PureOreHelper.isValidOre(ore) && input.test(inv.getInventory().getStackInSlot(0));
+		ItemStack stack = inv.getInventory().getStackInSlot(0);
+
+		return inv.getTankElementType() == ElementType.EARTH && PureOreHelper.isValidOre(stack) && input.test(stack);
 	}
 
 	@Override

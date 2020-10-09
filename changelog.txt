@@ -1,3 +1,9 @@
+1.15.2-1.2.2 and 1.16.3-2.3.4:
+
+- purifier recipes are now correctly grouped on JEI
+- fix inconsistency in source behavior causing server crash(issue #4)
+
+
 1.15.2-1.2.1 and 1.16.3-2.3.3:
 
 - stone Wall Can now replace replaceable blocks
