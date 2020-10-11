@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.item.receptacle.ISourceInteractable;
+import sirttas.elementalcraft.material.ECMaterials;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -31,14 +31,8 @@ public class BlockSource extends BlockEC {
 	public static final String NAME = "source";
 
 	public BlockSource() {
-		super(Block.Properties.create(Material.STRUCTURE_VOID).hardnessAndResistance(-1.0F, 3600000.0F).notSolid().noDrops());
+		super(Block.Properties.create(ECMaterials.SOURCE).hardnessAndResistance(-1.0F, 3600000.0F).notSolid().noDrops());
 		this.setDefaultState(this.stateContainer.getBaseState().with(ECProperties.ELEMENT_TYPE, ElementType.NONE));
-	}
-
-	@Override
-	@Deprecated
-	public boolean isAir(BlockState state) {
-		return true;
 	}
 
 	@Override

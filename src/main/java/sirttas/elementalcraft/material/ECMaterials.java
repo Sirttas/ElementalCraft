@@ -2,6 +2,9 @@ package sirttas.elementalcraft.material;
 
 import java.util.function.Supplier;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IItemTier;
@@ -16,6 +19,8 @@ import sirttas.elementalcraft.item.ECItems;
 public class ECMaterials {
 
 	private static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 };
+
+	public static final Material SOURCE = new Material(MaterialColor.AIR, false, false, false, false, true, false, true, PushReaction.DESTROY);
 
 	public static final IItemTier TOOL_WATER = new ECItemTier(2, 250, 6.0F, 2.0F, 17, () -> Ingredient.fromItems(ECItems.waterCrystal));
 	public static final IItemTier TOOL_FIRE = new ECItemTier(2, 250, 6.0F, 3.0F, 14, () -> Ingredient.fromItems(ECItems.fireCrystal));
