@@ -1,16 +1,51 @@
 package sirttas.elementalcraft.particle;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public abstract class AbstractECParticle extends SpriteTexturedParticle {
 
 	protected final double coordX;
 	protected final double coordY;
 	protected final double coordZ;
 
+	@SuppressWarnings("deprecation")
+	static final IParticleRenderType EC_RENDER = new IParticleRenderType() {
+		@Override
+		public void beginRender(BufferBuilder buffer, TextureManager textureManager) {
+			RenderSystem.depthMask(false);
+			textureManager.bindTexture(AtlasTexture.LOCATION_PARTICLES_TEXTURE);
+			RenderSystem.enableBlend();
+			RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			RenderSystem.alphaFunc(516, 0.003921569F);
+			buffer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+		}
+
+		@Override
+		public void finishRender(Tessellator tessellator) {
+			tessellator.draw();
+			RenderSystem.depthMask(true);
+		}
+
+		@Override
+		public String toString() {
+			return "elementalcraft:renderer";
+		}
+	};
+	
 	public AbstractECParticle(ClientWorld world, Vector3d coord) {
 		super(world, coord.getX(), coord.getY(), coord.getZ());
 		this.coordX = coord.getX();
@@ -19,9 +54,11 @@ public abstract class AbstractECParticle extends SpriteTexturedParticle {
 	}
 
 
+
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public IParticleRenderType getRenderType() {
-		return ECParticles.EC_RENDER;
+		return EC_RENDER;
 	}
 
 	@Override

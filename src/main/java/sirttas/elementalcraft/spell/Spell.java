@@ -22,6 +22,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
 
 public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spell> {
@@ -102,7 +103,7 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 	protected boolean consume(Entity sender, IItemProvider item, int count) {
 		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
 			PlayerInventory inv = ((PlayerEntity) sender).inventory;
-			int slot = inv.getSlotFor(new ItemStack(item));
+			int slot = ECInventoryHelper.getSlotFor(inv, new ItemStack(item));
 
 			if (slot >= 0) {
 				ItemStack ret = inv.decrStackSize(slot, count);

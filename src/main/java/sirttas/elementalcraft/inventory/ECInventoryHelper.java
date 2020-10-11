@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -27,5 +28,21 @@ public class ECInventoryHelper {
 			}
 			return EmptyHandler.INSTANCE;
 		})).orElse(EmptyHandler.INSTANCE);
+	}
+
+	public static boolean stackEqualExact(ItemStack stack1, ItemStack stack2) {
+		return stack1.getItem() == stack2.getItem() && ItemStack.areItemStackTagsEqual(stack1, stack2);
+	}
+
+	public static int getSlotFor(IInventory inv, ItemStack stack) {
+		for (int i = 0; i < inv.getSizeInventory(); ++i) {
+			ItemStack current = inv.getStackInSlot(i);
+
+			if (!current.isEmpty() && stackEqualExact(stack, current)) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 }
