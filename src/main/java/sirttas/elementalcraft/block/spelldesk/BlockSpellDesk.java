@@ -118,7 +118,7 @@ public class BlockSpellDesk extends BlockEC {
 			if (!world.isRemote()) {
 				world.addEntity(new ItemEntity(world, position.getX(), position.getY(), position.getZ(), scroll));
 			} else {
-				ParticleHelper.createCraftingParticle(type, world, Vector3d.copy(pos), rand);
+				ParticleHelper.createCraftingParticle(type, world, Vector3d.copy(pos).add(0, 0.7, 0), rand);
 			}
 		} else {
 			world.playSound(position.getX(), position.getY(), position.getZ(), SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.BLOCKS, 0.8F, 0.8F + rand.nextFloat() * 0.4F, false);

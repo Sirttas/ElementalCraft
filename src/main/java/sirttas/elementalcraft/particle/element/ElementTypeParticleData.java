@@ -7,17 +7,15 @@ import com.mojang.serialization.Codec;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 
-@OnlyIn(Dist.CLIENT)
 public class ElementTypeParticleData implements IParticleData {
 
 	private ElementType elementType;
 	private ParticleType<ElementTypeParticleData> type;
 
 
+	@SuppressWarnings("deprecation")
 	public static final IParticleData.IDeserializer<ElementTypeParticleData> DESERIALIZER = new IParticleData.IDeserializer<ElementTypeParticleData>() {
 		@Override
 		public ElementTypeParticleData deserialize(ParticleType<ElementTypeParticleData> type, StringReader reader) throws CommandSyntaxException {
@@ -59,8 +57,8 @@ public class ElementTypeParticleData implements IParticleData {
 		return ElementType.CODEC.xmap(e -> new ElementTypeParticleData(particleType, e), ElementTypeParticleData::getElementType);
 	}
 
-	public static ParticleType<ElementTypeParticleData> createParticeLtype() {
-		return new ParticleType<ElementTypeParticleData>(false, DESERIALIZER) {
+	public static ParticleType<ElementTypeParticleData> createParticeLtype(boolean alwaysShow) {
+		return new ParticleType<ElementTypeParticleData>(alwaysShow, DESERIALIZER) {
 			@Override
 			public Codec<ElementTypeParticleData> func_230522_e_() {
 				return getCodec(this);

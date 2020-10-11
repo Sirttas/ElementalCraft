@@ -19,7 +19,7 @@ public enum ElementType implements IStringSerializable {
 
 	NONE(0, 0, 0, "none"), WATER(43, 173, 255, "water"), FIRE(247, 107, 27, "fire"), EARTH(76, 133, 102, "earth"), AIR(238, 255, 219, "air");
 
-	public static final Codec<ElementType> CODEC = new PrimitiveCodec<ElementType>(){
+	public static final Codec<ElementType> CODEC = new PrimitiveCodec<ElementType>() {
 
 		@Override
 		public <T> DataResult<ElementType> read(final DynamicOps<T> ops, final T input) {

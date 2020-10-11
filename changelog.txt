@@ -1,3 +1,12 @@
+1.15.2-1.2.3 and 1.16.3-2.3.5:
+
+- sources are no longer considered as air
+- fix a crash while casting stone wall or gravel fall while on a dedicated server
+- fix a network error with sources
+- fix particle not showing while on a dedicated server
+- fix spell desk particle effect
+
+
 1.15.2-1.2.2 and 1.16.3-2.3.4:
 
 - purifier recipes are now correctly grouped on JEI

@@ -5,18 +5,15 @@ import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.particle.AbstractECParticle;
+import sirttas.elementalcraft.particle.ECParticles;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleElementFlow extends AbstractECParticle {
-
-	public static final String NAME = "elementflow";
-	public static final ParticleType<ElementTypeParticleData> TYPE = ElementTypeParticleData.createParticeLtype();
 
 	private ParticleElementFlow(ClientWorld worldIn, Vector3d coord, Vector3d speed, IAnimatedSprite sprite, ElementType type) {
 		super(worldIn, coord);
@@ -56,10 +53,9 @@ public class ParticleElementFlow extends AbstractECParticle {
 	}
 
 	public static IParticleData createData(ElementType elementType) {
-		return new ElementTypeParticleData(TYPE, elementType);
+		return new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, elementType);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static class Factory implements IParticleFactory<ElementTypeParticleData> {
 		private final IAnimatedSprite spriteSet;
 
