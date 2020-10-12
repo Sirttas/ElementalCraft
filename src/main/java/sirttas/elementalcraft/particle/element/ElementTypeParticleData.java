@@ -15,7 +15,6 @@ public class ElementTypeParticleData implements IParticleData {
 	private ParticleType<ElementTypeParticleData> type;
 
 
-	@SuppressWarnings("deprecation")
 	public static final IParticleData.IDeserializer<ElementTypeParticleData> DESERIALIZER = new IParticleData.IDeserializer<ElementTypeParticleData>() {
 		@Override
 		public ElementTypeParticleData deserialize(ParticleType<ElementTypeParticleData> type, StringReader reader) throws CommandSyntaxException {

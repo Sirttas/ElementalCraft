@@ -56,16 +56,16 @@ public class BlockTank extends AbstractBlockTank {
 		VoxelShape shape = SHAPE;
 		
 		if (Boolean.TRUE.equals(state.get(NORTH))) {
-			VoxelShapes.or(shape, CONNECTOR_NORTH);
+			shape = VoxelShapes.or(shape, CONNECTOR_NORTH);
 		}
 		if (Boolean.TRUE.equals(state.get(SOUTH))) {
-			VoxelShapes.or(shape, CONNECTOR_SOUTH);
+			shape = VoxelShapes.or(shape, CONNECTOR_SOUTH);
 		}
 		if (Boolean.TRUE.equals(state.get(EAST))) {
-			VoxelShapes.or(shape, CONNECTOR_EAST);
+			shape = VoxelShapes.or(shape, CONNECTOR_EAST);
 		}
 		if (Boolean.TRUE.equals(state.get(WEST))) {
-			VoxelShapes.or(shape, CONNECTOR_WEST);
+			shape = VoxelShapes.or(shape, CONNECTOR_WEST);
 		}
 		return shape;
 	}

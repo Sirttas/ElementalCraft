@@ -5,6 +5,7 @@ import sirttas.elementalcraft.ElementalCraft;
 public class ECNames {
 	public static final String EC_NBT = ElementalCraft.MODID;
 	public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
+	public static final String HAS_BOOK = "has_elementopedia";
 
 	public static final String ELEMENT_TYPE = "element_type";
 	public static final String ELEMENT_AMOUNT = "element_amount";

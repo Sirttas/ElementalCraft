@@ -63,6 +63,7 @@ public class ECConfig {
 	public final IntValue elementHolderMaxAmount;
 	public final IntValue elementHolderTransferAmount;
 	public final IntValue focusMaxSpell;
+	public final BooleanValue playersSpawnWithBook;
 
 	public final BooleanValue disableWorldGen;
 	public final IntValue sourceSpawnChance;
@@ -181,6 +182,7 @@ public class ECConfig {
 		elementHolderMaxAmount = builder.comment("The max element amount an element holder can hold.").defineInRange("elementHolderMaxAmount", 10000, 0, 100000000);
 		elementHolderTransferAmount = builder.comment("The amount of element transfered by an element holder.").defineInRange("elementHolderTransferAmount", 25, 0, 1000);
 		focusMaxSpell = builder.comment("The max number of spells on a focus.").defineInRange("focusMaxSpell", 10, 1, 20);
+		playersSpawnWithBook = builder.comment("Players start the game with an elementopedia in their inventory.").define("playersSpawnWithBook", true);
 
 		builder.pop().comment("Worldgen config").push("worldgen");
 		disableWorldGen = builder.comment("Disable all elementalcraft world gen.").define("disableWorldGen", false);
