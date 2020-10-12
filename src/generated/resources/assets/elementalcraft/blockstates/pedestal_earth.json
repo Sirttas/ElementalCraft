@@ -1,7 +1,44 @@
 {
-  "variants": {
-    "": {
-      "model": "elementalcraft:block/pedestal_earth"
+  "multipart": [
+    {
+      "apply": {
+        "model": "elementalcraft:block/pedestal_earth"
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/pedestal_connector"
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/pedestal_connector",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/pedestal_connector",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/pedestal_connector",
+        "y": 270
+      }
     }
-  }
+  ]
 }

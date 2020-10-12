@@ -5,6 +5,10 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -16,6 +20,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,12 +28,18 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockECContainer;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 public class BlockPedestal extends BlockECContainer {
 
 	private static final VoxelShape BASE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
 	private static final VoxelShape BASE_2 = Block.makeCuboidShape(2D, 3D, 2D, 14D, 9D, 14D);
 	private static final VoxelShape BASE_3 = Block.makeCuboidShape(0D, 9D, 0D, 16D, 12D, 16D);
+
+	private static final VoxelShape CONNECTOR_NORTH = Block.makeCuboidShape(7D, 7D, 0D, 9D, 9D, 2D);
+	private static final VoxelShape CONNECTOR_SOUTH = Block.makeCuboidShape(7D, 7D, 14D, 9D, 9D, 16D);
+	private static final VoxelShape CONNECTOR_WEST = Block.makeCuboidShape(0D, 7D, 7D, 2D, 9D, 9D);
+	private static final VoxelShape CONNECTOR_EAST = Block.makeCuboidShape(14D, 7D, 7D, 16D, 9D, 9D);
 
 	private static final VoxelShape BASE = VoxelShapes.or(BASE_1, BASE_2, BASE_3);
 	private static final VoxelShape AIR = VoxelShapes.or(Block.makeCuboidShape(5D, 0D, 5D, 11D, 3D, 11D), BASE_2, BASE_3);
@@ -40,10 +51,16 @@ public class BlockPedestal extends BlockECContainer {
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
 
+	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
+	public static final BooleanProperty EAST = BlockStateProperties.EAST;
+	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
+	public static final BooleanProperty WEST = BlockStateProperties.WEST;
+
 	private ElementType elementType;
 
 	public BlockPedestal(ElementType type) {
 		elementType = type;
+		this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
 	}
 
 	@Override
@@ -68,6 +85,24 @@ public class BlockPedestal extends BlockECContainer {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		VoxelShape shape = getBaseShape();
+
+		if (Boolean.TRUE.equals(state.get(NORTH))) {
+			shape = VoxelShapes.or(shape, CONNECTOR_NORTH);
+		}
+		if (Boolean.TRUE.equals(state.get(SOUTH))) {
+			shape = VoxelShapes.or(shape, CONNECTOR_SOUTH);
+		}
+		if (Boolean.TRUE.equals(state.get(EAST))) {
+			shape = VoxelShapes.or(shape, CONNECTOR_EAST);
+		}
+		if (Boolean.TRUE.equals(state.get(WEST))) {
+			shape = VoxelShapes.or(shape, CONNECTOR_WEST);
+		}
+		return shape;
+	}
+
+	private VoxelShape getBaseShape() {
 		if (elementType == ElementType.AIR) {
 			return AIR;
 		} else if (elementType == ElementType.EARTH) {
@@ -78,5 +113,43 @@ public class BlockPedestal extends BlockECContainer {
 
 	public ElementType getElementType() {
 		return elementType;
+	}
+	
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+		container.add(NORTH, SOUTH, EAST, WEST);
+	}
+
+	private boolean isConnected(IWorld worldIn, BlockPos pos, Direction facing, BooleanProperty opposite) {
+		BlockState state = worldIn.getBlockState(pos.offset(facing));
+		
+		return ECTags.Blocks.PIPES.contains(state.getBlock()) && Boolean.TRUE.equals(state.get(opposite));
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState()
+				.with(NORTH, isConnected(context.getWorld(), context.getPos(), Direction.NORTH, SOUTH))
+				.with(SOUTH, isConnected(context.getWorld(), context.getPos(), Direction.SOUTH, NORTH))
+				.with(EAST, isConnected(context.getWorld(), context.getPos(), Direction.EAST, EAST))
+				.with(WEST, isConnected(context.getWorld(), context.getPos(), Direction.WEST, WEST));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		switch (facing) {
+		case NORTH:
+			return stateIn.with(NORTH, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(SOUTH)));
+		case SOUTH:
+			return stateIn.with(SOUTH, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(NORTH)));
+		case EAST:
+			return stateIn.with(EAST, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(WEST)));
+		case WEST:
+			return stateIn.with(WEST, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(EAST)));
+		default:
+			break;
+		}
+		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 }

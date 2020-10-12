@@ -51,9 +51,13 @@ public class PureOreHandler {
 			ElementalCraft.LOGGER.info("JEI loaded before pure ore generation, atempting to reload JEI");
 			IResourceManager manager = Minecraft.getInstance().getResourceManager();
 
-			Optional.ofNullable(manager).filter(SimpleReloadableResourceManager.class::isInstance).map(SimpleReloadableResourceManager.class::cast).map(r -> r.reloadListeners.stream())
-					.orElse(Stream.empty()).filter(r -> "JeiReloadListener".equals(r.getClass().getSimpleName())).map(ISelectiveResourceReloadListener.class::cast) // NOSONAR
-					.forEach(r -> r.onResourceManagerReload(manager, t -> true));
+			try {
+				Optional.ofNullable(manager).filter(SimpleReloadableResourceManager.class::isInstance).map(SimpleReloadableResourceManager.class::cast).map(r -> r.reloadListeners.stream())
+						.orElse(Stream.empty()).filter(r -> "JeiReloadListener".equals(r.getClass().getSimpleName())).map(ISelectiveResourceReloadListener.class::cast) // NOSONAR
+						.forEach(r -> r.onResourceManagerReload(manager, t -> true));
+			} catch (Exception e) {
+				ElementalCraft.LOGGER.error("Error while reloading JEI", e);
+			}
 		}
 		recipeManager = null;
 		recipesReceived = false;

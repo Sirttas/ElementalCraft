@@ -4,10 +4,10 @@
   "consumption": 200,
   "ingredients": [
     {
-      "item": "elementalcraft:purecrystal"
+      "tag": "forge:ingots/netherite"
     },
     {
-      "tag": "forge:ingots/netherite"
+      "item": "elementalcraft:purecrystal"
     }
   ],
   "output": "elementalcraft:fireite_ingot"

@@ -14,9 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.particle.element.ParticleElementCrafting;
-import sirttas.elementalcraft.particle.element.ParticleElementFlow;
-import sirttas.elementalcraft.particle.element.ParticleSource;
+import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleHelper {
@@ -25,7 +23,7 @@ public class ParticleHelper {
 		double y = pos.getY() + 5 * BlockEC.BIT_SIZE;
 		double z = pos.getZ() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;
 
-		world.addParticle(ParticleSource.createData(type), x, y, z, 0F, 0F, 0F);
+		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE, type), x, y, z, 0F, 0F, 0F);
 	}
 
 	public static void createCraftingParticle(ElementType type, World world, Vector3d pos, Random rand) {
@@ -33,7 +31,8 @@ public class ParticleHelper {
 		double y = pos.getY() + 5 * BlockEC.BIT_SIZE;
 		double z = pos.getZ() + (7 + rand.nextDouble() * 2) * BlockEC.BIT_SIZE;
 
-		IntStream.range(0, 8 + rand.nextInt(5)).forEach(i -> world.addParticle(ParticleElementCrafting.createData(type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
+		IntStream.range(0, 8 + rand.nextInt(5))
+				.forEach(i -> world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING, type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
 	}
 
 	public static void createElementFlowParticle(ElementType type, World world, Vector3d pos, Direction direction, int scale, Random rand) {
@@ -42,7 +41,7 @@ public class ParticleHelper {
 		double z = pos.getZ() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
 		Vector3d flow = Vector3d.copy(direction.getOpposite().getDirectionVec()).scale(scale == 0 ? 1 : scale);
 
-		world.addParticle(ParticleElementFlow.createData(type), x, y, z, flow.getX(), flow.getY(), flow.getZ());
+		world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, type), x, y, z, flow.getX(), flow.getY(), flow.getZ());
 	}
 
 	public static void createEnderParticle(World world, Vector3d pos, int count, Random rand) {

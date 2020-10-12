@@ -22,6 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
+import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
@@ -75,15 +76,10 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(side).rotationY(90).addModel().condition(BlockOverloadShrine.FACING, Direction.EAST).end()
 				.part().modelFile(side).rotationY(180).addModel().condition(BlockOverloadShrine.FACING, Direction.SOUTH).end()
 				.part().modelFile(side).rotationY(270).addModel().condition(BlockOverloadShrine.FACING, Direction.WEST).end();
-		}  else if (block instanceof BlockTank) {
-			ModelFile base = models().getExistingFile(prefix(name));
-			ModelFile connector = models().getExistingFile(prefix(name + "_connector"));
-
-			getMultipartBuilder(block).part().modelFile(base).addModel().end()
-				.part().modelFile(connector).addModel().condition(BlockTank.NORTH, true).end()
-				.part().modelFile(connector).rotationY(90).addModel().condition(BlockTank.EAST, true).end()
-				.part().modelFile(connector).rotationY(180).addModel().condition(BlockTank.SOUTH, true).end()
-				.part().modelFile(connector).rotationY(270).addModel().condition(BlockTank.WEST, true).end();
+		} else if (block instanceof BlockTank) {
+			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix(name + "_connector")));
+		} else if (block instanceof BlockPedestal) {
+			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
 		} else if (block instanceof BlockRetriever) {
 			ModelFile core = models().getExistingFile(prefix(name + "_core"));
 			ModelFile source = models().getExistingFile(prefix(name + "_source"));
@@ -126,6 +122,14 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		} else {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
 		}
+	}
+
+	private void tankPedestalBlock(Block block, ModelFile base, ModelFile connector) {
+		getMultipartBuilder(block).part().modelFile(base).addModel().end()
+			.part().modelFile(connector).addModel().condition(BlockTank.NORTH, true).end()
+			.part().modelFile(connector).rotationY(90).addModel().condition(BlockTank.EAST, true).end()
+			.part().modelFile(connector).rotationY(180).addModel().condition(BlockTank.SOUTH, true).end()
+			.part().modelFile(connector).rotationY(270).addModel().condition(BlockTank.WEST, true).end();
 	}
 
 	@Nonnull

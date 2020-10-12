@@ -11,6 +11,7 @@
     }
   },
   "result": {
-    "item": "elementalcraft:purerock_stairs"
+    "item": "elementalcraft:purerock_stairs",
+    "count": 4
   }
 }
