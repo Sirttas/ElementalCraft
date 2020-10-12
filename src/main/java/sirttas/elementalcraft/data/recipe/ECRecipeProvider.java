@@ -105,15 +105,17 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareInstrumentRecipe(ECBlocks.elementPipe, ECItems.containedCrystal, 4).key('i', ECItems.drenchedIronIngot).patternLine("ici").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.improvedElementPipe, ECItems.containedCrystal, 4).key('i', ECItems.swiftAlloyIngot).patternLine("ici").build(consumer);
 		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.elementPipe).addIngredient(ECBlocks.impairedElementPipe).addIngredient(ECItems.drenchedIronNugget, 5)
-				.addCriterion(HAS_DRENCHED_IRON_NUGGET, hasItem(ECItems.drenchedIronNugget))
-				.build(consumer, ElementalCraft.createRL("elementpipe_from_impaired_elementpipe_and_nugget"));
+				.addCriterion(HAS_DRENCHED_IRON_NUGGET, hasItem(ECItems.drenchedIronNugget)).build(consumer, ElementalCraft.createRL("elementpipe_from_impaired_elementpipe_and_nugget"));
 		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.elementPipe, 4).addIngredient(ECBlocks.impairedElementPipe, 4).addIngredient(ECItems.drenchedIronIngot, 2)
-				.addCriterion(HAS_DRENCHED_IRON_INGOT, hasItem(ECItems.drenchedIronIngot))
-				.build(consumer, ElementalCraft.createRL("elementpipe_from_impaired_elementpipe_and_ingot"));
+				.addCriterion(HAS_DRENCHED_IRON_INGOT, hasItem(ECItems.drenchedIronIngot)).build(consumer, ElementalCraft.createRL("elementpipe_from_impaired_elementpipe_and_ingot"));
 		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.improvedElementPipe).addIngredient(ECBlocks.elementPipe).addIngredient(ECItems.swiftAlloyNugget, 5)
 				.addCriterion(HAS_SWIFT_IRON_NUGGET, hasItem(ECItems.swiftAlloyNugget)).build(consumer, ElementalCraft.createRL("improved_elementpipe_from_elementpipe_and_nugget"));
 		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.improvedElementPipe, 4).addIngredient(ECBlocks.elementPipe, 4).addIngredient(ECItems.swiftAlloyIngot, 2)
 				.addCriterion(HAS_SWIFT_IRON_INGOT, hasItem(ECItems.swiftAlloyIngot)).build(consumer, ElementalCraft.createRL("improved_elementpipe_from_elementpipe_and_ingot"));
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.improvedElementPipe).addIngredient(ECBlocks.impairedElementPipe).addIngredient(ECItems.swiftAlloyNugget, 5)
+				.addCriterion(HAS_SWIFT_IRON_NUGGET, hasItem(ECItems.swiftAlloyNugget)).build(consumer, ElementalCraft.createRL("improved_elementpipe_from_impaired_elementpipe_and_nugget"));
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.improvedElementPipe, 4).addIngredient(ECBlocks.impairedElementPipe, 4).addIngredient(ECItems.swiftAlloyIngot, 2)
+				.addCriterion(HAS_SWIFT_IRON_INGOT, hasItem(ECItems.swiftAlloyIngot)).build(consumer, ElementalCraft.createRL("improved_elementpipe_from_impaired_elementpipe_and_ingot"));
 
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.fromItems(ECItems.inertCrystal), ECItems.fireCrystal, ElementType.FIRE).build(consumer);
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.fromItems(ECItems.inertCrystal), ECItems.waterCrystal, ElementType.WATER).build(consumer);
@@ -179,7 +181,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				String name = block.getRegistryName().getPath();
 				String sourceName = name.substring(0, name.length() - (block instanceof StairsBlock ? 7 : 5));
 				IItemProvider source = ForgeRegistries.ITEMS.getValue(ElementalCraft.createRL(sourceName));
-				ShapedRecipeBuilder shaped = ShapedRecipeBuilder.shapedRecipe(block).key('#', source);
+				ShapedRecipeBuilder shaped = ShapedRecipeBuilder.shapedRecipe(block, block instanceof StairsBlock ? 4 : 6).key('#', source);
 
 				if (block instanceof SlabBlock) {
 					shaped.patternLine("###");

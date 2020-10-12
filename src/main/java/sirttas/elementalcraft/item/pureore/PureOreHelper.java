@@ -28,6 +28,7 @@ import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.ECNames;
@@ -63,7 +64,7 @@ public class PureOreHelper {
 
 
 	public static List<PurifierRecipe> getRecipes() {
-		return PURE_ORE_MAP.entrySet().stream().collect(Collectors.groupingBy(e -> e.getValue().result, Collectors.mapping(e -> new ItemStack(e.getKey()), Collectors.toList()))).values().stream()
+		return PURE_ORE_MAP.entrySet().stream().collect(Collectors.groupingBy(e -> e.getValue().ore, Collectors.mapping(e -> new ItemStack(e.getKey()), Collectors.toList()))).values().stream()
 				.filter(e -> !e.isEmpty()).map(JEIPurifierRecipe::new).collect(Collectors.toList());
 	}
 
@@ -121,7 +122,7 @@ public class PureOreHelper {
 
 	private static Entry addOre(Item item, AbstractCookingRecipe recipe) {
 		for (Entry entry : PURE_ORE_MAP.values()) {
-			if (entry.result.isItemEqual(recipe.getRecipeOutput()) || entry.smeltingRecipe.getIngredients().get(0).test(new ItemStack(item))) {
+			if (ECInventoryHelper.stackEqualCount(entry.result, recipe.getRecipeOutput()) || entry.smeltingRecipe.getIngredients().get(0).test(new ItemStack(item))) {
 				PURE_ORE_MAP.put(item, entry);
 				entry.ingredients.add(new PureOreIngredient(createPureOre(item)));
 				return entry;

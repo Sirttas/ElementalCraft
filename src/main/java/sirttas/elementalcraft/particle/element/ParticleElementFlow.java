@@ -3,14 +3,12 @@ package sirttas.elementalcraft.particle.element;
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.particle.AbstractECParticle;
-import sirttas.elementalcraft.particle.ECParticles;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleElementFlow extends AbstractECParticle {
@@ -51,10 +49,6 @@ public class ParticleElementFlow extends AbstractECParticle {
 			this.posY = this.coordY + this.motionY * f;
 			this.posZ = this.coordZ + this.motionZ * f;
 		}
-	}
-
-	public static IParticleData createData(ElementType elementType) {
-		return new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, elementType);
 	}
 
 	public static class Factory implements IParticleFactory<ElementTypeParticleData> {

@@ -31,7 +31,11 @@ public class ECInventoryHelper {
 	}
 
 	public static boolean stackEqualExact(ItemStack stack1, ItemStack stack2) {
-		return stack1.getItem() == stack2.getItem() && ItemStack.areItemStackTagsEqual(stack1, stack2);
+		return ItemStack.areItemsEqual(stack1, stack2) && ItemStack.areItemStackTagsEqual(stack1, stack2);
+	}
+
+	public static boolean stackEqualCount(ItemStack stack1, ItemStack stack2) {
+		return ItemStack.areItemsEqual(stack1, stack2) && stack1.getCount() == stack2.getCount();
 	}
 
 	public static int getSlotFor(IInventory inv, ItemStack stack) {

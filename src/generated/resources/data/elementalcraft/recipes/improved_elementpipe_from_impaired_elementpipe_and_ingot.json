@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:elementpipe_impaired"
+    },
+    {
+      "item": "elementalcraft:elementpipe_impaired"
+    },
+    {
+      "item": "elementalcraft:elementpipe_impaired"
+    },
+    {
+      "item": "elementalcraft:elementpipe_impaired"
+    },
+    {
+      "item": "elementalcraft:swift_alloy_ingot"
+    },
+    {
+      "item": "elementalcraft:swift_alloy_ingot"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:elementpipe_improved",
+    "count": 4
+  }
+}

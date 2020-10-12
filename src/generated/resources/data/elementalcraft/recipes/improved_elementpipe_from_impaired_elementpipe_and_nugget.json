@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:elementpipe_impaired"
+    },
+    {
+      "item": "elementalcraft:swift_alloy_nugget"
+    },
+    {
+      "item": "elementalcraft:swift_alloy_nugget"
+    },
+    {
+      "item": "elementalcraft:swift_alloy_nugget"
+    },
+    {
+      "item": "elementalcraft:swift_alloy_nugget"
+    },
+    {
+      "item": "elementalcraft:swift_alloy_nugget"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:elementpipe_improved"
+  }
+}

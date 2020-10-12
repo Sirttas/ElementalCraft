@@ -1,7 +1,15 @@
+1.15.2-1.2.4 and 1.16.3-2.3.6:
+
+- player now get an Elementopedia when they first login (can be turned of with playersSpawnWithBook config)
+- pedestals now correctly connect to pipes
+- fix slab, stairs and wall recipes
+- fix a bug where pure ores would be matched based on result even though they had different result amount
+
+
 1.15.2-1.2.3 and 1.16.3-2.3.5:
 
 - sources are no longer considered as air
-- fix a crash while casting stone wall or gravel fall while on a dedicated server
+- fix a crash while casting stone wall or gravel fall while on a dedicated server (issue #5)
 - fix a network error with sources
 - fix particle not showing while on a dedicated server
 - fix spell desk particle effect
@@ -15,7 +23,7 @@
 
 1.15.2-1.2.1 and 1.16.3-2.3.3:
 
-- stone Wall Can now replace replaceable blocks
+- stone wall can now replace replaceable blocks
 - fix a server crash related to spell
 - fix a bug where client wouldn't see pure ore when connected on a remote server
 
