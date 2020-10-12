@@ -69,7 +69,7 @@ public class EntityHandler {
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		PlayerEntity player = event.getPlayer();
 
-		if (Boolean.TRUE.equals(ECConfig.CONFIG.playersSpawnWithBook.get()) || !event.getEntityLiving().getEntityWorld().isRemote) {
+		if (Boolean.TRUE.equals(ECConfig.CONFIG.playersSpawnWithBook.get()) && !event.getEntityLiving().getEntityWorld().isRemote) {
 			CompoundNBT tag = player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {

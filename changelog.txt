@@ -1,3 +1,8 @@
+1.15.2-1.2.5 and 1.16.3-2.3.7:
+
+- fix playersSpawnWithBook config
+
+
 1.15.2-1.2.4 and 1.16.3-2.3.6:
 
 - player now get an Elementopedia when they first login (can be turned of with playersSpawnWithBook config)
