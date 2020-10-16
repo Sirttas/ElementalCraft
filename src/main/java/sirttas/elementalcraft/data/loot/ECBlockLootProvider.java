@@ -73,7 +73,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 			}
 		}
 
-		functionTable.put(ECBlocks.crystalOre, i -> genOre(ECItems.inertCrystal));
+		functionTable.put(ECBlocks.crystalOre, i -> genOre(i, ECItems.inertCrystal));
 		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
 		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
 		functionTable.put(ECBlocks.burntGlass, ECBlockLootProvider::genOnlySilkTouch);
@@ -123,10 +123,10 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 						.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(item)));
 	}
 
-	private static Builder genOre(IItemProvider item) {
+	private static Builder genOre(IItemProvider ore, IItemProvider item) {
 		return LootTable.builder()
 				.addLootPool(LootPool.builder().name("main").rolls(ConstantRange.of(1))
-						.addEntry(ItemLootEntry.builder(item)
+						.addEntry(ItemLootEntry.builder(ore)
 								.acceptCondition(MatchTool.builder(ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
 								.alternatively(ItemLootEntry.builder(item).acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE)).acceptFunction(ExplosionDecay.builder()))));
 	}
