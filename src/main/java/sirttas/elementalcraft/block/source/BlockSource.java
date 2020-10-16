@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.state.StateContainer;
@@ -73,6 +74,12 @@ public class BlockSource extends BlockEC {
 		if (state.get(ECProperties.ELEMENT_TYPE) == ElementType.NONE) {
 			worldIn.setBlockState(pos, state.with(ECProperties.ELEMENT_TYPE, ElementType.random()));
 		}
+	}
+
+	@Override
+	@Deprecated
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.INVISIBLE;
 	}
 
 	@Override

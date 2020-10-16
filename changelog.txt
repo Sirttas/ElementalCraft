@@ -1,3 +1,9 @@
+1.15.2-1.2.6 and 1.16.3-2.3.8:
+
+- fix inert crystal ore silk touch not working
+- fix a crash while punching a source
+
+
 1.15.2-1.2.5 and 1.16.3-2.3.7:
 
 - fix playersSpawnWithBook config
