@@ -4,6 +4,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,7 +13,6 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.ElementalCraft;
@@ -45,22 +45,22 @@ public class EntityHandler {
 		lastJump = player.movementInput.jump || player.onGround;
 	}
 
+	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void onLivingUpdate(LivingUpdateEvent event) {
 		LivingEntity entity = event.getEntityLiving();
 
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			if (entity instanceof ClientPlayerEntity) {
+		if (!entity.getItemStackFromSlot(EquipmentSlotType.CHEST).canElytraFly(entity)) {
+			if (entity.getEntityWorld().isRemote && entity instanceof ClientPlayerEntity) {
 				clientAirInfusionFly((ClientPlayerEntity) event.getEntityLiving());
-			}
-		});
-		if (entity instanceof ServerPlayerEntity) {
-			ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
-
-			if (player.isElytraFlying() && InfusionHelper.canAirInfusionFly(player)) {
-				player.startFallFlying();
-			} else {
-				player.stopFallFlying();
+			} else if (entity instanceof ServerPlayerEntity) {
+				ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
+	
+				if (player.isElytraFlying() && InfusionHelper.canAirInfusionFly(player)) {
+					player.startFallFlying();
+				} else {
+					player.stopFallFlying();
+				}
 			}
 		}
 	}
