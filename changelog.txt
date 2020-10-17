@@ -1,3 +1,10 @@
+1.15.2-1.2.7 and 1.16.3-2.3.9:
+
+- new spell: silk vein
+- check if a stack can be added to a purifier inventory
+- fix a bug preventing player to use elytras
+
+
 1.15.2-1.2.6 and 1.16.3-2.3.8:
 
 - fix inert crystal ore silk touch not working

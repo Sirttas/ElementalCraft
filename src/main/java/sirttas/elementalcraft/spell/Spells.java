@@ -18,6 +18,7 @@ import sirttas.elementalcraft.spell.air.SpellDash;
 import sirttas.elementalcraft.spell.air.SpellEnderStrike;
 import sirttas.elementalcraft.spell.air.SpellItemPull;
 import sirttas.elementalcraft.spell.earth.SpellGavelFall;
+import sirttas.elementalcraft.spell.earth.SpellSilkVein;
 import sirttas.elementalcraft.spell.earth.SpellStoneWall;
 import sirttas.elementalcraft.spell.earth.SpellTreeFall;
 import sirttas.elementalcraft.spell.fire.SpellFireBall;
@@ -48,6 +49,7 @@ public class Spells {
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static SpellFlameCleave flameCleave;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellInferno.NAME) public static SpellInferno inferno;
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellDash.NAME) public static SpellDash dash;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellSilkVein.NAME) public static SpellSilkVein silkVein;
 
 	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
 
@@ -79,6 +81,7 @@ public class Spells {
 		RegistryHelper.register(registry, new SpellFlameCleave(), SpellFlameCleave.NAME);
 		RegistryHelper.register(registry, new SpellInferno(), SpellInferno.NAME);
 		RegistryHelper.register(registry, new SpellDash(), SpellDash.NAME);
+		RegistryHelper.register(registry, new SpellSilkVein(), SpellSilkVein.NAME);
 
 		RegistryHelper.register(registry, new EffectSpell(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER)
 				.cooldown(ECConfig.CONFIG.healCooldown.get()).consumeAmount(ECConfig.CONFIG.healConsumeAmount.get()), new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");

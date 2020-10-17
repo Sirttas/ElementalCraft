@@ -103,6 +103,7 @@
   "spell.elementalcraft.flame_cleave": "Flame Cleave",
   "spell.elementalcraft.inferno": "Inferno",
   "spell.elementalcraft.dash": "Dash",
+  "spell.elementalcraft.silk_vein": "Silk Vein",
   
   "spell.elementalcraft.heal": "Healing",
 
@@ -190,5 +191,6 @@
   "elementalcraft.page.ripening0": "Fully mature targeted $(thing)crops$().$(br)Consumes $(thing)water$().",
   "elementalcraft.page.flame_cleave0": "Hit all $(thing)entities$() around you with a burnig circular attack.$(br)Consumes $(thing)fire$().",
   "elementalcraft.page.inferno0": "Breath fire in front of you dealing damage to all the $(thing)entities$() in a cone.$(br)Consumes $(thing)fire$().",
-  "elementalcraft.page.dash0": "Dash in targeted direction.$(br)Consumes $(thing)air$()."
+  "elementalcraft.page.dash0": "Dash in targeted direction.$(br)Consumes $(thing)air$().",
+  "elementalcraft.page.silk_vein0": "Mine a whole $(thing)ore vein$() with silk touch.$(br)Consumes $(thing)earth$()."
 }
