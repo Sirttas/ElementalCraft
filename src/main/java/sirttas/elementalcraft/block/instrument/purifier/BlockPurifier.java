@@ -30,6 +30,7 @@ import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.BlockECContainer;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockPurifier extends BlockECContainer {
@@ -85,12 +86,14 @@ public class BlockPurifier extends BlockECContainer {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TilePurifier purifier = (TilePurifier) world.getTileEntity(pos);
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		ItemStack held = player.getHeldItem(hand);
 
 		if (purifier != null) {
 			if (!purifier.getInventory().getStackInSlot(1).isEmpty()) {
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
+			} else if (PureOreHelper.isValidOre(held)) {
+				return this.onSlotActivated(inv, player, held, 0);
 			}
-			return this.onSlotActivated(inv, player, player.getHeldItem(hand), 0);
 		}
 		return ActionResultType.PASS;
 	}

@@ -85,6 +85,7 @@ public class ECConfig {
 	public final IntValue animalGrowthCooldown;
 	public final IntValue treeFallConsumeAmount;
 	public final IntValue treeFallCooldown;
+	public final DoubleValue treeFallRange;
 	public final IntValue purificationConsumeAmount;
 	public final IntValue purificationCooldown;
 	public final IntValue ripeningConsumeAmount;
@@ -98,6 +99,9 @@ public class ECConfig {
 	public final IntValue dashConsumeAmount;
 	public final IntValue dashCooldown;
 	public final DoubleValue dashRange;
+	public final IntValue silkVeinConsumeAmount;
+	public final IntValue silkVeinCooldown;
+	public final DoubleValue silkVeinRange;
 
 	public final IntValue healConsumeAmount;
 	public final IntValue healCooldown;
@@ -212,6 +216,7 @@ public class ECConfig {
 		builder.pop().push("treeFall");
 		treeFallConsumeAmount = builder.comment("The amount of element consumed by the tree fall.").defineInRange("treeFallConsumeAmount", 3000, 0, 10000);
 		treeFallCooldown = builder.comment("The cooldown the tree fall.").defineInRange("treeFallCooldown", 600, 0, 10000);
+		treeFallRange = builder.comment("The range the tree fall.").defineInRange("treeFallRange", 15D, 0, 100);
 		builder.pop().push("purification");
 		purificationConsumeAmount = builder.comment("The amount of element consumed by the purification.").defineInRange("purificationConsumeAmount", 1000, 0, 10000);
 		purificationCooldown = builder.comment("The cooldown the purification.").defineInRange("purificationCooldown", 200, 0, 10000);
@@ -230,6 +235,10 @@ public class ECConfig {
 		dashConsumeAmount = builder.comment("The amount of element consumed by the dash.").defineInRange("dashConsumeAmount", 400, 0, 10000);
 		dashCooldown = builder.comment("The cooldown the dash.").defineInRange("dashCooldown", 40, 0, 10000);
 		dashRange = builder.comment("The range the dash.").defineInRange("dashRange", 6D, 0, 200);
+		builder.pop().push("silkVein");
+		silkVeinConsumeAmount = builder.comment("The amount of element consumed by the silk vein.").defineInRange("silkVeinConsumeAmount", 5000, 0, 10000);
+		silkVeinCooldown = builder.comment("The cooldown the silk vein.").defineInRange("silkVeinCooldown", 700, 0, 10000);
+		silkVeinRange = builder.comment("The range the silk vein.").defineInRange("silkVeinRange", 15D, 0, 100);
 
 		builder.pop().push("heal");
 		healConsumeAmount = builder.comment("The amount of element consumed by the heal.").defineInRange("healConsumeAmount", 1000, 0, 10000);

@@ -6,30 +6,33 @@ import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.Tags;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellTreeFall extends Spell {
+public class SpellSilkVein extends Spell {
 
-	public static final String NAME = "tree_fall";
+	public static final String NAME = "silk_vein";
 
-	public SpellTreeFall() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.CONFIG.treeFallCooldown.get()).consumeAmount(ECConfig.CONFIG.treeFallConsumeAmount.get()));
+	public SpellSilkVein() {
+		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.CONFIG.silkVeinCooldown.get()).consumeAmount(ECConfig.CONFIG.silkVeinConsumeAmount.get()));
 	}
 
 	private boolean isValidBlock(Block block) {
-		return BlockTags.LOGS.contains(block) || BlockTags.LEAVES.contains(block);
+		return Tags.Blocks.ORES.contains(block);
 	}
 
-	private void cutTree(World world, BlockPos target) {
+	private void mineVein(World world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
-		double rangeSq = ECConfig.CONFIG.treeFallRange.get();
+		boolean isServer = world instanceof ServerWorld && !world.isRemote;
+		double rangeSq = ECConfig.CONFIG.silkVeinRange.get();
 
 		rangeSq *= rangeSq;
 		queue.offer(target);
@@ -38,8 +41,11 @@ public class SpellTreeFall extends Spell {
 			Block block = world.getBlockState(pos).getBlock();
 			
 			if (isValidBlock(block) && pos.distanceSq(target) <= rangeSq) {
-				world.destroyBlock(pos, true);
-				Stream.of(Direction.values()).filter(d -> d != Direction.DOWN).forEach(d -> queue.offer(pos.offset(d)));
+				world.destroyBlock(pos, false);
+				if (isServer) {
+					LootHelper.getDrops((ServerWorld) world, pos, true).forEach(stack -> Block.spawnAsEntity(world, pos, stack));
+				}
+				Stream.of(Direction.values()).forEach(d -> queue.offer(pos.offset(d)));
 			}
 		}
 	}
@@ -49,7 +55,7 @@ public class SpellTreeFall extends Spell {
 		World world = sender.getEntityWorld();
 
 		if (isValidBlock(world.getBlockState(target).getBlock())) {
-			cutTree(world, target);
+			mineVein(world, target);
 			return ActionResultType.SUCCESS;
 		}
 
