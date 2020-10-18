@@ -1,5 +1,5 @@
 {
-  "name": "item.elementalcraft.spell_desk",
+  "name": "block.elementalcraft.spell_desk",
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:spell_desk",
   "advancement": "elementalcraft:pickup/drenched_iron_ingot",

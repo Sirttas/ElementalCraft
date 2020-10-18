@@ -2,7 +2,7 @@
   "type": "elementalcraft:pureinfusion",
   "ingredients": [
     {
-      "item": "minecraft:diamond"
+      "tag": "forge:gems/diamond"
     },
     {
       "item": "elementalcraft:watercrystal"

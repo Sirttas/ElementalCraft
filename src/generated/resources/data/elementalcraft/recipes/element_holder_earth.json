@@ -7,7 +7,7 @@
   ],
   "key": {
     "g": {
-      "item": "minecraft:gold_ingot"
+      "tag": "forge:ingots/gold"
     },
     "e": {
       "item": "elementalcraft:extractor"

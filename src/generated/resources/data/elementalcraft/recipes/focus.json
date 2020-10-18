@@ -7,7 +7,7 @@
   ],
   "key": {
     "d": {
-      "item": "minecraft:diamond"
+      "tag": "forge:gems/diamond"
     },
     "c": {
       "item": "elementalcraft:containedcrystal"
