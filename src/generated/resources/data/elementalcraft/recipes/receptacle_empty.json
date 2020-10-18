@@ -10,7 +10,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "d": {
-      "item": "minecraft:diamond"
+      "tag": "forge:gems/diamond"
     },
     "g": {
       "tag": "forge:ingots/gold"

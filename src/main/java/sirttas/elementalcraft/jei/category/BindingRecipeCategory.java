@@ -27,7 +27,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 	private final IDrawable icon;
 	private final IDrawable overlay;
 	private final IDrawable background;
-	private ItemStack binder = new ItemStack(ECItems.binder).copy();
+	private ItemStack binder = new ItemStack(ECItems.binder);
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16);

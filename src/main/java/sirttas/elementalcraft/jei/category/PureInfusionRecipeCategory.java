@@ -25,7 +25,7 @@ public class PureInfusionRecipeCategory extends AbstractRecipeCategory<TilePureI
 	private final IDrawable icon;
 	private final IDrawable overlay;
 	private final IDrawable background;
-	private ItemStack pureInfuser = new ItemStack(ECItems.pureInfuser).copy();
+	private ItemStack pureInfuser = new ItemStack(ECItems.pureInfuser);
 
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(132, 100);

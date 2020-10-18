@@ -1,10 +1,16 @@
 package sirttas.elementalcraft.jei;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nonnull;
+
+import com.google.common.collect.ImmutableList;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -25,6 +31,8 @@ import sirttas.elementalcraft.jei.category.ToolInfusionRecipeCategory;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
+import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellHelper;
 
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
@@ -76,5 +84,17 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(recipeManager.getRecipes(BinderRecipe.TYPE).values(), BindingRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(PureInfusionRecipe.TYPE).values(), PureInfusionRecipeCategory.UID);
 		registry.addRecipes(PureOreHelper.getRecipes(), PurificationRecipeCategory.UID);
+		registry.addRecipes(createFocusAnvilRecipes(registry.getVanillaRecipeFactory()), VanillaRecipeCategoryUid.ANVIL);
+	}
+
+	private List<?> createFocusAnvilRecipes(IVanillaRecipeFactory factory) {
+		return Spell.REGISTRY.getValues().stream().filter(spell -> spell.getSpellType() != Spell.Type.NONE).map(spell -> {
+			ItemStack scroll = new ItemStack(ECItems.scroll);
+			ItemStack focus = new ItemStack(ECItems.focus);
+
+			SpellHelper.setSpell(scroll, spell);
+			SpellHelper.addSpell(focus, spell);
+			return factory.createAnvilRecipe(new ItemStack(ECItems.focus), ImmutableList.of(scroll), ImmutableList.of(focus));
+		}).collect(Collectors.toList());
 	}
 }

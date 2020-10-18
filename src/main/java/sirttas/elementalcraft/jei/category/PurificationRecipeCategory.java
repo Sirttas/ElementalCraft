@@ -23,7 +23,7 @@ public class PurificationRecipeCategory extends AbstractInstrumentRecipeCategory
 	private final IDrawable icon;
 	private final IDrawable overlay;
 	private final IDrawable background;
-	private ItemStack purifier = new ItemStack(ECItems.purifier).copy();
+	private ItemStack purifier = new ItemStack(ECItems.purifier);
 
 
 	public PurificationRecipeCategory(IGuiHelper guiHelper) {

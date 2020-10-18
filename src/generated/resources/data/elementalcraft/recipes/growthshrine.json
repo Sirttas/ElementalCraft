@@ -18,7 +18,7 @@
       "item": "minecraft:bone_meal"
     },
     {
-      "item": "minecraft:diamond"
+      "tag": "forge:gems/diamond"
     }
   ],
   "output": "elementalcraft:growthshrine"
