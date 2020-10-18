@@ -15,7 +15,7 @@
       "item": "minecraft:hopper"
     },
     {
-      "item": "minecraft:diamond"
+      "tag": "forge:gems/diamond"
     }
   ],
   "output": "elementalcraft:vacuumshrine"

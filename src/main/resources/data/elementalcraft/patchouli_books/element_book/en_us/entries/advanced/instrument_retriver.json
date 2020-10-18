@@ -1,5 +1,5 @@
 {
-  "name": "item.elementalcraft.instrument_retriever",
+  "name": "block.elementalcraft.instrument_retriever",
   "category": "elementalcraft:advanced",
   "icon": "elementalcraft:instrument_retriever",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",

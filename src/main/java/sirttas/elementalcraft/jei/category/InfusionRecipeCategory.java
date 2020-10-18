@@ -26,8 +26,8 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 	private final IDrawable icon;
 	private final IDrawable overlay;
 	private final IDrawable background;
-	private ItemStack infuser = new ItemStack(ECItems.infuser).copy();
-	protected List<ItemStack> tanks = Lists.newArrayList(tank, new ItemStack(ECItems.tankSmall).copy());
+	private ItemStack infuser = new ItemStack(ECItems.infuser);
+	protected List<ItemStack> tanks = Lists.newArrayList(tank, new ItemStack(ECItems.tankSmall));
 
 
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {

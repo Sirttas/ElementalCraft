@@ -1,7 +1,7 @@
 {
   "name": "block.elementalcraft.pureinfuser",
   "category": "elementalcraft:advanced",
-  "icon": "elementalcraft:pure_infuser",
+  "icon": "elementalcraft:pureinfuser",
   "advancement": "elementalcraft:pickup/binder",
   "turnin": "elementalcraft:pickup/pureinfuser",
   "priority": true,

@@ -13,11 +13,8 @@
     },
     {
       "type": "crafting",
-      "recipe": "elementalcraft:elementpipe_impaired"
-    },
-    {
-      "type": "crafting",
-      "recipe": "elementalcraft:elementpipe"
+      "recipe": "elementalcraft:elementpipe_impaired",
+      "recipe2": "elementalcraft:elementpipe"
     },
     {
       "type": "crafting",

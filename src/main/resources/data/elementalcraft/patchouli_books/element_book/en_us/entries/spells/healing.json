@@ -1,5 +1,5 @@
 {
-  "name": "spell.elementalcraft.hrealing",
+  "name": "spell.elementalcraft.healing",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll",
   "advancement": "elementalcraft:pickup/scroll",
@@ -8,7 +8,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "elementalcraft.page.hrealing0"
+      "text": "elementalcraft.page.healing0"
     }
   ]
 }
