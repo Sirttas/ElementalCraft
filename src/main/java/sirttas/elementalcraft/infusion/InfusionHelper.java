@@ -16,7 +16,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -71,6 +70,8 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.BLAST_PROTECTION));
 		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
+		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.AIR,
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, SharedMonsterAttributes.MOVEMENT_SPEED, ECConfig.CONFIG.chestplateAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.BLAST_PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
@@ -191,10 +192,6 @@ public class InfusionHelper {
 			unapplyInfusion(stack);
 			NBTHelper.getECTag(stack).remove(ECNames.INFUSION);
 		}
-	}
-
-	public static boolean canAirInfusionFly(PlayerEntity player) {
-		return hasInfusion(player.getItemStackFromSlot(EquipmentSlotType.CHEST), ElementType.AIR) && !player.onGround && !player.abilities.isFlying && !player.isPassenger();
 	}
 
 	public static boolean hasFireInfusionAutoSmelt(ItemStack stack) {

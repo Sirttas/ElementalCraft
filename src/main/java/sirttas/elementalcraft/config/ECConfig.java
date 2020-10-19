@@ -14,6 +14,7 @@ public class ECConfig {
 
 	public final DoubleValue swordAirInfusionSpeedBonus;
 	public final DoubleValue leggingsAirInfusionSpeedBonus;
+	public final DoubleValue chestplateAirInfusionSpeedBonus;
 
 	public final IntValue shrineMaxAmount;
 	public final IntValue firePylonRange;
@@ -118,7 +119,8 @@ public class ECConfig {
 
 		builder.push("infusion");
 		swordAirInfusionSpeedBonus = builder.comment("The bonus to sword attack speed provided by the air infusion.").defineInRange("swordAirInfusionSpeedBonus", 0.8D, 0D, 10D);
-		leggingsAirInfusionSpeedBonus = builder.comment("The bonus to movement speed provided by the air infusion.").defineInRange("leggingsAirInfusionSpeedBonus", 0.01D, 0D, 1D);
+		leggingsAirInfusionSpeedBonus = builder.comment("The bonus to movement speed provided by the air infusion on leggings.").defineInRange("leggingsAirInfusionSpeedBonus", 0.01D, 0D, 1D);
+		chestplateAirInfusionSpeedBonus = builder.comment("The bonus to movement speed provided by the air infusion. on chestplate").defineInRange("chestplateAirInfusionSpeedBonus", 0.02D, 0D, 1D);
 
 		builder.pop().comment("Shrines config").push("shrines");
 		shrineMaxAmount = builder.comment("The max element amount a shrine can hold.").defineInRange("shrineMaxAmount", 10000, 0, 100000000);
