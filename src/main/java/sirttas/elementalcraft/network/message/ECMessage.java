@@ -6,13 +6,11 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.infusion.InfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 public final class ECMessage {
 
-	public static final ECMessage AIR_INFUSION = new ECMessage(MessageType.AIR_INFUSION);
 	public static final ECMessage SCROLL_FORWARD = new ECMessage(MessageType.SCROLL_FORWARD);
 	public static final ECMessage SCROLL_BACKWORD = new ECMessage(MessageType.SCROLL_BACKWORD);
 
@@ -26,7 +24,7 @@ public final class ECMessage {
 	}
 
 	public enum MessageType {
-		AIR_INFUSION, SCROLL_FORWARD, SCROLL_BACKWORD
+		SCROLL_FORWARD, SCROLL_BACKWORD
 	}
 
 	// message handling
@@ -48,13 +46,6 @@ public final class ECMessage {
 			ServerPlayerEntity player = ctx.get().getSender();
 
 			switch (type) {
-			case AIR_INFUSION:
-				if (InfusionHelper.canAirInfusionFly(player)) {
-					player.startFallFlying();
-				} else {
-					player.stopFallFlying();
-				}
-				break;
 			case SCROLL_BACKWORD:
 				handelScroll(player, -1);
 				break;
