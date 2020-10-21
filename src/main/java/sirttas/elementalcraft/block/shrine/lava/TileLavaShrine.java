@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraftforge.registries.ObjectHolder;
@@ -32,6 +33,13 @@ public class TileLavaShrine extends TileShrine {
 	public TileLavaShrine() {
 		super(TYPE, ElementType.FIRE, ECConfig.CONFIG.lavaShrinePeriode.get());
 		this.elementMax *= 10;
+	}
+
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		int range = ECConfig.CONFIG.lavaShrineRange.get();
+
+		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).offset(0, 1, 0);
 	}
 
 	@Override

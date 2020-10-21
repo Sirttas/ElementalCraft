@@ -16,6 +16,7 @@ import sirttas.elementalcraft.ElementalCraft;
  * 
  * https://github.com/Vazkii/Botania
  */
+@SuppressWarnings("resource")
 public class GuiHelper {
 
 	private static final ResourceLocation GAUGE = ElementalCraft.createRL("textures/gui/element_gauge.png");
@@ -55,6 +56,12 @@ public class GuiHelper {
 		if (showDebugInfo()) {
 			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 17, 16777215);
 		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void renderCanCast(MatrixStack matrixStack, int x, int y, boolean canCast) {
+		Minecraft.getInstance().textureManager.bindTexture(GAUGE);
+		blit(matrixStack, x, y, canCast ? 0 : 6, 17, 6, 6);
 	}
 
 	public static boolean showDebugInfo() {

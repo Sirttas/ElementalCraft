@@ -26,7 +26,7 @@ public class SpellHelper {
 	public static void removeSpell(ItemStack stack, Spell spell) {
 		ListNBT list = getSpellList(stack);
 
-		if (list != null) {
+		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				CompoundNBT tag = (CompoundNBT) list.get(i);
 
@@ -61,7 +61,7 @@ public class SpellHelper {
 	public static void forEachSpell(ItemStack stack, ObjIntConsumer<Spell> consumer) {
 		ListNBT list = getSpellList(stack);
 
-		if (list != null) {
+		if (list != null && !list.isEmpty()) {
 			list.forEach(t -> {
 				CompoundNBT tag = (CompoundNBT) t;
 
@@ -82,7 +82,7 @@ public class SpellHelper {
 	public static int getSpellCount(ItemStack stack) {
 		ListNBT list = getSpellList(stack);
 
-		if (list != null) {
+		if (list != null && !list.isEmpty()) {
 			return list.stream().mapToInt(t -> ((CompoundNBT) t).getInt(ECNames.COUNT)).sum();
 		}
 		return 0;
@@ -113,7 +113,7 @@ public class SpellHelper {
 		ListNBT list = getSpellList(stack);
 		Spell spell = getSpell(stack);
 
-		if (list != null) {
+		if (list != null && !list.isEmpty()) {
 			int selected = IntStream.range(0, list.size()).filter(j -> isSpellInTag(list.get(j), spell)).findFirst().orElse(0) + i;
 			
 			if (selected < 0) {
