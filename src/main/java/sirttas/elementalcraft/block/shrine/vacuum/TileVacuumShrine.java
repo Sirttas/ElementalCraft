@@ -25,9 +25,13 @@ public class TileVacuumShrine extends TileShrine {
 	}
 
 	private List<ItemEntity> getEntities() {
-		return this.getWorld().getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.vacuumShrineRange.get()));
+		return this.getWorld().getEntitiesWithinAABB(ItemEntity.class, getRangeBoundingBox());
 	}
 
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		return new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.vacuumShrineRange.get());
+	}
 
 	@Override
 	protected void doTick() {

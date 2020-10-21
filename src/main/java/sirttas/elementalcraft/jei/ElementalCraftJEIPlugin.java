@@ -88,7 +88,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	}
 
 	private List<?> createFocusAnvilRecipes(IVanillaRecipeFactory factory) {
-		return Spell.REGISTRY.getValues().stream().filter(spell -> spell.getSpellType() != Spell.Type.NONE).map(spell -> {
+		return Spell.REGISTRY.getValues().stream().filter(Spell::isValid).map(spell -> {
 			ItemStack scroll = new ItemStack(ECItems.scroll);
 			ItemStack focus = new ItemStack(ECItems.focus);
 

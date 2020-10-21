@@ -22,10 +22,15 @@ public class TileFirePylon extends TileShrine {
 	}
 
 	private List<LivingEntity> getEntities() {
-		return this.getWorld().getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.firePylonRange.get()),
+		return this.getWorld().getEntitiesWithinAABB(LivingEntity.class, getRangeBoundingBox(),
 				e -> (!e.isSpectator() && !e.isImmuneToFire() && !e.isBurning()
 						&& !(InfusionHelper.hasInfusion(e, EquipmentSlotType.HEAD, ElementType.FIRE) || InfusionHelper.hasInfusion(e, EquipmentSlotType.CHEST, ElementType.FIRE)
 								|| InfusionHelper.hasInfusion(e, EquipmentSlotType.LEGS, ElementType.FIRE) || InfusionHelper.hasInfusion(e, EquipmentSlotType.FEET, ElementType.FIRE))));
+	}
+	
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		return new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.firePylonRange.get());
 	}
 
 	@Override
@@ -36,4 +41,5 @@ public class TileFirePylon extends TileShrine {
 			getEntities().forEach(e -> e.setFire(this.consumeElement(consumeAmount)));
 		}
 	}
+
 }

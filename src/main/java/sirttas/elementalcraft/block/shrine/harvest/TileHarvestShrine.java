@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.registries.ObjectHolder;
@@ -30,6 +31,13 @@ public class TileHarvestShrine extends TileShrine {
 
 	public TileHarvestShrine() {
 		super(TYPE, ElementType.EARTH, ECConfig.CONFIG.harvestShrinePeriode.get());
+	}
+
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		int range = ECConfig.CONFIG.harvestShrineRange.get();
+
+		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).expand(0, -2, 0).offset(0, -1, 0);
 	}
 
 	@Override

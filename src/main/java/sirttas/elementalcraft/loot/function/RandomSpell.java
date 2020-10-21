@@ -43,7 +43,7 @@ public class RandomSpell extends LootFunction {
 			List<Spell> list = Lists.newArrayList();
 
 			for (Spell sp : Spell.REGISTRY) {
-				if (sp.getSpellType() != Spell.Type.NONE) {
+				if (sp.isValid()) {
 					list.add(sp);
 				}
 			}

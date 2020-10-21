@@ -133,6 +133,10 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 		return type;
 	}
 
+	public boolean isValid() {
+		return this.type != Type.NONE && this.elementType != ElementType.NONE;
+	}
+
 	public int getUseDuration() {
 		return useDuration;
 	}

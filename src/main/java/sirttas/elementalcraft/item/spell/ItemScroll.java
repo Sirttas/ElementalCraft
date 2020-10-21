@@ -60,7 +60,7 @@ public class ItemScroll extends AbstractItemSpellHolder {
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
 		if (this.isInGroup(group)) {
 			Spell.REGISTRY.forEach(s -> {
-				if (s.getSpellType() != Spell.Type.NONE) {
+				if (s.isValid()) {
 					ItemStack stack = new ItemStack(this);
 
 					SpellHelper.setSpell(stack, s);

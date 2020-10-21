@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.shrine;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.AxisAlignedBB;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileECTickable;
@@ -18,6 +19,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	private boolean running = false;
 	private double tick = 0;
 	private double periode = 1;
+	private int rangeRenderTimer = 0;
 
 	public TileShrine(TileEntityType<?> tileEntityTypeIn, ElementType type) {
 		this(tileEntityTypeIn, type, 1);
@@ -80,6 +82,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 				tick -= periode;
 			}
 		}
+		rangeRenderTimer--;
 	}
 
 
@@ -90,6 +93,16 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	public boolean isRunning() {
 		return running;
 	}
+
+	public boolean showsRange() {
+		return this.rangeRenderTimer > 0;
+	}
+
+	public void startShowingRange() {
+		this.rangeRenderTimer = 600;
+	}
+
+	public abstract AxisAlignedBB getRangeBoundingBox();
 
 	@Override
 	public int getElementAmount() {

@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.gui;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,8 +18,11 @@ import sirttas.elementalcraft.block.tile.element.IElementStorage;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
 import sirttas.elementalcraft.item.spell.ISpellHolder;
+import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.spell.Spells;
 
+@SuppressWarnings("resource")
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
 public class GuiHandler {
 
@@ -30,7 +34,7 @@ public class GuiHandler {
 		if (event.getType() == ElementType.ALL) {
 			if (result != null) {
 				BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getPos() : null;
-				TileEntity tile = pos != null ? minecraft.world.getTileEntity(pos) : null;
+				TileEntity tile = pos != null ? minecraft.player.world.getTileEntity(pos) : null;
 
 				if (tile instanceof IElementStorage) {
 					IElementStorage storage = (IElementStorage) tile;
@@ -45,27 +49,48 @@ public class GuiHandler {
 
 			if (!stack.isEmpty() && stack.getItem() instanceof ItemElementHolder) {
 				ItemElementHolder holder = (ItemElementHolder) stack.getItem();
+				int amount = holder.getElementAmount(stack);
+				Spell spell = getSpell();
 
-				doRenderElementGauge(holder.getElementAmount(stack), holder.getElementAmountMax(), holder.getElementType());
+				doRenderElementGauge(amount, holder.getElementAmountMax(), holder.getElementType());
+				if (spell.isValid()) {
+					doRenderCanCast(amount >= spell.getConsumeAmount());
+				}
 			}
 		}
 	}
 
-	@SuppressWarnings("resource")
 	private static ItemStack getElementHolder() {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
 
-		return EntityHelper.handStream(player).map(s -> {
-			if (!s.isEmpty() && s.getItem() instanceof ItemElementHolder) {
-				return s;
-			} else if (!s.isEmpty() && s.getItem() instanceof ISpellHolder) {
-				return ItemElementHolder.find(player, SpellHelper.getSpell(s).getElementType());
+		return EntityHelper.handStream(player).map(stack -> {
+			if (!stack.isEmpty() && stack.getItem() instanceof ItemElementHolder) {
+				return stack;
+			} else if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
+				return ItemElementHolder.find(player, SpellHelper.getSpell(stack).getElementType());
 			}
 			return ItemStack.EMPTY;
 		}).filter(s -> !s.isEmpty()).findFirst().orElse(ItemStack.EMPTY);
 	}
 
+	private static Spell getSpell() {
+		return EntityHelper.handStream(Minecraft.getInstance().player).map(stack -> {
+			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
+				return SpellHelper.getSpell(stack);
+			}
+			return Spells.none;
+		}).filter(Spell::isValid).findFirst().orElse(Spells.none);
+	}
+
 	private static void doRenderElementGauge(int element, int max, sirttas.elementalcraft.ElementType type) {
-		GuiHelper.renderElementGauge(Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - 32, Minecraft.getInstance().getMainWindow().getScaledHeight() / 2 - 8, element, max, type);
+		MainWindow window = Minecraft.getInstance().getMainWindow();
+
+		GuiHelper.renderElementGauge(window.getScaledWidth() / 2 - 32, window.getScaledHeight() / 2 - 8, element, max, type);
+	}
+
+	private static void doRenderCanCast(boolean canCast) {
+		MainWindow window = Minecraft.getInstance().getMainWindow();
+
+		GuiHelper.renderCanCast(window.getScaledWidth() / 2 - 21, window.getScaledHeight() / 2 + 3, canCast);
 	}
 }

@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -20,7 +22,16 @@ public class TileOverloadShrine extends TileShrine {
 	}
 
 	Optional<ITickableTileEntity> getTarget() {
-		return TileEntityHelper.getTileEntityAs(world, pos.offset(this.getBlockState().get(BlockOverloadShrine.FACING)), ITickableTileEntity.class);
+		return TileEntityHelper.getTileEntityAs(world, getTargetPos(), ITickableTileEntity.class);
+	}
+
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		return new AxisAlignedBB(getTargetPos());
+	}
+
+	private BlockPos getTargetPos() {
+		return pos.offset(this.getBlockState().get(BlockOverloadShrine.FACING));
 	}
 
 	@Override
