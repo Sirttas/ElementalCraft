@@ -170,7 +170,7 @@
   "elementalcraft.page.sweetshrine0": "The $(item)Sweet Shrine$() periodically refill hunger and boost nearby $(thing)bees$() production.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.vacuumshrine0": "The $(item)Vacuum Shrine$() pull towards it nearby $(item)items$() and store them in the container below it.$(br2)It consumes $(thing)air element$().",
   "elementalcraft.page.growthshrine0": "The $(item)Growth Shrine$() accelerate $(thing)crops$() growth above it.$(br2)It consumes $(thing)water element$().",
-  "elementalcraft.page.harvestshrine0": "The $(item)Harvest Shrine$() harvest $(thing)crops$() below above it.$(br2)It consumes $(thing)earth element$().",
+  "elementalcraft.page.harvestshrine0": "The $(item)Harvest Shrine$() harvest $(thing)crops$() below it.$(br2)It consumes $(thing)earth element$().",
   "elementalcraft.page.overloadshrine0": "The $(item)Overload Shrine$() boost the speed of the $(item)block$() its facing.$(br2)It consumes $(thing)air element$().",
   "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:elmentalcraft:spells/ender_strike)Ender strinke$() d'ont works.$(br2)It consumes $(thing)water element$().",
 

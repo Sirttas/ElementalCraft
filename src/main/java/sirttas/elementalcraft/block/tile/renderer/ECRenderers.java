@@ -20,6 +20,16 @@ import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
+import sirttas.elementalcraft.block.shrine.RendererShrine;
+import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;
+import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
+import sirttas.elementalcraft.block.shrine.growth.TileGrowthShrine;
+import sirttas.elementalcraft.block.shrine.harvest.TileHarvestShrine;
+import sirttas.elementalcraft.block.shrine.lava.TileLavaShrine;
+import sirttas.elementalcraft.block.shrine.ore.TileOreShrine;
+import sirttas.elementalcraft.block.shrine.overload.TileOverloadShrine;
+import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
+import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ECRenderers {
@@ -34,6 +44,16 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(TileFireFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TileFireBlastFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TilePurifier.TYPE, RendererPurifier::new);
+
+		ClientRegistry.bindTileEntityRenderer(TileFirePylon.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileVacuumShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileGrowthShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileHarvestShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileLavaShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileOreShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileOverloadShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileSweetShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileEnderLockShrine.TYPE, RendererShrine::new);
 	}
 
 	public static void initRenderLayouts() {

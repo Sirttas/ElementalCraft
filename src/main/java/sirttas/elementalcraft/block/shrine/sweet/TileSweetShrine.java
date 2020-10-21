@@ -24,8 +24,12 @@ public class TileSweetShrine extends TileShrine {
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
-		return this.getWorld().getEntitiesWithinAABB(clazz, new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.sweetShrineRange.get()), e -> !e.isSpectator()).stream()
-				.collect(Collectors.toList());
+		return this.getWorld().getEntitiesWithinAABB(clazz, getRangeBoundingBox(), e -> !e.isSpectator()).stream().collect(Collectors.toList());
+	}
+
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		return new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.sweetShrineRange.get());
 	}
 
 	@Override

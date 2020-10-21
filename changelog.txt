@@ -1,3 +1,12 @@
+1.15.2-1.2.10 and 1.16.3-2.3.12:
+
+- added a validation check if the current spell can be casted
+- shrines range visual
+- made element gauge more visible
+- fix some Elementopedia entries
+- fix a crash while scrolling an empty focus
+
+
 1.15.2-1.2.9 and 1.16.3-2.3.11:
 
 - rework chestplate air infusion

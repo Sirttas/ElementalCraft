@@ -73,7 +73,7 @@ public class SpellTickManager {
 	public float getCooldown(Entity target, Spell spell, float partialTick) {
 		Map<Spell, Cooldown> entityCooldowns = cooldowns.get(target);
 
-		if (spell.getSpellType() != Spell.Type.NONE && entityCooldowns != null && entityCooldowns.containsKey(spell)) {
+		if (spell.isValid() && entityCooldowns != null && entityCooldowns.containsKey(spell)) {
 			Cooldown cooldown = entityCooldowns.get(spell);
 			float current = cooldown.expireTicks - (tick + partialTick);
 			float total = cooldown.expireTicks - cooldown.createTicks;

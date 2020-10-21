@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
@@ -35,6 +36,13 @@ public class TileOreShrine extends TileShrine {
 		return IntStream.range(-range, range + 1)
 				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, pos.getY() + 1).mapToObj(y -> new BlockPos(pos.getX() + x, y, pos.getZ() + z))))
 				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> Tags.Blocks.ORES.contains(world.getBlockState(p).getBlock())).findAny();
+	}
+
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		int range = ECConfig.CONFIG.harvestShrineRange.get();
+
+		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).offset(0, -1, 0).expand(0, 1 - pos.getY(), 0);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.shrine.enderlock;
 
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -13,6 +14,13 @@ public class TileEnderLockShrine extends TileShrine {
 
 	public TileEnderLockShrine() {
 		super(TYPE, ElementType.WATER);
+	}
+
+	@Override
+	public AxisAlignedBB getRangeBoundingBox() {
+		int range = ECConfig.CONFIG.enderLockShrineRange.get();
+
+		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).expand(0, 2, 0);
 	}
 
 	@Override

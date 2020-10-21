@@ -7,9 +7,13 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -27,6 +31,17 @@ public abstract class BlockShrine extends BlockECTileProvider {
 
 	public BlockShrine(ElementType elementType) {
 		this.elementType = elementType;
+	}
+
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+		final TileShrine shrine = (TileShrine) world.getTileEntity(pos);
+
+		if (shrine != null && player.getHeldItem(hand).isEmpty() && player.isSneaking()) {
+			shrine.startShowingRange();
+			return ActionResultType.SUCCESS;
+		}
+		return ActionResultType.PASS;
 	}
 
 	@Override

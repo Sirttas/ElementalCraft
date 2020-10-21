@@ -110,7 +110,7 @@ public class BlockSpellDesk extends BlockEC {
 		Vector3d position = Vector3d.copy(pos).add(0.5, 0.7, 0.5);
 
 		if (rand.nextDouble() < count * 0.06D + 0.2D) {
-			List<Spell> spells = Spell.REGISTRY.getValues().stream().filter(s -> s.getElementType() == type && s.getSpellType() != Spell.Type.NONE).collect(Collectors.toList());
+			List<Spell> spells = Spell.REGISTRY.getValues().stream().filter(s -> s.getElementType() == type && s.isValid()).collect(Collectors.toList());
 			Spell spell = spells.get(rand.nextInt(spells.size()));
 			ItemStack scroll = new ItemStack(ECItems.scroll);
 			
