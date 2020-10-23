@@ -97,6 +97,7 @@ public class ECConfig {
 	public final IntValue infernoConsumeAmount;
 	public final IntValue infernoCooldown;
 	public final DoubleValue infernoRange;
+	public final IntValue infernoDuration;
 	public final IntValue dashConsumeAmount;
 	public final IntValue dashCooldown;
 	public final DoubleValue dashRange;
@@ -233,6 +234,7 @@ public class ECConfig {
 		infernoConsumeAmount = builder.comment("The amount of element consumed by the inferno.").defineInRange("infernoConsumeAmount", 10, 0, 10000);
 		infernoCooldown = builder.comment("The cooldown the inferno.").defineInRange("infernoCooldown", 120, 0, 10000);
 		infernoRange = builder.comment("The range the inferno.").defineInRange("infernoRange", 5D, 0, 20);
+		infernoDuration = builder.comment("The duration the inferno.").defineInRange("infernoDuration", 200, 0, 72000);
 		builder.pop().push("dash");
 		dashConsumeAmount = builder.comment("The amount of element consumed by the dash.").defineInRange("dashConsumeAmount", 400, 0, 10000);
 		dashCooldown = builder.comment("The cooldown the dash.").defineInRange("dashCooldown", 40, 0, 10000);

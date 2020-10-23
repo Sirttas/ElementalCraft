@@ -6,13 +6,17 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.UseAction;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -37,6 +41,8 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
 
+	private static final String SAVED_POS = "saved_pos";
+
 	private final ElementType elementType;
 	private final int elementAmountMax;
 
@@ -56,7 +62,12 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 
 	@Override
 	public int getUseDuration(ItemStack stack) {
-		return 72000;
+		return ECConfig.CONFIG.elementHolderMaxAmount.get() / ECConfig.CONFIG.elementHolderTransferAmount.get();
+	}
+
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.SPEAR;
 	}
 
 	protected boolean isValidSource(BlockState state) {
@@ -70,23 +81,47 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		BlockState blockstate = context.getWorld().getBlockState(context.getPos());
+		BlockPos pos = context.getPos();
+		World world = context.getWorld();
 		ItemStack stack = context.getItem();
+		ActionResultType result = tick(world, pos, stack);
+
+		if (result.isSuccessOrConsume()) {
+			this.setSavedPos(stack, pos);
+			context.getPlayer().setActiveHand(context.getHand());
+		}
+		return result;
+	}
+
+	@Override
+	public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
+		if (!this.tick(player.getEntityWorld(), this.getSavedPos(stack), stack).isSuccessOrConsume()) {
+			player.stopActiveHand();
+		}
+	}
+
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+		this.removeSavedPos(stack);
+	}
+
+	private ActionResultType tick(World world, BlockPos pos, ItemStack stack) {
+		BlockState blockstate = world.getBlockState(pos);
 
 		if (isValidSource(blockstate)) {
 			this.inserElement(stack, ECConfig.CONFIG.elementHolderTransferAmount.get());
-			return ActionResultType.SUCCESS;
+			return ActionResultType.CONSUME;
 		}
-		return TileEntityHelper.getTileEntityAs(context.getWorld(), context.getPos(), IElementReceiver.class).map(r -> {
+		return TileEntityHelper.getTileEntityAs(world, pos, IElementReceiver.class).map(r -> {
 			int amount = Math.min(getElementAmount(stack), ECConfig.CONFIG.elementHolderTransferAmount.get());
 
-			if (r.getElementType() == elementType) {
+			if (r.getElementType() == elementType || r.getElementType() == ElementType.NONE) {
 				amount -= r.inserElement(amount, elementType, true);
 
 				if (amount > 0) {
 					this.extractElement(stack, amount);
 					r.inserElement(amount, elementType, false);
-					return ActionResultType.SUCCESS;
+					return ActionResultType.CONSUME;
 				}
 			}
 			return ActionResultType.PASS;
@@ -127,6 +162,36 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 
 	public void setElementAmount(ItemStack stack, int amount) {
 		stack.getOrCreateTag().putInt(ECNames.ELEMENT_AMOUNT, Math.min(amount, elementAmountMax));
+	}
+
+	public BlockPos getSavedPos(ItemStack stack) {
+		CompoundNBT tag = stack.getTag();
+		
+		if (tag != null) {
+			CompoundNBT savedPos = tag.getCompound(SAVED_POS);
+
+			if (savedPos != null) {
+				return new BlockPos(savedPos.getInt("x"), savedPos.getInt("y"), savedPos.getInt("z"));
+			}
+		}
+		return null;
+	}
+
+	public void setSavedPos(ItemStack stack, BlockPos pos) {
+		CompoundNBT savedPos = new CompoundNBT();
+
+		savedPos.putInt("x", pos.getX());
+		savedPos.putInt("y", pos.getY());
+		savedPos.putInt("z", pos.getZ());
+		stack.getOrCreateTag().put(SAVED_POS, savedPos);
+	}
+
+	public void removeSavedPos(ItemStack stack) {
+		CompoundNBT tag = stack.getTag();
+
+		if (tag != null) {
+			tag.remove(SAVED_POS);
+		}
 	}
 
 	public int inserElement(ItemStack stack, int amount) {

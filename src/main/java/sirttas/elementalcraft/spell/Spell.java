@@ -141,6 +141,10 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 		return useDuration;
 	}
 
+	public boolean isChannelable() {
+		return useDuration > 0;
+	}
+
 	public void addInformation(List<ITextComponent> tooltip) {
 		// provided for override
 	}

@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -19,8 +21,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.spell.Spell;
@@ -40,49 +40,96 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 		addAttributeMultimapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), new TranslationTextComponent("tooltip.elementalcraft.on_spell_use").applyTextStyle(TextFormatting.GRAY));
 	}
 
+	@Override
+	public int getUseDuration(ItemStack stack) {
+		return SpellHelper.getSpell(stack).getUseDuration();
+	}
+
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.SPEAR;
+	}
+
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack stack = playerIn.getHeldItem(handIn);
+
+		return new ActionResult<>(tick(worldIn, playerIn, handIn, stack, true), stack);
+	}
+
+	@Override
+	public void onUsingTick(ItemStack stack, LivingEntity entity, int count) {
+		if (!(entity instanceof PlayerEntity) || tick(entity.getEntityWorld(), (PlayerEntity) entity, entity.getActiveHand(), stack, false) != ActionResultType.CONSUME) {
+			entity.stopActiveHand();
+		}
+	}
+
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+		onItemUseFinish(stack, worldIn, entityLiving);
+	}
+
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+		SpellTickManager.getInstance(worldIn).setCooldown(entityLiving, SpellHelper.getSpell(stack));
+		return stack;
+	}
+
+	private ActionResultType tick(World worldIn, PlayerEntity playerIn, Hand handIn, ItemStack stack, boolean doChannel) {
 		Spell spell = SpellHelper.getSpell(stack);
 		Multimap<String, AttributeModifier> attributes = spell.getOnUseAttributeModifiers();
 
 		playerIn.getAttributes().applyAttributeModifiers(attributes);
 		
-		ActionResultType result = castSpell(playerIn, spell, EntityHelper.rayTrace(playerIn, playerIn.getAttribute(PlayerEntity.REACH_DISTANCE).getValue()));
+		ActionResultType result = castSpell(playerIn, spell);
 
-		if (result.isSuccessOrConsume() && !playerIn.isCreative()) {
-			if (!spell.consume(playerIn)) {
-				consume(stack);
-				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> playerIn.renderBrokenItemStack(stack));
+		if (result.isSuccessOrConsume()) {
+			if (doConsume(playerIn, handIn, stack, spell)) {
+				result = ActionResultType.SUCCESS;
 			}
-			if (result.isSuccess()) {
+			if (result.isSuccess() && !playerIn.isCreative()) {
 				SpellTickManager.getInstance(worldIn).setCooldown(playerIn, spell);
+				playerIn.stopActiveHand();
+			} else if (doChannel && spell.isChannelable()) {
+				playerIn.setActiveHand(handIn);
 			}
+		} else {
+			playerIn.stopActiveHand();
 		}
 		playerIn.getAttributes().removeAttributeModifiers(attributes);
-		return new ActionResult<>(result, stack);
+		return result;
 	}
 
-	private ActionResultType castSpell(PlayerEntity playerIn, Spell spell, final RayTraceResult ray) {
+	private ActionResultType castSpell(PlayerEntity player, Spell spell) {
 		ActionResultType result = ActionResultType.PASS;
+		RayTraceResult ray = EntityHelper.rayTrace(player, player.getAttribute(PlayerEntity.REACH_DISTANCE).getValue());
 
-		if (SpellTickManager.getInstance(playerIn.world).hasCooldown(playerIn, spell)) {
+		if (SpellTickManager.getInstance(player.world).hasCooldown(player, spell)) {
 			return result;
 		}
 		
 		if (ray.getType() == RayTraceResult.Type.ENTITY) {
-			result = spell.castOnEntity(playerIn, ((EntityRayTraceResult) ray).getEntity());
+			result = spell.castOnEntity(player, ((EntityRayTraceResult) ray).getEntity());
 		}
 		if (ray.getType() == RayTraceResult.Type.BLOCK && !result.isSuccessOrConsume()) {
-			result = spell.castOnBlock(playerIn, ((BlockRayTraceResult) ray).getPos());
+			result = spell.castOnBlock(player, ((BlockRayTraceResult) ray).getPos());
 		}
 		if (!result.isSuccessOrConsume()) {
-			result = spell.castOnSelf(playerIn);
+			result = spell.castOnSelf(player);
 		}
 		return result;
+	}
+
+	private boolean doConsume(PlayerEntity playerIn, Hand handIn, ItemStack stack, Spell spell) {
+		if (!playerIn.isCreative() && !spell.consume(playerIn)) {
+			consume(stack);
+			playerIn.sendBreakAnimation(handIn);
+			return true;
+		}
+		return false;
 	}
 
 	protected abstract void consume(ItemStack stack);

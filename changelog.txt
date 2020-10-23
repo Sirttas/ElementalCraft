@@ -1,3 +1,13 @@
+1.15.2-1.2.11 and 1.16.3-2.3.13:
+
+- improved element holders
+- channel spells
+- inferno now behave correctly
+- fix a bug preventing players from seeing other players spell break
+- fix a bug preventing filling an empty container with an element holder
+- fix some Elementopedia entries
+
+
 1.15.2-1.2.10 and 1.16.3-2.3.12:
 
 - added a validation check if the current spell can be casted

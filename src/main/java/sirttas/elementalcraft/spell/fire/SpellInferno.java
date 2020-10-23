@@ -19,7 +19,7 @@ public class SpellInferno extends Spell {
 
 	public SpellInferno() {
 		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).consumeAmount(ECConfig.CONFIG.infernoConsumeAmount.get()).cooldown(ECConfig.CONFIG.infernoCooldown.get())
-				.useDuration(200));
+				.useDuration(ECConfig.CONFIG.infernoDuration.get()));
 	}
 
 	@Override

@@ -36,10 +36,13 @@ public class ParticleHelper {
 	}
 
 	public static void createElementFlowParticle(ElementType type, World world, Vec3d pos, Direction direction, float scale, Random rand) {
+		createElementFlowParticle(type, world, pos, new Vec3d(direction.getOpposite().getDirectionVec()).scale(scale == 0 ? 1 : scale), rand);
+	}
+
+	public static void createElementFlowParticle(ElementType type, World world, Vec3d pos, Vec3d flow, Random rand) {
 		double x = pos.getX() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
 		double y = pos.getY() + 5 * BlockEC.BIT_SIZE;
 		double z = pos.getZ() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
-		Vec3d flow = new Vec3d(direction.getOpposite().getDirectionVec()).scale(scale == 0 ? 1 : scale);
 
 		world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, type), x, y, z, flow.getX(), flow.getY(), flow.getZ());
 	}
