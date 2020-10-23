@@ -38,7 +38,9 @@ public abstract class BlockShrine extends BlockECTileProvider {
 		final TileShrine shrine = (TileShrine) world.getTileEntity(pos);
 
 		if (shrine != null && player.getHeldItem(hand).isEmpty() && player.isSneaking()) {
-			shrine.startShowingRange();
+			if (world.isRemote) {
+				shrine.startShowingRange();
+			}
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;

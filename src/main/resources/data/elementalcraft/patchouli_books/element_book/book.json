@@ -4,7 +4,7 @@
 	"creative_tab": "elementalcraft",
 	"model ": "patchouli:book_red",
 	"i18n": true, 
-	"version": 5,
+	"version": 6,
 	"macros": {
 		"$(ec:source)": "$(l:elmentalcraft:basics/source)",
 		"$(ec:tank)": "$(l:elmentalcraft:instruments/tank)",
