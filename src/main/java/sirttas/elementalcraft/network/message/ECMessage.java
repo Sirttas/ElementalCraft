@@ -27,8 +27,6 @@ public final class ECMessage {
 		SCROLL_FORWARD, SCROLL_BACKWORD
 	}
 
-	// message handling
-
 	public static ECMessage decode(PacketBuffer buf) {
 		return new ECMessage(buf.readEnumValue(MessageType.class));
 	}

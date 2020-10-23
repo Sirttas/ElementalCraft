@@ -83,7 +83,9 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 				tick -= periode;
 			}
 		}
-		rangeRenderTimer--;
+		if (this.rangeRenderTimer > 0) {
+			rangeRenderTimer--;
+		}
 	}
 
 
