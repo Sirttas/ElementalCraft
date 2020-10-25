@@ -31,7 +31,6 @@ public class SpellSilkVein extends Spell {
 
 	private void mineVein(World world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
-		boolean isServer = world instanceof ServerWorld && !world.isRemote;
 		double rangeSq = ECConfig.CONFIG.silkVeinRange.get();
 
 		rangeSq *= rangeSq;
@@ -41,10 +40,10 @@ public class SpellSilkVein extends Spell {
 			Block block = world.getBlockState(pos).getBlock();
 			
 			if (isValidBlock(block) && pos.distanceSq(target) <= rangeSq) {
-				world.destroyBlock(pos, false);
-				if (isServer) {
+				if (world instanceof ServerWorld) {
 					LootHelper.getDrops((ServerWorld) world, pos, true).forEach(stack -> Block.spawnAsEntity(world, pos, stack));
 				}
+				world.destroyBlock(pos, false);
 				Stream.of(Direction.values()).forEach(d -> queue.offer(pos.offset(d)));
 			}
 		}
