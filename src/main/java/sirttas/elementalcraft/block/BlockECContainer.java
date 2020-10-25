@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -95,5 +96,17 @@ public abstract class BlockECContainer extends BlockECTileProvider {
 
 			super.onReplaced(state, worldIn, pos, newState, isMoving);
 		}
+	}
+
+	@Override
+	@Deprecated
+	public boolean hasComparatorInputOverride(BlockState state) {
+		return true;
+	}
+
+	@Override
+	@Deprecated
+	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
+		return Container.calcRedstone(worldIn.getTileEntity(pos));
 	}
 }
