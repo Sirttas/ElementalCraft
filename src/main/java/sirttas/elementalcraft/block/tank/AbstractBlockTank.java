@@ -25,6 +25,18 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	}
 
 	@Override
+	@Deprecated
+	public boolean hasComparatorInputOverride(BlockState state) {
+		return true;
+	}
+
+	@Override
+	@Deprecated
+	public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
+		return TileEntityHelper.getTileEntityAs(world, pos, TileTank.class).map(tank -> tank.getElementAmount() * 15 / tank.getMaxElement()).orElse(0);
+	}
+
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
 		return 1.0F;

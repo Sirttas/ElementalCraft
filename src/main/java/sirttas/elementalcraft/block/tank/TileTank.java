@@ -48,6 +48,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 					this.elementType = type;
 				}
 			}
+			this.markDirty();
 			return ret;
 		}
 	}
@@ -66,6 +67,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 				this.elementType = ElementType.NONE;
 			}
 		}
+		this.markDirty();
 		return ret;
 	}
 

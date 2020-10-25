@@ -1,3 +1,10 @@
+1.15.2-1.2.12 and 1.16.3-2.3.14:
+
+- added comparator levels for containers, and instruments
+- fix a sync error with silk vein spell
+- fix some Elementopedia entries
+
+
 1.15.2-1.2.11 and 1.16.3-2.3.13:
 
 - improved element holders
