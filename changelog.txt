@@ -1,3 +1,14 @@
+1.16.3-2.3.15:
+
+- fix a crash with reliquary (issue #7)
+
+
+1.15.2-1.2.13 and 1.16.3-2.3.15:
+
+- receptacle enchantability can no be controlled from config: receptacleEnchantable
+- added Elementopedia icon
+
+
 1.15.2-1.2.12 and 1.16.3-2.3.14:
 
 - added comparator levels for containers, and instruments

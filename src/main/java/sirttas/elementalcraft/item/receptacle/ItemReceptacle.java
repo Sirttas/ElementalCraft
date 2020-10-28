@@ -9,31 +9,25 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
 
-public class ItemReceptacle extends ItemEC {
+public class ItemReceptacle extends AbstractReceptacle {
 
 	public static final String NAME = "receptacle";
-
-	public ItemReceptacle() {
-		super(ECProperties.Items.RECEPTACLE);
-	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		World world = context.getWorld();
-		ElementType elementType = ReceptacleHelper.getElementType(context.getItem());
+		ItemStack sourceReceptacle = context.getItem();
+		ElementType elementType = ReceptacleHelper.getElementType(sourceReceptacle);
 		BlockItemUseContext newContext = new BlockItemUseContext(context);
 
 		if (newContext.canPlace()) {
 			world.setBlockState(newContext.getPos(), ECBlocks.source.getDefaultState().with(ECProperties.ELEMENT_TYPE, elementType));
 			if (!context.getPlayer().isCreative()) {
-				ItemStack stack = ReceptacleHelper.createStack(ElementType.NONE);
+				ItemStack stack = ReceptacleHelper.createFrom(sourceReceptacle, ElementType.NONE);
 
 				if (!ReceptacleHelper.areReceptaclesUnbreakable()) {
-					stack.setDamage(context.getItem().getDamage());
 					stack.damageItem(1, context.getPlayer(), p -> p.sendBreakAnimation(context.getHand()));
 				}
 				context.getPlayer().setHeldItem(context.getHand(), stack);
@@ -57,11 +51,6 @@ public class ItemReceptacle extends ItemEC {
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == ECItems.swiftAlloyIngot;
 	}
 
 }
