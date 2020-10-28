@@ -2,7 +2,7 @@
 	"name": "item.elementalcraft.element_book",
 	"landing_text": "elementalcraft.landing",
 	"creative_tab": "elementalcraft",
-	"model ": "patchouli:book_red",
+	"model": "elementalcraft:element_book",
 	"i18n": true, 
 	"version": 7,
 	"macros": {

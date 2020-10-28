@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.item.receptacle;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
@@ -23,5 +24,17 @@ public class ReceptacleHelper {
 
 	public static boolean areReceptaclesUnbreakable() {
 		return ECConfig.CONFIG.receptacleDurability.get() == 0;
+	}
+
+	public static ItemStack createFrom(ItemStack from, ElementType elementType) {
+		ItemStack stack = ReceptacleHelper.createStack(elementType);
+
+		if (!areReceptaclesUnbreakable()) {
+			stack.setDamage(from.getDamage());
+		}
+		if (stack.isBookEnchantable(ItemStack.EMPTY)) {
+			EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(from), stack);
+		}
+		return stack;
 	}
 }
