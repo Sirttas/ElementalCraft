@@ -61,6 +61,7 @@ public class ECConfig {
 	public final BooleanValue binderRecipeMatchOrder;
 
 	public final IntValue receptacleDurability;
+	public final BooleanValue receptacleEnchantable;
 	public final IntValue elementHolderMaxAmount;
 	public final IntValue elementHolderTransferAmount;
 	public final IntValue focusMaxSpell;
@@ -186,6 +187,7 @@ public class ECConfig {
 
 		builder.pop().comment("Items config").push("items");
 		receptacleDurability = builder.comment("Define source receptacle durablility (0 for unbreakable).").defineInRange("receptacleDurability", 20, 0, 1000);
+		receptacleEnchantable = builder.comment("Define if or not receptacles can be enchanted.").define("receptacleEnchantable", false);
 		elementHolderMaxAmount = builder.comment("The max element amount an element holder can hold.").defineInRange("elementHolderMaxAmount", 10000, 0, 100000000);
 		elementHolderTransferAmount = builder.comment("The amount of element transfered by an element holder.").defineInRange("elementHolderTransferAmount", 25, 0, 1000);
 		focusMaxSpell = builder.comment("The max number of spells on a focus.").defineInRange("focusMaxSpell", 10, 1, 20);
