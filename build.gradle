@@ -19,7 +19,7 @@ mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = '1.16.3-2.3.15'
+version = '1.16.3-2.3.16'
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
