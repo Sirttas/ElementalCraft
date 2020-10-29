@@ -35,7 +35,7 @@ public class ECEntities {
 	}
 
 	private static <T extends Entity> EntityType<T> register(IForgeRegistry<EntityType<?>> registry, Builder<T> builder, String name) {
-		EntityType<T> entityType = builder.build(name);
+		EntityType<T> entityType = builder.build(ElementalCraft.createRL(name).toString());
 
 		RegistryHelper.register(registry, entityType, name);
 		return entityType;
@@ -44,7 +44,7 @@ public class ECEntities {
 	private static <T extends LivingEntity> EntityType<T> register(IForgeRegistry<EntityType<?>> registry, Builder<T> builder, String name, AttributeModifierMap map) {
 		EntityType<T> entityType = register(registry, builder, name);
 
-		GlobalEntityTypeAttributes.put(register(registry, builder, name), map);
+		GlobalEntityTypeAttributes.put(entityType, map);
 		return entityType;
 	}
 }

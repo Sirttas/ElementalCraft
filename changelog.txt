@@ -1,3 +1,8 @@
+1.16.3-2.3.16:
+
+- fix a crash due to lack of associated owner object (issue #8)
+
+
 1.16.3-2.3.15:
 
 - fix a crash with reliquary (issue #7)
