@@ -43,10 +43,10 @@ public class ECFeatures {
 		
 		RegistryHelper.register(r, source, SourceFeature.NAME);
 
-		crystalOreConfig = register("crystal_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, ECBlocks.crystalOre.getDefaultState(), 9))
-				.func_242733_d(64).func_242728_a().func_242731_b(10));
+		crystalOreConfig = register("crystal_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, ECBlocks.crystalOre.getDefaultState(), 9))
+				.range(64).square().func_242731_b(10));
 		sourceConfig = register(SourceFeature.NAME,
-				source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242729_a(ECConfig.CONFIG.sourceSpawnChance.get()));
+				source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).chance(ECConfig.CONFIG.sourceSpawnChance.get()));
 
 		sourceAltar = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, NoFeatureConfig.field_236559_b_, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
 
@@ -75,7 +75,7 @@ public class ECFeatures {
 		StructureFeature<C, ?> structureFeature = Registry.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, location, new StructureFeature<>(structure, config));
 		
 		Registry.register(Registry.STRUCTURE_PIECE, location, structurePieceType);
-		Structure.field_236365_a_.put(structure.getStructureName(), structure);
+		Structure.NAME_STRUCTURE_BIMAP.put(structure.getStructureName(), structure);
 		return structureFeature;
 	}
 }

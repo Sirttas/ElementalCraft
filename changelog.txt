@@ -1,3 +1,11 @@
+1.15.2-1.2.14 and 1.16.3-2.3.17:
+
+- new block: creative element container
+- you can now fill a container with a holder by sneaking
+- element container content is displayed in tooltip
+- fix some Elementopedia entries
+
+
 1.16.3-2.3.16:
 
 - fix a crash due to lack of associated owner object (issue #8)

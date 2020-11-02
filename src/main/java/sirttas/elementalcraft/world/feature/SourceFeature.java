@@ -22,7 +22,7 @@ public class SourceFeature extends Feature<NoFeatureConfig> {
 	}
 
 	@Override
-	public boolean func_241855_a/* place */(ISeedReader world, ChunkGenerator structureManager, Random rand, BlockPos pos, NoFeatureConfig config) {
+	public boolean generate(ISeedReader world, ChunkGenerator structureManager, Random rand, BlockPos pos, NoFeatureConfig config) {
 		int x = pos.getX() + rand.nextInt(16);
 		int z = pos.getZ() + rand.nextInt(16);
 		int y = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z) + 2;

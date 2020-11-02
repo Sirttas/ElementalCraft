@@ -48,6 +48,7 @@
 
   "block.elementalcraft.tank_small": "Small Element Container",
   "block.elementalcraft.tank": "Element Container",
+  "block.elementalcraft.tank_creative": "Creative Element Container",
   "block.elementalcraft.extractor": "Element Extractor",
   "block.elementalcraft.extractor_improved": "Improved Element Extractor",
   "block.elementalcraft.infuser": "Element Infuser",
@@ -119,6 +120,7 @@
   "tooltip.elementalcraft.on_spell_use": "Durring spell cast:",
   "tooltip.elementalcraft.spell_effect_on_use": "When applied:",
   "tooltip.elementalcraft.consumes": "Consumes %s",
+  "tooltip.elementalcraft.contains": "Contains %s",
   "tooltip.elementalcraft.percent_full": "%s%% full",
 
   "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().",
@@ -175,7 +177,7 @@
   "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:elmentalcraft:spells/ender_strike)Ender strinke$() d'ont works.$(br2)It consumes $(thing)water element$().",
 
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$().",
-  "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the mos powerfull crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)to operate it needs to be circle with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$().$(br)Once this setup is done you can start crafting by puting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main on on the $(thing)pure infuser$().",
+  "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the mos powerfull crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)to operate it needs to be circle with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$() using $(ec:pipe)improved pipes$().$(br)Once this setup is done you can start crafting by puting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main on on the $(thing)pure infuser$().",
   "elementalcraft.page.purerock0": "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts event a $(thing)Wither$().",
   "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely twicked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon completed crafting and store it in a $(item)chest$() for exemple.$(br2)You ca reoriente its input and output by right clicking them.",
   
