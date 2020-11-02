@@ -60,6 +60,8 @@ import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
 import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.block.tank.TileTank;
+import sirttas.elementalcraft.block.tank.creative.BlockTankCreative;
+import sirttas.elementalcraft.block.tank.creative.TileTankCreative;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.registry.RegistryHelper;
@@ -72,6 +74,7 @@ public class ECBlocks {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static BlockTankSmall tankSmall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static BlockTank tank;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static BlockTankCreative tankCreative;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static BlockExtractor extractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static BlockImprovedExtractor improvedExtractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static BlockInfuser infuser;
@@ -118,6 +121,7 @@ public class ECBlocks {
 
 		RegistryHelper.register(registry, new BlockTankSmall(), BlockTankSmall.NAME);
 		RegistryHelper.register(registry, new BlockTank(), BlockTank.NAME);
+		RegistryHelper.register(registry, new BlockTankCreative(), BlockTankCreative.NAME);
 		RegistryHelper.register(registry, new BlockExtractor(), BlockExtractor.NAME);
 		RegistryHelper.register(registry, new BlockImprovedExtractor(), BlockImprovedExtractor.NAME);
 		RegistryHelper.register(registry, new BlockInfuser(), BlockInfuser.NAME);
@@ -164,6 +168,7 @@ public class ECBlocks {
 		IForgeRegistry<TileEntityType<?>> r = evt.getRegistry();
 
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileTank::new, tank, tankSmall).build(null), BlockTank.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileTankCreative::new, tankCreative).build(null), BlockTankCreative.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileExtractor::new, extractor, improvedExtractor).build(null), BlockExtractor.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileInfuser::new, infuser).build(null), BlockInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBinder::new, binder).build(null), BlockBinder.NAME);

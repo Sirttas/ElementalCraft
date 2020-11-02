@@ -38,6 +38,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.purifier, list);
 		addItem(ECBlocks.tankSmall, list);
 		addItem(ECBlocks.tank, list);
+		addItem(ECBlocks.tankCreative, list);
 		addItem(ECBlocks.impairedElementPipe, list);
 		addItem(ECBlocks.elementPipe, list);
 		addItem(ECBlocks.improvedElementPipe, list);

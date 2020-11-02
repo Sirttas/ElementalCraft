@@ -6,12 +6,10 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileEC;
-import sirttas.elementalcraft.block.tile.element.IElementReceiver;
-import sirttas.elementalcraft.block.tile.element.IElementSender;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.nbt.ECNames;
 
-public class TileTank extends TileEC implements IElementSender, IElementReceiver {
+public class TileTank extends TileEC implements ITank {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static TileEntityType<TileTank> TYPE;
 
@@ -37,7 +35,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 	@Override
 	public int inserElement(int count, ElementType type, boolean simulate) {
 		if (type != this.elementType && this.elementType != ElementType.NONE) {
-			return this.extractElement(count, this.elementType, simulate);
+			return count - this.extractElement(count, this.elementType, simulate);
 		} else {
 			int newCount = Math.min(elementAmount + count, elementAmountMax);
 			int ret = count - newCount + elementAmount;
@@ -63,7 +61,7 @@ public class TileTank extends TileEC implements IElementSender, IElementReceiver
 
 		if (!simulate) {
 			elementAmount = newCount;
-			if (this.elementAmount == 0) {
+			if (this.elementAmount <= 0) {
 				this.elementType = ElementType.NONE;
 			}
 		}
