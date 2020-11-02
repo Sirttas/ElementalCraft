@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -27,6 +29,7 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.block.tile.element.IElementReceiver;
+import sirttas.elementalcraft.block.tile.element.IElementSender;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.item.receptacle.ISourceInteractable;
@@ -84,18 +87,19 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		BlockPos pos = context.getPos();
 		World world = context.getWorld();
 		ItemStack stack = context.getItem();
-		ActionResultType result = tick(world, pos, stack);
+		PlayerEntity player = context.getPlayer();
+		ActionResultType result = tick(world, player, pos, stack);
 
 		if (result.isSuccessOrConsume()) {
 			this.setSavedPos(stack, pos);
-			context.getPlayer().setActiveHand(context.getHand());
+			player.setActiveHand(context.getHand());
 		}
 		return result;
 	}
 
 	@Override
 	public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
-		if (!this.tick(player.getEntityWorld(), this.getSavedPos(stack), stack).isSuccessOrConsume()) {
+		if (!this.tick(player.getEntityWorld(), player, this.getSavedPos(stack), stack).isSuccessOrConsume()) {
 			player.stopActiveHand();
 		}
 	}
@@ -105,33 +109,43 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		this.removeSavedPos(stack);
 	}
 
-	private ActionResultType tick(World world, BlockPos pos, ItemStack stack) {
+	private ActionResultType tick(World world, LivingEntity entity, BlockPos pos, ItemStack stack) {
 		BlockState blockstate = world.getBlockState(pos);
 
 		if (isValidSource(blockstate)) {
 			this.inserElement(stack, ECConfig.CONFIG.elementHolderTransferAmount.get());
 			return ActionResultType.CONSUME;
 		}
-		return TileEntityHelper.getTileEntityAs(world, pos, IElementReceiver.class).map(r -> {
-			int amount = Math.min(getElementAmount(stack), ECConfig.CONFIG.elementHolderTransferAmount.get());
+		if (entity.isSneaking()) {
 
-			if (r.getElementType() == elementType || r.getElementType() == ElementType.NONE) {
-				amount -= r.inserElement(amount, elementType, true);
+			return TileEntityHelper.getTileEntityAs(world, pos, IElementSender.class).filter(sender -> sender.getElementType() == elementType).map(sender -> {
+				int amount = NumberUtils.min(sender.getElementAmount(), ECConfig.CONFIG.elementHolderTransferAmount.get(), this.getElementAmountMax() - getElementAmount(stack));
 
 				if (amount > 0) {
-					this.extractElement(stack, amount);
-					r.inserElement(amount, elementType, false);
+					sender.extractElement(amount, elementType, false);
+					this.inserElement(stack, amount);
 					return ActionResultType.CONSUME;
 				}
-			}
-			return ActionResultType.PASS;
-		}).orElse(ActionResultType.PASS);
+				return ActionResultType.PASS;
+			}).orElse(ActionResultType.PASS);
+		}
+		return TileEntityHelper.getTileEntityAs(world, pos, IElementReceiver.class).filter(receiver -> receiver.getElementType() == elementType || receiver.getElementType() == ElementType.NONE)
+				.map(receiver -> {
+					int amount = NumberUtils.min(getElementAmount(stack), ECConfig.CONFIG.elementHolderTransferAmount.get(), receiver.getMaxElement() - receiver.getElementAmount());
+
+					if (amount > 0) {
+						this.extractElement(stack, amount);
+						receiver.inserElement(amount, elementType, false);
+						return ActionResultType.CONSUME;
+					}
+					return ActionResultType.PASS;
+				}).orElse(ActionResultType.PASS);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add((new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(getElementAmount(stack) * 100 / elementAmountMax)))
+		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(getElementAmount(stack) * 100 / elementAmountMax))
 				.mergeStyle(TextFormatting.GREEN));
 	}
 

@@ -19,14 +19,14 @@ mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = '1.16.3-2.3.16'
+version = '1.16.3-2.3.17'
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200916-1.16.2'
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
