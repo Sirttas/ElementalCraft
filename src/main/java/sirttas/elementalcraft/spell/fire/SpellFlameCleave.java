@@ -23,14 +23,14 @@ public class SpellFlameCleave extends Spell {
 	public static final String NAME = "flame_cleave";
 
 	public SpellFlameCleave() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).cooldown(ECConfig.CONFIG.flameCleaveCooldown.get()).consumeAmount(ECConfig.CONFIG.flameCleaveConsumeAmount.get()));
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).cooldown(ECConfig.COMMON.flameCleaveCooldown.get()).consumeAmount(ECConfig.COMMON.flameCleaveConsumeAmount.get()));
 	}
 
 
 	@Override
 	public ActionResultType castOnSelf(Entity sender) {
 		World world = sender.getEntityWorld();
-		Double range = ECConfig.CONFIG.flameCleaveRange.get();
+		Double range = ECConfig.COMMON.flameCleaveRange.get();
 
 		if (sender instanceof LivingEntity) {
 			LivingEntity livingSender = (LivingEntity) sender;
@@ -58,7 +58,7 @@ public class SpellFlameCleave extends Spell {
 
 
 	private void hitTarget(LivingEntity sender, LivingEntity target, float damageBase, float damageMult) {
-		Double range = ECConfig.CONFIG.flameCleaveRange.get();
+		Double range = ECConfig.COMMON.flameCleaveRange.get();
 
 		if (target != sender && !sender.isOnSameTeam(target) && (!(target instanceof ArmorStandEntity) || !((ArmorStandEntity) target).hasMarker()) && sender.getDistanceSq(target) < range * range) {
 			float damage = damageMult * (damageBase + EnchantmentHelper.getModifierForCreature(sender.getHeldItemMainhand(), target.getCreatureAttribute()));

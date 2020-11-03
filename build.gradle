@@ -10,6 +10,7 @@ buildscript {
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
@@ -19,7 +20,7 @@ mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = '1.16.3-2.3.17'
+version = '1.16.3-2.4.0'
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
@@ -98,17 +99,16 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.3-34.1.18'
+    minecraft 'net.minecraftforge:forge:1.16.3-34.1.25'
     
     compile 'org.spongepowered:mixin:0.8.2'
     
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16-42:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16-42")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47")
     
-    compileOnly fg.deobf("mezz.jei:jei-1.16.2:7.3.2.25:api")
-    implementation fg.deobf("mezz.jei:jei-1.16.2:7.3.2.25")
+    compileOnly fg.deobf("mezz.jei:jei-1.16.3:7.6.0.49:api")
+    implementation fg.deobf("mezz.jei:jei-1.16.3:7.6.0.49")
     
-
 }
 
 jar {

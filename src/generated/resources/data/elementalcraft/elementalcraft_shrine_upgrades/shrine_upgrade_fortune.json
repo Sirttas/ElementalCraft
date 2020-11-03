@@ -1,0 +1,15 @@
+{
+  "max_amount": 3,
+  "predicate": {
+    "block": "elementalcraft:oreshrine"
+  },
+  "bonuses": [
+    {
+      "type": "element_consuption",
+      "multiplier": 1.3
+    }
+  ],
+  "incompatibilities": [
+    "elementalcraft:shrine_upgrade_silk_touch"
+  ]
+}

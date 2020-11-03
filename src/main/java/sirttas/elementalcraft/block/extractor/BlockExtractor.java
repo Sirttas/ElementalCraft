@@ -48,6 +48,6 @@ public class BlockExtractor extends BlockECTileProvider {
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
 		TileEntityHelper.getTileEntityAs(world, pos, TileExtractor.class).filter(TileExtractor::canExtract)
-				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, Vector3d.copy(pos), Direction.DOWN, 1, rand));
+				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, Vector3d.copyCentered(pos), Direction.DOWN, 1, rand));
 	}
 }

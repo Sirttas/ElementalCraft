@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune"
+    },
+    "facing=south": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune",
+      "y": 90
+    }
+  }
+}

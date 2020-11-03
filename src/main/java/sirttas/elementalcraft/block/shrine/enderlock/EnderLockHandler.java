@@ -19,7 +19,7 @@ public class EnderLockHandler {
 	private static final List<Vector3i> RANGE;
 
 	static {
-		int range = ECConfig.CONFIG.enderLockShrineRange.get();
+		int range = ECConfig.COMMON.enderLockShrineRange.get();
 		RANGE = new ArrayList<>(((range * 2 + 1) ^ 2) * 4);
 
 		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> IntStream.range(0, 4).forEach(y -> RANGE.add(new Vector3i(x, y, z)))));

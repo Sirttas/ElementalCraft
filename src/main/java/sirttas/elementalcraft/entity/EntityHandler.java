@@ -1,18 +1,27 @@
 package sirttas.elementalcraft.entity;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.items.ItemHandlerHelper;
+import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNames;
+import sirttas.elementalcraft.network.message.MessageHandler;
+import sirttas.elementalcraft.network.message.ShrineUpgradesMessage;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public class EntityHandler {
@@ -25,10 +34,26 @@ public class EntityHandler {
 	}
 	
 	@SubscribeEvent
+	public static void onEntityLivingAttack(LivingAttackEvent event) {
+		LivingEntity entity = event.getEntityLiving();
+		World world = entity.world;
+
+		if (!world.isRemote && InfusionHelper.hasInfusion(entity, EquipmentSlotType.CHEST, ElementType.AIR)
+				&& world.getRandom().nextDouble() <= ECConfig.COMMON.chestplateAirInfusionDodgeChance.get()) {
+			event.setCanceled(true);
+		}
+	}
+
+	@SubscribeEvent
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		PlayerEntity player = event.getPlayer();
 
-		if (Boolean.TRUE.equals(ECConfig.CONFIG.playersSpawnWithBook.get()) && !event.getEntityLiving().getEntityWorld().isRemote) {
+		if (player instanceof ServerPlayerEntity) {
+			MessageHandler.CHANNEL.sendTo(new ShrineUpgradesMessage(ElementalCraft.SHRINE_UPGRADE_MANAGER), ((ServerPlayerEntity) player).connection.getNetworkManager(),
+					NetworkDirection.PLAY_TO_CLIENT);
+		}
+		
+		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getEntityWorld().isRemote) {
 			CompoundNBT tag = player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {

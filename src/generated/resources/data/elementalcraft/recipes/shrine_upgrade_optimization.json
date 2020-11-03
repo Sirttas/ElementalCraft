@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dfd",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "f": {
+      "item": "elementalcraft:fireite_ingot"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_optimization"
+  }
+}

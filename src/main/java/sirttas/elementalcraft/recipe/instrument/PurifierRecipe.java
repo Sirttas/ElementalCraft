@@ -11,7 +11,6 @@ import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.pureore.PureOreHelper;
 
 public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
@@ -29,19 +28,19 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	@Override
 	public int getElementPerTick() {
-		return ECConfig.CONFIG.purifierConsumeAmount.get();
+		return ECConfig.COMMON.purifierConsumeAmount.get();
 	}
 
 	@Override
 	public int getDuration() {
-		return ECConfig.CONFIG.purifierDuration.get();
+		return ECConfig.COMMON.purifierDuration.get();
 	}
 
 	@Override
 	public boolean matches(TilePurifier inv) {
 		ItemStack stack = inv.getInventory().getStackInSlot(0);
 
-		return inv.getTankElementType() == ElementType.EARTH && PureOreHelper.isValidOre(stack) && input.test(stack);
+		return inv.getTankElementType() == ElementType.EARTH && ElementalCraft.PURE_ORE_MANAGER.isValidOre(stack) && input.test(stack);
 	}
 
 	@Override
@@ -51,7 +50,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		ItemStack result = PureOreHelper.createPureOre(ore.getItem()).copy();
+		ItemStack result = ElementalCraft.PURE_ORE_MANAGER.createPureOre(ore.getItem()).copy();
 
 		result.setCount(2);
 		return result;

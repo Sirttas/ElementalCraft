@@ -99,8 +99,7 @@ public class ECMaterials {
 		private final LazyValue<Ingredient> repairMaterial;
 		private final float knockbackResistance;
 
-		private ECArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughnessIn,
-				float knockbackResistance,
+		private ECArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountsIn, int enchantabilityIn, SoundEvent equipSoundIn, float toughnessIn, float knockbackResistance,
 				Supplier<Ingredient> repairMaterialSupplier) {
 			this.name = nameIn;
 			this.maxDamageFactor = maxDamageFactorIn;

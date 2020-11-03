@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gdg",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "g": {
+      "tag": "forge:ingots/gold"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:firecrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_efficiency"
+  }
+}

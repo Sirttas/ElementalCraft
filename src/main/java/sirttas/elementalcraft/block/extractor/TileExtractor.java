@@ -12,6 +12,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.nbt.ECNames;
 
 public class TileExtractor extends TileECTickable {
 
@@ -20,7 +21,7 @@ public class TileExtractor extends TileECTickable {
 	int extractionAmount;
 	
 	public TileExtractor() {
-		this(ECConfig.CONFIG.extractorExtractionAmount.get());
+		this(ECConfig.COMMON.extractorExtractionAmount.get());
 	}
 
 	public TileExtractor(int extractionAmount) {
@@ -35,13 +36,13 @@ public class TileExtractor extends TileECTickable {
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
-		this.extractionAmount = compound.getInt("extraction_amount");
+		this.extractionAmount = compound.getInt(ECNames.EXTRACTION_AMOUNT);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putInt("extraction_amount", this.extractionAmount);
+		compound.putInt(ECNames.EXTRACTION_AMOUNT, this.extractionAmount);
 		return compound;
 	}
 
@@ -64,6 +65,6 @@ public class TileExtractor extends TileECTickable {
 	public boolean canExtract() {
 		TileTank tank = getTank();
 
-		return hasWorld() && hasSource() && tank != null && tank.getElementAmount() < tank.getMaxElement();
+		return hasWorld() && hasSource() && tank != null && tank.getElementAmount() < tank.getElementCapacity();
 	}
 }

@@ -19,7 +19,7 @@ public class SpellStoneWall extends Spell {
 	public static final String NAME = "stonewall";
 
 	public SpellStoneWall() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).cooldown(ECConfig.CONFIG.stoneWallCooldown.get()).consumeAmount(ECConfig.CONFIG.stoneWallConsumeAmount.get()));
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.stoneWallCooldown.get()).consumeAmount(ECConfig.COMMON.stoneWallConsumeAmount.get()));
 	}
 
 	private void spawn(World world, BlockPos pos) {

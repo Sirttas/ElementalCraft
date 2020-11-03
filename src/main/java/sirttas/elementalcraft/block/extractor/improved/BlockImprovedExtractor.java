@@ -29,7 +29,7 @@ public class BlockImprovedExtractor extends BlockExtractor {
 
 	@Override
 	public TileExtractor createTileEntity(BlockState state, IBlockReader world) {
-		return new TileExtractor(ECConfig.CONFIG.improvedExtractorExtractionAmount.get());
+		return new TileExtractor(ECConfig.COMMON.improvedExtractorExtractionAmount.get());
 	}
 
 	@Override

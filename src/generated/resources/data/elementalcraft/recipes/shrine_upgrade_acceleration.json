@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rir",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "i": {
+      "item": "minecraft:clock"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_acceleration"
+  }
+}

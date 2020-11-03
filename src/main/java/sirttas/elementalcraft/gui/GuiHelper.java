@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.config.ECConfig;
 
 /**
  * This class come from Botania code
@@ -47,12 +48,12 @@ public class GuiHelper {
 		mc.textureManager.bindTexture(GAUGE);
 		blit(matrixStack, x, y, 0, 0, 17, 17);
 
-		int progress = Math.max(0, (int) ((double) amount / (double) max * 17));
+		int progress = Math.max(0, (int) ((double) Math.min(amount, max) / (double) max * 17));
 
 		if (progress <= 1 && amount > 0) {
 			progress = 2;
 		}
-		blit(matrixStack, x, y + 17 - progress, getElementTypeOffset(type) * 17, 17 - progress, 17, progress);
+		blit(matrixStack, x, y + 17 - progress, getElementTypeOffset(type) * 17, 17 - progress + (Boolean.TRUE.equals(ECConfig.CLIENT.usePaleElementGauge.get()) ? 17 : 0), 17, progress);
 		if (showDebugInfo()) {
 			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 17, 16777215);
 		}

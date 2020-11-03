@@ -17,6 +17,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.entity.boss.ECBossEntity;
 import sirttas.elementalcraft.entity.goal.CastSpellGoal;
+import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.spell.Spells;
 
 public class EarthGolemEntity extends ECBossEntity {
@@ -36,6 +37,7 @@ public class EarthGolemEntity extends ECBossEntity {
 	protected void registerGoals() {
 		this.goalSelector.addGoal(2, new AttackGoal(this));
 		this.goalSelector.addGoal(3, new CastSpellGoal(this, Spells.gravelFall));
+		this.goalSelector.addGoal(3, new CastSpellGoal(this, Spells.fireBall));
 		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -48,6 +50,7 @@ public class EarthGolemEntity extends ECBossEntity {
 
 		if (ret && source instanceof IndirectEntityDamageSource && this.rand.nextInt(10) > 2) {
 			Spells.stoneWall.castOnSelf(this);
+			SpellTickManager.getInstance(getEntityWorld()).setCooldown(this, Spells.stoneWall);
 		}
 		return ret;
 	}

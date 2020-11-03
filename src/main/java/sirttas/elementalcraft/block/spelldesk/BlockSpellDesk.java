@@ -18,6 +18,8 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -84,6 +86,17 @@ public class BlockSpellDesk extends BlockEC {
 	}
 
 	@Override
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.with(FACING, rot.rotate(state.get(FACING)));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+	}
+
+	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
@@ -118,7 +131,7 @@ public class BlockSpellDesk extends BlockEC {
 			if (!world.isRemote()) {
 				world.addEntity(new ItemEntity(world, position.getX(), position.getY(), position.getZ(), scroll));
 			} else {
-				ParticleHelper.createCraftingParticle(type, world, Vector3d.copy(pos).add(0, 0.7, 0), rand);
+				ParticleHelper.createCraftingParticle(type, world, Vector3d.copyCentered(pos).add(0, 0.7, 0), rand);
 			}
 		} else {
 			world.playSound(position.getX(), position.getY(), position.getZ(), SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.BLOCKS, 0.8F, 0.8F + rand.nextFloat() * 0.4F, false);

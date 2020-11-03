@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ggg",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "g": {
+      "tag": "forge:dusts/glowstone"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:earthcrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_range"
+  }
+}

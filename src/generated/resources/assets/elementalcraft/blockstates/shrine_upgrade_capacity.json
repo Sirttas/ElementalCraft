@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "elementalcraft:block/shrine_upgrade_capacity",
+      "x": 180
+    },
+    "facing=up": {
+      "model": "elementalcraft:block/shrine_upgrade_capacity"
+    },
+    "facing=north": {
+      "model": "elementalcraft:block/shrine_upgrade_capacity",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "elementalcraft:block/shrine_upgrade_capacity",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "elementalcraft:block/shrine_upgrade_capacity",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "elementalcraft:block/shrine_upgrade_capacity",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

@@ -30,7 +30,7 @@ public class SpellEnderStrike extends Spell {
 
 
 	public SpellEnderStrike() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.AIR).cooldown(ECConfig.CONFIG.enderStrikeCooldown.get()).consumeAmount(ECConfig.CONFIG.enderStrikeConsumeAmount.get()));
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.AIR).cooldown(ECConfig.COMMON.enderStrikeCooldown.get()).consumeAmount(ECConfig.COMMON.enderStrikeConsumeAmount.get()));
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class SpellEnderStrike extends Spell {
 	public ActionResultType castOnSelf(Entity sender) {
 		Vector3d pos = sender.getPositionVec();
 
-		return sender.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(ECConfig.CONFIG.enderStrikeRange.get())).stream()
+		return sender.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(ECConfig.COMMON.enderStrikeRange.get())).stream()
 				.filter(IMob.class::isInstance).sorted(Comparator.comparingDouble(e -> pos.distanceTo(e.getPositionVec()))).findFirst().map(e -> castOnEntity(sender, e)).orElse(ActionResultType.PASS);
 	}
 

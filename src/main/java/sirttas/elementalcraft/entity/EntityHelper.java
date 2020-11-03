@@ -13,8 +13,6 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 
 public class EntityHelper {
 
@@ -34,11 +32,10 @@ public class EntityHelper {
 		return entityResult != null && entityResult.getHitVec().subtract(eyePos).length() <= blockResult.getHitVec().subtract(eyePos).length() ? entityResult : blockResult;
 	}
 
+	@SuppressWarnings("resource")
 	public static void swingArm(PlayerEntity player) {
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			if (player instanceof ClientPlayerEntity) {
-				((ClientPlayerEntity) player).swingArm(Hand.MAIN_HAND);
-			}
-		});
+		if (player.getEntityWorld().isRemote && player instanceof ClientPlayerEntity) {
+			((ClientPlayerEntity) player).swingArm(Hand.MAIN_HAND);
+		}
 	}
 }

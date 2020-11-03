@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:growthshrine",
+    "elementalcraft:harvestshrine",
+    "elementalcraft:oreshrine",
+    "elementalcraft:sweetshrine",
+    "elementalcraft:vacuumshrine",
+    "elementalcraft:firepylon"
+  ]
+}

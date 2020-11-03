@@ -71,7 +71,7 @@ public class BlockBinder extends BlockECContainer {
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
 		TileEntityHelper.getTileEntityAs(world, pos, TileBinder.class).filter(TileBinder::isRunning)
-				.ifPresent(b -> ParticleHelper.createElementFlowParticle(b.getTankElementType(), world, Vector3d.copy(pos).add(0, 0.2D, 0), Direction.UP, 1, rand));
+				.ifPresent(b -> ParticleHelper.createElementFlowParticle(b.getTankElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), Direction.UP, 1, rand));
 	}
 
 	@Override

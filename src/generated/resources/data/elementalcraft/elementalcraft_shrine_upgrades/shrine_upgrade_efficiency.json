@@ -1,0 +1,15 @@
+{
+  "predicate": {
+    "tag": "elementalcraft:shrines"
+  },
+  "bonuses": [
+    {
+      "type": "element_consuption",
+      "multiplier": 0.5
+    },
+    {
+      "type": "capacity",
+      "multiplier": 0.9
+    }
+  ]
+}

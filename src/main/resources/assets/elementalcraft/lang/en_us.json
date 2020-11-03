@@ -45,6 +45,8 @@
   "item.elementalcraft.hardened_handle": "Hardened Handle",
   "item.elementalcraft.shrinebase": "Shrine",
   "item.elementalcraft.fireite_ingot": "Firerite Ingot",
+  "item.elementalcraft.air_silk": "Air Silk",
+  "item.elementalcraft.shrine_upgrade_core": "Shrine Upgrade Core",
 
   "block.elementalcraft.tank_small": "Small Element Container",
   "block.elementalcraft.tank": "Element Container",
@@ -78,6 +80,15 @@
   "block.elementalcraft.overloadshrine": "Overload Shrine",
   "block.elementalcraft.sweetshrine": "Sweet Shrine",
   "block.elementalcraft.enderlockshrine": "Ender Lock Shrine",
+  
+  "block.elementalcraft.shrine_upgrade_acceleration": "Acceleration Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_range": "Range Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_capacity": "Capacity Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_efficiency": "Efficiency Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_optimization": "Optimization Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_fortune": "Fortune Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_silk_touch": "Silk Touch Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_planting": "Planting Shrine Upgrade",
 
   "block.elementalcraft.crystalore": "Inert Crystal Ore",
   "block.elementalcraft.whiterock": "White Rock",
@@ -108,6 +119,13 @@
   
   "spell.elementalcraft.heal": "Healing",
 
+  "shrine_upgrade_bonus.elementalcraft.none": "§4ERROR: %s",
+  "shrine_upgrade_bonus.elementalcraft.speed": "Periode: %s",
+  "shrine_upgrade_bonus.elementalcraft.element_consuption": "Element Consuption: %s",
+  "shrine_upgrade_bonus.elementalcraft.capacity": "Capacity: %s",
+  "shrine_upgrade_bonus.elementalcraft.range": "Range: %s",
+  
+
   "elementalcraft.jei.infusion": "Element Infusion",
   "elementalcraft.jei.tool_infusion": "Element Tool Infusion",
   "elementalcraft.jei.binding": "Element Binding",
@@ -122,6 +140,8 @@
   "tooltip.elementalcraft.consumes": "Consumes %s",
   "tooltip.elementalcraft.contains": "Contains %s",
   "tooltip.elementalcraft.percent_full": "%s%% full",
+  "tooltip.elementalcraft.max_amount": "Limited to %d",
+  "tooltip.elementalcraft.incompatibilities": "Incompatible With:",
 
   "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().",
 
@@ -168,13 +188,15 @@
   "elementalcraft.page.shrinebase0": "This is the building block of all $(thing)shrines$().",
   "elementalcraft.page.firepylon0": "The $(item)Fire Pylon$() is a $(thing)Shrine$() that set fire to nearby $(thing)creatures$().$(br2)It consumes $(thing)fire element$().",
   "elementalcraft.page.oreshrine0": "The $(item)Ore Shrine$() excavate $(thing)ores$() underneath it.$(br2)It consumes $(thing)earth element$().",
-  "elementalcraft.page.lavashrine0": "The $(item)Lava Shrine$() melt $(item)stone$() above it into $(item)lava$().$(br2)It consumes $(thing)fire element$().",
+  "elementalcraft.page.lavashrine0": "The $(item)Lava Shrine$() melt $(item)basalt$() above it into $(item)lava$().$(br2)It consumes $(thing)fire element$().",
   "elementalcraft.page.sweetshrine0": "The $(item)Sweet Shrine$() periodically refill hunger and boost nearby $(thing)bees$() production.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.vacuumshrine0": "The $(item)Vacuum Shrine$() pull towards it nearby $(item)items$() and store them in the container below it.$(br2)It consumes $(thing)air element$().",
   "elementalcraft.page.growthshrine0": "The $(item)Growth Shrine$() accelerate $(thing)crops$() growth above it.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.harvestshrine0": "The $(item)Harvest Shrine$() harvest $(thing)crops$() below it.$(br2)It consumes $(thing)earth element$().",
   "elementalcraft.page.overloadshrine0": "The $(item)Overload Shrine$() boost the speed of the $(item)block$() its facing.$(br2)It consumes $(thing)air element$().",
   "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:elmentalcraft:spells/ender_strike)Ender strinke$() d'ont works.$(br2)It consumes $(thing)water element$().",
+  "elementalcraft.page.shrine_upgrade0": "You can craft $(thing)shrine upgrades$() to increase the power of your $(thing)shrines$(). thouse upgrades can only be placed at specific places around the $(thing)shrin$().$(br)Upgrades cover a wide range of bonuses from $(thing)speed$(), $(thing)reduce consuption$(), $(thing)range$()... or specific ones like $(thing)silk touch$() or $(thing)fortune$() for the $((l:elmentalcraft:shrines/oreshrine)ore shrine$().",
+
 
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$().",
   "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the mos powerfull crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)to operate it needs to be circle with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$() using $(ec:pipe)improved pipes$().$(br)Once this setup is done you can start crafting by puting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main on on the $(thing)pure infuser$().",

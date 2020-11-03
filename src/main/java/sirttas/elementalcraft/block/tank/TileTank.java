@@ -15,17 +15,17 @@ public class TileTank extends TileEC implements ITank {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static TileEntityType<TileTank> TYPE;
 
 	private int elementAmount = 0;
-	private int elementAmountMax = 100000;
+	private int elementCapacity = 100000;
 	private ElementType elementType = ElementType.NONE;
 	private boolean small = false;
 
 	public TileTank(int elementAmountMax) {
 		super(TYPE);
-		this.elementAmountMax = elementAmountMax;
+		this.elementCapacity = elementAmountMax;
 	}
 
 	public TileTank(boolean small) {
-		this(small ? ECConfig.CONFIG.tankSmallMaxAmount.get() : ECConfig.CONFIG.tankMaxAmount.get());
+		this(small ? ECConfig.COMMON.tankSmallCapacity.get() : ECConfig.COMMON.tankCapacity.get());
 		this.setSmall(small);
 	}
 
@@ -38,7 +38,7 @@ public class TileTank extends TileEC implements ITank {
 		if (type != this.elementType && this.elementType != ElementType.NONE) {
 			return count - this.extractElement(count, this.elementType, simulate);
 		} else {
-			int newCount = Math.min(elementAmount + count, elementAmountMax);
+			int newCount = Math.min(elementAmount + count, elementCapacity);
 			int ret = count - newCount + elementAmount;
 
 			if (!simulate) {
@@ -81,8 +81,8 @@ public class TileTank extends TileEC implements ITank {
 	}
 
 	@Override
-	public int getMaxElement() {
-		return elementAmountMax;
+	public int getElementCapacity() {
+		return elementCapacity;
 	}
 
 	public boolean isSmall() {
@@ -103,7 +103,9 @@ public class TileTank extends TileEC implements ITank {
 		super.read(state, compound);
 		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
-		elementAmountMax = compound.getInt(ECNames.ELEMENT_MAX);
+		if (compound.contains(ECNames.ELEMENT_CAPACITY)) { // TODO 1.17 remove if
+			elementCapacity = compound.getInt(ECNames.ELEMENT_CAPACITY);
+		}
 		small = compound.getBoolean(ECNames.SMALL);
 	}
 
@@ -112,7 +114,7 @@ public class TileTank extends TileEC implements ITank {
 		super.write(compound);
 		compound.putString(ECNames.ELEMENT_TYPE, elementType.getString());
 		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
-		compound.putInt(ECNames.ELEMENT_MAX, elementAmountMax);
+		compound.putInt(ECNames.ELEMENT_CAPACITY, elementCapacity);
 		compound.putBoolean(ECNames.SMALL, small);
 		return compound;
 	}

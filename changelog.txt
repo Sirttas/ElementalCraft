@@ -1,3 +1,25 @@
+1.16.3-2.4.0:
+
+- new item: air silk
+- new item: shrine upgrade core
+- new block: acceleration shrine upgrade
+- new block: range shrine upgrade
+- new block: capacity shrine upgrade
+- new block: efficiency shrine upgrade
+- new block: optimization shrine upgrade
+- new block: fortune shrine upgrade
+- new block: silk touch shrine upgrade
+- chestplate air infusion now gives dodge chance
+- rework config: the server config is now common, you will need to copy it
+- rework pure ore injection to receive IMC
+- element gauge can now be offset in client config
+
+
+1.16.3-2.3.18:
+
+- fix a compilation mistake
+
+
 1.15.2-1.2.14 and 1.16.3-2.3.17:
 
 - new block: creative element container

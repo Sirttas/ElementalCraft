@@ -1,0 +1,37 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"0": "elementalcraft:block/iron",
+		"1": "elementalcraft:block/burnt_glass",
+		"particle": "elementalcraft:block/burnt_glass"
+	},
+	"elements": [
+		{
+			"from": [7, 12, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [16, 23, 16]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 4], "texture": "#0"},
+				"east": {"uv": [0, 0, 2, 4], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 4], "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 4], "texture": "#0"},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#0"},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5, 6, 5],
+			"to": [11, 12, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13, 19, 13]},
+			"faces": {
+				"north": {"uv": [5, 5, 11, 11], "texture": "#1"},
+				"east": {"uv": [10, 10, 16, 16], "texture": "#1"},
+				"south": {"uv": [10, 10, 16, 16], "texture": "#1"},
+				"west": {"uv": [5, 5, 11, 11], "texture": "#1"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#1"},
+				"down": {"uv": [10, 10, 16, 16], "texture": "#1"}
+			}
+		}
+	]
+}

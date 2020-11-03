@@ -16,7 +16,7 @@ public class SpellItemPull extends Spell {
 	public static final String NAME = "item_pull";
 
 	public SpellItemPull() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.AIR).cooldown(ECConfig.CONFIG.itemPullCooldown.get()).consumeAmount(ECConfig.CONFIG.itemPullConsumeAmount.get()));
+		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.AIR).cooldown(ECConfig.COMMON.itemPullCooldown.get()).consumeAmount(ECConfig.COMMON.itemPullConsumeAmount.get()));
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class SpellItemPull extends Spell {
 		Vector3d pos = sender.getPositionVec();
 		World world = sender.getEntityWorld();
 
-		world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(ECConfig.CONFIG.itemPullRange.get())).stream().forEach(i -> {
+		world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(ECConfig.COMMON.itemPullRange.get())).stream().forEach(i -> {
 			if (world.isRemote) {
 				ParticleHelper.createEnderParticle(world, i.getPositionVec(), 3, world.rand);
 			}

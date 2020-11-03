@@ -18,14 +18,14 @@ public class SpellInferno extends Spell {
 	public static final String NAME = "inferno";
 
 	public SpellInferno() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).consumeAmount(ECConfig.CONFIG.infernoConsumeAmount.get()).cooldown(ECConfig.CONFIG.infernoCooldown.get())
-				.useDuration(ECConfig.CONFIG.infernoDuration.get()));
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).consumeAmount(ECConfig.COMMON.infernoConsumeAmount.get()).cooldown(ECConfig.COMMON.infernoCooldown.get())
+				.useDuration(ECConfig.COMMON.infernoDuration.get()));
 	}
 
 	@Override
 	public ActionResultType castOnSelf(Entity sender) {
 		World world = sender.getEntityWorld();
-		Double range = ECConfig.CONFIG.infernoRange.get();
+		Double range = ECConfig.COMMON.infernoRange.get();
 		Vector3d look = sender.getLookVec().normalize();
 
 		if (sender instanceof LivingEntity) {

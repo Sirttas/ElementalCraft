@@ -9,6 +9,15 @@
     {
       "type": "text",
       "text": "elementalcraft.page.purerock0"
+    },    
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:purerock_stairs"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:purerock_slab",
+      "recipe2": "elementalcraft:purerock_wall"
     }
   ]
 }

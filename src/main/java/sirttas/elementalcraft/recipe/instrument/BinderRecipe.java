@@ -61,7 +61,7 @@ public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 		if (inv.getItemCount() != ingredients.size()) {
 			return false;
 		}
-		return Boolean.TRUE.equals(ECConfig.CONFIG.binderRecipeMatchOrder.get()) ? matchesOrdered(inv) : matchesUnordered(inv);
+		return Boolean.TRUE.equals(ECConfig.COMMON.binderRecipeMatchOrder.get()) ? matchesOrdered(inv) : matchesUnordered(inv);
 	}
 
 	private boolean matchesOrdered(TileBinder inv) {

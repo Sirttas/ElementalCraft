@@ -1,0 +1,19 @@
+{
+  "predicate": {
+    "tag": "elementalcraft:shrines/upgradables/range"
+  },
+  "bonuses": [
+    {
+      "type": "speed",
+      "multiplier": 1.2
+    },
+    {
+      "type": "element_consuption",
+      "multiplier": 1.2
+    },
+    {
+      "type": "range",
+      "multiplier": 1.5
+    }
+  ]
+}

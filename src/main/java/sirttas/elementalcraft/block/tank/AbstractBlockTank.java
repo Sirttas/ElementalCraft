@@ -43,7 +43,7 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	@Override
 	@Deprecated
 	public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
-		return TileEntityHelper.getTileEntityAs(world, pos, TileTank.class).map(tank -> tank.getElementAmount() * 15 / tank.getMaxElement()).orElse(0);
+		return TileEntityHelper.getTileEntityAs(world, pos, TileTank.class).map(tank -> tank.getElementAmount() * 15 / tank.getElementCapacity()).orElse(0);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, World world, BlockPos pos, Random rand) {
 		TileEntityHelper.getTileEntityAs(world, pos, ITank.class).filter(t -> t.getElementAmount() > 0 && t.getElementType() != ElementType.NONE)
-				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), world, Vector3d.copy(pos).add(0, 0.2D, 0), rand));
+				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), rand));
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 
 			if (elementType != ElementType.NONE && amount > 0) {
 				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.contains", elementType.getDisplayName()).mergeStyle(TextFormatting.GREEN));
-				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(amount * 100 / blockNbt.getInt(ECNames.ELEMENT_MAX)))
+				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(amount * 100 / blockNbt.getInt(ECNames.ELEMENT_CAPACITY)))
 						.mergeStyle(TextFormatting.GREEN));
 			}
 

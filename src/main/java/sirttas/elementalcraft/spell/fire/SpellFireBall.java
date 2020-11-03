@@ -14,7 +14,7 @@ public class SpellFireBall extends Spell {
 	public static final String NAME = "fireball";
 
 	public SpellFireBall() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).cooldown(ECConfig.CONFIG.fireBallCooldown.get()).consumeAmount(ECConfig.CONFIG.fireBallConsumeAmount.get()));
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).cooldown(ECConfig.COMMON.fireBallCooldown.get()).consumeAmount(ECConfig.COMMON.fireBallConsumeAmount.get()));
 	}
 
 	@Override

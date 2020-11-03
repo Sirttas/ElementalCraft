@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.item.receptacle;
+package sirttas.elementalcraft.api.source;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;

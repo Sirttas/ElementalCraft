@@ -16,10 +16,8 @@ ellementalist
 illementalist
 source name by elements
 world gen config
-shrines upgrades
 rework particles
 difuser
-hardened handle
 spell particles
 
 spells:

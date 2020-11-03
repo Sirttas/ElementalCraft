@@ -22,7 +22,7 @@ public class SpellSilkVein extends Spell {
 	public static final String NAME = "silk_vein";
 
 	public SpellSilkVein() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.CONFIG.silkVeinCooldown.get()).consumeAmount(ECConfig.CONFIG.silkVeinConsumeAmount.get()));
+		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.silkVeinCooldown.get()).consumeAmount(ECConfig.COMMON.silkVeinConsumeAmount.get()));
 	}
 
 	private boolean isValidBlock(Block block) {
@@ -31,7 +31,7 @@ public class SpellSilkVein extends Spell {
 
 	private void mineVein(World world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
-		double rangeSq = ECConfig.CONFIG.silkVeinRange.get();
+		double rangeSq = ECConfig.COMMON.silkVeinRange.get();
 
 		rangeSq *= rangeSq;
 		queue.offer(target);

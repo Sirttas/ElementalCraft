@@ -38,7 +38,7 @@ public class TileInfuser extends TileInstrument {
 	public void process() {
 		super.process();
 		if (this.world.isRemote) {
-			ParticleHelper.createCraftingParticle(getTankElementType(), world, Vector3d.copy(pos), world.rand);
+			ParticleHelper.createCraftingParticle(getTankElementType(), world, Vector3d.copyCentered(pos), world.rand);
 		}
 	}
 

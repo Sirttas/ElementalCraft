@@ -12,8 +12,8 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.IElementReceiver;
 import sirttas.elementalcraft.block.tile.TileECContainer;
-import sirttas.elementalcraft.block.tile.element.IElementReceiver;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.nbt.ECNames;
 
@@ -22,7 +22,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME) public static TileEntityType<TilePedestal> TYPE;
 
 	private int elementAmount = 0;
-	protected int elementMax = 10000; // TODO CONFIG
+	protected int elementCapacity = 10000; // TODO CONFIG
 	private final SingleItemInventory inventory;
 
 	public TilePedestal() {
@@ -36,8 +36,8 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	}
 
 	@Override
-	public int getMaxElement() {
-		return elementMax;
+	public int getElementCapacity() {
+		return elementCapacity;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 		if (type != this.getElementType()) {
 			return 0;
 		} else {
-			int newCount = Math.min(elementAmount + count, elementMax);
+			int newCount = Math.min(elementAmount + count, elementCapacity);
 			int ret = count - newCount + elementAmount;
 
 			if (!simulate) {

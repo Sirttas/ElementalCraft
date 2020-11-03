@@ -1,0 +1,20 @@
+{
+  "max_amount": 2,
+  "predicate": {
+    "tag": "elementalcraft:shrines"
+  },
+  "bonuses": [
+    {
+      "type": "speed",
+      "multiplier": 0.8
+    },
+    {
+      "type": "element_consuption",
+      "multiplier": 0.75
+    },
+    {
+      "type": "capacity",
+      "multiplier": 1.25
+    }
+  ]
+}

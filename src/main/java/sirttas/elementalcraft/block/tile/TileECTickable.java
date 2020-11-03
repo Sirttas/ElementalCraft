@@ -44,6 +44,10 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 		super.markDirty();
 	}
 
+	protected final boolean isToSync() {
+		return toSync;
+	}
+
 	// TODO extract (capability ?)
 	public TileTank getTank() {
 		return getTileEntityAs(pos.down(), TileTank.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_TANK_COMPATIBLES.contains(this.getBlockState().getBlock())).orElse(null);

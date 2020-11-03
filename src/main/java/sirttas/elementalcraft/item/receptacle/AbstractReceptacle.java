@@ -14,7 +14,7 @@ public class AbstractReceptacle extends ItemEC {
 
 	@Override
 	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-		return Boolean.TRUE.equals(ECConfig.CONFIG.receptacleEnchantable.get());
+		return Boolean.TRUE.equals(ECConfig.COMMON.receptacleEnchantable.get());
 	}
 
 	@Override

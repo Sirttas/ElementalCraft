@@ -23,7 +23,7 @@ public class MixinDimensionStructuresSettings {
 	@Inject(method = "<clinit>", at = @At("TAIL"))
 	private static void addMeteoriteSpreadConfig(CallbackInfo ci) {
 		field_236191_b_ = ImmutableMap.<Structure<?>, StructureSeparationSettings>builder().putAll(field_236191_b_)
-				.put(ECStructures.SOURCE_ALTAR, new StructureSeparationSettings(ECConfig.CONFIG.sourceAltarDistance.get(), 8, 4847339)).build();
+				.put(ECStructures.SOURCE_ALTAR, new StructureSeparationSettings(ECConfig.COMMON.sourceAltarDistance.get(), 8, 4847339)).build();
 	}
 
 }

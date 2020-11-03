@@ -47,7 +47,7 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.SWORD, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_ASPECT));
 		addInfusionToMap(ItemClass.SWORD, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.SHARPNESS));
 		addInfusionToMap(ItemClass.SWORD, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, Attributes.ATTACK_SPEED, ECConfig.CONFIG.swordAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, Attributes.ATTACK_SPEED, ECConfig.COMMON.swordAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FORTUNE));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.UNBREAKING));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.AIR, (s, m) -> addEnchantmentLevel(s, m, Enchantments.EFFICIENCY));
@@ -70,13 +70,11 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.BLAST_PROTECTION));
 		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
-		addInfusionToMap(ItemClass.CHESTPLATE, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.MOVEMENT_SPEED, ECConfig.CONFIG.chestplateAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.BLAST_PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.MOVEMENT_SPEED, ECConfig.CONFIG.leggingsAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.MOVEMENT_SPEED, ECConfig.COMMON.leggingsAirInfusionSpeedBonus.get() * m));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.DEPTH_STRIDER));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));

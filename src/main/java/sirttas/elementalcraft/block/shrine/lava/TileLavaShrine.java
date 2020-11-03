@@ -1,15 +1,16 @@
 package sirttas.elementalcraft.block.shrine.lava;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
-import net.minecraft.block.BlockState;
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3i;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -21,43 +22,41 @@ public class TileLavaShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static TileEntityType<TileLavaShrine> TYPE;
 
-	private static final List<Vector3i> RANGE;
+	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE).periode(ECConfig.COMMON.lavaShrinePeriode.get()).consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.lavaShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
 
-	static {
-		int range = ECConfig.CONFIG.lavaShrineRange.get();
-		RANGE = new ArrayList<>(((range * 2 + 1) ^ 2) * 4);
-
-		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> RANGE.add(new Vector3i(x, 1, z))));
-	}
+	protected static final List<Direction> UPGRRADE_DIRECTIONS = ImmutableList.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public TileLavaShrine() {
-		super(TYPE, ElementType.FIRE, ECConfig.CONFIG.lavaShrinePeriode.get());
-		this.elementMax *= 10;
+		super(TYPE, PROPERTIES);
+	}
+
+	private Optional<BlockPos> findRock() {
+		int range = ECConfig.COMMON.lavaShrineRange.get();
+
+		return IntStream.range(-range, range + 1).mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> new BlockPos(pos.getX() + x, pos.getY() + 1, pos.getZ() + z))).flatMap(s -> s)
+				.filter(p -> ECTags.Blocks.LAVASHRINE_LIQUIFIABLES.contains(world.getBlockState(p).getBlock())).findAny();
+
 	}
 
 	@Override
 	public AxisAlignedBB getRangeBoundingBox() {
-		int range = ECConfig.CONFIG.lavaShrineRange.get();
+		int range = ECConfig.COMMON.lavaShrineRange.get();
 
 		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).offset(0, 1, 0);
 	}
 
 	@Override
-	protected void doTick() {
-		int consumeAmount = ECConfig.CONFIG.lavaShrineConsumeAmount.get();
+	protected boolean doTick() {
+		return findRock().map(p -> {
+			world.setBlockState(p, Blocks.LAVA.getDefaultState());
+			world.playEvent(1501, p, 0);
+			return true;
+		}).orElse(false);
+	}
 
-		if (this.getElementAmount() >= consumeAmount) {
-			RANGE.forEach(v -> {
-				BlockPos p = getPos().add(v);
-				BlockState blockstate = world.getBlockState(p);
-
-				if (ECTags.Blocks.LAVASHRINE_LIQUIFIABLES.contains(blockstate.getBlock()) && randomChance(ECConfig.CONFIG.lavaShrineChance.get())
-						&& this.getElementAmount() >= consumeAmount) {
-					this.consumeElement(consumeAmount);
-					world.setBlockState(p, Blocks.LAVA.getDefaultState());
-					world.playEvent(1501, p, 0);
-				}
-			});
-		}
+	@Override
+	public List<Direction> getUpgradeDirections() {
+		return UPGRRADE_DIRECTIONS;
 	}
 }

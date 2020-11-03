@@ -4,62 +4,78 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootParameters;
+import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.loot.LootHelper;
 
 public class TileOreShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static TileEntityType<TileOreShrine> TYPE;
 
+	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.oreShrinePeriode.get()).consumeAmount(ECConfig.COMMON.oreShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.oreShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
+
 	public TileOreShrine() {
-		super(TYPE, ElementType.EARTH, ECConfig.CONFIG.oreShrinePeriode.get());
-		this.elementMax *= 10;
+		super(TYPE, PROPERTIES);
 	}
 
 	private Optional<BlockPos> findOre() {
-		int range = ECConfig.CONFIG.oreShrineRange.get();
+		int range = getIntegerRange();
 
 		return IntStream.range(-range, range + 1)
 				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, pos.getY() + 1).mapToObj(y -> new BlockPos(pos.getX() + x, y, pos.getZ() + z))))
 				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> Tags.Blocks.ORES.contains(world.getBlockState(p).getBlock())).findAny();
+
+	}
+
+	private boolean isSilkTouch() {
+		return this.hasUpgrade(ShrineUpgrades.SILK_TOUCH.get());
+	}
+
+	private int getFortuneLevel() {
+		return this.getUpgradeCount(ShrineUpgrades.FORTUNE.get());
 	}
 
 	@Override
 	public AxisAlignedBB getRangeBoundingBox() {
-		int range = ECConfig.CONFIG.harvestShrineRange.get();
+		int range = getIntegerRange();
 
 		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).offset(0, -1, 0).expand(0, 1 - pos.getY(), 0);
 	}
 
+
 	@Override
-	protected void doTick() {
-		int consumeAmount = ECConfig.CONFIG.oreShrineConsumeAmount.get();
+	protected boolean doTick() {
 
-		if (world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
-			Optional<BlockPos> opt = findOre();
+		if (world instanceof ServerWorld && !world.isRemote) {
+			return findOre().map(p -> {
+				int fortune = getFortuneLevel();
 
-			opt.ifPresent(p -> {
-				BlockState blockstate = world.getBlockState(p);
+				if (fortune > 0) {
+					ItemStack pickaxe = new ItemStack(Items.NETHERITE_PICKAXE);
 
-				blockstate.getDrops(new LootContext.Builder((ServerWorld) this.world).withRandom(this.world.rand).withParameter(LootParameters.field_237457_g_/* POSITION */, Vector3d.copyCentered(p))
-						.withParameter(LootParameters.TOOL, ItemStack.EMPTY)).forEach(s -> Block.spawnAsEntity(this.world, this.pos, s));
-				this.world.setBlockState(opt.get(), Blocks.STONE.getDefaultState());
-				this.consumeElement(consumeAmount);
-			});
+					pickaxe.addEnchantment(Enchantments.FORTUNE, fortune);
+					LootHelper.getDrops((ServerWorld) this.world, p, pickaxe).forEach(s -> Block.spawnAsEntity(this.world, this.pos, s));
+				} else {
+					LootHelper.getDrops((ServerWorld) this.world, p, isSilkTouch()).forEach(s -> Block.spawnAsEntity(this.world, this.pos, s));
+				}
+				this.world.setBlockState(p, Blocks.STONE.getDefaultState());
+				return true;
+			}).orElse(false);
 		}
+		return false;
 	}
 }
