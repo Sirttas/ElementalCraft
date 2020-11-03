@@ -75,7 +75,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Override
 	public int getElementPerTick() {
-		return recipe.getType() ==IRecipeType.SMELTING ? ECConfig.CONFIG.fireFurnaceConsumeAmount.get() : ECConfig.CONFIG.fireBlastFurnaceConsumeAmount.get();
+		return recipe.getType() ==IRecipeType.SMELTING ? ECConfig.COMMON.fireFurnaceConsumeAmount.get() : ECConfig.COMMON.fireBlastFurnaceConsumeAmount.get();
 	}
 
 	@Override

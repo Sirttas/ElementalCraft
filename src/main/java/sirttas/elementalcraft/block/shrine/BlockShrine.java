@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,6 +24,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.shrine.upgrade.BlockShrineUpgrade;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 
 public abstract class BlockShrine extends BlockECTileProvider {
@@ -31,6 +33,23 @@ public abstract class BlockShrine extends BlockECTileProvider {
 
 	public BlockShrine(ElementType elementType) {
 		this.elementType = elementType;
+	}
+
+	@Override
+	@Deprecated
+	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (!state.isIn(newState.getBlock())) {
+			TileEntityHelper.getTileEntityAs(worldIn, pos, TileShrine.class).ifPresent(shrine -> shrine.getUpgradeDirections().forEach(direction -> {
+				BlockPos newPos = pos.offset(direction);
+				BlockState upgradeState = worldIn.getBlockState(newPos);
+				Block block = upgradeState.getBlock();
+
+				if (block instanceof BlockShrineUpgrade && ((BlockShrineUpgrade) block).getFacing(upgradeState) == direction.getOpposite()) {
+					worldIn.destroyBlock(newPos, true);
+				}
+			}));
+		}
+		super.onReplaced(state, worldIn, pos, newState, isMoving);
 	}
 
 	@Override

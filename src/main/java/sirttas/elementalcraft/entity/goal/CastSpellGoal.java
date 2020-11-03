@@ -2,6 +2,7 @@ package sirttas.elementalcraft.entity.goal;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.util.ActionResultType;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
@@ -16,7 +17,15 @@ public class CastSpellGoal extends Goal {
 	}
 
 	private void cast() {
-		this.spell.castOnEntity(caster, caster.getAttackTarget());
+		ActionResultType result = this.spell.castOnEntity(caster, caster.getAttackTarget());
+
+		if (!result.isSuccessOrConsume()) {
+			result = this.spell.castOnSelf(caster);
+		}
+		if (result.isSuccessOrConsume()) {
+			this.spell.consume(caster);
+			SpellTickManager.getInstance(caster.getEntityWorld()).setCooldown(caster, spell);
+		}
 	}
 
 	@Override

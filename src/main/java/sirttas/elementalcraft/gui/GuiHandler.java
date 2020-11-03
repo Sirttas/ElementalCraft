@@ -2,7 +2,6 @@ package sirttas.elementalcraft.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.tile.element.IElementStorage;
+import sirttas.elementalcraft.api.element.IElementStorage;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
 import sirttas.elementalcraft.item.spell.ISpellHolder;
@@ -42,7 +42,7 @@ public class GuiHandler {
 					IElementStorage storage = (IElementStorage) tile;
 
 					if (storage.doesRenderGauge() || GuiHelper.showDebugInfo()) {
-						doRenderElementGauge(event.getMatrixStack(), storage.getElementAmount(), storage.getMaxElement(), storage.getElementType());
+						doRenderElementGauge(event.getMatrixStack(), storage.getElementAmount(), storage.getElementCapacity(), storage.getElementType());
 						return;
 					}
 				}
@@ -54,7 +54,7 @@ public class GuiHandler {
 				int amount = holder.getElementAmount(stack);
 				Spell spell = getSpell();
 
-				doRenderElementGauge(event.getMatrixStack(), amount, holder.getElementAmountMax(), holder.getElementType());
+				doRenderElementGauge(event.getMatrixStack(), amount, holder.getElementCapacity(), holder.getElementType());
 				if (spell.isValid()) {
 					doRenderCanCast(event.getMatrixStack(), amount >= spell.getConsumeAmount());
 				}
@@ -85,13 +85,19 @@ public class GuiHandler {
 	}
 
 	private static void doRenderElementGauge(MatrixStack matrixStack, int element, int max, sirttas.elementalcraft.ElementType type) {
-		GuiHelper.renderElementGauge(matrixStack, Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - 32, Minecraft.getInstance().getMainWindow().getScaledHeight() / 2 - 8, element, max,
+		GuiHelper.renderElementGauge(matrixStack, getXoffset() - 32, getYOffset() - 8, element, max,
 				type);
+	}
+
+	public static int getYOffset() {
+		return Minecraft.getInstance().getMainWindow().getScaledHeight() / 2 + ECConfig.CLIENT.gaugeOffsetX.get();
+	}
+
+	public static int getXoffset() {
+		return Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 + ECConfig.CLIENT.gaugeOffsetY.get();
 	}
 	
 	private static void doRenderCanCast(MatrixStack matrixStack, boolean canCast) {
-		MainWindow window = Minecraft.getInstance().getMainWindow();
-
-		GuiHelper.renderCanCast(matrixStack, window.getScaledWidth() / 2 - 21, window.getScaledHeight() / 2 + 3, canCast);
+		GuiHelper.renderCanCast(matrixStack, getXoffset() - 21, getYOffset() + 3, canCast);
 	}
 }

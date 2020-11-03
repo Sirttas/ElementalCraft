@@ -20,8 +20,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.item.receptacle.ISourceInteractable;
 import sirttas.elementalcraft.material.ECMaterials;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.property.ECProperties;
@@ -85,6 +85,6 @@ public class BlockSource extends BlockEC {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		ParticleHelper.createSourceParticle(ElementType.getElementType(state), world, Vector3d.copy(pos), rand);
+		ParticleHelper.createSourceParticle(ElementType.getElementType(state), world, Vector3d.copyCentered(pos), rand);
 	}
 }

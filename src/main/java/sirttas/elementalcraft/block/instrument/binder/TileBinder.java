@@ -36,7 +36,7 @@ public class TileBinder extends TileInstrument {
 	public void process() {
 		super.process();
 		if (this.world.isRemote) {
-			ParticleHelper.createCraftingParticle(getTankElementType(), world, Vector3d.copy(pos).add(0, 0.2, 0), world.rand);
+			ParticleHelper.createCraftingParticle(getTankElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2, 0), world.rand);
 		}
 	}
 

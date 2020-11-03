@@ -54,6 +54,15 @@ import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.shrine.overload.TileOverloadShrine;
 import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
 import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.BlockPlantingShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockEfficiencyShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockOptimizationShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockRangeShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.BlockAccelerationShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
@@ -102,6 +111,15 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static BlockOverloadShrine overloadShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static BlockSweetShrine sweetShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static BlockEnderLockShrine enderLockShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockAccelerationShrineUpgrade.NAME) public static BlockAccelerationShrineUpgrade accelerationShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRangeShrineUpgrade.NAME) public static BlockRangeShrineUpgrade rangeShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCapacityShrineUpgrade.NAME) public static BlockCapacityShrineUpgrade capacityShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEfficiencyShrineUpgrade.NAME) public static BlockEfficiencyShrineUpgrade efficiencyShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOptimizationShrineUpgrade.NAME) public static BlockOptimizationShrineUpgrade optimizationShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFortuneShrineUpgrade.NAME) public static BlockFortuneShrineUpgrade fortuneShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static BlockSilkTouchShrineUpgrade silkTouchShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static BlockPlantingShrineUpgrade plantingShrineUpgrade;
+
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystalOre.NAME) public static BlockCrystalOre crystalOre;
@@ -135,9 +153,9 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockFireFurnace(), BlockFireFurnace.NAME);
 		RegistryHelper.register(registry, new BlockFireBlastFurnace(), BlockFireBlastFurnace.NAME);
 		RegistryHelper.register(registry, new BlockPurifier(), BlockPurifier.NAME);
-		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.impairedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPAIRED);
-		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.pipeTransferAmount.get()), BlockElementPipe.NAME);
-		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.CONFIG.improvedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPROVED);
+		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.COMMON.impairedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPAIRED);
+		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.COMMON.pipeTransferAmount.get()), BlockElementPipe.NAME);
+		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.COMMON.improvedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPROVED);
 		RegistryHelper.register(registry, new BlockRetriever(), BlockRetriever.NAME);
 		RegistryHelper.register(registry, new BlockSpellDesk(), BlockSpellDesk.NAME);
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
@@ -149,6 +167,14 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockOverloadShrine(), BlockOverloadShrine.NAME);
 		RegistryHelper.register(registry, new BlockSweetShrine(), BlockSweetShrine.NAME);
 		RegistryHelper.register(registry, new BlockEnderLockShrine(), BlockEnderLockShrine.NAME);
+		RegistryHelper.register(registry, new BlockAccelerationShrineUpgrade(), BlockAccelerationShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockRangeShrineUpgrade(), BlockRangeShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockCapacityShrineUpgrade(), BlockCapacityShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockEfficiencyShrineUpgrade(), BlockEfficiencyShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockOptimizationShrineUpgrade(), BlockOptimizationShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockFortuneShrineUpgrade(), BlockFortuneShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockSilkTouchShrineUpgrade(), BlockSilkTouchShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockPlantingShrineUpgrade(), BlockPlantingShrineUpgrade.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
 		RegistryHelper.register(registry, new BlockCrystalOre(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), BlockCrystalOre.NAME);
@@ -188,6 +214,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOverloadShrine::new, overloadShrine).build(null), BlockOverloadShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileSweetShrine::new, sweetShrine).build(null), BlockSweetShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileEnderLockShrine::new, enderLockShrine).build(null), BlockEnderLockShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileAccelerationShrineUpgrade::new, accelerationShrineUpgrade).build(null), BlockAccelerationShrineUpgrade.NAME);
 	}
 
 	@SubscribeEvent

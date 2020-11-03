@@ -6,8 +6,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
-import sirttas.elementalcraft.inventory.IOInventory;
-import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
 
@@ -15,12 +13,12 @@ public class TilePurifier extends TileInstrument {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static TileEntityType<TilePurifier> TYPE;
 
-	private final IOInventory inventory;
+	private final PurifierInventory inventory;
 
 	public TilePurifier() {
 		super(TYPE);
 		outputSlot = 1;
-		inventory = new IOInventory(this::forceSync);
+		inventory = new PurifierInventory(this::forceSync);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -28,7 +26,7 @@ public class TilePurifier extends TileInstrument {
 	protected IInstrumentRecipe<TilePurifier> lookupRecipe() {
 		ItemStack input = inventory.getStackInSlot(0);
 
-		if (!input.isEmpty() && PureOreHelper.isValidOre(input)) {
+		if (!input.isEmpty() && ElementalCraft.PURE_ORE_MANAGER.isValidOre(input)) {
 			return new PurifierRecipe(input);
 		}
 		return null;

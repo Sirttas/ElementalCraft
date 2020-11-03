@@ -1,0 +1,15 @@
+{
+  "max_amount": 1,
+  "predicate": {
+    "block": "elementalcraft:oreshrine"
+  },
+  "bonuses": [
+    {
+      "type": "element_consuption",
+      "multiplier": 2.0
+    }
+  ],
+  "incompatibilities": [
+    "elementalcraft:shrine_upgrade_fortune"
+  ]
+}

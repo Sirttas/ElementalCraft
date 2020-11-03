@@ -1,9 +1,12 @@
 package sirttas.elementalcraft.block.shrine.overload;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.registries.ObjectHolder;
@@ -17,8 +20,11 @@ public class TileOverloadShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static TileEntityType<TileOverloadShrine> TYPE;
 
+	private static final Properties PROPERTIES = Properties.create(ElementType.AIR).periode(ECConfig.COMMON.overloadShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.overloadShrineConsumeAmount.get());
+
 	public TileOverloadShrine() {
-		super(TYPE, ElementType.AIR, ECConfig.CONFIG.overloadShrinePeriode.get());
+		super(TYPE, PROPERTIES);
 	}
 
 	Optional<ITickableTileEntity> getTarget() {
@@ -35,14 +41,15 @@ public class TileOverloadShrine extends TileShrine {
 	}
 
 	@Override
-	protected void doTick() {
-		int consumeAmount = ECConfig.CONFIG.overloadShrineConsumeAmount.get();
+	protected boolean doTick() {
+		return getTarget().map(t -> {
+			t.tick();
+			return true;
+		}).orElse(false);
+	}
 
-		if (this.getElementAmount() >= consumeAmount) {
-			getTarget().ifPresent(t -> {
-				t.tick();
-				this.consumeElement(consumeAmount);
-			});
-		}
+	@Override
+	public List<Direction> getUpgradeDirections() {
+		return DEFAULT_UPGRRADE_DIRECTIONS.stream().filter(direction -> direction != this.getBlockState().get(BlockOverloadShrine.FACING)).collect(Collectors.toList());
 	}
 }

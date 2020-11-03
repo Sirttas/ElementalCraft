@@ -19,7 +19,7 @@ public class SpellPurification extends Spell {
 
 
 	public SpellPurification() {
-		super(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER).cooldown(ECConfig.CONFIG.purificationCooldown.get()).consumeAmount(ECConfig.CONFIG.purificationConsumeAmount.get()));
+		super(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER).cooldown(ECConfig.COMMON.purificationCooldown.get()).consumeAmount(ECConfig.COMMON.purificationConsumeAmount.get()));
 	}
 
 	@SuppressWarnings("resource")

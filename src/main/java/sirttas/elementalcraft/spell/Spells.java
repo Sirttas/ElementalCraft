@@ -84,7 +84,7 @@ public class Spells {
 		RegistryHelper.register(registry, new SpellSilkVein(), SpellSilkVein.NAME);
 
 		RegistryHelper.register(registry, new EffectSpell(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER)
-				.cooldown(ECConfig.CONFIG.healCooldown.get()).consumeAmount(ECConfig.CONFIG.healConsumeAmount.get()), new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");
+				.cooldown(ECConfig.COMMON.healCooldown.get()).consumeAmount(ECConfig.COMMON.healConsumeAmount.get()), new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");
 	}
 
 }

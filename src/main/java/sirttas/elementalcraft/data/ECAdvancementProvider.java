@@ -22,7 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 
 public class ECAdvancementProvider implements IDataProvider {
-	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
+	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private final DataGenerator generator;
 
 	public ECAdvancementProvider(DataGenerator generatorIn) {

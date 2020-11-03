@@ -53,6 +53,14 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.overloadShrine, list);
 		addItem(ECBlocks.sweetShrine, list);
 		addItem(ECBlocks.enderLockShrine, list);
+		addItem(ECBlocks.accelerationShrineUpgrade, list);
+		addItem(ECBlocks.rangeShrineUpgrade, list);
+		addItem(ECBlocks.capacityShrineUpgrade, list);
+		addItem(ECBlocks.efficiencyShrineUpgrade, list);
+		addItem(ECBlocks.optimizationShrineUpgrade, list);
+		addItem(ECBlocks.fortuneShrineUpgrade, list);
+		addItem(ECBlocks.silkTouchShrineUpgrade, list);
+		addItem(ECBlocks.plantingShrineUpgrade, list);
 
 		addItem(ECBlocks.crystalOre, list);
 		addItem(ECBlocks.whiteRock, list);
@@ -88,7 +96,9 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.swiftAlloyIngot, list);
 		addItem(ECItems.swiftAlloyNugget, list);
 		addItem(ECItems.fireiteIngot, list);
+		addItem(ECItems.airSilk, list);
 		addItem(ECItems.shrineBase, list);
+		addItem(ECItems.shrineUpgradeCore, list);
 	}
 
 	private void addItem(IItemProvider item, @Nonnull NonNullList<ItemStack> list) {

@@ -1,0 +1,12 @@
+{
+  "max_amount": 1,
+  "predicate": {
+    "block": "elementalcraft:harvestshrine"
+  },
+  "bonuses": [
+    {
+      "type": "element_consuption",
+      "multiplier": 3.0
+    }
+  ]
+}

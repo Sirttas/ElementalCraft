@@ -23,7 +23,7 @@ public class ReceptacleHelper {
 	}
 
 	public static boolean areReceptaclesUnbreakable() {
-		return ECConfig.CONFIG.receptacleDurability.get() == 0;
+		return ECConfig.COMMON.receptacleDurability.get() == 0;
 	}
 
 	public static ItemStack createFrom(ItemStack from, ElementType elementType) {

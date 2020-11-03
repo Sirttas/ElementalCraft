@@ -1,0 +1,11 @@
+{
+  "predicate": {
+    "tag": "elementalcraft:shrines/upgradables/acceleration"
+  },
+  "bonuses": [
+    {
+      "type": "speed",
+      "multiplier": 0.5
+    }
+  ]
+}

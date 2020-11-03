@@ -79,7 +79,7 @@ public class BlockPedestal extends BlockECContainer {
 		TileEntityHelper.getTileEntityAs(world, pos, TilePedestal.class).filter(TilePedestal::isPureInfuserRunning).ifPresent(p -> {
 			Direction offset = p.getPureInfuserDirection();
 
-			ParticleHelper.createElementFlowParticle(p.getElementType(), world, Vector3d.copy(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, rand);
+			ParticleHelper.createElementFlowParticle(p.getElementType(), world, Vector3d.copyCentered(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, rand);
 		});
 	}
 

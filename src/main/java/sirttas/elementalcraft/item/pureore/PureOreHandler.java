@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.resource.ISelectiveResourceReloadListener;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.config.ECConfig;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
 public class PureOreHandler {
@@ -36,7 +37,7 @@ public class PureOreHandler {
 	}
 
 	@SubscribeEvent
-	public static void onTagsUpdate(TagsUpdatedEvent event) {
+	public static void onTagsUpdate(TagsUpdatedEvent.VanillaTagTypes event) {
 		if (recipesReceived) {
 			process();
 		} else {
@@ -46,8 +47,8 @@ public class PureOreHandler {
 	}
 
 	private static void process() {
-		PureOreHelper.generatePureOres(recipeManager);
-		if (recipesReceived) {
+		ElementalCraft.PURE_ORE_MANAGER.generatePureOres(recipeManager);
+		if (recipesReceived && Boolean.TRUE.equals(ECConfig.CLIENT.reloadJEIAfterPureOreGen.get())) {
 			ElementalCraft.LOGGER.info("JEI loaded before pure ore generation, atempting to reload JEI");
 			IResourceManager manager = Minecraft.getInstance().getResourceManager();
 

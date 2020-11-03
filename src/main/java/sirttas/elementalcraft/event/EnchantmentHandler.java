@@ -21,7 +21,7 @@ public class EnchantmentHandler {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if (left.getItem() == ECItems.focus && right.getItem() == ECItems.scroll && SpellHelper.getSpellCount(left) < ECConfig.CONFIG.focusMaxSpell.get()) {
+		if (left.getItem() == ECItems.focus && right.getItem() == ECItems.scroll && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
 			ItemStack result = left.copy();
 			ListNBT list = SpellHelper.getSpellList(left);
 			int n = 4 * (list != null ? list.size() + 1 : 1);

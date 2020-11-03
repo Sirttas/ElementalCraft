@@ -17,7 +17,7 @@ public class SpellRipening extends Spell {
 	public static final String NAME = "ripening";
 
 	public SpellRipening() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.WATER).cooldown(ECConfig.CONFIG.ripeningCooldown.get()).consumeAmount(ECConfig.CONFIG.ripeningConsumeAmount.get()));
+		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.WATER).cooldown(ECConfig.COMMON.ripeningCooldown.get()).consumeAmount(ECConfig.COMMON.ripeningConsumeAmount.get()));
 	}
 
 	@Override

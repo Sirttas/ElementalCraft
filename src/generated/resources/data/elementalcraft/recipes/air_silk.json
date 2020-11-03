@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:infusion",
+  "element": "air",
+  "duration": 40,
+  "input": {
+    "tag": "forge:string"
+  },
+  "output": "elementalcraft:air_silk"
+}

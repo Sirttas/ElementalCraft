@@ -24,4 +24,5 @@ public abstract class RendererEC<T extends TileEntity> extends TileEntityRendere
 	public float getAngle(float partialTicks) {
 		return TickHandler.getTicksInGame() + partialTicks % 360;
 	}
+
 }

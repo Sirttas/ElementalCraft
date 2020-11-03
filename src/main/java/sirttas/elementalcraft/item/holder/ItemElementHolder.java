@@ -26,13 +26,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.IElementReceiver;
+import sirttas.elementalcraft.api.element.IElementSender;
+import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
-import sirttas.elementalcraft.block.tile.element.IElementReceiver;
-import sirttas.elementalcraft.block.tile.element.IElementSender;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.item.receptacle.ISourceInteractable;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -47,25 +47,25 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 	private static final String SAVED_POS = "saved_pos";
 
 	private final ElementType elementType;
-	private final int elementAmountMax;
+	private final int elementCapacity;
 
 	public ItemElementHolder(ElementType elementType) {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
 		this.elementType = elementType;
-		this.elementAmountMax = ECConfig.CONFIG.elementHolderMaxAmount.get();
+		this.elementCapacity = ECConfig.COMMON.elementHolderCapacity.get();
 	}
 
 	public ElementType getElementType() {
 		return elementType;
 	}
 
-	public int getElementAmountMax() {
-		return elementAmountMax;
+	public int getElementCapacity() {
+		return elementCapacity;
 	}
 
 	@Override
 	public int getUseDuration(ItemStack stack) {
-		return ECConfig.CONFIG.elementHolderMaxAmount.get() / ECConfig.CONFIG.elementHolderTransferAmount.get();
+		return ECConfig.COMMON.elementHolderCapacity.get() / ECConfig.COMMON.elementHolderTransferAmount.get();
 	}
 
 	@Override
@@ -113,13 +113,13 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		BlockState blockstate = world.getBlockState(pos);
 
 		if (isValidSource(blockstate)) {
-			this.inserElement(stack, ECConfig.CONFIG.elementHolderTransferAmount.get());
+			this.inserElement(stack, ECConfig.COMMON.elementHolderTransferAmount.get());
 			return ActionResultType.CONSUME;
 		}
 		if (entity.isSneaking()) {
 
 			return TileEntityHelper.getTileEntityAs(world, pos, IElementSender.class).filter(sender -> sender.getElementType() == elementType).map(sender -> {
-				int amount = NumberUtils.min(sender.getElementAmount(), ECConfig.CONFIG.elementHolderTransferAmount.get(), this.getElementAmountMax() - getElementAmount(stack));
+				int amount = NumberUtils.min(sender.getElementAmount(), ECConfig.COMMON.elementHolderTransferAmount.get(), this.getElementCapacity() - getElementAmount(stack));
 
 				if (amount > 0) {
 					sender.extractElement(amount, elementType, false);
@@ -131,7 +131,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		}
 		return TileEntityHelper.getTileEntityAs(world, pos, IElementReceiver.class).filter(receiver -> receiver.getElementType() == elementType || receiver.getElementType() == ElementType.NONE)
 				.map(receiver -> {
-					int amount = NumberUtils.min(getElementAmount(stack), ECConfig.CONFIG.elementHolderTransferAmount.get(), receiver.getMaxElement() - receiver.getElementAmount());
+					int amount = NumberUtils.min(getElementAmount(stack), ECConfig.COMMON.elementHolderTransferAmount.get(), receiver.getElementCapacity() - receiver.getElementAmount());
 
 					if (amount > 0) {
 						this.extractElement(stack, amount);
@@ -145,7 +145,8 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(getElementAmount(stack) * 100 / elementAmountMax))
+		tooltip.add((new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(getElementAmount(stack) * 100
+				/ elementCapacity)))
 				.mergeStyle(TextFormatting.GREEN));
 	}
 
@@ -154,7 +155,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		if (this.isInGroup(group)) {
 			ItemStack full = new ItemStack(this);
 
-			this.setElementAmount(full, elementAmountMax);
+			this.setElementAmount(full, elementCapacity);
 			items.add(new ItemStack(this));
 			items.add(full);
 		}
@@ -162,7 +163,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 
 	@Override
 	public int getDamage(ItemStack stack) {
-		return 1000 * (elementAmountMax - getElementAmount(stack)) / elementAmountMax;
+		return 1000 * (elementCapacity - getElementAmount(stack)) / elementCapacity;
 	}
 
 	@Override
@@ -180,7 +181,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 	}
 
 	public void setElementAmount(ItemStack stack, int amount) {
-		stack.getOrCreateTag().putInt(ECNames.ELEMENT_AMOUNT, Math.min(amount, elementAmountMax));
+		stack.getOrCreateTag().putInt(ECNames.ELEMENT_AMOUNT, Math.min(amount, elementCapacity));
 	}
 
 	public BlockPos getSavedPos(ItemStack stack) {
@@ -215,7 +216,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 
 	public int inserElement(ItemStack stack, int amount) {
 		int elementAmount = getElementAmount(stack);
-		int newCount = Math.min(elementAmount + amount, elementAmountMax);
+		int newCount = Math.min(elementAmount + amount, elementCapacity);
 		int ret = amount - newCount + elementAmount;
 
 		setElementAmount(stack, newCount);

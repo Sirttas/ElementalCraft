@@ -16,9 +16,9 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.IElementReceiver;
+import sirttas.elementalcraft.api.element.IElementSender;
 import sirttas.elementalcraft.block.tile.TileECTickable;
-import sirttas.elementalcraft.block.tile.element.IElementReceiver;
-import sirttas.elementalcraft.block.tile.element.IElementSender;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class TileElementPipe extends TileECTickable {
@@ -32,7 +32,7 @@ public class TileElementPipe extends TileECTickable {
 
 
 	public TileElementPipe() {
-		this(ECConfig.CONFIG.pipeTransferAmount.get());
+		this(ECConfig.COMMON.pipeTransferAmount.get());
 	}
 
 	public TileElementPipe(int maxTransferAmount) {

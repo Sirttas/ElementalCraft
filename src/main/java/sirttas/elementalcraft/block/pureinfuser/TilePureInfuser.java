@@ -52,7 +52,7 @@ public class TilePureInfuser extends TileECContainer {
 		recipe = null;
 		this.forceSync();
 		if (this.world.isRemote) {
-			ParticleHelper.createCraftingParticle(ElementType.NONE, world, Vector3d.copy(pos).add(0, 0.7, 0), world.rand);
+			ParticleHelper.createCraftingParticle(ElementType.NONE, world, Vector3d.copyCentered(pos).add(0, 0.7, 0), world.rand);
 		}
 	}
 

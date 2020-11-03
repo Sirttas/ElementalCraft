@@ -46,7 +46,7 @@ public class ECFeatures {
 		crystalOreConfig = register("crystal_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, ECBlocks.crystalOre.getDefaultState(), 9))
 				.range(64).square().func_242731_b(10));
 		sourceConfig = register(SourceFeature.NAME,
-				source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).chance(ECConfig.CONFIG.sourceSpawnChance.get()));
+				source.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).chance(ECConfig.COMMON.sourceSpawnChance.get()));
 
 		sourceAltar = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, NoFeatureConfig.field_236559_b_, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
 
@@ -55,7 +55,7 @@ public class ECFeatures {
 	public static void onBiomeLoad(BiomeLoadingEvent event) {
 		Biome.Category category = event.getCategory();
 		
-		if (Boolean.FALSE.equals(ECConfig.CONFIG.disableWorldGen.get()) && category != Biome.Category.THEEND && category != Biome.Category.NETHER) {
+		if (Boolean.FALSE.equals(ECConfig.COMMON.disableWorldGen.get()) && category != Biome.Category.THEEND && category != Biome.Category.NETHER) {
 			event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, crystalOreConfig);
 			event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, sourceConfig);
 	

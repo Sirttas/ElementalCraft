@@ -74,8 +74,8 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		}
 
 		functionTable.put(ECBlocks.crystalOre, i -> genOre(i, ECItems.inertCrystal));
-		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
-		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_MAX, ECNames.SMALL));
+		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_CAPACITY, ECNames.SMALL));
+		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT, ECNames.ELEMENT_CAPACITY, ECNames.SMALL));
 		functionTable.put(ECBlocks.burntGlass, ECBlockLootProvider::genOnlySilkTouch);
 		functionTable.put(ECBlocks.burntGlassPane, ECBlockLootProvider::genOnlySilkTouch);
 	}

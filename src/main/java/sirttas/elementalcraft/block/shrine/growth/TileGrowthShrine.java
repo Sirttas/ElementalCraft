@@ -1,15 +1,14 @@
 package sirttas.elementalcraft.block.shrine.growth;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
@@ -21,45 +20,49 @@ public class TileGrowthShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGrowthShrine.NAME) public static TileEntityType<TileGrowthShrine> TYPE;
 
-	private static final List<Vector3i> RANGE;
+	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.growthShrinePeriode.get()).consumeAmount(ECConfig.COMMON.growthShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.growthShrineRange.get());
 
-	static {
-		int range = ECConfig.CONFIG.growthShrineRange.get();
-		RANGE = new ArrayList<>(((range * 2 + 1) ^ 2) * 4);
+	public TileGrowthShrine() {
+		super(TYPE, PROPERTIES);
+	}
 
-		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> IntStream.range(0, 4).forEach(y -> RANGE.add(new Vector3i(x, y, z)))));
+	private Optional<BlockPos> findGrowable() {
+		int range = getIntegerRange();
+
+		return IntStream.range(-range, range + 1)
+				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, 4).mapToObj(y -> new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z))))
+				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> {
+					BlockState blockstate = world.getBlockState(p);
+					Block block = blockstate.getBlock();
+
+					if (block instanceof IGrowable) {
+						IGrowable igrowable = (IGrowable) block;
+
+						return igrowable.canGrow(world, p, blockstate, world.isRemote) && igrowable.canUseBonemeal(world, world.rand, p, blockstate);
+					}
+					return false;
+				}).findAny();
 	}
 
 	@Override
 	public AxisAlignedBB getRangeBoundingBox() {
-		int range = ECConfig.CONFIG.growthShrineRange.get();
+		int range = getIntegerRange();
 
 		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).expand(0, 2, 0);
 	}
 
-	public TileGrowthShrine() {
-		super(TYPE, ElementType.WATER, ECConfig.CONFIG.growthShrinePeriode.get());
-	}
-
 	@Override
-	protected void doTick() {
-		int consumeAmount = ECConfig.CONFIG.growthShrineConsumeAmount.get();
-
-		if (world instanceof ServerWorld && this.getElementAmount() >= consumeAmount) {
-			RANGE.forEach(v -> {
-				BlockPos p = getPos().add(v);
+	protected boolean doTick() {
+		if (world instanceof ServerWorld) {
+			return findGrowable().map(p -> {
 				BlockState blockstate = world.getBlockState(p);
 
-				if (blockstate.getBlock() instanceof IGrowable) {
-					IGrowable igrowable = (IGrowable) blockstate.getBlock();
-
-					if (randomChance(ECConfig.CONFIG.growthShrineChance.get()) && igrowable.canGrow(getWorld(), p, blockstate, world.isRemote)
-							&& igrowable.canUseBonemeal(world, world.rand, p, blockstate) && this.consumeElement(consumeAmount) == consumeAmount) {
-						igrowable.grow((ServerWorld) world, world.rand, p, blockstate);
-						world.playEvent(2005, p, 0);
-					}
-				}
-			});
+				((IGrowable) blockstate.getBlock()).grow((ServerWorld) world, world.rand, p, blockstate);
+				world.playEvent(2005, p, 0);
+				return true;
+			}).orElse(false);
 		}
+		return false;
 	}
 }

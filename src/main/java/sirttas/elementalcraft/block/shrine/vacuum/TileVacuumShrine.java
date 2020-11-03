@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -20,25 +19,23 @@ public class TileVacuumShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static TileEntityType<TileVacuumShrine> TYPE;
 
+	private static final Properties PROPERTIES = Properties.create(ElementType.AIR).consumeAmount(ECConfig.COMMON.vacuumShrineConsumeAmount.get()).range(ECConfig.COMMON.vacuumShrineRange.get());
+
 	public TileVacuumShrine() {
-		super(TYPE, ElementType.AIR);
+		super(TYPE, PROPERTIES);
 	}
 
 	private List<ItemEntity> getEntities() {
 		return this.getWorld().getEntitiesWithinAABB(ItemEntity.class, getRangeBoundingBox());
 	}
 
-	@Override
-	public AxisAlignedBB getRangeBoundingBox() {
-		return new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.vacuumShrineRange.get());
-	}
 	
 	@Override
-	protected void doTick() {
-		int consumeAmount = ECConfig.CONFIG.vacuumShrineConsumeAmount.get();
+	protected boolean doTick() {
+		int consumeAmount = this.getConsumeAmount();
 
 		if (this.consumeElement(consumeAmount) >= consumeAmount) {
-			double pullSpeed = ECConfig.CONFIG.vacuumShrinePullSpeed.get();
+			double pullSpeed = ECConfig.COMMON.vacuumShrinePullSpeed.get();
 			IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos.down(), Direction.UP);
 			Vector3d pos3d = Vector3d.copyCentered(this.getPos());
 
@@ -51,5 +48,6 @@ public class TileVacuumShrine extends TileShrine {
 				}
 			});
 		}
+		return false;
 	}
 }

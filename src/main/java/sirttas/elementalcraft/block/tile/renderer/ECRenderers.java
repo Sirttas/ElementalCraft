@@ -20,6 +20,8 @@ import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.RedererAccelerationShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.RendererShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
@@ -44,6 +46,7 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(TileFireFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TileFireBlastFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TilePurifier.TYPE, RendererPurifier::new);
+		ClientRegistry.bindTileEntityRenderer(TileAccelerationShrineUpgrade.TYPE, RedererAccelerationShrineUpgrade::new);
 
 		ClientRegistry.bindTileEntityRenderer(TileFirePylon.TYPE, RendererShrine::new);
 		ClientRegistry.bindTileEntityRenderer(TileVacuumShrine.TYPE, RendererShrine::new);
@@ -64,5 +67,7 @@ public final class ECRenderers {
 		RenderTypeLookup.setRenderLayer(ECBlocks.burntGlass, RenderType.getTranslucent());
 		RenderTypeLookup.setRenderLayer(ECBlocks.burntGlassPane, RenderType.getTranslucent());
 		RenderTypeLookup.setRenderLayer(ECBlocks.source, RenderType.getTranslucent());
+		RenderTypeLookup.setRenderLayer(ECBlocks.capacityShrineUpgrade, RenderType.getTranslucent());
+		RenderTypeLookup.setRenderLayer(ECBlocks.optimizationShrineUpgrade, RenderType.getTranslucent());
 	}
 }

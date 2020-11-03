@@ -21,7 +21,7 @@ public class SpellGavelFall extends Spell {
 	public static final String NAME = "gravelfall";
 
 	public SpellGavelFall() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).cooldown(ECConfig.CONFIG.gravelFallCooldown.get()).consumeAmount(ECConfig.CONFIG.gravelFallConsumeAmount.get()));
+		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.gravelFallCooldown.get()).consumeAmount(ECConfig.COMMON.gravelFallConsumeAmount.get()));
 	}
 
 	private void spawn(World world, BlockPos pos) {

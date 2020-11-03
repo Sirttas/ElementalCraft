@@ -45,7 +45,7 @@ public class TileTankCreative extends TileEC implements ITank {
 	}
 
 	@Override
-	public int getMaxElement() {
+	public int getElementCapacity() {
 		return 1000000;
 	}
 

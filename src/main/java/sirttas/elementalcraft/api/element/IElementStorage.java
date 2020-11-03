@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.tile.element;
+package sirttas.elementalcraft.api.element;
 
 import sirttas.elementalcraft.ElementType;
 
@@ -8,7 +8,7 @@ public interface IElementStorage {
 
 	ElementType getElementType();
 
-	int getMaxElement();
+	int getElementCapacity();
 
 	default boolean doesRenderGauge() {
 		return false;

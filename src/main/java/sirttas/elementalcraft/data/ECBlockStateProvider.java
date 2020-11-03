@@ -3,6 +3,7 @@ package sirttas.elementalcraft.data;
 import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.block.SlabBlock;
@@ -112,6 +113,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			horizontalBlock(block, s -> Boolean.TRUE.equals(s.get(BlockSpellDesk.HAS_PAPER)) ? withPaper : standard);
 		} else if (block.getDefaultState().hasProperty(HorizontalBlock.HORIZONTAL_FACING)) {
 			horizontalBlock(block, models().getExistingFile(prefix(name)));
+		} else if (block.getDefaultState().hasProperty(DirectionalBlock.FACING)) {
+			directionalBlock(block, models().getExistingFile(prefix(name)));
 		} else if (block.getDefaultState().hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
 			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
 			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));

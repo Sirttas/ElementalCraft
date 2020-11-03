@@ -7,13 +7,23 @@ public class ECNames {
 	public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
 	public static final String HAS_BOOK = "has_elementopedia";
 
+	public static final String TYPE = "type";
+	public static final String BLOCK = "block";
+	public static final String TAG = "tag";
+	public static final String BONUSES = "bonuses";
+	public static final String PREDICATE = "predicate";
+	public static final String MULTIPLIER = "multiplier";
+	public static final String MAX_AMOUNT = "max_amount";
+	public static final String INCOMPATIBILITIES = "incompatibilities";
+
 	public static final String ELEMENT_TYPE = "element_type";
 	public static final String ELEMENT_AMOUNT = "element_amount";
-	public static final String ELEMENT_MAX = "element_max";
+	public static final String ELEMENT_CAPACITY = "element_capacity";
 	public static final String SMALL = "small";
+	public static final String EXTRACTION_AMOUNT = "extraction_amount";
 
 	public static final String INFUSION = "infusion";
-	public static final String INFUSION_TYPE = "type";
+	public static final String INFUSION_TYPE = TYPE;
 	public static final String INFUSION_APPLIED = "applied";
 
 	public static final String SPELL = "spell";
@@ -32,4 +42,5 @@ public class ECNames {
 	public static final String ORE = "ore";
 	public static final String RESULT = "result";
 	public static final String COLOR = "color";
+
 }

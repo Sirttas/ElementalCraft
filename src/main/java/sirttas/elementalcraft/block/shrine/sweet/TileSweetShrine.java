@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -18,23 +17,21 @@ public class TileSweetShrine extends TileShrine {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static TileEntityType<TileSweetShrine> TYPE;
 
+	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.sweetShrinePeriode.get()).consumeAmount(ECConfig.COMMON.sweetShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.sweetShrineRange.get());
 
 	public TileSweetShrine() {
-		super(TYPE, ElementType.WATER, ECConfig.CONFIG.sweetShrinePeriode.get());
+		super(TYPE, PROPERTIES);
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
 		return this.getWorld().getEntitiesWithinAABB(clazz, getRangeBoundingBox(), e -> !e.isSpectator()).stream().collect(Collectors.toList());
 	}
 
-	@Override
-	public AxisAlignedBB getRangeBoundingBox() {
-		return new AxisAlignedBB(this.getPos()).grow(ECConfig.CONFIG.sweetShrineRange.get());
-	}
 
 	@Override
-	protected void doTick() {
-		int consumeAmount = ECConfig.CONFIG.sweetShrineConsumeAmount.get();
+	protected boolean doTick() {
+		int consumeAmount = this.getConsumeAmount();
 
 		if (this.getElementAmount() >= consumeAmount) {
 			getEntities(PlayerEntity.class).forEach(e -> {
@@ -50,5 +47,6 @@ public class TileSweetShrine extends TileShrine {
 				}
 			});
 		}
+		return false;
 	}
 }

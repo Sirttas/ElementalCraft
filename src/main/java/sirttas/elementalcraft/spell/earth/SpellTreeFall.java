@@ -20,7 +20,7 @@ public class SpellTreeFall extends Spell {
 	public static final String NAME = "tree_fall";
 
 	public SpellTreeFall() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.CONFIG.treeFallCooldown.get()).consumeAmount(ECConfig.CONFIG.treeFallConsumeAmount.get()));
+		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.treeFallCooldown.get()).consumeAmount(ECConfig.COMMON.treeFallConsumeAmount.get()));
 	}
 
 	private boolean isValidBlock(Block block) {
@@ -29,7 +29,7 @@ public class SpellTreeFall extends Spell {
 
 	private void cutTree(World world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
-		double rangeSq = ECConfig.CONFIG.treeFallRange.get();
+		double rangeSq = ECConfig.COMMON.treeFallRange.get();
 
 		rangeSq *= rangeSq;
 		queue.offer(target);

@@ -3,8 +3,11 @@ package sirttas.elementalcraft.tag;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagCollectionManager;
+import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 
 public class ECTags {
@@ -31,6 +34,15 @@ public class ECTags {
 		private static INamedTag<Item> createTag(String name) {
 			return ItemTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
 		}
+
+		public static ITag<Item> getTag(ResourceLocation loc) {
+			ITag<Item> tag = ItemTags.getCollection().get(loc);
+
+			if (tag == null) {
+				tag = TagCollectionManager.getManager().getItemTags().get(loc);
+			}
+			return tag;
+		}
 	}
 
 	public static class Blocks {
@@ -41,8 +53,20 @@ public class ECTags {
 		public static final INamedTag<Block> PIPES = createTag("pipes");
 		public static final INamedTag<Block> SHRINES = createTag("shrines");
 
+		public static final INamedTag<Block> SHRINES_UPGRADABLES_ACCELERATION = createTag("shrines/upgradables/acceleration");
+		public static final INamedTag<Block> SHRINES_UPGRADABLES_RANGE = createTag("shrines/upgradables/range");
+
 		private static INamedTag<Block> createTag(String name) {
 			return BlockTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
+		}
+
+		public static ITag<Block> getTag(ResourceLocation loc) {
+			ITag<Block> tag = BlockTags.getCollection().get(loc);
+
+			if (tag == null) {
+				tag = TagCollectionManager.getManager().getBlockTags().get(loc);
+			}
+			return tag;
 		}
 	}
 }

@@ -28,6 +28,6 @@ public class ECProperties {
 	public static class Items {
 		public static final Item.Properties DEFAULT_ITEM_PROPERTIES = new Item.Properties().group(ElementalCraftTab.tabElementalCraft);
 		public static final Item.Properties ITEM_UNSTACKABLE = new Item.Properties().group(ElementalCraftTab.tabElementalCraft).maxStackSize(1);
-		public static final Item.Properties RECEPTACLE = new Item.Properties().group(ElementalCraftTab.tabElementalCraft).maxStackSize(1).maxDamage(ECConfig.CONFIG.receptacleDurability.get());
+		public static final Item.Properties RECEPTACLE = new Item.Properties().group(ElementalCraftTab.tabElementalCraft).maxStackSize(1).maxDamage(ECConfig.COMMON.receptacleDurability.get());
 	}
 }

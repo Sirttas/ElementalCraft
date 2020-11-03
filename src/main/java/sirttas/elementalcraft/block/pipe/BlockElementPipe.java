@@ -83,7 +83,6 @@ public class BlockElementPipe extends BlockECTileProvider {
 
 	@Override
 	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-		worldIn.getPendingBlockTicks().scheduleTick(pos, this, 1);
 		((TileElementPipe) worldIn.getTileEntity(pos)).refresh();
 	}
 

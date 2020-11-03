@@ -31,8 +31,8 @@
               "op": "replace"
             },
             {
-              "source": "element_max",
-              "target": "BlockEntityTag.element_max",
+              "source": "element_capacity",
+              "target": "BlockEntityTag.element_capacity",
               "op": "replace"
             },
             {

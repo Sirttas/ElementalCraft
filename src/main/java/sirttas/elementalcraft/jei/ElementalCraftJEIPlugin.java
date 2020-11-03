@@ -22,7 +22,6 @@ import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.jei.category.BindingRecipeCategory;
 import sirttas.elementalcraft.jei.category.InfusionRecipeCategory;
 import sirttas.elementalcraft.jei.category.PureInfusionRecipeCategory;
@@ -83,7 +82,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(InfusionHelper.getRecipes(), ToolInfusionRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(BinderRecipe.TYPE).values(), BindingRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(PureInfusionRecipe.TYPE).values(), PureInfusionRecipeCategory.UID);
-		registry.addRecipes(PureOreHelper.getRecipes(), PurificationRecipeCategory.UID);
+		registry.addRecipes(ElementalCraft.PURE_ORE_MANAGER.getRecipes(), PurificationRecipeCategory.UID);
 		registry.addRecipes(createFocusAnvilRecipes(registry.getVanillaRecipeFactory()), VanillaRecipeCategoryUid.ANVIL);
 	}
 

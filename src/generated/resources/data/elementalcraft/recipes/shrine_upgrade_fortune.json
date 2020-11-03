@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "lll",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "l": {
+      "tag": "forge:gems/lapis"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_fortune"
+  }
+}

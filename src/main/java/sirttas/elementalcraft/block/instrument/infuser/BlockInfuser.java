@@ -51,7 +51,7 @@ public class BlockInfuser extends BlockECContainer {
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
 		TileEntityHelper.getTileEntityAs(world, pos, TileInfuser.class).filter(TileInfuser::isRunning)
-				.ifPresent(i -> ParticleHelper.createElementFlowParticle(i.getTankElementType(), world, Vector3d.copy(pos), Direction.UP, 1, rand));
+				.ifPresent(i -> ParticleHelper.createElementFlowParticle(i.getTankElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, rand));
 	}
 
 	@Override

@@ -16,6 +16,10 @@ public class LootHelper {
 
 	private static ItemStack SILK_TOUCH_PICK = ItemStack.EMPTY;
 
+	public static List<ItemStack> getDrops(ServerWorld world, BlockPos pos) {
+		return getDrops(world, pos, ItemStack.EMPTY);
+	}
+
 	public static List<ItemStack> getDrops(ServerWorld world, BlockPos pos, boolean silkTouch) {
 		if (SILK_TOUCH_PICK.isEmpty() && silkTouch) {
 			SILK_TOUCH_PICK = new ItemStack(Items.NETHERITE_PICKAXE);

@@ -30,13 +30,20 @@ import sirttas.elementalcraft.block.shrine.lava.BlockLavaShrine;
 import sirttas.elementalcraft.block.shrine.ore.BlockOreShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.BlockPlantingShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockEfficiencyShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockOptimizationShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockRangeShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.BlockAccelerationShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
 import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
 import sirttas.elementalcraft.item.pureore.ItemPureOre;
-import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.item.receptacle.ItemEmptyReceptacle;
 import sirttas.elementalcraft.item.receptacle.ItemReceptacle;
 import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
@@ -73,6 +80,8 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":hardened_handle") public static ItemEC hardenedHandle;
 	@ObjectHolder(ElementalCraft.MODID + ":shrinebase") public static ItemEC shrineBase;
 	@ObjectHolder(ElementalCraft.MODID + ":fireite_ingot") public static ItemEC fireiteIngot;
+	@ObjectHolder(ElementalCraft.MODID + ":air_silk") public static ItemEC airSilk;
+	@ObjectHolder(ElementalCraft.MODID + ":shrine_upgrade_core") public static ItemEC shrineUpgradeCore;
 
 	/** BLOCKS */
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static Item tankSmall;
@@ -102,6 +111,14 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static Item overloadShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static Item sweetShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static Item enderLockShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockAccelerationShrineUpgrade.NAME) public static Item accelerationShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRangeShrineUpgrade.NAME) public static Item rangeShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCapacityShrineUpgrade.NAME) public static Item capacityShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEfficiencyShrineUpgrade.NAME) public static Item efficiencyShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOptimizationShrineUpgrade.NAME) public static Item optimizationShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFortuneShrineUpgrade.NAME) public static Item fortuneShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static Item silkTouchShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static Item plantingShrineUpgrade;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static Item source;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystalOre.NAME) public static Item crystalOre;
@@ -148,13 +165,15 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "hardened_handle");
 		RegistryHelper.register(registry, new ItemEC(), "shrinebase");
 		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).isImmuneToFire()), "fireite_ingot");
+		RegistryHelper.register(registry, new ItemEC(), "air_silk");
+		RegistryHelper.register(registry, new ItemEC(), "shrine_upgrade_core");
 
 		// TODO add tools
 	}
 
 	public static void registerItemColors(ColorHandlerEvent.Item event) {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), receptacle);
-		event.getItemColors().register((s, l) -> l == 0 ? -1 : PureOreHelper.getColor(s), pureOre);
+		event.getItemColors().register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), pureOre);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ItemElementHolder) s.getItem()).getElementType().getColor(), 
 				fireElementHolder, waterElementHolder, earthElementHolder, airElementHolder);
 	}

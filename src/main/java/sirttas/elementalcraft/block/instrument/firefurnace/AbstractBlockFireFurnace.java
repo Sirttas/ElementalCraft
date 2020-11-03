@@ -57,7 +57,7 @@ public abstract class AbstractBlockFireFurnace extends BlockECContainer {
 		TileEntityHelper.getTileEntityAs(world, pos, AbstractTileFireFurnace.class).filter(AbstractTileFireFurnace::isRunning).ifPresent(f -> {
 			world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
 			world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
-			ParticleHelper.createElementFlowParticle(f.getTankElementType(), world, Vector3d.copy(pos), Direction.UP, 1, rand);
+			ParticleHelper.createElementFlowParticle(f.getTankElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, rand);
 		});
 	}
 

@@ -12,7 +12,7 @@ public class SpellAnimalGrowth extends Spell {
 	public static final String NAME = "animal_growth";
 
 	public SpellAnimalGrowth() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.WATER).cooldown(ECConfig.CONFIG.animalGrowthCooldown.get()).consumeAmount(ECConfig.CONFIG.animalGrowthConsumeAmount.get()));
+		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.WATER).cooldown(ECConfig.COMMON.animalGrowthCooldown.get()).consumeAmount(ECConfig.COMMON.animalGrowthConsumeAmount.get()));
 	}
 
 

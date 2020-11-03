@@ -19,13 +19,14 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
 
-public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spell> {
+public class Spell extends ForgeRegistryEntry<Spell> {
 
 	protected static final UUID ATTACK_DAMAGE_MODIFIER = UUID.fromString("9da31711-7ea8-41d6-a4ef-3a6f7f679637");
 	protected static final UUID REACH_DISTANCE_MODIFIER = UUID.fromString("1a6a2857-a598-40e4-9161-5b58bb14e9bc");
@@ -171,6 +172,7 @@ public class Spell extends net.minecraftforge.registries.ForgeRegistryEntry<Spel
 			this.elementType = ElementType.NONE;
 			cooldown = 0;
 			consumeAmount = 0;
+			useDuration = 0;
 		}
 
 		public static Properties create(Type type) {

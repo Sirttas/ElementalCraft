@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.tile.element;
+package sirttas.elementalcraft.api.element;
 
 import sirttas.elementalcraft.ElementType;
 

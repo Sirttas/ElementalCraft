@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -27,10 +28,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.BlockECContainer;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
-import sirttas.elementalcraft.item.pureore.PureOreHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockPurifier extends BlockECContainer {
@@ -91,7 +92,7 @@ public class BlockPurifier extends BlockECContainer {
 		if (purifier != null) {
 			if (!purifier.getInventory().getStackInSlot(1).isEmpty()) {
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
-			} else if (PureOreHelper.isValidOre(held)) {
+			} else if (ElementalCraft.PURE_ORE_MANAGER.isValidOre(held)) {
 				return this.onSlotActivated(inv, player, held, 0);
 			}
 		}
@@ -102,7 +103,7 @@ public class BlockPurifier extends BlockECContainer {
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
 		TileEntityHelper.getTileEntityAs(world, pos, TilePurifier.class).filter(TilePurifier::isRunning)
-				.ifPresent(p -> ParticleHelper.createElementFlowParticle(p.getTankElementType(), world, Vector3d.copy(pos), Direction.UP, 1, rand));
+				.ifPresent(p -> ParticleHelper.createElementFlowParticle(p.getTankElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, rand));
 	}
 
 	@Override
@@ -126,10 +127,15 @@ public class BlockPurifier extends BlockECContainer {
 		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
 	}
 
-	@Deprecated
 	@Override
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.with(FACING, rot.rotate(state.get(FACING)));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
 	}
 
 	@Override
