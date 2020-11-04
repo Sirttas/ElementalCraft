@@ -78,7 +78,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(side).rotationY(180).addModel().condition(BlockOverloadShrine.FACING, Direction.SOUTH).end()
 				.part().modelFile(side).rotationY(270).addModel().condition(BlockOverloadShrine.FACING, Direction.WEST).end();
 		} else if (block instanceof BlockTank) {
-			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix(name + "_connector")));
+			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("tank_connector")));
 		} else if (block instanceof BlockPedestal) {
 			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
 		} else if (block instanceof BlockRetriever) {

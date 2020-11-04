@@ -37,6 +37,7 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 	protected final int cooldown;
 	protected final int consumeAmount;
 	protected final int useDuration;
+	protected final int weight;
 	protected final ElementType elementType;
 	protected final Type type;
 
@@ -46,6 +47,7 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 		this.consumeAmount = properties.consumeAmount;
 		this.cooldown = properties.cooldown;
 		this.useDuration = properties.useDuration;
+		this.weight = properties.weight;
 	}
 
 	public String getTranslationKey() {
@@ -164,6 +166,7 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 		private int cooldown;
 		private int consumeAmount;
 		private int useDuration;
+		private int weight;
 		private ElementType elementType;
 		private final Type type;
 
@@ -173,6 +176,7 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 			cooldown = 0;
 			consumeAmount = 0;
 			useDuration = 0;
+			weight = 0;
 		}
 
 		public static Properties create(Type type) {
@@ -197,6 +201,11 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 
 		public Properties elementType(ElementType elementType) {
 			this.elementType = elementType;
+			return this;
+		}
+
+		public Properties weight(int weight) {
+			this.weight = weight;
 			return this;
 		}
 	}

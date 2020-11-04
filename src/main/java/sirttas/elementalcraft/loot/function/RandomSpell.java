@@ -21,36 +21,40 @@ import net.minecraft.loot.LootFunctionType;
 import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
+import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 public class RandomSpell extends LootFunction {
+
+	private ElementType elementType;
 	private final List<Spell> spellList;
 
 	static LootFunctionType type;
-	private static final String SPELLS = "spells";
-
+	
 	private RandomSpell(ILootCondition[] condition, Collection<Spell> spellList) {
 		super(condition);
 		this.spellList = ImmutableList.copyOf(spellList);
-	   }
+		this.elementType = ElementType.NONE;
+	}
+
+	private RandomSpell(ILootCondition[] condition, ElementType elementType) {
+		this(condition, ImmutableList.of());
+		this.elementType = elementType;
+	}
 
 	@Override
 	public ItemStack doApply(ItemStack stack, LootContext context) {
 		Random random = context.getRandom();
 		Spell spell;
 
-		if (this.spellList.isEmpty()) {
-			List<Spell> list = Lists.newArrayList();
-
-			for (Spell sp : Spell.REGISTRY) {
-				if (sp.isValid()) {
-					list.add(sp);
-				}
-			}
-			spell = list.get(random.nextInt(list.size()));
+		if (!this.spellList.isEmpty()) {
+			spell = SpellHelper.randomSpell(this.spellList, random);
+		} else if (this.elementType != ElementType.NONE) {
+			spell = SpellHelper.randomSpell(this.elementType, random);
 		} else {
-			spell = this.spellList.get(random.nextInt(this.spellList.size()));
+			spell = SpellHelper.randomSpell(random);
 		}
 		SpellHelper.setSpell(stack, spell);
 		return stack;
@@ -64,21 +68,27 @@ public class RandomSpell extends LootFunction {
 		return builder(l -> new RandomSpell(l, spellList));
 	}
 
+	public static LootFunction.Builder<?> builder(ElementType elementType) { // NOSONAR
+		return builder(l -> new RandomSpell(l, elementType));
+	}
+
 	public static class Serializer extends LootFunction.Serializer<RandomSpell> {
 		@Override
-		public void serialize(JsonObject object, RandomSpell functionClazz, JsonSerializationContext serializationContext) {
-			super.serialize(object, functionClazz, serializationContext);
-			if (!functionClazz.spellList.isEmpty()) {
+		public void serialize(JsonObject object, RandomSpell function, JsonSerializationContext serializationContext) {
+			super.serialize(object, function, serializationContext);
+			if (!function.spellList.isEmpty()) {
 				JsonArray jsonarray = new JsonArray();
 
-				for (Spell spell : functionClazz.spellList) {
+				for (Spell spell : function.spellList) {
 					ResourceLocation resourcelocation = Spell.REGISTRY.getKey(spell);
 					if (resourcelocation == null) {
 						throw new IllegalArgumentException("Don't know how to serialize spell " + spell);
 					}
 					jsonarray.add(new JsonPrimitive(resourcelocation.toString()));
 				}
-				object.add(SPELLS, jsonarray);
+				object.add(ECNames.SPELL_LIST, jsonarray);
+			} else if (function.elementType != ElementType.NONE) {
+				object.addProperty(ECNames.ELEMENT_TYPE, function.elementType.getString());
 			}
 		}
 
@@ -86,9 +96,9 @@ public class RandomSpell extends LootFunction {
 		public RandomSpell deserialize(JsonObject object, JsonDeserializationContext deserializationContext, ILootCondition[] conditionsIn) {
 			List<Spell> list = Lists.newArrayList();
 
-			if (object.has(SPELLS)) {
-				for (JsonElement jsonelement : JSONUtils.getJsonArray(object, SPELLS)) {
-					String s = JSONUtils.getString(jsonelement, "spell");
+			if (object.has(ECNames.SPELL_LIST)) {
+				for (JsonElement jsonelement : JSONUtils.getJsonArray(object, ECNames.SPELL_LIST)) {
+					String s = JSONUtils.getString(jsonelement, ECNames.SPELL);
 					Spell spell = Spell.REGISTRY.getValue(new ResourceLocation(s));
 
 					if (spell == null) {
@@ -96,9 +106,12 @@ public class RandomSpell extends LootFunction {
 					}
 					list.add(spell);
 				}
+				return new RandomSpell(conditionsIn, list);
+			} else if (object.has(ECNames.ELEMENT_TYPE)) {
+				return new RandomSpell(conditionsIn, ElementType.byName(JSONUtils.getString(object, ECNames.ELEMENT_TYPE)));
 			}
 			return new RandomSpell(conditionsIn, list);
-		}
+		} 
 	}
 
 	@Override

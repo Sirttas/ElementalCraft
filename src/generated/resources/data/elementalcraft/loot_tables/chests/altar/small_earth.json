@@ -71,16 +71,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
-          "functions": [
-            {
-              "function": "elementalcraft:random_spell"
-            }
-          ],
-          "name": "elementalcraft:scroll"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 2,
           "name": "elementalcraft:receptacle_empty"
         },
@@ -113,6 +103,17 @@
             }
           ],
           "name": "elementalcraft:earthcrystal"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "elementalcraft:random_spell",
+              "element_type": "earth"
+            }
+          ],
+          "name": "elementalcraft:scroll"
         }
       ]
     },

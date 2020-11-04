@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,16 +16,11 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.block.BlockECContainer;
-import sirttas.elementalcraft.block.tile.TileEntityHelper;
-import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class BlockPedestal extends BlockECContainer {
@@ -71,16 +64,6 @@ public class BlockPedestal extends BlockECContainer {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileEntityHelper.getTileEntityAs(world, pos, TilePedestal.class).filter(TilePedestal::isPureInfuserRunning).ifPresent(p -> {
-			Direction offset = p.getPureInfuserDirection();
-
-			ParticleHelper.createElementFlowParticle(p.getElementType(), world, Vector3d.copyCentered(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, rand);
-		});
 	}
 
 	@Override

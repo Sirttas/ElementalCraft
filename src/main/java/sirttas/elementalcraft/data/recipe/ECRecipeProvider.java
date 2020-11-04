@@ -123,7 +123,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addCriterion(HAS_SHRINE_UPGRADE_CORE, hasItem(ECItems.shrineUpgradeCore)).build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECItems.fortuneShrineUpgrade).key('C', ECItems.shrineUpgradeCore).key('l', Tags.Items.GEMS_LAPIS).key('w', ECBlocks.whiteRock).key('c', ECItems.waterCrystal)
 				.patternLine("lll").patternLine("wCw").patternLine(" c ").addCriterion(HAS_SHRINE_UPGRADE_CORE, hasItem(ECItems.shrineUpgradeCore)).build(consumer);
-		ShapedRecipeBuilder.shapedRecipe(ECItems.silkTouchShrineUpgrade).key('C', ECItems.shrineUpgradeCore).key('s', ECItems.airSilk).key('w', ECBlocks.whiteRock).key('c', ECItems.airCrystal)
+		ShapedRecipeBuilder.shapedRecipe(ECItems.silkTouchShrineUpgrade).key('C', ECItems.shrineUpgradeCore).key('s', ECItems.airSilk).key('w', ECBlocks.whiteRock).key('c', ECItems.pureCrystal)
 				.patternLine("sss").patternLine("wCw").patternLine(" c ").addCriterion(HAS_SHRINE_UPGRADE_CORE, hasItem(ECItems.shrineUpgradeCore)).build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECItems.plantingShrineUpgrade).key('C', ECItems.shrineUpgradeCore).key('s', Tags.Items.SEEDS).key('h', Items.DIAMOND_HOE).key('w', ECBlocks.whiteRock)
 				.key('c', ECItems.earthCrystal).patternLine("shs").patternLine("wCw").patternLine(" c ").addCriterion(HAS_SHRINE_UPGRADE_CORE, hasItem(ECItems.shrineUpgradeCore)).build(consumer);

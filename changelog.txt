@@ -1,3 +1,13 @@
+1.16.3-2.4.1:
+
+- silk touch shrine upgrade now require a pure crystal
+- recipes are no longer reseted when there isn't enough elements
+- source altars can now only roll spells of the same element
+- removed some logspam
+- fix creative element container rendering
+- fix a crash with pure ore generation (issue #10)
+
+
 1.16.3-2.4.0:
 
 - new item: air silk
@@ -9,6 +19,7 @@
 - new block: optimization shrine upgrade
 - new block: fortune shrine upgrade
 - new block: silk touch shrine upgrade
+- new block: planting shrine upgrade
 - chestplate air infusion now gives dodge chance
 - rework config: the server config is now common, you will need to copy it
 - rework pure ore injection to receive IMC

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.instrument.binder;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
@@ -38,6 +39,11 @@ public class TileBinder extends TileInstrument {
 		if (this.world.isRemote) {
 			ParticleHelper.createCraftingParticle(getTankElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2, 0), world.rand);
 		}
+	}
+
+	@Override
+	protected void onProgress() {
+		ParticleHelper.createElementFlowParticle(getTankElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), Direction.UP, 1, world.rand);
 	}
 
 	@Override

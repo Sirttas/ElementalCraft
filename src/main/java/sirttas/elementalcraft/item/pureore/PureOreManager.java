@@ -111,7 +111,7 @@ public class PureOreManager {
 
 	private void addEntry(Entry entry) {
 		for (Entry other : pureOres.values()) {
-			if (ECInventoryHelper.stackEqualCount(other.result, entry.result)) {
+			if (entry.match(other)) {
 				pureOres.put(entry.ore, other);
 				entry.recipes.forEach((type, recipe) -> {
 					if (!other.recipes.containsKey(type)) {
@@ -173,6 +173,18 @@ public class PureOreManager {
 
 		public Ingredient getIngredient() {
 			return new PureOreCompoundIngredient(ingredients);
+		}
+
+		private boolean match(Entry other) {
+			if (ECInventoryHelper.stackEqualCount(other.result, result)) {
+				return true;
+			}
+			for (IRecipe<?> recipe : other.recipes.values()) {
+				if (recipes.containsValue(recipe)) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 
