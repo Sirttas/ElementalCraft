@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.block.instrument.firefurnace;
 
+import java.util.Random;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,8 +9,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.vector.Vector3d;
+import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
 import sirttas.elementalcraft.inventory.IOInventory;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
@@ -51,6 +55,18 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 	@Override
 	protected IInstrumentRecipe<AbstractTileFireFurnace<T>> lookupRecipe() {
 		return this.getWorld().getRecipeManager().getRecipe(recipeType, InventoryTileWrapper.from(this), this.getWorld()).map(FurnaceRecipeWrapper::new).orElse(null);
+	}
+
+	@Override
+	protected void onProgress() {
+		Random rand = world.rand;
+		double x = pos.getX() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
+		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
+		double z = pos.getZ() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
+
+		world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+		world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
+		super.onProgress();
 	}
 
 	public void dropExperience(PlayerEntity player) {

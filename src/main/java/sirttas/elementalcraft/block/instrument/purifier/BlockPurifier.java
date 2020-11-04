@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.instrument.purifier;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -22,17 +20,12 @@ import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.BlockECContainer;
-import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
-import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockPurifier extends BlockECContainer {
 
@@ -97,13 +90,6 @@ public class BlockPurifier extends BlockECContainer {
 			}
 		}
 		return ActionResultType.PASS;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileEntityHelper.getTileEntityAs(world, pos, TilePurifier.class).filter(TilePurifier::isRunning)
-				.ifPresent(p -> ParticleHelper.createElementFlowParticle(p.getTankElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, rand));
 	}
 
 	@Override

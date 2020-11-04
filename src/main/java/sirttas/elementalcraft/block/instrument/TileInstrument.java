@@ -6,10 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Vector3d;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.nbt.ECNames;
+import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 public abstract class TileInstrument extends TileECContainer implements IInstrument {
@@ -76,10 +78,15 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 			progress = 0;
 		} else if (this.isRecipeAvailable() && tank != null && canProgress() && tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
 			tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), false);
+			onProgress();
 			progress++;
-		} else {
+		} else if (recipe == null) {
 			progress = 0;
 		}
+	}
+
+	protected void onProgress() {
+		ParticleHelper.createElementFlowParticle(getTankElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, world.rand);
 	}
 
 	@Override

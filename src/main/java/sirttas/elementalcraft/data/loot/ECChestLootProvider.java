@@ -19,6 +19,7 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.RandomValueRange;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
+import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
@@ -55,7 +56,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 				ItemLootEntry.builder(ECItems.fireCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
 				ItemLootEntry.builder(ECItems.earthCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
 				ItemLootEntry.builder(ECItems.waterCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10));
+				ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
+				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder()).weight(15));
 		LootPool.Builder pool = genBase(RandomValueRange.of(0, 2));
 
 		entries.forEach(pool::addEntry);
@@ -68,7 +70,6 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 				ItemLootEntry.builder(ECItems.drenchedIronNugget).acceptFunction(SetCount.builder(RandomValueRange.of(2, 5))).weight(15),
 				ItemLootEntry.builder(ECItems.swiftAlloyIngot).acceptFunction(SetCount.builder(RandomValueRange.of(1, 2))).weight(5),
 				ItemLootEntry.builder(ECItems.swiftAlloyNugget).acceptFunction(SetCount.builder(RandomValueRange.of(2, 4))).weight(7),
-				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder()).weight(15), 
 				ItemLootEntry.builder(ECItems.emptyReceptacle).weight(2));
 		LootPool.Builder pool = LootPool.builder().name("main").rolls(range);
 
@@ -79,7 +80,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	private static LootTable.Builder genFire() {
 		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
 				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.fireCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40));
+				ItemLootEntry.builder(ECItems.fireCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
+				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.FIRE)).weight(15));
 		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
 
 		entries.forEach(pool::addEntry);
@@ -89,7 +91,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	private static LootTable.Builder genWater() {
 		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
 				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.waterCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40));
+				ItemLootEntry.builder(ECItems.waterCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
+				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.WATER)).weight(15));
 		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
 
 		entries.forEach(pool::addEntry);
@@ -99,7 +102,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	private static LootTable.Builder genAir() {
 		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
 				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40));
+				ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
+				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.AIR)).weight(15));
 		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
 
 		entries.forEach(pool::addEntry);
@@ -109,7 +113,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	private static LootTable.Builder genEarth() {
 		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
 				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.earthCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40));
+				ItemLootEntry.builder(ECItems.earthCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
+				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.EARTH)).weight(15));
 		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
 
 		entries.forEach(pool::addEntry);

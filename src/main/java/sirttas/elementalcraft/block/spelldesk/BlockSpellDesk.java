@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.block.spelldesk;
 
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -123,8 +121,7 @@ public class BlockSpellDesk extends BlockEC {
 		Vector3d position = Vector3d.copy(pos).add(0.5, 0.7, 0.5);
 
 		if (rand.nextDouble() < count * 0.06D + 0.2D) {
-			List<Spell> spells = Spell.REGISTRY.getValues().stream().filter(s -> s.getElementType() == type && s.isValid()).collect(Collectors.toList());
-			Spell spell = spells.get(rand.nextInt(spells.size()));
+			Spell spell = SpellHelper.randomSpell(type, rand);
 			ItemStack scroll = new ItemStack(ECItems.scroll);
 			
 			SpellHelper.setSpell(scroll, spell);

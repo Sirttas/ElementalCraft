@@ -1,27 +1,19 @@
 package sirttas.elementalcraft.block.instrument.infuser;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.BlockECContainer;
-import sirttas.elementalcraft.block.tile.TileEntityHelper;
-import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class BlockInfuser extends BlockECContainer {
 
@@ -45,13 +37,6 @@ public class BlockInfuser extends BlockECContainer {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-		TileEntityHelper.getTileEntityAs(world, pos, TileInfuser.class).filter(TileInfuser::isRunning)
-				.ifPresent(i -> ParticleHelper.createElementFlowParticle(i.getTankElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, rand));
 	}
 
 	@Override

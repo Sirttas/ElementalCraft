@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import net.minecraft.block.BlockState;
@@ -80,17 +79,6 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 		elementAmount = newCount;
 		this.forceSync();
 		return ret;
-	}
-
-	private Optional<TilePureInfuser> getPureInfuser() {
-		return Stream.of(Direction.values()).filter(d -> d.getAxis().getPlane() == Direction.Plane.HORIZONTAL)
-				.map(d -> this.getWorld().getTileEntity(pos.offset(d, 3))).filter(TilePureInfuser.class::isInstance).map(TilePureInfuser.class::cast).findAny();
-	}
-
-	public boolean isPureInfuserRunning() {
-		Optional<TilePureInfuser> opt = getPureInfuser();
-
-		return opt.isPresent() && opt.get().isRunning();
 	}
 
 	public Direction getPureInfuserDirection() {

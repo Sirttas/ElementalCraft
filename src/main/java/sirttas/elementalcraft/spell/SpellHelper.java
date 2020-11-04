@@ -1,6 +1,9 @@
 package sirttas.elementalcraft.spell;
 
+import java.util.List;
+import java.util.Random;
 import java.util.function.ObjIntConsumer;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import net.minecraft.item.ItemStack;
@@ -8,6 +11,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
+import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
@@ -137,5 +141,17 @@ public class SpellHelper {
 			return ((CompoundNBT) nbt).getString(ECNames.SPELL).equals(spell.getRegistryName().toString());
 		}
 		return false;
+	}
+
+	public static Spell randomSpell(Random rand) {
+		return randomSpell(Spell.REGISTRY.getValues().stream().filter(Spell::isValid).collect(Collectors.toList()), rand);
+	}
+
+	public static Spell randomSpell(ElementType type, Random rand) {
+		return randomSpell(Spell.REGISTRY.getValues().stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
+	}
+
+	public static Spell randomSpell(List<Spell> spells, Random rand) {
+		return spells.get(rand.nextInt(spells.size()));
 	}
 }

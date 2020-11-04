@@ -31,7 +31,6 @@ public class TilePureInfuser extends TileECContainer {
 		inventory = new SingleItemInventory(this::forceSync);
 	}
 
-
 	public boolean isRunning() {
 		return progress > 0;
 	}
@@ -66,9 +65,13 @@ public class TilePureInfuser extends TileECContainer {
 		if (recipe != null && progress >= recipe.getDuration()) {
 			process();
 			progress = 0;
-		} else if (this.isReciptAvalable() && consume(Direction.NORTH) && consume(Direction.SOUTH) && consume(Direction.WEST) && consume(Direction.EAST)) {
+		} else if (this.isReciptAvalable() && canConsume(Direction.NORTH) && canConsume(Direction.SOUTH) && canConsume(Direction.WEST) && canConsume(Direction.EAST)) {
+			consume(Direction.NORTH);
+			consume(Direction.SOUTH);
+			consume(Direction.WEST);
+			consume(Direction.EAST);
 			progress++;
-		} else {
+		} else if (recipe == null) {
 			progress = 0;
 		}
 	}
@@ -119,11 +122,22 @@ public class TilePureInfuser extends TileECContainer {
 		return te instanceof TilePedestal ? (TilePedestal) te : null;
 	}
 
-	private boolean consume(Direction direction) {
+	private boolean canConsume(Direction direction) {
 		TilePedestal pedestal = getPedestal(direction);
 		int elementPerTick = recipe.getElementPerTick();
 
-		return pedestal != null && pedestal.consumeElement(elementPerTick) == elementPerTick;
+		return pedestal != null && pedestal.getElementAmount() >= elementPerTick;
+	}
+
+	private void consume(Direction direction) {
+		TilePedestal pedestal = getPedestal(direction);
+		int elementPerTick = recipe.getElementPerTick();
+		Direction offset = direction.getOpposite();
+
+		if (pedestal != null) {
+			pedestal.consumeElement(elementPerTick);
+			ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
+		}
 	}
 
 	@Override
