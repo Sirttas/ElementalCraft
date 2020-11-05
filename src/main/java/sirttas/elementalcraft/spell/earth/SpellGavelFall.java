@@ -12,17 +12,11 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellGavelFall extends Spell {
 
 	public static final String NAME = "gravelfall";
-
-	public SpellGavelFall() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.gravelFallCooldown.get()).consumeAmount(ECConfig.COMMON.gravelFallConsumeAmount.get()));
-	}
 
 	private void spawn(World world, BlockPos pos) {
 		FallingBlockEntity entity = new FallingBlockEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, Blocks.GRAVEL.getDefaultState());

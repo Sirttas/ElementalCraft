@@ -144,20 +144,16 @@ public class BlockSpellDesk extends BlockEC {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		ItemStack stack = player.getHeldItem(hand);
 
-		if (stack.getItem() == Items.PAPER && !hasPaper(state)) {
+		if (stack.getItem() == ECItems.scrollPaper && !hasPaper(state)) {
 			world.setBlockState(pos, state.with(HAS_PAPER, true));
 			if (!player.isCreative()) {
 				stack.shrink(1);
 			}
 		} else if (hasPaper(state)) {
-			if (stack.getItem() == ECItems.fireCrystal) {
-				createSpell(state, world, pos, player, stack, ElementType.FIRE);
-			} else if (stack.getItem() == ECItems.waterCrystal) {
-				createSpell(state, world, pos, player, stack, ElementType.WATER);
-			} else if (stack.getItem() == ECItems.earthCrystal) {
-				createSpell(state, world, pos, player, stack, ElementType.EARTH);
-			} else if (stack.getItem() == ECItems.airCrystal) {
-				createSpell(state, world, pos, player, stack, ElementType.AIR);
+			ElementType type = ECItems.getTypeFromCrystal(stack.getItem());
+
+			if (type != ElementType.NONE) {
+				createSpell(state, world, pos, player, stack, type);
 			}
 		}
 		return ActionResultType.PASS;

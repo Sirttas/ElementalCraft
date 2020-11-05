@@ -8,17 +8,11 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellRipening extends Spell {
 
 	public static final String NAME = "ripening";
-
-	public SpellRipening() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.WATER).cooldown(ECConfig.COMMON.ripeningCooldown.get()).consumeAmount(ECConfig.COMMON.ripeningConsumeAmount.get()));
-	}
 
 	@Override
 	public ActionResultType castOnBlock(Entity sender, BlockPos target) {

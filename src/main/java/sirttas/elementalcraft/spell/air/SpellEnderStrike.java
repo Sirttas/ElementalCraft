@@ -19,19 +19,12 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellEnderStrike extends Spell {
 
 	public static final String NAME = "ender_strike";
-
-
-	public SpellEnderStrike() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.AIR).cooldown(ECConfig.COMMON.enderStrikeCooldown.get()).consumeAmount(ECConfig.COMMON.enderStrikeConsumeAmount.get()));
-	}
 
 	@Override
 	public ActionResultType castOnEntity(Entity sender, Entity target) {
@@ -66,7 +59,7 @@ public class SpellEnderStrike extends Spell {
 	public ActionResultType castOnSelf(Entity sender) {
 		Vector3d pos = sender.getPositionVec();
 
-		return sender.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(ECConfig.COMMON.enderStrikeRange.get())).stream()
+		return sender.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(getRange())).stream()
 				.filter(IMob.class::isInstance).sorted(Comparator.comparingDouble(e -> pos.distanceTo(e.getPositionVec()))).findFirst().map(e -> castOnEntity(sender, e)).orElse(ActionResultType.PASS);
 	}
 

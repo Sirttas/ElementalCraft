@@ -9,11 +9,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 import net.minecraftforge.registries.RegistryBuilder;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.registry.RegistryHelper;
-import sirttas.elementalcraft.spell.Spell.Properties;
 import sirttas.elementalcraft.spell.air.SpellDash;
 import sirttas.elementalcraft.spell.air.SpellEnderStrike;
 import sirttas.elementalcraft.spell.air.SpellItemPull;
@@ -52,6 +49,7 @@ public class Spells {
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellSilkVein.NAME) public static SpellSilkVein silkVein;
 
 	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
+	@ObjectHolder(ElementalCraft.MODID + ":speed") public static EffectSpell speed;
 
 	@SubscribeEvent
 	public static void createSpellRegistry(RegistryEvent.NewRegistry event) {
@@ -67,7 +65,7 @@ public class Spells {
 	public static void registerSpells(RegistryEvent.Register<Spell> event) {
 		IForgeRegistry<Spell> registry = event.getRegistry();
 
-		RegistryHelper.register(registry, new Spell(Spell.Properties.create(Spell.Type.NONE)), "none");
+		RegistryHelper.register(registry, new Spell(), "none");
 
 		RegistryHelper.register(registry, new SpellGavelFall(), SpellGavelFall.NAME);
 		RegistryHelper.register(registry, new SpellStoneWall(), SpellStoneWall.NAME);
@@ -83,8 +81,8 @@ public class Spells {
 		RegistryHelper.register(registry, new SpellDash(), SpellDash.NAME);
 		RegistryHelper.register(registry, new SpellSilkVein(), SpellSilkVein.NAME);
 
-		RegistryHelper.register(registry, new EffectSpell(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER)
-				.cooldown(ECConfig.COMMON.healCooldown.get()).consumeAmount(ECConfig.COMMON.healConsumeAmount.get()), new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");
+		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");
+		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.SPEED, 2400, 1), new EffectInstance(Effects.HASTE, 2400)), "speed");
 	}
 
 }

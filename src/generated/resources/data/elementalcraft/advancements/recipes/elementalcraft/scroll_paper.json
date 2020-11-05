@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:scroll_paper"
+    ]
+  },
+  "criteria": {
+    "has_air_silk": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:air_silk"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:scroll_paper"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_air_silk",
+      "has_the_recipe"
+    ]
+  ]
+}

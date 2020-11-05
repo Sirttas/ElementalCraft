@@ -1,0 +1,8 @@
+{
+  "spell_type": "mixed",
+  "element_type": "water",
+  "cooldown": 600,
+  "element_consumption": 1000,
+  "weight": 5,
+  "color": 16262179
+}

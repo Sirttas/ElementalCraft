@@ -15,10 +15,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
@@ -53,11 +53,11 @@ public class TileHarvestShrine extends TileShrine {
 				}).findAny();
 	}
 
-	private void handlePlanting(BlockPos pos, List<ItemStack> loots) {
-		if (this.hasUpgrade(ShrineUpgrades.PLANTING.get())) {
-			loots.stream().filter(stack -> Tags.Items.SEEDS.contains(stack.getItem())).findFirst().ifPresent(seeds -> {
-				Item item = seeds.getItem();
+	private void handlePlanting(BlockPos pos, IItemProvider provider, List<ItemStack> loots) {
+		Item item = provider.asItem();
 
+		if (this.hasUpgrade(ShrineUpgrades.PLANTING.get())) {
+			loots.stream().filter(stack -> stack.getItem().equals(item)).findFirst().ifPresent(seeds -> {
 				if (item instanceof BlockItem && ((BlockItem) item).tryPlace(new DirectionalPlaceContext(this.world, pos, Direction.DOWN, seeds, Direction.UP)).isSuccessOrConsume()) {
 					seeds.shrink(1);
 					if (seeds.isEmpty()) {
@@ -81,9 +81,10 @@ public class TileHarvestShrine extends TileShrine {
 		if (world instanceof ServerWorld && !world.isRemote) {
 			return findCrop().map(p -> {
 				List<ItemStack> loots = LootHelper.getDrops((ServerWorld) world, p);
+				Block block = world.getBlockState(pos).getBlock();
 
 				world.destroyBlock(p, false);
-				handlePlanting(p, loots);
+				handlePlanting(p, block, loots);
 				loots.forEach(stack -> Block.spawnAsEntity(world, p, stack));
 				return true;
 			}).orElse(false);

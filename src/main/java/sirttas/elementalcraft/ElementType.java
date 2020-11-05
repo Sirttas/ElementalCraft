@@ -13,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import sirttas.elementalcraft.gui.GuiHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
 public enum ElementType implements IStringSerializable {
@@ -48,7 +49,7 @@ public enum ElementType implements IStringSerializable {
 		this.g = g / 255F;
 		this.b = b / 255F;
 		this.name = name;
-		this.color = (r << 16) | (g << 8) | b;
+		this.color = GuiHelper.colorFromRGB(r, g, b);
 	}
 
 	public float getRed() {

@@ -20,12 +20,15 @@ import sirttas.elementalcraft.config.ECConfig;
 @SuppressWarnings("resource")
 public class GuiHelper {
 
+	@OnlyIn(Dist.CLIENT)
 	private static final ResourceLocation GAUGE = ElementalCraft.createRL("textures/gui/element_gauge.png");
 
+	@OnlyIn(Dist.CLIENT)
 	public static void blit(MatrixStack matrixStack, int x, int y, int u, int v, int width, int height) {
 		AbstractGui.blit(matrixStack, x, y, u, v, width, height, 256, 256);
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	private static int getElementTypeOffset(ElementType type) {
 		switch (type) {
 		case WATER:
@@ -69,5 +72,9 @@ public class GuiHelper {
 		Minecraft minecraft = Minecraft.getInstance();
 
 		return minecraft.player.isCreative() && minecraft.gameSettings.advancedItemTooltips;
+	}
+
+	public static int colorFromRGB(int r, int g, int b) {
+		return (r << 16) | (g << 8) | b;
 	}
 }

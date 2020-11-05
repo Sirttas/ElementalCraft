@@ -9,23 +9,16 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellInferno extends Spell {
 
 	public static final String NAME = "inferno";
 
-	public SpellInferno() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).consumeAmount(ECConfig.COMMON.infernoConsumeAmount.get()).cooldown(ECConfig.COMMON.infernoCooldown.get())
-				.useDuration(ECConfig.COMMON.infernoDuration.get()));
-	}
-
 	@Override
 	public ActionResultType castOnSelf(Entity sender) {
 		World world = sender.getEntityWorld();
-		Double range = ECConfig.COMMON.infernoRange.get();
+		float range = getRange();
 		Vector3d look = sender.getLookVec().normalize();
 
 		if (sender instanceof LivingEntity) {

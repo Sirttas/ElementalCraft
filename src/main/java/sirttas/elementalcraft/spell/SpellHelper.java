@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.spell;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.function.ObjIntConsumer;
@@ -144,14 +145,23 @@ public class SpellHelper {
 	}
 
 	public static Spell randomSpell(Random rand) {
-		return randomSpell(Spell.REGISTRY.getValues().stream().filter(Spell::isValid).collect(Collectors.toList()), rand);
+		return randomSpell(Spell.REGISTRY.getValues(), rand);
 	}
 
 	public static Spell randomSpell(ElementType type, Random rand) {
 		return randomSpell(Spell.REGISTRY.getValues().stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
 	}
 
-	public static Spell randomSpell(List<Spell> spells, Random rand) {
-		return spells.get(rand.nextInt(spells.size()));
+	public static Spell randomSpell(Collection<Spell> spells, Random rand) {
+		List<Spell> list = spells.stream().filter(Spell::isValid).collect(Collectors.toList());
+		int roll = rand.nextInt(list.stream().map(Spell::getWeight).reduce(0, Integer::sum));
+		
+		for (Spell spell : spells) {
+			roll -= spell.getWeight();
+			if (roll < 0) {
+				return spell;
+			}
+		}
+		return list.get(list.size() - 1);
 	}
 }

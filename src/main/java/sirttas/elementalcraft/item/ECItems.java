@@ -50,6 +50,7 @@ import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.item.spell.ItemFocus;
 import sirttas.elementalcraft.item.spell.ItemScroll;
 import sirttas.elementalcraft.registry.RegistryHelper;
+import sirttas.elementalcraft.spell.SpellHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECItems {
@@ -82,6 +83,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":fireite_ingot") public static ItemEC fireiteIngot;
 	@ObjectHolder(ElementalCraft.MODID + ":air_silk") public static ItemEC airSilk;
 	@ObjectHolder(ElementalCraft.MODID + ":shrine_upgrade_core") public static ItemEC shrineUpgradeCore;
+	@ObjectHolder(ElementalCraft.MODID + ":scroll_paper") public static ItemEC scrollPaper;
 
 	/** BLOCKS */
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static Item tankSmall;
@@ -167,6 +169,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).isImmuneToFire()), "fireite_ingot");
 		RegistryHelper.register(registry, new ItemEC(), "air_silk");
 		RegistryHelper.register(registry, new ItemEC(), "shrine_upgrade_core");
+		RegistryHelper.register(registry, new ItemEC(), "scroll_paper");
 
 		// TODO add tools
 	}
@@ -174,8 +177,37 @@ public class ECItems {
 	public static void registerItemColors(ColorHandlerEvent.Item event) {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), receptacle);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), pureOre);
+		event.getItemColors().register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), scroll);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ItemElementHolder) s.getItem()).getElementType().getColor(), 
 				fireElementHolder, waterElementHolder, earthElementHolder, airElementHolder);
+	}
+
+	public static ItemEC getCrystalForType(ElementType type) {
+		switch (type) {
+		case AIR:
+			return airCrystal;
+		case EARTH:
+			return earthCrystal;
+		case FIRE:
+			return fireCrystal;
+		case WATER:
+			return waterCrystal;
+		default:
+			return inertCrystal;
+		}
+	}
+
+	public static ElementType getTypeFromCrystal(Item crystal) {
+		if (crystal == ECItems.fireCrystal) {
+			return ElementType.FIRE;
+		} else if (crystal == ECItems.waterCrystal) {
+			return ElementType.WATER;
+		} else if (crystal == ECItems.earthCrystal) {
+			return ElementType.EARTH;
+		} else if (crystal == ECItems.airCrystal) {
+			return ElementType.AIR;
+		}
+		return ElementType.NONE;
 	}
 
 }

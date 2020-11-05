@@ -9,18 +9,11 @@ import net.minecraft.potion.EffectType;
 import net.minecraft.util.ActionResultType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.PotionEvent;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellPurification extends Spell {
 
 	public static final String NAME = "purification";
-
-
-	public SpellPurification() {
-		super(Properties.create(Spell.Type.MIXED).elementType(ElementType.WATER).cooldown(ECConfig.COMMON.purificationCooldown.get()).consumeAmount(ECConfig.COMMON.purificationConsumeAmount.get()));
-	}
 
 	@SuppressWarnings("resource")
 	private ActionResultType cureEffects(Entity target) {

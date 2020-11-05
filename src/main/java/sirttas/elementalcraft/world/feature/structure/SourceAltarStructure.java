@@ -33,9 +33,6 @@ public class SourceAltarStructure extends Structure<NoFeatureConfig> {
 
 	public static final String NAME = "source_altar";
 
-	private static final ResourceLocation SMALL = ElementalCraft.createRL("altar/small");
-	private static final ResourceLocation MEDIUM = ElementalCraft.createRL("altar/medium");
-
 	public SourceAltarStructure() {
 		super(NoFeatureConfig.field_236558_a_);
 	}
@@ -60,13 +57,24 @@ public class SourceAltarStructure extends Structure<NoFeatureConfig> {
 		public Start(Structure<NoFeatureConfig> structure, int x, int y, MutableBoundingBox mutableBoundingBox, int k, long l) {
 			super(structure, x, y, mutableBoundingBox, k, l);
 		}
-
+		
 		@Override
 		public void func_230364_a_/* init */(DynamicRegistries dynamicRegistries, ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn,
 				NoFeatureConfig config) {
-			this.components.add(new Piece(templateManagerIn, this.rand.nextInt(8) < 6 ? SMALL : MEDIUM, ElementType.random(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
+			this.components.add(new Piece(templateManagerIn, getRoll(), ElementType.random(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
 			this.recalculateStructureSize();
 
+		}
+		
+		private ResourceLocation getRoll() {
+			int roll = this.rand.nextInt(20);
+			
+			if (roll == 0) {
+				return ElementalCraft.createRL("altar/chapel");
+			} else if (roll <= 3) {
+				return ElementalCraft.createRL("altar/medium");
+			}
+			return ElementalCraft.createRL("altar/small");
 		}
 	}
 
@@ -113,13 +121,18 @@ public class SourceAltarStructure extends Structure<NoFeatureConfig> {
 
 		@Override
 		protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
-			if ("chest".equals(function)) {
-				this.generateChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/small_" + elementType.getString()), null);
+			if (function.endsWith("chest")) {
+				this.generateChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getString()), null);
 				worldIn.func_230547_a_/* notifyNeighbors */(pos, Blocks.CHEST);
 			} else if ("source".equals(function)) {
 				worldIn.setBlockState(pos, ECBlocks.source.getDefaultState().with(ECProperties.ELEMENT_TYPE, elementType), 3);
 			}
+		}
 
+		private String getChestType(String function) {
+			String[] split = function.split("_");
+
+			return (split.length > 1 ? split[0] : "small");
 		}
 	}
 

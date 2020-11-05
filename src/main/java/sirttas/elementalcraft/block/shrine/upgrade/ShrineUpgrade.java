@@ -219,7 +219,7 @@ public class ShrineUpgrade {
 		private int maxAmount;
 		private Set<ResourceLocation> incompatibilities;
 
-		public Builder() {
+		private Builder() {
 			this.bonuses = new EnumMap<>(BonusType.class);
 			this.tag = null;
 			this.block = null;

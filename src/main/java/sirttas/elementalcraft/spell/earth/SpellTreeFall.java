@@ -11,17 +11,11 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellTreeFall extends Spell {
 
 	public static final String NAME = "tree_fall";
-
-	public SpellTreeFall() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.treeFallCooldown.get()).consumeAmount(ECConfig.COMMON.treeFallConsumeAmount.get()));
-	}
 
 	private boolean isValidBlock(Block block) {
 		return BlockTags.LOGS.contains(block) || BlockTags.LEAVES.contains(block);
@@ -29,7 +23,7 @@ public class SpellTreeFall extends Spell {
 
 	private void cutTree(World world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
-		double rangeSq = ECConfig.COMMON.treeFallRange.get();
+		float rangeSq = getRange();
 
 		rangeSq *= rangeSq;
 		queue.offer(target);

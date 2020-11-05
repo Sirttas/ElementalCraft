@@ -84,44 +84,6 @@ public class ECConfig {
 		public final IntValue sourceAltarDistance;
 		public final BooleanValue playersSpawnWithBook;
 
-		public final IntValue enderStrikeConsumeAmount;
-		public final IntValue enderStrikeCooldown;
-		public final DoubleValue enderStrikeRange;
-		public final IntValue itemPullConsumeAmount;
-		public final IntValue itemPullCooldown;
-		public final DoubleValue itemPullRange;
-		public final IntValue gravelFallConsumeAmount;
-		public final IntValue gravelFallCooldown;
-		public final IntValue stoneWallConsumeAmount;
-		public final IntValue stoneWallCooldown;
-		public final IntValue fireBallConsumeAmount;
-		public final IntValue fireBallCooldown;
-		public final IntValue animalGrowthConsumeAmount;
-		public final IntValue animalGrowthCooldown;
-		public final IntValue treeFallConsumeAmount;
-		public final IntValue treeFallCooldown;
-		public final DoubleValue treeFallRange;
-		public final IntValue purificationConsumeAmount;
-		public final IntValue purificationCooldown;
-		public final IntValue ripeningConsumeAmount;
-		public final IntValue ripeningCooldown;
-		public final IntValue flameCleaveConsumeAmount;
-		public final IntValue flameCleaveCooldown;
-		public final DoubleValue flameCleaveRange;
-		public final IntValue infernoConsumeAmount;
-		public final IntValue infernoCooldown;
-		public final DoubleValue infernoRange;
-		public final IntValue infernoDuration;
-		public final IntValue dashConsumeAmount;
-		public final IntValue dashCooldown;
-		public final DoubleValue dashRange;
-		public final IntValue silkVeinConsumeAmount;
-		public final IntValue silkVeinCooldown;
-		public final DoubleValue silkVeinRange;
-
-		public final IntValue healConsumeAmount;
-		public final IntValue healCooldown;
-
 		public Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft config").push("elementalcraft");
 
@@ -204,59 +166,7 @@ public class ECConfig {
 			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
 			sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 16, 0, 100);
 
-			builder.pop().comment("Spells config").push("spells").push("enderStrike");
-			enderStrikeConsumeAmount = builder.comment("The amount of element consumed by the ender strike.").defineInRange("enderStrikeConsumeAmount", 1000, 0, 10000);
-			enderStrikeCooldown = builder.comment("The cooldown the ender strike.").defineInRange("enderStrikeCooldown", 60, 0, 10000);
-			enderStrikeRange = builder.comment("The range the ender strike.").defineInRange("enderStrikeRange", 20D, 0, 200);
-			builder.pop().push("itemPull");
-			itemPullConsumeAmount = builder.comment("The amount of element consumed by the item pull.").defineInRange("itemPullConsumeAmount", 1000, 0, 10000);
-			itemPullCooldown = builder.comment("The cooldown the item pull.").defineInRange("itemPullCooldown", 200, 0, 10000);
-			itemPullRange = builder.comment("The range the item pull.").defineInRange("itemPullRange", 10D, 0, 200);
-			builder.pop().push("gravelFall");
-			gravelFallConsumeAmount = builder.comment("The amount of element consumed by the gravel fall.").defineInRange("gravelFallConsumeAmount", 250, 0, 10000);
-			gravelFallCooldown = builder.comment("The cooldown the gravel fall.").defineInRange("gravelFallCooldown", 40, 0, 10000);
-			builder.pop().push("stoneWall");
-			stoneWallConsumeAmount = builder.comment("The amount of element consumed by the stone wall.").defineInRange("stoneWallConsumeAmount", 500, 0, 10000);
-			stoneWallCooldown = builder.comment("The cooldown the stone wall.").defineInRange("stoneWallCooldown", 100, 0, 10000);
-			builder.pop().push("fireBall");
-			fireBallConsumeAmount = builder.comment("The amount of element consumed by the fire ball.").defineInRange("fireBallConsumeAmount", 500, 0, 10000);
-			fireBallCooldown = builder.comment("The cooldown the fire ball.").defineInRange("fireBallCooldown", 100, 0, 10000);
-			builder.pop().push("animalGrowth");
-			animalGrowthConsumeAmount = builder.comment("The amount of element consumed by the animal growth.").defineInRange("animalGrowthConsumeAmount", 2000, 0, 10000);
-			animalGrowthCooldown = builder.comment("The cooldown the animal growth.").defineInRange("animalGrowthCooldown", 200, 0, 10000);
-			builder.pop().push("treeFall");
-			treeFallConsumeAmount = builder.comment("The amount of element consumed by the tree fall.").defineInRange("treeFallConsumeAmount", 3000, 0, 10000);
-			treeFallCooldown = builder.comment("The cooldown the tree fall.").defineInRange("treeFallCooldown", 600, 0, 10000);
-			treeFallRange = builder.comment("The range the tree fall.").defineInRange("treeFallRange", 15D, 0, 100);
-			builder.pop().push("purification");
-			purificationConsumeAmount = builder.comment("The amount of element consumed by the purification.").defineInRange("purificationConsumeAmount", 1000, 0, 10000);
-			purificationCooldown = builder.comment("The cooldown the purification.").defineInRange("purificationCooldown", 200, 0, 10000);
-			builder.pop().push("ripening");
-			ripeningConsumeAmount = builder.comment("The amount of element consumed by the ripening.").defineInRange("ripeningConsumeAmount", 200, 0, 10000);
-			ripeningCooldown = builder.comment("The cooldown the ripening.").defineInRange("ripeningCooldown", 20, 0, 10000);
-			builder.pop().push("flameCleave");
-			flameCleaveConsumeAmount = builder.comment("The amount of element consumed by the flame Cleave.").defineInRange("flameCleaveConsumeAmount", 1000, 0, 10000);
-			flameCleaveCooldown = builder.comment("The cooldown the flame Cleave.").defineInRange("flameCleaveCooldown", 60, 0, 10000);
-			flameCleaveRange = builder.comment("The range the flame Cleave.").defineInRange("flameCleaveRange", 3D, 0, 20);
-			builder.pop().push("inferno");
-			infernoConsumeAmount = builder.comment("The amount of element consumed by the inferno.").defineInRange("infernoConsumeAmount", 10, 0, 10000);
-			infernoCooldown = builder.comment("The cooldown the inferno.").defineInRange("infernoCooldown", 120, 0, 10000);
-			infernoRange = builder.comment("The range the inferno.").defineInRange("infernoRange", 5D, 0, 20);
-			infernoDuration = builder.comment("The duration the inferno.").defineInRange("infernoDuration", 200, 0, 72000);
-			builder.pop().push("dash");
-			dashConsumeAmount = builder.comment("The amount of element consumed by the dash.").defineInRange("dashConsumeAmount", 400, 0, 10000);
-			dashCooldown = builder.comment("The cooldown the dash.").defineInRange("dashCooldown", 40, 0, 10000);
-			dashRange = builder.comment("The range the dash.").defineInRange("dashRange", 6D, 0, 200);
-			builder.pop().push("silkVein");
-			silkVeinConsumeAmount = builder.comment("The amount of element consumed by the silk vein.").defineInRange("silkVeinConsumeAmount", 5000, 0, 10000);
-			silkVeinCooldown = builder.comment("The cooldown the silk vein.").defineInRange("silkVeinCooldown", 700, 0, 10000);
-			silkVeinRange = builder.comment("The range the silk vein.").defineInRange("silkVeinRange", 15D, 0, 100);
-
-			builder.pop().push("heal");
-			healConsumeAmount = builder.comment("The amount of element consumed by the heal.").defineInRange("healConsumeAmount", 1000, 0, 10000);
-			healCooldown = builder.comment("The cooldown the heal.").defineInRange("healCooldown", 600, 0, 10000);
-
-			builder.pop(2);
+			builder.pop();
 		}
 	}
 

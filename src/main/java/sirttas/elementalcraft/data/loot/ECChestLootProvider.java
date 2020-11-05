@@ -2,9 +2,6 @@ package sirttas.elementalcraft.data.loot;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
@@ -12,7 +9,6 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.IRandomRange;
 import net.minecraft.loot.ItemLootEntry;
-import net.minecraft.loot.LootEntry;
 import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -40,85 +36,59 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	@Override
 	public void act(DirectoryCache cache) throws IOException {
 		save(cache, genInject(), ElementalCraft.createRL("inject"));
-		save(cache, genFire(), ElementalCraft.createRL("altar/small_fire"));
-		save(cache, genWater(), ElementalCraft.createRL("altar/small_water"));
-		save(cache, genAir(), ElementalCraft.createRL("altar/small_air"));
-		save(cache, genEarth(), ElementalCraft.createRL("altar/small_earth"));
-	}
-
-	private static Path getPath(Path root, ResourceLocation id) {
-		return root.resolve("data/" + id.getNamespace() + "/loot_tables/chests/" + id.getPath() + ".json");
+		save(cache, genSmallAltar(ElementType.FIRE), ElementalCraft.createRL("altar/small_fire"));
+		save(cache, genMediumAltar(ElementType.FIRE), ElementalCraft.createRL("altar/medium_fire"));
+		save(cache, genSmallAltar(ElementType.WATER), ElementalCraft.createRL("altar/small_water"));
+		save(cache, genMediumAltar(ElementType.WATER), ElementalCraft.createRL("altar/medium_water"));
+		save(cache, genSmallAltar(ElementType.AIR), ElementalCraft.createRL("altar/small_air"));
+		save(cache, genMediumAltar(ElementType.AIR), ElementalCraft.createRL("altar/medium_air"));
+		save(cache, genSmallAltar(ElementType.EARTH), ElementalCraft.createRL("altar/small_earth"));
+		save(cache, genMediumAltar(ElementType.EARTH), ElementalCraft.createRL("altar/medium_earth"));
 	}
 
 	private static LootPool.Builder genInject() {
-		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
-				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 5))).weight(20),
-				ItemLootEntry.builder(ECItems.fireCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.earthCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.waterCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder()).weight(15));
-		LootPool.Builder pool = genBase(RandomValueRange.of(0, 2));
+		return genBase(RandomValueRange.of(0, 2))
+				.addEntry(ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 5))).weight(20))
+				.addEntry(ItemLootEntry.builder(ECItems.fireCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.earthCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.waterCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder()).weight(15));
+	}
 
-		entries.forEach(pool::addEntry);
-		return pool;
+	private static LootTable.Builder genSmallAltar(ElementType type) {
+		return genWithType(RandomValueRange.of(2, 4), type);
+	}
+
+	private static LootTable.Builder genMediumAltar(ElementType type) {
+		return addAdvanced(genWithType(RandomValueRange.of(3, 6), type), RandomValueRange.of(1, 3), type);
 	}
 
 	private static LootPool.Builder genBase(IRandomRange range) {
-		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
-				ItemLootEntry.builder(ECItems.drenchedIronIngot).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.drenchedIronNugget).acceptFunction(SetCount.builder(RandomValueRange.of(2, 5))).weight(15),
-				ItemLootEntry.builder(ECItems.swiftAlloyIngot).acceptFunction(SetCount.builder(RandomValueRange.of(1, 2))).weight(5),
-				ItemLootEntry.builder(ECItems.swiftAlloyNugget).acceptFunction(SetCount.builder(RandomValueRange.of(2, 4))).weight(7),
-				ItemLootEntry.builder(ECItems.emptyReceptacle).weight(2));
-		LootPool.Builder pool = LootPool.builder().name("main").rolls(range);
-
-		entries.forEach(pool::addEntry);
-		return pool;
+		return LootPool.builder().name("main").rolls(range)
+				.addEntry(ItemLootEntry.builder(ECItems.drenchedIronIngot).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.drenchedIronNugget).acceptFunction(SetCount.builder(RandomValueRange.of(2, 5))).weight(15))
+				.addEntry(ItemLootEntry.builder(ECItems.swiftAlloyIngot).acceptFunction(SetCount.builder(RandomValueRange.of(1, 2))).weight(5))
+				.addEntry(ItemLootEntry.builder(ECItems.swiftAlloyNugget).acceptFunction(SetCount.builder(RandomValueRange.of(2, 4))).weight(7))
+				.addEntry(ItemLootEntry.builder(ECItems.scrollPaper).acceptFunction(SetCount.builder(RandomValueRange.of(2, 4))).weight(8));
 	}
-
-	private static LootTable.Builder genFire() {
-		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
-				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.fireCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
-				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.FIRE)).weight(15));
-		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
-
-		entries.forEach(pool::addEntry);
-		return addVanilla(LootTable.builder().addLootPool(pool));
+	
+	private static LootTable.Builder genWithType(IRandomRange range, ElementType type) {
+		return addVanilla(LootTable.builder().addLootPool(genBase(range)
+				.addEntry(ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.getCrystalForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40))
+				.addEntry(ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(type)).weight(15))));
 	}
-
-	private static LootTable.Builder genWater() {
-		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
-				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.waterCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
-				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.WATER)).weight(15));
-		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
-
-		entries.forEach(pool::addEntry);
-		return addVanilla(LootTable.builder().addLootPool(pool));
-	}
-
-	private static LootTable.Builder genAir() {
-		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
-				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
-				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.AIR)).weight(15));
-		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
-
-		entries.forEach(pool::addEntry);
-		return addVanilla(LootTable.builder().addLootPool(pool));
-	}
-
-	private static LootTable.Builder genEarth() {
-		List<LootEntry.Builder<?>> entries = Lists.newArrayList(
-				ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10),
-				ItemLootEntry.builder(ECItems.earthCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40),
-				ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(ElementType.EARTH)).weight(15));
-		LootPool.Builder pool = genBase(RandomValueRange.of(2, 4));
-
-		entries.forEach(pool::addEntry);
-		return addVanilla(LootTable.builder().addLootPool(pool));
+	
+	private static LootTable.Builder addAdvanced(LootTable.Builder builder, IRandomRange range, ElementType type) {
+		return builder.addLootPool(LootPool.builder().name("advanced").rolls(range)
+				.addEntry(ItemLootEntry.builder(Items.GOLD_INGOT).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 4.0F))).weight(15))
+				.addEntry(ItemLootEntry.builder(ECItems.swiftAlloyIngot).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.swiftAlloyNugget).acceptFunction(SetCount.builder(RandomValueRange.of(3, 5))).weight(15))
+				.addEntry(ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(type)).weight(15))
+				.addEntry(ItemLootEntry.builder(ECItems.pureCrystal).weight(5))
+				.addEntry(ItemLootEntry.builder(ECItems.emptyReceptacle).weight(2)));
+		
 	}
 	
 	private static LootTable.Builder addVanilla(LootTable.Builder builder) {
@@ -137,7 +107,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 				.addEntry(ItemLootEntry.builder(Items.BONE).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F))))
 				.addEntry(ItemLootEntry.builder(Items.GUNPOWDER).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F))))
 				.addEntry(ItemLootEntry.builder(Items.ROTTEN_FLESH).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F))))
-				.addEntry(ItemLootEntry.builder(Items.STRING).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F)))));
+				.addEntry(ItemLootEntry.builder(Items.STRING).weight(10).acceptFunction(SetCount.builder(RandomValueRange.of(1.0F, 8.0F))))
+				.addEntry(ItemLootEntry.builder(Items.ENDER_PEARL).weight(2)));
 	}
 
 
@@ -146,7 +117,11 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	}
 
 	private void save(DirectoryCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
-		save(cache, builder.setParameterSet(LootParameterSets.CHEST), getPath(generator.getOutputFolder(), location));
+		save(cache, builder.setParameterSet(LootParameterSets.CHEST), getPath(location));
+	}
+
+	private Path getPath(ResourceLocation id) {
+		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/loot_tables/chests/" + id.getPath() + ".json");
 	}
 
 	@Override

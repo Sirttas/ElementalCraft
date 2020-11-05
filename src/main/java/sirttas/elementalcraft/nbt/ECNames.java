@@ -21,6 +21,10 @@ public class ECNames {
 	public static final String ELEMENT_CAPACITY = "element_capacity";
 	public static final String SMALL = "small";
 	public static final String EXTRACTION_AMOUNT = "extraction_amount";
+	public static final String ELEMENT_CONSUMPTION = "element_consumption";
+	public static final String WEIGHT = "weight";
+	public static final String USE_DURATION = "use_duration";
+	public static final String RANGE = "range";
 
 	public static final String INFUSION = "infusion";
 	public static final String INFUSION_TYPE = TYPE;
@@ -28,8 +32,10 @@ public class ECNames {
 
 	public static final String SPELL = "spell";
 	public static final String SPELL_LIST = "spell_list";
+	public static final String SPELL_TYPE = "spell_type";
 	public static final String COUNT = "count";
 	public static final String COOLDOWN = "cooldown";
+	public static final String DURATION = "duration";
 	public static final String ITEM = "item";
 	public static final String PROGRESS = "progress";
 

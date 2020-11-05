@@ -1,3 +1,16 @@
+1.16.3-2.4.2:
+
+- new item: scroll paper
+- new block: white rock fence
+- new spell: speed
+- new structure: chapel
+- add weight to spell random
+- improved loot tables
+- spell properties are now configured in datapack
+- made pipe extraction more visible
+- add color variation to spell ribbon
+- fix planting shrine upgrade not working with all seeds
+
 1.16.3-2.4.1:
 
 - silk touch shrine upgrade now require a pure crystal
