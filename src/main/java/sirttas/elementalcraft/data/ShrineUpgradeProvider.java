@@ -34,30 +34,27 @@ public class ShrineUpgradeProvider implements IDataProvider {
 
 	@Override
 	public void act(DirectoryCache cache) throws IOException {
-		Path path = this.generator.getOutputFolder();
-
 		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.oreShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2)
-				.incompatibleWith(ElementalCraft.createRL(BlockFortuneShrineUpgrade.NAME)), path, BlockSilkTouchShrineUpgrade.NAME);
+				.incompatibleWith(ElementalCraft.createRL(BlockFortuneShrineUpgrade.NAME)), BlockSilkTouchShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.oreShrine).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F)
-				.incompatibleWith(ElementalCraft.createRL(BlockSilkTouchShrineUpgrade.NAME)), path, BlockFortuneShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.harvestShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F), path, BlockPlantingShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).addBonus(BonusType.SPEED, 0.5F), path, BlockAccelerationShrineUpgrade.NAME);
+				.incompatibleWith(ElementalCraft.createRL(BlockSilkTouchShrineUpgrade.NAME)), BlockFortuneShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.harvestShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F), BlockPlantingShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).addBonus(BonusType.SPEED, 0.5F), BlockAccelerationShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).addBonus(BonusType.RANGE, 1.5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).addBonus(BonusType.SPEED,
-				1.2F), path, BlockRangeShrineUpgrade.NAME);
+				1.2F), BlockRangeShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES).max(1).addBonus(BonusType.CAPACITY, 5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.1F).addBonus(BonusType.SPEED, 1.1F),
-				path, BlockCapacityShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES).addBonus(BonusType.CAPACITY, 0.9F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.5F), path,
-				BlockEfficiencyShrineUpgrade.NAME);
+				BlockCapacityShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES).addBonus(BonusType.CAPACITY, 0.9F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.5F), BlockEfficiencyShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES).max(2).addBonus(BonusType.CAPACITY, 1.25F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.75F).addBonus(BonusType.SPEED, 0.8F),
-				path, BlockOptimizationShrineUpgrade.NAME);
+				BlockOptimizationShrineUpgrade.NAME);
 	}
 
-	private static Path getPath(Path root, ResourceLocation id) {
-		return root.resolve("data/" + id.getNamespace() + "/elementalcraft_shrine_upgrades/" + id.getPath() + ".json");
+	protected void save(DirectoryCache cache, ShrineUpgrade.Builder builder, String name) throws IOException {
+		IDataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
 	}
 
-	protected void save(DirectoryCache cache, ShrineUpgrade.Builder builder, Path path, String name) throws IOException {
-		IDataProvider.save(GSON, cache, builder.toJson(), getPath(path, ElementalCraft.createRL(name)));
+	private Path getPath(ResourceLocation id) {
+		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/elementalcraft_shrine_upgrades/" + id.getPath() + ".json");
 	}
 
 	@Override

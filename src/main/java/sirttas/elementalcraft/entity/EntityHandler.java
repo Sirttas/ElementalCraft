@@ -22,6 +22,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.network.message.ShrineUpgradesMessage;
+import sirttas.elementalcraft.network.message.SpellPropertiesMessage;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public class EntityHandler {
@@ -49,8 +50,10 @@ public class EntityHandler {
 		PlayerEntity player = event.getPlayer();
 
 		if (player instanceof ServerPlayerEntity) {
-			MessageHandler.CHANNEL.sendTo(new ShrineUpgradesMessage(ElementalCraft.SHRINE_UPGRADE_MANAGER), ((ServerPlayerEntity) player).connection.getNetworkManager(),
-					NetworkDirection.PLAY_TO_CLIENT);
+			ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+
+			MessageHandler.CHANNEL.sendTo(new ShrineUpgradesMessage(ElementalCraft.SHRINE_UPGRADE_MANAGER), serverPlayer.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
+			MessageHandler.CHANNEL.sendTo(new SpellPropertiesMessage(ElementalCraft.SPELL_PROPERTIES_MANAGER), serverPlayer.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
 		}
 		
 		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getEntityWorld().isRemote) {

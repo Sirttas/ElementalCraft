@@ -13,8 +13,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -22,15 +20,10 @@ public class SpellFlameCleave extends Spell {
 
 	public static final String NAME = "flame_cleave";
 
-	public SpellFlameCleave() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.FIRE).cooldown(ECConfig.COMMON.flameCleaveCooldown.get()).consumeAmount(ECConfig.COMMON.flameCleaveConsumeAmount.get()));
-	}
-
-
 	@Override
 	public ActionResultType castOnSelf(Entity sender) {
 		World world = sender.getEntityWorld();
-		Double range = ECConfig.COMMON.flameCleaveRange.get();
+		float range = getRange();
 
 		if (sender instanceof LivingEntity) {
 			LivingEntity livingSender = (LivingEntity) sender;
@@ -58,7 +51,7 @@ public class SpellFlameCleave extends Spell {
 
 
 	private void hitTarget(LivingEntity sender, LivingEntity target, float damageBase, float damageMult) {
-		Double range = ECConfig.COMMON.flameCleaveRange.get();
+		float range = getRange();
 
 		if (target != sender && !sender.isOnSameTeam(target) && (!(target instanceof ArmorStandEntity) || !((ArmorStandEntity) target).hasMarker()) && sender.getDistanceSq(target) < range * range) {
 			float damage = damageMult * (damageBase + EnchantmentHelper.getModifierForCreature(sender.getHeldItemMainhand(), target.getCreatureAttribute()));

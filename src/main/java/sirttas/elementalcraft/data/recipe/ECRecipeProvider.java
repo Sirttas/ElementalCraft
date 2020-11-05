@@ -62,6 +62,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.patternLine("gig").patternLine("dcd").patternLine("gig").addCriterion(HAS_PURECRYSTAL, hasItem(ECItems.pureCrystal)).build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECItems.shrineUpgradeCore).key('c', ECItems.containedCrystal).key('i', ECItems.swiftAlloyIngot).key('r', Tags.Items.DUSTS_REDSTONE).patternLine("rir")
 				.patternLine("ici").patternLine("rir").addCriterion(HAS_SWIFT_IRON_INGOT, hasItem(ECItems.swiftAlloyIngot)).build(consumer);
+		ShapelessRecipeBuilder.shapelessRecipe(ECItems.scrollPaper).addIngredient(ECItems.airCrystal).addIngredient(Items.PAPER).addIngredient(Items.INK_SAC)
+				.addCriterion("has_air_silk", hasItem(ECItems.airSilk)).build(consumer);
 
 		ShapedRecipeBuilder.shapedRecipe(ECItems.fireElementHolder).key('g', Tags.Items.INGOTS_GOLD).key('e', ECBlocks.extractor).key('t', ECBlocks.tankSmall).key('i',
 				ECItems.drenchedIronIngot)
@@ -80,6 +82,8 @@ public class ECRecipeProvider extends RecipeProvider {
 
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.burntGlassPane, 16).key('#', ECBlocks.burntGlass).patternLine("###").patternLine("###").addCriterion("has_burnt_glass", hasItem(ECBlocks.burntGlass))
 				.build(consumer);
+		ShapedRecipeBuilder.shapedRecipe(ECBlocks.whiteRockFence, 16).key('#', ECBlocks.whiteRock).key('i', ECItems.drenchedIronIngot).patternLine("#i#").patternLine("#i#")
+				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECItems.drenchedIronIngot).key('#', ECItems.drenchedIronNugget).patternLine("###").patternLine("###").patternLine("###")
 				.addCriterion(HAS_DRENCHED_IRON_NUGGET, hasItem(ECItems.drenchedIronNugget)).build(consumer, ElementalCraft.createRL("drenched_iron_ingot_from_nuggets"));
 		ShapelessRecipeBuilder.shapelessRecipe(ECItems.drenchedIronNugget, 9).addIngredient(ECItems.drenchedIronIngot).addCriterion(HAS_DRENCHED_IRON_INGOT, hasItem(ECItems.drenchedIronIngot))

@@ -22,7 +22,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:paper"
+          "name": "elementalcraft:scroll_paper"
         }
       ],
       "conditions": [

@@ -1,0 +1,7 @@
+{
+    "parent": "elementalcraft:item/fence_inventory",
+    "textures": {
+        "post": "elementalcraft:block/whiterock",
+        "side": "elementalcraft:block/iron"
+    }
+}

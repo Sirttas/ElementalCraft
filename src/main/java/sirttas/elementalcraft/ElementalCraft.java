@@ -26,6 +26,7 @@ import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.network.proxy.ClientProxy;
 import sirttas.elementalcraft.network.proxy.IProxy;
 import sirttas.elementalcraft.spell.SpellTickManager;
+import sirttas.elementalcraft.spell.properties.SpellPropertiesManager;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 
 @Mod(ElementalCraft.MODID)
@@ -35,6 +36,7 @@ public class ElementalCraft {
 
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
 	public static final ShrineUpgradeManager SHRINE_UPGRADE_MANAGER = new ShrineUpgradeManager();
+	public static final SpellPropertiesManager SPELL_PROPERTIES_MANAGER = new SpellPropertiesManager();
 
 	private IProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> () -> new IProxy() {});
 
@@ -69,6 +71,7 @@ public class ElementalCraft {
 	}
 	private void addReloadListeners(AddReloadListenerEvent event) {
 		event.addListener(SHRINE_UPGRADE_MANAGER);
+		event.addListener(SPELL_PROPERTIES_MANAGER);
 	}
 }
 

@@ -12,7 +12,8 @@
     },
     {
       "type": "crafting",
-      "recipe": "elementalcraft:spell_desk"
+      "recipe": "elementalcraft:spell_desk",
+      "recipe2": "elementalcraft:scroll_paper"
     }
   ]
 }

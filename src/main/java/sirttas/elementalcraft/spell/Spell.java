@@ -3,6 +3,8 @@ package sirttas.elementalcraft.spell;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -15,6 +17,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -25,6 +28,7 @@ import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class Spell extends ForgeRegistryEntry<Spell> {
 
@@ -34,21 +38,7 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 	public static final IForgeRegistry<Spell> REGISTRY = RegistryManager.ACTIVE.getRegistry(Spell.class);
 
 	private String translationKey;
-	protected final int cooldown;
-	protected final int consumeAmount;
-	protected final int useDuration;
-	protected final int weight;
-	protected final ElementType elementType;
-	protected final Type type;
-
-	public Spell(Properties properties) {
-		this.type = properties.type;
-		this.elementType = properties.elementType;
-		this.consumeAmount = properties.consumeAmount;
-		this.cooldown = properties.cooldown;
-		this.useDuration = properties.useDuration;
-		this.weight = properties.weight;
-	}
+	protected SpellProperties properties = SpellProperties.NONE;
 
 	public String getTranslationKey() {
 		if (this.translationKey == null) {
@@ -62,7 +52,7 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 		return new TranslationTextComponent(getTranslationKey());
 	}
 
-	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) { // NOSONAR
 		return HashMultimap.create();
 	}
 
@@ -88,7 +78,8 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 
 	public boolean consume(Entity sender) {
 		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
-			ItemStack stack = ItemElementHolder.find((PlayerEntity) sender, this.elementType);
+			ItemStack stack = ItemElementHolder.find((PlayerEntity) sender, getElementType());
+			int consumeAmount = getConsumeAmount();
 			
 			if (!stack.isEmpty()) {
 				ItemElementHolder holder = (ItemElementHolder) stack.getItem();
@@ -121,32 +112,49 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 		return true;
 	}
 
+	public void setProperties(SpellProperties properties) {
+		this.properties = properties;
+
+	}
+
 	public int getCooldown() {
-		return cooldown;
+		return properties.getCooldown();
 	}
 
 	public int getConsumeAmount() {
-		return consumeAmount;
+		return properties.getConsumeAmount();
 	}
 
 	public ElementType getElementType() {
-		return elementType;
+		return properties.getElementType();
 	}
 
 	public Type getSpellType() {
-		return type;
-	}
-
-	public boolean isValid() {
-		return this.type != Type.NONE && this.elementType != ElementType.NONE;
+		return properties.getSpellType();
 	}
 
 	public int getUseDuration() {
-		return useDuration;
+		return properties.getUseDuration();
+	}
+
+	public int getWeight() {
+		return properties.getWeight();
+	}
+
+	public float getRange() {
+		return properties.getRange();
+	}
+
+	public int getColor() {
+		return properties.getColor();
 	}
 
 	public boolean isChannelable() {
-		return useDuration > 0;
+		return getUseDuration() > 0;
+	}
+
+	public boolean isValid() {
+		return getSpellType() != Type.NONE && getElementType() != ElementType.NONE;
 	}
 
 	public void addInformation(List<ITextComponent> tooltip) {
@@ -158,55 +166,28 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 		return this.getRegistryName().getPath();
 	}
 
-	public enum Type {
-		NONE, COMBAT, UTILITY, MIXED
-	}
+	public enum Type implements IStringSerializable {
+		NONE("none"), COMBAT("combat"), UTILITY("utility"), MIXED("mixed");
+		
+		private final String name;
 
-	public static final class Properties {
-		private int cooldown;
-		private int consumeAmount;
-		private int useDuration;
-		private int weight;
-		private ElementType elementType;
-		private final Type type;
-
-		private Properties(Type type) {
-			this.type = type;
-			this.elementType = ElementType.NONE;
-			cooldown = 0;
-			consumeAmount = 0;
-			useDuration = 0;
-			weight = 0;
+		private Type(String name) {
+			this.name = name;
 		}
 
-		public static Properties create(Type type) {
-			return new Properties(type);
+		@Nonnull
+		@Override
+		public String getString() {
+			return this.name;
 		}
 
-		public Properties cooldown(int cooldown) {
-			this.cooldown = cooldown;
-			return this;
-		}
-
-		public Properties consumeAmount(int consumeAmount) {
-			this.consumeAmount = consumeAmount;
-			return this;
-		}
-
-		public Properties useDuration(int useDuration) {
-			this.useDuration = useDuration;
-			return this;
-		}
-
-
-		public Properties elementType(ElementType elementType) {
-			this.elementType = elementType;
-			return this;
-		}
-
-		public Properties weight(int weight) {
-			this.weight = weight;
-			return this;
+		public static Type byName(String name) {
+			for (Type type : values()) {
+				if (type.name.equals(name)) {
+					return type;
+				}
+			}
+			return NONE;
 		}
 	}
 }

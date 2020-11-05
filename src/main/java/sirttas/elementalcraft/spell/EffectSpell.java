@@ -29,8 +29,7 @@ public class EffectSpell extends Spell {
 
 	private final List<IForgeEffectInstance> effects;
 
-	public EffectSpell(Properties properties, IForgeEffectInstance... effects) {
-		super(properties);
+	public EffectSpell(IForgeEffectInstance... effects) {
 		this.effects = ImmutableList.copyOf(effects);
 	}
 

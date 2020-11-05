@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.FenceBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.block.SlabBlock;
@@ -66,6 +67,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			wallBlock((WallBlock) block);
 		} else if (block instanceof PaneBlock) {
 			paneBlock((PaneBlock) block);
+		} else if (block == ECBlocks.whiteRockFence) {
+			fenceBlock((FenceBlock) block, prefix("whiterock"), prefix("iron"));
 		} else if (block instanceof BlockOverloadShrine) {
 			ModelFile base = models().getExistingFile(prefix(name + "_base"));
 			ModelFile top = models().getExistingFile(prefix(name + "_top"));
@@ -135,20 +138,10 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			.part().modelFile(connector).rotationY(270).addModel().condition(BlockTank.WEST, true).end();
 	}
 
-	@Nonnull
-	@Override
-	public String getName() {
-		return "ElementalCraft Blockstates";
-	}
-
-	private ModelFile getPipeModel(String name, String subFile, String texture) {
-		return models().withExistingParent(name + '_' + subFile, prefix("template_elementpipe_" + subFile)).texture("texture", prefix(texture));
-	}
-
 	private void pipeBlock(BlockElementPipe block, String name, String texture) {
-		ModelFile core = getPipeModel(name, "core", texture);
-		ModelFile side = getPipeModel(name, "side", "iron");
-		ModelFile extract = getPipeModel(name, "extract", "iron");
+		ModelFile core = models().withExistingParent(name + "_core", prefix("template_elementpipe_core")).texture("texture", prefix(texture));
+		ModelFile side = models().getExistingFile(prefix("elementpipe_side"));
+		ModelFile extract = models().getExistingFile(prefix("elementpipe_extract"));
 
 		getMultipartBuilder(block).part().modelFile(core).addModel().end()
 			.part().modelFile(side).uvLock(true).addModel().condition(BlockElementPipe.NORTH, true).end()
@@ -200,5 +193,17 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
 
 		paneBlock(block, sourceName, sourceName);
+	}
+
+	public void fenceBlock(FenceBlock block, ResourceLocation postTexture, ResourceLocation sideTexture) {
+		String baseName = block.getRegistryName().toString();
+
+		fourWayBlock(block, models().fencePost(baseName + "_post", postTexture), models().fenceSide(baseName + "_side", sideTexture));
+	}
+
+	@Nonnull
+	@Override
+	public String getName() {
+		return "ElementalCraft Blockstates";
 	}
 }

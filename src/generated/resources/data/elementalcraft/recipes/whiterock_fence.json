@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#i#",
+    "#i#"
+  ],
+  "key": {
+    "#": {
+      "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "item": "elementalcraft:drenched_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:whiterock_fence",
+    "count": 16
+  }
+}

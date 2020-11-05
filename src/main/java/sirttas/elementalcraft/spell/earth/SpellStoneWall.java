@@ -10,17 +10,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.Spell;
 
 public class SpellStoneWall extends Spell {
 
 	public static final String NAME = "stonewall";
-
-	public SpellStoneWall() {
-		super(Properties.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.stoneWallCooldown.get()).consumeAmount(ECConfig.COMMON.stoneWallConsumeAmount.get()));
-	}
 
 	private void spawn(World world, BlockPos pos) {
 		world.setBlockState(pos, Blocks.STONE.getDefaultState());

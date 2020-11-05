@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.data;
 
+import net.minecraft.data.DataGenerator;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
@@ -15,18 +17,22 @@ public class ECDataGenerators {
 
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent evt) {
-		if (evt.includeServer()) {
-			ECBlockTagsProvider blockTagsProvider = new ECBlockTagsProvider(evt.getGenerator(), evt.getExistingFileHelper());
+		DataGenerator generator = evt.getGenerator();
+		ExistingFileHelper fileHelper = evt.getExistingFileHelper();
 
-			evt.getGenerator().addProvider(new ECBlockLootProvider(evt.getGenerator()));
-			evt.getGenerator().addProvider(new ECChestLootProvider(evt.getGenerator()));
-			evt.getGenerator().addProvider(new ECBlockStateProvider(evt.getGenerator(), evt.getExistingFileHelper()));
-			evt.getGenerator().addProvider(new ECItemModelProvider(evt.getGenerator(), evt.getExistingFileHelper()));
-			evt.getGenerator().addProvider(blockTagsProvider);
-			evt.getGenerator().addProvider(new ECItemTagsProvider(evt.getGenerator(), blockTagsProvider, evt.getExistingFileHelper()));
-			evt.getGenerator().addProvider(new ECRecipeProvider(evt.getGenerator(), evt.getExistingFileHelper()));
-			evt.getGenerator().addProvider(new ECAdvancementProvider(evt.getGenerator()));
-			evt.getGenerator().addProvider(new ShrineUpgradeProvider(evt.getGenerator()));
+		if (evt.includeServer()) {
+			ECBlockTagsProvider blockTagsProvider = new ECBlockTagsProvider(generator, fileHelper);
+
+			generator.addProvider(new ECBlockLootProvider(generator));
+			generator.addProvider(new ECChestLootProvider(generator));
+			generator.addProvider(new ECBlockStateProvider(generator, fileHelper));
+			generator.addProvider(new ECItemModelProvider(generator, fileHelper));
+			generator.addProvider(blockTagsProvider);
+			generator.addProvider(new ECItemTagsProvider(generator, blockTagsProvider, fileHelper));
+			generator.addProvider(new ECRecipeProvider(generator, fileHelper));
+			generator.addProvider(new ECAdvancementProvider(generator));
+			generator.addProvider(new ShrineUpgradeProvider(generator));
+			generator.addProvider(new SpellPropertiesProvider(generator));
 		}
 	}
 

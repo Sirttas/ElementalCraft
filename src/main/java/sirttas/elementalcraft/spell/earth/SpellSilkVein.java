@@ -12,8 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -21,17 +19,13 @@ public class SpellSilkVein extends Spell {
 
 	public static final String NAME = "silk_vein";
 
-	public SpellSilkVein() {
-		super(Properties.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).cooldown(ECConfig.COMMON.silkVeinCooldown.get()).consumeAmount(ECConfig.COMMON.silkVeinConsumeAmount.get()));
-	}
-
 	private boolean isValidBlock(Block block) {
 		return Tags.Blocks.ORES.contains(block);
 	}
 
 	private void mineVein(World world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
-		double rangeSq = ECConfig.COMMON.silkVeinRange.get();
+		float rangeSq = getRange();
 
 		rangeSq *= rangeSq;
 		queue.offer(target);

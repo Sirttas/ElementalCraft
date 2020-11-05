@@ -15,7 +15,6 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Items;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootEntry;
@@ -89,21 +88,6 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		}
 	}
 
-	private boolean isTileInstanceOf(Block block, Class<?> clazz) {
-		return block.hasTileEntity(block.getDefaultState()) && clazz.isAssignableFrom(block.getDefaultState().createTileEntity(null).getClass());
-	}
-
-	private void save(DirectoryCache cache, Block block) throws IOException {
-		Function<IItemProvider, Builder> func = functionTable.get(block);
-		Builder builder = func != null ? func.apply(block) : genRegular(block);
-		
-		save(cache, builder.setParameterSet(LootParameterSets.BLOCK), getPath(generator.getOutputFolder(), block.getRegistryName()));
-	}
-
-	private static Path getPath(Path root, ResourceLocation id) {
-		return root.resolve("data/" + id.getNamespace() + "/loot_tables/blocks/" + id.getPath() + ".json");
-	}
-
 	private static Builder genRegular(IItemProvider item) {
 		LootEntry.Builder<?> entry = ItemLootEntry.builder(item);
 		LootPool.Builder pool = LootPool.builder().name("main").rolls(ConstantRange.of(1)).addEntry(entry).acceptCondition(SurvivesExplosion.builder());
@@ -112,7 +96,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	}
 
 	private static Builder genSpellDesk(IItemProvider block) {
-		return genRegular(block).addLootPool(LootPool.builder().name("paper").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(Items.PAPER))
+		return genRegular(block).addLootPool(LootPool.builder().name("paper").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ECItems.scrollPaper))
 				.acceptCondition(BlockStateProperty.builder((Block) block).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withBoolProp(BlockSpellDesk.HAS_PAPER, true))));
 	}
 
@@ -158,6 +142,21 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 				.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(SlabBlock.TYPE, SlabType.DOUBLE)))).acceptFunction(ExplosionDecay.builder());
 
 		return LootTable.builder().addLootPool(LootPool.builder().name("main").rolls(ConstantRange.of(1)).addEntry(entry));
+	}
+
+	private boolean isTileInstanceOf(Block block, Class<?> clazz) {
+		return block.hasTileEntity(block.getDefaultState()) && clazz.isAssignableFrom(block.getDefaultState().createTileEntity(null).getClass());
+	}
+
+	private void save(DirectoryCache cache, Block block) throws IOException {
+		Function<IItemProvider, Builder> func = functionTable.get(block);
+		Builder builder = func != null ? func.apply(block) : genRegular(block);
+
+		save(cache, builder.setParameterSet(LootParameterSets.BLOCK), getPath(block.getRegistryName()));
+	}
+
+	private Path getPath(ResourceLocation id) {
+		return generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/loot_tables/blocks/" + id.getPath() + ".json");
 	}
 
 	@Override

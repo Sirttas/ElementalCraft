@@ -67,6 +67,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.whiteRockSlab, list);
 		addItem(ECBlocks.whiteRockStairs, list);
 		addItem(ECBlocks.whiteRockWall, list);
+		addItem(ECBlocks.whiteRockFence, list);
 		addItem(ECBlocks.burntGlass, list);
 		addItem(ECBlocks.burntGlassPane, list);
 		addItem(ECBlocks.pureRock, list);
@@ -97,6 +98,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.swiftAlloyNugget, list);
 		addItem(ECItems.fireiteIngot, list);
 		addItem(ECItems.airSilk, list);
+		addItem(ECItems.scrollPaper, list);
 		addItem(ECItems.shrineBase, list);
 		addItem(ECItems.shrineUpgradeCore, list);
 	}
