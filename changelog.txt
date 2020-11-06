@@ -1,3 +1,10 @@
+1.16.3-2.4.3:
+
+- new item: elementalist grimoire
+- element holders can no longer be enchanted
+- fix a crash when element container capacity would be 0
+
+
 1.16.3-2.4.2:
 
 - new item: scroll paper
@@ -10,6 +17,7 @@
 - made pipe extraction more visible
 - add color variation to spell ribbon
 - fix planting shrine upgrade not working with all seeds
+
 
 1.16.3-2.4.1:
 

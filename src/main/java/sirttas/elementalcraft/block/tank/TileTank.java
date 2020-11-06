@@ -114,7 +114,9 @@ public class TileTank extends TileEC implements ITank {
 		super.write(compound);
 		compound.putString(ECNames.ELEMENT_TYPE, elementType.getString());
 		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
-		compound.putInt(ECNames.ELEMENT_CAPACITY, elementCapacity);
+		if (elementCapacity > 0) { // TODO 1.17 remove if
+			compound.putInt(ECNames.ELEMENT_CAPACITY, elementCapacity);
+		}
 		compound.putBoolean(ECNames.SMALL, small);
 		return compound;
 	}

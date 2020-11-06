@@ -176,6 +176,11 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 		return true;
 	}
 
+	@Override
+	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+		return false;
+	}
+
 	public int getElementAmount(ItemStack stack) {
 		return stack.getTag() == null ? 0 : stack.getTag().getInt(ECNames.ELEMENT_AMOUNT);
 	}

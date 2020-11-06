@@ -6,6 +6,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sirttas.elementalcraft.block.tile.renderer.ECRenderers;
 import sirttas.elementalcraft.entity.ECEntities;
+import sirttas.elementalcraft.inventory.container.screen.ECScreens;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.particle.ECParticles;
 import sirttas.elementalcraft.spell.SpellTickManager;
@@ -26,5 +27,6 @@ public class ClientProxy implements IProxy {
 	private void setupClient(FMLClientSetupEvent event) {
 		ECRenderers.initRenderLayouts();
 		ECEntities.registerRenderers();
+		ECScreens.initScreenFactoriess();
 	}
 }

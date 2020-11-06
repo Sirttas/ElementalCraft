@@ -78,6 +78,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.elementopedia, list);
 		addItem(ECItems.focus, list);
 		addItem(ECItems.scroll, list);
+		addItem(ECItems.spellBook, list);
 		addItem(ECItems.emptyReceptacle, list);
 		addItem(ECItems.receptacle, list);
 		addItem(ECItems.fireElementHolder, list);

@@ -9,6 +9,7 @@
   "item.elementalcraft.hungerlessring": "Ring of the Hungerless",
   "item.elementalcraft.focus": "Focus",
   "item.elementalcraft.scroll": "Scroll",
+  "item.elementalcraft.spell_book": "Elementalist Grimoire",
   "item.elementalcraft.pure_ore": "Pure Ore",
   "item.elementalcraft.element_book": "Elementopedia",
 
@@ -200,11 +201,11 @@
   "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:elmentalcraft:spells/ender_strike)Ender strinke$() d'ont works.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.shrine_upgrade0": "You can craft $(thing)shrine upgrades$() to increase the power of your $(thing)shrines$(). thouse upgrades can only be placed at specific places around the $(thing)shrin$().$(br)Upgrades cover a wide range of bonuses from $(thing)speed$(), $(thing)reduce consuption$(), $(thing)range$()... or specific ones like $(thing)silk touch$() or $(thing)fortune$() for the $((l:elmentalcraft:shrines/oreshrine)ore shrine$().",
 
-
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$().",
   "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the mos powerfull crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)to operate it needs to be circle with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$() using $(ec:pipe)improved pipes$().$(br)Once this setup is done you can start crafting by puting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main on on the $(thing)pure infuser$().",
   "elementalcraft.page.purerock0": "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts event a $(thing)Wither$().",
   "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely twicked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon completed crafting and store it in a $(item)chest$() for exemple.$(br2)You ca reoriente its input and output by right clicking them.",
+  "elementalcraft.page.spelll_book0": "The $(item)Elementalist Grimoire$() allows you to store $(thing)spells$().You can ringht click it to opn it's inventory'.",
   
   "elementalcraft.page.fireball0": "Throw a $(thing)fire ball$() in the dirrection you are looking at.$(br)Consumes $(thing)fire$().",
   "elementalcraft.page.gravelfall0": "Summon a column of $(item)gravel$() above the targeted $(thing)block$() or $(thing)entity$().$(br)Consumes $(thing)earth$() and three $(item)gravel$().",

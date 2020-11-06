@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_spell_book": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:spell_book"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_spell_book"
+    ]
+  ]
+}

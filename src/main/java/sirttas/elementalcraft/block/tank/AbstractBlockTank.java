@@ -68,11 +68,11 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 			CompoundNBT blockNbt = tag.getCompound(ECNames.BLOCK_ENTITY_TAG);
 			ElementType elementType = ElementType.byName(blockNbt.getString(ECNames.ELEMENT_TYPE));
 			int amount = blockNbt.getInt(ECNames.ELEMENT_AMOUNT);
+			int capacity = blockNbt.getInt(ECNames.ELEMENT_CAPACITY);
 
-			if (elementType != ElementType.NONE && amount > 0) {
+			if (elementType != ElementType.NONE && amount > 0 && capacity > 0) {
 				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.contains", elementType.getDisplayName()).mergeStyle(TextFormatting.GREEN));
-				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(amount * 100 / blockNbt.getInt(ECNames.ELEMENT_CAPACITY)))
-						.mergeStyle(TextFormatting.GREEN));
+				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(amount * 100 / capacity)).mergeStyle(TextFormatting.GREEN));
 			}
 
 		}
