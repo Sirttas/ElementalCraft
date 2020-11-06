@@ -49,6 +49,7 @@ import sirttas.elementalcraft.item.receptacle.ItemReceptacle;
 import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.item.spell.ItemFocus;
 import sirttas.elementalcraft.item.spell.ItemScroll;
+import sirttas.elementalcraft.item.spell.book.ItemSpellBook;
 import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.spell.SpellHelper;
 
@@ -57,6 +58,7 @@ public class ECItems {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemFocus.NAME) public static ItemFocus focus;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemScroll.NAME) public static ItemScroll scroll;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemSpellBook.NAME) public static ItemSpellBook spellBook;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemReceptacle.NAME) public static ItemReceptacle receptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemEmptyReceptacle.NAME) public static ItemEmptyReceptacle emptyReceptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_FIRE) public static ItemElementHolder fireElementHolder;
@@ -145,6 +147,7 @@ public class ECItems {
 
 		RegistryHelper.register(registry, new ItemFocus(), ItemFocus.NAME);
 		RegistryHelper.register(registry, new ItemScroll(), ItemScroll.NAME);
+		RegistryHelper.register(registry, new ItemSpellBook(), ItemSpellBook.NAME);
 		RegistryHelper.register(registry, new ItemReceptacle(), ItemReceptacle.NAME);
 		RegistryHelper.register(registry, new ItemEmptyReceptacle(), ItemEmptyReceptacle.NAME);
 		RegistryHelper.register(registry, new ItemElementHolder(ElementType.FIRE), ItemElementHolder.NAME_FIRE);

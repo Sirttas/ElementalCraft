@@ -1,8 +1,12 @@
 package sirttas.elementalcraft.item.spell.book;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
@@ -10,11 +14,19 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
+import sirttas.elementalcraft.spell.SpellHelper;
 
 public class ItemSpellBook extends ItemEC {
+
+	public static final String NAME = "spell_book";
 
 	public ItemSpellBook() {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
@@ -34,14 +46,41 @@ public class ItemSpellBook extends ItemEC {
 		if (world.isRemote) {
 			return ActionResultType.SUCCESS;
 		}
-		player.openContainer(getContainer(stack));
+		player.openContainer(new ContainerProvider(stack));
 		return ActionResultType.CONSUME;
 	}
 
-	private INamedContainerProvider getContainer(ItemStack stack) {
-		return new ContainerProvider(stack);
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		SpellHelper.forEachSpell(stack, (spell, count) -> {
+			if (count == 1) {
+				tooltip.add(new StringTextComponent("").append(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
+			} else {
+				tooltip.add(new StringTextComponent(count + " ").append(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
+			}
+		});
 	}
 
+	@Override
+	public int getDamage(ItemStack stack) {
+		return SpellHelper.getSpellCount(stack);
+	}
+
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		return ECConfig.COMMON.spellBookMaxSpell.get();
+	}
+
+	@Override
+	public boolean isDamageable() {
+		return true;
+	}
+
+	@Override
+	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+		return false;
+	}
 
 	private class ContainerProvider implements INamedContainerProvider {
 
@@ -53,12 +92,12 @@ public class ItemSpellBook extends ItemEC {
 
 		@Override
 		public Container createMenu(int id, PlayerInventory inventory, PlayerEntity palyer) {
-			return ChestContainer.createGeneric9X3(id, inventory, null);
+			return SpellBookContainer.create(id, inventory, stack);
 		}
 
 		@Override
 		public ITextComponent getDisplayName() {
-			return ItemSpellBook.this.getDisplayName(stack);
+			return stack.getDisplayName();
 		}
 
 	}

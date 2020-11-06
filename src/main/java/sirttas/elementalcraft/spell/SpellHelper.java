@@ -1,11 +1,15 @@
 package sirttas.elementalcraft.spell;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.function.ObjIntConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -73,6 +77,22 @@ public class SpellHelper {
 				consumer.accept(getSpellFromTag(tag), tag.getInt(ECNames.COUNT));
 			});
 		}
+	}
+
+	public static List<Pair<Spell, Integer>> getSpellsAsMap(ItemStack stack) {
+		ListNBT list = getSpellList(stack);
+
+		if (list != null && !list.isEmpty()) {
+			List<Pair<Spell, Integer>> value = new ArrayList<>(list.size());
+
+			list.forEach(t -> {
+				CompoundNBT tag = (CompoundNBT) t;
+
+				value.add(new Pair<>(getSpellFromTag(tag), tag.getInt(ECNames.COUNT)));
+			});
+			return value;
+		}
+		return Collections.emptyList();
 	}
 
 	public static ListNBT getSpellList(ItemStack stack) {
