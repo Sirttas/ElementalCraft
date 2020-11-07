@@ -10,8 +10,6 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -121,12 +119,6 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		}
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-		super.onDataPacket(net, packet);
-		refreshUpgrades();
-	}
-
 	public void refreshUpgrades() {
 		if (this.hasWorld()) {
 			this.upgrades.clear();
@@ -230,6 +222,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		super.read(state, compound);
 		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
 		running = compound.getBoolean(ECNames.RUNNING);
+		refreshUpgrades();
 	}
 
 	@Override

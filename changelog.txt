@@ -1,3 +1,10 @@
+1.16.3-2.4.4:
+
+- temporary disable elementalist grimoire
+- fix a bug where shrine upgrades wouldn't apply after world save
+- fix elementalist grimoire durability bar
+
+
 1.16.3-2.4.3:
 
 - new item: elementalist grimoire
