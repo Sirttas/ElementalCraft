@@ -82,6 +82,7 @@
   "block.elementalcraft.overloadshrine": "Overload Shrine",
   "block.elementalcraft.sweetshrine": "Sweet Shrine",
   "block.elementalcraft.enderlockshrine": "Ender Lock Shrine",
+  "block.elementalcraft.breedingshrine": "Breeding Shrine",
   
   "block.elementalcraft.shrine_upgrade_acceleration": "Acceleration Shrine Upgrade",
   "block.elementalcraft.shrine_upgrade_range": "Range Shrine Upgrade",
@@ -198,7 +199,8 @@
   "elementalcraft.page.growthshrine0": "The $(item)Growth Shrine$() accelerate $(thing)crops$() growth above it.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.harvestshrine0": "The $(item)Harvest Shrine$() harvest $(thing)crops$() below it.$(br2)It consumes $(thing)earth element$().",
   "elementalcraft.page.overloadshrine0": "The $(item)Overload Shrine$() boost the speed of the $(item)block$() its facing.$(br2)It consumes $(thing)air element$().",
-  "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:elmentalcraft:spells/ender_strike)Ender strinke$() d'ont works.$(br2)It consumes $(thing)water element$().",
+  "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:elmentalcraft:spells/ender_strike)Ender strinke$() don''t works.$(br2)It consumes $(thing)water element$().",
+  "elementalcraft.page.breedingshrine0": "The $(item)Breeding Shrine$() uses $(thing)food$() laying around to breed $(thing)annimals$() in range.$(br2)It consumes $(thing)earth element$().",
   "elementalcraft.page.shrine_upgrade0": "You can craft $(thing)shrine upgrades$() to increase the power of your $(thing)shrines$(). thouse upgrades can only be placed at specific places around the $(thing)shrin$().$(br)Upgrades cover a wide range of bonuses from $(thing)speed$(), $(thing)reduce consuption$(), $(thing)range$()... or specific ones like $(thing)silk touch$() or $(thing)fortune$() for the $((l:elmentalcraft:shrines/oreshrine)ore shrine$().",
 
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$().",

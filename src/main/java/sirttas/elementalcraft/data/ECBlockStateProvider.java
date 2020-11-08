@@ -26,6 +26,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
+import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
@@ -80,6 +81,11 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(side).rotationY(90).addModel().condition(BlockOverloadShrine.FACING, Direction.EAST).end()
 				.part().modelFile(side).rotationY(180).addModel().condition(BlockOverloadShrine.FACING, Direction.SOUTH).end()
 				.part().modelFile(side).rotationY(270).addModel().condition(BlockOverloadShrine.FACING, Direction.WEST).end();
+		} else if (block instanceof BlockBreedingShrine) {
+			ModelFile core = models().getExistingFile(prefix(name + "_core"));
+			ModelFile bowl = models().getExistingFile(prefix(name + "_bowl"));
+
+			horizontalBlock(block, state -> state.get(BlockBreedingShrine.PART) == BlockBreedingShrine.Part.CORE ? core : bowl);
 		} else if (block instanceof BlockTank) {
 			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("tank_connector")));
 		} else if (block instanceof BlockPedestal) {

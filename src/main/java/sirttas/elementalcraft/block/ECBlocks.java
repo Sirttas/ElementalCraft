@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.FenceBlock;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
@@ -39,6 +40,8 @@ import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
 import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
+import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
+import sirttas.elementalcraft.block.shrine.breeding.TileBreedingShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.BlockEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
@@ -112,6 +115,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOverloadShrine.NAME) public static BlockOverloadShrine overloadShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static BlockSweetShrine sweetShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static BlockEnderLockShrine enderLockShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBreedingShrine.NAME) public static BlockBreedingShrine breedingShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockAccelerationShrineUpgrade.NAME) public static BlockAccelerationShrineUpgrade accelerationShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRangeShrineUpgrade.NAME) public static BlockRangeShrineUpgrade rangeShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCapacityShrineUpgrade.NAME) public static BlockCapacityShrineUpgrade capacityShrineUpgrade;
@@ -134,7 +138,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static StairsBlock pureRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static WallBlock pureRockWall;
 	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static BlockEC burntGlass;
-	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass_pane") public static ECPaneBlock burntGlassPane;
+	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass_pane") public static PaneBlock burntGlassPane;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -169,6 +173,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockOverloadShrine(), BlockOverloadShrine.NAME);
 		RegistryHelper.register(registry, new BlockSweetShrine(), BlockSweetShrine.NAME);
 		RegistryHelper.register(registry, new BlockEnderLockShrine(), BlockEnderLockShrine.NAME);
+		RegistryHelper.register(registry, new BlockBreedingShrine(), BlockBreedingShrine.NAME);
 		RegistryHelper.register(registry, new BlockAccelerationShrineUpgrade(), BlockAccelerationShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockRangeShrineUpgrade(), BlockRangeShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockCapacityShrineUpgrade(), BlockCapacityShrineUpgrade.NAME);
@@ -190,7 +195,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.PUREROCK), "purerock_wall");
 		RegistryHelper.register(registry, new BlockEC(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass");
-		RegistryHelper.register(registry, new ECPaneBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass_pane");
+		RegistryHelper.register(registry, new PaneBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass_pane");
 	}
 
 	@SubscribeEvent
@@ -217,6 +222,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileOverloadShrine::new, overloadShrine).build(null), BlockOverloadShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileSweetShrine::new, sweetShrine).build(null), BlockSweetShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileEnderLockShrine::new, enderLockShrine).build(null), BlockEnderLockShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileBreedingShrine::new, breedingShrine).build(null), BlockBreedingShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileAccelerationShrineUpgrade::new, accelerationShrineUpgrade).build(null), BlockAccelerationShrineUpgrade.NAME);
 	}
 

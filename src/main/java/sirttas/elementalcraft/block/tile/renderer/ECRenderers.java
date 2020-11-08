@@ -20,9 +20,8 @@ import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.RedererAccelerationShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.RendererShrine;
+import sirttas.elementalcraft.block.shrine.breeding.TileBreedingShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
 import sirttas.elementalcraft.block.shrine.growth.TileGrowthShrine;
@@ -31,6 +30,8 @@ import sirttas.elementalcraft.block.shrine.lava.TileLavaShrine;
 import sirttas.elementalcraft.block.shrine.ore.TileOreShrine;
 import sirttas.elementalcraft.block.shrine.overload.TileOverloadShrine;
 import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.RedererAccelerationShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -57,6 +58,7 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(TileOverloadShrine.TYPE, RendererShrine::new);
 		ClientRegistry.bindTileEntityRenderer(TileSweetShrine.TYPE, RendererShrine::new);
 		ClientRegistry.bindTileEntityRenderer(TileEnderLockShrine.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(TileBreedingShrine.TYPE, RendererShrine::new);
 	}
 
 	public static void initRenderLayouts() {

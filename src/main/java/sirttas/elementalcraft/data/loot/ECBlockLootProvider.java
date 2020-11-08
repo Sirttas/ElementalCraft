@@ -39,7 +39,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
 import sirttas.elementalcraft.block.shrine.TileShrine;
-import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
+import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNames;
@@ -63,6 +63,8 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 				functionTable.put(block, ECBlockLootProvider::genSlab);
 			} else if (block instanceof BlockPylonShrine) {
 				functionTable.put(block, ECBlockLootProvider::genPylonShrine);
+			} else if (block instanceof BlockBreedingShrine) {
+				functionTable.put(block, ECBlockLootProvider::genBreedingShrine);
 			} else if (isTileInstanceOf(block, TileShrine.class)) {
 				functionTable.put(block, i -> genCopyNbt(i, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT));
 			} else if (block instanceof BlockPedestal) {
@@ -121,7 +123,14 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 
 	private static Builder genPylonShrine(IItemProvider item) {
 		LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
-				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockFirePylon.HALF, DoubleBlockHalf.LOWER)));
+				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockPylonShrine.HALF, DoubleBlockHalf.LOWER)));
+
+		return genCopyNbt(entry, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT);
+	}
+
+	private static Builder genBreedingShrine(IItemProvider item) {
+		LootEntry.Builder<?> entry = ItemLootEntry.builder(item).acceptCondition(
+				BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockBreedingShrine.PART, BlockBreedingShrine.Part.CORE)));
 
 		return genCopyNbt(entry, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT);
 	}

@@ -42,9 +42,9 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(ECTags.Blocks.SHRINES).add(getBlocksForClass(BlockShrine.class));
 
 		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.growthShrine, ECBlocks.harvestShrine, ECBlocks.lavaShrine, ECBlocks.oreShrine,
-				ECBlocks.overloadShrine, ECBlocks.sweetShrine);
+				ECBlocks.overloadShrine, ECBlocks.sweetShrine, ECBlocks.breedingShrine);
 		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.growthShrine, ECBlocks.harvestShrine, ECBlocks.oreShrine, ECBlocks.sweetShrine, ECBlocks.vacuumShrine,
-				ECBlocks.firePylon);
+				ECBlocks.firePylon, ECBlocks.breedingShrine);
 
 		getOrCreateBuilder(Tags.Blocks.ORES).add(ECBlocks.crystalOre);
 		getOrCreateBuilder(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT);
