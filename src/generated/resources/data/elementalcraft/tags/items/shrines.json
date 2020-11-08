@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "elementalcraft:breedingshrine",
     "elementalcraft:enderlockshrine",
     "elementalcraft:firepylon",
     "elementalcraft:growthshrine",

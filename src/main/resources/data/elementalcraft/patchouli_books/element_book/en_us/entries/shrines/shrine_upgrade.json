@@ -4,7 +4,7 @@
   "icon": "elementalcraft:shrine_upgrade_acceleration",
   "advancement": "elementalcraft:pickup/shrine_upgrade_core",
   "turnin": "elementalcraft:pickup/shrine_upgrade_core",
-  "sortnum": 10,
+  "sortnum": 100,
   "pages": [
     {
       "type": "text",

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,part=core": {
+      "model": "elementalcraft:block/breedingshrine_core"
+    },
+    "facing=south,part=core": {
+      "model": "elementalcraft:block/breedingshrine_core",
+      "y": 180
+    },
+    "facing=west,part=core": {
+      "model": "elementalcraft:block/breedingshrine_core",
+      "y": 270
+    },
+    "facing=east,part=core": {
+      "model": "elementalcraft:block/breedingshrine_core",
+      "y": 90
+    },
+    "facing=north,part=bowl": {
+      "model": "elementalcraft:block/breedingshrine_bowl"
+    },
+    "facing=south,part=bowl": {
+      "model": "elementalcraft:block/breedingshrine_bowl",
+      "y": 180
+    },
+    "facing=west,part=bowl": {
+      "model": "elementalcraft:block/breedingshrine_bowl",
+      "y": 270
+    },
+    "facing=east,part=bowl": {
+      "model": "elementalcraft:block/breedingshrine_bowl",
+      "y": 90
+    }
+  }
+}

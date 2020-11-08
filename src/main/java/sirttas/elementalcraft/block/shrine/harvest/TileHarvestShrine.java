@@ -81,7 +81,7 @@ public class TileHarvestShrine extends TileShrine {
 		if (world instanceof ServerWorld && !world.isRemote) {
 			return findCrop().map(p -> {
 				List<ItemStack> loots = LootHelper.getDrops((ServerWorld) world, p);
-				Block block = world.getBlockState(pos).getBlock();
+				Block block = world.getBlockState(p).getBlock();
 
 				world.destroyBlock(p, false);
 				handlePlanting(p, block, loots);

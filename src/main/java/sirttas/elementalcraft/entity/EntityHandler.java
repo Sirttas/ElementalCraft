@@ -12,17 +12,16 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradesMessage;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNames;
-import sirttas.elementalcraft.network.message.MessageHandler;
-import sirttas.elementalcraft.network.message.ShrineUpgradesMessage;
-import sirttas.elementalcraft.network.message.SpellPropertiesMessage;
+import sirttas.elementalcraft.network.message.MessageHelper;
+import sirttas.elementalcraft.spell.properties.SpellPropertiesMessage;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public class EntityHandler {
@@ -52,8 +51,8 @@ public class EntityHandler {
 		if (player instanceof ServerPlayerEntity) {
 			ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
 
-			MessageHandler.CHANNEL.sendTo(new ShrineUpgradesMessage(ElementalCraft.SHRINE_UPGRADE_MANAGER), serverPlayer.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
-			MessageHandler.CHANNEL.sendTo(new SpellPropertiesMessage(ElementalCraft.SPELL_PROPERTIES_MANAGER), serverPlayer.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
+			MessageHelper.sendToPlayer(serverPlayer, new ShrineUpgradesMessage(ElementalCraft.SHRINE_UPGRADE_MANAGER));
+			MessageHelper.sendToPlayer(serverPlayer, new SpellPropertiesMessage(ElementalCraft.SPELL_PROPERTIES_MANAGER));
 		}
 		
 		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getEntityWorld().isRemote) {

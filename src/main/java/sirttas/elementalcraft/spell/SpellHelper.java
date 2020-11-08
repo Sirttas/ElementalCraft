@@ -174,7 +174,7 @@ public class SpellHelper {
 
 	public static Spell randomSpell(Collection<Spell> spells, Random rand) {
 		List<Spell> list = spells.stream().filter(Spell::isValid).collect(Collectors.toList());
-		int roll = rand.nextInt(list.stream().map(Spell::getWeight).reduce(0, Integer::sum));
+		int roll = rand.nextInt(list.stream().mapToInt(Spell::getWeight).sum());
 		
 		for (Spell spell : spells) {
 			roll -= spell.getWeight();

@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.network.message;
+package sirttas.elementalcraft.spell.properties;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +8,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.spell.properties.SpellProperties;
-import sirttas.elementalcraft.spell.properties.SpellPropertiesManager;
 
 public final class SpellPropertiesMessage {
 

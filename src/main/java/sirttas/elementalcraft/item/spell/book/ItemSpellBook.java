@@ -10,7 +10,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -30,6 +32,16 @@ public class ItemSpellBook extends ItemEC {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
 	}
 
+	/**
+	 * Called when the equipped item is right clicked.
+	 */
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+		ItemStack stack = player.getHeldItem(hand);
+
+		return new ActionResult<>(open(world, player, stack), stack);
+	}
+	
 	public ActionResultType open(World world, PlayerEntity player, ItemStack stack) {
 		if (world.isRemote) {
 			return ActionResultType.SUCCESS;
@@ -41,7 +53,6 @@ public class ItemSpellBook extends ItemEC {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new StringTextComponent("Currently disabled!").mergeStyle(TextFormatting.RED)); // TODO remove
 		SpellHelper.forEachSpell(stack, (spell, count) -> {
 			if (count == 1) {
 				tooltip.add(new StringTextComponent("").append(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));

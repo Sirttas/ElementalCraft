@@ -55,6 +55,9 @@ public class ECConfig {
 		public final DoubleValue sweetShrinePeriode;
 		public final IntValue enderLockShrineRange;
 		public final IntValue enderLockShrineConsumeAmount;
+		public final IntValue breedingShrineRange;
+		public final IntValue breedingShrineConsumeAmount;
+		public final DoubleValue breedingShrinePeriode;
 
 		public final IntValue tankCapacity;
 		public final IntValue tankSmallCapacity;
@@ -129,6 +132,10 @@ public class ECConfig {
 			builder.pop().push("enderLock");
 			enderLockShrineRange = builder.comment("The range of the Ender Lock Shrine.").defineInRange("enderLockShrineRange", 10, 0, 100);
 			enderLockShrineConsumeAmount = builder.comment("The amount of element consumed by the Ender Lock Shrine.").defineInRange("enderLockShrineConsumeAmount", 500, 0, 10000);
+			builder.pop().push("breedingShrine");
+			breedingShrineRange = builder.comment("The range of the breeding Shrine.").defineInRange("breedingShrineRange", 10, 0, 100);
+			breedingShrineConsumeAmount = builder.comment("The amount of element consumed by the breeding Shrine.").defineInRange("breedingShrineConsumeAmount", 2000, 0, 10000);
+			breedingShrinePeriode = builder.comment("The nember of tick betwenn two breeding Shrine activations.").defineInRange("breedingShrinePeriode", 200D, 0, 2400);
 
 			builder.pop(2).comment("Instruments config").push("instruments").push("tank");
 			tankSmallCapacity = builder.comment("The element capacity of a small element container.").defineInRange("tankSmallCapacity", 1000, 0, 100000000);

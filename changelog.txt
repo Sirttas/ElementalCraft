@@ -1,3 +1,12 @@
+1.16.3-2.4.5:
+
+- new shrine: breeding shrine
+- fix elementalist grimoire behavior
+- fix planting shrine upgrade not working since last upgrade
+- fix a crash due to loot tables (issue #11)
+- fix a crash with pure ore generation (issue #12)
+
+
 1.16.3-2.4.4:
 
 - temporary disable elementalist grimoire

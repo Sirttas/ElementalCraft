@@ -76,7 +76,10 @@ public class PureOreRecipeInjector<C extends IInventory, T extends IRecipe<C>> {
 	void inject(List<PureOreManager.Entry> entries) {
 		Map<ResourceLocation, IRecipe<C>> map = getRecipes();
 
-		map.putAll(entries.stream().distinct().map(this::injectEntry).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o)));
+		map.putAll(entries.stream().distinct().map(this::injectEntry).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o, (recipe1, recipe2) -> {
+			ElementalCraft.LOGGER.warn("Duplicated key for type {}: {}", recipeType, recipe1.getId());
+			return recipe1;
+		})));
 		recipeManager.recipes.put(recipeType, map.entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)));
 	}
 

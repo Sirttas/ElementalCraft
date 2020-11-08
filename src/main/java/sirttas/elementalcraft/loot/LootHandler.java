@@ -1,5 +1,9 @@
 package sirttas.elementalcraft.loot;
 
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.loot.LootEntry;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.TableLootEntry;
@@ -13,12 +17,14 @@ import sirttas.elementalcraft.ElementalCraft;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public final class LootHandler {
 
+	private static final String PREFIX = "minecraft:chests/";
+	private static final List<String> BLACKLIST = ImmutableList.of("dispenser");
+
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void lootLoad(LootTableLoadEvent evt) {
-		String prefix = "minecraft:chests/";
 		String name = evt.getName().toString();
 
-		if (name.startsWith(prefix)) {
+		if (name.startsWith(PREFIX) && BLACKLIST.stream().anyMatch(name::contains)) {
 			evt.getTable().addPool(getInjectPool("chests/inject"));
 		}
 	}

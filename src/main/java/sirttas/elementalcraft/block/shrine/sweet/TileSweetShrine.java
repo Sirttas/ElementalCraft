@@ -33,20 +33,18 @@ public class TileSweetShrine extends TileShrine {
 	protected boolean doTick() {
 		int consumeAmount = this.getConsumeAmount();
 
-		if (this.getElementAmount() >= consumeAmount) {
-			getEntities(PlayerEntity.class).forEach(e -> {
-				if (this.getElementAmount() >= consumeAmount) {
-					this.consumeElement(consumeAmount);
-					e.getFoodStats().addStats(1, 0);
-				}
-			});
-			getEntities(BeeEntity.class).forEach(e -> {
-				if (this.getElementAmount() >= consumeAmount) {
-					this.consumeElement(consumeAmount);
-					e.setHasNectar(true);
-				}
-			});
-		}
+		getEntities(PlayerEntity.class).forEach(e -> {
+			if (this.getElementAmount() >= consumeAmount) {
+				this.consumeElement(consumeAmount);
+				e.getFoodStats().addStats(1, 0);
+			}
+		});
+		getEntities(BeeEntity.class).forEach(e -> {
+			if (this.getElementAmount() >= consumeAmount) {
+				this.consumeElement(consumeAmount);
+				e.setHasNectar(true);
+			}
+		});
 		return false;
 	}
 }
