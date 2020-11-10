@@ -125,23 +125,23 @@ public class PureOreManager {
 		pureOres.put(entry.ore, entry);
 	}
 
-	private String buildId(ResourceLocation source) {
+	public String buildRecipeId(ResourceLocation source) {
 		return source.getNamespace() + "_pure_" + source.getPath().replace('/', '_');
 	}
 
 	private FurnaceRecipe buildSmeltingRecipe(FurnaceRecipe sourceRecipe, Ingredient ingredient) {
-		return new FurnaceRecipe(ElementalCraft.createRL(buildId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(), sourceRecipe.getExperience(),
+		return new FurnaceRecipe(ElementalCraft.createRL(buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(), sourceRecipe.getExperience(),
 				sourceRecipe.getCookTime());
 	}
 
 	private BlastingRecipe buildBlastingRecipe(BlastingRecipe sourceRecipe, Ingredient ingredient) {
-		return new BlastingRecipe(ElementalCraft.createRL(buildId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(), sourceRecipe.getExperience(),
+		return new BlastingRecipe(ElementalCraft.createRL(buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(), sourceRecipe.getExperience(),
 				sourceRecipe.getCookTime());
 	}
 
 	private CampfireCookingRecipe buildCampFireRecipe(CampfireCookingRecipe sourceRecipe, Ingredient ingredient) {
-		return new CampfireCookingRecipe(ElementalCraft.createRL(buildId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(), sourceRecipe.getExperience(),
-				sourceRecipe.getCookTime());
+		return new CampfireCookingRecipe(ElementalCraft.createRL(buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
+				sourceRecipe.getExperience(), sourceRecipe.getCookTime());
 	}
 
 	protected class Entry {

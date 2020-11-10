@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.item.pureore;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21,6 +22,7 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.PureOreInjectorIMCMessage;
 import sirttas.elementalcraft.item.pureore.PureOreManager.Entry;
 
@@ -60,7 +62,15 @@ public class PureOreRecipeInjector<C extends IInventory, T extends IRecipe<C>> {
 		this.recipeManager = recipeManager;
 		this.recipes = recipeManager.getRecipes(recipeType).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 		if (filter == null) {
-			filter = (recipe, stack) -> recipe.getIngredients().get(0).test(stack);
+			filter = this::defaultFilter;
+		}
+	}
+
+	private boolean defaultFilter(T recipe, ItemStack stack) {
+		try {
+			return recipe.getIngredients().get(0).test(stack);
+		} catch (Exception e) {
+			throw new PureOreException(MessageFormat.format("Error while reading ingredients for recipe {0}. Pleanse setup a custom filter for {1}", recipe.getId(), this), e);
 		}
 	}
 

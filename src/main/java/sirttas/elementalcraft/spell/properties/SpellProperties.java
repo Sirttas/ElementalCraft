@@ -8,7 +8,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.gui.GuiHelper;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -175,7 +174,7 @@ public class SpellProperties {
 		}
 
 		public Builder color(int r, int g, int b) {
-			return color(GuiHelper.colorFromRGB(r, g, b));
+			return color(ElementType.colorFromRGB(r, g, b));
 		}
 
 		public JsonElement toJson() {

@@ -49,7 +49,7 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.SPEAR;
+		return UseAction.BOW;
 	}
 
 	/**

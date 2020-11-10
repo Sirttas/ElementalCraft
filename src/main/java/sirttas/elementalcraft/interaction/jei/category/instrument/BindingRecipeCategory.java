@@ -1,9 +1,6 @@
-package sirttas.elementalcraft.interaction.jei.category;
+package sirttas.elementalcraft.interaction.jei.category.instrument;
 
 import java.util.List;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -25,14 +22,14 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 	private static final int RADIUS = 42;
 
 	private final IDrawable icon;
-	private final IDrawable overlay;
 	private final IDrawable background;
 	private ItemStack binder = new ItemStack(ECItems.binder);
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16);
 		icon = guiHelper.createDrawableIngredient(binder);
-		overlay = guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/binding_overlay.png"), 0, 0, 124, 83);
+		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/binding_overlay.png"), 0, 0, 124, 83), 10, 10);
+		setGaugePos(RADIUS + 1, RADIUS + 18);
 	}
 
 	@Override
@@ -58,14 +55,6 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 	@Override
 	public IDrawable getBackground() {
 		return background;
-	}
-
-	@Override
-	public void draw(BinderRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-		RenderSystem.enableBlend();
-		overlay.draw(matrixStack, 10, 10);
-		renderElementGauge(matrixStack, RADIUS + 1, RADIUS + 18, recipe);
-		RenderSystem.disableBlend();
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sirttas.elementalcraft.api.pureore.PureOreInjectorIMCMessage;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeManager;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.item.pureore.PureOreManager;
 import sirttas.elementalcraft.item.pureore.PureOreRecipeInjector;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
@@ -48,6 +50,10 @@ public class ElementalCraft {
 		MinecraftForge.EVENT_BUS.addListener(SpellTickManager::serverTick);
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECFeatures::onBiomeLoad);
 		MinecraftForge.EVENT_BUS.addListener(this::addReloadListeners);
+
+		if (ModList.get().isLoaded("mekanism")) {
+			MekanismInteraction.setup();
+		}
 	}
 
 	public static ResourceLocation createRL(String name) {

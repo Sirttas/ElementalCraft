@@ -70,7 +70,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.SPEAR;
+		return UseAction.BOW;
 	}
 
 	protected boolean isValidSource(BlockState state) {

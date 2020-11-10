@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
@@ -148,6 +149,22 @@ public class BlockRetriever extends BlockEC {
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;
+	}
+
+	public static void sendOutputToRetriever(World world, BlockPos pos, IInventory inventory, int slot) {
+		for (Direction direction : Direction.values()) {
+			BlockPos retriverPos = pos.offset(direction);
+			BlockState blockState = world.getBlockState(retriverPos);
+
+			if (blockState.getBlock() instanceof BlockRetriever && blockState.get(BlockRetriever.SOURCE) == direction.getOpposite()) {
+				ItemStack output = retrive(blockState, world, retriverPos, inventory.getStackInSlot(slot));
+
+				inventory.setInventorySlotContents(slot, output);
+				if (output.isEmpty()) {
+					return;
+				}
+			}
+		}
 	}
 
 	public static ItemStack retrive(BlockState state, IBlockReader world, BlockPos pos, ItemStack output) {

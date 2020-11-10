@@ -88,6 +88,13 @@ public class ECConfig {
 		public final IntValue sourceAltarDistance;
 		public final BooleanValue playersSpawnWithBook;
 
+		public final BooleanValue mekanismInteracionEnabled;
+		public final BooleanValue mekanismPureOreDissolutionRecipe;
+		public final BooleanValue mekanismPureOreInjectingRecipe;
+		public final BooleanValue mekanismPureOrePurifyingRecipe;
+		public final BooleanValue mekanismPureOreEnrichingRecipe;
+		public final BooleanValue mekanismPureOreCrushingRecipe;
+
 		public Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft config").push("elementalcraft");
 
@@ -175,7 +182,15 @@ public class ECConfig {
 			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
 			sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 16, 0, 100);
 
-			builder.pop();
+			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
+			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
+			mekanismPureOreDissolutionRecipe = builder.comment("Set to false if you want pure ore to not use mekanism dissolution recipes.").define("mekanismPureOreDissolutionRecipe", true);
+			mekanismPureOreInjectingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism injecting recipes.").define("mekanismPureOreInjectingRecipe", true);
+			mekanismPureOrePurifyingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism purifying recipes.").define("mekanismPureOrePurifyingRecipe", true);
+			mekanismPureOreEnrichingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism enriching recipes.").define("mekanismPureOreEnrichingRecipe", true);
+			mekanismPureOreCrushingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism crushing recipes.").define("mekanismPureOreCrushingRecipe", true);
+
+			builder.pop(2);
 		}
 	}
 
