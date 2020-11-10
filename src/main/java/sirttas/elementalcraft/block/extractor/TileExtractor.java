@@ -29,9 +29,6 @@ public class TileExtractor extends TileECTickable {
 		this.extractionAmount = extractionAmount;
 	}
 
-	public boolean hasSource() {
-		return getSourceElementType() != ElementType.NONE;
-	}
 
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
@@ -56,15 +53,21 @@ public class TileExtractor extends TileECTickable {
 
 	@Override
 	public void tick() {
+		ElementType sourceElementType = getSourceElementType();
+
 		super.tick();
-		if (canExtract()) {
-			getTank().inserElement(extractionAmount, getSourceElementType(), false);
+		if (canExtract(sourceElementType)) {
+			getTank().inserElement(extractionAmount, sourceElementType, false);
 		}
 	}
 
 	public boolean canExtract() {
+		return canExtract(getSourceElementType());
+	}
+
+	private boolean canExtract(ElementType sourceElementType) {
 		TileTank tank = getTank();
 
-		return hasWorld() && hasSource() && tank != null && tank.getElementAmount() < tank.getElementCapacity();
+		return hasWorld() && sourceElementType != ElementType.NONE && tank != null && (tank.getElementAmount() < tank.getElementCapacity() || tank.getElementType() != sourceElementType);
 	}
 }

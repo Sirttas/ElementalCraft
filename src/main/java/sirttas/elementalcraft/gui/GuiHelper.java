@@ -73,8 +73,4 @@ public class GuiHelper {
 
 		return minecraft.player.isCreative() && minecraft.gameSettings.advancedItemTooltips;
 	}
-
-	public static int colorFromRGB(int r, int g, int b) {
-		return (r << 16) | (g << 8) | b;
-	}
 }

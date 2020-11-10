@@ -20,14 +20,14 @@ mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = '1.16.3-2.4.5'
+version = "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: 'snapshot', version: "${mappings_version}"
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -93,21 +93,24 @@ repositories {
   	}
   	maven {
    		name = "ModMaven"
-    	url = "https://modmaven.k-4u.nl"
+    	url = "https://modmaven.dev/"
   	}
   	maven { url 'https://maven.blamejared.com' }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.3-34.1.25'
+    minecraft "net.minecraftforge:forge:${forge_version}"
     
-    compile 'org.spongepowered:mixin:0.8.2'
+    compile "org.spongepowered:mixin:${mixins_version}"
     
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     
-    compileOnly fg.deobf("mezz.jei:jei-1.16.3:7.6.0.49:api")
-    implementation fg.deobf("mezz.jei:jei-1.16.3:7.6.0.49")
+    compileOnly fg.deobf("mezz.jei:jei-1.16.3:${jei_version}:api")
+    implementation fg.deobf("mezz.jei:jei-1.16.3:${jei_version}")
+    
+    compileOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:api")
+    compileOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
     
 }
 

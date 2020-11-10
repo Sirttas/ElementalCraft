@@ -147,6 +147,12 @@
   "tooltip.elementalcraft.percent_full": "%s%% full",
   "tooltip.elementalcraft.max_amount": "Limited to %d",
   "tooltip.elementalcraft.incompatibilities": "Incompatible With:",
+  
+  "tooltip.elemntalcraft.element_amount.0": "Tiny Amount",
+  "tooltip.elemntalcraft.element_amount.1": "Low Amount",
+  "tooltip.elemntalcraft.element_amount.2": "Medium Amount",
+  "tooltip.elemntalcraft.element_amount.3": "Hight Amount",
+  "tooltip.elemntalcraft.element_amount.4": "Huge Amount",
 
   "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().",
 

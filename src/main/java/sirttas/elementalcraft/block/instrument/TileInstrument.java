@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.block.instrument;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -38,28 +36,11 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 
 	protected abstract <T extends IInstrument> IInstrumentRecipe<T> lookupRecipe();
 
-	private void sendOutputToRetriever() {
-		IInventory inventory = this.getInventory();
-
-		for (Direction direction : Direction.values()) {
-			BlockState blockState = world.getBlockState(pos.offset(direction));
-
-			if (blockState.getBlock() instanceof BlockRetriever && blockState.get(BlockRetriever.SOURCE) == direction.getOpposite()) {
-				ItemStack output = BlockRetriever.retrive(blockState, world, pos.offset(direction), inventory.getStackInSlot(outputSlot));
-				
-				inventory.setInventorySlotContents(outputSlot, output);
-				if (output.isEmpty()) {
-					return;
-				}
-			}
-		}
-	}
-
 	@Override
 	public void process() {
 		recipe.process(this);
 		recipe = null;
-		sendOutputToRetriever();
+		BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
 		this.forceSync();
 	}
 

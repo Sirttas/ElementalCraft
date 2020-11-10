@@ -1,7 +1,4 @@
-package sirttas.elementalcraft.interaction.jei.category;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+package sirttas.elementalcraft.interaction.jei.category.instrument;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -21,7 +18,6 @@ public class PurificationRecipeCategory extends AbstractInstrumentRecipeCategory
 	public static final ResourceLocation UID = ElementalCraft.createRL("purification");
 
 	private final IDrawable icon;
-	private final IDrawable overlay;
 	private final IDrawable background;
 	private ItemStack purifier = new ItemStack(ECItems.purifier);
 
@@ -29,7 +25,8 @@ public class PurificationRecipeCategory extends AbstractInstrumentRecipeCategory
 	public PurificationRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(75, 59);
 		icon = guiHelper.createDrawableIngredient(purifier);
-		overlay = guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/infusion_overlay.png"), 0, 0, 65, 16);
+		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/infusion_overlay.png"), 0, 0, 65, 16), 8, 20);
+		setGaugePos(31, 42);
 	}
 
 	@Override
@@ -57,13 +54,6 @@ public class PurificationRecipeCategory extends AbstractInstrumentRecipeCategory
 		return background;
 	}
 
-	@Override
-	public void draw(PurifierRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-		RenderSystem.enableBlend();
-		overlay.draw(matrixStack, 8, 20);
-		renderElementGauge(matrixStack, 31, 42, recipe);
-		RenderSystem.disableBlend();
-	}
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, PurifierRecipe recipe, IIngredients ingredients) {

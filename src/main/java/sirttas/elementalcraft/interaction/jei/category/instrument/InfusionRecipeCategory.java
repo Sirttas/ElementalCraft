@@ -1,10 +1,8 @@
-package sirttas.elementalcraft.interaction.jei.category;
+package sirttas.elementalcraft.interaction.jei.category.instrument;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -24,7 +22,6 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 	public static final ResourceLocation UID = ElementalCraft.createRL("infusion");
 
 	private final IDrawable icon;
-	private final IDrawable overlay;
 	private final IDrawable background;
 	private ItemStack infuser = new ItemStack(ECItems.infuser);
 	protected List<ItemStack> tanks = Lists.newArrayList(tank, new ItemStack(ECItems.tankSmall));
@@ -33,7 +30,8 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(75, 59);
 		icon = guiHelper.createDrawableIngredient(infuser);
-		overlay = guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/infusion_overlay.png"), 0, 0, 65, 16);
+		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/infusion_overlay.png"), 0, 0, 65, 16), 8, 20);
+		setGaugePos(31, 42);
 	}
 
 	@Override
@@ -59,14 +57,6 @@ public class InfusionRecipeCategory extends AbstractInstrumentRecipeCategory<Til
 	@Override
 	public IDrawable getBackground() {
 		return background;
-	}
-
-	@Override
-	public void draw(AbstractInfusionRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-		RenderSystem.enableBlend();
-		overlay.draw(matrixStack, 8, 20);
-		renderElementGauge(matrixStack, 31, 42, recipe);
-		RenderSystem.disableBlend();
 	}
 
 	@Override

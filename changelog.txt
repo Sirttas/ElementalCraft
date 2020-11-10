@@ -1,3 +1,13 @@
+1.16.3-2.4.6:
+
+- added mekanism interaction
+- instrument output retriever now works with pure infuser
+- added tooltip for elements in jei
+- change element holder, scroll and focus on use animation
+- fix a bug preventing full tanks to be depleted by inserting others elements
+- fix a crash on dedicated server
+
+
 1.16.3-2.4.5:
 
 - new shrine: breeding shrine
