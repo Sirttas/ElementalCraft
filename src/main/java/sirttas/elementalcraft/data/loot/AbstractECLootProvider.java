@@ -13,7 +13,9 @@ import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.LootTableManager;
 
 public abstract class AbstractECLootProvider implements IDataProvider {
+
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
 	protected final DataGenerator generator;
 
 	public AbstractECLootProvider(DataGenerator generator) {

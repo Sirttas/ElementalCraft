@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "idi",
+    "igi",
+    "ici"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:containedcrystal"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "g": {
+      "tag": "forge:glass"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:evaporator"
+  }
+}

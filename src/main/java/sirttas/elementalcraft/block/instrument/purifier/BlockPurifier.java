@@ -85,7 +85,7 @@ public class BlockPurifier extends BlockECContainer {
 		if (purifier != null) {
 			if (!purifier.getInventory().getStackInSlot(1).isEmpty()) {
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
-			} else if (ElementalCraft.PURE_ORE_MANAGER.isValidOre(held)) {
+			} else if (held.isEmpty() || ElementalCraft.PURE_ORE_MANAGER.isValidOre(held)) {
 				return this.onSlotActivated(inv, player, held, 0);
 			}
 		}

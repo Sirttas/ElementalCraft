@@ -11,8 +11,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.config.ECConfig;
 

@@ -7,8 +7,8 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.config.ECConfig;
 
@@ -52,7 +52,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 	public ItemStack getRecipeOutput() {
 		ItemStack result = ElementalCraft.PURE_ORE_MANAGER.createPureOre(ore.getItem()).copy();
 
-		result.setCount(2);
+		result.setCount(ECConfig.COMMON.pureOreMultiplier.get());
 		return result;
 	}
 

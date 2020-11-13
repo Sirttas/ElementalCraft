@@ -15,8 +15,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.config.ECConfig;
 

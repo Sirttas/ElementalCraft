@@ -1,6 +1,6 @@
-package sirttas.elementalcraft.api.element;
+package sirttas.elementalcraft.api.element.storage;
 
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 
 public interface IElementStorage {
 

@@ -7,8 +7,8 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 
 /**

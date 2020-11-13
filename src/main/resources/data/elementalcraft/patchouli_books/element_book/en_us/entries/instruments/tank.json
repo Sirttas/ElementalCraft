@@ -4,7 +4,7 @@
   "icon": "elementalcraft:tank",
   "advancement": "elementalcraft:pickup/whiterock",
   "turnin": "elementalcraft:pickup/tank",
-  "sortnum": 3,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",

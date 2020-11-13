@@ -116,6 +116,21 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 4.0,
+                "max": 10.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ],
+          "name": "elementalcraft:water_shard"
+        },
+        {
+          "type": "minecraft:item",
           "weight": 15,
           "functions": [
             {

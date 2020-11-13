@@ -10,6 +10,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.evaporator.TileEvaporator;
 import sirttas.elementalcraft.block.instrument.binder.RendererBinder;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.block.instrument.firefurnace.RendererFireFurnace;
@@ -41,6 +42,7 @@ public final class ECRenderers {
 	public static void registerModels(ModelRegistryEvent evt) {
 
 		ClientRegistry.bindTileEntityRenderer(TileInfuser.TYPE, d -> new SingleItemRenderer<TileInfuser>(d, new Vector3d(0.5, 0.2, 0.5)));
+		ClientRegistry.bindTileEntityRenderer(TileEvaporator.TYPE, d -> new SingleItemRenderer<TileEvaporator>(d, new Vector3d(0.5, 1 / 16, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TileBinder.TYPE, RendererBinder::new);
 		ClientRegistry.bindTileEntityRenderer(TilePedestal.TYPE, d -> new SingleItemRenderer<TilePedestal>(d, new Vector3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TilePureInfuser.TYPE, d -> new SingleItemRenderer<TilePureInfuser>(d, new Vector3d(0.5, 0.9, 0.5)));
@@ -65,6 +67,7 @@ public final class ECRenderers {
 		RenderTypeLookup.setRenderLayer(ECBlocks.tankSmall, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.tank, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.tankCreative, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.evaporator, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.fireBlastFurnace, RenderType.getTranslucent());
 		RenderTypeLookup.setRenderLayer(ECBlocks.burntGlass, RenderType.getTranslucent());
 		RenderTypeLookup.setRenderLayer(ECBlocks.burntGlassPane, RenderType.getTranslucent());

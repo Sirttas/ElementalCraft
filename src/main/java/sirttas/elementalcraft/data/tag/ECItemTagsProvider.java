@@ -12,6 +12,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.AbstractItemSpellHolder;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -36,8 +37,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
 		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
-		this.copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
-		this.copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
+		copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
+		copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
 
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE);
@@ -54,5 +55,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_BOOTS).add(Items.IRON_BOOTS, Items.GOLDEN_BOOTS, Items.DIAMOND_BOOTS, Items.NETHERITE_BOOTS);
 
 		getOrCreateBuilder(ECTags.Items.SPELL_HOLDERS).add(getItemsForClass(AbstractItemSpellHolder.class));
+		getOrCreateBuilder(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.fireCrystal, ECItems.waterCrystal, ECItems.earthCrystal, ECItems.airCrystal);
+		getOrCreateBuilder(ECTags.Items.CRYSTALS).add(ECItems.inertCrystal, ECItems.containedCrystal, ECItems.pureCrystal).addTag(ECTags.Items.ELEMENTAL_CRYSTALS);
+		getOrCreateBuilder(ECTags.Items.SHARDS).add(ECItems.fireShard, ECItems.waterShard, ECItems.earthShard, ECItems.airShard);
 	}
 }

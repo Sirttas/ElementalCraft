@@ -14,10 +14,10 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.element.IElementReceiver;
-import sirttas.elementalcraft.api.element.IElementSender;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementReceiver;
+import sirttas.elementalcraft.api.element.storage.IElementSender;
 import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.config.ECConfig;
 

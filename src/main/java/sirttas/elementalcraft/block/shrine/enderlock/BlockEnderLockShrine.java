@@ -15,7 +15,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.particle.ParticleHelper;

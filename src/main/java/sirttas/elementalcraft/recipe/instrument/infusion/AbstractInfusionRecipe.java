@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;

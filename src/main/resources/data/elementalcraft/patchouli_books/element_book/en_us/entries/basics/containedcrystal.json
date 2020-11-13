@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/inertcrystal",
   "turnin": "elementalcraft:pickup/containedcrystal",
   "priority": true,
-  "sortnum": 2,
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",

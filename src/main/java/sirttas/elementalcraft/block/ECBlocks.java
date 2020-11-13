@@ -18,8 +18,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.evaporator.BlockEvaporator;
+import sirttas.elementalcraft.block.evaporator.TileEvaporator;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.TileExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
@@ -91,6 +93,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static BlockTankCreative tankCreative;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static BlockExtractor extractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static BlockImprovedExtractor improvedExtractor;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEvaporator.NAME) public static BlockEvaporator evaporator;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static BlockInfuser infuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static BlockBinder binder;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static BlockPedestal firePedestal;
@@ -149,6 +152,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockTankCreative(), BlockTankCreative.NAME);
 		RegistryHelper.register(registry, new BlockExtractor(), BlockExtractor.NAME);
 		RegistryHelper.register(registry, new BlockImprovedExtractor(), BlockImprovedExtractor.NAME);
+		RegistryHelper.register(registry, new BlockEvaporator(), BlockEvaporator.NAME);
 		RegistryHelper.register(registry, new BlockInfuser(), BlockInfuser.NAME);
 		RegistryHelper.register(registry, new BlockBinder(), BlockBinder.NAME);
 		RegistryHelper.register(registry, new BlockPedestal(ElementType.FIRE), BlockPedestal.NAME_FIRE);
@@ -205,6 +209,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileTank::new, tank, tankSmall).build(null), BlockTank.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileTankCreative::new, tankCreative).build(null), BlockTankCreative.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileExtractor::new, extractor, improvedExtractor).build(null), BlockExtractor.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileEvaporator::new, evaporator).build(null), BlockEvaporator.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileInfuser::new, infuser).build(null), BlockInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBinder::new, binder).build(null), BlockBinder.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePedestal::new, firePedestal, waterPedestal, earthPedestal, airPedestal).build(null), BlockPedestal.NAME);

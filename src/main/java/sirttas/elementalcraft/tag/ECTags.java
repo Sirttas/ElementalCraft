@@ -26,6 +26,9 @@ public class ECTags {
 		public static final INamedTag<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
 
 		public static final INamedTag<Item> SPELL_HOLDERS = createTag("spell_holders");
+		public static final INamedTag<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
+		public static final INamedTag<Item> CRYSTALS = createTag("crystals");
+		public static final INamedTag<Item> SHARDS = createTag("shards");
 
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Item> PIPES = createTag("pipes");

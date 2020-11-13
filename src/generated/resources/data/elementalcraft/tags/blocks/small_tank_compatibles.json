@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "elementalcraft:extractor",
-    "elementalcraft:infuser"
+    "elementalcraft:infuser",
+    "elementalcraft:evaporator"
   ]
 }

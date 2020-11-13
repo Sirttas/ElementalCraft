@@ -1,4 +1,4 @@
-package sirttas.elementalcraft;
+package sirttas.elementalcraft.api.element;
 
 import java.util.Random;
 
@@ -13,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import sirttas.elementalcraft.gui.ECColorHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
 public enum ElementType implements IStringSerializable {
@@ -48,7 +49,7 @@ public enum ElementType implements IStringSerializable {
 		this.g = g / 255F;
 		this.b = b / 255F;
 		this.name = name;
-		this.color = colorFromRGB(r, g, b);
+		this.color = ECColorHelper.packColor(r, g, b);
 	}
 
 	public float getRed() {
@@ -113,10 +114,4 @@ public enum ElementType implements IStringSerializable {
 	public ITextComponent getDisplayName() {
 		return new TranslationTextComponent(getTranslationKey());
 	}
-
-	// TODO move
-	public static int colorFromRGB(int r, int g, int b) {
-		return (r << 16) | (g << 8) | b;
-	}
-
 }

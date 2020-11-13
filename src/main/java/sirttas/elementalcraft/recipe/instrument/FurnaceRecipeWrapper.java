@@ -6,7 +6,7 @@ import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.firefurnace.AbstractTileFireFurnace;
 import sirttas.elementalcraft.config.ECConfig;
 

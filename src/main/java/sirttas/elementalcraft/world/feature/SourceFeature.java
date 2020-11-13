@@ -9,7 +9,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.property.ECProperties;
 

@@ -25,9 +25,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementType;
-import sirttas.elementalcraft.api.element.IElementReceiver;
-import sirttas.elementalcraft.api.element.IElementSender;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementReceiver;
+import sirttas.elementalcraft.api.element.storage.IElementSender;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
@@ -145,8 +145,7 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add((new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(getElementAmount(stack) * 100
-				/ elementCapacity)))
+		tooltip.add((new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(getElementAmount(stack) * 100 / elementCapacity)))
 				.mergeStyle(TextFormatting.GREEN));
 	}
 

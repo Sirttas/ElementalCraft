@@ -15,7 +15,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.element.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
@@ -84,7 +84,7 @@ public class GuiHandler {
 		}).filter(Spell::isValid).findFirst().orElse(Spells.none);
 	}
 
-	private static void doRenderElementGauge(MatrixStack matrixStack, int element, int max, sirttas.elementalcraft.ElementType type) {
+	private static void doRenderElementGauge(MatrixStack matrixStack, int element, int max, sirttas.elementalcraft.api.element.ElementType type) {
 		GuiHelper.renderElementGauge(matrixStack, getXoffset() - 32, getYOffset() - 8, element, max,
 				type);
 	}

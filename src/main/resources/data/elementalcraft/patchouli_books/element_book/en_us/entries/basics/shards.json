@@ -1,0 +1,12 @@
+{
+  "name": "elementalcraft.entry.shards",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:fire_shard",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.shards0"
+    }
+  ]
+}
