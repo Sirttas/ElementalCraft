@@ -43,7 +43,9 @@ public class TileBinder extends TileInstrument {
 
 	@Override
 	protected void onProgress() {
-		ParticleHelper.createElementFlowParticle(getTankElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), Direction.UP, 1, world.rand);
+		if (world.isRemote) {
+			ParticleHelper.createElementFlowParticle(getTankElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), Direction.UP, 1, world.rand);
+		}
 	}
 
 	@Override

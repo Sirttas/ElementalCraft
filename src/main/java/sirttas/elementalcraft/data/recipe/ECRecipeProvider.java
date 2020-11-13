@@ -21,8 +21,8 @@ import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.data.recipe.builder.BinderRecipeBuilder;
 import sirttas.elementalcraft.data.recipe.builder.InfusionRecipeBuilder;
@@ -101,6 +101,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareInstrumentRecipe(ECBlocks.extractor).key('i', Tags.Items.INGOTS_IRON).patternLine(" c ").patternLine(" i ").patternLine("ici").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.improvedExtractor, ECItems.pureCrystal).key('i', ECItems.swiftAlloyIngot).key('e', ECBlocks.extractor).patternLine(" e ").patternLine("eie")
 				.patternLine("wcw").build(consumer);
+		prepareInstrumentRecipe(ECBlocks.evaporator).key('i', Tags.Items.INGOTS_IRON).key('g', Tags.Items.GLASS).key('d', Tags.Items.GEMS_DIAMOND).patternLine("idi").patternLine("igi")
+				.patternLine("ici").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.infuser).key('i', Tags.Items.INGOTS_IRON).key('n', Tags.Items.NUGGETS_IRON).patternLine("n n").patternLine("ici").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.binder).key('i', ECItems.drenchedIronIngot).patternLine("i i").patternLine("wcw").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.pureInfuser).key('i', ECItems.swiftAlloyIngot).key('n', ECBlocks.infuser).patternLine("wnw").patternLine("ici").patternLine("www").build(consumer);

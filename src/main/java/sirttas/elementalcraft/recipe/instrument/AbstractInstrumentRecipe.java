@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.recipe.instrument;
 
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 
 public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements IInstrumentRecipe<T> {

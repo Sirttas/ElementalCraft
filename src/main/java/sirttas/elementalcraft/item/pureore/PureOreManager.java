@@ -19,13 +19,13 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.pureore.PureOreInjectorIMCMessage;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -125,22 +125,18 @@ public class PureOreManager {
 		pureOres.put(entry.ore, entry);
 	}
 
-	public String buildRecipeId(ResourceLocation source) {
-		return source.getNamespace() + "_pure_" + source.getPath().replace('/', '_');
-	}
-
 	private FurnaceRecipe buildSmeltingRecipe(FurnaceRecipe sourceRecipe, Ingredient ingredient) {
-		return new FurnaceRecipe(ElementalCraft.createRL(buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(), sourceRecipe.getExperience(),
-				sourceRecipe.getCookTime());
+		return new FurnaceRecipe(ElementalCraft.createRL(PureOreInjectorIMCMessage.buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
+				sourceRecipe.getExperience(), sourceRecipe.getCookTime());
 	}
 
 	private BlastingRecipe buildBlastingRecipe(BlastingRecipe sourceRecipe, Ingredient ingredient) {
-		return new BlastingRecipe(ElementalCraft.createRL(buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(), sourceRecipe.getExperience(),
-				sourceRecipe.getCookTime());
+		return new BlastingRecipe(ElementalCraft.createRL(PureOreInjectorIMCMessage.buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
+				sourceRecipe.getExperience(), sourceRecipe.getCookTime());
 	}
 
 	private CampfireCookingRecipe buildCampFireRecipe(CampfireCookingRecipe sourceRecipe, Ingredient ingredient) {
-		return new CampfireCookingRecipe(ElementalCraft.createRL(buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
+		return new CampfireCookingRecipe(ElementalCraft.createRL(PureOreInjectorIMCMessage.buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
 				sourceRecipe.getExperience(), sourceRecipe.getCookTime());
 	}
 

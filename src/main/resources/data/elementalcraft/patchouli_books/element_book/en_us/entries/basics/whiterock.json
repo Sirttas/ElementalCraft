@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/infuser",
   "turnin": "elementalcraft:pickup/whiterock",
   "priority": true,
-  "sortnum": 4,
+  "sortnum": 5,
   "pages": [
     {
       "type": "text",

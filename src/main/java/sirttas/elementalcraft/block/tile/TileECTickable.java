@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.tile;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.network.NetworkHelper;
 import sirttas.elementalcraft.tag.ECTags;

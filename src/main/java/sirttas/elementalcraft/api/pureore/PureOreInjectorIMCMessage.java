@@ -9,7 +9,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.ElementalCraft;
 
 public class PureOreInjectorIMCMessage<C extends IInventory, T extends IRecipe<C>> {
 
@@ -31,7 +30,7 @@ public class PureOreInjectorIMCMessage<C extends IInventory, T extends IRecipe<C
 	}
 
 	public static String buildRecipeId(ResourceLocation source) {
-		return ElementalCraft.PURE_ORE_MANAGER.buildRecipeId(source);
+		return source.getNamespace() + "_pure_" + source.getPath().replace('/', '_');
 	}
 
 	public PureOreInjectorIMCMessage<C, T> filter(BiPredicate<T, ItemStack> filter) {

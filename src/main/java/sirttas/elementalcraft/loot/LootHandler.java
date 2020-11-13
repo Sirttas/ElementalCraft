@@ -1,10 +1,12 @@
 package sirttas.elementalcraft.loot;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.loot.LootEntry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
@@ -17,26 +19,33 @@ import sirttas.elementalcraft.ElementalCraft;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public final class LootHandler {
 
-	private static final String PREFIX = "minecraft:chests/";
 	private static final List<String> BLACKLIST = ImmutableList.of("dispenser");
+	private static final List<String> INJECT_lIST = ImmutableList.<String>builder()
+			.addAll(getInjects(EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.SILVERFISH, EntityType.IRON_GOLEM, EntityType.SKELETON_HORSE,
+					EntityType.CREEPER, EntityType.GHAST, EntityType.BLAZE, EntityType.HUSK, EntityType.MAGMA_CUBE, EntityType.ZOMBIFIED_PIGLIN, EntityType.ZOGLIN, EntityType.DROWNED,
+					EntityType.GUARDIAN, EntityType.ELDER_GUARDIAN, EntityType.SLIME, EntityType.STRAY, EntityType.SQUID, EntityType.ENDERMAN, EntityType.SPIDER, EntityType.CAVE_SPIDER,
+					EntityType.PHANTOM, EntityType.SHULKER))
+			.build();
+
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void lootLoad(LootTableLoadEvent evt) {
-		String name = evt.getName().toString();
+		ResourceLocation name = evt.getName();
+		ResourceLocation injectName = ElementalCraft.createRL("inject/" + name.getPath());
 
-		if (name.startsWith(PREFIX) && BLACKLIST.stream().anyMatch(name::contains)) {
-			evt.getTable().addPool(getInjectPool("chests/inject"));
+		if (INJECT_lIST.contains(name.getPath())) {
+			evt.getTable().addPool(getInjectPool(injectName));
+		} else if (name.toString().startsWith("minecraft:chests/") && BLACKLIST.stream().anyMatch(name.toString()::contains)) {
+			evt.getTable().addPool(getInjectPool(ElementalCraft.createRL("chests/inject")));
 		}
 	}
 
-	public static LootPool getInjectPool(String entryName) {
-		return LootPool.builder().addEntry(getInjectEntry(entryName, 1)).bonusRolls(0, 1).name("elementalcraft_inject").build();
+	public static LootPool getInjectPool(ResourceLocation name) {
+		return LootPool.builder().addEntry(TableLootEntry.builder(name).weight(1)).bonusRolls(0, 1).name("elementalcraft_inject").build();
 	}
 
-	private static LootEntry.Builder<?> getInjectEntry(String name, int weight) {
-		ResourceLocation table = ElementalCraft.createRL(name);
-
-		return TableLootEntry.builder(table).weight(weight);
+	private static List<String> getInjects(EntityType<?>... types) {
+		return Stream.of(types).map(type -> type.getLootTable().getPath()).collect(Collectors.toList());
 	}
 
 }

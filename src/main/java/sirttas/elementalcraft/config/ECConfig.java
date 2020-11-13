@@ -63,11 +63,13 @@ public class ECConfig {
 		public final IntValue tankSmallCapacity;
 		public final IntValue extractorExtractionAmount;
 		public final IntValue improvedExtractorExtractionAmount;
+		public final IntValue evaporatorExtractionAmount;
 		public final IntValue fireFurnaceConsumeAmount;
 		public final IntValue fireBlastFurnaceConsumeAmount;
 		public final BooleanValue binderRecipeMatchOrder;
 		public final IntValue purifierConsumeAmount;
 		public final IntValue purifierDuration;
+		public final IntValue pureOreMultiplier;
 		public final BooleanValue pureOreRecipeInjection;
 		public final BooleanValue pureOreSmeltingRecipe;
 		public final BooleanValue pureOreBlastingRecipe;
@@ -82,6 +84,7 @@ public class ECConfig {
 		public final IntValue elementHolderTransferAmount;
 		public final IntValue focusMaxSpell;
 		public final IntValue spellBookMaxSpell;
+		public final IntValue shardElementAmount;
 
 		public final BooleanValue disableWorldGen;
 		public final IntValue sourceSpawnChance;
@@ -150,6 +153,8 @@ public class ECConfig {
 			builder.pop().push("extractor");
 			extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
 			improvedExtractorExtractionAmount = builder.comment("The amount of element extracted by an improved extractor.").defineInRange("improvedExtractorExtractionAmount", 25, 0, 500);
+			builder.pop().push("evaporator");
+			evaporatorExtractionAmount = builder.comment("The amount of element extracted by an evaporator.").defineInRange("extractorExtractionAmount", 1, 0, 100);
 			builder.pop().push("fireFurnace");
 			fireFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Furnace per tick.").defineInRange("fireFurnaceConsumeAmount", 10, 0, 500);
 			fireBlastFurnaceConsumeAmount = builder.comment("The amount of element consumed by the Fire Blast Furnace per tick.").defineInRange("fireBlastFurnaceConsumeAmount", 20, 0, 500);
@@ -159,6 +164,7 @@ public class ECConfig {
 			purifierConsumeAmount = builder.comment("The amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierConsumeAmount", 25, 0, 1000);
 			purifierDuration = builder.comment("The nember of tick for a Ore Purifier co procces one item.").defineInRange("purifierDuration", 100, 0, 2400);
 			builder.push("pureOre");
+			pureOreMultiplier = builder.comment("The number of outpet pure ores by a purifier.").defineInRange("pureOreMultiplier", 2, 1, 20);
 			pureOreRecipeInjection = builder.comment("Set to false if you want to manualy manage processing of pure ore.").define("pureOreRecipeInjection", true);
 			pureOreSmeltingRecipe = builder.comment("Set to false if you want pure ore to not use smelting recipes.").define("pureOreSmeltingRecipe", true);
 			pureOreBlastingRecipe = builder.comment("Set to false if you want pure ore to not use blasting recipes.").define("pureOreBlastingRecipe", true);
@@ -176,6 +182,7 @@ public class ECConfig {
 			focusMaxSpell = builder.comment("The max number of spells on a focus.").defineInRange("focusMaxSpell", 10, 1, 20);
 			spellBookMaxSpell = builder.comment("The max number of spells on an elementalist grimoire.").defineInRange("spellBookMaxSpell", 100, 1, 1000);
 			playersSpawnWithBook = builder.comment("Players start the game with an elementopedia in their inventory.").define("playersSpawnWithBook", false);
+			shardElementAmount = builder.comment("The amount of element contained in a single shard.").defineInRange("shardElementAmount", 100, 0, 1000);
 			
 			builder.pop().comment("Worldgen config").push("worldgen");
 			disableWorldGen = builder.comment("Disable all elementalcraft world gen.").define("disableWorldGen", false);

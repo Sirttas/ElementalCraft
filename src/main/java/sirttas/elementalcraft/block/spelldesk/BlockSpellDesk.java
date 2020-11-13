@@ -28,7 +28,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.particle.ParticleHelper;

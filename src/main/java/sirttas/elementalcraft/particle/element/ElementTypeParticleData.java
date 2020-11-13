@@ -7,7 +7,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 
 public class ElementTypeParticleData implements IParticleData {
 

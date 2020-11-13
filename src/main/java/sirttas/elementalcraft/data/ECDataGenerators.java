@@ -8,6 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.data.loot.ECBlockLootProvider;
 import sirttas.elementalcraft.data.loot.ECChestLootProvider;
+import sirttas.elementalcraft.data.loot.ECInjectLootProvider;
 import sirttas.elementalcraft.data.recipe.ECRecipeProvider;
 import sirttas.elementalcraft.data.tag.ECBlockTagsProvider;
 import sirttas.elementalcraft.data.tag.ECItemTagsProvider;
@@ -25,6 +26,7 @@ public class ECDataGenerators {
 
 			generator.addProvider(new ECBlockLootProvider(generator));
 			generator.addProvider(new ECChestLootProvider(generator));
+			generator.addProvider(new ECInjectLootProvider(generator));
 			generator.addProvider(new ECBlockStateProvider(generator, fileHelper));
 			generator.addProvider(new ECItemModelProvider(generator, fileHelper));
 			generator.addProvider(blockTagsProvider);

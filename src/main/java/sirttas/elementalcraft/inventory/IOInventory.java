@@ -2,7 +2,6 @@ package sirttas.elementalcraft.inventory;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -77,11 +76,6 @@ public class IOInventory extends SynchronizableInventory implements INBTSerializ
 
 		setInventorySlotContents(index, ItemStack.EMPTY);
 		return ret;
-	}
-
-	@Override
-	public boolean isUsableByPlayer(PlayerEntity player) {
-		return true;
 	}
 
 	@Override

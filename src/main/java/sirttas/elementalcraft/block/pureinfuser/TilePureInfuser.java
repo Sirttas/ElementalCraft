@@ -9,8 +9,8 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
@@ -139,7 +139,9 @@ public class TilePureInfuser extends TileECContainer {
 
 		if (pedestal != null) {
 			pedestal.consumeElement(elementPerTick);
-			ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
+			if (world.isRemote) {
+				ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
+			}
 		}
 	}
 

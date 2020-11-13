@@ -10,13 +10,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementType;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 
-@OnlyIn(Dist.CLIENT)
 public class ParticleHelper {
 	public static void createSourceParticle(ElementType type, World world, Vector3d pos, Random rand) {
 		double x = pos.getX() + (rand.nextDouble() * 2 - 1) * BlockEC.BIT_SIZE;

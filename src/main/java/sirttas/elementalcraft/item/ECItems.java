@@ -7,9 +7,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftTab;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.BlockCrystalOre;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
@@ -87,6 +87,10 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":air_silk") public static ItemEC airSilk;
 	@ObjectHolder(ElementalCraft.MODID + ":shrine_upgrade_core") public static ItemEC shrineUpgradeCore;
 	@ObjectHolder(ElementalCraft.MODID + ":scroll_paper") public static ItemEC scrollPaper;
+	@ObjectHolder(ElementalCraft.MODID + ":fire_shard") public static ItemEC fireShard;
+	@ObjectHolder(ElementalCraft.MODID + ":water_shard") public static ItemEC waterShard;
+	@ObjectHolder(ElementalCraft.MODID + ":earth_shard") public static ItemEC earthShard;
+	@ObjectHolder(ElementalCraft.MODID + ":air_shard") public static ItemEC airShard;
 
 	/** BLOCKS */
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static Item tankSmall;
@@ -175,6 +179,10 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "air_silk");
 		RegistryHelper.register(registry, new ItemEC(), "shrine_upgrade_core");
 		RegistryHelper.register(registry, new ItemEC(), "scroll_paper");
+		RegistryHelper.register(registry, new ItemEC(), "fire_shard");
+		RegistryHelper.register(registry, new ItemEC(), "water_shard");
+		RegistryHelper.register(registry, new ItemEC(), "earth_shard");
+		RegistryHelper.register(registry, new ItemEC(), "air_shard");
 
 		// TODO add tools
 	}
@@ -202,6 +210,21 @@ public class ECItems {
 		}
 	}
 
+	public static ItemEC getShardForType(ElementType type) {
+		switch (type) {
+		case AIR:
+			return airShard;
+		case EARTH:
+			return earthShard;
+		case FIRE:
+			return fireShard;
+		case WATER:
+			return waterShard;
+		default:
+			throw new IllegalArgumentException("Element Type must not be NONE");
+		}
+	}
+
 	public static ElementType getTypeFromCrystal(Item crystal) {
 		if (crystal == ECItems.fireCrystal) {
 			return ElementType.FIRE;
@@ -210,6 +233,19 @@ public class ECItems {
 		} else if (crystal == ECItems.earthCrystal) {
 			return ElementType.EARTH;
 		} else if (crystal == ECItems.airCrystal) {
+			return ElementType.AIR;
+		}
+		return ElementType.NONE;
+	}
+
+	public static ElementType getTypeFromShard(Item shard) {
+		if (shard == ECItems.fireShard) {
+			return ElementType.FIRE;
+		} else if (shard == ECItems.waterShard) {
+			return ElementType.WATER;
+		} else if (shard == ECItems.earthShard) {
+			return ElementType.EARTH;
+		} else if (shard == ECItems.airShard) {
 			return ElementType.AIR;
 		}
 		return ElementType.NONE;

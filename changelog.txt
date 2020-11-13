@@ -1,3 +1,13 @@
+1.16.3-2.4.7:
+
+- new instrument: evaporator
+- new items: raw element shards
+- update some Elementopedia entries
+- pure ore output amount can be changed in config with pureOreMultiplier
+- fix a bug preventing to extract purifier input
+- fix a dedicated server crash
+
+
 1.16.3-2.4.6:
 
 - added mekanism interaction

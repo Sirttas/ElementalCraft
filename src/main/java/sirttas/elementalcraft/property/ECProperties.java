@@ -7,8 +7,8 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
 import net.minecraftforge.common.ToolType;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraftTab;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.nbt.ECNames;
 

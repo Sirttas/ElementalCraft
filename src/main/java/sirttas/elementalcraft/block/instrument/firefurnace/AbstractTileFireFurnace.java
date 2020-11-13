@@ -59,13 +59,15 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 
 	@Override
 	protected void onProgress() {
-		Random rand = world.rand;
-		double x = pos.getX() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
-		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
-		double z = pos.getZ() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
+		if (world.isRemote) {
+			Random rand = world.rand;
+			double x = pos.getX() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
+			double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
+			double z = pos.getZ() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
 
-		world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
-		world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
+			world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+			world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);
+		}
 		super.onProgress();
 	}
 

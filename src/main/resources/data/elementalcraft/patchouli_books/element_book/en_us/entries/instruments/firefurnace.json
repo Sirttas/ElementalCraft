@@ -4,7 +4,7 @@
   "icon": "elementalcraft:firefurnace",
   "advancement": "elementalcraft:pickup/tank",
   "turnin": "elementalcraft:pickup/firefurnace",
-  "sortnum": 5,
+  "sortnum": 6,
   "pages": [
     {
       "type": "text",

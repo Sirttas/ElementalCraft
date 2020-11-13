@@ -3,8 +3,8 @@
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:element_holder_air",
   "advancement": "elementalcraft:pickup/drenched_iron_ingot",
-  "turnin": "elementalcraft:pickup/drenched_iron",
-  "sortnum": 5,
+  "turnin": "elementalcraft:pickup/drenched_iron_ingot",
+  "sortnum": 6,
   "pages": [
     {
       "type": "text",

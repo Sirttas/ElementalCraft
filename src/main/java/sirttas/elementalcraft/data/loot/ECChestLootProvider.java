@@ -15,8 +15,8 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.RandomValueRange;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.ElementType;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.loot.function.RandomSpell;
@@ -53,6 +53,10 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 				.addEntry(ItemLootEntry.builder(ECItems.earthCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
 				.addEntry(ItemLootEntry.builder(ECItems.waterCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
 				.addEntry(ItemLootEntry.builder(ECItems.airCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
+				.addEntry(ItemLootEntry.builder(ECItems.fireShard).acceptFunction(SetCount.builder(RandomValueRange.of(3, 8))).weight(5))
+				.addEntry(ItemLootEntry.builder(ECItems.waterShard).acceptFunction(SetCount.builder(RandomValueRange.of(3, 8))).weight(5))
+				.addEntry(ItemLootEntry.builder(ECItems.earthShard).acceptFunction(SetCount.builder(RandomValueRange.of(3, 8))).weight(5))
+				.addEntry(ItemLootEntry.builder(ECItems.airShard).acceptFunction(SetCount.builder(RandomValueRange.of(3, 8))).weight(5))
 				.addEntry(ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder()).weight(15));
 	}
 
@@ -77,6 +81,7 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 		return addVanilla(LootTable.builder().addLootPool(genBase(range)
 				.addEntry(ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
 				.addEntry(ItemLootEntry.builder(ECItems.getCrystalForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40))
+				.addEntry(ItemLootEntry.builder(ECItems.getShardForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(4, 10))).weight(20))
 				.addEntry(ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(type)).weight(15))));
 	}
 	

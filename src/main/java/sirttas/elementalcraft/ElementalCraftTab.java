@@ -26,6 +26,7 @@ public class ElementalCraftTab extends ItemGroup {
 	public void fill(@Nonnull NonNullList<ItemStack> list) {
 		addItem(ECBlocks.extractor, list);
 		addItem(ECBlocks.improvedExtractor, list);
+		addItem(ECBlocks.evaporator, list);
 		addItem(ECBlocks.infuser, list);
 		addItem(ECBlocks.binder, list);
 		addItem(ECBlocks.firePedestal, list);
@@ -103,6 +104,10 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.scrollPaper, list);
 		addItem(ECItems.shrineBase, list);
 		addItem(ECItems.shrineUpgradeCore, list);
+		addItem(ECItems.fireShard, list);
+		addItem(ECItems.waterShard, list);
+		addItem(ECItems.earthShard, list);
+		addItem(ECItems.airShard, list);
 	}
 
 	private void addItem(IItemProvider item, @Nonnull NonNullList<ItemStack> list) {
