@@ -1,3 +1,15 @@
+1.16.3-2.4.8:
+
+- new block: boneless growth shrine upgrade
+- ore shrine now spawn ore one block above itself
+- increased vacuum shrine collection range and made it affected by shrine upgrades
+- scrolls crafted in spell desk now spawn on player
+- add water shard to polar bear, dolphin ad fish loot table
+- add more tooltip informations to some shrine upgrades
+- fix pure infuser particle effect
+- fix a desync bug
+
+
 1.16.3-2.4.7:
 
 - new instrument: evaporator
@@ -5,7 +17,7 @@
 - update some Elementopedia entries
 - pure ore output amount can be changed in config with pureOreMultiplier
 - fix a bug preventing to extract purifier input
-- fix a dedicated server crash
+- fix a dedicated server crash (issue #15)
 
 
 1.16.3-2.4.6:

@@ -31,6 +31,7 @@ import sirttas.elementalcraft.block.shrine.lava.BlockLavaShrine;
 import sirttas.elementalcraft.block.shrine.ore.BlockOreShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.BlockBonelessGrowthShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockEfficiencyShrineUpgrade;
@@ -129,6 +130,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFortuneShrineUpgrade.NAME) public static Item fortuneShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static Item silkTouchShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static Item plantingShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static Item BonelseeGrowthShrineUpgrade;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static Item source;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystalOre.NAME) public static Item crystalOre;

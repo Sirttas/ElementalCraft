@@ -60,6 +60,7 @@ import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.shrine.overload.TileOverloadShrine;
 import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
 import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.BlockBonelessGrowthShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockEfficiencyShrineUpgrade;
@@ -127,6 +128,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFortuneShrineUpgrade.NAME) public static BlockFortuneShrineUpgrade fortuneShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static BlockSilkTouchShrineUpgrade silkTouchShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static BlockPlantingShrineUpgrade plantingShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static BlockBonelessGrowthShrineUpgrade bonelessGrowthShrineUpgrade;
 
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
@@ -186,6 +188,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockFortuneShrineUpgrade(), BlockFortuneShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockSilkTouchShrineUpgrade(), BlockSilkTouchShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockPlantingShrineUpgrade(), BlockPlantingShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockBonelessGrowthShrineUpgrade(), BlockBonelessGrowthShrineUpgrade.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
 		RegistryHelper.register(registry, new BlockCrystalOre(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), BlockCrystalOre.NAME);

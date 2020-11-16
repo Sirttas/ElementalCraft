@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class TileGrowthShrine extends TileShrine {
@@ -32,17 +33,19 @@ public class TileGrowthShrine extends TileShrine {
 
 		return IntStream.range(-range, range + 1)
 				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, 4).mapToObj(y -> new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> {
-					BlockState blockstate = world.getBlockState(p);
-					Block block = blockstate.getBlock();
+				.flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canGrow).findAny();
+	}
 
-					if (block instanceof IGrowable) {
-						IGrowable igrowable = (IGrowable) block;
+	private boolean canGrow(BlockPos pos) {
+		BlockState blockstate = world.getBlockState(pos);
+		Block block = blockstate.getBlock();
 
-						return igrowable.canGrow(world, p, blockstate, world.isRemote) && igrowable.canUseBonemeal(world, world.rand, p, blockstate);
-					}
-					return false;
-				}).findAny();
+		if (block instanceof IGrowable) {
+			IGrowable igrowable = (IGrowable) block;
+
+			return igrowable.canGrow(world, pos, blockstate, world.isRemote) && (igrowable.canUseBonemeal(world, world.rand, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH.get()));
+		}
+		return false;
 	}
 
 	@Override
