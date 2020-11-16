@@ -1,0 +1,16 @@
+{
+  "max_amount": 1,
+  "predicate": {
+    "block": "elementalcraft:growthshrine"
+  },
+  "bonuses": [
+    {
+      "type": "speed",
+      "multiplier": 2.0
+    },
+    {
+      "type": "element_consuption",
+      "multiplier": 3.0
+    }
+  ]
+}

@@ -97,6 +97,7 @@
   "block.elementalcraft.shrine_upgrade_fortune": "Fortune Shrine Upgrade",
   "block.elementalcraft.shrine_upgrade_silk_touch": "Silk Touch Shrine Upgrade",
   "block.elementalcraft.shrine_upgrade_planting": "Planting Shrine Upgrade",
+  "block.elementalcraft.shrine_upgrade_boneless_growth": "Boneless Growth Shrine Upgrade",
 
   "block.elementalcraft.crystalore": "Inert Crystal Ore",
   "block.elementalcraft.whiterock": "White Rock",
@@ -158,6 +159,9 @@
   "tooltip.elemntalcraft.element_amount.2": "Medium Amount",
   "tooltip.elemntalcraft.element_amount.3": "Hight Amount",
   "tooltip.elemntalcraft.element_amount.4": "Huge Amount",
+  
+  "tooltip.elementalcraft.planting": "Plant back harvested crops",
+  "tooltip.elementalcraft.boneless_growth": "Can grow crops that don't accept bonemeal",
 
   "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().",
 

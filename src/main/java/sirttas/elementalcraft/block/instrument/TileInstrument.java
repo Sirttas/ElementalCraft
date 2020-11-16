@@ -27,11 +27,12 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 		if (recipe != null && recipe.matches(this)) {
 			return true;
 		}
+		recipe = this.lookupRecipe();
 		if (recipe != null) {
 			this.forceSync();
+			return true;
 		}
-		recipe = this.lookupRecipe();
-		return recipe != null;
+		return false;
 	}
 
 	protected abstract <T extends IInstrument> IInstrumentRecipe<T> lookupRecipe();

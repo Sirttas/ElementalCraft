@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bhb",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "b": {
+      "item": "minecraft:bone_block"
+    },
+    "h": {
+      "tag": "forge:gems/diamond"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_boneless_growth"
+  }
+}

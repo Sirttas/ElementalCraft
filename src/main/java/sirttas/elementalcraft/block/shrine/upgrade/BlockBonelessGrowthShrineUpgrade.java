@@ -20,22 +20,23 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockPlantingShrineUpgrade extends BlockShrineUpgrade {
+public class BlockBonelessGrowthShrineUpgrade extends BlockShrineUpgrade {
 
-	public static final String NAME = "shrine_upgrade_planting";
+	public static final String NAME = "shrine_upgrade_boneless_growth";
 
-	private static final VoxelShape BASE_1 = Block.makeCuboidShape(6D, 14D, 6D, 10D, 16D, 10D);
-	private static final VoxelShape BASE_2 = Block.makeCuboidShape(2D, 12D, 2D, 14D, 14D, 14D);
-	private static final VoxelShape PIPE_1 = Block.makeCuboidShape(13D, 11D, 1D, 15D, 18D, 3D);
-	private static final VoxelShape PIPE_2 = Block.makeCuboidShape(13D, 11D, 13D, 15D, 18D, 15D);
-	private static final VoxelShape PIPE_3 = Block.makeCuboidShape(1D, 11D, 13D, 3D, 18D, 15D);
-	private static final VoxelShape PIPE_4 = Block.makeCuboidShape(1D, 11D, 1D, 3D, 18D, 3D);
+	private static final VoxelShape BASE_1 = Block.makeCuboidShape(3D, 3D, 3D, 13D, 5D, 13D);
+	private static final VoxelShape BASE_2 = Block.makeCuboidShape(5D, 5D, 5D, 11D, 8D, 11D);
+	private static final VoxelShape PIPE_1 = Block.makeCuboidShape(7D, 0D, 7D, 9D, 3D, 9D);
+	private static final VoxelShape PIPE_2 = Block.makeCuboidShape(7D, -1D, 4D, 9D, 3D, 6D);
+	private static final VoxelShape PIPE_3 = Block.makeCuboidShape(7D, -1D, 10D, 9D, 3D, 12D);
+	private static final VoxelShape PIPE_4 = Block.makeCuboidShape(4D, -1D, 7D, 6D, 3D, 9D);
+	private static final VoxelShape PIPE_5 = Block.makeCuboidShape(10D, -1D, 7D, 12D, 3D, 9D);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
+	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_5);
 
 	@Override
 	public Direction getFacing(BlockState state) {
-		return Direction.UP;
+		return Direction.DOWN;
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class BlockPlantingShrineUpgrade extends BlockShrineUpgrade {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.planting").mergeStyle(TextFormatting.BLUE));
+		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.boneless_growth").mergeStyle(TextFormatting.BLUE));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 }

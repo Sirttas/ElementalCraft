@@ -42,7 +42,7 @@ public class SpellTreeFall extends Spell {
 	public ActionResultType castOnBlock(Entity sender, BlockPos target) {
 		World world = sender.getEntityWorld();
 
-		if (isValidBlock(world.getBlockState(target).getBlock())) {
+		if (!world.isRemote && isValidBlock(world.getBlockState(target).getBlock())) {
 			cutTree(world, target);
 			return ActionResultType.SUCCESS;
 		}

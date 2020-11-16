@@ -68,9 +68,9 @@ public class TileOreShrine extends TileShrine {
 					ItemStack pickaxe = new ItemStack(Items.NETHERITE_PICKAXE);
 
 					pickaxe.addEnchantment(Enchantments.FORTUNE, fortune);
-					LootHelper.getDrops((ServerWorld) this.world, p, pickaxe).forEach(s -> Block.spawnAsEntity(this.world, this.pos, s));
+					LootHelper.getDrops((ServerWorld) this.world, p, pickaxe).forEach(s -> Block.spawnAsEntity(this.world, this.pos.up(), s));
 				} else {
-					LootHelper.getDrops((ServerWorld) this.world, p, isSilkTouch()).forEach(s -> Block.spawnAsEntity(this.world, this.pos, s));
+					LootHelper.getDrops((ServerWorld) this.world, p, isSilkTouch()).forEach(s -> Block.spawnAsEntity(this.world, this.pos.up(), s));
 				}
 				this.world.setBlockState(p, Blocks.STONE.getDefaultState());
 				return true;

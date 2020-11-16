@@ -2,6 +2,7 @@ package sirttas.elementalcraft.data.loot;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
@@ -16,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.loot.LootHandler;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 
 /**
@@ -52,6 +54,11 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 		save(cache, genShard(ElementType.WATER), EntityType.SLIME);
 		save(cache, genShard(ElementType.WATER), EntityType.STRAY);
 		save(cache, genShard(ElementType.WATER), EntityType.SQUID);
+		save(cache, genShard(ElementType.WATER), EntityType.POLAR_BEAR);
+		save(cache, genShard(ElementType.WATER), EntityType.DOLPHIN);
+		save(cache, genShard(ElementType.WATER), EntityType.COD);
+		save(cache, genShard(ElementType.WATER), EntityType.SALMON);
+		save(cache, genShard(ElementType.WATER), EntityType.TROPICAL_FISH);
 		save(cache, genShard(ElementType.AIR), EntityType.ENDERMAN);
 		save(cache, genShard(ElementType.AIR), EntityType.SPIDER);
 		save(cache, genShard(ElementType.AIR), EntityType.CAVE_SPIDER);
@@ -68,6 +75,9 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	private void save(DirectoryCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
+		if (!LootHandler.INJECT_lIST.contains(location.getPath())) {
+			throw new IllegalStateException(MessageFormat.format("{} is not present in LootHandler.INJECT_lIST and will not be injected at runtime!", location));
+		}
 		save(cache, builder, getPath(location));
 	}
 

@@ -36,17 +36,17 @@ public class TilePureInfuser extends TileECContainer {
 		return progress > 0;
 	}
 
-	public boolean isReciptAvalable() {
+	public boolean isRecipeAvailable() {
 		if (recipe != null && recipe.matches(this)) {
 			return true;
 		}
+		recipe = this.getWorld().getRecipeManager().getRecipe(PureInfusionRecipe.TYPE, InventoryTileWrapper.from(this), this.getWorld()).orElse(null);
 		if (recipe != null) {
 			this.forceSync();
+			return true;
 		}
-		recipe = this.getWorld().getRecipeManager().getRecipe(PureInfusionRecipe.TYPE, InventoryTileWrapper.from(this), this.getWorld()).orElse(null);
-		return recipe != null;
+		return false;
 	}
-
 
 	public void process() {
 		recipe.process(this);
@@ -68,7 +68,7 @@ public class TilePureInfuser extends TileECContainer {
 		if (recipe != null && progress >= recipe.getDuration()) {
 			process();
 			progress = 0;
-		} else if (this.isReciptAvalable() && canConsume(Direction.NORTH) && canConsume(Direction.SOUTH) && canConsume(Direction.WEST) && canConsume(Direction.EAST)) {
+		} else if (this.isRecipeAvailable() && canConsume(Direction.NORTH) && canConsume(Direction.SOUTH) && canConsume(Direction.WEST) && canConsume(Direction.EAST)) {
 			consume(Direction.NORTH);
 			consume(Direction.SOUTH);
 			consume(Direction.WEST);
@@ -140,7 +140,7 @@ public class TilePureInfuser extends TileECContainer {
 		if (pedestal != null) {
 			pedestal.consumeElement(elementPerTick);
 			if (world.isRemote) {
-				ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pos.offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
+				ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pedestal.getPos().offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
 			}
 		}
 	}

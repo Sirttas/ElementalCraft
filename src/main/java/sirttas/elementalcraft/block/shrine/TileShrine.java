@@ -128,7 +128,11 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 				Block block = state.getBlock();
 
 				if (block instanceof BlockShrineUpgrade) {
-					setUpgrade(direction, ((BlockShrineUpgrade) block).getUpgrade());
+					ShrineUpgrade upgrade = ((BlockShrineUpgrade) block).getUpgrade();
+
+					if (upgrade != null) {
+						setUpgrade(direction, upgrade);
+					}
 				}
 			});
 		}

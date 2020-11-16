@@ -126,7 +126,7 @@ public class BlockSpellDesk extends BlockEC {
 			
 			SpellHelper.setSpell(scroll, spell);
 			if (!world.isRemote()) {
-				world.addEntity(new ItemEntity(world, position.getX(), position.getY(), position.getZ(), scroll));
+				world.addEntity(new ItemEntity(world, player.getPosX(), player.getPosY(), player.getPosZ(), scroll));
 			} else {
 				ParticleHelper.createCraftingParticle(type, world, Vector3d.copyCentered(pos).add(0, 0.7, 0), rand);
 			}
