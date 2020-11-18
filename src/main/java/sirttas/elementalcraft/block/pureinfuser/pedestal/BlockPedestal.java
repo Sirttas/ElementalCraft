@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.pureinfuser;
+package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

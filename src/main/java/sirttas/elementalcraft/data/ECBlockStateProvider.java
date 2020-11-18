@@ -24,7 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
-import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
+import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;

@@ -12,8 +12,6 @@ import net.minecraft.data.IDataProvider;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.shrine.upgrade.BlockBonelessGrowthShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShrineUpgrade;
@@ -23,6 +21,9 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockRangeShrineU
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.BlockAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessGrowthShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class ShrineUpgradeProvider implements IDataProvider {
@@ -40,8 +41,11 @@ public class ShrineUpgradeProvider implements IDataProvider {
 		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.oreShrine).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F)
 				.incompatibleWith(ElementalCraft.createRL(BlockSilkTouchShrineUpgrade.NAME)), BlockFortuneShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.harvestShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F), BlockPlantingShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.growthShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F).addBonus(BonusType.SPEED, 2F),
+		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.growthShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 4F),
 				BlockBonelessGrowthShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().block(ECBlocks.vacuumShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 500F).addBonus(BonusType.SPEED, 20F).addBonus(BonusType.RANGE,
+				0.5F),
+				BlockPickupShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).addBonus(BonusType.SPEED, 0.5F), BlockAccelerationShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().tag(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).addBonus(BonusType.RANGE, 1.5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).addBonus(BonusType.SPEED,
 				1.2F), BlockRangeShrineUpgrade.NAME);

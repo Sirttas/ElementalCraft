@@ -13,7 +13,6 @@ import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleStackInventory;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.ECNames;
 
 public class TileEvaporator extends TileECContainer implements IElementStorage {
@@ -34,7 +33,7 @@ public class TileEvaporator extends TileECContainer implements IElementStorage {
 	@Override
 	public void tick() {
 		ItemStack stack = inventory.getStackInSlot(0);
-		ElementType type = ECItems.getTypeFromShard(stack.getItem());
+		ElementType type = BlockEvaporator.getTypeFromShard(stack.getItem());
 		int shardAmount = ECConfig.COMMON.evaporatorExtractionAmount.get();
 
 		super.tick();

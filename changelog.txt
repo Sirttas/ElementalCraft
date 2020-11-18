@@ -1,3 +1,17 @@
+1.16.3-2.4.9:
+
+- new block: pickup shrine upgrade
+- nerf boneless growth shrine upgrade
+- boneless growth shrine upgrade now require a pure crystal
+- growth shrine now act on a random crops
+- gauge is now hidden in third person
+- add water shard to pufferfish loot table
+- fix a desync bug
+- fix some Elementopedia entries
+- fix config not generating
+- fix a bug with pure ore generation where ore would be wrongly matched together (issue #14)
+
+
 1.16.3-2.4.8:
 
 - new block: boneless growth shrine upgrade

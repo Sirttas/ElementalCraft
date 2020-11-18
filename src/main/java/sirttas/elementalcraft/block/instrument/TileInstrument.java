@@ -39,9 +39,11 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 
 	@Override
 	public void process() {
-		recipe.process(this);
+		if (!world.isRemote) {
+			recipe.process(this);
+			BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
+		}
 		recipe = null;
-		BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
 		this.forceSync();
 	}
 

@@ -80,8 +80,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	private static LootTable.Builder genWithType(IRandomRange range, ElementType type) {
 		return addVanilla(LootTable.builder().addLootPool(genBase(range)
 				.addEntry(ItemLootEntry.builder(ECItems.inertCrystal).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
-				.addEntry(ItemLootEntry.builder(ECItems.getCrystalForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40))
-				.addEntry(ItemLootEntry.builder(ECItems.getShardForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(4, 10))).weight(20))
+				.addEntry(ItemLootEntry.builder(getCrystalForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(1, 6))).weight(40))
+				.addEntry(ItemLootEntry.builder(getShardForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(4, 10))).weight(20))
 				.addEntry(ItemLootEntry.builder(ECItems.scroll).acceptFunction(RandomSpell.builder(type)).weight(15))));
 	}
 	

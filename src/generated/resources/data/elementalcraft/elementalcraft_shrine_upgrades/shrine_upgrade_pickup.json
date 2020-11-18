@@ -1,0 +1,20 @@
+{
+  "max_amount": 1,
+  "predicate": {
+    "block": "elementalcraft:vacuumshrine"
+  },
+  "bonuses": [
+    {
+      "type": "speed",
+      "multiplier": 20.0
+    },
+    {
+      "type": "element_consuption",
+      "multiplier": 500.0
+    },
+    {
+      "type": "range",
+      "multiplier": 0.5
+    }
+  ]
+}

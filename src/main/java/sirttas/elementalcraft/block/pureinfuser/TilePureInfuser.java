@@ -11,6 +11,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.pureinfuser.pedestal.TilePedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
@@ -49,13 +50,14 @@ public class TilePureInfuser extends TileECContainer {
 	}
 
 	public void process() {
-		recipe.process(this);
-		recipe = null;
-		BlockRetriever.sendOutputToRetriever(world, pos, inventory, 0);
-		this.forceSync();
 		if (this.world.isRemote) {
 			ParticleHelper.createCraftingParticle(ElementType.NONE, world, Vector3d.copyCentered(pos).add(0, 0.7, 0), world.rand);
+		} else {
+			recipe.process(this);
+			BlockRetriever.sendOutputToRetriever(world, pos, inventory, 0);
 		}
+		recipe = null;
+		this.forceSync();
 	}
 
 	@Override

@@ -175,9 +175,11 @@ public class PureOreManager {
 			if (ECInventoryHelper.stackEqualCount(other.result, result)) {
 				return true;
 			}
-			for (IRecipe<?> recipe : other.recipes.values()) {
-				if (recipes.containsValue(recipe)) {
-					return true;
+			if (other.recipes.size() > 0 && recipes.size() > 0) {
+				for (IRecipe<?> recipe : other.recipes.values()) {
+					if (recipes.containsValue(recipe)) {
+						return true;
+					}
 				}
 			}
 			return false;

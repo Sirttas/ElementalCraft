@@ -35,9 +35,9 @@ public abstract class BlockECContainer extends BlockECTileProvider {
 
 		if (heldItem.isEmpty() || player.isSneaking() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem, slot))) {
 			if (!stack.isEmpty()) {
-				ItemStack extracted = inventory.extractItem(slot, stack.getCount(), false);
-
 				if (!world.isRemote()) {
+					ItemStack extracted = inventory.extractItem(slot, stack.getCount(), false);
+
 					world.addEntity(new ItemEntity(world, player.getPosX(), player.getPosY() + 0.25, player.getPosZ(), extracted));
 				}
 				return ActionResultType.SUCCESS;

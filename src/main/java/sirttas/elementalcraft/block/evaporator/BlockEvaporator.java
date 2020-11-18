@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -22,8 +23,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.BlockECContainer;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
-import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.ItemElemental;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 public class BlockEvaporator extends BlockECContainer {
 
@@ -48,7 +50,7 @@ public class BlockEvaporator extends BlockECContainer {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		ItemStack stack = player.getHeldItem(hand);
 
-		if (stack.isEmpty() || ECItems.getTypeFromShard(stack.getItem()) != ElementType.NONE) {
+		if (stack.isEmpty() || getTypeFromShard(stack.getItem()) != ElementType.NONE) {
 			return onSingleSlotActivated(world, pos, player, hand);
 		}
 		return ActionResultType.PASS;
@@ -65,5 +67,12 @@ public class BlockEvaporator extends BlockECContainer {
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
 		TileEntityHelper.getTileEntityAs(world, pos, TileEvaporator.class).filter(TileEvaporator::canExtract)
 				.ifPresent(evaporator -> ParticleHelper.createElementFlowParticle(evaporator.getElementType(), world, Vector3d.copyCentered(pos.down()), Direction.DOWN, 1, rand));
+	}
+
+	static ElementType getTypeFromShard(Item item) {
+		if (ECTags.Items.SHARDS.contains(item) && item instanceof ItemElemental) {
+			return ((ItemElemental) item).getElementType();
+		}
+		return ElementType.NONE;
 	}
 }

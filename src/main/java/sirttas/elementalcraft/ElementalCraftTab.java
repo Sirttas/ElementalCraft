@@ -64,6 +64,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.silkTouchShrineUpgrade, list);
 		addItem(ECBlocks.plantingShrineUpgrade, list);
 		addItem(ECBlocks.bonelessGrowthShrineUpgrade, list);
+		addItem(ECBlocks.pickupShrineUpgrade, list);
 
 		addItem(ECBlocks.crystalOre, list);
 		addItem(ECBlocks.whiteRock, list);

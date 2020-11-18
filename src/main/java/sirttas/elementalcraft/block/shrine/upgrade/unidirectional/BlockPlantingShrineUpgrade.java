@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade;
+package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.block.shrine.upgrade.BlockShrineUpgrade;
 
 public class BlockPlantingShrineUpgrade extends BlockShrineUpgrade {
 

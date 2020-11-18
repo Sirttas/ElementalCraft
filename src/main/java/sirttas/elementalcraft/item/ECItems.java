@@ -19,8 +19,8 @@ import sirttas.elementalcraft.block.instrument.firefurnace.blast.BlockFireBlastF
 import sirttas.elementalcraft.block.instrument.infuser.BlockInfuser;
 import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
-import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
+import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.BlockEnderLockShrine;
@@ -31,8 +31,6 @@ import sirttas.elementalcraft.block.shrine.lava.BlockLavaShrine;
 import sirttas.elementalcraft.block.shrine.ore.BlockOreShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
-import sirttas.elementalcraft.block.shrine.upgrade.BlockBonelessGrowthShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockEfficiencyShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockOptimizationShrineUpgrade;
@@ -40,6 +38,9 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockRangeShrineU
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.BlockAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessGrowthShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
@@ -73,10 +74,10 @@ public class ECItems {
 	@ObjectHolder("patchouli:guide_book") public static Item elementopedia;
 	@ObjectHolder(ElementalCraft.MODID + ":inertcrystal") public static ItemEC inertCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":containedcrystal") public static ItemEC containedCrystal;
-	@ObjectHolder(ElementalCraft.MODID + ":firecrystal") public static ItemEC fireCrystal;
-	@ObjectHolder(ElementalCraft.MODID + ":watercrystal") public static ItemEC waterCrystal;
-	@ObjectHolder(ElementalCraft.MODID + ":earthcrystal") public static ItemEC earthCrystal;
-	@ObjectHolder(ElementalCraft.MODID + ":aircrystal") public static ItemEC airCrystal;
+	@ObjectHolder(ElementalCraft.MODID + ":firecrystal") public static ItemElemental fireCrystal;
+	@ObjectHolder(ElementalCraft.MODID + ":watercrystal") public static ItemElemental waterCrystal;
+	@ObjectHolder(ElementalCraft.MODID + ":earthcrystal") public static ItemElemental earthCrystal;
+	@ObjectHolder(ElementalCraft.MODID + ":aircrystal") public static ItemElemental airCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":purecrystal") public static ItemEC pureCrystal;
 	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_ingot") public static ItemEC drenchedIronIngot;
 	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_nugget") public static ItemEC drenchedIronNugget;
@@ -88,10 +89,10 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":air_silk") public static ItemEC airSilk;
 	@ObjectHolder(ElementalCraft.MODID + ":shrine_upgrade_core") public static ItemEC shrineUpgradeCore;
 	@ObjectHolder(ElementalCraft.MODID + ":scroll_paper") public static ItemEC scrollPaper;
-	@ObjectHolder(ElementalCraft.MODID + ":fire_shard") public static ItemEC fireShard;
-	@ObjectHolder(ElementalCraft.MODID + ":water_shard") public static ItemEC waterShard;
-	@ObjectHolder(ElementalCraft.MODID + ":earth_shard") public static ItemEC earthShard;
-	@ObjectHolder(ElementalCraft.MODID + ":air_shard") public static ItemEC airShard;
+	@ObjectHolder(ElementalCraft.MODID + ":fire_shard") public static ItemElemental fireShard;
+	@ObjectHolder(ElementalCraft.MODID + ":water_shard") public static ItemElemental waterShard;
+	@ObjectHolder(ElementalCraft.MODID + ":earth_shard") public static ItemElemental earthShard;
+	@ObjectHolder(ElementalCraft.MODID + ":air_shard") public static ItemElemental airShard;
 
 	/** BLOCKS */
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static Item tankSmall;
@@ -130,7 +131,8 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFortuneShrineUpgrade.NAME) public static Item fortuneShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static Item silkTouchShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static Item plantingShrineUpgrade;
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static Item BonelseeGrowthShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static Item bonelseeGrowthShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPickupShrineUpgrade.NAME) public static Item pickupShrineUpgrade;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static Item source;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystalOre.NAME) public static Item crystalOre;
@@ -166,10 +168,10 @@ public class ECItems {
 
 		RegistryHelper.register(registry, new ItemEC(), "inertcrystal");
 		RegistryHelper.register(registry, new ItemEC(), "containedcrystal");
-		RegistryHelper.register(registry, new ItemEC(), "firecrystal");
-		RegistryHelper.register(registry, new ItemEC(), "watercrystal");
-		RegistryHelper.register(registry, new ItemEC(), "earthcrystal");
-		RegistryHelper.register(registry, new ItemEC(), "aircrystal");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.FIRE), "firecrystal");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.WATER), "watercrystal");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.EARTH), "earthcrystal");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.AIR), "aircrystal");
 		RegistryHelper.register(registry, new ItemEC().setEffect(true), "purecrystal");
 		RegistryHelper.register(registry, new ItemEC(), "drenched_iron_ingot");
 		RegistryHelper.register(registry, new ItemEC(), "drenched_iron_nugget");
@@ -181,10 +183,10 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemEC(), "air_silk");
 		RegistryHelper.register(registry, new ItemEC(), "shrine_upgrade_core");
 		RegistryHelper.register(registry, new ItemEC(), "scroll_paper");
-		RegistryHelper.register(registry, new ItemEC(), "fire_shard");
-		RegistryHelper.register(registry, new ItemEC(), "water_shard");
-		RegistryHelper.register(registry, new ItemEC(), "earth_shard");
-		RegistryHelper.register(registry, new ItemEC(), "air_shard");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.FIRE), "fire_shard");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.WATER), "water_shard");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.EARTH), "earth_shard");
+		RegistryHelper.register(registry, new ItemElemental(ElementType.AIR), "air_shard");
 
 		// TODO add tools
 	}
@@ -196,61 +198,4 @@ public class ECItems {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ItemElementHolder) s.getItem()).getElementType().getColor(), 
 				fireElementHolder, waterElementHolder, earthElementHolder, airElementHolder);
 	}
-
-	public static ItemEC getCrystalForType(ElementType type) {
-		switch (type) {
-		case AIR:
-			return airCrystal;
-		case EARTH:
-			return earthCrystal;
-		case FIRE:
-			return fireCrystal;
-		case WATER:
-			return waterCrystal;
-		default:
-			return inertCrystal;
-		}
-	}
-
-	public static ItemEC getShardForType(ElementType type) {
-		switch (type) {
-		case AIR:
-			return airShard;
-		case EARTH:
-			return earthShard;
-		case FIRE:
-			return fireShard;
-		case WATER:
-			return waterShard;
-		default:
-			throw new IllegalArgumentException("Element Type must not be NONE");
-		}
-	}
-
-	public static ElementType getTypeFromCrystal(Item crystal) {
-		if (crystal == ECItems.fireCrystal) {
-			return ElementType.FIRE;
-		} else if (crystal == ECItems.waterCrystal) {
-			return ElementType.WATER;
-		} else if (crystal == ECItems.earthCrystal) {
-			return ElementType.EARTH;
-		} else if (crystal == ECItems.airCrystal) {
-			return ElementType.AIR;
-		}
-		return ElementType.NONE;
-	}
-
-	public static ElementType getTypeFromShard(Item shard) {
-		if (shard == ECItems.fireShard) {
-			return ElementType.FIRE;
-		} else if (shard == ECItems.waterShard) {
-			return ElementType.WATER;
-		} else if (shard == ECItems.earthShard) {
-			return ElementType.EARTH;
-		} else if (shard == ECItems.airShard) {
-			return ElementType.AIR;
-		}
-		return ElementType.NONE;
-	}
-
 }

@@ -1,6 +1,8 @@
 package sirttas.elementalcraft.block.shrine.growth;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import net.minecraft.block.Block;
@@ -31,9 +33,10 @@ public class TileGrowthShrine extends TileShrine {
 	private Optional<BlockPos> findGrowable() {
 		int range = getIntegerRange();
 
-		return IntStream.range(-range, range + 1)
+		List<BlockPos> positions = IntStream.range(-range, range + 1)
 				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, 4).mapToObj(y -> new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canGrow).findAny();
+				.flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canGrow).collect(Collectors.toList());
+		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.world.rand.nextInt(positions.size())));
 	}
 
 	private boolean canGrow(BlockPos pos) {

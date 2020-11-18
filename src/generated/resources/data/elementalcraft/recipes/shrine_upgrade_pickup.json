@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "bdb",
+    "ehe",
     "wCw",
     " c "
   ],
@@ -9,11 +9,11 @@
     "C": {
       "item": "elementalcraft:shrine_upgrade_core"
     },
-    "b": {
-      "item": "minecraft:bone_block"
+    "e": {
+      "item": "minecraft:ender_eye"
     },
-    "d": {
-      "tag": "forge:gems/diamond"
+    "h": {
+      "item": "minecraft:hopper"
     },
     "w": {
       "item": "elementalcraft:whiterock"
@@ -23,6 +23,6 @@
     }
   },
   "result": {
-    "item": "elementalcraft:shrine_upgrade_boneless_growth"
+    "item": "elementalcraft:shrine_upgrade_pickup"
   }
 }
