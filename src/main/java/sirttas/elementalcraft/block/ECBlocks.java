@@ -37,10 +37,10 @@ import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pipe.TileElementPipe;
-import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
 import sirttas.elementalcraft.block.pureinfuser.BlockPureInfuser;
-import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
+import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
+import sirttas.elementalcraft.block.pureinfuser.pedestal.TilePedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.shrine.breeding.TileBreedingShrine;
@@ -60,8 +60,6 @@ import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.shrine.overload.TileOverloadShrine;
 import sirttas.elementalcraft.block.shrine.sweet.BlockSweetShrine;
 import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
-import sirttas.elementalcraft.block.shrine.upgrade.BlockBonelessGrowthShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockEfficiencyShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockOptimizationShrineUpgrade;
@@ -70,6 +68,9 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.Bloc
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessGrowthShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
 import sirttas.elementalcraft.block.source.BlockSource;
@@ -129,6 +130,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static BlockSilkTouchShrineUpgrade silkTouchShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static BlockPlantingShrineUpgrade plantingShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static BlockBonelessGrowthShrineUpgrade bonelessGrowthShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPickupShrineUpgrade.NAME) public static BlockPickupShrineUpgrade pickupShrineUpgrade;
 
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
@@ -189,6 +191,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockSilkTouchShrineUpgrade(), BlockSilkTouchShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockPlantingShrineUpgrade(), BlockPlantingShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockBonelessGrowthShrineUpgrade(), BlockBonelessGrowthShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockPickupShrineUpgrade(), BlockPickupShrineUpgrade.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
 		RegistryHelper.register(registry, new BlockCrystalOre(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), BlockCrystalOre.NAME);

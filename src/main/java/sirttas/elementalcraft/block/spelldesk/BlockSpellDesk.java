@@ -8,6 +8,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
@@ -31,9 +32,11 @@ import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.ItemElemental;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 public class BlockSpellDesk extends BlockEC {
 
@@ -150,13 +153,20 @@ public class BlockSpellDesk extends BlockEC {
 				stack.shrink(1);
 			}
 		} else if (hasPaper(state)) {
-			ElementType type = ECItems.getTypeFromCrystal(stack.getItem());
+			ElementType type = getTypeFromCrystal(stack.getItem());
 
 			if (type != ElementType.NONE) {
 				createSpell(state, world, pos, player, stack, type);
 			}
 		}
 		return ActionResultType.PASS;
+	}
+
+	private ElementType getTypeFromCrystal(Item item) {
+		if (ECTags.Items.ELEMENTAL_CRYSTALS.contains(item) && item instanceof ItemElemental) {
+			return ((ItemElemental) item).getElementType();
+		}
+		return ElementType.NONE;
 	}
 
 }

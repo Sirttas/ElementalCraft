@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
@@ -82,9 +83,8 @@ public class ShrineUpgrade {
 
 
 	public void addInformation(List<ITextComponent> tooltip) {
-		bonuses.forEach(
-				(type, multiplier) -> tooltip.add(new TranslationTextComponent("shrine_upgrade_bonus.elementalcraft." + type.getString(), String.format("%+d%%", Math.round((multiplier - 1) * 100)))
-						.mergeStyle(type.isPositive() ^ multiplier < 1 ? TextFormatting.BLUE : TextFormatting.RED)));
+		bonuses.forEach((type, multiplier) -> tooltip.add(new TranslationTextComponent("shrine_upgrade_bonus.elementalcraft." + type.getString(), formatMultiplier(multiplier))
+				.mergeStyle(type.isPositive() ^ multiplier < 1 ? TextFormatting.BLUE : TextFormatting.RED)));
 		if (maxAmount > 0) {
 			tooltip.add(new StringTextComponent(""));
 			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.max_amount", maxAmount).mergeStyle(TextFormatting.YELLOW));
@@ -96,6 +96,13 @@ public class ShrineUpgrade {
 			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.incompatibilities").mergeStyle(TextFormatting.YELLOW));
 			incompatibilitiesLocs.forEach(loc -> tooltip.add(new StringTextComponent("    ").append(ForgeRegistries.BLOCKS.getValue(loc).getTranslatedName().mergeStyle(TextFormatting.YELLOW))));
 		}
+	}
+
+	private String formatMultiplier(Float multiplier) {
+		if (multiplier >= 10) {
+			return new DecimalFormat("×#.##").format(multiplier);
+		}
+		return String.format("%+d%%", Math.round((multiplier - 1) * 100));
 	}
 
 	public enum BonusType implements IStringSerializable {

@@ -32,11 +32,11 @@ import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.ItemEC;
+import sirttas.elementalcraft.item.ItemElemental;
 import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.property.ECProperties;
 
-public class ItemElementHolder extends ItemEC implements ISourceInteractable {
+public class ItemElementHolder extends ItemElemental implements ISourceInteractable {
 
 	public static final String NAME = "element_holder";
 	public static final String NAME_FIRE = NAME + "_fire";
@@ -46,17 +46,11 @@ public class ItemElementHolder extends ItemEC implements ISourceInteractable {
 
 	private static final String SAVED_POS = "saved_pos";
 
-	private final ElementType elementType;
 	private final int elementCapacity;
 
 	public ItemElementHolder(ElementType elementType) {
-		super(ECProperties.Items.ITEM_UNSTACKABLE);
-		this.elementType = elementType;
+		super(ECProperties.Items.ITEM_UNSTACKABLE, elementType);
 		this.elementCapacity = ECConfig.COMMON.elementHolderCapacity.get();
-	}
-
-	public ElementType getElementType() {
-		return elementType;
 	}
 
 	public int getElementCapacity() {

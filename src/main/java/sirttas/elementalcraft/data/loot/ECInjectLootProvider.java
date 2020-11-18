@@ -16,7 +16,6 @@ import net.minecraft.loot.conditions.RandomChanceWithLooting;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.LootHandler;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 
@@ -59,6 +58,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 		save(cache, genShard(ElementType.WATER), EntityType.COD);
 		save(cache, genShard(ElementType.WATER), EntityType.SALMON);
 		save(cache, genShard(ElementType.WATER), EntityType.TROPICAL_FISH);
+		save(cache, genShard(ElementType.WATER), EntityType.PUFFERFISH);
 		save(cache, genShard(ElementType.AIR), EntityType.ENDERMAN);
 		save(cache, genShard(ElementType.AIR), EntityType.SPIDER);
 		save(cache, genShard(ElementType.AIR), EntityType.CAVE_SPIDER);
@@ -67,7 +67,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	private static LootPool.Builder genShard(ElementType type) {
-		return LootPool.builder().rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ECItems.getShardForType(type))).acceptCondition(RandomChanceWithLooting.builder(0.25F, 0.03F));
+		return LootPool.builder().rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(getShardForType(type))).acceptCondition(RandomChanceWithLooting.builder(0.25F, 0.03F));
 	}
 
 	private void save(DirectoryCache cache, LootPool.Builder pool, EntityType<?> entityType) throws IOException {

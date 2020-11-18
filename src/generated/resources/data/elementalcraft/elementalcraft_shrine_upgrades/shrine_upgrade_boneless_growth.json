@@ -6,11 +6,11 @@
   "bonuses": [
     {
       "type": "speed",
-      "multiplier": 2.0
+      "multiplier": 4.0
     },
     {
       "type": "element_consuption",
-      "multiplier": 3.0
+      "multiplier": 5.0
     }
   ]
 }

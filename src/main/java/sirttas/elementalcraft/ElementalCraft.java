@@ -51,6 +51,9 @@ public class ElementalCraft {
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECFeatures::onBiomeLoad);
 		MinecraftForge.EVENT_BUS.addListener(this::addReloadListeners);
 
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECConfig.COMMON_SPEC);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
+
 		if (ModList.get().isLoaded("mekanism")) {
 			MekanismInteraction.setup();
 		}
@@ -63,9 +66,6 @@ public class ElementalCraft {
 	private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECLootFunctions.setup();
-
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECConfig.COMMON_SPEC);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
 	}
 
 	private void setupServer(FMLServerStartedEvent event) {

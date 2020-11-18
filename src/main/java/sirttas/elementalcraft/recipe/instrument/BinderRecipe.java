@@ -1,7 +1,9 @@
 package sirttas.elementalcraft.recipe.instrument;
 
 import java.util.List;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -74,14 +76,17 @@ public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 	}
 
 	private boolean matchesUnordered(TileBinder inv) {
+		Set<Integer> usedIndex = Sets.newHashSet();
+
 		return ingredients.stream().allMatch(ing -> {
 			for (int i = 0; i < inv.getItemCount(); i++) {
-				if (ing.test(inv.getInventory().getStackInSlot(i))) {
+				if (ing.test(inv.getInventory().getStackInSlot(i)) && !usedIndex.contains(i)) {
+					usedIndex.add(i);
 					return true;
 				}
 			}
 			return false;
-		});
+		}) && usedIndex.size() == inv.getItemCount();
 	}
 
 	@Override

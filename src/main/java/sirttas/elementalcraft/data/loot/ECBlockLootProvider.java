@@ -36,7 +36,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.pureinfuser.BlockPedestal;
+import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;

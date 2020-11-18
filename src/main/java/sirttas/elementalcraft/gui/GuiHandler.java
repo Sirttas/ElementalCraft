@@ -34,7 +34,7 @@ public class GuiHandler {
 		RayTraceResult result = minecraft.objectMouseOver;
 
 		if (event.getType() == ElementType.ALL) {
-			if (result != null) {
+			if (result != null && minecraft.gameSettings.getPointOfView().func_243192_a()) {
 				BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getPos() : null;
 				TileEntity tile = pos != null ? minecraft.player.world.getTileEntity(pos) : null;
 

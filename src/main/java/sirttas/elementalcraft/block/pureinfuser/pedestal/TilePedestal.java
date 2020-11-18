@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.pureinfuser;
+package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
 import java.util.stream.Stream;
 
@@ -12,6 +12,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementReceiver;
+import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.nbt.ECNames;

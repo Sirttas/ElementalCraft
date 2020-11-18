@@ -13,8 +13,10 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.TileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class TileVacuumShrine extends TileShrine {
 
@@ -33,20 +35,39 @@ public class TileVacuumShrine extends TileShrine {
 	
 	@Override
 	protected boolean doTick() {
+		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos.down(), Direction.UP);
+
+		return this.hasUpgrade(ShrineUpgrades.PICKUP.get()) ? pickup(inv) : pull(inv);
+	}
+
+	private boolean pickup(IItemHandler inv) {
+		return getEntities().stream().findAny().map(entity -> {
+			doPickup(inv, entity);
+			return true;
+		}).orElse(false);
+	}
+
+	private boolean pull(IItemHandler inv) {
 		int consumeAmount = this.getConsumeAmount();
 		double pullSpeed = ECConfig.COMMON.vacuumShrinePullSpeed.get();
-		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos.down(), Direction.UP);
 		Vector3d pos3d = Vector3d.copyCentered(this.getPos());
 
-		getEntities().forEach(e -> {
+		getEntities().forEach(entity -> {
 			if (this.getElementAmount() >= consumeAmount) {
 				this.consumeElement(consumeAmount);
-				e.setMotion(pos3d.subtract(e.getPositionVec()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
-				if (pos3d.distanceTo(e.getPositionVec()) <= 2 * Math.max(1, this.getMultiplier(BonusType.RANGE))) {
-					e.setItem(ItemHandlerHelper.insertItem(inv, e.getItem(), false));
+				entity.setMotion(pos3d.subtract(entity.getPositionVec()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
+				if (pos3d.distanceTo(entity.getPositionVec()) <= 2 * Math.max(1, this.getMultiplier(BonusType.RANGE))) {
+					doPickup(inv, entity);
 				}
 			}
 		});
 		return false;
+	}
+
+	private void doPickup(IItemHandler inv, ItemEntity entity) {
+		entity.setItem(ItemHandlerHelper.insertItem(inv, entity.getItem(), false));
+		if (world.isRemote) {
+			ParticleHelper.createEnderParticle(world, entity.getPositionVec(), 3, world.rand);
+		}
 	}
 }

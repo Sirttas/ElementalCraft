@@ -19,8 +19,8 @@ import sirttas.elementalcraft.block.instrument.firefurnace.blast.TileFireBlastFu
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
 import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
-import sirttas.elementalcraft.block.pureinfuser.TilePedestal;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
+import sirttas.elementalcraft.block.pureinfuser.pedestal.TilePedestal;
 import sirttas.elementalcraft.block.shrine.RendererShrine;
 import sirttas.elementalcraft.block.shrine.breeding.TileBreedingShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;

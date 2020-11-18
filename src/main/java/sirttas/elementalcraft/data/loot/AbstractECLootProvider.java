@@ -11,6 +11,9 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.LootTableManager;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.ItemEC;
 
 public abstract class AbstractECLootProvider implements IDataProvider {
 
@@ -24,6 +27,36 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 	
 	protected void save(DirectoryCache cache, Builder builder, Path path) throws IOException {
 		IDataProvider.save(GSON, cache, LootTableManager.toJson(builder.build()), path);
+	}
+
+	public static ItemEC getCrystalForType(ElementType type) {
+		switch (type) {
+		case AIR:
+			return ECItems.airCrystal;
+		case EARTH:
+			return ECItems.earthCrystal;
+		case FIRE:
+			return ECItems.fireCrystal;
+		case WATER:
+			return ECItems.waterCrystal;
+		default:
+			return ECItems.inertCrystal;
+		}
+	}
+
+	public static ItemEC getShardForType(ElementType type) {
+		switch (type) {
+		case AIR:
+			return ECItems.airShard;
+		case EARTH:
+			return ECItems.earthShard;
+		case FIRE:
+			return ECItems.fireShard;
+		case WATER:
+			return ECItems.waterShard;
+		default:
+			throw new IllegalArgumentException("Element Type must not be NONE");
+		}
 	}
 
 }
