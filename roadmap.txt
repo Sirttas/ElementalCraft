@@ -19,6 +19,9 @@ world gen config
 rework particles
 difuser
 spell particles
+spell desk in jei
+runes
+
 
 spells:
 	Arctic Breath

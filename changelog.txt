@@ -1,3 +1,19 @@
+1.16.3-2.4.10:
+
+- elements are now jei ingredients and can now be used for browsing recipes
+- add extraction and improved extraction in jei
+- add evaporation in jei
+- add element for pure infusion in jei
+- add pedestals as catalysts in jei for pure infusion
+- add a message when changin pipe config
+- the first rightclick on a binder after crafting will always extract the crafting result
+- disable mekanism interaction to preven generating ore from nothing
+- fix evaporator render
+- fix spells category and entries icon in the Elementopedia
+- fix a loading error in the Elementopedia
+- fix some Elementopedia entries
+
+
 1.16.3-2.4.9:
 
 - new block: pickup shrine upgrade

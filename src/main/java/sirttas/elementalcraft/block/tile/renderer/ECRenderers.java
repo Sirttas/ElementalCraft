@@ -41,11 +41,11 @@ public final class ECRenderers {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent evt) {
 
-		ClientRegistry.bindTileEntityRenderer(TileInfuser.TYPE, d -> new SingleItemRenderer<TileInfuser>(d, new Vector3d(0.5, 0.2, 0.5)));
-		ClientRegistry.bindTileEntityRenderer(TileEvaporator.TYPE, d -> new SingleItemRenderer<TileEvaporator>(d, new Vector3d(0.5, 1 / 16, 0.5)));
+		ClientRegistry.bindTileEntityRenderer(TileInfuser.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5)));
+		ClientRegistry.bindTileEntityRenderer(TileEvaporator.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5), 0.5F));
 		ClientRegistry.bindTileEntityRenderer(TileBinder.TYPE, RendererBinder::new);
-		ClientRegistry.bindTileEntityRenderer(TilePedestal.TYPE, d -> new SingleItemRenderer<TilePedestal>(d, new Vector3d(0.5, 0.9, 0.5)));
-		ClientRegistry.bindTileEntityRenderer(TilePureInfuser.TYPE, d -> new SingleItemRenderer<TilePureInfuser>(d, new Vector3d(0.5, 0.9, 0.5)));
+		ClientRegistry.bindTileEntityRenderer(TilePedestal.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.9, 0.5)));
+		ClientRegistry.bindTileEntityRenderer(TilePureInfuser.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TileFireFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TileFireBlastFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TilePurifier.TYPE, RendererPurifier::new);

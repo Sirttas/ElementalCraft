@@ -57,6 +57,11 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(ECTags.Items.SPELL_HOLDERS).add(getItemsForClass(AbstractItemSpellHolder.class));
 		getOrCreateBuilder(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.fireCrystal, ECItems.waterCrystal, ECItems.earthCrystal, ECItems.airCrystal);
 		getOrCreateBuilder(ECTags.Items.CRYSTALS).add(ECItems.inertCrystal, ECItems.containedCrystal, ECItems.pureCrystal).addTag(ECTags.Items.ELEMENTAL_CRYSTALS);
+
 		getOrCreateBuilder(ECTags.Items.SHARDS).add(ECItems.fireShard, ECItems.waterShard, ECItems.earthShard, ECItems.airShard);
+		getOrCreateBuilder(ECTags.Items.FIRE_SHARDS).add(ECItems.fireShard);
+		getOrCreateBuilder(ECTags.Items.WATER_SHARDS).add(ECItems.waterShard);
+		getOrCreateBuilder(ECTags.Items.EARTH_SHARDS).add(ECItems.earthShard);
+		getOrCreateBuilder(ECTags.Items.AIR_SHARDS).add(ECItems.airShard);
 	}
 }

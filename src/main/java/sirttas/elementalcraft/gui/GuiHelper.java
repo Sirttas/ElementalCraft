@@ -11,12 +11,6 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 
-/**
- * This class come from Botania code
- * 
- * 
- * https://github.com/Vazkii/Botania
- */
 @SuppressWarnings("resource")
 public class GuiHelper {
 
@@ -46,26 +40,31 @@ public class GuiHelper {
 
 	@OnlyIn(Dist.CLIENT)
 	public static void renderElementGauge(MatrixStack matrixStack, int x, int y, int amount, int max, ElementType type) {
+		renderElementGauge(matrixStack, x, y, amount, max, type, true);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void renderElementGauge(MatrixStack matrixStack, int x, int y, int amount, int max, ElementType type, boolean showDebugInfo) {
 		Minecraft mc = Minecraft.getInstance();
 
 		mc.textureManager.bindTexture(GAUGE);
-		blit(matrixStack, x, y, 0, 0, 17, 17);
+		blit(matrixStack, x, y, 0, 0, 16, 16);
 
-		int progress = Math.max(0, (int) ((double) Math.min(amount, max) / (double) max * 17));
+		int progress = Math.max(0, (int) ((double) Math.min(amount, max) / (double) max * 16));
 
 		if (progress <= 1 && amount > 0) {
 			progress = 2;
 		}
-		blit(matrixStack, x, y + 17 - progress, getElementTypeOffset(type) * 17, 17 - progress + (Boolean.TRUE.equals(ECConfig.CLIENT.usePaleElementGauge.get()) ? 17 : 0), 17, progress);
-		if (showDebugInfo()) {
-			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 17, 16777215);
+		blit(matrixStack, x, y + 16 - progress, getElementTypeOffset(type) * 16, 16 - progress + (Boolean.TRUE.equals(ECConfig.CLIENT.usePaleElementGauge.get()) ? 16 : 0), 16, progress);
+		if (showDebugInfo() && showDebugInfo) {
+			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 16, 16777215);
 		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public static void renderCanCast(MatrixStack matrixStack, int x, int y, boolean canCast) {
 		Minecraft.getInstance().textureManager.bindTexture(GAUGE);
-		blit(matrixStack, x, y, canCast ? 0 : 6, 17, 6, 6);
+		blit(matrixStack, x, y, canCast ? 0 : 6, 16, 6, 6);
 	}
 
 	public static boolean showDebugInfo() {

@@ -1,6 +1,9 @@
 package sirttas.elementalcraft.api.element;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -94,6 +97,14 @@ public enum ElementType implements IStringSerializable {
 		return this.name;
 	}
 
+	public String getTranslationKey() {
+		return "element.elementalcraft." + getString();
+	}
+
+	public ITextComponent getDisplayName() {
+		return new TranslationTextComponent(getTranslationKey());
+	}
+
 	public static ElementType byName(String name) {
 		for (ElementType elementType : values()) {
 			if (elementType.name.equals(name)) {
@@ -107,11 +118,7 @@ public enum ElementType implements IStringSerializable {
 		return state.get(ECProperties.ELEMENT_TYPE);
 	}
 
-	public String getTranslationKey() {
-		return "element.elementalcraft." + getString();
-	}
-
-	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent(getTranslationKey());
+	public static List<ElementType> allValid() {
+		return Stream.of(values()).filter(type -> type != NONE).collect(Collectors.toList());
 	}
 }

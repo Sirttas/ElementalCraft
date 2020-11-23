@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.interaction.jei.category.instrument;
+package sirttas.elementalcraft.interaction.jei.category.instrument.infusion;
 
 import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.client.resources.I18n;

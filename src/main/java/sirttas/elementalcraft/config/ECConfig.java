@@ -191,11 +191,21 @@ public class ECConfig {
 
 			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
-			mekanismPureOreDissolutionRecipe = builder.comment("Set to false if you want pure ore to not use mekanism dissolution recipes.").define("mekanismPureOreDissolutionRecipe", true);
-			mekanismPureOreInjectingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism injecting recipes.").define("mekanismPureOreInjectingRecipe", true);
-			mekanismPureOrePurifyingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism purifying recipes.").define("mekanismPureOrePurifyingRecipe", true);
-			mekanismPureOreEnrichingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism enriching recipes.").define("mekanismPureOreEnrichingRecipe", true);
-			mekanismPureOreCrushingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism crushing recipes.").define("mekanismPureOreCrushingRecipe", true);
+			mekanismPureOreDissolutionRecipe = builder.comment(
+					"Set to false if you want pure ore to not use mekanism dissolution recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
+					.define("mekanismPureOreDissolutionRecipe", false);
+			mekanismPureOreInjectingRecipe = builder.comment(
+					"Set to false if you want pure ore to not use mekanism injecting recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
+					.define("mekanismPureOreInjectingRecipe", false);
+			mekanismPureOrePurifyingRecipe = builder.comment(
+					"Set to false if you want pure ore to not use mekanism purifying recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
+					.define("mekanismPureOrePurifyingRecipe", false);
+			mekanismPureOreEnrichingRecipe = builder.comment(
+					"Set to false if you want pure ore to not use mekanism enriching recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
+					.define("mekanismPureOreEnrichingRecipe", false);
+			mekanismPureOreCrushingRecipe = builder.comment(
+					"Set to false if you want pure ore to not use mekanism crushing recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
+					.define("mekanismPureOreCrushingRecipe", false);
 
 			builder.pop(2);
 		}

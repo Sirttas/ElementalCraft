@@ -28,7 +28,12 @@ public class ECTags {
 		public static final INamedTag<Item> SPELL_HOLDERS = createTag("spell_holders");
 		public static final INamedTag<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
 		public static final INamedTag<Item> CRYSTALS = createTag("crystals");
+
 		public static final INamedTag<Item> SHARDS = createTag("shards");
+		public static final INamedTag<Item> FIRE_SHARDS = createTag("shards/fire");
+		public static final INamedTag<Item> WATER_SHARDS = createTag("shards/water");
+		public static final INamedTag<Item> EARTH_SHARDS = createTag("shards/earth");
+		public static final INamedTag<Item> AIR_SHARDS = createTag("shards/air");
 
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Item> PIPES = createTag("pipes");
