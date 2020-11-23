@@ -4,15 +4,15 @@
 	"creative_tab": "elementalcraft",
 	"model": "elementalcraft:element_book",
 	"i18n": true, 
-	"version": 13,
+	"version": 14,
 	"macros": {
-		"$(ec:source)": "$(l:elmentalcraft:basics/source)",
-		"$(ec:tank)": "$(l:elmentalcraft:instruments/tank)",
-		"$(ec:tank_small)": "$(l:elmentalcraft:instruments/tank_small)",
-		"$(ec:pipe)": "$(l:elmentalcraft:basics/elementpipe)",
-		"$(ec:infuser)": "$(l:elmentalcraft:instruments/infuser)",
-		"$(ec:extractor)": "$(l:elmentalcraft:instruments/extractor)",
-		"$(ec:binder)": "$(l:elmentalcraft:instruments/binder)",
-		"$(ec:firefurnace)": "$(l:elmentalcraft:instruments/firefurnace)"
+		"$(ec:source)": "$(l:basics/source)",
+		"$(ec:tank)": "$(l:instruments/tank)",
+		"$(ec:tank_small)": "$(l:instruments/tank_small)",
+		"$(ec:pipe)": "$(l:basics/elementpipe)",
+		"$(ec:infuser)": "$(l:instruments/infuser)",
+		"$(ec:extractor)": "$(l:instruments/extractor)",
+		"$(ec:binder)": "$(l:instruments/binder)",
+		"$(ec:firefurnace)": "$(l:instruments/firefurnace)"
 	}
 }

@@ -1,7 +1,7 @@
 {
   "name": "spell.elementalcraft.silk_vein",
   "category": "elementalcraft:spells",
-  "icon": "elementalcraft:scroll",
+  "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:silk_vein'}}",
   "advancement": "elementalcraft:pickup/scroll",
   "turnin": "elementalcraft:pickup/scroll",
   "sortnum": 13,

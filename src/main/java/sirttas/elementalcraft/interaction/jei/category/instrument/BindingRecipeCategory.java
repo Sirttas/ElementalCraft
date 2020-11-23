@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
+import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
 
@@ -29,7 +30,6 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 		background = guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16);
 		icon = guiHelper.createDrawableIngredient(binder);
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/binding_overlay.png"), 0, 0, 124, 83), 10, 10);
-		setGaugePos(RADIUS + 1, RADIUS + 18);
 	}
 
 	@Override
@@ -74,9 +74,11 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 		recipeLayout.getItemStacks().init(i + 1, false, RADIUS, RADIUS - 16);
 		recipeLayout.getItemStacks().set(i + 1, binder);
 
-		recipeLayout.getItemStacks().init(i + 2, false, RADIUS * 2 + 32, RADIUS);
-		recipeLayout.getItemStacks().set(i + 2, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
+		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(i + 2, true, RADIUS + 1, RADIUS + 18);
+		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(i + 2, ingredients.getInputs(ECIngredientTypes.ELEMENT).get(0));
 
+		recipeLayout.getItemStacks().init(i + 3, false, RADIUS * 2 + 32, RADIUS);
+		recipeLayout.getItemStacks().set(i + 3, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
 	}
 
 }

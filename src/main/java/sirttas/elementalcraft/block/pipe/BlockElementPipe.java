@@ -95,7 +95,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 		return shape1.getBoundingBox().equals(shape2.getBoundingBox());
 	}
 
-	private Direction getFace(VoxelShape shape) {
+	private Direction getFace(VoxelShape shape, BlockRayTraceResult hit) {
 		if (compareShapes(shape, DOWN_SHAPE)) {
 			return Direction.DOWN;
 		} else if (compareShapes(shape, UP_SHAPE)) {
@@ -108,6 +108,8 @@ public class BlockElementPipe extends BlockECTileProvider {
 			return Direction.WEST;
 		} else if (compareShapes(shape, EAST_SHAPE)) {
 			return Direction.EAST;
+		} else if (shape == BASE_SHAPE) {
+			return hit.getFace();
 		}
 		return null;
 	}
@@ -176,19 +178,20 @@ public class BlockElementPipe extends BlockECTileProvider {
 
 		if (pipe != null) {
 			final VoxelShape shape = getShape(state, pos, hit);
+			Direction face = getFace(shape, hit);
+			ActionResultType value = onShapeActivated(player, face, pipe);
 
-			return onShapeActivated(shape, pipe, hit);
+			if (value != ActionResultType.PASS) {
+				player.sendStatusMessage(pipe.getConnectionMessage(face), true);
+			}
+			return value;
 		}
 		return ActionResultType.PASS;
 	}
 
-	private ActionResultType onShapeActivated(VoxelShape shape, TileElementPipe pipe, BlockRayTraceResult hit) {
-		Direction face = getFace(shape);
-
+	private ActionResultType onShapeActivated(PlayerEntity player, Direction face, TileElementPipe pipe) {
 		if (face != null) {
 			return pipe.activatePipe(face);
-		} else if (shape == BASE_SHAPE) {
-			return pipe.activatePipe(hit.getFace());
 		}
 		return ActionResultType.PASS;
 	}

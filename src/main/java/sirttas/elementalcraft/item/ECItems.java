@@ -11,6 +11,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.BlockCrystalOre;
+import sirttas.elementalcraft.block.evaporator.BlockEvaporator;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
@@ -99,6 +100,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static Item tank;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static Item extractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static Item improvedExtractor;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEvaporator.NAME) public static Item evaporator;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static Item infuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static Item binder;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static Item firePedestal;

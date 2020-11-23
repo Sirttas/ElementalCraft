@@ -15,11 +15,17 @@ import sirttas.elementalcraft.inventory.IInventoryTile;
 @OnlyIn(Dist.CLIENT)
 public class SingleItemRenderer<T extends TileEntity & IInventoryTile> extends RendererEC<T> {
 
-	Vector3d position;
+	private final Vector3d position;
+	private final float size;
 
 	public SingleItemRenderer(TileEntityRendererDispatcher rendererDispatcher, Vector3d position) {
+		this(rendererDispatcher, position, 1);
+	}
+
+	public SingleItemRenderer(TileEntityRendererDispatcher rendererDispatcher, Vector3d position, float size) {
 		super(rendererDispatcher);
 		this.position = position;
+		this.size = size;
 	}
 
 	@Override
@@ -29,6 +35,7 @@ public class SingleItemRenderer<T extends TileEntity & IInventoryTile> extends R
 		if (!stack.isEmpty()) {
 			matrixStack.translate(position.x, position.y, position.z);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(getAngle(partialTicks)));
+			matrixStack.scale(size, size, size);
 			renderItem(stack, matrixStack, buffer, light, overlay);
 		}
 	}

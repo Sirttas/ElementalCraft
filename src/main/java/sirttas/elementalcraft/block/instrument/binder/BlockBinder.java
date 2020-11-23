@@ -44,9 +44,9 @@ public class BlockBinder extends BlockECContainer {
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 
 		if (binder != null) {
-			if ((heldItem.isEmpty() || player.isSneaking()) && !binder.getInventory().isEmpty()) {
+			if ((binder.isLocked() || heldItem.isEmpty() || player.isSneaking()) && !binder.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {
-					this.onSlotActivated(inv, player, heldItem, i);
+					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
 				return ActionResultType.SUCCESS;
 			}

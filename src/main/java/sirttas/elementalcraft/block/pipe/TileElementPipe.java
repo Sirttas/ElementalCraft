@@ -13,6 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -169,6 +171,10 @@ public class TileElementPipe extends TileECTickable {
 		}
 	}
 
+	public ITextComponent getConnectionMessage(Direction face) {
+		return this.getConection(face).getDisplayName();
+	}
+
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
@@ -187,12 +193,14 @@ public class TileElementPipe extends TileECTickable {
 	}
 
 	private enum ConnectionType {
-		NONE(0), CONNECT(1), INSERT(2), EXTRACT(3), DISCONNECT(4);
+		NONE(0, "none"), CONNECT(1, "connect"), INSERT(2, "insert"), EXTRACT(3, "extract"), DISCONNECT(4, "disconnect");
 
 		private final int value;
+		private final String translationKey;
 
-		private ConnectionType(int value) {
+		private ConnectionType(int value, String key) {
 			this.value = value;
+			this.translationKey = "message.elementalcraft." + key;
 		}
 
 		public int getValue() {
@@ -206,6 +214,10 @@ public class TileElementPipe extends TileECTickable {
 				}
 			}
 			return NONE;
+		}
+
+		public ITextComponent getDisplayName() {
+			return new TranslationTextComponent(translationKey);
 		}
 	}
 

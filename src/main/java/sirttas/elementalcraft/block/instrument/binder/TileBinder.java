@@ -17,6 +17,7 @@ public class TileBinder extends TileInstrument {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static TileEntityType<TileBinder> TYPE;
 
 	private final BinderInventory inventory;
+	private boolean locked = false;
 
 	public TileBinder() {
 		super(TYPE);
@@ -39,6 +40,7 @@ public class TileBinder extends TileInstrument {
 		if (this.world.isRemote) {
 			ParticleHelper.createCraftingParticle(getTankElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2, 0), world.rand);
 		}
+		locked = true;
 	}
 
 	@Override
@@ -51,5 +53,17 @@ public class TileBinder extends TileInstrument {
 	@Override
 	public IInventory getInventory() {
 		return inventory;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		if (locked && inventory.getStackInSlot(0).isEmpty()) {
+			locked = false;
+		}
+	}
+
+	public boolean isLocked() {
+		return locked;
 	}
 }
