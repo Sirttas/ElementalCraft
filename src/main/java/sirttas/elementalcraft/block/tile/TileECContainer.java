@@ -15,6 +15,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import sirttas.elementalcraft.inventory.IInventoryTile;
@@ -69,10 +70,14 @@ public abstract class TileECContainer extends TileECTickable implements IClearab
 	@Override
 	@Nonnull
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-		if (!this.removed && cap == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return itemHandler.cast();
+		if (!this.removed && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return getItemHandler().cast();
 		}
 		return super.getCapability(cap, side);
+	}
+
+	public LazyOptional<IItemHandler> getItemHandler() {
+		return itemHandler;
 	}
 
 	@Override

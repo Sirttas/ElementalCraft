@@ -7,6 +7,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
@@ -15,15 +16,16 @@ import sirttas.elementalcraft.config.ECConfig;
 public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	private final ResourceLocation id;
-	private final ItemStack ore;
+	private final ItemStack result;
 	protected Ingredient input;
 
 	public PurifierRecipe(ItemStack ore) {
 		ResourceLocation oreName = ore.getItem().getRegistryName();
 
-		this.ore = ore;
 		this.input = Ingredient.fromStacks(ore);
 		this.id = ElementalCraft.createRL(oreName.getNamespace() + '_' + oreName.getPath() + "_to_pure_ore");
+		result = ElementalCraft.PURE_ORE_MANAGER.createPureOre(ore.getItem()).copy();
+		result.setCount(ECConfig.COMMON.pureOreMultiplier.get());
 	}
 
 	@Override
@@ -37,10 +39,14 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 	}
 
 	@Override
-	public boolean matches(TilePurifier inv) {
-		ItemStack stack = inv.getInventory().getStackInSlot(0);
+	public boolean matches(TilePurifier tile) {
+		return tile.getItemHandler().map(inv -> {
+			ItemStack stack = inv.getStackInSlot(0);
+			ItemStack output = inv.getStackInSlot(1);
 
-		return inv.getTankElementType() == ElementType.EARTH && ElementalCraft.PURE_ORE_MANAGER.isValidOre(stack) && input.test(stack);
+			return tile.getTankElementType() == ElementType.EARTH && ElementalCraft.PURE_ORE_MANAGER.isValidOre(stack) && input.test(stack)
+					&& (output.isEmpty() || (ItemHandlerHelper.canItemStacksStack(output, result) && output.getCount() + result.getCount() <= inv.getSlotLimit(1)));
+		}).orElse(false);
 	}
 
 	@Override
@@ -50,10 +56,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		ItemStack result = ElementalCraft.PURE_ORE_MANAGER.createPureOre(ore.getItem()).copy();
-
-		result.setCount(ECConfig.COMMON.pureOreMultiplier.get());
-		return result;
+		return result.copy();
 	}
 
 	@Override

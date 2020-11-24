@@ -16,16 +16,18 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 
 	@Override
 	public void render(MatrixStack matrixStack, int x, int y, IngredientElementType ingredient) {
-		if (ingredient == null) { return; }
-		int amount = ingredient.getAmount();
-		
-		GuiHelper.renderElementGauge(matrixStack, x, y, amount == -1 ? 4 : amount, 4, ingredient.getType(), false);
+		if (ingredient != null) {
+			int amount = ingredient.getAmount();
+
+			GuiHelper.renderElementGauge(matrixStack, x, y, amount == -1 ? 4 : amount, 4, ingredient.getType(), false);
+		}
 
 	}
 
 	@Override
 	public List<ITextComponent> getTooltip(IngredientElementType ingredient, ITooltipFlag tooltipFlag) {
 		List<ITextComponent> tooltips = Lists.newArrayList();
+
 		int amount = ingredient.getAmount();
 
 		tooltips.add(ingredient.getDisplayName());

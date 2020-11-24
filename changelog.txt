@@ -1,3 +1,9 @@
+1.16.3-2.4.11:
+
+- fix a bug causing purifier to always output the same item
+- fix a crash in jei (issue #17, PR #18)
+
+
 1.16.3-2.4.10:
 
 - elements are now jei ingredients and can now be used for browsing recipes
