@@ -46,8 +46,7 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 
 	@Override
 	public String getErrorInfo(IngredientElementType ingredient) {
-		if (ingredient == null) { return ""; }
-		return ingredient.getType() == ElementType.NONE ? "Element shouldn't be none" : "";
+		return ingredient != null && ingredient.getType() == ElementType.NONE ? "Element shouldn't be none" : "";
 	}
 
 }

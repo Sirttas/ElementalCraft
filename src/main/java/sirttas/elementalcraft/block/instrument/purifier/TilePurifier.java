@@ -27,7 +27,11 @@ public class TilePurifier extends TileInstrument {
 		ItemStack input = inventory.getStackInSlot(0);
 
 		if (!input.isEmpty() && ElementalCraft.PURE_ORE_MANAGER.isValidOre(input)) {
-			return new PurifierRecipe(input);
+			PurifierRecipe recipe = new PurifierRecipe(input);
+
+			if (recipe.matches(this)) {
+				return new PurifierRecipe(input);
+			}
 		}
 		return null;
 	}
