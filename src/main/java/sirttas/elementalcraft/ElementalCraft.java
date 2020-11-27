@@ -9,7 +9,6 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -20,7 +19,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sirttas.elementalcraft.api.pureore.PureOreInjectorIMCMessage;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeManager;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
+import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.item.pureore.PureOreManager;
 import sirttas.elementalcraft.item.pureore.PureOreRecipeInjector;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
@@ -53,10 +52,6 @@ public class ElementalCraft {
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECConfig.COMMON_SPEC);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
-
-		if (ModList.get().isLoaded("mekanism")) {
-			MekanismInteraction.setup();
-		}
 	}
 
 	public static ResourceLocation createRL(String name) {
@@ -66,6 +61,7 @@ public class ElementalCraft {
 	private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECLootFunctions.setup();
+		ECinteractions.setup();
 	}
 
 	private void setupServer(FMLServerStartedEvent event) {

@@ -13,6 +13,7 @@
 		"$(ec:infuser)": "$(l:instruments/infuser)",
 		"$(ec:extractor)": "$(l:instruments/extractor)",
 		"$(ec:binder)": "$(l:instruments/binder)",
-		"$(ec:firefurnace)": "$(l:instruments/firefurnace)"
+		"$(ec:firefurnace)": "$(l:instruments/firefurnace)",
+		"$(ec:holder)": "$(l:basics/element_holder)"
 	}
 }

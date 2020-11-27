@@ -1,3 +1,13 @@
+1.16.3-2.4.12:
+
+- add silentgrear materials to elementalcraft
+- add config for inert crystal
+- made mekanism tools infusable
+- re-enable mekanism interaction at a dimishing return
+- add forge tags for swift alloy and drenched iron
+- update some Elementopedia entries
+
+
 1.16.3-2.4.11:
 
 - fix a bug causing purifier to always output the same item

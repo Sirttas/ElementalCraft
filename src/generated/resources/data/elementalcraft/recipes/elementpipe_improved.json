@@ -8,7 +8,7 @@
       "item": "elementalcraft:containedcrystal"
     },
     "i": {
-      "item": "elementalcraft:swift_alloy_ingot"
+      "tag": "forge:ingots/swift_alloy"
     }
   },
   "result": {

@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "elementalcraft:drenched_iron_ingot"
+      "tag": "forge:ingots/drenched_iron"
     }
   ],
   "result": {

@@ -14,10 +14,10 @@
       "item": "elementalcraft:elementpipe_impaired"
     },
     {
-      "item": "elementalcraft:drenched_iron_ingot"
+      "tag": "forge:ingots/drenched_iron"
     },
     {
-      "item": "elementalcraft:drenched_iron_ingot"
+      "tag": "forge:ingots/drenched_iron"
     }
   ],
   "result": {

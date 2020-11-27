@@ -4,6 +4,31 @@
     "minecraft:iron_helmet",
     "minecraft:golden_helmet",
     "minecraft:diamond_helmet",
-    "minecraft:netherite_helmet"
+    "minecraft:netherite_helmet",
+    "#forge:helmets",
+    {
+      "id": "mekanismtools:bronze_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_helmet",
+      "required": false
+    }
   ]
 }

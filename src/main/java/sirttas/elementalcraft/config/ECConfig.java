@@ -84,14 +84,19 @@ public class ECConfig {
 		public final IntValue elementHolderTransferAmount;
 		public final IntValue focusMaxSpell;
 		public final IntValue spellBookMaxSpell;
+		public final BooleanValue playersSpawnWithBook;
 		public final IntValue shardElementAmount;
 
 		public final BooleanValue disableWorldGen;
+		public final BooleanValue disableInertCrystal;
+		public final IntValue inertCrystalCount;
+		public final IntValue inertCrystalSize;
+		public final IntValue inertCrystalYMax;
 		public final IntValue sourceSpawnChance;
 		public final IntValue sourceAltarDistance;
-		public final BooleanValue playersSpawnWithBook;
 
 		public final BooleanValue mekanismInteracionEnabled;
+		public final DoubleValue mekanismPureOreDimishingAmount;
 		public final BooleanValue mekanismPureOreDissolutionRecipe;
 		public final BooleanValue mekanismPureOreInjectingRecipe;
 		public final BooleanValue mekanismPureOrePurifyingRecipe;
@@ -186,26 +191,24 @@ public class ECConfig {
 			
 			builder.pop().comment("Worldgen config").push("worldgen");
 			disableWorldGen = builder.comment("Disable all elementalcraft world gen.").define("disableWorldGen", false);
+			builder.push("inertCrystal");
+			disableInertCrystal = builder.comment("Disable creation of inertCrystals.").define("disableInertCrystal", false);
+			inertCrystalCount = builder.comment("Number of inert crystal vein.").defineInRange("inertCrystalCount", 10, 1, 100);
+			inertCrystalSize = builder.comment("Size of inert crystal vein.").defineInRange("inertCrystalSize", 9, 1, 100);
+			inertCrystalYMax = builder.comment("max Y level of inert crystal.").defineInRange("inertCrystalYMax", 64, 1, 256);
+			builder.pop();
 			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
 			sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 16, 0, 100);
 
 			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
-			mekanismPureOreDissolutionRecipe = builder.comment(
-					"Set to false if you want pure ore to not use mekanism dissolution recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
-					.define("mekanismPureOreDissolutionRecipe", false);
-			mekanismPureOreInjectingRecipe = builder.comment(
-					"Set to false if you want pure ore to not use mekanism injecting recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
-					.define("mekanismPureOreInjectingRecipe", false);
-			mekanismPureOrePurifyingRecipe = builder.comment(
-					"Set to false if you want pure ore to not use mekanism purifying recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
-					.define("mekanismPureOrePurifyingRecipe", false);
-			mekanismPureOreEnrichingRecipe = builder.comment(
-					"Set to false if you want pure ore to not use mekanism enriching recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
-					.define("mekanismPureOreEnrichingRecipe", false);
-			mekanismPureOreCrushingRecipe = builder.comment(
-					"Set to false if you want pure ore to not use mekanism crushing recipes (/!\\ by enabling this option you allow the possibility to create ore frol nothing, it's recomanded to tweek some recipes before).")
-					.define("mekanismPureOreCrushingRecipe", false);
+			mekanismPureOreDimishingAmount = builder.comment("The dimishing amount multiplier when using pure ore in mekanism. it prevent an exploit.").defineInRange("mekanismPureOreDimishingAmount",
+					0.75D, 0, 1);
+			mekanismPureOreDissolutionRecipe = builder.comment("Set to false if you want pure ore to not use mekanism dissolution recipes.").define("mekanismPureOreDissolutionRecipe", true);
+			mekanismPureOreInjectingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism injecting recipes.").define("mekanismPureOreInjectingRecipe", true);
+			mekanismPureOrePurifyingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism purifying recipes.").define("mekanismPureOrePurifyingRecipe", true);
+			mekanismPureOreEnrichingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism enriching recipes.").define("mekanismPureOreEnrichingRecipe", true);
+			mekanismPureOreCrushingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism crushing recipes.").define("mekanismPureOreCrushingRecipe", true);
 
 			builder.pop(2);
 		}

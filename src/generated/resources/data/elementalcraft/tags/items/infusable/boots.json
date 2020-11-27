@@ -4,6 +4,31 @@
     "minecraft:iron_boots",
     "minecraft:golden_boots",
     "minecraft:diamond_boots",
-    "minecraft:netherite_boots"
+    "minecraft:netherite_boots",
+    "#forge:boots",
+    {
+      "id": "mekanismtools:bronze_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_boots",
+      "required": false
+    }
   ]
 }

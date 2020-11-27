@@ -1,0 +1,42 @@
+{
+  "availability": {
+    "tier": 2,
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "item": "elementalcraft:hardened_handle"
+    }
+  },
+  "name": {
+    "translate": "material.elementalcraft.hardened_handle"
+  },
+  "stats": {
+    "rod": {
+      "durability": {
+        "mul2": 0.2
+      },
+      "harvest_speed": {
+        "add": 1.0
+      },
+      "melee_damage": {
+        "add": 0.5
+      },
+      "rarity": 20.0
+    }
+  },
+  "traits": {
+    "rod": [
+      {
+        "name": "silentgear:hard",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

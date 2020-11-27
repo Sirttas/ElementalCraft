@@ -134,6 +134,8 @@
   "spell.elementalcraft.heal": "Healing",
   "spell.elementalcraft.speed": "Speed",
 
+  "material.elementalcraft.fireite": "Fireite",
+
   "shrine_upgrade_bonus.elementalcraft.none": "§4ERROR: %s",
   "shrine_upgrade_bonus.elementalcraft.speed": "Periode: %s",
   "shrine_upgrade_bonus.elementalcraft.element_consuption": "Element Consuption: %s",
@@ -188,7 +190,7 @@
   "elementalcraft.category.advanced": "Advanced",
   "elementalcraft.category.advanced.desc": "Advanced and powerfull late-game tools.",
   "elementalcraft.category.spells": "Spells",
-  "elementalcraft.category.spells.desc": "Spells allows you to directly affect the world around you.",
+  "elementalcraft.category.spells.desc": "Spells allows you to directly affect the world around you.$(br)You can alwayse use a spell, but it will breack if the required resource arent present. To provide them you need to have an $(ec:holder)element holder$() of the same element.",
 
   "elementalcraft.entry.infusion": "Infusion",
   "elementalcraft.entry.binding": "Binding",
@@ -239,19 +241,19 @@
   "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely twicked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon completed crafting and store it in a $(item)chest$() for exemple.$(br2)You ca reoriente its input and output by right clicking them.",
   "elementalcraft.page.spell_book0": "The $(item)Elementalist Grimoire$() allows you to store $(thing)spells$().You can ringht click it to opn it's inventory'.",
   
-  "elementalcraft.page.fireball0": "Throw a $(thing)fire ball$() in the dirrection you are looking at.$(br)Consumes $(thing)fire$().",
-  "elementalcraft.page.gravelfall0": "Summon a column of $(item)gravel$() above the targeted $(thing)block$() or $(thing)entity$().$(br)Consumes $(thing)earth$() and three $(item)gravel$().",
-  "elementalcraft.page.stonewall0": "Summon a three by three $(thing)stone wall$() in front of you to protect you from attacks.$(br)Consumes $(thing)earth$() and nine $(item)stone$().",
-  "elementalcraft.page.heal0": "Heal you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
-  "elementalcraft.page.ender_strike0": "Teleport behind targeted $(thing)entity$() or closest $(thing)monster$() and strike it with increased damage. Be careful not to use it near an $(l:shrines/enderlockshrine)Ender lock shrine$().$(br)Consumes $(thing)air$().",
-  "elementalcraft.page.item_pull0": "Pull all nearby $(item)items to you.$(br)Consumes $(thing)air$().",
-  "elementalcraft.page.animal_growth0": "Fully grow targeted $(thing)animal child$().$(br)Consumes $(thing)water$().",
-  "elementalcraft.page.tree_fall0": "Cut down targeted $(thing)tree$().$(br)Consumes $(thing)earth$().",
-  "elementalcraft.page.purification0": "Remove all negative $(thing)effects$() on you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$().",
-  "elementalcraft.page.ripening0": "Fully mature targeted $(thing)crops$().$(br)Consumes $(thing)water$().",
-  "elementalcraft.page.flame_cleave0": "Hit all $(thing)entities$() around you with a burnig circular attack.$(br)Consumes $(thing)fire$().",
-  "elementalcraft.page.inferno0": "Breath fire in front of you dealing damage to all the $(thing)entities$() in a cone.$(br)Consumes $(thing)fire$().",
-  "elementalcraft.page.dash0": "Dash in targeted direction.$(br)Consumes $(thing)air$().",
-  "elementalcraft.page.silk_vein0": "Mine a whole $(thing)ore vein$() with silk touch.$(br)Consumes $(thing)earth$().",
-  "elementalcraft.page.speed0": "Increase your or the targeted $(thing)entity's'$() speed and attack speed.$(br)Consumes $(thing)air$()."
+  "elementalcraft.page.fireball0": "Throw a $(thing)fire ball$() in the dirrection you are looking at.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.gravelfall0": "Summon a column of $(item)gravel$() above the targeted $(thing)block$() or $(thing)entity$().$(br)Consumes $(thing)earth$() from an $(ec:holder)element holder$() and three $(item)gravel$().",
+  "elementalcraft.page.stonewall0": "Summon a three by three $(thing)stone wall$() in front of you to protect you from attacks.$(br)Consumes $(thing)earth$() from an $(ec:holder)element holder$() and nine $(item)stone$().",
+  "elementalcraft.page.heal0": "Heal you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.ender_strike0": "Teleport behind targeted $(thing)entity$() or closest $(thing)monster$() and strike it with increased damage. Be careful not to use it near an $(l:shrines/enderlockshrine)Ender lock shrine$().$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.item_pull0": "Pull all nearby $(item)items to you.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.animal_growth0": "Fully grow targeted $(thing)animal child$().$(br)Consumes $(thing)water$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.tree_fall0": "Cut down targeted $(thing)tree$().$(br)Consumes $(thing)earth$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.purification0": "Remove all negative $(thing)effects$() on you or the targeted $(thing)entity$().$(br)Consumes $(thing)water$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.ripening0": "Fully mature targeted $(thing)crops$().$(br)Consumes $(thing)water$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.flame_cleave0": "Hit all $(thing)entities$() around you with a burnig circular attack.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.inferno0": "Breath fire in front of you dealing damage to all the $(thing)entities$() in a cone.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.dash0": "Dash in targeted direction.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.silk_vein0": "Mine a whole $(thing)ore vein$() with silk touch.$(br)Consumes $(thing)earth$() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.speed0": "Increase your or the targeted $(thing)entity's'$() speed and attack speed.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$()."
 }

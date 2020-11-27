@@ -14,10 +14,10 @@
       "item": "elementalcraft:elementpipe_impaired"
     },
     {
-      "item": "elementalcraft:swift_alloy_ingot"
+      "tag": "forge:ingots/swift_alloy"
     },
     {
-      "item": "elementalcraft:swift_alloy_ingot"
+      "tag": "forge:ingots/swift_alloy"
     }
   ],
   "result": {
