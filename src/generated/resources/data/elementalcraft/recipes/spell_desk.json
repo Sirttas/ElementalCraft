@@ -7,7 +7,7 @@
   ],
   "key": {
     "i": {
-      "item": "elementalcraft:drenched_iron_ingot"
+      "tag": "forge:ingots/drenched_iron"
     },
     "l": {
       "item": "minecraft:lectern"

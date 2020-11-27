@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 1,
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "item": "elementalcraft:air_silk"
+    }
+  },
+  "name": {
+    "translate": "material.elementalcraft.air_silk"
+  },
+  "stats": {
+    "binding": {
+      "durability": {
+        "add": 10.0
+      },
+      "harvest_speed": {
+        "mul1": 0.1
+      }
+    },
+    "bowstring": {
+      "durability": {
+        "mul1": 0.05
+      },
+      "ranged_damage": {
+        "mul1": -0.1
+      },
+      "ranged_speed": {
+        "mul1": 0.2
+      },
+      "rarity": {
+        "add": 10.0
+      }
+    }
+  },
+  "traits": {
+    "binding": [
+      {
+        "name": "silentgear:flexible",
+        "level": 2
+      }
+    ],
+    "bowstring": [
+      {
+        "name": "silentgear:synergistic",
+        "level": 2
+      },
+      {
+        "name": "silentgear:flexible",
+        "level": 3
+      }
+    ]
+  }
+}

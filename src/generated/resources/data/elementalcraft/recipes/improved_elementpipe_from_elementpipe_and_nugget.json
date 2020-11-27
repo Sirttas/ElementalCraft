@@ -5,19 +5,19 @@
       "item": "elementalcraft:elementpipe"
     },
     {
-      "item": "elementalcraft:swift_alloy_nugget"
+      "tag": "forge:nuggets/swift_alloy"
     },
     {
-      "item": "elementalcraft:swift_alloy_nugget"
+      "tag": "forge:nuggets/swift_alloy"
     },
     {
-      "item": "elementalcraft:swift_alloy_nugget"
+      "tag": "forge:nuggets/swift_alloy"
     },
     {
-      "item": "elementalcraft:swift_alloy_nugget"
+      "tag": "forge:nuggets/swift_alloy"
     },
     {
-      "item": "elementalcraft:swift_alloy_nugget"
+      "tag": "forge:nuggets/swift_alloy"
     }
   ],
   "result": {

@@ -86,16 +86,10 @@ sourceSets.main.resources {
 
 repositories {
     mavenCentral()
-    maven { url = "https://maven.theillusivec4.top/" }
-    maven {
-    	name = "Progwml6 maven"
-    	url = "https://dvs1.progwml6.com/files/maven/"
-  	}
-  	maven {
-   		name = "ModMaven"
-    	url = "https://modmaven.dev/"
-  	}
-  	maven { url 'https://maven.blamejared.com' }
+    maven { url "https://maven.theillusivec4.top/" }
+    maven { url "https://dvs1.progwml6.com/files/maven/" }
+  	maven { url "https://modmaven.dev/" }
+  	maven { url "https://maven.blamejared.com" }
 }
 
 dependencies {
@@ -103,14 +97,18 @@ dependencies {
     
     compile "org.spongepowered:mixin:${mixins_version}"
     
+    
+    // mod dependencies
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     
-    compileOnly fg.deobf("mezz.jei:jei-1.16.3:${jei_version}:api")
     implementation fg.deobf("mezz.jei:jei-1.16.3:${jei_version}")
     
-    compileOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:api")
-    compileOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
+    // mod interactions
+    implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
+    
+    // datagen
+    implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
     
 }
 

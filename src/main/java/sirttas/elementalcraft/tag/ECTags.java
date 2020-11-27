@@ -39,8 +39,30 @@ public class ECTags {
 		public static final INamedTag<Item> PIPES = createTag("pipes");
 		public static final INamedTag<Item> SHRINES = createTag("shrines");
 
+		public static final INamedTag<Item> FORGE_SWORDS = createForgeTag("swords");
+		public static final INamedTag<Item> FORGE_PICKAXES = createForgeTag("pickaxes");
+		public static final INamedTag<Item> FORGE_AXES = createForgeTag("axes");
+		public static final INamedTag<Item> FORGE_SHOVELS = createForgeTag("shovels");
+		public static final INamedTag<Item> FORGE_HOES = createForgeTag("hoes");
+		public static final INamedTag<Item> FORGE_SHILDS = createForgeTag("shields");
+		public static final INamedTag<Item> FORGE_BOWS = createForgeTag("bows");
+		public static final INamedTag<Item> FORGE_CROSSBOWS = createForgeTag("crossbows");
+		public static final INamedTag<Item> FORGE_HELMETS = createForgeTag("helmets");
+		public static final INamedTag<Item> FORGE_CHESTPLATES = createForgeTag("chestplates");
+		public static final INamedTag<Item> FORGE_LEGGINGS = createForgeTag("leggings");
+		public static final INamedTag<Item> FORGE_BOOTS = createForgeTag("boots");
+
+		public static final INamedTag<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
+		public static final INamedTag<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
+		public static final INamedTag<Item> NUGGETS_DRENCHED_IRON = createForgeTag("nuggets/drenched_iron");
+		public static final INamedTag<Item> NUGGETS_SWIFT_ALLOY = createForgeTag("nuggets/swift_alloy");
+
 		private static INamedTag<Item> createTag(String name) {
 			return ItemTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
+		}
+
+		private static INamedTag<Item> createForgeTag(String name) {
+			return ItemTags.makeWrapperTag("forge:" + name);
 		}
 
 		public static ITag<Item> getTag(ResourceLocation loc) {

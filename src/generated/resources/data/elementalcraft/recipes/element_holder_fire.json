@@ -16,7 +16,7 @@
       "item": "elementalcraft:tank_small"
     },
     "i": {
-      "item": "elementalcraft:drenched_iron_ingot"
+      "tag": "forge:ingots/drenched_iron"
     },
     "c": {
       "item": "elementalcraft:firecrystal"
