@@ -122,8 +122,13 @@ public class EvaporationRecipeCategory implements IRecipeCategory<Ingredient> {
 	}
 
 	public static List<Ingredient> getShards() {
-		return Lists.newArrayList(Ingredient.fromTag(ECTags.Items.FIRE_SHARDS), Ingredient.fromTag(ECTags.Items.WATER_SHARDS), Ingredient.fromTag(ECTags.Items.EARTH_SHARDS),
-				Ingredient.fromTag(ECTags.Items.AIR_SHARDS));
+		try {
+			return Lists.newArrayList(Ingredient.fromTag(ECTags.Items.FIRE_SHARDS), Ingredient.fromTag(ECTags.Items.WATER_SHARDS), Ingredient.fromTag(ECTags.Items.EARTH_SHARDS),
+					Ingredient.fromTag(ECTags.Items.AIR_SHARDS));
+		} catch (Exception e) { // FIXME jei bug: https://github.com/mezz/JustEnoughItems/issues/2177
+			return Lists.newArrayList(Ingredient.fromItems(ECItems.fireShard), Ingredient.fromItems(ECItems.waterShard), Ingredient.fromItems(ECItems.earthShard),
+					Ingredient.fromItems(ECItems.airShard));
+		}
 	}
 
 }

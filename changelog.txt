@@ -1,3 +1,11 @@
+1.16.3-2.4.13:
+
+- changed binder overlay to reflect item order
+- add a shadow of pedestals when placing a pure infuser
+- fix jei not available on server
+- fix some Elementopedia entries
+
+
 1.16.3-2.4.12:
 
 - add silentgrear materials to elementalcraft

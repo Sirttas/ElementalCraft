@@ -219,6 +219,7 @@ public class ECConfig {
 		public final BooleanValue reloadJEIAfterPureOreGen;
 		public final BooleanValue usePaleElementGauge;
 		public final IntValue shrineRangeDisplayDuration;
+		public final BooleanValue renderPedestalShadow;
 
 		public final IntValue gaugeOffsetX;
 		public final IntValue gaugeOffsetY;
@@ -228,6 +229,7 @@ public class ECConfig {
 
 			reloadJEIAfterPureOreGen = builder.comment("Reload JEI if it was loaded before Pure Ore generation.").define("reloadJEIAfterPureOreGen", true);
 			shrineRangeDisplayDuration = builder.comment("The duration of shrine range display.").defineInRange("shrineRangeDisplayDuration", 600, 0, 10000);
+			renderPedestalShadow = builder.comment("Display a shadow where pedestals can be placed.").define("renderPedestalShadow", true);
 
 			builder.push("gauge");
 			usePaleElementGauge = builder.comment("Use pale element gauges.").define("usePaleElementGauge", false);
