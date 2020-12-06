@@ -110,19 +110,21 @@ public class PureOreManager {
 	}
 
 	private void addEntry(Entry entry) {
-		for (Entry other : pureOres.values()) {
-			if (entry.match(other)) {
-				pureOres.put(entry.ore, other);
-				entry.recipes.forEach((type, recipe) -> {
-					if (!other.recipes.containsKey(type)) {
-						other.addRecipe(recipe);
-					}
-				});
-				other.ingredients.add(new PureOreIngredient(createPureOre(entry.ore)));
-				return;
+		if (entry.isValid()) {
+			for (Entry other : pureOres.values()) {
+				if (entry.match(other)) {
+					pureOres.put(entry.ore, other);
+					entry.recipes.forEach((type, recipe) -> {
+						if (!other.recipes.containsKey(type)) {
+							other.addRecipe(recipe);
+						}
+					});
+					other.ingredients.add(new PureOreIngredient(createPureOre(entry.ore)));
+					return;
+				}
 			}
+			pureOres.put(entry.ore, entry);
 		}
-		pureOres.put(entry.ore, entry);
 	}
 
 	private FurnaceRecipe buildSmeltingRecipe(FurnaceRecipe sourceRecipe, Ingredient ingredient) {
@@ -154,6 +156,7 @@ public class PureOreManager {
 			result = ItemStack.EMPTY;
 		}
 
+
 		@SuppressWarnings("unchecked")
 		public <C extends IInventory, T extends IRecipe<C>> T getRecipe(IRecipeType<T> recipeType) {
 			return (T) recipes.get(recipeType);
@@ -171,11 +174,11 @@ public class PureOreManager {
 			return new PureOreCompoundIngredient(ingredients);
 		}
 
-		private boolean match(Entry other) {
-			if (ECInventoryHelper.stackEqualCount(other.result, result)) {
-				return true;
-			}
-			if (other.recipes.size() > 0 && recipes.size() > 0) {
+		public boolean match(Entry other) {
+			if (other.isValid() && isValid()) {
+				if (!other.result.isEmpty() && !result.isEmpty() && ECInventoryHelper.stackEqualCount(other.result, result)) {
+					return true;
+				}
 				for (IRecipe<?> recipe : other.recipes.values()) {
 					if (recipes.containsValue(recipe)) {
 						return true;
@@ -183,6 +186,10 @@ public class PureOreManager {
 				}
 			}
 			return false;
+		}
+
+		public boolean isValid() {
+			return !recipes.isEmpty();
 		}
 	}
 

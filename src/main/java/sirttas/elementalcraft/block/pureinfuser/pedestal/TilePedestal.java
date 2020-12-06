@@ -68,6 +68,7 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 
 			if (!simulate) {
 				elementAmount = newCount;
+				this.forceSync();
 			}
 			return ret;
 		}

@@ -1,3 +1,10 @@
+1.16.3-2.4.14:
+
+- fix a bug with pure ore matching ores that are not linked
+- fix typo in datapack
+- fix a desync bug
+
+
 1.16.3-2.4.13:
 
 - changed binder overlay to reflect item order

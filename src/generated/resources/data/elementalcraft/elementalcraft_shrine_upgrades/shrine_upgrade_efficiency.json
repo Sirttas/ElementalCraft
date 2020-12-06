@@ -4,7 +4,7 @@
   },
   "bonuses": [
     {
-      "type": "element_consuption",
+      "type": "element_consumption",
       "multiplier": 0.5
     },
     {

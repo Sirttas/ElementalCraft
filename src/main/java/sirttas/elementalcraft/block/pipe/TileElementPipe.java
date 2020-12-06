@@ -115,16 +115,17 @@ public class TileElementPipe extends TileECTickable {
 		super.tick();
 		refresh();
 		transferedAmount = 0;
-		connections.forEach((k, v) -> {
-			if (v == ConnectionType.EXTRACT) {
-				TileEntity entity = getAdjacentTile(k);
+		if (this.hasWorld() && !this.world.isRemote) {
+			connections.forEach((k, v) -> {
+				if (v == ConnectionType.EXTRACT) {
+					TileEntity entity = getAdjacentTile(k);
 
-				if (entity instanceof IElementSender) {
-					transferElement((IElementSender) entity);
+					if (entity instanceof IElementSender) {
+						transferElement((IElementSender) entity);
+					}
 				}
-			}
-		});
-
+			});
+		}
 		if (this.updateState && this.hasWorld()) {
 			this.getWorld().setBlockState(getPos(),
 					this.getWorld().getBlockState(pos).with(BlockElementPipe.NORTH, isConnectedTo(Direction.NORTH)).with(BlockElementPipe.EAST, isConnectedTo(Direction.EAST))

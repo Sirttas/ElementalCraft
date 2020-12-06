@@ -106,7 +106,7 @@ public class ShrineUpgrade {
 	}
 
 	public enum BonusType implements IStringSerializable {
-		NONE("none", false), SPEED("speed", false), ELEMENT_CONSUMPTION("element_consuption", false), CAPACITY("capacity", true), RANGE("range", true);
+		NONE("none", false), SPEED("speed", false), ELEMENT_CONSUMPTION("element_consumption", false), CAPACITY("capacity", true), RANGE("range", true);
 
 		private final String name;
 		private final boolean positive;
