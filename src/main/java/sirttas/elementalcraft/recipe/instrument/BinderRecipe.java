@@ -27,7 +27,7 @@ import sirttas.elementalcraft.nbt.ECNames;
 public class BinderRecipe extends AbstractInstrumentRecipe<TileBinder> {
 
 	public static final String NAME = "binding";
-	public static final IRecipeType<BinderRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(NAME), new IRecipeType<BinderRecipe>() {
+	public static final IRecipeType<BinderRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<BinderRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;

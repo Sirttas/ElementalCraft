@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
 import sirttas.elementalcraft.block.tank.TileTank;
@@ -11,11 +12,11 @@ import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
 public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<TileInfuser> {
 
-	private static final String TYPE_NAME = "infusion";
-	public static final IRecipeType<AbstractInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(TYPE_NAME), new IRecipeType<AbstractInfusionRecipe>() {
+	private static final String NAME = "infusion";
+	public static final IRecipeType<AbstractInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<AbstractInfusionRecipe>() {
 		@Override
 		public String toString() {
-			return TYPE_NAME;
+			return NAME;
 		}
 	});
 

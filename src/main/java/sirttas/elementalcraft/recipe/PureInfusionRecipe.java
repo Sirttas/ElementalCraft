@@ -24,7 +24,7 @@ import sirttas.elementalcraft.nbt.ECNames;
 public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser> {
 
 	public static final String NAME = "pureinfusion";
-	public static final IRecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(NAME), new IRecipeType<PureInfusionRecipe>() {
+	public static final IRecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<PureInfusionRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
