@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.FenceBlock;
+import net.minecraft.block.GlassBlock;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
@@ -87,6 +88,8 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECBlocks {
 
+	public static final AbstractBlock.IPositionPredicate ALWAYS_FALSE = (a, b, c) -> false;
+
 	private ECBlocks() {
 	}
 
@@ -144,7 +147,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_slab") public static SlabBlock pureRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static StairsBlock pureRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static WallBlock pureRockWall;
-	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static BlockEC burntGlass;
+	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static GlassBlock burntGlass;
 	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass_pane") public static PaneBlock burntGlassPane;
 
 	@SubscribeEvent
@@ -204,7 +207,8 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.PUREROCK), "purerock_slab");
 		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.PUREROCK), "purerock_wall");
-		RegistryHelper.register(registry, new BlockEC(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass");
+		RegistryHelper.register(registry, new GlassBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()
+				.setAllowsSpawn((a, b, c, d) -> false).setOpaque(ALWAYS_FALSE).setSuffocates(ALWAYS_FALSE).setBlocksVision(ALWAYS_FALSE)), "burnt_glass");
 		RegistryHelper.register(registry, new PaneBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass_pane");
 	}
 

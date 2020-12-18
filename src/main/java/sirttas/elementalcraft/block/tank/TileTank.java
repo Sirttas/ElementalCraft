@@ -6,11 +6,11 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.tile.TileEC;
+import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.nbt.ECNames;
 
-public class TileTank extends TileEC implements ITank {
+public class TileTank extends TileECTickable implements ITank {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static TileEntityType<TileTank> TYPE;
 

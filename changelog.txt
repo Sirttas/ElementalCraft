@@ -1,3 +1,11 @@
+1.16.3-2.4.16:
+
+- fix a desync bug with containers
+- fix some tool infusion being inconsistent
+- fix a crash with some tool infusions in anvils
+- fix burnt glass properties and rendering
+
+
 1.16.3-2.4.15:
 
 - fix recipes beeing associated to minectraft namespace

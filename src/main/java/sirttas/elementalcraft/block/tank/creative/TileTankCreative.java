@@ -7,10 +7,10 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.tank.ITank;
-import sirttas.elementalcraft.block.tile.TileEC;
+import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.nbt.ECNames;
 
-public class TileTankCreative extends TileEC implements ITank {
+public class TileTankCreative extends TileECTickable implements ITank {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static TileEntityType<TileTankCreative> TYPE;
 

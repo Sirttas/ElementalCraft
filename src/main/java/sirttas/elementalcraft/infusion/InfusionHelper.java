@@ -4,11 +4,16 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.ObjIntConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -48,7 +53,7 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.SWORD, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_ASPECT));
 		addInfusionToMap(ItemClass.SWORD, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.SHARPNESS));
 		addInfusionToMap(ItemClass.SWORD, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, Attributes.ATTACK_SPEED, ECConfig.COMMON.swordAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.MAINHAND, Attributes.ATTACK_SPEED, ECConfig.COMMON.swordAirInfusionSpeedBonus.get(), m > 0));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FORTUNE));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.UNBREAKING));
 		addInfusionToMap(ItemClass.PICKAXE, ElementType.AIR, (s, m) -> addEnchantmentLevel(s, m, Enchantments.EFFICIENCY));
@@ -75,7 +80,7 @@ public class InfusionHelper {
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
 		addInfusionToMap(ItemClass.LEGGINGS, ElementType.AIR,
-				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.MOVEMENT_SPEED, ECConfig.COMMON.leggingsAirInfusionSpeedBonus.get() * m));
+				(s, m) -> applyAttributeModifierInfusion(s, EquipmentSlotType.LEGS, Attributes.MOVEMENT_SPEED, ECConfig.COMMON.leggingsAirInfusionSpeedBonus.get(), m > 0));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.WATER, (s, m) -> addEnchantmentLevel(s, m, Enchantments.DEPTH_STRIDER));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.FIRE, (s, m) -> addEnchantmentLevel(s, m, Enchantments.FIRE_PROTECTION));
 		addInfusionToMap(ItemClass.BOOTS, ElementType.EARTH, (s, m) -> addEnchantmentLevel(s, m, Enchantments.PROTECTION));
@@ -110,20 +115,20 @@ public class InfusionHelper {
 		}
 	}
 
-	private static void addAttributeModifier(ItemStack stack, Attribute attribute, double amount, EquipmentSlotType slot) {
-		stack.addAttributeModifier(attribute, new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
-	}
-
-	private static void applyAttributeModifierInfusion(ItemStack stack, EquipmentSlotType slot, Attribute attribute, double amount) {
-		stack.getAttributeModifiers(slot).forEach((k, v) -> {
-			if (k.equals(attribute)) {
-				addAttributeModifier(stack, attribute, v.getAmount() + amount, slot);
-			} else {
-				stack.addAttributeModifier(k, v, slot);
+	private static void applyAttributeModifierInfusion(ItemStack stack, EquipmentSlotType slot, Attribute attribute, double amount, boolean isApplying) {
+		if (!stack.hasTag() || !stack.getTag().contains("AttributeModifiers", 9)) {
+			if (isApplying) {
+				stack.getAttributeModifiers(slot).forEach((k, v) -> stack.addAttributeModifier(k, v, slot));
 			}
-		});
-		if (!stack.getAttributeModifiers(slot).containsKey(attribute)) {
-			addAttributeModifier(stack, attribute, amount, slot);
+		} else {
+			Multimap<Attribute, AttributeModifier> map = stack.getAttributeModifiers(slot).entries().stream().filter(entry -> !entry.getValue().getID().equals(INFUSION_MODIFIER)).collect(Multimaps.toMultimap(Entry::getKey, Entry::getValue, HashMultimap::create));
+			
+			stack.getTag().getList("AttributeModifiers", 10).clear();
+			map.forEach((key, value) -> stack.addAttributeModifier(key, value, slot));
+
+		}
+		if (isApplying) {
+			stack.addAttributeModifier(attribute, new AttributeModifier(INFUSION_MODIFIER, "Infusion modifier", amount, AttributeModifier.Operation.ADDITION), slot);
 		}
 	}
 
