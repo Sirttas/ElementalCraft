@@ -22,6 +22,8 @@ import sirttas.elementalcraft.property.ECProperties;
 
 public class ItemEC extends Item implements IItemEC {
 
+	private static boolean noJeiLogged = false;
+
 	public ItemEC() {
 		this(ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
 	}
@@ -61,7 +63,10 @@ public class ItemEC extends Item implements IItemEC {
 				return colors.get(0);
 			}
 		} catch (NoClassDefFoundError e) {
-			ElementalCraft.LOGGER.warn("JEI not present, can't lookup item colors", e);
+			if (!noJeiLogged) {
+				ElementalCraft.LOGGER.warn("JEI not present, can't lookup item colors", e);
+				noJeiLogged = true;
+			}
 		}
 		return -1;
 	}

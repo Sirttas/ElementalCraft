@@ -113,8 +113,9 @@ public class ElementalCraftTab extends ItemGroup {
 	}
 
 	private void addItem(IItemProvider item, @Nonnull NonNullList<ItemStack> list) {
-		item.asItem().fillItemGroup(this, list);
-
+		if (item != null) {
+			item.asItem().fillItemGroup(this, list);
+		}
 	}
 
 }
