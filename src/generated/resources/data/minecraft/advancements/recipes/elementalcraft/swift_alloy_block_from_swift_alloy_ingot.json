@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:swift_alloy_block_from_swift_alloy_ingot"
+    ]
+  },
+  "criteria": {
+    "has_swift_alloy_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/swift_alloy"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:swift_alloy_block_from_swift_alloy_ingot"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_swift_alloy_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

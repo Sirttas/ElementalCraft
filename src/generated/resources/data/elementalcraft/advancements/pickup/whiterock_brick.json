@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_whiterock_brick": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:whiterock_brick"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_whiterock_brick"
+    ]
+  ]
+}

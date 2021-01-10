@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.gui;
 
+import java.util.Optional;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
@@ -16,6 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.capability.CapabilityElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
@@ -37,11 +40,12 @@ public class GuiHandler {
 			if (result != null && minecraft.gameSettings.getPointOfView().func_243192_a()) {
 				BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getPos() : null;
 				TileEntity tile = pos != null ? minecraft.player.world.getTileEntity(pos) : null;
+				if (tile != null) {
+					Optional<IElementStorage> opt = CapabilityElementStorage.get(tile).filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo());
 
-				if (tile instanceof IElementStorage) {
-					IElementStorage storage = (IElementStorage) tile;
+					if (opt.isPresent()) {
+						IElementStorage storage = opt.get();
 
-					if (storage.doesRenderGauge() || GuiHelper.showDebugInfo()) {
 						doRenderElementGauge(event.getMatrixStack(), storage.getElementAmount(), storage.getElementCapacity(), storage.getElementType());
 						return;
 					}

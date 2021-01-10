@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -26,11 +27,12 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.holder.ItemElementHolder;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-public class Spell extends ForgeRegistryEntry<Spell> {
+public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProvider {
 
 	protected static final UUID ATTACK_DAMAGE_MODIFIER = UUID.fromString("9da31711-7ea8-41d6-a4ef-3a6f7f679637");
 	protected static final UUID REACH_DISTANCE_MODIFIER = UUID.fromString("1a6a2857-a598-40e4-9161-5b58bb14e9bc");
@@ -125,6 +127,7 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 		return properties.getConsumeAmount();
 	}
 
+	@Override
 	public ElementType getElementType() {
 		return properties.getElementType();
 	}
@@ -169,6 +172,8 @@ public class Spell extends ForgeRegistryEntry<Spell> {
 	public enum Type implements IStringSerializable {
 		NONE("none"), COMBAT("combat"), UTILITY("utility"), MIXED("mixed");
 		
+		public static final Codec<Type> CODEC = IStringSerializable.createEnumCodec(Type::values, Type::byName);
+
 		private final String name;
 
 		private Type(String name) {

@@ -1,78 +1,91 @@
 package sirttas.elementalcraft.block.instrument;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3d;
-import sirttas.elementalcraft.block.retriever.BlockRetriever;
-import sirttas.elementalcraft.block.tank.TileTank;
-import sirttas.elementalcraft.block.tile.TileECContainer;
-import sirttas.elementalcraft.nbt.ECNames;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.tile.ICraftingTile;
+import sirttas.elementalcraft.block.tile.TileECCrafting;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.rune.Rune.BonusType;
+import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.capability.RuneHandler;
 
-public abstract class TileInstrument extends TileECContainer implements IInstrument {
+public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrumentRecipe<T>> extends TileECCrafting<T, R> implements IElementTypeProvider {
 
-	protected float progress = 0;
-	private IInstrumentRecipe<IInstrument> recipe;
-	protected int outputSlot = 0;
+	private int progress = 0;
+	private final RuneHandler runeHandler;
 
-	public TileInstrument(TileEntityType<?> tileEntityTypeIn) {
-		super(tileEntityTypeIn);
-	}
-
-	@Override
-	public boolean isRecipeAvailable() {
-		if (recipe != null && recipe.matches(this)) {
-			return true;
-		}
-		recipe = this.lookupRecipe();
-		if (recipe != null) {
-			this.forceSync();
-			return true;
-		}
-		return false;
-	}
-
-	protected abstract <T extends IInstrument> IInstrumentRecipe<T> lookupRecipe();
-
-	@Override
-	public void process() {
-		if (!world.isRemote) {
-			recipe.process(this);
-			BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
-		}
-		recipe = null;
-		this.forceSync();
+	public TileInstrument(TileEntityType<?> tileEntityTypeIn, IRecipeType<R> recipeType, int transferSpeed, int maxRunes) {
+		super(tileEntityTypeIn, recipeType, transferSpeed);
+		runeHandler = maxRunes > 0 ? new RuneHandler(maxRunes) : null;
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		makeProgress();
+		if (progressOnTick()) {
+			makeProgress();
+		}
 	}
 
+	protected boolean progressOnTick() {
+		return true;
+	}
 
-	protected void makeProgress() {
-		TileTank tank = getTank();
+	protected boolean makeProgress() {
+		IElementStorage tank = getTank();
 
-		if (recipe != null && progress >= recipe.getDuration()) {
+		if (recipe != null && progress >= recipe.getElementAmount()) {
 			process();
 			progress = 0;
-		} else if (this.isRecipeAvailable() && tank != null && canProgress() && tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), true) == recipe.getElementPerTick()) {
-			tank.extractElement(recipe.getElementPerTick(), recipe.getElementType(), false);
-			onProgress();
-			progress++;
+			return true;
+		} else if (this.isRecipeAvailable() && tank != null) {
+			int oldProgress = progress;
+			float preservation = getElementPreservation();
+
+			progress += tank.extractElement(Math.round(getTransferSpeed() / preservation), recipe.getElementType(), false) * preservation;
+			if (progress / this.transferSpeed > oldProgress / this.transferSpeed) {
+				onProgress();
+			}
+			return true;
 		} else if (recipe == null) {
 			progress = 0;
 		}
+		return false;
+	}
+
+	private float getTransferSpeed() {
+		return this.transferSpeed * (runeHandler.getBonus(BonusType.SPEED) + 1);
+	}
+
+	private float getElementPreservation() {
+		return runeHandler.getBonus(BonusType.ELEMENT_PRESERVATION) + 1;
 	}
 
 	protected void onProgress() {
 		if (world.isRemote) {
-			ParticleHelper.createElementFlowParticle(getTankElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, world.rand);
+			ParticleHelper.createElementFlowParticle(getElementType(), world, Vector3d.copyCentered(pos), Direction.UP, 1, world.rand);
 		}
+	}
+
+	@Override
+	public ElementType getElementType() {
+		ElementType tankType = this.getTankElementType();
+		
+		return tankType != ElementType.NONE || recipe == null ? tankType : recipe.getElementType();
 	}
 
 	@Override
@@ -81,32 +94,47 @@ public abstract class TileInstrument extends TileECContainer implements IInstrum
 	}
 
 	@Override
-	public boolean canProgress() {
-		return true;
+	public CompoundNBT write(CompoundNBT compound) {
+		super.write(compound);
+		compound.putInt(ECNames.PROGRESS, progress);
+		compound.put(ECNames.RUNE_HANDLER, CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY.writeNBT(runeHandler, null));
+		return compound;
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT cmp) {
-		super.write(cmp);
-		cmp.putFloat(ECNames.PROGRESS, progress);
-		return cmp;
-	}
-
-	@Override
-	public void read(BlockState state, CompoundNBT cmp) {
-		super.read(state, cmp);
-		progress = cmp.getFloat(ECNames.PROGRESS);
-	}
-
-	@Override
-	public float getProgress() {
-		return progress;
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
+		progress = compound.getInt(ECNames.PROGRESS);
+		if (compound.contains(ECNames.RUNE_HANDLER)) {
+			CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY.readNBT(runeHandler, null, compound.get(ECNames.RUNE_HANDLER));
+		}
 	}
 
 	@Override
 	public void clear() {
 		super.clear();
-		recipe = null;
 		progress = 0;
+	}
+
+	@Override
+	public int getProgress() {
+		return progress;
+	}
+
+	public float getProgressRatio() {
+		return progress / recipe.getElementAmount();
+	}
+
+	public RuneHandler getRuneHandler() {
+		return runeHandler;
+	}
+
+	@Override
+	@Nonnull
+	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+		if (!this.removed && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
+			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
+		}
+		return super.getCapability(cap, side);
 	}
 }

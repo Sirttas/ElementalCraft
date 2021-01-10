@@ -28,6 +28,8 @@ import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipe
 import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ImprovedExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.BindingRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.instrument.CrystallizationRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.instrument.InscriptionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.PurificationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.infusion.InfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.infusion.ToolInfusionRecipeCategory;
@@ -37,7 +39,9 @@ import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredie
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
-import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
+import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
+import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
@@ -66,6 +70,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.useNbtForSubtypes(ECItems.earthElementHolder);
 		registry.useNbtForSubtypes(ECItems.fireElementHolder);
 		registry.useNbtForSubtypes(ECItems.waterElementHolder);
+		registry.useNbtForSubtypes(ECItems.rune);
 	}
 
 	@Override
@@ -76,6 +81,8 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new InfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new ToolInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BindingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new CrystallizationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new InscriptionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new PureInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new PurificationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
@@ -90,6 +97,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECItems.infuser), InfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.infuser), ToolInfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.binder), BindingRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.crystallizer), CrystallizationRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.inscriber), InscriptionRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.chisel), InscriptionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.pureInfuser), PureInfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.firePedestal), PureInfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.waterPedestal), PureInfusionRecipeCategory.UID);
@@ -108,7 +118,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(EvaporationRecipeCategory.getShards(), EvaporationRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(AbstractInfusionRecipe.TYPE).values(), InfusionRecipeCategory.UID);
 		registry.addRecipes(InfusionHelper.getRecipes(), ToolInfusionRecipeCategory.UID);
-		registry.addRecipes(recipeManager.getRecipes(BinderRecipe.TYPE).values(), BindingRecipeCategory.UID);
+		registry.addRecipes(recipeManager.getRecipes(BindingRecipe.TYPE).values(), BindingRecipeCategory.UID);
+		registry.addRecipes(recipeManager.getRecipes(CrystallizationRecipe.TYPE).values(), CrystallizationRecipeCategory.UID);
+		registry.addRecipes(recipeManager.getRecipes(InscriptionRecipe.TYPE).values(), InscriptionRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(PureInfusionRecipe.TYPE).values(), PureInfusionRecipeCategory.UID);
 		registry.addRecipes(ElementalCraft.PURE_ORE_MANAGER.getRecipes(), PurificationRecipeCategory.UID);
 		registry.addRecipes(createFocusAnvilRecipes(registry.getVanillaRecipeFactory()), VanillaRecipeCategoryUid.ANVIL);

@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "air",
+  "element_amount": 20000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "item": "minecraft:clock"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    }
+  ],
+  "output": "elementalcraft:overloadshrine"
+}

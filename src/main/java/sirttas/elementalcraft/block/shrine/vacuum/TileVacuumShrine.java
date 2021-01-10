@@ -37,7 +37,7 @@ public class TileVacuumShrine extends TileShrine {
 	protected boolean doTick() {
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos.down(), Direction.UP);
 
-		return this.hasUpgrade(ShrineUpgrades.PICKUP.get()) ? pickup(inv) : pull(inv);
+		return this.hasUpgrade(ShrineUpgrades.pickup) ? pickup(inv) : pull(inv);
 	}
 
 	private boolean pickup(IItemHandler inv) {
@@ -49,11 +49,11 @@ public class TileVacuumShrine extends TileShrine {
 
 	private boolean pull(IItemHandler inv) {
 		int consumeAmount = this.getConsumeAmount();
-		double pullSpeed = ECConfig.COMMON.vacuumShrinePullSpeed.get();
+		double pullSpeed = ECConfig.COMMON.vacuumShrinePullSpeed.get() * this.getMultiplier(BonusType.STRENGTH);
 		Vector3d pos3d = Vector3d.copyCentered(this.getPos());
 
 		getEntities().forEach(entity -> {
-			if (this.getElementAmount() >= consumeAmount) {
+			if (this.elementStorage.getElementAmount() >= consumeAmount) {
 				this.consumeElement(consumeAmount);
 				entity.setMotion(pos3d.subtract(entity.getPositionVec()).normalize().mul(pullSpeed, pullSpeed, pullSpeed));
 				if (pos3d.distanceTo(entity.getPositionVec()) <= 2 * Math.max(1, this.getMultiplier(BonusType.RANGE))) {

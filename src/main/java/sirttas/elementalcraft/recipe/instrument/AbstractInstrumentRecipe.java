@@ -2,9 +2,9 @@ package sirttas.elementalcraft.recipe.instrument;
 
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.IInstrument;
+import sirttas.elementalcraft.block.tile.ICraftingTile;
 
-public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements IInstrumentRecipe<T> {
+public abstract class AbstractInstrumentRecipe<T extends ICraftingTile> implements IInstrumentRecipe<T> {
 
 	protected ElementType elementType;
 	protected ResourceLocation id;

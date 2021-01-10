@@ -1,15 +1,10 @@
 {
   "predicate": {
-    "tag": "elementalcraft:shrines"
+    "tag": "elementalcraft:shrines",
+    "type": "dpanvil:tag"
   },
-  "bonuses": [
-    {
-      "type": "element_consumption",
-      "multiplier": 0.5
-    },
-    {
-      "type": "capacity",
-      "multiplier": 0.9
-    }
-  ]
+  "bonuses": {
+    "element_consumption": 0.5,
+    "capacity": 0.9
+  }
 }

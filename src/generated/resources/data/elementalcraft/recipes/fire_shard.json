@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:powerful_fire_shard"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:fire_shard",
+    "count": 9
+  }
+}

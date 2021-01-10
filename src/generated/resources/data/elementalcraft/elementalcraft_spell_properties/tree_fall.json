@@ -1,9 +1,9 @@
 {
+  "element_consumption": 3000,
+  "cooldown": 600,
+  "range": 15.0,
+  "color": 32802,
   "spell_type": "utility",
   "element_type": "earth",
-  "cooldown": 600,
-  "element_consumption": 3000,
-  "weight": 5,
-  "range": 15.0,
-  "color": 32802
+  "weight": 5
 }

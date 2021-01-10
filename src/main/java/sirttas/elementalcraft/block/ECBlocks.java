@@ -10,6 +10,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -28,12 +29,16 @@ import sirttas.elementalcraft.block.extractor.TileExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
+import sirttas.elementalcraft.block.instrument.crystallizer.BlockCrystallizer;
+import sirttas.elementalcraft.block.instrument.crystallizer.TileCrystallizer;
 import sirttas.elementalcraft.block.instrument.firefurnace.BlockFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.blast.BlockFireBlastFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.blast.TileFireBlastFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.BlockInfuser;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.block.instrument.inscriber.BlockInscriber;
+import sirttas.elementalcraft.block.instrument.inscriber.TileInscriber;
 import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
@@ -65,9 +70,11 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockCapacityShri
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockEfficiencyShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockOptimizationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockRangeShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockStrengthShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.BlockAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockNectarShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessGrowthShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
@@ -101,6 +108,8 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEvaporator.NAME) public static BlockEvaporator evaporator;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static BlockInfuser infuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static BlockBinder binder;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystallizer.NAME) public static BlockCrystallizer crystallizer;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInscriber.NAME) public static BlockInscriber inscriber;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static BlockPedestal firePedestal;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_WATER) public static BlockPedestal waterPedestal;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_EARTH) public static BlockPedestal earthPedestal;
@@ -128,12 +137,14 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRangeShrineUpgrade.NAME) public static BlockRangeShrineUpgrade rangeShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCapacityShrineUpgrade.NAME) public static BlockCapacityShrineUpgrade capacityShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEfficiencyShrineUpgrade.NAME) public static BlockEfficiencyShrineUpgrade efficiencyShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockStrengthShrineUpgrade.NAME) public static BlockStrengthShrineUpgrade strengthShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOptimizationShrineUpgrade.NAME) public static BlockOptimizationShrineUpgrade optimizationShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFortuneShrineUpgrade.NAME) public static BlockFortuneShrineUpgrade fortuneShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static BlockSilkTouchShrineUpgrade silkTouchShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static BlockPlantingShrineUpgrade plantingShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static BlockBonelessGrowthShrineUpgrade bonelessGrowthShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPickupShrineUpgrade.NAME) public static BlockPickupShrineUpgrade pickupShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockNectarShrineUpgrade.NAME) public static BlockNectarShrineUpgrade nectarShrineUpgrade;
 
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static BlockSource source;
@@ -143,12 +154,19 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_stairs") public static StairsBlock whiteRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_wall") public static WallBlock whiteRockWall;
 	@ObjectHolder(ElementalCraft.MODID + ":whiterock_fence") public static FenceBlock whiteRockFence;
+	@ObjectHolder(ElementalCraft.MODID + ":whiterock_brick") public static BlockEC whiteRockBrick;
+	@ObjectHolder(ElementalCraft.MODID + ":whiterock_brick_slab") public static SlabBlock whiteRockBrickSlab;
+	@ObjectHolder(ElementalCraft.MODID + ":whiterock_brick_stairs") public static StairsBlock whiteRockBrickStairs;
+	@ObjectHolder(ElementalCraft.MODID + ":whiterock_brick_wall") public static WallBlock whiteRockBrickWall;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock") public static BlockEC pureRock;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_slab") public static SlabBlock pureRockSlab;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_stairs") public static StairsBlock pureRockStairs;
 	@ObjectHolder(ElementalCraft.MODID + ":purerock_wall") public static WallBlock pureRockWall;
 	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass") public static GlassBlock burntGlass;
 	@ObjectHolder(ElementalCraft.MODID + ":burnt_glass_pane") public static PaneBlock burntGlassPane;
+	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_block") public static BlockEC drenchedIronBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":swift_alloy_block") public static BlockEC swiftAlloyBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":fireite_block") public static BlockEC fireiteBlock;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -162,6 +180,8 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockEvaporator(), BlockEvaporator.NAME);
 		RegistryHelper.register(registry, new BlockInfuser(), BlockInfuser.NAME);
 		RegistryHelper.register(registry, new BlockBinder(), BlockBinder.NAME);
+		RegistryHelper.register(registry, new BlockCrystallizer(), BlockCrystallizer.NAME);
+		RegistryHelper.register(registry, new BlockInscriber(), BlockInscriber.NAME);
 		RegistryHelper.register(registry, new BlockPedestal(ElementType.FIRE), BlockPedestal.NAME_FIRE);
 		RegistryHelper.register(registry, new BlockPedestal(ElementType.WATER), BlockPedestal.NAME_WATER);
 		RegistryHelper.register(registry, new BlockPedestal(ElementType.EARTH), BlockPedestal.NAME_EARTH);
@@ -189,12 +209,14 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockRangeShrineUpgrade(), BlockRangeShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockCapacityShrineUpgrade(), BlockCapacityShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockEfficiencyShrineUpgrade(), BlockEfficiencyShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockStrengthShrineUpgrade(), BlockStrengthShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockOptimizationShrineUpgrade(), BlockOptimizationShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockFortuneShrineUpgrade(), BlockFortuneShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockSilkTouchShrineUpgrade(), BlockSilkTouchShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockPlantingShrineUpgrade(), BlockPlantingShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockBonelessGrowthShrineUpgrade(), BlockBonelessGrowthShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockPickupShrineUpgrade(), BlockPickupShrineUpgrade.NAME);
+		RegistryHelper.register(registry, new BlockNectarShrineUpgrade(), BlockNectarShrineUpgrade.NAME);
 
 		RegistryHelper.register(registry, new BlockSource(), BlockSource.NAME);
 		RegistryHelper.register(registry, new BlockCrystalOre(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F)), BlockCrystalOre.NAME);
@@ -203,6 +225,10 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new StairsBlock(() -> whiteRock.getDefaultState(), ECProperties.Blocks.WHITEROCK), "whiterock_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.WHITEROCK), "whiterock_wall");
 		RegistryHelper.register(registry, new FenceBlock(ECProperties.Blocks.WHITEROCK), "whiterock_fence");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.WHITEROCK), "whiterock_brick");
+		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_brick_slab");
+		RegistryHelper.register(registry, new StairsBlock(() -> whiteRockBrick.getDefaultState(), ECProperties.Blocks.WHITEROCK), "whiterock_brick_stairs");
+		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.WHITEROCK), "whiterock_brick_wall");
 		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.PUREROCK), "purerock");
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.PUREROCK), "purerock_slab");
 		RegistryHelper.register(registry, new StairsBlock(() -> pureRock.getDefaultState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
@@ -210,6 +236,12 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new GlassBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()
 				.setAllowsSpawn((a, b, c, d) -> false).setOpaque(ALWAYS_FALSE).setSuffocates(ALWAYS_FALSE).setBlocksVision(ALWAYS_FALSE)), "burnt_glass");
 		RegistryHelper.register(registry, new PaneBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.7F).sound(SoundType.GLASS).notSolid()), "burnt_glass_pane");
+		RegistryHelper.register(registry, new BlockEC(AbstractBlock.Properties.create(Material.IRON, MaterialColor.IRON).setRequiresTool().hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)),
+				"drenched_iron_block");
+		RegistryHelper.register(registry, new BlockEC(AbstractBlock.Properties.create(Material.IRON, MaterialColor.GOLD).setRequiresTool().hardnessAndResistance(3.0F, 6.0F).sound(SoundType.METAL)),
+				"swift_alloy_block");
+		RegistryHelper.register(registry,
+				new BlockEC(AbstractBlock.Properties.create(Material.IRON, MaterialColor.BLACK).setRequiresTool().hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.NETHERITE)), "fireite_block");
 	}
 
 	@SubscribeEvent
@@ -222,6 +254,8 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileEvaporator::new, evaporator).build(null), BlockEvaporator.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileInfuser::new, infuser).build(null), BlockInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBinder::new, binder).build(null), BlockBinder.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileCrystallizer::new, crystallizer).build(null), BlockCrystallizer.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileInscriber::new, inscriber).build(null), BlockInscriber.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePedestal::new, firePedestal, waterPedestal, earthPedestal, airPedestal).build(null), BlockPedestal.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TilePureInfuser::new, pureInfuser).build(null), BlockPureInfuser.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileFireFurnace::new, fireFurnace).build(null), BlockFireFurnace.NAME);
@@ -245,8 +279,9 @@ public class ECBlocks {
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
 
+		RegistryHelper.register(registry, new BlockItem(fireiteBlock, ECProperties.Items.FIREITE), "fireite_block");
 		for (Block block : ForgeRegistries.BLOCKS) {
-			if (ElementalCraft.MODID.equals(block.getRegistryName().getNamespace())) {
+			if (ElementalCraft.MODID.equals(block.getRegistryName().getNamespace()) && !registry.containsKey(block.getRegistryName())) {
 				RegistryHelper.register(registry, new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES), block.getRegistryName());
 			}
 		}

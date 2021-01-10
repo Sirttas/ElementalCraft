@@ -1,20 +1,12 @@
 {
-  "max_amount": 1,
   "predicate": {
-    "tag": "elementalcraft:shrines"
+    "tag": "elementalcraft:shrines",
+    "type": "dpanvil:tag"
   },
-  "bonuses": [
-    {
-      "type": "speed",
-      "multiplier": 1.1
-    },
-    {
-      "type": "element_consumption",
-      "multiplier": 1.1
-    },
-    {
-      "type": "capacity",
-      "multiplier": 5.0
-    }
-  ]
+  "bonuses": {
+    "speed": 1.1,
+    "element_consumption": 1.1,
+    "capacity": 5.0
+  },
+  "max_amount": 1
 }

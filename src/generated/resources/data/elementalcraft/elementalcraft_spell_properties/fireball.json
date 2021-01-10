@@ -1,8 +1,8 @@
 {
+  "element_consumption": 500,
+  "cooldown": 100,
+  "color": 16100886,
   "spell_type": "combat",
   "element_type": "fire",
-  "cooldown": 100,
-  "element_consumption": 500,
-  "weight": 30,
-  "color": 16100886
+  "weight": 30
 }

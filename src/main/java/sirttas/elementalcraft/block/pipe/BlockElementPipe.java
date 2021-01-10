@@ -179,7 +179,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 		if (pipe != null) {
 			final VoxelShape shape = getShape(state, pos, hit);
 			Direction face = getFace(shape, hit);
-			ActionResultType value = onShapeActivated(player, face, pipe);
+			ActionResultType value = onShapeActivated(face, pipe);
 
 			if (value != ActionResultType.PASS) {
 				player.sendStatusMessage(pipe.getConnectionMessage(face), true);
@@ -189,7 +189,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 		return ActionResultType.PASS;
 	}
 
-	private ActionResultType onShapeActivated(PlayerEntity player, Direction face, TileElementPipe pipe) {
+	private ActionResultType onShapeActivated(Direction face, TileElementPipe pipe) {
 		if (face != null) {
 			return pipe.activatePipe(face);
 		}

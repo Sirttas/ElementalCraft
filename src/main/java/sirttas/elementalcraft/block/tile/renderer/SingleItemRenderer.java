@@ -11,6 +11,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.inventory.IInventoryTile;
+import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
 
 @OnlyIn(Dist.CLIENT)
 public class SingleItemRenderer<T extends TileEntity & IInventoryTile> extends RendererEC<T> {
@@ -31,7 +32,9 @@ public class SingleItemRenderer<T extends TileEntity & IInventoryTile> extends R
 	@Override
 	public void render(T te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
 		ItemStack stack = te.getInventory().getStackInSlot(0);
+		float tick = getAngle(partialTicks);
 
+		te.getCapability(CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY).ifPresent(handler -> renderRunes(matrixStack, buffer, handler, tick, light, overlay));
 		if (!stack.isEmpty()) {
 			matrixStack.translate(position.x, position.y, position.z);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(getAngle(partialTicks)));

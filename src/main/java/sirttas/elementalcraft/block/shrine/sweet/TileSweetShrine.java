@@ -11,6 +11,8 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class TileSweetShrine extends TileShrine {
@@ -33,18 +35,23 @@ public class TileSweetShrine extends TileShrine {
 	protected boolean doTick() {
 		int consumeAmount = this.getConsumeAmount();
 
-		getEntities(PlayerEntity.class).forEach(e -> {
-			if (this.getElementAmount() >= consumeAmount) {
-				this.consumeElement(consumeAmount);
-				e.getFoodStats().addStats(1, 0);
-			}
-		});
-		getEntities(BeeEntity.class).forEach(e -> {
-			if (this.getElementAmount() >= consumeAmount) {
-				this.consumeElement(consumeAmount);
-				e.setHasNectar(true);
-			}
-		});
+		if (this.hasUpgrade(ShrineUpgrades.nectar)) {
+			getEntities(BeeEntity.class).forEach(e -> {
+				if (this.elementStorage.getElementAmount() >= consumeAmount) {
+					this.consumeElement(consumeAmount);
+					e.setHasNectar(true);
+				}
+			});
+		} else {
+			getEntities(PlayerEntity.class).forEach(e -> {
+				float strength = this.getMultiplier(BonusType.STRENGTH);
+
+				if (this.elementStorage.getElementAmount() >= consumeAmount) {
+					this.consumeElement(consumeAmount);
+					e.getFoodStats().addStats((int) (ECConfig.COMMON.sweetShrineFood.get() * strength), (float) (ECConfig.COMMON.sweetShrineSaturation.get() * strength));
+				}
+			});
+		}
 		return false;
 	}
 }

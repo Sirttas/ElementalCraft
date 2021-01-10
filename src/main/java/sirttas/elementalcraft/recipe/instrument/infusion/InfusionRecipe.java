@@ -9,12 +9,12 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
-import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class InfusionRecipe extends AbstractInfusionRecipe {
@@ -24,25 +24,18 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 
 	private Ingredient input;
 	private ItemStack output;
-	private int elementPerTick;
-	private int duration;
+	private int elementAmount;
 
-	public InfusionRecipe(ResourceLocation id, ElementType type, int elementPerTick, int duration, ItemStack output, Ingredient input) {
+	public InfusionRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, Ingredient input) {
 		super(id, type);
 		this.input = input;
 		this.output = output;
-		this.elementPerTick = elementPerTick;
-		this.duration = duration;
+		this.elementAmount = elementAmount;
 	}
 
 	@Override
-	public int getElementPerTick() {
-		return elementPerTick;
-	}
-
-	@Override
-	public int getDuration() {
-		return duration;
+	public int getElementAmount() {
+		return elementAmount;
 	}
 
 	@Override
@@ -70,7 +63,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 		return SERIALIZER;
 	}
 
-	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InfusionRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InfusionRecipe> {
 		final IRecipeFactory factory;
 
 		public Serializer(IRecipeFactory factory) {
@@ -79,37 +72,34 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 
 		@Override
 		public InfusionRecipe read(ResourceLocation recipeId, JsonObject json) {
-			ElementType type = ElementType.byName(JSONUtils.getString(json, "element"));
-			int elementPerTick = JSONUtils.getInt(json, "consumption", 10);
-			int duration = JSONUtils.getInt(json, "duration", 100);
+			ElementType type = ElementType.byName(JSONUtils.getString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
-			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, ECNames.OUTPUT))));
+			ItemStack output = RecipeHelper.readRecipeOutput(JSONUtils.getString(json, ECNames.OUTPUT));
 
-			return this.factory.create(recipeId, type, elementPerTick, duration, output, input);
+			return this.factory.create(recipeId, type, elementAmount, output, input);
 		}
 
 		@Override
 		public InfusionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
 			ElementType type = ElementType.byName(buffer.readString(32767));
-			int elementPerTick = buffer.readInt();
-			int duration = buffer.readInt();
+			int elementAmount = buffer.readInt();
 			Ingredient input = Ingredient.read(buffer);
 			ItemStack output = buffer.readItemStack();
 
-			return this.factory.create(recipeId, type, elementPerTick, duration, output, input);
+			return this.factory.create(recipeId, type, elementAmount, output, input);
 		}
 
 		@Override
 		public void write(PacketBuffer buffer, InfusionRecipe recipe) {
 			buffer.writeString(recipe.getElementType().getString());
-			buffer.writeInt(recipe.getElementPerTick());
-			buffer.writeInt(recipe.getDuration());
+			buffer.writeInt(recipe.getElementAmount());
 			recipe.getIngredients().get(0).write(buffer);
 			buffer.writeItemStack(recipe.getRecipeOutput());
 		}
 
 		public interface IRecipeFactory {
-			InfusionRecipe create(ResourceLocation id, ElementType type, int elementPerTick, int duration, ItemStack output, Ingredient input);
+			InfusionRecipe create(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, Ingredient input);
 		}
 	}
 }

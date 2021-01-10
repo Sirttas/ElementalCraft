@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " wi",
+    "wdi",
+    "wcw"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:containedcrystal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "item": "elementalcraft:swift_alloy_ingot"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:inscriber"
+  }
+}

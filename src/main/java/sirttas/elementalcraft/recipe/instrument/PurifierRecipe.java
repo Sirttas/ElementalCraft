@@ -12,6 +12,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.rune.Rune.BonusType;
 
 public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 
@@ -29,13 +30,8 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 	}
 
 	@Override
-	public int getElementPerTick() {
-		return ECConfig.COMMON.purifierConsumeAmount.get();
-	}
-
-	@Override
-	public int getDuration() {
-		return ECConfig.COMMON.purifierDuration.get();
+	public int getElementAmount() {
+		return ECConfig.COMMON.purifierBaseCost.get();
 	}
 
 	@Override
@@ -84,14 +80,18 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 		IInventory inv = instrument.getInventory();
 		ItemStack in = inv.getStackInSlot(0);
 		ItemStack output = inv.getStackInSlot(1);
-		ItemStack result = getCraftingResult(instrument);
+		ItemStack craftingResult = getCraftingResult(instrument);
+		int luck = (int) (instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.purifierLuckRatio.get());
 
-		if (result.isItemEqual(output) && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
+		if (craftingResult.isItemEqual(output) && output.getCount() + craftingResult.getCount() <= output.getMaxStackSize()) {
 			in.shrink(1);
-			output.grow(result.getCount());
+			output.grow(craftingResult.getCount());
 		} else if (output.isEmpty()) {
 			in.shrink(1);
-			inv.setInventorySlotContents(1, result.copy());
+			inv.setInventorySlotContents(1, craftingResult.copy());
+		}
+		if (luck > 0 && instrument.getWorld().rand.nextInt(100) < luck) {
+			output.grow(1);
 		}
 		if (in.isEmpty()) {
 			inv.removeStackFromSlot(0);

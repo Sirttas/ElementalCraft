@@ -4,7 +4,7 @@
   "icon": "elementalcraft:purifier",
   "advancement": "elementalcraft:pickup/tank",
   "turnin": "elementalcraft:pickup/purifier",
-  "sortnum": 9,
+  "sortnum": 11,
   "pages": [
     {
       "type": "text",

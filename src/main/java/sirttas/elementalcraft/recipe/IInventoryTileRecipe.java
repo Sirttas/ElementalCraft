@@ -10,9 +10,7 @@ public interface IInventoryTileRecipe<T extends IInventoryTile> extends IRecipe<
 
 	void process(T instrument);
 
-	int getElementPerTick();
-
-	int getDuration();
+	int getElementAmount();
 
 	boolean matches(T inv);
 

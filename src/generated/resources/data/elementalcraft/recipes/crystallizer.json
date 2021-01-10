@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iwi",
+    "i i",
+    "wcw"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:containedcrystal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "item": "elementalcraft:swift_alloy_ingot"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:crystallizer"
+  }
+}

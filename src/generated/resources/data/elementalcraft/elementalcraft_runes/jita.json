@@ -1,0 +1,12 @@
+{
+  "model": "elementalcraft:elementalcraft_runes/jita",
+  "effect_sprite": "elementalcraft:elementalcraft_runes/jita",
+  "predicate": {
+    "tag": "elementalcraft:rune_affected/preservation",
+    "type": "dpanvil:tag"
+  },
+  "bonuses": {
+    "speed": -0.1,
+    "element_preservation": 0.1
+  }
+}

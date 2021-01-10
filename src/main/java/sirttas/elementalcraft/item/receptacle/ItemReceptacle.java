@@ -27,7 +27,7 @@ public class ItemReceptacle extends AbstractReceptacle {
 			if (!context.getPlayer().isCreative()) {
 				ItemStack stack = ReceptacleHelper.createFrom(sourceReceptacle, ElementType.NONE);
 
-				if (!ReceptacleHelper.areReceptaclesUnbreakable()) {
+				if (!ReceptacleHelper.areReceptaclesUnbreakable() && stack.isDamageable()) {
 					stack.damageItem(1, context.getPlayer(), p -> p.sendBreakAnimation(context.getHand()));
 				}
 				context.getPlayer().setHeldItem(context.getHand(), stack);

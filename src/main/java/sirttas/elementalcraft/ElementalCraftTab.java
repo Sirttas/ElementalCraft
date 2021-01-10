@@ -19,7 +19,7 @@ public class ElementalCraftTab extends ItemGroup {
 
 	@Override
 	public ItemStack createIcon() {
-		return new ItemStack(ECItems.tank);
+		return new ItemStack(ECItems.focus);
 	}
 
 	@Override
@@ -29,6 +29,8 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.evaporator, list);
 		addItem(ECBlocks.infuser, list);
 		addItem(ECBlocks.binder, list);
+		addItem(ECBlocks.crystallizer, list);
+		addItem(ECBlocks.inscriber, list);
 		addItem(ECBlocks.firePedestal, list);
 		addItem(ECBlocks.waterPedestal, list);
 		addItem(ECBlocks.earthPedestal, list);
@@ -59,12 +61,14 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.rangeShrineUpgrade, list);
 		addItem(ECBlocks.capacityShrineUpgrade, list);
 		addItem(ECBlocks.efficiencyShrineUpgrade, list);
+		addItem(ECBlocks.strengthShrineUpgrade, list);
 		addItem(ECBlocks.optimizationShrineUpgrade, list);
 		addItem(ECBlocks.fortuneShrineUpgrade, list);
 		addItem(ECBlocks.silkTouchShrineUpgrade, list);
 		addItem(ECBlocks.plantingShrineUpgrade, list);
 		addItem(ECBlocks.bonelessGrowthShrineUpgrade, list);
 		addItem(ECBlocks.pickupShrineUpgrade, list);
+		addItem(ECBlocks.nectarShrineUpgrade, list);
 
 		addItem(ECBlocks.crystalOre, list);
 		addItem(ECBlocks.whiteRock, list);
@@ -72,6 +76,10 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.whiteRockStairs, list);
 		addItem(ECBlocks.whiteRockWall, list);
 		addItem(ECBlocks.whiteRockFence, list);
+		addItem(ECBlocks.whiteRockBrick, list);
+		addItem(ECBlocks.whiteRockBrickSlab, list);
+		addItem(ECBlocks.whiteRockBrickStairs, list);
+		addItem(ECBlocks.whiteRockBrickWall, list);
 		addItem(ECBlocks.burntGlass, list);
 		addItem(ECBlocks.burntGlassPane, list);
 		addItem(ECBlocks.pureRock, list);
@@ -89,6 +97,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.waterElementHolder, list);
 		addItem(ECItems.earthElementHolder, list);
 		addItem(ECItems.airElementHolder, list);
+		addItem(ECItems.chisel, list);
 		addItem(ECItems.pureOre, list);
 		addItem(ECItems.inertCrystal, list);
 		addItem(ECItems.containedCrystal, list);
@@ -97,19 +106,43 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.earthCrystal, list);
 		addItem(ECItems.airCrystal, list);
 		addItem(ECItems.pureCrystal, list);
-		addItem(ECItems.drenchedIronIngot, list);
-		addItem(ECItems.drenchedIronNugget, list);
-		addItem(ECItems.swiftAlloyIngot, list);
-		addItem(ECItems.swiftAlloyNugget, list);
-		addItem(ECItems.fireiteIngot, list);
-		addItem(ECItems.airSilk, list);
-		addItem(ECItems.scrollPaper, list);
-		addItem(ECItems.shrineBase, list);
-		addItem(ECItems.shrineUpgradeCore, list);
 		addItem(ECItems.fireShard, list);
 		addItem(ECItems.waterShard, list);
 		addItem(ECItems.earthShard, list);
 		addItem(ECItems.airShard, list);
+		addItem(ECItems.powerfulFireShard, list);
+		addItem(ECItems.powerfulWaterShard, list);
+		addItem(ECItems.powerfulEarthShard, list);
+		addItem(ECItems.powerfulAirShard, list);
+		addItem(ECItems.crudeFireGem, list);
+		addItem(ECItems.crudeWaterGem, list);
+		addItem(ECItems.crudeEarthGem, list);
+		addItem(ECItems.crudeAirGem, list);
+		addItem(ECItems.fineFireGem, list);
+		addItem(ECItems.fineWaterGem, list);
+		addItem(ECItems.fineEarthGem, list);
+		addItem(ECItems.fineAirGem, list);
+		addItem(ECItems.pristineFireGem, list);
+		addItem(ECItems.pristineWaterGem, list);
+		addItem(ECItems.pristineEarthGem, list);
+		addItem(ECItems.pristineAirGem, list);
+		addItem(ECItems.drenchedIronNugget, list);
+		addItem(ECItems.drenchedIronIngot, list);
+		addItem(ECItems.drenchedIronBlock, list);
+		addItem(ECItems.swiftAlloyNugget, list);
+		addItem(ECItems.swiftAlloyIngot, list);
+		addItem(ECItems.swiftAlloyBlock, list);
+		addItem(ECItems.fireiteNugget, list);
+		addItem(ECItems.fireiteIngot, list);
+		addItem(ECItems.fireiteBlock, list);
+		addItem(ECItems.airSilk, list);
+		addItem(ECItems.scrollPaper, list);
+		addItem(ECItems.shrineBase, list);
+		addItem(ECItems.shrineUpgradeCore, list);
+		addItem(ECItems.minorRuneSlate, list);
+		addItem(ECItems.runeSlate, list);
+		addItem(ECItems.majorRuneSlate, list);
+		addItem(ECItems.rune, list);
 	}
 
 	private void addItem(IItemProvider item, @Nonnull NonNullList<ItemStack> list) {

@@ -80,13 +80,13 @@ public class BlockPurifier extends BlockECContainer {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TilePurifier purifier = (TilePurifier) world.getTileEntity(pos);
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
-		ItemStack held = player.getHeldItem(hand);
+		ItemStack heldItem = player.getHeldItem(hand);
 
 		if (purifier != null) {
 			if (!purifier.getInventory().getStackInSlot(1).isEmpty()) {
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
-			} else if (held.isEmpty() || ElementalCraft.PURE_ORE_MANAGER.isValidOre(held)) {
-				return this.onSlotActivated(inv, player, held, 0);
+			} else if (heldItem.isEmpty() || ElementalCraft.PURE_ORE_MANAGER.isValidOre(heldItem)) {
+				return this.onSlotActivated(inv, player, heldItem, 0);
 			}
 		}
 		return ActionResultType.PASS;

@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.inventory;
 
+import java.util.stream.IntStream;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -48,5 +50,9 @@ public class ECInventoryHelper {
 		}
 
 		return -1;
+	}
+
+	public static int getItemCount(IInventory inv) {
+		return (int) IntStream.range(0, inv.getSizeInventory()).filter(i -> !inv.getStackInSlot(i).isEmpty()).count();
 	}
 }

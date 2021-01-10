@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:crude_earth_gem",
+    "elementalcraft:fine_earth_gem",
+    "elementalcraft:pristine_earth_gem"
+  ]
+}

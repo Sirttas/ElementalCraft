@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "earth",
+  "element_amount": 5000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:growthshrine"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/crude_earth"
+    },
+    {
+      "item": "minecraft:diamond_hoe"
+    },
+    {
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "item": "minecraft:shears"
+    }
+  ],
+  "output": "elementalcraft:harvestshrine"
+}

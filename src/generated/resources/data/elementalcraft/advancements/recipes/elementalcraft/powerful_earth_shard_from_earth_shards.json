@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:powerful_earth_shard_from_earth_shards"
+    ]
+  },
+  "criteria": {
+    "has_earth_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:earth_shard"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:powerful_earth_shard_from_earth_shards"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_earth_shard",
+      "has_the_recipe"
+    ]
+  ]
+}

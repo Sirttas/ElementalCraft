@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:tank_small_emptying"
+    ]
+  },
+  "criteria": {
+    "has_tank_small": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:tank_small"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:tank_small_emptying"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_tank_small",
+      "has_the_recipe"
+    ]
+  ]
+}

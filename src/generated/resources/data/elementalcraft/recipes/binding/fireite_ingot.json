@@ -1,0 +1,14 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "fire",
+  "element_amount": 30000,
+  "ingredients": [
+    {
+      "tag": "forge:ingots/netherite"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    }
+  ],
+  "output": "elementalcraft:fireite_ingot"
+}

@@ -1,86 +1,49 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.Block;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.ITag;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ForgeRegistries;
+import sirttas.dpanvil.api.codec.CodecHelper;
+import sirttas.dpanvil.api.predicate.block.BlockPosPredicates;
+import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
+import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
 import sirttas.elementalcraft.block.shrine.TileShrine;
-import sirttas.elementalcraft.nbt.ECNames;
-import sirttas.elementalcraft.tag.ECTags;
+import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
+import sirttas.elementalcraft.upgrade.AbstractUpgrade;
 
-public class ShrineUpgrade {
+public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
-	public static final Serializer SEZRIALIZER = new Serializer();
 
-	private Predicate<Block> predicate;
-	private String predicateInfos;
-	private final Map<BonusType, Float> bonuses;
-	private int maxAmount;
-	private ResourceLocation id;
-	private final List<ResourceLocation> incompatibilitiesLocs;
-	private Set<ShrineUpgrade> incompatibilities;
+	public static final Codec<ShrineUpgrade> CODEC = RecordCodecBuilder.create(builder -> AbstractUpgrade.codec(builder, BonusType.CODEC).apply(builder, ShrineUpgrade::new));
 
-	ShrineUpgrade() {
-		this.predicate = null;
-		this.bonuses = new EnumMap<>(BonusType.class);
-		this.maxAmount = 0;
-		this.id = null;
-		this.incompatibilitiesLocs = Lists.newArrayList();
+	private ShrineUpgrade(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount) {
+		super(predicate, new EnumMap<>(bonuses), maxAmount);
 	}
 
 	boolean canUpgrade(TileShrine shrine) {
-		return predicate.test(shrine.getBlockState().getBlock()) && (maxAmount == 0 || shrine.getUpgradeCount(this) < maxAmount)
-				&& shrine.getAllUpgrades().stream().noneMatch(incompatibilities::contains);
+		return canUpgrade(shrine.getWorld(), shrine.getPos(), shrine.getUpgradeCount(this));
 	}
-
-	public final Map<BonusType, Float> getBonuses() {
-		return bonuses;
-	}
-
-	protected final void setId(ResourceLocation id) {
-		this.id = id;
-	}
-
-	protected final void refresh(ShrineUpgradeManager manager) {
-		incompatibilities = incompatibilitiesLocs.stream().map(manager::getUpgrade).collect(Collectors.toSet());
-	}
-
-	@Override
-	public String toString() {
-		return id != null ? id.toString() : super.toString();
-	}
-
 
 	public void addInformation(List<ITextComponent> tooltip) {
 		bonuses.forEach((type, multiplier) -> tooltip.add(new TranslationTextComponent("shrine_upgrade_bonus.elementalcraft." + type.getString(), formatMultiplier(multiplier))
@@ -88,13 +51,6 @@ public class ShrineUpgrade {
 		if (maxAmount > 0) {
 			tooltip.add(new StringTextComponent(""));
 			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.max_amount", maxAmount).mergeStyle(TextFormatting.YELLOW));
-		}
-		if (!incompatibilitiesLocs.isEmpty()) {
-			if (maxAmount <= 0) {
-				tooltip.add(new StringTextComponent(""));
-			}
-			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.incompatibilities").mergeStyle(TextFormatting.YELLOW));
-			incompatibilitiesLocs.forEach(loc -> tooltip.add(new StringTextComponent("    ").append(ForgeRegistries.BLOCKS.getValue(loc).getTranslatedName().mergeStyle(TextFormatting.YELLOW))));
 		}
 	}
 
@@ -106,7 +62,14 @@ public class ShrineUpgrade {
 	}
 
 	public enum BonusType implements IStringSerializable {
-		NONE("none", false), SPEED("speed", false), ELEMENT_CONSUMPTION("element_consumption", false), CAPACITY("capacity", true), RANGE("range", true);
+		NONE("none", false), 
+		SPEED("speed", false), 
+		ELEMENT_CONSUMPTION("element_consumption", false), 
+		CAPACITY("capacity", true), 
+		RANGE("range", true), 
+		STRENGTH("strength", true);
+
+		public static final Codec<BonusType> CODEC = IStringSerializable.createEnumCodec(BonusType::values, BonusType::byName);
 
 		private final String name;
 		private final boolean positive;
@@ -136,100 +99,23 @@ public class ShrineUpgrade {
 		}
 	}
 
-	public static class Serializer implements JsonDeserializer<ShrineUpgrade> {
-
-		private Serializer() {
-		}
-
-		@Override
-		public ShrineUpgrade deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-			ShrineUpgrade upgrade = new ShrineUpgrade();
-			JsonObject jsonObject = (JsonObject) json;
-			JsonObject matchJson = JSONUtils.getJsonObject(jsonObject, ECNames.PREDICATE);
-
-			upgrade.predicate = readPredicate(matchJson);
-			upgrade.predicateInfos = matchJson.toString();
-
-			for (JsonElement bonusJson : JSONUtils.getJsonArray(jsonObject, ECNames.BONUSES)) {
-				if (bonusJson.isJsonObject()) {
-					JsonObject bonusjsonObject = (JsonObject) bonusJson;
-
-					upgrade.bonuses.put(BonusType.byName(JSONUtils.getString(bonusjsonObject, ECNames.TYPE)), JSONUtils.getFloat(bonusjsonObject, ECNames.MULTIPLIER));
-				} else {
-					throw new JsonSyntaxException("Malformated shrime upgrade bonus");
-				}
-			}
-			if (jsonObject.has(ECNames.MAX_AMOUNT)) {
-				upgrade.maxAmount = JSONUtils.getInt(jsonObject, ECNames.MAX_AMOUNT);
-			}
-			if (jsonObject.has(ECNames.INCOMPATIBILITIES)) {
-				JsonArray incompatibleJson = JSONUtils.getJsonArray(jsonObject, ECNames.INCOMPATIBILITIES);
-
-				incompatibleJson.forEach(j -> {
-					if (j.isJsonPrimitive() && j.getAsJsonPrimitive().isString()) {
-						upgrade.incompatibilitiesLocs.add(new ResourceLocation(j.getAsString()));
-					} else {
-						throw new JsonSyntaxException("Malformated shrime upgrade incompatibility");
-					}
-				});
-			}
-
-			return upgrade;
-		}
-
-		private Predicate<Block> readPredicate(JsonObject matchJson) {
-			if (matchJson.has(ECNames.BLOCK)) {
-				Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(JSONUtils.getString(matchJson, ECNames.BLOCK)));
-
-				return block::equals;
-			} else if (matchJson.has(ECNames.TAG)) {
-				ResourceLocation loc = new ResourceLocation(JSONUtils.getString(matchJson, ECNames.TAG));
-				ITag<Block> tag = ECTags.Blocks.getTag(loc);
-
-				if (tag == null) {
-					throw new JsonSyntaxException("Unknown block tag '" + loc + "'");
-				}
-				return tag::contains;
-			}
-			throw new JsonSyntaxException("No block or tag in shrine upgrade");
-		}
-
-		public ShrineUpgrade read(PacketBuffer buf) {
-			ShrineUpgrade upgrade = new ShrineUpgrade();
-
-			upgrade.predicateInfos = buf.readString();
-			upgrade.predicate = readPredicate(new Gson().fromJson(upgrade.predicateInfos, JsonObject.class));
-			upgrade.maxAmount = buf.readInt();
-			IntStream.range(0, buf.readInt()).forEach(i -> upgrade.bonuses.put(BonusType.byName(buf.readString()), buf.readFloat()));
-			IntStream.range(0, buf.readInt()).forEach(i -> upgrade.incompatibilitiesLocs.add(buf.readResourceLocation()));
-			return upgrade;
-		}
-
-		public void write(ShrineUpgrade upgrade, PacketBuffer buf) {
-			buf.writeString(upgrade.predicateInfos);
-			buf.writeInt(upgrade.maxAmount);
-			buf.writeInt(upgrade.bonuses.size());
-			upgrade.bonuses.forEach((type, multiplier) -> {
-				buf.writeString(type.getString());
-				buf.writeFloat(multiplier);
-			});
-			buf.writeInt(upgrade.incompatibilitiesLocs.size());
-			upgrade.incompatibilitiesLocs.forEach(buf::writeResourceLocation);
-		}
-	}
-
 	public static class Builder {
 
-		private INamedTag<Block> tag;
-		private Block block;
+		public static final Codec<Builder> CODEC = ShrineUpgrade.CODEC.xmap(shrineUpgrade -> {
+			Builder builder = create().predicate(shrineUpgrade.predicate).max(shrineUpgrade.maxAmount);
+
+			shrineUpgrade.bonuses.forEach(builder::addBonus);
+			return builder;
+		}, builder -> new ShrineUpgrade(builder.predicate, builder.bonuses, builder.maxAmount));
+
+		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
 		private int maxAmount;
 		private Set<ResourceLocation> incompatibilities;
 
 		private Builder() {
 			this.bonuses = new EnumMap<>(BonusType.class);
-			this.tag = null;
-			this.block = null;
+			this.predicate = null;
 			this.maxAmount = 0;
 			this.incompatibilities = Sets.newHashSet();
 		}
@@ -238,15 +124,16 @@ public class ShrineUpgrade {
 			return new Builder();
 		}
 
-		public Builder block(Block block) {
-			this.block = block;
-			this.tag = null;
-			return this;
+		public Builder match(Block... block) {
+			return predicate(BlockPosPredicates.match(block));
 		}
 
-		public Builder tag(INamedTag<Block> tag) {
-			this.tag = tag;
-			this.block = null;
+		public Builder match(INamedTag<Block> tag) {
+			return predicate(BlockPosPredicates.match(tag));
+		}
+
+		public Builder predicate(IBlockPosPredicate predicate) {
+			this.predicate = predicate;
 			return this;
 		}
 
@@ -266,36 +153,15 @@ public class ShrineUpgrade {
 		}
 
 		public JsonElement toJson() {
-			JsonObject json = new JsonObject();
-			JsonObject predicate = new JsonObject();
-			JsonArray bonusesJson = new JsonArray();
-
-			if (maxAmount > 0) {
-				json.addProperty(ECNames.MAX_AMOUNT, maxAmount);
-			}
-			if (tag != null) {
-				predicate.addProperty(ECNames.TAG, tag.getName().toString());
-			} else if (block != null) {
-				predicate.addProperty(ECNames.BLOCK, block.getRegistryName().toString());
-			} else {
-				throw new IllegalStateException("No block or tag in shrine upgrade");
-			}
-			json.add(ECNames.PREDICATE, predicate);
-			bonuses.forEach((type, value) -> {
-				JsonObject bonus = new JsonObject();
-
-				bonus.addProperty(ECNames.TYPE, type.getString());
-				bonus.addProperty(ECNames.MULTIPLIER, value);
-				bonusesJson.add(bonus);
-			});
-			json.add(ECNames.BONUSES, bonusesJson);
 			if (!incompatibilities.isEmpty()) {
-				JsonArray incompatibleJson = new JsonArray();
-
-				incompatibilities.forEach(l -> incompatibleJson.add(l.toString()));
-				json.add(ECNames.INCOMPATIBILITIES, incompatibleJson);
+				predicate = predicate.and(getIncompatibilitiesPredicate());
 			}
-			return json;
+			return CodecHelper.encode(CODEC, this);
+		}
+
+		private IBlockPosPredicate getIncompatibilitiesPredicate() {
+			return (incompatibilities.size() == 1 ? new HasShrineUpgradePredicate(Iterables.getOnlyElement(incompatibilities))
+					: new OrBlockPredicate(incompatibilities.stream().map(HasShrineUpgradePredicate::new).collect(Collectors.toList()))).not();
 		}
 	}
 }

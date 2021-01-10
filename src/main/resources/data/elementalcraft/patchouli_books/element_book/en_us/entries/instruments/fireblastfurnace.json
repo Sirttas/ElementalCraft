@@ -4,7 +4,7 @@
   "icon": "elementalcraft:fireblastfurnace",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/fireblastfurnace",
-  "sortnum": 7,
+  "sortnum": 9,
   "pages": [
     {
       "type": "text",

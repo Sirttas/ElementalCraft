@@ -2,31 +2,47 @@ package sirttas.elementalcraft.block.extractor;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.nbt.ECNames;
+import sirttas.elementalcraft.rune.Rune.BonusType;
+import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.capability.RuneHandler;
 
 public class TileExtractor extends TileECTickable {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static TileEntityType<TileExtractor> TYPE;
 
-	int extractionAmount;
+	private int extractionAmount;
+	private final RuneHandler runeHandler;
 	
 	public TileExtractor() {
-		this(ECConfig.COMMON.extractorExtractionAmount.get());
+		this(false);
 	}
 
-	public TileExtractor(int extractionAmount) {
+	public TileExtractor(boolean improved) {
 		super(TYPE);
-		this.extractionAmount = extractionAmount;
+		if (improved) {
+			this.extractionAmount = ECConfig.COMMON.improvedExtractorExtractionAmount.get();
+			runeHandler = new RuneHandler(ECConfig.COMMON.improvedExtractorMaxRunes.get());
+		} else {
+			this.extractionAmount = ECConfig.COMMON.extractorExtractionAmount.get();
+			runeHandler = new RuneHandler(ECConfig.COMMON.extractorMaxRunes.get());
+		}
 	}
 
 
@@ -34,12 +50,16 @@ public class TileExtractor extends TileECTickable {
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
 		this.extractionAmount = compound.getInt(ECNames.EXTRACTION_AMOUNT);
+		if (compound.contains(ECNames.RUNE_HANDLER)) {
+			CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY.readNBT(runeHandler, null, compound.get(ECNames.RUNE_HANDLER));
+		}
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		compound.putInt(ECNames.EXTRACTION_AMOUNT, this.extractionAmount);
+		compound.put(ECNames.RUNE_HANDLER, CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY.writeNBT(runeHandler, null));
 		return compound;
 	}
 
@@ -57,7 +77,7 @@ public class TileExtractor extends TileECTickable {
 
 		super.tick();
 		if (canExtract(sourceElementType)) {
-			getTank().inserElement(extractionAmount, sourceElementType, false);
+			getTank().insertElement((int) (extractionAmount * (runeHandler.getBonus(BonusType.SPEED) + 1)), sourceElementType, false);
 		}
 	}
 
@@ -66,8 +86,21 @@ public class TileExtractor extends TileECTickable {
 	}
 
 	private boolean canExtract(ElementType sourceElementType) {
-		TileTank tank = getTank();
+		IElementStorage tank = getTank();
 
 		return hasWorld() && sourceElementType != ElementType.NONE && tank != null && (tank.getElementAmount() < tank.getElementCapacity() || tank.getElementType() != sourceElementType);
+	}
+
+	public RuneHandler getRuneHandler() {
+		return runeHandler;
+	}
+
+	@Override
+	@Nonnull
+	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+		if (!this.removed && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
+			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
+		}
+		return super.getCapability(cap, side);
 	}
 }

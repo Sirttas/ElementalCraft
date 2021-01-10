@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:infusion",
+  "element_type": "air",
+  "element_amount": 500,
+  "input": {
+    "tag": "forge:string"
+  },
+  "output": "elementalcraft:air_silk"
+}

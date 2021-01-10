@@ -1,0 +1,23 @@
+{
+  "predicate": {
+    "values": [
+      {
+        "value": {
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_strength",
+          "type": "elementalcraft:has_shrien_upgrade"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "block": "elementalcraft:sweetshrine",
+        "type": "dpanvil:block"
+      }
+    ],
+    "type": "dpanvil:and"
+  },
+  "bonuses": {
+    "speed": 2.0,
+    "element_consumption": 5.0
+  },
+  "max_amount": 1
+}

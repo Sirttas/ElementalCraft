@@ -56,7 +56,7 @@ public class TileHarvestShrine extends TileShrine {
 	private void handlePlanting(BlockPos pos, IItemProvider provider, List<ItemStack> loots) {
 		Item item = provider.asItem();
 
-		if (this.hasUpgrade(ShrineUpgrades.PLANTING.get())) {
+		if (this.hasUpgrade(ShrineUpgrades.planting)) {
 			loots.stream().filter(stack -> stack.getItem().equals(item)).findFirst().ifPresent(seeds -> {
 				if (item instanceof BlockItem && ((BlockItem) item).tryPlace(new DirectionalPlaceContext(this.world, pos, Direction.DOWN, seeds, Direction.UP)).isSuccessOrConsume()) {
 					seeds.shrink(1);

@@ -10,7 +10,7 @@
       "item": "elementalcraft:shrine_upgrade_core"
     },
     "f": {
-      "item": "elementalcraft:fireite_ingot"
+      "tag": "forge:ingots/fireite"
     },
     "d": {
       "tag": "forge:gems/diamond"

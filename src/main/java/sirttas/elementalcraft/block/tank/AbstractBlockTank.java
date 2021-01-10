@@ -23,9 +23,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.BlockECTileProvider;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
-import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public abstract class AbstractBlockTank extends BlockECTileProvider {
@@ -43,7 +43,7 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	@Override
 	@Deprecated
 	public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
-		return TileEntityHelper.getTileEntityAs(world, pos, TileTank.class).map(tank -> tank.getElementAmount() * 15 / tank.getElementCapacity()).orElse(0);
+		return TileEntityHelper.getTileEntityAs(world, pos, TileTank.class).map(IElementContainer::getElementStorage).map(tank -> tank.getElementAmount() * 15 / tank.getElementCapacity()).orElse(0);
 	}
 
 	@Override
@@ -55,7 +55,8 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, World world, BlockPos pos, Random rand) {
-		TileEntityHelper.getTileEntityAs(world, pos, ITank.class).filter(t -> t.getElementAmount() > 0 && t.getElementType() != ElementType.NONE)
+		TileEntityHelper.getTileEntityAs(world, pos, IElementContainer.class).map(IElementContainer::getElementStorage)
+				.filter(t -> !t.isEmpty())
 				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), rand));
 	}
 
@@ -66,15 +67,18 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 
 		if (tag != null && tag.contains(ECNames.BLOCK_ENTITY_TAG)) {
 			CompoundNBT blockNbt = tag.getCompound(ECNames.BLOCK_ENTITY_TAG);
-			ElementType elementType = ElementType.byName(blockNbt.getString(ECNames.ELEMENT_TYPE));
-			int amount = blockNbt.getInt(ECNames.ELEMENT_AMOUNT);
-			int capacity = blockNbt.getInt(ECNames.ELEMENT_CAPACITY);
 
-			if (elementType != ElementType.NONE && amount > 0 && capacity > 0) {
-				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.contains", elementType.getDisplayName()).mergeStyle(TextFormatting.GREEN));
-				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(amount * 100 / capacity)).mergeStyle(TextFormatting.GREEN));
+			if (blockNbt != null && blockNbt.contains(ECNames.ELEMENT_STORAGE)) {
+				CompoundNBT elementStorageNbt = blockNbt.getCompound(ECNames.ELEMENT_STORAGE);
+				ElementType elementType = ElementType.byName(elementStorageNbt.getString(ECNames.ELEMENT_TYPE));
+				int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
+				int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
+
+				if (elementType != ElementType.NONE && amount > 0 && capacity > 0) {
+					tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.contains", elementType.getDisplayName()).mergeStyle(TextFormatting.GREEN));
+					tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full", ItemStack.DECIMALFORMAT.format(amount * 100 / capacity)).mergeStyle(TextFormatting.GREEN));
+				}
 			}
-
 		}
 	}
 

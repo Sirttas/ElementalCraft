@@ -1,9 +1,10 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
-import net.minecraft.block.BlockState;
+import java.util.EnumMap;
+import java.util.Map;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -12,52 +13,29 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.TilePedestal;
-import sirttas.elementalcraft.block.retriever.BlockRetriever;
-import sirttas.elementalcraft.block.tile.TileECContainer;
-import sirttas.elementalcraft.inventory.InventoryTileWrapper;
+import sirttas.elementalcraft.block.tile.TileECCrafting;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
-import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
-public class TilePureInfuser extends TileECContainer {
+public class TilePureInfuser extends TileECCrafting<TilePureInfuser, PureInfusionRecipe> {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static TileEntityType<TilePureInfuser> TYPE;
 
-	private float progress = 0;
-	private PureInfusionRecipe recipe;
 	private final SingleItemInventory inventory;
+	private final Map<Direction, Integer> progress = new EnumMap<>(Direction.class);
 
 	public TilePureInfuser() {
-		super(TYPE);
+		super(TYPE, PureInfusionRecipe.TYPE, 100);
 		inventory = new SingleItemInventory(this::forceSync);
 	}
 
-	public boolean isRunning() {
-		return progress > 0;
-	}
-
-	public boolean isRecipeAvailable() {
-		if (recipe != null && recipe.matches(this)) {
-			return true;
-		}
-		recipe = this.getWorld().getRecipeManager().getRecipe(PureInfusionRecipe.TYPE, InventoryTileWrapper.from(this), this.getWorld()).orElse(null);
-		if (recipe != null) {
-			this.forceSync();
-			return true;
-		}
-		return false;
-	}
-
+	@Override
 	public void process() {
+		super.process();
 		if (this.world.isRemote) {
 			ParticleHelper.createCraftingParticle(ElementType.NONE, world, Vector3d.copyCentered(pos).add(0, 0.7, 0), world.rand);
-		} else {
-			recipe.process(this);
-			BlockRetriever.sendOutputToRetriever(world, pos, inventory, 0);
 		}
-		recipe = null;
-		this.forceSync();
 	}
 
 	@Override
@@ -67,22 +45,18 @@ public class TilePureInfuser extends TileECContainer {
 	}
 
 	protected void makeProgress() {
-		if (recipe != null && progress >= recipe.getDuration()) {
+		if (recipe != null && getProgress(Direction.NORTH) >= recipe.getElementAmount() && getProgress(Direction.SOUTH) >= recipe.getElementAmount()
+				&& getProgress(Direction.WEST) >= recipe.getElementAmount() && getProgress(Direction.EAST) >= recipe.getElementAmount()) {
 			process();
-			progress = 0;
-		} else if (this.isRecipeAvailable() && canConsume(Direction.NORTH) && canConsume(Direction.SOUTH) && canConsume(Direction.WEST) && canConsume(Direction.EAST)) {
-			consume(Direction.NORTH);
-			consume(Direction.SOUTH);
-			consume(Direction.WEST);
-			consume(Direction.EAST);
-			progress++;
+			progress.clear();
+		} else if (this.isRecipeAvailable()) {
+			makeProgress(Direction.NORTH);
+			makeProgress(Direction.SOUTH);
+			makeProgress(Direction.WEST);
+			makeProgress(Direction.EAST);
 		} else if (recipe == null) {
-			progress = 0;
+			progress.clear();
 		}
-	}
-
-	public float getProgress() {
-		return progress;
 	}
 
 	public ItemStack getStackInPedestal(ElementType type) {
@@ -127,45 +101,24 @@ public class TilePureInfuser extends TileECContainer {
 		return te instanceof TilePedestal ? (TilePedestal) te : null;
 	}
 
-	private boolean canConsume(Direction direction) {
+	private void makeProgress(Direction direction) {
 		TilePedestal pedestal = getPedestal(direction);
-		int elementPerTick = recipe.getElementPerTick();
-
-		return pedestal != null && pedestal.getElementAmount() >= elementPerTick;
-	}
-
-	private void consume(Direction direction) {
-		TilePedestal pedestal = getPedestal(direction);
-		int elementPerTick = recipe.getElementPerTick();
 		Direction offset = direction.getOpposite();
+		int oldProgress = getProgress(direction);
+		int transferAmount = Math.min(this.transferSpeed, recipe.getElementAmount() - oldProgress);
 
-		if (pedestal != null) {
-			pedestal.consumeElement(elementPerTick);
-			if (world.isRemote) {
+		if (pedestal != null && transferAmount > 0) {
+			int newProgress = oldProgress + pedestal.getElementStorage().extractElement(transferAmount, false);
+
+			progress.put(direction, newProgress);
+			if (world.isRemote && newProgress / transferAmount > oldProgress / transferAmount) {
 				ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pedestal.getPos().offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
 			}
 		}
 	}
 
-	@Override
-	public void read(BlockState state, CompoundNBT compound) {
-		super.read(state, compound);
-		progress = compound.getFloat(ECNames.PROGRESS);
-
-	}
-
-	@Override
-	public CompoundNBT write(CompoundNBT compound) {
-		super.write(compound);
-		compound.putFloat(ECNames.PROGRESS, progress);
-		return compound;
-	}
-
-	@Override
-	public void clear() {
-		super.clear();
-		recipe = null;
-		progress = 0;
+	public int getProgress(Direction direction) {
+		return progress.getOrDefault(direction, 0);
 	}
 
 	@Override
@@ -175,5 +128,16 @@ public class TilePureInfuser extends TileECContainer {
 
 	public ItemStack getItem() {
 		return inventory.getStackInSlot(0);
+	}
+
+	@Override
+	public boolean isRunning() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getProgress() {
+		return 0;
 	}
 }

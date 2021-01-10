@@ -42,11 +42,11 @@ public class TileOreShrine extends TileShrine {
 	}
 
 	private boolean isSilkTouch() {
-		return this.hasUpgrade(ShrineUpgrades.SILK_TOUCH.get());
+		return this.hasUpgrade(ShrineUpgrades.silkTouch);
 	}
 
 	private int getFortuneLevel() {
-		return this.getUpgradeCount(ShrineUpgrades.FORTUNE.get());
+		return this.getUpgradeCount(ShrineUpgrades.fortune);
 	}
 
 	@Override

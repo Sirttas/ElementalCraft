@@ -6,7 +6,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
-import sirttas.elementalcraft.nbt.ECNames;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
 public class IOInventory extends SynchronizableInventory implements INBTSerializable<CompoundNBT> {

@@ -19,7 +19,9 @@ public abstract class AbstractRecipeCategory<K extends IInventoryTile, T extends
 	@Override
 	public void setIngredients(T recipe, IIngredients ingredients) {
 		ingredients.setInputLists(VanillaTypes.ITEM, recipe.getIngredients().stream().map(i -> Arrays.asList(i.getMatchingStacks())).collect(Collectors.toList()));
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+		if (!recipe.getRecipeOutput().isEmpty()) {
+			ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+		}
 	}
 
 	protected int getGaugeValue(int amount) {

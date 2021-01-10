@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.interaction.jei.category.element;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,7 +90,10 @@ public class EvaporationRecipeCategory implements IRecipeCategory<Ingredient> {
 
 	@Override
 	public void setIngredients(Ingredient recipe, IIngredients ingredients) {
-		ingredients.setInputLists(VanillaTypes.ITEM, Stream.of(recipe.getMatchingStacks()).map(Lists::newArrayList).collect(Collectors.toList()));
+		List<List<ItemStack>> inputs = new ArrayList<>();
+
+		inputs.add(Stream.of(recipe.getMatchingStacks()).collect(Collectors.toList()));
+		ingredients.setInputLists(VanillaTypes.ITEM, inputs);
 		ingredients.setOutput(ECIngredientTypes.ELEMENT, new IngredientElementType(getElementType(recipe), 1));
 	}
 

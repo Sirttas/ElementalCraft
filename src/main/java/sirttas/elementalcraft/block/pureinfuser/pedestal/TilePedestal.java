@@ -2,85 +2,69 @@ package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.IElementReceiver;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.capability.CapabilityElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
-import sirttas.elementalcraft.nbt.ECNames;
 
-public class TilePedestal extends TileECContainer implements IElementReceiver {
+public class TilePedestal extends TileECContainer implements IElementTypeProvider {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME) public static TileEntityType<TilePedestal> TYPE;
 
-	private int elementAmount = 0;
-	protected int elementCapacity = 10000; // TODO CONFIG
 	private final SingleItemInventory inventory;
+	private final IElementStorage elementStorage;
 
 	public TilePedestal() {
+		this(ElementType.NONE);
+	}
+
+	public TilePedestal(ElementType type) {
 		super(TYPE);
 		inventory = new SingleItemInventory(this::forceSync);
-	}
-
-	@Override
-	public int getElementAmount() {
-		return elementAmount;
-	}
-
-	@Override
-	public int getElementCapacity() {
-		return elementCapacity;
-	}
-
-	@Override
-	public ElementType getElementType() {
-		return ((BlockPedestal) this.getBlockState().getBlock()).getElementType();
+		elementStorage = new PedestalElementStorage(type, this::forceSync);
 	}
 
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
-		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
+		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
+			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound.get(ECNames.ELEMENT_STORAGE));
+		} else { // TODO 1.17 remove
+			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound);
+		}
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+		compound.put(ECNames.ELEMENT_STORAGE, CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.writeNBT(elementStorage, null));
 		return compound;
 	}
 
 	@Override
-	public int inserElement(int count, ElementType type, boolean simulate) {
-		if (type != this.getElementType()) {
-			return 0;
-		} else {
-			int newCount = Math.min(elementAmount + count, elementCapacity);
-			int ret = count - newCount + elementAmount;
-
-			if (!simulate) {
-				elementAmount = newCount;
-				this.forceSync();
-			}
-			return ret;
+	@Nonnull
+	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+		if (!this.removed && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
 		}
-	}
-
-	public int consumeElement(int i) {
-		int newCount = Math.max(elementAmount - i, 0);
-		int ret = elementAmount - newCount;
-
-		elementAmount = newCount;
-		this.forceSync();
-		return ret;
+		return super.getCapability(cap, side);
 	}
 
 	public Direction getPureInfuserDirection() {
@@ -90,12 +74,21 @@ public class TilePedestal extends TileECContainer implements IElementReceiver {
 	}
 
 	@Override
+	public ElementType getElementType() {
+		return elementStorage.getElementType();
+	}
+
+	@Override
 	public IInventory getInventory() {
 		return inventory;
 	}
 
 	public ItemStack getItem() {
 		return inventory.getStackInSlot(0);
+	}
+
+	public IElementStorage getElementStorage() {
+		return elementStorage;
 	}
 
 }

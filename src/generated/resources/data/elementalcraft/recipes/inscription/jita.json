@@ -1,0 +1,20 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_type": "air",
+  "element_amount": 5000,
+  "slate": {
+    "item": "elementalcraft:rune_slate"
+  },
+  "ingredients": [
+    {
+      "tag": "elementalcraft:gems/fine_air"
+    },
+    {
+      "tag": "forge:string"
+    },
+    {
+      "tag": "forge:string"
+    }
+  ],
+  "output": "elementalcraft:jita"
+}

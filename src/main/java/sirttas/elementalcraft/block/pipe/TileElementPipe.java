@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.pipe;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Optional;
 
 import com.google.common.collect.Lists;
 
@@ -15,12 +15,14 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.IElementReceiver;
-import sirttas.elementalcraft.api.element.storage.IElementSender;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.capability.CapabilityElementStorage;
 import sirttas.elementalcraft.block.tile.TileECTickable;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class TileElementPipe extends TileECTickable {
@@ -44,8 +46,8 @@ public class TileElementPipe extends TileECTickable {
 		this.maxTransferAmount = maxTransferAmount;
 	}
 
-	private TileEntity getAdjacentTile(Direction face) {
-		return this.hasWorld() ? this.getWorld().getTileEntity(this.getPos().offset(face)) : null;
+	private Optional<TileEntity> getAdjacentTile(Direction face) {
+		return this.hasWorld() ? TileEntityHelper.getTileEntity(this.getWorld(), this.getPos().offset(face)) : Optional.empty();
 	}
 
 	private boolean isConnectedTo(Direction face) {
@@ -71,21 +73,24 @@ public class TileElementPipe extends TileECTickable {
 	}
 
 	private void refresh(Direction face) {
-		TileEntity other = getAdjacentTile(face);
+		this.setConection(face, getAdjacentTile(face).map(tile -> {
+			ConnectionType connection = this.getConection(face);
 
-		if (this.getConection(face) == ConnectionType.NONE) {
-			if (other instanceof TileElementPipe) {
-				this.setConection(face, ConnectionType.CONNECT);
-			} else if (other instanceof IElementReceiver) {
-				this.setConection(face, ConnectionType.INSERT);
-			} else if (other instanceof IElementSender) {
-				this.setConection(face, ConnectionType.EXTRACT);
+			if (connection != ConnectionType.NONE) {
+				return connection;
 			}
-		} else {
-			if (other == null) {
-				this.setConection(face, ConnectionType.NONE);
+			if (tile instanceof TileElementPipe) {
+				return ConnectionType.CONNECT;
 			}
-		}
+			return CapabilityElementStorage.get(tile).map(storage -> {
+				if (storage.canPipeInsert()) {
+					return ConnectionType.INSERT;
+				} else if (storage.canPipeExtract()) {
+					return ConnectionType.EXTRACT;
+				}
+				return ConnectionType.NONE;
+			}).orElse(ConnectionType.NONE);
+		}).orElse(ConnectionType.NONE));
 	}
 
 	public void refresh() {
@@ -94,18 +99,18 @@ public class TileElementPipe extends TileECTickable {
 		}
 	}
 
-	private void transferElement(IElementSender sender) {
+	private void transferElement(IElementStorage sender) {
 		int amount = this.maxTransferAmount - this.transferedAmount;
 		ElementType type = sender.getElementType();
 
 		if (type != ElementType.NONE) {
 			Path path = new Path();
-			IElementReceiver receiver = path.searchReceiver(this, type, sender.extractElement(amount, type, true));
+			IElementStorage receiver = path.searchReceiver(this, type, sender.extractElement(amount, type, true));
 
 			if (receiver != null) {
-				int resultingAmount = path.amount - receiver.inserElement(sender.extractElement(path.amount, type, false), type, false);
+				int remainingAmount = path.amount - sender.transferTo(receiver, path.amount);
 
-				path.pipes.forEach(p -> p.transferedAmount += resultingAmount);
+				path.pipes.forEach(p -> p.transferedAmount += remainingAmount);
 			}
 		}
 	}
@@ -118,11 +123,7 @@ public class TileElementPipe extends TileECTickable {
 		if (this.hasWorld() && !this.world.isRemote) {
 			connections.forEach((k, v) -> {
 				if (v == ConnectionType.EXTRACT) {
-					TileEntity entity = getAdjacentTile(k);
-
-					if (entity instanceof IElementSender) {
-						transferElement((IElementSender) entity);
-					}
+					getAdjacentTile(k).map(CapabilityElementStorage::get).orElseGet(LazyOptional::empty).ifPresent(this::transferElement);
 				}
 			});
 		}
@@ -139,37 +140,40 @@ public class TileElementPipe extends TileECTickable {
 	}
 
 	public ActionResultType activatePipe(Direction face) {
-		TileEntity tile = getAdjacentTile(face);
-		ConnectionType connection = this.getConection(face);
+		return getAdjacentTile(face).map(tile -> {
+			ConnectionType connection = this.getConection(face);
 
-		switch (connection) {
-		case INSERT:
-			if (tile instanceof IElementSender) {
-				this.setConection(face, ConnectionType.EXTRACT);
-			} else {
+			switch (connection) {
+			case INSERT:
+				if (CapabilityElementStorage.get(tile).filter(IElementStorage::canPipeExtract).isPresent()) {
+					this.setConection(face, ConnectionType.EXTRACT);
+				} else {
+					this.setConection(face, ConnectionType.DISCONNECT);
+				}
+				return ActionResultType.SUCCESS;
+			case EXTRACT:
+			case CONNECT:
 				this.setConection(face, ConnectionType.DISCONNECT);
+				if (tile instanceof TileElementPipe) {
+					((TileElementPipe) tile).setConection(face.getOpposite(), ConnectionType.DISCONNECT);
+				}
+				return ActionResultType.SUCCESS;
+			case DISCONNECT:
+				LazyOptional<IElementStorage> cap = CapabilityElementStorage.get(tile);
+
+				if (cap.filter(IElementStorage::canPipeInsert).isPresent()) {
+					this.setConection(face, ConnectionType.INSERT);
+				} else if (cap.filter(IElementStorage::canPipeExtract).isPresent()) {
+					this.setConection(face, ConnectionType.EXTRACT);
+				} else if (tile instanceof TileElementPipe) {
+					this.setConection(face, ConnectionType.CONNECT);
+					((TileElementPipe) tile).setConection(face.getOpposite(), ConnectionType.CONNECT);
+				}
+				return ActionResultType.SUCCESS;
+			default:
+				return ActionResultType.PASS;
 			}
-			return ActionResultType.SUCCESS;
-		case EXTRACT:
-		case CONNECT:
-			this.setConection(face, ConnectionType.DISCONNECT);
-			if (tile instanceof TileElementPipe) {
-				((TileElementPipe) tile).setConection(face.getOpposite(), ConnectionType.DISCONNECT);
-			}
-			return ActionResultType.SUCCESS;
-		case DISCONNECT:
-			if (tile instanceof IElementReceiver) {
-				this.setConection(face, ConnectionType.INSERT);
-			} else if (tile instanceof IElementSender) {
-				this.setConection(face, ConnectionType.EXTRACT);
-			} else if (tile instanceof TileElementPipe) {
-				this.setConection(face, ConnectionType.CONNECT);
-				((TileElementPipe) tile).setConection(face.getOpposite(), ConnectionType.CONNECT);
-			}
-			return ActionResultType.SUCCESS;
-		default:
-			return ActionResultType.PASS;
-		}
+		}).orElse(ActionResultType.PASS);
 	}
 
 	public ITextComponent getConnectionMessage(Direction face) {
@@ -227,33 +231,31 @@ public class TileElementPipe extends TileECTickable {
 		List<TileElementPipe> pipes = Lists.newArrayListWithCapacity(100);
 		int amount;
 
-		private IElementReceiver searchReceiver(TileElementPipe pipe, ElementType type, int lastCount) {
+		private IElementStorage searchReceiver(TileElementPipe pipe, ElementType type, int lastCount) {
 			int count = Math.min(lastCount, pipe.maxTransferAmount - pipe.transferedAmount);
 
 			if (count > 0 && !visited.contains(pipe)) {
 				visited.add(pipe);
-				for (Entry<Direction, ConnectionType> connection : pipe.connections.entrySet()) {
-					TileEntity entity = pipe.getAdjacentTile(connection.getKey());
+				return pipe.connections.entrySet().stream().map(connection ->
+					pipe.getAdjacentTile(connection.getKey()).map(entity -> {
+						if (entity instanceof TileElementPipe && connection.getValue() == ConnectionType.CONNECT) {
+							IElementStorage ret = searchReceiver((TileElementPipe) entity, type, count);
 
-					if (entity instanceof TileElementPipe && connection.getValue() == ConnectionType.CONNECT) {
-						IElementReceiver ret = searchReceiver((TileElementPipe) entity, type, count);
+							if (ret != null) {
+								this.pipes.add(pipe);
+								return ret;
+							}
+						} else if (entity != null && connection.getValue() == ConnectionType.INSERT) {
+							LazyOptional<IElementStorage> cap = CapabilityElementStorage.get(entity);
 
-						if (ret != null) {
-							this.pipes.add(pipe);
-							return ret;
+							if (cap.filter(receiver -> receiver.canPipeInsert() && receiver.insertElement(count, type, true) < count).isPresent()) {
+								this.amount = count;
+								this.pipes.add(pipe);
+								return cap.orElse(null);
+							}
 						}
-					} else if (entity instanceof IElementReceiver && connection.getValue() == ConnectionType.INSERT) {
-						IElementReceiver receiver = (IElementReceiver) entity;
-
-						if (receiver.inserElement(count, type, true) < count) {
-							this.amount = count;
-							this.pipes.add(pipe);
-							return receiver;
-						}
-					} else {
-						pipe.refresh(connection.getKey());
-					}
-				}
+						return null;
+					})).filter(Optional::isPresent).map(Optional::get).findAny().orElse(null);
 			}
 			return null;
 		}

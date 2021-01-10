@@ -1,11 +1,27 @@
 {
   "predicate": {
-    "tag": "elementalcraft:shrines/upgradables/acceleration"
+    "values": [
+      {
+        "values": [
+          {
+            "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup",
+            "type": "elementalcraft:has_shrien_upgrade"
+          },
+          {
+            "block": "elementalcraft:vacuumshrine",
+            "type": "dpanvil:block"
+          }
+        ],
+        "type": "dpanvil:and"
+      },
+      {
+        "tag": "elementalcraft:shrines/upgradables/acceleration",
+        "type": "dpanvil:tag"
+      }
+    ],
+    "type": "dpanvil:or"
   },
-  "bonuses": [
-    {
-      "type": "speed",
-      "multiplier": 0.5
-    }
-  ]
+  "bonuses": {
+    "speed": 0.5
+  }
 }

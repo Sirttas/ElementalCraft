@@ -1,0 +1,20 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_type": "water",
+  "element_amount": 2000,
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
+  },
+  "ingredients": [
+    {
+      "tag": "elementalcraft:gems/crude_water"
+    },
+    {
+      "tag": "forge:gems/lapis"
+    },
+    {
+      "tag": "forge:gems/lapis"
+    }
+  ],
+  "output": "elementalcraft:claptrap"
+}

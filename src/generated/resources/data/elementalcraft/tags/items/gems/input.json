@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#elementalcraft:gems/input_fire",
+    "#elementalcraft:gems/input_water",
+    "#elementalcraft:gems/input_earth",
+    "#elementalcraft:gems/input_air"
+  ]
+}

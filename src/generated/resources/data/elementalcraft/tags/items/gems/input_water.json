@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:crude_water_gem",
+    "elementalcraft:fine_water_gem",
+    "elementalcraft:pristine_water_gem",
+    "#forge:gems/diamond"
+  ]
+}

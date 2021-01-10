@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_fine_fire_gem": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:fine_fire_gem"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fine_fire_gem"
+    ]
+  ]
+}

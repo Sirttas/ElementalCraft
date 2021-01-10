@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "air",
+  "element_amount": 2500,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:hopper"
+    },
+    {
+      "tag": "forge:gems/diamond"
+    }
+  ],
+  "output": "elementalcraft:vacuumshrine"
+}

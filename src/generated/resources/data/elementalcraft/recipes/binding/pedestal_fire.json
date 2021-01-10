@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "fire",
+  "element_amount": 30000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:infuser"
+    },
+    {
+      "tag": "elementalcraft:gems/fine_fire"
+    },
+    {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    }
+  ],
+  "output": "elementalcraft:pedestal_fire"
+}

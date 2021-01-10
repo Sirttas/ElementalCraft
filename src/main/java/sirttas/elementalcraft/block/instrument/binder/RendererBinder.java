@@ -22,6 +22,7 @@ public class RendererBinder extends RendererEC<TileBinder> {
 		float tick = getAngle(partialTicks);
 		IInventory inv = te.getInventory();
 		
+		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		matrixStack.translate(0.5F, 0.4F, 0.5F);
 		if (te.getItemCount() == 1) {
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(tick));
@@ -33,11 +34,11 @@ public class RendererBinder extends RendererEC<TileBinder> {
 
 				if (!stack.isEmpty()) {
 					matrixStack.rotate(Vector3f.YP.rotationDegrees(360 / te.getItemCount()));
+					matrixStack.push();
 					matrixStack.translate(0.7F, 0F, 0F);
 					matrixStack.rotate(Vector3f.YP.rotationDegrees(tick));
 					renderItem(stack, matrixStack, buffer, light, overlay);
-					matrixStack.rotate(Vector3f.YP.rotationDegrees(-tick));
-					matrixStack.translate(-0.7F, 0F, 0F);
+					matrixStack.pop();
 				}
 			}
 		}

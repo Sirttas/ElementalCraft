@@ -1,9 +1,10 @@
 package sirttas.elementalcraft.item;
 
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.property.ECProperties;
 
-public class ItemElemental extends ItemEC {
+public class ItemElemental extends ItemEC implements IElementTypeProvider {
 
 	protected final ElementType elementType;
 
@@ -16,6 +17,7 @@ public class ItemElemental extends ItemEC {
 		this.elementType = elementType;
 	}
 
+	@Override
 	public ElementType getElementType() {
 		return elementType;
 	}

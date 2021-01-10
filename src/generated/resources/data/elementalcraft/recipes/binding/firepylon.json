@@ -1,0 +1,20 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "fire",
+  "element_amount": 2500,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:firecrystal"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    },
+    {
+      "tag": "forge:ingots/gold"
+    }
+  ],
+  "output": "elementalcraft:firepylon"
+}

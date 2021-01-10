@@ -20,10 +20,11 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.BlockECContainer;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class BlockPedestal extends BlockECContainer {
+public class BlockPedestal extends BlockECContainer implements IElementTypeProvider {
 
 	private static final VoxelShape BASE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
 	private static final VoxelShape BASE_2 = Block.makeCuboidShape(2D, 3D, 2D, 14D, 9D, 14D);
@@ -58,7 +59,7 @@ public class BlockPedestal extends BlockECContainer {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new TilePedestal();
+		return new TilePedestal(this.getElementType());
 	}
 
 	@Override
@@ -94,6 +95,7 @@ public class BlockPedestal extends BlockECContainer {
 		return BASE;
 	}
 
+	@Override
 	public ElementType getElementType() {
 		return elementType;
 	}

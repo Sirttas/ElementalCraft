@@ -26,13 +26,14 @@ public abstract class AbstractBlockFireFurnace extends BlockECContainer {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final AbstractTileFireFurnace<?> furnace = (AbstractTileFireFurnace<?>) world.getTileEntity(pos);
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		ItemStack heldItem = player.getHeldItem(hand);
 	
 		if (furnace != null) {
 			if (!inv.getStackInSlot(1).isEmpty()) {
 				furnace.dropExperience(player);
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
 			}
-			return this.onSlotActivated(inv, player, player.getHeldItem(hand), 0);
+			return this.onSlotActivated(inv, player, heldItem, 0);
 		}
 		return ActionResultType.PASS;
 	}

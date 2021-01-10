@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:powerful_water_shard_from_water_shards"
+    ]
+  },
+  "criteria": {
+    "has_water_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:water_shard"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:powerful_water_shard_from_water_shards"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_water_shard",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:powerful_water_shard"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:water_shard",
+    "count": 9
+  }
+}

@@ -1,8 +1,10 @@
 package sirttas.elementalcraft.item.pureore;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -12,46 +14,31 @@ import com.google.common.collect.Lists;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.BlastingRecipe;
-import net.minecraft.item.crafting.CampfireCookingRecipe;
-import net.minecraft.item.crafting.FurnaceRecipe;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.fml.DistExecutor;
+import sirttas.dpanvil.api.event.DataPackReloadCompletEvent;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.pureore.PureOreInjectorIMCMessage;
+import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.pureore.injector.PureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ItemEC;
-import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
 
 public class PureOreManager {
 
 	private final Map<Item, Entry> pureOres = new HashMap<>();
-
-	private List<PureOreRecipeInjector<?, ? extends IRecipe<?>>> injectors = Lists.newArrayList();
 	
-	public PureOreManager() {
-		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreSmeltingRecipe.get())) {
-			addInjector(PureOreRecipeInjector.create(IRecipeType.SMELTING, this::buildSmeltingRecipe));
-		}
-		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreBlastingRecipe.get())) {
-			addInjector(PureOreRecipeInjector.create(IRecipeType.BLASTING, this::buildBlastingRecipe));
-		}
-		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreCampFireRecipe.get())) {
-			addInjector(PureOreRecipeInjector.create(IRecipeType.CAMPFIRE_COOKING, this::buildCampFireRecipe));
-		}
-	}
-
 	public ItemStack getOre(ItemStack stack) {
 		return NBTHelper.readItemStack(NBTHelper.getECTag(stack), ECNames.ORE);
 	}
@@ -80,11 +67,13 @@ public class PureOreManager {
 				.stream().filter(e -> !e.isEmpty()).map(JEIPurifierRecipe::new).collect(Collectors.toList());
 	}
 
-	public void addInjector(PureOreRecipeInjector<?, ? extends IRecipe<?>> injector) {
-		injectors.add(injector);
+	private Collection<PureOreRecipeInjector<?, ? extends IRecipe<?>>> getInjectors() {
+		return PureOreRecipeInjector.REGISTRY.getValues();
 	}
 
-	public void generatePureOres(RecipeManager recipeManager) {
+	private void generatePureOres(RecipeManager recipeManager) {
+		Collection<PureOreRecipeInjector<?, ? extends IRecipe<?>>> injectors = getInjectors();
+
 		ElementalCraft.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
 				() -> injectors.stream().map(PureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
 				() -> Tags.Items.ORES.getAllElements().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
@@ -103,10 +92,32 @@ public class PureOreManager {
 			List<Entry> entries = pureOres.values().stream().distinct().collect(Collectors.toList());
 
 			recipeManager.recipes = recipeManager.recipes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-			injectors.forEach(injector -> injector.inject(entries));
+			injectors.forEach(injector -> inject(injector, entries));
 			recipeManager.recipes = recipeManager.recipes.entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
 		}
 		ElementalCraft.LOGGER.info("Pure ore generation ended");
+	}
+
+	private <C extends IInventory, T extends IRecipe<C>> void inject(PureOreRecipeInjector<C, T> injector, List<PureOreManager.Entry> entries) {
+		Map<ResourceLocation, T> map = injector.getRecipes();
+
+		map.putAll(entries.stream().distinct().map(entry -> this.injectEntry(injector, entry)).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o, (recipe1, recipe2) -> {
+			ElementalCraft.LOGGER.warn("Duplicated key for type {}: {}", injector.getRecipeType(), recipe1.getId());
+			return recipe1;
+		})));
+		injector.inject(map);
+	}
+
+	public <C extends IInventory, T extends IRecipe<C>> T injectEntry(PureOreRecipeInjector<C, T> injector, Entry entry) {
+		IRecipeType<T> recipeType = injector.getRecipeType();
+		try {
+			T recipe = entry.getRecipe(recipeType);
+
+			return recipe != null ? injector.build(recipe, entry.getIngredient()) : null;
+		} catch (Exception e) {
+			ElementalCraft.LOGGER.error("Error in pure ore recipe injection", e);
+			return null;
+		}
 	}
 
 	private void addEntry(Entry entry) {
@@ -127,19 +138,8 @@ public class PureOreManager {
 		}
 	}
 
-	private FurnaceRecipe buildSmeltingRecipe(FurnaceRecipe sourceRecipe, Ingredient ingredient) {
-		return new FurnaceRecipe(ElementalCraft.createRL(PureOreInjectorIMCMessage.buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
-				sourceRecipe.getExperience(), sourceRecipe.getCookTime());
-	}
-
-	private BlastingRecipe buildBlastingRecipe(BlastingRecipe sourceRecipe, Ingredient ingredient) {
-		return new BlastingRecipe(ElementalCraft.createRL(PureOreInjectorIMCMessage.buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
-				sourceRecipe.getExperience(), sourceRecipe.getCookTime());
-	}
-
-	private CampfireCookingRecipe buildCampFireRecipe(CampfireCookingRecipe sourceRecipe, Ingredient ingredient) {
-		return new CampfireCookingRecipe(ElementalCraft.createRL(PureOreInjectorIMCMessage.buildRecipeId(sourceRecipe.getId())), sourceRecipe.getGroup(), ingredient, sourceRecipe.getRecipeOutput(),
-				sourceRecipe.getExperience(), sourceRecipe.getCookTime());
+	public void reload(DataPackReloadCompletEvent event) {
+		this.generatePureOres(event.getRecipeManager());
 	}
 
 	protected class Entry {
@@ -162,10 +162,14 @@ public class PureOreManager {
 			return (T) recipes.get(recipeType);
 		}
 
+		@SuppressWarnings("unchecked")
 		public <C extends IInventory, T extends IRecipe<C>> void addRecipe(T recipe) {
+			IRecipeType<?> recipeType = recipe.getType();
+
 			recipes.put(recipe.getType(), recipe);
 			if (result.isEmpty()) {
-				result = recipe.getRecipeOutput();
+				result = getInjectors().stream().filter(injector -> injector.getRecipeType().equals(recipeType)).findAny()
+						.map(injector -> ((PureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe)).filter(stack -> !stack.isEmpty()).orElse(recipe.getRecipeOutput());
 				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ItemEC.lookupColor(result));
 			}
 		}

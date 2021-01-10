@@ -221,6 +221,26 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 2,
+          "name": "elementalcraft:powerful_fire_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "elementalcraft:powerful_water_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "elementalcraft:powerful_earth_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "elementalcraft:powerful_air_shard"
+        },
+        {
+          "type": "minecraft:item",
           "weight": 15,
           "functions": [
             {

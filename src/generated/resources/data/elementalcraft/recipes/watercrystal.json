@@ -1,8 +1,0 @@
-{
-  "type": "elementalcraft:infusion",
-  "element": "water",
-  "input": {
-    "item": "elementalcraft:inertcrystal"
-  },
-  "output": "elementalcraft:watercrystal"
-}

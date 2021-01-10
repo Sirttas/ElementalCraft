@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "gcg",
+    "gig",
     "wew",
     "ici"
   ],
@@ -16,7 +16,7 @@
       "tag": "forge:ingots/swift_alloy"
     },
     "e": {
-      "item": "elementalcraft:earthcrystal"
+      "tag": "elementalcraft:gems/fine_earth"
     },
     "g": {
       "tag": "forge:ingots/gold"

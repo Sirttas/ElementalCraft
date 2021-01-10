@@ -1,0 +1,20 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_type": "air",
+  "element_amount": 2000,
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
+  },
+  "ingredients": [
+    {
+      "tag": "elementalcraft:gems/crude_air"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "output": "elementalcraft:manx"
+}

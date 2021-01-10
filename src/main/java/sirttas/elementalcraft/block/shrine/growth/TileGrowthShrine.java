@@ -46,7 +46,7 @@ public class TileGrowthShrine extends TileShrine {
 		if (block instanceof IGrowable) {
 			IGrowable igrowable = (IGrowable) block;
 
-			return igrowable.canGrow(world, pos, blockstate, world.isRemote) && (igrowable.canUseBonemeal(world, world.rand, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH.get()));
+			return igrowable.canGrow(world, pos, blockstate, world.isRemote) && (igrowable.canUseBonemeal(world, world.rand, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.bonelessGrowth));
 		}
 		return false;
 	}

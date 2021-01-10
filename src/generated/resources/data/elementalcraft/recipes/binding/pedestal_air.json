@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "air",
+  "element_amount": 30000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:infuser"
+    },
+    {
+      "tag": "elementalcraft:gems/fine_air"
+    },
+    {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    }
+  ],
+  "output": "elementalcraft:pedestal_air"
+}

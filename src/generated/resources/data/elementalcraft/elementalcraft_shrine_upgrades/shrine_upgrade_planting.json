@@ -1,12 +1,10 @@
 {
-  "max_amount": 1,
   "predicate": {
-    "block": "elementalcraft:harvestshrine"
+    "block": "elementalcraft:harvestshrine",
+    "type": "dpanvil:block"
   },
-  "bonuses": [
-    {
-      "type": "element_consumption",
-      "multiplier": 3.0
-    }
-  ]
+  "bonuses": {
+    "element_consumption": 3.0
+  },
+  "max_amount": 1
 }

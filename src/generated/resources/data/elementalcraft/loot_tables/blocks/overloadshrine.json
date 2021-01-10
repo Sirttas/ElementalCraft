@@ -21,13 +21,8 @@
           "source": "block_entity",
           "ops": [
             {
-              "source": "element_type",
-              "target": "BlockEntityTag.element_type",
-              "op": "replace"
-            },
-            {
-              "source": "element_amount",
-              "target": "BlockEntityTag.element_amount",
+              "source": "element_storage",
+              "target": "BlockEntityTag.element_storage",
               "op": "replace"
             }
           ]

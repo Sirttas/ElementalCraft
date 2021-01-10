@@ -11,12 +11,17 @@ import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.evaporator.TileEvaporator;
+import sirttas.elementalcraft.block.extractor.TileExtractor;
 import sirttas.elementalcraft.block.instrument.binder.RendererBinder;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
+import sirttas.elementalcraft.block.instrument.crystallizer.RendererCrystallizer;
+import sirttas.elementalcraft.block.instrument.crystallizer.TileCrystallizer;
 import sirttas.elementalcraft.block.instrument.firefurnace.RendererFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.TileFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.blast.TileFireBlastFurnace;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.block.instrument.inscriber.RendererInscriber;
+import sirttas.elementalcraft.block.instrument.inscriber.TileInscriber;
 import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.block.pureinfuser.RendererPureInfuser;
@@ -43,8 +48,11 @@ public final class ECRenderers {
 	public static void registerModels(ModelRegistryEvent evt) {
 
 		ClientRegistry.bindTileEntityRenderer(TileInfuser.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5)));
+		ClientRegistry.bindTileEntityRenderer(TileExtractor.TYPE, RuneRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEvaporator.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5), 0.5F));
 		ClientRegistry.bindTileEntityRenderer(TileBinder.TYPE, RendererBinder::new);
+		ClientRegistry.bindTileEntityRenderer(TileCrystallizer.TYPE, RendererCrystallizer::new);
+		ClientRegistry.bindTileEntityRenderer(TileInscriber.TYPE, RendererInscriber::new);
 		ClientRegistry.bindTileEntityRenderer(TilePedestal.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.9, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TilePureInfuser.TYPE, RendererPureInfuser::new);
 		ClientRegistry.bindTileEntityRenderer(TileFireFurnace.TYPE, RendererFireFurnace::new);

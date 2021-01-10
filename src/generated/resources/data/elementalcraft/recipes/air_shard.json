@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:powerful_air_shard"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:air_shard",
+    "count": 9
+  }
+}

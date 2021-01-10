@@ -1,21 +1,40 @@
 package sirttas.elementalcraft.spell.properties;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import java.util.Map;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
+import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import sirttas.dpanvil.api.codec.CodecHelper;
+import sirttas.dpanvil.api.event.DataManagerReloadEvent;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.gui.ECColorHelper;
-import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.spell.Spell;
 
-public class SpellProperties {
+@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+public class SpellProperties implements IElementTypeProvider {
+
+	public static final String NAME = "spell_properties";
+	public static final String FOLDER = ElementalCraft.MODID + '_' + NAME;
 
 	public static final SpellProperties NONE = new SpellProperties();
-	public static final Serializer SEZRIALIZER = new Serializer();
+	public static final Codec<SpellProperties> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+			Spell.Type.CODEC.fieldOf(ECNames.SPELL_TYPE).forGetter(SpellProperties::getSpellType),
+			ElementType.forGetter(SpellProperties::getElementType),
+			Codec.INT.optionalFieldOf(ECNames.WEIGHT, 0).forGetter(SpellProperties::getWeight),
+			Codec.INT.optionalFieldOf(ECNames.USE_DURATION, 0).forGetter(SpellProperties::getUseDuration),
+			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(SpellProperties::getConsumeAmount),
+			Codec.INT.optionalFieldOf(ECNames.COOLDOWN, 0).forGetter(SpellProperties::getCooldown),
+			Codec.FLOAT.optionalFieldOf(ECNames.RANGE, 0F).forGetter(SpellProperties::getRange),
+			Codec.INT.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::getColor)
+	).apply(builder, SpellProperties::new));
 
 	private int cooldown;
 	private int consumeAmount;
@@ -27,13 +46,18 @@ public class SpellProperties {
 	private Spell.Type spellType;
 
 	public SpellProperties() {
-		spellType = Spell.Type.NONE;
-		elementType = ElementType.NONE;
-		weight = 0;
-		useDuration = 0;
-		consumeAmount = 0;
-		cooldown = 0;
-		color = -1;
+		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, -1);
+	}
+
+	private SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, int color) {
+		this.spellType = spellType;
+		this.elementType = elementType;
+		this.weight = weight;
+		this.useDuration = useDuration;
+		this.consumeAmount = consumeAmount;
+		this.cooldown = cooldown;
+		this.range = range;
+		this.color = color;
 	}
 
 	public int getCooldown() {
@@ -52,6 +76,7 @@ public class SpellProperties {
 		return weight;
 	}
 
+	@Override
 	public ElementType getElementType() {
 		return elementType;
 	}
@@ -67,55 +92,29 @@ public class SpellProperties {
 	public int getColor() {
 		return color;
 	}
+	
+	@SubscribeEvent
+	public static void onReload(DataManagerReloadEvent<SpellProperties> event) {
+		Map<ResourceLocation, SpellProperties> data = event.getDataManager().getData();
 
-	public static class Serializer implements JsonDeserializer<SpellProperties> {
+		for (Spell spell : Spell.REGISTRY.getValues()) {
+			SpellProperties prop = data.get(spell.getRegistryName());
 
-		private Serializer() {
-		}
-
-		@Override
-		public SpellProperties deserialize(JsonElement json, java.lang.reflect.Type typeOfT, JsonDeserializationContext context) {
-			SpellProperties properties = new SpellProperties();
-			JsonObject jsonObject = (JsonObject) json;
-
-			properties.spellType = Spell.Type.byName(JSONUtils.getString(jsonObject, ECNames.SPELL_TYPE));
-			properties.elementType = ElementType.byName(JSONUtils.getString(jsonObject, ECNames.ELEMENT_TYPE));
-			properties.cooldown = jsonObject.has(ECNames.COOLDOWN) ? JSONUtils.getInt(jsonObject, ECNames.COOLDOWN) : 0;
-			properties.consumeAmount = jsonObject.has(ECNames.ELEMENT_CONSUMPTION) ? JSONUtils.getInt(jsonObject, ECNames.ELEMENT_CONSUMPTION) : 0;
-			properties.useDuration = jsonObject.has(ECNames.USE_DURATION) ? JSONUtils.getInt(jsonObject, ECNames.USE_DURATION) : 0;
-			properties.weight = jsonObject.has(ECNames.WEIGHT) ? JSONUtils.getInt(jsonObject, ECNames.WEIGHT) : 1;
-			properties.range = jsonObject.has(ECNames.RANGE) ? JSONUtils.getFloat(jsonObject, ECNames.RANGE) : 0;
-			properties.color = jsonObject.has(ECNames.COLOR) ? JSONUtils.getInt(jsonObject, ECNames.COLOR) : -1;
-			return properties;
-		}
-
-		public SpellProperties read(PacketBuffer buf) {
-			SpellProperties properties = new SpellProperties();
-
-			properties.spellType = Spell.Type.byName(buf.readString());
-			properties.elementType = ElementType.byName(buf.readString());
-			properties.cooldown = buf.readInt();
-			properties.consumeAmount = buf.readInt();
-			properties.useDuration = buf.readInt();
-			properties.weight = buf.readInt();
-			properties.range = buf.readFloat();
-			properties.color = buf.readInt();
-			return properties;
-		}
-
-		public void write(SpellProperties properties, PacketBuffer buf) {
-			buf.writeString(properties.spellType.getString());
-			buf.writeString(properties.elementType.getString());
-			buf.writeInt(properties.cooldown);
-			buf.writeInt(properties.consumeAmount);
-			buf.writeInt(properties.useDuration);
-			buf.writeInt(properties.weight);
-			buf.writeFloat(properties.range);
-			buf.writeInt(properties.color);
+			if (prop != null) {
+				spell.setProperties(prop);
+			} else {
+				spell.setProperties(SpellProperties.NONE);
+			}
 		}
 	}
-	
+
 	public static final class Builder {
+
+		public static final Codec<Builder> CODEC = SpellProperties.CODEC.xmap(properties -> create(properties.spellType).elementType(properties.elementType).weight(properties.weight)
+				.useDuration(properties.useDuration).consumeAmount(properties.consumeAmount).cooldown(properties.cooldown).range(properties.range)
+				.color(properties.color),
+				builder -> new SpellProperties(builder.type, builder.elementType, builder.weight, builder.useDuration, builder.consumeAmount, builder.cooldown, (float) builder.range, builder.color));
+
 		private int cooldown;
 		private int consumeAmount;
 		private int useDuration;
@@ -179,30 +178,7 @@ public class SpellProperties {
 		}
 
 		public JsonElement toJson() {
-			JsonObject json = new JsonObject();
-
-			json.addProperty(ECNames.SPELL_TYPE, type.getString());
-			json.addProperty(ECNames.ELEMENT_TYPE, elementType.getString());
-			if (cooldown > 0) {
-				json.addProperty(ECNames.COOLDOWN, cooldown);
-			}
-			if (consumeAmount > 0) {
-				json.addProperty(ECNames.ELEMENT_CONSUMPTION, consumeAmount);
-			}
-			if (useDuration > 0) {
-				json.addProperty(ECNames.USE_DURATION, useDuration);
-			}
-			if (weight > 0) {
-				json.addProperty(ECNames.WEIGHT, weight);
-			}
-			if (range > 0) {
-				json.addProperty(ECNames.RANGE, range);
-			}
-			if (color > 0) {
-				json.addProperty(ECNames.COLOR, color);
-			}
-			return json;
+			return CodecHelper.encode(CODEC, this);
 		}
-
 	}
 }

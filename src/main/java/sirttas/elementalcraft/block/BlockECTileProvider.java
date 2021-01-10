@@ -5,11 +5,18 @@ import javax.annotation.Nonnull;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandler;
+import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.property.ECProperties;
+import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
 
-public abstract class BlockECTileProvider extends BlockEC implements IBlockECTileProvider {
+public abstract class BlockECTileProvider extends BlockEC {
 
 	public BlockECTileProvider(AbstractBlock.Properties properties) {
 		super(properties);
@@ -32,5 +39,30 @@ public abstract class BlockECTileProvider extends BlockEC implements IBlockECTil
 	@Deprecated
 	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.MODEL;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (state.getBlock() != newState.getBlock()) {
+			dropItems(worldIn, pos);
+			dropRunes(worldIn, pos);
+			super.onReplaced(state, worldIn, pos, newState, isMoving);
+		}
+	}
+
+	private void dropItems(World worldIn, BlockPos pos) {
+		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(worldIn, pos, null);
+
+		if (inv != null) {
+			for (int i = 0; i < inv.getSlots(); i++) {
+				InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), inv.getStackInSlot(i));
+			}
+			worldIn.updateComparatorOutputLevel(pos, this);
+		}
+	}
+
+	private void dropRunes(World worldIn, BlockPos pos) {
+		CapabilityRuneHandler.getRuneHandlerAt(worldIn, pos).getRunes().forEach(rune -> InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), ECItems.rune.getRuneStack(rune)));
 	}
 }

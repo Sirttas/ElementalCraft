@@ -26,14 +26,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.IElementReceiver;
-import sirttas.elementalcraft.api.element.storage.IElementSender;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.capability.CapabilityElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemElemental;
-import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.property.ECProperties;
 
 public class ItemElementHolder extends ItemElemental implements ISourceInteractable {
@@ -105,35 +104,32 @@ public class ItemElementHolder extends ItemElemental implements ISourceInteracta
 
 	private ActionResultType tick(World world, LivingEntity entity, BlockPos pos, ItemStack stack) {
 		BlockState blockstate = world.getBlockState(pos);
+		IElementStorage storage = CapabilityElementStorage.getElementStorageAt(world, pos);
 
 		if (isValidSource(blockstate)) {
 			this.inserElement(stack, ECConfig.COMMON.elementHolderTransferAmount.get());
 			return ActionResultType.CONSUME;
 		}
 		if (entity.isSneaking()) {
-
-			return TileEntityHelper.getTileEntityAs(world, pos, IElementSender.class).filter(sender -> sender.getElementType() == elementType).map(sender -> {
-				int amount = NumberUtils.min(sender.getElementAmount(), ECConfig.COMMON.elementHolderTransferAmount.get(), this.getElementCapacity() - getElementAmount(stack));
+			if (storage.canPipeExtract() && storage.getElementType() == elementType) {
+				int amount = NumberUtils.min(storage.getElementAmount(), ECConfig.COMMON.elementHolderTransferAmount.get(), this.getElementCapacity() - getElementAmount(stack));
 
 				if (amount > 0) {
-					sender.extractElement(amount, elementType, false);
+					storage.extractElement(amount, elementType, false);
 					this.inserElement(stack, amount);
 					return ActionResultType.CONSUME;
 				}
-				return ActionResultType.PASS;
-			}).orElse(ActionResultType.PASS);
-		}
-		return TileEntityHelper.getTileEntityAs(world, pos, IElementReceiver.class).filter(receiver -> receiver.getElementType() == elementType || receiver.getElementType() == ElementType.NONE)
-				.map(receiver -> {
-					int amount = NumberUtils.min(getElementAmount(stack), ECConfig.COMMON.elementHolderTransferAmount.get(), receiver.getElementCapacity() - receiver.getElementAmount());
+			}
+		} else if (storage.canPipeInsert() && storage.getElementType() == elementType || storage.getElementType() == null) {
+			int amount = NumberUtils.min(getElementAmount(stack), ECConfig.COMMON.elementHolderTransferAmount.get(), storage.getElementCapacity() - storage.getElementAmount());
 
-					if (amount > 0) {
-						this.extractElement(stack, amount);
-						receiver.inserElement(amount, elementType, false);
-						return ActionResultType.CONSUME;
-					}
-					return ActionResultType.PASS;
-				}).orElse(ActionResultType.PASS);
+			if (amount > 0) {
+				this.extractElement(stack, amount);
+				storage.insertElement(amount, elementType, false);
+				return ActionResultType.CONSUME;
+			}
+		}
+		return ActionResultType.PASS;
 	}
 
 	@Override

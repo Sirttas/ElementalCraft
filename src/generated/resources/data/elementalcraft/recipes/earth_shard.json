@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:powerful_earth_shard"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:earth_shard",
+    "count": 9
+  }
+}

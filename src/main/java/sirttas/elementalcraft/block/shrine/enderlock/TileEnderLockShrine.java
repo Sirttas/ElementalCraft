@@ -40,7 +40,7 @@ public class TileEnderLockShrine extends TileShrine {
 	public boolean doLock() {
 		int consumeAmount = this.getConsumeAmount();
 
-		if (this.getElementAmount() >= consumeAmount) {
+		if (this.elementStorage.getElementAmount() >= consumeAmount) {
 			this.consumeElement(consumeAmount);
 			return true;
 		}

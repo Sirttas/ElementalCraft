@@ -1,8 +1,8 @@
 {
+  "element_consumption": 2000,
+  "cooldown": 200,
+  "color": 34465,
   "spell_type": "utility",
   "element_type": "water",
-  "cooldown": 200,
-  "element_consumption": 2000,
-  "weight": 10,
-  "color": 34465
+  "weight": 10
 }

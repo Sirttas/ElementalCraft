@@ -1,16 +1,11 @@
 {
-  "max_amount": 1,
   "predicate": {
-    "block": "elementalcraft:growthshrine"
+    "block": "elementalcraft:growthshrine",
+    "type": "dpanvil:block"
   },
-  "bonuses": [
-    {
-      "type": "speed",
-      "multiplier": 4.0
-    },
-    {
-      "type": "element_consumption",
-      "multiplier": 5.0
-    }
-  ]
+  "bonuses": {
+    "speed": 4.0,
+    "element_consumption": 5.0
+  },
+  "max_amount": 1
 }

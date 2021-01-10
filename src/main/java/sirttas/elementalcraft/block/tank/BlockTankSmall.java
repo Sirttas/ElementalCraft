@@ -11,7 +11,7 @@ import net.minecraft.world.IBlockReader;
 
 public class BlockTankSmall extends AbstractBlockTank {
 
-	public static final String NAME = "tank_small";
+	public static final String NAME = "tank_small"; // TODO 1.17 rename "container_small"
 
 	private static final VoxelShape GLASS = Block.makeCuboidShape(3D, 3D, 3D, 13D, 13D, 13D);
 

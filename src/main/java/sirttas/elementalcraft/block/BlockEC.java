@@ -27,6 +27,7 @@ public class BlockEC extends Block implements IBlockEC {
 		super(properties);
 	}
 
+	// TODO move to helper
 	protected RayTraceResult rayTrace(IBlockReader world, Entity entity) {
 		return DistExecutor.unsafeRunForDist(() -> () -> Minecraft.getInstance().objectMouseOver, () -> () -> {
 			if (entity instanceof PlayerEntity) {
@@ -49,6 +50,7 @@ public class BlockEC extends Block implements IBlockEC {
 		});
 	}
 
+	// TODO move to helper
 	protected static boolean doesVectorColide(AxisAlignedBB bb, Vector3d vec) {
 		return vec.x >= bb.minX && vec.y >= bb.minY && vec.z >= bb.minZ && vec.x <= bb.maxX && vec.y <= bb.maxY && vec.z <= bb.maxZ;
 	}

@@ -1,15 +1,22 @@
 {
-  "max_amount": 1,
   "predicate": {
-    "block": "elementalcraft:oreshrine"
+    "values": [
+      {
+        "value": {
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_fortune",
+          "type": "elementalcraft:has_shrien_upgrade"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "block": "elementalcraft:oreshrine",
+        "type": "dpanvil:block"
+      }
+    ],
+    "type": "dpanvil:and"
   },
-  "bonuses": [
-    {
-      "type": "element_consumption",
-      "multiplier": 2.0
-    }
-  ],
-  "incompatibilities": [
-    "elementalcraft:shrine_upgrade_fortune"
-  ]
+  "bonuses": {
+    "element_consumption": 2.0
+  },
+  "max_amount": 1
 }

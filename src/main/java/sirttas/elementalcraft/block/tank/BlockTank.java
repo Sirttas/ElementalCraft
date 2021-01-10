@@ -18,7 +18,7 @@ import sirttas.elementalcraft.tag.ECTags;
 
 public class BlockTank extends AbstractBlockTank {
 
-	public static final String NAME = "tank";
+	public static final String NAME = "tank"; // TODO 1.17 rename "container"
 
 	private static final VoxelShape BASE = Block.makeCuboidShape(0D, 0D, 0D, 16D, 2D, 16D);
 	private static final VoxelShape GLASS = Block.makeCuboidShape(2D, 2D, 2D, 14D, 15D, 14D);

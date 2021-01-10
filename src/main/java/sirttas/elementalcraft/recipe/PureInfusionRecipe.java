@@ -2,7 +2,6 @@ package sirttas.elementalcraft.recipe;
 
 import java.util.List;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.minecraft.item.ItemStack;
@@ -14,12 +13,12 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
-import sirttas.elementalcraft.nbt.ECNames;
 
 public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser> {
 
@@ -35,16 +34,14 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 
 	private NonNullList<Ingredient> ingredients;
 	private ItemStack output;
-	private int elementPerTick;
-	private int duration;
+	private int elementAmount;
 	private ResourceLocation id;
 
-	public PureInfusionRecipe(ResourceLocation id, int elementPerTick, int duration, ItemStack output, List<Ingredient> ingredients) {
+	public PureInfusionRecipe(ResourceLocation id, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		this.id = id;
 		this.ingredients = NonNullList.from(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
 		this.output = output;
-		this.elementPerTick = elementPerTick;
-		this.duration = duration;
+		this.elementAmount = elementAmount;
 	}
 
 	@Override
@@ -54,8 +51,7 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 
 	@Override
 	public boolean matches(TilePureInfuser inv) {
-		return ingredients.get(0).test(inv
-				.getItem()) 
+		return ingredients.get(0).test(inv.getItem()) 
 				&& ingredients.get(1).test(inv.getStackInPedestal(ElementType.WATER)) 
 				&& ingredients.get(2).test(inv.getStackInPedestal(ElementType.FIRE))
 				&& ingredients.get(3).test(inv.getStackInPedestal(ElementType.EARTH)) 
@@ -99,16 +95,11 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 	}
 
 	@Override
-	public int getDuration() {
-		return duration;
+	public int getElementAmount() {
+		return elementAmount;
 	}
 
-	@Override
-	public int getElementPerTick() {
-		return elementPerTick;
-	}
-
-	public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<PureInfusionRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<PureInfusionRecipe> {
 		final IRecipeFactory factory;
 
 		public Serializer(IRecipeFactory factory) {
@@ -117,32 +108,16 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 
 		@Override
 		public PureInfusionRecipe read(ResourceLocation recipeId, JsonObject json) {
-			int elementPerTick = JSONUtils.getInt(json, "consumption", 100);
-			int duration = JSONUtils.getInt(json, "duration", 600);
-			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getJsonArray(json, "ingredients"));
-			ItemStack output = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(json, ECNames.OUTPUT))));
+			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getJsonArray(json, ECNames.INGREDIENTS));
+			ItemStack output = RecipeHelper.readRecipeOutput(JSONUtils.getString(json, ECNames.OUTPUT));
 
-			return this.factory.create(recipeId, elementPerTick, duration, output, ingredients);
-		}
-
-		private static NonNullList<Ingredient> readIngredients(JsonArray json) {
-			NonNullList<Ingredient> nonnulllist = NonNullList.create();
-
-			for (int i = 0; i < json.size(); ++i) {
-				Ingredient ingredient = Ingredient.deserialize(json.get(i));
-
-				if (!ingredient.hasNoMatchingItems()) {
-					nonnulllist.add(ingredient);
-				}
-			}
-
-			return nonnulllist;
+			return this.factory.create(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
 		public PureInfusionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			int elementPerTick = buffer.readInt();
-			int duration = buffer.readInt();
+			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItemStack();
 			int i = buffer.readVarInt();
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
@@ -151,13 +126,12 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 				ingredients.set(j, Ingredient.read(buffer));
 			}
 
-			return this.factory.create(recipeId, elementPerTick, duration, output, ingredients);
+			return this.factory.create(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
 		public void write(PacketBuffer buffer, PureInfusionRecipe recipe) {
-			buffer.writeInt(recipe.getElementPerTick());
-			buffer.writeInt(recipe.getDuration());
+			buffer.writeInt(recipe.elementAmount);
 			buffer.writeItemStack(recipe.getRecipeOutput());
 			buffer.writeVarInt(recipe.getIngredients().size());
 
@@ -167,7 +141,7 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 		}
 
 		public interface IRecipeFactory {
-			PureInfusionRecipe create(ResourceLocation id, int elementPerTick, int duration, ItemStack output, List<Ingredient> ingredients);
+			PureInfusionRecipe create(ResourceLocation id, int elementAmount, ItemStack output, List<Ingredient> ingredients);
 		}
 	}
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "www",
+    "wiw",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:rune_slate",
+    "count": 4
+  }
+}

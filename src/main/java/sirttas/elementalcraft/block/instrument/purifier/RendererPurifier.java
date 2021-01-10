@@ -7,8 +7,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,26 +20,14 @@ public class RendererPurifier extends RendererEC<TilePurifier> {
 		super(rendererDispatcher);
 	}
 
-	public Quaternion getRotation(Direction direction) {
-		switch (direction) {
-		case SOUTH:
-			return Vector3f.YP.rotationDegrees(180.0F);
-		case WEST:
-			return Vector3f.YP.rotationDegrees(90.0F);
-		case EAST:
-			return Vector3f.YP.rotationDegrees(-90.0F);
-		case NORTH:
-		default:
-			return Quaternion.ONE.copy();
-		}
-	}
-
 	@Override
 	public void render(TilePurifier te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
 		IInventory inv = te.getInventory();
 		ItemStack stack = inv.getStackInSlot(0);
 		ItemStack stack2 = inv.getStackInSlot(1);
+		float tick = getAngle(partialTicks);
 		
+		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
 			matrixStack.translate(0.5, 0.5, 0.5);
 			matrixStack.rotate(getRotation(te.getBlockState().get(BlockPurifier.FACING)));
@@ -51,7 +37,7 @@ public class RendererPurifier extends RendererEC<TilePurifier> {
 			}
 			if (!stack2.isEmpty()) {
 				matrixStack.translate(0, 0.6, 6 * BlockEC.BIT_SIZE);
-				matrixStack.rotate(Vector3f.YP.rotationDegrees(getAngle(partialTicks)));
+				matrixStack.rotate(Vector3f.YP.rotationDegrees(tick));
 				renderItem(stack2, matrixStack, buffer, light, overlay);
 			}
 		}

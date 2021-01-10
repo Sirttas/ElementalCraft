@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "elementalcraft:earth_shard"
+    "elementalcraft:earth_shard",
+    "elementalcraft:powerful_earth_shard"
   ]
 }

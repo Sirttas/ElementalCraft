@@ -153,7 +153,7 @@ public class BlockSpellDesk extends BlockEC {
 				stack.shrink(1);
 			}
 		} else if (hasPaper(state)) {
-			ElementType type = getTypeFromCrystal(stack.getItem());
+			ElementType type = getCrystalElementType(stack.getItem());
 
 			if (type != ElementType.NONE) {
 				createSpell(state, world, pos, player, stack, type);
@@ -162,7 +162,7 @@ public class BlockSpellDesk extends BlockEC {
 		return ActionResultType.PASS;
 	}
 
-	private ElementType getTypeFromCrystal(Item item) {
+	private ElementType getCrystalElementType(Item item) {
 		if (ECTags.Items.ELEMENTAL_CRYSTALS.contains(item) && item instanceof ItemElemental) {
 			return ((ItemElemental) item).getElementType();
 		}

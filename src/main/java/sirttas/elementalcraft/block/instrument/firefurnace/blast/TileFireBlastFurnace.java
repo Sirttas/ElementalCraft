@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.firefurnace.AbstractTileFireFurnace;
+import sirttas.elementalcraft.config.ECConfig;
 
 public class TileFireBlastFurnace extends AbstractTileFireFurnace<BlastingRecipe> {
 
@@ -13,6 +14,6 @@ public class TileFireBlastFurnace extends AbstractTileFireFurnace<BlastingRecipe
 
 
 	public TileFireBlastFurnace() {
-		super(TYPE, IRecipeType.BLASTING);
+		super(TYPE, IRecipeType.BLASTING, ECConfig.COMMON.fireBlastFurnaceTransferSpeed.get(), ECConfig.COMMON.fireBlastFurnaceMaxRunes.get());
 	}
 }

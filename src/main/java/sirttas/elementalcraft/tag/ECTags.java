@@ -30,10 +30,32 @@ public class ECTags {
 		public static final INamedTag<Item> CRYSTALS = createTag("crystals");
 
 		public static final INamedTag<Item> SHARDS = createTag("shards");
+		public static final INamedTag<Item> DEFAULT_SHARDS = createTag("shards/default");
+		public static final INamedTag<Item> POWERFUL_SHARDS = createTag("shards/powerful");
 		public static final INamedTag<Item> FIRE_SHARDS = createTag("shards/fire");
 		public static final INamedTag<Item> WATER_SHARDS = createTag("shards/water");
 		public static final INamedTag<Item> EARTH_SHARDS = createTag("shards/earth");
 		public static final INamedTag<Item> AIR_SHARDS = createTag("shards/air");
+
+		public static final INamedTag<Item> CRUDE_FIRE_GEMS = createTag("gems/crude_fire");
+		public static final INamedTag<Item> CRUDE_WATER_GEMS = createTag("gems/crude_water");
+		public static final INamedTag<Item> CRUDE_EARTH_GEMS = createTag("gems/crude_earth");
+		public static final INamedTag<Item> CRUDE_AIR_GEMS = createTag("gems/crude_air");
+		public static final INamedTag<Item> FINE_FIRE_GEMS = createTag("gems/fine_fire");
+		public static final INamedTag<Item> FINE_WATER_GEMS = createTag("gems/fine_water");
+		public static final INamedTag<Item> FINE_EARTH_GEMS = createTag("gems/fine_earth");
+		public static final INamedTag<Item> FINE_AIR_GEMS = createTag("gems/fine_air");
+		public static final INamedTag<Item> PRISTINE_FIRE_GEMS = createTag("gems/pristine_fire");
+		public static final INamedTag<Item> PRISTINE_WATER_GEMS = createTag("gems/pristine_water");
+		public static final INamedTag<Item> PRISTINE_EARTH_GEMS = createTag("gems/pristine_earth");
+		public static final INamedTag<Item> PRISTINE_AIR_GEMS = createTag("gems/pristine_air");
+		public static final INamedTag<Item> INPUT_FIRE_GEMS = createTag("gems/input_fire");
+		public static final INamedTag<Item> INPUT_WATER_GEMS = createTag("gems/input_water");
+		public static final INamedTag<Item> INPUT_EARTH_GEMS = createTag("gems/input_earth");
+		public static final INamedTag<Item> INPUT_AIR_GEMS = createTag("gems/input_air");
+		public static final INamedTag<Item> INPUT_GEMS = createTag("gems/input");
+
+		public static final INamedTag<Item> RUNE_SLATES = createTag("rune_slates");
 
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Item> PIPES = createTag("pipes");
@@ -54,8 +76,13 @@ public class ECTags {
 
 		public static final INamedTag<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
 		public static final INamedTag<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
+		public static final INamedTag<Item> INGOTS_FIREITE = createForgeTag("ingots/fireite");
 		public static final INamedTag<Item> NUGGETS_DRENCHED_IRON = createForgeTag("nuggets/drenched_iron");
 		public static final INamedTag<Item> NUGGETS_SWIFT_ALLOY = createForgeTag("nuggets/swift_alloy");
+		public static final INamedTag<Item> NUGGETS_FIREITE = createForgeTag("nuggets/fireite");
+		public static final INamedTag<Item> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
+		public static final INamedTag<Item> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
+		public static final INamedTag<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 
 		private static INamedTag<Item> createTag(String name) {
 			return ItemTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
@@ -73,6 +100,18 @@ public class ECTags {
 			}
 			return tag;
 		}
+
+		public static ResourceLocation getTagName(ITag<Item> tag) {
+			if (tag instanceof INamedTag) {
+				return ((INamedTag<Item>) tag).getName();
+			}
+			ResourceLocation loc = ItemTags.getCollection().getDirectIdFromTag(tag);
+
+			if (loc == null) {
+				loc = TagCollectionManager.getManager().getItemTags().getDirectIdFromTag(tag);
+			}
+			return loc;
+		}
 	}
 
 	public static class Blocks {
@@ -82,12 +121,26 @@ public class ECTags {
 		public static final INamedTag<Block> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Block> PIPES = createTag("pipes");
 		public static final INamedTag<Block> SHRINES = createTag("shrines");
+		public static final INamedTag<Block> INSTRUMENTS = createTag("instrumentrs");
+
+		public static final INamedTag<Block> RUNE_AFFECTED_SPEED = createTag("rune_affected/speed");
+		public static final INamedTag<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
+		public static final INamedTag<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
 
 		public static final INamedTag<Block> SHRINES_UPGRADABLES_ACCELERATION = createTag("shrines/upgradables/acceleration");
 		public static final INamedTag<Block> SHRINES_UPGRADABLES_RANGE = createTag("shrines/upgradables/range");
+		public static final INamedTag<Block> SHRINES_UPGRADABLES_STRENGTH = createTag("shrines/upgradables/strength");
+
+		public static final INamedTag<Block> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
+		public static final INamedTag<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
+		public static final INamedTag<Block> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 
 		private static INamedTag<Block> createTag(String name) {
 			return BlockTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
+		}
+
+		private static INamedTag<Block> createForgeTag(String name) {
+			return BlockTags.makeWrapperTag("forge:" + name);
 		}
 
 		public static ITag<Block> getTag(ResourceLocation loc) {
@@ -97,6 +150,18 @@ public class ECTags {
 				tag = TagCollectionManager.getManager().getBlockTags().get(loc);
 			}
 			return tag;
+		}
+
+		public static ResourceLocation getTagName(ITag<Block> tag) {
+			if (tag instanceof INamedTag) {
+				return ((INamedTag<Block>) tag).getName();
+			}
+			ResourceLocation loc = BlockTags.getCollection().getDirectIdFromTag(tag);
+
+			if (loc == null) {
+				loc = TagCollectionManager.getManager().getBlockTags().getDirectIdFromTag(tag);
+			}
+			return loc;
 		}
 	}
 }

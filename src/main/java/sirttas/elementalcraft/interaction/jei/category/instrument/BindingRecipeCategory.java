@@ -14,11 +14,11 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.recipe.instrument.BinderRecipe;
+import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
 
-public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<TileBinder, BinderRecipe> {
+public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<TileBinder, BindingRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL("binding");
+	public static final ResourceLocation UID = ElementalCraft.createRL(BindingRecipe.NAME);
 
 	private static final int RADIUS = 42;
 
@@ -38,8 +38,8 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 	}
 
 	@Override
-	public Class<? extends BinderRecipe> getRecipeClass() {
-		return BinderRecipe.class;
+	public Class<? extends BindingRecipe> getRecipeClass() {
+		return BindingRecipe.class;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Tile
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, BinderRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, BindingRecipe recipe, IIngredients ingredients) {
 		int i = 0;
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 

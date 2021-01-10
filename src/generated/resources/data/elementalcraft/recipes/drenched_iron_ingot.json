@@ -1,9 +1,0 @@
-{
-  "type": "elementalcraft:infusion",
-  "element": "water",
-  "duration": 40,
-  "input": {
-    "tag": "forge:ingots/iron"
-  },
-  "output": "elementalcraft:drenched_iron_ingot"
-}

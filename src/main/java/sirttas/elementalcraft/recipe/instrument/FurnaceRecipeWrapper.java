@@ -73,20 +73,17 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 		return ElementType.FIRE;
 	}
 
-	@Override
-	public int getElementPerTick() {
-		return recipe.getType() ==IRecipeType.SMELTING ? ECConfig.COMMON.fireFurnaceConsumeAmount.get() : ECConfig.COMMON.fireBlastFurnaceConsumeAmount.get();
+	public int getDuration() {
+		return recipe.getCookTime();
 	}
 
 	@Override
-	public int getDuration() {
-		return recipe.getCookTime();
+	public int getElementAmount() {
+		return getDuration() * (recipe.getType() == IRecipeType.SMELTING ? ECConfig.COMMON.fireFurnaceElementAmount.get() : ECConfig.COMMON.fireBlastFurnaceElementAmount.get());
 	}
 
 	@Override
 	public boolean matches(AbstractTileFireFurnace<T> instrument) {
 		return instrument.getTankElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), instrument.getWorld());
 	}
-
-
 }

@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 
 public class ToolInfusionRecipe extends AbstractInfusionRecipe {
@@ -23,13 +24,8 @@ public class ToolInfusionRecipe extends AbstractInfusionRecipe {
 	}
 
 	@Override
-	public int getElementPerTick() {
-		return 10;
-	}
-
-	@Override
-	public int getDuration() {
-		return 100;
+	public int getElementAmount() {
+		return ECConfig.COMMON.toolInfustionBaseCost.get();
 	}
 
 	@Override

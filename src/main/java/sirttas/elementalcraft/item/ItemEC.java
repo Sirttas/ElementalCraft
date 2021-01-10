@@ -46,7 +46,7 @@ public class ItemEC extends Item implements IItemEC {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
-		return super.hasEffect(stack) || glint;
+		return glint || super.hasEffect(stack);
 	}
 
 	public ItemEC setEffect(boolean glint) {

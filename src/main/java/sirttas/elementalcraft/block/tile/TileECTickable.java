@@ -4,7 +4,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.tank.TileTank;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.block.tank.IElementContainer;
 import sirttas.elementalcraft.network.NetworkHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -26,7 +27,7 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 			BlockState bs = this.getWorld().getBlockState(pos);
 
 			this.getWorld().notifyBlockUpdate(pos, bs, bs, 3);
-			markDirty();
+			super.markDirty();
 			this.getWorld().notifyNeighborsOfStateChange(pos, getBlockState().getBlock());
 			NetworkHelper.dispatchTEToNearbyPlayers(this);
 			toSync = false;
@@ -41,7 +42,6 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	@Override
 	public void markDirty() {
 		this.forceSync();
-		super.markDirty();
 	}
 
 	protected final boolean isToSync() {
@@ -49,13 +49,14 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	}
 
 	// TODO extract (capability ?)
-	public TileTank getTank() {
-		return getTileEntityAs(pos.down(), TileTank.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_TANK_COMPATIBLES.contains(this.getBlockState().getBlock())).orElse(null);
+	public IElementStorage getTank() {
+		return getTileEntityAs(pos.down(), IElementContainer.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_TANK_COMPATIBLES.contains(this.getBlockState().getBlock()))
+				.map(IElementContainer::getElementStorage).orElse(null);
 	}
 
 	// TODO extract (capability ?)
 	public ElementType getTankElementType() {
-		TileTank tank = getTank();
+		IElementStorage tank = getTank();
 
 		return tank != null ? tank.getElementType() : ElementType.NONE;
 	}

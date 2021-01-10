@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.BlockECContainer;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
-import sirttas.elementalcraft.item.ItemElemental;
+import sirttas.elementalcraft.item.ItemShard;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -50,7 +50,7 @@ public class BlockEvaporator extends BlockECContainer {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		ItemStack stack = player.getHeldItem(hand);
 
-		if (stack.isEmpty() || getTypeFromShard(stack.getItem()) != ElementType.NONE) {
+		if (stack.isEmpty() || getShardElementType(stack) != ElementType.NONE) {
 			return onSingleSlotActivated(world, pos, player, hand);
 		}
 		return ActionResultType.PASS;
@@ -66,12 +66,16 @@ public class BlockEvaporator extends BlockECContainer {
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
 		TileEntityHelper.getTileEntityAs(world, pos, TileEvaporator.class).filter(TileEvaporator::canExtract)
-				.ifPresent(evaporator -> ParticleHelper.createElementFlowParticle(evaporator.getElementType(), world, Vector3d.copyCentered(pos.down()), Direction.DOWN, 1, rand));
+				.ifPresent(evaporator -> ParticleHelper.createElementFlowParticle(evaporator.getElementStorage().getElementType(), world, Vector3d.copyCentered(pos.down()), Direction.DOWN, 1, rand));
 	}
 
-	static ElementType getTypeFromShard(Item item) {
-		if (ECTags.Items.SHARDS.contains(item) && item instanceof ItemElemental) {
-			return ((ItemElemental) item).getElementType();
+	public static ElementType getShardElementType(ItemStack stack) {
+		if (!stack.isEmpty()) {
+			Item item = stack.getItem();
+
+			if (ECTags.Items.SHARDS.contains(item) && item instanceof ItemShard) {
+				return ((ItemShard) item).getElementType();
+			}
 		}
 		return ElementType.NONE;
 	}

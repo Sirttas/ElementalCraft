@@ -38,7 +38,7 @@ public abstract class MixinRepairContainer extends AbstractRepairContainer {
 		InfusionHelper.unapplyInfusion(getRight());
 	}
 	
-	@Inject(method = "updateRepairOutput", at = @At("TAIL"))
+	@Inject(method = "updateRepairOutput", at = @At("RETURN"))
 	public void onUpdateRepairOutputReturn(CallbackInfo ci) {
 		ItemStack left = getLeft();
 		ItemStack right = getRight();

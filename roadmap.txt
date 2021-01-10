@@ -2,9 +2,7 @@ https://mcp.thiakil.com/
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
 bosses
 pipe element filter
-more element production
 sound
-tools with ec materials
 element pipe interface
 runewords
 elemental animals with kibbles ? also: https://www.reddit.com/r/MinecraftModIdeas/comments/hzzolz/mod_idea_elemental_horses/
@@ -12,17 +10,34 @@ source exaust
 https://github.com/Kompreya/Kompy-Textures
 https://game-icons.net/
 use infused tools in crafts ?
-ellementalist
-illementalist
 source name by elements
 world gen config
 rework particles
 difuser
 spell particles
 spell desk in jei
-runes
 
 
 spells:
 	Arctic Breath
 	mud golem
+	translocation
+	
+2.6:
+	pure element holder
+	rework element holder finding to work with mltiple holders
+	holder element flow particles
+	fix spell book
+	jewels
+
+3.0:
+	rename classes
+	normalize ids
+	rework recipes
+	add recipes sub-folders
+	make instruments unable to exist without tank
+	prevent placing instrument not on top of containers
+	source exaust
+	air mill grindstone
+	ellementalist
+	illementalist

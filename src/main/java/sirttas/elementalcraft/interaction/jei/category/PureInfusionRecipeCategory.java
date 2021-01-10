@@ -98,7 +98,7 @@ public class PureInfusionRecipeCategory extends AbstractRecipeCategory<TilePureI
 	@Override
 	public void setIngredients(PureInfusionRecipe recipe, IIngredients ingredients) {
 		super.setIngredients(recipe, ingredients);
-		ingredients.setInputs(ECIngredientTypes.ELEMENT, IngredientElementType.all(getGaugeValue(recipe.getElementPerTick() * recipe.getDuration())));
+		ingredients.setInputs(ECIngredientTypes.ELEMENT, IngredientElementType.all(getGaugeValue(recipe.getElementAmount())));
 	}
 
 }

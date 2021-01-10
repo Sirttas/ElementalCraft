@@ -3,9 +3,9 @@ package sirttas.elementalcraft.item.receptacle;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.nbt.ECNames;
 
 public class ReceptacleHelper {
 

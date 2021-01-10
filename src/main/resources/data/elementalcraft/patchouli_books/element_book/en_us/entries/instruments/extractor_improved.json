@@ -4,7 +4,7 @@
   "icon": "elementalcraft:extractor_improved",
   "advancement": "elementalcraft:pickup/tank",
   "turnin": "elementalcraft:pickup/extractor_improved",
-  "sortnum": 8,
+  "sortnum": 10,
   "pages": [
     {
       "type": "text",

@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "water",
+  "element_amount": 5000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "item": "minecraft:milk_bucket"
+    }
+  ],
+  "output": "elementalcraft:sweetshrine"
+}

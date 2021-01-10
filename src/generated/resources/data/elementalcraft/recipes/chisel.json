@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " i ",
+    " di",
+    "h  "
+  ],
+  "key": {
+    "h": {
+      "item": "elementalcraft:hardened_handle"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:chisel"
+  }
+}

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.nbt;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import sirttas.elementalcraft.api.name.ECNames;
 
 public class NBTHelper {
 

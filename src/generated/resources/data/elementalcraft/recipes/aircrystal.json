@@ -1,8 +1,0 @@
-{
-  "type": "elementalcraft:infusion",
-  "element": "air",
-  "input": {
-    "item": "elementalcraft:inertcrystal"
-  },
-  "output": "elementalcraft:aircrystal"
-}

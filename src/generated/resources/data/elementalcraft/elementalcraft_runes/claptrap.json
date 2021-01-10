@@ -1,0 +1,39 @@
+{
+  "max_amount": 1,
+  "model": "elementalcraft:elementalcraft_runes/claptrap",
+  "effect_sprite": "elementalcraft:elementalcraft_runes/claptrap",
+  "predicate": {
+    "values": [
+      {
+        "value": {
+          "rune": "elementalcraft:claptrap",
+          "type": "elementalcraft:has_rune"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "value": {
+          "rune": "elementalcraft:bombadil",
+          "type": "elementalcraft:has_rune"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "value": {
+          "rune": "elementalcraft:tzeentch",
+          "type": "elementalcraft:has_rune"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "tag": "elementalcraft:rune_affected/luck",
+        "type": "dpanvil:tag"
+      }
+    ],
+    "type": "dpanvil:and"
+  },
+  "bonuses": {
+    "element_preservation": -0.1,
+    "luck": 1.0
+  }
+}

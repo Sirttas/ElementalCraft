@@ -1,8 +1,0 @@
-{
-  "type": "elementalcraft:infusion",
-  "element": "fire",
-  "input": {
-    "item": "elementalcraft:inertcrystal"
-  },
-  "output": "elementalcraft:firecrystal"
-}

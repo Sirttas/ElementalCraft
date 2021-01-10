@@ -9,6 +9,7 @@ import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.inventory.container.screen.ECScreens;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.particle.ECParticles;
+import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
 public class ClientProxy implements IProxy {
@@ -18,6 +19,8 @@ public class ClientProxy implements IProxy {
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modBus.addListener(this::setupClient);
+		modBus.addListener(ECItems::replaceModels);
+		modBus.addListener(Runes::registerModels);
 		modBus.addListener(ECItems::registerItemColors);
 		modBus.addListener(ECParticles::registerFactories);
 

@@ -1,8 +1,8 @@
 {
+  "element_consumption": 500,
+  "cooldown": 100,
+  "color": 13620436,
   "spell_type": "combat",
   "element_type": "earth",
-  "cooldown": 100,
-  "element_consumption": 500,
-  "weight": 20,
-  "color": 13620436
+  "weight": 20
 }

@@ -2,13 +2,11 @@ package sirttas.elementalcraft.spell;
 
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
-import net.minecraftforge.registries.RegistryBuilder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.spell.air.SpellDash;
@@ -28,10 +26,6 @@ import sirttas.elementalcraft.spell.water.SpellRipening;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Spells {
 
-	private static final ResourceLocation NAME = ElementalCraft.createRL("spell");
-	private static final int MIN_SPELL_ID = 0;
-	private static final int MAX_SPELL_ID = Short.MAX_VALUE - 1;
-
 	@ObjectHolder(ElementalCraft.MODID + ":none") public static Spell none;
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + SpellGavelFall.NAME) public static SpellGavelFall gravelFall;
@@ -50,16 +44,6 @@ public class Spells {
 
 	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
 	@ObjectHolder(ElementalCraft.MODID + ":speed") public static EffectSpell speed;
-
-	@SubscribeEvent
-	public static void createSpellRegistry(RegistryEvent.NewRegistry event) {
-		new RegistryBuilder<Spell>()
-			.setName(NAME)
-			.setIDRange(MIN_SPELL_ID, MAX_SPELL_ID)
-			.setType(Spell.class)
-			.setDefaultKey(ElementalCraft.createRL("none"))
-			.create();
-	}
 
 	@SubscribeEvent
 	public static void registerSpells(RegistryEvent.Register<Spell> event) {

@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "water",
+  "element_amount": 5000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/fine_air"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "item": "minecraft:obsidian"
+    }
+  ],
+  "output": "elementalcraft:enderlockshrine"
+}

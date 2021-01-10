@@ -1,0 +1,22 @@
+{
+  "predicate": {
+    "values": [
+      {
+        "value": {
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar",
+          "type": "elementalcraft:has_shrien_upgrade"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "tag": "elementalcraft:shrines/upgradables/strength",
+        "type": "dpanvil:tag"
+      }
+    ],
+    "type": "dpanvil:and"
+  },
+  "bonuses": {
+    "element_consumption": 1.2,
+    "strength": 2.0
+  }
+}

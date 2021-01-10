@@ -4,7 +4,6 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
@@ -68,7 +67,7 @@ public abstract class BlockECContainer extends BlockECTileProvider {
 	protected ActionResultType onSlotActivated(IItemHandler inventory, PlayerEntity player, ItemStack heldItem, int slot) {
 		ActionResultType ret = this.onSlotActivatedUnsync(inventory, player, heldItem, slot);
 
-		if (ret.isSuccessOrConsume() && inventory instanceof IForcableSync) {
+		if (inventory instanceof IForcableSync && ret.isSuccessOrConsume()) {
 			((IForcableSync) inventory).forceSync();
 		}
 		return ret;
@@ -76,26 +75,12 @@ public abstract class BlockECContainer extends BlockECTileProvider {
 
 	protected ActionResultType onSingleSlotActivated(World world, BlockPos pos, PlayerEntity player, Hand hand) {
 		final IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		ItemStack heldItem = player.getHeldItem(hand);
 
 		if (inv != null) {
-			return this.onSlotActivated(inv, player, player.getHeldItem(hand), 0);
+			return this.onSlotActivated(inv, player, heldItem, 0);
 		}
 		return ActionResultType.PASS;
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()) {
-			IItemHandler inv = ECInventoryHelper.getItemHandlerAt(worldIn, pos, null);
-			
-			for (int i = 0; i < inv.getSlots(); i++) {
-				InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), inv.getStackInSlot(i));
-			}
-			worldIn.updateComparatorOutputLevel(pos, this);
-
-			super.onReplaced(state, worldIn, pos, newState, isMoving);
-		}
 	}
 
 	@Override

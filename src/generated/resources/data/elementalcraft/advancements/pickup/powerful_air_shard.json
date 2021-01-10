@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_powerful_air_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:powerful_air_shard"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_powerful_air_shard"
+    ]
+  ]
+}

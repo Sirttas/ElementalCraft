@@ -18,8 +18,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.inventory.IInventoryTile;
-import sirttas.elementalcraft.nbt.ECNames;
 
 public abstract class TileECContainer extends TileECTickable implements IClearable, IInventoryTile, IInventoryChangedListener {
 

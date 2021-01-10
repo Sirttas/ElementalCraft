@@ -5,6 +5,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Block;
@@ -15,36 +18,37 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.IElementReceiver;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.capability.CapabilityElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.shrine.upgrade.BlockShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.nbt.ECNames;
 
-public abstract class TileShrine extends TileECTickable implements IElementReceiver {
+public abstract class TileShrine extends TileECTickable {
 
 	protected static final List<Direction> DEFAULT_UPGRRADE_DIRECTIONS = ImmutableList.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	private final ElementType elementType;
 	private final double basePeriode;
 	private final int baseElementCapacity;
 	private final float baseRange;
 	private final int baseConsumeAmount;
 	private final Map<Direction, ShrineUpgrade> upgrades = new EnumMap<>(Direction.class);
 	private final Map<ShrineUpgrade.BonusType, Float> upgradeMultipliers = new EnumMap<>(ShrineUpgrade.BonusType.class);
+	protected final ShrineElementStorage elementStorage;
 
-	private int elementAmount = 0;
 	private boolean running = false;
 	private double tick = 0;
 	private int rangeRenderTimer = 0;
 
 	public TileShrine(TileEntityType<?> tileEntityTypeIn, Properties properties) {
 		super(tileEntityTypeIn);
-		elementType = properties.elementType;
 		basePeriode = properties.periode;
 		baseElementCapacity = properties.capacity;
 		baseRange = properties.range;
@@ -52,6 +56,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		if (basePeriode == 0) {
 			throw new IllegalArgumentException("Shrine periode should not be 0");
 		}
+		elementStorage = new ShrineElementStorage(properties.elementType, properties.capacity, this::forceSync);
 	}
 
 
@@ -60,33 +65,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	}
 
 	protected int consumeElement(int i) {
-		if (this.isPowered()) {
-			return 0;
-		}
-		int newCount = Math.max(elementAmount - i, 0);
-		int ret = elementAmount - newCount;
-
-		elementAmount = newCount;
-		if (ret > 0) {
-			running = true;
-		}
-		this.forceSync();
-		return ret;
-	}
-
-	@Override
-	public int inserElement(int count, ElementType type, boolean simulate) {
-		if (type != this.elementType && this.elementType != ElementType.NONE) {
-			return 0;
-		} else {
-			int newCount = Math.min(elementAmount + count, getElementCapacity());
-			int ret = count - newCount + elementAmount;
-
-			if (!simulate) {
-				elementAmount = newCount;
-			}
-			return ret;
-		}
+		return elementStorage.extractElement(i, false);
 	}
 
 	protected abstract boolean doTick();
@@ -108,7 +87,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 				periode = 1;
 			}
 			while (tick >= periode) {
-				if (this.getElementAmount() >= consumeAmount && doTick()) {
+				if (elementStorage.getElementAmount() >= consumeAmount && doTick()) {
 					this.consumeElement();
 				}
 				tick -= periode;
@@ -139,12 +118,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	}
 
 	protected float getMultiplier(ShrineUpgrade.BonusType type) {
-		Float val = this.upgradeMultipliers.get(type);
-
-		if (val != null && val != 0) {
-			return val;
-		}
-		return 1;
+		return this.upgradeMultipliers.getOrDefault(type, 1F);
 	}
 
 	public int getUpgradeCount(ShrineUpgrade upgrade) {
@@ -163,6 +137,7 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		}
 		upgrades.put(direction, upgrade);
 		upgrade.getBonuses().forEach((type, bonus) -> upgradeMultipliers.put(type, getMultiplier(type) * bonus));
+		elementStorage.setCapacity((int) (this.baseElementCapacity * getMultiplier(BonusType.CAPACITY)));
 	}
 
 	public Collection<ShrineUpgrade> getAllUpgrades() {
@@ -190,16 +165,6 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 		return new AxisAlignedBB(this.getPos()).grow(this.getRange());
 	}
 
-	@Override
-	public int getElementAmount() {
-		return elementAmount;
-	}
-
-	@Override
-	public int getElementCapacity() {
-		return Math.round(baseElementCapacity * getMultiplier(BonusType.CAPACITY));
-	}
-
 	public float getRange() {
 		return baseRange * getMultiplier(BonusType.RANGE);
 	}
@@ -217,14 +182,13 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	}
 
 	@Override
-	public ElementType getElementType() {
-		return elementType;
-	}
-
-	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
-		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
+		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
+			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound.get(ECNames.ELEMENT_STORAGE));
+		} else { // TODO 1.17 remove
+			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound);
+		}
 		running = compound.getBoolean(ECNames.RUNNING);
 		refreshUpgrades();
 	}
@@ -232,9 +196,22 @@ public abstract class TileShrine extends TileECTickable implements IElementRecei
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+		compound.put(ECNames.ELEMENT_STORAGE, CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.writeNBT(elementStorage, null));
 		compound.putBoolean(ECNames.RUNNING, running);
 		return compound;
+	}
+
+	@Override
+	@Nonnull
+	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+		if (!this.removed && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
+		}
+		return super.getCapability(cap, side);
+	}
+
+	public IElementStorage getElementStorage() {
+		return elementStorage;
 	}
 
 	public static final class Properties {

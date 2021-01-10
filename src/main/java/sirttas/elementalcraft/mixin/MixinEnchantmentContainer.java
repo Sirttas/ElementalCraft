@@ -33,7 +33,7 @@ public abstract class MixinEnchantmentContainer extends Container {
 		InfusionHelper.unapplyInfusion(getstack());
 	}
 	
-	@Inject(method = "onCraftMatrixChanged", at = @At("TAIL"))
+	@Inject(method = "onCraftMatrixChanged", at = @At("RETURN"))
 	public void onOnCraftMatrixChangedReturn(IInventory inventoryIn, CallbackInfo ci) {
 		InfusionHelper.applyInfusion(getstack());
 	}
@@ -43,7 +43,7 @@ public abstract class MixinEnchantmentContainer extends Container {
 		InfusionHelper.unapplyInfusion(getstack());
 	}
 
-	@Inject(method = "enchantItem", at = @At("TAIL"))
+	@Inject(method = "enchantItem", at = @At("RETURN"))
 	public void onEnchantItemReturn(PlayerEntity playerIn, int id, CallbackInfoReturnable<Boolean> ci) {
 		InfusionHelper.applyInfusion(getstack());
 	}

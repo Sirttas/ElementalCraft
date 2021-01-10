@@ -6,24 +6,23 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
 
-public class TilePurifier extends TileInstrument {
+public class TilePurifier extends TileInstrument<TilePurifier, PurifierRecipe> {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static TileEntityType<TilePurifier> TYPE;
 
 	private final PurifierInventory inventory;
 
 	public TilePurifier() {
-		super(TYPE);
-		outputSlot = 1;
+		super(TYPE, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
+		setOutputSlot(1);
 		inventory = new PurifierInventory(this::forceSync);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected IInstrumentRecipe<TilePurifier> lookupRecipe() {
+	protected PurifierRecipe lookupRecipe() {
 		ItemStack input = inventory.getStackInSlot(0);
 
 		if (!input.isEmpty() && ElementalCraft.PURE_ORE_MANAGER.isValidOre(input)) {

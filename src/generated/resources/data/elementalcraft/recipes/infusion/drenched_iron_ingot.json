@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:infusion",
+  "element_type": "water",
+  "element_amount": 500,
+  "input": {
+    "tag": "forge:ingots/iron"
+  },
+  "output": "elementalcraft:drenched_iron_ingot"
+}

@@ -131,6 +131,11 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 5,
+          "name": "elementalcraft:powerful_air_shard"
+        },
+        {
+          "type": "minecraft:item",
           "weight": 15,
           "functions": [
             {

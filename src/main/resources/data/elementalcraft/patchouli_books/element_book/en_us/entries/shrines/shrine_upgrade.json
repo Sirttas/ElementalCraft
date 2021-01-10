@@ -15,10 +15,10 @@
       "recipe": "elementalcraft:shrine_upgrade_range",
       "recipe2": "elementalcraft:shrine_upgrade_capacity"
     },
-        {
+    {
       "type": "crafting",
       "recipe": "elementalcraft:shrine_upgrade_efficiency",
-      "recipe2": "elementalcraft:shrine_upgrade_planting"
+      "recipe2": "elementalcraft:shrine_upgrade_strength"
     },
     {
       "type": "crafting",
@@ -29,6 +29,11 @@
       "type": "crafting",
       "recipe": "elementalcraft:shrine_upgrade_acceleration",
       "recipe2": "elementalcraft:shrine_upgrade_optimization"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:shrine_upgrade_planting",
+      "recipe2": "elementalcraft:shrine_upgrade_nectar"
     }
   ]
 }

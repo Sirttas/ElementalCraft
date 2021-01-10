@@ -2,44 +2,28 @@ package sirttas.elementalcraft.api.element;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
-import com.mojang.serialization.codecs.PrimitiveCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.gui.ECColorHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
-public enum ElementType implements IStringSerializable {
+public enum ElementType implements IStringSerializable, IElementTypeProvider {
 
 	NONE(0, 0, 0, "none"), WATER(43, 173, 255, "water"), FIRE(247, 107, 27, "fire"), EARTH(76, 133, 102, "earth"), AIR(238, 255, 219, "air");
 
-	public static final Codec<ElementType> CODEC = new PrimitiveCodec<ElementType>() {
-
-		@Override
-		public <T> DataResult<ElementType> read(final DynamicOps<T> ops, final T input) {
-			return ops.getStringValue(input).map(ElementType::byName);
-		}
-
-		@Override
-		public <T> T write(final DynamicOps<T> ops, final ElementType value) {
-			return ops.createString(value.toString());
-		}
-		
-		@Override
-		public String toString() {
-			return "ElementType";
-		}
-	};
+	public static final Codec<ElementType> CODEC = IStringSerializable.createEnumCodec(ElementType::values, ElementType::byName);
 
 	private final float r;
 	private final float g;
@@ -97,6 +81,11 @@ public enum ElementType implements IStringSerializable {
 		return this.name;
 	}
 
+	@Override
+	public ElementType getElementType() {
+		return this;
+	}
+
 	public String getTranslationKey() {
 		return "element.elementalcraft." + getString();
 	}
@@ -120,5 +109,9 @@ public enum ElementType implements IStringSerializable {
 
 	public static List<ElementType> allValid() {
 		return Stream.of(values()).filter(type -> type != NONE).collect(Collectors.toList());
+	}
+
+	public static <T> RecordCodecBuilder<T, ElementType> forGetter(final Function<T, ElementType> getter) {
+		return CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(getter);
 	}
 }

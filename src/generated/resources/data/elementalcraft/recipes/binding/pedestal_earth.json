@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "earth",
+  "element_amount": 30000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:infuser"
+    },
+    {
+      "tag": "elementalcraft:gems/fine_earth"
+    },
+    {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    }
+  ],
+  "output": "elementalcraft:pedestal_earth"
+}

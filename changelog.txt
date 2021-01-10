@@ -1,3 +1,32 @@
+1.16.4-2.5.0:
+
+- now require minecraft 1.16.4 forge 35.1.13
+- ElementalCraft now require DataPack Anvil
+- new instrument: gem crystallizer
+- new instrument: rune inscriber
+- new item: rune engraving chisel
+- new item: fireite nugget
+- new items: powerful raw element shards
+- new items: elemental gems
+- new items: rune slates
+- new block: drenched iron block
+- new block: swift alloy block
+- new block: fireite block
+- new block: strength shrine upgrade
+- new block: nectar shrine upgrade
+- new block: white rock brick with slab/stairs/wall
+- new feature: runes
+	- upgrade instruments
+	- 9 runes with different effects
+- fire pylon now also deal damage
+- instrument speed is now defined by the instrument instead of the recipe
+- pure infuser now extract elements separately from each pedestals
+- recipes are now sorted by types in folders
+- changed some recipes to use gems
+- you can now empty element containers by placing then in a crafting grid
+- add an option to reduce particle quality this may help with performance issues
+
+
 1.16.3-2.4.17:
 
 - remove some logspam when JEI isn't present

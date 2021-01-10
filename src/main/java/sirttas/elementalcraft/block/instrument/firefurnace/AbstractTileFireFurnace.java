@@ -12,29 +12,24 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.vector.Vector3d;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
 import sirttas.elementalcraft.inventory.IOInventory;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
-import sirttas.elementalcraft.nbt.ECNames;
 import sirttas.elementalcraft.recipe.instrument.FurnaceRecipeWrapper;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
-public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> extends TileInstrument {
+public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> extends TileInstrument<AbstractTileFireFurnace<T>, FurnaceRecipeWrapper<T>> {
 
 	private float exp;
-	private IRecipeType<T> recipeType;
+	private IRecipeType<T> furnaceRecipeType;
 	private final IOInventory inventory;
 
-	protected AbstractTileFireFurnace(TileEntityType<? extends AbstractTileFireFurnace<T>> tileEntityTypeIn, IRecipeType<T> recipeType) {
-		this(tileEntityTypeIn);
-		this.recipeType = recipeType;
-	}
-
-	public AbstractTileFireFurnace(TileEntityType<?> tileEntityTypeIn) {
-		super(tileEntityTypeIn);
+	protected AbstractTileFireFurnace(TileEntityType<? extends AbstractTileFireFurnace<T>> tileEntityTypeIn, IRecipeType<T> recipeType, int transferSpeed, int maxRunes) {
+		super(tileEntityTypeIn, null, transferSpeed, maxRunes);
+		this.furnaceRecipeType = recipeType;
 		exp = 0;
-		outputSlot = 1;
+		setOutputSlot(1);
 		inventory = new IOInventory(this::forceSync);
 	}
 
@@ -51,10 +46,9 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 		return compound;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected IInstrumentRecipe<AbstractTileFireFurnace<T>> lookupRecipe() {
-		return this.getWorld().getRecipeManager().getRecipe(recipeType, InventoryTileWrapper.from(this), this.getWorld()).map(FurnaceRecipeWrapper::new).orElse(null);
+	protected FurnaceRecipeWrapper<T> lookupRecipe() {
+		return this.getWorld().getRecipeManager().getRecipe(furnaceRecipeType, InventoryTileWrapper.from(this), this.getWorld()).map(FurnaceRecipeWrapper::new).orElse(null);
 	}
 
 	@Override

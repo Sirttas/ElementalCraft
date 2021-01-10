@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:drenched_iron_block_from_drenched_iron_ingot"
+    ]
+  },
+  "criteria": {
+    "has_drenched_iron_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/drenched_iron"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:drenched_iron_block_from_drenched_iron_ingot"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_iron_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}
