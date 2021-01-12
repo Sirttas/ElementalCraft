@@ -2,8 +2,10 @@
   "replace": false,
   "values": [
     "#elementalcraft:instrumentrs",
+    "#elementalcraft:pedestals",
     "elementalcraft:evaporator",
     "elementalcraft:extractor",
-    "elementalcraft:extractor_improved"
+    "elementalcraft:extractor_improved",
+    "elementalcraft:pureinfuser"
   ]
 }

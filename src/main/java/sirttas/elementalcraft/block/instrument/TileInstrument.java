@@ -19,9 +19,8 @@ import sirttas.elementalcraft.block.tile.ICraftingTile;
 import sirttas.elementalcraft.block.tile.TileECCrafting;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
-import sirttas.elementalcraft.rune.Rune.BonusType;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
-import sirttas.elementalcraft.rune.capability.RuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.RuneHandler;
 
 public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrumentRecipe<T>> extends TileECCrafting<T, R> implements IElementTypeProvider {
 
@@ -54,9 +53,9 @@ public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrum
 			return true;
 		} else if (this.isRecipeAvailable() && tank != null) {
 			int oldProgress = progress;
-			float preservation = getElementPreservation();
+			float preservation = runeHandler.getElementPreservation();
 
-			progress += tank.extractElement(Math.round(getTransferSpeed() / preservation), recipe.getElementType(), false) * preservation;
+			progress += tank.extractElement(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), recipe.getElementType(), false) * preservation;
 			if (progress / this.transferSpeed > oldProgress / this.transferSpeed) {
 				onProgress();
 			}
@@ -65,14 +64,6 @@ public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrum
 			progress = 0;
 		}
 		return false;
-	}
-
-	private float getTransferSpeed() {
-		return this.transferSpeed * (runeHandler.getBonus(BonusType.SPEED) + 1);
-	}
-
-	private float getElementPreservation() {
-		return runeHandler.getBonus(BonusType.ELEMENT_PRESERVATION) + 1;
 	}
 
 	protected void onProgress() {

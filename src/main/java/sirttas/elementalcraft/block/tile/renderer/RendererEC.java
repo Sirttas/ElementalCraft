@@ -23,7 +23,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import sirttas.elementalcraft.event.TickHandler;
-import sirttas.elementalcraft.rune.capability.IRuneHandler;
+import sirttas.elementalcraft.rune.handler.IRuneHandler;
 
 public abstract class RendererEC<T extends TileEntity> extends TileEntityRenderer<T> {
 

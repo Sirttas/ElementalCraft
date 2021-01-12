@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.tank;
 
-import sirttas.elementalcraft.api.element.storage.capability.ElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorage;
 
 public class ContainerElementStorage extends ElementStorage {
 

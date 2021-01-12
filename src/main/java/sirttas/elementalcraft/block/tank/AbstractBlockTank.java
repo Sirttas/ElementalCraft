@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.tank;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -23,6 +24,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.BlockECTileProvider;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
@@ -43,7 +45,8 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	@Override
 	@Deprecated
 	public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
-		return TileEntityHelper.getTileEntityAs(world, pos, TileTank.class).map(IElementContainer::getElementStorage).map(tank -> tank.getElementAmount() * 15 / tank.getElementCapacity()).orElse(0);
+		return getElementStorage(world, pos).map(tank -> tank.getElementAmount() * 15 / tank.getElementCapacity())
+				.orElse(0);
 	}
 
 	@Override
@@ -55,9 +58,13 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, World world, BlockPos pos, Random rand) {
-		TileEntityHelper.getTileEntityAs(world, pos, IElementContainer.class).map(IElementContainer::getElementStorage)
+		getElementStorage(world, pos)
 				.filter(t -> !t.isEmpty())
 				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), rand));
+	}
+
+	private Optional<IElementStorage> getElementStorage(World world, BlockPos pos) {
+		return TileEntityHelper.getTileEntityAs(world, pos, IElementContainer.class).map(IElementContainer::getElementStorage);
 	}
 
 	@Override

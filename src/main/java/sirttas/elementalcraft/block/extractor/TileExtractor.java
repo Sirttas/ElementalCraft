@@ -19,9 +19,8 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.tile.TileECTickable;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.rune.Rune.BonusType;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
-import sirttas.elementalcraft.rune.capability.RuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.RuneHandler;
 
 public class TileExtractor extends TileECTickable {
 
@@ -77,7 +76,7 @@ public class TileExtractor extends TileECTickable {
 
 		super.tick();
 		if (canExtract(sourceElementType)) {
-			getTank().insertElement((int) (extractionAmount * (runeHandler.getBonus(BonusType.SPEED) + 1)), sourceElementType, false);
+			getTank().insertElement(Math.round(runeHandler.getTransferSpeed(extractionAmount)), sourceElementType, false);
 		}
 	}
 

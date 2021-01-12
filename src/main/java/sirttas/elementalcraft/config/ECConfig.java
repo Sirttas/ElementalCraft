@@ -101,6 +101,11 @@ public class ECConfig {
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
 
+		public final IntValue pureInfuserTransferSpeed;
+		public final IntValue pureInfuserMaxRunes;
+		public final IntValue pedestalCapacity;
+		public final IntValue pedestalMaxRunes;
+
 		public final IntValue receptacleDurability;
 		public final BooleanValue receptacleEnchantable;
 		public final IntValue elementHolderCapacity;
@@ -229,6 +234,13 @@ public class ECConfig {
 			impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
 			improvedPipeTransferAmount = builder.comment("The amount of element transferred by improved pipes.").defineInRange("improvedPipeTransferAmount", 100, 0, 10000);
+
+			builder.pop(2).comment("Pure Infusser and pedestals config").push("pureInfuser");
+			pureInfuserTransferSpeed = builder.comment("The max amount of element consumed by the pure infuser per tick.").defineInRange("pureInfuserTransferSpeed", 100, 0, 1000);
+			pureInfuserMaxRunes = builder.comment("The max amount of on a pure infuser.").defineInRange("pureInfuserMaxRunes", 3, 0, 10);
+			builder.push("pedestals");
+			pedestalMaxRunes = builder.comment("The max amount of on a pedestal.").defineInRange("pedestalMaxRunes", 1, 0, 10);
+			pedestalCapacity = builder.comment("The element capacity of a pedestal.").defineInRange("pedestalCapacity", 10000, 0, 100000000);
 
 			builder.pop(2).comment("Items config").push("items");
 			receptacleDurability = builder.comment("Define source receptacle durablility (0 for unbreakable).").defineInRange("receptacleDurability", 20, 0, 1000);

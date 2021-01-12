@@ -12,7 +12,7 @@ public class ItemChisel extends ItemEC {
 	public static final String NAME = "chisel";
 
 	public ItemChisel() {
-		super(new Item.Properties().group(ElementalCraftTab.tabElementalCraft).maxStackSize(1).maxDamage(ECConfig.COMMON.chiselDurability.get()));
+		super(new Item.Properties().group(ElementalCraftTab.TAB).maxStackSize(1).maxDamage(ECConfig.COMMON.chiselDurability.get()));
 	}
 
 	@Override

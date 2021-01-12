@@ -14,7 +14,7 @@ import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.property.ECProperties;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 
 public abstract class BlockECTileProvider extends BlockEC {
 

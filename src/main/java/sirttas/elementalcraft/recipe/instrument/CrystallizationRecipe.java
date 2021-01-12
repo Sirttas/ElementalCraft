@@ -100,7 +100,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 
 	@Override
 	public void process(TileCrystallizer instrument) {
-		int luck = (int) (instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
+		int luck = (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
 		IInventory inv = instrument.getInventory();
 		
 		for (int i = 2; i < inv.getSizeInventory(); i++) {

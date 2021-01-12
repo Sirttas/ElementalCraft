@@ -15,17 +15,16 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.element.storage.capability.CapabilityElementStorage;
-import sirttas.elementalcraft.api.element.storage.capability.ElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.tile.TileECContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleStackInventory;
 import sirttas.elementalcraft.item.ItemShard;
-import sirttas.elementalcraft.rune.Rune.BonusType;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
-import sirttas.elementalcraft.rune.capability.RuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.RuneHandler;
 
 public class TileEvaporator extends TileECContainer {
 
@@ -48,7 +47,7 @@ public class TileEvaporator extends TileECContainer {
 		ItemStack stack = inventory.getStackInSlot(0);
 		Item item = stack.getItem();
 		ElementType type = BlockEvaporator.getShardElementType(stack);
-		int extractionAmount = (int) (ECConfig.COMMON.evaporatorExtractionAmount.get() * (runeHandler.getBonus(BonusType.SPEED) + 1));
+		int extractionAmount = Math.round(runeHandler.getTransferSpeed(ECConfig.COMMON.evaporatorExtractionAmount.get()));
 
 		super.tick();
 		if (type != ElementType.NONE && elementStorage.getElementAmount() <= extractionAmount) {
@@ -70,7 +69,7 @@ public class TileEvaporator extends TileECContainer {
 	}
 
 	private int getShardElementAmount(ItemShard item) {
-		return (int) (ECConfig.COMMON.shardElementAmount.get() * item.getElementAmount() * (runeHandler.getBonus(BonusType.ELEMENT_PRESERVATION) + 1));
+		return Math.round(ECConfig.COMMON.shardElementAmount.get() * item.getElementAmount() * runeHandler.getElementPreservation());
 	}
 
 	@Override
@@ -97,8 +96,12 @@ public class TileEvaporator extends TileECContainer {
 	@Override
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
-		if (!this.removed && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
-			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
+		if (!this.removed) {
+			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+				return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
+			} else if (cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
+				return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
+			}
 		}
 		return super.getCapability(cap, side);
 	}

@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.tile;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -23,12 +22,8 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	}
 
 	private void sync() {
-		if (toSync) {
-			BlockState bs = this.getWorld().getBlockState(pos);
-
-			this.getWorld().notifyBlockUpdate(pos, bs, bs, 3);
+		if (isToSync()) {
 			super.markDirty();
-			this.getWorld().notifyNeighborsOfStateChange(pos, getBlockState().getBlock());
 			NetworkHelper.dispatchTEToNearbyPlayers(this);
 			toSync = false;
 		}
@@ -45,7 +40,7 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	}
 
 	protected final boolean isToSync() {
-		return toSync;
+		return toSync && !this.world.isRemote;
 	}
 
 	// TODO extract (capability ?)

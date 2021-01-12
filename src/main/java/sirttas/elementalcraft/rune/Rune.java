@@ -29,7 +29,7 @@ import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicates;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.rune.capability.IRuneHandler;
+import sirttas.elementalcraft.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.upgrade.AbstractUpgrade;
 
 public class Rune extends AbstractUpgrade<Rune.BonusType> {

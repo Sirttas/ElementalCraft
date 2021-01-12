@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.rune.capability;
+package sirttas.elementalcraft.rune.handler;
 
 import javax.annotation.Nonnull;
 

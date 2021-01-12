@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:pedestal_air",
+    "elementalcraft:pedestal_earth",
+    "elementalcraft:pedestal_fire",
+    "elementalcraft:pedestal_water"
+  ]
+}

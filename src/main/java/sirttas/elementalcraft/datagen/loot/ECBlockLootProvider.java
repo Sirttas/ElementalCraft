@@ -75,7 +75,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		}
 
 		functionTable.put(ECBlocks.crystalOre, i -> genOre(i, ECItems.inertCrystal));
-		functionTable.put(ECBlocks.evaporator, ECBlockLootProvider::genBreedingShrine);
+		functionTable.put(ECBlocks.evaporator, ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.tankCreative, ECBlockLootProvider::genCopyElementStorage);
@@ -131,14 +131,14 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
 				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockPylonShrine.HALF, DoubleBlockHalf.LOWER)));
 
-		return genCopyNbt(entry, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT);
+		return genCopyNbt(entry, ECNames.ELEMENT_STORAGE);
 	}
 
 	private static Builder genBreedingShrine(IItemProvider item) {
 		LootEntry.Builder<?> entry = ItemLootEntry.builder(item).acceptCondition(
 				BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockBreedingShrine.PART, BlockBreedingShrine.Part.CORE)));
 
-		return genCopyNbt(entry, ECNames.ELEMENT_TYPE, ECNames.ELEMENT_AMOUNT);
+		return genCopyNbt(entry, ECNames.ELEMENT_STORAGE);
 	}
 
 	private static Builder genCopyNbt(LootEntry.Builder<?> entry, String... tags) {

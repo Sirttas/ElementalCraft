@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.shrine;
 
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.capability.SingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.SingleElementStorage;
 
 public class ShrineElementStorage extends SingleElementStorage {
 

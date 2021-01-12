@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.rune.capability;
+package sirttas.elementalcraft.rune.handler;
 
 import java.util.ArrayList;
 import java.util.EnumMap;

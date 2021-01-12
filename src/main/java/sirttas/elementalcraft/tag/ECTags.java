@@ -122,6 +122,7 @@ public class ECTags {
 		public static final INamedTag<Block> PIPES = createTag("pipes");
 		public static final INamedTag<Block> SHRINES = createTag("shrines");
 		public static final INamedTag<Block> INSTRUMENTS = createTag("instrumentrs");
+		public static final INamedTag<Block> PEDESTALS = createTag("pedestals");
 
 		public static final INamedTag<Block> RUNE_AFFECTED_SPEED = createTag("rune_affected/speed");
 		public static final INamedTag<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");

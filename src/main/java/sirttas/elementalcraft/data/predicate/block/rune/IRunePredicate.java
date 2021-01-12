@@ -5,8 +5,8 @@ import java.util.function.Predicate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
-import sirttas.elementalcraft.rune.capability.IRuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.IRuneHandler;
 
 
 public interface IRunePredicate extends IBlockPosPredicate {

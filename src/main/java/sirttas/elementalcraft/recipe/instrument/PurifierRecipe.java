@@ -81,7 +81,7 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 		ItemStack in = inv.getStackInSlot(0);
 		ItemStack output = inv.getStackInSlot(1);
 		ItemStack craftingResult = getCraftingResult(instrument);
-		int luck = (int) (instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.purifierLuckRatio.get());
+		int luck = (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.purifierLuckRatio.get());
 
 		if (craftingResult.isItemEqual(output) && output.getCount() + craftingResult.getCount() <= output.getMaxStackSize()) {
 			in.shrink(1);

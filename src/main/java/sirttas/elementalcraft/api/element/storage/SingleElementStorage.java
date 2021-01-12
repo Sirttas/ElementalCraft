@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.api.element.storage.capability;
+package sirttas.elementalcraft.api.element.storage;
 
 import sirttas.elementalcraft.api.element.ElementType;
 

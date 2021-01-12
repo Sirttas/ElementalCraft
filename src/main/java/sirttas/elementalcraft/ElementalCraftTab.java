@@ -11,7 +11,7 @@ import sirttas.elementalcraft.item.ECItems;
 
 public class ElementalCraftTab extends ItemGroup {
 
-	public static final @Nonnull ItemGroup tabElementalCraft = new ElementalCraftTab();
+	public static final @Nonnull ItemGroup TAB = new ElementalCraftTab();
 
 	public ElementalCraftTab() {
 		super(ElementalCraft.MODID);

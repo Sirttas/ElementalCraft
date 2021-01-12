@@ -26,9 +26,9 @@ public class ECProperties {
 	}
 
 	public static class Items {
-		public static final Item.Properties DEFAULT_ITEM_PROPERTIES = new Item.Properties().group(ElementalCraftTab.tabElementalCraft);
-		public static final Item.Properties ITEM_UNSTACKABLE = new Item.Properties().group(ElementalCraftTab.tabElementalCraft).maxStackSize(1);
-		public static final Item.Properties RECEPTACLE = new Item.Properties().group(ElementalCraftTab.tabElementalCraft).maxStackSize(1).maxDamage(ECConfig.COMMON.receptacleDurability.get());
-		public static final Item.Properties FIREITE = new Item.Properties().group(ElementalCraftTab.tabElementalCraft).isImmuneToFire();
+		public static final Item.Properties DEFAULT_ITEM_PROPERTIES = new Item.Properties().group(ElementalCraftTab.TAB);
+		public static final Item.Properties ITEM_UNSTACKABLE = new Item.Properties().group(ElementalCraftTab.TAB).maxStackSize(1);
+		public static final Item.Properties RECEPTACLE = new Item.Properties().group(ElementalCraftTab.TAB).maxStackSize(1).maxDamage(ECConfig.COMMON.receptacleDurability.get());
+		public static final Item.Properties FIREITE = new Item.Properties().group(ElementalCraftTab.TAB).isImmuneToFire();
 	}
 }

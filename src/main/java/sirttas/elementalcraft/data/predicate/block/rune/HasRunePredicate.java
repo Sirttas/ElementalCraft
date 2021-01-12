@@ -9,7 +9,7 @@ import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.rune.Rune;
-import sirttas.elementalcraft.rune.capability.IRuneHandler;
+import sirttas.elementalcraft.rune.handler.IRuneHandler;
 
 public class HasRunePredicate implements IRunePredicate {
 

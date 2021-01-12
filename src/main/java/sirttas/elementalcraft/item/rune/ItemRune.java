@@ -24,8 +24,8 @@ import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.rune.Rune;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
-import sirttas.elementalcraft.rune.capability.IRuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.IRuneHandler;
 
 public class ItemRune extends ItemEC {
 

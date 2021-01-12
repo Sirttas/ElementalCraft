@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 
 @OnlyIn(Dist.CLIENT)
 public class RuneRenderer<T extends TileEntity> extends RendererEC<T> {

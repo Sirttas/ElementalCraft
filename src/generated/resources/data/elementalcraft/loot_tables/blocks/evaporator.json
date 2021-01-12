@@ -7,15 +7,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "elementalcraft:evaporator",
-              "properties": {
-                "part": "core"
-              }
-            }
-          ],
           "name": "elementalcraft:evaporator"
         }
       ],
@@ -30,13 +21,8 @@
           "source": "block_entity",
           "ops": [
             {
-              "source": "element_type",
-              "target": "BlockEntityTag.element_type",
-              "op": "replace"
-            },
-            {
-              "source": "element_amount",
-              "target": "BlockEntityTag.element_amount",
+              "source": "element_storage",
+              "target": "BlockEntityTag.element_storage",
               "op": "replace"
             }
           ]

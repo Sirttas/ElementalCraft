@@ -11,7 +11,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.inventory.IInventoryTile;
-import sirttas.elementalcraft.rune.capability.CapabilityRuneHandler;
+import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 
 @OnlyIn(Dist.CLIENT)
 public class SingleItemRenderer<T extends TileEntity & IInventoryTile> extends RendererEC<T> {
