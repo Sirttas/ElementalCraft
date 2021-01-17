@@ -42,7 +42,7 @@ public class TilePureInfuser extends TileECCrafting<TilePureInfuser, PureInfusio
 
 	public TilePureInfuser() {
 		super(TYPE, PureInfusionRecipe.TYPE, ECConfig.COMMON.pureInfuserTransferSpeed.get());
-		inventory = new SingleItemInventory(this::forceSync);
+		inventory = new SingleItemInventory(this::markDirty);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get());
 		progress.put(Direction.NORTH, 0);
 		progress.put(Direction.SOUTH, 0);
@@ -112,7 +112,7 @@ public class TilePureInfuser extends TileECCrafting<TilePureInfuser, PureInfusio
 
 		if (pedestal != null) {
 			pedestal.getInventory().setInventorySlotContents(0, stack);
-			pedestal.forceSync();
+			pedestal.markDirty();
 		}
 	}
 

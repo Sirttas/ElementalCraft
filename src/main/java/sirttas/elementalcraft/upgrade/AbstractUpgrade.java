@@ -59,4 +59,15 @@ public abstract class AbstractUpgrade<T extends IStringSerializable> {
 		return id != null ? id.toString() : super.toString();
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (super.equals(other)) {
+			return true;
+		}
+		if (other != null && this.getClass().isInstance(other)) {
+			return this.id.equals(((AbstractUpgrade<?>) other).id);
+		}
+		return false;
+	}
+
 }

@@ -30,7 +30,6 @@ public class ShrineUpgrades {
 	@SubscribeEvent
 	public static void onReload(DataManagerReloadEvent<ShrineUpgrade> event) {
 		event.getDataManager().getData().forEach((id, upgrade) -> {
-			upgrade.setId(id);
 			Block block = ForgeRegistries.BLOCKS.getValue(id);
 
 			if (block instanceof BlockShrineUpgrade) {

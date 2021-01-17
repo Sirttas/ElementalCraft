@@ -21,7 +21,7 @@ public class TileBinder extends TileInstrument<TileBinder, BindingRecipe> {
 
 	public TileBinder() {
 		super(TYPE, BindingRecipe.TYPE, ECConfig.COMMON.binderTransferSpeed.get(), ECConfig.COMMON.binderMaxRunes.get());
-		inventory = new InstrumentInventory(this::forceSync, 10);
+		inventory = new InstrumentInventory(this::markDirty, 10);
 	}
 
 	public int getItemCount() {

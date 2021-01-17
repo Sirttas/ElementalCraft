@@ -95,7 +95,7 @@ public class InfusionHelper {
 	public static void addEnchantmentLevel(ItemStack stack, int levelToAdd, Enchantment enchantment) {
 		Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
 		Integer froLvl = map.get(enchantment);
-		int level = (froLvl != null ? froLvl : 0) + levelToAdd;
+		int level = Math.min((froLvl != null ? froLvl : 0) + levelToAdd, enchantment.getMaxLevel() + 1);
 
 		if (level > 0) {
 			map.put(enchantment, level);

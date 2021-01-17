@@ -9,9 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.dpanvil.api.event.DataManagerReloadEvent;
 import sirttas.elementalcraft.ElementalCraft;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
@@ -20,11 +18,6 @@ public class Runes {
 
 	public static final String NAME = "runes";
 	public static final String FOLDER = ElementalCraft.MODID + '_' + NAME;
-
-	@SubscribeEvent
-	public static void onReload(DataManagerReloadEvent<Rune> event) {
-		event.getDataManager().getData().forEach((id, rune) -> rune.setId(id));
-	}
 
 	@OnlyIn(Dist.CLIENT)
 	public static void registerModels(ModelRegistryEvent event) {

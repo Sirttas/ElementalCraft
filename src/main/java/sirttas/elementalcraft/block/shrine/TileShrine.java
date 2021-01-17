@@ -56,7 +56,7 @@ public abstract class TileShrine extends TileECTickable {
 		if (basePeriode == 0) {
 			throw new IllegalArgumentException("Shrine periode should not be 0");
 		}
-		elementStorage = new ShrineElementStorage(properties.elementType, properties.capacity, this::forceSync);
+		elementStorage = new ShrineElementStorage(properties.elementType, properties.capacity, this::markDirty);
 	}
 
 
@@ -72,7 +72,7 @@ public abstract class TileShrine extends TileECTickable {
 
 	@Override
 	public final void tick() {
-		if (this.isToSync()) {
+		if (this.isDirty()) {
 			refreshUpgrades();
 		}
 		double periode = getPeriod();

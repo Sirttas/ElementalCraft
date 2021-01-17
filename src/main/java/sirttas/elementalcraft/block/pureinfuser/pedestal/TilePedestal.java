@@ -41,8 +41,8 @@ public class TilePedestal extends TileECContainer implements IElementTypeProvide
 
 	public TilePedestal(ElementType type) {
 		super(TYPE);
-		inventory = new SingleItemInventory(this::forceSync);
-		elementStorage = new PedestalElementStorage(type, this::forceSync);
+		inventory = new SingleItemInventory(this::markDirty);
+		elementStorage = new PedestalElementStorage(type, this::markDirty);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get());
 	}
 

@@ -38,13 +38,13 @@ public abstract class BlockShrineUpgrade extends BlockEC {
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		TileEntityHelper.getTileEntityAs(world, pos.offset(getFacing(state)), TileShrine.class).ifPresent(TileShrine::forceSync);
+		TileEntityHelper.getTileEntityAs(world, pos.offset(getFacing(state)), TileShrine.class).ifPresent(TileShrine::markDirty);
 	}
 
 	@Override
 	@Deprecated
 	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-		TileEntityHelper.getTileEntityAs(world, pos.offset(getFacing(state)), TileShrine.class).ifPresent(TileShrine::forceSync);
+		TileEntityHelper.getTileEntityAs(world, pos.offset(getFacing(state)), TileShrine.class).ifPresent(TileShrine::markDirty);
 		super.onReplaced(state, world, pos, newState, isMoving);
 	}
 

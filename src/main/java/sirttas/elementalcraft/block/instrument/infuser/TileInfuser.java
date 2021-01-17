@@ -22,7 +22,7 @@ public class TileInfuser extends TileInstrument<TileInfuser, AbstractInfusionRec
 
 	public TileInfuser() {
 		super(TYPE, AbstractInfusionRecipe.TYPE, ECConfig.COMMON.infuserTransferSpeed.get(), ECConfig.COMMON.infuserMaxRunes.get());
-		inventory = new SingleItemInventory(this::forceSync);
+		inventory = new SingleItemInventory(this::markDirty);
 	}
 
 	@Override

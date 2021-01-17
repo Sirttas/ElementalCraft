@@ -36,8 +36,8 @@ public class TileEvaporator extends TileECContainer {
 
 	public TileEvaporator() {
 		super(TYPE);
-		inventory = new SingleStackInventory(this::forceSync);
-		this.elementStorage = new ElementStorage(ECConfig.COMMON.shardElementAmount.get() * 20, this::forceSync);
+		inventory = new SingleStackInventory(this::markDirty);
+		this.elementStorage = new ElementStorage(ECConfig.COMMON.shardElementAmount.get() * 20, this::markDirty);
 		runeHandler = new RuneHandler(ECConfig.COMMON.extractorMaxRunes.get());
 	}
 

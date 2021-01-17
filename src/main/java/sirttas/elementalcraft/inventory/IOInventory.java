@@ -2,14 +2,16 @@ package sirttas.elementalcraft.inventory;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
-public class IOInventory extends SynchronizableInventory implements INBTSerializable<CompoundNBT> {
+public class IOInventory extends SynchronizableInventory implements ISidedInventory, INBTSerializable<CompoundNBT> {
 
 	private ItemStack input = ItemStack.EMPTY;
 	private ItemStack output = ItemStack.EMPTY;
@@ -92,5 +94,20 @@ public class IOInventory extends SynchronizableInventory implements INBTSerializ
 		this.input = NBTHelper.readItemStack(nbt, ECNames.INPUT);
 		this.output = NBTHelper.readItemStack(nbt, ECNames.OUTPUT);
 
+	}
+
+	@Override
+	public int[] getSlotsForFace(Direction side) {
+		return new int[] { 0, 1 };
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn, Direction direction) {
+		return index == 0;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+		return index == 1;
 	}
 }

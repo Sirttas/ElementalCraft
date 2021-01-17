@@ -22,7 +22,7 @@ public abstract class AbstractTileElementContainer extends TileECTickable implem
 
 	public AbstractTileElementContainer(TileEntityType<?> tileEntityTypeIn, Function<Runnable, IElementStorage> elementStorage) {
 		super(tileEntityTypeIn);
-		this.elementStorage = elementStorage.apply(this::forceSync);
+		this.elementStorage = elementStorage.apply(this::markDirty);
 	}
 
 	@Override

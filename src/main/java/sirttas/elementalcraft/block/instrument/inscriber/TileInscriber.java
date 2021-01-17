@@ -20,7 +20,7 @@ public class TileInscriber extends TileInstrument<TileInscriber, InscriptionReci
 
 	public TileInscriber() {
 		super(TYPE, InscriptionRecipe.TYPE, ECConfig.COMMON.inscriberTransferSpeed.get(), ECConfig.COMMON.inscriberMaxRunes.get());
-		inventory = new InscriberInventory(this::forceSync);
+		inventory = new InscriberInventory(this::markDirty);
 	}
 
 	public int getItemCount() {

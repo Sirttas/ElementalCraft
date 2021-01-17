@@ -11,7 +11,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
-import sirttas.elementalcraft.block.tile.IForcableSync;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
 public abstract class BlockECContainer extends BlockECTileProvider {
@@ -28,7 +27,7 @@ public abstract class BlockECContainer extends BlockECTileProvider {
 		return stack.isItemEqual(heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
 	}
 
-	private ActionResultType onSlotActivatedUnsync(IItemHandler inventory, PlayerEntity player, ItemStack heldItem, int slot) {
+	public ActionResultType onSlotActivated(IItemHandler inventory, PlayerEntity player, ItemStack heldItem, int slot) {
 		ItemStack stack = inventory.getStackInSlot(slot);
 		World world = player.getEntityWorld();
 
@@ -62,15 +61,6 @@ public abstract class BlockECContainer extends BlockECTileProvider {
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;
-	}
-
-	protected ActionResultType onSlotActivated(IItemHandler inventory, PlayerEntity player, ItemStack heldItem, int slot) {
-		ActionResultType ret = this.onSlotActivatedUnsync(inventory, player, heldItem, slot);
-
-		if (inventory instanceof IForcableSync && ret.isSuccessOrConsume()) {
-			((IForcableSync) inventory).forceSync();
-		}
-		return ret;
 	}
 
 	protected ActionResultType onSingleSlotActivated(World world, BlockPos pos, PlayerEntity player, Hand hand) {

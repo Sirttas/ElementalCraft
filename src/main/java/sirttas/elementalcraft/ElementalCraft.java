@@ -13,7 +13,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import sirttas.dpanvil.api.data.DataManagerFactory;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
@@ -39,9 +38,9 @@ public class ElementalCraft {
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
-	public static final IDataManager<ShrineUpgrade> SHREINE_UPGRADE_MANAGER = DataManagerFactory.simple(ShrineUpgrade.class, ShrineUpgrades.FOLDER);
-	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = DataManagerFactory.defaulted(SpellProperties.class, SpellProperties.FOLDER, SpellProperties.NONE);
-	public static final IDataManager<Rune> RUNE_MANAGER = DataManagerFactory.simple(Rune.class, Runes.FOLDER);
+	public static final IDataManager<ShrineUpgrade> SHREINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).build();
+	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER).withDefault(SpellProperties.NONE).build();
+	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, Runes.FOLDER).withIdSetter(Rune::setId).build();
 
 	private IProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> () -> new IProxy() {});
 

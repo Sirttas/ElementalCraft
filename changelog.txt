@@ -1,3 +1,11 @@
+1.16.4-2.5.2:
+
+- extracting and inserting in some inctruments should consistent
+- prevent infusion from exceeding the enchantment level +1 (issue #27)
+- changed mekanism dimishing return to not have remain
+- fix some shrine uprgades not working properly
+
+
 1.16.4-2.5.1:
 
 - added rune handling for evaporator, pedestals and pure infuser

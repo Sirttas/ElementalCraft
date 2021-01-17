@@ -30,6 +30,6 @@ public class ClientProxy implements IProxy {
 	private void setupClient(FMLClientSetupEvent event) {
 		ECRenderers.initRenderLayouts();
 		ECEntities.registerRenderers();
-		ECScreens.initScreenFactoriess();
+		ECScreens.initScreenFactories();
 	}
 }

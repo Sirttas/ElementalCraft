@@ -27,7 +27,7 @@ public abstract class TileECCrafting<T extends ICraftingTile, R extends IInvento
 		}
 		recipe = this.lookupRecipe();
 		if (recipe != null) {
-			this.forceSync();
+			this.markDirty();
 			return true;
 		}
 		return false;
@@ -40,7 +40,7 @@ public abstract class TileECCrafting<T extends ICraftingTile, R extends IInvento
 			BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
 		}
 		recipe = null;
-		this.forceSync();
+		this.markDirty();
 	}
 
 	protected R lookupRecipe() {

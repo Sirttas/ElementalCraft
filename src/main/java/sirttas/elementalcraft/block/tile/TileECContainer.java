@@ -23,7 +23,7 @@ import sirttas.elementalcraft.inventory.IInventoryTile;
 
 public abstract class TileECContainer extends TileECTickable implements IClearable, IInventoryTile, IInventoryChangedListener {
 
-	private LazyOptional<IItemHandler> itemHandler = LazyOptional.of(this::createUnSidedHandler);
+	private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(this::createHandler);
 
 	public TileECContainer(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn);
@@ -36,7 +36,7 @@ public abstract class TileECContainer extends TileECTickable implements IClearab
 	}
 
 	@Nonnull
-	protected IItemHandler createUnSidedHandler() {
+	protected IItemHandler createHandler() {
 		return new InvWrapper(this.getInventory());
 	}
 
@@ -82,6 +82,6 @@ public abstract class TileECContainer extends TileECTickable implements IClearab
 
 	@Override
 	public void onInventoryChanged(IInventory invBasic) {
-		this.forceSync();
+		this.markDirty();
 	}
 }

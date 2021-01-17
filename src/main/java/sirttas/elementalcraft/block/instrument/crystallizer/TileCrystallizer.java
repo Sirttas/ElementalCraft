@@ -21,7 +21,7 @@ public class TileCrystallizer extends TileInstrument<TileCrystallizer, Crystalli
 
 	public TileCrystallizer() {
 		super(TYPE, CrystallizationRecipe.TYPE, ECConfig.COMMON.crystallizerTransferSpeed.get(), ECConfig.COMMON.crystallizerMaxRunes.get());
-		inventory = new CrystallizerInventory(this::forceSync);
+		inventory = new CrystallizerInventory(this::markDirty);
 	}
 
 	public int getItemCount() {

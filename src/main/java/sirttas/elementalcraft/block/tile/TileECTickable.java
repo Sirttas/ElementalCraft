@@ -5,42 +5,32 @@ import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.block.tank.IElementContainer;
-import sirttas.elementalcraft.network.NetworkHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
-public abstract class TileECTickable extends TileEC implements ITickableTileEntity, IForcableSync {
+public abstract class TileECTickable extends TileEC implements ITickableTileEntity {
+
+	private boolean dirty = true;
 
 	public TileECTickable(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn);
 	}
 
-	private boolean toSync = true;
-
 	@Override
-	public void forceSync() {
-		toSync = true;
-	}
-
-	private void sync() {
-		if (isToSync()) {
+	public void tick() {
+		if (isDirty()) {
 			super.markDirty();
-			NetworkHelper.dispatchTEToNearbyPlayers(this);
-			toSync = false;
+			this.sendUpdate();
+			dirty = false;
 		}
 	}
 
 	@Override
-	public void tick() {
-		sync();
-	}
-
-	@Override
 	public void markDirty() {
-		this.forceSync();
+		dirty = true;
 	}
 
-	protected final boolean isToSync() {
-		return toSync && !this.world.isRemote;
+	public boolean isDirty() {
+		return dirty && this.world.isRemote();
 	}
 
 	// TODO extract (capability ?)

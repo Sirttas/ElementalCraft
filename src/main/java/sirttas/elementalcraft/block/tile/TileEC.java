@@ -10,6 +10,8 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 public abstract class TileEC extends TileEntity {
 
@@ -39,6 +41,14 @@ public abstract class TileEC extends TileEntity {
 
 	public <T> Optional<T> getTileEntityAs(BlockPos pos, Class<T> clazz) {
 		return this.hasWorld() ? TileEntityHelper.getTileEntityAs(this.getWorld(), pos, clazz) : Optional.empty();
+	}
+
+	protected void sendUpdate() {
+		SUpdateTileEntityPacket packet = getUpdatePacket();
+
+		if (world instanceof ServerWorld) {
+			PacketDistributor.TRACKING_CHUNK.with(() -> ((ServerWorld) world).getChunkAt(pos)).send(packet);
+		}
 	}
 
 }

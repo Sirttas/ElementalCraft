@@ -6,7 +6,7 @@ import sirttas.elementalcraft.item.spell.book.SpellBookScreen;
 
 public class ECScreens {
 
-	public static void initScreenFactoriess() {
+	public static void initScreenFactories() {
 		ScreenManager.registerFactory(ECContainers.spellBook, SpellBookScreen::new);
 	}
 }

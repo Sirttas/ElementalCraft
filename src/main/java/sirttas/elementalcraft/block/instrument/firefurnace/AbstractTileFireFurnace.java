@@ -12,6 +12,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
@@ -30,7 +32,12 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 		this.furnaceRecipeType = recipeType;
 		exp = 0;
 		setOutputSlot(1);
-		inventory = new IOInventory(this::forceSync);
+		inventory = new IOInventory(this::markDirty);
+	}
+
+	@Override
+	protected IItemHandler createHandler() {
+		return new SidedInvWrapper(inventory, null);
 	}
 
 	@Override

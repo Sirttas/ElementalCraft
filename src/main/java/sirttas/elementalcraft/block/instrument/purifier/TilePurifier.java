@@ -3,6 +3,8 @@ package sirttas.elementalcraft.block.instrument.purifier;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
@@ -18,7 +20,12 @@ public class TilePurifier extends TileInstrument<TilePurifier, PurifierRecipe> {
 	public TilePurifier() {
 		super(TYPE, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
 		setOutputSlot(1);
-		inventory = new PurifierInventory(this::forceSync);
+		inventory = new PurifierInventory(this::markDirty);
+	}
+
+	@Override
+	protected IItemHandler createHandler() {
+		return new SidedInvWrapper(inventory, null);
 	}
 
 	@Override
