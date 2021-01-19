@@ -77,4 +77,9 @@ public class ElementStorage implements IElementStorage {
 			syncCallback.run();
 		}
 	}
+
+	@Override
+	public String toString() {
+		return elementAmount + '/' + elementCapacity + ' ' + elementType.getString();
+	}
 }

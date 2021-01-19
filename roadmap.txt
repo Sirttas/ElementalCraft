@@ -41,3 +41,4 @@ spells:
 	air mill grindstone
 	ellementalist
 	illementalist
+	pure binder

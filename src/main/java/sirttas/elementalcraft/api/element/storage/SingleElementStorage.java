@@ -14,9 +14,18 @@ public class SingleElementStorage extends ElementStorage {
 	}
 
 	@Override
+	public int insertElement(int count, ElementType type, boolean simulate) {
+		ElementType old = this.elementType;
+		int value = super.insertElement(count, type, simulate);
+
+		this.elementType = old;
+		return value;
+	}
+
+	@Override
 	public int extractElement(int count, ElementType type, boolean simulate) {
 		ElementType old = this.elementType;
-		int value = insertElement(count, type, simulate);
+		int value = super.extractElement(count, type, simulate);
 
 		this.elementType = old;
 		return value;

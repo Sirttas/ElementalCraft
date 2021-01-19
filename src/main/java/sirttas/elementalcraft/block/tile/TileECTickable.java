@@ -30,7 +30,7 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	}
 
 	public boolean isDirty() {
-		return dirty && this.world.isRemote();
+		return dirty && !this.world.isRemote();
 	}
 
 	// TODO extract (capability ?)

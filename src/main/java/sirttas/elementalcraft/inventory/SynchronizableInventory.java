@@ -5,16 +5,16 @@ import net.minecraft.inventory.IInventory;
 
 public abstract class SynchronizableInventory implements IInventory {
 
-	private Runnable syncCallback;
+	private Runnable syncFunction;
 
 	public SynchronizableInventory(Runnable syncCallback) {
-		this.syncCallback = syncCallback;
+		this.syncFunction = syncCallback;
 	}
 
 	@Override
 	public void markDirty() {
-		if (syncCallback != null) {
-			syncCallback.run();
+		if (syncFunction != null) {
+			syncFunction.run();
 		}
 	}
 

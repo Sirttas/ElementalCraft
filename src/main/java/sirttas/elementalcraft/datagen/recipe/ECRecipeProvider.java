@@ -134,6 +134,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.patternLine("ici").build(consumer);
 		prepareInstrumentRecipe(ECBlocks.infuser).key('i', Tags.Items.INGOTS_IRON).key('n', Tags.Items.NUGGETS_IRON).patternLine("n n").patternLine("ici").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.binder).key('i', ECTags.Items.INGOTS_DRENCHED_IRON).patternLine("i i").patternLine("wcw").build(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.improvedBinder, ECItems.pureCrystal).key('f', ECTags.Items.INGOTS_FIREITE).key('d', Tags.Items.GEMS_DIAMOND).key('b', ECItems.binder)
+				.key('i', ECItems.infuser).patternLine("did").patternLine("fbf").patternLine("wcw").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.crystallizer).key('i', ECItems.swiftAlloyIngot).patternLine("iwi").patternLine("i i").patternLine("wcw").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.inscriber).key('i', ECItems.swiftAlloyIngot).key('d', Tags.Items.GEMS_DIAMOND).patternLine(" wi").patternLine("wdi").patternLine("wcw")
 				.build(consumer);

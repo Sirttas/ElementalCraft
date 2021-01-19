@@ -15,14 +15,13 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.tile.ICraftingTile;
 import sirttas.elementalcraft.block.tile.TileECCrafting;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.rune.handler.RuneHandler;
 
-public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrumentRecipe<T>> extends TileECCrafting<T, R> implements IElementTypeProvider {
+public abstract class TileInstrument<T extends IInstrument, R extends IInstrumentRecipe<T>> extends TileECCrafting<T, R> implements IInstrument {
 
 	private int progress = 0;
 	private final RuneHandler runeHandler;
@@ -55,8 +54,8 @@ public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrum
 			int oldProgress = progress;
 			float preservation = runeHandler.getElementPreservation();
 
-			progress += tank.extractElement(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), recipe.getElementType(), false) * preservation;
-			if (progress / this.transferSpeed > oldProgress / this.transferSpeed) {
+			progress += tank.extractElement(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), getRecipeElementType(), false) * preservation;
+			if (progress / this.transferSpeed >= oldProgress / this.transferSpeed) {
 				onProgress();
 			}
 			return true;
@@ -64,6 +63,13 @@ public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrum
 			progress = 0;
 		}
 		return false;
+	}
+
+	private ElementType getRecipeElementType() {
+		if (recipe instanceof IElementTypeProvider) {
+			return ((IElementTypeProvider) recipe).getElementType();
+		}
+		return ElementType.NONE;
 	}
 
 	protected void onProgress() {
@@ -76,7 +82,7 @@ public abstract class TileInstrument<T extends ICraftingTile, R extends IInstrum
 	public ElementType getElementType() {
 		ElementType tankType = this.getTankElementType();
 		
-		return tankType != ElementType.NONE || recipe == null ? tankType : recipe.getElementType();
+		return tankType != ElementType.NONE || recipe == null ? tankType : getRecipeElementType();
 	}
 
 	@Override

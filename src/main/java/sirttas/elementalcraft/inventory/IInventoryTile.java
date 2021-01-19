@@ -8,4 +8,6 @@ public interface IInventoryTile {
 
 	@Nonnull
 	IInventory getInventory();
+
+	void clear();
 }

@@ -12,13 +12,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.tile.renderer.RendererEC;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererBinder extends RendererEC<TileBinder> {
+public class RendererBinder<T extends TileBinder> extends RendererEC<T> {
 	public RendererBinder(TileEntityRendererDispatcher rendererDispatcher) {
 		super(rendererDispatcher);
 	}
 
 	@Override
-	public void render(TileBinder te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(T te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
 		float tick = getAngle(partialTicks);
 		IInventory inv = te.getInventory();
 		

@@ -45,7 +45,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(BlockPedestal.class));
 
 		getOrCreateBuilder(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.infuser, ECBlocks.binder, ECBlocks.crystallizer, ECBlocks.inscriber, ECBlocks.fireFurnace, ECBlocks.fireBlastFurnace,
-				ECBlocks.purifier);
+				ECBlocks.purifier, ECBlocks.improvedBinder);
 
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_SPEED).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.evaporator, ECBlocks.extractor, ECBlocks.improvedExtractor,
 				ECBlocks.pureInfuser);

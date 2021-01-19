@@ -60,6 +60,7 @@ public class IOInventory extends SynchronizableInventory implements ISidedInvent
 		} else if (index == 1) {
 			this.output = stack;
 		}
+		this.markDirty();
 	}
 
 	@Override
@@ -69,7 +70,10 @@ public class IOInventory extends SynchronizableInventory implements ISidedInvent
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		return ItemStackHelper.getAndSplit(Lists.newArrayList(input, output), index, count);
+		ItemStack value = ItemStackHelper.getAndSplit(Lists.newArrayList(input, output), index, count);
+
+		this.markDirty();
+		return value;
 	}
 
 	@Override
@@ -77,6 +81,7 @@ public class IOInventory extends SynchronizableInventory implements ISidedInvent
 		ItemStack ret = getStackInSlot(index);
 
 		setInventorySlotContents(index, ItemStack.EMPTY);
+		this.markDirty();
 		return ret;
 	}
 

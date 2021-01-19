@@ -29,21 +29,36 @@ import sirttas.elementalcraft.rune.handler.RuneHandler;
 
 public class TilePedestal extends TileECContainer implements IElementTypeProvider {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME) public static TileEntityType<TilePedestal> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static TileEntityType<TilePedestal> TYPE_FIRE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_WATER) public static TileEntityType<TilePedestal> TYPE_WATER;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_EARTH) public static TileEntityType<TilePedestal> TYPE_EARTH;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static TileEntityType<TilePedestal> TYPE_AIR;
 
 	private final SingleItemInventory inventory;
 	private final IElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
-	public TilePedestal() {
-		this(ElementType.NONE);
-	}
-
-	public TilePedestal(ElementType type) {
-		super(TYPE);
+	private TilePedestal(TileEntityType<?> tileEntityType, ElementType type) {
+		super(tileEntityType);
 		inventory = new SingleItemInventory(this::markDirty);
 		elementStorage = new PedestalElementStorage(type, this::markDirty);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get());
+	}
+
+	public static TilePedestal createFire() {
+		return new TilePedestal(TYPE_FIRE, ElementType.FIRE);
+	}
+
+	public static TilePedestal createWater() {
+		return new TilePedestal(TYPE_WATER, ElementType.WATER);
+	}
+
+	public static TilePedestal createEarth() {
+		return new TilePedestal(TYPE_EARTH, ElementType.EARTH);
+	}
+
+	public static TilePedestal createAir() {
+		return new TilePedestal(TYPE_AIR, ElementType.AIR);
 	}
 
 	@Override

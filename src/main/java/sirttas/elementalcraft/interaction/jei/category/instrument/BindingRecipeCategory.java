@@ -11,12 +11,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.instrument.binder.TileBinder;
+import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
 
-public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<TileBinder, BindingRecipe> {
+public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBinder, BindingRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(BindingRecipe.NAME);
 

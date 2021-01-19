@@ -12,7 +12,7 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
 
-public class TileBinder extends TileInstrument<TileBinder, BindingRecipe> {
+public class TileBinder extends TileInstrument<IBinder, BindingRecipe> implements IBinder {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static TileEntityType<TileBinder> TYPE;
 
@@ -20,10 +20,16 @@ public class TileBinder extends TileInstrument<TileBinder, BindingRecipe> {
 	private boolean locked = false;
 
 	public TileBinder() {
-		super(TYPE, BindingRecipe.TYPE, ECConfig.COMMON.binderTransferSpeed.get(), ECConfig.COMMON.binderMaxRunes.get());
+		this(TYPE);
+	}
+
+	public TileBinder(TileEntityType<?> tileEntityType) {
+		super(tileEntityType, BindingRecipe.TYPE, ECConfig.COMMON.binderTransferSpeed.get(), ECConfig.COMMON.binderMaxRunes.get());
 		inventory = new InstrumentInventory(this::markDirty, 10);
 	}
 
+
+	@Override
 	public int getItemCount() {
 		return inventory.getItemCount();
 	}

@@ -29,6 +29,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.evaporator, list);
 		addItem(ECBlocks.infuser, list);
 		addItem(ECBlocks.binder, list);
+		addItem(ECBlocks.improvedBinder, list);
 		addItem(ECBlocks.crystallizer, list);
 		addItem(ECBlocks.inscriber, list);
 		addItem(ECBlocks.firePedestal, list);

@@ -58,8 +58,24 @@ public class BlockPedestal extends BlockECContainer implements IElementTypeProvi
 	}
 
 	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return this.getElementType() != ElementType.NONE;
+	}
+
+	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new TilePedestal(this.getElementType());
+		switch (this.getElementType()) {
+		case AIR:
+			return TilePedestal.createAir();
+		case EARTH:
+			return TilePedestal.createEarth();
+		case FIRE:
+			return TilePedestal.createFire();
+		case WATER:
+			return TilePedestal.createWater();
+		default:
+			return null;
+		}
 	}
 
 	@Override

@@ -95,8 +95,11 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECItems.improvedExtractor), ImprovedExtractionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.evaporator), EvaporationRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.infuser), InfusionRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.improvedBinder), InfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.infuser), ToolInfusionRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.improvedBinder), ToolInfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.binder), BindingRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.improvedBinder), BindingRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.crystallizer), CrystallizationRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.inscriber), InscriptionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.chisel), InscriptionRecipeCategory.UID);

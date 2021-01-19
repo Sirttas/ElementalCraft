@@ -19,6 +19,9 @@ public class SingleItemInventory extends SingleStackInventory {
 
 	@Override
 	public ItemStack decrStackSize(int slot, int count) {
-		return slot == 0 && !stack.isEmpty() && count == 1 ? stack.split(count) : ItemStack.EMPTY;
+		ItemStack value = slot == 0 && !stack.isEmpty() && count == 1 ? stack.split(count) : ItemStack.EMPTY;
+
+		this.markDirty();
+		return value;
 	}
 }

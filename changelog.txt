@@ -1,9 +1,18 @@
+1.16.4-2.5.3:
+
+- new instrument: improved binder
+- fix shrine and pedestal element storage
+- fix pure infuser not working
+- fix a client side crash
+- fix a desync (issue #28)
+
+
 1.16.4-2.5.2:
 
-- extracting and inserting in some inctruments should consistent
+- extracting and inserting in some instruments should consistent
 - prevent infusion from exceeding the enchantment level +1 (issue #27)
 - changed mekanism dimishing return to not have remain
-- fix some shrine uprgades not working properly
+- fix some shrine upgrades not working properly
 
 
 1.16.4-2.5.1:

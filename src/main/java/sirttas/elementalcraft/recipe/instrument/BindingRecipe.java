@@ -18,11 +18,11 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.instrument.binder.TileBinder;
+import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
-public class BindingRecipe extends AbstractInstrumentRecipe<TileBinder> {
+public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 
 	public static final String NAME = "binding";
 	public static final IRecipeType<BindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<BindingRecipe>() {
@@ -50,14 +50,14 @@ public class BindingRecipe extends AbstractInstrumentRecipe<TileBinder> {
 	}
 
 	@Override
-	public boolean matches(TileBinder inv) {
+	public boolean matches(IBinder inv) {
 		if (inv.getTankElementType() != getElementType() || inv.getItemCount() != ingredients.size()) {
 			return false;
 		}
 		return Boolean.TRUE.equals(ECConfig.COMMON.binderRecipeMatchOrder.get()) ? matchesOrdered(inv) : RecipeHelper.matchesUnordered(inv.getInventory(), ingredients);
 	}
 
-	private boolean matchesOrdered(TileBinder inv) {
+	private boolean matchesOrdered(IBinder inv) {
 		for (int i = 0; i < inv.getItemCount(); i++) {
 			if (!ingredients.get(i).test(inv.getInventory().getStackInSlot(i))) {
 				return false;
@@ -82,7 +82,7 @@ public class BindingRecipe extends AbstractInstrumentRecipe<TileBinder> {
 	}
 
 	@Override
-	public void process(TileBinder instrument) {
+	public void process(IBinder instrument) {
 		instrument.clear();
 		super.process(instrument);
 	}

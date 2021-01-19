@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class InfusionRecipe extends AbstractInfusionRecipe {
@@ -39,7 +39,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 	}
 
 	@Override
-	public boolean matches(TileInfuser inv) {
+	public boolean matches(IInfuser inv) {
 		ItemStack stack = inv.getItem();
 
 		if (super.matches(inv) && inv.getTankElementType() == getElementType()) {

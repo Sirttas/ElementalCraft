@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "did",
+    "fbf",
+    "wcw"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "f": {
+      "tag": "forge:ingots/fireite"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "b": {
+      "item": "elementalcraft:binder"
+    },
+    "i": {
+      "item": "elementalcraft:infuser"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:binder_improved"
+  }
+}

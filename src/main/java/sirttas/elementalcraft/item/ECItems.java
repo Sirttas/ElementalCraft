@@ -17,6 +17,7 @@ import sirttas.elementalcraft.block.evaporator.BlockEvaporator;
 import sirttas.elementalcraft.block.extractor.BlockExtractor;
 import sirttas.elementalcraft.block.extractor.improved.BlockImprovedExtractor;
 import sirttas.elementalcraft.block.instrument.binder.BlockBinder;
+import sirttas.elementalcraft.block.instrument.binder.improved.BlockImprovedBinder;
 import sirttas.elementalcraft.block.instrument.crystallizer.BlockCrystallizer;
 import sirttas.elementalcraft.block.instrument.firefurnace.BlockFireFurnace;
 import sirttas.elementalcraft.block.instrument.firefurnace.blast.BlockFireBlastFurnace;
@@ -128,7 +129,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":rune_slate") public static ItemEC runeSlate;
 	@ObjectHolder(ElementalCraft.MODID + ":major_rune_slate") public static ItemEC majorRuneSlate;
 
-	/* BLOCKS */
+	// BLOCKS
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static Item tankSmall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static Item tank;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static Item extractor;
@@ -136,6 +137,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEvaporator.NAME) public static Item evaporator;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static Item infuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static Item binder;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedBinder.NAME) public static Item improvedBinder;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystallizer.NAME) public static Item crystallizer;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInscriber.NAME) public static Item inscriber;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static Item firePedestal;

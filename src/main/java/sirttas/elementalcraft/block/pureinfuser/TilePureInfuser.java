@@ -134,7 +134,7 @@ public class TilePureInfuser extends TileECCrafting<TilePureInfuser, PureInfusio
 				float newProgress = oldProgress + pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false) * preservation;
 
 				progress.put(direction, Math.round(newProgress));
-				if (world.isRemote && newProgress / transferAmount > oldProgress / transferAmount) {
+				if (world.isRemote && newProgress / transferAmount >= oldProgress / transferAmount) {
 					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pedestal.getPos().offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
 				}
 			}

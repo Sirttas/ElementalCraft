@@ -7,10 +7,10 @@ import net.minecraft.util.registry.Registry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
-public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<TileInfuser> {
+public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<IInfuser> {
 
 	private static final String NAME = "infusion";
 	public static final IRecipeType<AbstractInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<AbstractInfusionRecipe>() {
@@ -21,7 +21,7 @@ public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<Ti
 	});
 
 	@Override
-	public boolean matches(TileInfuser inv) {
+	public boolean matches(IInfuser inv) {
 		ItemStack stack = inv.getItem();
 		IElementStorage tank = inv.getTank();
 		

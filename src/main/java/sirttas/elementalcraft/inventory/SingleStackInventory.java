@@ -25,6 +25,7 @@ public class SingleStackInventory extends SynchronizableInventory implements INB
 	@Override
 	public void clear() {
 		stack = ItemStack.EMPTY;
+		this.markDirty();
 
 	}
 
@@ -48,6 +49,7 @@ public class SingleStackInventory extends SynchronizableInventory implements INB
 		if (index == 0) {
 			this.stack = stack;
 		}
+		this.markDirty();
 	}
 
 	@Override
@@ -57,7 +59,10 @@ public class SingleStackInventory extends SynchronizableInventory implements INB
 
 	@Override
 	public ItemStack decrStackSize(int slot, int count) {
-		return ItemStackHelper.getAndSplit(Lists.newArrayList(stack), slot, count);
+		ItemStack value = ItemStackHelper.getAndSplit(Lists.newArrayList(stack), slot, count);
+
+		this.markDirty();
+		return value;
 	}
 
 	@Override
@@ -65,6 +70,7 @@ public class SingleStackInventory extends SynchronizableInventory implements INB
 		ItemStack ret = stack;
 
 		stack = ItemStack.EMPTY;
+		this.markDirty();
 		return ret;
 	}
 

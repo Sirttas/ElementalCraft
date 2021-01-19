@@ -3,7 +3,7 @@ package sirttas.elementalcraft.recipe.instrument.infusion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.infuser.TileInfuser;
+import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 
@@ -14,7 +14,7 @@ public class ToolInfusionRecipe extends AbstractInfusionRecipe {
 	}
 
 	@Override
-	public boolean matches(TileInfuser instrument) {
+	public boolean matches(IInfuser instrument) {
 		ItemStack stack = instrument.getItem();
 
 		if (super.matches(instrument) && InfusionHelper.isInfusable(stack)) {
@@ -29,7 +29,7 @@ public class ToolInfusionRecipe extends AbstractInfusionRecipe {
 	}
 
 	@Override
-	public ItemStack getCraftingResult(TileInfuser instrument) {
+	public ItemStack getCraftingResult(IInfuser instrument) {
 		ItemStack stack = instrument.getItem();
 
 		InfusionHelper.setInfusion(stack, instrument.getTankElementType());

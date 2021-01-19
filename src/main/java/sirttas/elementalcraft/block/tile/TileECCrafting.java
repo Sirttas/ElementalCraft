@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.tile;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.tileentity.TileEntityType;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
-import sirttas.elementalcraft.inventory.InventoryTileWrapper;
 import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
 
 public abstract class TileECCrafting<T extends ICraftingTile, R extends IInventoryTileRecipe<T>> extends TileECContainer implements ICraftingTile {
@@ -11,7 +10,7 @@ public abstract class TileECCrafting<T extends ICraftingTile, R extends IInvento
 	protected final IRecipeType<R> recipeType;
 	protected final int transferSpeed;
 
-	protected R recipe;
+	protected IInventoryTileRecipe<?> recipe;
 	private int outputSlot = 0;
 	
 	public TileECCrafting(TileEntityType<?> tileEntityTypeIn, IRecipeType<R> recipeType, int transferSpeed) {
@@ -43,8 +42,8 @@ public abstract class TileECCrafting<T extends ICraftingTile, R extends IInvento
 		this.markDirty();
 	}
 
-	protected R lookupRecipe() {
-		return this.getWorld().getRecipeManager().getRecipe(recipeType, InventoryTileWrapper.from(cast()), this.getWorld()).orElse(null);
+	protected IInventoryTileRecipe<?> lookupRecipe() {
+		return lookupRecipe(this.getWorld(), recipeType);
 	}
 
 	@Override
@@ -55,10 +54,5 @@ public abstract class TileECCrafting<T extends ICraftingTile, R extends IInvento
 
 	protected void setOutputSlot(int slot) {
 		this.outputSlot = slot;
-	}
-
-	@SuppressWarnings("unchecked")
-	private T cast() {
-		return (T) this;
 	}
 }

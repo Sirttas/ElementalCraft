@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_binder_improved": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:binder_improved"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_binder_improved"
+    ]
+  ]
+}
