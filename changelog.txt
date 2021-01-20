@@ -1,3 +1,11 @@
+1.16.4-2.5.4:
+
+- increase improved binder speed and ruen count
+- add config for improved binder
+- fix fire furnace, fire blast furnace an purifier inventory access
+- fix pure ore stacking
+
+
 1.16.4-2.5.3:
 
 - new instrument: improved binder

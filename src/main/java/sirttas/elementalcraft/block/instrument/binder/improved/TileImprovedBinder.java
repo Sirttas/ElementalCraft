@@ -5,6 +5,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.binder.TileBinder;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
 
 public class TileImprovedBinder extends TileBinder implements IInfuser {
@@ -12,7 +13,7 @@ public class TileImprovedBinder extends TileBinder implements IInfuser {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedBinder.NAME) public static TileEntityType<TileImprovedBinder> TYPE;
 
 	public TileImprovedBinder() {
-		super(TYPE);
+		super(TYPE, ECConfig.COMMON.improvedBinderTransferSpeed.get(), ECConfig.COMMON.improvedBinderMaxRunes.get());
 	}
 
 	@Override

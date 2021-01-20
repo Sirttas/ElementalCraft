@@ -81,6 +81,8 @@ public class ECConfig {
 		public final IntValue toolInfustionBaseCost;
 		public final IntValue binderTransferSpeed;
 		public final IntValue binderMaxRunes;
+		public final IntValue improvedBinderTransferSpeed;
+		public final IntValue improvedBinderMaxRunes;
 		public final BooleanValue binderRecipeMatchOrder;
 		public final IntValue crystallizerTransferSpeed;
 		public final IntValue crystallizerMaxRunes;
@@ -211,7 +213,10 @@ public class ECConfig {
 			binderTransferSpeed = builder.comment("The max amount of element consumed by the binder per tick.").defineInRange("binderTransferSpeed", 25, 0, 1000);
 			binderMaxRunes = builder.comment("The max amount of on an binder.").defineInRange("binderMaxRunes", 2, 0, 10);
 			binderRecipeMatchOrder = builder.comment("Define if or not binder recip require to be ordered.").define("binderRecipeMatchOrder", true);
-			builder.pop().push("crystallizer");
+			builder.push("improved");
+			improvedBinderTransferSpeed = builder.comment("The max amount of element consumed by the improved binder per tick.").defineInRange("improvedBinderTransferSpeed", 50, 0, 1000);
+			improvedBinderMaxRunes = builder.comment("The max amount of on an improved binder.").defineInRange("improvedBinderMaxRunes", 3, 0, 10);
+			builder.pop(2).push("crystallizer");
 			crystallizerTransferSpeed = builder.comment("The max amount of element consumed by the gem crystallizer per tick.").defineInRange("crystallizerTransferSpeed", 25, 0, 1000);
 			crystallizerMaxRunes = builder.comment("The max amount of on an crystallizer.").defineInRange("crystallizerMaxRunes", 3, 0, 10);
 			crystallizerLuckRatio = builder.comment("The ratio of each luck rune on a crystallizer.").defineInRange("crystallizerLuckRatio", 3D, 0D, 10D);

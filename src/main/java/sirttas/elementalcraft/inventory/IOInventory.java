@@ -108,11 +108,11 @@ public class IOInventory extends SynchronizableInventory implements ISidedInvent
 
 	@Override
 	public boolean canInsertItem(int index, ItemStack itemStackIn, Direction direction) {
-		return index == 0;
+		return index == 0 || direction == null;
 	}
 
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
-		return index == 1;
+		return index == 1 || direction == null;
 	}
 }

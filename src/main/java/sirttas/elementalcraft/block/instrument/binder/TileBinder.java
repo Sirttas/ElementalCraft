@@ -24,10 +24,13 @@ public class TileBinder extends TileInstrument<IBinder, BindingRecipe> implement
 	}
 
 	public TileBinder(TileEntityType<?> tileEntityType) {
-		super(tileEntityType, BindingRecipe.TYPE, ECConfig.COMMON.binderTransferSpeed.get(), ECConfig.COMMON.binderMaxRunes.get());
-		inventory = new InstrumentInventory(this::markDirty, 10);
+		this(tileEntityType, ECConfig.COMMON.binderTransferSpeed.get(), ECConfig.COMMON.binderMaxRunes.get());
 	}
 
+	protected TileBinder(TileEntityType<?> tileEntityType, int transferSpeed, int maxRunes) {
+		super(tileEntityType, BindingRecipe.TYPE, transferSpeed, maxRunes);
+		inventory = new InstrumentInventory(this::markDirty, 10);
+	}
 
 	@Override
 	public int getItemCount() {
