@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.Block;
@@ -34,7 +35,7 @@ import sirttas.elementalcraft.upgrade.AbstractUpgrade;
 
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
-	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> AbstractUpgrade.codec(builder, BonusType.CODEC).and(builder.group(
+	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).and(builder.group(
 			ResourceLocation.CODEC.fieldOf(ECNames.MODEL).forGetter(Rune::getModelName),
 			ResourceLocation.CODEC.fieldOf(ECNames.EFFECT_SPRITE).forGetter(Rune::getSpriteName)
 	)).apply(builder, Rune::new));
@@ -113,13 +114,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	}
 
 	public static class Builder {
-		public static final Codec<Builder> CODEC = Rune.CODEC.xmap(rune -> {
-			Builder builder = create().predicate(rune.predicate).max(rune.maxAmount).sprite(rune.fxSpriteName);
-
-			builder.model = rune.modelName;
-			rune.bonuses.forEach(builder::addBonus);
-			return builder;
-		}, builder -> new Rune(builder.predicate, builder.bonuses, builder.maxAmount, builder.model, builder.sprite));
+		public static final Encoder<Builder> ENCODER = Rune.CODEC.comap(builder -> new Rune(builder.predicate, builder.bonuses, builder.maxAmount, builder.model, builder.sprite));
 
 		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
@@ -175,7 +170,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		}
 
 		public JsonElement toJson() {
-			return CodecHelper.encode(CODEC, this);
+			return CodecHelper.encode(ENCODER, this);
 		}
 	}
 }

@@ -4,12 +4,14 @@ import java.util.Map;
 
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.dpanvil.api.codec.CodecHelper;
+import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.event.DataManagerReloadEvent;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -33,7 +35,7 @@ public class SpellProperties implements IElementTypeProvider {
 			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(SpellProperties::getConsumeAmount),
 			Codec.INT.optionalFieldOf(ECNames.COOLDOWN, 0).forGetter(SpellProperties::getCooldown),
 			Codec.FLOAT.optionalFieldOf(ECNames.RANGE, 0F).forGetter(SpellProperties::getRange),
-			Codec.INT.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::getColor)
+			Codecs.COLOR.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::getColor)
 	).apply(builder, SpellProperties::new));
 
 	private int cooldown;
@@ -110,9 +112,8 @@ public class SpellProperties implements IElementTypeProvider {
 
 	public static final class Builder {
 
-		public static final Codec<Builder> CODEC = SpellProperties.CODEC.xmap(properties -> create(properties.spellType).elementType(properties.elementType).weight(properties.weight)
-				.useDuration(properties.useDuration).consumeAmount(properties.consumeAmount).cooldown(properties.cooldown).range(properties.range)
-				.color(properties.color),
+		public static final Encoder<Builder> ENCODER = CodecHelper.remapField(SpellProperties.CODEC, Codecs.HEX_COLOR.fieldOf(ECNames.COLOR), p -> p.color)
+				.comap(
 				builder -> new SpellProperties(builder.type, builder.elementType, builder.weight, builder.useDuration, builder.consumeAmount, builder.cooldown, (float) builder.range, builder.color));
 
 		private int cooldown;
@@ -178,7 +179,7 @@ public class SpellProperties implements IElementTypeProvider {
 		}
 
 		public JsonElement toJson() {
-			return CodecHelper.encode(CODEC, this);
+			return CodecHelper.encode(ENCODER, this);
 		}
 	}
 }

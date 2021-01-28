@@ -280,7 +280,7 @@
   "elementalcraft.page.binder_improved0": "The $(item)Improved Element Binder$() works like a $(ec:binder)Binder$() and $(ec:infuser)Infuser$() meaning it can do either binding or infusion at a faster rate.",
 
   "elementalcraft.page.infusion0": "To infuse an item simply right-click the $(ec:infuser)Infuser$() while holding the item you want to infuse.$(br)Try it now with an $(item)Inert Crystal$().",
-  "elementalcraft.page.infusion1": "$An (thing)Infusion$() can also be applied to $(item)tools$(), improving existing $(thing)enchantments$() or giving them new unique abilities.",
+  "elementalcraft.page.infusion1": "An $(thing)Infusion$() can also be applied to $(item)tools$(), improving existing $(thing)enchantments$() or giving them new unique abilities.",
   "elementalcraft.page.binding0": "$(thing)Binding$() is done by right-clicking a $(ec:binder)Binder$() with all the $(item)ingredients$() in the correct order.",
 
   "elementalcraft.page.shrinebase0": "This is the building block of all $(thing)shrines$().",

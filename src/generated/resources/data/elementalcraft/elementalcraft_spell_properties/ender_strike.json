@@ -2,7 +2,7 @@
   "element_consumption": 1000,
   "cooldown": 60,
   "range": 20.0,
-  "color": 6754153,
+  "color": "#670F69",
   "spell_type": "combat",
   "element_type": "air",
   "weight": 15

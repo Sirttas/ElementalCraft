@@ -10,6 +10,7 @@ import sirttas.elementalcraft.tag.ECTags;
 public abstract class TileECTickable extends TileEC implements ITickableTileEntity {
 
 	private boolean dirty = true;
+	private int refreshTick = 0;
 
 	public TileECTickable(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn);
@@ -17,10 +18,14 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 
 	@Override
 	public void tick() {
-		if (isDirty()) {
-			super.markDirty();
-			this.sendUpdate();
-			dirty = false;
+		if (!this.world.isRemote()) {
+			if (isDirty() && refreshTick > 10) {
+				super.markDirty();
+				this.sendUpdate();
+				dirty = false;
+				refreshTick = 0;
+			}
+			refreshTick++;
 		}
 	}
 
@@ -30,7 +35,7 @@ public abstract class TileECTickable extends TileEC implements ITickableTileEnti
 	}
 
 	public boolean isDirty() {
-		return dirty && !this.world.isRemote();
+		return dirty;
 	}
 
 	// TODO extract (capability ?)

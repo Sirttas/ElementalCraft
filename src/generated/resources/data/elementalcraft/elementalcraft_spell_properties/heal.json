@@ -1,7 +1,7 @@
 {
   "element_consumption": 1000,
   "cooldown": 600,
-  "color": 16262179,
+  "color": "#F82423",
   "spell_type": "mixed",
   "element_type": "water",
   "weight": 5

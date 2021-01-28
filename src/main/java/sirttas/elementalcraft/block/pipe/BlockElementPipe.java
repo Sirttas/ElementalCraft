@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -29,7 +30,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.DistExecutor;
 import sirttas.elementalcraft.block.BlockECTileProvider;
 
 public class BlockElementPipe extends BlockECTileProvider {
@@ -149,7 +149,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return DistExecutor.unsafeRunForDist(() -> () -> getShape(state, pos, rayTrace(worldIn, context.getEntity())), () -> () -> getCurentShape(state));
+		return worldIn instanceof World && ((World) worldIn).isRemote ? getShape(state, pos, Minecraft.getInstance().objectMouseOver) : getCurentShape(state);
 	}
 
 	public VoxelShape getShape(BlockState state, BlockPos pos, RayTraceResult result) {

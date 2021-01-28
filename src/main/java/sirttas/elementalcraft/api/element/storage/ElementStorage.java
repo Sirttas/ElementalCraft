@@ -48,8 +48,10 @@ public class ElementStorage implements IElementStorage {
 				if (this.elementType == ElementType.NONE) {
 					this.elementType = type;
 				}
+				if (ret < count) {
+					markDirty();
+				}
 			}
-			markDirty();
 			return ret;
 		}
 	}
@@ -67,8 +69,10 @@ public class ElementStorage implements IElementStorage {
 			if (this.elementAmount <= 0) {
 				this.elementType = ElementType.NONE;
 			}
+			if (ret > 0) {
+				markDirty();
+			}
 		}
-		markDirty();
 		return ret;
 	}
 

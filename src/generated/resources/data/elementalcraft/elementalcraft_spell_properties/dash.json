@@ -2,7 +2,7 @@
   "element_consumption": 400,
   "cooldown": 40,
   "range": 6.0,
-  "color": 12504813,
+  "color": "#BECEED",
   "spell_type": "mixed",
   "element_type": "air",
   "weight": 5

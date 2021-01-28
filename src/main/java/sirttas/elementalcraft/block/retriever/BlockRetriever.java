@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.BlockItemUseContext;
@@ -24,7 +25,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
@@ -108,7 +108,7 @@ public class BlockRetriever extends BlockEC {
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return DistExecutor.unsafeRunForDist(() -> () -> getShape(state, pos, rayTrace(worldIn, context.getEntity())), () -> () -> getCurentShape(state));
+		return worldIn instanceof World && ((World) worldIn).isRemote ? getShape(state, pos, Minecraft.getInstance().objectMouseOver) : getCurentShape(state);
 	}
 
 	public VoxelShape getShape(BlockState state, BlockPos pos, RayTraceResult result) {
@@ -152,16 +152,20 @@ public class BlockRetriever extends BlockEC {
 	}
 
 	public static void sendOutputToRetriever(World world, BlockPos pos, IInventory inventory, int slot) {
-		for (Direction direction : Direction.values()) {
-			BlockPos retriverPos = pos.offset(direction);
-			BlockState blockState = world.getBlockState(retriverPos);
+		ItemStack stack = inventory.getStackInSlot(slot);
 
-			if (blockState.getBlock() instanceof BlockRetriever && blockState.get(BlockRetriever.SOURCE) == direction.getOpposite()) {
-				ItemStack output = retrive(blockState, world, retriverPos, inventory.getStackInSlot(slot));
+		if (!stack.isEmpty()) {
+			for (Direction direction : Direction.values()) {
+				BlockPos retriverPos = pos.offset(direction);
+				BlockState blockState = world.getBlockState(retriverPos);
 
-				inventory.setInventorySlotContents(slot, output);
-				if (output.isEmpty()) {
-					return;
+				if (blockState.getBlock() instanceof BlockRetriever && blockState.get(BlockRetriever.SOURCE) == direction.getOpposite()) {
+					stack = retrive(blockState, world, retriverPos, stack);
+
+					inventory.setInventorySlotContents(slot, stack);
+					if (stack.isEmpty()) {
+						return;
+					}
 				}
 			}
 		}

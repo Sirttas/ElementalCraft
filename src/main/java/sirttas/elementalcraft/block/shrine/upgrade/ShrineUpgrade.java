@@ -14,6 +14,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.Block;
@@ -101,12 +102,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
 	public static class Builder {
 
-		public static final Codec<Builder> CODEC = ShrineUpgrade.CODEC.xmap(shrineUpgrade -> {
-			Builder builder = create().predicate(shrineUpgrade.predicate).max(shrineUpgrade.maxAmount);
-
-			shrineUpgrade.bonuses.forEach(builder::addBonus);
-			return builder;
-		}, builder -> new ShrineUpgrade(builder.predicate, builder.bonuses, builder.maxAmount));
+		public static final Encoder<Builder> ENCODER = ShrineUpgrade.CODEC.comap(builder -> new ShrineUpgrade(builder.predicate, builder.bonuses, builder.maxAmount));
 
 		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
@@ -156,7 +152,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 			if (!incompatibilities.isEmpty()) {
 				predicate = predicate.and(getIncompatibilitiesPredicate());
 			}
-			return CodecHelper.encode(CODEC, this);
+			return CodecHelper.encode(ENCODER, this);
 		}
 
 		private IBlockPosPredicate getIncompatibilitiesPredicate() {

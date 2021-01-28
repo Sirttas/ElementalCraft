@@ -1,6 +1,20 @@
+1.16.4-2.5.6:
+
+- the instrument output retriever now correctly extract from purifier and fire furnace (issue #30)
+- reduce network load of tile entities (issue #33)
+- spell properties can now use hex or rgb colors (require dp anvil 1.0.7)
+- fix mobs getting stuck into pipes
+
+
+1.16.4-2.5.5:
+
+- fix crash caused by an obfuscation error
+- fix some elementopedia entries
+
+
 1.16.4-2.5.4:
 
-- increase improved binder speed and ruen count
+- increase improved binder speed and rune count
 - add config for improved binder
 - fix fire furnace, fire blast furnace an purifier inventory access
 - fix pure ore stacking

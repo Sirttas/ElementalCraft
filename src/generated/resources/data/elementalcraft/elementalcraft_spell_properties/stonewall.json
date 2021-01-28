@@ -1,7 +1,7 @@
 {
   "element_consumption": 500,
   "cooldown": 100,
-  "color": 13620436,
+  "color": "#CFD4D4",
   "spell_type": "combat",
   "element_type": "earth",
   "weight": 20

@@ -17,6 +17,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.block.instrument.TileInstrument;
+import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.inventory.IOInventory;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
 import sirttas.elementalcraft.recipe.instrument.FurnaceRecipeWrapper;
@@ -33,6 +34,12 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 		exp = 0;
 		setOutputSlot(1);
 		inventory = new IOInventory(this::markDirty);
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		BlockRetriever.sendOutputToRetriever(world, pos, inventory, 1);
 	}
 
 	@Override

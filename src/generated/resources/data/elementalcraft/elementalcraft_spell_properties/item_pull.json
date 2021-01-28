@@ -2,7 +2,7 @@
   "element_consumption": 1000,
   "cooldown": 200,
   "range": 10.0,
-  "color": 16448734,
+  "color": "#FAFCDE",
   "spell_type": "utility",
   "element_type": "air",
   "weight": 5

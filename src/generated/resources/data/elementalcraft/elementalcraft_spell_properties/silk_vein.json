@@ -2,7 +2,7 @@
   "element_consumption": 5000,
   "cooldown": 700,
   "range": 15.0,
-  "color": 281916,
+  "color": "#044D3C",
   "spell_type": "utility",
   "element_type": "earth",
   "weight": 2

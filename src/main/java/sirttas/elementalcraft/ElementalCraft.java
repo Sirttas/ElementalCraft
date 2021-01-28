@@ -25,6 +25,7 @@ import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.network.proxy.ClientProxy;
 import sirttas.elementalcraft.network.proxy.IProxy;
+import sirttas.elementalcraft.network.proxy.ServerProxy;
 import sirttas.elementalcraft.rune.Rune;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
@@ -36,16 +37,15 @@ import sirttas.elementalcraft.world.feature.ECFeatures;
 public class ElementalCraft {
 	public static final String MODID = ECNames.ELEMENTALCRAFT;
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
+	public static final IProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
 	public static final IDataManager<ShrineUpgrade> SHREINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).build();
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER).withDefault(SpellProperties.NONE).build();
 	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, Runes.FOLDER).withIdSetter(Rune::setId).build();
 
-	private IProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> () -> new IProxy() {});
-
 	public ElementalCraft() {
-		proxy.registerHandlers();
+		PROXY.registerHandlers();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
 		MinecraftForge.EVENT_BUS.addListener(SpellTickManager::serverTick);
