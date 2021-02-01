@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
+import sirttas.elementalcraft.rune.Rune;
 
 public class CapabilityRuneHandler {
 	@CapabilityInject(IRuneHandler.class) public static final Capability<IRuneHandler> RUNE_HANDLE_CAPABILITY = null;
@@ -30,7 +31,16 @@ public class CapabilityRuneHandler {
 
 			@Override
 			public void readNBT(Capability<IRuneHandler> capability, IRuneHandler instance, Direction side, INBT base) {
-				((ListNBT) base).forEach(nbt -> instance.addRune(ElementalCraft.RUNE_MANAGER.get(new ResourceLocation(((StringNBT) nbt).getString()))));
+				((ListNBT) base).forEach(nbt -> {
+					String name = ((StringNBT) nbt).getString();
+					Rune rune = ElementalCraft.RUNE_MANAGER.get(new ResourceLocation(name));
+
+					if (rune != null) {
+						instance.addRune(rune);
+					} else {
+						ElementalCraft.LOGGER.warn("Rune not fount with id: {}", name);
+					}
+				});
 			}
 		}, () -> new RuneHandler(3));
 	}

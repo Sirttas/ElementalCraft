@@ -152,6 +152,11 @@
   "block.elementalcraft.drenched_iron_block": "Drenched Iron Block",
   "block.elementalcraft.swift_alloy_block": "Swift Alloy Block",
   "block.elementalcraft.fireite_block": "Fireite Block",
+  "block.elementalcraft.inertcrystal_block": "Inert Crystal Block",
+  "block.elementalcraft.firecrystal_block": "Fire Crystal Block",
+  "block.elementalcraft.watercrystal_block": "Water Crystal Block",
+  "block.elementalcraft.earthcrystal_block": "Earth Crystal Block",
+  "block.elementalcraft.aircrystal_block": "Air Crystal Block",
 
   "spell.elementalcraft.none": "",
   "spell.elementalcraft.gravelfall": "Gravel Fall",

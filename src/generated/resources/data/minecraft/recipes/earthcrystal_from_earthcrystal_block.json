@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:earthcrystal_block"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:earthcrystal",
+    "count": 9
+  }
+}

@@ -1,3 +1,9 @@
+1.16.4-2.5.7:
+
+- added storage block for inert, fire, water, earth and air crystal
+- fix a crash with runes
+
+
 1.16.4-2.5.6:
 
 - the instrument output retriever now correctly extract from purifier and fire furnace (issue #30)

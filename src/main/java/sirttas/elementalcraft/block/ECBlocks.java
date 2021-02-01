@@ -170,6 +170,11 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_block") public static BlockEC drenchedIronBlock;
 	@ObjectHolder(ElementalCraft.MODID + ":swift_alloy_block") public static BlockEC swiftAlloyBlock;
 	@ObjectHolder(ElementalCraft.MODID + ":fireite_block") public static BlockEC fireiteBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":inertcrystal_block") public static BlockEC inertCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":firecrystal_block") public static BlockEC fireCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":watercrystal_block") public static BlockEC waterCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":earthcrystal_block") public static BlockEC earthCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":aircrystal_block") public static BlockEC airCrystalBlock;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -246,6 +251,11 @@ public class ECBlocks {
 				"swift_alloy_block");
 		RegistryHelper.register(registry,
 				new BlockEC(AbstractBlock.Properties.create(Material.IRON, MaterialColor.BLACK).setRequiresTool().hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.NETHERITE)), "fireite_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "inertcrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "firecrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "watercrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "earthcrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "aircrystal_block");
 	}
 
 	@SubscribeEvent

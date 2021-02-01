@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:earthcrystal_block_from_earthcrystal"
+    ]
+  },
+  "criteria": {
+    "has_earthcrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:earthcrystal"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:earthcrystal_block_from_earthcrystal"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_earthcrystal",
+      "has_the_recipe"
+    ]
+  ]
+}

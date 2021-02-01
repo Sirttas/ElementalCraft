@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:watercrystal_block"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:watercrystal",
+    "count": 9
+  }
+}

@@ -105,6 +105,12 @@ public class ECRecipeProvider extends RecipeProvider {
 		createNuggetIngotBlock(ECItems.fireiteNugget, ECTags.Items.NUGGETS_FIREITE, ECItems.fireiteIngot, ECTags.Items.INGOTS_FIREITE, ECItems.fireiteBlock, ECTags.Items.STORAGE_BLOCKS_FIREITE,
 				consumer);
 
+		createStorageBlock(ECItems.inertCrystal, ECBlocks.inertCrystalBlock, consumer);
+		createStorageBlock(ECItems.fireCrystal, ECBlocks.fireCrystalBlock, consumer);
+		createStorageBlock(ECItems.waterCrystal, ECBlocks.waterCrystalBlock, consumer);
+		createStorageBlock(ECItems.earthCrystal, ECBlocks.earthCrystalBlock, consumer);
+		createStorageBlock(ECItems.airCrystal, ECBlocks.airCrystalBlock, consumer);
+
 		ShapedRecipeBuilder.shapedRecipe(ECItems.powerfulFireShard).key('#', ECItems.fireShard).patternLine("###").patternLine("###").patternLine("###")
 				.addCriterion("has_fire_shard", hasItem(ECItems.fireShard)).build(consumer, ElementalCraft.createRL("powerful_fire_shard_from_fire_shards"));
 		ShapelessRecipeBuilder.shapelessRecipe(ECItems.fireShard, 9).addIngredient(ECItems.powerfulFireShard).addCriterion("has_powerful_fire_shard", hasItem(ECItems.powerfulFireShard))
@@ -324,6 +330,12 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shapedRecipe(block).key('#', ingotTag).patternLine("###").patternLine("###").patternLine("###").addCriterion(has(ingot), hasItem(ingotTag)).build(consumer,
 				from(ingot, block));
 		ShapelessRecipeBuilder.shapelessRecipe(ingot, 9).addIngredient(blockTag).addCriterion(has(block), hasItem(blockTag)).build(consumer, from(block, ingot));
+	}
+
+	private void createStorageBlock(IItemProvider item, IItemProvider block, Consumer<IFinishedRecipe> consumer) {
+		ShapedRecipeBuilder.shapedRecipe(block).key('#', item).patternLine("###").patternLine("###").patternLine("###").addCriterion(has(item), hasItem(item)).build(consumer,
+				ElementalCraft.createRL(from(item, block)));
+		ShapelessRecipeBuilder.shapelessRecipe(item, 9).addIngredient(block).addCriterion(has(block), hasItem(block)).build(consumer, from(block, item));
 	}
 
 	private ShapedRecipeBuilder prepareInstrumentRecipe(IItemProvider result) {
