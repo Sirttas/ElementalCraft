@@ -1,3 +1,10 @@
+1.16.4-2.5.8:
+
+- new shrine: wild grove shrine
+- add the ability to set the output count for recipes (issue #36)
+- fix silent gear material translation
+
+
 1.16.4-2.5.7:
 
 - added storage block for inert, fire, water, earth and air crystal

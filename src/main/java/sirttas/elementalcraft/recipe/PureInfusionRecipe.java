@@ -110,7 +110,7 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 		public PureInfusionRecipe read(ResourceLocation recipeId, JsonObject json) {
 			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getJsonArray(json, ECNames.INGREDIENTS));
-			ItemStack output = RecipeHelper.readRecipeOutput(JSONUtils.getString(json, ECNames.OUTPUT));
+			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
 			return this.factory.create(recipeId, elementAmount, output, ingredients);
 		}

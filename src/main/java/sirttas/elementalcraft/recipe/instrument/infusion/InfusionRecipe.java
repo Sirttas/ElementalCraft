@@ -75,7 +75,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 			ElementType type = ElementType.byName(JSONUtils.getString(json, ECNames.ELEMENT_TYPE));
 			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
-			ItemStack output = RecipeHelper.readRecipeOutput(JSONUtils.getString(json, ECNames.OUTPUT));
+			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
 			return this.factory.create(recipeId, type, elementAmount, output, input);
 		}

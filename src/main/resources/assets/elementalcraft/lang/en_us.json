@@ -119,6 +119,7 @@
   "block.elementalcraft.sweetshrine": "Sweet Shrine",
   "block.elementalcraft.enderlockshrine": "Ender Lock Shrine",
   "block.elementalcraft.breedingshrine": "Breeding Shrine",
+  "block.elementalcraft.groveshrine": "Wild Grove Shrine",
   
   "block.elementalcraft.shrine_upgrade_acceleration": "Acceleration Shrine Upgrade",
   "block.elementalcraft.shrine_upgrade_range": "Range Shrine Upgrade",
@@ -186,6 +187,11 @@
   "elementalcraft_rune.elementalcraft.bombadil": "Bombadil's rune",
   "elementalcraft_rune.elementalcraft.tzeentch": "Tzeentch's rune",
 
+  "material.elementalcraft.air_silk": "Air Silk",
+  "material.elementalcraft.whiterock": "White Rock",
+  "material.elementalcraft.hardened_handle": "Hardened Handle",
+  "material.elementalcraft.drenched_iron": "Drenched Iron",
+  "material.elementalcraft.swift_alloy": "Swift Alloy",
   "material.elementalcraft.fireite": "Fireite",
 
   "shrine_upgrade_bonus.elementalcraft.none": "§4ERROR: %s",
@@ -299,6 +305,7 @@
   "elementalcraft.page.overloadshrine0": "The $(item)Overload Shrine$() boost the speed of the $(item)block$() it's facing.$(br2)It consumes $(thing)air element$().",
   "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:spells/ender_strike)Ender strinke$() don't work.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.breedingshrine0": "The $(item)Breeding Shrine$() uses $(thing)food$() laying around to breed $(thing)animals$() in range.$(br2)It consumes $(thing)earth element$().",
+  "elementalcraft.page.groveshrine0": "The $(item)Wild Grove Shrine$() wil create wild $(thing)flowers$() on top of $(item)grass$().$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.shrine_upgrade0": "You can craft $(thing)shrine upgrades$() to increase the power of your $(thing)shrines$(). Those upgrades can only be placed at specific places around the $(thing)shrine$().$(br)Upgrades cover a wide range of bonuses from $(thing)speed$(), $(thing)reduce consumption$(), $(thing)range$()... or specific ones like $(thing)silk touch$() or $(thing)fortune$() for the $((l:shrines/oreshrine)ore shrine$().",
 
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$(). You can pick up and place back $(ec:source)source$() into the world using right-click.$(br)You can repair them using $(item)swift alloy$().",

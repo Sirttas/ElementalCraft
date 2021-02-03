@@ -56,6 +56,8 @@ import sirttas.elementalcraft.block.shrine.enderlock.BlockEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
+import sirttas.elementalcraft.block.shrine.grove.BlockGroveShrine;
+import sirttas.elementalcraft.block.shrine.grove.TileGroveShrine;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
 import sirttas.elementalcraft.block.shrine.growth.TileGrowthShrine;
 import sirttas.elementalcraft.block.shrine.harvest.BlockHarvestShrine;
@@ -136,6 +138,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static BlockSweetShrine sweetShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static BlockEnderLockShrine enderLockShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBreedingShrine.NAME) public static BlockBreedingShrine breedingShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGroveShrine.NAME) public static BlockGroveShrine groveShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockAccelerationShrineUpgrade.NAME) public static BlockAccelerationShrineUpgrade accelerationShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRangeShrineUpgrade.NAME) public static BlockRangeShrineUpgrade rangeShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCapacityShrineUpgrade.NAME) public static BlockCapacityShrineUpgrade capacityShrineUpgrade;
@@ -214,6 +217,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockSweetShrine(), BlockSweetShrine.NAME);
 		RegistryHelper.register(registry, new BlockEnderLockShrine(), BlockEnderLockShrine.NAME);
 		RegistryHelper.register(registry, new BlockBreedingShrine(), BlockBreedingShrine.NAME);
+		RegistryHelper.register(registry, new BlockGroveShrine(), BlockGroveShrine.NAME);
 		RegistryHelper.register(registry, new BlockAccelerationShrineUpgrade(), BlockAccelerationShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockRangeShrineUpgrade(), BlockRangeShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockCapacityShrineUpgrade(), BlockCapacityShrineUpgrade.NAME);
@@ -290,6 +294,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileSweetShrine::new, sweetShrine).build(null), BlockSweetShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileEnderLockShrine::new, enderLockShrine).build(null), BlockEnderLockShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBreedingShrine::new, breedingShrine).build(null), BlockBreedingShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileGroveShrine::new, groveShrine).build(null), BlockGroveShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileAccelerationShrineUpgrade::new, accelerationShrineUpgrade).build(null), BlockAccelerationShrineUpgrade.NAME);
 	}
 

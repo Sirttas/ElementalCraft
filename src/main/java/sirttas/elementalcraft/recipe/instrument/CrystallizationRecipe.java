@@ -151,7 +151,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getJsonObject(json, ECNames.INGREDIENTS));
 			Map<ItemStack, Integer> outputs = StreamSupport.stream(JSONUtils.getJsonArray(json, ECNames.OUTPUTS).spliterator(), false).filter(JsonObject.class::isInstance).map(JsonObject.class::cast)
-					.collect(Collectors.toMap(obj -> RecipeHelper.readRecipeOutput(JSONUtils.getString(obj, ECNames.ITEM)), obj -> JSONUtils.getInt(obj, ECNames.WEIGHT)));
+					.collect(Collectors.toMap(obj -> RecipeHelper.readRecipeOutput(obj, ECNames.ITEM), obj -> JSONUtils.getInt(obj, ECNames.WEIGHT)));
 			
 			return this.factory.create(recipeId, type, elementAmount, outputs, ingredients);
 		}

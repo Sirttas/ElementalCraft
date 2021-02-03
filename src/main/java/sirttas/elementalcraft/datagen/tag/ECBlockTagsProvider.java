@@ -53,9 +53,9 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.crystallizer, ECBlocks.purifier);
 
 		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.growthShrine, ECBlocks.harvestShrine, ECBlocks.lavaShrine, ECBlocks.oreShrine,
-				ECBlocks.overloadShrine, ECBlocks.sweetShrine, ECBlocks.breedingShrine);
+				ECBlocks.overloadShrine, ECBlocks.sweetShrine, ECBlocks.breedingShrine, ECBlocks.groveShrine);
 		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.growthShrine, ECBlocks.harvestShrine, ECBlocks.oreShrine, ECBlocks.sweetShrine, ECBlocks.vacuumShrine,
-				ECBlocks.firePylon, ECBlocks.breedingShrine);
+				ECBlocks.firePylon, ECBlocks.breedingShrine, ECBlocks.groveShrine);
 		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.sweetShrine, ECBlocks.vacuumShrine, ECBlocks.firePylon);
 
 		getOrCreateBuilder(Tags.Blocks.ORES).add(ECBlocks.crystalOre);

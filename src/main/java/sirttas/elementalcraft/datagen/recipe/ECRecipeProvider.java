@@ -240,6 +240,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.ENDER_EYE).addIngredient(Items.DRAGON_BREATH).addIngredient(Items.OBSIDIAN).withElementAmount(5000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.breedingShrine, ElementType.EARTH).addIngredient(ECItems.shrineBase).addIngredient(ECItems.earthCrystal).addIngredient(ECTags.Items.CRUDE_WATER_GEMS)
 				.addIngredient(Tags.Items.CROPS).addIngredient(Tags.Items.LEATHER).addIngredient(Items.MILK_BUCKET).addIngredient(Tags.Items.GEMS_DIAMOND).withElementAmount(5000).build(consumer);
+		BindingRecipeBuilder.bindingRecipe(ECItems.groveShrine, ElementType.WATER).addIngredient(ECItems.shrineBase).addIngredient(ECItems.waterCrystal)
+				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
+				.addIngredient(ItemTags.FLOWERS).addIngredient(Tags.Items.SEEDS).addIngredient(Tags.Items.CROPS).build(consumer);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.firePedestal, ElementType.FIRE).addIngredient(ECItems.infuser).addIngredient(ECTags.Items.FINE_FIRE_GEMS)
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY).addIngredient(ECItems.whiteRock).addIngredient(ECItems.whiteRock).withElementAmount(30000).build(consumer);
