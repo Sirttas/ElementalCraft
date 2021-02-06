@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.retriever;
+package sirttas.elementalcraft.block.sorter;
 
 import java.util.List;
 
@@ -13,12 +13,14 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -26,14 +28,19 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
-import sirttas.elementalcraft.block.BlockEC;
+import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.retriever.BlockRetriever;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
-public class BlockRetriever extends BlockEC {
+public class BlockSorter extends BlockECTileProvider {
 
-	public static final String NAME = "instrument_retriever";
+	public static final String NAME = "sorter";
 
-	private static final VoxelShape CORE = Block.makeCuboidShape(5D, 5D, 5D, 11D, 11D, 11D);
+	private static final VoxelShape CORE_VOID = VoxelShapes.or(Block.makeCuboidShape(5D, 6D, 6D, 11D, 10D, 10D), Block.makeCuboidShape(6D, 5D, 6D, 10D, 11D, 10D),
+			Block.makeCuboidShape(6D, 6D, 5D, 10D, 10D, 11D));
+	private static final VoxelShape CORE = VoxelShapes.or(VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5D, 5D, 5D, 11D, 11D, 11D), CORE_VOID, IBooleanFunction.ONLY_FIRST),
+			Block.makeCuboidShape(6D, 6D, 6D, 10D, 10D, 10D));
 
 	private static final VoxelShape SOURCE_NORTH = VoxelShapes.or(Block.makeCuboidShape(4D, 4D, 0D, 12D, 12D, 2D), Block.makeCuboidShape(6D, 6D, 2D, 10D, 10D, 5D));
 	private static final VoxelShape SOURCE_SOUTH = VoxelShapes.or(Block.makeCuboidShape(4D, 4D, 14D, 12D, 12D, 16D), Block.makeCuboidShape(6D, 6D, 11D, 10D, 10D, 14D));
@@ -52,10 +59,10 @@ public class BlockRetriever extends BlockEC {
 	private static final List<VoxelShape> SOURCE_SHAPES = ImmutableList.of(SOURCE_NORTH, SOURCE_SOUTH, SOURCE_WEST, SOURCE_EAST, SOURCE_DOWN);
 	private static final List<VoxelShape> TARGET_SHAPES = ImmutableList.of(TARGET_NORTH, TARGET_SOUTH, TARGET_WEST, TARGET_EAST, TARGET_DOWN, TARGET_UP);
 
-	public static final DirectionProperty SOURCE = DirectionProperty.create("source", Direction.values());
-	public static final DirectionProperty TARGET = DirectionProperty.create("target", Direction.values());
+	public static final DirectionProperty SOURCE = BlockRetriever.SOURCE;
+	public static final DirectionProperty TARGET = BlockRetriever.TARGET;
 
-	public BlockRetriever() {
+	public BlockSorter() {
 		this.setDefaultState(this.stateContainer.getBaseState().with(SOURCE, Direction.SOUTH).with(TARGET, Direction.NORTH));
 	}
 
@@ -63,6 +70,11 @@ public class BlockRetriever extends BlockEC {
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		Direction direction = context.getFace();
 		return this.getDefaultState().with(SOURCE, direction.getOpposite()).with(TARGET, direction);
+	}
+
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new TileSorter();
 	}
 
 	@Override
@@ -142,7 +154,9 @@ public class BlockRetriever extends BlockEC {
 		VoxelShape shape = getShape(state, pos, hit);
 		Direction direction = hit.getFace().getOpposite();
 
-		if (state.get(SOURCE) == direction || state.get(TARGET) == direction) {
+		if (CORE.equals(shape)) {
+			return TileEntityHelper.getTileEntityAs(world, pos, TileSorter.class).map(sorter -> sorter.addStack(player.getHeldItem(hand))).orElse(ActionResultType.PASS);
+		} else if (state.get(SOURCE) == direction || state.get(TARGET) == direction) {
 			return ActionResultType.PASS;
 		} else if (SOURCE_SHAPES.contains(shape)) {
 			world.setBlockState(pos, state.with(SOURCE, direction));
@@ -162,7 +176,7 @@ public class BlockRetriever extends BlockEC {
 				BlockPos retriverPos = pos.offset(direction);
 				BlockState blockState = world.getBlockState(retriverPos);
 
-				if (blockState.getBlock() instanceof BlockRetriever && blockState.get(BlockRetriever.SOURCE) == direction.getOpposite()) {
+				if (blockState.getBlock() instanceof BlockSorter && blockState.get(BlockSorter.SOURCE) == direction.getOpposite()) {
 					stack = retrive(blockState, world, retriverPos, stack);
 
 					inventory.setInventorySlotContents(slot, stack);

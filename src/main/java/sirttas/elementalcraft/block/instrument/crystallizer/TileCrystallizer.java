@@ -60,4 +60,9 @@ public class TileCrystallizer extends TileInstrument<TileCrystallizer, Crystalli
 	public boolean isLocked() {
 		return locked;
 	}
+
+	@Override
+	public boolean canSorterInsert() {
+		return !locked && super.canSorterInsert();
+	}
 }

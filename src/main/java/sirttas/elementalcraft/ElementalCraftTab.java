@@ -47,6 +47,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.elementPipe, list);
 		addItem(ECBlocks.improvedElementPipe, list);
 		addItem(ECBlocks.instrumentRetriever, list);
+		addItem(ECBlocks.sorter, list);
 		addItem(ECBlocks.spellDesk, list);
 		addItem(ECBlocks.firePylon, list);
 		addItem(ECBlocks.vacuumShrine, list);

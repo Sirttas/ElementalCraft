@@ -105,6 +105,8 @@ public class ECConfig {
 		public final IntValue impairedPipeTransferAmount;
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
+		public final IntValue sorterCooldown;
+		public final IntValue sorterMaxItem;
 
 		public final IntValue pureInfuserTransferSpeed;
 		public final IntValue pureInfuserMaxRunes;
@@ -246,6 +248,9 @@ public class ECConfig {
 			impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
 			improvedPipeTransferAmount = builder.comment("The amount of element transferred by improved pipes.").defineInRange("improvedPipeTransferAmount", 100, 0, 10000);
+			builder.pop().push("sorter");
+			sorterCooldown = builder.comment("The amount of tick between two ordered sorter item transpher.").defineInRange("sorterCooldown", 10, 0, 100);
+			sorterMaxItem = builder.comment("The max amount of items an order sorter can filter.").defineInRange("sorterMaxItem", 15, 0, 100);
 
 			builder.pop(2).comment("Pure Infusser and pedestals config").push("pureInfuser");
 			pureInfuserTransferSpeed = builder.comment("The max amount of element consumed by the pure infuser per tick.").defineInRange("pureInfuserTransferSpeed", 100, 0, 1000);

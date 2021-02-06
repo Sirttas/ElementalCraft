@@ -29,6 +29,7 @@ import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
+import sirttas.elementalcraft.block.sorter.BlockSorter;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
 
@@ -95,10 +96,10 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("tank_connector")));
 		} else if (block instanceof BlockPedestal) {
 			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
-		} else if (block instanceof BlockRetriever) {
+		} else if (block instanceof BlockRetriever || block instanceof BlockSorter) {
 			ModelFile core = models().getExistingFile(prefix(name + "_core"));
-			ModelFile source = models().getExistingFile(prefix(name + "_source"));
-			ModelFile target = models().getExistingFile(prefix(name + "_target"));
+			ModelFile source = models().getExistingFile(prefix("instrument_retriever_source"));
+			ModelFile target = models().getExistingFile(prefix("instrument_retriever_target"));
 
 			getMultipartBuilder(block).part().modelFile(core).addModel().end()
 				.part().modelFile(source).uvLock(true).addModel().condition(BlockRetriever.SOURCE, Direction.SOUTH).end()

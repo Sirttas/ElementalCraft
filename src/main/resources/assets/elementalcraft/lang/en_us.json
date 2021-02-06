@@ -107,6 +107,7 @@
   "block.elementalcraft.elementpipe": "Element Pipe",
   "block.elementalcraft.elementpipe_improved": "Improved Element Pipe",
   "block.elementalcraft.instrument_retriever": "Instrument Output Retriever",
+  "block.elementalcraft.sorter": "Ordered Sorter",
   "block.elementalcraft.spell_desk": "Spell Desk",
 
   "block.elementalcraft.firepylon": "Fire Pylon",
@@ -312,6 +313,7 @@
   "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the most powerful crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)To operate, it needs to be circled with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$() using $(ec:pipe)improved pipes$().$(br)Once this setup is done, you can start crafting by putting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main one on the $(thing)pure infuser$().",
   "elementalcraft.page.purerock0": "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts, even a $(thing)Wither$().",
   "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely-tweaked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon crafting and store it in a $(item)chest$(), for example.$(br2)You can reorient its input and output by right-clicking them.",
+  "elementalcraft.page.sorter0": "The $(item)Ordered Sorter$() use the advanced properties of swift alloy to insert specific items in a specific order into any $(thing)instrument$() or $(thing)chest$().$(br)You can add a new item to the order list by right-clicking the middle part.$(br)You can reorient its input and output by right-clicking them.",
   "elementalcraft.page.spell_book0": "The $(item)Elementalist Grimoire$() allows you to store $(thing)spells$().You can right-click it to open its inventory.",
   "elementalcraft.page.rune0": "$(thing)Runes$() are infused with element power that can be transered to $(thing)instruments$() to boost their properties.$(br)They are created using an $(l:instruments/inscriber)inscriber$()",
   

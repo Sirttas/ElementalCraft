@@ -85,6 +85,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShr
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
+import sirttas.elementalcraft.block.sorter.BlockSorter;
+import sirttas.elementalcraft.block.sorter.TileSorter;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
@@ -127,6 +129,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static BlockElementPipe elementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME_IMPROVED) public static BlockElementPipe improvedElementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRetriever.NAME) public static BlockRetriever instrumentRetriever;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSorter.NAME) public static BlockSorter sorter;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSpellDesk.NAME) public static BlockSpellDesk spellDesk;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static BlockFirePylon firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static BlockVacuumShrine vacuumShrine;
@@ -206,6 +209,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.COMMON.pipeTransferAmount.get()), BlockElementPipe.NAME);
 		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.COMMON.improvedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPROVED);
 		RegistryHelper.register(registry, new BlockRetriever(), BlockRetriever.NAME);
+		RegistryHelper.register(registry, new BlockSorter(), BlockSorter.NAME);
 		RegistryHelper.register(registry, new BlockSpellDesk(), BlockSpellDesk.NAME);
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
 		RegistryHelper.register(registry, new BlockVacuumShrine(), BlockVacuumShrine.NAME);
@@ -296,6 +300,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBreedingShrine::new, breedingShrine).build(null), BlockBreedingShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileGroveShrine::new, groveShrine).build(null), BlockGroveShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileAccelerationShrineUpgrade::new, accelerationShrineUpgrade).build(null), BlockAccelerationShrineUpgrade.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileSorter::new, sorter).build(null), BlockSorter.NAME);
 	}
 
 	@SubscribeEvent

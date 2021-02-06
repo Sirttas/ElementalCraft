@@ -45,6 +45,8 @@ import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.RedererAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
+import sirttas.elementalcraft.block.sorter.RendererSorter;
+import sirttas.elementalcraft.block.sorter.TileSorter;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ECRenderers {
@@ -69,6 +71,7 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(TileFireBlastFurnace.TYPE, RendererFireFurnace::new);
 		ClientRegistry.bindTileEntityRenderer(TilePurifier.TYPE, RendererPurifier::new);
 		ClientRegistry.bindTileEntityRenderer(TileAccelerationShrineUpgrade.TYPE, RedererAccelerationShrineUpgrade::new);
+		ClientRegistry.bindTileEntityRenderer(TileSorter.TYPE, RendererSorter::new);
 
 		ClientRegistry.bindTileEntityRenderer(TileFirePylon.TYPE, RendererShrine::new);
 		ClientRegistry.bindTileEntityRenderer(TileVacuumShrine.TYPE, RendererShrine::new);

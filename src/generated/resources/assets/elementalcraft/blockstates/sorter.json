@@ -1,0 +1,117 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elementalcraft:block/sorter_core"
+      }
+    },
+    {
+      "when": {
+        "source": "south"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "source": "west"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "source": "north"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "source": "east"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "source": "down"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "x": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "target": "south"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "target": "west"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "target": "north"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "target": "east"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "target": "down"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "x": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "target": "up"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "x": 270,
+        "uvlock": true
+      }
+    }
+  ]
+}

@@ -69,4 +69,9 @@ public class TileBinder extends TileInstrument<IBinder, BindingRecipe> implement
 	public boolean isLocked() {
 		return locked;
 	}
+
+	@Override
+	public boolean canSorterInsert() {
+		return !locked && super.canSorterInsert();
+	}
 }

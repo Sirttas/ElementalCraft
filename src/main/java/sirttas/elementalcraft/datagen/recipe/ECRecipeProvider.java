@@ -154,7 +154,9 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareWhiterockInstrumentRecipe(ECBlocks.purifier, ECItems.pureCrystal).key('i', ECTags.Items.INGOTS_SWIFT_ALLOY).key('e', ECTags.Items.FINE_EARTH_GEMS).key('g', Tags.Items.INGOTS_GOLD)
 				.patternLine("gig").patternLine("wew").patternLine("ici").build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.instrumentRetriever).key('i', ECTags.Items.INGOTS_SWIFT_ALLOY).key('h', Blocks.HOPPER).key('d', Blocks.DISPENSER).key('w', ECBlocks.whiteRock)
-				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).patternLine("iw ").patternLine("hdi").patternLine("iw ").build(consumer);
+				.addCriterion(HAS_SWIFT_ALLOY_INGOT, hasItem(ECTags.Items.INGOTS_SWIFT_ALLOY)).patternLine("iw ").patternLine("hdi").patternLine("iw ").build(consumer);
+		ShapedRecipeBuilder.shapedRecipe(ECBlocks.sorter).key('i', ECTags.Items.INGOTS_SWIFT_ALLOY).key('h', Blocks.HOPPER).key('d', Blocks.DISPENSER)
+				.addCriterion(HAS_SWIFT_ALLOY_INGOT, hasItem(ECTags.Items.INGOTS_SWIFT_ALLOY)).patternLine("ii ").patternLine("hdi").patternLine("ii ").build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.spellDesk).key('i', ECTags.Items.INGOTS_DRENCHED_IRON).key('l', Blocks.LECTERN).key('w', ECBlocks.whiteRock)
 				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).patternLine("wlw").patternLine(" i ").patternLine(" w ").build(consumer);
 
