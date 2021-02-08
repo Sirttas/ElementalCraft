@@ -40,6 +40,7 @@ public class BlockRetriever extends BlockEC {
 	private static final VoxelShape SOURCE_WEST = VoxelShapes.or(Block.makeCuboidShape(0D, 4D, 4D, 2D, 12D, 12D), Block.makeCuboidShape(2D, 6D, 6D, 5D, 10D, 10D));
 	private static final VoxelShape SOURCE_EAST = VoxelShapes.or(Block.makeCuboidShape(14D, 4D, 4D, 16D, 12D, 12D), Block.makeCuboidShape(11D, 6D, 6D, 14D, 10D, 10D));
 	private static final VoxelShape SOURCE_DOWN = VoxelShapes.or(Block.makeCuboidShape(4D, 0D, 4D, 12D, 2D, 12D), Block.makeCuboidShape(6D, 2D, 6D, 10D, 5D, 10D));
+	private static final VoxelShape SOURCE_UP = VoxelShapes.or(Block.makeCuboidShape(4D, 14D, 4D, 12D, 16D, 12D), Block.makeCuboidShape(6D, 11D, 6D, 10D, 14D, 10D));
 
 	private static final VoxelShape TARGET_NORTH = VoxelShapes.or(Block.makeCuboidShape(7D, 7D, 0D, 9D, 9D, 3D), Block.makeCuboidShape(6D, 6D, 3D, 10D, 10D, 5D));
 	private static final VoxelShape TARGET_SOUTH = VoxelShapes.or(Block.makeCuboidShape(7D, 7D, 13D, 9D, 9D, 16D), Block.makeCuboidShape(6D, 6D, 11D, 10D, 10D, 13D));
@@ -51,7 +52,7 @@ public class BlockRetriever extends BlockEC {
 	private static final List<VoxelShape> SOURCE_SHAPES = ImmutableList.of(SOURCE_NORTH, SOURCE_SOUTH, SOURCE_WEST, SOURCE_EAST, SOURCE_DOWN);
 	private static final List<VoxelShape> TARGET_SHAPES = ImmutableList.of(TARGET_NORTH, TARGET_SOUTH, TARGET_WEST, TARGET_EAST, TARGET_DOWN, TARGET_UP);
 
-	public static final DirectionProperty SOURCE = DirectionProperty.create("source", d -> d != Direction.UP);
+	public static final DirectionProperty SOURCE = DirectionProperty.create("source", Direction.values());
 	public static final DirectionProperty TARGET = DirectionProperty.create("target", Direction.values());
 
 	public BlockRetriever() {
@@ -61,7 +62,7 @@ public class BlockRetriever extends BlockEC {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		Direction direction = context.getFace();
-		return this.getDefaultState().with(SOURCE, direction.getAxis() == Direction.Axis.Y ? Direction.DOWN : direction.getOpposite()).with(TARGET, direction);
+		return this.getDefaultState().with(SOURCE, direction.getOpposite()).with(TARGET, direction);
 	}
 
 	@Override
@@ -79,8 +80,10 @@ public class BlockRetriever extends BlockEC {
 			return SOURCE_SOUTH;
 		case WEST:
 			return SOURCE_WEST;
-		default:
+		case DOWN:
 			return SOURCE_DOWN;
+		default:
+			return SOURCE_UP;
 		}
 	}
 
@@ -142,7 +145,7 @@ public class BlockRetriever extends BlockEC {
 		if (state.get(SOURCE) == direction || state.get(TARGET) == direction) {
 			return ActionResultType.PASS;
 		} else if (SOURCE_SHAPES.contains(shape)) {
-			world.setBlockState(pos, state.with(SOURCE, direction.getAxis() == Direction.Axis.Y ? Direction.DOWN : direction));
+			world.setBlockState(pos, state.with(SOURCE, direction));
 			return ActionResultType.SUCCESS;
 		} else if (TARGET_SHAPES.contains(shape)) {
 			world.setBlockState(pos, state.with(TARGET, direction));

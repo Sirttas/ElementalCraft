@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:aircrystal_block_from_aircrystal"
+    ]
+  },
+  "criteria": {
+    "has_aircrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:aircrystal"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:aircrystal_block_from_aircrystal"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_aircrystal",
+      "has_the_recipe"
+    ]
+  ]
+}

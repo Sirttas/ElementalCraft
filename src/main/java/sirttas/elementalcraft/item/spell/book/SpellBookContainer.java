@@ -75,6 +75,11 @@ public class SpellBookContainer extends Container {
 		return true;
 	}
 
+	@Override
+	public boolean canDragIntoSlot(Slot slotIn) {
+		return slotIn.slotNumber > SLOT_COUNT;
+	}
+
 	/**
 	 * Handle when the stack in slot {@code index} is shift-clicked. Normally this
 	 * moves the stack between the player inventory and the other inventory(s).

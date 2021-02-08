@@ -61,6 +61,9 @@ public class ECConfig {
 		public final IntValue breedingShrineRange;
 		public final IntValue breedingShrineConsumeAmount;
 		public final DoubleValue breedingShrinePeriode;
+		public final IntValue groveShrineRange;
+		public final IntValue groveShrineConsumeAmount;
+		public final DoubleValue groveShrinePeriode;
 
 		public final IntValue tankCapacity;
 		public final IntValue tankSmallCapacity;
@@ -102,6 +105,8 @@ public class ECConfig {
 		public final IntValue impairedPipeTransferAmount;
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
+		public final IntValue sorterCooldown;
+		public final IntValue sorterMaxItem;
 
 		public final IntValue pureInfuserTransferSpeed;
 		public final IntValue pureInfuserMaxRunes;
@@ -185,6 +190,10 @@ public class ECConfig {
 			breedingShrineRange = builder.comment("The range of the breeding Shrine.").defineInRange("breedingShrineRange", 10, 0, 100);
 			breedingShrineConsumeAmount = builder.comment("The amount of element consumed by the breeding Shrine.").defineInRange("breedingShrineConsumeAmount", 2000, 0, 10000);
 			breedingShrinePeriode = builder.comment("The nember of tick betwenn two breeding Shrine activations.").defineInRange("breedingShrinePeriode", 200D, 0, 2400);
+			builder.pop().push("groveShrine");
+			groveShrineRange = builder.comment("The range of the wild grove Shrine.").defineInRange("groveShrineRange", 5, 0, 100);
+			groveShrineConsumeAmount = builder.comment("The amount of element consumed by the wild grove Shrine.").defineInRange("groveShrineConsumeAmount", 500, 0, 10000);
+			groveShrinePeriode = builder.comment("The nember of tick betwenn two wild grove Shrine activations.").defineInRange("groveShrinePeriode", 200D, 0, 2400);
 
 			builder.pop(2).comment("Instruments config").push("instruments").push("tank");
 			tankSmallCapacity = builder.comment("The element capacity of a small element container.").defineInRange("tankSmallCapacity", 1000, 0, 100000000);
@@ -239,6 +248,9 @@ public class ECConfig {
 			impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
 			improvedPipeTransferAmount = builder.comment("The amount of element transferred by improved pipes.").defineInRange("improvedPipeTransferAmount", 100, 0, 10000);
+			builder.pop().push("sorter");
+			sorterCooldown = builder.comment("The amount of tick between two ordered sorter item transpher.").defineInRange("sorterCooldown", 10, 0, 100);
+			sorterMaxItem = builder.comment("The max amount of items an order sorter can filter.").defineInRange("sorterMaxItem", 15, 0, 100);
 
 			builder.pop(2).comment("Pure Infusser and pedestals config").push("pureInfuser");
 			pureInfuserTransferSpeed = builder.comment("The max amount of element consumed by the pure infuser per tick.").defineInRange("pureInfuserTransferSpeed", 100, 0, 1000);

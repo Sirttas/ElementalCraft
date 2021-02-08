@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.google.common.collect.ImmutableList;
 
@@ -33,7 +34,7 @@ public class RuneHandler implements IRuneHandler {
 	@Override
 	public void removeRune(Rune rune) {
 		if (runes.contains(rune)) {
-			runes.add(rune);
+			runes.remove(rune);
 			rune.getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) - value));
 		}
 	}
@@ -45,7 +46,7 @@ public class RuneHandler implements IRuneHandler {
 
 	@Override
 	public List<Rune> getRunes() {
-		return ImmutableList.copyOf(runes);
+		return runes.stream().filter(Objects::nonNull).collect(ImmutableList.toImmutableList());
 	}
 
 	@Override

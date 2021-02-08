@@ -105,6 +105,12 @@ public class ECRecipeProvider extends RecipeProvider {
 		createNuggetIngotBlock(ECItems.fireiteNugget, ECTags.Items.NUGGETS_FIREITE, ECItems.fireiteIngot, ECTags.Items.INGOTS_FIREITE, ECItems.fireiteBlock, ECTags.Items.STORAGE_BLOCKS_FIREITE,
 				consumer);
 
+		createStorageBlock(ECItems.inertCrystal, ECBlocks.inertCrystalBlock, consumer);
+		createStorageBlock(ECItems.fireCrystal, ECBlocks.fireCrystalBlock, consumer);
+		createStorageBlock(ECItems.waterCrystal, ECBlocks.waterCrystalBlock, consumer);
+		createStorageBlock(ECItems.earthCrystal, ECBlocks.earthCrystalBlock, consumer);
+		createStorageBlock(ECItems.airCrystal, ECBlocks.airCrystalBlock, consumer);
+
 		ShapedRecipeBuilder.shapedRecipe(ECItems.powerfulFireShard).key('#', ECItems.fireShard).patternLine("###").patternLine("###").patternLine("###")
 				.addCriterion("has_fire_shard", hasItem(ECItems.fireShard)).build(consumer, ElementalCraft.createRL("powerful_fire_shard_from_fire_shards"));
 		ShapelessRecipeBuilder.shapelessRecipe(ECItems.fireShard, 9).addIngredient(ECItems.powerfulFireShard).addCriterion("has_powerful_fire_shard", hasItem(ECItems.powerfulFireShard))
@@ -148,7 +154,9 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareWhiterockInstrumentRecipe(ECBlocks.purifier, ECItems.pureCrystal).key('i', ECTags.Items.INGOTS_SWIFT_ALLOY).key('e', ECTags.Items.FINE_EARTH_GEMS).key('g', Tags.Items.INGOTS_GOLD)
 				.patternLine("gig").patternLine("wew").patternLine("ici").build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.instrumentRetriever).key('i', ECTags.Items.INGOTS_SWIFT_ALLOY).key('h', Blocks.HOPPER).key('d', Blocks.DISPENSER).key('w', ECBlocks.whiteRock)
-				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).patternLine("iw ").patternLine("hdi").patternLine("iw ").build(consumer);
+				.addCriterion(HAS_SWIFT_ALLOY_INGOT, hasItem(ECTags.Items.INGOTS_SWIFT_ALLOY)).patternLine("iw ").patternLine("hdi").patternLine("iw ").build(consumer);
+		ShapedRecipeBuilder.shapedRecipe(ECBlocks.sorter).key('i', ECTags.Items.INGOTS_SWIFT_ALLOY).key('h', Blocks.HOPPER).key('d', Blocks.DISPENSER)
+				.addCriterion(HAS_SWIFT_ALLOY_INGOT, hasItem(ECTags.Items.INGOTS_SWIFT_ALLOY)).patternLine("ii ").patternLine("hdi").patternLine("ii ").build(consumer);
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.spellDesk).key('i', ECTags.Items.INGOTS_DRENCHED_IRON).key('l', Blocks.LECTERN).key('w', ECBlocks.whiteRock)
 				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.whiteRock)).patternLine("wlw").patternLine(" i ").patternLine(" w ").build(consumer);
 
@@ -234,6 +242,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.ENDER_EYE).addIngredient(Items.DRAGON_BREATH).addIngredient(Items.OBSIDIAN).withElementAmount(5000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.breedingShrine, ElementType.EARTH).addIngredient(ECItems.shrineBase).addIngredient(ECItems.earthCrystal).addIngredient(ECTags.Items.CRUDE_WATER_GEMS)
 				.addIngredient(Tags.Items.CROPS).addIngredient(Tags.Items.LEATHER).addIngredient(Items.MILK_BUCKET).addIngredient(Tags.Items.GEMS_DIAMOND).withElementAmount(5000).build(consumer);
+		BindingRecipeBuilder.bindingRecipe(ECItems.groveShrine, ElementType.WATER).addIngredient(ECItems.shrineBase).addIngredient(ECItems.waterCrystal)
+				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
+				.addIngredient(ItemTags.FLOWERS).addIngredient(Tags.Items.SEEDS).addIngredient(Tags.Items.CROPS).build(consumer);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.firePedestal, ElementType.FIRE).addIngredient(ECItems.infuser).addIngredient(ECTags.Items.FINE_FIRE_GEMS)
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY).addIngredient(ECItems.whiteRock).addIngredient(ECItems.whiteRock).withElementAmount(30000).build(consumer);
@@ -324,6 +335,12 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shapedRecipe(block).key('#', ingotTag).patternLine("###").patternLine("###").patternLine("###").addCriterion(has(ingot), hasItem(ingotTag)).build(consumer,
 				from(ingot, block));
 		ShapelessRecipeBuilder.shapelessRecipe(ingot, 9).addIngredient(blockTag).addCriterion(has(block), hasItem(blockTag)).build(consumer, from(block, ingot));
+	}
+
+	private void createStorageBlock(IItemProvider item, IItemProvider block, Consumer<IFinishedRecipe> consumer) {
+		ShapedRecipeBuilder.shapedRecipe(block).key('#', item).patternLine("###").patternLine("###").patternLine("###").addCriterion(has(item), hasItem(item)).build(consumer,
+				ElementalCraft.createRL(from(item, block)));
+		ShapelessRecipeBuilder.shapelessRecipe(item, 9).addIngredient(block).addCriterion(has(block), hasItem(block)).build(consumer, from(block, item));
 	}
 
 	private ShapedRecipeBuilder prepareInstrumentRecipe(IItemProvider result) {

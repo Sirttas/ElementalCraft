@@ -1,3 +1,23 @@
+1.16.4-2.5.9:
+
+- new block: ordered sorter
+- instrument output retriever can now input from the top
+- added simplified chinese translation (PR #39)
+
+
+1.16.4-2.5.8:
+
+- new shrine: wild grove shrine
+- add the ability to set the output count for recipes (issue #36)
+- fix silent gear material translation
+
+
+1.16.4-2.5.7:
+
+- added storage block for inert, fire, water, earth and air crystal
+- fix a crash with runes
+
+
 1.16.4-2.5.6:
 
 - the instrument output retriever now correctly extract from purifier and fire furnace (issue #30)
@@ -358,7 +378,7 @@
 1.15.2-1.2.2 and 1.16.3-2.3.4:
 
 - purifier recipes are now correctly grouped on JEI
-- fix inconsistency in source behavior causing server crash(issue #4)
+- fix inconsistency in source behavior causing server crash (issue #4)
 
 
 1.15.2-1.2.1 and 1.16.3-2.3.3:

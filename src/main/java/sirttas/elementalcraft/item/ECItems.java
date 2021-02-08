@@ -31,6 +31,7 @@ import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.BlockEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
+import sirttas.elementalcraft.block.shrine.grove.BlockGroveShrine;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
 import sirttas.elementalcraft.block.shrine.harvest.BlockHarvestShrine;
 import sirttas.elementalcraft.block.shrine.lava.BlockLavaShrine;
@@ -162,6 +163,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static Item sweetShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static Item enderLockShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBreedingShrine.NAME) public static Item breedingShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGroveShrine.NAME) public static Item groveShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockAccelerationShrineUpgrade.NAME) public static Item accelerationShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRangeShrineUpgrade.NAME) public static Item rangeShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCapacityShrineUpgrade.NAME) public static Item capacityShrineUpgrade;

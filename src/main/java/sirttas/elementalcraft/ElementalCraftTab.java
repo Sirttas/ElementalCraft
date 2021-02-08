@@ -47,6 +47,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.elementPipe, list);
 		addItem(ECBlocks.improvedElementPipe, list);
 		addItem(ECBlocks.instrumentRetriever, list);
+		addItem(ECBlocks.sorter, list);
 		addItem(ECBlocks.spellDesk, list);
 		addItem(ECBlocks.firePylon, list);
 		addItem(ECBlocks.vacuumShrine, list);
@@ -58,6 +59,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.sweetShrine, list);
 		addItem(ECBlocks.enderLockShrine, list);
 		addItem(ECBlocks.breedingShrine, list);
+		addItem(ECBlocks.groveShrine, list);
 		addItem(ECBlocks.accelerationShrineUpgrade, list);
 		addItem(ECBlocks.rangeShrineUpgrade, list);
 		addItem(ECBlocks.capacityShrineUpgrade, list);
@@ -101,11 +103,16 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.chisel, list);
 		addItem(ECItems.pureOre, list);
 		addItem(ECItems.inertCrystal, list);
+		addItem(ECBlocks.inertCrystalBlock, list);
 		addItem(ECItems.containedCrystal, list);
 		addItem(ECItems.fireCrystal, list);
+		addItem(ECBlocks.fireCrystalBlock, list);
 		addItem(ECItems.waterCrystal, list);
+		addItem(ECBlocks.waterCrystalBlock, list);
 		addItem(ECItems.earthCrystal, list);
+		addItem(ECBlocks.earthCrystalBlock, list);
 		addItem(ECItems.airCrystal, list);
+		addItem(ECBlocks.airCrystalBlock, list);
 		addItem(ECItems.pureCrystal, list);
 		addItem(ECItems.fireShard, list);
 		addItem(ECItems.waterShard, list);

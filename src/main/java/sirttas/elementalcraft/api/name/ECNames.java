@@ -63,4 +63,8 @@ public class ECNames {
 	public static final String GEM = "gem";
 	public static final String CRYSTAL = "crystal";
 	public static final String SHARD = "shard";
+	public static final String RECOVER_RATE = "recover_rate";
+	public static final String EXHAUSTED = "exhausted";
+	public static final String STACKS = "stacks";
+	public static final String INDEX = "index";
 }

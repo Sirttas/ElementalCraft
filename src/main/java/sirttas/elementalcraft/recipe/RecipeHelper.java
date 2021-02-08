@@ -5,11 +5,14 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -25,7 +28,19 @@ public class RecipeHelper {
 		return Ingredient.deserialize(JSONUtils.getJsonObject(json, key));
 	}
 
-	public static ItemStack readRecipeOutput(String output) {
+	public static ItemStack readRecipeOutput(JsonObject json, String key) {
+		if (json.has(key)) {
+			JsonElement element = json.get(key);
+
+			if (element.isJsonPrimitive()) {
+				return readRecipeOutput(element.getAsString());
+			}
+			return ShapedRecipe.deserializeItem(element.getAsJsonObject());
+		}
+		throw new JsonSyntaxException("Missing " + key + ", expected to find a string");
+	}
+
+	private static ItemStack readRecipeOutput(String output) {
 		return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(output)));
 	}
 

@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_whiterock": {
+    "has_swift_alloy_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:whiterock"
+            "tag": "forge:ingots/swift_alloy"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_whiterock",
+      "has_swift_alloy_ingot",
       "has_the_recipe"
     ]
   ]

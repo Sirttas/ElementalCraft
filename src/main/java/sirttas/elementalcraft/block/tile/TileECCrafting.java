@@ -55,4 +55,8 @@ public abstract class TileECCrafting<T extends ICraftingTile, R extends IInvento
 	protected void setOutputSlot(int slot) {
 		this.outputSlot = slot;
 	}
+
+	public boolean canSorterInsert() {
+		return recipe == null;
+	}
 }

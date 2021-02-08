@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:aircrystal_block"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:aircrystal",
+    "count": 9
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "water",
+  "element_amount": 2500,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/crude_earth"
+    },
+    {
+      "tag": "minecraft:flowers"
+    },
+    {
+      "tag": "forge:seeds"
+    },
+    {
+      "tag": "forge:crops"
+    }
+  ],
+  "output": "elementalcraft:groveshrine"
+}

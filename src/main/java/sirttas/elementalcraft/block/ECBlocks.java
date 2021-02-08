@@ -56,6 +56,8 @@ import sirttas.elementalcraft.block.shrine.enderlock.BlockEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.enderlock.TileEnderLockShrine;
 import sirttas.elementalcraft.block.shrine.firepylon.BlockFirePylon;
 import sirttas.elementalcraft.block.shrine.firepylon.TileFirePylon;
+import sirttas.elementalcraft.block.shrine.grove.BlockGroveShrine;
+import sirttas.elementalcraft.block.shrine.grove.TileGroveShrine;
 import sirttas.elementalcraft.block.shrine.growth.BlockGrowthShrine;
 import sirttas.elementalcraft.block.shrine.growth.TileGrowthShrine;
 import sirttas.elementalcraft.block.shrine.harvest.BlockHarvestShrine;
@@ -83,6 +85,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShr
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
+import sirttas.elementalcraft.block.sorter.BlockSorter;
+import sirttas.elementalcraft.block.sorter.TileSorter;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
@@ -125,6 +129,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME) public static BlockElementPipe elementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockElementPipe.NAME_IMPROVED) public static BlockElementPipe improvedElementPipe;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRetriever.NAME) public static BlockRetriever instrumentRetriever;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSorter.NAME) public static BlockSorter sorter;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSpellDesk.NAME) public static BlockSpellDesk spellDesk;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static BlockFirePylon firePylon;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static BlockVacuumShrine vacuumShrine;
@@ -136,6 +141,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static BlockSweetShrine sweetShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static BlockEnderLockShrine enderLockShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBreedingShrine.NAME) public static BlockBreedingShrine breedingShrine;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGroveShrine.NAME) public static BlockGroveShrine groveShrine;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockAccelerationShrineUpgrade.NAME) public static BlockAccelerationShrineUpgrade accelerationShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockRangeShrineUpgrade.NAME) public static BlockRangeShrineUpgrade rangeShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCapacityShrineUpgrade.NAME) public static BlockCapacityShrineUpgrade capacityShrineUpgrade;
@@ -170,6 +176,11 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraft.MODID + ":drenched_iron_block") public static BlockEC drenchedIronBlock;
 	@ObjectHolder(ElementalCraft.MODID + ":swift_alloy_block") public static BlockEC swiftAlloyBlock;
 	@ObjectHolder(ElementalCraft.MODID + ":fireite_block") public static BlockEC fireiteBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":inertcrystal_block") public static BlockEC inertCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":firecrystal_block") public static BlockEC fireCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":watercrystal_block") public static BlockEC waterCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":earthcrystal_block") public static BlockEC earthCrystalBlock;
+	@ObjectHolder(ElementalCraft.MODID + ":aircrystal_block") public static BlockEC airCrystalBlock;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -198,6 +209,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.COMMON.pipeTransferAmount.get()), BlockElementPipe.NAME);
 		RegistryHelper.register(registry, new BlockElementPipe(ECConfig.COMMON.improvedPipeTransferAmount.get()), BlockElementPipe.NAME_IMPROVED);
 		RegistryHelper.register(registry, new BlockRetriever(), BlockRetriever.NAME);
+		RegistryHelper.register(registry, new BlockSorter(), BlockSorter.NAME);
 		RegistryHelper.register(registry, new BlockSpellDesk(), BlockSpellDesk.NAME);
 		RegistryHelper.register(registry, new BlockFirePylon(), BlockFirePylon.NAME);
 		RegistryHelper.register(registry, new BlockVacuumShrine(), BlockVacuumShrine.NAME);
@@ -209,6 +221,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new BlockSweetShrine(), BlockSweetShrine.NAME);
 		RegistryHelper.register(registry, new BlockEnderLockShrine(), BlockEnderLockShrine.NAME);
 		RegistryHelper.register(registry, new BlockBreedingShrine(), BlockBreedingShrine.NAME);
+		RegistryHelper.register(registry, new BlockGroveShrine(), BlockGroveShrine.NAME);
 		RegistryHelper.register(registry, new BlockAccelerationShrineUpgrade(), BlockAccelerationShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockRangeShrineUpgrade(), BlockRangeShrineUpgrade.NAME);
 		RegistryHelper.register(registry, new BlockCapacityShrineUpgrade(), BlockCapacityShrineUpgrade.NAME);
@@ -246,6 +259,11 @@ public class ECBlocks {
 				"swift_alloy_block");
 		RegistryHelper.register(registry,
 				new BlockEC(AbstractBlock.Properties.create(Material.IRON, MaterialColor.BLACK).setRequiresTool().hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.NETHERITE)), "fireite_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "inertcrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "firecrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "watercrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "earthcrystal_block");
+		RegistryHelper.register(registry, new BlockEC(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "aircrystal_block");
 	}
 
 	@SubscribeEvent
@@ -280,7 +298,9 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileSweetShrine::new, sweetShrine).build(null), BlockSweetShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileEnderLockShrine::new, enderLockShrine).build(null), BlockEnderLockShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileBreedingShrine::new, breedingShrine).build(null), BlockBreedingShrine.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileGroveShrine::new, groveShrine).build(null), BlockGroveShrine.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileAccelerationShrineUpgrade::new, accelerationShrineUpgrade).build(null), BlockAccelerationShrineUpgrade.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileSorter::new, sorter).build(null), BlockSorter.NAME);
 	}
 
 	@SubscribeEvent

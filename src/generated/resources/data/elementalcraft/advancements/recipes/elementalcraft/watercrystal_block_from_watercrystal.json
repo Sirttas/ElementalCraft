@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:watercrystal_block_from_watercrystal"
+    ]
+  },
+  "criteria": {
+    "has_watercrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:watercrystal"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:watercrystal_block_from_watercrystal"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_watercrystal",
+      "has_the_recipe"
+    ]
+  ]
+}

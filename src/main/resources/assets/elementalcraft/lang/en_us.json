@@ -107,6 +107,7 @@
   "block.elementalcraft.elementpipe": "Element Pipe",
   "block.elementalcraft.elementpipe_improved": "Improved Element Pipe",
   "block.elementalcraft.instrument_retriever": "Instrument Output Retriever",
+  "block.elementalcraft.sorter": "Ordered Sorter",
   "block.elementalcraft.spell_desk": "Spell Desk",
 
   "block.elementalcraft.firepylon": "Fire Pylon",
@@ -119,6 +120,7 @@
   "block.elementalcraft.sweetshrine": "Sweet Shrine",
   "block.elementalcraft.enderlockshrine": "Ender Lock Shrine",
   "block.elementalcraft.breedingshrine": "Breeding Shrine",
+  "block.elementalcraft.groveshrine": "Wild Grove Shrine",
   
   "block.elementalcraft.shrine_upgrade_acceleration": "Acceleration Shrine Upgrade",
   "block.elementalcraft.shrine_upgrade_range": "Range Shrine Upgrade",
@@ -152,6 +154,11 @@
   "block.elementalcraft.drenched_iron_block": "Drenched Iron Block",
   "block.elementalcraft.swift_alloy_block": "Swift Alloy Block",
   "block.elementalcraft.fireite_block": "Fireite Block",
+  "block.elementalcraft.inertcrystal_block": "Inert Crystal Block",
+  "block.elementalcraft.firecrystal_block": "Fire Crystal Block",
+  "block.elementalcraft.watercrystal_block": "Water Crystal Block",
+  "block.elementalcraft.earthcrystal_block": "Earth Crystal Block",
+  "block.elementalcraft.aircrystal_block": "Air Crystal Block",
 
   "spell.elementalcraft.none": "",
   "spell.elementalcraft.gravelfall": "Gravel Fall",
@@ -181,6 +188,11 @@
   "elementalcraft_rune.elementalcraft.bombadil": "Bombadil's rune",
   "elementalcraft_rune.elementalcraft.tzeentch": "Tzeentch's rune",
 
+  "material.elementalcraft.air_silk": "Air Silk",
+  "material.elementalcraft.whiterock": "White Rock",
+  "material.elementalcraft.hardened_handle": "Hardened Handle",
+  "material.elementalcraft.drenched_iron": "Drenched Iron",
+  "material.elementalcraft.swift_alloy": "Swift Alloy",
   "material.elementalcraft.fireite": "Fireite",
 
   "shrine_upgrade_bonus.elementalcraft.none": "§4ERROR: %s",
@@ -294,12 +306,14 @@
   "elementalcraft.page.overloadshrine0": "The $(item)Overload Shrine$() boost the speed of the $(item)block$() it's facing.$(br2)It consumes $(thing)air element$().",
   "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:spells/ender_strike)Ender strinke$() don't work.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.breedingshrine0": "The $(item)Breeding Shrine$() uses $(thing)food$() laying around to breed $(thing)animals$() in range.$(br2)It consumes $(thing)earth element$().",
+  "elementalcraft.page.groveshrine0": "The $(item)Wild Grove Shrine$() wil create wild $(thing)flowers$() on top of $(item)grass$().$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.shrine_upgrade0": "You can craft $(thing)shrine upgrades$() to increase the power of your $(thing)shrines$(). Those upgrades can only be placed at specific places around the $(thing)shrine$().$(br)Upgrades cover a wide range of bonuses from $(thing)speed$(), $(thing)reduce consumption$(), $(thing)range$()... or specific ones like $(thing)silk touch$() or $(thing)fortune$() for the $((l:shrines/oreshrine)ore shrine$().",
 
   "elementalcraft.page.receptacle0": "$(item)Receptacles$() are powerful tools that allow you to move $(ec:source)source$(). You can pick up and place back $(ec:source)source$() into the world using right-click.$(br)You can repair them using $(item)swift alloy$().",
   "elementalcraft.page.pureinfuser0": "The $(item)Pure Infuser$() is the most powerful crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)To operate, it needs to be circled with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$() using $(ec:pipe)improved pipes$().$(br)Once this setup is done, you can start crafting by putting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main one on the $(thing)pure infuser$().",
   "elementalcraft.page.purerock0": "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts, even a $(thing)Wither$().",
   "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely-tweaked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon crafting and store it in a $(item)chest$(), for example.$(br2)You can reorient its input and output by right-clicking them.",
+  "elementalcraft.page.sorter0": "The $(item)Ordered Sorter$() use the advanced properties of swift alloy to insert specific items in a specific order into any $(thing)instrument$() or $(thing)chest$().$(br)You can add a new item to the order list by right-clicking the middle part.$(br)You can reorient its input and output by right-clicking them.",
   "elementalcraft.page.spell_book0": "The $(item)Elementalist Grimoire$() allows you to store $(thing)spells$().You can right-click it to open its inventory.",
   "elementalcraft.page.rune0": "$(thing)Runes$() are infused with element power that can be transered to $(thing)instruments$() to boost their properties.$(br)They are created using an $(l:instruments/inscriber)inscriber$()",
   

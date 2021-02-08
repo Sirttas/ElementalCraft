@@ -63,4 +63,9 @@ public class TileInscriber extends TileInstrument<TileInscriber, InscriptionReci
 		return locked;
 	}
 
+	@Override
+	public boolean canSorterInsert() {
+		return !locked && super.canSorterInsert();
+	}
+
 }
