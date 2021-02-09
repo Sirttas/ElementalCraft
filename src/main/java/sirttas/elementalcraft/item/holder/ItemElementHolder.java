@@ -120,7 +120,7 @@ public class ItemElementHolder extends ItemElemental implements ISourceInteracta
 					return ActionResultType.CONSUME;
 				}
 			}
-		} else if (storage.canPipeInsert() && storage.getElementType() == elementType || storage.getElementType() == null) {
+		} else if (storage.canPipeInsert() && storage.getElementType() == elementType || storage.getElementType() == ElementType.NONE) {
 			int amount = NumberUtils.min(getElementAmount(stack), ECConfig.COMMON.elementHolderTransferAmount.get(), storage.getElementCapacity() - storage.getElementAmount());
 
 			if (amount > 0) {

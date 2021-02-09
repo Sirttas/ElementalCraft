@@ -1,3 +1,10 @@
+1.16.4-2.5.10:
+
+- the ordered sorter can now correctly insert shards into crystallizer
+- updated simplified chinese translation (PR #40)
+- fix element holder not emptying
+
+
 1.16.4-2.5.9:
 
 - new block: ordered sorter

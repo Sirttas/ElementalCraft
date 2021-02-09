@@ -86,7 +86,7 @@ public class TileSorter extends TileECTickable {
 		Direction target = state.get(BlockSorter.TARGET);
 		BlockPos targetPos = pos.offset(target);
 		
-		if (!stacks.isEmpty() && TileEntityHelper.getTileEntityAs(world, targetPos, TileECCrafting.class).map(TileECCrafting::canSorterInsert).orElse(true)) {
+		if (!stacks.isEmpty() && (index > 0 || TileEntityHelper.getTileEntityAs(world, targetPos, TileECCrafting.class).map(TileECCrafting::canSorterInsert).orElse(true))) {
 			ItemStack stack = stacks.get(index).copy();
 			IItemHandler sourceInv = ECInventoryHelper.getItemHandlerAt(world, pos.offset(source), source.getOpposite());
 			IItemHandler targetInv = ECInventoryHelper.getItemHandlerAt(world, targetPos, target.getOpposite());
