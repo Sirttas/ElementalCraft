@@ -101,6 +101,7 @@
   "block.elementalcraft.elementpipe": "元素导管",
   "block.elementalcraft.elementpipe_improved": "强化元素导管",
   "block.elementalcraft.instrument_retriever": "物品导出器",
+  "block.elementalcraft.sorter": "有序物品导出器",
   "block.elementalcraft.spell_desk": "法术桌",
 
   "block.elementalcraft.firepylon": "点火塔",
@@ -113,6 +114,7 @@
   "block.elementalcraft.sweetshrine": "甜蜜祭坛",
   "block.elementalcraft.enderlockshrine": "末影锁祭坛",
   "block.elementalcraft.breedingshrine": "繁育祭坛",
+  "block.elementalcraft.groveshrine": "野芳祭坛",
   
   "block.elementalcraft.shrine_upgrade_acceleration": "祭坛升级：速度",
   "block.elementalcraft.shrine_upgrade_range": "祭坛升级：范围",
@@ -146,6 +148,11 @@
   "block.elementalcraft.drenched_iron_block": "浸润铁块",
   "block.elementalcraft.swift_alloy_block": "迅金块",
   "block.elementalcraft.fireite_block": "火焰合金块",
+  "block.elementalcraft.inertcrystal_block": "惰性水晶块",
+  "block.elementalcraft.firecrystal_block": "火元素水晶块",
+  "block.elementalcraft.watercrystal_block": "水元素水晶块",
+  "block.elementalcraft.earthcrystal_block": "地元素水晶块",
+  "block.elementalcraft.aircrystal_block": "气元素水晶块",
 
   "spell.elementalcraft.none": "",
   "spell.elementalcraft.gravelfall": "落砾",
@@ -175,6 +182,11 @@
   "elementalcraft_rune.elementalcraft.bombadil": "Bombadil",
   "elementalcraft_rune.elementalcraft.tzeentch": "Tzeentch",
 
+  "material.elementalcraft.air_silk": "轻盈丝绸",
+  "material.elementalcraft.whiterock": "白石",
+  "material.elementalcraft.hardened_handle": "硬化手柄",
+  "material.elementalcraft.drenched_iron": "浸润铁",
+  "material.elementalcraft.swift_alloy": "迅金",
   "material.elementalcraft.fireite": "火焰合金",
 
   "shrine_upgrade_bonus.elementalcraft.none": "§4错误：%s",
@@ -253,7 +265,7 @@
   "elementalcraft.page.containedcrystal0": "$(item)稳定水晶$()是$(thing)元素器械$()的主要组成部分。$(br2)只需将$(item)惰性水晶$()用$(item)金粒$()包裹，水晶自身的性质就不会为元素扰动，但其与元素发生作用的能力是有所保留的。",
   "elementalcraft.page.elementpipe0": "$(item)元素导管$()，顾名思义，用于$(thing)传输元素$()，它们最主要的作用是向$(thing)元素器械$()输送相应的元素。$(br2)你可以右击导管的$(thing)中间段$()或$(thing)连接点$()，以切换所指导管的连接状态：$(thing)连接$()、$(thing)断开$()、$(thing)输入$()或$(thing)输出$()。$(br2)导管有三个等级：$(thing)弱化型$()、$(thing)普通型$()和$(thing)强化型$()，越高级的导管承载能力越强。",
   "elementalcraft.page.whiterock0": "$(item)白石$()是合成$(thing)进阶元素器械$()和$(thing)祭坛$()的重要材料。$(br2)只需将$(item)石头$()放入$(ec:infuser)灌注器$()并注入$(thing)地元素$()即可得到白石。$(br2)当然，它也是十分漂亮的建筑材料。",
-  "elementalcraft.page.element_holder0": "$(item)元素球$()一方面可被用于$(thing)储存和转运元素$()，另一方面也能为$(thing)法术$()的施用供应元素。$(br2)要填充元素球，手持之并右击$(thing)同一种元素$()的$(ec:source)源点$()即可；要转移元素，手持之并右击任意$(item)元素容器$()或$(thing)元素器械$()即可。",
+  "elementalcraft.page.element_holder0": "$(item)元素球$()一方面可被用于$(thing)储存和转运元素$()，另一方面也能为$(thing)法术$()的施用供应元素。$(br2)要填充元素球，手持之并右击$(thing)同一种元素$()的$(ec:source)源点$()即可；要转移元素，手持之并右击任意$(thing)元素器械$()即可。",
   "elementalcraft.page.focus0": "$(item)法杖$()是$(thing)施用法术$()的道具。$(br2)要为法杖附加法术，你可以在$(item)铁砧$()中将法杖和特定法术的$(item)卷轴$()结合。$(br2)一个法杖可被附上多条法术，$(thing)按住 Shift 并滚动鼠标滚轮$()以切换法术。",
   "elementalcraft.page.spell_desk0": "$(item)法术桌$()是合成$(item)法术卷轴$()的地方。$(br2)先铺上$(item)卷轴纸$()，再用$(item)元素水晶$()为其附上魔力。成品卷轴所包含的法术与所用水晶同属一种元素，并且水晶的数目越多，获得成品的概率越大。",
   "elementalcraft.page.shards0": "$(item)原始元素碎片$()是$(thing)元素$()在$(thing)生物$()体内的存在形式，不同种类的生物往往凝聚有不同的元素。$(br2)具象的元素碎片可以在$(l:instruments/evaporator)蒸馏器$()中转化为抽象的元素，也可以作为$(thing)催化剂$()提高$(item)钻石$()转化为$(item)元素宝石$()的效率。",
@@ -287,12 +299,14 @@
   "elementalcraft.page.overloadshrine0": "$(item)过载祭坛$()会加快它所对$(item)方块$()的工作速度。$(br2)工作时消耗$(thing)气元素$()。",
   "elementalcraft.page.enderlockshrine0": "$(item)末影锁祭坛$()会阻止附近$(thing)末影人$()的传送、$(item)末影珍珠$()的使用和$(l:spells/ender_strike)影击$()的施用。$(br2)工作时消耗$(thing)水元素$()。",
   "elementalcraft.page.breedingshrine0": "$(item)繁育祭坛$()会消耗掉落在地上的$(thing)特定动物喜爱的食物$()来繁育动物。$(br2)工作时消耗$(thing)地元素$()。",
+  "elementalcraft.page.groveshrine0": "$(item)野芳祭坛$()会在$(thing)草丛中$()栽种$(item)花朵$()。$(br2)工作时消耗$(thing)水元素$()。",
   "elementalcraft.page.shrine_upgrade0": "你可以在$(item)祭坛$()的$(thing)侧面$()或$(thing)上面$()放置$(item)祭坛升级$()来提升祭坛的属性。$(br2)提升效果涵盖了很大范围，从通用的$(item)速度升级$()、$(item)优化升级$()、$(item)范围升级$()，到只作用于特定祭坛的$(item)精准采集升级$()、$(item)时运升级$()，应有尽有。",
 
   "elementalcraft.page.receptacle0": "$(item)源点收纳器$()能够装载并移动$(ec:source)源点$()。只需手持之并右击源点即可收入，再次右击即放出。$(br2)使用$(item)迅金锭$()修复。",
   "elementalcraft.page.pureinfuser0": "$(item)至纯能量灌注器$()是最强力的合成装置，通过$(item)台座$()的介导，它能将$(thing)四种元素$()的魔力全部注入中央的物品中。$(br2)查看下一页的搭建指南，完成后向每个台座供应$(thing)相应元素$()，注意与台座相连的一定是$(ec:pipe)强化元素导管$()。当结构搭建完整后，将辅助材料放在正确的台座上，再将核心材料放在至纯能量灌注器上即可。",
   "elementalcraft.page.purerock0": "$(item)至纯岩石$()具有非常高的抗爆性，能够抵御$(thing)凋灵$()和$(thing)凋灵之首$()的爆炸。",
   "elementalcraft.page.instrument_retriever0": "$(item)物品导出器$()是一个能被精密调节的装置，会将$(thing)元素器械$()的合成产物泵出至外部容器中。$(br2)你可以手动调节它的输入与输出方向，只需右击大头（输出）或小头（输入），它们便会转向你所面对的方向。",
+  "elementalcraft.page.sorter0": "$(item)有序物品导出器$()应用了迅金材料的高级特性，能以一定的顺序抽取多种物品并泵入$(item)元素器械$()或其他$(thing)容器$()中。$(br2)手持物品并右击导出器的中部以追加导出项。$(br2)与$(item)物品导出器$()类似，右击头部可以调整输入与输出方向。",
   "elementalcraft.page.spell_book0": "$(item)法师魔典$()用于存放$(item)法术卷轴$()，右击打开内部存储空间。",
   "elementalcraft.page.rune0": "$(item)符文$()由$(item)符文板$()刻印得来，其所蕴含的元素的魔力可被稳定地转移到$(thing)元素器械$()中，如此一来后者的诸多属性能够得到有效提升。",
   
