@@ -56,6 +56,16 @@
     },
     {
       "when": {
+        "source": "up"
+      },
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "x": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
         "target": "south"
       },
       "apply": {

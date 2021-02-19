@@ -20,20 +20,27 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.pureore.PureOreException;
+import sirttas.elementalcraft.tag.ECTags;
 
 public abstract class PureOreRecipeInjector<C extends IInventory, T extends IRecipe<C>> extends ForgeRegistryEntry<PureOreRecipeInjector<?, ? extends IRecipe<?>>> {
 
 	public static final IForgeRegistry<PureOreRecipeInjector<?, ? extends IRecipe<?>>> REGISTRY = RegistryManager.ACTIVE.getRegistry(PureOreRecipeInjector.class);
 
 	private final IRecipeType<T> recipeType;
+	private final boolean modProcessing;
 
 	private Map<ResourceLocation, T> recipes;
 	private RecipeManager recipeManager;
 
 	protected PureOreRecipeInjector(IRecipeType<T> recipeType) {
+		this(recipeType, true);
+	}
+	
+	protected PureOreRecipeInjector(IRecipeType<T> recipeType, boolean modProcessing) {
 		this.recipeType = recipeType;
 		this.recipes = null;
 		this.recipeManager = null;
+		this.modProcessing = modProcessing;
 	}
 
 	public static String buildRecipeId(ResourceLocation source) {
@@ -69,7 +76,10 @@ public abstract class PureOreRecipeInjector<C extends IInventory, T extends IRec
 	}
 
 	public Optional<T> getRecipe(Item ore) {
-		return getRecipes().values().stream().map(recipe -> recipe).filter(recipe -> filter(recipe, new ItemStack(ore))).findAny();
+		if (!isModProcessing() || !ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST.contains(ore)) {
+			return getRecipes().values().stream().map(recipe -> recipe).filter(recipe -> filter(recipe, new ItemStack(ore))).findAny();
+		}
+		return Optional.empty();
 	}
 
 	public IRecipeType<T> getRecipeType() {
@@ -83,5 +93,9 @@ public abstract class PureOreRecipeInjector<C extends IInventory, T extends IRec
 	@Override
 	public String toString() {
 		return getRecipeTypeRegistryName().toString();
+	}
+	
+	public boolean isModProcessing() {
+		return modProcessing;
 	}
 }

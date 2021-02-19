@@ -1,3 +1,10 @@
+1.16.4-2.5.11:
+
+- pure ore now use its own tag
+- fix an ore dupping glitch with mekanism
+- fix ordered sorter and retriever upward model
+
+
 1.16.4-2.5.10:
 
 - the ordered sorter can now correctly insert shards into crystallizer

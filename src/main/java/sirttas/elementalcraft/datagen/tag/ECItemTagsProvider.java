@@ -133,6 +133,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(Tags.Items.GEMS).addTags(ECTags.Items.INPUT_GEMS);
 
 		getOrCreateBuilder(ECTags.Items.RUNE_SLATES).add(ECItems.minorRuneSlate, ECItems.runeSlate, ECItems.majorRuneSlate);
+		
+		getOrCreateBuilder(ECTags.Items.PURE_ORES).addTag(Tags.Items.ORES);
+		getOrCreateBuilder(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST).addTags(Tags.Items.ORES_DIAMOND, Tags.Items.ORES_EMERALD);
 	}
 
 	public TagsProvider.Builder<Item> addOptionals(TagsProvider.Builder<Item> builder, Item... optionals) {

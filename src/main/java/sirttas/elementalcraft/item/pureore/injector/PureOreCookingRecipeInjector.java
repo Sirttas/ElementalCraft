@@ -14,7 +14,7 @@ public class PureOreCookingRecipeInjector<T extends AbstractCookingRecipe> exten
 	private final Factory<T> factory;
 
 	public PureOreCookingRecipeInjector(IRecipeType<T> recipeType, Factory<T> factory) {
-		super(recipeType);
+		super(recipeType, false);
 		this.factory = factory;
 	}
 

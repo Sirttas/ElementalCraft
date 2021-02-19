@@ -20,7 +20,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.fml.DistExecutor;
@@ -34,6 +33,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
+import sirttas.elementalcraft.tag.ECTags;
 
 public class PureOreManager {
 
@@ -76,10 +76,10 @@ public class PureOreManager {
 
 		ElementalCraft.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
 				() -> injectors.stream().map(PureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
-				() -> Tags.Items.ORES.getAllElements().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
+				() -> ECTags.Items.PURE_ORES.getAllElements().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 
-		for (Item ore : Tags.Items.ORES.getAllElements()) {
+		for (Item ore : ECTags.Items.PURE_ORES.getAllElements()) {
 			Entry entry = new Entry(ore);
 
 			injectors.forEach(injector -> injector.getRecipe(ore).ifPresent(entry::addRecipe));

@@ -107,6 +107,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(source).rotationY(180).uvLock(true).addModel().condition(BlockRetriever.SOURCE, Direction.NORTH).end()
 				.part().modelFile(source).rotationY(270).uvLock(true).addModel().condition(BlockRetriever.SOURCE, Direction.EAST).end()
 				.part().modelFile(source).rotationX(270).uvLock(true).addModel().condition(BlockRetriever.SOURCE, Direction.DOWN).end()
+				.part().modelFile(source).rotationX(90).uvLock(true).addModel().condition(BlockRetriever.SOURCE, Direction.UP).end()
 				.part().modelFile(target).rotationY(180).uvLock(true).addModel().condition(BlockRetriever.TARGET, Direction.SOUTH).end()
 				.part().modelFile(target).rotationY(270).uvLock(true).addModel().condition(BlockRetriever.TARGET, Direction.WEST).end()
 				.part().modelFile(target).uvLock(true).addModel().condition(BlockRetriever.TARGET, Direction.NORTH).end()

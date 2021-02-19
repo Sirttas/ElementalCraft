@@ -60,6 +60,9 @@ public class ECTags {
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Item> PIPES = createTag("pipes");
 		public static final INamedTag<Item> SHRINES = createTag("shrines");
+		
+		public static final INamedTag<Item> PURE_ORES = createTag("pure_ores");
+		public static final INamedTag<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final INamedTag<Item> FORGE_SWORDS = createForgeTag("swords");
 		public static final INamedTag<Item> FORGE_PICKAXES = createForgeTag("pickaxes");
