@@ -284,7 +284,7 @@ public class ECConfig {
 			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
 			mekanismPureOreDimishingAmount = builder.comment("The dimishing amount multiplier when using pure ore in mekanism. it prevent an exploit.").defineInRange("mekanismPureOreDimishingAmount",
-					0.8D, 0, 1);
+					0.75D, 0, 1);
 			mekanismPureOreDissolutionRecipe = builder.comment("Set to false if you want pure ore to not use mekanism dissolution recipes.").define("mekanismPureOreDissolutionRecipe", true);
 			mekanismPureOreInjectingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism injecting recipes.").define("mekanismPureOreInjectingRecipe", true);
 			mekanismPureOrePurifyingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism purifying recipes.").define("mekanismPureOrePurifyingRecipe", true);

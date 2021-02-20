@@ -1,19 +1,19 @@
 {
   "type": "elementalcraft:inscription",
   "element_type": "fire",
-  "element_amount": 2000,
+  "element_amount": 5000,
   "slate": {
-    "item": "elementalcraft:minor_rune_slate"
+    "item": "elementalcraft:rune_slate"
   },
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/crude_fire"
+      "tag": "elementalcraft:gems/fine_fire"
     },
     {
-      "tag": "minecraft:coals"
+      "item": "minecraft:blaze_rod"
     },
     {
-      "tag": "minecraft:coals"
+      "item": "minecraft:blaze_rod"
     }
   ],
   "output": "elementalcraft:fus"

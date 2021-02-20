@@ -282,9 +282,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Tags.Items.STRING).addIngredient(Tags.Items.STRING).build(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tano"), ElementType.AIR).withElementAmount(10000).setSlate(ECItems.majorRuneSlate)
 				.addIngredient(ECTags.Items.PRISTINE_AIR_GEMS).addIngredient(ECItems.airSilk).addIngredient(ECItems.airSilk).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("fus"), ElementType.FIRE).withElementAmount(2000).setSlate(ECItems.minorRuneSlate)
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("wii"), ElementType.FIRE).withElementAmount(2000).setSlate(ECItems.minorRuneSlate)
 				.addIngredient(ECTags.Items.CRUDE_FIRE_GEMS).addIngredient(ItemTags.COALS).addIngredient(ItemTags.COALS).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("wii"), ElementType.FIRE).setSlate(ECItems.runeSlate).addIngredient(ECTags.Items.FINE_FIRE_GEMS)
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("fus"), ElementType.FIRE).setSlate(ECItems.runeSlate).addIngredient(ECTags.Items.FINE_FIRE_GEMS)
 				.addIngredient(Items.BLAZE_ROD).addIngredient(Items.BLAZE_ROD).build(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("zod"), ElementType.FIRE).withElementAmount(10000).setSlate(ECItems.majorRuneSlate)
 				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).build(consumer);

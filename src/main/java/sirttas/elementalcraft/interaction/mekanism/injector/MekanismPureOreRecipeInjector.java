@@ -20,8 +20,11 @@ public abstract class MekanismPureOreRecipeInjector<C extends IInventory, T exte
 	protected static ItemStack tweakOutput(ItemStack stack) {
 		int count = stack.getCount();
 
-		if (count >= 4) {
+		if (count > 2) {
 			stack.setCount(getDimishedAmount(count));
+		}
+		if (count >= 4) {
+			stack.setCount(getDimishedAmount(stack.getCount()));
 		}
 		if (count >= 8) {
 			stack.setCount(getDimishedAmount(stack.getCount()));
