@@ -12,7 +12,8 @@
     },
     {
       "type": "crafting",
-      "recipe": "elementalcraft:receptacle_empty"
+      "recipe": "elementalcraft:receptacle_empty",
+       "recipe2": "elementalcraft:receptacle_improved_empty"
     }
   ]
 }

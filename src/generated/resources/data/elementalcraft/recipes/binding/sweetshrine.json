@@ -22,5 +22,7 @@
       "item": "minecraft:milk_bucket"
     }
   ],
-  "output": "elementalcraft:sweetshrine"
+  "output": {
+    "item": "elementalcraft:sweetshrine"
+  }
 }

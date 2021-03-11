@@ -29,7 +29,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.evaporator.BlockEvaporator;
 import sirttas.elementalcraft.block.instrument.crystallizer.TileCrystallizer;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.ItemShard;
+import sirttas.elementalcraft.item.elemental.ItemShard;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.rune.Rune.BonusType;
 
@@ -42,7 +42,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 			return NAME;
 		}
 	});
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static IRecipeSerializer<CrystallizationRecipe> SERIALIZER;
+	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<CrystallizationRecipe> SERIALIZER = null;
 
 	private NonNullList<Ingredient> ingredients;
 	private final ImmutableMap<ItemStack, Integer> outputs;

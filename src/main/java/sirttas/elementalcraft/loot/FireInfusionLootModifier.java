@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -15,8 +16,10 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.conditions.ILootCondition;
+import net.minecraft.loot.functions.ApplyBonus;
+import net.minecraft.loot.functions.ILootFunction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.event.RegistryEvent;
@@ -27,6 +30,9 @@ import sirttas.elementalcraft.infusion.InfusionHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FireInfusionLootModifier extends LootModifier {
+
+	private static final ILootFunction FORTUNE = ApplyBonus.uniformBonusCount(Enchantments.FORTUNE).build();
+	
 	protected FireInfusionLootModifier(ILootCondition[] conditions) {
 		super(conditions);
 	}
@@ -36,13 +42,16 @@ public class FireInfusionLootModifier extends LootModifier {
 		evt.getRegistry().register(new Serializer().setRegistryName(ElementalCraft.MODID, "fireinfusion"));
 	}
 
-	private ItemStack applyAutoSmelt(ItemStack stack, ServerWorld world) {
-		Optional<IRecipe<IInventory>> recipe = world.getRecipeManager().getRecipes(IRecipeType.SMELTING).values().stream().filter(r -> r.getIngredients().get(0).test(stack)).findFirst();
-		
+	private ItemStack applyAutoSmelt(ItemStack stack, LootContext context) {
+		Optional<IRecipe<IInventory>> recipe = context.getWorld().getRecipeManager().getRecipes(IRecipeType.SMELTING).values().stream().filter(r -> r.getIngredients().get(0).test(stack)).findFirst();
+
 		if (recipe.isPresent()) {
 			ItemStack ret = recipe.get().getRecipeOutput().copy();
 
 			ret.setCount(ret.getCount() * stack.getCount());
+			if (Tags.Items.ORES.contains(stack.getItem())) {
+				FORTUNE.apply(ret, context);
+			}
 			return ret;
 		}
 		return stack;
@@ -54,7 +63,7 @@ public class FireInfusionLootModifier extends LootModifier {
 		ItemStack tool = context.get(LootParameters.TOOL);
 
 		if (tool != null && !tool.isEmpty() && InfusionHelper.hasFireInfusionAutoSmelt(tool)) {
-			return generatedLoot.stream().map(s -> applyAutoSmelt(s, context.getWorld())).collect(Collectors.toList());
+			return generatedLoot.stream().map(s -> applyAutoSmelt(s, context)).collect(Collectors.toList());
 		}
 		return generatedLoot;
 	}

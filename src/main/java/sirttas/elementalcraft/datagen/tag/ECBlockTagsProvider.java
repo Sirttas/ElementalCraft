@@ -18,7 +18,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
-import sirttas.elementalcraft.block.shrine.BlockShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class ECBlockTagsProvider extends BlockTagsProvider {
@@ -41,15 +41,16 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(BlockTags.FENCES).add(getBlocksForClass(FenceBlock.class));
 		getOrCreateBuilder(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(PaneBlock.class));
 		getOrCreateBuilder(ECTags.Blocks.PIPES).add(getBlocksForClass(BlockElementPipe.class));
-		getOrCreateBuilder(ECTags.Blocks.SHRINES).add(getBlocksForClass(BlockShrine.class));
+		getOrCreateBuilder(ECTags.Blocks.SHRINES).add(getBlocksForClass(AbstractBlockShrine.class));
 		getOrCreateBuilder(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(BlockPedestal.class));
 
 		getOrCreateBuilder(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.infuser, ECBlocks.binder, ECBlocks.crystallizer, ECBlocks.inscriber, ECBlocks.fireFurnace, ECBlocks.fireBlastFurnace,
 				ECBlocks.purifier, ECBlocks.improvedBinder);
 
-		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_SPEED).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.evaporator, ECBlocks.extractor, ECBlocks.improvedExtractor,
-				ECBlocks.pureInfuser);
-		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.evaporator);
+		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.evaporator, ECBlocks.extractor, ECBlocks.improvedExtractor,
+				ECBlocks.solarSynthesizer, ECBlocks.pureInfuser);
+		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_SPEED).addTags(ECTags.Blocks.RUNE_AFFECTED);
+		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addTags(ECTags.Blocks.RUNE_AFFECTED);
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.crystallizer, ECBlocks.purifier);
 
 		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.growthShrine, ECBlocks.harvestShrine, ECBlocks.lavaShrine, ECBlocks.oreShrine,
@@ -63,6 +64,8 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(ECTags.Blocks.PUREROCKS).add(ECBlocks.pureRock, ECBlocks.pureRockSlab, ECBlocks.pureRockStairs, ECBlocks.pureRockWall);
 		getOrCreateBuilder(ECTags.Blocks.SMALL_TANK_COMPATIBLES).add(ECBlocks.extractor, ECBlocks.infuser, ECBlocks.evaporator);
 		getOrCreateBuilder(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);
+		
+		getOrCreateBuilder(BlockTags.BEACON_BASE_BLOCKS).add(ECBlocks.drenchedIronBlock, ECBlocks.swiftAlloyBlock, ECBlocks.fireiteBlock);
 
 		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON).add(ECBlocks.drenchedIronBlock);
 		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY).add(ECBlocks.swiftAlloyBlock);

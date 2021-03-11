@@ -20,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.property.ECProperties;
 
-public class ItemEC extends Item implements IItemEC {
+public class ItemEC extends Item {
 
 	private static boolean noJeiLogged = false;
 

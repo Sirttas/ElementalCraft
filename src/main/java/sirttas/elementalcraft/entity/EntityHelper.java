@@ -13,9 +13,16 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.entity.player.PlayerElementStorage;
 
 public class EntityHelper {
 
+	private EntityHelper() {}
+	
 	public static Stream<ItemStack> handStream(PlayerEntity player) {
 		return Stream.of(player.getHeldItemMainhand(), player.getHeldItemOffhand());
 
@@ -36,6 +43,15 @@ public class EntityHelper {
 	public static void swingArm(PlayerEntity player) {
 		if (player.getEntityWorld().isRemote && player instanceof ClientPlayerEntity) {
 			((ClientPlayerEntity) player).swingArm(Hand.MAIN_HAND);
+		}
+	}
+
+	@SubscribeEvent
+	public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+		Entity entity = event.getObject();
+		
+		if (entity instanceof PlayerEntity) {
+			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), PlayerElementStorage.createProvider((PlayerEntity) entity));
 		}
 	}
 }

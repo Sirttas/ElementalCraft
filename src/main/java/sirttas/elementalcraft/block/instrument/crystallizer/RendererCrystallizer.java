@@ -9,10 +9,10 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
-import sirttas.elementalcraft.block.tile.renderer.RendererEC;
+import sirttas.elementalcraft.block.tile.renderer.AbstractRendererEC;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererCrystallizer extends RendererEC<TileCrystallizer> {
+public class RendererCrystallizer extends AbstractRendererEC<TileCrystallizer> {
 	public RendererCrystallizer(TileEntityRendererDispatcher rendererDispatcher) {
 		super(rendererDispatcher);
 	}
@@ -57,7 +57,7 @@ public class RendererCrystallizer extends RendererEC<TileCrystallizer> {
 			ItemStack stack = inv.getStackInSlot(i);
 
 			if (!stack.isEmpty()) {
-				matrixStack.rotate(Vector3f.YP.rotationDegrees(360 / (inv.getItemCount() - 2)));
+				matrixStack.rotate(Vector3f.YP.rotationDegrees(360F / (inv.getItemCount() - 2)));
 				matrixStack.push();
 				matrixStack.translate(1F, 0F, 0F);
 				renderItem(stack, matrixStack, buffer, light, overlay);

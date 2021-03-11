@@ -6,6 +6,8 @@ import sirttas.elementalcraft.api.name.ECNames;
 
 public class NBTHelper {
 
+	private NBTHelper() {}
+	
 	public static ItemStack readItemStack(CompoundNBT cmp, String tag) {
 		if (cmp != null && cmp.contains(tag)) {
 			return ItemStack.read(cmp.getCompound(tag));

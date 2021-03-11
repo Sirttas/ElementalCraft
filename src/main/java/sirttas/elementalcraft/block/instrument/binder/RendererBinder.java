@@ -9,10 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.tile.renderer.RendererEC;
+import sirttas.elementalcraft.block.tile.renderer.AbstractRendererEC;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererBinder<T extends TileBinder> extends RendererEC<T> {
+public class RendererBinder<T extends TileBinder> extends AbstractRendererEC<T> {
 	public RendererBinder(TileEntityRendererDispatcher rendererDispatcher) {
 		super(rendererDispatcher);
 	}
@@ -33,7 +33,7 @@ public class RendererBinder<T extends TileBinder> extends RendererEC<T> {
 				ItemStack stack = inv.getStackInSlot(i);
 
 				if (!stack.isEmpty()) {
-					matrixStack.rotate(Vector3f.YP.rotationDegrees(360 / te.getItemCount()));
+					matrixStack.rotate(Vector3f.YP.rotationDegrees(360F / te.getItemCount()));
 					matrixStack.push();
 					matrixStack.translate(0.7F, 0F, 0F);
 					matrixStack.rotate(Vector3f.YP.rotationDegrees(tick));

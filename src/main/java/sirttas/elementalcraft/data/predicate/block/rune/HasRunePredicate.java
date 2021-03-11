@@ -14,7 +14,7 @@ import sirttas.elementalcraft.rune.handler.IRuneHandler;
 public class HasRunePredicate implements IRunePredicate {
 
 	public static final String NAME = "has_rune";
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static BlockPosPredicateType<HasRunePredicate> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final BlockPosPredicateType<HasRunePredicate> TYPE = null;
 	public static final Codec<HasRunePredicate> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			ResourceLocation.CODEC.fieldOf(ECNames.RUNE).forGetter(p -> p.runeId),
 			Codec.INT.optionalFieldOf(ECNames.COUNT, 1).forGetter(p -> p.count)
@@ -24,13 +24,13 @@ public class HasRunePredicate implements IRunePredicate {
 	private final ResourceLocation runeId;
 	private Rune rune;
 
-	public HasRunePredicate(Rune upgrade) {
-		this(upgrade, 1);
+	public HasRunePredicate(Rune rune) {
+		this(rune, 1);
 	}
 
-	public HasRunePredicate(Rune upgrade, int count) {
-		this(upgrade.getId(), count);
-		this.rune = upgrade;
+	public HasRunePredicate(Rune rune, int count) {
+		this(rune.getId(), count);
+		this.rune = rune;
 	}
 
 	public HasRunePredicate(ResourceLocation runeId) {

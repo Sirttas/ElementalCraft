@@ -40,7 +40,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.fireFurnace, list);
 		addItem(ECBlocks.fireBlastFurnace, list);
 		addItem(ECBlocks.purifier, list);
-		addItem(ECBlocks.tankSmall, list);
+		addItem(ECBlocks.TANK_SMALL, list);
 		addItem(ECBlocks.tank, list);
 		addItem(ECBlocks.tankCreative, list);
 		addItem(ECBlocks.impairedElementPipe, list);
@@ -72,13 +72,14 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.bonelessGrowthShrineUpgrade, list);
 		addItem(ECBlocks.pickupShrineUpgrade, list);
 		addItem(ECBlocks.nectarShrineUpgrade, list);
+		addItem(ECBlocks.mysticalGroveShrineUpgrade, list);
 
 		addItem(ECBlocks.crystalOre, list);
-		addItem(ECBlocks.whiteRock, list);
-		addItem(ECBlocks.whiteRockSlab, list);
-		addItem(ECBlocks.whiteRockStairs, list);
-		addItem(ECBlocks.whiteRockWall, list);
-		addItem(ECBlocks.whiteRockFence, list);
+		addItem(ECBlocks.WHITE_ROCK, list);
+		addItem(ECBlocks.WHITE_ROCK_SLAB, list);
+		addItem(ECBlocks.WHITE_ROCK_STAIRS, list);
+		addItem(ECBlocks.WHITE_ROCK_WALL, list);
+		addItem(ECBlocks.WHITE_ROCK_FENCE, list);
 		addItem(ECBlocks.whiteRockBrick, list);
 		addItem(ECBlocks.whiteRockBrickSlab, list);
 		addItem(ECBlocks.whiteRockBrickStairs, list);
@@ -96,6 +97,8 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.spellBook, list);
 		addItem(ECItems.emptyReceptacle, list);
 		addItem(ECItems.receptacle, list);
+		addItem(ECItems.emptyImprovedReceptacle, list);
+		addItem(ECItems.improvedReceptacle, list);
 		addItem(ECItems.fireElementHolder, list);
 		addItem(ECItems.waterElementHolder, list);
 		addItem(ECItems.earthElementHolder, list);
@@ -143,7 +146,12 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.fireiteNugget, list);
 		addItem(ECItems.fireiteIngot, list);
 		addItem(ECItems.fireiteBlock, list);
+		addItem(ECItems.fireLense, list);
+		addItem(ECItems.waterLense, list);
+		addItem(ECItems.earthLense, list);
+		addItem(ECItems.airLense, list);
 		addItem(ECItems.airSilk, list);
+		addItem(ECItems.hardenedHandle, list);
 		addItem(ECItems.scrollPaper, list);
 		addItem(ECItems.shrineBase, list);
 		addItem(ECItems.shrineUpgradeCore, list);

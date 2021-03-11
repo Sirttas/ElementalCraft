@@ -31,7 +31,7 @@ public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 			return NAME;
 		}
 	});
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static IRecipeSerializer<BindingRecipe> SERIALIZER;
+	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<BindingRecipe> SERIALIZER = null;
 
 	private NonNullList<Ingredient> ingredients;
 	private ItemStack output;

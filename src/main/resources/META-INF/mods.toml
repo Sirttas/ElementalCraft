@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[35,)" 
+loaderVersion="[36,)" 
 license="LGPL 2.1"
 authors="Sirttas"
 
@@ -12,21 +12,21 @@ description='''ElementalCraft is a magic mod based around the 4 elements: fire, 
 [[dependencies.elementalcraft]]
     modId="forge"
     mandatory=true
-    versionRange="[35.1.13,)"
+    versionRange="[36.0.17,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="dpanvil"
     mandatory=true
-    versionRange="[1.16.3-1.0.8,)"
+    versionRange="[1.16.4-1.1.2,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="jei"
     mandatory=false
-    versionRange="[FORGE-1.16.3-7.6,)"
+    versionRange="[FORGE-1.16.4-7.6.1.71,)"
     ordering="AFTER"
     side="BOTH"
 

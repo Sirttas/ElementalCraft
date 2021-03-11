@@ -16,7 +16,7 @@ import sirttas.elementalcraft.infusion.InfusionHelper;
 @Mixin(RepairContainer.class)
 public abstract class MixinRepairContainer extends AbstractRepairContainer {
 
-	public MixinRepairContainer(ContainerType<?> type, int i, PlayerInventory inv, IWorldPosCallable callable) {
+	protected MixinRepairContainer(ContainerType<?> type, int i, PlayerInventory inv, IWorldPosCallable callable) {
 		super(type, i, inv, callable);
 	}
 

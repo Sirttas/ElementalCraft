@@ -22,6 +22,8 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECEntities {
 
+	private ECEntities() {}
+	
 	@SubscribeEvent
 	public static void registerEntitiess(RegistryEvent.Register<EntityType<?>> event) {
 		IForgeRegistry<EntityType<?>> registry = event.getRegistry();

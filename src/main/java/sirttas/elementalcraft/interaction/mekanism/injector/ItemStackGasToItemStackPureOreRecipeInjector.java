@@ -11,7 +11,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 
-public class ItemStackGasToItemStackPureOreRecipeInjector<T extends ItemStackGasToItemStackRecipe> extends MekanismPureOreRecipeInjector<IgnoredIInventory, T> {
+public class ItemStackGasToItemStackPureOreRecipeInjector<T extends ItemStackGasToItemStackRecipe> extends AbstractMekanismPureOreRecipeInjector<IgnoredIInventory, T> {
 
 	private final Factory<T> factory;
 

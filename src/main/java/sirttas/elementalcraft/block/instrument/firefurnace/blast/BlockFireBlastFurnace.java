@@ -33,6 +33,7 @@ public class BlockFireBlastFurnace extends AbstractBlockFireFurnace {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}

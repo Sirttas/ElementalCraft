@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockNectarShrineUpgrade extends BlockHorizontalShrineUpgrade {
+public class BlockNectarShrineUpgrade extends AbstractBlockHorizontalShrineUpgrade {
 
 	public static final String NAME = "shrine_upgrade_nectar";
 
@@ -53,6 +53,7 @@ public class BlockNectarShrineUpgrade extends BlockHorizontalShrineUpgrade {
 
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case SOUTH:

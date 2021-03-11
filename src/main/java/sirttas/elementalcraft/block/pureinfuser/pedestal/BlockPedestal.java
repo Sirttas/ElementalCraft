@@ -21,10 +21,10 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.AbstractBlockECContainer;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class BlockPedestal extends BlockECContainer implements IElementTypeProvider {
+public class BlockPedestal extends AbstractBlockECContainer implements IElementTypeProvider {
 
 	private static final VoxelShape BASE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
 	private static final VoxelShape BASE_2 = Block.makeCuboidShape(2D, 3D, 2D, 14D, 9D, 14D);
@@ -79,11 +79,13 @@ public class BlockPedestal extends BlockECContainer implements IElementTypeProvi
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		VoxelShape shape = getBaseShape();
 
@@ -136,8 +138,8 @@ public class BlockPedestal extends BlockECContainer implements IElementTypeProvi
 				.with(WEST, isConnected(context.getWorld(), context.getPos(), Direction.WEST, WEST));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
+	@Deprecated
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		switch (facing) {
 		case NORTH:

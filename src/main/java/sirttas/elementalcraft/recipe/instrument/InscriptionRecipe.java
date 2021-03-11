@@ -19,9 +19,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.inscriber.TileInscriber;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.RecipeHelper;
-import sirttas.elementalcraft.rune.Rune;
 
 public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 
@@ -32,18 +30,17 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 			return NAME;
 		}
 	});
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static IRecipeSerializer<InscriptionRecipe> SERIALIZER;
+	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<InscriptionRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
-	private final ResourceLocation runeId;
 	private final int elementAmount;
-	private Rune output;
+	private final ItemStack output;
 
-	public InscriptionRecipe(ResourceLocation id, ElementType type, int elementAmount, ResourceLocation runeId, List<Ingredient> ingredients) {
+	public InscriptionRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		super(id, type);
 		this.ingredients = NonNullList.from(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
-		this.runeId = runeId;
 		this.elementAmount = elementAmount;
+		this.output = output;
 	}
 
 	@Override
@@ -66,10 +63,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		if (output == null) {
-			output = ElementalCraft.RUNE_MANAGER.get(runeId);
-		}
-		return output != null ? ECItems.rune.getRuneStack(output) : ItemStack.EMPTY;
+		return output.copy();
 	}
 
 	@Override
@@ -101,9 +95,9 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getJsonArray(json, ECNames.INGREDIENTS));
 			ingredients.add(0, RecipeHelper.deserializeIngredient(json, "slate"));
-			ResourceLocation runeId = new ResourceLocation(JSONUtils.getString(json, ECNames.OUTPUT));
+			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 			
-			return this.factory.create(recipeId, type, elementAmount, runeId, ingredients);
+			return this.factory.create(recipeId, type, elementAmount, output, ingredients);
 		}
 
 
@@ -111,7 +105,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 		public InscriptionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
 			ElementType type = ElementType.byName(buffer.readString(32767));
 			int elementAmount = buffer.readInt();
-			ResourceLocation runeId = buffer.readResourceLocation();
+			ItemStack output = buffer.readItemStack();
 			int i = buffer.readInt();
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
@@ -119,20 +113,20 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 				ingredients.set(j, Ingredient.read(buffer));
 			}
 
-			return this.factory.create(recipeId, type, elementAmount, runeId, ingredients);
+			return this.factory.create(recipeId, type, elementAmount, output, ingredients);
 		}
 
 		@Override
 		public void write(PacketBuffer buffer, InscriptionRecipe recipe) {
 			buffer.writeString(recipe.getElementType().getString());
 			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeResourceLocation(recipe.runeId);
+			buffer.writeItemStack(recipe.getRecipeOutput());
 			buffer.writeInt(recipe.getIngredients().size());
 			recipe.getIngredients().forEach(ingredient -> ingredient.write(buffer));
 		}
 
 		public interface IRecipeFactory {
-			InscriptionRecipe create(ResourceLocation id, ElementType type, int elementAmount, ResourceLocation runeId, List<Ingredient> ingredients);
+			InscriptionRecipe create(ResourceLocation id, ElementType type, int elementAmount,ItemStack output, List<Ingredient> ingredients);
 		}
 	}
 }

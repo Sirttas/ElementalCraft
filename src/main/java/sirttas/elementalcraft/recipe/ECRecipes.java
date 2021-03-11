@@ -15,6 +15,8 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECRecipes {
 
+	private ECRecipes() {}
+	
 	@SubscribeEvent
 	public static void register(RegistryEvent.Register<IRecipeSerializer<?>> event) {
 		IForgeRegistry<IRecipeSerializer<?>> registry = event.getRegistry();

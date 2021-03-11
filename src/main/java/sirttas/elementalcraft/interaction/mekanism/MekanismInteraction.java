@@ -7,7 +7,7 @@ import mekanism.common.recipe.impl.InjectingIRecipe;
 import mekanism.common.recipe.impl.PurifyingIRecipe;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.registries.IForgeRegistry;
-import sirttas.elementalcraft.api.pureore.injector.PureOreRecipeInjector;
+import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.interaction.mekanism.injector.ChemicalDissolutionPureOreRecipeInjector;
 import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackGasToItemStackPureOreRecipeInjector;
@@ -16,7 +16,9 @@ import sirttas.elementalcraft.item.pureore.injector.PureOreRecipeInjectors;
 
 public class MekanismInteraction {
 
-	public static void registerPureOreRecipeInjectors(IForgeRegistry<PureOreRecipeInjector<?, ? extends IRecipe<?>>> registry) {
+	private MekanismInteraction() {}
+	
+	public static void registerPureOreRecipeInjectors(IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> registry) {
 		if (Boolean.TRUE.equals(ECConfig.COMMON.mekanismPureOreDissolutionRecipe.get())) {
 			PureOreRecipeInjectors.register(registry, new ChemicalDissolutionPureOreRecipeInjector(MekanismRecipeType.DISSOLUTION));
 		}

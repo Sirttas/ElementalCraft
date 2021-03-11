@@ -5,5 +5,7 @@
   "input": {
     "item": "minecraft:stone"
   },
-  "output": "elementalcraft:whiterock"
+  "output": {
+    "item": "elementalcraft:whiterock"
+  }
 }

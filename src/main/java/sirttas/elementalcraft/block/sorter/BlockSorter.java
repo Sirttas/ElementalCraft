@@ -28,12 +28,12 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
-import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
-public class BlockSorter extends BlockECTileProvider {
+public class BlockSorter extends AbstractBlockECTileProvider {
 
 	public static final String NAME = "sorter";
 
@@ -132,11 +132,11 @@ public class BlockSorter extends BlockECTileProvider {
 			VoxelShape source = getSourceShape(state);
 			VoxelShape target = getTargetShape(state);
 
-			if (doesVectorColide(source.getBoundingBox().offset(pos), hit)) {
+			if (source.getBoundingBox().offset(pos).contains(hit)) {
 				return source;
-			} else if (doesVectorColide(target.getBoundingBox().offset(pos), hit)) {
+			} else if (target.getBoundingBox().offset(pos).contains(hit)) {
 				return target;
-			} else if (doesVectorColide(CORE.getBoundingBox().offset(pos), hit)) {
+			} else if (CORE.getBoundingBox().offset(pos).contains(hit)) {
 				return CORE;
 			}
 		}
@@ -150,6 +150,7 @@ public class BlockSorter extends BlockECTileProvider {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		VoxelShape shape = getShape(state, pos, hit);
 		Direction direction = hit.getFace().getOpposite();

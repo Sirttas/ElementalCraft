@@ -11,14 +11,15 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class BlockExtractor extends BlockECTileProvider {
+public class BlockExtractor extends AbstractBlockECTileProvider {
 
 	public static final String NAME = "extractor";
 
@@ -39,9 +40,15 @@ public class BlockExtractor extends BlockECTileProvider {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
-
+	}
+	
+	@Override
+	@Deprecated
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+		return TileEntityHelper.isValidContainer(state.getBlock(), world, pos.down());
 	}
 
 	@Override

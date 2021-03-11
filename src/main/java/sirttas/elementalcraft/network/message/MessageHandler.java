@@ -11,6 +11,8 @@ public class MessageHandler {
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(ElementalCraft.createRL("main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals,
 			PROTOCOL_VERSION::equals);
 
+	private MessageHandler() {}
+	
 	public static void setup() {
 		int id = 0;
 

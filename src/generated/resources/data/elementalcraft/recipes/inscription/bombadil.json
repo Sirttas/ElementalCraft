@@ -16,5 +16,12 @@
       "tag": "forge:storage_blocks/lapis"
     }
   ],
-  "output": "elementalcraft:bombadil"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:bombadil"
+      }
+    }
+  }
 }

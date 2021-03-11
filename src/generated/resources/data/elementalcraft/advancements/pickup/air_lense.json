@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_air_lense": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:air_lense"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_air_lense"
+    ]
+  ]
+}

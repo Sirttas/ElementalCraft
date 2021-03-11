@@ -21,13 +21,15 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.AbstractBlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
-public class BlockPurifier extends BlockECContainer {
+public class BlockPurifier extends AbstractBlockECContainer {
 
 	public static final String NAME = "purifier";
 
@@ -77,12 +79,13 @@ public class BlockPurifier extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TilePurifier purifier = (TilePurifier) world.getTileEntity(pos);
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getHeldItem(hand);
 
-		if (purifier != null) {
+		if (purifier != null && (hand == Hand.MAIN_HAND || !heldItem.isEmpty())) {
 			if (!purifier.getInventory().getStackInSlot(1).isEmpty()) {
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
 			} else if (heldItem.isEmpty() || ElementalCraft.PURE_ORE_MANAGER.isValidOre(heldItem)) {
@@ -93,6 +96,7 @@ public class BlockPurifier extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case NORTH:
@@ -114,6 +118,7 @@ public class BlockPurifier extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.with(FACING, rot.rotate(state.get(FACING)));
 	}
@@ -127,5 +132,11 @@ public class BlockPurifier extends BlockECContainer {
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
+	}
+	
+	@Override
+	@Deprecated
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+		return TileEntityHelper.isValidContainer(state.getBlock(), world, pos.down());
 	}
 }

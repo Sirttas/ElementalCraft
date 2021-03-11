@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#elementalcraft:instrumentrs",
-    "#elementalcraft:pedestals",
-    "elementalcraft:evaporator"
+    "#elementalcraft:rune_affected"
   ]
 }

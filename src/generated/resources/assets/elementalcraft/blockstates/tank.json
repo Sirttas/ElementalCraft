@@ -10,28 +10,7 @@
         "north": "true"
       },
       "apply": {
-        "model": "elementalcraft:block/tank_connector",
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "south": "true"
-      },
-      "apply": {
-        "model": "elementalcraft:block/tank_connector",
-        "y": 180,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "west": "true"
-      },
-      "apply": {
-        "model": "elementalcraft:block/tank_connector",
-        "y": 270,
-        "uvlock": true
+        "model": "elementalcraft:block/tank_connector"
       }
     },
     {
@@ -40,8 +19,25 @@
       },
       "apply": {
         "model": "elementalcraft:block/tank_connector",
-        "y": 90,
-        "uvlock": true
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/tank_connector",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/tank_connector",
+        "y": 270
       }
     }
   ]

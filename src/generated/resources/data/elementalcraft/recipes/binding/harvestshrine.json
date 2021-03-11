@@ -22,5 +22,7 @@
       "item": "minecraft:shears"
     }
   ],
-  "output": "elementalcraft:harvestshrine"
+  "output": {
+    "item": "elementalcraft:harvestshrine"
+  }
 }

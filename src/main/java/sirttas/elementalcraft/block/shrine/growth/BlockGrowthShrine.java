@@ -9,9 +9,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.BlockShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
 
-public class BlockGrowthShrine extends BlockShrine {
+public class BlockGrowthShrine extends AbstractBlockShrine {
 
 	public static final String NAME = "growthshrine";
 
@@ -42,6 +42,7 @@ public class BlockGrowthShrine extends BlockShrine {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}

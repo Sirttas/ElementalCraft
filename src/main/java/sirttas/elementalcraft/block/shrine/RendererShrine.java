@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.tile.renderer.RendererEC;
+import sirttas.elementalcraft.block.tile.renderer.AbstractRendererEC;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererShrine<T extends TileShrine> extends RendererEC<T> {
+public class RendererShrine<T extends AbstractTileShrine> extends AbstractRendererEC<T> {
 
 	public RendererShrine(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn);

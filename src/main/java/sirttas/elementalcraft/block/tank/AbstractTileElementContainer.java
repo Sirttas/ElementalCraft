@@ -12,15 +12,16 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.tile.TileECTickable;
+import sirttas.elementalcraft.block.tile.AbstractTileECTickable;
 
-public abstract class AbstractTileElementContainer extends TileECTickable implements IElementContainer {
+public abstract class AbstractTileElementContainer extends AbstractTileECTickable implements IElementContainer {
 
-	protected final IElementStorage elementStorage;
+	protected final SingleElementStorage elementStorage;
 
-	public AbstractTileElementContainer(TileEntityType<?> tileEntityTypeIn, Function<Runnable, IElementStorage> elementStorage) {
+	protected AbstractTileElementContainer(TileEntityType<?> tileEntityTypeIn, Function<Runnable, SingleElementStorage> elementStorage) {
 		super(tileEntityTypeIn);
 		this.elementStorage = elementStorage.apply(this::markDirty);
 	}
@@ -29,16 +30,16 @@ public abstract class AbstractTileElementContainer extends TileECTickable implem
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound.get(ECNames.ELEMENT_STORAGE));
+			elementStorage.readNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		} else { // TODO 1.17 remove
-			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound);
+			elementStorage.readNBT(compound);
 		}
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.put(ECNames.ELEMENT_STORAGE, CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.writeNBT(elementStorage, null));
+		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.writeNBT());
 		return compound;
 	}
 
@@ -52,7 +53,7 @@ public abstract class AbstractTileElementContainer extends TileECTickable implem
 	}
 
 	@Override
-	public IElementStorage getElementStorage() {
+	public ISingleElementStorage getElementStorage() {
 		return elementStorage;
 	}
 

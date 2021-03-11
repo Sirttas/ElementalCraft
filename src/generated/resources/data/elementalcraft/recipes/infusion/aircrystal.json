@@ -5,5 +5,7 @@
   "input": {
     "item": "elementalcraft:inertcrystal"
   },
-  "output": "elementalcraft:aircrystal"
+  "output": {
+    "item": "elementalcraft:aircrystal"
+  }
 }

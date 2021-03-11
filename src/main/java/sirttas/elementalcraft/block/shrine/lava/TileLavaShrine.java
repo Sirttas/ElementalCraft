@@ -14,13 +14,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class TileLavaShrine extends TileShrine {
+public class TileLavaShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static TileEntityType<TileLavaShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockLavaShrine.NAME) public static final TileEntityType<TileLavaShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE).periode(ECConfig.COMMON.lavaShrinePeriode.get()).consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.lavaShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);

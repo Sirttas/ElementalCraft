@@ -16,5 +16,12 @@
       "tag": "forge:string"
     }
   ],
-  "output": "elementalcraft:jita"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:jita"
+      }
+    }
+  }
 }

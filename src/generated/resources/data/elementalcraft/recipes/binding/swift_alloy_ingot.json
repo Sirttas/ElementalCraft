@@ -16,5 +16,7 @@
       "item": "elementalcraft:aircrystal"
     }
   ],
-  "output": "elementalcraft:swift_alloy_ingot"
+  "output": {
+    "item": "elementalcraft:swift_alloy_ingot"
+  }
 }

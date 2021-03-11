@@ -17,12 +17,12 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class TileBreedingShrine extends TileShrine {
+public class TileBreedingShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBreedingShrine.NAME) public static TileEntityType<TileBreedingShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBreedingShrine.NAME) public static final TileEntityType<TileBreedingShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.breedingShrinePeriode.get())
 			.consumeAmount(ECConfig.COMMON.breedingShrineConsumeAmount.get()).range(ECConfig.COMMON.breedingShrineRange.get());

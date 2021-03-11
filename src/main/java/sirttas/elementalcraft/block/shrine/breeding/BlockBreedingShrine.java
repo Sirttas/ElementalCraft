@@ -22,9 +22,9 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.BlockShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
 
-public class BlockBreedingShrine extends BlockShrine {
+public class BlockBreedingShrine extends AbstractBlockShrine {
 
 	public static final String NAME = "breedingshrine";
 
@@ -138,6 +138,7 @@ public class BlockBreedingShrine extends BlockShrine {
 
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		if (state.get(PART) == Part.CORE) {
 			switch (state.get(FACING)) {

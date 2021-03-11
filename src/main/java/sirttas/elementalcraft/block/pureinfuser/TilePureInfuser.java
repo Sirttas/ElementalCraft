@@ -23,7 +23,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.TilePedestal;
-import sirttas.elementalcraft.block.tile.TileECCrafting;
+import sirttas.elementalcraft.block.tile.AbstractTileECCrafting;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.particle.ParticleHelper;
@@ -32,9 +32,9 @@ import sirttas.elementalcraft.rune.Rune.BonusType;
 import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.rune.handler.RuneHandler;
 
-public class TilePureInfuser extends TileECCrafting<TilePureInfuser, PureInfusionRecipe> {
+public class TilePureInfuser extends AbstractTileECCrafting<TilePureInfuser, PureInfusionRecipe> {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static TileEntityType<TilePureInfuser> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPureInfuser.NAME) public static final TileEntityType<TilePureInfuser> TYPE = null;
 
 	private final SingleItemInventory inventory;
 	private final Map<Direction, Integer> progress = new EnumMap<>(Direction.class);
@@ -61,7 +61,9 @@ public class TilePureInfuser extends TileECCrafting<TilePureInfuser, PureInfusio
 	@Override
 	public void tick() {
 		super.tick();
-		makeProgress();
+		if (!this.isPowered()) {
+			makeProgress();
+		}
 	}
 
 	protected void makeProgress() {
@@ -127,14 +129,14 @@ public class TilePureInfuser extends TileECCrafting<TilePureInfuser, PureInfusio
 		int oldProgress = getProgress(direction);
 
 		if (pedestal != null) {
-			float transferAmount = Math.min(getTransferSpeed(pedestal), recipe.getElementAmount() - oldProgress);
+			float transferAmount = Math.min(getTransferSpeed(pedestal), (float) recipe.getElementAmount() - oldProgress);
 
 			if (transferAmount > 0) {
 				float preservation = runeHandler.getBonus(BonusType.ELEMENT_PRESERVATION) + pedestal.getRuneHandler().getBonus(BonusType.ELEMENT_PRESERVATION) + 1;
 				float newProgress = oldProgress + pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false) * preservation;
 
 				progress.put(direction, Math.round(newProgress));
-				if (world.isRemote && newProgress / transferAmount >= oldProgress / transferAmount) {
+				if (world.isRemote && newProgress > 0 && newProgress / transferAmount >= oldProgress / transferAmount) {
 					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), world, Vector3d.copyCentered(pedestal.getPos().offset(offset, 2)).add(0, 0.7, 0), offset, 2, world.rand);
 				}
 			}

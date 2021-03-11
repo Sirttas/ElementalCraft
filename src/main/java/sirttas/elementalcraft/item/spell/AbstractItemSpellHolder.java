@@ -31,7 +31,7 @@ import sirttas.elementalcraft.spell.SpellTickManager;
 
 public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHolder {
 
-	public AbstractItemSpellHolder(Properties properties) {
+	protected AbstractItemSpellHolder(Properties properties) {
 		super(properties);
 	}
 

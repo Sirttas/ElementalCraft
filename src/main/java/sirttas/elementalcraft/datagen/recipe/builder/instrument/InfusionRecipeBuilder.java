@@ -85,7 +85,10 @@ public class InfusionRecipeBuilder {
 			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getString());
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
 			json.add(ECNames.INPUT, this.ingredient.serialize());
-			json.addProperty(ECNames.OUTPUT, ForgeRegistries.ITEMS.getKey(this.output).toString());
+			JsonObject outputJson = new JsonObject();
+
+			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
+			json.add(ECNames.OUTPUT, outputJson);
 		}
 
 		@Override

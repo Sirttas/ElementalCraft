@@ -16,6 +16,8 @@ import sirttas.elementalcraft.spell.SpellHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public class EnchantmentHandler {
 
+	private EnchantmentHandler() {}
+	
 	@SubscribeEvent
 	public static void onAnvilUpdate(AnvilUpdateEvent event) {
 		ItemStack left = event.getLeft();

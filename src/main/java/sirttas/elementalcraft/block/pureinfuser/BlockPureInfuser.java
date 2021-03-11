@@ -13,9 +13,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.AbstractBlockECContainer;
 
-public class BlockPureInfuser extends BlockECContainer {
+public class BlockPureInfuser extends AbstractBlockECContainer {
 
 	private static final VoxelShape BASE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
 	private static final VoxelShape BASE_2 = Block.makeCuboidShape(2D, 3D, 2D, 14D, 9D, 14D);
@@ -36,11 +36,13 @@ public class BlockPureInfuser extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}

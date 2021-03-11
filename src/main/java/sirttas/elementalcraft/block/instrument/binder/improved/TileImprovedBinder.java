@@ -10,7 +10,7 @@ import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
 
 public class TileImprovedBinder extends TileBinder implements IInfuser {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedBinder.NAME) public static TileEntityType<TileImprovedBinder> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedBinder.NAME) public static final TileEntityType<TileImprovedBinder> TYPE = null;
 
 	public TileImprovedBinder() {
 		super(TYPE, ECConfig.COMMON.improvedBinderTransferSpeed.get(), ECConfig.COMMON.improvedBinderMaxRunes.get());

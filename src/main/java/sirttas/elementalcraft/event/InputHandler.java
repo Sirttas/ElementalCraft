@@ -16,6 +16,7 @@ import sirttas.elementalcraft.spell.SpellHelper;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
 public class InputHandler {
 
+	private InputHandler() {}
 	
 	@SuppressWarnings("resource")
 	@SubscribeEvent

@@ -17,8 +17,6 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -30,15 +28,15 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.ItemElemental;
+import sirttas.elementalcraft.item.elemental.ItemElemental;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class BlockSpellDesk extends BlockEC {
+public class BlockSpellDesk extends HorizontalBlock {
 
 	public static final String NAME = "spell_desk";
 
@@ -73,6 +71,7 @@ public class BlockSpellDesk extends BlockEC {
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
 	public BlockSpellDesk() {
+		super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
 		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(HAS_PAPER, false));
 	}
 
@@ -84,17 +83,6 @@ public class BlockSpellDesk extends BlockEC {
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
 		container.add(FACING, HAS_PAPER);
-	}
-
-	@Override
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
 	}
 
 	@Override
@@ -144,6 +132,7 @@ public class BlockSpellDesk extends BlockEC {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		ItemStack stack = player.getHeldItem(hand);
 

@@ -10,7 +10,7 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class TileTank extends AbstractTileElementContainer implements IElementContainer {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static TileEntityType<TileTank> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static final TileEntityType<TileTank> TYPE = null;
 
 	private boolean small = false;
 

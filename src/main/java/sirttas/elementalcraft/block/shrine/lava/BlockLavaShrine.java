@@ -15,11 +15,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.block.shrine.BlockShrine;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 
-public class BlockLavaShrine extends BlockShrine {
+public class BlockLavaShrine extends AbstractBlockShrine {
 
 	public static final String NAME = "lavashrine";
 
@@ -46,16 +45,17 @@ public class BlockLavaShrine extends BlockShrine {
 
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(TileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
-		double x = pos.getX() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
-		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
-		double z = pos.getZ() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
+	protected void doAnimateTick(AbstractTileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
+		double x = pos.getX() + (4 + rand.nextDouble() * 7) / 16;
+		double y = pos.getY() + 6D / 16;
+		double z = pos.getZ() + (4 + rand.nextDouble() * 7) / 16;
 
 		world.addParticle(ParticleTypes.LAVA, x, y, z, 0.0D, 0.0D, 0.0D);
 	}

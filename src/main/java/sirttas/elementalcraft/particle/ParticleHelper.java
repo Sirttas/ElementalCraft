@@ -11,22 +11,32 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 
 public class ParticleHelper {
+	
+	private ParticleHelper() {}
+	
 	public static void createSourceParticle(ElementType type, World world, Vector3d pos, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 2 - 1) * BlockEC.BIT_SIZE;
-		double y = pos.getY() - 3 * BlockEC.BIT_SIZE;
-		double z = pos.getZ() + (rand.nextDouble() * 2 - 1) * BlockEC.BIT_SIZE;
+		double x = pos.getX() + (rand.nextDouble() * 2 - 1) / 16;
+		double y = pos.getY() - 3D / 16;
+		double z = pos.getZ() + (rand.nextDouble() * 2 - 1) / 16;
 
 		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE, type), x, y, z, 0F, 0F, 0F);
 	}
+	
+	public static void createExhaustedSourceParticle(ElementType type, World world, Vector3d pos, Random rand) {
+		double x = pos.getX() + (rand.nextDouble() * 6 - 3) / 16;
+		double y = pos.getY() - 3D / 16;
+		double z = pos.getZ() + (rand.nextDouble() * 6 - 3) / 16;
+
+		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE_EXHAUSTED, type), x, y, z, 0F, 0F, 0F);
+	}
 
 	public static void createCraftingParticle(ElementType type, World world, Vector3d pos, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 2 - 1) * BlockEC.BIT_SIZE;
-		double y = pos.getY() - 3 * BlockEC.BIT_SIZE;
-		double z = pos.getZ() + (rand.nextDouble() * 2 - 1) * BlockEC.BIT_SIZE;
+		double x = pos.getX() + (rand.nextDouble() * 2 - 1) / 16;
+		double y = pos.getY() - 3D / 16;
+		double z = pos.getZ() + (rand.nextDouble() * 2 - 1) / 16;
 
 		IntStream.range(0, 8 + rand.nextInt(5))
 				.forEach(i -> world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING, type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
@@ -37,9 +47,9 @@ public class ParticleHelper {
 	}
 
 	public static void createElementFlowParticle(ElementType type, World world, Vector3d pos, Vector3d flow, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 6 - 3) * BlockEC.BIT_SIZE;
-		double y = pos.getY() - 3 * BlockEC.BIT_SIZE;
-		double z = pos.getZ() + (rand.nextDouble() * 6 - 3) * BlockEC.BIT_SIZE;
+		double x = pos.getX() + (rand.nextDouble() * 6 - 3) / 16;
+		double y = pos.getY() - 3D / 16;
+		double z = pos.getZ() + (rand.nextDouble() * 6 - 3) / 16;
 
 		world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, type), x, y, z, flow.getX(), flow.getY(), flow.getZ());
 	}

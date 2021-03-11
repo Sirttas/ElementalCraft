@@ -10,10 +10,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.block.instrument.purifier.BlockPurifier;
-import sirttas.elementalcraft.block.tile.renderer.RendererEC;
+import sirttas.elementalcraft.block.tile.renderer.AbstractRendererEC;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererInscriber extends RendererEC<TileInscriber> {
+public class RendererInscriber extends AbstractRendererEC<TileInscriber> {
 	public RendererInscriber(TileEntityRendererDispatcher rendererDispatcher) {
 		super(rendererDispatcher);
 	}

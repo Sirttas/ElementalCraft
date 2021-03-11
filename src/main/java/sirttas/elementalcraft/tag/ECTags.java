@@ -8,9 +8,14 @@ import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.ResourceLocation;
+import sirttas.dpanvil.api.tag.DataTagRegistry;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.rune.Rune;
 
 public class ECTags {
+	
+	private ECTags() {}
+	
 	public static class Items {
 		public static final INamedTag<Item> INFUSABLE_SWORDS = createTag("infusable/swords");
 		public static final INamedTag<Item> INFUSABLE_PICKAXES = createTag("infusable/pickaxes");
@@ -28,6 +33,7 @@ public class ECTags {
 		public static final INamedTag<Item> SPELL_HOLDERS = createTag("spell_holders");
 		public static final INamedTag<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
 		public static final INamedTag<Item> CRYSTALS = createTag("crystals");
+		public static final INamedTag<Item> LENSES = createTag("lenses");
 
 		public static final INamedTag<Item> SHARDS = createTag("shards");
 		public static final INamedTag<Item> DEFAULT_SHARDS = createTag("shards/default");
@@ -56,7 +62,6 @@ public class ECTags {
 		public static final INamedTag<Item> INPUT_GEMS = createTag("gems/input");
 
 		public static final INamedTag<Item> RUNE_SLATES = createTag("rune_slates");
-
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Item> PIPES = createTag("pipes");
 		public static final INamedTag<Item> SHRINES = createTag("shrines");
@@ -64,6 +69,11 @@ public class ECTags {
 		public static final INamedTag<Item> PURE_ORES = createTag("pure_ores");
 		public static final INamedTag<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
+		public static final INamedTag<Item> IMPROVED_RECEPTACLES = createTag("improved_receptacles");
+		public static final INamedTag<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");
+		public static final INamedTag<Item> BOTANIA_PETALS = createOptional("botania", "petals");
+		public static final INamedTag<Item> BOTANIA_LIVINGROCK = createOptional("botania", "livingrock");
+		
 		public static final INamedTag<Item> FORGE_SWORDS = createForgeTag("swords");
 		public static final INamedTag<Item> FORGE_PICKAXES = createForgeTag("pickaxes");
 		public static final INamedTag<Item> FORGE_AXES = createForgeTag("axes");
@@ -77,6 +87,7 @@ public class ECTags {
 		public static final INamedTag<Item> FORGE_LEGGINGS = createForgeTag("leggings");
 		public static final INamedTag<Item> FORGE_BOOTS = createForgeTag("boots");
 
+		public static final INamedTag<Item> INGOTS_MANASTEEL = createOptional("forge", "ingots/manasteel");
 		public static final INamedTag<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
 		public static final INamedTag<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
 		public static final INamedTag<Item> INGOTS_FIREITE = createForgeTag("ingots/fireite");
@@ -87,10 +98,16 @@ public class ECTags {
 		public static final INamedTag<Item> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
 		public static final INamedTag<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 
+		private Items() {}
+		
 		private static INamedTag<Item> createTag(String name) {
 			return ItemTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
 		}
 
+		private static INamedTag<Item> createOptional(String namespace, String name) {
+			return ItemTags.createOptional(new ResourceLocation(namespace, name));
+		}
+		
 		private static INamedTag<Item> createForgeTag(String name) {
 			return ItemTags.makeWrapperTag("forge:" + name);
 		}
@@ -127,6 +144,7 @@ public class ECTags {
 		public static final INamedTag<Block> INSTRUMENTS = createTag("instrumentrs");
 		public static final INamedTag<Block> PEDESTALS = createTag("pedestals");
 
+		public static final INamedTag<Block> RUNE_AFFECTED = createTag("rune_affected");
 		public static final INamedTag<Block> RUNE_AFFECTED_SPEED = createTag("rune_affected/speed");
 		public static final INamedTag<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
 		public static final INamedTag<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
@@ -139,6 +157,8 @@ public class ECTags {
 		public static final INamedTag<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
 		public static final INamedTag<Block> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 
+		private Blocks() {}
+		
 		private static INamedTag<Block> createTag(String name) {
 			return BlockTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
 		}
@@ -166,6 +186,21 @@ public class ECTags {
 				loc = TagCollectionManager.getManager().getBlockTags().getDirectIdFromTag(tag);
 			}
 			return loc;
+		}
+	}
+	
+	public static class Runes {
+		
+		public static final DataTagRegistry<Rune> RUNE_TAGS = new DataTagRegistry<>();
+		
+		public static final INamedTag<Rune> SPEED_RUNES = createTag("speed_runes");
+		public static final INamedTag<Rune> ELEMENT_PRESERVATION_RUNES = createTag("element_preservation_runes");
+		public static final INamedTag<Rune> LUCK_RUNES = createTag("luck_runes");
+		
+		private Runes() {}
+		
+		private static INamedTag<Rune> createTag(String name) {
+			return RUNE_TAGS.makeWrapperTag(ElementalCraft.createRL(name));
 		}
 	}
 }

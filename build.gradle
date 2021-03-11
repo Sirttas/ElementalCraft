@@ -3,17 +3,22 @@ buildscript {
         maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
-        maven { url = 'https://dist.creeper.host/Sponge/maven' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 
+plugins {
+    id 'java'
+    id 'eclipse'
+	id 'maven-publish'
+	id "org.sonarqube" version "3.0"
+}
+
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 mixin {
@@ -24,10 +29,32 @@ version = "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+
+sourceSets {
+    api {
+        java {
+            srcDir 'src/api/java'
+        }
+    }
+    main {
+    	resources {
+    		srcDir 'src/generated/resources'
+		}
+		compileClasspath += api.output
+        runtimeClasspath += api.output
+	}
+}
+
+configurations {
+	apiCompile.extendsFrom(compile)
+    apiImplementation.extendsFrom(implementation)
+    apiCompileOnly.extendsFrom(compileOnly)
+    apiRuntimeOnly.extendsFrom(runtimeOnly)
+}
 
 minecraft {
-    mappings channel: 'snapshot', version: "${mappings_version}"
+    mappings channel: "${mappings_channel}", version: "${mappings_version}"
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -96,7 +123,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     
-    compile "org.spongepowered:mixin:${mixins_version}"
+    annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     
     // mod dependencies
@@ -105,7 +132,7 @@ dependencies {
     compileOnly fg.deobf("sirttas.dpanvil:dpanvil:${dpanvil_version}:api")
     runtimeOnly fg.deobf("sirttas.dpanvil:dpanvil:${dpanvil_version}")
     
-    implementation fg.deobf("mezz.jei:jei-1.16.3:${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${jei_version}")
     
     // mod interactions
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
@@ -116,6 +143,9 @@ dependencies {
 }
 
 jar {
+	from sourceSets.api.output
+    from sourceSets.main.output
+    
     manifest {
         attributes([
             "Specification-Title": "ElementalCraft",
@@ -128,9 +158,16 @@ jar {
             "MixinConfigs": "elementalcraft.mixins.json"
         ])
     }
+    afterEvaluate {finalizedBy('reobfJar') }
 }
 
-jar.finalizedBy('reobfJar') 
+task apiJar(type: Jar) {
+    archiveClassifier = "api"
+    from sourceSets.api.output
+    afterEvaluate {finalizedBy('reobfJar') }
+}
+
+build.dependsOn tasks.apiJar
 
 publishing {
     publications {

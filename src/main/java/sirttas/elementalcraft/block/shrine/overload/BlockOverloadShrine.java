@@ -13,9 +13,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.BlockShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
 
-public class BlockOverloadShrine extends BlockShrine {
+public class BlockOverloadShrine extends AbstractBlockShrine {
 
 	public static final String NAME = "overloadshrine";
 
@@ -51,6 +51,7 @@ public class BlockOverloadShrine extends BlockShrine {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case UP:

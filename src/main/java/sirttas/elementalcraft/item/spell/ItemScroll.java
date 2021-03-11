@@ -42,7 +42,7 @@ public class ItemScroll extends AbstractItemSpellHolder {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		if (spell != Spells.none) {
-			tooltip.add(new StringTextComponent("").append(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
+			tooltip.add(new StringTextComponent("").appendSibling(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
 			addAttributeTooltip(tooltip, spell);
 		}
 	}

@@ -11,8 +11,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
@@ -24,15 +26,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public abstract class AbstractBlockTank extends BlockECTileProvider {
+public abstract class AbstractBlockTank extends AbstractBlockECTileProvider {
 
-	public AbstractBlockTank() {
+	protected AbstractBlockTank() {
 		super(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).notSolid());
 	}
 
@@ -50,6 +53,7 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 	}
 
 	@Override
+	@Deprecated
 	@OnlyIn(Dist.CLIENT)
 	public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
 		return 1.0F;
@@ -63,7 +67,7 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), world, Vector3d.copyCentered(pos).add(0, 0.2D, 0), rand));
 	}
 
-	private Optional<IElementStorage> getElementStorage(World world, BlockPos pos) {
+	private Optional<ISingleElementStorage> getElementStorage(World world, BlockPos pos) {
 		return TileEntityHelper.getTileEntityAs(world, pos, IElementContainer.class).map(IElementContainer::getElementStorage);
 	}
 
@@ -88,5 +92,33 @@ public abstract class AbstractBlockTank extends BlockECTileProvider {
 			}
 		}
 	}
+	
+	@Override
+	@Deprecated
+	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (!state.matchesBlock(newState.getBlock())) {
+			BlockPos up = pos.up();
+
+			if (!worldIn.getBlockState(up).isValidPosition(worldIn, up)) {
+				worldIn.destroyBlock(up, true);
+			}
+		}
+		super.onReplaced(state, worldIn, pos, newState, isMoving);
+	}
+	
+	@Override
+	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+		items.add(new ItemStack(this.asItem()));
+		
+		for (ElementType type : ElementType.allValid()) {
+			ItemStack stack = new ItemStack(this.asItem());
+			CompoundNBT tag = stack.getOrCreateChildTag(ECNames.BLOCK_ENTITY_TAG);
+			
+			tag.put(ECNames.ELEMENT_STORAGE, new SingleElementStorage(type, this.getDefaultCapacity(), this.getDefaultCapacity()).writeNBT());
+			items.add(stack);
+		}
+	}
+
+	protected abstract int getDefaultCapacity();
 
 }

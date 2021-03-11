@@ -35,7 +35,7 @@ public class SpellBookScreen extends ContainerScreen<SpellBookContainer> impleme
 		ITextComponent text = new StringTextComponent(MessageFormat.format("{0}/{1}", this.container.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
 
 		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-		this.font.func_243248_b(matrixStack, text, this.xSize - this.font.func_243245_a(text.func_241878_f()) - this.titleX, this.titleY, 4210752);
+		this.font.drawText(matrixStack, text, (float) this.xSize - this.font.func_243245_a(text.func_241878_f()) - this.titleX, this.titleY, 4210752);
 
 	}
 

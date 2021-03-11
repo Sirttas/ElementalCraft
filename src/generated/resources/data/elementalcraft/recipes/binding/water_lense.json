@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "water",
+  "element_amount": 1000,
+  "ingredients": [
+    {
+      "tag": "forge:gems/quartz"
+    },
+    {
+      "item": "elementalcraft:burnt_glass_pane"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:water_lense"
+  }
+}

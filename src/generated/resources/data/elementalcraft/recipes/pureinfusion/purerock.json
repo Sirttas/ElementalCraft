@@ -18,5 +18,7 @@
       "item": "minecraft:purpur_block"
     }
   ],
-  "output": "elementalcraft:purerock"
+  "output": {
+    "item": "elementalcraft:purerock"
+  }
 }

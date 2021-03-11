@@ -21,7 +21,7 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 
 	protected final DataGenerator generator;
 
-	public AbstractECLootProvider(DataGenerator generator) {
+	protected AbstractECLootProvider(DataGenerator generator) {
 		this.generator = generator;
 	}
 	

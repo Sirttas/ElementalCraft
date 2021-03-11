@@ -16,5 +16,12 @@
       "tag": "minecraft:coals"
     }
   ],
-  "output": "elementalcraft:wii"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:wii"
+      }
+    }
+  }
 }

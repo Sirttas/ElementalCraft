@@ -9,7 +9,7 @@ public abstract class AbstractInstrumentRecipe<T extends ICraftingTile> implemen
 	protected ElementType elementType;
 	protected ResourceLocation id;
 
-	public AbstractInstrumentRecipe(ResourceLocation id, ElementType type) {
+	protected AbstractInstrumentRecipe(ResourceLocation id, ElementType type) {
 		this.elementType = type;
 		this.id = id;
 	}

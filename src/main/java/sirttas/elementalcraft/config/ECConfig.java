@@ -25,6 +25,8 @@ public class ECConfig {
 		CLIENT = clientPair.getLeft();
 	}
 
+	private ECConfig() {}
+	
 	public static class Common {
 		public final DoubleValue swordAirInfusionSpeedBonus;
 		public final DoubleValue leggingsAirInfusionSpeedBonus;
@@ -114,6 +116,7 @@ public class ECConfig {
 		public final IntValue pedestalMaxRunes;
 
 		public final IntValue receptacleDurability;
+		public final IntValue improvedReceptacleDurability;
 		public final BooleanValue receptacleEnchantable;
 		public final IntValue elementHolderCapacity;
 		public final IntValue elementHolderTransferAmount;
@@ -129,7 +132,14 @@ public class ECConfig {
 		public final IntValue inertCrystalSize;
 		public final IntValue inertCrystalYMax;
 		public final IntValue sourceSpawnChance;
+		public final IntValue oceanSourceSpawnChance;
+		public final IntValue randomSourceSpawnChance;
 		public final IntValue sourceAltarDistance;
+
+		public final BooleanValue disableSourceExhaustion;
+		public final IntValue sourceCapacityMin;
+		public final IntValue sourceCapacityMax;
+		public final IntValue sourceRecoverRate;
 
 		public final BooleanValue mekanismInteracionEnabled;
 		public final DoubleValue mekanismPureOreDimishingAmount;
@@ -260,7 +270,8 @@ public class ECConfig {
 			pedestalCapacity = builder.comment("The element capacity of a pedestal.").defineInRange("pedestalCapacity", 10000, 0, 100000000);
 
 			builder.pop(2).comment("Items config").push("items");
-			receptacleDurability = builder.comment("Define source receptacle durablility (0 for unbreakable).").defineInRange("receptacleDurability", 20, 0, 1000);
+			receptacleDurability = builder.comment("Define source receptacle durablility (0 for unbreakable).").defineInRange("receptacleDurability", 5, 0, 1000);
+			improvedReceptacleDurability = builder.comment("Define improved source receptacle durablility (0 for unbreakable).").defineInRange("improvedReceptacleDurability", 20, 0, 1000);
 			receptacleEnchantable = builder.comment("Define if or not receptacles can be enchanted.").define("receptacleEnchantable", false);
 			elementHolderCapacity = builder.comment("The element capacity of an element holder.").defineInRange("elementHolderCapacity", 10000, 0, 100000000);
 			elementHolderTransferAmount = builder.comment("The amount of element transfered by an element holder.").defineInRange("elementHolderTransferAmount", 25, 0, 1000);
@@ -278,8 +289,17 @@ public class ECConfig {
 			inertCrystalSize = builder.comment("Size of inert crystal vein.").defineInRange("inertCrystalSize", 9, 1, 100);
 			inertCrystalYMax = builder.comment("max Y level of inert crystal.").defineInRange("inertCrystalYMax", 64, 1, 256);
 			builder.pop();
-			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 20, 1, 10000);
-			sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 16, 0, 100);
+			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 30, 1, 10000);
+			oceanSourceSpawnChance = builder.comment("Chance to add a source in an ocean biome (the small the more frequante).").defineInRange("oceanSourceSpawnChance", 150, 1, 10000);
+			randomSourceSpawnChance = builder.comment("Chance to add a source in world ingoring biome elemen type (the small the more frequante).").defineInRange("randomSourceSpawnChance", 300, 1,
+					10000);
+			sourceAltarDistance = builder.comment("CSource Altar genreration distance setting.").defineInRange("sourceAltarDistance", 64, 0, 100);
+
+			builder.pop().comment("Source config").push("source");
+			disableSourceExhaustion = builder.comment("set to true to make sources infinite.").define("disableSourceExhaustion", false);
+			sourceCapacityMin = builder.comment("The minimum element capacity of a source.").defineInRange("sourceCapacityMin", 500000, 0, 10000000);
+			sourceCapacityMax = builder.comment("The maximum element capacity of a source.").defineInRange("sourceCapacityMax", 1000000, 0, 10000000);
+			sourceRecoverRate = builder.comment("The element a source can generate per tick.").defineInRange("sourceRecoverRate", 5, 0, 100);
 
 			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);

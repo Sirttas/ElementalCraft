@@ -19,5 +19,7 @@
       "item": "elementalcraft:whiterock"
     }
   ],
-  "output": "elementalcraft:pedestal_fire"
+  "output": {
+    "item": "elementalcraft:pedestal_fire"
+  }
 }

@@ -14,17 +14,19 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.tile.TileECTickable;
+import sirttas.elementalcraft.block.source.TileSource;
+import sirttas.elementalcraft.block.tile.AbstractTileECTickable;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.rune.handler.RuneHandler;
 
-public class TileExtractor extends TileECTickable {
+public class TileExtractor extends AbstractTileECTickable {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static TileEntityType<TileExtractor> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static final TileEntityType<TileExtractor> TYPE = null;
 
 	private int extractionAmount;
 	private final RuneHandler runeHandler;
@@ -76,7 +78,8 @@ public class TileExtractor extends TileECTickable {
 
 		super.tick();
 		if (canExtract(sourceElementType)) {
-			getTank().insertElement(Math.round(runeHandler.getTransferSpeed(extractionAmount)), sourceElementType, false);
+			TileEntityHelper.getTileEntityAs(world, pos.up(), TileSource.class).map(TileSource::getElementStorage)
+					.ifPresent(sourceStorage -> sourceStorage.transferTo(getTank(), runeHandler.getTransferSpeed(extractionAmount), runeHandler.getElementPreservation()));
 		}
 	}
 
@@ -85,7 +88,7 @@ public class TileExtractor extends TileECTickable {
 	}
 
 	private boolean canExtract(ElementType sourceElementType) {
-		IElementStorage tank = getTank();
+		ISingleElementStorage tank = getTank();
 
 		return hasWorld() && sourceElementType != ElementType.NONE && tank != null && (tank.getElementAmount() < tank.getElementCapacity() || tank.getElementType() != sourceElementType);
 	}

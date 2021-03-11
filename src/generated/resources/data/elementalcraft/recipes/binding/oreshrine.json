@@ -16,5 +16,7 @@
       "item": "minecraft:diamond_pickaxe"
     }
   ],
-  "output": "elementalcraft:oreshrine"
+  "output": {
+    "item": "elementalcraft:oreshrine"
+  }
 }

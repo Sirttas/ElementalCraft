@@ -14,7 +14,8 @@ import sirttas.elementalcraft.ElementalCraft;
 
 public class ECRenderTypes {
 
-	@SuppressWarnings("deprecation") public static final RenderType GHOST = RenderType.makeType(ElementalCraft.createRL("ghost").toString(), DefaultVertexFormats.BLOCK, GL11.GL_QUADS, 256,
+	@SuppressWarnings("deprecation") 
+	public static final RenderType GHOST = RenderType.makeType(ElementalCraft.createRL("ghost").toString(), DefaultVertexFormats.BLOCK, GL11.GL_QUADS, 256,
 			RenderType.State.getBuilder().texture(new RenderState.TextureState(AtlasTexture.LOCATION_BLOCKS_TEXTURE, false, false)).alpha(new RenderState.AlphaState(0.5F) {
 				@Override
 				public void setupRenderState() {
@@ -33,4 +34,6 @@ public class ECRenderTypes {
 					RenderSystem.popMatrix();
 				}
 			}).build(false));
+	
+	private ECRenderTypes() {}
 }

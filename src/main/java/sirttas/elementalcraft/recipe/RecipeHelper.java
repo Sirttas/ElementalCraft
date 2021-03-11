@@ -21,6 +21,8 @@ import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
 public class RecipeHelper {
 
+	private RecipeHelper() {}
+	
 	public static Ingredient deserializeIngredient(JsonObject json, String key) {
 		if (JSONUtils.isJsonArray(json, key)) {
 			return Ingredient.deserialize(JSONUtils.getJsonArray(json, key));

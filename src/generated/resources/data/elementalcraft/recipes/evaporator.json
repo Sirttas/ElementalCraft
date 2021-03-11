@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "idi",
+    "igi",
     "igi",
     "ici"
   ],
@@ -14,9 +14,6 @@
     },
     "g": {
       "tag": "forge:glass"
-    },
-    "d": {
-      "tag": "forge:gems/diamond"
     }
   },
   "result": {

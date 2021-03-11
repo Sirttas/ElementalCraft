@@ -12,6 +12,8 @@ public class TickHandler {
 	
 	private static long ticksInGame = 0;
 	
+	private TickHandler() {}
+	
 	@SubscribeEvent
 	public static void clientTickEnd(TickEvent.ClientTickEvent event) {
 		if (event.phase == TickEvent.Phase.END && !Minecraft.getInstance().isGamePaused()) {

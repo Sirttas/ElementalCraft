@@ -16,5 +16,12 @@
       "tag": "forge:storage_blocks/coal"
     }
   ],
-  "output": "elementalcraft:zod"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:zod"
+      }
+    }
+  }
 }

@@ -45,6 +45,8 @@ public class Spells {
 	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
 	@ObjectHolder(ElementalCraft.MODID + ":speed") public static EffectSpell speed;
 
+	private Spells() {}
+	
 	@SubscribeEvent
 	public static void registerSpells(RegistryEvent.Register<Spell> event) {
 		IForgeRegistry<Spell> registry = event.getRegistry();

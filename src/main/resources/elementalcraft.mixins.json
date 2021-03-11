@@ -5,6 +5,7 @@
   "package": "sirttas.elementalcraft.mixin",
   "refmap": "elementalcraft.refmap.json",
   "mixins": [
+    "MixinMinecraftServer",
     "MixinRepairContainer",
     "MixinEnchantmentContainer",
     "MixinDimensionStructuresSettings"

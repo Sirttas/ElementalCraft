@@ -8,7 +8,7 @@ public abstract class SpellInstance {
 	protected final Entity sender;
 	private int remaingTicks;
 
-	public SpellInstance(Entity sender, Spell spell) {
+	protected SpellInstance(Entity sender, Spell spell) {
 		this.sender = sender;
 		this.spell = spell;
 		this.remaingTicks = spell.getCooldown();

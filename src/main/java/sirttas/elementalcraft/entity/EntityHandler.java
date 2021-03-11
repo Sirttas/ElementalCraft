@@ -22,6 +22,8 @@ import sirttas.elementalcraft.item.ECItems;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public class EntityHandler {
 
+	private EntityHandler() {}
+	
 	@SubscribeEvent
 	public static void onEntityUseItemTick(LivingEntityUseItemEvent.Tick event) {
 		if (InfusionHelper.hasAirInfusionFasterDraw(event.getItem()) && event.getDuration() % 3 == 0) {

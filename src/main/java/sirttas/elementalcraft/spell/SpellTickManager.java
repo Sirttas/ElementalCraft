@@ -76,7 +76,7 @@ public class SpellTickManager {
 		if (spell.isValid() && entityCooldowns != null && entityCooldowns.containsKey(spell)) {
 			Cooldown cooldown = entityCooldowns.get(spell);
 			float current = cooldown.expireTicks - (tick + partialTick);
-			float total = cooldown.expireTicks - cooldown.createTicks;
+			float total = (float) cooldown.expireTicks - cooldown.createTicks;
 
 			return current / total;
 		}

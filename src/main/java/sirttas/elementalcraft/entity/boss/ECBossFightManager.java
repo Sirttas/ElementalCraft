@@ -21,7 +21,7 @@ public class ECBossFightManager {
 
 	@SuppressWarnings("unused")
 	private ElementType type;
-	private ECBossEntity boss;
+	private AbstractECBossEntity boss;
 
 
 	public ECBossFightManager(ServerWorld world) {

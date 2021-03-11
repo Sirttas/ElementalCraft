@@ -2,20 +2,17 @@ https://mcp.thiakil.com/
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
 bosses
 pipe element filter
+pipe priority
 sound
-element pipe interface
+element pipe interface/capability
 runewords
 elemental animals with kibbles ? also: https://www.reddit.com/r/MinecraftModIdeas/comments/hzzolz/mod_idea_elemental_horses/
-source exaust
 https://github.com/Kompreya/Kompy-Textures
 https://game-icons.net/
 use infused tools in crafts ?
-source name by elements
-world gen config
+source name by elements (the one prob)
 rework particles
-difuser
 spell particles
-spell desk in jei
 
 
 spells:
@@ -24,20 +21,27 @@ spells:
 	translocation
 	
 2.6:
+	remote element tranfer
+	pipe cover frame
+	source stabilizer
+	source analyzer
+	stem poleinisation shrine upgrade
+	ordered sorter config gui
+	crystalizer luck tweek
+	
+2.7:
 	pure element holder
-	rework element holder finding to work with mltiple holders
 	holder element flow particles
 	fix spell book
 	jewels
+	difuser
+	spell desk in jei
+	rework spell craft
 
 3.0:
 	rename classes
 	normalize ids
 	rework recipes
-	add recipes sub-folders
-	make instruments unable to exist without tank
-	prevent placing instrument not on top of containers
-	source exaust
 	air mill grindstone
 	ellementalist
 	illementalist

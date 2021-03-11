@@ -13,3 +13,5 @@
 /.factorypath
 /Users/
 *.hprof
+/libs/
+/sonar.bat

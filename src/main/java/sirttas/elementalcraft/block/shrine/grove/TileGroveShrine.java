@@ -18,17 +18,18 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.tag.ECTags;
 
-public class TileGroveShrine extends TileShrine {
+public class TileGroveShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGroveShrine.NAME) public static TileEntityType<TileGroveShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockGroveShrine.NAME) public static final TileEntityType<TileGroveShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.groveShrinePeriode.get()).consumeAmount(ECConfig.COMMON.groveShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.groveShrineRange.get());
 
-	private static List<BlockItem> flowers = null;
 
 	public TileGroveShrine() {
 		super(TYPE, PROPERTIES);
@@ -59,10 +60,9 @@ public class TileGroveShrine extends TileShrine {
 
 	@Override
 	protected boolean doTick() {
-		loadFlowers();
 		if (world instanceof ServerWorld) {
 			return findGrass().map(p -> {
-				BlockItem item = flowers.get(this.world.rand.nextInt(flowers.size()));
+				BlockItem item = findFlower();
 				
 				item.tryPlace(new DirectionalPlaceContext(world, p, Direction.DOWN, new ItemStack(item), Direction.UP));
 				world.playEvent(2005, p, 0);
@@ -72,9 +72,11 @@ public class TileGroveShrine extends TileShrine {
 		return false;
 	}
 
-	private static void loadFlowers() {
-		if (flowers == null) {
-			flowers = ItemTags.FLOWERS.getAllElements().stream().filter(BlockItem.class::isInstance).map(BlockItem.class::cast).collect(Collectors.toList());
-		}
+	private BlockItem findFlower() {
+		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE) ? ECTags.Items.MYSTICAL_GROVE_FLOWERS.getAllElements().stream()
+				: ItemTags.FLOWERS.getAllElements().stream().filter(item -> !item.getRegistryName().getNamespace().equalsIgnoreCase("botania"))) // FIXME non-required tags seems glitchy so we filter out all botania flowers
+				.filter(BlockItem.class::isInstance).map(BlockItem.class::cast).collect(Collectors.toList());
+
+		return flowers.get(this.world.rand.nextInt(flowers.size()));
 	}
 }

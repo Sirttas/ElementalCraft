@@ -26,7 +26,7 @@ import net.minecraftforge.fml.DistExecutor;
 import sirttas.dpanvil.api.event.DataPackReloadCompletEvent;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.pureore.injector.PureOreRecipeInjector;
+import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -67,22 +67,27 @@ public class PureOreManager {
 				.stream().filter(e -> !e.isEmpty()).map(JEIPurifierRecipe::new).collect(Collectors.toList());
 	}
 
-	private Collection<PureOreRecipeInjector<?, ? extends IRecipe<?>>> getInjectors() {
-		return PureOreRecipeInjector.REGISTRY.getValues();
+	private Collection<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> getInjectors() {
+		return AbstractPureOreRecipeInjector.REGISTRY.getValues();
 	}
 
 	private void generatePureOres(RecipeManager recipeManager) {
-		Collection<PureOreRecipeInjector<?, ? extends IRecipe<?>>> injectors = getInjectors();
+		Collection<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> injectors = getInjectors();
 
 		ElementalCraft.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
-				() -> injectors.stream().map(PureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
+				() -> injectors.stream().map(AbstractPureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
 				() -> ECTags.Items.PURE_ORES.getAllElements().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 
 		for (Item ore : ECTags.Items.PURE_ORES.getAllElements()) {
 			Entry entry = new Entry(ore);
+			boolean isInBlacklist = ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST.contains(ore);
 
-			injectors.forEach(injector -> injector.getRecipe(ore).ifPresent(entry::addRecipe));
+			injectors.forEach(injector -> {
+				if (!injector.isModProcessing() || !isInBlacklist) {
+					injector.getRecipe(ore).ifPresent(entry::addRecipe);
+				}
+			});
 			addEntry(entry);
 		}
 
@@ -98,7 +103,7 @@ public class PureOreManager {
 		ElementalCraft.LOGGER.info("Pure ore generation ended");
 	}
 
-	private <C extends IInventory, T extends IRecipe<C>> void inject(PureOreRecipeInjector<C, T> injector, List<PureOreManager.Entry> entries) {
+	private <C extends IInventory, T extends IRecipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, List<PureOreManager.Entry> entries) {
 		Map<ResourceLocation, T> map = injector.getRecipes();
 
 		map.putAll(entries.stream().distinct().map(entry -> this.injectEntry(injector, entry)).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o, (recipe1, recipe2) -> {
@@ -108,7 +113,7 @@ public class PureOreManager {
 		injector.inject(map);
 	}
 
-	public <C extends IInventory, T extends IRecipe<C>> T injectEntry(PureOreRecipeInjector<C, T> injector, Entry entry) {
+	public <C extends IInventory, T extends IRecipe<C>> T injectEntry(AbstractPureOreRecipeInjector<C, T> injector, Entry entry) {
 		IRecipeType<T> recipeType = injector.getRecipeType();
 		try {
 			T recipe = entry.getRecipe(recipeType);
@@ -169,7 +174,7 @@ public class PureOreManager {
 			recipes.put(recipe.getType(), recipe);
 			if (result.isEmpty()) {
 				result = getInjectors().stream().filter(injector -> injector.getRecipeType().equals(recipeType)).findAny()
-						.map(injector -> ((PureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe)).filter(stack -> !stack.isEmpty()).orElse(recipe.getRecipeOutput());
+						.map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe)).filter(stack -> !stack.isEmpty()).orElse(recipe.getRecipeOutput());
 				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ItemEC.lookupColor(result));
 			}
 		}

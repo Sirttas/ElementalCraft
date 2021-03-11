@@ -28,8 +28,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
-import sirttas.elementalcraft.item.holder.ItemElementHolder;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProvider {
@@ -79,19 +79,10 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	}
 
 	public boolean consume(Entity sender) {
-		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
-			ItemStack stack = ItemElementHolder.find((PlayerEntity) sender, getElementType());
+		if (!(sender instanceof PlayerEntity) || !((PlayerEntity) sender).isCreative()) {
 			int consumeAmount = getConsumeAmount();
 			
-			if (!stack.isEmpty()) {
-				ItemElementHolder holder = (ItemElementHolder) stack.getItem();
-
-				if (holder.getElementAmount(stack) >= consumeAmount) {
-					holder.extractElement(stack, consumeAmount);
-					return true;
-				}
-			}
-			return false;
+			return CapabilityElementStorage.get(sender).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), false) >= consumeAmount).orElse(false);
 		}
 		return true;
 	}

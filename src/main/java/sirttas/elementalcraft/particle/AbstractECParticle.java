@@ -49,7 +49,7 @@ public abstract class AbstractECParticle extends SpriteTexturedParticle {
 		}
 	};
 	
-	public AbstractECParticle(ClientWorld world, Vector3d coord) {
+	protected AbstractECParticle(ClientWorld world, Vector3d coord) {
 		super(world, coord.getX(), coord.getY(), coord.getZ());
 		this.coordX = coord.getX();
 		this.coordY = coord.getY();

@@ -13,4 +13,9 @@ public class BlockTankCreative extends BlockTank {
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TileTankCreative();
 	}
+	
+	@Override
+	protected int getDefaultCapacity() {
+		return 1000000;
+	}
 }

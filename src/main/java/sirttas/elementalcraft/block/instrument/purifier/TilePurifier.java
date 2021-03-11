@@ -7,20 +7,20 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.instrument.TileInstrument;
+import sirttas.elementalcraft.block.instrument.AbstractTileInstrument;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
 
-public class TilePurifier extends TileInstrument<TilePurifier, PurifierRecipe> {
+public class TilePurifier extends AbstractTileInstrument<TilePurifier, PurifierRecipe> {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static TileEntityType<TilePurifier> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPurifier.NAME) public static final TileEntityType<TilePurifier> TYPE = null;
 
 	private final PurifierInventory inventory;
 
 	public TilePurifier() {
 		super(TYPE, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
-		setOutputSlot(1);
+		outputSlot = 1;
 		inventory = new PurifierInventory(this::markDirty);
 	}
 

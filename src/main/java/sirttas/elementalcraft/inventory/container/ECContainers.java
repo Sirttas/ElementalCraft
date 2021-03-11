@@ -16,6 +16,8 @@ public class ECContainers {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemSpellBook.NAME) public static ContainerType<SpellBookContainer> spellBook;
 
+	private ECContainers() {}
+	
 	@SubscribeEvent
 	public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
 		IForgeRegistry<ContainerType<?>> registry = event.getRegistry();

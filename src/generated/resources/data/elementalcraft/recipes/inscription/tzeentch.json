@@ -16,5 +16,12 @@
       "tag": "forge:gems/emerald"
     }
   ],
-  "output": "elementalcraft:tzeentch"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:tzeentch"
+      }
+    }
+  }
 }

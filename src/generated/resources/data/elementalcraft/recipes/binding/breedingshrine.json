@@ -25,5 +25,7 @@
       "tag": "forge:gems/diamond"
     }
   ],
-  "output": "elementalcraft:breedingshrine"
+  "output": {
+    "item": "elementalcraft:breedingshrine"
+  }
 }

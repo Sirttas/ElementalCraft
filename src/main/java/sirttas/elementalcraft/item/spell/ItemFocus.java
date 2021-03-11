@@ -39,9 +39,9 @@ public class ItemFocus extends AbstractItemSpellHolder {
 			TextFormatting formating = s == spell ? TextFormatting.AQUA : TextFormatting.GRAY;
 
 			if (i == 1) {
-				tooltip.add(new StringTextComponent("").append(s.getDisplayName()).mergeStyle(formating));
+				tooltip.add(new StringTextComponent("").appendSibling(s.getDisplayName()).mergeStyle(formating));
 			} else {
-				tooltip.add(new StringTextComponent(i + " ").append(s.getDisplayName()).mergeStyle(formating));
+				tooltip.add(new StringTextComponent(i + " ").appendSibling(s.getDisplayName()).mergeStyle(formating));
 			}
 		});
 		if (spell != Spells.none) {

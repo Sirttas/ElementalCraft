@@ -14,7 +14,6 @@ public class ElementTypeParticleData implements IParticleData {
 	private ElementType elementType;
 	private ParticleType<ElementTypeParticleData> type;
 
-
 	@SuppressWarnings("deprecation")
 	public static final IParticleData.IDeserializer<ElementTypeParticleData> DESERIALIZER = new IParticleData.IDeserializer<ElementTypeParticleData>() {
 		@Override

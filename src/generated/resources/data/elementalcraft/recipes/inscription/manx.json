@@ -16,5 +16,12 @@
       "item": "minecraft:sugar"
     }
   ],
-  "output": "elementalcraft:manx"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:manx"
+      }
+    }
+  }
 }

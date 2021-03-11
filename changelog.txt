@@ -1,3 +1,49 @@
+1.16.5-2.6.0:
+
+- new block: mystical grove shrine upgrade (require botania)
+- new block: solar synthesizer
+- new items: elemental lenses
+- new item: Improved receptacle
+- you can now have a guarantee pristine gem if you use a pure crystal
+- retriever will now correctly trigger when a slot will empty in target inventory
+- source can now get exhausted
+- source spawn varies depend on biomes
+- reduce source spawn rate
+- sources now spawns in the nether and the end
+- sources can now be seen from far away (issue #23)
+- sources now emit a dim light (issue #23)
+- you have 4 guarantee sources one for each elements around world spawn point
+- spells can now use elements from multiple holders
+- evaporator, extractor and pure infuser can now receive preservation runes
+- instruments can now only be placed on top of element containers
+- updated required jei version to 7.6.1.71
+- updated required dp aanvil version to 1.1.2
+- added filled version of tanks in creative tab and jei
+- update some elementopedia entries
+- instrument, pure infuser, retriever and sorter can now be turned off using redstone
+- improved pipe behavior
+- drenched iron, swift alloy and fireite can no be used as base for beacon
+- the ordered sorter will now extract every items if left unconfigured
+- the ordered sorter should work with more item containers
+- you can now change the orienting of the ordered sorter item display by sneeking
+- inscriber can now output any items and not only runes (issue #44)
+- added hardened handle to creative tab
+- fire infusion auto-smelt is now affect by fortune on ores
+- pipes wont send the wrong element type to a container
+- you can now add new bonus or expends the predicate of a shrine upgrade/rune without rewriting it completly
+- you can no add tags to runes
+- you no longer can insert element into pedestals from the top
+- extracted an api package
+- fix a bug with element transfer
+- fix a bug where instrument recipes would reset if a container get emptied
+- fix a bug where instrument would be emptied when right-clicked while full
+- fix runes sprite clipping 
+- fix grove shrine spawning botania flowers
+- fix a bug where you could move while extracting using an element holder and keep extracting
+- fix a bug where instruments and pure infuser would play particle effects even though there was no crafting progress
+- fix element gauge rendering breaking food bar
+
+
 1.16.4-2.5.12:
 
 - fix an ore dupping glitch with mekanism (again, next time I hear about this issue I'm turning off mekanism interaction for good)

@@ -7,8 +7,13 @@
       "tag": "forge:ingots/netherite"
     },
     {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    {
       "item": "elementalcraft:purecrystal"
     }
   ],
-  "output": "elementalcraft:fireite_ingot"
+  "output": {
+    "item": "elementalcraft:fireite_ingot"
+  }
 }

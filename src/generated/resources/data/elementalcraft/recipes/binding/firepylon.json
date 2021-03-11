@@ -16,5 +16,7 @@
       "tag": "forge:ingots/gold"
     }
   ],
-  "output": "elementalcraft:firepylon"
+  "output": {
+    "item": "elementalcraft:firepylon"
+  }
 }

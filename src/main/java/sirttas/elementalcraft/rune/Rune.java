@@ -3,6 +3,8 @@ package sirttas.elementalcraft.rune;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -27,7 +29,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import sirttas.dpanvil.api.codec.CodecHelper;
-import sirttas.dpanvil.api.predicate.block.BlockPosPredicates;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.rune.handler.IRuneHandler;
@@ -85,6 +86,21 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 		return new TranslationTextComponent("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
 	}
+	
+	public static Rune merge(Stream<Rune> runes) {
+		AtomicReference<Rune> atomicValue = new AtomicReference<>();
+		
+		runes.forEach(rune -> {
+			Rune value = atomicValue.get();
+			
+			if (value == null) {
+				atomicValue.set(rune);
+			} else {
+				value.merge(rune);
+			}
+		});
+		return atomicValue.get();
+	}
 
 	public enum BonusType implements IStringSerializable {
 		NONE("none"), SPEED("speed"), ELEMENT_PRESERVATION("element_preservation"), LUCK("luck");
@@ -112,7 +128,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			return NONE;
 		}
 	}
-
+	
 	public static class Builder {
 		public static final Encoder<Builder> ENCODER = Rune.CODEC.comap(builder -> new Rune(builder.predicate, builder.bonuses, builder.maxAmount, builder.model, builder.sprite));
 
@@ -135,11 +151,11 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		}
 
 		public Builder match(Block... block) {
-			return predicate(BlockPosPredicates.match(block));
+			return predicate(IBlockPosPredicate.match(block));
 		}
 
 		public Builder match(INamedTag<Block> tag) {
-			return predicate(BlockPosPredicates.match(tag));
+			return predicate(IBlockPosPredicate.match(tag));
 		}
 
 		public Builder predicate(IBlockPosPredicate predicate) {

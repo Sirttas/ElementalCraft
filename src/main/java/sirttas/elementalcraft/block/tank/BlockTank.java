@@ -14,6 +14,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class BlockTank extends AbstractBlockTank {
@@ -52,6 +53,7 @@ public class BlockTank extends AbstractBlockTank {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		VoxelShape shape = SHAPE;
 		
@@ -106,5 +108,10 @@ public class BlockTank extends AbstractBlockTank {
 			break;
 		}
 		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+	}
+
+	@Override
+	protected int getDefaultCapacity() {
+		return ECConfig.COMMON.tankCapacity.get();
 	}
 }

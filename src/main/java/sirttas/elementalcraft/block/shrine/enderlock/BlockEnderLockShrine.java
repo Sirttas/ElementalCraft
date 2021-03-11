@@ -16,11 +16,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockPylonShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class BlockEnderLockShrine extends BlockPylonShrine {
+public class BlockEnderLockShrine extends AbstractBlockPylonShrine {
 
 	public static final String NAME = "enderlockshrine";
 
@@ -57,13 +57,14 @@ public class BlockEnderLockShrine extends BlockPylonShrine {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return state.get(HALF) == DoubleBlockHalf.LOWER ? LOWER_SHAPE : UPPER_SHAPE;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(TileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(AbstractTileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
 		ParticleHelper.createEnderParticle(world, Vector3d.copy(pos), 8 + rand.nextInt(5), rand);
 	}
 }

@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -22,11 +23,13 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 import sirttas.elementalcraft.interaction.jei.category.PureInfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ImprovedExtractionRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.SolarSynthesisRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.BindingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.CrystallizationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.InscriptionRecipeCategory;
@@ -50,7 +53,24 @@ import sirttas.elementalcraft.spell.SpellHelper;
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
 	private static final ResourceLocation ID = ElementalCraft.createRL("main");
+	private static final ISubtypeInterpreter HOLDER_INTERPRETER = stack -> CapabilityElementStorage.get(stack).map(storage -> {
+		StringBuilder stringBuilder = new StringBuilder();
 
+		ElementType.allValid().forEach(type -> {
+			int amount = storage.getElementAmount(type);
+			
+			if (amount > 0) {
+				stringBuilder.append(type.getString());
+				stringBuilder.append(':');
+				stringBuilder.append(amount);
+				stringBuilder.append(':');
+				stringBuilder.append(storage.getElementCapacity(type));
+				stringBuilder.append(';');
+			}
+		});
+		return stringBuilder.length() > 0 ? stringBuilder.toString() : ISubtypeInterpreter.NONE;
+	}).orElse(ISubtypeInterpreter.NONE);
+	
 	@Override
 	public ResourceLocation getPluginUid() {
 		return ID;
@@ -63,14 +83,16 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration registry) {
+	
 		registry.useNbtForSubtypes(ECItems.scroll);
-		registry.useNbtForSubtypes(ECItems.receptacle);
+		registry.useNbtForSubtypes(ECItems.receptacle, ECItems.improvedReceptacle);
 		registry.useNbtForSubtypes(ECItems.pureOre);
-		registry.useNbtForSubtypes(ECItems.airElementHolder);
-		registry.useNbtForSubtypes(ECItems.earthElementHolder);
-		registry.useNbtForSubtypes(ECItems.fireElementHolder);
-		registry.useNbtForSubtypes(ECItems.waterElementHolder);
 		registry.useNbtForSubtypes(ECItems.rune);
+		registry.useNbtForSubtypes(ECItems.tank, ECItems.tankSmall, ECItems.tankCreative);
+		registry.registerSubtypeInterpreter(ECItems.fireElementHolder, HOLDER_INTERPRETER);
+		registry.registerSubtypeInterpreter(ECItems.waterElementHolder, HOLDER_INTERPRETER);
+		registry.registerSubtypeInterpreter(ECItems.earthElementHolder, HOLDER_INTERPRETER);
+		registry.registerSubtypeInterpreter(ECItems.airElementHolder, HOLDER_INTERPRETER);
 	}
 
 	@Override
@@ -78,6 +100,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new ExtractionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new ImprovedExtractionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new EvaporationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new SolarSynthesisRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new InfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new ToolInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BindingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
@@ -94,6 +117,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECItems.extractor), ExtractionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.improvedExtractor), ImprovedExtractionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.evaporator), EvaporationRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.solarSynthesizer), SolarSynthesisRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.infuser), InfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.improvedBinder), InfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.infuser), ToolInfusionRecipeCategory.UID);
@@ -119,6 +143,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ElementType.allValid(), ExtractionRecipeCategory.UID);
 		registry.addRecipes(ElementType.allValid(), ImprovedExtractionRecipeCategory.UID);
 		registry.addRecipes(EvaporationRecipeCategory.getShards(), EvaporationRecipeCategory.UID);
+		registry.addRecipes(SolarSynthesisRecipeCategory.getLenses(), SolarSynthesisRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(AbstractInfusionRecipe.TYPE).values(), InfusionRecipeCategory.UID);
 		registry.addRecipes(InfusionHelper.getRecipes(), ToolInfusionRecipeCategory.UID);
 		registry.addRecipes(recipeManager.getRecipes(BindingRecipe.TYPE).values(), BindingRecipeCategory.UID);

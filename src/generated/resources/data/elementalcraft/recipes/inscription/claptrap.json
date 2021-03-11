@@ -16,5 +16,12 @@
       "tag": "forge:gems/lapis"
     }
   ],
-  "output": "elementalcraft:claptrap"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:claptrap"
+      }
+    }
+  }
 }

@@ -24,6 +24,8 @@ public class EnderLockHandler {
 
 		IntStream.range(-range, range + 1).forEach(x -> IntStream.range(-range, range + 1).forEach(z -> IntStream.range(0, 4).forEach(y -> RANGE.add(new Vector3i(x, y, z)))));
 	}
+	
+	private EnderLockHandler() {}
 
 	@SubscribeEvent
 	public static void onEndermanTeleport(EnderTeleportEvent event) {

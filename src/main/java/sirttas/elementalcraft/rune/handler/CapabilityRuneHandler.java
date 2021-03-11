@@ -17,11 +17,15 @@ import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.rune.Rune;
 
 public class CapabilityRuneHandler {
+	
 	@CapabilityInject(IRuneHandler.class) public static final Capability<IRuneHandler> RUNE_HANDLE_CAPABILITY = null;
 
+	private CapabilityRuneHandler() {}
+	
 	public static void register() {
 		CapabilityManager.INSTANCE.register(IRuneHandler.class, new Capability.IStorage<IRuneHandler>() {
 			@Override
+			@Deprecated
 			public INBT writeNBT(Capability<IRuneHandler> capability, IRuneHandler instance, Direction side) {
 				ListNBT nbtTagList = new ListNBT();
 
@@ -30,6 +34,7 @@ public class CapabilityRuneHandler {
 			}
 
 			@Override
+			@Deprecated
 			public void readNBT(Capability<IRuneHandler> capability, IRuneHandler instance, Direction side, INBT base) {
 				((ListNBT) base).forEach(nbt -> {
 					String name = ((StringNBT) nbt).getString();

@@ -37,7 +37,7 @@ public final class SpellBookMessage {
 	@SuppressWarnings("resource")
 	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			if (ctx.get().getDirection().getReceptionSide().equals(LogicalSide.CLIENT)) {
+			if (ctx.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
 				Container container = Minecraft.getInstance().player.openContainer;
 
 				if (container instanceof SpellBookContainer) {

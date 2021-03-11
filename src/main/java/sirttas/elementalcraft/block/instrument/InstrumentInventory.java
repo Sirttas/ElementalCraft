@@ -5,9 +5,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.INBTSerializable;
-import sirttas.elementalcraft.inventory.SynchronizableInventory;
+import sirttas.elementalcraft.inventory.AbstractSynchronizableInventory;
 
-public class InstrumentInventory extends SynchronizableInventory implements INBTSerializable<CompoundNBT> {
+public class InstrumentInventory extends AbstractSynchronizableInventory implements INBTSerializable<CompoundNBT> {
 
 	private final NonNullList<ItemStack> stacks;
 	private final int size;

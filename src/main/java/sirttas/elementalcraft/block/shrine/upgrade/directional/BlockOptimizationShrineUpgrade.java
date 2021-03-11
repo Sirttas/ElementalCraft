@@ -8,7 +8,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
-public class BlockOptimizationShrineUpgrade extends BlockDirectionalShrineUpgrade {
+public class BlockOptimizationShrineUpgrade extends AbstractBlockDirectionalShrineUpgrade {
 
 	public static final String NAME = "shrine_upgrade_optimization";
 
@@ -55,6 +55,7 @@ public class BlockOptimizationShrineUpgrade extends BlockDirectionalShrineUpgrad
 	private static final VoxelShape SHAPE_EAST = VoxelShapes.or(BASE_1_EAST, BASE_2_EAST, PIPE_1_EAST, PIPE_2_EAST, PLATE_EAST);
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case DOWN:

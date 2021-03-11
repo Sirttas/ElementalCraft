@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ifi",
+    "crc",
+    "ifi"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "r": {
+      "item": "elementalcraft:receptacle_empty"
+    },
+    "f": {
+      "tag": "forge:ingots/fireite"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:receptacle_improved_empty"
+  }
+}

@@ -38,8 +38,8 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
-import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
-import sirttas.elementalcraft.block.shrine.BlockShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockPylonShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.item.ECItems;
@@ -61,11 +61,11 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 			}
 			if (block instanceof SlabBlock) {
 				functionTable.put(block, ECBlockLootProvider::genSlab);
-			} else if (block instanceof BlockPylonShrine) {
+			} else if (block instanceof AbstractBlockPylonShrine) {
 				functionTable.put(block, ECBlockLootProvider::genPylonShrine);
 			} else if (block instanceof BlockBreedingShrine) {
 				functionTable.put(block, ECBlockLootProvider::genBreedingShrine);
-			} else if (block instanceof BlockShrine) {
+			} else if (block instanceof AbstractBlockShrine) {
 				functionTable.put(block, ECBlockLootProvider::genCopyElementStorage);
 			} else if (block instanceof BlockPedestal) {
 				functionTable.put(block, ECBlockLootProvider::genCopyElementStorage);
@@ -77,7 +77,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		functionTable.put(ECBlocks.crystalOre, i -> genOre(i, ECItems.inertCrystal));
 		functionTable.put(ECBlocks.evaporator, ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
-		functionTable.put(ECBlocks.tankSmall, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
+		functionTable.put(ECBlocks.TANK_SMALL, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.tankCreative, ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.burntGlass, ECBlockLootProvider::genOnlySilkTouch);
 		functionTable.put(ECBlocks.burntGlassPane, ECBlockLootProvider::genOnlySilkTouch);
@@ -129,7 +129,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 
 	private static Builder genPylonShrine(IItemProvider item) {
 		LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
-				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockPylonShrine.HALF, DoubleBlockHalf.LOWER)));
+				.acceptCondition(BlockStateProperty.builder((Block) item).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(AbstractBlockPylonShrine.HALF, DoubleBlockHalf.LOWER)));
 
 		return genCopyNbt(entry, ECNames.ELEMENT_STORAGE);
 	}

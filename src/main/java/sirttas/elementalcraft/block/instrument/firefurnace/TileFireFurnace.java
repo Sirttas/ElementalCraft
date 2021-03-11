@@ -9,7 +9,7 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class TileFireFurnace extends AbstractTileFireFurnace<FurnaceRecipe> {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static TileEntityType<TileFireFurnace> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireFurnace.NAME) public static final TileEntityType<TileFireFurnace> TYPE = null;
 
 	public TileFireFurnace() {
 		super(TYPE, IRecipeType.SMELTING, ECConfig.COMMON.fireFurnaceTransferSpeed.get(), ECConfig.COMMON.fireFurnaceMaxRunes.get());

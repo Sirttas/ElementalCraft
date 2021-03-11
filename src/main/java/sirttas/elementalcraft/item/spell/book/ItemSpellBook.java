@@ -55,9 +55,9 @@ public class ItemSpellBook extends ItemEC {
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		SpellHelper.forEachSpell(stack, (spell, count) -> {
 			if (count == 1) {
-				tooltip.add(new StringTextComponent("").append(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
+				tooltip.add(new StringTextComponent("").appendSibling(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
 			} else {
-				tooltip.add(new StringTextComponent(count + " ").append(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
+				tooltip.add(new StringTextComponent(count + " ").appendSibling(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
 			}
 		});
 	}

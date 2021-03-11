@@ -19,5 +19,7 @@
       "tag": "forge:gems/diamond"
     }
   ],
-  "output": "elementalcraft:vacuumshrine"
+  "output": {
+    "item": "elementalcraft:vacuumshrine"
+  }
 }

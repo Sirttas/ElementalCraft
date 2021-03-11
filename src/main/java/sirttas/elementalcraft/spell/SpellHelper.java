@@ -22,6 +22,8 @@ import sirttas.elementalcraft.nbt.NBTHelper;
 
 public class SpellHelper {
 
+	private SpellHelper() {}
+	
 	public static Spell getSpell(ItemStack stack) {
 		return getSpellFromTag(NBTHelper.getECTag(stack));
 	}

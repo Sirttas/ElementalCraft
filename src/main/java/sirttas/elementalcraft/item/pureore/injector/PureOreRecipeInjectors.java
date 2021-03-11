@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.pureore.PureOreException;
-import sirttas.elementalcraft.api.pureore.injector.PureOreRecipeInjector;
+import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
@@ -22,9 +22,11 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PureOreRecipeInjectors {
 
+	private PureOreRecipeInjectors() {}
+	
 	@SubscribeEvent
-	public static void registerPureOreRecipeInjectors(RegistryEvent.Register<PureOreRecipeInjector<?, ? extends IRecipe<?>>> event) {
-		IForgeRegistry<PureOreRecipeInjector<?, ? extends IRecipe<?>>> registry = event.getRegistry();
+	public static void registerPureOreRecipeInjectors(RegistryEvent.Register<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> event) {
+		IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> registry = event.getRegistry();
 
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreSmeltingRecipe.get())) {
@@ -41,7 +43,7 @@ public class PureOreRecipeInjectors {
 		}
 	}
 
-	public static <C extends IInventory, T extends IRecipe<C>> void register(IForgeRegistry<PureOreRecipeInjector<?, ? extends IRecipe<?>>> registry, PureOreRecipeInjector<C, T> injector) {
+	public static <C extends IInventory, T extends IRecipe<C>> void register(IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> registry, AbstractPureOreRecipeInjector<C, T> injector) {
 		ResourceLocation id = injector.getRecipeTypeRegistryName();
 
 		if (id == null) {

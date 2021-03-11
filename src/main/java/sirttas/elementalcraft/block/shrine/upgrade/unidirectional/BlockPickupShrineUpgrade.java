@@ -19,9 +19,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.shrine.upgrade.BlockShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.AbstractBlockShrineUpgrade;
 
-public class BlockPickupShrineUpgrade extends BlockShrineUpgrade {
+public class BlockPickupShrineUpgrade extends AbstractBlockShrineUpgrade {
 
 	public static final String NAME = "shrine_upgrade_pickup";
 
@@ -39,6 +39,7 @@ public class BlockPickupShrineUpgrade extends BlockShrineUpgrade {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}

@@ -15,22 +15,22 @@ import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.entity.boss.ECBossEntity;
+import sirttas.elementalcraft.entity.boss.AbstractECBossEntity;
 import sirttas.elementalcraft.entity.goal.CastSpellGoal;
 import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.spell.Spells;
 
-public class EarthGolemEntity extends ECBossEntity {
+public class EarthGolemEntity extends AbstractECBossEntity {
 
 	public static final String NAME = "earthgolem";
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static EntityType<EarthGolemEntity> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final EntityType<EarthGolemEntity> TYPE = null;
 
 	public EarthGolemEntity(EntityType<EarthGolemEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
 
 	public static AttributeModifierMap.MutableAttribute getAttributeModifier() {
-		return ECBossEntity.getAttributeModifier().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0).createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 5.0D);
+		return AbstractECBossEntity.getAttributeModifier().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0).createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 5.0D);
 	}
 
 	@Override

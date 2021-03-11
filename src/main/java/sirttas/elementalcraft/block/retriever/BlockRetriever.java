@@ -26,10 +26,10 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
-import sirttas.elementalcraft.block.BlockEC;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.property.ECProperties;
 
-public class BlockRetriever extends BlockEC {
+public class BlockRetriever extends Block {
 
 	public static final String NAME = "instrument_retriever";
 
@@ -56,6 +56,7 @@ public class BlockRetriever extends BlockEC {
 	public static final DirectionProperty TARGET = DirectionProperty.create("target", Direction.values());
 
 	public BlockRetriever() {
+		super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
 		this.setDefaultState(this.stateContainer.getBaseState().with(SOURCE, Direction.SOUTH).with(TARGET, Direction.NORTH));
 	}
 
@@ -120,11 +121,11 @@ public class BlockRetriever extends BlockEC {
 			VoxelShape source = getSourceShape(state);
 			VoxelShape target = getTargetShape(state);
 
-			if (doesVectorColide(source.getBoundingBox().offset(pos), hit)) {
+			if (source.getBoundingBox().offset(pos).contains(hit)) {
 				return source;
-			} else if (doesVectorColide(target.getBoundingBox().offset(pos), hit)) {
+			} else if (target.getBoundingBox().offset(pos).contains(hit)) {
 				return target;
-			} else if (doesVectorColide(CORE.getBoundingBox().offset(pos), hit)) {
+			} else if (CORE.getBoundingBox().offset(pos).contains(hit)) {
 				return CORE;
 			}
 		}
@@ -138,6 +139,7 @@ public class BlockRetriever extends BlockEC {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		VoxelShape shape = getShape(state, pos, hit);
 		Direction direction = hit.getFace().getOpposite();
@@ -157,7 +159,7 @@ public class BlockRetriever extends BlockEC {
 	public static void sendOutputToRetriever(World world, BlockPos pos, IInventory inventory, int slot) {
 		ItemStack stack = inventory.getStackInSlot(slot);
 
-		if (!stack.isEmpty()) {
+		if (!world.isBlockPowered(pos) && !stack.isEmpty()) {
 			for (Direction direction : Direction.values()) {
 				BlockPos retriverPos = pos.offset(direction);
 				BlockState blockState = world.getBlockState(retriverPos);

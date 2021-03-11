@@ -10,12 +10,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class TileEnderLockShrine extends TileShrine {
+public class TileEnderLockShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static TileEntityType<TileEnderLockShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEnderLockShrine.NAME) public static final TileEntityType<TileEnderLockShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).consumeAmount(ECConfig.COMMON.enderLockShrineConsumeAmount.get()).range(ECConfig.COMMON.enderLockShrineRange.get());
 

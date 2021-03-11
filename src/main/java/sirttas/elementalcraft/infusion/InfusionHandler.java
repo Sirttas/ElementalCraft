@@ -18,6 +18,8 @@ import sirttas.elementalcraft.ElementalCraft;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
 public class InfusionHandler {
 
+	private InfusionHandler() {}
+	
 	@SubscribeEvent
 	public static void addInfusionTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();

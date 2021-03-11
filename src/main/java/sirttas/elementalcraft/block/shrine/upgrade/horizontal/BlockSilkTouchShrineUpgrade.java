@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockSilkTouchShrineUpgrade extends BlockHorizontalShrineUpgrade {
+public class BlockSilkTouchShrineUpgrade extends AbstractBlockHorizontalShrineUpgrade {
 
 	public static final String NAME = "shrine_upgrade_silk_touch";
 
@@ -57,6 +57,7 @@ public class BlockSilkTouchShrineUpgrade extends BlockHorizontalShrineUpgrade {
 	private static final VoxelShape SHAPE_EAST = VoxelShapes.or(CORE_EAST, PILAR_EAST, BASE_1_EAST, BASE_2_EAST, PIPE_1_EAST, PIPE_2_EAST);
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case SOUTH:

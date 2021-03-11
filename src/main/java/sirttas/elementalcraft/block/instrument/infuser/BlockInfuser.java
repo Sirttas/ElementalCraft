@@ -12,10 +12,12 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.AbstractBlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 
-public class BlockInfuser extends BlockECContainer {
+public class BlockInfuser extends AbstractBlockECContainer {
 
 	public static final String NAME = "infuser";
 
@@ -35,12 +37,20 @@ public class BlockInfuser extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
+	}
+	
+	@Override
+	@Deprecated
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+		return TileEntityHelper.isValidContainer(state.getBlock(), world, pos.down());
 	}
 }

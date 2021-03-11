@@ -22,14 +22,14 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.loot.LootHelper;
 
-public class TileHarvestShrine extends TileShrine {
+public class TileHarvestShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockHarvestShrine.NAME) public static TileEntityType<TileHarvestShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockHarvestShrine.NAME) public static final TileEntityType<TileHarvestShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.harvestShrinePeriode.get())
 			.consumeAmount(ECConfig.COMMON.harvestShrineConsumeAmount.get()).range(ECConfig.COMMON.harvestShrineRange.get());
@@ -56,7 +56,7 @@ public class TileHarvestShrine extends TileShrine {
 	private void handlePlanting(BlockPos pos, IItemProvider provider, List<ItemStack> loots) {
 		Item item = provider.asItem();
 
-		if (this.hasUpgrade(ShrineUpgrades.planting)) {
+		if (this.hasUpgrade(ShrineUpgrades.PLANTING)) {
 			loots.stream().filter(stack -> stack.getItem().equals(item)).findFirst().ifPresent(seeds -> {
 				if (item instanceof BlockItem && ((BlockItem) item).tryPlace(new DirectionalPlaceContext(this.world, pos, Direction.DOWN, seeds, Direction.UP)).isSuccessOrConsume()) {
 					seeds.shrink(1);

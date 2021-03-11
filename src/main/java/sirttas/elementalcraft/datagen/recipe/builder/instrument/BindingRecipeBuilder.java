@@ -107,7 +107,10 @@ public class BindingRecipeBuilder {
 			}
 
 			json.add(ECNames.INGREDIENTS, jsonarray);
-			json.addProperty(ECNames.OUTPUT, ForgeRegistries.ITEMS.getKey(this.output).toString());
+			JsonObject outputJson = new JsonObject();
+			
+			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
+			json.add(ECNames.OUTPUT, outputJson);
 		}
 
 		@Override

@@ -8,7 +8,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
-public class BlockCapacityShrineUpgrade extends BlockDirectionalShrineUpgrade {
+public class BlockCapacityShrineUpgrade extends AbstractBlockDirectionalShrineUpgrade {
 
 	public static final String NAME = "shrine_upgrade_capacity";
 
@@ -37,6 +37,7 @@ public class BlockCapacityShrineUpgrade extends BlockDirectionalShrineUpgrade {
 	private static final VoxelShape SHAPE_EAST = VoxelShapes.or(BASE_EAST, PIPE_EAST);
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case DOWN:

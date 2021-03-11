@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_type": "fire",
+  "element_amount": 5000,
+  "ingredients": {
+    "gem": {
+      "tag": "elementalcraft:gems/input_fire"
+    },
+    "crystal": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "shard": {
+      "tag": "elementalcraft:shards/fire"
+    }
+  },
+  "outputs": [
+    {
+      "item": "elementalcraft:pristine_fire_gem",
+      "weight": 1
+    }
+  ]
+}

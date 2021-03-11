@@ -16,5 +16,12 @@
       "item": "elementalcraft:air_silk"
     }
   ],
-  "output": "elementalcraft:tano"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:tano"
+      }
+    }
+  }
 }

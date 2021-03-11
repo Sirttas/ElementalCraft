@@ -19,7 +19,7 @@ import sirttas.elementalcraft.world.feature.structure.ECStructures;
 public class MixinDimensionStructuresSettings {
 
 	@Shadow @Mutable private static ImmutableMap<Structure<?>, StructureSeparationSettings> field_236191_b_;
-
+	
 	@Inject(method = "<clinit>", at = @At("TAIL"))
 	private static void addMeteoriteSpreadConfig(CallbackInfo ci) {
 		field_236191_b_ = ImmutableMap.<Structure<?>, StructureSeparationSettings>builder().putAll(field_236191_b_)

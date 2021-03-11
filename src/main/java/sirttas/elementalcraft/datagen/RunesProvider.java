@@ -10,10 +10,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.util.ResourceLocation;
-import sirttas.dpanvil.api.predicate.block.BlockPosPredicates;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.data.predicate.block.rune.HasRunePredicate;
+import sirttas.elementalcraft.data.predicate.block.rune.TagHasRunePredicate;
 import sirttas.elementalcraft.rune.Rune;
 import sirttas.elementalcraft.rune.Rune.BonusType;
 import sirttas.elementalcraft.rune.Runes;
@@ -25,10 +24,7 @@ public class RunesProvider implements IDataProvider {
 	private final DataGenerator generator;
 	private ECItemModelProvider itemModelProvider;
 
-	private static final IBlockPosPredicate LUCK_PREDICATE = BlockPosPredicates.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(
-			new HasRunePredicate(ElementalCraft.createRL("claptrap")).not(),
-			new HasRunePredicate(ElementalCraft.createRL("bombadil")).not(), 
-			new HasRunePredicate(ElementalCraft.createRL("tzeentch")).not());
+	private static final IBlockPosPredicate LUCK_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(new TagHasRunePredicate(ECTags.Runes.LUCK_RUNES).not());
 	
 	public static final ResourceLocation MINOR_SLATE = ElementalCraft.createRL("item/minor_rune_slate");
 	public static final ResourceLocation SLATE = ElementalCraft.createRL("item/rune_slate");

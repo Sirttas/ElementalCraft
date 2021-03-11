@@ -1,7 +1,9 @@
 package sirttas.elementalcraft.block.instrument.crystallizer;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class CrystallizerInventory extends InstrumentInventory {
@@ -12,12 +14,14 @@ public class CrystallizerInventory extends InstrumentInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) { // TODO use tags built from recipes
+		Item item = stack.getItem();
+
 		if (slot == 0) {
-			return ECTags.Items.INPUT_GEMS.contains(stack.getItem());
+			return ECTags.Items.INPUT_GEMS.contains(item);
 		} else if (slot == 1) {
-			return ECTags.Items.ELEMENTAL_CRYSTALS.contains(stack.getItem());
+			return ECTags.Items.ELEMENTAL_CRYSTALS.contains(item) || ECItems.pureCrystal == item;
 		}
-		return ECTags.Items.SHARDS.contains(stack.getItem());
+		return ECTags.Items.SHARDS.contains(item);
 	}
 
 }

@@ -74,7 +74,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			wallBlock((WallBlock) block);
 		} else if (block instanceof PaneBlock) {
 			paneBlock((PaneBlock) block);
-		} else if (block == ECBlocks.whiteRockFence) {
+		} else if (block == ECBlocks.WHITE_ROCK_FENCE) {
 			fenceBlock((FenceBlock) block, prefix("whiterock"), prefix("iron"));
 		} else if (block instanceof BlockOverloadShrine) {
 			ModelFile base = models().getExistingFile(prefix(name + "_base"));

@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.block.tank;
 
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 
 public interface IElementContainer {
 
 	boolean isSmall();
 
-	IElementStorage getElementStorage();
+	ISingleElementStorage getElementStorage();
 }

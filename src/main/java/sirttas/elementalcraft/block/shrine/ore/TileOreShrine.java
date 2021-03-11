@@ -16,14 +16,14 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.loot.LootHelper;
 
-public class TileOreShrine extends TileShrine {
+public class TileOreShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static TileEntityType<TileOreShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockOreShrine.NAME) public static final TileEntityType<TileOreShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.oreShrinePeriode.get()).consumeAmount(ECConfig.COMMON.oreShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.oreShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
@@ -42,18 +42,18 @@ public class TileOreShrine extends TileShrine {
 	}
 
 	private boolean isSilkTouch() {
-		return this.hasUpgrade(ShrineUpgrades.silkTouch);
+		return this.hasUpgrade(ShrineUpgrades.SILK_TOUCH);
 	}
 
 	private int getFortuneLevel() {
-		return this.getUpgradeCount(ShrineUpgrades.fortune);
+		return this.getUpgradeCount(ShrineUpgrades.FORTUNE);
 	}
 
 	@Override
 	public AxisAlignedBB getRangeBoundingBox() {
 		int range = getIntegerRange();
 
-		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).offset(0, -1, 0).expand(0, 1 - pos.getY(), 0);
+		return new AxisAlignedBB(this.getPos()).grow(range, 0, range).offset(0, -1, 0).expand(0, 1D - pos.getY(), 0);
 	}
 
 

@@ -13,7 +13,7 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.item.holder.ItemElementHolder;
+import sirttas.elementalcraft.item.elemental.ItemElementHolder;
 
 public class ECItemModelProvider extends ItemModelProvider {
 

@@ -6,22 +6,24 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.item.holder.ItemElementHolder;
+import sirttas.elementalcraft.entity.player.PlayerElementStorage;
 import sirttas.elementalcraft.item.spell.ISpellHolder;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
@@ -31,52 +33,52 @@ import sirttas.elementalcraft.spell.Spells;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
 public class GuiHandler {
 
+	private GuiHandler() {}
+	
 	@SubscribeEvent
 	public static void onDrawScreenPost(RenderGameOverlayEvent.Post event) {
-		Minecraft minecraft = Minecraft.getInstance();
-		RayTraceResult result = minecraft.objectMouseOver;
-
-		if (event.getType() == ElementType.ALL) {
-			if (result != null && minecraft.gameSettings.getPointOfView().func_243192_a()) {
-				BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getPos() : null;
-				TileEntity tile = pos != null ? minecraft.player.world.getTileEntity(pos) : null;
-				if (tile != null) {
-					Optional<IElementStorage> opt = CapabilityElementStorage.get(tile).filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo());
-
-					if (opt.isPresent()) {
-						IElementStorage storage = opt.get();
-
-						doRenderElementGauge(event.getMatrixStack(), storage.getElementAmount(), storage.getElementCapacity(), storage.getElementType());
-						return;
+		if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
+			MatrixStack matrixStack = event.getMatrixStack();
+			ClientPlayerEntity player = Minecraft.getInstance().player;
+	
+			getElementStorage(player).ifPresent(storage -> {
+				if (storage instanceof IElementTypeProvider) {
+					ElementType type = ((IElementTypeProvider) storage).getElementType();
+					int amount = storage.getElementAmount(type);
+					Spell spell = getSpell();
+		
+					doRenderElementGauge(matrixStack, amount, storage.getElementCapacity(type), type);
+					if (spell.isValid() && storage instanceof PlayerElementStorage) {
+						doRenderCanCast(matrixStack, amount >= spell.getConsumeAmount());
 					}
 				}
-			}
-			ItemStack stack = getElementHolder();
-
-			if (!stack.isEmpty() && stack.getItem() instanceof ItemElementHolder) {
-				ItemElementHolder holder = (ItemElementHolder) stack.getItem();
-				int amount = holder.getElementAmount(stack);
-				Spell spell = getSpell();
-
-				doRenderElementGauge(event.getMatrixStack(), amount, holder.getElementCapacity(), holder.getElementType());
-				if (spell.isValid()) {
-					doRenderCanCast(event.getMatrixStack(), amount >= spell.getConsumeAmount());
-				}
-			}
+			});
 		}
 	}
 
-	private static ItemStack getElementHolder() {
-		ClientPlayerEntity player = Minecraft.getInstance().player;
+	private static Optional<IElementStorage> getElementStorage(PlayerEntity player) {
+		Minecraft minecraft = Minecraft.getInstance();
+		RayTraceResult result = minecraft.objectMouseOver;
 
-		return EntityHelper.handStream(player).map(stack -> {
-			if (!stack.isEmpty() && stack.getItem() instanceof ItemElementHolder) {
-				return stack;
-			} else if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
-				return ItemElementHolder.find(player, SpellHelper.getSpell(stack).getElementType());
+		if (result != null && minecraft.gameSettings.getPointOfView().func_243192_a()) {
+			BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getPos() : null;
+			TileEntity tile = pos != null ? minecraft.player.world.getTileEntity(pos) : null;
+			if (tile != null) {
+				return CapabilityElementStorage.get(tile).filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo());
 			}
-			return ItemStack.EMPTY;
-		}).filter(s -> !s.isEmpty()).findFirst().orElse(ItemStack.EMPTY);
+		}
+		return EntityHelper.handStream(player).map(stack -> {
+			Optional<IElementStorage> opt = CapabilityElementStorage.get(stack).resolve();
+
+			if (opt.isPresent()) {
+				return opt;
+			}
+			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
+				return CapabilityElementStorage.get(player).resolve().map(storage -> new SingleElementStorageWrapper(SpellHelper.getSpell(stack).getElementType(), storage))
+						.map(IElementStorage.class::cast);
+			}
+			return Optional.<IElementStorage>empty();
+		}).filter(Optional::isPresent).map(Optional::get).findFirst();
 	}
 
 	private static Spell getSpell() {
@@ -89,8 +91,7 @@ public class GuiHandler {
 	}
 
 	private static void doRenderElementGauge(MatrixStack matrixStack, int element, int max, sirttas.elementalcraft.api.element.ElementType type) {
-		GuiHelper.renderElementGauge(matrixStack, getXoffset() - 32, getYOffset() - 8, element, max,
-				type);
+		GuiHelper.renderElementGauge(matrixStack, getXoffset() - 32, getYOffset() - 8, element, max, type);
 	}
 
 	public static int getYOffset() {

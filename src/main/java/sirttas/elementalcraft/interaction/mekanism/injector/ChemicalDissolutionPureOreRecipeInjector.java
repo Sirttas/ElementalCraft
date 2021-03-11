@@ -10,7 +10,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import sirttas.elementalcraft.ElementalCraft;
 
-public class ChemicalDissolutionPureOreRecipeInjector extends MekanismPureOreRecipeInjector<IgnoredIInventory, ChemicalDissolutionRecipe> {
+public class ChemicalDissolutionPureOreRecipeInjector extends AbstractMekanismPureOreRecipeInjector<IgnoredIInventory, ChemicalDissolutionRecipe> {
 
 	public ChemicalDissolutionPureOreRecipeInjector(IRecipeType<ChemicalDissolutionRecipe> recipeType) {
 		super(recipeType);

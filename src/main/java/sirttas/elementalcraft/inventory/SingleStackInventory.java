@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class SingleStackInventory extends SynchronizableInventory implements INBTSerializable<CompoundNBT> {
+public class SingleStackInventory extends AbstractSynchronizableInventory implements INBTSerializable<CompoundNBT> {
 
 	protected ItemStack stack;
 

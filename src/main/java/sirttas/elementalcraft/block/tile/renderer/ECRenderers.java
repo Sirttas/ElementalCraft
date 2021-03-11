@@ -45,6 +45,8 @@ import sirttas.elementalcraft.block.shrine.sweet.TileSweetShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.RedererAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.TileAccelerationShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.TileVacuumShrine;
+import sirttas.elementalcraft.block.solarsynthesizer.RendererSolarSynthesizer;
+import sirttas.elementalcraft.block.solarsynthesizer.TileSolarSynthesizer;
 import sirttas.elementalcraft.block.sorter.RendererSorter;
 import sirttas.elementalcraft.block.sorter.TileSorter;
 
@@ -53,11 +55,14 @@ public final class ECRenderers {
 
 	private static final Function<TileEntityRendererDispatcher, SingleItemRenderer<TilePedestal>> PEDESTAL_RENDERER_FACTORY = d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.9, 0.5));
 
+	private ECRenderers() {}
+	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent evt) {
 		ClientRegistry.bindTileEntityRenderer(TileInfuser.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TileExtractor.TYPE, RuneRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEvaporator.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5), 0.5F));
+		ClientRegistry.bindTileEntityRenderer(TileSolarSynthesizer.TYPE, RendererSolarSynthesizer::new);
 		ClientRegistry.bindTileEntityRenderer(TileBinder.TYPE, RendererBinder::new);
 		ClientRegistry.bindTileEntityRenderer(TileImprovedBinder.TYPE, RendererBinder::new);
 		ClientRegistry.bindTileEntityRenderer(TileCrystallizer.TYPE, RendererCrystallizer::new);
@@ -87,7 +92,7 @@ public final class ECRenderers {
 	}
 
 	public static void initRenderLayouts() {
-		RenderTypeLookup.setRenderLayer(ECBlocks.tankSmall, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.TANK_SMALL, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.tank, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.tankCreative, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.evaporator, RenderType.getCutout());

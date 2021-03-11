@@ -13,14 +13,14 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.infusion.InfusionHelper;
 
-public class TileFirePylon extends TileShrine {
+public class TileFirePylon extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static TileEntityType<TileFirePylon> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFirePylon.NAME) public static final TileEntityType<TileFirePylon> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE).consumeAmount(ECConfig.COMMON.firePylonConsumeAmount.get()).range(ECConfig.COMMON.firePylonRange.get());
 

@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "fire",
+  "element_amount": 1000,
+  "ingredients": [
+    {
+      "tag": "forge:gems/quartz"
+    },
+    {
+      "item": "elementalcraft:burnt_glass_pane"
+    },
+    {
+      "item": "elementalcraft:firecrystal"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:fire_lense"
+  }
+}

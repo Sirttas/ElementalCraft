@@ -12,7 +12,6 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
-import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 
@@ -25,7 +24,7 @@ public abstract class AbstractUpgrade<T extends IStringSerializable> {
 
 	protected static <T extends IStringSerializable, U extends AbstractUpgrade<T>> P3<Mu<U>, IBlockPosPredicate, Map<T, Float>, Integer> codec(Instance<U> builder, Codec<T> bonusCodec) {
 		return builder.group(
-				Codecs.BLOCK_PREDICATE.fieldOf(ECNames.PREDICATE).forGetter(u -> u.predicate),
+				IBlockPosPredicate.CODEC.fieldOf(ECNames.PREDICATE).forGetter(u -> u.predicate),
 				Codec.unboundedMap(bonusCodec, Codec.FLOAT).optionalFieldOf(ECNames.BONUSES, ImmutableMap.of()).forGetter(AbstractUpgrade::getBonuses),
 				Codec.INT.optionalFieldOf(ECNames.MAX_AMOUNT, 0).forGetter(u -> u.maxAmount)
 		);
@@ -42,6 +41,20 @@ public abstract class AbstractUpgrade<T extends IStringSerializable> {
 		return predicate.test(world, pos) && (maxAmount == 0 || amount < maxAmount);
 	}
 
+	protected void merge(AbstractUpgrade<T> other) {
+		this.predicate = this.predicate.or(other.predicate);
+		other.bonuses.forEach((bonus, value) -> {
+			if (bonuses.containsKey(bonus)) {
+				bonuses.put(bonus, bonuses.get(bonus) * value);
+			} else {
+				bonuses.put(bonus, value);
+			}
+		});
+		if (this.maxAmount == 0) {
+			this.maxAmount = other.maxAmount;
+		}
+	}
+	
 	public final Map<T, Float> getBonuses() {
 		return bonuses;
 	}
@@ -59,6 +72,11 @@ public abstract class AbstractUpgrade<T extends IStringSerializable> {
 		return id != null ? id.toString() : super.toString();
 	}
 
+	@Override
+	public int hashCode() {
+		return this.id != null ? this.id.hashCode() : 1;
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if (other != null && this.getClass().isInstance(other) && this.id != null) {

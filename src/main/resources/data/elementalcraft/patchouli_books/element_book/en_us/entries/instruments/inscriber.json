@@ -4,7 +4,7 @@
   "icon": "elementalcraft:inscriber",
   "advancement": "elementalcraft:pickup/tank",
   "turnin": "elementalcraft:pickup/inscriber",
-  "sortnum": 7,
+  "sortnum": 8,
   "pages": [
     {
       "type": "text",

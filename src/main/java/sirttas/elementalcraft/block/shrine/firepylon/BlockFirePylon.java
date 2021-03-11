@@ -25,11 +25,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.block.shrine.BlockPylonShrine;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractBlockPylonShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 
-public class BlockFirePylon extends BlockPylonShrine {
+public class BlockFirePylon extends AbstractBlockPylonShrine {
 
 	public static final String NAME = "firepylon";
 
@@ -73,7 +72,7 @@ public class BlockFirePylon extends BlockPylonShrine {
 	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos pos, BlockPos facingPos) {
-		return stateIn.get(HALF) == DoubleBlockHalf.UPPER && !worldIn.getBlockState(pos.down()).isIn(this) ? Blocks.AIR.getDefaultState()
+		return stateIn.get(HALF) == DoubleBlockHalf.UPPER && !worldIn.getBlockState(pos.down()).matchesBlock(this) ? Blocks.AIR.getDefaultState()
 				: super.updatePostPlacement(stateIn, facing, facingState, worldIn, pos, facingPos);
 	}
 
@@ -91,16 +90,17 @@ public class BlockFirePylon extends BlockPylonShrine {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return state.get(HALF) == DoubleBlockHalf.LOWER ? LOWER_SHAPE : UPPER_SHAPE;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(TileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
-		double x = pos.getX() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
-		double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
-		double z = pos.getZ() + (4 + rand.nextDouble() * 7) * BlockEC.BIT_SIZE;
+	protected void doAnimateTick(AbstractTileShrine shrine, BlockState state, World world, BlockPos pos, Random rand) {
+		double x = pos.getX() + (4 + rand.nextDouble() * 7) / 16;
+		double y = pos.getY() + 6D / 16;
+		double z = pos.getZ() + (4 + rand.nextDouble() * 7) / 16;
 
 		world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
 		world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);

@@ -7,21 +7,19 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.client.ForgeHooksClient;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockDirectionalShrineUpgrade;
-import sirttas.elementalcraft.block.tile.renderer.RendererEC;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractBlockDirectionalShrineUpgrade;
+import sirttas.elementalcraft.block.tile.renderer.AbstractRendererEC;
 
-public class RedererAccelerationShrineUpgrade extends RendererEC<TileAccelerationShrineUpgrade> {
+public class RedererAccelerationShrineUpgrade extends AbstractRendererEC<TileAccelerationShrineUpgrade> {
 
-	@SuppressWarnings("deprecation") 
-	public static final RenderMaterial IRON_TEXTURE = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, ElementalCraft.createRL("block/iron"));
-	private static final Vector3f POSITION = new Vector3f(0, 2F * BlockEC.BIT_SIZE, 0);
+	public static final RenderMaterial IRON_TEXTURE =  ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("block/iron"));
+	private static final Vector3f POSITION = new Vector3f(0, 2F / 16, 0);
 
 	private ModelRenderer model;
 
@@ -34,7 +32,7 @@ public class RedererAccelerationShrineUpgrade extends RendererEC<TileAcceleratio
 	@Override
 	public void render(TileAccelerationShrineUpgrade te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
 		BlockState state = te.getBlockState();
-		Direction facing = state.get(BlockDirectionalShrineUpgrade.FACING);
+		Direction facing = state.get(AbstractBlockDirectionalShrineUpgrade.FACING);
 		Quaternion rotation = facing.getRotation();
 		Vector3f newPos = POSITION.copy();
 

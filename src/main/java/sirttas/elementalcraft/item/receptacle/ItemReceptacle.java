@@ -1,36 +1,50 @@
 package sirttas.elementalcraft.item.receptacle;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.property.ECProperties;
 
 public class ItemReceptacle extends AbstractReceptacle {
 
 	public static final String NAME = "receptacle";
+
+	public ItemReceptacle() {
+	}
+
+	public ItemReceptacle(Properties properties) {
+		super(properties);
+	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		World world = context.getWorld();
 		ItemStack sourceReceptacle = context.getItem();
 		ElementType elementType = ReceptacleHelper.getElementType(sourceReceptacle);
+		PlayerEntity player = context.getPlayer();
+		Hand hand = context.getHand();
 		BlockItemUseContext newContext = new BlockItemUseContext(context);
+		BlockPos pos = newContext.getPos();
 
 		if (newContext.canPlace()) {
-			world.setBlockState(newContext.getPos(), ECBlocks.source.getDefaultState().with(ECProperties.ELEMENT_TYPE, elementType));
-			if (!context.getPlayer().isCreative()) {
+			world.setBlockState(pos, ECBlocks.source.getDefaultState().with(ElementType.STATE_PROPERTY, elementType));
+			BlockItem.setTileEntityNBT(world, player, pos, sourceReceptacle);
+			if (!player.isCreative()) {
 				ItemStack stack = ReceptacleHelper.createFrom(sourceReceptacle, ElementType.NONE);
 
-				if (!ReceptacleHelper.areReceptaclesUnbreakable() && stack.isDamageable()) {
-					stack.damageItem(1, context.getPlayer(), p -> p.sendBreakAnimation(context.getHand()));
+				if (stack.isDamageable()) {
+					stack.damageItem(1, player, p -> p.sendBreakAnimation(hand));
 				}
-				context.getPlayer().setHeldItem(context.getHand(), stack);
+				player.setHeldItem(hand, stack);
 			}
 			return ActionResultType.SUCCESS;
 		}
@@ -47,7 +61,7 @@ public class ItemReceptacle extends AbstractReceptacle {
 		if (this.isInGroup(group)) {
 			for (ElementType elementType : ElementType.values()) {
 				if (elementType != ElementType.NONE) {
-					items.add(ReceptacleHelper.createStack(elementType));
+					items.add(ReceptacleHelper.create(elementType));
 				}
 			}
 		}

@@ -20,9 +20,9 @@ public class BlockImprovedExtractor extends BlockExtractor {
 	private static final VoxelShape TOP = Block.makeCuboidShape(6D, 13D, 6D, 10D, 16D, 10D);
 
 	private static final VoxelShape SIDE_PILLAR_1 = VoxelShapes.or(Block.makeCuboidShape(1D, 0D, 1D, 3D, 7D, 3D), Block.makeCuboidShape(0D, 7D, 0D, 4D, 10D, 4D));
-	private static final VoxelShape SIDE_PILLAR_2 = SIDE_PILLAR_1.withOffset(12D * BIT_SIZE, 0D, 0D);
-	private static final VoxelShape SIDE_PILLAR_3 = SIDE_PILLAR_1.withOffset(0D, 0D, 12D * BIT_SIZE);
-	private static final VoxelShape SIDE_PILLAR_4 = SIDE_PILLAR_1.withOffset(12D * BIT_SIZE, 0D, 12D * BIT_SIZE);
+	private static final VoxelShape SIDE_PILLAR_2 = SIDE_PILLAR_1.withOffset(12D /16, 0D, 0D);
+	private static final VoxelShape SIDE_PILLAR_3 = SIDE_PILLAR_1.withOffset(0D, 0D, 12D /16);
+	private static final VoxelShape SIDE_PILLAR_4 = SIDE_PILLAR_1.withOffset(12D / 16, 0D, 12D / 16);
 
 	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, PILLAR, TOP, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
 
@@ -32,6 +32,7 @@ public class BlockImprovedExtractor extends BlockExtractor {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}

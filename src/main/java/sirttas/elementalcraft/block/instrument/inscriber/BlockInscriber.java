@@ -20,13 +20,15 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
-import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.AbstractBlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
 
-public class BlockInscriber extends BlockECContainer {
+public class BlockInscriber extends AbstractBlockECContainer {
 
 	public static final String NAME = "inscriber";
 
@@ -109,12 +111,13 @@ public class BlockInscriber extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TileInscriber inscriber = (TileInscriber) world.getTileEntity(pos);
 		ItemStack heldItem = player.getHeldItem(hand);
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 
-		if (inscriber != null) {
+		if (inscriber != null && (hand == Hand.MAIN_HAND || !heldItem.isEmpty())) {
 			if (heldItem.getItem() == ECItems.chisel && !inscriber.isLocked()) {
 				return makeProgress(player, hand, inscriber, heldItem);
 			} else if ((inscriber.isLocked() || heldItem.isEmpty() || player.isSneaking()) && !inscriber.getInventory().isEmpty()) {
@@ -143,6 +146,7 @@ public class BlockInscriber extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case NORTH:
@@ -164,6 +168,7 @@ public class BlockInscriber extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.with(FACING, rot.rotate(state.get(FACING)));
 	}
@@ -177,5 +182,11 @@ public class BlockInscriber extends BlockECContainer {
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
+	}
+	
+	@Override
+	@Deprecated
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+		return TileEntityHelper.isValidContainer(state.getBlock(), world, pos.down());
 	}
 }

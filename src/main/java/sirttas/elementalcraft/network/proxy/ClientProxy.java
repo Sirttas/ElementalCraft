@@ -1,9 +1,14 @@
 package sirttas.elementalcraft.network.proxy;
 
+import net.minecraft.client.renderer.model.RenderMaterial;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import sirttas.elementalcraft.block.solarsynthesizer.RendererSolarSynthesizer;
 import sirttas.elementalcraft.block.tile.renderer.ECRenderers;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.inventory.container.screen.ECScreens;
@@ -20,7 +25,8 @@ public class ClientProxy implements IProxy {
 
 		modBus.addListener(this::setupClient);
 		modBus.addListener(ECItems::replaceModels);
-		modBus.addListener(Runes::registerModels);
+		modBus.addListener(this::registerModels);
+		modBus.addListener(this::stitchTextures);
 		modBus.addListener(ECItems::registerItemColors);
 		modBus.addListener(ECParticles::registerFactories);
 
@@ -32,4 +38,21 @@ public class ClientProxy implements IProxy {
 		ECEntities.registerRenderers();
 		ECScreens.initScreenFactories();
 	}
+
+	public void registerModels(ModelRegistryEvent event) {
+		Runes.registerModels();
+		ModelLoader.addSpecialModel(RendererSolarSynthesizer.LENSE_LOCATION);
+	}
+	
+	public void stitchTextures(TextureStitchEvent.Pre event) {
+		addSprite(event, RendererSolarSynthesizer.BEAM);
+	}
+	
+	private void addSprite(TextureStitchEvent.Pre event, RenderMaterial sprite) {
+		if (event.getMap().getTextureLocation().equals(sprite.getAtlasLocation())) {
+			event.addSprite(sprite.getTextureLocation());
+		}
+		
+	}
 }
+

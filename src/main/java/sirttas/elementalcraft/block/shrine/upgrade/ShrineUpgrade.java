@@ -6,7 +6,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -26,10 +28,9 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import sirttas.dpanvil.api.codec.CodecHelper;
-import sirttas.dpanvil.api.predicate.block.BlockPosPredicates;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.upgrade.AbstractUpgrade;
 
@@ -42,7 +43,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
 	}
 
-	boolean canUpgrade(TileShrine shrine) {
+	boolean canUpgrade(AbstractTileShrine shrine) {
 		return canUpgrade(shrine.getWorld(), shrine.getPos(), shrine.getUpgradeCount(this));
 	}
 
@@ -62,6 +63,21 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		return String.format("%+d%%", Math.round((multiplier - 1) * 100));
 	}
 
+	public static ShrineUpgrade merge(Stream<ShrineUpgrade> upgrades) {
+		AtomicReference<ShrineUpgrade> atomicValue = new AtomicReference<>();
+		
+		upgrades.forEach(upgrade -> {
+			ShrineUpgrade value = atomicValue.get();
+			
+			if (value == null) {
+				atomicValue.set(upgrade);
+			} else {
+				value.merge(upgrade);
+			}
+		});
+		return atomicValue.get();
+	}
+	
 	public enum BonusType implements IStringSerializable {
 		NONE("none", false), 
 		SPEED("speed", false), 
@@ -121,11 +137,11 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		}
 
 		public Builder match(Block... block) {
-			return predicate(BlockPosPredicates.match(block));
+			return predicate(IBlockPosPredicate.match(block));
 		}
 
 		public Builder match(INamedTag<Block> tag) {
-			return predicate(BlockPosPredicates.match(tag));
+			return predicate(IBlockPosPredicate.match(tag));
 		}
 
 		public Builder predicate(IBlockPosPredicate predicate) {

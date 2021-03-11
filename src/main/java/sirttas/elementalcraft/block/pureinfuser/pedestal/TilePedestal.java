@@ -18,24 +18,25 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
-import sirttas.elementalcraft.block.tile.TileECContainer;
+import sirttas.elementalcraft.block.tile.AbstractTileECContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.rune.handler.RuneHandler;
 
-public class TilePedestal extends TileECContainer implements IElementTypeProvider {
+public class TilePedestal extends AbstractTileECContainer implements IElementTypeProvider {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static TileEntityType<TilePedestal> TYPE_FIRE;
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_WATER) public static TileEntityType<TilePedestal> TYPE_WATER;
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_EARTH) public static TileEntityType<TilePedestal> TYPE_EARTH;
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static TileEntityType<TilePedestal> TYPE_AIR;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_FIRE) public static final TileEntityType<TilePedestal> TYPE_FIRE = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_WATER) public static final TileEntityType<TilePedestal> TYPE_WATER = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_EARTH) public static final TileEntityType<TilePedestal> TYPE_EARTH = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPedestal.NAME_AIR) public static final TileEntityType<TilePedestal> TYPE_AIR = null;
 
 	private final SingleItemInventory inventory;
-	private final IElementStorage elementStorage;
+	private final SingleElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
 	private TilePedestal(TileEntityType<?> tileEntityType, ElementType type) {
@@ -65,9 +66,9 @@ public class TilePedestal extends TileECContainer implements IElementTypeProvide
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound.get(ECNames.ELEMENT_STORAGE));
+			elementStorage.readNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		} else { // TODO 1.17 remove
-			CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.readNBT(elementStorage, null, compound);
+			elementStorage.readNBT(compound);
 		}
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
 			CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY.readNBT(runeHandler, null, compound.get(ECNames.RUNE_HANDLER));
@@ -77,7 +78,7 @@ public class TilePedestal extends TileECContainer implements IElementTypeProvide
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		compound.put(ECNames.ELEMENT_STORAGE, CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.writeNBT(elementStorage, null));
+		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.writeNBT());
 		compound.put(ECNames.RUNE_HANDLER, CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY.writeNBT(runeHandler, null));
 		return compound;
 	}
@@ -86,7 +87,7 @@ public class TilePedestal extends TileECContainer implements IElementTypeProvide
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
 		if (!this.removed) {
-			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY && side != Direction.UP) {
 				return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
 			} else if (cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
 				return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
@@ -115,7 +116,7 @@ public class TilePedestal extends TileECContainer implements IElementTypeProvide
 		return inventory.getStackInSlot(0);
 	}
 
-	public IElementStorage getElementStorage() {
+	public ISingleElementStorage getElementStorage() {
 		return elementStorage;
 	}
 

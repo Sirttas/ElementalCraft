@@ -5,5 +5,7 @@
   "input": {
     "tag": "forge:ingots/iron"
   },
-  "output": "elementalcraft:drenched_iron_ingot"
+  "output": {
+    "item": "elementalcraft:drenched_iron_ingot"
+  }
 }

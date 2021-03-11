@@ -18,5 +18,7 @@
       "item": "elementalcraft:aircrystal"
     }
   ],
-  "output": "elementalcraft:purecrystal"
+  "output": {
+    "item": "elementalcraft:purecrystal"
+  }
 }

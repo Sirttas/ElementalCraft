@@ -16,5 +16,7 @@
       "item": "elementalcraft:earthcrystal"
     }
   ],
-  "output": "elementalcraft:hardened_handle"
+  "output": {
+    "item": "elementalcraft:hardened_handle"
+  }
 }

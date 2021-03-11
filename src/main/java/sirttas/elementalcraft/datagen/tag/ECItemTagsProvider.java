@@ -24,6 +24,7 @@ import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.ElementalCraft;
@@ -33,6 +34,8 @@ import sirttas.elementalcraft.tag.ECTags;
 
 public class ECItemTagsProvider extends ItemTagsProvider {
 
+	private static final String BOTANIA = "botania";
+	
 	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, blockTagsProvider, ElementalCraft.MODID, existingFileHelper);
 	}
@@ -69,6 +72,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(ECTags.Items.FORGE_LEGGINGS);
 		getOrCreateBuilder(ECTags.Items.FORGE_BOOTS);
 
+		getOrCreateBuilder(ECTags.Items.IMPROVED_RECEPTACLES).add(ECItems.emptyImprovedReceptacle, ECItems.improvedReceptacle);
+
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD).addTag(ECTags.Items.FORGE_SWORDS),
 				getItems(MekanismTools.MODID, SwordItem.class));
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE)
@@ -93,6 +98,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(ECTags.Items.SPELL_HOLDERS).add(getItems(AbstractItemSpellHolder.class));
 		getOrCreateBuilder(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.fireCrystal, ECItems.waterCrystal, ECItems.earthCrystal, ECItems.airCrystal);
 		getOrCreateBuilder(ECTags.Items.CRYSTALS).add(ECItems.inertCrystal, ECItems.containedCrystal, ECItems.pureCrystal).addTag(ECTags.Items.ELEMENTAL_CRYSTALS);
+		getOrCreateBuilder(ECTags.Items.LENSES).add(ECItems.fireLense, ECItems.waterLense, ECItems.earthLense, ECItems.airLense);
 		
 		getOrCreateBuilder(ECTags.Items.DEFAULT_SHARDS).add(ECItems.fireShard, ECItems.waterShard, ECItems.earthShard, ECItems.airShard);
 		getOrCreateBuilder(ECTags.Items.POWERFUL_SHARDS).add(ECItems.powerfulFireShard, ECItems.powerfulWaterShard, ECItems.powerfulEarthShard, ECItems.powerfulAirShard);
@@ -112,7 +118,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(ECTags.Items.NUGGETS_FIREITE).add(ECItems.fireiteNugget);
 		getOrCreateBuilder(Tags.Items.NUGGETS).addTags(ECTags.Items.NUGGETS_DRENCHED_IRON, ECTags.Items.NUGGETS_SWIFT_ALLOY, ECTags.Items.NUGGETS_FIREITE);
 
-		getOrCreateBuilder(Tags.Items.GEMS_DIAMOND);
 		getOrCreateBuilder(ECTags.Items.PRISTINE_FIRE_GEMS).add(ECItems.pristineFireGem);
 		getOrCreateBuilder(ECTags.Items.FINE_FIRE_GEMS).add(ECItems.fineFireGem, ECItems.pristineFireGem);
 		getOrCreateBuilder(ECTags.Items.CRUDE_FIRE_GEMS).add(ECItems.crudeFireGem, ECItems.fineFireGem, ECItems.pristineFireGem);
@@ -136,6 +141,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		
 		getOrCreateBuilder(ECTags.Items.PURE_ORES).addTag(Tags.Items.ORES);
 		getOrCreateBuilder(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST).addTags(Tags.Items.ORES_DIAMOND, Tags.Items.ORES_EMERALD);
+		
+		getOrCreateBuilder(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BOTANIA, "double_mystical_flowers"))
+				.addOptionalTag(new ResourceLocation(BOTANIA, "mystical_flowers"));
 	}
 
 	public TagsProvider.Builder<Item> addOptionals(TagsProvider.Builder<Item> builder, Item... optionals) {

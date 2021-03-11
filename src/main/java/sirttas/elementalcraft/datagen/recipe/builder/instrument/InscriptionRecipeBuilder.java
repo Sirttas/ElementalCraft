@@ -16,9 +16,11 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 public class InscriptionRecipeBuilder {
@@ -115,9 +117,21 @@ public class InscriptionRecipeBuilder {
 			}
 
 			json.add(ECNames.INGREDIENTS, jsonarray);
-			json.addProperty(ECNames.OUTPUT, output.toString());
+			json.add(ECNames.OUTPUT, getJsonOutput());
 		}
 
+		private JsonObject getJsonOutput() {
+			JsonObject json = new JsonObject();
+			JsonObject tagJson = new JsonObject();
+			JsonObject ecNbtJson = new JsonObject();
+			
+			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.rune).toString());
+			ecNbtJson.addProperty(ECNames.RUNE, this.output.toString());
+			tagJson.add(ECNames.EC_NBT, ecNbtJson);
+			json.add(ECNames.NBT, tagJson);
+			return json;
+		}
+		
 		@Override
 		public ResourceLocation getID() {
 			return this.id;

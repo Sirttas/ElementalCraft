@@ -14,7 +14,7 @@ import sirttas.elementalcraft.inventory.IInventoryTile;
 import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 
 @OnlyIn(Dist.CLIENT)
-public class SingleItemRenderer<T extends TileEntity & IInventoryTile> extends RendererEC<T> {
+public class SingleItemRenderer<T extends TileEntity & IInventoryTile> extends AbstractRendererEC<T> {
 
 	private final Vector3d position;
 	private final float size;

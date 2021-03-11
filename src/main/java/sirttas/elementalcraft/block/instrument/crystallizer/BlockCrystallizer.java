@@ -14,12 +14,14 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
-import sirttas.elementalcraft.block.BlockECContainer;
+import sirttas.elementalcraft.block.AbstractBlockECContainer;
+import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
-public class BlockCrystallizer extends BlockECContainer {
+public class BlockCrystallizer extends AbstractBlockECContainer {
 
 	public static final String NAME = "crystallizer";
 
@@ -46,12 +48,13 @@ public class BlockCrystallizer extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TileCrystallizer crystallizer = (TileCrystallizer) world.getTileEntity(pos);
 		ItemStack heldItem = player.getHeldItem(hand);
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 
-		if (crystallizer != null) {
+		if (crystallizer != null && (hand == Hand.MAIN_HAND || !heldItem.isEmpty())) {
 			if ((crystallizer.isLocked() || heldItem.isEmpty() || player.isSneaking()) && !crystallizer.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
@@ -68,7 +71,14 @@ public class BlockCrystallizer extends BlockECContainer {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
+	}
+	
+	@Override
+	@Deprecated
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+		return TileEntityHelper.isValidContainer(state.getBlock(), world, pos.down());
 	}
 }

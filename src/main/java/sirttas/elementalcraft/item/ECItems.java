@@ -48,18 +48,26 @@ import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrine
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockNectarShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessGrowthShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockMysticalGroveShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.vacuum.BlockVacuumShrine;
+import sirttas.elementalcraft.block.solarsynthesizer.BlockSolarSynthesizer;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
 import sirttas.elementalcraft.block.tank.BlockTankSmall;
+import sirttas.elementalcraft.block.tank.creative.BlockTankCreative;
 import sirttas.elementalcraft.item.chisel.ItemChisel;
-import sirttas.elementalcraft.item.holder.ItemElementHolder;
+import sirttas.elementalcraft.item.elemental.ItemElementHolder;
+import sirttas.elementalcraft.item.elemental.ItemElemental;
+import sirttas.elementalcraft.item.elemental.ItemLense;
+import sirttas.elementalcraft.item.elemental.ItemShard;
 import sirttas.elementalcraft.item.pureore.ItemPureOre;
 import sirttas.elementalcraft.item.receptacle.ItemEmptyReceptacle;
 import sirttas.elementalcraft.item.receptacle.ItemReceptacle;
 import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
+import sirttas.elementalcraft.item.receptacle.improved.ItemEmptyImprovedReceptacle;
+import sirttas.elementalcraft.item.receptacle.improved.ItemImprovedReceptacle;
 import sirttas.elementalcraft.item.rune.ItemRune;
 import sirttas.elementalcraft.item.rune.RuneModel;
 import sirttas.elementalcraft.item.spell.ItemFocus;
@@ -77,6 +85,8 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemSpellBook.NAME) public static ItemSpellBook spellBook;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemReceptacle.NAME) public static ItemReceptacle receptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemEmptyReceptacle.NAME) public static ItemEmptyReceptacle emptyReceptacle;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemImprovedReceptacle.NAME) public static ItemImprovedReceptacle improvedReceptacle;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemEmptyImprovedReceptacle.NAME) public static ItemEmptyImprovedReceptacle emptyImprovedReceptacle;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_FIRE) public static ItemElementHolder fireElementHolder;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_WATER) public static ItemElementHolder waterElementHolder;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemElementHolder.NAME_EARTH) public static ItemElementHolder earthElementHolder;
@@ -126,6 +136,10 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":pristine_water_gem") public static ItemElemental pristineWaterGem;
 	@ObjectHolder(ElementalCraft.MODID + ":pristine_earth_gem") public static ItemElemental pristineEarthGem;
 	@ObjectHolder(ElementalCraft.MODID + ":pristine_air_gem") public static ItemElemental pristineAirGem;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemLense.NAME_FIRE) public static ItemLense fireLense;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemLense.NAME_WATER) public static ItemLense waterLense;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemLense.NAME_EARTH) public static ItemLense earthLense;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemLense.NAME_AIR) public static ItemLense airLense;
 	@ObjectHolder(ElementalCraft.MODID + ":minor_rune_slate") public static ItemEC minorRuneSlate;
 	@ObjectHolder(ElementalCraft.MODID + ":rune_slate") public static ItemEC runeSlate;
 	@ObjectHolder(ElementalCraft.MODID + ":major_rune_slate") public static ItemEC majorRuneSlate;
@@ -133,9 +147,11 @@ public class ECItems {
 	// BLOCKS
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static Item tankSmall;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static Item tank;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static Item tankCreative;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static Item extractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static Item improvedExtractor;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockEvaporator.NAME) public static Item evaporator;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSolarSynthesizer.NAME) public static Item solarSynthesizer;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static Item infuser;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static Item binder;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedBinder.NAME) public static Item improvedBinder;
@@ -176,6 +192,8 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static Item bonelseeGrowthShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockPickupShrineUpgrade.NAME) public static Item pickupShrineUpgrade;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockNectarShrineUpgrade.NAME) public static Item nectarShrineUpgrade;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockMysticalGroveShrineUpgrade.NAME) public static Item mysticalGroveShrineUpgrade;
+
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSource.NAME) public static Item source;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockCrystalOre.NAME) public static Item crystalOre;
@@ -206,6 +224,8 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemSpellBook(), ItemSpellBook.NAME);
 		RegistryHelper.register(registry, new ItemReceptacle(), ItemReceptacle.NAME);
 		RegistryHelper.register(registry, new ItemEmptyReceptacle(), ItemEmptyReceptacle.NAME);
+		RegistryHelper.register(registry, new ItemImprovedReceptacle(), ItemImprovedReceptacle.NAME);
+		RegistryHelper.register(registry, new ItemEmptyImprovedReceptacle(), ItemEmptyImprovedReceptacle.NAME);
 		RegistryHelper.register(registry, new ItemElementHolder(ElementType.FIRE), ItemElementHolder.NAME_FIRE);
 		RegistryHelper.register(registry, new ItemElementHolder(ElementType.WATER), ItemElementHolder.NAME_WATER);
 		RegistryHelper.register(registry, new ItemElementHolder(ElementType.EARTH), ItemElementHolder.NAME_EARTH);
@@ -253,11 +273,13 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemElemental(ElementType.WATER), "pristine_water_gem");
 		RegistryHelper.register(registry, new ItemElemental(ElementType.EARTH), "pristine_earth_gem");
 		RegistryHelper.register(registry, new ItemElemental(ElementType.AIR), "pristine_air_gem");
+		RegistryHelper.register(registry, new ItemLense(ElementType.FIRE), ItemLense.NAME_FIRE);
+		RegistryHelper.register(registry, new ItemLense(ElementType.WATER), ItemLense.NAME_WATER);
+		RegistryHelper.register(registry, new ItemLense(ElementType.EARTH), ItemLense.NAME_EARTH);
+		RegistryHelper.register(registry, new ItemLense(ElementType.AIR), ItemLense.NAME_AIR);
 		RegistryHelper.register(registry, new ItemEC(), "minor_rune_slate");
 		RegistryHelper.register(registry, new ItemEC(), "rune_slate");
 		RegistryHelper.register(registry, new ItemEC(), "major_rune_slate");
-
-		// TODO add tools
 	}
 
 	public static void replaceModels(ModelBakeEvent event) {
@@ -270,7 +292,7 @@ public class ECItems {
 	}
 
 	public static void registerItemColors(ColorHandlerEvent.Item event) {
-		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), receptacle);
+		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), receptacle, improvedReceptacle);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), pureOre);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), scroll);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ItemElementHolder) s.getItem()).getElementType().getColor(), 

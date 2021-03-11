@@ -19,5 +19,7 @@
       "item": "minecraft:ender_eye"
     }
   ],
-  "output": "elementalcraft:overloadshrine"
+  "output": {
+    "item": "elementalcraft:overloadshrine"
+  }
 }

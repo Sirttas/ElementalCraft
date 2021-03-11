@@ -30,9 +30,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
-import sirttas.elementalcraft.block.BlockECTileProvider;
+import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
 
-public class BlockElementPipe extends BlockECTileProvider {
+public class BlockElementPipe extends AbstractBlockECTileProvider {
 
 	public static final String NAME = "elementpipe";
 	public static final String NAME_IMPAIRED = NAME + "_impaired";
@@ -82,11 +82,13 @@ public class BlockElementPipe extends BlockECTileProvider {
 	}
 
 	@Override
+	@Deprecated
 	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
 		((TileElementPipe) worldIn.getTileEntity(pos)).refresh();
 	}
 
 	@Override
+	@Deprecated
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		((TileElementPipe) worldIn.getTileEntity(pos)).refresh();
 	}
@@ -157,7 +159,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 			final Vector3d hit = result.getHitVec();
 
 			for (final VoxelShape shape : SHAPES) {
-				if (doesVectorColide(shape.getBoundingBox().offset(pos), hit) && isRendered(shape, state)) {
+				if (shape.getBoundingBox().offset(pos).contains(hit) && isRendered(shape, state)) {
 					return shape;
 				}
 			}
@@ -173,6 +175,7 @@ public class BlockElementPipe extends BlockECTileProvider {
 	}
 
 	@Override
+	@Deprecated
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		final TileElementPipe pipe = (TileElementPipe) world.getTileEntity(pos);
 

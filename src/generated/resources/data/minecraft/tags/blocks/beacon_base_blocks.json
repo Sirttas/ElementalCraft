@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:drenched_iron_block",
+    "elementalcraft:swift_alloy_block",
+    "elementalcraft:fireite_block"
+  ]
+}

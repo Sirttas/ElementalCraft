@@ -20,6 +20,8 @@ import sirttas.elementalcraft.block.tile.TileEntityHelper;
 
 public class ECInventoryHelper {
 
+	private ECInventoryHelper() {}
+	
 	public static IItemHandler getItemHandlerAt(@Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nullable Direction side) {
 		return TileEntityHelper.getTileEntity(world, pos).map(t -> t.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElseGet(() -> {
 			if (t instanceof ISidedInventory && side != null) {
@@ -54,5 +56,14 @@ public class ECInventoryHelper {
 
 	public static int getItemCount(IInventory inv) {
 		return (int) IntStream.range(0, inv.getSizeInventory()).filter(i -> !inv.getStackInSlot(i).isEmpty()).count();
+	}
+
+	public static boolean isEmpty(IItemHandler targetInv) {
+		for (int i = 0; i < targetInv.getSlots(); i++) {
+			if (!targetInv.getStackInSlot(i).isEmpty()) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

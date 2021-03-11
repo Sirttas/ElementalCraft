@@ -31,6 +31,7 @@ public class BlockImprovedBinder extends BlockBinder {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}

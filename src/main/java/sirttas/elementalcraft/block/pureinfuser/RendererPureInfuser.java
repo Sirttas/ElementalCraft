@@ -43,7 +43,7 @@ public class RendererPureInfuser extends SingleItemRenderer<TilePureInfuser> {
 
 					if (pedestal != null) {
 						matrixStack.push();
-						matrixStack.translate(direction.getXOffset() * 3, 0, direction.getZOffset() * 3);
+						matrixStack.translate(direction.getXOffset() * 3D, 0, direction.getZOffset() * 3D);
 						renderBlock(pedestal.getDefaultState(), matrixStack, buffer.getBuffer(ECRenderTypes.GHOST), te.getWorld());
 						matrixStack.pop();
 						remaining.remove(type);

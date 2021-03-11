@@ -20,7 +20,7 @@ import sirttas.elementalcraft.recipe.RecipeHelper;
 public class InfusionRecipe extends AbstractInfusionRecipe {
 
 	public static final String NAME = "infusion";
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static IRecipeSerializer<InfusionRecipe> SERIALIZER;
+	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<InfusionRecipe> SERIALIZER = null;
 
 	private Ingredient input;
 	private ItemStack output;

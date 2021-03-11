@@ -22,5 +22,7 @@
       "item": "minecraft:obsidian"
     }
   ],
-  "output": "elementalcraft:enderlockshrine"
+  "output": {
+    "item": "elementalcraft:enderlockshrine"
+  }
 }

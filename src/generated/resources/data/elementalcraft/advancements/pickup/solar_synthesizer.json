@@ -1,0 +1,20 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_solar_synthesizer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:solar_synthesizer"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_solar_synthesizer"
+    ]
+  ]
+}

@@ -11,16 +11,16 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class TileVacuumShrine extends TileShrine {
+public class TileVacuumShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static TileEntityType<TileVacuumShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockVacuumShrine.NAME) public static final TileEntityType<TileVacuumShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.AIR).consumeAmount(ECConfig.COMMON.vacuumShrineConsumeAmount.get()).range(ECConfig.COMMON.vacuumShrineRange.get());
 
@@ -37,7 +37,7 @@ public class TileVacuumShrine extends TileShrine {
 	protected boolean doTick() {
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos.down(), Direction.UP);
 
-		return this.hasUpgrade(ShrineUpgrades.pickup) ? pickup(inv) : pull(inv);
+		return this.hasUpgrade(ShrineUpgrades.PICKUP) ? pickup(inv) : pull(inv);
 	}
 
 	private boolean pickup(IItemHandler inv) {

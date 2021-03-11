@@ -6,22 +6,8 @@
     "values": [
       {
         "value": {
-          "rune": "elementalcraft:claptrap",
-          "type": "elementalcraft:has_rune"
-        },
-        "type": "dpanvil:not"
-      },
-      {
-        "value": {
-          "rune": "elementalcraft:bombadil",
-          "type": "elementalcraft:has_rune"
-        },
-        "type": "dpanvil:not"
-      },
-      {
-        "value": {
-          "rune": "elementalcraft:tzeentch",
-          "type": "elementalcraft:has_rune"
+          "tag": "elementalcraft:luck_runes",
+          "type": "elementalcraft:tag_has_rune"
         },
         "type": "dpanvil:not"
       },

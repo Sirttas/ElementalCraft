@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.infusion;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -106,13 +105,8 @@ public class InfusionHelper {
 	}
 
 	public static List<ToolInfusionRecipe> getRecipes() {
-		try {
-			return Stream.of(ElementType.values()).filter(e -> e != ElementType.NONE)
-					.flatMap(e -> Stream.of(ItemClass.values()).flatMap(c -> c.tag.getAllElements().stream().map(i -> new DisplayToolInfusionRecipe(i, e)))).collect(Collectors.toList());
-		} catch (Exception e) { // FIXME jei bug: https://github.com/mezz/JustEnoughItems/issues/2177
-			ElementalCraft.LOGGER.warn("Error while loading jei recipes");
-			return Collections.emptyList();
-		}
+		return Stream.of(ElementType.values()).filter(e -> e != ElementType.NONE)
+				.flatMap(e -> Stream.of(ItemClass.values()).flatMap(c -> c.tag.getAllElements().stream().map(i -> new DisplayToolInfusionRecipe(i, e)))).collect(Collectors.toList());
 	}
 
 	private static void applyAttributeModifierInfusion(ItemStack stack, EquipmentSlotType slot, Attribute attribute, double amount, boolean isApplying) {
@@ -277,6 +271,7 @@ public class InfusionHelper {
 		}
 
 		@Override
+		@Deprecated
 		public ItemStack getRecipeOutput() {
 			ItemStack stack = new ItemStack(item);
 

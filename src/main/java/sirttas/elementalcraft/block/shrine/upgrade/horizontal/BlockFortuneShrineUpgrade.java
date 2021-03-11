@@ -20,7 +20,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockFortuneShrineUpgrade extends BlockHorizontalShrineUpgrade {
+public class BlockFortuneShrineUpgrade extends AbstractBlockHorizontalShrineUpgrade {
 
 	public static final String NAME = "shrine_upgrade_fortune";
 
@@ -54,6 +54,7 @@ public class BlockFortuneShrineUpgrade extends BlockHorizontalShrineUpgrade {
 	private static final VoxelShape SHAPE_EAST = VoxelShapes.or(CORE_EAST, PILAR_EAST, BASE_1_EAST, BASE_2_EAST, PIPE_EAST);
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case SOUTH:
@@ -70,7 +71,7 @@ public class BlockFortuneShrineUpgrade extends BlockHorizontalShrineUpgrade {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("enchantment.minecraft.fortune").append(new StringTextComponent(" ")).append(new TranslationTextComponent("enchantment.level.1"))
+		tooltip.add(new TranslationTextComponent("enchantment.minecraft.fortune").appendSibling(new StringTextComponent(" ")).appendSibling(new TranslationTextComponent("enchantment.level.1"))
 				.mergeStyle(TextFormatting.BLUE));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}

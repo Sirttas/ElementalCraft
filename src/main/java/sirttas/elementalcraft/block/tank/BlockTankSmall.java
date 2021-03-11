@@ -8,6 +8,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import sirttas.elementalcraft.config.ECConfig;
 
 public class BlockTankSmall extends AbstractBlockTank {
 
@@ -39,7 +40,13 @@ public class BlockTankSmall extends AbstractBlockTank {
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
+	}
+	
+	@Override
+	protected int getDefaultCapacity() {
+		return ECConfig.COMMON.tankSmallCapacity.get();
 	}
 }

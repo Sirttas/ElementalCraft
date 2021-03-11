@@ -10,11 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.block.tile.renderer.RendererEC;
+import sirttas.elementalcraft.block.tile.renderer.AbstractRendererEC;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererPurifier extends RendererEC<TilePurifier> {
+public class RendererPurifier extends AbstractRendererEC<TilePurifier> {
 
 	public RendererPurifier(TileEntityRendererDispatcher rendererDispatcher) {
 		super(rendererDispatcher);
@@ -31,12 +30,12 @@ public class RendererPurifier extends RendererEC<TilePurifier> {
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
 			matrixStack.translate(0.5, 0.5, 0.5);
 			matrixStack.rotate(getRotation(te.getBlockState().get(BlockPurifier.FACING)));
-			matrixStack.translate(0, -5D * BlockEC.BIT_SIZE, -6 * BlockEC.BIT_SIZE);
+			matrixStack.translate(0, -5D / 16, -6D / 16);
 			if (!stack.isEmpty()) {
 				renderItem(stack, matrixStack, buffer, light, overlay);
 			}
 			if (!stack2.isEmpty()) {
-				matrixStack.translate(0, 0.6, 6 * BlockEC.BIT_SIZE);
+				matrixStack.translate(0, 0.6, 6D / 16);
 				matrixStack.rotate(Vector3f.YP.rotationDegrees(tick));
 				renderItem(stack2, matrixStack, buffer, light, overlay);
 			}

@@ -8,13 +8,13 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 
 public class HasShrineUpgradePredicate implements IShrinePredicate {
 
 	public static final String NAME = "has_shrien_upgrade";
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static BlockPosPredicateType<HasShrineUpgradePredicate> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final BlockPosPredicateType<HasShrineUpgradePredicate> TYPE = null;
 	public static final Codec<HasShrineUpgradePredicate> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			ResourceLocation.CODEC.fieldOf(ECNames.SHRINE_UPGRADE).forGetter(p -> p.upgradeId),
 			Codec.INT.optionalFieldOf(ECNames.COUNT, 1).forGetter(p -> p.count)
@@ -43,7 +43,7 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
 	}
 
 	@Override
-	public boolean test(TileShrine shrine) {
+	public boolean test(AbstractTileShrine shrine) {
 		if (upgrade == null) {
 			upgrade = ElementalCraft.SHREINE_UPGRADE_MANAGER.get(upgradeId);
 		}

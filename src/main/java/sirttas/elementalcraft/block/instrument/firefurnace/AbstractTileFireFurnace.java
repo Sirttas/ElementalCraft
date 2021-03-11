@@ -15,14 +15,13 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.BlockEC;
-import sirttas.elementalcraft.block.instrument.TileInstrument;
+import sirttas.elementalcraft.block.instrument.AbstractTileInstrument;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.inventory.IOInventory;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
 import sirttas.elementalcraft.recipe.instrument.FurnaceRecipeWrapper;
 
-public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> extends TileInstrument<AbstractTileFireFurnace<T>, FurnaceRecipeWrapper<T>> {
+public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> extends AbstractTileInstrument<AbstractTileFireFurnace<T>, FurnaceRecipeWrapper<T>> {
 
 	private float exp;
 	private IRecipeType<T> furnaceRecipeType;
@@ -32,14 +31,14 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 		super(tileEntityTypeIn, null, transferSpeed, maxRunes);
 		this.furnaceRecipeType = recipeType;
 		exp = 0;
-		setOutputSlot(1);
+		outputSlot = 1;
 		inventory = new IOInventory(this::markDirty);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		BlockRetriever.sendOutputToRetriever(world, pos, inventory, 1);
+		BlockRetriever.sendOutputToRetriever(world, pos, inventory, outputSlot);
 	}
 
 	@Override
@@ -69,9 +68,9 @@ public abstract class AbstractTileFireFurnace<T extends AbstractCookingRecipe> e
 	protected void onProgress() {
 		if (world.isRemote) {
 			Random rand = world.rand;
-			double x = pos.getX() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
-			double y = pos.getY() + 6 * BlockEC.BIT_SIZE;
-			double z = pos.getZ() + (5 + rand.nextDouble() * 6) * BlockEC.BIT_SIZE;
+			double x = pos.getX() + (5 + rand.nextDouble() * 6) / 16;
+			double y = pos.getY() + 6D / 16;
+			double z = pos.getZ() + (5 + rand.nextDouble() * 6) / 16;
 
 			world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
 			world.addParticle(ParticleTypes.SMOKE, x, y + 0.5D, z, 0.0D, 0.0D, 0.0D);

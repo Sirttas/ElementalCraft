@@ -16,7 +16,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructureStart;
@@ -27,14 +26,14 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.property.ECProperties;
+import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 
-public class SourceAltarStructure extends Structure<NoFeatureConfig> {
+public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 
 	public static final String NAME = "source_altar";
 
 	public SourceAltarStructure() {
-		super(NoFeatureConfig.field_236558_a_);
+		super(IElementTypeFeatureConfig.CODEC);
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class SourceAltarStructure extends Structure<NoFeatureConfig> {
 	}
 
 	@Override
-	public IStartFactory<NoFeatureConfig> getStartFactory() {
+	public IStartFactory<IElementTypeFeatureConfig> getStartFactory() {
 		return Start::new;
 	}
 
@@ -52,16 +51,16 @@ public class SourceAltarStructure extends Structure<NoFeatureConfig> {
 		return ElementalCraft.MODID + ":" + NAME;
 	}
 
-	public static class Start extends StructureStart<NoFeatureConfig> {
+	public static class Start extends StructureStart<IElementTypeFeatureConfig> {
 
-		public Start(Structure<NoFeatureConfig> structure, int x, int y, MutableBoundingBox mutableBoundingBox, int k, long l) {
+		public Start(Structure<IElementTypeFeatureConfig> structure, int x, int y, MutableBoundingBox mutableBoundingBox, int k, long l) {
 			super(structure, x, y, mutableBoundingBox, k, l);
 		}
 		
 		@Override
 		public void func_230364_a_/* init */(DynamicRegistries dynamicRegistries, ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn,
-				NoFeatureConfig config) {
-			this.components.add(new Piece(templateManagerIn, getRoll(), ElementType.random(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
+				IElementTypeFeatureConfig config) {
+			this.components.add(new Piece(templateManagerIn, getRoll(), config.getElementType(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
 			this.recalculateStructureSize();
 
 		}
@@ -123,9 +122,9 @@ public class SourceAltarStructure extends Structure<NoFeatureConfig> {
 		protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
 			if (function.endsWith("chest")) {
 				this.generateChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getString()), null);
-				worldIn.func_230547_a_/* notifyNeighbors */(pos, Blocks.CHEST);
+				worldIn.updateBlock(pos, Blocks.CHEST);
 			} else if ("source".equals(function)) {
-				worldIn.setBlockState(pos, ECBlocks.source.getDefaultState().with(ECProperties.ELEMENT_TYPE, elementType), 3);
+				worldIn.setBlockState(pos, ECBlocks.source.getDefaultState().with(ElementType.STATE_PROPERTY, elementType), 3);
 			}
 		}
 

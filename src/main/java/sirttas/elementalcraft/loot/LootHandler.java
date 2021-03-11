@@ -11,7 +11,6 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.TableLootEntry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
@@ -28,7 +27,9 @@ public final class LootHandler {
 			.build();
 
 
-	@SubscribeEvent(priority = EventPriority.HIGH)
+	private LootHandler() {}
+	
+	@SubscribeEvent
 	public static void lootLoad(LootTableLoadEvent evt) {
 		ResourceLocation name = evt.getName();
 		ResourceLocation injectName = ElementalCraft.createRL("inject/" + name.getPath());

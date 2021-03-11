@@ -10,9 +10,9 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.BlockDirectionalShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractBlockDirectionalShrineUpgrade;
 
-public class BlockAccelerationShrineUpgrade extends BlockDirectionalShrineUpgrade {
+public class BlockAccelerationShrineUpgrade extends AbstractBlockDirectionalShrineUpgrade {
 
 	public static final String NAME = "shrine_upgrade_acceleration";
 
@@ -52,6 +52,7 @@ public class BlockAccelerationShrineUpgrade extends BlockDirectionalShrineUpgrad
 	}
 
 	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.get(FACING)) {
 		case DOWN:

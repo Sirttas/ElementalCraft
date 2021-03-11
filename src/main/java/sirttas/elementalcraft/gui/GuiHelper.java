@@ -11,18 +11,18 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 
+@OnlyIn(Dist.CLIENT)
 @SuppressWarnings("resource")
 public class GuiHelper {
 
-	@OnlyIn(Dist.CLIENT)
 	private static final ResourceLocation GAUGE = ElementalCraft.createRL("textures/gui/element_gauge.png");
 
-	@OnlyIn(Dist.CLIENT)
+	private GuiHelper() {}
+	
 	public static void blit(MatrixStack matrixStack, int x, int y, int u, int v, int width, int height) {
 		AbstractGui.blit(matrixStack, x, y, u, v, width, height, 256, 256);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	private static int getElementTypeOffset(ElementType type) {
 		switch (type) {
 		case WATER:
@@ -38,12 +38,10 @@ public class GuiHelper {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static void renderElementGauge(MatrixStack matrixStack, int x, int y, int amount, int max, ElementType type) {
 		renderElementGauge(matrixStack, x, y, amount, max, type, true);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static void renderElementGauge(MatrixStack matrixStack, int x, int y, int amount, int max, ElementType type, boolean showDebugInfo) {
 		Minecraft mc = Minecraft.getInstance();
 
@@ -57,11 +55,10 @@ public class GuiHelper {
 		}
 		blit(matrixStack, x, y + 16 - progress, getElementTypeOffset(type) * 16, 16 - progress + (Boolean.TRUE.equals(ECConfig.CLIENT.usePaleElementGauge.get()) ? 16 : 0), 16, progress);
 		if (showDebugInfo() && showDebugInfo) {
-			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 16, 16777215);
+			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 16F, 16777215);
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static void renderCanCast(MatrixStack matrixStack, int x, int y, boolean canCast) {
 		Minecraft.getInstance().textureManager.bindTexture(GAUGE);
 		blit(matrixStack, x, y, canCast ? 0 : 6, 16, 6, 6);

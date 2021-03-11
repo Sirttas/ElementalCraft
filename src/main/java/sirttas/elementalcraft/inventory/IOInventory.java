@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
-public class IOInventory extends SynchronizableInventory implements ISidedInventory, INBTSerializable<CompoundNBT> {
+public class IOInventory extends AbstractSynchronizableInventory implements ISidedInventory, INBTSerializable<CompoundNBT> {
 
 	private ItemStack input = ItemStack.EMPTY;
 	private ItemStack output = ItemStack.EMPTY;

@@ -10,7 +10,7 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class TileFireBlastFurnace extends AbstractTileFireFurnace<BlastingRecipe> {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireBlastFurnace.NAME) public static TileEntityType<TileFireBlastFurnace> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockFireBlastFurnace.NAME) public static final TileEntityType<TileFireBlastFurnace> TYPE = null;
 
 
 	public TileFireBlastFurnace() {

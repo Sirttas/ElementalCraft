@@ -7,7 +7,7 @@ import sirttas.elementalcraft.block.tank.AbstractTileElementContainer;
 
 public class TileTankCreative extends AbstractTileElementContainer {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static TileEntityType<TileTankCreative> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static final TileEntityType<TileTankCreative> TYPE = null;
 
 	public TileTankCreative() {
 		super(TYPE, CreativeElementStorage::new);

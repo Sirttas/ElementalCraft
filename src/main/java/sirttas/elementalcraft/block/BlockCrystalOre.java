@@ -1,10 +1,11 @@
 package sirttas.elementalcraft.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
-public class BlockCrystalOre extends BlockEC {
+public class BlockCrystalOre extends Block {
 
 	public static final String NAME = "crystalore";
 

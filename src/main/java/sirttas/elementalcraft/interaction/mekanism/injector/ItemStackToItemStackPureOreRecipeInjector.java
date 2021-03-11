@@ -9,7 +9,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 
-public class ItemStackToItemStackPureOreRecipeInjector<T extends ItemStackToItemStackRecipe> extends MekanismPureOreRecipeInjector<IgnoredIInventory, T> {
+public class ItemStackToItemStackPureOreRecipeInjector<T extends ItemStackToItemStackRecipe> extends AbstractMekanismPureOreRecipeInjector<IgnoredIInventory, T> {
 
 	private final Factory<T> factory;
 

@@ -5,5 +5,7 @@
   "input": {
     "tag": "forge:string"
   },
-  "output": "elementalcraft:air_silk"
+  "output": {
+    "item": "elementalcraft:air_silk"
+  }
 }

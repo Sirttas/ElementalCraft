@@ -16,5 +16,12 @@
       "item": "minecraft:blaze_rod"
     }
   ],
-  "output": "elementalcraft:fus"
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:fus"
+      }
+    }
+  }
 }

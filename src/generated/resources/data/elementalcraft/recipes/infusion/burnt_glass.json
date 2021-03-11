@@ -5,5 +5,7 @@
   "input": {
     "tag": "forge:glass"
   },
-  "output": "elementalcraft:burnt_glass"
+  "output": {
+    "item": "elementalcraft:burnt_glass"
+  }
 }

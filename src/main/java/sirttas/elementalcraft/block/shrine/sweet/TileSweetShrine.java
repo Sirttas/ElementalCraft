@@ -10,14 +10,14 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shrine.TileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class TileSweetShrine extends TileShrine {
+public class TileSweetShrine extends AbstractTileShrine {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static TileEntityType<TileSweetShrine> TYPE;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockSweetShrine.NAME) public static final TileEntityType<TileSweetShrine> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.sweetShrinePeriode.get()).consumeAmount(ECConfig.COMMON.sweetShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.sweetShrineRange.get());
@@ -35,7 +35,7 @@ public class TileSweetShrine extends TileShrine {
 	protected boolean doTick() {
 		int consumeAmount = this.getConsumeAmount();
 
-		if (this.hasUpgrade(ShrineUpgrades.nectar)) {
+		if (this.hasUpgrade(ShrineUpgrades.NECTAR)) {
 			getEntities(BeeEntity.class).forEach(e -> {
 				if (this.elementStorage.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);
