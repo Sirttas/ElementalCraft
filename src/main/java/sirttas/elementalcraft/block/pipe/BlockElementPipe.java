@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
+import sirttas.elementalcraft.block.shape.ShapeHelper;
 
 public class BlockElementPipe extends AbstractBlockECTileProvider {
 
@@ -159,7 +160,7 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 			final Vector3d hit = result.getHitVec();
 
 			for (final VoxelShape shape : SHAPES) {
-				if (shape.getBoundingBox().offset(pos).contains(hit) && isRendered(shape, state)) {
+				if (isRendered(shape, state) && ShapeHelper.vectorCollideWithShape(shape, pos, hit)) {
 					return shape;
 				}
 			}

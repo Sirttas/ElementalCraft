@@ -26,6 +26,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
+import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -121,11 +122,11 @@ public class BlockRetriever extends Block {
 			VoxelShape source = getSourceShape(state);
 			VoxelShape target = getTargetShape(state);
 
-			if (source.getBoundingBox().offset(pos).contains(hit)) {
+			if (ShapeHelper.vectorCollideWithShape(source, pos, hit)) {
 				return source;
-			} else if (target.getBoundingBox().offset(pos).contains(hit)) {
+			} else if (ShapeHelper.vectorCollideWithShape(target, pos, hit)) {
 				return target;
-			} else if (CORE.getBoundingBox().offset(pos).contains(hit)) {
+			} else if (ShapeHelper.vectorCollideWithShape(CORE, pos, hit)) {
 				return CORE;
 			}
 		}

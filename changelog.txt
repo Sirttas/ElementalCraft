@@ -1,3 +1,7 @@
+- fix right click on pipe/retrieve/sorter
+- fix fire blast furnace model
+
+
 1.16.5-2.6.0:
 
 - new block: mystical grove shrine upgrade (require botania)

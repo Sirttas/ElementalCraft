@@ -30,6 +30,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
+import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
@@ -132,11 +133,11 @@ public class BlockSorter extends AbstractBlockECTileProvider {
 			VoxelShape source = getSourceShape(state);
 			VoxelShape target = getTargetShape(state);
 
-			if (source.getBoundingBox().offset(pos).contains(hit)) {
+			if (ShapeHelper.vectorCollideWithShape(source, pos, hit)) {
 				return source;
-			} else if (target.getBoundingBox().offset(pos).contains(hit)) {
+			} else if (ShapeHelper.vectorCollideWithShape(target, pos, hit)) {
 				return target;
-			} else if (CORE.getBoundingBox().offset(pos).contains(hit)) {
+			} else if (ShapeHelper.vectorCollideWithShape(CORE, pos, hit)) {
 				return CORE;
 			}
 		}
