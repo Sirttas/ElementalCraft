@@ -22,6 +22,7 @@ import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.tile.AbstractTileECContainer;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
@@ -50,7 +51,8 @@ public class TileSolarSynthesizer extends AbstractTileECContainer {
 		
 		if (tank != null && world.getDimensionType().hasSkyLight() && world.canSeeSky(pos) && world.isDaytime()) {
 			ItemStack stack = inventory.getStackInSlot(0);
-			boolean hasExtract = getElementStorage().map(storage -> storage.transferTo(tank, runeHandler.getTransferSpeed(10), runeHandler.getElementPreservation()) > 0).orElse(false);
+			boolean hasExtract = getElementStorage()
+					.map(storage -> storage.transferTo(tank, runeHandler.getTransferSpeed(ECConfig.COMMON.lenseElementMultiplier.get()), runeHandler.getElementPreservation()) > 0).orElse(false);
 			
 			if (hasExtract || working) {
 				working = hasExtract;

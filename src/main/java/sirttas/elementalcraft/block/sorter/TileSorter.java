@@ -57,18 +57,20 @@ public class TileSorter extends AbstractTileECTickable {
 	}
 
 	public ActionResultType addStack(ItemStack stack) {
-		if (stack.isEmpty() && !stacks.isEmpty()) {
-			stacks.clear();
-			index = 0;
-			this.markDirty();
-			return ActionResultType.SUCCESS;
-		} else if (stacks.size() < ECConfig.COMMON.sorterMaxItem.get()) {
-			ItemStack copy = stack.copy();
-
-			copy.setCount(1);
-			stacks.add(copy);
-			this.markDirty();
-			return ActionResultType.SUCCESS;
+		if (!stacks.isEmpty()) {
+			if (stack.isEmpty()) {
+				stacks.clear();
+				index = 0;
+				this.markDirty();
+				return ActionResultType.SUCCESS;
+			} else if (stacks.size() < ECConfig.COMMON.sorterMaxItem.get()) {
+				ItemStack copy = stack.copy();
+	
+				copy.setCount(1);
+				stacks.add(copy);
+				this.markDirty();
+				return ActionResultType.SUCCESS;
+			}
 		}
 		return ActionResultType.PASS;
 	}

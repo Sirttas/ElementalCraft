@@ -54,7 +54,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return new TranslationTextComponent(getTranslationKey());
 	}
 
-	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) { // NOSONAR
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
 		return HashMultimap.create();
 	}
 
@@ -62,15 +62,15 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return HashMultimap.create();
 	}
 
-	public ActionResultType castOnEntity(Entity sender, Entity target) { // NOSONAR
+	public ActionResultType castOnEntity(Entity sender, Entity target) {
 		return ActionResultType.PASS;
 	}
 
-	public ActionResultType castOnBlock(Entity sender, BlockPos target) { // NOSONAR
+	public ActionResultType castOnBlock(Entity sender, BlockPos target) {
 		return ActionResultType.PASS;
 	}
 
-	public ActionResultType castOnSelf(Entity sender) { // NOSONAR
+	public ActionResultType castOnSelf(Entity sender) {
 		return ActionResultType.PASS;
 	}
 

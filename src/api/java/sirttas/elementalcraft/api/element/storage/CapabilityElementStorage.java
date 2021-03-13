@@ -40,6 +40,6 @@ public class CapabilityElementStorage {
 	
 	@Nonnull
 	public static LazyOptional<IElementStorage> get(ICapabilityProvider provider, Direction side) {
-		return ELEMENT_STORAGE_CAPABILITY != null ? provider.getCapability(ELEMENT_STORAGE_CAPABILITY, side) : LazyOptional.empty(); // NOSONAR
+		return ELEMENT_STORAGE_CAPABILITY != null ? provider.getCapability(ELEMENT_STORAGE_CAPABILITY, side) : LazyOptional.empty();
 	}
 }

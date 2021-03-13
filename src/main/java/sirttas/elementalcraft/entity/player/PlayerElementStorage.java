@@ -33,7 +33,7 @@ public class PlayerElementStorage implements IElementStorage {
 			public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> storage));
 			}
-		} : null; // NOSONAR
+		} : null;
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class PlayerElementStorage implements IElementStorage {
 		getStorages().forEach(storage -> {
 			int e = extracted.get();
 
-			extracted.set(e + storage.insertElement(count - e, type, simulate));
+			extracted.set(e + storage.extractElement(count - e, type, simulate));
 		});
 		return extracted.get();
 	}

@@ -125,6 +125,7 @@ public class ECConfig {
 		public final BooleanValue playersSpawnWithBook;
 		public final IntValue shardElementAmount;
 		public final IntValue chiselDurability;
+		public final IntValue lenseElementMultiplier;
 
 		public final BooleanValue disableWorldGen;
 		public final BooleanValue disableInertCrystal;
@@ -278,8 +279,9 @@ public class ECConfig {
 			focusMaxSpell = builder.comment("The max number of spells on a focus.").defineInRange("focusMaxSpell", 10, 1, 20);
 			spellBookMaxSpell = builder.comment("The max number of spells on an elementalist grimoire.").defineInRange("spellBookMaxSpell", 100, 1, 1000);
 			playersSpawnWithBook = builder.comment("Players start the game with an elementopedia in their inventory.").define("playersSpawnWithBook", false);
-			shardElementAmount = builder.comment("The amount of element contained in a single shard.").defineInRange("shardElementAmount", 100, 0, 1000);
+			shardElementAmount = builder.comment("The amount of element contained in a single shard.").defineInRange("shardElementAmount", 250, 0, 1000);
 			chiselDurability = builder.comment("Define chisel durablility (0 for unbreakable).").defineInRange("chiselDurability", 250, 0, 1000);
+			lenseElementMultiplier = builder.comment("the multiplier of lense (based on 1000)").defineInRange("lenseElementMultiplier", 100, 0, 100);
 			
 			builder.pop().comment("Worldgen config").push("worldgen");
 			disableWorldGen = builder.comment("Disable all elementalcraft world gen.").define("disableWorldGen", false);

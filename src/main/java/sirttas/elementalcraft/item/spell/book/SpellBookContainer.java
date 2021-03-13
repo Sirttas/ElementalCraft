@@ -162,7 +162,7 @@ public class SpellBookContainer extends Container {
 		return spellCount > 0 ? spellCount : IntStream.range(0, SLOT_COUNT).map(i -> {
 			ItemStack stack = inventory.getStackInSlot(i);
 
-			return stack.isEmpty() ? 0 : stack.getCount(); // NOSONAR
+			return stack.isEmpty() ? 0 : stack.getCount();
 		}).sum();
 	}
 

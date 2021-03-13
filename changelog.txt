@@ -1,3 +1,13 @@
+1.16.5-2.6.2:
+
+- add config for lense
+- increased the amount of elements contained in a shard
+- fix a bug where a sorter sequence could include an empty stack
+- fix spell no longer using holders
+
+
+1.16.5-2.6.1:
+
 - fix right click on pipe/retrieve/sorter
 - fix fire blast furnace model
 

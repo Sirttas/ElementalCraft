@@ -13,6 +13,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.property.ECProperties;
 
 public class ItemLense extends ItemElemental {
@@ -34,17 +35,19 @@ public class ItemLense extends ItemElemental {
 		return new ICapabilityProvider() {
 			@Override
 			public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> new Storage(stack)));
+				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> new Storage(stack, ECConfig.COMMON.lenseElementMultiplier.get())));
 			}
 		};
 	}
 	
 	private class Storage implements ISingleElementStorage {
 
+		private final int multiplier;
 		private final ItemStack stack;
 		
-		private Storage(ItemStack stack) {
+		private Storage(ItemStack stack, int multiplier) {
 			this.stack = stack;
+			this.multiplier = multiplier;
 		}
 		
 		@Override
@@ -54,12 +57,12 @@ public class ItemLense extends ItemElemental {
 
 		@Override
 		public int getElementAmount() {
-			return (stack.getMaxDamage() - stack.getDamage()) * 10;
+			return (stack.getMaxDamage() - stack.getDamage()) * multiplier;
 		}
 
 		@Override
 		public int getElementCapacity() {
-			return stack.getMaxDamage() * 10;
+			return stack.getMaxDamage() * multiplier;
 		}
 
 		@Override
@@ -72,8 +75,8 @@ public class ItemLense extends ItemElemental {
 			ItemStack target = simulate ? stack.copy() : stack;
 			int damage = target.getDamage();
 			
-			target.attemptDamageItem(count / 10, new Random(), null);
-			return (target.getDamage() - damage) * 10;
+			target.attemptDamageItem(count / multiplier, new Random(), null);
+			return (target.getDamage() - damage) * multiplier;
 		}
 		
 	}

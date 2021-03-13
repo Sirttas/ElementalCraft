@@ -121,17 +121,17 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 		if (state.getBlock() == this) {
 			if (compareShapes(shape, BASE_SHAPE)) {
 				return true;
-			} else if (compareShapes(shape, DOWN_SHAPE) && Boolean.TRUE.equals(state.get(DOWN))) { // NOSONAR
+			} else if (compareShapes(shape, DOWN_SHAPE) && Boolean.TRUE.equals(state.get(DOWN))) {
 				return true;
-			} else if (compareShapes(shape, UP_SHAPE) && Boolean.TRUE.equals(state.get(UP))) { // NOSONAR
+			} else if (compareShapes(shape, UP_SHAPE) && Boolean.TRUE.equals(state.get(UP))) {
 				return true;
-			} else if (compareShapes(shape, NORTH_SHAPE) && Boolean.TRUE.equals(state.get(NORTH))) {// NOSONAR
+			} else if (compareShapes(shape, NORTH_SHAPE) && Boolean.TRUE.equals(state.get(NORTH))) {
 				return true;
-			} else if (compareShapes(shape, SOUTH_SHAPE) && Boolean.TRUE.equals(state.get(SOUTH))) {// NOSONAR
+			} else if (compareShapes(shape, SOUTH_SHAPE) && Boolean.TRUE.equals(state.get(SOUTH))) {
 				return true;
-			} else if (compareShapes(shape, WEST_SHAPE) && Boolean.TRUE.equals(state.get(WEST))) {// NOSONAR
+			} else if (compareShapes(shape, WEST_SHAPE) && Boolean.TRUE.equals(state.get(WEST))) {
 				return true;
-			} else if (compareShapes(shape, EAST_SHAPE) && Boolean.TRUE.equals(state.get(EAST))) {// NOSONAR
+			} else if (compareShapes(shape, EAST_SHAPE) && Boolean.TRUE.equals(state.get(EAST))) {
 				return true;
 			}
 		}

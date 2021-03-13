@@ -17,7 +17,6 @@ public class MessageHandler {
 		int id = 0;
 
 		CHANNEL.registerMessage(id++, ECMessage.class, ECMessage::encode, ECMessage::decode, ECMessage::handle);
-		CHANNEL.registerMessage(id++, SpellBookMessage.class, SpellBookMessage::encode, SpellBookMessage::decode, SpellBookMessage::handle); // NOSONAR - sonar don't like the i++ in the last
-																																				// registration
+		CHANNEL.registerMessage(id++, SpellBookMessage.class, SpellBookMessage::encode, SpellBookMessage::decode, SpellBookMessage::handle);
 	}
 }

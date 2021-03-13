@@ -60,15 +60,15 @@ public class RandomSpell extends LootFunction {
 		return stack;
 	}
 
-	public static LootFunction.Builder<?> builder() { // NOSONAR
+	public static LootFunction.Builder<?> builder() {
 		return builder(ImmutableList.of());
 	}
 
-	public static LootFunction.Builder<?> builder(Collection<Spell> spellList) { // NOSONAR
+	public static LootFunction.Builder<?> builder(Collection<Spell> spellList) {
 		return builder(l -> new RandomSpell(l, spellList));
 	}
 
-	public static LootFunction.Builder<?> builder(ElementType elementType) { // NOSONAR
+	public static LootFunction.Builder<?> builder(ElementType elementType) {
 		return builder(l -> new RandomSpell(l, elementType));
 	}
 

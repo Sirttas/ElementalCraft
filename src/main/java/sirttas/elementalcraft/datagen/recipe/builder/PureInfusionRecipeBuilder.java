@@ -66,11 +66,11 @@ public class PureInfusionRecipeBuilder {
 
 	public PureInfusionRecipeBuilder setIngredient(ElementType type, Ingredient ingredientIn) {
 		int index = type == ElementType.NONE ? 0 : 
-					type == ElementType.WATER ? 1 : // NOSONAR
-					type == ElementType.FIRE ? 2 : // NOSONAR
-					type == ElementType.EARTH ? 3 : // NOSONAR
-					type == ElementType.AIR ? 4 : // NOSONAR
-					-1; // NOSONAR
+					type == ElementType.WATER ? 1 :
+					type == ElementType.FIRE ? 2 :
+					type == ElementType.EARTH ? 3 :
+					type == ElementType.AIR ? 4 :
+					-1;
 
 		this.ingredients.set(index, ingredientIn);
 		return this;
