@@ -32,28 +32,28 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 	public static ItemEC getCrystalForType(ElementType type) {
 		switch (type) {
 		case AIR:
-			return ECItems.airCrystal;
+			return ECItems.AIR_CRYSTAL;
 		case EARTH:
-			return ECItems.earthCrystal;
+			return ECItems.EARTH_CRYSTAL;
 		case FIRE:
-			return ECItems.fireCrystal;
+			return ECItems.FIRE_CRYSTAL;
 		case WATER:
-			return ECItems.waterCrystal;
+			return ECItems.WATER_CRYSTAL;
 		default:
-			return ECItems.inertCrystal;
+			return ECItems.INERT_CRYSTAL;
 		}
 	}
 
 	public static ItemEC getShardForType(ElementType type) {
 		switch (type) {
 		case AIR:
-			return ECItems.airShard;
+			return ECItems.AIR_SHARD;
 		case EARTH:
-			return ECItems.earthShard;
+			return ECItems.EARTH_SHARD;
 		case FIRE:
-			return ECItems.fireShard;
+			return ECItems.FIRE_SHARD;
 		case WATER:
-			return ECItems.waterShard;
+			return ECItems.WATER_SHARD;
 		default:
 			throw new IllegalArgumentException("Element Type must not be NONE");
 		}
@@ -62,13 +62,13 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 	public static ItemEC getPowerfulShardForType(ElementType type) {
 		switch (type) {
 		case AIR:
-			return ECItems.powerfulAirShard;
+			return ECItems.POWERFUL_AIR_SHARD;
 		case EARTH:
-			return ECItems.powerfulEarthShard;
+			return ECItems.POWERFUL_EARTH_SHARD;
 		case FIRE:
-			return ECItems.powerfulFireShard;
+			return ECItems.POWERFUL_FIRE_SHARD;
 		case WATER:
-			return ECItems.powerfulWaterShard;
+			return ECItems.POWERFUL_WATER_SHARD;
 		default:
 			throw new IllegalArgumentException("Element Type must not be NONE");
 		}

@@ -22,24 +22,14 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.shape.Shapes;
 import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
 
 public class BlockBreedingShrine extends AbstractBlockShrine {
 
 	public static final String NAME = "breedingshrine";
 
-	private static final VoxelShape BASE_CORE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
-	private static final VoxelShape BASE_CORE_2 = Block.makeCuboidShape(1D, 3D, 1D, 15D, 7D, 15D);
-	private static final VoxelShape BASE_CORE_3 = Block.makeCuboidShape(3D, 7D, 3D, 13D, 12D, 13D);
-	private static final VoxelShape BASE_CORE_4 = Block.makeCuboidShape(5D, 12D, 5D, 11D, 14D, 11D);
-
-	private static final VoxelShape PIPE_NORTH = Block.makeCuboidShape(7D, 7D, 0D, 9D, 9D, 3D);
-	private static final VoxelShape PIPE_SOUTH = Block.makeCuboidShape(7D, 7D, 13D, 9D, 9D, 16D);
-	private static final VoxelShape PIPE_EAST = Block.makeCuboidShape(13D, 7D, 7D, 16D, 9D, 9D);
-	private static final VoxelShape PIPE_WEST = Block.makeCuboidShape(0D, 7D, 7D, 3D, 9D, 9D);
-	private static final VoxelShape PIPE_UP = Block.makeCuboidShape(7D, 14D, 7D, 9D, 16D, 9D);
-
-	private static final VoxelShape BASE_CORE = VoxelShapes.or(BASE_CORE_1, BASE_CORE_2, BASE_CORE_3, BASE_CORE_4, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST, PIPE_UP);
+	private static final VoxelShape BASE_CORE = VoxelShapes.or(Shapes.SHRINE_SHAPE, Block.makeCuboidShape(5D, 12D, 5D, 11D, 14D, 11D));
 
 	private static final VoxelShape CORE_NORTH_1 = Block.makeCuboidShape(3D, 3D, 0D, 13D, 12D, 3D);
 	private static final VoxelShape CORE_NORTH_2 = Block.makeCuboidShape(5D, 12D, 0D, 11D, 14D, 5D);

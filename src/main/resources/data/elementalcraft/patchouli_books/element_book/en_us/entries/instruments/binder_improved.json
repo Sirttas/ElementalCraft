@@ -4,7 +4,7 @@
   "icon": "elementalcraft:binder_improved",
   "advancement": "elementalcraft:pickup/tank",
   "turnin": "elementalcraft:pickup/binder_improved",
-  "sortnum": 13,
+  "sortnum": 14,
   "pages": [
     {
       "type": "text",

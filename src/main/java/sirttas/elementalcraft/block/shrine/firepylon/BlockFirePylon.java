@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.shape.Shapes;
 import sirttas.elementalcraft.block.shrine.AbstractBlockPylonShrine;
 import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 
@@ -34,15 +35,7 @@ public class BlockFirePylon extends AbstractBlockPylonShrine {
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
-	private static final VoxelShape BASE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
-	private static final VoxelShape BASE_2 = Block.makeCuboidShape(1D, 3D, 1D, 15D, 7D, 15D);
-	private static final VoxelShape BASE_3 = Block.makeCuboidShape(3D, 7D, 3D, 13D, 12D, 13D);
-	private static final VoxelShape BASE_4 = Block.makeCuboidShape(6D, 12D, 6D, 10D, 16D, 10D);
-
-	private static final VoxelShape PIPE_NORTH = Block.makeCuboidShape(7D, 7D, 0D, 9D, 9D, 3D);
-	private static final VoxelShape PIPE_SOUTH = Block.makeCuboidShape(7D, 7D, 13D, 9D, 9D, 16D);
-	private static final VoxelShape PIPE_EAST = Block.makeCuboidShape(13D, 7D, 7D, 16D, 9D, 9D);
-	private static final VoxelShape PIPE_WEST = Block.makeCuboidShape(0D, 7D, 7D, 3D, 9D, 9D);
+	private static final VoxelShape BASE = Block.makeCuboidShape(6D, 12D, 6D, 10D, 16D, 10D);
 
 	private static final VoxelShape IRON_NORTH = Block.makeCuboidShape(7D, 12D, 5D, 9D, 14D, 6D);
 	private static final VoxelShape IRON_SOUTH = Block.makeCuboidShape(7D, 12D, 10D, 9D, 14D, 11D);
@@ -52,7 +45,7 @@ public class BlockFirePylon extends AbstractBlockPylonShrine {
 	private static final VoxelShape UPPER_BASE = Block.makeCuboidShape(6D, 0D, 6D, 10D, 7D, 10D);
 	private static final VoxelShape UPPER_TOP = Block.makeCuboidShape(5D, 7D, 5D, 11D, 11D, 11D);
 
-	private static final VoxelShape LOWER_SHAPE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, BASE_4, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST, IRON_NORTH, IRON_SOUTH, IRON_EAST, IRON_WEST);
+	private static final VoxelShape LOWER_SHAPE = VoxelShapes.or(Shapes.SHRINE_SHAPE, BASE, IRON_NORTH, IRON_SOUTH, IRON_EAST, IRON_WEST);
 	private static final VoxelShape UPPER_SHAPE = VoxelShapes.or(UPPER_BASE, UPPER_TOP);
 
 	public BlockFirePylon() {

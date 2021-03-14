@@ -36,7 +36,7 @@ public final class ECMessage {
 	}
 
 	private void handelScroll(ServerPlayerEntity player, int delta) {
-		EntityHelper.handStream(player).filter(i -> i.getItem() == ECItems.focus).findFirst().ifPresent(i -> SpellHelper.moveSelected(i, delta));
+		EntityHelper.handStream(player).filter(i -> i.getItem() == ECItems.FOCUS).findFirst().ifPresent(i -> SpellHelper.moveSelected(i, delta));
 	}
 
 	public void handle(Supplier<NetworkEvent.Context> ctx) {

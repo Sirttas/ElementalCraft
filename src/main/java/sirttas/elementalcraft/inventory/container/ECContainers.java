@@ -14,7 +14,7 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECContainers {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + ItemSpellBook.NAME) public static ContainerType<SpellBookContainer> spellBook;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemSpellBook.NAME) public static final ContainerType<SpellBookContainer> SPELL_BOOK = null;
 
 	private ECContainers() {}
 	

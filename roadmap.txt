@@ -20,16 +20,13 @@ spells:
 	mud golem
 	translocation
 	
-2.6:
+2.7:
 	remote element tranfer
 	pipe cover frame
 	source stabilizer
 	source analyzer
-	stem poleinisation shrine upgrade
 	ordered sorter config gui
 	crystalizer luck tweek
-	
-2.7:
 	pure element holder
 	holder element flow particles
 	fix spell book
@@ -42,7 +39,6 @@ spells:
 	rename classes
 	normalize ids
 	rework recipes
-	air mill grindstone
 	ellementalist
 	illementalist
 	pure binder

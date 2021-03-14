@@ -74,7 +74,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return ActionResultType.PASS;
 	}
 
-	public void addSpellInstance(SpellInstance instance) {
+	public void addSpellInstance(AbstractSpellInstance instance) {
 		SpellTickManager.getInstance(instance.sender.world).addSpellInstance(instance);
 	}
 

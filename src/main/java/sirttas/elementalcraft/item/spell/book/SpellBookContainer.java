@@ -31,11 +31,11 @@ public class SpellBookContainer extends Container {
 	private final PlayerEntity player;
 
 	public SpellBookContainer(int id, PlayerInventory player) {
-		this(id, player, new ItemStack(ECItems.spellBook));
+		this(id, player, new ItemStack(ECItems.SPELL_BOOK));
 	}
 
 	private SpellBookContainer(int id, PlayerInventory playerInventoryIn, ItemStack book) {
-		super(ECContainers.spellBook, id);
+		super(ECContainers.SPELL_BOOK, id);
 		this.book = book;
 		this.inventory = new Inventory(SLOT_COUNT);
 		this.player = playerInventoryIn.player;
@@ -93,7 +93,7 @@ public class SpellBookContainer extends Container {
 			ItemStack old = stack.copy();
 			Spell spell = SpellHelper.getSpell(stack);
 
-			if (stack.getItem() == ECItems.scroll && spell.isValid()) {
+			if (stack.getItem() == ECItems.SCROLL && spell.isValid()) {
 				if (index < SLOT_COUNT) {
 					removeSpell(stack);
 					return ItemStack.EMPTY;
@@ -118,7 +118,7 @@ public class SpellBookContainer extends Container {
 		PlayerInventory playerinventory = player.inventory;
 		Slot slot = slotId >= 0 ? this.inventorySlots.get(slotId) : null;
 
-		if (slot == null || slot.getStack().getItem() != ECItems.spellBook) {
+		if (slot == null || slot.getStack().getItem() != ECItems.SPELL_BOOK) {
 			if (slotId < 0 || slotId >= SLOT_COUNT || clickTypeIn == ClickType.THROW || clickTypeIn == ClickType.QUICK_MOVE || clickTypeIn == ClickType.PICKUP_ALL) {
 				return super.slotClick(slotId, dragType, clickTypeIn, player);
 			} else if (clickTypeIn == ClickType.CLONE && player.isCreative() && playerinventory.getItemStack().isEmpty()) {
@@ -145,7 +145,7 @@ public class SpellBookContainer extends Container {
 					ItemStack stack = playerinventory.getItemStack();
 					Spell spell = SpellHelper.getSpell(stack);
 
-					if (stack.getItem() == ECItems.scroll && spell.isValid()) {
+					if (stack.getItem() == ECItems.SCROLL && spell.isValid()) {
 						SpellHelper.addSpell(book, spell);
 						playerinventory.setItemStack(ItemStack.EMPTY);
 						this.refresh();
@@ -173,7 +173,7 @@ public class SpellBookContainer extends Container {
 	}
 
 	public boolean canAddSpell(ItemStack stack, Spell spell) {
-		return stack.getItem() == ECItems.scroll && spell.isValid() && SpellHelper.getSpellCount(stack) < ECConfig.COMMON.spellBookMaxSpell.get();
+		return stack.getItem() == ECItems.SCROLL && spell.isValid() && SpellHelper.getSpellCount(stack) < ECConfig.COMMON.spellBookMaxSpell.get();
 	}
 	
 	private void refresh() {
@@ -181,7 +181,7 @@ public class SpellBookContainer extends Container {
 
 		for (int i = 0; i < SLOT_COUNT; ++i) {
 			if (i < spells.size()) {
-				ItemStack scroll = new ItemStack(ECItems.scroll);
+				ItemStack scroll = new ItemStack(ECItems.SCROLL);
 				Pair<Spell, Integer> pair = spells.get(i);
 
 				SpellHelper.setSpell(scroll, pair.getFirst());
@@ -205,7 +205,7 @@ public class SpellBookContainer extends Container {
 				Slot slot = this.inventorySlots.get(i + SLOT_COUNT);
 
 				if (slot != null && !slot.getHasStack()) {
-					ItemStack scroll = new ItemStack(ECItems.scroll);
+					ItemStack scroll = new ItemStack(ECItems.SCROLL);
 
 					SpellHelper.setSpell(scroll, spell);
 					slot.putStack(scroll);
@@ -236,7 +236,7 @@ public class SpellBookContainer extends Container {
 		}
 	}
 
-	private class ScrollSlot extends Slot {
+	private static class ScrollSlot extends Slot {
 
 		public ScrollSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
 			super(inventoryIn, index, xPosition, yPosition);
@@ -244,7 +244,7 @@ public class SpellBookContainer extends Container {
 
 		@Override
 		public boolean isItemValid(ItemStack stack) {
-			return stack.getItem() == ECItems.scroll && getStack().isEmpty();
+			return stack.getItem() == ECItems.SCROLL && getStack().isEmpty();
 		}
 
 		@Override

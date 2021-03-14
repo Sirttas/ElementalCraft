@@ -14,6 +14,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessG
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockMysticalGroveShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockStemPollinationShrineUpgrade;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
 public class ShrineUpgrades {
@@ -28,6 +29,7 @@ public class ShrineUpgrades {
 	@DataHolder(ElementalCraft.MODID + ":" + BlockPickupShrineUpgrade.NAME) public static final ShrineUpgrade PICKUP = null;
 	@DataHolder(ElementalCraft.MODID + ":" + BlockNectarShrineUpgrade.NAME) public static final ShrineUpgrade NECTAR = null;
 	@DataHolder(ElementalCraft.MODID + ":" + BlockMysticalGroveShrineUpgrade.NAME) public static final ShrineUpgrade MYSTICAL_GROVE = null;
+	@DataHolder(ElementalCraft.MODID + ":" + BlockStemPollinationShrineUpgrade.NAME) public static final ShrineUpgrade STEM_POLLINATION = null;
 
 	private ShrineUpgrades() {}
 	

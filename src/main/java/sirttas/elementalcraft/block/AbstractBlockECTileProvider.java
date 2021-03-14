@@ -64,6 +64,6 @@ public abstract class AbstractBlockECTileProvider extends Block {
 	}
 
 	private void dropRunes(World worldIn, BlockPos pos) {
-		CapabilityRuneHandler.getRuneHandlerAt(worldIn, pos).getRunes().forEach(rune -> InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), ECItems.rune.getRuneStack(rune)));
+		CapabilityRuneHandler.getRuneHandlerAt(worldIn, pos).getRunes().forEach(rune -> InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), ECItems.RUNE.getRuneStack(rune)));
 	}
 }

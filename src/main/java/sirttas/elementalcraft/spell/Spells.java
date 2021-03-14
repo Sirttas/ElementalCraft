@@ -26,24 +26,24 @@ import sirttas.elementalcraft.spell.water.SpellRipening;
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Spells {
 
-	@ObjectHolder(ElementalCraft.MODID + ":none") public static Spell none;
+	@ObjectHolder(ElementalCraft.MODID + ":none") public static final Spell NONE = null;
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellGavelFall.NAME) public static SpellGavelFall gravelFall;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellStoneWall.NAME) public static SpellStoneWall stoneWall;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFireBall.NAME) public static SpellFireBall fireBall;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellItemPull.NAME) public static SpellItemPull itemPull;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellEnderStrike.NAME) public static SpellEnderStrike enderStrike;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellAnimalGrowth.NAME) public static SpellAnimalGrowth animalGrowth;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellTreeFall.NAME) public static SpellTreeFall treeFall;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellPurification.NAME) public static SpellPurification purification;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellRipening.NAME) public static SpellRipening ripening;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static SpellFlameCleave flameCleave;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellInferno.NAME) public static SpellInferno inferno;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellDash.NAME) public static SpellDash dash;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellSilkVein.NAME) public static SpellSilkVein silkVein;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellGavelFall.NAME) public static final SpellGavelFall GRAVEL_FALL = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellStoneWall.NAME) public static final SpellStoneWall STONE_WALL = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFireBall.NAME) public static final SpellFireBall FIRE_BALL = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellItemPull.NAME) public static final SpellItemPull ITEM_PULL = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellEnderStrike.NAME) public static final SpellEnderStrike ENDER_STRIKE = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellAnimalGrowth.NAME) public static final SpellAnimalGrowth ANIMAL_GROWTH = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellTreeFall.NAME) public static final SpellTreeFall TREE_FALL = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellPurification.NAME) public static final SpellPurification PURIFICATION = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellRipening.NAME) public static final SpellRipening RIPENING = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static final SpellFlameCleave FLAME_CLEAVE = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellInferno.NAME) public static final SpellInferno INFERNO = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellDash.NAME) public static final SpellDash DASH = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + SpellSilkVein.NAME) public static final SpellSilkVein SILK_VEIN = null;
 
-	@ObjectHolder(ElementalCraft.MODID + ":heal") public static EffectSpell heal;
-	@ObjectHolder(ElementalCraft.MODID + ":speed") public static EffectSpell speed;
+	@ObjectHolder(ElementalCraft.MODID + ":heal") public static final EffectSpell HEAL = null;
+	@ObjectHolder(ElementalCraft.MODID + ":speed") public static final EffectSpell SPEED = null;
 
 	private Spells() {}
 	

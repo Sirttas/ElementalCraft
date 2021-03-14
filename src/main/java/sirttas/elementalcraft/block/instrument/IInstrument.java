@@ -10,4 +10,6 @@ public interface IInstrument extends ICraftingTile, IElementTypeProvider {
 	ISingleElementStorage getTank();
 
 	ElementType getTankElementType();
+	
+	
 }

@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.shape.Shapes;
 import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
 import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 
@@ -22,17 +23,10 @@ public class BlockLavaShrine extends AbstractBlockShrine {
 
 	public static final String NAME = "lavashrine";
 
-	private static final VoxelShape BASE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
-	private static final VoxelShape BASE_2 = Block.makeCuboidShape(1D, 3D, 1D, 15D, 7D, 15D);
-	private static final VoxelShape BASE_3 = Block.makeCuboidShape(3D, 7D, 3D, 13D, 13D, 13D);
-	private static final VoxelShape BASE_4 = Block.makeCuboidShape(0D, 13D, 0D, 16D, 16D, 16D);
+	private static final VoxelShape BASE_1 = Block.makeCuboidShape(3D, 12D, 3D, 13D, 13D, 13D);
+	private static final VoxelShape BASE_2 = Block.makeCuboidShape(0D, 13D, 0D, 16D, 16D, 16D);
 
-	private static final VoxelShape PIPE_NORTH = Block.makeCuboidShape(7D, 7D, 0D, 9D, 9D, 3D);
-	private static final VoxelShape PIPE_SOUTH = Block.makeCuboidShape(7D, 7D, 13D, 9D, 9D, 16D);
-	private static final VoxelShape PIPE_EAST = Block.makeCuboidShape(13D, 7D, 7D, 16D, 9D, 9D);
-	private static final VoxelShape PIPE_WEST = Block.makeCuboidShape(0D, 7D, 7D, 3D, 9D, 9D);
-
-	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, BASE_4, PIPE_NORTH, PIPE_SOUTH, PIPE_EAST, PIPE_WEST);
+	private static final VoxelShape SHAPE = VoxelShapes.or(Shapes.SHRINE_SHAPE, BASE_1, BASE_2);
 
 	public BlockLavaShrine() {
 		super(ElementType.FIRE);

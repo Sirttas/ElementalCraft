@@ -8,9 +8,8 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.AbstractTileInstrument;
-import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 
 public class TilePurifier extends AbstractTileInstrument<TilePurifier, PurifierRecipe> {
 
@@ -22,12 +21,6 @@ public class TilePurifier extends AbstractTileInstrument<TilePurifier, PurifierR
 		super(TYPE, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
 		outputSlot = 1;
 		inventory = new PurifierInventory(this::markDirty);
-	}
-
-	@Override
-	public void tick() {
-		super.tick();
-		BlockRetriever.sendOutputToRetriever(world, pos, inventory, 1);
 	}
 
 	@Override

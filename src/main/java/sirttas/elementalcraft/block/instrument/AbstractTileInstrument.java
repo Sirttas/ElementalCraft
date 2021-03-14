@@ -15,6 +15,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.tile.AbstractTileECCrafting;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
@@ -37,6 +38,7 @@ public abstract class AbstractTileInstrument<T extends IInstrument, R extends II
 		if (!this.isPowered() && progressOnTick()) {
 			makeProgress();
 		}
+		BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
 	}
 
 	protected boolean progressOnTick() {

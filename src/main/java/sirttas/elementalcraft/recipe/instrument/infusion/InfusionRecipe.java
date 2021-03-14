@@ -19,7 +19,6 @@ import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class InfusionRecipe extends AbstractInfusionRecipe {
 
-	public static final String NAME = "infusion";
 	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<InfusionRecipe> SERIALIZER = null;
 
 	private Ingredient input;
@@ -64,11 +63,6 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InfusionRecipe> {
-		final IRecipeFactory factory;
-
-		public Serializer(IRecipeFactory factory) {
-			this.factory = factory;
-		}
 
 		@Override
 		public InfusionRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -77,7 +71,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
-			return this.factory.create(recipeId, type, elementAmount, output, input);
+			return new InfusionRecipe(recipeId, type, elementAmount, output, input);
 		}
 
 		@Override
@@ -87,7 +81,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 			Ingredient input = Ingredient.read(buffer);
 			ItemStack output = buffer.readItemStack();
 
-			return this.factory.create(recipeId, type, elementAmount, output, input);
+			return new InfusionRecipe(recipeId, type, elementAmount, output, input);
 		}
 
 		@Override
@@ -96,10 +90,6 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 			buffer.writeInt(recipe.getElementAmount());
 			recipe.getIngredients().get(0).write(buffer);
 			buffer.writeItemStack(recipe.getRecipeOutput());
-		}
-
-		public interface IRecipeFactory {
-			InfusionRecipe create(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, Ingredient input);
 		}
 	}
 }

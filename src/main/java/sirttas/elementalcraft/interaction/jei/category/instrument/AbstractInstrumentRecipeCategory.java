@@ -5,13 +5,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.ingredients.IIngredients;
-import sirttas.elementalcraft.block.tile.ICraftingTile;
+import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.interaction.jei.category.AbstractRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
-public abstract class AbstractInstrumentRecipeCategory<K extends ICraftingTile, T extends IInstrumentRecipe<K>> extends AbstractRecipeCategory<K, T> {
+public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractRecipeCategory<K, T> {
 
 	private IDrawable overlay;
 	private int overlayX;

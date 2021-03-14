@@ -74,11 +74,6 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 	}
 
 	@Override
-	public boolean canFit(int width, int height) {
-		return true;
-	}
-
-	@Override
 	public ResourceLocation getId() {
 		return id;
 	}
@@ -100,11 +95,6 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<PureInfusionRecipe> {
-		final IRecipeFactory factory;
-
-		public Serializer(IRecipeFactory factory) {
-			this.factory = factory;
-		}
 
 		@Override
 		public PureInfusionRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -112,7 +102,7 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getJsonArray(json, ECNames.INGREDIENTS));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
-			return this.factory.create(recipeId, elementAmount, output, ingredients);
+			return new PureInfusionRecipe(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
@@ -126,7 +116,7 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 				ingredients.set(j, Ingredient.read(buffer));
 			}
 
-			return this.factory.create(recipeId, elementAmount, output, ingredients);
+			return new PureInfusionRecipe(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
@@ -138,10 +128,6 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 			for (Ingredient ingredient : recipe.getIngredients()) {
 				ingredient.write(buffer);
 			}
-		}
-
-		public interface IRecipeFactory {
-			PureInfusionRecipe create(ResourceLocation id, int elementAmount, ItemStack output, List<Ingredient> ingredients);
 		}
 	}
 }

@@ -139,11 +139,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrystallizationRecipe> {
-		final IRecipeFactory factory;
 
-		public Serializer(IRecipeFactory factory) {
-			this.factory = factory;
-		}
 
 		@Override
 		public CrystallizationRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -153,7 +149,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 			Map<ItemStack, Integer> outputs = StreamSupport.stream(JSONUtils.getJsonArray(json, ECNames.OUTPUTS).spliterator(), false).filter(JsonObject.class::isInstance).map(JsonObject.class::cast)
 					.collect(Collectors.toMap(obj -> RecipeHelper.readRecipeOutput(obj, ECNames.ITEM), obj -> JSONUtils.getInt(obj, ECNames.WEIGHT)));
 			
-			return this.factory.create(recipeId, type, elementAmount, outputs, ingredients);
+			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
 		}
 
 		public static NonNullList<Ingredient> readIngredients(JsonObject json) {
@@ -182,7 +178,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 				ingredients.set(j, Ingredient.read(buffer));
 			}
 
-			return this.factory.create(recipeId, type, elementAmount, outputs, ingredients);
+			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
 		}
 
 		@Override
@@ -196,10 +192,6 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 			});
 			buffer.writeInt(recipe.getIngredients().size());
 			recipe.getIngredients().forEach(ingredient -> ingredient.write(buffer));
-		}
-
-		public interface IRecipeFactory {
-			CrystallizationRecipe create(ResourceLocation id, ElementType type, int elementAmount, Map<ItemStack, Integer> outputs, List<Ingredient> ingredients);
 		}
 	}
 }

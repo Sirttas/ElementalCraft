@@ -82,7 +82,7 @@ public class ItemSpellBook extends ItemEC {
 		return false;
 	}
 
-	private class ContainerProvider implements INamedContainerProvider {
+	private static class ContainerProvider implements INamedContainerProvider {
 
 		private final ItemStack stack;
 

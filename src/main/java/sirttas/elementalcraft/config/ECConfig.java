@@ -94,6 +94,9 @@ public class ECConfig {
 		public final DoubleValue crystallizerLuckRatio;
 		public final IntValue inscriberTransferSpeed;
 		public final IntValue inscriberMaxRunes;
+		public final IntValue airMillTransferSpeed;
+		public final IntValue airMillMaxRunes;
+		public final DoubleValue airMillLuckRatio;
 		public final IntValue purifierTransferSpeed;
 		public final IntValue purifierMaxRunes;
 		public final IntValue purifierDuration;
@@ -243,6 +246,10 @@ public class ECConfig {
 			builder.pop().push("inscriber");
 			inscriberTransferSpeed = builder.comment("The max amount of element consumed by the gem inscriber per tick.").defineInRange("inscriberTransferSpeed", 1000, 0, 10000);
 			inscriberMaxRunes = builder.comment("The max amount of on an inscriber.").defineInRange("inscriberMaxRunes", 3, 0, 10);
+			builder.pop().push("airMill");
+			airMillTransferSpeed = builder.comment("The max amount of element consumed by the Air Mill Grindstone per tick.").defineInRange("airMillTransferSpeed", 10, 0, 1000);
+			airMillMaxRunes = builder.comment("The max amount of on an Air Mill Grindstone.").defineInRange("airMillMaxRunes", 3, 0, 10);
+			airMillLuckRatio = builder.comment("The ratio of each luck rune on a Air Mill Grindstone.").defineInRange("airMillLuckRatio", 2D, 0D, 10D);
 			builder.pop().push("purifier");
 			purifierTransferSpeed = builder.comment("The max amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierTransferSpeed", 25, 0, 1000);
 			purifierMaxRunes = builder.comment("The max amount of on an purifier.").defineInRange("purifierMaxRunes", 3, 0, 10);

@@ -23,6 +23,11 @@ public interface IInventoryTileRecipe<T extends IInventoryTile> extends IRecipe<
 	default ItemStack getCraftingResult(InventoryTileWrapper<T> inv) {
 		return getCraftingResult(inv.getInstrument());
 	}
+	
+	@Override
+	default boolean canFit(int width, int height) {
+		return true;
+	}
 
 	default ItemStack getCraftingResult(T instrument) {
 		return this.getRecipeOutput().copy();

@@ -44,7 +44,7 @@ public class ItemFocus extends AbstractItemSpellHolder {
 				tooltip.add(new StringTextComponent(i + " ").appendSibling(s.getDisplayName()).mergeStyle(formating));
 			}
 		});
-		if (spell != Spells.none) {
+		if (spell != Spells.NONE) {
 			addAttributeTooltip(tooltip, SpellHelper.getSpell(stack));
 		}
 	}

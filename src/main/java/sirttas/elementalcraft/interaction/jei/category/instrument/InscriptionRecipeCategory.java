@@ -22,7 +22,7 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 
 	private final IDrawable icon;
 	private final IDrawable background;
-	private ItemStack inscriber = new ItemStack(ECItems.inscriber);
+	private ItemStack inscriber = new ItemStack(ECItems.INSCRIBER);
 
 	public InscriptionRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(100, 100);

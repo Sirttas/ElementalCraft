@@ -10,7 +10,7 @@ public abstract class AbstractTileECCrafting<T extends ICraftingTile, R extends 
 	protected final IRecipeType<R> recipeType;
 	protected final int transferSpeed;
 
-	protected IInventoryTileRecipe<?> recipe;
+	protected IInventoryTileRecipe<T> recipe;
 	protected int outputSlot = 0;
 	
 	protected AbstractTileECCrafting(TileEntityType<?> tileEntityTypeIn, IRecipeType<R> recipeType, int transferSpeed) {
@@ -42,7 +42,7 @@ public abstract class AbstractTileECCrafting<T extends ICraftingTile, R extends 
 		this.markDirty();
 	}
 
-	protected IInventoryTileRecipe<?> lookupRecipe() {
+	protected IInventoryTileRecipe<T> lookupRecipe() {
 		return lookupRecipe(this.getWorld(), recipeType);
 	}
 

@@ -16,7 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 public class InfusionRecipeBuilder {
@@ -46,7 +46,7 @@ public class InfusionRecipeBuilder {
 	public void build(Consumer<IFinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, new ResourceLocation(id.getNamespace(), InfusionRecipe.NAME + '/' + id.getPath()));
+		this.build(consumerIn, new ResourceLocation(id.getNamespace(), AbstractInfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
@@ -54,7 +54,7 @@ public class InfusionRecipeBuilder {
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(BindingRecipe.NAME + '/' + save));
+			this.build(consumerIn, ElementalCraft.createRL(AbstractInfusionRecipe.NAME + '/' + save));
 		}
 	}
 

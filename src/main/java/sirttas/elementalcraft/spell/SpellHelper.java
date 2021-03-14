@@ -50,7 +50,7 @@ public class SpellHelper {
 						moveSelected(stack, -1);
 						list.remove(i);
 						if (list.isEmpty()) {
-							setSpell(stack, Spells.none);
+							setSpell(stack, Spells.NONE);
 						}
 					}
 					return;
@@ -156,7 +156,7 @@ public class SpellHelper {
 		if (nbt instanceof CompoundNBT) {
 			return Spell.REGISTRY.getValue(new ResourceLocation(((CompoundNBT) nbt).getString(ECNames.SPELL)));
 		}
-		return Spells.none;
+		return Spells.NONE;
 	}
 
 	private static boolean isSpellInTag(INBT nbt, Spell spell) {

@@ -17,6 +17,6 @@ public class ItemChisel extends ItemEC {
 
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == ECItems.swiftAlloyIngot;
+		return repair.getItem() == ECItems.SWIFT_ALLOY_INGOT;
 	}
 }

@@ -1,6 +1,5 @@
-package sirttas.elementalcraft.recipe.instrument;
+package sirttas.elementalcraft.recipe.instrument.io;
 
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -10,7 +9,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.firefurnace.AbstractTileFireFurnace;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IInstrumentRecipe<AbstractTileFireFurnace<T>> {
+public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractTileFireFurnace<T>> {
 
 	private T recipe;
 
@@ -50,21 +49,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Override
 	public void process(AbstractTileFireFurnace<T> instrument) {
-		IInventory inv = instrument.getInventory();
-		ItemStack input = inv.getStackInSlot(0);
-		ItemStack output = inv.getStackInSlot(1);
-		ItemStack result = recipe.getCraftingResult(inv);
-
-		if (result.isItemEqual(output) && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
-			input.shrink(1);
-			output.grow(result.getCount());
-		} else if (output.isEmpty()) {
-			input.shrink(1);
-			inv.setInventorySlotContents(1, result.copy());
-		}
-		if (input.isEmpty()) {
-			inv.removeStackFromSlot(0);
-		}
+		IIOInstrumentRecipe.super.process(instrument);
 		instrument.addExperience(recipe.getExperience());
 	}
 

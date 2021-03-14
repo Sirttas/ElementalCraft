@@ -14,7 +14,7 @@ public class ImprovedExtractionRecipeCategory extends ExtractionRecipeCategory {
 	public static final ResourceLocation UID = ElementalCraft.createRL("extraction_improved");
 
 	public ImprovedExtractionRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper, new ItemStack(ECItems.improvedExtractor), Lists.newArrayList(new ItemStack(ECItems.tank)), 2);
+		super(guiHelper, new ItemStack(ECItems.EXTRACTOR_IMPROVED), Lists.newArrayList(new ItemStack(ECItems.TANK)), 2);
 	}
 
 	@Override

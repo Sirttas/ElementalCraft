@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bpb",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "p": {
+      "item": "minecraft:pumpkin"
+    },
+    "b": {
+      "item": "minecraft:bone_meal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:earthcrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_stem_pollination"
+  }
+}

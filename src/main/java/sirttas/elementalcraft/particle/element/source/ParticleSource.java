@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.particle.element;
+package sirttas.elementalcraft.particle.element.source;
 
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
@@ -9,11 +9,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.particle.AbstractECParticle;
+import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleSource extends AbstractECParticle {
 
-	private ParticleSource(ClientWorld worldIn, Vector3d coord, IAnimatedSprite sprite, ElementType type) {
+	protected ParticleSource(ClientWorld worldIn, Vector3d coord, IAnimatedSprite sprite, ElementType type) {
 		super(worldIn, coord);
 		this.motionX = 0;
 		this.motionY = 0;
@@ -53,6 +54,7 @@ public class ParticleSource extends AbstractECParticle {
 			this.particleScale *= f - f1 * 1.2F;
 		}
 	}
+	
 	public static class Factory implements IParticleFactory<ElementTypeParticleData> {
 		private final IAnimatedSprite spriteSet;
 

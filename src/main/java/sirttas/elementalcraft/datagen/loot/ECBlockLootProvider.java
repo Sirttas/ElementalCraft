@@ -74,13 +74,13 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 			}
 		}
 
-		functionTable.put(ECBlocks.crystalOre, i -> genOre(i, ECItems.inertCrystal));
-		functionTable.put(ECBlocks.evaporator, ECBlockLootProvider::genCopyElementStorage);
-		functionTable.put(ECBlocks.tank, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
+		functionTable.put(ECBlocks.CRYSTAL_ORE, i -> genOre(i, ECItems.INERT_CRYSTAL));
+		functionTable.put(ECBlocks.EVAPORATOR, ECBlockLootProvider::genCopyElementStorage);
+		functionTable.put(ECBlocks.TANK, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.TANK_SMALL, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
-		functionTable.put(ECBlocks.tankCreative, ECBlockLootProvider::genCopyElementStorage);
-		functionTable.put(ECBlocks.burntGlass, ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.burntGlassPane, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.TANK_CREATIVE, ECBlockLootProvider::genCopyElementStorage);
+		functionTable.put(ECBlocks.BURNT_GLASS, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.BURNT_GLASS_PANE, ECBlockLootProvider::genOnlySilkTouch);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	}
 
 	private static Builder genSpellDesk(IItemProvider block) {
-		return genRegular(block).addLootPool(LootPool.builder().name("paper").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ECItems.scrollPaper))
+		return genRegular(block).addLootPool(LootPool.builder().name("paper").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ECItems.SCROLL_PAPER))
 				.acceptCondition(BlockStateProperty.builder((Block) block).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withBoolProp(BlockSpellDesk.HAS_PAPER, true))));
 	}
 

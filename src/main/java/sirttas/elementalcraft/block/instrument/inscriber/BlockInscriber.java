@@ -118,7 +118,7 @@ public class BlockInscriber extends AbstractBlockECContainer {
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 
 		if (inscriber != null && (hand == Hand.MAIN_HAND || !heldItem.isEmpty())) {
-			if (heldItem.getItem() == ECItems.chisel && !inscriber.isLocked()) {
+			if (heldItem.getItem() == ECItems.CHISEL && !inscriber.isLocked()) {
 				return makeProgress(player, hand, inscriber, heldItem);
 			} else if ((inscriber.isLocked() || heldItem.isEmpty() || player.isSneaking()) && !inscriber.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {

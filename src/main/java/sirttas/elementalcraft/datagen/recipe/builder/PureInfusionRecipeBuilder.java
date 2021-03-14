@@ -21,7 +21,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
-import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
 public class PureInfusionRecipeBuilder {
 	private final Item result;
@@ -87,7 +87,7 @@ public class PureInfusionRecipeBuilder {
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(BindingRecipe.NAME + '/' + save));
+			this.build(consumerIn, ElementalCraft.createRL(AbstractBindingRecipe.NAME + '/' + save));
 		}
 	}
 

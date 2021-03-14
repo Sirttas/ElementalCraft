@@ -8,7 +8,9 @@ import java.util.stream.IntStream;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.StemBlock;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
@@ -39,6 +41,15 @@ public class TileGrowthShrine extends AbstractTileShrine {
 		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.world.rand.nextInt(positions.size())));
 	}
 
+	private boolean stemCanGrow(StemBlock stem) {
+		if (this.hasUpgrade(ShrineUpgrades.STEM_POLLINATION)) {
+			Block crop = stem.getCrop();
+			
+			return Direction.Plane.HORIZONTAL.getDirectionValues().map( d -> world.getBlockState(pos.offset(d))).noneMatch(state -> state.matchesBlock(crop));
+		}
+		return false;
+	}
+	
 	private boolean canGrow(BlockPos pos) {
 		BlockState blockstate = world.getBlockState(pos);
 		Block block = blockstate.getBlock();
@@ -46,7 +57,8 @@ public class TileGrowthShrine extends AbstractTileShrine {
 		if (block instanceof IGrowable) {
 			IGrowable igrowable = (IGrowable) block;
 
-			return igrowable.canGrow(world, pos, blockstate, world.isRemote) && (igrowable.canUseBonemeal(world, world.rand, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH));
+			return (igrowable.canGrow(world, pos, blockstate, world.isRemote) && (igrowable.canUseBonemeal(world, world.rand, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH)))
+					|| (block instanceof StemBlock && stemCanGrow((StemBlock) block));
 		}
 		return false;
 	}

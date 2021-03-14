@@ -20,7 +20,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
 
 public class BindingRecipeBuilder {
 	private final Item result;
@@ -62,7 +63,7 @@ public class BindingRecipeBuilder {
 	public void build(Consumer<IFinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, new ResourceLocation(id.getNamespace(), BindingRecipe.NAME + '/' + id.getPath()));
+		this.build(consumerIn, new ResourceLocation(id.getNamespace(), AbstractBindingRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
@@ -70,7 +71,7 @@ public class BindingRecipeBuilder {
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(BindingRecipe.NAME + '/' + save));
+			this.build(consumerIn, ElementalCraft.createRL(AbstractBindingRecipe.NAME + '/' + save));
 		}
 	}
 

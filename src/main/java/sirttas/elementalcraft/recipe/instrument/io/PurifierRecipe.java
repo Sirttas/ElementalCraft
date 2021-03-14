@@ -1,20 +1,20 @@
-package sirttas.elementalcraft.recipe.instrument;
+package sirttas.elementalcraft.recipe.instrument.io;
 
-import net.minecraft.inventory.IInventory;
+import java.util.Random;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.rune.Rune.BonusType;
 
-public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
+public class PurifierRecipe implements IIOInstrumentRecipe<TilePurifier> {
 
 	private final ResourceLocation id;
 	private final ItemStack result;
@@ -35,14 +35,8 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 	}
 
 	@Override
-	public boolean matches(TilePurifier tile) {
-		return tile.getItemHandler().map(inv -> {
-			ItemStack stack = inv.getStackInSlot(0);
-			ItemStack output = inv.getStackInSlot(1);
-
-			return tile.getTankElementType() == ElementType.EARTH && ElementalCraft.PURE_ORE_MANAGER.isValidOre(stack) && input.test(stack)
-					&& (output.isEmpty() || (ItemHandlerHelper.canItemStacksStack(output, result) && output.getCount() + result.getCount() <= inv.getSlotLimit(1)));
-		}).orElse(false);
+	public boolean matches(ItemStack stack) {
+		return ElementalCraft.PURE_ORE_MANAGER.isValidOre(stack) && input.test(stack);
 	}
 
 	@Override
@@ -76,28 +70,15 @@ public class PurifierRecipe implements IInstrumentRecipe<TilePurifier> {
 	}
 
 	@Override
-	public void process(TilePurifier instrument) {
-		IInventory inv = instrument.getInventory();
-		ItemStack in = inv.getStackInSlot(0);
-		ItemStack output = inv.getStackInSlot(1);
-		ItemStack craftingResult = getCraftingResult(instrument);
-		int luck = (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.purifierLuckRatio.get());
-
-		if (craftingResult.isItemEqual(output) && output.getCount() + craftingResult.getCount() <= output.getMaxStackSize()) {
-			in.shrink(1);
-			output.grow(craftingResult.getCount());
-		} else if (output.isEmpty()) {
-			in.shrink(1);
-			inv.setInventorySlotContents(1, craftingResult.copy());
-		}
-		if (luck > 0 && instrument.getWorld().rand.nextInt(100) < luck) {
-			output.grow(1);
-		}
-		if (in.isEmpty()) {
-			inv.removeStackFromSlot(0);
-		}
+	public int getLuck(TilePurifier instrument) {
+		return (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.purifierLuckRatio.get());
 	}
 
+	@Override
+	public Random getRand(TilePurifier instrument) {
+		return instrument.getWorld().getRandom();
+	}
+	
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
 		return null;

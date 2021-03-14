@@ -1,7 +1,19 @@
 {
   "predicate": {
-    "block": "elementalcraft:growthshrine",
-    "type": "dpanvil:block"
+    "values": [
+      {
+        "value": {
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_stem_pollination",
+          "type": "elementalcraft:has_shrien_upgrade"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "block": "elementalcraft:growthshrine",
+        "type": "dpanvil:block"
+      }
+    ],
+    "type": "dpanvil:and"
   },
   "bonuses": {
     "speed": 4.0,

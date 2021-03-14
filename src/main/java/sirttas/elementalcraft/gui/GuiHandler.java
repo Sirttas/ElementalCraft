@@ -86,8 +86,8 @@ public class GuiHandler {
 			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
 				return SpellHelper.getSpell(stack);
 			}
-			return Spells.none;
-		}).filter(Spell::isValid).findFirst().orElse(Spells.none);
+			return Spells.NONE;
+		}).filter(Spell::isValid).findFirst().orElse(Spells.NONE);
 	}
 
 	private static void doRenderElementGauge(MatrixStack matrixStack, int element, int max, sirttas.elementalcraft.api.element.ElementType type) {

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:air_mill"
+    ]
+  },
+  "criteria": {
+    "has_containedcrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:containedcrystal"
+          }
+        ]
+      }
+    },
+    "has_whiterock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:whiterock"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:air_mill"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_containedcrystal",
+      "has_whiterock",
+      "has_the_recipe"
+    ]
+  ]
+}

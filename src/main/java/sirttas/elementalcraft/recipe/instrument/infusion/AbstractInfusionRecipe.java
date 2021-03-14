@@ -12,7 +12,7 @@ import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
 public abstract class AbstractInfusionRecipe extends AbstractInstrumentRecipe<IInfuser> {
 
-	private static final String NAME = "infusion";
+	public static final String NAME = "infusion";
 	public static final IRecipeType<AbstractInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<AbstractInfusionRecipe>() {
 		@Override
 		public String toString() {

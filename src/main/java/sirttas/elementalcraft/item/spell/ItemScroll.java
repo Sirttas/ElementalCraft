@@ -41,7 +41,7 @@ public class ItemScroll extends AbstractItemSpellHolder {
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		Spell spell = SpellHelper.getSpell(stack);
 
-		if (spell != Spells.none) {
+		if (spell != Spells.NONE) {
 			tooltip.add(new StringTextComponent("").appendSibling(spell.getDisplayName()).mergeStyle(TextFormatting.GRAY));
 			addAttributeTooltip(tooltip, spell);
 		}
@@ -51,7 +51,7 @@ public class ItemScroll extends AbstractItemSpellHolder {
 	public ITextComponent getDisplayName(ItemStack stack) {
 		Spell spell = SpellHelper.getSpell(stack);
 
-		if (spell != Spells.none) {
+		if (spell != Spells.NONE) {
 			return new TranslationTextComponent("tooltip.elementalcraft.scroll_of", spell.getDisplayName());
 		}
 		return super.getDisplayName(stack);

@@ -13,8 +13,8 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 import sirttas.elementalcraft.particle.element.ParticleElementCrafting;
 import sirttas.elementalcraft.particle.element.ParticleElementFlow;
-import sirttas.elementalcraft.particle.element.ParticleSource;
-import sirttas.elementalcraft.particle.element.ParticleSourceExhausted;
+import sirttas.elementalcraft.particle.element.source.ParticleSource;
+import sirttas.elementalcraft.particle.element.source.ParticleSourceExhausted;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

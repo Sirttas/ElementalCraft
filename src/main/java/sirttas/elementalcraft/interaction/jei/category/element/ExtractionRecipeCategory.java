@@ -35,7 +35,7 @@ public class ExtractionRecipeCategory implements IRecipeCategory<ElementType> {
 	protected final List<ItemStack> tanks;
 
 	public ExtractionRecipeCategory(IGuiHelper guiHelper) {
-		this(guiHelper, new ItemStack(ECItems.extractor), Lists.newArrayList(new ItemStack(ECItems.tank), new ItemStack(ECItems.tankSmall)), 1);
+		this(guiHelper, new ItemStack(ECItems.EXTRACTOR), Lists.newArrayList(new ItemStack(ECItems.TANK), new ItemStack(ECItems.TANK_SMALL)), 1);
 	}
 
 	protected ExtractionRecipeCategory(IGuiHelper guiHelper, ItemStack extractor, List<ItemStack> tanks, int amount) {

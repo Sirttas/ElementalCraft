@@ -1,0 +1,10 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "tag": "forge:cobblestone"
+  },
+  "output": {
+    "item": "minecraft:gravel"
+  }
+}

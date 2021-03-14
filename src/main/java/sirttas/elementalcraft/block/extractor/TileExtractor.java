@@ -69,7 +69,7 @@ public class TileExtractor extends AbstractTileECTickable {
 	}
 
 	public ElementType getSourceElementType() {
-		return getSourceState().filter(s -> s.getBlock() == ECBlocks.source).map(ElementType::getElementType).orElse(ElementType.NONE);
+		return getSourceState().filter(s -> s.getBlock() == ECBlocks.SOURCE).map(ElementType::getElementType).orElse(ElementType.NONE);
 	}
 
 	@Override

@@ -72,7 +72,7 @@ public class ECFeatures {
 		
 		RegistryHelper.register(r, source, SourceFeature.NAME);
 
-		crystalOreConfig = register("crystal_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, ECBlocks.crystalOre.getDefaultState(), 
+		crystalOreConfig = register("crystal_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, ECBlocks.CRYSTAL_ORE.getDefaultState(), 
 				ECConfig.COMMON.inertCrystalSize.get())).range(ECConfig.COMMON.inertCrystalYMax.get()).square().count(ECConfig.COMMON.inertCrystalCount.get()));
 		sourceConfig = register(SourceFeature.NAME, source.withConfiguration(RandomElementTypeFeatureConfig.ALL).withPlacement(sourcePlacement.chance(ECConfig.COMMON.randomSourceSpawnChance.get())));
 		icySourceConfig = register(SourceFeature.NAME_ICY, source.withConfiguration(RandomElementTypeFeatureConfig.ICY).withPlacement(chanceSourcePlacement));

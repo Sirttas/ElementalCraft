@@ -8,6 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import sirttas.elementalcraft.block.instrument.mill.RendererAirMill;
 import sirttas.elementalcraft.block.solarsynthesizer.RendererSolarSynthesizer;
 import sirttas.elementalcraft.block.tile.renderer.ECRenderers;
 import sirttas.elementalcraft.entity.ECEntities;
@@ -42,6 +43,7 @@ public class ClientProxy implements IProxy {
 	public void registerModels(ModelRegistryEvent event) {
 		Runes.registerModels();
 		ModelLoader.addSpecialModel(RendererSolarSynthesizer.LENSE_LOCATION);
+		ModelLoader.addSpecialModel(RendererAirMill.BLADES_LOCATION);
 	}
 	
 	public void stitchTextures(TextureStitchEvent.Pre event) {

@@ -125,7 +125,7 @@ public class InscriptionRecipeBuilder {
 			JsonObject tagJson = new JsonObject();
 			JsonObject ecNbtJson = new JsonObject();
 			
-			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.rune).toString());
+			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.RUNE).toString());
 			ecNbtJson.addProperty(ECNames.RUNE, this.output.toString());
 			tagJson.add(ECNames.EC_NBT, ecNbtJson);
 			json.add(ECNames.NBT, tagJson);

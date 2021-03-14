@@ -24,12 +24,14 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.instrument.mill.BlockAirMill;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
 import sirttas.elementalcraft.block.shrine.overload.BlockOverloadShrine;
 import sirttas.elementalcraft.block.sorter.BlockSorter;
+import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
 
@@ -64,6 +66,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private void save(Block block) {
+		ModelFile air = models().getExistingFile(new ResourceLocation("block/air"));
 		String name = block.getRegistryName().getPath();
 
 		if (block instanceof SlabBlock) {
@@ -92,6 +95,10 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			ModelFile bowl = models().getExistingFile(prefix(name + "_bowl"));
 
 			horizontalBlock(block, state -> state.get(BlockBreedingShrine.PART) == BlockBreedingShrine.Part.CORE ? core : bowl);
+		} else if (block instanceof BlockAirMill) {
+			getVariantBuilder(block)
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(air))
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(models().getExistingFile(prefix(name))));
 		} else if (block instanceof BlockTank) {
 			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("tank_connector")));
 		} else if (block instanceof BlockPedestal) {
@@ -115,9 +122,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(target).rotationX(90).uvLock(true).addModel().condition(BlockRetriever.TARGET, Direction.DOWN).end()
 				.part().modelFile(target).rotationX(270).uvLock(true).addModel().condition(BlockRetriever.TARGET, Direction.UP).end();
 		} else if (block instanceof BlockElementPipe) {
-			if (block == ECBlocks.elementPipe) {
+			if (block == ECBlocks.PIPE) {
 				pipeBlock((BlockElementPipe) block, name, "brass");
-			} else if (block == ECBlocks.improvedElementPipe) {
+			} else if (block == ECBlocks.PIPE_IMPROVED) {
 				pipeBlock((BlockElementPipe) block, name, "pure_iron");
 			} else {
 				pipeBlock((BlockElementPipe) block, name, "iron");
@@ -135,9 +142,11 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
 			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
 
-			getVariantBuilder(block).partialState()
-				.with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(upper)).partialState()
-				.with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(lower));
+			getVariantBuilder(block)
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(upper))
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(lower));
+		} else if (block instanceof BlockSource) {
+			simpleBlock(block, air);
 		} else if (modelExists(block)) {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
 		} else {

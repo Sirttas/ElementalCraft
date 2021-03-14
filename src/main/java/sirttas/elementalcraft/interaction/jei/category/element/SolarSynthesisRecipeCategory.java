@@ -38,8 +38,8 @@ public class SolarSynthesisRecipeCategory implements IRecipeCategory<Ingredient>
 	private final IDrawable icon;
 	private final IDrawable background;
 	private final IDrawable overlay;
-	private final ItemStack solarSynthesizer = new ItemStack(ECBlocks.solarSynthesizer);
-	protected final ItemStack tank = new ItemStack(ECItems.tank);
+	private final ItemStack solarSynthesizer = new ItemStack(ECBlocks.SOLAR_SYNTHESIZER);
+	protected final ItemStack tank = new ItemStack(ECItems.TANK);
 
 	public SolarSynthesisRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(84, 66);
@@ -126,7 +126,7 @@ public class SolarSynthesisRecipeCategory implements IRecipeCategory<Ingredient>
 	}
 
 	public static List<Ingredient> getLenses() {
-		return Lists.newArrayList(Ingredient.fromItems(ECItems.fireLense), Ingredient.fromItems(ECItems.waterLense), Ingredient.fromItems(ECItems.earthLense), Ingredient.fromItems(ECItems.airLense));
+		return Lists.newArrayList(Ingredient.fromItems(ECItems.FIRE_LENSE), Ingredient.fromItems(ECItems.WATER_LENSE), Ingredient.fromItems(ECItems.EARTH_LENSE), Ingredient.fromItems(ECItems.AIR_LENSE));
 	}
 
 }

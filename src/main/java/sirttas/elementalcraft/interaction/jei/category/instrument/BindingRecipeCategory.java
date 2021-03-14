@@ -14,17 +14,17 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
-public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBinder, BindingRecipe> {
+public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBinder, AbstractBindingRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL(BindingRecipe.NAME);
+	public static final ResourceLocation UID = ElementalCraft.createRL(AbstractBindingRecipe.NAME);
 
 	private static final int RADIUS = 42;
 
 	private final IDrawable icon;
 	private final IDrawable background;
-	private ItemStack binder = new ItemStack(ECItems.binder);
+	private ItemStack binder = new ItemStack(ECItems.BINDER);
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16);
@@ -38,8 +38,8 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 	}
 
 	@Override
-	public Class<? extends BindingRecipe> getRecipeClass() {
-		return BindingRecipe.class;
+	public Class<? extends AbstractBindingRecipe> getRecipeClass() {
+		return AbstractBindingRecipe.class;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, BindingRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, AbstractBindingRecipe recipe, IIngredients ingredients) {
 		int i = 0;
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 

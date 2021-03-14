@@ -1,3 +1,10 @@
+1.16.5-2.6.3:
+
+- new block: air mill grindstone
+- new block: stem pollination shrine upgrade
+- fix some elementopedia entries
+
+
 1.16.5-2.6.2:
 
 - add config for lense

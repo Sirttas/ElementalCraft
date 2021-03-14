@@ -79,7 +79,7 @@ public class ItemElementHolder extends ItemElemental implements ISourceInteracta
 	}
 
 	protected boolean isValidSource(BlockState state) {
-		return state.getBlock().equals(ECBlocks.source) && ElementType.getElementType(state) == elementType;
+		return state.getBlock().equals(ECBlocks.SOURCE) && ElementType.getElementType(state) == elementType;
 	}
 
 	@Override

@@ -6,13 +6,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.block.instrument.AbstractTileLockableInstrument;
+import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.particle.ParticleHelper;
-import sirttas.elementalcraft.recipe.instrument.BindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
-public class TileBinder extends AbstractTileLockableInstrument<IBinder, BindingRecipe> implements IBinder {
+public class TileBinder extends AbstractTileLockableInstrument<IBinder, AbstractBindingRecipe> implements IBinder {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockBinder.NAME) public static final TileEntityType<TileBinder> TYPE = null;
 
@@ -27,7 +27,7 @@ public class TileBinder extends AbstractTileLockableInstrument<IBinder, BindingR
 	}
 
 	protected TileBinder(TileEntityType<?> tileEntityType, int transferSpeed, int maxRunes) {
-		super(tileEntityType, BindingRecipe.TYPE, transferSpeed, maxRunes);
+		super(tileEntityType, AbstractBindingRecipe.TYPE, transferSpeed, maxRunes);
 		inventory = new InstrumentInventory(this::markDirty, 10);
 	}
 

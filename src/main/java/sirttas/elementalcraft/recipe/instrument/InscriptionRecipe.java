@@ -83,11 +83,6 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InscriptionRecipe> {
-		final IRecipeFactory factory;
-
-		public Serializer(IRecipeFactory factory) {
-			this.factory = factory;
-		}
 
 		@Override
 		public InscriptionRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -97,7 +92,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 			ingredients.add(0, RecipeHelper.deserializeIngredient(json, "slate"));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 			
-			return this.factory.create(recipeId, type, elementAmount, output, ingredients);
+			return new InscriptionRecipe(recipeId, type, elementAmount, output, ingredients);
 		}
 
 
@@ -113,7 +108,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 				ingredients.set(j, Ingredient.read(buffer));
 			}
 
-			return this.factory.create(recipeId, type, elementAmount, output, ingredients);
+			return new InscriptionRecipe(recipeId, type, elementAmount, output, ingredients);
 		}
 
 		@Override
@@ -123,10 +118,6 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 			buffer.writeItemStack(recipe.getRecipeOutput());
 			buffer.writeInt(recipe.getIngredients().size());
 			recipe.getIngredients().forEach(ingredient -> ingredient.write(buffer));
-		}
-
-		public interface IRecipeFactory {
-			InscriptionRecipe create(ResourceLocation id, ElementType type, int elementAmount,ItemStack output, List<Ingredient> ingredients);
 		}
 	}
 }

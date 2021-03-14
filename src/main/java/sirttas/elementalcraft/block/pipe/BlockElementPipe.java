@@ -118,24 +118,13 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 	}
 
 	boolean isRendered(VoxelShape shape, BlockState state) {
-		if (state.getBlock() == this) {
-			if (compareShapes(shape, BASE_SHAPE)) {
-				return true;
-			} else if (compareShapes(shape, DOWN_SHAPE) && Boolean.TRUE.equals(state.get(DOWN))) {
-				return true;
-			} else if (compareShapes(shape, UP_SHAPE) && Boolean.TRUE.equals(state.get(UP))) {
-				return true;
-			} else if (compareShapes(shape, NORTH_SHAPE) && Boolean.TRUE.equals(state.get(NORTH))) {
-				return true;
-			} else if (compareShapes(shape, SOUTH_SHAPE) && Boolean.TRUE.equals(state.get(SOUTH))) {
-				return true;
-			} else if (compareShapes(shape, WEST_SHAPE) && Boolean.TRUE.equals(state.get(WEST))) {
-				return true;
-			} else if (compareShapes(shape, EAST_SHAPE) && Boolean.TRUE.equals(state.get(EAST))) {
-				return true;
-			}
-		}
-		return false;
+		return (state.matchesBlock(this)) && (compareShapes(shape, BASE_SHAPE) 
+				|| (compareShapes(shape, DOWN_SHAPE) && Boolean.TRUE.equals(state.get(DOWN)))
+				|| (compareShapes(shape, UP_SHAPE) && Boolean.TRUE.equals(state.get(UP))) 
+				|| (compareShapes(shape, NORTH_SHAPE) && Boolean.TRUE.equals(state.get(NORTH)))
+				|| (compareShapes(shape, SOUTH_SHAPE) && Boolean.TRUE.equals(state.get(SOUTH))) 
+				|| (compareShapes(shape, WEST_SHAPE) && Boolean.TRUE.equals(state.get(WEST)))
+				|| (compareShapes(shape, EAST_SHAPE) && Boolean.TRUE.equals(state.get(EAST))));
 	}
 
 	private VoxelShape getCurentShape(BlockState state) {

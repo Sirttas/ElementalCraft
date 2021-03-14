@@ -36,7 +36,7 @@ public class ItemReceptacle extends AbstractReceptacle {
 		BlockPos pos = newContext.getPos();
 
 		if (newContext.canPlace()) {
-			world.setBlockState(pos, ECBlocks.source.getDefaultState().with(ElementType.STATE_PROPERTY, elementType));
+			world.setBlockState(pos, ECBlocks.SOURCE.getDefaultState().with(ElementType.STATE_PROPERTY, elementType));
 			BlockItem.setTileEntityNBT(world, player, pos, sourceReceptacle);
 			if (!player.isCreative()) {
 				ItemStack stack = ReceptacleHelper.createFrom(sourceReceptacle, ElementType.NONE);

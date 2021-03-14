@@ -44,32 +44,32 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(ECTags.Blocks.SHRINES).add(getBlocksForClass(AbstractBlockShrine.class));
 		getOrCreateBuilder(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(BlockPedestal.class));
 
-		getOrCreateBuilder(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.infuser, ECBlocks.binder, ECBlocks.crystallizer, ECBlocks.inscriber, ECBlocks.fireFurnace, ECBlocks.fireBlastFurnace,
-				ECBlocks.purifier, ECBlocks.improvedBinder);
+		getOrCreateBuilder(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.INFUSER, ECBlocks.BINDER, ECBlocks.CRYSTALLIZER, ECBlocks.INSCRIBER, ECBlocks.FIRE_FURNACE, ECBlocks.FIRE_BLAST_FURNACE,
+				ECBlocks.PURIFIER, ECBlocks.BINDER_IMPROVED);
 
-		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.evaporator, ECBlocks.extractor, ECBlocks.improvedExtractor,
-				ECBlocks.solarSynthesizer, ECBlocks.pureInfuser);
+		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.EVAPORATOR, ECBlocks.EXTRACTOR, ECBlocks.EXTRACTOR_IMPROVED,
+				ECBlocks.SOLAR_SYNTHESIZER, ECBlocks.PURE_INFUSER);
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_SPEED).addTags(ECTags.Blocks.RUNE_AFFECTED);
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addTags(ECTags.Blocks.RUNE_AFFECTED);
-		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.crystallizer, ECBlocks.purifier);
+		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER, ECBlocks.PURIFIER);
 
-		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.growthShrine, ECBlocks.harvestShrine, ECBlocks.lavaShrine, ECBlocks.oreShrine,
-				ECBlocks.overloadShrine, ECBlocks.sweetShrine, ECBlocks.breedingShrine, ECBlocks.groveShrine);
-		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.growthShrine, ECBlocks.harvestShrine, ECBlocks.oreShrine, ECBlocks.sweetShrine, ECBlocks.vacuumShrine,
-				ECBlocks.firePylon, ECBlocks.breedingShrine, ECBlocks.groveShrine);
-		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.sweetShrine, ECBlocks.vacuumShrine, ECBlocks.firePylon);
+		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE, ECBlocks.HARVEST_SHRINE, ECBlocks.LAVA_SHRINE, ECBlocks.ORE_SHRINE,
+				ECBlocks.OVERLOAD_SHRINE, ECBlocks.SWEET_SHRINE, ECBlocks.BREEDING_SHRINE, ECBlocks.GROVE_SHRINE);
+		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.GROWTH_SHRINE, ECBlocks.HARVEST_SHRINE, ECBlocks.ORE_SHRINE, ECBlocks.SWEET_SHRINE, ECBlocks.VACUUM_SHRINE,
+				ECBlocks.FIRE_PYLON, ECBlocks.BREEDING_SHRINE, ECBlocks.GROVE_SHRINE);
+		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.SWEET_SHRINE, ECBlocks.VACUUM_SHRINE, ECBlocks.FIRE_PYLON);
 
-		getOrCreateBuilder(Tags.Blocks.ORES).add(ECBlocks.crystalOre);
+		getOrCreateBuilder(Tags.Blocks.ORES).add(ECBlocks.CRYSTAL_ORE);
 		getOrCreateBuilder(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT);
-		getOrCreateBuilder(ECTags.Blocks.PUREROCKS).add(ECBlocks.pureRock, ECBlocks.pureRockSlab, ECBlocks.pureRockStairs, ECBlocks.pureRockWall);
-		getOrCreateBuilder(ECTags.Blocks.SMALL_TANK_COMPATIBLES).add(ECBlocks.extractor, ECBlocks.infuser, ECBlocks.evaporator);
+		getOrCreateBuilder(ECTags.Blocks.PUREROCKS).add(ECBlocks.PURE_ROCK, ECBlocks.PURE_ROCK_SLAB, ECBlocks.PURE_ROCK_STAIRS, ECBlocks.PURE_ROCK_WALL);
+		getOrCreateBuilder(ECTags.Blocks.SMALL_TANK_COMPATIBLES).add(ECBlocks.EXTRACTOR, ECBlocks.INFUSER, ECBlocks.EVAPORATOR);
 		getOrCreateBuilder(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);
 		
-		getOrCreateBuilder(BlockTags.BEACON_BASE_BLOCKS).add(ECBlocks.drenchedIronBlock, ECBlocks.swiftAlloyBlock, ECBlocks.fireiteBlock);
+		getOrCreateBuilder(BlockTags.BEACON_BASE_BLOCKS).add(ECBlocks.DRENCHED_IRON_BLOCK, ECBlocks.SWIFT_ALLOY_BLOCK, ECBlocks.FIREITE_BLOCK);
 
-		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON).add(ECBlocks.drenchedIronBlock);
-		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY).add(ECBlocks.swiftAlloyBlock);
-		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_FIREITE).add(ECBlocks.fireiteBlock);
+		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON).add(ECBlocks.DRENCHED_IRON_BLOCK);
+		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY).add(ECBlocks.SWIFT_ALLOY_BLOCK);
+		getOrCreateBuilder(ECTags.Blocks.STORAGE_BLOCKS_FIREITE).add(ECBlocks.FIREITE_BLOCK);
 		getOrCreateBuilder(Tags.Blocks.STORAGE_BLOCKS).addTags(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Blocks.STORAGE_BLOCKS_FIREITE);
 	}
 }

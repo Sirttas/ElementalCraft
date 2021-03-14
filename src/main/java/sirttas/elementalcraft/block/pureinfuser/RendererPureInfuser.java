@@ -80,13 +80,13 @@ public class RendererPureInfuser extends SingleItemRenderer<TilePureInfuser> {
 	private Block getPedestalForType(ElementType type) {
 		switch (type) {
 		case WATER:
-			return ECBlocks.waterPedestal;
+			return ECBlocks.WATER_PEDESTAL;
 		case FIRE:
-			return ECBlocks.firePedestal;
+			return ECBlocks.FIRE_PEDESTAL;
 		case EARTH:
-			return ECBlocks.earthPedestal;
+			return ECBlocks.EARTH_PEDESTAL;
 		case AIR:
-			return ECBlocks.airPedestal;
+			return ECBlocks.AIR_PEDESTAL;
 		default:
 			return null;
 		}

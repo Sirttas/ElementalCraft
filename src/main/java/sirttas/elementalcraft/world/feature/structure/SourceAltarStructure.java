@@ -124,7 +124,7 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 				this.generateChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getString()), null);
 				worldIn.updateBlock(pos, Blocks.CHEST);
 			} else if ("source".equals(function)) {
-				worldIn.setBlockState(pos, ECBlocks.source.getDefaultState().with(ElementType.STATE_PROPERTY, elementType), 3);
+				worldIn.setBlockState(pos, ECBlocks.SOURCE.getDefaultState().with(ElementType.STATE_PROPERTY, elementType), 3);
 			}
 		}
 

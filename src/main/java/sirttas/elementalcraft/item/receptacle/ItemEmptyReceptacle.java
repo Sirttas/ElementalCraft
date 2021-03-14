@@ -31,7 +31,7 @@ public class ItemEmptyReceptacle extends AbstractReceptacle implements ISourceIn
 		BlockPos pos = context.getPos();
 		BlockState blockstate = world.getBlockState(pos);
 
-		if (blockstate.getBlock() == ECBlocks.source) {
+		if (blockstate.getBlock() == ECBlocks.SOURCE) {
 			if (!world.isRemote) {
 				ItemStack stack = ReceptacleHelper.createFrom(context.getItem(), ElementType.getElementType(blockstate));
 

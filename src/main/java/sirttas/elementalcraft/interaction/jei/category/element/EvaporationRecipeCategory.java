@@ -38,8 +38,8 @@ public class EvaporationRecipeCategory implements IRecipeCategory<Ingredient> {
 	private final IDrawable icon;
 	private final IDrawable background;
 	private final IDrawable overlay;
-	private final ItemStack evaporator = new ItemStack(ECItems.evaporator);
-	protected final List<ItemStack> tanks = Lists.newArrayList(new ItemStack(ECItems.tank), new ItemStack(ECItems.tankSmall));
+	private final ItemStack evaporator = new ItemStack(ECItems.EVAPORATOR);
+	protected final List<ItemStack> tanks = Lists.newArrayList(new ItemStack(ECItems.TANK), new ItemStack(ECItems.TANK_SMALL));
 
 	public EvaporationRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(99, 59);

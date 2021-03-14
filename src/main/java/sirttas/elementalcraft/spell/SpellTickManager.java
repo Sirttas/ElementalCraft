@@ -18,7 +18,7 @@ public class SpellTickManager {
 
 	private int tick;
 	private Map<Entity, Map<Spell, Cooldown>> cooldowns;
-	private List<SpellInstance> spellinstances;
+	private List<AbstractSpellInstance> spellinstances;
 
 	private SpellTickManager() {
 		tick = 0;
@@ -41,10 +41,10 @@ public class SpellTickManager {
 			i.tick();
 			i.decTick();
 		});
-		spellinstances.removeIf(SpellInstance::isFinished);
+		spellinstances.removeIf(AbstractSpellInstance::isFinished);
 	}
 
-	public void addSpellInstance(SpellInstance instance) {
+	public void addSpellInstance(AbstractSpellInstance instance) {
 		spellinstances.add(instance);
 	}
 
@@ -96,7 +96,7 @@ public class SpellTickManager {
 		}
 	}
 
-	private class Cooldown {
+	private static class Cooldown {
 		private final int createTicks;
 		private final int expireTicks;
 

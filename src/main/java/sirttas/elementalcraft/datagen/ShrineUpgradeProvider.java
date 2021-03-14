@@ -28,6 +28,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessG
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockMysticalGroveShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockStemPollinationShrineUpgrade;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -41,19 +42,21 @@ public class ShrineUpgradeProvider implements IDataProvider {
 
 	@Override
 	public void act(DirectoryCache cache) throws IOException {
-		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.oreShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2)
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.ORE_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2)
 				.incompatibleWith(ElementalCraft.createRL(BlockFortuneShrineUpgrade.NAME)), BlockSilkTouchShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.oreShrine).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F)
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.ORE_SHRINE).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F)
 				.incompatibleWith(ElementalCraft.createRL(BlockSilkTouchShrineUpgrade.NAME)), BlockFortuneShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.harvestShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F), BlockPlantingShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.growthShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 4F),
-				BlockBonelessGrowthShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.vacuumShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 500F).addBonus(BonusType.SPEED, 20F).addBonus(BonusType.RANGE,
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.HARVEST_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F), BlockPlantingShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.GROWTH_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 4F)
+				.incompatibleWith(ElementalCraft.createRL(BlockStemPollinationShrineUpgrade.NAME)), BlockBonelessGrowthShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.VACUUM_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 500F).addBonus(BonusType.SPEED, 20F).addBonus(BonusType.RANGE,
 				0.5F), BlockPickupShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.sweetShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 2F)
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.SWEET_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 2F)
 				.incompatibleWith(ElementalCraft.createRL(BlockStrengthShrineUpgrade.NAME)), BlockNectarShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.groveShrine).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2F).addBonus(BonusType.SPEED, 2F), BlockMysticalGroveShrineUpgrade.NAME);
-		save(cache, ShrineUpgrade.Builder.create().predicate(IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).or(IBlockPosPredicate.match(ECBlocks.vacuumShrine)
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.GROVE_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2F).addBonus(BonusType.SPEED, 2F), BlockMysticalGroveShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.GROWTH_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 4F).addBonus(BonusType.SPEED, 3F).addBonus(BonusType.RANGE, 0.5F)
+				.incompatibleWith(ElementalCraft.createRL(BlockBonelessGrowthShrineUpgrade.NAME)), BlockStemPollinationShrineUpgrade.NAME);
+		save(cache, ShrineUpgrade.Builder.create().predicate(IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE)
 				.and(new HasShrineUpgradePredicate(ElementalCraft.createRL(BlockPickupShrineUpgrade.NAME))))).addBonus(BonusType.SPEED, 0.5F), BlockAccelerationShrineUpgrade.NAME);
 		save(cache, ShrineUpgrade.Builder.create().match(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).addBonus(BonusType.RANGE, 1.5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).addBonus(BonusType.SPEED,
 				1.2F), BlockRangeShrineUpgrade.NAME);

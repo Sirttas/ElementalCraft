@@ -21,11 +21,11 @@ public class ReceptacleHelper {
 	}
 
 	public static ItemStack create(ElementType elementType) {
-		return elementType == ElementType.NONE ? new ItemStack(ECItems.emptyReceptacle) : setElementType(new ItemStack(ECItems.receptacle), elementType);
+		return elementType == ElementType.NONE ? new ItemStack(ECItems.EMPTY_RECEPTACLE) : setElementType(new ItemStack(ECItems.RECEPTACLE), elementType);
 	}
 
 	public static ItemStack createImproved(ElementType elementType) {
-		return elementType == ElementType.NONE ? new ItemStack(ECItems.emptyImprovedReceptacle) : setElementType(new ItemStack(ECItems.improvedReceptacle), elementType);
+		return elementType == ElementType.NONE ? new ItemStack(ECItems.EMPTY_RECEPTACLE_IMPROVED) : setElementType(new ItemStack(ECItems.RECEPTACLE_IMPROVED), elementType);
 	}
 
 	public static ItemStack createFrom(ItemStack from, ElementType elementType) {

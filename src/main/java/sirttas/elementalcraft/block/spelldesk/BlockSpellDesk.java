@@ -113,7 +113,7 @@ public class BlockSpellDesk extends HorizontalBlock {
 
 		if (rand.nextDouble() < count * 0.06D + 0.2D) {
 			Spell spell = SpellHelper.randomSpell(type, rand);
-			ItemStack scroll = new ItemStack(ECItems.scroll);
+			ItemStack scroll = new ItemStack(ECItems.SCROLL);
 			
 			SpellHelper.setSpell(scroll, spell);
 			if (!world.isRemote()) {
@@ -136,7 +136,7 @@ public class BlockSpellDesk extends HorizontalBlock {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		ItemStack stack = player.getHeldItem(hand);
 
-		if (stack.getItem() == ECItems.scrollPaper && !hasPaper(state)) {
+		if (stack.getItem() == ECItems.SCROLL_PAPER && !hasPaper(state)) {
 			world.setBlockState(pos, state.with(HAS_PAPER, true));
 			if (!player.isCreative()) {
 				stack.shrink(1);

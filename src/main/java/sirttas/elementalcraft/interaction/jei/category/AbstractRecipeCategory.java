@@ -14,7 +14,7 @@ import sirttas.elementalcraft.item.ECItems;
 
 public abstract class AbstractRecipeCategory<K extends IInventoryTile, T extends IRecipe<InventoryTileWrapper<K>>> implements IRecipeCategory<T> {
 
-	protected ItemStack tank = new ItemStack(ECItems.tank);
+	protected ItemStack tank = new ItemStack(ECItems.TANK);
 
 	@Override
 	public void setIngredients(T recipe, IIngredients ingredients) {

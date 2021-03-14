@@ -19,7 +19,7 @@ public class CrystallizerInventory extends InstrumentInventory {
 		if (slot == 0) {
 			return ECTags.Items.INPUT_GEMS.contains(item);
 		} else if (slot == 1) {
-			return ECTags.Items.ELEMENTAL_CRYSTALS.contains(item) || ECItems.pureCrystal == item;
+			return ECTags.Items.ELEMENTAL_CRYSTALS.contains(item) || ECItems.PURE_CRYSTAL == item;
 		}
 		return ECTags.Items.SHARDS.contains(item);
 	}

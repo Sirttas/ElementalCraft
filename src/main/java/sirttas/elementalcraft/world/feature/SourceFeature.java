@@ -43,7 +43,7 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 		ElementType type = config.getElementType(rand);
 
 		if (type != ElementType.NONE) {
-			BlockState source = ECBlocks.source.getDefaultState().with(ElementType.STATE_PROPERTY, type);
+			BlockState source = ECBlocks.SOURCE.getDefaultState().with(ElementType.STATE_PROPERTY, type);
 
 			world.setBlockState(pos, source, 3);
 			return true;

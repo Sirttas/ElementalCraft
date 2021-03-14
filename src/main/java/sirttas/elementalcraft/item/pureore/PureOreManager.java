@@ -32,7 +32,7 @@ import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.nbt.NBTHelper;
-import sirttas.elementalcraft.recipe.instrument.PurifierRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class PureOreManager {
@@ -48,7 +48,7 @@ public class PureOreManager {
 	}
 
 	public ItemStack createPureOre(Item item) {
-		ItemStack stack = new ItemStack(ECItems.pureOre);
+		ItemStack stack = new ItemStack(ECItems.PURE_ORE);
 
 		NBTHelper.writeItemStack(NBTHelper.getOrCreateECTag(stack), ECNames.ORE, new ItemStack(pureOres.containsKey(item) ? pureOres.get(item).ore : item));
 		return stack;

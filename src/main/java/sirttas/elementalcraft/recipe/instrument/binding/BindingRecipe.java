@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.recipe.instrument;
+package sirttas.elementalcraft.recipe.instrument.binding;
 
 import java.util.List;
 
@@ -6,13 +6,11 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
@@ -22,15 +20,8 @@ import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
-public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
+public class BindingRecipe extends AbstractBindingRecipe {
 
-	public static final String NAME = "binding";
-	public static final IRecipeType<BindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<BindingRecipe>() {
-		@Override
-		public String toString() {
-			return NAME;
-		}
-	});
 	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<BindingRecipe> SERIALIZER = null;
 
 	private NonNullList<Ingredient> ingredients;
@@ -77,11 +68,6 @@ public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 	}
 
 	@Override
-	public IRecipeType<?> getType() {
-		return TYPE;
-	}
-
-	@Override
 	public void process(IBinder instrument) {
 		instrument.clear();
 		super.process(instrument);
@@ -93,11 +79,6 @@ public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<BindingRecipe> {
-		final IRecipeFactory factory;
-
-		public Serializer(IRecipeFactory factory) {
-			this.factory = factory;
-		}
 
 		@Override
 		public BindingRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -107,7 +88,7 @@ public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
 			if (!output.isEmpty()) {
-				return this.factory.create(recipeId, type, elementAmount, output, ingredients);
+				return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
 			}
 			return null;
 		}
@@ -124,7 +105,7 @@ public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 				ingredients.set(j, Ingredient.read(buffer));
 			}
 
-			return this.factory.create(recipeId, type, elementAmount, output, ingredients);
+			return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
 		}
 
 		@Override
@@ -137,10 +118,6 @@ public class BindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 			for (Ingredient ingredient : recipe.getIngredients()) {
 				ingredient.write(buffer);
 			}
-		}
-
-		public interface IRecipeFactory {
-			BindingRecipe create(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, List<Ingredient> ingredients);
 		}
 	}
 }

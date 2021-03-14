@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/tank",
   "turnin": "elementalcraft:pickup/binder",
   "priority": true,
-  "sortnum": 5,
+  "sortnum": 6,
   "pages": [
     {
       "type": "text",

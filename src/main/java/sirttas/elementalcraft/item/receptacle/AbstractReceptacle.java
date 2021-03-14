@@ -5,13 +5,13 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ItemEC;
 import sirttas.elementalcraft.property.ECProperties;
 
-public class AbstractReceptacle extends ItemEC {
+public abstract class AbstractReceptacle extends ItemEC {
 
-	public AbstractReceptacle() {
+	protected AbstractReceptacle() {
 		super(ECProperties.Items.RECEPTACLE);
 	}
 
-	public AbstractReceptacle(Properties properties) {
+	protected AbstractReceptacle(Properties properties) {
 		super(properties);
 	}
 

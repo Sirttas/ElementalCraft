@@ -53,7 +53,7 @@ public class EntityHandler {
 			CompoundNBT tag = player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {
-				ItemStack book = new ItemStack(ECItems.elementopedia);
+				ItemStack book = new ItemStack(ECItems.ELEMENTOPEDIA);
 
 				book.getOrCreateTag().putString("patchouli:book", "elementalcraft:element_book");
 				ItemHandlerHelper.giveItemToPlayer(player, book);

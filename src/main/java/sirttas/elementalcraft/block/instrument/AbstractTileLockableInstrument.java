@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.instrument;
 
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.tileentity.TileEntityType;
-import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 public abstract class AbstractTileLockableInstrument<T extends IInstrument, R extends IInstrumentRecipe<T>> extends AbstractTileInstrument<T, R> {
@@ -23,10 +22,6 @@ public abstract class AbstractTileLockableInstrument<T extends IInstrument, R ex
 	public void tick() {
 		super.tick();
 		if (locked) {
-			updateLock();
-			if (locked) {
-				BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
-			}
 			updateLock();
 		}
 	}

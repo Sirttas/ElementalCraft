@@ -2,13 +2,13 @@ package sirttas.elementalcraft.spell;
 
 import net.minecraft.entity.Entity;
 
-public abstract class SpellInstance {
+public abstract class AbstractSpellInstance {
 
 	protected final Spell spell;
 	protected final Entity sender;
 	private int remaingTicks;
 
-	protected SpellInstance(Entity sender, Spell spell) {
+	protected AbstractSpellInstance(Entity sender, Spell spell) {
 		this.sender = sender;
 		this.spell = spell;
 		this.remaingTicks = spell.getCooldown();

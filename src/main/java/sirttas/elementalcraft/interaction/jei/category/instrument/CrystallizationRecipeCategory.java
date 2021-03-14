@@ -25,7 +25,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 
 	private final IDrawable icon;
 	private final IDrawable background;
-	private ItemStack crystallizer = new ItemStack(ECItems.crystallizer);
+	private ItemStack crystallizer = new ItemStack(ECItems.CRYSTALLIZER);
 
 	public CrystallizationRecipeCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createBlankDrawable(132, 110);
