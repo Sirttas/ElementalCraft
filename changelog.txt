@@ -1,7 +1,14 @@
+1.16.5-2.6.4:
+
+- moved grinding recipes to the correct folder
+- increase ore shrine base range
+- fix a crash with improved binder (issue #48)
+
+
 1.16.5-2.6.3:
 
 - new block: air mill grindstone
-- new block: stem pollination shrine upgrade
+- new block: stem pollination shrine upgrade (issue #38)
 - fix some elementopedia entries
 
 

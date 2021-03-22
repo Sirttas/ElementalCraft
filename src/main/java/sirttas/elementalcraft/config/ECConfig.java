@@ -185,7 +185,7 @@ public class ECConfig {
 			lavaShrineConsumeAmount = builder.comment("The amount of element consumed by the Lava Shrine.").defineInRange("lavaShrineConsumeAmount", 5000, 0, 100000);
 			lavaShrinePeriode = builder.comment("The nember of tick betwenn two Lava Shrine activations.").defineInRange("lavaShrinePeriode", 1200D, 0, 4800);
 			builder.pop().push("oreShrine");
-			oreShrineRange = builder.comment("The range of the Ore Shrine.").defineInRange("oreShrineRange", 6, 0, 100);
+			oreShrineRange = builder.comment("The range of the Ore Shrine.").defineInRange("oreShrineRange", 12, 0, 100);
 			oreShrineConsumeAmount = builder.comment("The amount of element consumed by the Ore Shrine.").defineInRange("oreShrineConsumeAmount", 2000, 0, 10000);
 			oreShrinePeriode = builder.comment("The nember of tick betwenn two Ore Shrine activations.").defineInRange("oreShrinePeriode", 200D, 0, 2400);
 			builder.pop().push("overloadShrine");

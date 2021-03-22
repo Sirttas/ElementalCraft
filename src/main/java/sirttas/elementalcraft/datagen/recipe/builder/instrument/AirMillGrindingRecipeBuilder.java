@@ -60,7 +60,7 @@ public class AirMillGrindingRecipeBuilder {
 	public void build(Consumer<IFinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, new ResourceLocation(id.getNamespace(), AbstractGrindingRecipe.NAME + '/' + id.getPath()));
+		this.build(consumerIn, ElementalCraft.createRL(AbstractGrindingRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {

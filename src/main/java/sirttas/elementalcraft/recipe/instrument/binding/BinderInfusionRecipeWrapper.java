@@ -10,9 +10,9 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 
 	private final AbstractInfusionRecipe recipe;
 	
-	public BinderInfusionRecipeWrapper(AbstractInfusionRecipe recipe) {
-		super(recipe.getId(), recipe.getElementType());
-		this.recipe = recipe;
+	public BinderInfusionRecipeWrapper(AbstractInfusionRecipe infusionRecipe) {
+		super(infusionRecipe.getId(), infusionRecipe.getElementType());
+		this.recipe = infusionRecipe;
 	}
 
 	@Override

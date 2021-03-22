@@ -9,6 +9,7 @@ import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.BinderInfusionRecipeWrapper;
+import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
 
 public class TileImprovedBinder extends TileBinder implements IInfuser {
 
@@ -22,6 +23,11 @@ public class TileImprovedBinder extends TileBinder implements IInfuser {
 	protected IInventoryTileRecipe<IBinder> lookupRecipe() {
 		IInventoryTileRecipe<IBinder> bindingRecipe = super.lookupRecipe();
 
-		return bindingRecipe != null ? bindingRecipe : new BinderInfusionRecipeWrapper(this.lookupInfusionRecipe(world));
+		if (bindingRecipe == null) {
+			AbstractInfusionRecipe infusionRecipe = this.lookupInfusionRecipe(world);
+
+			return infusionRecipe != null ? new BinderInfusionRecipeWrapper(infusionRecipe) : null;
+		}
+		return bindingRecipe;
 	}
 }
