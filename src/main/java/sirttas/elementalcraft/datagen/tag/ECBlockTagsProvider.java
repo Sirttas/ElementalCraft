@@ -45,13 +45,13 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		getOrCreateBuilder(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(BlockPedestal.class));
 
 		getOrCreateBuilder(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.INFUSER, ECBlocks.BINDER, ECBlocks.CRYSTALLIZER, ECBlocks.INSCRIBER, ECBlocks.FIRE_FURNACE, ECBlocks.FIRE_BLAST_FURNACE,
-				ECBlocks.PURIFIER, ECBlocks.BINDER_IMPROVED);
+				ECBlocks.PURIFIER, ECBlocks.AIR_MILL, ECBlocks.BINDER_IMPROVED);
 
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.EVAPORATOR, ECBlocks.EXTRACTOR, ECBlocks.EXTRACTOR_IMPROVED,
 				ECBlocks.SOLAR_SYNTHESIZER, ECBlocks.PURE_INFUSER);
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_SPEED).addTags(ECTags.Blocks.RUNE_AFFECTED);
 		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addTags(ECTags.Blocks.RUNE_AFFECTED);
-		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER, ECBlocks.PURIFIER);
+		getOrCreateBuilder(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER, ECBlocks.PURIFIER, ECBlocks.AIR_MILL);
 
 		getOrCreateBuilder(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE, ECBlocks.HARVEST_SHRINE, ECBlocks.LAVA_SHRINE, ECBlocks.ORE_SHRINE,
 				ECBlocks.OVERLOAD_SHRINE, ECBlocks.SWEET_SHRINE, ECBlocks.BREEDING_SHRINE, ECBlocks.GROVE_SHRINE);

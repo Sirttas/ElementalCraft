@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "elementalcraft:crystallizer",
-    "elementalcraft:purifier"
+    "elementalcraft:purifier",
+    "elementalcraft:air_mill"
   ]
 }

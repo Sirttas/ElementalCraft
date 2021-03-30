@@ -1,3 +1,11 @@
+1.16.5-2.6.5:
+
+- air mill can now correctly have runes
+- fix a typing mistake in tags name
+- fix retriver always extracting 
+- fix order sorter right click
+
+
 1.16.5-2.6.4:
 
 - moved grinding recipes to the correct folder

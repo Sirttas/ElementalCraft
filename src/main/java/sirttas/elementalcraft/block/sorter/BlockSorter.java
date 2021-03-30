@@ -69,7 +69,7 @@ public class BlockSorter extends AbstractBlockECTileProvider {
 	}
 
 	private VoxelShape getTargetShape(BlockState state) {
-		return Shapes.sourceShape(state.get(TARGET));
+		return Shapes.targetShape(state.get(TARGET));
 	}
 
 	private VoxelShape getCurentShape(BlockState state) {

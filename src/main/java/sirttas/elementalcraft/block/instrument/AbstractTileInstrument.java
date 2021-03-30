@@ -38,9 +38,15 @@ public abstract class AbstractTileInstrument<T extends IInstrument, R extends II
 		if (!this.isPowered() && progressOnTick()) {
 			makeProgress();
 		}
-		BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
+		if (this.shouldRetriverExtractOutput()) {
+			BlockRetriever.sendOutputToRetriever(world, pos, getInventory(), outputSlot);
+		}
 	}
 
+	protected boolean shouldRetriverExtractOutput() {
+		return true;
+	}
+	
 	protected boolean progressOnTick() {
 		return true;
 	}

@@ -27,6 +27,10 @@ public class TileInfuser extends AbstractTileLockableInstrument<IInfuser, Abstra
 		return this.lookupInfusionRecipe(world);
 	}
 
+	@Override
+	protected boolean shouldRetriverExtractOutput() {
+		return this.recipe == null;
+	}
 
 	@Override
 	public void process() {

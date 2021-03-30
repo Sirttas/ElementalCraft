@@ -57,7 +57,7 @@ public class BlockRetriever extends Block {
 	}
 
 	private VoxelShape getTargetShape(BlockState state) {
-		return Shapes.sourceShape(state.get(TARGET));
+		return Shapes.targetShape(state.get(TARGET));
 	}
 
 	private VoxelShape getCurentShape(BlockState state) {

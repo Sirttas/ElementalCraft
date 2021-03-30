@@ -25,7 +25,12 @@ public abstract class AbstractTileLockableInstrument<T extends IInstrument, R ex
 			updateLock();
 		}
 	}
-
+	
+	@Override
+	protected boolean shouldRetriverExtractOutput() {
+		return locked;
+	}
+	
 	private void updateLock() {
 		locked = !getInventory().getStackInSlot(outputSlot).isEmpty();
 	}
