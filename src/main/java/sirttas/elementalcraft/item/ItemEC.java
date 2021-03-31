@@ -11,6 +11,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -77,29 +78,34 @@ public class ItemEC extends Item {
 			tooltip.add(new StringTextComponent(""));
 			tooltip.add(title);
 			for (Entry<Attribute, AttributeModifier> entry : multimap.entries()) {
-				AttributeModifier attributemodifier = entry.getValue();
-				double d0 = attributemodifier.getAmount();
-
-				double d1;
-				if (attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
-					if (entry.getKey().equals(Attributes.KNOCKBACK_RESISTANCE)) {
-						d1 = d0 * 10.0D;
-					} else {
-						d1 = d0;
-					}
-				} else {
-					d1 = d0 * 100.0D;
-				}
-
-				if (d0 > 0.0D) {
-					tooltip.add((new TranslationTextComponent("attribute.modifier.plus." + attributemodifier.getOperation().getId(), ItemStack.DECIMALFORMAT.format(d1),
-							new TranslationTextComponent(entry.getKey().getAttributeName()))).mergeStyle(TextFormatting.BLUE));
-				} else if (d0 < 0.0D) {
-					d1 = d1 * -1.0D;
-					tooltip.add((new TranslationTextComponent("attribute.modifier.take." + attributemodifier.getOperation().getId(), ItemStack.DECIMALFORMAT.format(d1),
-							new TranslationTextComponent(entry.getKey().getAttributeName()))).mergeStyle(TextFormatting.RED));
-				}
+				tooltip.add(getAttributeTooltip(entry.getKey(), entry.getValue()));
 			}
 		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static IFormattableTextComponent getAttributeTooltip(Attribute attribute, AttributeModifier attributemodifier) {
+		double d0 = attributemodifier.getAmount();
+
+		double d1;
+		if (attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
+			if (attribute.equals(Attributes.KNOCKBACK_RESISTANCE)) {
+				d1 = d0 * 10.0D;
+			} else {
+				d1 = d0;
+			}
+		} else {
+			d1 = d0 * 100.0D;
+		}
+
+		if (d0 > 0.0D) {
+			return new TranslationTextComponent("attribute.modifier.plus." + attributemodifier.getOperation().getId(), ItemStack.DECIMALFORMAT.format(d1),
+					new TranslationTextComponent(attribute.getAttributeName())).mergeStyle(TextFormatting.BLUE);
+		} else if (d0 < 0.0D) {
+			d1 = d1 * -1.0D;
+			return new TranslationTextComponent("attribute.modifier.take." + attributemodifier.getOperation().getId(), ItemStack.DECIMALFORMAT.format(d1),
+					new TranslationTextComponent(attribute.getAttributeName())).mergeStyle(TextFormatting.RED);
+		}
+		return null;
 	}
 }

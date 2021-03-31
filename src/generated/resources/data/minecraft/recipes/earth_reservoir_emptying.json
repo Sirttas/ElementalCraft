@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:reservoir_earth"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:reservoir_earth"
+  }
+}

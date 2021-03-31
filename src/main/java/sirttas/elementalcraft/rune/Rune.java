@@ -15,7 +15,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
@@ -27,12 +26,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 import sirttas.elementalcraft.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.upgrade.AbstractUpgrade;
 
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
@@ -43,6 +43,9 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 	private ResourceLocation modelName;
 	private ResourceLocation fxSpriteName;
+	
+	@OnlyIn(Dist.CLIENT)
+	private RenderMaterial sprite;
 
 	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount, ResourceLocation modelName, ResourceLocation fxSpriteName) {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
@@ -75,10 +78,12 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		return fxSpriteName;
 	}
 
-	@SuppressWarnings("deprecation")
 	@OnlyIn(Dist.CLIENT)
 	public RenderMaterial getSprite() {
-		return new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, fxSpriteName);
+		if (sprite == null) {
+			sprite = ForgeHooksClient.getBlockMaterial(fxSpriteName);
+		}
+		return sprite;
 	}
 
 	public ITextComponent getDisplayName() {

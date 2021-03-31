@@ -1,6 +1,9 @@
 package sirttas.elementalcraft.network.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.RenderMaterial;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -18,8 +21,15 @@ import sirttas.elementalcraft.particle.ECParticles;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
+@SuppressWarnings("resource")
 public class ClientProxy implements IProxy {
 
+	private final Minecraft minecraft;
+	
+	public ClientProxy() {
+		minecraft = Minecraft.getInstance();
+	}
+	
 	@Override
 	public void registerHandlers() {
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -34,6 +44,17 @@ public class ClientProxy implements IProxy {
 		MinecraftForge.EVENT_BUS.addListener(SpellTickManager::clientTick);
 	}
 
+
+	@Override
+	public World getDefaultWorld() {
+		return minecraft.world;
+	}
+	
+	@Override
+	public PlayerEntity getDefaultPlayer() {
+		return minecraft.player;
+	}
+	
 	private void setupClient(FMLClientSetupEvent event) {
 		ECRenderers.initRenderLayouts();
 		ECEntities.registerRenderers();
@@ -54,7 +75,6 @@ public class ClientProxy implements IProxy {
 		if (event.getMap().getTextureLocation().equals(sprite.getAtlasLocation())) {
 			event.addSprite(sprite.getTextureLocation());
 		}
-		
 	}
 }
 

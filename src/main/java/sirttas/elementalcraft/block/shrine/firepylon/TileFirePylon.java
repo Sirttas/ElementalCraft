@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.DamageSource;
@@ -16,7 +15,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.infusion.InfusionHelper;
+import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
 public class TileFirePylon extends AbstractTileShrine {
 
@@ -32,9 +31,7 @@ public class TileFirePylon extends AbstractTileShrine {
 
 	private List<LivingEntity> getEntities() {
 		return this.getWorld().getEntitiesWithinAABB(LivingEntity.class, getRangeBoundingBox(),
-				e -> (!e.isSpectator() && !e.isPotionActive(Effects.FIRE_RESISTANCE) && !e.isBurning()
-						&& !(InfusionHelper.hasInfusion(e, EquipmentSlotType.HEAD, ElementType.FIRE) || InfusionHelper.hasInfusion(e, EquipmentSlotType.CHEST, ElementType.FIRE)
-								|| InfusionHelper.hasInfusion(e, EquipmentSlotType.LEGS, ElementType.FIRE) || InfusionHelper.hasInfusion(e, EquipmentSlotType.FEET, ElementType.FIRE))));
+				e -> !e.isSpectator() && !e.isPotionActive(Effects.FIRE_RESISTANCE) && !e.isBurning() && !ToolInfusionHelper.hasFireInfusion(e));
 	}
 	
 	@Override

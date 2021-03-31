@@ -15,8 +15,11 @@
   },
   "outputs": [
     {
-      "item": "elementalcraft:pristine_air_gem",
-      "weight": 1
+      "result": {
+        "id": "elementalcraft:pristine_air_gem",
+        "Count": 1
+      },
+      "weight": 1.0
     }
   ]
 }

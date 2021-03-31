@@ -7,6 +7,15 @@
     },
     {
       "when": {
+        "cover": "frame"
+      },
+      "apply": {
+        "model": "elementalcraft:block/cover_frame",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
         "north": "true"
       },
       "apply": {

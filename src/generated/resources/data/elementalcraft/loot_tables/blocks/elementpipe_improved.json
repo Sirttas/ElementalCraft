@@ -15,6 +15,37 @@
           "condition": "minecraft:survives_explosion"
         }
       ]
+    },
+    {
+      "name": "frame",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:cover_frame"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:alternative",
+          "terms": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "elementalcraft:elementpipe_improved",
+              "properties": {
+                "cover": "frame"
+              }
+            },
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "elementalcraft:elementpipe_improved",
+              "properties": {
+                "cover": "frame"
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

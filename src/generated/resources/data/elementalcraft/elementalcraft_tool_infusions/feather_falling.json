@@ -1,0 +1,9 @@
+{
+  "element_type": "air",
+  "effects": [
+    {
+      "enchantment": "minecraft:feather_falling",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

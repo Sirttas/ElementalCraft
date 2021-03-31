@@ -1,0 +1,9 @@
+{
+  "element_type": "air",
+  "effects": [
+    {
+      "enchantment": "minecraft:riptide",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

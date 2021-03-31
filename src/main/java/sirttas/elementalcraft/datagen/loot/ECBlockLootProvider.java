@@ -22,6 +22,7 @@ import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTable.Builder;
+import net.minecraft.loot.conditions.Alternative;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.conditions.MatchTool;
 import net.minecraft.loot.conditions.SurvivesExplosion;
@@ -37,6 +38,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.pipe.BlockElementPipe;
+import sirttas.elementalcraft.block.pipe.BlockElementPipe.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.shrine.AbstractBlockPylonShrine;
 import sirttas.elementalcraft.block.shrine.AbstractBlockShrine;
@@ -71,7 +74,10 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 				functionTable.put(block, ECBlockLootProvider::genCopyElementStorage);
 			} else if (block instanceof BlockSpellDesk) {
 				functionTable.put(block, ECBlockLootProvider::genSpellDesk);
+			} else if (block instanceof BlockElementPipe) {
+				functionTable.put(block, ECBlockLootProvider::genPipe);
 			}
+			
 		}
 
 		functionTable.put(ECBlocks.CRYSTAL_ORE, i -> genOre(i, ECItems.INERT_CRYSTAL));
@@ -104,6 +110,13 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 				.acceptCondition(BlockStateProperty.builder((Block) block).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withBoolProp(BlockSpellDesk.HAS_PAPER, true))));
 	}
 
+	private static Builder genPipe(IItemProvider block) {
+		return genRegular(block).addLootPool(LootPool.builder().name("frame").rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(ECItems.COVER_FRAM))
+				.acceptCondition(Alternative.builder(
+						BlockStateProperty.builder((Block) block).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockElementPipe.COVER, CoverType.FRAME)), 
+						BlockStateProperty.builder((Block) block).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockElementPipe.COVER, CoverType.FRAME)))));
+	}
+	
 	private static Builder genOnlySilkTouch(IItemProvider item) {
 		return LootTable.builder()
 				.addLootPool(LootPool.builder().name("main")

@@ -59,7 +59,9 @@ import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.tank.BlockTank;
 import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.block.tank.creative.BlockTankCreative;
+import sirttas.elementalcraft.block.tank.reservoir.BlockReservoir;
 import sirttas.elementalcraft.item.chisel.ItemChisel;
+import sirttas.elementalcraft.item.cover.ItemCoverFrame;
 import sirttas.elementalcraft.item.elemental.ItemElementHolder;
 import sirttas.elementalcraft.item.elemental.ItemElemental;
 import sirttas.elementalcraft.item.elemental.ItemLense;
@@ -96,6 +98,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemPureOre.NAME) public static final ItemPureOre PURE_ORE = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemRune.NAME) public static final ItemRune RUNE = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + ItemChisel.NAME) public static final ItemChisel CHISEL = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + ItemCoverFrame.NAME) public static final ItemCoverFrame COVER_FRAM = null;
 
 	@ObjectHolder("patchouli:guide_book") public static final Item ELEMENTOPEDIA = null;
 	@ObjectHolder(ElementalCraft.MODID + ":inertcrystal") public static final ItemEC INERT_CRYSTAL = null;
@@ -148,6 +151,10 @@ public class ECItems {
 	// BLOCKS
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static final Item TANK_SMALL = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static final Item TANK = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_FIRE) public static final Item FIRE_RESERVOIR = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_WATER) public static final Item WATER_RESERVOIR = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_EARTH) public static final Item EARTH_RESERVOIR = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_AIR) public static final Item AIR_RESERVOIR = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static final Item TANK_CREATIVE = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static final Item EXTRACTOR = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static final Item EXTRACTOR_IMPROVED = null;
@@ -236,7 +243,8 @@ public class ECItems {
 		RegistryHelper.register(registry, new ItemPureOre(), ItemPureOre.NAME);
 		RegistryHelper.register(registry, new ItemRune(), ItemRune.NAME);
 		RegistryHelper.register(registry, new ItemChisel(), ItemChisel.NAME);
-
+		RegistryHelper.register(registry, new ItemCoverFrame(), ItemCoverFrame.NAME);
+		
 		RegistryHelper.register(registry, new ItemEC(), "inertcrystal");
 		RegistryHelper.register(registry, new ItemEC(), "containedcrystal");
 		RegistryHelper.register(registry, new ItemEC().setEffect(true), "purecrystal");

@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.AbstractGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
 
 public class AirMillGrindingRecipeBuilder {
@@ -60,7 +60,7 @@ public class AirMillGrindingRecipeBuilder {
 	public void build(Consumer<IFinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, ElementalCraft.createRL(AbstractGrindingRecipe.NAME + '/' + id.getPath()));
+		this.build(consumerIn, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
@@ -68,7 +68,7 @@ public class AirMillGrindingRecipeBuilder {
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Grinding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(AbstractGrindingRecipe.NAME + '/' + save));
+			this.build(consumerIn, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + save));
 		}
 	}
 

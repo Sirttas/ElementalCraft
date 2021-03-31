@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:fire_reservoir_emptying"
+    ]
+  },
+  "criteria": {
+    "has_fire_reservoir": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:reservoir_fire"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:fire_reservoir_emptying"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fire_reservoir",
+      "has_the_recipe"
+    ]
+  ]
+}

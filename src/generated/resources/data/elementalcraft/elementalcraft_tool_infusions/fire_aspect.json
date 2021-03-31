@@ -1,0 +1,9 @@
+{
+  "element_type": "fire",
+  "effects": [
+    {
+      "enchantment": "minecraft:fire_aspect",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

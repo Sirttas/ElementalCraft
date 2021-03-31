@@ -102,6 +102,8 @@ import sirttas.elementalcraft.block.tank.BlockTankSmall;
 import sirttas.elementalcraft.block.tank.TileTank;
 import sirttas.elementalcraft.block.tank.creative.BlockTankCreative;
 import sirttas.elementalcraft.block.tank.creative.TileTankCreative;
+import sirttas.elementalcraft.block.tank.reservoir.BlockReservoir;
+import sirttas.elementalcraft.block.tank.reservoir.TileReservoir;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.property.ECProperties;
@@ -117,6 +119,10 @@ public class ECBlocks {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankSmall.NAME) public static final BlockTankSmall TANK_SMALL = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static final BlockTank TANK = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_FIRE) public static final BlockReservoir FIRE_RESERVOIR = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_WATER) public static final BlockReservoir WATER_RESERVOIR = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_EARTH) public static final BlockReservoir EARTH_RESERVOIR = null;
+	@ObjectHolder(ElementalCraft.MODID + ":" + BlockReservoir.NAME_AIR) public static final BlockReservoir AIR_RESERVOIR = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTankCreative.NAME) public static final BlockTankCreative TANK_CREATIVE = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockExtractor.NAME) public static final BlockExtractor EXTRACTOR = null;
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockImprovedExtractor.NAME) public static final BlockImprovedExtractor EXTRACTOR_IMPROVED = null;
@@ -200,6 +206,10 @@ public class ECBlocks {
 
 		RegistryHelper.register(registry, new BlockTankSmall(), BlockTankSmall.NAME);
 		RegistryHelper.register(registry, new BlockTank(), BlockTank.NAME);
+		RegistryHelper.register(registry, new BlockReservoir(ElementType.FIRE), BlockReservoir.NAME_FIRE);
+		RegistryHelper.register(registry, new BlockReservoir(ElementType.WATER), BlockReservoir.NAME_WATER);
+		RegistryHelper.register(registry, new BlockReservoir(ElementType.EARTH), BlockReservoir.NAME_EARTH);
+		RegistryHelper.register(registry, new BlockReservoir(ElementType.AIR), BlockReservoir.NAME_AIR);
 		RegistryHelper.register(registry, new BlockTankCreative(), BlockTankCreative.NAME);
 		RegistryHelper.register(registry, new BlockExtractor(), BlockExtractor.NAME);
 		RegistryHelper.register(registry, new BlockImprovedExtractor(), BlockImprovedExtractor.NAME);
@@ -292,6 +302,10 @@ public class ECBlocks {
 
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileSource::new, SOURCE).build(null), BlockSource.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileTank::new, TANK, TANK_SMALL).build(null), BlockTank.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileReservoir::createFire, FIRE_RESERVOIR).build(null), BlockReservoir.NAME_FIRE);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileReservoir::createWater, WATER_RESERVOIR).build(null), BlockReservoir.NAME_WATER);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileReservoir::createEarth, EARTH_RESERVOIR).build(null), BlockReservoir.NAME_EARTH);
+		RegistryHelper.register(r, TileEntityType.Builder.create(TileReservoir::createAir, AIR_RESERVOIR).build(null), BlockReservoir.NAME_AIR);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileTankCreative::new, TANK_CREATIVE).build(null), BlockTankCreative.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileExtractor::new, EXTRACTOR, EXTRACTOR_IMPROVED).build(null), BlockExtractor.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.create(TileEvaporator::new, EVAPORATOR).build(null), BlockEvaporator.NAME);

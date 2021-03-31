@@ -11,7 +11,7 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractTileFireFurnace<T>> {
 
-	private T recipe;
+	private final T recipe;
 
 	public FurnaceRecipeWrapper(T recipe) {
 		this.recipe = recipe;

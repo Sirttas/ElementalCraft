@@ -15,7 +15,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
-public class AirMillGrindingRecipe extends AbstractGrindingRecipe {
+public class AirMillGrindingRecipe implements IGrindingRecipe {
 	
 	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
 	

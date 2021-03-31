@@ -50,7 +50,6 @@ configurations {
 	apiCompile.extendsFrom(compile)
     apiImplementation.extendsFrom(implementation)
     apiCompileOnly.extendsFrom(compileOnly)
-    apiRuntimeOnly.extendsFrom(runtimeOnly)
 }
 
 minecraft {

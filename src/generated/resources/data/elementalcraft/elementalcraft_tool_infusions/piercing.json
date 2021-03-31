@@ -1,0 +1,9 @@
+{
+  "element_type": "fire",
+  "effects": [
+    {
+      "enchantment": "minecraft:piercing",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

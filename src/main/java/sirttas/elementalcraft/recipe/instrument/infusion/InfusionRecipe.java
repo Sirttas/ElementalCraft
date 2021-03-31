@@ -7,7 +7,6 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
@@ -16,14 +15,15 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.RecipeHelper;
+import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
-public class InfusionRecipe extends AbstractInfusionRecipe {
+public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implements IInfusionRecipe {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<InfusionRecipe> SERIALIZER = null;
 
-	private Ingredient input;
-	private ItemStack output;
-	private int elementAmount;
+	private final Ingredient input;
+	private final ItemStack output;
+	private final int elementAmount;
 
 	public InfusionRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, Ingredient input) {
 		super(id, type);
@@ -36,25 +36,15 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 	public int getElementAmount() {
 		return elementAmount;
 	}
-
+	
 	@Override
-	public boolean matches(IInfuser inv) {
-		ItemStack stack = inv.getItem();
-
-		if (super.matches(inv) && inv.getTankElementType() == getElementType()) {
-			return input.test(stack);
-		}
-		return false;
+	public Ingredient getInput() {
+		return input;
 	}
 
 	@Override
 	public ItemStack getRecipeOutput() {
 		return output;
-	}
-
-	@Override
-	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.from(Ingredient.EMPTY, this.input);
 	}
 
 	@Override
@@ -88,7 +78,7 @@ public class InfusionRecipe extends AbstractInfusionRecipe {
 		public void write(PacketBuffer buffer, InfusionRecipe recipe) {
 			buffer.writeString(recipe.getElementType().getString());
 			buffer.writeInt(recipe.getElementAmount());
-			recipe.getIngredients().get(0).write(buffer);
+			recipe.getInput().write(buffer);
 			buffer.writeItemStack(recipe.getRecipeOutput());
 		}
 	}

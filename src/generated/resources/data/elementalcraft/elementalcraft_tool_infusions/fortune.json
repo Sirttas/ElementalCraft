@@ -1,0 +1,9 @@
+{
+  "element_type": "water",
+  "effects": [
+    {
+      "enchantment": "minecraft:fortune",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

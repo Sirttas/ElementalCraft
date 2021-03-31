@@ -26,7 +26,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.infusion.InfusionHelper;
+import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FireInfusionLootModifier extends LootModifier {
@@ -62,7 +62,7 @@ public class FireInfusionLootModifier extends LootModifier {
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
 		ItemStack tool = context.get(LootParameters.TOOL);
 
-		if (tool != null && !tool.isEmpty() && InfusionHelper.hasFireInfusionAutoSmelt(tool)) {
+		if (tool != null && !tool.isEmpty() && ToolInfusionHelper.hasAutoSmelt(tool)) {
 			return generatedLoot.stream().map(s -> applyAutoSmelt(s, context)).collect(Collectors.toList());
 		}
 		return generatedLoot;

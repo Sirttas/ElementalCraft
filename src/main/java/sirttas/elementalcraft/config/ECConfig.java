@@ -28,9 +28,6 @@ public class ECConfig {
 	private ECConfig() {}
 	
 	public static class Common {
-		public final DoubleValue swordAirInfusionSpeedBonus;
-		public final DoubleValue leggingsAirInfusionSpeedBonus;
-		public final DoubleValue chestplateAirInfusionDodgeChance;
 
 		public final IntValue shrinesCapacity;
 		public final IntValue firePylonRange;
@@ -69,6 +66,7 @@ public class ECConfig {
 
 		public final IntValue tankCapacity;
 		public final IntValue tankSmallCapacity;
+		public final IntValue reservoirCapacity;
 		public final IntValue extractorExtractionAmount;
 		public final IntValue extractorMaxRunes;
 		public final IntValue improvedExtractorExtractionAmount;
@@ -83,7 +81,6 @@ public class ECConfig {
 		public final IntValue fireBlastFurnaceElementAmount;
 		public final IntValue infuserTransferSpeed;
 		public final IntValue infuserMaxRunes;
-		public final IntValue toolInfustionBaseCost;
 		public final IntValue binderTransferSpeed;
 		public final IntValue binderMaxRunes;
 		public final IntValue improvedBinderTransferSpeed;
@@ -156,12 +153,6 @@ public class ECConfig {
 		public Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft config").push("elementalcraft");
 
-			builder.push("infusion");
-			swordAirInfusionSpeedBonus = builder.comment("The bonus to sword attack speed provided by the air infusion.").defineInRange("swordAirInfusionSpeedBonus", 0.8D, 0D, 10D);
-			leggingsAirInfusionSpeedBonus = builder.comment("The bonus to movement speed provided by the air infusion on leggings.").defineInRange("leggingsAirInfusionSpeedBonus", 0.01D, 0D, 1D);
-			chestplateAirInfusionDodgeChance = builder.comment("The dodge chance provided by the air infusion on chestplate.").defineInRange("chestplateAirInfusionDodgeChance", 0.2D, 0D, 1D);
-
-			
 			builder.pop().comment("Shrines config").push("shrines");
 			shrinesCapacity = builder.comment("The element capacity of shrines.").defineInRange("shrinesCapacity", 10000, 0, 100000000);
 			builder.push("firePylon");
@@ -212,6 +203,7 @@ public class ECConfig {
 			builder.pop(2).comment("Instruments config").push("instruments").push("tank");
 			tankSmallCapacity = builder.comment("The element capacity of a small element container.").defineInRange("tankSmallCapacity", 1000, 0, 100000000);
 			tankCapacity = builder.comment("The element capacity of a element container.").defineInRange("tankCapacity", 100000, 0, 100000000);
+			reservoirCapacity = builder.comment("The element capacity of a element reservoir.").defineInRange("reservoirCapacity", 5000000, 0, 100000000);
 			builder.pop().push("extractor");
 			extractorExtractionAmount = builder.comment("The amount of element extracted by an extractor.").defineInRange("extractorExtractionAmount", 5, 0, 100);
 			extractorMaxRunes = builder.comment("The max amount of on an extractor.").defineInRange("extractorMaxRunes", 1, 0, 10);
@@ -231,7 +223,6 @@ public class ECConfig {
 			builder.pop(2).push("infuser");
 			infuserTransferSpeed = builder.comment("The max amount of element consumed by the infuser per tick.").defineInRange("infuserTransferSpeed", 10, 0, 1000);
 			infuserMaxRunes = builder.comment("The max amount of on an infuser.").defineInRange("infuserMaxRunes", 1, 0, 10);
-			toolInfustionBaseCost = builder.comment("The base cost of a tool infusion recipe.").defineInRange("toolInfustionBaseCost", 1000, 0, 10000);
 			builder.pop().push("binder");
 			binderTransferSpeed = builder.comment("The max amount of element consumed by the binder per tick.").defineInRange("binderTransferSpeed", 25, 0, 1000);
 			binderMaxRunes = builder.comment("The max amount of on an binder.").defineInRange("binderMaxRunes", 2, 0, 10);

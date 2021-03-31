@@ -1,11 +1,11 @@
 {
   "type": "elementalcraft:infusion",
+  "output": {
+    "item": "elementalcraft:earthcrystal"
+  },
   "element_type": "earth",
   "element_amount": 1000,
   "input": {
     "item": "elementalcraft:inertcrystal"
-  },
-  "output": {
-    "item": "elementalcraft:earthcrystal"
   }
 }

@@ -1,15 +1,12 @@
 package sirttas.elementalcraft.recipe.instrument;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.stream.IntStream;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -20,9 +17,12 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
+import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -43,17 +43,15 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 		}
 	});
 	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<CrystallizationRecipe> SERIALIZER = null;
+	
+	private final NonNullList<Ingredient> ingredients;
+	private final List<ResultEntry> outputs;
+	private final int elementAmount;
 
-	private NonNullList<Ingredient> ingredients;
-	private final ImmutableMap<ItemStack, Integer> outputs;
-	private final int totalWeight;
-	private int elementAmount;
-
-	public CrystallizationRecipe(ResourceLocation id, ElementType type, int elementAmount, Map<ItemStack, Integer> outputs, List<Ingredient> ingredients) {
+	public CrystallizationRecipe(ResourceLocation id, ElementType type, int elementAmount, List<ResultEntry> outputs, List<Ingredient> ingredients) {
 		super(id, type);
 		this.ingredients = NonNullList.from(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
-		this.outputs = ImmutableMap.<ItemStack, Integer>builder().putAll(outputs).orderEntriesByValue(Comparator.comparingInt(Integer::intValue).reversed()).build();
-		this.totalWeight = outputs.values().stream().mapToInt(Integer::intValue).sum();
+		this.outputs = ImmutableList.copyOf(outputs);
 		this.elementAmount = elementAmount;
 	}
 
@@ -85,11 +83,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 		return ItemStack.EMPTY;
 	}
 
-	public int getTotalWeight() {
-		return totalWeight;
-	}
-
-	public Map<ItemStack, Integer> getOutputs() {
+	public List<ResultEntry> getOutputs() {
 		return outputs;
 	}
 
@@ -120,24 +114,73 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 	}
 
 	@SuppressWarnings("resource")
-	public ItemStack getCraftingResult(TileCrystallizer instrument, int luck) {
-		int weight = this.totalWeight + (luck * outputs.size());
+	public ItemStack getCraftingResult(TileCrystallizer instrument, float luck) {
+		ItemStack gem = instrument.getInventory().getStackInSlot(0);
+		int index = IntStream.range(0, outputs.size()).filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem)).findFirst().orElse(0);
+		int weight = getTotalWeight(outputs.subList(index, outputs.size()), luck);
 		int roll = Math.min(instrument.getWorld().rand.nextInt(weight), weight - 1);
 		
-		for (Entry<ItemStack, Integer> entry : outputs.entrySet()) {
-			roll -= entry.getValue() + luck;
+		for (ResultEntry entry : outputs) {
+			roll -= entry.getEffectiveWeight(luck) + luck;
 			if (roll < 0) {
-				return entry.getKey().copy();
+				return entry.getResult();
 			}
 		}
 		return ItemStack.EMPTY;
 	}
 
+	public int getTotalWeight() {
+		return getTotalWeight(outputs, 0);
+	}
+	
+	public int getTotalWeight(List<ResultEntry> list, float luck) {
+		return list.stream().mapToInt(result -> result.getEffectiveWeight(luck)).sum();
+	}
+	
+	public float getWeight(ItemStack stack) {
+		return outputs.stream().filter(r -> r.result.equals(stack)).findAny().map(r -> r.weight).orElse(0F);
+	}
+	
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
+	public static ResultEntry createResult(ItemStack result, float weight) {
+		return createResult(result, weight, 1);
+	}
+	
+	public static ResultEntry createResult(ItemStack result, float weight, float quality) {
+		return new ResultEntry(result, weight, quality);
+	}
+	
+	public static class ResultEntry {
+		public static final Codec<ResultEntry> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+				ItemStack.CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result),
+				Codec.FLOAT.fieldOf(ECNames.WEIGHT).forGetter(r -> r.weight),
+				Codec.FLOAT.optionalFieldOf(ECNames.QUALITY, 1F).forGetter(r -> r.quality)
+		).apply(builder, ResultEntry::new));
+		public static final Codec<List<ResultEntry>> LIST_CODEC = CODEC.listOf();
+		
+		private final float weight;
+		private final float quality;
+		private final ItemStack result;
+		
+		private ResultEntry(ItemStack result, float weight, float quality) {
+			this.result = result;
+			this.weight = weight;
+			this.quality = quality;
+		}
+		
+		public ItemStack getResult() {
+			return result.copy();
+		}
+		
+		public int getEffectiveWeight(float luck) {
+			return Math.max(MathHelper.floor(weight + quality * luck), 0);
+		}
+	}
+	
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrystallizationRecipe> {
 
 
@@ -146,8 +189,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 			ElementType type = ElementType.byName(JSONUtils.getString(json, ECNames.ELEMENT_TYPE));
 			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getJsonObject(json, ECNames.INGREDIENTS));
-			Map<ItemStack, Integer> outputs = StreamSupport.stream(JSONUtils.getJsonArray(json, ECNames.OUTPUTS).spliterator(), false).filter(JsonObject.class::isInstance).map(JsonObject.class::cast)
-					.collect(Collectors.toMap(obj -> RecipeHelper.readRecipeOutput(obj, ECNames.ITEM), obj -> JSONUtils.getInt(obj, ECNames.WEIGHT)));
+			List<ResultEntry> outputs = CodecHelper.decode(ResultEntry.LIST_CODEC, json.get(ECNames.OUTPUTS));
 			
 			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
 		}
@@ -165,13 +207,9 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 		public CrystallizationRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
 			ElementType type = ElementType.byName(buffer.readString(32767));
 			int elementAmount = buffer.readInt();
+			List<ResultEntry> outputs = CodecHelper.decode(ResultEntry.LIST_CODEC, buffer);
+			
 			int i = buffer.readInt();
-			Map<ItemStack, Integer> outputs = Maps.newHashMap();
-
-			for (int j = 0; j < i; ++j) {
-				outputs.put(buffer.readItemStack(), buffer.readInt());
-			}
-			i = buffer.readInt();
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
 			for (int j = 0; j < i; ++j) {
@@ -185,11 +223,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 		public void write(PacketBuffer buffer, CrystallizationRecipe recipe) {
 			buffer.writeString(recipe.getElementType().getString());
 			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeInt(recipe.getOutputs().size());
-			recipe.getOutputs().forEach((stack, weight) -> {
-				buffer.writeItemStack(stack);
-				buffer.writeInt(weight);
-			});
+			CodecHelper.encode(ResultEntry.LIST_CODEC, recipe.outputs, buffer);
 			buffer.writeInt(recipe.getIngredients().size());
 			recipe.getIngredients().forEach(ingredient -> ingredient.write(buffer));
 		}

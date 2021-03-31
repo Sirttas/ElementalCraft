@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:cover_frame"
+    ]
+  },
+  "criteria": {
+    "has_drenched_iron_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/drenched_iron"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:cover_frame"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_iron_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

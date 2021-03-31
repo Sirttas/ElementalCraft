@@ -32,10 +32,10 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<PureInfusionRecipe> SERIALIZER = null;
 
-	private NonNullList<Ingredient> ingredients;
-	private ItemStack output;
-	private int elementAmount;
-	private ResourceLocation id;
+	private final NonNullList<Ingredient> ingredients;
+	private final ItemStack output;
+	private final int elementAmount;
+	private final ResourceLocation id;
 
 	public PureInfusionRecipe(ResourceLocation id, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		this.id = id;

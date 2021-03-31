@@ -1,0 +1,9 @@
+{
+  "element_type": "air",
+  "effects": [
+    {
+      "enchantment": "minecraft:projectile_protection",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

@@ -6,8 +6,8 @@ import sirttas.elementalcraft.block.instrument.IInstrument;
 
 public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements IInstrumentRecipe<T> {
 
-	protected ElementType elementType;
-	protected ResourceLocation id;
+	protected final ElementType elementType;
+	protected final ResourceLocation id;
 
 	protected AbstractInstrumentRecipe(ResourceLocation id, ElementType type) {
 		this.elementType = type;

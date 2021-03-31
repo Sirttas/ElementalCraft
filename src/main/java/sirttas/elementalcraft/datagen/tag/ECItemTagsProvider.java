@@ -18,9 +18,11 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -78,13 +80,17 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				getItems(MekanismTools.MODID, SwordItem.class));
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE)
 				.addTag(ECTags.Items.FORGE_PICKAXES), getItems(MekanismTools.MODID, PickaxeItem.class));
+		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_SHOVELS).add(Items.IRON_SHOVEL, Items.GOLDEN_SHOVEL, Items.DIAMOND_SHOVEL, Items.NETHERITE_SHOVEL)
+				.addTag(ECTags.Items.FORGE_SHOVELS), getItems(MekanismTools.MODID, ShovelItem.class));
+		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_HOES).add(Items.IRON_HOE, Items.GOLDEN_HOE, Items.DIAMOND_HOE, Items.NETHERITE_HOE)
+				.addTag(ECTags.Items.FORGE_HOES), getItems(MekanismTools.MODID, HoeItem.class));
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_AXES).add(Items.IRON_AXE, Items.GOLDEN_AXE, Items.DIAMOND_AXE, Items.NETHERITE_AXE).addTag(ECTags.Items.FORGE_AXES),
 				getItems(MekanismTools.MODID, AxeItem.class));
-		getOrCreateBuilder(ECTags.Items.INFUSABLE_SHOVELS);
-		getOrCreateBuilder(ECTags.Items.INFUSABLE_HOES);
 		getOrCreateBuilder(ECTags.Items.INFUSABLE_SHILDS);
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_BOWS).add(Items.BOW).addTag(ECTags.Items.FORGE_BOWS), getItems(MekanismTools.MODID, BowItem.class));
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_CROSSBOWS).add(Items.CROSSBOW).addTag(ECTags.Items.FORGE_CROSSBOWS), getItems(MekanismTools.MODID, CrossbowItem.class));
+		getOrCreateBuilder(ECTags.Items.INFUSABLE_FISHING_RODS).add(Items.FISHING_ROD);
+		getOrCreateBuilder(ECTags.Items.INFUSABLE_TRIDENTS).add(Items.TRIDENT);
 
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_HELMETS).add(Items.IRON_HELMET, Items.GOLDEN_HELMET, Items.DIAMOND_HELMET, Items.NETHERITE_HELMET).addTag(ECTags.Items.FORGE_HELMETS),
 				getItems(MekanismTools.MODID, ArmorItem.class, item -> item.getEquipmentSlot() == EquipmentSlotType.HEAD));
@@ -138,6 +144,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		getOrCreateBuilder(Tags.Items.GEMS).addTags(ECTags.Items.INPUT_GEMS);
 
 		getOrCreateBuilder(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE, ECItems.RUNE_SLATE, ECItems.MAJOR_RUNE_SLATE);
+		
+		getOrCreateBuilder(ECTags.Items.PIPE_COVER_HIDING).addTag(ECTags.Items.PIPES).add(ECItems.COVER_FRAM);
 		
 		getOrCreateBuilder(ECTags.Items.PURE_ORES).addTag(Tags.Items.ORES);
 		getOrCreateBuilder(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST).addTags(Tags.Items.ORES_DIAMOND, Tags.Items.ORES_EMERALD);

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:earth_reservoir_emptying"
+    ]
+  },
+  "criteria": {
+    "has_earth_reservoir": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:reservoir_earth"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:earth_reservoir_emptying"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_earth_reservoir",
+      "has_the_recipe"
+    ]
+  ]
+}

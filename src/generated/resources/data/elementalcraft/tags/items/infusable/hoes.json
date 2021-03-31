@@ -1,4 +1,34 @@
 {
   "replace": false,
-  "values": []
+  "values": [
+    "minecraft:iron_hoe",
+    "minecraft:golden_hoe",
+    "minecraft:diamond_hoe",
+    "minecraft:netherite_hoe",
+    "#forge:hoes",
+    {
+      "id": "mekanismtools:bronze_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_hoe",
+      "required": false
+    }
+  ]
 }

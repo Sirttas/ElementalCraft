@@ -25,6 +25,8 @@ public class ECTags {
 		public static final INamedTag<Item> INFUSABLE_SHILDS = createTag("infusable/shields");
 		public static final INamedTag<Item> INFUSABLE_BOWS = createTag("infusable/bows");
 		public static final INamedTag<Item> INFUSABLE_CROSSBOWS = createTag("infusable/crossbows");
+		public static final INamedTag<Item> INFUSABLE_FISHING_RODS = createTag("infusable/fishing_rods");
+		public static final INamedTag<Item> INFUSABLE_TRIDENTS = createTag("infusable/tridents");
 		public static final INamedTag<Item> INFUSABLE_HELMETS = createTag("infusable/helmets");
 		public static final INamedTag<Item> INFUSABLE_CHESTPLATES = createTag("infusable/chestplates");
 		public static final INamedTag<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
@@ -65,6 +67,8 @@ public class ECTags {
 		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
 		public static final INamedTag<Item> PIPES = createTag("pipes");
 		public static final INamedTag<Item> SHRINES = createTag("shrines");
+		
+		public static final INamedTag<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
 		
 		public static final INamedTag<Item> PURE_ORES = createTag("pure_ores");
 		public static final INamedTag<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");

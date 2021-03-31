@@ -21,6 +21,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.item.pureore.PureOreManager;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
@@ -45,7 +46,9 @@ public class ElementalCraft {
 	public static final IDataManager<ShrineUpgrade> SHREINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).merged(ShrineUpgrade::merge).build();
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER).withDefault(SpellProperties.NONE).build();
 	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, Runes.FOLDER).withIdSetter(Rune::setId).merged(Rune::merge).build();
+	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, ToolInfusion.FOLDER).withIdSetter(ToolInfusion::setId).build();
 
+	
 	public ElementalCraft() {
 		PROXY.registerHandlers();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -77,6 +80,7 @@ public class ElementalCraft {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ShrineUpgrades.NAME), SHREINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(SpellProperties.NAME), SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(Runes.NAME), RUNE_MANAGER).withCodec(Rune.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ToolInfusion.NAME), TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
 		DataTagIMC.enqueue(() -> new DataTagIMC<>(RUNE_MANAGER, ECTags.Runes.RUNE_TAGS));
 	}
 }

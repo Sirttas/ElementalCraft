@@ -6,9 +6,9 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.AbstractGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
-public class MekanismCrusherRecipeWrapper extends AbstractGrindingRecipe {
+public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 
 	private final ItemStackToItemStackRecipe crushingRecipe;
 	

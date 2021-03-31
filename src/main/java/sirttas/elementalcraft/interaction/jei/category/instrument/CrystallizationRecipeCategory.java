@@ -18,6 +18,7 @@ import sirttas.elementalcraft.block.instrument.crystallizer.TileCrystallizer;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
+import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
 public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCategory<TileCrystallizer, CrystallizationRecipe> {
 
@@ -62,7 +63,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 	public void setIngredients(CrystallizationRecipe recipe, IIngredients ingredients) {
 		List<List<ItemStack>> outputs = new ArrayList<>();
 
-		outputs.add(recipe.getOutputs().keySet().stream().collect(Collectors.toList()));
+		outputs.add(recipe.getOutputs().stream().map(ResultEntry::getResult).collect(Collectors.toList()));
 		super.setIngredients(recipe, ingredients);
 		ingredients.setOutputLists(VanillaTypes.ITEM, outputs);
 	}
@@ -73,7 +74,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 
 		recipeLayout.getItemStacks().addTooltipCallback((slot, input, ingredient, tooltip) -> {
 			if (slot == 6) {
-				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.chance", ItemStack.DECIMALFORMAT.format(recipe.getOutputs().get(ingredient) * 100 / recipe.getTotalWeight())));
+				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.chance", ItemStack.DECIMALFORMAT.format(recipe.getWeight(ingredient) * 100F / recipe.getTotalWeight())));
 			}
 		});
 		

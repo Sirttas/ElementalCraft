@@ -1,0 +1,9 @@
+{
+  "element_type": "water",
+  "effects": [
+    {
+      "enchantment": "minecraft:depth_strider",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

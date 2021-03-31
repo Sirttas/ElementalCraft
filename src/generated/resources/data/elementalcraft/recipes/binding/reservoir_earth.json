@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "earth",
+  "element_amount": 10000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:tank"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/pristine_earth"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:reservoir_earth"
+  }
+}

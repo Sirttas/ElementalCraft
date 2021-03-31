@@ -1,0 +1,6 @@
+{
+	"parent": "elementalcraft:block/template_reservoir_connector",
+	"textures": {
+		"texture": "elementalcraft:block/whiterock_burnt"
+	}
+}

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -181,19 +182,14 @@ public class ItemElementHolder extends ItemElemental implements ISourceInteracta
 			CompoundNBT savedPos = tag.getCompound(SAVED_POS);
 
 			if (savedPos != null) {
-				return new BlockPos(savedPos.getInt("x"), savedPos.getInt("y"), savedPos.getInt("z"));
+				return NBTUtil.readBlockPos(savedPos);
 			}
 		}
 		return null;
 	}
 
 	public void setSavedPos(ItemStack stack, BlockPos pos) {
-		CompoundNBT savedPos = new CompoundNBT();
-
-		savedPos.putInt("x", pos.getX());
-		savedPos.putInt("y", pos.getY());
-		savedPos.putInt("z", pos.getZ());
-		stack.getOrCreateTag().put(SAVED_POS, savedPos);
+		stack.getOrCreateTag().put(SAVED_POS, NBTUtil.writeBlockPos(pos));
 	}
 
 	public void removeSavedPos(ItemStack stack) {

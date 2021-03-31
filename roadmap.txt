@@ -22,11 +22,9 @@ spells:
 	
 2.7:
 	remote element tranfer
-	pipe cover frame
 	source stabilizer
 	source analyzer
 	ordered sorter config gui
-	crystalizer luck tweek
 	pure element holder
 	holder element flow particles
 	fix spell book

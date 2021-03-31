@@ -22,13 +22,13 @@ public class CapabilityElementStorage {
 			@Override
 			@Deprecated
 			public INBT writeNBT(Capability<IElementStorage> capability, IElementStorage instance, Direction side) {
-				throw new UnsupportedOperationException("ElementalCraft doesn't fupport capability read/write anymore (https://github.com/MinecraftForge/MinecraftForge/issues/7622)");
+				throw new UnsupportedOperationException("Elemental Craft doesn't support capability read/write anymore (https://github.com/MinecraftForge/MinecraftForge/issues/7622)");
 			}
 
 			@Override
 			@Deprecated
 			public void readNBT(Capability<IElementStorage> capability, IElementStorage instance, Direction side, INBT base) {
-				throw new UnsupportedOperationException("ElementalCraft doesn't fupport capability read/write anymore (https://github.com/MinecraftForge/MinecraftForge/issues/7622)");
+				throw new UnsupportedOperationException("Elemental Craft doesn't support capability read/write anymore (https://github.com/MinecraftForge/MinecraftForge/issues/7622)");
 			}
 		}, () -> new SingleElementStorage(100000));
 	}

@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "water",
+  "element_amount": 10000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:tank"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/pristine_water"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:reservoir_water"
+  }
+}

@@ -43,10 +43,15 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.PURIFIER, list);
 		addItem(ECBlocks.TANK_SMALL, list);
 		addItem(ECBlocks.TANK, list);
+		addItem(ECBlocks.FIRE_RESERVOIR, list);
+		addItem(ECBlocks.WATER_RESERVOIR, list);
+		addItem(ECBlocks.EARTH_RESERVOIR, list);
+		addItem(ECBlocks.AIR_RESERVOIR, list);
 		addItem(ECBlocks.TANK_CREATIVE, list);
 		addItem(ECBlocks.PIPE_IMPAIRED, list);
 		addItem(ECBlocks.PIPE, list);
 		addItem(ECBlocks.PIPE_IMPROVED, list);
+		addItem(ECItems.COVER_FRAM, list);
 		addItem(ECBlocks.RETRIEVER, list);
 		addItem(ECBlocks.SORTER, list);
 		addItem(ECBlocks.SPELL_DESK, list);

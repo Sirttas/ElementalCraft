@@ -1,0 +1,9 @@
+{
+  "element_type": "water",
+  "effects": [
+    {
+      "enchantment": "minecraft:luck_of_the_sea",
+      "type": "elementalcraft:enchantment"
+    }
+  ]
+}

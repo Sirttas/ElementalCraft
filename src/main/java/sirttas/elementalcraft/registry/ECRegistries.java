@@ -8,6 +8,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
+import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.spell.Spell;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -23,6 +24,7 @@ public class ECRegistries {
 	public static void createECRegistry(RegistryEvent.NewRegistry event) {
 		makeRegistry(ElementalCraft.createRL("spell"), Spell.class).setDefaultKey(ElementalCraft.createRL("none")).create();
 		makeRegistry(ElementalCraft.createRL("pure_ore_recipe_injector"), AbstractPureOreRecipeInjector.class).create();
+		makeRegistry(ElementalCraft.createRL("tool_infusion_type"), ToolInfusionEffectType.class).create();
 	}
 
 	private static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeRegistry(ResourceLocation name, Class<T> clazz) {

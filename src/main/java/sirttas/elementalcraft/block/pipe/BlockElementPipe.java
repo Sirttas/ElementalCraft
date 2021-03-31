@@ -3,25 +3,35 @@ package sirttas.elementalcraft.block.pipe;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.ImmutableList;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -30,8 +40,11 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
+import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 public class BlockElementPipe extends AbstractBlockECTileProvider {
 
@@ -47,8 +60,14 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 	private static final VoxelShape UP_SHAPE = Block.makeCuboidShape(7D, 9.5D, 7D, 9D, 16D, 9D);
 	private static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(7D, 7D, 9.5D, 9D, 9D, 16D);
 
-	private static final List<VoxelShape> SHAPES = ImmutableList.of(EAST_SHAPE, NORTH_SHAPE, WEST_SHAPE, SOUTH_SHAPE, UP_SHAPE, DOWN_SHAPE, BASE_SHAPE);
+	private static final VoxelShape FRAME_SHAPE = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(),
+			VoxelShapes.or(Block.makeCuboidShape(0D, 1D, 1D, 16D, 15D, 15D), Block.makeCuboidShape(1D, 0D, 1D, 15D, 16D, 15D), Block.makeCuboidShape(1D, 1D, 0D, 15D, 15D, 16D)),
+			IBooleanFunction.ONLY_FIRST);
+	
+	private static final List<VoxelShape> SHAPES = ImmutableList.of(EAST_SHAPE, NORTH_SHAPE, WEST_SHAPE, SOUTH_SHAPE, UP_SHAPE, DOWN_SHAPE, BASE_SHAPE, FRAME_SHAPE);
 
+	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
+	
 	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
 	public static final BooleanProperty EAST = BlockStateProperties.EAST;
 	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
@@ -67,14 +86,16 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 
 	public BlockElementPipe(int maxTransferAmount) {
 		super(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).notSolid().tickRandomly());
-		this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false).with(NORTH_EXTRACT, false)
-				.with(EAST_EXTRACT, false).with(SOUTH_EXTRACT, false).with(WEST_EXTRACT, false).with(UP_EXTRACT, false).with(DOWN_EXTRACT, false));
+		this.setDefaultState(this.stateContainer.getBaseState()
+				.with(COVER, CoverType.NONE)
+				.with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false)
+				.with(NORTH_EXTRACT, false).with(EAST_EXTRACT, false).with(SOUTH_EXTRACT, false).with(WEST_EXTRACT, false).with(UP_EXTRACT, false).with(DOWN_EXTRACT, false));
 		this.maxTransferAmount = maxTransferAmount;
 	}
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
-		container.add(NORTH, SOUTH, EAST, WEST, UP, DOWN, NORTH_EXTRACT, SOUTH_EXTRACT, EAST_EXTRACT, WEST_EXTRACT, UP_EXTRACT, DOWN_EXTRACT);
+		container.add(COVER, NORTH, SOUTH, EAST, WEST, UP, DOWN, NORTH_EXTRACT, SOUTH_EXTRACT, EAST_EXTRACT, WEST_EXTRACT, UP_EXTRACT, DOWN_EXTRACT);
 	}
 
 	@Override
@@ -116,20 +137,33 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 		}
 		return null;
 	}
+	
+	public static boolean showCover(BlockState state, PlayerEntity player) {
+		return isCovered(state)
+				&& (player == null || !player.getHeldItemMainhand().isEmpty() && EntityHelper.handStream(player).noneMatch(stack -> ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
+	}
 
-	boolean isRendered(VoxelShape shape, BlockState state) {
+	private static boolean isCovered(BlockState state) {
+		return state.get(COVER) == CoverType.COVERED;
+	}
+
+	private boolean isRendered(VoxelShape shape, BlockState state) {
 		return (state.matchesBlock(this)) && (compareShapes(shape, BASE_SHAPE) 
 				|| (compareShapes(shape, DOWN_SHAPE) && Boolean.TRUE.equals(state.get(DOWN)))
 				|| (compareShapes(shape, UP_SHAPE) && Boolean.TRUE.equals(state.get(UP))) 
 				|| (compareShapes(shape, NORTH_SHAPE) && Boolean.TRUE.equals(state.get(NORTH)))
 				|| (compareShapes(shape, SOUTH_SHAPE) && Boolean.TRUE.equals(state.get(SOUTH))) 
 				|| (compareShapes(shape, WEST_SHAPE) && Boolean.TRUE.equals(state.get(WEST)))
-				|| (compareShapes(shape, EAST_SHAPE) && Boolean.TRUE.equals(state.get(EAST))));
+				|| (compareShapes(shape, EAST_SHAPE) && Boolean.TRUE.equals(state.get(EAST)))
+				|| (compareShapes(shape, FRAME_SHAPE) && state.get(COVER) == CoverType.FRAME));
 	}
 
-	private VoxelShape getCurentShape(BlockState state) {
+	private VoxelShape getCurentShape(BlockState state, PlayerEntity player) {
 		VoxelShape result = VoxelShapes.empty();
 
+		if (showCover(state, player)) {
+			return VoxelShapes.fullCube();
+		}
 		for (final VoxelShape shape : SHAPES) {
 			if (isRendered(shape, state)) {
 				result = VoxelShapes.or(result, shape);
@@ -140,12 +174,29 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 
 	@Override
 	@Deprecated
+	public BlockRenderType getRenderType(BlockState state) {
+		if (isCovered(state)) {
+			return BlockRenderType.ENTITYBLOCK_ANIMATED;
+		}
+		return super.getRenderType(state);
+	}
+	
+	@Override
+	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return worldIn instanceof World && ((World) worldIn).isRemote ? getShape(state, pos, Minecraft.getInstance().objectMouseOver) : getCurentShape(state);
+		PlayerEntity player = getPlayer(context);
+
+		return worldIn instanceof World && ((World) worldIn).isRemote ? getShape(state, pos, Minecraft.getInstance().objectMouseOver, player) : getCurentShape(state, player);
 	}
 
-	public VoxelShape getShape(BlockState state, BlockPos pos, RayTraceResult result) {
-		if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
+	private PlayerEntity getPlayer(ISelectionContext context) {
+		Entity entity = context.getEntity();
+		
+		return entity instanceof PlayerEntity ? (PlayerEntity) entity : ElementalCraft.PROXY.getDefaultPlayer();
+	}
+
+	public VoxelShape getShape(BlockState state, BlockPos pos, RayTraceResult result, PlayerEntity player) {
+		if (!showCover(state, player) && result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getPos().equals(pos)) {
 			final Vector3d hit = result.getHitVec();
 
 			for (final VoxelShape shape : SHAPES) {
@@ -154,14 +205,14 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 				}
 			}
 		}
-		return getCurentShape(state);
+		return getCurentShape(state, player);
 	}
 
 
 	@Override
 	@Deprecated
 	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return getCurentShape(state);
+		return getCurentShape(state, null);
 	}
 
 	@Override
@@ -170,14 +221,19 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 		final TileElementPipe pipe = (TileElementPipe) world.getTileEntity(pos);
 
 		if (pipe != null) {
-			final VoxelShape shape = getShape(state, pos, hit);
-			Direction face = getFace(shape, hit);
-			ActionResultType value = onShapeActivated(face, pipe);
-
-			if (value != ActionResultType.PASS) {
-				player.sendStatusMessage(pipe.getConnectionMessage(face), true);
+			final VoxelShape shape = getShape(state, pos, hit, player);
+			
+			if (compareShapes(shape, FRAME_SHAPE) || state.get(COVER) == CoverType.FRAME) {
+				return pipe.setCover(player, hand);
+			} else {
+				Direction face = getFace(shape, hit);
+				ActionResultType value = onShapeActivated(face, pipe);
+	
+				if (value != ActionResultType.PASS) {
+					player.sendStatusMessage(pipe.getConnectionMessage(face), true);
+				}
+				return value;
 			}
-			return value;
 		}
 		return ActionResultType.PASS;
 	}
@@ -188,5 +244,43 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 		}
 		return ActionResultType.PASS;
 	}
+	
+	@Override
+	@Deprecated
+	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (state.getBlock() != newState.getBlock()) {
+			if (isCovered(state)) {
+				InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(((TileElementPipe) worldIn.getTileEntity(pos)).getCoverState().getBlock()));
+			}
+			super.onReplaced(state, worldIn, pos, newState, isMoving);
+		}
+	}
 
+	public enum CoverType implements IStringSerializable {
+		NONE("none"), FRAME("frame"), COVERED("covered");
+
+		public static final Codec<CoverType> CODEC = IStringSerializable.createEnumCodec(CoverType::values, CoverType::byName);
+
+		private final String name;
+
+		private CoverType(String name) {
+			this.name = name;
+		}
+
+		@Nonnull
+		@Override
+		public String getString() {
+			return this.name;
+		}
+
+		public static CoverType byName(String name) {
+			for (CoverType bonusType : values()) {
+				if (bonusType.name.equals(name)) {
+					return bonusType;
+				}
+			}
+			return NONE;
+		}
+	}
+	
 }

@@ -8,11 +8,18 @@ import java.util.Optional;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.LazyOptional;
@@ -22,6 +29,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.pipe.BlockElementPipe.CoverType;
 import sirttas.elementalcraft.block.tile.AbstractTileECTickable;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.config.ECConfig;
@@ -34,6 +43,7 @@ public class TileElementPipe extends AbstractTileECTickable {
 	private boolean updateState = true;
 	private int transferedAmount;
 	private int maxTransferAmount;
+	private BlockState coverState;
 
 
 	public TileElementPipe() {
@@ -104,7 +114,7 @@ public class TileElementPipe extends AbstractTileECTickable {
 		int amount = this.maxTransferAmount - this.transferedAmount;
 
 		if (type != ElementType.NONE) {
-			Path path = new Path();
+			Path path = new Path(sender);
 			IElementStorage receiver = path.searchReceiver(this, type, sender.extractElement(amount, type, true));
 
 			if (receiver != null) {
@@ -199,6 +209,36 @@ public class TileElementPipe extends AbstractTileECTickable {
 		return this.getConection(face).getDisplayName();
 	}
 
+	public BlockState getCoverState() {
+		return coverState;
+	}
+	
+	public ActionResultType setCover(PlayerEntity player, Hand hand) {
+		ItemStack stack = player.getHeldItem(hand);
+		Item item = stack.getItem();
+
+		if (item instanceof BlockItem && !stack.isEmpty()) {
+			BlockState state = ((BlockItem) item).getBlock().getDefaultState();
+
+			if (state != coverState) {
+				if (coverState != null) {
+					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(coverState.getBlock()));
+				}
+				coverState = state;
+				this.getWorld().setBlockState(getPos(), this.getWorld().getBlockState(pos).with(BlockElementPipe.COVER, CoverType.COVERED));
+
+				if (!player.isCreative()) {
+					stack.shrink(1);
+					if (stack.isEmpty()) {
+						player.setHeldItem(hand, ItemStack.EMPTY);
+					}
+				}
+				return ActionResultType.SUCCESS;
+			}
+		}
+		return ActionResultType.PASS;
+	}
+	
 	@Override
 	public void read(BlockState state, CompoundNBT compound) {
 		super.read(state, compound);
@@ -206,6 +246,7 @@ public class TileElementPipe extends AbstractTileECTickable {
 			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.getString())));
 		}
 		this.maxTransferAmount = compound.getInt("max_transfer_amount");
+		coverState = compound.contains(ECNames.COVER) ? NBTUtil.readBlockState(compound.getCompound(ECNames.COVER)) : null;
 	}
 
 	@Override
@@ -213,6 +254,11 @@ public class TileElementPipe extends AbstractTileECTickable {
 		super.write(compound);
 		connections.forEach((k, v) -> compound.putInt(k.getString(), v.getValue()));
 		compound.putInt("max_transfer_amount", this.maxTransferAmount);
+		if (coverState != null) {
+			compound.put(ECNames.COVER, NBTUtil.writeBlockState(coverState));
+		} else if (compound.contains(ECNames.COVER)) {
+			compound.remove(ECNames.COVER);
+		}
 		return compound;
 	}
 
@@ -246,9 +292,14 @@ public class TileElementPipe extends AbstractTileECTickable {
 	}
 
 	private static class Path {
+		private final IElementStorage sender;
 		List<TileElementPipe> visited = Lists.newArrayListWithCapacity(100);
 		List<TileElementPipe> pipes = Lists.newArrayListWithCapacity(100);
 		int amount;
+
+		public Path(IElementStorage sender) {
+			this.sender = sender;
+		}
 
 		private IElementStorage searchReceiver(TileElementPipe pipe, ElementType type, int lastCount) {
 			int count = Math.min(lastCount, pipe.maxTransferAmount - pipe.transferedAmount);
@@ -274,7 +325,7 @@ public class TileElementPipe extends AbstractTileECTickable {
 						} else if (entity != null && connection == ConnectionType.INSERT) {
 							LazyOptional<IElementStorage> cap = CapabilityElementStorage.get(entity, side.getOpposite());
 
-							if (cap.filter(receiver -> receiver.canPipeInsert(type) && receiver.insertElement(count, type, true) < count).isPresent()) {
+							if (cap.filter(receiver -> receiver != sender && receiver.canPipeInsert(type) && receiver.insertElement(count, type, true) < count).isPresent()) {
 								this.amount = count;
 								this.pipes.add(pipe);
 								return cap.orElse(null);

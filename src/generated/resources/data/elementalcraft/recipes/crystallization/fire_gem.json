@@ -15,16 +15,27 @@
   },
   "outputs": [
     {
-      "item": "elementalcraft:crude_fire_gem",
-      "weight": 15
+      "result": {
+        "id": "elementalcraft:crude_fire_gem",
+        "Count": 1
+      },
+      "weight": 15.0,
+      "quality": -0.5
     },
     {
-      "item": "elementalcraft:fine_fire_gem",
-      "weight": 4
+      "result": {
+        "id": "elementalcraft:fine_fire_gem",
+        "Count": 1
+      },
+      "weight": 4.0
     },
     {
-      "item": "elementalcraft:pristine_fire_gem",
-      "weight": 1
+      "result": {
+        "id": "elementalcraft:pristine_fire_gem",
+        "Count": 1
+      },
+      "weight": 1.0,
+      "quality": 2.0
     }
   ]
 }

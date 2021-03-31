@@ -1,3 +1,15 @@
+1.16.5-2.6.6:
+
+- new blocks reservoirs
+- new item: cover frame
+- gem crystalizer luck should be more meaningful
+- rework infusions
+- added infusion on shovels
+- added infusion on hoes
+- added infusion on fishing roads
+- added infusion on tridents
+
+
 1.16.5-2.6.5:
 
 - air mill can now correctly have runes
@@ -10,7 +22,7 @@
 
 - moved grinding recipes to the correct folder
 - increase ore shrine base range
-- fix a crash with improved binder (issue #48)
+- fix a crash with improved binder (issue #46)
 
 
 1.16.5-2.6.3:

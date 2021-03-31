@@ -1,11 +1,11 @@
 {
   "type": "elementalcraft:infusion",
+  "output": {
+    "item": "elementalcraft:whiterock"
+  },
   "element_type": "earth",
   "element_amount": 500,
   "input": {
     "item": "minecraft:stone"
-  },
-  "output": {
-    "item": "elementalcraft:whiterock"
   }
 }

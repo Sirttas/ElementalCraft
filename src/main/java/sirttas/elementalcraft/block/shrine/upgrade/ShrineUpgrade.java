@@ -30,9 +30,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
+import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
-import sirttas.elementalcraft.upgrade.AbstractUpgrade;
 
 public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 

@@ -12,16 +12,16 @@ import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.inventory.IOInventory;
 import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.AbstractGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
-public class TileAirMill extends AbstractTileInstrument<TileAirMill, AbstractGrindingRecipe> {
+public class TileAirMill extends AbstractTileInstrument<TileAirMill, IGrindingRecipe> {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockAirMill.NAME) public static final TileEntityType<TileAirMill> TYPE = null;
 
 	private final IOInventory inventory;
 
 	public TileAirMill() {
-		super(TYPE, AbstractGrindingRecipe.TYPE, ECConfig.COMMON.airMillTransferSpeed.get(), ECConfig.COMMON.airMillMaxRunes.get());
+		super(TYPE, IGrindingRecipe.TYPE, ECConfig.COMMON.airMillTransferSpeed.get(), ECConfig.COMMON.airMillMaxRunes.get());
 		outputSlot = 1;
 		inventory = new IOInventory(this::markDirty);
 	}

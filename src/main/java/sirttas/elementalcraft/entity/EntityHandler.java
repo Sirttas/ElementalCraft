@@ -3,7 +3,6 @@ package sirttas.elementalcraft.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
@@ -15,11 +14,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.player.PlayerElementStorage;
-import sirttas.elementalcraft.infusion.InfusionHelper;
+import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 
 @Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
@@ -29,7 +27,9 @@ public class EntityHandler {
 	
 	@SubscribeEvent
 	public static void onEntityUseItemTick(LivingEntityUseItemEvent.Tick event) {
-		if (InfusionHelper.hasAirInfusionFasterDraw(event.getItem()) && event.getDuration() % 3 == 0) {
+		int fastDraw = ToolInfusionHelper.getFasterDraw(event.getItem());
+		
+		if (fastDraw >= 0 && event.getDuration() % fastDraw == 0) {
 			event.setDuration(event.getDuration() - 1);
 		}
 	}
@@ -39,8 +39,7 @@ public class EntityHandler {
 		LivingEntity entity = event.getEntityLiving();
 		World world = entity.world;
 
-		if (!world.isRemote && InfusionHelper.hasInfusion(entity, EquipmentSlotType.CHEST, ElementType.AIR)
-				&& world.getRandom().nextDouble() <= ECConfig.COMMON.chestplateAirInfusionDodgeChance.get()) {
+		if (!world.isRemote && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
 			event.setCanceled(true);
 		}
 	}

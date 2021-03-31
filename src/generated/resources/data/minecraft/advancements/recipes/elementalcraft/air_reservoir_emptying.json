@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:air_reservoir_emptying"
+    ]
+  },
+  "criteria": {
+    "has_air_reservoir": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "elementalcraft:reservoir_air"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:air_reservoir_emptying"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_air_reservoir",
+      "has_the_recipe"
+    ]
+  ]
+}

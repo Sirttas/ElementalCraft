@@ -1,0 +1,98 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "half": "upper"
+      },
+      "apply": {
+        "model": "elementalcraft:block/reservoir_top"
+      }
+    },
+    {
+      "when": {
+        "half": "lower"
+      },
+      "apply": {
+        "model": "elementalcraft:block/reservoir_water"
+      }
+    },
+    {
+      "when": {
+        "half": "upper",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/tank_connector"
+      }
+    },
+    {
+      "when": {
+        "half": "upper",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/tank_connector",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "half": "upper",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/tank_connector",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "half": "upper",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/tank_connector",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "half": "lower",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/reservoir_water_connector"
+      }
+    },
+    {
+      "when": {
+        "half": "lower",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/reservoir_water_connector",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "half": "lower",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/reservoir_water_connector",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "half": "lower",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementalcraft:block/reservoir_water_connector",
+        "y": 270
+      }
+    }
+  ]
+}

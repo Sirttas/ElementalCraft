@@ -9,21 +9,21 @@ import sirttas.elementalcraft.block.instrument.AbstractTileLockableInstrument;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.particle.ParticleHelper;
-import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
-public class TileInfuser extends AbstractTileLockableInstrument<IInfuser, AbstractInfusionRecipe> implements IInfuser {
+public class TileInfuser extends AbstractTileLockableInstrument<IInfuser, IInfusionRecipe> implements IInfuser {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockInfuser.NAME) public static final TileEntityType<TileInfuser> TYPE = null;
 
 	private final SingleItemInventory inventory;
 
 	public TileInfuser() {
-		super(TYPE, AbstractInfusionRecipe.TYPE, ECConfig.COMMON.infuserTransferSpeed.get(), ECConfig.COMMON.infuserMaxRunes.get());
+		super(TYPE, IInfusionRecipe.TYPE, ECConfig.COMMON.infuserTransferSpeed.get(), ECConfig.COMMON.infuserMaxRunes.get());
 		inventory = new SingleItemInventory(this::markDirty);
 	}
 
 	@Override
-	protected AbstractInfusionRecipe lookupRecipe() {
+	protected IInfusionRecipe lookupRecipe() {
 		return this.lookupInfusionRecipe(world);
 	}
 

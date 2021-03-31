@@ -26,6 +26,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.mill.BlockAirMill;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
+import sirttas.elementalcraft.block.pipe.BlockElementPipe.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
 import sirttas.elementalcraft.block.shrine.breeding.BlockBreedingShrine;
@@ -34,10 +35,14 @@ import sirttas.elementalcraft.block.sorter.BlockSorter;
 import sirttas.elementalcraft.block.source.BlockSource;
 import sirttas.elementalcraft.block.spelldesk.BlockSpellDesk;
 import sirttas.elementalcraft.block.tank.BlockTank;
+import sirttas.elementalcraft.block.tank.reservoir.BlockReservoir;
 
 public class ECBlockStateProvider extends BlockStateProvider {
 
 	private ExistingFileHelper existingFileHelper;
+	
+	private ModelFile air;
+	private ModelFile tankConnector;
 
 	public ECBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
 		super(gen, ElementalCraft.MODID, exFileHelper);
@@ -46,6 +51,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
+		air = models().getExistingFile(new ResourceLocation("block/air"));
+		tankConnector = models().getExistingFile(prefix("tank_connector"));
+		
 		for (Block block : ForgeRegistries.BLOCKS) {
 			if (ElementalCraft.MODID.equals(block.getRegistryName().getNamespace()) && !exists(block)) {
 				save(block);
@@ -66,7 +74,6 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private void save(Block block) {
-		ModelFile air = models().getExistingFile(new ResourceLocation("block/air"));
 		String name = block.getRegistryName().getPath();
 
 		if (block instanceof SlabBlock) {
@@ -99,8 +106,24 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			getVariantBuilder(block)
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(air))
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(models().getExistingFile(prefix(name))));
+		} else if (block instanceof BlockReservoir) {
+			ModelFile base = models().getExistingFile(prefix(name));
+			ModelFile top = models().getExistingFile(prefix("reservoir_top"));
+			ModelFile connector = models().getExistingFile(prefix(name + "_connector"));
+			
+			getMultipartBuilder(block)
+			.part().modelFile(top).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
+			.part().modelFile(base).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
+			.part().modelFile(tankConnector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.NORTH, true).end()
+			.part().modelFile(tankConnector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.EAST, true).end()
+			.part().modelFile(tankConnector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.SOUTH, true).end()
+			.part().modelFile(tankConnector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.WEST, true).end()
+			.part().modelFile(connector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.NORTH, true).end()
+			.part().modelFile(connector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.EAST, true).end()
+			.part().modelFile(connector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.SOUTH, true).end()
+			.part().modelFile(connector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.WEST, true).end();
 		} else if (block instanceof BlockTank) {
-			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("tank_connector")));
+			tankPedestalBlock(block, models().getExistingFile(prefix(name)), tankConnector);
 		} else if (block instanceof BlockPedestal) {
 			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
 		} else if (block instanceof BlockRetriever || block instanceof BlockSorter) {
@@ -156,18 +179,20 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	private void tankPedestalBlock(Block block, ModelFile base, ModelFile connector) {
 		getMultipartBuilder(block).part().modelFile(base).addModel().end()
-			.part().modelFile(connector).addModel().condition(BlockTank.NORTH, true).end()
-			.part().modelFile(connector).rotationY(90).addModel().condition(BlockTank.EAST, true).end()
-			.part().modelFile(connector).rotationY(180).addModel().condition(BlockTank.SOUTH, true).end()
-			.part().modelFile(connector).rotationY(270).addModel().condition(BlockTank.WEST, true).end();
+			.part().modelFile(connector).addModel().condition(BlockStateProperties.NORTH, true).end()
+			.part().modelFile(connector).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end()
+			.part().modelFile(connector).rotationY(180).addModel().condition(BlockStateProperties.SOUTH, true).end()
+			.part().modelFile(connector).rotationY(270).addModel().condition(BlockStateProperties.WEST, true).end();
 	}
 
 	private void pipeBlock(BlockElementPipe block, String name, String texture) {
 		ModelFile core = models().withExistingParent(name + "_core", prefix("template_elementpipe_core")).texture("texture", prefix(texture));
 		ModelFile side = models().getExistingFile(prefix("elementpipe_side"));
 		ModelFile extract = models().getExistingFile(prefix("elementpipe_extract"));
-
+		ModelFile frame = models().getExistingFile(prefix("cover_frame"));
+		
 		getMultipartBuilder(block).part().modelFile(core).addModel().end()
+			.part().modelFile(frame).uvLock(true).addModel().condition(BlockElementPipe.COVER, CoverType.FRAME).end()
 			.part().modelFile(side).uvLock(true).addModel().condition(BlockElementPipe.NORTH, true).end()
 			.part().modelFile(side).rotationY(90).uvLock(true).addModel().condition(BlockElementPipe.EAST, true).end()
 			.part().modelFile(side).rotationY(180).uvLock(true).addModel().condition(BlockElementPipe.SOUTH, true).end()

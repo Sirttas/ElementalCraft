@@ -26,7 +26,7 @@ public abstract class MixinMinecraftServer extends RecursiveEventLoop<TickDelaye
 		super(name);
 	}
 	
-	@Inject(method = "func_240787_a_", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer; func_240786_a_(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/storage/IServerWorldInfo;ZZZ)V"))
+	@Inject(method = "func_240787_a_(Lnet/minecraft/world/chunk/listener/IChunkStatusListener;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer; func_240786_a_(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/storage/IServerWorldInfo;ZZZ)V"))
 	private void addSpawnSources(IChunkStatusListener listener, CallbackInfo ci) {
 		if (Boolean.FALSE.equals(ECConfig.COMMON.disableWorldGen.get())) {
 			ECFeatures.addSpawnSources(this.func_241755_D_());

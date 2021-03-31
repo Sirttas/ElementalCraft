@@ -1,0 +1,17 @@
+{
+  "element_type": "air",
+  "effects": [
+    {
+      "slot": [
+        "mainhand"
+      ],
+      "attribute": "minecraft:generic.attack_speed",
+      "modifier": {
+        "name": "Attack Speed Infusion",
+        "amount": 0.8,
+        "operation": "addition"
+      },
+      "type": "elementalcraft:attribute"
+    }
+  ]
+}

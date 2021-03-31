@@ -8,7 +8,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class TileTank extends AbstractTileElementContainer implements IElementContainer {
+public class TileTank extends AbstractTileElementContainer {
 
 	@ObjectHolder(ElementalCraft.MODID + ":" + BlockTank.NAME) public static final TileEntityType<TileTank> TYPE = null;
 

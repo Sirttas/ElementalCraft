@@ -17,7 +17,7 @@ import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackGasToItemSt
 import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackToItemStackPureOreRecipeInjector;
 import sirttas.elementalcraft.interaction.mekanism.recipe.MekanismCrusherRecipeWrapper;
 import sirttas.elementalcraft.item.pureore.injector.PureOreRecipeInjectors;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.AbstractGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 public class MekanismInteraction {
 
@@ -41,7 +41,7 @@ public class MekanismInteraction {
 		}
 	}
 	
-	public static AbstractGrindingRecipe lookupCrusherRecipe(World world, IInventory inv) {
+	public static IGrindingRecipe lookupCrusherRecipe(World world, IInventory inv) {
 		ItemStackToItemStackRecipe crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(world, recipe -> recipe.test(inv.getStackInSlot(0)));
 		
 		return crusherRecipe != null ? new MekanismCrusherRecipeWrapper(crusherRecipe) : null;

@@ -4,13 +4,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
-import sirttas.elementalcraft.recipe.instrument.infusion.AbstractInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 
-	private final AbstractInfusionRecipe recipe;
+	private final IInfusionRecipe recipe;
 	
-	public BinderInfusionRecipeWrapper(AbstractInfusionRecipe infusionRecipe) {
+	public BinderInfusionRecipeWrapper(IInfusionRecipe infusionRecipe) {
 		super(infusionRecipe.getId(), infusionRecipe.getElementType());
 		this.recipe = infusionRecipe;
 	}

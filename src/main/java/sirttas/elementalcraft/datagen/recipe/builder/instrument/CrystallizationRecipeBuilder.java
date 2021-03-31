@@ -1,17 +1,11 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Consumer;
-import java.util.stream.Collector;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.minecraft.data.IFinishedRecipe;
@@ -22,15 +16,16 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
+import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
 public class CrystallizationRecipeBuilder {
 
-	private final Map<ItemStack, Integer> outputs;
+	private final List<ResultEntry> outputs;
 	private final List<Ingredient> ingredients = Lists.newArrayList(Ingredient.EMPTY, Ingredient.EMPTY, Ingredient.EMPTY);
 	private final ElementType elementType;
 	private int elementAmount;
@@ -40,7 +35,7 @@ public class CrystallizationRecipeBuilder {
 		this.serializer = serializerIn;
 		this.elementType = elementType;
 		elementAmount = 5000;
-		outputs = new HashMap<>();
+		outputs = Lists.newArrayList();
 	}
 
 	public static CrystallizationRecipeBuilder crystallizationRecipe(ElementType elementType) {
@@ -101,8 +96,12 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public CrystallizationRecipeBuilder addOutput(IItemProvider item, int weight) {
-		this.outputs.put(new ItemStack(item.asItem()), weight);
+	public CrystallizationRecipeBuilder addOutput(IItemProvider item, float weight) {
+		return addOutput(item, weight, 1);
+	}
+
+	public CrystallizationRecipeBuilder addOutput(IItemProvider item, float weight, float quality) {
+		this.outputs.add(CrystallizationRecipe.createResult(new ItemStack(item), weight, quality));
 		return this;
 	}
 
@@ -117,12 +116,12 @@ public class CrystallizationRecipeBuilder {
 	public static class Result implements IFinishedRecipe {
 		private final ResourceLocation id;
 		private final List<Ingredient> ingredients;
-		private final Map<ItemStack, Integer> outputs;
+		private final List<ResultEntry> outputs;
 		private final ElementType elementType;
 		private final int elementAmount;
 		private final IRecipeSerializer<?> serializer;
 
-		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, List<Ingredient> ingredients, Map<ItemStack, Integer> outputs, ElementType elementType, int elementAmount) {
+		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, List<Ingredient> ingredients, List<ResultEntry> outputs, ElementType elementType, int elementAmount) {
 			this.id = idIn;
 			this.serializer = serializerIn;
 			this.ingredients = ingredients;
@@ -131,7 +130,6 @@ public class CrystallizationRecipeBuilder {
 			this.elementAmount = elementAmount;
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public void serialize(JsonObject json) {
 			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getString());
@@ -143,20 +141,7 @@ public class CrystallizationRecipeBuilder {
 			ingredientsJson.add(ECNames.SHARD, this.ingredients.get(2).serialize());
 
 			json.add(ECNames.INGREDIENTS, ingredientsJson);
-			
-			json.add(ECNames.OUTPUTS, outputs.entrySet().stream().sorted(Comparator.comparingInt(e -> ((Entry<ItemStack, Integer>) e).getValue()).reversed())
-					.map(e -> createOutput(e.getKey(), e.getValue())).collect(Collector.of(JsonArray::new, JsonArray::add, (array1, array2) -> {
-						array1.addAll(array2);
-						return array1;
-					})));
-		}
-
-		private JsonObject createOutput(ItemStack stack, int weight) {
-			JsonObject json = new JsonObject();
-
-			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
-			json.addProperty(ECNames.WEIGHT, weight);
-			return json;
+			json.add(ECNames.OUTPUTS, CodecHelper.encode(ResultEntry.LIST_CODEC, outputs));
 		}
 
 		@Override

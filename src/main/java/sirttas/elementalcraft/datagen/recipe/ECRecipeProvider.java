@@ -14,6 +14,7 @@ import net.minecraft.data.RecipeProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.data.SingleItemRecipeBuilder;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -31,8 +32,12 @@ import sirttas.elementalcraft.datagen.recipe.builder.PureInfusionRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.AirMillGrindingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.BindingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.CrystallizationRecipeBuilder;
-import sirttas.elementalcraft.datagen.recipe.builder.instrument.InfusionRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.InscriptionRecipeBuilder;
+import sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion.InfusionRecipeBuilder;
+import sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion.ToolInfusionRecipeBuilder;
+import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -129,10 +134,8 @@ public class ECRecipeProvider extends RecipeProvider {
 
 		ShapedRecipeBuilder.shapedRecipe(ECBlocks.TANK_SMALL).key('g', Tags.Items.GLASS).key('p', ECBlocks.PIPE_IMPAIRED).patternLine(" p ").patternLine("pgp").patternLine(" p ")
 				.addCriterion(HAS_CONTAINEDCRYSTAL, hasItem(ECItems.CONTAINED_CRYSTAL)).build(consumer);
-		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.TANK_SMALL).addIngredient(ECBlocks.TANK_SMALL).addCriterion("has_tank_small", hasItem(ECBlocks.TANK_SMALL)).build(consumer, "tank_small_emptying");
 		prepareWhiterockInstrumentRecipe(ECBlocks.TANK).key('i', ECTags.Items.INGOTS_DRENCHED_IRON).key('g', ECBlocks.BURNT_GLASS).key('p', ECBlocks.PIPE).patternLine("ici").patternLine("pgp")
 				.patternLine("www").build(consumer);
-		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.TANK).addIngredient(ECBlocks.TANK).addCriterion("has_tank", hasItem(ECBlocks.TANK)).build(consumer, "tank_emptying");
 		prepareInstrumentRecipe(ECBlocks.EXTRACTOR).key('i', Tags.Items.INGOTS_IRON).patternLine(" c ").patternLine(" i ").patternLine("ici").build(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.EXTRACTOR_IMPROVED, ECItems.PURE_CRYSTAL).key('i', ECTags.Items.INGOTS_SWIFT_ALLOY).key('e', ECBlocks.EXTRACTOR).patternLine(" e ").patternLine("eie")
 				.patternLine("wcw").build(consumer);
@@ -212,6 +215,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addCriterion(HAS_SWIFT_ALLOY_NUGGET, hasItem(ECTags.Items.NUGGETS_SWIFT_ALLOY)).build(consumer, ElementalCraft.createRL("improved_elementpipe_from_impaired_elementpipe_and_nugget"));
 		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.PIPE_IMPROVED, 4).addIngredient(ECBlocks.PIPE_IMPAIRED, 4).addIngredient(Ingredient.fromTag(ECTags.Items.INGOTS_SWIFT_ALLOY), 2)
 				.addCriterion(HAS_SWIFT_ALLOY_INGOT, hasItem(ECTags.Items.INGOTS_SWIFT_ALLOY)).build(consumer, ElementalCraft.createRL("improved_elementpipe_from_impaired_elementpipe_and_ingot"));
+		ShapedRecipeBuilder.shapedRecipe(ECItems.COVER_FRAM, 8).key('i', ECTags.Items.INGOTS_DRENCHED_IRON).patternLine("iii").patternLine("i i").patternLine("iii")
+				.addCriterion(HAS_DRENCHED_IRON_INGOT, hasItem(ECTags.Items.INGOTS_DRENCHED_IRON)).build(consumer);
 
 		ShapedRecipeBuilder.shapedRecipe(ECItems.MINOR_RUNE_SLATE, 4).patternLine("www").patternLine("wiw").patternLine("www").key('w', ECBlocks.WHITE_ROCK).key('i', ECTags.Items.INGOTS_DRENCHED_IRON)
 				.addCriterion(HAS_WHITEROCK, hasItem(ECBlocks.WHITE_ROCK)).build(consumer);
@@ -278,15 +283,24 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withElementAmount(1000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.AIR_LENSE, ElementType.AIR).addIngredient(Tags.Items.GEMS_QUARTZ).addIngredient(ECBlocks.BURNT_GLASS_PANE).addIngredient(ECItems.AIR_CRYSTAL)
 				.withElementAmount(1000).build(consumer);
+		
+		BindingRecipeBuilder.bindingRecipe(ECItems.FIRE_RESERVOIR, ElementType.FIRE).addIngredient(ECBlocks.TANK).addIngredient(ECItems.PURE_CRYSTAL).addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS)
+				.withElementAmount(10000).build(consumer);
+		BindingRecipeBuilder.bindingRecipe(ECItems.WATER_RESERVOIR, ElementType.WATER).addIngredient(ECBlocks.TANK).addIngredient(ECItems.PURE_CRYSTAL).addIngredient(ECTags.Items.PRISTINE_WATER_GEMS)
+				.withElementAmount(10000).build(consumer);
+		BindingRecipeBuilder.bindingRecipe(ECItems.EARTH_RESERVOIR, ElementType.EARTH).addIngredient(ECBlocks.TANK).addIngredient(ECItems.PURE_CRYSTAL).addIngredient(ECTags.Items.PRISTINE_EARTH_GEMS)
+				.withElementAmount(10000).build(consumer);
+		BindingRecipeBuilder.bindingRecipe(ECItems.AIR_RESERVOIR, ElementType.AIR).addIngredient(ECBlocks.TANK).addIngredient(ECItems.PURE_CRYSTAL).addIngredient(ECTags.Items.PRISTINE_AIR_GEMS)
+				.withElementAmount(10000).build(consumer);
 
 		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.FIRE).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).setShard(ECTags.Items.FIRE_SHARDS)
-				.addOutput(ECItems.CRUDE_FIRE_GEM, 15).addOutput(ECItems.FINE_FIRE_GEM, 4).addOutput(ECItems.PRISTINE_FIRE_GEM, 1).build(consumer, "fire_gem");
+				.addOutput(ECItems.CRUDE_FIRE_GEM, 15, -0.5F).addOutput(ECItems.FINE_FIRE_GEM, 4).addOutput(ECItems.PRISTINE_FIRE_GEM, 1, 2).build(consumer, "fire_gem");
 		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.WATER).setGem(ECTags.Items.INPUT_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).setShard(ECTags.Items.WATER_SHARDS)
-				.addOutput(ECItems.CRUDE_WATER_GEM, 15).addOutput(ECItems.FINE_WATER_GEM, 4).addOutput(ECItems.PRISTINE_WATER_GEM, 1).build(consumer, "water_gem");
+				.addOutput(ECItems.CRUDE_WATER_GEM, 15, -0.5F).addOutput(ECItems.FINE_WATER_GEM, 4).addOutput(ECItems.PRISTINE_WATER_GEM, 1, 2).build(consumer, "water_gem");
 		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.EARTH).setGem(ECTags.Items.INPUT_EARTH_GEMS).setCrystal(ECItems.EARTH_CRYSTAL).setShard(ECTags.Items.EARTH_SHARDS)
-				.addOutput(ECItems.CRUDE_EARTH_GEM, 15).addOutput(ECItems.FINE_EARTH_GEM, 4).addOutput(ECItems.PRISTINE_EARTH_GEM, 1).build(consumer, "earth_gem");
+				.addOutput(ECItems.CRUDE_EARTH_GEM, 15, -0.5F).addOutput(ECItems.FINE_EARTH_GEM, 4).addOutput(ECItems.PRISTINE_EARTH_GEM, 1, 2).build(consumer, "earth_gem");
 		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.AIR).setGem(ECTags.Items.INPUT_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).setShard(ECTags.Items.AIR_SHARDS)
-				.addOutput(ECItems.CRUDE_AIR_GEM, 15).addOutput(ECItems.FINE_AIR_GEM, 4).addOutput(ECItems.PRISTINE_AIR_GEM, 1).build(consumer, "air_gem");
+				.addOutput(ECItems.CRUDE_AIR_GEM, 15, -0.5F).addOutput(ECItems.FINE_AIR_GEM, 4).addOutput(ECItems.PRISTINE_AIR_GEM, 1, 2).build(consumer, "air_gem");
 
 		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.FIRE).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.PURE_CRYSTAL).setShard(ECTags.Items.FIRE_SHARDS)
 				.addOutput(ECItems.PRISTINE_FIRE_GEM, 1).build(consumer, "pristine_fire_gem");
@@ -327,7 +341,74 @@ public class ECRecipeProvider extends RecipeProvider {
 		
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.GRAVEL).withIngredient(Tags.Items.COBBLESTONE).build(consumer);
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.SAND).withIngredient(Tags.Items.GRAVEL).build(consumer);
+		
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.TANK_SMALL).addIngredient(ECBlocks.TANK_SMALL).addCriterion("has_tank_small", hasItem(ECBlocks.TANK_SMALL)).build(consumer,
+				"tank_small_emptying");
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.TANK).addIngredient(ECBlocks.TANK).addCriterion("has_tank", hasItem(ECBlocks.TANK)).build(consumer, "tank_emptying");
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.FIRE_RESERVOIR).addIngredient(ECBlocks.FIRE_RESERVOIR).addCriterion("has_fire_reservoir", hasItem(ECBlocks.FIRE_RESERVOIR)).build(consumer,
+				"fire_reservoir_emptying");
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.WATER_RESERVOIR).addIngredient(ECBlocks.WATER_RESERVOIR).addCriterion("has_water_reservoir", hasItem(ECBlocks.WATER_RESERVOIR)).build(consumer,
+				"water_reservoir_emptying");
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.EARTH_RESERVOIR).addIngredient(ECBlocks.EARTH_RESERVOIR).addCriterion("has_earth_reservoir", hasItem(ECBlocks.EARTH_RESERVOIR)).build(consumer,
+				"earth_reservoir_emptying");
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.AIR_RESERVOIR).addIngredient(ECBlocks.AIR_RESERVOIR).addCriterion("has_air_reservoir", hasItem(ECBlocks.AIR_RESERVOIR)).build(consumer,
+				"air_reservoir_emptying");
+		ShapelessRecipeBuilder.shapelessRecipe(ECBlocks.TANK_CREATIVE).addIngredient(ECBlocks.TANK_CREATIVE).addCriterion("has_tank_creative", hasItem(ECBlocks.TANK_CREATIVE)).build(consumer,
+				"tank_creative_emptying");
+		
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.LOOTING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.FIRE_ASPECT).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.SHARPNESS).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, ElementalCraft.createRL("attack_speed")).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.FORTUNE).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, ElementalCraft.createRL(AutoSmeltToolInfusionEffect.NAME)).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.EFFICIENCY).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.FORTUNE).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, ElementalCraft.createRL(AutoSmeltToolInfusionEffect.NAME)).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.EFFICIENCY).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.FORTUNE).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, ElementalCraft.createRL(AutoSmeltToolInfusionEffect.NAME)).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.EFFICIENCY).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.LOOTING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.FIRE_ASPECT).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.SHARPNESS /* TODO chopping ? */).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.EFFICIENCY).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.PUNCH).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.FLAME).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraft.createRL(FastDrawToolInfusionEffect.NAME)).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.EFFICIENCY).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.MULTISHOT).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.PIERCING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.QUICK_CHARGE).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LUCK_OF_THE_SEA).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, ElementalCraft.createRL(AutoSmeltToolInfusionEffect.NAME)).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LURE).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.LOYALTY).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.IMPALING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.RIPTIDE).build(consumer);
 
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.RESPIRATION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.FIRE_PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.PROJECTILE_PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.BLAST_PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.FIRE_PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, ElementalCraft.createRL(DodgeToolInfusionEffect.NAME)).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.BLAST_PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.FIRE_PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, ElementalCraft.createRL("movement_speed")).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.DEPTH_STRIDER).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FIRE_PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.PROTECTION).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FEATHER_FALLING).build(consumer);
 	}
 
 	private boolean exists(Block block) {

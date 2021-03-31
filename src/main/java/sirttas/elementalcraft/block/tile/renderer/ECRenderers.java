@@ -30,6 +30,8 @@ import sirttas.elementalcraft.block.instrument.mill.RendererAirMill;
 import sirttas.elementalcraft.block.instrument.mill.TileAirMill;
 import sirttas.elementalcraft.block.instrument.purifier.RendererPurifier;
 import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
+import sirttas.elementalcraft.block.pipe.RendererElementPipe;
+import sirttas.elementalcraft.block.pipe.TileElementPipe;
 import sirttas.elementalcraft.block.pureinfuser.RendererPureInfuser;
 import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.TilePedestal;
@@ -61,6 +63,7 @@ public final class ECRenderers {
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent evt) {
+		ClientRegistry.bindTileEntityRenderer(TileElementPipe.TYPE, RendererElementPipe::new);
 		ClientRegistry.bindTileEntityRenderer(TileInfuser.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5)));
 		ClientRegistry.bindTileEntityRenderer(TileExtractor.TYPE, RuneRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEvaporator.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5), 0.5F));
@@ -97,6 +100,10 @@ public final class ECRenderers {
 	public static void initRenderLayouts() {
 		RenderTypeLookup.setRenderLayer(ECBlocks.TANK_SMALL, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.TANK, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.FIRE_RESERVOIR, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.EARTH_RESERVOIR, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.WATER_RESERVOIR, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ECBlocks.AIR_RESERVOIR, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.TANK_CREATIVE, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.EVAPORATOR, RenderType.getCutout());
 		RenderTypeLookup.setRenderLayer(ECBlocks.FIRE_BLAST_FURNACE, RenderType.getTranslucent());

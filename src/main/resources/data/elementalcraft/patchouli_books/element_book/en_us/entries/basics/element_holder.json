@@ -4,7 +4,7 @@
   "icon": "elementalcraft:element_holder_air",
   "advancement": "elementalcraft:pickup/drenched_iron_ingot",
   "turnin": "elementalcraft:pickup/drenched_iron_ingot",
-  "sortnum": 6,
+  "sortnum": 7,
   "pages": [
     {
       "type": "text",
