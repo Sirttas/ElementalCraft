@@ -25,13 +25,14 @@ public class BlockMysticalGroveShrineUpgrade extends AbstractBlockShrineUpgrade 
 
 	public static final String NAME = "shrine_upgrade_mystical_grove";
 
-	private static final VoxelShape BASE = Block.makeCuboidShape(6D, -1D, 6D, 10D, 10D, 10D);
-	private static final VoxelShape PIPE_1 = Block.makeCuboidShape(7D, 7D, 3D, 9D, 9D, 6D);
-	private static final VoxelShape PIPE_2 = Block.makeCuboidShape(7D, 7D, 10D, 9D, 9D, 13D);
-	private static final VoxelShape PIPE_3 = Block.makeCuboidShape(3D, 7D, 7D, 6D, 9D, 9D);
-	private static final VoxelShape PIPE_4 = Block.makeCuboidShape(10D, 7D, 7D, 13D, 9D, 9D);
+	private static final VoxelShape BASE = Block.makeCuboidShape(3D, 2D, 3D, 13D, 7D, 3D);
+	private static final VoxelShape CONNECTOR = Block.makeCuboidShape(7D, 0D, 7D, 9D, 2D, 9D);
+	private static final VoxelShape PIPE_1 = Block.makeCuboidShape(2D, 0D, 3D, 4D, 9D, 4D);
+	private static final VoxelShape PIPE_2 = Block.makeCuboidShape(12D, 0D, 2D, 14D, 9D, 4D);
+	private static final VoxelShape PIPE_3 = Block.makeCuboidShape(2D, 0D, 12D, 4D, 9D, 14D);
+	private static final VoxelShape PIPE_4 = Block.makeCuboidShape(12D, 0D, 12D, 14D, 9D, 14D);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(BASE, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
+	private static final VoxelShape SHAPE = VoxelShapes.or(BASE, CONNECTOR, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
 	@Override
 	public Direction getFacing(BlockState state) {

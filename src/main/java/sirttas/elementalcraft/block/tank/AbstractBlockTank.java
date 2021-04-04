@@ -32,6 +32,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractBlockECTileProvider;
 import sirttas.elementalcraft.block.tile.TileEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 public abstract class AbstractBlockTank extends AbstractBlockECTileProvider {
 
@@ -99,7 +100,7 @@ public abstract class AbstractBlockTank extends AbstractBlockECTileProvider {
 		if (!state.matchesBlock(newState.getBlock())) {
 			BlockPos up = pos.up();
 
-			if (!worldIn.getBlockState(up).isValidPosition(worldIn, up)) {
+			if (worldIn.getBlockState(up).getBlock().isIn(ECTags.Blocks.CONTAINER_TOOLS)) {
 				worldIn.destroyBlock(up, true);
 			}
 		}

@@ -66,7 +66,7 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 
 		@Override
 		public InfusionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			ElementType type = ElementType.byName(buffer.readString(32767));
+			ElementType type = ElementType.byName(buffer.readString());
 			int elementAmount = buffer.readInt();
 			Ingredient input = Ingredient.read(buffer);
 			ItemStack output = buffer.readItemStack();

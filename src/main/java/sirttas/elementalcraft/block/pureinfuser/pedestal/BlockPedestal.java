@@ -4,9 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -22,9 +20,9 @@ import net.minecraft.world.World;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractBlockECContainer;
-import sirttas.elementalcraft.tag.ECTags;
+import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 
-public class BlockPedestal extends AbstractBlockECContainer implements IElementTypeProvider {
+public class BlockPedestal extends AbstractBlockECContainer implements IElementTypeProvider, IPipeConnectedBlock {
 
 	private static final VoxelShape BASE_1 = Block.makeCuboidShape(0D, 0D, 0D, 16D, 3D, 16D);
 	private static final VoxelShape BASE_2 = Block.makeCuboidShape(2D, 3D, 2D, 14D, 9D, 14D);
@@ -44,11 +42,6 @@ public class BlockPedestal extends AbstractBlockECContainer implements IElementT
 	public static final String NAME_WATER = NAME + "_water";
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
-
-	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
-	public static final BooleanProperty EAST = BlockStateProperties.EAST;
-	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
-	public static final BooleanProperty WEST = BlockStateProperties.WEST;
 
 	private ElementType elementType;
 
@@ -123,36 +116,14 @@ public class BlockPedestal extends AbstractBlockECContainer implements IElementT
 		container.add(NORTH, SOUTH, EAST, WEST);
 	}
 
-	private boolean isConnected(IWorld worldIn, BlockPos pos, Direction facing, BooleanProperty opposite) {
-		BlockState state = worldIn.getBlockState(pos.offset(facing));
-		
-		return ECTags.Blocks.PIPES.contains(state.getBlock()) && Boolean.TRUE.equals(state.get(opposite));
-	}
-
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState()
-				.with(NORTH, isConnected(context.getWorld(), context.getPos(), Direction.NORTH, SOUTH))
-				.with(SOUTH, isConnected(context.getWorld(), context.getPos(), Direction.SOUTH, NORTH))
-				.with(EAST, isConnected(context.getWorld(), context.getPos(), Direction.EAST, EAST))
-				.with(WEST, isConnected(context.getWorld(), context.getPos(), Direction.WEST, WEST));
+		return doGetStateForPlacement(context.getWorld(), context.getPos());
 	}
 
 	@Override
 	@Deprecated
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		switch (facing) {
-		case NORTH:
-			return stateIn.with(NORTH, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(SOUTH)));
-		case SOUTH:
-			return stateIn.with(SOUTH, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(NORTH)));
-		case EAST:
-			return stateIn.with(EAST, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(WEST)));
-		case WEST:
-			return stateIn.with(WEST, ECTags.Blocks.PIPES.contains(facingState.getBlock()) && Boolean.TRUE.equals(facingState.get(EAST)));
-		default:
-			break;
-		}
-		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		return doUpdatePostPlacement(stateIn, facing, facingState);
 	}
 }

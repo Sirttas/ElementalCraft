@@ -183,6 +183,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 	
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrystallizationRecipe> {
 
+		private static final Codec<List<ResultEntry>> OUTPUT_CODEC = ResultEntry.LIST_CODEC.fieldOf(ECNames.OUTPUTS).codec();
 
 		@Override
 		public CrystallizationRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -205,9 +206,9 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 
 		@Override
 		public CrystallizationRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			ElementType type = ElementType.byName(buffer.readString(32767));
+			ElementType type = ElementType.byName(buffer.readString());
 			int elementAmount = buffer.readInt();
-			List<ResultEntry> outputs = CodecHelper.decode(ResultEntry.LIST_CODEC, buffer);
+			List<ResultEntry> outputs = CodecHelper.decode(OUTPUT_CODEC, buffer);
 			
 			int i = buffer.readInt();
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
@@ -223,7 +224,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 		public void write(PacketBuffer buffer, CrystallizationRecipe recipe) {
 			buffer.writeString(recipe.getElementType().getString());
 			buffer.writeInt(recipe.getElementAmount());
-			CodecHelper.encode(ResultEntry.LIST_CODEC, recipe.outputs, buffer);
+			CodecHelper.encode(OUTPUT_CODEC, recipe.outputs, buffer);
 			buffer.writeInt(recipe.getIngredients().size());
 			recipe.getIngredients().forEach(ingredient -> ingredient.write(buffer));
 		}

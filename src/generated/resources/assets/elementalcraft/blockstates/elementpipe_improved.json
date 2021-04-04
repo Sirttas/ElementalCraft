@@ -16,7 +16,7 @@
     },
     {
       "when": {
-        "north": "true"
+        "north": "connected|extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_side",
@@ -25,7 +25,7 @@
     },
     {
       "when": {
-        "east": "true"
+        "east": "connected|extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_side",
@@ -35,7 +35,7 @@
     },
     {
       "when": {
-        "south": "true"
+        "south": "connected|extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_side",
@@ -45,7 +45,7 @@
     },
     {
       "when": {
-        "west": "true"
+        "west": "connected|extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_side",
@@ -55,7 +55,7 @@
     },
     {
       "when": {
-        "up": "true"
+        "up": "connected|extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_side",
@@ -65,7 +65,7 @@
     },
     {
       "when": {
-        "down": "true"
+        "down": "connected|extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_side",
@@ -75,7 +75,7 @@
     },
     {
       "when": {
-        "north_extract": "true"
+        "north": "extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_extract",
@@ -84,7 +84,7 @@
     },
     {
       "when": {
-        "east_extract": "true"
+        "east": "extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_extract",
@@ -94,7 +94,7 @@
     },
     {
       "when": {
-        "south_extract": "true"
+        "south": "extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_extract",
@@ -104,7 +104,7 @@
     },
     {
       "when": {
-        "west_extract": "true"
+        "west": "extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_extract",
@@ -114,7 +114,7 @@
     },
     {
       "when": {
-        "up_extract": "true"
+        "up": "extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_extract",
@@ -124,7 +124,7 @@
     },
     {
       "when": {
-        "down_extract": "true"
+        "down": "extract"
       },
       "apply": {
         "model": "elementalcraft:block/elementpipe_extract",

@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -16,6 +17,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
@@ -56,7 +58,17 @@ public abstract class AbstractBlockShrineUpgrade extends Block {
 		return TileEntityHelper.getTileEntityAs(world, pos.offset(facing), AbstractTileShrine.class)
 				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && upgrade.canUpgrade(shrine)).isPresent();
 	}
-
+	
+	@Override
+	@Deprecated
+	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+		if (!state.isValidPosition(worldIn, pos)) {
+			worldIn.destroyBlock(pos, true);
+		} else {
+			super.tick(state, worldIn, pos, rand);
+		}
+	}
+	
 	public abstract Direction getFacing(BlockState state);
 
 	@Override

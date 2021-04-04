@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#elementalcraft:instruments",
+    "elementalcraft:evaporator",
+    "elementalcraft:extractor",
+    "elementalcraft:extractor_improved",
+    "elementalcraft:solar_synthesizer"
+  ]
+}

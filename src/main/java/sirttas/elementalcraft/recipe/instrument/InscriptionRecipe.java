@@ -98,7 +98,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 
 		@Override
 		public InscriptionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			ElementType type = ElementType.byName(buffer.readString(32767));
+			ElementType type = ElementType.byName(buffer.readString());
 			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItemStack();
 			int i = buffer.readInt();

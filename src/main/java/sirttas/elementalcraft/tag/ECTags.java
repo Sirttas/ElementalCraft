@@ -146,6 +146,7 @@ public class ECTags {
 		public static final INamedTag<Block> PIPES = createTag("pipes");
 		public static final INamedTag<Block> SHRINES = createTag("shrines");
 		public static final INamedTag<Block> INSTRUMENTS = createTag("instruments");
+		public static final INamedTag<Block> CONTAINER_TOOLS = createTag("container_tools");
 		public static final INamedTag<Block> PEDESTALS = createTag("pedestals");
 
 		public static final INamedTag<Block> RUNE_AFFECTED = createTag("rune_affected");

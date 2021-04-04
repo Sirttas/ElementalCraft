@@ -38,7 +38,7 @@ public class BlockExtractor extends AbstractBlockECTileProvider {
 	public TileExtractor createTileEntity(BlockState state, IBlockReader world) {
 		return new TileExtractor();
 	}
-
+	
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -50,7 +50,7 @@ public class BlockExtractor extends AbstractBlockECTileProvider {
 	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
 		return TileEntityHelper.isValidContainer(state.getBlock(), world, pos.down());
 	}
-
+	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {

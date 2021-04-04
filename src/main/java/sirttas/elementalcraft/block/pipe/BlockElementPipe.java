@@ -19,10 +19,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -68,19 +66,12 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 
 	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
 	
-	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
-	public static final BooleanProperty EAST = BlockStateProperties.EAST;
-	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
-	public static final BooleanProperty WEST = BlockStateProperties.WEST;
-	public static final BooleanProperty UP = BlockStateProperties.UP;
-	public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
-
-	public static final BooleanProperty NORTH_EXTRACT = BooleanProperty.create("north_extract");
-	public static final BooleanProperty EAST_EXTRACT = BooleanProperty.create("east_extract");
-	public static final BooleanProperty SOUTH_EXTRACT = BooleanProperty.create("south_extract");
-	public static final BooleanProperty WEST_EXTRACT = BooleanProperty.create("west_extract");
-	public static final BooleanProperty UP_EXTRACT = BooleanProperty.create("up_extract");
-	public static final BooleanProperty DOWN_EXTRACT = BooleanProperty.create("down_extract");
+	public static final EnumProperty<ConnectionType> NORTH = EnumProperty.create("north", ConnectionType.class);
+	public static final EnumProperty<ConnectionType> EAST = EnumProperty.create("east", ConnectionType.class);
+	public static final EnumProperty<ConnectionType> SOUTH = EnumProperty.create("south", ConnectionType.class);
+	public static final EnumProperty<ConnectionType> WEST = EnumProperty.create("west", ConnectionType.class);
+	public static final EnumProperty<ConnectionType> UP = EnumProperty.create("up", ConnectionType.class);
+	public static final EnumProperty<ConnectionType> DOWN = EnumProperty.create("down", ConnectionType.class);
 
 	private int maxTransferAmount;
 
@@ -88,14 +79,18 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 		super(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).notSolid().tickRandomly());
 		this.setDefaultState(this.stateContainer.getBaseState()
 				.with(COVER, CoverType.NONE)
-				.with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false)
-				.with(NORTH_EXTRACT, false).with(EAST_EXTRACT, false).with(SOUTH_EXTRACT, false).with(WEST_EXTRACT, false).with(UP_EXTRACT, false).with(DOWN_EXTRACT, false));
+				.with(NORTH, ConnectionType.NONE)
+				.with(EAST, ConnectionType.NONE)
+				.with(SOUTH, ConnectionType.NONE)
+				.with(WEST, ConnectionType.NONE)
+				.with(UP, ConnectionType.NONE)
+				.with(DOWN, ConnectionType.NONE));
 		this.maxTransferAmount = maxTransferAmount;
 	}
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
-		container.add(COVER, NORTH, SOUTH, EAST, WEST, UP, DOWN, NORTH_EXTRACT, SOUTH_EXTRACT, EAST_EXTRACT, WEST_EXTRACT, UP_EXTRACT, DOWN_EXTRACT);
+		container.add(COVER, NORTH, SOUTH, EAST, WEST, UP, DOWN);
 	}
 
 	@Override
@@ -149,12 +144,12 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 
 	private boolean isRendered(VoxelShape shape, BlockState state) {
 		return (state.matchesBlock(this)) && (compareShapes(shape, BASE_SHAPE) 
-				|| (compareShapes(shape, DOWN_SHAPE) && Boolean.TRUE.equals(state.get(DOWN)))
-				|| (compareShapes(shape, UP_SHAPE) && Boolean.TRUE.equals(state.get(UP))) 
-				|| (compareShapes(shape, NORTH_SHAPE) && Boolean.TRUE.equals(state.get(NORTH)))
-				|| (compareShapes(shape, SOUTH_SHAPE) && Boolean.TRUE.equals(state.get(SOUTH))) 
-				|| (compareShapes(shape, WEST_SHAPE) && Boolean.TRUE.equals(state.get(WEST)))
-				|| (compareShapes(shape, EAST_SHAPE) && Boolean.TRUE.equals(state.get(EAST)))
+				|| (compareShapes(shape, DOWN_SHAPE) && state.get(DOWN).isConnected())
+				|| (compareShapes(shape, UP_SHAPE) && state.get(UP).isConnected()) 
+				|| (compareShapes(shape, NORTH_SHAPE) && state.get(NORTH).isConnected())
+				|| (compareShapes(shape, SOUTH_SHAPE) && state.get(SOUTH).isConnected()) 
+				|| (compareShapes(shape, WEST_SHAPE) && state.get(WEST).isConnected())
+				|| (compareShapes(shape, EAST_SHAPE) && state.get(EAST).isConnected())
 				|| (compareShapes(shape, FRAME_SHAPE) && state.get(COVER) == CoverType.FRAME));
 	}
 
@@ -256,6 +251,41 @@ public class BlockElementPipe extends AbstractBlockECTileProvider {
 		}
 	}
 
+	public static boolean isConnected(BlockState state, EnumProperty<ConnectionType> prop) {
+		return ECTags.Blocks.PIPES.contains(state.getBlock()) && state.get(prop).isConnected();
+	}
+
+	public enum ConnectionType implements IStringSerializable {
+		NONE("none"), CONNECTED("connected"), EXTRACT("extract");
+
+		public static final Codec<ConnectionType> CODEC = IStringSerializable.createEnumCodec(ConnectionType::values, ConnectionType::byName);
+
+		private final String name;
+
+		private ConnectionType(String name) {
+			this.name = name;
+		}
+
+		@Nonnull
+		@Override
+		public String getString() {
+			return this.name;
+		}
+
+		public static ConnectionType byName(String name) {
+			for (ConnectionType bonusType : values()) {
+				if (bonusType.name.equals(name)) {
+					return bonusType;
+				}
+			}
+			return NONE;
+		}
+		
+		public boolean isConnected() {
+			return this != NONE;
+		}
+	}
+	
 	public enum CoverType implements IStringSerializable {
 		NONE("none"), FRAME("frame"), COVERED("covered");
 

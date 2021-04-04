@@ -95,7 +95,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
 		@Override
 		public BindingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			ElementType type = ElementType.byName(buffer.readString(32767));
+			ElementType type = ElementType.byName(buffer.readString());
 			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItemStack();
 			int i = buffer.readVarInt();

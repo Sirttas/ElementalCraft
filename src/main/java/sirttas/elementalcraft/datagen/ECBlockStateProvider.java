@@ -26,6 +26,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.mill.BlockAirMill;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe;
+import sirttas.elementalcraft.block.pipe.BlockElementPipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.BlockElementPipe.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.BlockPedestal;
 import sirttas.elementalcraft.block.retriever.BlockRetriever;
@@ -193,18 +194,18 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		
 		getMultipartBuilder(block).part().modelFile(core).addModel().end()
 			.part().modelFile(frame).uvLock(true).addModel().condition(BlockElementPipe.COVER, CoverType.FRAME).end()
-			.part().modelFile(side).uvLock(true).addModel().condition(BlockElementPipe.NORTH, true).end()
-			.part().modelFile(side).rotationY(90).uvLock(true).addModel().condition(BlockElementPipe.EAST, true).end()
-			.part().modelFile(side).rotationY(180).uvLock(true).addModel().condition(BlockElementPipe.SOUTH, true).end()
-			.part().modelFile(side).rotationY(270).uvLock(true).addModel().condition(BlockElementPipe.WEST, true).end()
-			.part().modelFile(side).rotationX(270).uvLock(true).addModel().condition(BlockElementPipe.UP, true).end()
-			.part().modelFile(side).rotationX(90).uvLock(true).addModel().condition(BlockElementPipe.DOWN, true).end()
-			.part().modelFile(extract).uvLock(true).addModel().condition(BlockElementPipe.NORTH_EXTRACT, true).end()
-			.part().modelFile(extract).rotationY(90).uvLock(true).addModel().condition(BlockElementPipe.EAST_EXTRACT, true).end()
-			.part().modelFile(extract).rotationY(180).uvLock(true).addModel().condition(BlockElementPipe.SOUTH_EXTRACT, true).end()
-			.part().modelFile(extract).rotationY(270).uvLock(true).addModel().condition(BlockElementPipe.WEST_EXTRACT, true).end()
-			.part().modelFile(extract).rotationX(270).uvLock(true).addModel().condition(BlockElementPipe.UP_EXTRACT, true).end()
-			.part().modelFile(extract).rotationX(90).uvLock(true).addModel().condition(BlockElementPipe.DOWN_EXTRACT, true).end();
+			.part().modelFile(side).uvLock(true).addModel().condition(BlockElementPipe.NORTH, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
+			.part().modelFile(side).rotationY(90).uvLock(true).addModel().condition(BlockElementPipe.EAST, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
+			.part().modelFile(side).rotationY(180).uvLock(true).addModel().condition(BlockElementPipe.SOUTH, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
+			.part().modelFile(side).rotationY(270).uvLock(true).addModel().condition(BlockElementPipe.WEST, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
+			.part().modelFile(side).rotationX(270).uvLock(true).addModel().condition(BlockElementPipe.UP, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
+			.part().modelFile(side).rotationX(90).uvLock(true).addModel().condition(BlockElementPipe.DOWN, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
+			.part().modelFile(extract).uvLock(true).addModel().condition(BlockElementPipe.NORTH, ConnectionType.EXTRACT).end()
+			.part().modelFile(extract).rotationY(90).uvLock(true).addModel().condition(BlockElementPipe.EAST, ConnectionType.EXTRACT).end()
+			.part().modelFile(extract).rotationY(180).uvLock(true).addModel().condition(BlockElementPipe.SOUTH, ConnectionType.EXTRACT).end()
+			.part().modelFile(extract).rotationY(270).uvLock(true).addModel().condition(BlockElementPipe.WEST, ConnectionType.EXTRACT).end()
+			.part().modelFile(extract).rotationX(270).uvLock(true).addModel().condition(BlockElementPipe.UP, ConnectionType.EXTRACT).end()
+			.part().modelFile(extract).rotationX(90).uvLock(true).addModel().condition(BlockElementPipe.DOWN, ConnectionType.EXTRACT).end();
 	}
 
 	private void slabBlock(SlabBlock block) {

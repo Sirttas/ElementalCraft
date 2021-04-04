@@ -61,15 +61,6 @@ public class TileElementPipe extends AbstractTileECTickable {
 		return this.hasWorld() ? TileEntityHelper.getTileEntity(this.getWorld(), this.getPos().offset(face)) : Optional.empty();
 	}
 
-	private boolean isConnectedTo(Direction face) {
-		ConnectionType type = this.getConection(face);
-		return type != ConnectionType.NONE && type != ConnectionType.DISCONNECT;
-	}
-
-	private boolean isExtracting(Direction face) {
-		return this.getConection(face) == ConnectionType.EXTRACT;
-	}
-
 	private ConnectionType getConection(Direction face) {
 		if (connections.containsKey(face)) {
 			return connections.get(face);
@@ -144,18 +135,12 @@ public class TileElementPipe extends AbstractTileECTickable {
 		if (this.updateState && this.hasWorld()) {
 			this.getWorld().setBlockState(getPos(),
 					this.getWorld().getBlockState(pos)
-							.with(BlockElementPipe.NORTH, isConnectedTo(Direction.NORTH))
-							.with(BlockElementPipe.EAST, isConnectedTo(Direction.EAST))
-							.with(BlockElementPipe.SOUTH, isConnectedTo(Direction.SOUTH))
-							.with(BlockElementPipe.WEST, isConnectedTo(Direction.WEST))
-							.with(BlockElementPipe.UP, isConnectedTo(Direction.UP))
-							.with(BlockElementPipe.DOWN, isConnectedTo(Direction.DOWN))
-							.with(BlockElementPipe.NORTH_EXTRACT, isExtracting(Direction.NORTH))
-							.with(BlockElementPipe.EAST_EXTRACT, isExtracting(Direction.EAST))
-							.with(BlockElementPipe.SOUTH_EXTRACT, isExtracting(Direction.SOUTH))
-							.with(BlockElementPipe.WEST_EXTRACT, isExtracting(Direction.WEST))
-							.with(BlockElementPipe.UP_EXTRACT, isExtracting(Direction.UP))
-							.with(BlockElementPipe.DOWN_EXTRACT, isExtracting(Direction.DOWN)));
+							.with(BlockElementPipe.NORTH, getConection(Direction.NORTH).getStateConnection())
+							.with(BlockElementPipe.EAST, getConection(Direction.EAST).getStateConnection())
+							.with(BlockElementPipe.SOUTH, getConection(Direction.SOUTH).getStateConnection())
+							.with(BlockElementPipe.WEST, getConection(Direction.WEST).getStateConnection())
+							.with(BlockElementPipe.UP, getConection(Direction.UP).getStateConnection())
+							.with(BlockElementPipe.DOWN, getConection(Direction.DOWN).getStateConnection()));
 			updateState = false;
 		}
 	}
@@ -263,14 +248,20 @@ public class TileElementPipe extends AbstractTileECTickable {
 	}
 
 	private enum ConnectionType {
-		NONE(0, "none"), CONNECT(1, "connect"), INSERT(2, "insert"), EXTRACT(3, "extract"), DISCONNECT(4, "disconnect");
+		NONE(0, "none", BlockElementPipe.ConnectionType.NONE),
+		CONNECT(1, "connect", BlockElementPipe.ConnectionType.CONNECTED),
+		INSERT(2, "insert", BlockElementPipe.ConnectionType.CONNECTED),
+		EXTRACT(3, "extract", BlockElementPipe.ConnectionType.EXTRACT),
+		DISCONNECT(4, "disconnect", BlockElementPipe.ConnectionType.NONE);
 
+		private BlockElementPipe.ConnectionType stateConnection;
 		private final int value;
 		private final String translationKey;
 
-		private ConnectionType(int value, String key) {
+		private ConnectionType(int value, String key, BlockElementPipe.ConnectionType stateConnection) {
 			this.value = value;
 			this.translationKey = "message.elementalcraft." + key;
+			this.stateConnection = stateConnection;
 		}
 
 		public int getValue() {
@@ -288,6 +279,10 @@ public class TileElementPipe extends AbstractTileECTickable {
 
 		public ITextComponent getDisplayName() {
 			return new TranslationTextComponent(translationKey);
+		}
+		
+		public BlockElementPipe.ConnectionType getStateConnection() {
+			return this.stateConnection;
 		}
 	}
 

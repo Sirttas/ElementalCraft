@@ -1,12 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#elementalcraft:instruments",
+    "#elementalcraft:container_tools",
     "#elementalcraft:pedestals",
-    "elementalcraft:evaporator",
-    "elementalcraft:extractor",
-    "elementalcraft:extractor_improved",
-    "elementalcraft:solar_synthesizer",
     "elementalcraft:pureinfuser"
   ]
 }

@@ -1,3 +1,12 @@
+1.16.5-2.6.7:
+
+- reduced game loading time (issue #47)
+- increase pipe performance (you may need to update pipes)
+- fix a connection error with server (issue #47)
+- fix mystical grove shrine upgrade shape
+- fix instruments not breaking when breaking the container
+
+
 1.16.5-2.6.6:
 
 - new blocks reservoirs
