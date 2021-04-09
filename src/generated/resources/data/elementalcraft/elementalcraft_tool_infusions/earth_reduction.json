@@ -1,0 +1,10 @@
+{
+  "element_type": "earth",
+  "effects": [
+    {
+      "element_type": "earth",
+      "value": 0.1,
+      "type": "elementalcraft:element_cost_reduction"
+    }
+  ]
+}

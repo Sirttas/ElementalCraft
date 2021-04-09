@@ -75,6 +75,8 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 		recipeLayout.getItemStacks().addTooltipCallback((slot, input, ingredient, tooltip) -> {
 			if (slot == 6) {
 				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.chance", ItemStack.DECIMALFORMAT.format(recipe.getWeight(ingredient) * 100F / recipe.getTotalWeight())));
+			} else if (slot == 2) {
+				tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.optional"));
 			}
 		});
 		

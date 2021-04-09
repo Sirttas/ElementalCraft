@@ -21,6 +21,7 @@ public class ToolInfusionEffectTypes {
 		RegistryHelper.register(registry, new ToolInfusionEffectType<>(AutoSmeltToolInfusionEffect.CODEC), AutoSmeltToolInfusionEffect.NAME);
 		RegistryHelper.register(registry, new ToolInfusionEffectType<>(DodgeToolInfusionEffect.CODEC), DodgeToolInfusionEffect.NAME);
 		RegistryHelper.register(registry, new ToolInfusionEffectType<>(FastDrawToolInfusionEffect.CODEC), FastDrawToolInfusionEffect.NAME);
+		RegistryHelper.register(registry, new ToolInfusionEffectType<>(ElementCostReductionToolInfusionEffect.CODEC), ElementCostReductionToolInfusionEffect.NAME);
 	}
 	
 }

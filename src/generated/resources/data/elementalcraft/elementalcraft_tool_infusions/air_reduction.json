@@ -1,0 +1,10 @@
+{
+  "element_type": "air",
+  "effects": [
+    {
+      "element_type": "air",
+      "value": 0.1,
+      "type": "elementalcraft:element_cost_reduction"
+    }
+  ]
+}

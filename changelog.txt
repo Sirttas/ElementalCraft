@@ -1,3 +1,10 @@
+- increased cost of tool infusions
+- added infusion on focus
+- add cooldown on spell tooltip
+- add a optional in shard tooltip for crystalization in jei
+- fix crystalization tooltip in jei
+
+
 1.16.5-2.6.7:
 
 - reduced game loading time (issue #47)

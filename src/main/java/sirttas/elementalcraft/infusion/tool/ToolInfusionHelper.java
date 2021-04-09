@@ -21,6 +21,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.infusion.tool.effect.AttributeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.IToolInfusionEffect;
@@ -108,5 +109,13 @@ public class ToolInfusionHelper {
 				.filter(i -> i.getSlots().contains(slot))
 				.forEach(i -> map.put(i.getAttribute(), i.getModifier()));
 		return map;
+	}
+	
+	public static float getElementCostReduction(LivingEntity entity) {
+		return (float) getInfusionEffects(entity)
+				.filter(ElementCostReductionToolInfusionEffect.class::isInstance)
+				.map(ElementCostReductionToolInfusionEffect.class::cast)
+				.mapToDouble(infusion -> 1D - infusion.getValue())
+				.reduce(1D, (a, b) -> a * b);
 	}
 }

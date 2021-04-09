@@ -15,6 +15,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.model.RenderMaterial;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
@@ -90,6 +91,10 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		ResourceLocation id = getId();
 
 		return new TranslationTextComponent("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
+	}
+	
+	public boolean isIn(ITag<Rune> tagIn) {
+		return tagIn.contains(this);
 	}
 	
 	public static Rune merge(Stream<Rune> runes) {

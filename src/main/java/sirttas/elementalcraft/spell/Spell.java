@@ -29,6 +29,7 @@ import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 
@@ -80,7 +81,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 
 	public boolean consume(Entity sender) {
 		if (!(sender instanceof PlayerEntity) || !((PlayerEntity) sender).isCreative()) {
-			int consumeAmount = getConsumeAmount();
+			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction((PlayerEntity) sender));
 			
 			return CapabilityElementStorage.get(sender).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), false) >= consumeAmount).orElse(false);
 		}

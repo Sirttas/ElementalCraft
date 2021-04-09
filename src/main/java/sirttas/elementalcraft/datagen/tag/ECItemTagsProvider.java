@@ -76,6 +76,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 		getOrCreateBuilder(ECTags.Items.IMPROVED_RECEPTACLES).add(ECItems.EMPTY_RECEPTACLE_IMPROVED, ECItems.RECEPTACLE_IMPROVED);
 
+		getOrCreateBuilder(ECTags.Items.INFUSABLE_FOCUS).add(ECItems.FOCUS);
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD).addTag(ECTags.Items.FORGE_SWORDS),
 				getItems(MekanismTools.MODID, SwordItem.class));
 		addOptionals(getOrCreateBuilder(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE)

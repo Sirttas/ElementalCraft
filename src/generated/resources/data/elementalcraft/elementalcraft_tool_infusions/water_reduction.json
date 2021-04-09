@@ -1,0 +1,10 @@
+{
+  "element_type": "water",
+  "effects": [
+    {
+      "element_type": "water",
+      "value": 0.1,
+      "type": "elementalcraft:element_cost_reduction"
+    }
+  ]
+}

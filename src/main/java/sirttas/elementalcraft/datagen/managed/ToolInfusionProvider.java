@@ -22,6 +22,7 @@ import sirttas.elementalcraft.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.infusion.tool.effect.AttributeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.IToolInfusionEffect;
@@ -69,6 +70,11 @@ public class ToolInfusionProvider implements IDataProvider {
 				new AttributeModifier("Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), "attack_speed");
 		save(cache, ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlotType.LEGS), Attributes.MOVEMENT_SPEED,
 				new AttributeModifier("Movement Speed Infusion", 0.01D, AttributeModifier.Operation.ADDITION)), "movement_speed");
+		
+		save(cache, new ElementCostReductionToolInfusionEffect(ElementType.FIRE, 0.1F), "fire_reduction");
+		save(cache, new ElementCostReductionToolInfusionEffect(ElementType.WATER, 0.1F), "water_reduction");
+		save(cache, new ElementCostReductionToolInfusionEffect(ElementType.EARTH, 0.1F), "earth_reduction");
+		save(cache, new ElementCostReductionToolInfusionEffect(ElementType.AIR, 0.1F), "air_reduction");
 
 	}
 
@@ -76,6 +82,11 @@ public class ToolInfusionProvider implements IDataProvider {
 		save(cache, createToolInfusion(type, infusion), name);
 	}
 
+
+	private void save(DirectoryCache cache, ElementCostReductionToolInfusionEffect infusion, String name) throws IOException {
+		save(cache, createToolInfusion(infusion.getElementType(), infusion), name);
+	}
+	
 	protected void save(DirectoryCache cache, ElementType type, EnchantmentToolInfusionEffect infusion) throws IOException {
 		save(cache, createToolInfusion(type, infusion), infusion.getEnchantment().getRegistryName().getPath());
 	}

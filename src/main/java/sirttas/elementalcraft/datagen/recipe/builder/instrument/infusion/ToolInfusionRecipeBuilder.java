@@ -27,6 +27,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 		
 		this.prefix = "tool/" + split[split.length - 1] + "_";
 		this.infusion = infusion;
+		elementAmount = 2000;
 	}
 
 	public static ToolInfusionRecipeBuilder toolInfusionRecipe(INamedTag<Item> ingredientIn, ResourceLocation infusion) {
@@ -36,7 +37,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	public static ToolInfusionRecipeBuilder toolInfusionRecipe(INamedTag<Item> ingredientIn, Enchantment enchantment) {
 		return new ToolInfusionRecipeBuilder(ToolInfusionRecipe.SERIALIZER, ingredientIn, ElementalCraft.createRL(enchantment.getRegistryName().getPath()));
 	}
-
+	
 	@Override
 	protected ResourceLocation getId() {
 		String namespace = infusion.getNamespace();

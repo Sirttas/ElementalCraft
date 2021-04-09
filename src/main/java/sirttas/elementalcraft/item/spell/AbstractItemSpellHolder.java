@@ -38,6 +38,7 @@ public abstract class AbstractItemSpellHolder extends ItemEC implements ISpellHo
 	protected void addAttributeTooltip(List<ITextComponent> tooltip, Spell spell) {
 		tooltip.add(new StringTextComponent(""));
 		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.consumes", spell.getElementType().getDisplayName()).mergeStyle(TextFormatting.YELLOW));
+		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.cooldown", spell.getCooldown() / 20).mergeStyle(TextFormatting.YELLOW));
 		spell.addInformation(tooltip);
 		addAttributeMultimapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), new TranslationTextComponent("tooltip.elementalcraft.on_spell_use").mergeStyle(TextFormatting.GRAY));
 	}

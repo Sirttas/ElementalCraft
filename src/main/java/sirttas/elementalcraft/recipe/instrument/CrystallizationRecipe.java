@@ -138,7 +138,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 	}
 	
 	public float getWeight(ItemStack stack) {
-		return outputs.stream().filter(r -> r.result.equals(stack)).findAny().map(r -> r.weight).orElse(0F);
+		return outputs.stream().filter(r -> ItemHandlerHelper.canItemStacksStack(r.result, stack)).findAny().map(r -> r.weight).orElse(0F);
 	}
 	
 	@Override

@@ -17,6 +17,7 @@ public class ECTags {
 	private ECTags() {}
 	
 	public static class Items {
+		public static final INamedTag<Item> INFUSABLE_FOCUS = createTag("infusable/focus");
 		public static final INamedTag<Item> INFUSABLE_SWORDS = createTag("infusable/swords");
 		public static final INamedTag<Item> INFUSABLE_PICKAXES = createTag("infusable/pickaxes");
 		public static final INamedTag<Item> INFUSABLE_AXES = createTag("infusable/axes");

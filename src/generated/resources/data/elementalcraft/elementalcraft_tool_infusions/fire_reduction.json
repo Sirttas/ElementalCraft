@@ -1,0 +1,10 @@
+{
+  "element_type": "fire",
+  "effects": [
+    {
+      "element_type": "fire",
+      "value": 0.1,
+      "type": "elementalcraft:element_cost_reduction"
+    }
+  ]
+}
