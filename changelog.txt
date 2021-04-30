@@ -1,3 +1,11 @@
+1.16.5-2.6.9:
+
+- bag of yurting can no longer move sources
+- disableSourceExhause now works correctly (issue #50)
+
+
+1.16.5-2.6.8:
+
 - increased cost of tool infusions
 - added infusion on focus
 - add cooldown on spell tooltip

@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.infusion.tool;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -26,6 +27,7 @@ public class ToolInfusion implements IElementTypeProvider {
 	
 	public static final String NAME = "tool_infusions";
 	public static final String FOLDER = ElementalCraft.MODID + '_' + NAME;
+	public static final ToolInfusion NONE = new ToolInfusion(ElementType.NONE, Collections.emptyList());
 	public static final Codec<ToolInfusion> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			ElementType.forGetter(ToolInfusion::getElementType),
 			IToolInfusionEffect.CODEC.listOf().fieldOf(ECNames.EFFECTS).forGetter(ToolInfusion::getEffects)
@@ -35,7 +37,7 @@ public class ToolInfusion implements IElementTypeProvider {
 	private final ElementType elementType;
 	private final List<IToolInfusionEffect> effects;
 	
-	public ToolInfusion(ElementType elementType,  List<IToolInfusionEffect> effects) {
+	public ToolInfusion(ElementType elementType, List<IToolInfusionEffect> effects) {
 		this.elementType = elementType;
 		this.effects = effects;
 	}

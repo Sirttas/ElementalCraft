@@ -46,7 +46,7 @@ public class ElementalCraft {
 	public static final IDataManager<ShrineUpgrade> SHREINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).merged(ShrineUpgrade::merge).build();
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER).withDefault(SpellProperties.NONE).build();
 	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, Runes.FOLDER).withIdSetter(Rune::setId).merged(Rune::merge).build();
-	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, ToolInfusion.FOLDER).withIdSetter(ToolInfusion::setId).build();
+	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, ToolInfusion.FOLDER).withDefault(ToolInfusion.NONE).withIdSetter(ToolInfusion::setId).build();
 
 	
 	public ElementalCraft() {

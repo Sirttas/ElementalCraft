@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.source;
 
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
+import sirttas.elementalcraft.config.ECConfig;
 
 public class SourceElementStorage extends StaticElementStorage {
 
@@ -28,6 +29,9 @@ public class SourceElementStorage extends StaticElementStorage {
 
 	@Override
 	public int extractElement(int count, ElementType type, boolean simulate) {
+		if (Boolean.TRUE.equals(ECConfig.COMMON.disableSourceExhaustion.get())) {
+			simulate = true;
+		}
 		if (!exhausted) {
 			int value = super.extractElement(count, type, simulate);
 

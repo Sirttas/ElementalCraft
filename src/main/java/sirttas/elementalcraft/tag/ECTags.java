@@ -162,17 +162,23 @@ public class ECTags {
 		public static final INamedTag<Block> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
 		public static final INamedTag<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
 		public static final INamedTag<Block> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
+		
+		public static final INamedTag<Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
 
 		private Blocks() {}
 		
 		private static INamedTag<Block> createTag(String name) {
-			return BlockTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
+			return createTag(ElementalCraft.MODID,name);
 		}
 
 		private static INamedTag<Block> createForgeTag(String name) {
-			return BlockTags.makeWrapperTag("forge:" + name);
+			return createTag("forge", name);
 		}
 
+		private static INamedTag<Block> createTag(String modId, String name) {
+			return BlockTags.makeWrapperTag(modId + ':' + name);
+		}
+		
 		public static ITag<Block> getTag(ResourceLocation loc) {
 			ITag<Block> tag = BlockTags.getCollection().get(loc);
 
