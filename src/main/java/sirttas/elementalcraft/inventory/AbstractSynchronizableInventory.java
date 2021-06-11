@@ -12,14 +12,14 @@ public abstract class AbstractSynchronizableInventory implements IInventory {
 	}
 
 	@Override
-	public void markDirty() {
+	public void setChanged() {
 		if (syncFunction != null) {
 			syncFunction.run();
 		}
 	}
 
 	@Override
-	public boolean isUsableByPlayer(PlayerEntity player) {
+	public boolean stillValid(PlayerEntity player) {
 		return true;
 	}
 }

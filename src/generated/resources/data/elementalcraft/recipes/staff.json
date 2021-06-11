@@ -1,0 +1,25 @@
+{
+  "type": "elementalcraft:staff",
+  "pattern": [
+    " if",
+    "ihi",
+    "si "
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:diamond_sword"
+    },
+    "f": {
+      "item": "elementalcraft:focus"
+    },
+    "h": {
+      "item": "elementalcraft:hardened_handle"
+    },
+    "i": {
+      "tag": "forge:ingots/fireite"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:staff"
+  }
+}

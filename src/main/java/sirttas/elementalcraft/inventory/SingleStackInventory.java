@@ -23,14 +23,14 @@ public class SingleStackInventory extends AbstractSynchronizableInventory implem
 	}
 
 	@Override
-	public void clear() {
+	public void clearContent() {
 		stack = ItemStack.EMPTY;
-		this.markDirty();
+		this.setChanged();
 
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getContainerSize() {
 		return 1;
 	}
 
@@ -40,37 +40,37 @@ public class SingleStackInventory extends AbstractSynchronizableInventory implem
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index) {
+	public ItemStack getItem(int index) {
 		return index == 0 ? stack : ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setItem(int index, ItemStack stack) {
 		if (index == 0) {
 			this.stack = stack;
 		}
-		this.markDirty();
+		this.setChanged();
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack) {
+	public boolean canPlaceItem(int index, ItemStack stack) {
 		return index == 0;
 	}
 
 	@Override
-	public ItemStack decrStackSize(int slot, int count) {
-		ItemStack value = ItemStackHelper.getAndSplit(Lists.newArrayList(stack), slot, count);
+	public ItemStack removeItem(int slot, int count) {
+		ItemStack value = ItemStackHelper.removeItem(Lists.newArrayList(stack), slot, count);
 
-		this.markDirty();
+		this.setChanged();
 		return value;
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index) {
+	public ItemStack removeItemNoUpdate(int index) {
 		ItemStack ret = stack;
 
 		stack = ItemStack.EMPTY;
-		this.markDirty();
+		this.setChanged();
 		return ret;
 	}
 
@@ -79,13 +79,13 @@ public class SingleStackInventory extends AbstractSynchronizableInventory implem
 	public CompoundNBT serializeNBT() {
 		CompoundNBT stackNbt = new CompoundNBT();
 
-		stack.write(stackNbt);
+		stack.save(stackNbt);
 		return stackNbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		stack = ItemStack.read(nbt);
+		stack = ItemStack.of(nbt);
 	}
 
 }

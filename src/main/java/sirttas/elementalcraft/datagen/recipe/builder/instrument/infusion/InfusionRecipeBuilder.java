@@ -52,13 +52,13 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
+		public void serializeRecipeData(JsonObject json) {
 			JsonObject outputJson = new JsonObject();
 
 			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
 			json.add(ECNames.OUTPUT, outputJson);
-			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getString());
-			super.serialize(json);
+			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getSerializedName());
+			super.serializeRecipeData(json);
 		}
 	}
 }

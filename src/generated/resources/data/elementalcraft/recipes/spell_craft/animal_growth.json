@@ -1,0 +1,17 @@
+{
+  "type": "elementalcraft:spell_craft",
+  "gem": {
+    "tag": "elementalcraft:gems/crude_water"
+  },
+  "crystal": {
+    "item": "elementalcraft:watercrystal"
+  },
+  "output": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
+      "elementalcraft": {
+        "spell": "elementalcraft:animal_growth"
+      }
+    }
+  }
+}

@@ -8,7 +8,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.codec.Codecs;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
+import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
 
 public class EnchantmentToolInfusionEffect implements IToolInfusionEffect {
@@ -18,7 +20,7 @@ public class EnchantmentToolInfusionEffect implements IToolInfusionEffect {
 			Codecs.ENCHANTMENT.fieldOf(ECNames.ENCHANTMENT).forGetter(EnchantmentToolInfusionEffect::getEnchantment),
 			Codec.INT.optionalFieldOf(ECNames.LEVEL, 1).forGetter(EnchantmentToolInfusionEffect::getLevel)
 	).apply(builder, EnchantmentToolInfusionEffect::new));
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final ToolInfusionEffectType<EnchantmentToolInfusionEffect> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final ToolInfusionEffectType<EnchantmentToolInfusionEffect> TYPE = null;
 	
 	private final Enchantment enchantment;
 	private final int level;
@@ -34,7 +36,7 @@ public class EnchantmentToolInfusionEffect implements IToolInfusionEffect {
 
 	@Override
 	public ITextComponent getDescription() {
-		return new TranslationTextComponent("tooltip.elementalcraft.enchantment_infused", new TranslationTextComponent(enchantment.getName()), level);
+		return new TranslationTextComponent("tooltip.elementalcraft.enchantment_infused", new TranslationTextComponent(enchantment.getDescriptionId()), level);
 	}
 
 	@Override

@@ -17,19 +17,19 @@ public class CastSpellGoal extends Goal {
 	}
 
 	private void cast() {
-		ActionResultType result = this.spell.castOnEntity(caster, caster.getAttackTarget());
+		ActionResultType result = this.spell.castOnEntity(caster, caster.getTarget());
 
-		if (!result.isSuccessOrConsume()) {
+		if (!result.consumesAction()) {
 			result = this.spell.castOnSelf(caster);
 		}
-		if (result.isSuccessOrConsume()) {
-			this.spell.consume(caster);
-			SpellTickManager.getInstance(caster.getEntityWorld()).setCooldown(caster, spell);
+		if (result.consumesAction()) {
+			this.spell.consume(caster, false);
+			SpellTickManager.getInstance(caster.getCommandSenderWorld()).setCooldown(caster, spell);
 		}
 	}
 
 	@Override
-	public void startExecuting() {
+	public void start() {
 		cast();
 	}
 
@@ -39,8 +39,8 @@ public class CastSpellGoal extends Goal {
 	}
 
 	@Override
-	public boolean shouldExecute() {
-		return caster.getAttackTarget() != null && !SpellTickManager.getInstance(caster.world).hasCooldown(caster, spell);
+	public boolean canUse() {
+		return caster.getTarget() != null && !SpellTickManager.getInstance(caster.level).hasCooldown(caster, spell);
 	}
 
 }

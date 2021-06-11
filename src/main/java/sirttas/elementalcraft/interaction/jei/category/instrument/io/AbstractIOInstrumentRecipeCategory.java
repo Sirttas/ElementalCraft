@@ -6,10 +6,10 @@ import com.google.common.collect.ImmutableList;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.interaction.jei.category.instrument.AbstractInstrumentRecipeCategory;
@@ -18,25 +18,16 @@ import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractInstrumentRecipeCategory<K, T> {
 	
-	private final IDrawable icon;
-	private final IDrawable background;
 	private final ItemStack instrument;
 
-	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, ItemStack instrument) {
+	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, IItemProvider item) {
+		this(guiHelper, translationKey, new ItemStack(item));
+	}
+	
+	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack instrument) {
+		super(translationKey, guiHelper.createDrawableIngredient(instrument), guiHelper.createBlankDrawable(75, 75));
 		this.instrument = instrument;
-		background = guiHelper.createBlankDrawable(75, 75);
-		icon = guiHelper.createDrawableIngredient(instrument);
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/infusion_overlay.png"), 0, 0, 65, 16), 8, 20);
-	}
-
-	@Override
-	public IDrawable getIcon() {
-		return icon;
-	}
-
-	@Override
-	public IDrawable getBackground() {
-		return background;
+		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
 	}
 
 	protected List<ItemStack> getTanks() {

@@ -45,7 +45,7 @@ public class RandomSpell extends LootFunction {
 	}
 
 	@Override
-	public ItemStack doApply(ItemStack stack, LootContext context) {
+	public ItemStack run(ItemStack stack, LootContext context) {
 		Random random = context.getRandom();
 		Spell spell;
 
@@ -65,11 +65,11 @@ public class RandomSpell extends LootFunction {
 	}
 
 	public static LootFunction.Builder<?> builder(Collection<Spell> spellList) {
-		return builder(l -> new RandomSpell(l, spellList));
+		return simpleBuilder(l -> new RandomSpell(l, spellList));
 	}
 
 	public static LootFunction.Builder<?> builder(ElementType elementType) {
-		return builder(l -> new RandomSpell(l, elementType));
+		return simpleBuilder(l -> new RandomSpell(l, elementType));
 	}
 
 	public static class Serializer extends LootFunction.Serializer<RandomSpell> {
@@ -88,7 +88,7 @@ public class RandomSpell extends LootFunction {
 				}
 				object.add(ECNames.SPELL_LIST, jsonarray);
 			} else if (function.elementType != ElementType.NONE) {
-				object.addProperty(ECNames.ELEMENT_TYPE, function.elementType.getString());
+				object.addProperty(ECNames.ELEMENT_TYPE, function.elementType.getSerializedName());
 			}
 		}
 
@@ -97,8 +97,8 @@ public class RandomSpell extends LootFunction {
 			List<Spell> list = Lists.newArrayList();
 
 			if (object.has(ECNames.SPELL_LIST)) {
-				for (JsonElement jsonelement : JSONUtils.getJsonArray(object, ECNames.SPELL_LIST)) {
-					String s = JSONUtils.getString(jsonelement, ECNames.SPELL);
+				for (JsonElement jsonelement : JSONUtils.getAsJsonArray(object, ECNames.SPELL_LIST)) {
+					String s = JSONUtils.convertToString(jsonelement, ECNames.SPELL);
 					Spell spell = Spell.REGISTRY.getValue(new ResourceLocation(s));
 
 					if (spell == null) {
@@ -108,14 +108,14 @@ public class RandomSpell extends LootFunction {
 				}
 				return new RandomSpell(conditionsIn, list);
 			} else if (object.has(ECNames.ELEMENT_TYPE)) {
-				return new RandomSpell(conditionsIn, ElementType.byName(JSONUtils.getString(object, ECNames.ELEMENT_TYPE)));
+				return new RandomSpell(conditionsIn, ElementType.byName(JSONUtils.getAsString(object, ECNames.ELEMENT_TYPE)));
 			}
 			return new RandomSpell(conditionsIn, list);
 		} 
 	}
 
 	@Override
-	public LootFunctionType getFunctionType() {
+	public LootFunctionType getType() {
 		return type;
 	}
 }

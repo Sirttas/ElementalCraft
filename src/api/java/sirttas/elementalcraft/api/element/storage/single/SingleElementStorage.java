@@ -1,18 +1,11 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 
-public class SingleElementStorage implements ISingleElementStorage {
+public class SingleElementStorage implements ISingleElementStorage, INBTSerializable<CompoundNBT> {
 	
 	protected int elementAmount;
 	protected int elementCapacity;
@@ -37,11 +30,6 @@ public class SingleElementStorage implements ISingleElementStorage {
 		this.elementAmount = elementAmount;
 		this.elementType = elementType;
 		this.syncCallback = syncCallback;
-	}
-	
-	@Nullable
-	public static ICapabilityProvider createProvider(SingleElementStorage storage) {
-		return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY != null ? new CapabilityProvider(storage) : null;
 	}
 
 	@Override
@@ -108,48 +96,24 @@ public class SingleElementStorage implements ISingleElementStorage {
 
 	@Override
 	public String toString() {
-		return elementAmount + "/" + elementCapacity + " " + elementType.getString();
+		return elementAmount + "/" + elementCapacity + " " + elementType.getSerializedName();
 	}
 
-	public CompoundNBT writeNBT() {
+	@Override
+	public CompoundNBT serializeNBT() {
 		CompoundNBT compound = new CompoundNBT();
 
-		compound.putString(ECNames.ELEMENT_TYPE, getElementType().getString());
+		compound.putString(ECNames.ELEMENT_TYPE, getElementType().getSerializedName());
 		compound.putInt(ECNames.ELEMENT_AMOUNT, getElementAmount());
 		compound.putInt(ECNames.ELEMENT_CAPACITY, getElementCapacity());
 		return compound;
 	}
 
-	public void readNBT(CompoundNBT compound) {
+	@Override
+	public void deserializeNBT(CompoundNBT compound) {
 		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
 		elementCapacity = compound.getInt(ECNames.ELEMENT_CAPACITY);
 
-	}
-	
-	
-	private static class CapabilityProvider implements ICapabilitySerializable<CompoundNBT> {
-
-		private final SingleElementStorage storage;
-		
-		
-		public CapabilityProvider(SingleElementStorage storage) {
-			this.storage = storage;
-		}
-
-		@Override
-		public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-			return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> storage));
-		}
-
-		@Override
-		public CompoundNBT serializeNBT() {
-			return storage.writeNBT();
-		}
-
-		@Override
-		public void deserializeNBT(CompoundNBT nbt) {
-			storage.readNBT(nbt);
-		}
 	}
 }

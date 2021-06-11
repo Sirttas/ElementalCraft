@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 
 public class StaticElementStorage extends SingleElementStorage {
 
@@ -29,5 +30,13 @@ public class StaticElementStorage extends SingleElementStorage {
 
 		this.elementType = old;
 		return value;
+	}
+	
+	@Override
+	public ISingleElementStorage forElement(ElementType type) {
+		if (type == elementType) {
+			return EmptyElementStorage.getSingle(type);
+		}
+		return this;
 	}
 }

@@ -1,0 +1,17 @@
+{
+  "type": "elementalcraft:spell_craft",
+  "gem": {
+    "tag": "elementalcraft:gems/fine_earth"
+  },
+  "crystal": {
+    "item": "elementalcraft:watercrystal"
+  },
+  "output": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
+      "elementalcraft": {
+        "spell": "elementalcraft:tree_fall"
+      }
+    }
+  }
+}

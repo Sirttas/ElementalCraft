@@ -1,11 +1,10 @@
 package sirttas.elementalcraft.spell;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.serialization.Codec;
 
@@ -14,7 +13,6 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.IItemProvider;
@@ -31,12 +29,10 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProvider {
-
-	protected static final UUID ATTACK_DAMAGE_MODIFIER = UUID.fromString("9da31711-7ea8-41d6-a4ef-3a6f7f679637");
-	protected static final UUID REACH_DISTANCE_MODIFIER = UUID.fromString("1a6a2857-a598-40e4-9161-5b58bb14e9bc");
 
 	public static final IForgeRegistry<Spell> REGISTRY = RegistryManager.ACTIVE.getRegistry(Spell.class);
 
@@ -45,7 +41,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 
 	public String getTranslationKey() {
 		if (this.translationKey == null) {
-			this.translationKey = Util.makeTranslationKey("spell", REGISTRY.getKey(this));
+			this.translationKey = Util.makeDescriptionId("spell", REGISTRY.getKey(this));
 		}
 
 		return this.translationKey;
@@ -55,12 +51,8 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return new TranslationTextComponent(getTranslationKey());
 	}
 
-	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
-		return HashMultimap.create();
-	}
-
 	public Multimap<Attribute, AttributeModifier> getOnUseAttributeModifiers() {
-		return HashMultimap.create();
+		return properties.getAttributes();
 	}
 
 	public ActionResultType castOnEntity(Entity sender, Entity target) {
@@ -76,28 +68,35 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	}
 
 	public void addSpellInstance(AbstractSpellInstance instance) {
-		SpellTickManager.getInstance(instance.sender.world).addSpellInstance(instance);
+		SpellTickManager.getInstance(instance.sender.level).addSpellInstance(instance);
 	}
 
-	public boolean consume(Entity sender) {
+	public boolean consume(Entity sender, boolean simulate) {
 		if (!(sender instanceof PlayerEntity) || !((PlayerEntity) sender).isCreative()) {
-			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction((PlayerEntity) sender));
+			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(sender));
 			
-			return CapabilityElementStorage.get(sender).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), false) >= consumeAmount).orElse(false);
+			return CapabilityElementStorage.get(sender).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
 		}
 		return true;
 	}
 
-	protected boolean consume(Entity sender, IItemProvider item, int count) {
+	protected boolean consume(Entity sender, IItemProvider item, int count, boolean simulate) {
 		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
 			PlayerInventory inv = ((PlayerEntity) sender).inventory;
 			int slot = ECInventoryHelper.getSlotFor(inv, new ItemStack(item));
 
 			if (slot >= 0) {
-				ItemStack ret = inv.decrStackSize(slot, count);
+				ItemStack stack = inv.getItem(slot);
+				int size = Math.min(count, stack.getCount());
 
-				if (!ret.isEmpty()) {
-					return consume(sender, item, count - ret.getCount());
+				if (!simulate) {
+					stack.shrink(size);
+					if (stack.isEmpty()) {
+						inv.setItem(slot, ItemStack.EMPTY);
+					}
+				}
+				if (size < count) {
+					return consume(sender, item, count - size, simulate);
 				}
 				return true;
 			}
@@ -135,11 +134,16 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	public int getWeight() {
 		return properties.getWeight();
 	}
-
-	public float getRange() {
-		return properties.getRange();
+	
+	public float getRange(Entity sender) {
+		int bonus = 0;
+		
+		if (StreamSupport.stream(sender.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.getItem() == ECItems.STAFF)) {
+			bonus++;
+		}
+		return properties.getRange() + bonus;
 	}
-
+	
 	public int getColor() {
 		return properties.getColor();
 	}
@@ -164,7 +168,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	public enum Type implements IStringSerializable {
 		NONE("none"), COMBAT("combat"), UTILITY("utility"), MIXED("mixed");
 		
-		public static final Codec<Type> CODEC = IStringSerializable.createEnumCodec(Type::values, Type::byName);
+		public static final Codec<Type> CODEC = IStringSerializable.fromEnum(Type::values, Type::byName);
 
 		private final String name;
 
@@ -174,7 +178,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 
 		@Nonnull
 		@Override
-		public String getString() {
+		public String getSerializedName() {
 			return this.name;
 		}
 

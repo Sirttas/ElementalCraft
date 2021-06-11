@@ -16,12 +16,13 @@ import net.minecraft.util.registry.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.instrument.inscriber.TileInscriber;
+import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
-public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
+public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEntity> {
 
 	public static final String NAME = "inscription";
 	public static final IRecipeType<InscriptionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<InscriptionRecipe>() {
@@ -30,7 +31,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 			return NAME;
 		}
 	});
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<InscriptionRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<InscriptionRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
 	private final int elementAmount;
@@ -38,7 +39,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 
 	public InscriptionRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		super(id, type);
-		this.ingredients = NonNullList.from(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
+		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
 		this.elementAmount = elementAmount;
 		this.output = output;
 	}
@@ -49,7 +50,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 	}
 
 	@Override
-	public boolean matches(TileInscriber inv) {
+	public boolean matches(InscriberBlockEntity inv) {
 		if (inv.getTankElementType() == getElementType()) {
 			return RecipeHelper.matchesUnordered(inv.getInventory(), ingredients);
 		}
@@ -62,8 +63,8 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
-		return output.copy();
+	public ItemStack getResultItem() {
+		return output;
 	}
 
 	@Override
@@ -72,8 +73,8 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 	}
 
 	@Override
-	public void process(TileInscriber instrument) {
-		instrument.clear();
+	public void process(InscriberBlockEntity instrument) {
+		instrument.clearContent();
 		super.process(instrument);
 	}
 
@@ -85,10 +86,10 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InscriptionRecipe> {
 
 		@Override
-		public InscriptionRecipe read(ResourceLocation recipeId, JsonObject json) {
-			ElementType type = ElementType.byName(JSONUtils.getString(json, ECNames.ELEMENT_TYPE));
-			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
-			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getJsonArray(json, ECNames.INGREDIENTS));
+		public InscriptionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+			ElementType type = ElementType.byName(JSONUtils.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getAsJsonArray(json, ECNames.INGREDIENTS));
 			ingredients.add(0, RecipeHelper.deserializeIngredient(json, "slate"));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 			
@@ -97,27 +98,27 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<TileInscriber> {
 
 
 		@Override
-		public InscriptionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			ElementType type = ElementType.byName(buffer.readString());
+		public InscriptionRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
-			ItemStack output = buffer.readItemStack();
+			ItemStack output = buffer.readItem();
 			int i = buffer.readInt();
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
 			for (int j = 0; j < i; ++j) {
-				ingredients.set(j, Ingredient.read(buffer));
+				ingredients.set(j, Ingredient.fromNetwork(buffer));
 			}
 
 			return new InscriptionRecipe(recipeId, type, elementAmount, output, ingredients);
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, InscriptionRecipe recipe) {
-			buffer.writeString(recipe.getElementType().getString());
+		public void toNetwork(PacketBuffer buffer, InscriptionRecipe recipe) {
+			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeItemStack(recipe.getRecipeOutput());
+			buffer.writeItem(recipe.getResultItem());
 			buffer.writeInt(recipe.getIngredients().size());
-			recipe.getIngredients().forEach(ingredient -> ingredient.write(buffer));
+			recipe.getIngredients().forEach(ingredient -> ingredient.toNetwork(buffer));
 		}
 	}
 }

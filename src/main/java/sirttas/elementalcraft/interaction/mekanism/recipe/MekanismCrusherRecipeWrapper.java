@@ -32,7 +32,7 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 	}
 	
 	@Override
-	public ItemStack getRecipeOutput() {
+	public ItemStack getResultItem() {
 		return crushingRecipe.getOutput(ItemStack.EMPTY);
 	}
 

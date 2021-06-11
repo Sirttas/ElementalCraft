@@ -106,6 +106,18 @@ public class SpellHelper {
 		return null;
 	}
 
+	public static void copySpells(ItemStack source, ItemStack target) {
+		ListNBT list = getSpellList(source);
+		Spell spell = getSpell(source);
+
+		if (list != null && !list.isEmpty()) {
+			NBTHelper.getOrCreateECTag(target).put(ECNames.SPELL_LIST, list.copy());
+		}
+		if (spell.isValid()) {
+			setSpell(target, spell);
+		}
+	}
+	
 	public static int getSpellCount(ItemStack stack) {
 		ListNBT list = getSpellList(stack);
 

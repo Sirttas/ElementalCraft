@@ -16,7 +16,7 @@ public class ReceptacleHelper {
 	}
 
 	private static ItemStack setElementType(ItemStack stack, ElementType elementType) {
-		stack.getOrCreateTag().putString(ECNames.ELEMENT_TYPE, elementType.getString());
+		stack.getOrCreateTag().putString(ECNames.ELEMENT_TYPE, elementType.getSerializedName());
 		return stack;
 	}
 
@@ -31,8 +31,8 @@ public class ReceptacleHelper {
 	public static ItemStack createFrom(ItemStack from, ElementType elementType) {
 		ItemStack stack = ECTags.Items.IMPROVED_RECEPTACLES.contains(from.getItem()) ? ReceptacleHelper.createImproved(elementType) : ReceptacleHelper.create(elementType);
 
-		if (stack.isDamageable()) {
-			stack.setDamage(from.getDamage());
+		if (stack.isDamageableItem()) {
+			stack.setDamageValue(from.getDamageValue());
 		}
 		if (stack.isBookEnchantable(ItemStack.EMPTY)) {
 			EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(from), stack);

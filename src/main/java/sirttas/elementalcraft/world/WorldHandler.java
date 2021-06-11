@@ -5,9 +5,10 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class WorldHandler {
 
 	private WorldHandler() {}

@@ -16,13 +16,14 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.world.feature.structure.ECStructures;
 
 @Mixin(DimensionStructuresSettings.class)
-public class MixinDimensionStructuresSettings {
+public abstract class MixinDimensionStructuresSettings {
 
-	@Shadow @Mutable private static ImmutableMap<Structure<?>, StructureSeparationSettings> field_236191_b_;
+	@Shadow(aliases = "DEFAULTS") @Mutable private static ImmutableMap<Structure<?>, StructureSeparationSettings> DEFAULTS;
 	
-	@Inject(method = "<clinit>", at = @At("TAIL"))
+	@Inject(method = "<clinit>", 
+			at = @At("TAIL"))
 	private static void addSourceAltarSpreadConfig(CallbackInfo ci) {
-		field_236191_b_ = ImmutableMap.<Structure<?>, StructureSeparationSettings>builder().putAll(field_236191_b_)
+		DEFAULTS = ImmutableMap.<Structure<?>, StructureSeparationSettings>builder().putAll(DEFAULTS)
 				.put(ECStructures.SOURCE_ALTAR, new StructureSeparationSettings(ECConfig.COMMON.sourceAltarDistance.get(), 8, 4847339)).build();
 	}
 

@@ -10,11 +10,11 @@ public class ShapeHelper {
 	private ShapeHelper() {}
 	
 	public static boolean vectorCollideWithShape(VoxelShape shape, BlockPos offset, Vector3d vector) {
-		return vectorCollideWithBoundingBox(shape.getBoundingBox().offset(offset), vector);
+		return vectorCollideWithBoundingBox(shape.bounds().move(offset), vector);
 	}
 	
 	public static boolean vectorCollideWithShape(VoxelShape shape, Vector3d offset, Vector3d vector) {
-		return vectorCollideWithBoundingBox(shape.getBoundingBox().offset(offset), vector);
+		return vectorCollideWithBoundingBox(shape.bounds().move(offset), vector);
 	}
 	
 	public static boolean vectorCollideWithBoundingBox(AxisAlignedBB box, Vector3d vector) {

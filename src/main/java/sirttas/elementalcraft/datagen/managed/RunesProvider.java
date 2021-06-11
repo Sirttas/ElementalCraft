@@ -12,11 +12,10 @@ import net.minecraft.data.IDataProvider;
 import net.minecraft.util.ResourceLocation;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.data.predicate.block.rune.TagHasRunePredicate;
 import sirttas.elementalcraft.datagen.ECItemModelProvider;
-import sirttas.elementalcraft.rune.Rune;
-import sirttas.elementalcraft.rune.Rune.BonusType;
-import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class RunesProvider implements IDataProvider {
@@ -37,7 +36,7 @@ public class RunesProvider implements IDataProvider {
 	}
 
 	@Override
-	public void act(DirectoryCache cache) throws IOException {
+	public void run(DirectoryCache cache) throws IOException {
 		itemModelProvider.clear();
 		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.1F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "wii", MINOR_SLATE);
 		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.3F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "fus", SLATE);
@@ -52,7 +51,7 @@ public class RunesProvider implements IDataProvider {
 	}
 
 	private void addRune(DirectoryCache cache, Rune.Builder builder, String name, ResourceLocation slate) throws IOException {
-		String path = Runes.FOLDER + '/' + name;
+		String path = Rune.FOLDER + '/' + name;
 		ResourceLocation runeTexture = ElementalCraft.createRL(path);
 
 		save(cache, builder.model(itemModelProvider.runeTexture("item/" + path, slate, runeTexture)).sprite(runeTexture), name);
@@ -63,7 +62,7 @@ public class RunesProvider implements IDataProvider {
 	}
 
 	private Path getPath(ResourceLocation id) {
-		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + '/' + Runes.FOLDER + '/' + id.getPath() + ".json");
+		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + '/' + Rune.FOLDER + '/' + id.getPath() + ".json");
 	}
 
 

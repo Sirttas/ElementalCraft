@@ -37,23 +37,23 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 	@Override
 	default void process(T instrument) {
 		IInventory inv = instrument.getInventory();
-		ItemStack in = inv.getStackInSlot(0);
-		ItemStack result = inv.getStackInSlot(1);
+		ItemStack in = inv.getItem(0);
+		ItemStack result = inv.getItem(1);
 		ItemStack craftingResult = getCraftingResult(instrument);
 		int luck = getLuck(instrument);
 
-		if (craftingResult.isItemEqual(result) && result.getCount() + craftingResult.getCount() <= result.getMaxStackSize()) {
+		if (craftingResult.sameItem(result) && result.getCount() + craftingResult.getCount() <= result.getMaxStackSize()) {
 			in.shrink(1);
 			result.grow(craftingResult.getCount());
 		} else if (result.isEmpty()) {
 			in.shrink(1);
-			inv.setInventorySlotContents(1, craftingResult.copy());
+			inv.setItem(1, craftingResult.copy());
 		}
 		if (luck > 0 && getRand(instrument).nextInt(100) < luck) {
 			result.grow(1);
 		}
 		if (in.isEmpty()) {
-			inv.removeStackFromSlot(0);
+			inv.removeItemNoUpdate(0);
 		}
 	}
 	

@@ -74,8 +74,8 @@ public class PlayerElementStorage implements IElementStorage {
 	private List<IElementStorage> getStorages() {
 		List<IElementStorage> storages = Lists.newArrayList();
 
-		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-			CapabilityElementStorage.get(player.inventory.getStackInSlot(i)).filter(IElementStorage::usableInInventory).ifPresent(storages::add);
+		for (int i = 0; i < player.inventory.getContainerSize(); i++) {
+			CapabilityElementStorage.get(player.inventory.getItem(i)).filter(IElementStorage::usableInInventory).ifPresent(storages::add);
 		}
 		return storages;
 	}

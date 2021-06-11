@@ -9,12 +9,11 @@ import com.google.common.collect.ImmutableList;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
-import sirttas.elementalcraft.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
@@ -22,10 +21,10 @@ import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 
 public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<IInfuser, IInfusionRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL("infusion");
+	public static final ResourceLocation UID = ElementalCraft.createRL(IInfusionRecipe.NAME);
 
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper, new ItemStack(ECItems.INFUSER));
+		super(guiHelper, "elementalcraft.jei.infusion", ECItems.INFUSER);
 	}
 
 	@Override
@@ -34,13 +33,8 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 	}
 
 	@Override
-	public Class<? extends IInfusionRecipe> getRecipeClass() {
+	public Class<IInfusionRecipe> getRecipeClass() {
 		return IInfusionRecipe.class;
-	}
-
-	@Override
-	public String getTitle() {
-		return I18n.format("elementalcraft.jei.infusion");
 	}
 
 	@Override
@@ -55,7 +49,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 			ToolInfusion infusion = ((ToolInfusionRecipe) recipe).getToolInfusion();
 
 			ingredients.setOutputLists(VanillaTypes.ITEM, recipe.getIngredients().stream()
-					.map(i -> Arrays.stream(i.getMatchingStacks())
+					.map(i -> Arrays.stream(i.getItems())
 							.map(stack -> {
 								ItemStack copy = stack.copy();
 

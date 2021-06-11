@@ -6,15 +6,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.item.spell.book.ItemSpellBook;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
+import sirttas.elementalcraft.block.spelldesk.SpellDeskContainer;
+import sirttas.elementalcraft.item.spell.book.SpellBookItem;
 import sirttas.elementalcraft.item.spell.book.SpellBookContainer;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECContainers {
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + ItemSpellBook.NAME) public static final ContainerType<SpellBookContainer> SPELL_BOOK = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpellBookItem.NAME) public static final ContainerType<SpellBookContainer> SPELL_BOOK = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpellDeskBlock.NAME) public static final ContainerType<SpellDeskContainer> SPELL_DESK = null;
 
 	private ECContainers() {}
 	
@@ -22,6 +25,7 @@ public class ECContainers {
 	public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
 		IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
 
-		RegistryHelper.register(registry, new ContainerType<SpellBookContainer>(SpellBookContainer::new), ItemSpellBook.NAME);
+		RegistryHelper.register(registry, new ContainerType<>(SpellBookContainer::new), SpellBookItem.NAME);
+		RegistryHelper.register(registry, new ContainerType<>(SpellDeskContainer::new), SpellDeskBlock.NAME);
 	}
 }

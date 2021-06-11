@@ -16,7 +16,7 @@ public class ServerProxy implements IProxy {
 
 	@Override
 	public World getDefaultWorld() {
-		return server.func_241755_D_();
+		return server.overworld();
 	}
 	
 	private void setupServer(FMLServerAboutToStartEvent event) {

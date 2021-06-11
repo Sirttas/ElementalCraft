@@ -3,8 +3,6 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
@@ -20,6 +18,7 @@ import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
@@ -84,11 +83,11 @@ public class CrystallizationRecipeBuilder {
 	}
 
 	private CrystallizationRecipeBuilder setIngredient(int index, INamedTag<Item> tagIn) {
-		return this.setIngredient(index, Ingredient.fromTag(tagIn));
+		return this.setIngredient(index, Ingredient.of(tagIn));
 	}
 
 	private CrystallizationRecipeBuilder setIngredient(int index, IItemProvider itemIn) {
-		return this.setIngredient(index, Ingredient.fromItems(itemIn));
+		return this.setIngredient(index, Ingredient.of(itemIn));
 	}
 
 	private CrystallizationRecipeBuilder setIngredient(int index, Ingredient ingredientIn) {
@@ -113,17 +112,14 @@ public class CrystallizationRecipeBuilder {
 		consumerIn.accept(new Result(id, this.serializer, this.ingredients, this.outputs, elementType, elementAmount));
 	}
 
-	public static class Result implements IFinishedRecipe {
-		private final ResourceLocation id;
+	public static class Result extends AbstractFinishedRecipe {
 		private final List<Ingredient> ingredients;
 		private final List<ResultEntry> outputs;
 		private final ElementType elementType;
 		private final int elementAmount;
-		private final IRecipeSerializer<?> serializer;
 
-		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, List<Ingredient> ingredients, List<ResultEntry> outputs, ElementType elementType, int elementAmount) {
-			this.id = idIn;
-			this.serializer = serializerIn;
+		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, List<Ingredient> ingredients, List<ResultEntry> outputs, ElementType elementType, int elementAmount) {
+			super(id, serializer);
 			this.ingredients = ingredients;
 			this.outputs = outputs;
 			this.elementType = elementType;
@@ -131,39 +127,17 @@ public class CrystallizationRecipeBuilder {
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
-			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getString());
+		public void serializeRecipeData(JsonObject json) {
+			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getSerializedName());
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
 			JsonObject ingredientsJson = new JsonObject();
 
-			ingredientsJson.add(ECNames.GEM, this.ingredients.get(0).serialize());
-			ingredientsJson.add(ECNames.CRYSTAL, this.ingredients.get(1).serialize());
-			ingredientsJson.add(ECNames.SHARD, this.ingredients.get(2).serialize());
+			ingredientsJson.add(ECNames.GEM, this.ingredients.get(0).toJson());
+			ingredientsJson.add(ECNames.CRYSTAL, this.ingredients.get(1).toJson());
+			ingredientsJson.add(ECNames.SHARD, this.ingredients.get(2).toJson());
 
 			json.add(ECNames.INGREDIENTS, ingredientsJson);
 			json.add(ECNames.OUTPUTS, CodecHelper.encode(ResultEntry.LIST_CODEC, outputs));
-		}
-
-		@Override
-		public ResourceLocation getID() {
-			return this.id;
-		}
-
-		@Override
-		public IRecipeSerializer<?> getSerializer() {
-			return this.serializer;
-		}
-
-		@Override
-		@Nullable
-		public JsonObject getAdvancementJson() {
-			return null;
-		}
-
-		@Override
-		@Nullable
-		public ResourceLocation getAdvancementID() {
-			return null;
 		}
 	}
 }

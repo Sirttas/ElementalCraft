@@ -8,16 +8,19 @@ import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.ResourceLocation;
-import sirttas.dpanvil.api.tag.DataTagRegistry;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.rune.Rune;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.rune.Rune;
 
 public class ECTags {
 	
 	private ECTags() {}
 	
 	public static class Items {
+		public static final INamedTag<Item> SPELL_CAST_TOOLS = createTag("spell_cast_tools");
+		
 		public static final INamedTag<Item> INFUSABLE_FOCUS = createTag("infusable/focus");
+		public static final INamedTag<Item> INFUSABLE_STAVES = createTag("infusable/staves");
 		public static final INamedTag<Item> INFUSABLE_SWORDS = createTag("infusable/swords");
 		public static final INamedTag<Item> INFUSABLE_PICKAXES = createTag("infusable/pickaxes");
 		public static final INamedTag<Item> INFUSABLE_AXES = createTag("infusable/axes");
@@ -75,6 +78,8 @@ public class ECTags {
 		public static final INamedTag<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final INamedTag<Item> IMPROVED_RECEPTACLES = createTag("improved_receptacles");
+		public static final INamedTag<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
+		public static final INamedTag<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
 		public static final INamedTag<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");
 		public static final INamedTag<Item> BOTANIA_PETALS = createOptional("botania", "petals");
 		public static final INamedTag<Item> BOTANIA_LIVINGROCK = createOptional("botania", "livingrock");
@@ -106,7 +111,7 @@ public class ECTags {
 		private Items() {}
 		
 		private static INamedTag<Item> createTag(String name) {
-			return ItemTags.makeWrapperTag(ElementalCraft.MODID + ':' + name);
+			return ItemTags.bind(ElementalCraftApi.MODID + ':' + name);
 		}
 
 		private static INamedTag<Item> createOptional(String namespace, String name) {
@@ -114,14 +119,14 @@ public class ECTags {
 		}
 		
 		private static INamedTag<Item> createForgeTag(String name) {
-			return ItemTags.makeWrapperTag("forge:" + name);
+			return ItemTags.bind("forge:" + name);
 		}
 
 		public static ITag<Item> getTag(ResourceLocation loc) {
-			ITag<Item> tag = ItemTags.getCollection().get(loc);
+			ITag<Item> tag = ItemTags.getAllTags().getTag(loc);
 
 			if (tag == null) {
-				tag = TagCollectionManager.getManager().getItemTags().get(loc);
+				tag = TagCollectionManager.getInstance().getItems().getTag(loc);
 			}
 			return tag;
 		}
@@ -130,10 +135,10 @@ public class ECTags {
 			if (tag instanceof INamedTag) {
 				return ((INamedTag<Item>) tag).getName();
 			}
-			ResourceLocation loc = ItemTags.getCollection().getDirectIdFromTag(tag);
+			ResourceLocation loc = ItemTags.getAllTags().getId(tag);
 
 			if (loc == null) {
-				loc = TagCollectionManager.getManager().getItemTags().getDirectIdFromTag(tag);
+				loc = TagCollectionManager.getInstance().getItems().getId(tag);
 			}
 			return loc;
 		}
@@ -168,7 +173,7 @@ public class ECTags {
 		private Blocks() {}
 		
 		private static INamedTag<Block> createTag(String name) {
-			return createTag(ElementalCraft.MODID,name);
+			return createTag(ElementalCraftApi.MODID,name);
 		}
 
 		private static INamedTag<Block> createForgeTag(String name) {
@@ -176,14 +181,14 @@ public class ECTags {
 		}
 
 		private static INamedTag<Block> createTag(String modId, String name) {
-			return BlockTags.makeWrapperTag(modId + ':' + name);
+			return BlockTags.bind(modId + ':' + name);
 		}
 		
 		public static ITag<Block> getTag(ResourceLocation loc) {
-			ITag<Block> tag = BlockTags.getCollection().get(loc);
+			ITag<Block> tag = BlockTags.getAllTags().getTag(loc);
 
 			if (tag == null) {
-				tag = TagCollectionManager.getManager().getBlockTags().get(loc);
+				tag = TagCollectionManager.getInstance().getBlocks().getTag(loc);
 			}
 			return tag;
 		}
@@ -192,18 +197,16 @@ public class ECTags {
 			if (tag instanceof INamedTag) {
 				return ((INamedTag<Block>) tag).getName();
 			}
-			ResourceLocation loc = BlockTags.getCollection().getDirectIdFromTag(tag);
+			ResourceLocation loc = BlockTags.getAllTags().getId(tag);
 
 			if (loc == null) {
-				loc = TagCollectionManager.getManager().getBlockTags().getDirectIdFromTag(tag);
+				loc = TagCollectionManager.getInstance().getBlocks().getId(tag);
 			}
 			return loc;
 		}
 	}
 	
 	public static class Runes {
-		
-		public static final DataTagRegistry<Rune> RUNE_TAGS = new DataTagRegistry<>();
 		
 		public static final INamedTag<Rune> SPEED_RUNES = createTag("speed_runes");
 		public static final INamedTag<Rune> ELEMENT_PRESERVATION_RUNES = createTag("element_preservation_runes");
@@ -212,7 +215,7 @@ public class ECTags {
 		private Runes() {}
 		
 		private static INamedTag<Rune> createTag(String name) {
-			return RUNE_TAGS.makeWrapperTag(ElementalCraft.createRL(name));
+			return ElementalCraftApi.RUNE_TAGS.makeWrapperTag(ElementalCraft.createRL(name));
 		}
 	}
 }

@@ -1,3 +1,23 @@
+1.16.5-2.7.0:
+
+- new item: staff
+- new item: pure element holder
+- new spell: translocation
+- rework spell desk
+- runes have been moved to api
+- tool infusions have been moved to api
+- add tags for grove shrines flowers
+- you can no longer cast spells if you don't have enought element to do so, spell can't break anymore*
+- moved to mojmap
+- improved concistency of pure ore generation
+- fix translation mistake
+- fix a bug where reservoir wont render a gauge (issue #51)
+- fix reservoir getting emptied on breaking
+- fix two block blocks not looting when broken
+- fix a bug where some tool infusions would not increase the level of enchantments
+- fix some textures
+
+
 1.16.5-2.6.9:
 
 - bag of yurting can no longer move sources
@@ -24,7 +44,7 @@
 
 1.16.5-2.6.6:
 
-- new blocks reservoirs
+- new blocks: reservoirs
 - new item: cover frame
 - gem crystalizer luck should be more meaningful
 - rework infusions

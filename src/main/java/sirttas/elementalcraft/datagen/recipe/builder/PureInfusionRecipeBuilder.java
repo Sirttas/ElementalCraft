@@ -3,8 +3,6 @@ package sirttas.elementalcraft.datagen.recipe.builder;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -45,11 +43,11 @@ public class PureInfusionRecipeBuilder {
 	}
 
 	public PureInfusionRecipeBuilder setIngredient(INamedTag<Item> tagIn) {
-		return this.setIngredient(ElementType.NONE, Ingredient.fromTag(tagIn));
+		return this.setIngredient(ElementType.NONE, Ingredient.of(tagIn));
 	}
 
 	public PureInfusionRecipeBuilder setIngredient(IItemProvider itemIn) {
-		return this.setIngredient(ElementType.NONE, Ingredient.fromItems(itemIn));
+		return this.setIngredient(ElementType.NONE, Ingredient.of(itemIn));
 	}
 
 	public PureInfusionRecipeBuilder setIngredient(Ingredient ingredientIn) {
@@ -57,25 +55,36 @@ public class PureInfusionRecipeBuilder {
 	}
 
 	public PureInfusionRecipeBuilder setIngredient(ElementType type, INamedTag<Item> tagIn) {
-		return this.setIngredient(type, Ingredient.fromTag(tagIn));
+		return this.setIngredient(type, Ingredient.of(tagIn));
 	}
 
 	public PureInfusionRecipeBuilder setIngredient(ElementType type, IItemProvider itemIn) {
-		return this.setIngredient(type, Ingredient.fromItems(itemIn));
+		return this.setIngredient(type, Ingredient.of(itemIn));
 	}
 
+	
 	public PureInfusionRecipeBuilder setIngredient(ElementType type, Ingredient ingredientIn) {
-		int index = type == ElementType.NONE ? 0 : 
-					type == ElementType.WATER ? 1 :
-					type == ElementType.FIRE ? 2 :
-					type == ElementType.EARTH ? 3 :
-					type == ElementType.AIR ? 4 :
-					-1;
-
-		this.ingredients.set(index, ingredientIn);
+		this.ingredients.set(getIndex(type), ingredientIn);
 		return this;
 	}
 
+	private int getIndex(ElementType type) {
+		switch (type) {
+		case NONE:
+			return 0;
+		case WATER:
+			return 1;
+		case FIRE:
+			return 2;
+		case EARTH:
+			return 3;
+		case AIR:
+			return 4;
+		default:
+			return -1;
+		}
+	}
+	
 	public void build(Consumer<IFinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
@@ -96,28 +105,26 @@ public class PureInfusionRecipeBuilder {
 	}
 
 
-	public static class Result implements IFinishedRecipe {
-		private final ResourceLocation id;
+	public static class Result extends AbstractFinishedRecipe {
+		
 		private final List<Ingredient> ingredients;
 		private final Item output;
 		private final int elementAmount;
-		private final IRecipeSerializer<?> serializer;
 
-		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, List<Ingredient> ingredients, Item resultIn, int elementAmount) {
-			this.id = idIn;
-			this.serializer = serializerIn;
+		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, List<Ingredient> ingredients, Item resultIn, int elementAmount) {
+			super(id, serializer);
 			this.ingredients = ingredients;
 			this.output = resultIn;
 			this.elementAmount = elementAmount;
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
+		public void serializeRecipeData(JsonObject json) {
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
 			JsonArray jsonarray = new JsonArray();
 
 			for (Ingredient ingredient : this.ingredients) {
-				jsonarray.add(ingredient.serialize());
+				jsonarray.add(ingredient.toJson());
 			}
 
 			json.add(ECNames.INGREDIENTS, jsonarray);
@@ -125,28 +132,6 @@ public class PureInfusionRecipeBuilder {
 
 			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
 			json.add(ECNames.OUTPUT, outputJson);
-		}
-
-		@Override
-		public ResourceLocation getID() {
-			return this.id;
-		}
-
-		@Override
-		public IRecipeSerializer<?> getSerializer() {
-			return this.serializer;
-		}
-
-		@Override
-		@Nullable
-		public JsonObject getAdvancementJson() {
-			return null;
-		}
-
-		@Override
-		@Nullable
-		public ResourceLocation getAdvancementID() {
-			return null;
 		}
 	}
 }

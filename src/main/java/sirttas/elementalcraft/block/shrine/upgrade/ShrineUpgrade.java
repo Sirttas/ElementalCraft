@@ -31,7 +31,7 @@ import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
-import sirttas.elementalcraft.block.shrine.AbstractTileShrine;
+import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 
 public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
@@ -43,26 +43,34 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
 	}
 
-	boolean canUpgrade(AbstractTileShrine shrine) {
-		return canUpgrade(shrine.getWorld(), shrine.getPos(), shrine.getUpgradeCount(this));
+	boolean canUpgrade(AbstractShrineBlockEntity shrine) {
+		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), shrine.getUpgradeCount(this));
 	}
 
 	public void addInformation(List<ITextComponent> tooltip) {
-		bonuses.forEach((type, multiplier) -> tooltip.add(new TranslationTextComponent("shrine_upgrade_bonus.elementalcraft." + type.getString(), formatMultiplier(multiplier))
-				.mergeStyle(type.isPositive() ^ multiplier < 1 ? TextFormatting.BLUE : TextFormatting.RED)));
+		bonuses.forEach((type, multiplier) -> tooltip.add(new TranslationTextComponent("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
+				.withStyle(type.isPositive() ^ multiplier < 1 ? TextFormatting.BLUE : TextFormatting.RED)));
 		if (maxAmount > 0) {
 			tooltip.add(new StringTextComponent(""));
-			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.max_amount", maxAmount).mergeStyle(TextFormatting.YELLOW));
+			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.max_amount", maxAmount).withStyle(TextFormatting.YELLOW));
 		}
 	}
 
 	private String formatMultiplier(Float multiplier) {
 		if (multiplier >= 10) {
-			return new DecimalFormat("×#.##").format(multiplier);
+			return new DecimalFormat("ï¿½#.##").format(multiplier);
 		}
 		return String.format("%+d%%", Math.round((multiplier - 1) * 100));
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof ShrineUpgrade) {
+			return super.equals(other);
+		}
+		return false;
+	}
+	
 	public static ShrineUpgrade merge(Stream<ShrineUpgrade> upgrades) {
 		AtomicReference<ShrineUpgrade> atomicValue = new AtomicReference<>();
 		
@@ -86,7 +94,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		RANGE("range", true), 
 		STRENGTH("strength", true);
 
-		public static final Codec<BonusType> CODEC = IStringSerializable.createEnumCodec(BonusType::values, BonusType::byName);
+		public static final Codec<BonusType> CODEC = IStringSerializable.fromEnum(BonusType::values, BonusType::byName);
 
 		private final String name;
 		private final boolean positive;
@@ -98,7 +106,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
 		@Nonnull
 		@Override
-		public String getString() {
+		public String getSerializedName() {
 			return this.name;
 		}
 

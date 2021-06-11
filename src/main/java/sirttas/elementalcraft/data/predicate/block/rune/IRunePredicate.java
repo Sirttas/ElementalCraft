@@ -5,8 +5,8 @@ import java.util.function.Predicate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
-import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
-import sirttas.elementalcraft.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 
 public interface IRunePredicate extends IBlockPosPredicate {
@@ -19,7 +19,7 @@ public interface IRunePredicate extends IBlockPosPredicate {
 
 	@Override
 	default boolean test(IWorldReader world, BlockPos pos) {
-		return test(CapabilityRuneHandler.getRuneHandlerAt(world, pos));
+		return test(BlockEntityHelper.getRuneHandlerAt(world, pos));
 	}
 
 }

@@ -2,14 +2,11 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import com.google.gson.JsonObject;
 
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.IItemProvider;
@@ -17,8 +14,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 public class AirMillGrindingRecipeBuilder {
 	
@@ -41,15 +39,15 @@ public class AirMillGrindingRecipeBuilder {
 	}
 
 	public AirMillGrindingRecipeBuilder withIngredient(INamedTag<Item> tagIn) {
-		return this.withIngredient(Ingredient.fromTag(tagIn));
+		return this.withIngredient(Ingredient.of(tagIn));
 	}
 
 	public AirMillGrindingRecipeBuilder withIngredient(IItemProvider itemIn) {
-		return this.withIngredient(Ingredient.fromItems(itemIn));
+		return this.withIngredient(Ingredient.of(itemIn));
 	}
 
 	public AirMillGrindingRecipeBuilder withIngredient(ItemStack stack) {
-		return this.withIngredient(Ingredient.fromStacks(stack));
+		return this.withIngredient(Ingredient.of(stack));
 	}
 	
 	public AirMillGrindingRecipeBuilder withIngredient(Ingredient ingredientIn) {
@@ -76,50 +74,27 @@ public class AirMillGrindingRecipeBuilder {
 		consumerIn.accept(new Result(id, this.ingredient, this.result, elementAmount));
 	}
 
-	public static class Result implements IFinishedRecipe {
-		private final ResourceLocation id;
+	public static class Result extends AbstractFinishedRecipe {
+
 		private final Ingredient ingredient;
 		private final Item output;
 		private final int elementAmount;
 
-		public Result(ResourceLocation idIn, Ingredient ingredient, Item resultIn, int elementAmount) {
-			this.id = idIn;
+		public Result(ResourceLocation id, Ingredient ingredient, Item resultIn, int elementAmount) {
+			super(id, AirMillGrindingRecipe.SERIALIZER);
 			this.ingredient = ingredient;
 			this.output = resultIn;
 			this.elementAmount = elementAmount;
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
+		public void serializeRecipeData(JsonObject json) {
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
-			json.add(ECNames.INPUT, ingredient.serialize());
+			json.add(ECNames.INPUT, ingredient.toJson());
 			JsonObject outputJson = new JsonObject();
 			
 			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
 			json.add(ECNames.OUTPUT, outputJson);
 		}
-
-		@Override
-		public ResourceLocation getID() {
-			return this.id;
-		}
-
-		@Override
-		public IRecipeSerializer<?> getSerializer() {
-			return AirMillGrindingRecipe.SERIALIZER;
-		}
-
-		@Override
-		@Nullable
-		public JsonObject getAdvancementJson() {
-			return null;
-		}
-
-		@Override
-		@Nullable
-		public ResourceLocation getAdvancementID() {
-			return null;
-		}
 	}
-
 }

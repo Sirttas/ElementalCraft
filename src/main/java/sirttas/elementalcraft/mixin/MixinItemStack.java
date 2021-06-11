@@ -22,8 +22,10 @@ public abstract class MixinItemStack extends CapabilityProvider<ItemStack> imple
 		super(baseClass);
 	}
 
-	@Inject(method = "getAttributeModifiers(Lnet/minecraft/inventory/EquipmentSlotType;)Lcom/google/common/collect/Multimap;", at = @At("RETURN"), cancellable = true)
-	public void onGetAttributeModifiers(EquipmentSlotType equipmentSlot, CallbackInfoReturnable<Multimap<Attribute, AttributeModifier>> cir) {
+	@Inject(method = "getAttributeModifiers(Lnet/minecraft/inventory/EquipmentSlotType;)Lcom/google/common/collect/Multimap;", 
+			at = @At("RETURN"), 
+			cancellable = true)
+	public void getAttributeModifiersReturn(EquipmentSlotType equipmentSlot, CallbackInfoReturnable<Multimap<Attribute, AttributeModifier>> cir) {
 		Multimap<Attribute, AttributeModifier> map = ToolInfusionHelper.getInfusionAttribute(getStack(), equipmentSlot);
 		
 		if (!map.isEmpty()) {

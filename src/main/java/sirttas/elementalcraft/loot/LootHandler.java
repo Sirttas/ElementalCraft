@@ -14,8 +14,9 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public final class LootHandler {
 
 	private static final List<String> BLACKLIST = ImmutableList.of("dispenser");
@@ -42,11 +43,11 @@ public final class LootHandler {
 	}
 
 	public static LootPool getInjectPool(ResourceLocation name) {
-		return LootPool.builder().addEntry(TableLootEntry.builder(name).weight(1)).bonusRolls(0, 1).name("elementalcraft_inject").build();
+		return LootPool.lootPool().add(TableLootEntry.lootTableReference(name).setWeight(1)).bonusRolls(0, 1).name("elementalcraft_inject").build();
 	}
 
 	private static List<String> getInjects(EntityType<?>... types) {
-		return Stream.of(types).map(type -> type.getLootTable().getPath()).collect(Collectors.toList());
+		return Stream.of(types).map(type -> type.getDefaultLootTable().getPath()).collect(Collectors.toList());
 	}
 
 }

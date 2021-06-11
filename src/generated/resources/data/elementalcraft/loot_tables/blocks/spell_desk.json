@@ -15,25 +15,6 @@
           "condition": "minecraft:survives_explosion"
         }
       ]
-    },
-    {
-      "name": "paper",
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "elementalcraft:scroll_paper"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "elementalcraft:spell_desk",
-          "properties": {
-            "has_paper": "true"
-          }
-        }
-      ]
     }
   ]
 }

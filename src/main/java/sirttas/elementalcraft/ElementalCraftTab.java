@@ -6,6 +6,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -14,16 +15,16 @@ public class ElementalCraftTab extends ItemGroup {
 	public static final @Nonnull ItemGroup TAB = new ElementalCraftTab();
 
 	public ElementalCraftTab() {
-		super(ElementalCraft.MODID);
+		super(ElementalCraftApi.MODID);
 	}
 
 	@Override
-	public ItemStack createIcon() {
+	public ItemStack makeIcon() {
 		return new ItemStack(ECItems.FOCUS);
 	}
 
 	@Override
-	public void fill(@Nonnull NonNullList<ItemStack> list) {
+	public void fillItemList(@Nonnull NonNullList<ItemStack> list) {
 		addItem(ECBlocks.EXTRACTOR, list);
 		addItem(ECBlocks.EXTRACTOR_IMPROVED, list);
 		addItem(ECBlocks.EVAPORATOR, list);
@@ -100,6 +101,7 @@ public class ElementalCraftTab extends ItemGroup {
 
 		addItem(ECItems.ELEMENTOPEDIA, list);
 		addItem(ECItems.FOCUS, list);
+		addItem(ECItems.STAFF, list);
 		addItem(ECItems.SCROLL, list);
 		addItem(ECItems.SPELL_BOOK, list);
 		addItem(ECItems.EMPTY_RECEPTACLE, list);
@@ -110,6 +112,8 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.WATER_HOLDER, list);
 		addItem(ECItems.EARTH_HOLDER, list);
 		addItem(ECItems.AIR_HOLDER, list);
+		addItem(ECItems.PURE_HOLDER_CORE, list);
+		addItem(ECItems.PURE_HOLDER, list);
 		addItem(ECItems.CHISEL, list);
 		addItem(ECItems.PURE_ORE, list);
 		addItem(ECItems.INERT_CRYSTAL, list);
@@ -170,7 +174,7 @@ public class ElementalCraftTab extends ItemGroup {
 
 	private void addItem(IItemProvider item, @Nonnull NonNullList<ItemStack> list) {
 		if (item != null) {
-			item.asItem().fillItemGroup(this, list);
+			item.asItem().fillItemCategory(this, list);
 		}
 	}
 

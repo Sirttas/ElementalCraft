@@ -12,6 +12,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 
@@ -22,7 +23,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	
 	
 	public ToolInfusionRecipeBuilder(IRecipeSerializer<?> serializerIn, INamedTag<Item> ingredientIn, ResourceLocation infusion) {
-		super(serializerIn, Ingredient.fromTag(ingredientIn));
+		super(serializerIn, Ingredient.of(ingredientIn));
 		String[] split = ingredientIn.getName().getPath().split("/");
 		
 		this.prefix = "tool/" + split[split.length - 1] + "_";
@@ -42,7 +43,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	protected ResourceLocation getId() {
 		String namespace = infusion.getNamespace();
 		
-		return new ResourceLocation(namespace.equals("minecraft") ? ElementalCraft.MODID : namespace, prefix + infusion.getPath());
+		return new ResourceLocation(namespace.equals("minecraft") ? ElementalCraftApi.MODID : namespace, prefix + infusion.getPath());
 	}
 	
 	@Override
@@ -60,9 +61,9 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
+		public void serializeRecipeData(JsonObject json) {
 			json.addProperty(ECNames.TOOL_INFUSION, infusion.toString());
-			super.serialize(json);
+			super.serializeRecipeData(json);
 		}
 	}
 }

@@ -17,7 +17,7 @@ import sirttas.elementalcraft.entity.boss.earthgolem.EarthGolemEntity;
 public class ECBossFightManager {
 
 	private final ServerWorld world;
-	private final ServerBossInfo bossInfo = (ServerBossInfo) new ServerBossInfo(new StringTextComponent(""), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS).setCreateFog(true);
+	private final ServerBossInfo bossInfo = (ServerBossInfo) new ServerBossInfo(new StringTextComponent(""), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS).setCreateWorldFog(true);
 
 	@SuppressWarnings("unused")
 	private ElementType type;
@@ -37,7 +37,7 @@ public class ECBossFightManager {
 				// TODO spawn loots in overworld
 			}
 			boss = null;
-			world.getPlayers(EntityPredicates.IS_ALIVE).forEach(this::removePlayer);
+			world.getPlayers(EntityPredicates.ENTITY_STILL_ALIVE).forEach(this::removePlayer);
 		}
 	}
 
@@ -64,13 +64,13 @@ public class ECBossFightManager {
 	}
 
 	private void spawnBoss() {
-		BlockPos pos = world.getSpawnPoint();
+		BlockPos pos = world.getSharedSpawnPos();
 
 		// TODO move boss out of spawn
 		boss = EarthGolemEntity.TYPE.create(world); // TODO change based on type
-		boss.setPosition(pos.getX(), pos.getY(), pos.getZ());
+		boss.setPos(pos.getX(), pos.getY(), pos.getZ());
 		bossInfo.setName(boss.getDisplayName());
-		this.world.addEntity(boss);
+		this.world.addFreshEntity(boss);
 	}
 
 

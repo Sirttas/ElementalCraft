@@ -1,0 +1,24 @@
+{
+  "type": "elementalcraft:pureinfusion",
+  "element_amount": 100000,
+  "ingredients": [
+    {
+      "item": "elementalcraft:pure_element_holder_core"
+    },
+    {
+      "item": "elementalcraft:element_holder_water"
+    },
+    {
+      "item": "elementalcraft:element_holder_fire"
+    },
+    {
+      "item": "elementalcraft:element_holder_earth"
+    },
+    {
+      "item": "elementalcraft:element_holder_air"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:pure_element_holder"
+  }
+}

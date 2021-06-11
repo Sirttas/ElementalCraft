@@ -1,3 +1,7 @@
+[![](http://cf.way2muchnoise.eu/395158.svg)](https://www.curseforge.com/minecraft/mc-mods/elemental-craft)
+[![Discord](https://img.shields.io/discord/726853121816526878.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/BFfAmJP)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sirttas_ElementalCraft&metric=alert_status)](https://sonarcloud.io/dashboard?id=Sirttas_ElementalCraft)
+
 # ElementalCraft
 
 ElementalCraft is a magic mod based around the 4 elements: fire, water, earth and air.
@@ -12,6 +16,20 @@ You can find a presentation video [here](https://www.reddit.com/r/feedthebeast/c
 First, find Inert Crystals from ore, this is the starting point of the mod, you will need to craft contained crystals from inert ones by circling them with gold nuggets. With them craft two tanks an extractor, an infuser and some pipes.
 
 Once you got all of these start exploring and find an element source put the extractor under it and the tank under the extractor. then put the second tank nearby and the infuser on top of it, connect them with pipes and right click the pipe section connected to the extractor's tank. You can now put an inert crystal in the infuser by right clicking it to craft an infused crystal.
+
+
+Elemental Craft is hosted on [modmaven](https://modmaven.dev/) add this to your `build.gradle`:
+```grouvy
+repositories {
+    maven { url 'https://modmaven.dev/' }
+}
+
+dependencies {
+    compileOnly fg.deobf("sirttas.elementalcraft:ElementalCraft:${elementalcraft_version}:api")
+    runtimeOnly fg.deobf("sirttas.elementalcraft:ElementalCraft:${elementalcraft_version}")
+}
+```
+You will also need to add dependency to [DataPack Anvil](https://github.com/Sirttas/DataPack-Anvil).
 
 
 [![discord](https://i.imgur.com/mANW7ms.png "discord")](https://discord.gg/BFfAmJP "")

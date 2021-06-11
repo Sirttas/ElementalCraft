@@ -45,7 +45,7 @@ public class GuiHelper {
 	public static void renderElementGauge(MatrixStack matrixStack, int x, int y, int amount, int max, ElementType type, boolean showDebugInfo) {
 		Minecraft mc = Minecraft.getInstance();
 
-		mc.textureManager.bindTexture(GAUGE);
+		mc.textureManager.bind(GAUGE);
 		blit(matrixStack, x, y, 0, 0, 16, 16);
 
 		int progress = Math.max(0, (int) ((double) Math.min(amount, max) / (double) max * 16));
@@ -55,18 +55,18 @@ public class GuiHelper {
 		}
 		blit(matrixStack, x, y + 16 - progress, getElementTypeOffset(type) * 16, 16 - progress + (Boolean.TRUE.equals(ECConfig.CLIENT.usePaleElementGauge.get()) ? 16 : 0), 16, progress);
 		if (showDebugInfo() && showDebugInfo) {
-			mc.fontRenderer.drawStringWithShadow(matrixStack, amount + "/" + max, x, y + 16F, 16777215);
+			mc.font.drawShadow(matrixStack, amount + "/" + max, x, y + 16F, 16777215);
 		}
 	}
 
 	public static void renderCanCast(MatrixStack matrixStack, int x, int y, boolean canCast) {
-		Minecraft.getInstance().textureManager.bindTexture(GAUGE);
+		Minecraft.getInstance().textureManager.bind(GAUGE);
 		blit(matrixStack, x, y, canCast ? 0 : 6, 16, 6, 6);
 	}
 
 	public static boolean showDebugInfo() {
 		Minecraft minecraft = Minecraft.getInstance();
 
-		return minecraft.player.isCreative() && minecraft.gameSettings.advancedItemTooltips;
+		return minecraft.player.isCreative() && minecraft.options.advancedItemTooltips;
 	}
 }

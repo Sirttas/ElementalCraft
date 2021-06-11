@@ -10,11 +10,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
+import sirttas.elementalcraft.api.rune.Rune.BonusType;
+import sirttas.elementalcraft.block.instrument.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.rune.Rune.BonusType;
 
-public class PurifierRecipe implements IIOInstrumentRecipe<TilePurifier> {
+public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> {
 
 	private final ResourceLocation id;
 	private final ItemStack result;
@@ -23,7 +23,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<TilePurifier> {
 	public PurifierRecipe(ItemStack ore) {
 		ResourceLocation oreName = ore.getItem().getRegistryName();
 
-		this.input = Ingredient.fromStacks(ore);
+		this.input = Ingredient.of(ore);
 		this.id = ElementalCraft.createRL(oreName.getNamespace() + '_' + oreName.getPath() + "_to_pure_ore");
 		result = ElementalCraft.PURE_ORE_MANAGER.createPureOre(ore.getItem()).copy();
 		result.setCount(ECConfig.COMMON.pureOreMultiplier.get());
@@ -41,12 +41,12 @@ public class PurifierRecipe implements IIOInstrumentRecipe<TilePurifier> {
 
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.from(Ingredient.EMPTY, this.input);
+		return NonNullList.of(Ingredient.EMPTY, this.input);
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
-		return result.copy();
+	public ItemStack getResultItem() {
+		return result;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<TilePurifier> {
 	}
 
 	@Override
-	public boolean canFit(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return true;
 	}
 
@@ -70,13 +70,13 @@ public class PurifierRecipe implements IIOInstrumentRecipe<TilePurifier> {
 	}
 
 	@Override
-	public int getLuck(TilePurifier instrument) {
+	public int getLuck(PurifierBlockEntity instrument) {
 		return (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.purifierLuckRatio.get());
 	}
 
 	@Override
-	public Random getRand(TilePurifier instrument) {
-		return instrument.getWorld().getRandom();
+	public Random getRand(PurifierBlockEntity instrument) {
+		return instrument.getLevel().getRandom();
 	}
 	
 	@Override

@@ -1,8 +1,5 @@
 package sirttas.elementalcraft;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -16,37 +13,31 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.dpanvil.api.imc.DataTagIMC;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
-import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
+import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.item.pureore.PureOreManager;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.network.proxy.ClientProxy;
 import sirttas.elementalcraft.network.proxy.IProxy;
 import sirttas.elementalcraft.network.proxy.ServerProxy;
-import sirttas.elementalcraft.rune.Rune;
-import sirttas.elementalcraft.rune.Runes;
-import sirttas.elementalcraft.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
-import sirttas.elementalcraft.tag.ECTags;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 
-@Mod(ElementalCraft.MODID)
+@Mod(ElementalCraftApi.MODID)
 public class ElementalCraft {
-	public static final String MODID = ECNames.ELEMENTALCRAFT;
-	public static final Logger LOGGER = LogManager.getLogger(MODID);
 	public static final IProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
-	public static final IDataManager<ShrineUpgrade> SHREINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).merged(ShrineUpgrade::merge).build();
+	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).merged(ShrineUpgrade::merge).build();
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER).withDefault(SpellProperties.NONE).build();
-	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, Runes.FOLDER).withIdSetter(Rune::setId).merged(Rune::merge).build();
-	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, ToolInfusion.FOLDER).withDefault(ToolInfusion.NONE).withIdSetter(ToolInfusion::setId).build();
 
 	
 	public ElementalCraft() {
@@ -65,7 +56,7 @@ public class ElementalCraft {
 		if (name.contains(":")) {
 			return new ResourceLocation(name);
 		}
-		return new ResourceLocation(MODID, name);
+		return new ResourceLocation(ElementalCraftApi.MODID, name);
 	}
 
 	private void setup(FMLCommonSetupEvent event) {
@@ -77,11 +68,11 @@ public class ElementalCraft {
 
 
 	private void enqueueIMC(InterModEnqueueEvent event) {
-		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ShrineUpgrades.NAME), SHREINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ShrineUpgrades.NAME), SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(SpellProperties.NAME), SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));
-		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(Runes.NAME), RUNE_MANAGER).withCodec(Rune.CODEC));
-		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ToolInfusion.NAME), TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
-		DataTagIMC.enqueue(() -> new DataTagIMC<>(RUNE_MANAGER, ECTags.Runes.RUNE_TAGS));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(Rune.NAME), ElementalCraftApi.RUNE_MANAGER).withCodec(Rune.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ToolInfusion.NAME), ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
+		DataTagIMC.enqueue(() -> new DataTagIMC<>(ElementalCraftApi.RUNE_MANAGER, ElementalCraftApi.RUNE_TAGS));
 	}
 }
 

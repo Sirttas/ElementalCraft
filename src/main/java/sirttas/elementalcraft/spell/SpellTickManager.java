@@ -27,7 +27,7 @@ public class SpellTickManager {
 	}
 
 	public static SpellTickManager getInstance(World world) {
-		return world.isRemote ? CLIENT_INSTANCE : SERVER_INSTANCE;
+		return world.isClientSide ? CLIENT_INSTANCE : SERVER_INSTANCE;
 	}
 
 	private void tick() {

@@ -1,5 +1,6 @@
 https://mcp.thiakil.com/
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+gradlew -PUPDATE_MAPPINGS="1.16.5" -PUPDATE_MAPPINGS_CHANNEL="official" updateMappings
 bosses
 pipe element filter
 pipe priority
@@ -13,25 +14,22 @@ use infused tools in crafts ?
 source name by elements (the one prob)
 rework particles
 spell particles
+rework pipes render without blockstate
 
 
 spells:
 	Arctic Breath
 	mud golem
-	translocation
 	
 2.7:
 	remote element tranfer
 	source stabilizer
 	source analyzer
 	ordered sorter config gui
-	pure element holder
 	holder element flow particles
 	fix spell book
 	jewels
 	difuser
-	spell desk in jei
-	rework spell craft
 
 3.0:
 	rename classes

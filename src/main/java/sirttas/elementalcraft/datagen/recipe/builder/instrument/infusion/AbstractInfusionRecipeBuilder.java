@@ -2,8 +2,6 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import com.google.gson.JsonObject;
 
 import net.minecraft.data.IFinishedRecipe;
@@ -12,6 +10,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 public abstract class AbstractInfusionRecipeBuilder {
@@ -50,46 +49,21 @@ public abstract class AbstractInfusionRecipeBuilder {
 
 	public abstract void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id);
 	
-	public abstract static class AbstractResult implements IFinishedRecipe {
+	public abstract static class AbstractResult extends AbstractFinishedRecipe {
 		
-		private final ResourceLocation id;
 		private final Ingredient ingredient;
 		private final int elementAmount;
-		private final IRecipeSerializer<?> serializer;
 
-		protected AbstractResult(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, Ingredient ingredientIn, int elementAmount) {
-			this.id = idIn;
-			this.serializer = serializerIn;
+		protected AbstractResult(ResourceLocation id, IRecipeSerializer<?> serializer, Ingredient ingredientIn, int elementAmount) {
+			super(id, serializer);
 			this.ingredient = ingredientIn;
 			this.elementAmount = elementAmount;
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
+		public void serializeRecipeData(JsonObject json) {
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
-			json.add(ECNames.INPUT, this.ingredient.serialize());
-		}
-
-		@Override
-		public ResourceLocation getID() {
-			return this.id;
-		}
-
-		@Override
-		public IRecipeSerializer<?> getSerializer() {
-			return this.serializer;
-		}
-
-		@Override
-		@Nullable
-		public JsonObject getAdvancementJson() {
-			return null;
-		}
-
-		@Override
-		@Nullable
-		public ResourceLocation getAdvancementID() {
-			return null;
+			json.add(ECNames.INPUT, this.ingredient.toJson());
 		}
 	}
 }

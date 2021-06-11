@@ -16,23 +16,23 @@ public interface IPipeConnectedBlock extends IForgeBlock {
 	public static final BooleanProperty WEST = BlockStateProperties.WEST;
 
 	default BlockState doGetStateForPlacement(IBlockReader world, BlockPos pos) {
-		return this.getBlock().getDefaultState()
-				.with(NORTH, BlockElementPipe.isConnected(world.getBlockState(pos.offset(Direction.NORTH)), BlockElementPipe.SOUTH))
-				.with(SOUTH, BlockElementPipe.isConnected(world.getBlockState(pos.offset(Direction.SOUTH)), BlockElementPipe.NORTH))
-				.with(EAST, BlockElementPipe.isConnected(world.getBlockState(pos.offset(Direction.EAST)), BlockElementPipe.EAST))
-				.with(WEST, BlockElementPipe.isConnected(world.getBlockState(pos.offset(Direction.WEST)), BlockElementPipe.WEST));
+		return this.getBlock().defaultBlockState()
+				.setValue(NORTH, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.NORTH)), ElementPipeBlock.SOUTH))
+				.setValue(SOUTH, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.SOUTH)), ElementPipeBlock.NORTH))
+				.setValue(EAST, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.EAST)), ElementPipeBlock.EAST))
+				.setValue(WEST, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.WEST)), ElementPipeBlock.WEST));
 	}
 
 	default BlockState doUpdatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState) {
 		switch (facing) {
 		case NORTH:
-			return stateIn.with(NORTH, BlockElementPipe.isConnected(facingState, BlockElementPipe.SOUTH));
+			return stateIn.setValue(NORTH, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.SOUTH));
 		case SOUTH:
-			return stateIn.with(SOUTH, BlockElementPipe.isConnected(facingState, BlockElementPipe.NORTH));
+			return stateIn.setValue(SOUTH, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.NORTH));
 		case EAST:
-			return stateIn.with(EAST, BlockElementPipe.isConnected(facingState, BlockElementPipe.WEST));
+			return stateIn.setValue(EAST, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.WEST));
 		case WEST:
-			return stateIn.with(WEST, BlockElementPipe.isConnected(facingState, BlockElementPipe.EAST));
+			return stateIn.setValue(WEST, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.EAST));
 		default:
 			return stateIn;
 		}

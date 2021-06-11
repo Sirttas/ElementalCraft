@@ -1,6 +1,8 @@
 package sirttas.elementalcraft.api.element.storage;
 
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
 
 public interface IElementStorage {
 
@@ -42,6 +44,13 @@ public interface IElementStorage {
 	}
 	
 	default boolean isEmpty() {
-		return ElementType.allValid().stream().mapToInt(this::getElementAmount).allMatch(i -> i <= 0);
+		return ElementType.ALL_VALID.stream().mapToInt(this::getElementAmount).allMatch(i -> i <= 0);
+	}
+	
+	default ISingleElementStorage forElement(ElementType type) {
+		if (type == ElementType.NONE) {
+			return EmptyElementStorage.getSingle(type);
+		}
+		return new SingleElementStorageWrapper(type, this);
 	}
 }

@@ -20,7 +20,7 @@ public class PureOreCookingRecipeInjector<T extends AbstractCookingRecipe> exten
 
 	@Override
 	public T build(T recipe, Ingredient ingredient) {
-		return factory.create(ElementalCraft.createRL(buildRecipeId(recipe.getId())), recipe.getGroup(), ingredient, getRecipeOutput(recipe), recipe.getExperience(), recipe.getCookTime());
+		return factory.create(ElementalCraft.createRL(buildRecipeId(recipe.getId())), recipe.getGroup(), ingredient, getRecipeOutput(recipe), recipe.getExperience(), recipe.getCookingTime());
 	}
 
 	public static interface Factory<T extends AbstractCookingRecipe> {

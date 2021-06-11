@@ -20,15 +20,15 @@ public class SourcePlacement extends HeightmapBasedPlacement<NoPlacementConfig> 
 	}
 
 	@Override
-	protected Type func_241858_a(NoPlacementConfig config) {
+	protected Type type(NoPlacementConfig config) {
 		return Type.MOTION_BLOCKING_NO_LEAVES;
 	}
 
 	private int getHeight(WorldDecoratingHelper helper, NoPlacementConfig config, int x, int z) {
-		Predicate<BlockState> predicate = func_241858_a(config).getHeightLimitPredicate();
+		Predicate<BlockState> predicate = type(config).isOpaque();
 
-		for (int y = helper.func_242895_b(); y < helper.func_242891_a(); y++) {
-			if (!predicate.test(helper.func_242894_a(new BlockPos(x, y, z)))) {
+		for (int y = helper.getSeaLevel(); y < helper.getGenDepth(); y++) {
+			if (!predicate.test(helper.getBlockState(new BlockPos(x, y, z)))) {
 				return y;
 			}
 		}
@@ -41,7 +41,7 @@ public class SourcePlacement extends HeightmapBasedPlacement<NoPlacementConfig> 
 		int z = pos.getZ();
 		int y = getHeight(helper, config, x, z) + 2;
 
-		return y <= helper.func_242895_b() || y >= 125 ? Stream.of() : Stream.of(new BlockPos(x, y, z));
+		return y <= helper.getSeaLevel() || y >= 125 ? Stream.of() : Stream.of(new BlockPos(x, y, z));
 	}
 
 }

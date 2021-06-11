@@ -11,13 +11,13 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class AirMillGrindingRecipe implements IGrindingRecipe {
 	
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
 	
 	private final Ingredient ingredient;
 	private final ItemStack output;
@@ -48,12 +48,12 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 	
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.from(Ingredient.EMPTY, ingredient);
+		return NonNullList.of(Ingredient.EMPTY, ingredient);
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
-		return output.copy();
+	public ItemStack getResultItem() {
+		return output;
 	}
 
 	@Override
@@ -64,8 +64,8 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AirMillGrindingRecipe> {
 
 		@Override
-		public AirMillGrindingRecipe read(ResourceLocation recipeId, JsonObject json) {
-			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
+		public AirMillGrindingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient ingredient = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
@@ -76,19 +76,19 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 		}
 
 		@Override
-		public AirMillGrindingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+		public AirMillGrindingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
 			int elementAmount = buffer.readInt();
-			Ingredient ingredient = Ingredient.read(buffer);
-			ItemStack output = buffer.readItemStack();
+			Ingredient ingredient = Ingredient.fromNetwork(buffer);
+			ItemStack output = buffer.readItem();
 
 			return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount);
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, AirMillGrindingRecipe recipe) {
+		public void toNetwork(PacketBuffer buffer, AirMillGrindingRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
-			recipe.getIngredients().get(0).write(buffer);
-			buffer.writeItemStack(recipe.getRecipeOutput());
+			recipe.getIngredients().get(0).toNetwork(buffer);
+			buffer.writeItem(recipe.getResultItem());
 		}
 		
 	}

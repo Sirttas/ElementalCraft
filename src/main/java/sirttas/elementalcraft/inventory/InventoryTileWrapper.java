@@ -21,13 +21,13 @@ public class InventoryTileWrapper<T extends IInventoryTile> implements IInventor
 	}
 
 	@Override
-	public void clear() {
-		inventoryTile.getInventory().clear();
+	public void clearContent() {
+		inventoryTile.getInventory().clearContent();
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return inventoryTile.getInventory().getSizeInventory();
+	public int getContainerSize() {
+		return inventoryTile.getInventory().getContainerSize();
 	}
 
 	@Override
@@ -36,33 +36,33 @@ public class InventoryTileWrapper<T extends IInventoryTile> implements IInventor
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index) {
-		return inventoryTile.getInventory().getStackInSlot(index);
+	public ItemStack getItem(int index) {
+		return inventoryTile.getInventory().getItem(index);
 	}
 
 	@Override
-	public ItemStack decrStackSize(int index, int count) {
-		return inventoryTile.getInventory().decrStackSize(index, count);
+	public ItemStack removeItem(int index, int count) {
+		return inventoryTile.getInventory().removeItem(index, count);
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		return inventoryTile.getInventory().removeStackFromSlot(index);
+	public ItemStack removeItemNoUpdate(int index) {
+		return inventoryTile.getInventory().removeItemNoUpdate(index);
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-		inventoryTile.getInventory().setInventorySlotContents(index, stack);
+	public void setItem(int index, ItemStack stack) {
+		inventoryTile.getInventory().setItem(index, stack);
 	}
 
 	@Override
-	public void markDirty() {
-		inventoryTile.getInventory().markDirty();
+	public void setChanged() {
+		inventoryTile.getInventory().setChanged();
 	}
 
 	@Override
-	public boolean isUsableByPlayer(PlayerEntity player) {
-		return inventoryTile.getInventory().isUsableByPlayer(player);
+	public boolean stillValid(PlayerEntity player) {
+		return inventoryTile.getInventory().stillValid(player);
 	}
 
 

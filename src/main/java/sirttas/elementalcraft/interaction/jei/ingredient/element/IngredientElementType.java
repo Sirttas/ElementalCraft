@@ -46,6 +46,6 @@ public class IngredientElementType {
 	}
 
 	public static List<IngredientElementType> all(int amount) {
-		return ElementType.allValid().stream().map(type -> new IngredientElementType(type, amount)).collect(Collectors.toList());
+		return ElementType.ALL_VALID.stream().map(type -> new IngredientElementType(type, amount)).collect(Collectors.toList());
 	}
 }

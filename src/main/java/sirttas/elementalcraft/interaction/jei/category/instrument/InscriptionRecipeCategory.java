@@ -4,30 +4,25 @@ import java.util.List;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.instrument.inscriber.TileInscriber;
+import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
-public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<TileInscriber, InscriptionRecipe> {
+public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<InscriberBlockEntity, InscriptionRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(InscriptionRecipe.NAME);
-
-	private final IDrawable icon;
-	private final IDrawable background;
-	private ItemStack inscriber = new ItemStack(ECItems.INSCRIBER);
+	private static final ItemStack INSCRIBER = new ItemStack(ECItems.INSCRIBER);
+	
 
 	public InscriptionRecipeCategory(IGuiHelper guiHelper) {
-		background = guiHelper.createBlankDrawable(100, 100);
-		icon = guiHelper.createDrawableIngredient(inscriber);
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/inscription_overlay.png"), 0, 0, 25, 12), 60, 20);
+		super("elementalcraft.jei.inscription", guiHelper.createDrawableIngredient(INSCRIBER), guiHelper.createBlankDrawable(100, 100));
+		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
 	}
 
 	@Override
@@ -36,23 +31,8 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 	}
 
 	@Override
-	public Class<? extends InscriptionRecipe> getRecipeClass() {
+	public Class<InscriptionRecipe> getRecipeClass() {
 		return InscriptionRecipe.class;
-	}
-
-	@Override
-	public String getTitle() {
-		return I18n.format("elementalcraft.jei.inscription");
-	}
-
-	@Override
-	public IDrawable getIcon() {
-		return icon;
-	}
-
-	@Override
-	public IDrawable getBackground() {
-		return background;
 	}
 
 	@Override
@@ -72,7 +52,7 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 		recipeLayout.getItemStacks().init(4, false, 22, 58);
 		recipeLayout.getItemStacks().set(4, tank);
 		recipeLayout.getItemStacks().init(5, false, 22, 42);
-		recipeLayout.getItemStacks().set(5, inscriber);
+		recipeLayout.getItemStacks().set(5, INSCRIBER);
 
 		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(6, true, 23, 76);
 		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(6, ingredients.getInputs(ECIngredientTypes.ELEMENT).get(0));

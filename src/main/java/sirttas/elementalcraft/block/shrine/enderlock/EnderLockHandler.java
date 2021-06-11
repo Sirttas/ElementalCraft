@@ -9,11 +9,11 @@ import net.minecraft.util.math.vector.Vector3i;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.tile.TileEntityHelper;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.config.ECConfig;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class EnderLockHandler {
 
 	private static final List<Vector3i> RANGE;
@@ -33,7 +33,7 @@ public class EnderLockHandler {
 		
 		event.setCanceled(
 				RANGE.stream().anyMatch(
-						v -> TileEntityHelper.getTileEntityAs(entity.getEntityWorld(), entity.getPosition().add(v), TileEnderLockShrine.class).filter(TileEnderLockShrine::doLock).isPresent()));
+						v -> BlockEntityHelper.getTileEntityAs(entity.getCommandSenderWorld(), entity.blockPosition().offset(v), EnderLockShrineBlockEntity.class).filter(EnderLockShrineBlockEntity::doLock).isPresent()));
 
 	}
 

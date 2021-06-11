@@ -18,7 +18,7 @@ public class EarthGolemRenderer extends MobRenderer<EarthGolemEntity, EarthGolem
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(EarthGolemEntity entity) {
+	public ResourceLocation getTextureLocation(EarthGolemEntity entity) {
 		return TEXTURES;
 	}
 

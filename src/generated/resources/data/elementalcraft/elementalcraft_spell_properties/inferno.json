@@ -1,8 +1,8 @@
 {
-  "element_consumption": 10,
-  "cooldown": 120,
   "range": 5.0,
   "color": "#FF8030",
+  "element_consumption": 10,
+  "cooldown": 120,
   "spell_type": "combat",
   "element_type": "fire",
   "weight": 20,

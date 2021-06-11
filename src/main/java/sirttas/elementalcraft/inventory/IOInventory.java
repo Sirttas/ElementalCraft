@@ -27,14 +27,14 @@ public class IOInventory extends AbstractSynchronizableInventory implements ISid
 	}
 
 	@Override
-	public void clear() {
+	public void clearContent() {
 		input = ItemStack.EMPTY;
 		output = ItemStack.EMPTY;
 
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getContainerSize() {
 		return 2;
 	}
 
@@ -44,7 +44,7 @@ public class IOInventory extends AbstractSynchronizableInventory implements ISid
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index) {
+	public ItemStack getItem(int index) {
 		if (index == 0) {
 			return input;
 		} else if (index == 1) {
@@ -54,34 +54,34 @@ public class IOInventory extends AbstractSynchronizableInventory implements ISid
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setItem(int index, ItemStack stack) {
 		if (index == 0) {
 			this.input = stack;
 		} else if (index == 1) {
 			this.output = stack;
 		}
-		this.markDirty();
+		this.setChanged();
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack) {
+	public boolean canPlaceItem(int index, ItemStack stack) {
 		return index == 0;
 	}
 
 	@Override
-	public ItemStack decrStackSize(int index, int count) {
-		ItemStack value = ItemStackHelper.getAndSplit(Lists.newArrayList(input, output), index, count);
+	public ItemStack removeItem(int index, int count) {
+		ItemStack value = ItemStackHelper.removeItem(Lists.newArrayList(input, output), index, count);
 
-		this.markDirty();
+		this.setChanged();
 		return value;
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		ItemStack ret = getStackInSlot(index);
+	public ItemStack removeItemNoUpdate(int index) {
+		ItemStack ret = getItem(index);
 
-		setInventorySlotContents(index, ItemStack.EMPTY);
-		this.markDirty();
+		setItem(index, ItemStack.EMPTY);
+		this.setChanged();
 		return ret;
 	}
 
@@ -107,12 +107,12 @@ public class IOInventory extends AbstractSynchronizableInventory implements ISid
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, Direction direction) {
 		return index == 0 || direction == null;
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+	public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
 		return index == 1 || direction == null;
 	}
 }

@@ -25,7 +25,7 @@ public class LootHelper {
 	public static List<ItemStack> getDrops(ServerWorld world, BlockPos pos, boolean silkTouch) {
 		if (silkTouchPickaxe.isEmpty() && silkTouch) {
 			silkTouchPickaxe = new ItemStack(Items.NETHERITE_PICKAXE);
-			silkTouchPickaxe.addEnchantment(Enchantments.SILK_TOUCH, 1);
+			silkTouchPickaxe.enchant(Enchantments.SILK_TOUCH, 1);
 		}
 
 		return getDrops(world, pos, silkTouch ? silkTouchPickaxe.copy() : ItemStack.EMPTY);
@@ -33,7 +33,7 @@ public class LootHelper {
 
 	public static List<ItemStack> getDrops(ServerWorld world, BlockPos pos, ItemStack stack) {
 		BlockState state = world.getBlockState(pos);
-		return state.getDrops(new LootContext.Builder(world).withRandom(world.rand).withParameter(LootParameters.ORIGIN, Vector3d.copyCentered(pos))
+		return state.getDrops(new LootContext.Builder(world).withRandom(world.random).withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(pos))
 				.withParameter(LootParameters.TOOL, stack));
 	}
 }

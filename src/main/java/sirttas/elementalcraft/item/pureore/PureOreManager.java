@@ -24,13 +24,13 @@ import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.dpanvil.api.event.DataPackReloadCompletEvent;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.ItemEC;
+import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 import sirttas.elementalcraft.tag.ECTags;
@@ -74,12 +74,12 @@ public class PureOreManager {
 	private void generatePureOres(RecipeManager recipeManager) {
 		Collection<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> injectors = getInjectors();
 
-		ElementalCraft.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
+		ElementalCraftApi.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
 				() -> injectors.stream().map(AbstractPureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
-				() -> ECTags.Items.PURE_ORES.getAllElements().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
+				() -> ECTags.Items.PURE_ORES.getValues().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 
-		for (Item ore : ECTags.Items.PURE_ORES.getAllElements()) {
+		for (Item ore : ECTags.Items.PURE_ORES.getValues()) {
 			Entry entry = new Entry(ore);
 			boolean isInBlacklist = ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST.contains(ore);
 
@@ -92,7 +92,7 @@ public class PureOreManager {
 		}
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
-			ElementalCraft.LOGGER.info("Pure ore recipe injection");
+			ElementalCraftApi.LOGGER.info("Pure ore recipe injection");
 
 			List<Entry> entries = pureOres.values().stream().distinct().collect(Collectors.toList());
 
@@ -100,14 +100,14 @@ public class PureOreManager {
 			injectors.forEach(injector -> inject(injector, entries));
 			recipeManager.recipes = recipeManager.recipes.entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
 		}
-		ElementalCraft.LOGGER.info("Pure ore generation ended");
+		ElementalCraftApi.LOGGER.info("Pure ore generation ended");
 	}
 
 	private <C extends IInventory, T extends IRecipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, List<PureOreManager.Entry> entries) {
 		Map<ResourceLocation, T> map = injector.getRecipes();
 
 		map.putAll(entries.stream().distinct().map(entry -> this.injectEntry(injector, entry)).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o, (recipe1, recipe2) -> {
-			ElementalCraft.LOGGER.warn("Duplicated key for type {}: {}", injector.getRecipeType(), recipe1.getId());
+			ElementalCraftApi.LOGGER.warn("Duplicated key for type {}: {}", injector.getRecipeType(), recipe1.getId());
 			return recipe1;
 		})));
 		injector.inject(map);
@@ -120,7 +120,7 @@ public class PureOreManager {
 
 			return recipe != null ? injector.build(recipe, entry.getIngredient()) : null;
 		} catch (Exception e) {
-			ElementalCraft.LOGGER.error("Error in pure ore recipe injection", e);
+			ElementalCraftApi.LOGGER.error("Error in pure ore recipe injection", e);
 			return null;
 		}
 	}
@@ -174,8 +174,8 @@ public class PureOreManager {
 			recipes.put(recipe.getType(), recipe);
 			if (result.isEmpty()) {
 				result = getInjectors().stream().filter(injector -> injector.getRecipeType().equals(recipeType)).findAny()
-						.map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe)).filter(stack -> !stack.isEmpty()).orElse(recipe.getRecipeOutput());
-				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ItemEC.lookupColor(result));
+						.map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe)).filter(stack -> !stack.isEmpty()).orElse(recipe.getResultItem());
+				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ECItem.lookupColor(result));
 			}
 		}
 
@@ -221,7 +221,7 @@ public class PureOreManager {
 
 		public JEIPurifierRecipe(List<ItemStack> ores) {
 			super(ores.get(0));
-			input = Ingredient.fromStacks(ores.stream().toArray(ItemStack[]::new));
+			input = Ingredient.of(ores.stream().toArray(ItemStack[]::new));
 		}
 	}
 

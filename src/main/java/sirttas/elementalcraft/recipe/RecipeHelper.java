@@ -24,10 +24,10 @@ public class RecipeHelper {
 	private RecipeHelper() {}
 	
 	public static Ingredient deserializeIngredient(JsonObject json, String key) {
-		if (JSONUtils.isJsonArray(json, key)) {
-			return Ingredient.deserialize(JSONUtils.getJsonArray(json, key));
+		if (JSONUtils.isArrayNode(json, key)) {
+			return Ingredient.fromJson(JSONUtils.getAsJsonArray(json, key));
 		}
-		return Ingredient.deserialize(JSONUtils.getJsonObject(json, key));
+		return Ingredient.fromJson(JSONUtils.getAsJsonObject(json, key));
 	}
 
 	public static ItemStack readRecipeOutput(JsonObject json, String key) {
@@ -37,7 +37,7 @@ public class RecipeHelper {
 			if (element.isJsonPrimitive()) {
 				return readRecipeOutput(element.getAsString());
 			}
-			return ShapedRecipe.deserializeItem(element.getAsJsonObject());
+			return ShapedRecipe.itemFromJson(element.getAsJsonObject());
 		}
 		throw new JsonSyntaxException("Missing " + key + ", expected to find a string");
 	}
@@ -50,9 +50,9 @@ public class RecipeHelper {
 		NonNullList<Ingredient> nonnulllist = NonNullList.create();
 
 		for (int i = 0; i < json.size(); ++i) {
-			Ingredient ingredient = Ingredient.deserialize(json.get(i));
+			Ingredient ingredient = Ingredient.fromJson(json.get(i));
 
-			if (!ingredient.hasNoMatchingItems()) {
+			if (!ingredient.isEmpty()) {
 				nonnulllist.add(ingredient);
 			}
 		}
@@ -66,7 +66,7 @@ public class RecipeHelper {
 
 		return ingredients.stream().allMatch(ingredient -> {
 			for (int i = 0; i < count; i++) {
-				if (ingredient.test(inv.getStackInSlot(i)) && !usedIndex.contains(i)) {
+				if (ingredient.test(inv.getItem(i)) && !usedIndex.contains(i)) {
 					usedIndex.add(i);
 					return true;
 				}

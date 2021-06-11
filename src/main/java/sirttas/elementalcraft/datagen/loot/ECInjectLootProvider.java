@@ -35,7 +35,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	@Override
-	public void act(DirectoryCache cache) throws IOException {
+	public void run(DirectoryCache cache) throws IOException {
 		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE);
 		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE_VILLAGER);
 		save(cache, genShard(ElementType.EARTH), EntityType.SKELETON);
@@ -70,14 +70,14 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	private static LootPool.Builder genShard(ElementType type) {
-		return LootPool.builder().rolls(ConstantRange.of(1))
-				.addEntry(ItemLootEntry.builder(getShardForType(type)).acceptFunction(SetCount.builder(RandomValueRange.of(1, 3))).weight(10))
-				.addEntry(ItemLootEntry.builder(getPowerfulShardForType(type)).acceptCondition(KilledByPlayer.builder()))
-				.acceptCondition(RandomChanceWithLooting.builder(0.25F, 0.03F));
+		return LootPool.lootPool().setRolls(ConstantRange.exactly(1))
+				.add(ItemLootEntry.lootTableItem(getShardForType(type)).apply(SetCount.setCount(RandomValueRange.between(1, 3))).setWeight(10))
+				.add(ItemLootEntry.lootTableItem(getPowerfulShardForType(type)).when(KilledByPlayer.killedByPlayer()))
+				.when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.25F, 0.03F));
 	}
 
 	private void save(DirectoryCache cache, LootPool.Builder pool, EntityType<?> entityType) throws IOException {
-		save(cache, LootTable.builder().addLootPool(pool).setParameterSet(LootParameterSets.ENTITY), ElementalCraft.createRL(entityType.getLootTable().getPath()));
+		save(cache, LootTable.lootTable().withPool(pool).setParamSet(LootParameterSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
 	}
 
 	private void save(DirectoryCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {

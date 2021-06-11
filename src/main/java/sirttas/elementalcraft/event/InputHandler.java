@@ -7,13 +7,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.network.message.ECMessage;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class InputHandler {
 
 	private InputHandler() {}
@@ -23,8 +23,8 @@ public class InputHandler {
 	public static void onMouseScroll(InputEvent.MouseScrollEvent event) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
 		
-		if (player.isSneaking()) {
-			EntityHelper.handStream(player).filter(i -> i.getItem() == ECItems.FOCUS).findFirst().ifPresent(i -> {
+		if (player.isShiftKeyDown()) {
+			EntityHelper.handStream(player).filter(i -> i.getItem().is(ECTags.Items.SPELL_CAST_TOOLS)).findFirst().ifPresent(i -> {
 				if (event.getScrollDelta() > 0) {
 					handleFocusScroll(player, i, -1);
 					ECMessage.SCROLL_BACKWORD.send();
@@ -40,6 +40,6 @@ public class InputHandler {
 
 	private static void handleFocusScroll(ClientPlayerEntity player, ItemStack stack, int i) {
 		SpellHelper.moveSelected(stack, i);
-		player.sendStatusMessage(SpellHelper.getSpell(stack).getDisplayName(), true);
+		player.displayClientMessage(SpellHelper.getSpell(stack).getDisplayName(), true);
 	}
 }

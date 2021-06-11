@@ -1,14 +1,20 @@
 package sirttas.elementalcraft.api.element.storage;
 
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
 
 public class EmptyElementStorage implements IElementStorage {
 
-	public static final EmptyElementStorage INSTANCE = new EmptyElementStorage();
+	public static final IElementStorage INSTANCE = new EmptyElementStorage();
 
-	private EmptyElementStorage() {
+	private EmptyElementStorage() {}
+
+	
+	public static ISingleElementStorage getSingle(ElementType type) {
+		return new SingleElementStorageWrapper(type, INSTANCE);
 	}
-
+	
 	@Override
 	public int getElementAmount(ElementType type) {
 		return 0;
@@ -29,5 +35,9 @@ public class EmptyElementStorage implements IElementStorage {
 		return 0;
 	}
 
+	@Override
+	public ISingleElementStorage forElement(ElementType type) {
+		return getSingle(type);
+	}
 
 }

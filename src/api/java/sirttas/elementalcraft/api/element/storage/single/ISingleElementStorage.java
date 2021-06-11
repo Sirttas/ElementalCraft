@@ -2,6 +2,7 @@ package sirttas.elementalcraft.api.element.storage.single;
 
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 public interface ISingleElementStorage extends IElementStorage, IElementTypeProvider {
@@ -43,13 +44,23 @@ public interface ISingleElementStorage extends IElementStorage, IElementTypeProv
 
 	@Override
 	default boolean canPipeInsert(ElementType type) {
-		ElementType localType = this.getElementType();
-		
-		return type != ElementType.NONE && (localType == ElementType.NONE || type == localType);
+		return isValidType(type);
 	}
 
 	@Override
 	default boolean canPipeExtract(ElementType type) {
+		return isValidType(type);
+	}
+	
+	@Override
+	default ISingleElementStorage forElement(ElementType type) {
+		if (!isValidType(type)) {
+			return EmptyElementStorage.getSingle(type);
+		}
+		return this;
+	}
+	
+	default boolean isValidType(ElementType type) { // TODO java 16 private
 		ElementType localType = this.getElementType();
 		
 		return type != ElementType.NONE && (localType == ElementType.NONE || type == localType);

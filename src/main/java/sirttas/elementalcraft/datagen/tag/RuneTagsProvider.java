@@ -2,15 +2,16 @@ package sirttas.elementalcraft.datagen.tag;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import sirttas.dpanvil.api.tag.DataTagsProvider;
+import sirttas.dpanvil.api.tag.AbstractDataTagsProvider;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.rune.Rune;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class RuneTagsProvider extends DataTagsProvider<Rune> {
+public class RuneTagsProvider extends AbstractDataTagsProvider<Rune> {
 
 	public RuneTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-		super(generatorIn, ElementalCraft.RUNE_MANAGER, ElementalCraft.MODID, existingFileHelper);
+		super(generatorIn, ElementalCraftApi.RUNE_MANAGER, ElementalCraftApi.MODID, existingFileHelper);
 	}
 
 	@Override

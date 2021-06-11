@@ -1,15 +1,16 @@
 package sirttas.elementalcraft.api.name;
 
 import sirttas.dpanvil.api.DPAnvilNames;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECNames {
 
-	public static final String ELEMENTALCRAFT = "elementalcraft";
-	public static final String EC_NBT = ELEMENTALCRAFT;
+	public static final String EC_NBT = ElementalCraftApi.MODID;
 	public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
 	
 	public static final String ALWAYSE_INSERT = "always_insert";
 	public static final String ATTRIBUTE = "attribute";
+	public static final String ATTRIBUTES = "attributes";
 	public static final String BLOCK = DPAnvilNames.BLOCK;
 	public static final String BLOCKS = DPAnvilNames.BLOCKS;
 	public static final String BONUSES = "bonuses";

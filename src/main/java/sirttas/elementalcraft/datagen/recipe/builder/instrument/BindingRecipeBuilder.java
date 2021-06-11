@@ -3,8 +3,6 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -20,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
 
@@ -47,11 +46,11 @@ public class BindingRecipeBuilder {
 	}
 
 	public BindingRecipeBuilder addIngredient(INamedTag<Item> tagIn) {
-		return this.addIngredient(Ingredient.fromTag(tagIn));
+		return this.addIngredient(Ingredient.of(tagIn));
 	}
 
 	public BindingRecipeBuilder addIngredient(IItemProvider itemIn) {
-		return this.addIngredient(Ingredient.fromItems(itemIn));
+		return this.addIngredient(Ingredient.of(itemIn));
 	}
 
 	public BindingRecipeBuilder addIngredient(Ingredient ingredientIn) {
@@ -80,17 +79,14 @@ public class BindingRecipeBuilder {
 	}
 
 
-	public static class Result implements IFinishedRecipe {
-		private final ResourceLocation id;
+	public static class Result extends AbstractFinishedRecipe {
 		private final List<Ingredient> ingredients;
 		private final Item output;
 		private final ElementType elementType;
 		private final int elementAmount;
-		private final IRecipeSerializer<?> serializer;
 
-		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, List<Ingredient> ingredients, Item resultIn, ElementType elementType, int elementAmount) {
-			this.id = idIn;
-			this.serializer = serializerIn;
+		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, List<Ingredient> ingredients, Item resultIn, ElementType elementType, int elementAmount) {
+			super(id, serializer);
 			this.ingredients = ingredients;
 			this.output = resultIn;
 			this.elementType = elementType;
@@ -98,13 +94,13 @@ public class BindingRecipeBuilder {
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
-			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getString());
+		public void serializeRecipeData(JsonObject json) {
+			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getSerializedName());
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
 			JsonArray jsonarray = new JsonArray();
 
 			for (Ingredient ingredient : this.ingredients) {
-				jsonarray.add(ingredient.serialize());
+				jsonarray.add(ingredient.toJson());
 			}
 
 			json.add(ECNames.INGREDIENTS, jsonarray);
@@ -112,28 +108,6 @@ public class BindingRecipeBuilder {
 			
 			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
 			json.add(ECNames.OUTPUT, outputJson);
-		}
-
-		@Override
-		public ResourceLocation getID() {
-			return this.id;
-		}
-
-		@Override
-		public IRecipeSerializer<?> getSerializer() {
-			return this.serializer;
-		}
-
-		@Override
-		@Nullable
-		public JsonObject getAdvancementJson() {
-			return null;
-		}
-
-		@Override
-		@Nullable
-		public ResourceLocation getAdvancementID() {
-			return null;
 		}
 	}
 }

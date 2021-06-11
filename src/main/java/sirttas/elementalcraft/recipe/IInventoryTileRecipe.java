@@ -1,12 +1,11 @@
 package sirttas.elementalcraft.recipe;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import sirttas.elementalcraft.inventory.IInventoryTile;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
 
-public interface IInventoryTileRecipe<T extends IInventoryTile> extends IRecipe<InventoryTileWrapper<T>> {
+public interface IInventoryTileRecipe<T extends IInventoryTile> extends IECRecipe<InventoryTileWrapper<T>> {
 
 	void process(T instrument);
 
@@ -20,16 +19,16 @@ public interface IInventoryTileRecipe<T extends IInventoryTile> extends IRecipe<
 	}
 
 	@Override
-	default ItemStack getCraftingResult(InventoryTileWrapper<T> inv) {
+	default ItemStack assemble(InventoryTileWrapper<T> inv) {
 		return getCraftingResult(inv.getInstrument());
 	}
 	
 	@Override
-	default boolean canFit(int width, int height) {
+	default boolean canCraftInDimensions(int width, int height) {
 		return true;
 	}
 
 	default ItemStack getCraftingResult(T instrument) {
-		return this.getRecipeOutput().copy();
+		return this.getResultItem().copy();
 	}
 }

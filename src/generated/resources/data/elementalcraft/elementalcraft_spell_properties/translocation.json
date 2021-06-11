@@ -1,0 +1,9 @@
+{
+  "range": 100.0,
+  "color": "#DAB8FF",
+  "element_consumption": 2000,
+  "cooldown": 1200,
+  "spell_type": "utility",
+  "element_type": "air",
+  "weight": 2
+}

@@ -29,23 +29,24 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 	public static final String NAME_WATER = NAME + "_water";
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
-	public static final String NAME_FIRE_SPAWN = NAME_FIRE + "_spawn";
-	public static final String NAME_WATER_SPAWN = NAME_WATER + "_spawn";
-	public static final String NAME_EARTH_SPAWN = NAME_EARTH + "_spawn";
-	public static final String NAME_AIR_SPAWN = NAME_AIR + "_spawn";
+	public static final String SPAWN = "_spawn";
+	public static final String NAME_FIRE_SPAWN = NAME_FIRE + SPAWN;
+	public static final String NAME_WATER_SPAWN = NAME_WATER + SPAWN;
+	public static final String NAME_EARTH_SPAWN = NAME_EARTH + SPAWN;
+	public static final String NAME_AIR_SPAWN = NAME_AIR + SPAWN;
 
 	public SourceFeature() {
 		super(IElementTypeFeatureConfig.CODEC);
 	}
 
 	@Override
-	public boolean generate(ISeedReader world, ChunkGenerator structureManager, Random rand, BlockPos pos, IElementTypeFeatureConfig config) {
+	public boolean place(ISeedReader world, ChunkGenerator structureManager, Random rand, BlockPos pos, IElementTypeFeatureConfig config) {
 		ElementType type = config.getElementType(rand);
 
 		if (type != ElementType.NONE) {
-			BlockState source = ECBlocks.SOURCE.getDefaultState().with(ElementType.STATE_PROPERTY, type);
+			BlockState source = ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, type);
 
-			world.setBlockState(pos, source, 3);
+			world.setBlock(pos, source, 3);
 			return true;
 		}
 		return false;

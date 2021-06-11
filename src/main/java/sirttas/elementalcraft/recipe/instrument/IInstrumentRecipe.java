@@ -8,7 +8,7 @@ public interface IInstrumentRecipe<T extends IInstrument> extends IInventoryTile
 
 	@Override
 	default void process(T instrument) {
-		instrument.getInventory().setInventorySlotContents(0, this.getCraftingResult(instrument));
+		instrument.getInventory().setItem(0, this.getCraftingResult(instrument));
 	}
 	
 }

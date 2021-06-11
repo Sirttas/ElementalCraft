@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableList;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
-import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -23,9 +22,9 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.jei.category.PureInfusionRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.SpellCraftRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ImprovedExtractionRecipeCategory;
@@ -42,6 +41,7 @@ import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredie
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
@@ -49,28 +49,12 @@ import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
 	private static final ResourceLocation ID = ElementalCraft.createRL("main");
-	private static final ISubtypeInterpreter HOLDER_INTERPRETER = stack -> CapabilityElementStorage.get(stack).map(storage -> {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		ElementType.allValid().forEach(type -> {
-			int amount = storage.getElementAmount(type);
-			
-			if (amount > 0) {
-				stringBuilder.append(type.getString());
-				stringBuilder.append(':');
-				stringBuilder.append(amount);
-				stringBuilder.append(':');
-				stringBuilder.append(storage.getElementCapacity(type));
-				stringBuilder.append(';');
-			}
-		});
-		return stringBuilder.length() > 0 ? stringBuilder.toString() : ISubtypeInterpreter.NONE;
-	}).orElse(ISubtypeInterpreter.NONE);
 	
 	@Override
 	public ResourceLocation getPluginUid() {
@@ -91,10 +75,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.useNbtForSubtypes(ECItems.RUNE);
 		registry.useNbtForSubtypes(ECItems.TANK, ECItems.TANK_SMALL, ECItems.TANK_CREATIVE);
 		registry.useNbtForSubtypes(ECItems.FIRE_RESERVOIR, ECItems.WATER_RESERVOIR, ECItems.EARTH_RESERVOIR, ECItems.AIR_RESERVOIR);
-		registry.registerSubtypeInterpreter(ECItems.FIRE_HOLDER, HOLDER_INTERPRETER);
-		registry.registerSubtypeInterpreter(ECItems.WATER_HOLDER, HOLDER_INTERPRETER);
-		registry.registerSubtypeInterpreter(ECItems.EARTH_HOLDER, HOLDER_INTERPRETER);
-		registry.registerSubtypeInterpreter(ECItems.AIR_HOLDER, HOLDER_INTERPRETER);
+		registry.useNbtForSubtypes(ECItems.FIRE_HOLDER, ECItems.WATER_HOLDER, ECItems.EARTH_HOLDER, ECItems.AIR_HOLDER, ECItems.PURE_HOLDER);
 	}
 
 	@Override
@@ -110,6 +91,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new PureInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new PurificationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new GrindingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new SpellCraftRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -134,6 +116,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_PEDESTAL), PureInfusionRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.PURIFIER), PurificationRecipeCategory.UID);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_MILL), GrindingRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.SPELL_DESK), SpellCraftRecipeCategory.UID);
 		
 		if (ECinteractions.isMekanismActive()) {
 			registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_MILL), new ResourceLocation("mekanism", "crusher"));
@@ -143,31 +126,32 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	@SuppressWarnings("resource")
 	@Override
 	public void registerRecipes(@Nonnull IRecipeRegistration registry) {
-		RecipeManager recipeManager = Minecraft.getInstance().world.getRecipeManager();
+		RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
-		registry.addRecipes(ElementType.allValid(), ExtractionRecipeCategory.UID);
-		registry.addRecipes(ElementType.allValid(), ImprovedExtractionRecipeCategory.UID);
+		registry.addRecipes(ElementType.ALL_VALID, ExtractionRecipeCategory.UID);
+		registry.addRecipes(ElementType.ALL_VALID, ImprovedExtractionRecipeCategory.UID);
 		registry.addRecipes(EvaporationRecipeCategory.getShards(), EvaporationRecipeCategory.UID);
 		registry.addRecipes(SolarSynthesisRecipeCategory.getLenses(), SolarSynthesisRecipeCategory.UID);
-		registry.addRecipes(recipeManager.getRecipes(IInfusionRecipe.TYPE).values(), InfusionRecipeCategory.UID);
-		registry.addRecipes(recipeManager.getRecipes(AbstractBindingRecipe.TYPE).values(), BindingRecipeCategory.UID);
-		registry.addRecipes(recipeManager.getRecipes(CrystallizationRecipe.TYPE).values(), CrystallizationRecipeCategory.UID);
-		registry.addRecipes(recipeManager.getRecipes(InscriptionRecipe.TYPE).values(), InscriptionRecipeCategory.UID);
-		registry.addRecipes(recipeManager.getRecipes(PureInfusionRecipe.TYPE).values(), PureInfusionRecipeCategory.UID);
-		registry.addRecipes(recipeManager.getRecipes(IGrindingRecipe.TYPE).values(), GrindingRecipeCategory.UID);
+		registry.addRecipes(recipeManager.byType(IInfusionRecipe.TYPE).values(), InfusionRecipeCategory.UID);
+		registry.addRecipes(recipeManager.byType(AbstractBindingRecipe.TYPE).values(), BindingRecipeCategory.UID);
+		registry.addRecipes(recipeManager.byType(CrystallizationRecipe.TYPE).values(), CrystallizationRecipeCategory.UID);
+		registry.addRecipes(recipeManager.byType(InscriptionRecipe.TYPE).values(), InscriptionRecipeCategory.UID);
+		registry.addRecipes(recipeManager.byType(PureInfusionRecipe.TYPE).values(), PureInfusionRecipeCategory.UID);
+		registry.addRecipes(recipeManager.byType(IGrindingRecipe.TYPE).values(), GrindingRecipeCategory.UID);
+		registry.addRecipes(recipeManager.byType(SpellCraftRecipe.TYPE).values(), SpellCraftRecipeCategory.UID);
 		registry.addRecipes(ElementalCraft.PURE_ORE_MANAGER.getRecipes(), PurificationRecipeCategory.UID);
-		registry.addRecipes(createFocusAnvilRecipes(registry.getVanillaRecipeFactory()), VanillaRecipeCategoryUid.ANVIL);
+		registry.addRecipes(createFocusStaffAnvilRecipes(registry.getVanillaRecipeFactory()), VanillaRecipeCategoryUid.ANVIL);
 		
 	}
 
-	private List<?> createFocusAnvilRecipes(IVanillaRecipeFactory factory) {
-		return Spell.REGISTRY.getValues().stream().filter(Spell::isValid).map(spell -> {
+	private List<?> createFocusStaffAnvilRecipes(IVanillaRecipeFactory factory) {
+		return Spell.REGISTRY.getValues().stream().filter(Spell::isValid).flatMap(spell -> ECTags.Items.SPELL_CAST_TOOLS.getValues().stream().map(item -> {
 			ItemStack scroll = new ItemStack(ECItems.SCROLL);
-			ItemStack focus = new ItemStack(ECItems.FOCUS);
+			ItemStack stack = new ItemStack(item);
 
 			SpellHelper.setSpell(scroll, spell);
-			SpellHelper.addSpell(focus, spell);
-			return factory.createAnvilRecipe(new ItemStack(ECItems.FOCUS), ImmutableList.of(scroll), ImmutableList.of(focus));
-		}).collect(Collectors.toList());
+			SpellHelper.addSpell(stack, spell);
+			return factory.createAnvilRecipe(new ItemStack(item), ImmutableList.of(scroll), ImmutableList.of(stack));
+		})).collect(Collectors.toList());
 	}
 }

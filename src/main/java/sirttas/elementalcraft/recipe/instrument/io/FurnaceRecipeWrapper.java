@@ -6,10 +6,10 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.firefurnace.AbstractTileFireFurnace;
+import sirttas.elementalcraft.block.instrument.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractTileFireFurnace<T>> {
+public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>> {
 
 	private final T recipe;
 
@@ -18,18 +18,18 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public ItemStack getCraftingResult(AbstractTileFireFurnace<T> inv) {
-		return recipe.getCraftingResult(inv.getInventory());
+	public ItemStack getCraftingResult(AbstractFireFurnaceBlockEntity<T> inv) {
+		return recipe.assemble(inv.getInventory());
 	}
 
 	@Override
-	public boolean canFit(int width, int height) {
-		return recipe.canFit(width, height);
+	public boolean canCraftInDimensions(int width, int height) {
+		return recipe.canCraftInDimensions(width, height);
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
-		return recipe.getRecipeOutput();
+	public ItemStack getResultItem() {
+		return recipe.getResultItem();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public void process(AbstractTileFireFurnace<T> instrument) {
+	public void process(AbstractFireFurnaceBlockEntity<T> instrument) {
 		IIOInstrumentRecipe.super.process(instrument);
 		instrument.addExperience(recipe.getExperience());
 	}
@@ -59,7 +59,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	public int getDuration() {
-		return recipe.getCookTime();
+		return recipe.getCookingTime();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public boolean matches(AbstractTileFireFurnace<T> instrument) {
-		return instrument.getTankElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), instrument.getWorld());
+	public boolean matches(AbstractFireFurnaceBlockEntity<T> instrument) {
+		return instrument.getTankElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), instrument.getLevel());
 	}
 }

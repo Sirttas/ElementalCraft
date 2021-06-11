@@ -25,13 +25,13 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FireInfusionLootModifier extends LootModifier {
 
-	private static final ILootFunction FORTUNE = ApplyBonus.uniformBonusCount(Enchantments.FORTUNE).build();
+	private static final ILootFunction FORTUNE = ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE).build();
 	
 	protected FireInfusionLootModifier(ILootCondition[] conditions) {
 		super(conditions);
@@ -39,14 +39,14 @@ public class FireInfusionLootModifier extends LootModifier {
 
 	@SubscribeEvent
 	public static void register(RegistryEvent.Register<GlobalLootModifierSerializer<?>> evt) {
-		evt.getRegistry().register(new Serializer().setRegistryName(ElementalCraft.MODID, "fireinfusion"));
+		evt.getRegistry().register(new Serializer().setRegistryName(ElementalCraftApi.MODID, "fireinfusion"));
 	}
 
 	private ItemStack applyAutoSmelt(ItemStack stack, LootContext context) {
-		Optional<IRecipe<IInventory>> recipe = context.getWorld().getRecipeManager().getRecipes(IRecipeType.SMELTING).values().stream().filter(r -> r.getIngredients().get(0).test(stack)).findFirst();
+		Optional<IRecipe<IInventory>> recipe = context.getLevel().getRecipeManager().byType(IRecipeType.SMELTING).values().stream().filter(r -> r.getIngredients().get(0).test(stack)).findFirst();
 
 		if (recipe.isPresent()) {
-			ItemStack ret = recipe.get().getRecipeOutput().copy();
+			ItemStack ret = recipe.get().getResultItem().copy();
 
 			ret.setCount(ret.getCount() * stack.getCount());
 			if (Tags.Items.ORES.contains(stack.getItem())) {
@@ -60,7 +60,7 @@ public class FireInfusionLootModifier extends LootModifier {
 	@Nonnull
 	@Override
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		ItemStack tool = context.get(LootParameters.TOOL);
+		ItemStack tool = context.getParamOrNull(LootParameters.TOOL);
 
 		if (tool != null && !tool.isEmpty() && ToolInfusionHelper.hasAutoSmelt(tool)) {
 			return generatedLoot.stream().map(s -> applyAutoSmelt(s, context)).collect(Collectors.toList());

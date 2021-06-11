@@ -14,13 +14,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.player.PlayerElementStorage;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class EntityHandler {
 
 	private EntityHandler() {}
@@ -37,9 +38,9 @@ public class EntityHandler {
 	@SubscribeEvent
 	public static void onEntityLivingAttack(LivingAttackEvent event) {
 		LivingEntity entity = event.getEntityLiving();
-		World world = entity.world;
+		World world = entity.level;
 
-		if (!world.isRemote && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
+		if (!world.isClientSide && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
 			event.setCanceled(true);
 		}
 	}
@@ -48,7 +49,7 @@ public class EntityHandler {
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		PlayerEntity player = event.getPlayer();
 		
-		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getEntityWorld().isRemote) {
+		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getCommandSenderWorld().isClientSide) {
 			CompoundNBT tag = player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {

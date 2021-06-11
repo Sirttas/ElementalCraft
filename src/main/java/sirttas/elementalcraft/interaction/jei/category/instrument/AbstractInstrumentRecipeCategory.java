@@ -1,33 +1,17 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.ingredients.IIngredients;
 import sirttas.elementalcraft.block.instrument.IInstrument;
-import sirttas.elementalcraft.interaction.jei.category.AbstractRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.AbstractBlockEntityRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
-public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractRecipeCategory<K, T> {
+public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractBlockEntityRecipeCategory<K, T> {
 
-	private IDrawable overlay;
-	private int overlayX;
-	private int overlayY;
-
-	public void setOverlay(IDrawable overlay, int x, int y) {
-		this.overlay = overlay;
-		overlayX = x;
-		overlayY = y;
-	}
-
-	@Override
-	public void draw(T recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-		RenderSystem.enableBlend();
-		overlay.draw(matrixStack, overlayX, overlayY);
-		RenderSystem.disableBlend();
+	protected AbstractInstrumentRecipeCategory(String translationKey, IDrawable icon, IDrawable background) {
+		super(translationKey, icon, background);
 	}
 
 	@Override

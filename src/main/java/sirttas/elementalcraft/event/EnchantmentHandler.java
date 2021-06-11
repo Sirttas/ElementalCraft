@@ -8,12 +8,13 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class EnchantmentHandler {
 
 	private EnchantmentHandler() {}
@@ -23,19 +24,19 @@ public class EnchantmentHandler {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if (left.getItem() == ECItems.FOCUS && right.getItem() == ECItems.SCROLL && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
+		if (left.getItem().is(ECTags.Items.SPELL_CAST_TOOLS) && right.getItem() == ECItems.SCROLL && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
 			ItemStack result = left.copy();
 			ListNBT list = SpellHelper.getSpellList(left);
 			int n = 4 * (list != null ? list.size() + 1 : 1);
 
 			if (StringUtils.isBlank(event.getName())) {
-				if (left.hasDisplayName()) {
+				if (left.hasCustomHoverName()) {
 					n++;
-					result.clearCustomName();
+					result.resetHoverName();
 				}
-			} else if (!event.getName().equals(left.getDisplayName().getString())) {
+			} else if (!event.getName().equals(left.getHoverName().getString())) {
 				n++;
-				result.setDisplayName(new StringTextComponent(event.getName()));
+				result.setHoverName(new StringTextComponent(event.getName()));
 			}
 			SpellHelper.addSpell(result, SpellHelper.getSpell(right));
 			event.setCost(n);

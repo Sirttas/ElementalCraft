@@ -37,6 +37,6 @@ public interface IInfusionRecipe extends IInstrumentRecipe<IInfuser> {
 	
 	@Override
 	default NonNullList<Ingredient> getIngredients() {
-		return NonNullList.from(Ingredient.EMPTY, getInput());
+		return NonNullList.of(Ingredient.EMPTY, getInput());
 	}
 }

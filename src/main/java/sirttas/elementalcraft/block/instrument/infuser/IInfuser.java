@@ -12,6 +12,6 @@ public interface IInfuser extends IInstrument {
 	}
 
 	default ItemStack getItem() {
-		return this.getInventory().getStackInSlot(0);
+		return this.getInventory().getItem(0);
 	}
 }

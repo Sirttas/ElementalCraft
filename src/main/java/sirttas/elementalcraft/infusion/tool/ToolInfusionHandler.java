@@ -10,9 +10,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ToolInfusionHandler {
 
 	private ToolInfusionHandler() {}

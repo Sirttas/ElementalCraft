@@ -11,18 +11,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
-import sirttas.elementalcraft.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class ToolInfusionRecipe implements IInfusionRecipe {
 
 	public static final String NAME = "tool_" + IInfusionRecipe.NAME;
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<ToolInfusionRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<ToolInfusionRecipe> SERIALIZER = null;
 	
 	private final Ingredient input;
 	private final int elementAmount;
@@ -31,7 +31,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	
 	public ToolInfusionRecipe(ResourceLocation id, ResourceLocation toolInfusion, Ingredient input, int elementAmount) {
 		this.id = id;
-		this.toolInfusion = ElementalCraft.TOOL_INFUSION_MANAGER.getLazy(toolInfusion);
+		this.toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getLazy(toolInfusion);
 		this.input = input;
 		this.elementAmount = elementAmount;
 	}
@@ -60,10 +60,15 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
+	public ItemStack getResultItem() {
 		return ItemStack.EMPTY;
 	}
 
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
+	
 	@Override
 	public ResourceLocation getId() {
 		return id;
@@ -86,27 +91,27 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ToolInfusionRecipe> {
 
 		@Override
-		public ToolInfusionRecipe read(ResourceLocation recipeId, JsonObject json) {
-			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
+		public ToolInfusionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
-			ResourceLocation toolInfusion = new ResourceLocation(JSONUtils.getString(json, ECNames.TOOL_INFUSION));
+			ResourceLocation toolInfusion = new ResourceLocation(JSONUtils.getAsString(json, ECNames.TOOL_INFUSION));
 
 			return new ToolInfusionRecipe(recipeId, toolInfusion, input, elementAmount);
 		}
 
 		@Override
-		public ToolInfusionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+		public ToolInfusionRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
 			int elementAmount = buffer.readInt();
-			Ingredient input = Ingredient.read(buffer);
+			Ingredient input = Ingredient.fromNetwork(buffer);
 			ResourceLocation toolInfusion = buffer.readResourceLocation();
 
 			return new ToolInfusionRecipe(recipeId, toolInfusion, input, elementAmount);
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, ToolInfusionRecipe recipe) {
+		public void toNetwork(PacketBuffer buffer, ToolInfusionRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
-			recipe.getInput().write(buffer);
+			recipe.getInput().toNetwork(buffer);
 			buffer.writeResourceLocation(recipe.getToolInfusion().getId());
 		}
 	}

@@ -25,12 +25,12 @@ public final class SpellBookMessage {
 	public static SpellBookMessage decode(PacketBuffer buf) {
 		SpellBookMessage message = new SpellBookMessage();
 
-		message.book = buf.readItemStack();
+		message.book = buf.readItem();
 		return message;
 	}
 
 	public void encode(PacketBuffer buf) {
-		buf.writeItemStack(book);
+		buf.writeItem(book);
 	}
 
 
@@ -38,7 +38,7 @@ public final class SpellBookMessage {
 	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			if (ctx.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
-				Container container = Minecraft.getInstance().player.openContainer;
+				Container container = Minecraft.getInstance().player.containerMenu;
 
 				if (container instanceof SpellBookContainer) {
 					((SpellBookContainer) container).setBook(book);

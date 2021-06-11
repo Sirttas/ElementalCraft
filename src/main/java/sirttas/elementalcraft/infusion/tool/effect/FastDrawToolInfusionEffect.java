@@ -6,7 +6,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
+import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
 
 public class FastDrawToolInfusionEffect implements IToolInfusionEffect {
@@ -15,7 +17,7 @@ public class FastDrawToolInfusionEffect implements IToolInfusionEffect {
 	public static final Codec<FastDrawToolInfusionEffect> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Codec.INT.fieldOf(ECNames.VALUE).forGetter(FastDrawToolInfusionEffect::getValue)
 	).apply(builder, FastDrawToolInfusionEffect::new));
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final ToolInfusionEffectType<FastDrawToolInfusionEffect> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final ToolInfusionEffectType<FastDrawToolInfusionEffect> TYPE = null;
 	
 	private final int value;
 	

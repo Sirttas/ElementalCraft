@@ -4,6 +4,7 @@
 	"textures": {
 		"0": "elementalcraft:block/iron",
 		"1": "elementalcraft:block/whiterock",
+		"2": "elementalcraft:block/whiterock_with_paper",
 		"particle": "elementalcraft:block/whiterock"
 	},
 	"elements": [
@@ -16,7 +17,7 @@
 				"east": {"uv": [5, 4, 16, 6], "texture": "#1"},
 				"south": {"uv": [2, 4, 14, 6], "texture": "#1"},
 				"west": {"uv": [0, 4, 11, 6], "texture": "#1"},
-				"up": {"uv": [2, 2, 14, 16], "rotation": 180, "texture": "#1"},
+				"up": {"uv": [2, 2, 14, 16], "rotation": 180, "texture": "#2"},
 				"down": {"uv": [2, 5, 14, 16], "texture": "#1"}
 			}
 		},

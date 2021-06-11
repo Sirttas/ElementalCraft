@@ -24,16 +24,19 @@ public abstract class MixinItemRenderer implements IResourceManagerReloadListene
 
 	@Unique private ThreadLocal<ItemStack> stack = ThreadLocal.withInitial(() -> ItemStack.EMPTY);
 
-	@Inject(method = "renderItemOverlayIntoGUI(Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("HEAD"))
+	@Inject(method = "renderGuiItemDecorations(Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", 
+			at = @At("HEAD"))
 	public void renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, @Nullable String text, CallbackInfo ci) {
 		this.stack.set(stack);
 	}
 
-	@ModifyVariable(method = "renderItemOverlayIntoGUI(Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", index = 8, at = @At(value = "JUMP", opcode = Opcodes.IFLE, shift = At.Shift.BY, by = -3))
+	@ModifyVariable(method = "renderGuiItemDecorations(Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", 
+			index = 8, 
+			at = @At(value = "JUMP", opcode = Opcodes.IFLE, shift = At.Shift.BY, by = -3))
 	public float addSpellCooldown(float value) {
 		Minecraft minecraft = Minecraft.getInstance();
 
-		value = value > 0 ? value : SpellTickManager.getInstance(minecraft.world).getCooldown(minecraft.player, SpellHelper.getSpell(stack.get()), minecraft.getRenderPartialTicks());
+		value = value > 0 ? value : SpellTickManager.getInstance(minecraft.level).getCooldown(minecraft.player, SpellHelper.getSpell(stack.get()), minecraft.getFrameTime());
 		stack.remove();
 		return value;
 	}

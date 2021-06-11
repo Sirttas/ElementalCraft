@@ -1,7 +1,7 @@
 {
+  "color": "#7CAFC6",
   "element_consumption": 4000,
   "cooldown": 2400,
-  "color": "#7CAFC6",
   "spell_type": "mixed",
   "element_type": "air",
   "weight": 2

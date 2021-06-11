@@ -1,20 +1,19 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 
 import mezz.jei.api.helpers.IGuiHelper;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.instrument.mill.TileAirMill;
+import sirttas.elementalcraft.block.instrument.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
-public class GrindingRecipeCategory extends AbstractIOInstrumentRecipeCategory<TileAirMill, AirMillGrindingRecipe> {
+public class GrindingRecipeCategory extends AbstractIOInstrumentRecipeCategory<AirMillBlockEntity, AirMillGrindingRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL("grinding");
+	public static final ResourceLocation UID = ElementalCraft.createRL(IGrindingRecipe.NAME);
 
 	public GrindingRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper, new ItemStack(ECItems.AIR_MILL));
+		super(guiHelper, "elementalcraft.jei.grinding", ECItems.AIR_MILL);
 	}
 
 	@Override
@@ -23,14 +22,7 @@ public class GrindingRecipeCategory extends AbstractIOInstrumentRecipeCategory<T
 	}
 
 	@Override
-	public Class<? extends AirMillGrindingRecipe> getRecipeClass() {
+	public Class<AirMillGrindingRecipe> getRecipeClass() {
 		return AirMillGrindingRecipe.class;
 	}
-
-	@Override
-	public String getTitle() {
-		return I18n.format("elementalcraft.jei.grinding");
-	}
-
-
 }

@@ -27,19 +27,19 @@ public abstract class AbstractECParticle extends SpriteTexturedParticle {
 	@SuppressWarnings("deprecation")
 	static final IParticleRenderType EC_RENDER = new IParticleRenderType() {
 		@Override
-		public void beginRender(BufferBuilder buffer, TextureManager textureManager) {
+		public void begin(BufferBuilder buffer, TextureManager textureManager) {
 			RenderSystem.depthMask(false);
-			textureManager.bindTexture(AtlasTexture.LOCATION_PARTICLES_TEXTURE);
+			textureManager.bind(AtlasTexture.LOCATION_PARTICLES);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
 					GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			RenderSystem.alphaFunc(516, 0.003921569F);
-			buffer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+			buffer.begin(7, DefaultVertexFormats.PARTICLE);
 		}
 
 		@Override
-		public void finishRender(Tessellator tessellator) {
-			tessellator.draw();
+		public void end(Tessellator tessellator) {
+			tessellator.end();
 			RenderSystem.depthMask(true);
 		}
 
@@ -50,31 +50,40 @@ public abstract class AbstractECParticle extends SpriteTexturedParticle {
 	};
 	
 	protected AbstractECParticle(ClientWorld world, Vector3d coord) {
-		super(world, coord.getX(), coord.getY(), coord.getZ());
-		this.coordX = coord.getX();
-		this.coordY = coord.getY();
-		this.coordZ = coord.getZ();
+		super(world, coord.x(), coord.y(), coord.z());
+		this.coordX = coord.x();
+		this.coordY = coord.y();
+		this.coordZ = coord.z();
 	}
 
-
+	protected boolean checkLife() {
+		this.xo = this.x;
+		this.yo = this.y;
+		this.zo = this.z;
+		if (this.age++ >= this.lifetime) {
+			this.remove();
+			return false;
+		}
+		return true;
+	}
 
 	@SuppressWarnings("resource")
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public IParticleRenderType getRenderType() {
-		return Minecraft.getInstance().gameSettings.graphicFanciness == GraphicsFanciness.FAST ? IParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;
+		return Minecraft.getInstance().options.graphicsMode == GraphicsFanciness.FAST ? IParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;
 	}
 
 	@Override
 	public void move(double x, double y, double z) {
-		this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
-		this.resetPositionToBB();
+		this.setBoundingBox(this.getBoundingBox().move(x, y, z));
+		this.setLocationFromBoundingbox();
 	}
 
 	@Override
-	public int getBrightnessForRender(float partialTick) {
-		int i = super.getBrightnessForRender(partialTick);
-		float f = (float) this.age / (float) this.maxAge;
+	public int getLightColor(float partialTick) {
+		int i = super.getLightColor(partialTick);
+		float f = (float) this.age / (float) this.lifetime;
 		f = f * f;
 		f = f * f;
 		int j = i & 255;

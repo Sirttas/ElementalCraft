@@ -15,22 +15,22 @@ public abstract class AbstractECBossEntity extends MonsterEntity {
 	}
 
 	public static AttributeModifierMap.MutableAttribute getAttributeModifier() {
-		return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MAX_HEALTH, 500.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 10.0D)
-				.createMutableAttribute(Attributes.FOLLOW_RANGE, 64.0D).createMutableAttribute(Attributes.ARMOR, 4.0D).createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
+		return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, 500.0D).add(Attributes.ATTACK_DAMAGE, 10.0D)
+				.add(Attributes.FOLLOW_RANGE, 64.0D).add(Attributes.ARMOR, 4.0D).add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
 	@Override
-	public boolean addPotionEffect(EffectInstance effectInstanceIn) {
+	public boolean addEffect(EffectInstance effectInstanceIn) {
 		return false;
 	}
 
 	@Override
-	protected boolean canBeRidden(Entity entityIn) {
+	protected boolean canRide(Entity entityIn) {
 		return false;
 	}
 
 	@Override
-	public boolean canChangeDimension() {
+	public boolean canChangeDimensions() {
 		return false;
 	}
 

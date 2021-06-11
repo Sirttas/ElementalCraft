@@ -16,11 +16,12 @@ import net.minecraft.util.registry.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.pureinfuser.TilePureInfuser;
+import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 
-public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser> {
+public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlockEntity> {
 
 	public static final String NAME = "pureinfusion";
 	public static final IRecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<PureInfusionRecipe>() {
@@ -30,7 +31,7 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 		}
 	});
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<PureInfusionRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<PureInfusionRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
 	private final ItemStack output;
@@ -39,18 +40,18 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 
 	public PureInfusionRecipe(ResourceLocation id, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		this.id = id;
-		this.ingredients = NonNullList.from(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
+		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
 		this.output = output;
 		this.elementAmount = elementAmount;
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
+	public ItemStack getResultItem() {
 		return output;
 	}
 
 	@Override
-	public boolean matches(TilePureInfuser inv) {
+	public boolean matches(PureInfuserBlockEntity inv) {
 		return ingredients.get(0).test(inv.getItem()) 
 				&& ingredients.get(1).test(inv.getStackInPedestal(ElementType.WATER)) 
 				&& ingredients.get(2).test(inv.getStackInPedestal(ElementType.FIRE))
@@ -79,13 +80,13 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 	}
 
 	@Override
-	public ItemStack getCraftingResult(TilePureInfuser inv) {
-		return this.getRecipeOutput().copy();
+	public ItemStack getCraftingResult(PureInfuserBlockEntity inv) {
+		return this.getResultItem().copy();
 	}
 
 	@Override
-	public void process(TilePureInfuser instrument) {
-		instrument.getInventory().setInventorySlotContents(0, this.getCraftingResult(instrument));
+	public void process(PureInfuserBlockEntity instrument) {
+		instrument.getInventory().setItem(0, this.getCraftingResult(instrument));
 		instrument.emptyPedestals();
 	}
 
@@ -97,36 +98,36 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<TilePureInfuser>
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<PureInfusionRecipe> {
 
 		@Override
-		public PureInfusionRecipe read(ResourceLocation recipeId, JsonObject json) {
-			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
-			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getJsonArray(json, ECNames.INGREDIENTS));
+		public PureInfusionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getAsJsonArray(json, ECNames.INGREDIENTS));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
 			return new PureInfusionRecipe(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
-		public PureInfusionRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+		public PureInfusionRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
 			int elementAmount = buffer.readInt();
-			ItemStack output = buffer.readItemStack();
+			ItemStack output = buffer.readItem();
 			int i = buffer.readVarInt();
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
 			for (int j = 0; j < ingredients.size(); ++j) {
-				ingredients.set(j, Ingredient.read(buffer));
+				ingredients.set(j, Ingredient.fromNetwork(buffer));
 			}
 
 			return new PureInfusionRecipe(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, PureInfusionRecipe recipe) {
+		public void toNetwork(PacketBuffer buffer, PureInfusionRecipe recipe) {
 			buffer.writeInt(recipe.elementAmount);
-			buffer.writeItemStack(recipe.getRecipeOutput());
+			buffer.writeItem(recipe.getResultItem());
 			buffer.writeVarInt(recipe.getIngredients().size());
 
 			for (Ingredient ingredient : recipe.getIngredients()) {
-				ingredient.write(buffer);
+				ingredient.toNetwork(buffer);
 			}
 		}
 	}

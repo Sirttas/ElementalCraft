@@ -24,16 +24,17 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.evaporator.BlockEvaporator;
-import sirttas.elementalcraft.block.instrument.crystallizer.TileCrystallizer;
+import sirttas.elementalcraft.api.rune.Rune.BonusType;
+import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
+import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.elemental.ItemShard;
+import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.recipe.RecipeHelper;
-import sirttas.elementalcraft.rune.Rune.BonusType;
 
-public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystallizer> {
+public class CrystallizationRecipe extends AbstractInstrumentRecipe<CrystallizerBlockEntity> {
 
 	public static final String NAME = "crystallization";
 	public static final IRecipeType<CrystallizationRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<CrystallizationRecipe>() {
@@ -42,7 +43,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 			return NAME;
 		}
 	});
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final IRecipeSerializer<CrystallizationRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<CrystallizationRecipe> SERIALIZER = null;
 	
 	private final NonNullList<Ingredient> ingredients;
 	private final List<ResultEntry> outputs;
@@ -50,7 +51,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 
 	public CrystallizationRecipe(ResourceLocation id, ElementType type, int elementAmount, List<ResultEntry> outputs, List<Ingredient> ingredients) {
 		super(id, type);
-		this.ingredients = NonNullList.from(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
+		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
 		this.outputs = ImmutableList.copyOf(outputs);
 		this.elementAmount = elementAmount;
 	}
@@ -61,10 +62,10 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 	}
 
 	@Override
-	public boolean matches(TileCrystallizer inv) {
+	public boolean matches(CrystallizerBlockEntity inv) {
 		if (inv.getTankElementType() == getElementType() && inv.getItemCount() >= 2) {
 			for (int i = 0; i < 2; i++) {
-				if (!ingredients.get(i).test(inv.getInventory().getStackInSlot(i))) {
+				if (!ingredients.get(i).test(inv.getInventory().getItem(i))) {
 					return false;
 				}
 			}
@@ -79,10 +80,15 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
+	public ItemStack getResultItem() {
 		return ItemStack.EMPTY;
 	}
 
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
+	
 	public List<ResultEntry> getOutputs() {
 		return outputs;
 	}
@@ -93,32 +99,32 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 	}
 
 	@Override
-	public void process(TileCrystallizer instrument) {
+	public void process(CrystallizerBlockEntity instrument) {
 		int luck = (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
 		IInventory inv = instrument.getInventory();
 		
-		for (int i = 2; i < inv.getSizeInventory(); i++) {
-			ItemStack stack = inv.getStackInSlot(i);
+		for (int i = 2; i < inv.getContainerSize(); i++) {
+			ItemStack stack = inv.getItem(i);
 			
-			if (BlockEvaporator.getShardElementType(stack) == this.elementType) {
-				luck += ((ItemShard) stack.getItem()).getElementAmount();
+			if (EvaporatorBlock.getShardElementType(stack) == this.elementType) {
+				luck += ((ShardItem) stack.getItem()).getElementAmount();
 			}
 		}
-		instrument.clear();
-		instrument.getInventory().setInventorySlotContents(0, this.getCraftingResult(instrument, luck));
+		instrument.clearContent();
+		instrument.getInventory().setItem(0, this.getCraftingResult(instrument, luck));
 	}
 
 	@Override
-	public ItemStack getCraftingResult(TileCrystallizer instrument) {
+	public ItemStack getCraftingResult(CrystallizerBlockEntity instrument) {
 		return getCraftingResult(instrument, 0);
 	}
 
 	@SuppressWarnings("resource")
-	public ItemStack getCraftingResult(TileCrystallizer instrument, float luck) {
-		ItemStack gem = instrument.getInventory().getStackInSlot(0);
+	public ItemStack getCraftingResult(CrystallizerBlockEntity instrument, float luck) {
+		ItemStack gem = instrument.getInventory().getItem(0);
 		int index = IntStream.range(0, outputs.size()).filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem)).findFirst().orElse(0);
 		int weight = getTotalWeight(outputs.subList(index, outputs.size()), luck);
-		int roll = Math.min(instrument.getWorld().rand.nextInt(weight), weight - 1);
+		int roll = Math.min(instrument.getLevel().random.nextInt(weight), weight - 1);
 		
 		for (ResultEntry entry : outputs) {
 			roll -= entry.getEffectiveWeight(luck) + luck;
@@ -186,10 +192,10 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 		private static final Codec<List<ResultEntry>> OUTPUT_CODEC = ResultEntry.LIST_CODEC.fieldOf(ECNames.OUTPUTS).codec();
 
 		@Override
-		public CrystallizationRecipe read(ResourceLocation recipeId, JsonObject json) {
-			ElementType type = ElementType.byName(JSONUtils.getString(json, ECNames.ELEMENT_TYPE));
-			int elementAmount = JSONUtils.getInt(json, ECNames.ELEMENT_AMOUNT);
-			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getJsonObject(json, ECNames.INGREDIENTS));
+		public CrystallizationRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+			ElementType type = ElementType.byName(JSONUtils.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getAsJsonObject(json, ECNames.INGREDIENTS));
 			List<ResultEntry> outputs = CodecHelper.decode(ResultEntry.LIST_CODEC, json.get(ECNames.OUTPUTS));
 			
 			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
@@ -205,8 +211,8 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 		}
 
 		@Override
-		public CrystallizationRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			ElementType type = ElementType.byName(buffer.readString());
+		public CrystallizationRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			List<ResultEntry> outputs = CodecHelper.decode(OUTPUT_CODEC, buffer);
 			
@@ -214,19 +220,19 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<TileCrystall
 			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
 			for (int j = 0; j < i; ++j) {
-				ingredients.set(j, Ingredient.read(buffer));
+				ingredients.set(j, Ingredient.fromNetwork(buffer));
 			}
 
 			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, CrystallizationRecipe recipe) {
-			buffer.writeString(recipe.getElementType().getString());
+		public void toNetwork(PacketBuffer buffer, CrystallizationRecipe recipe) {
+			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
 			CodecHelper.encode(OUTPUT_CODEC, recipe.outputs, buffer);
 			buffer.writeInt(recipe.getIngredients().size());
-			recipe.getIngredients().forEach(ingredient -> ingredient.write(buffer));
+			recipe.getIngredients().forEach(ingredient -> ingredient.toNetwork(buffer));
 		}
 	}
 }

@@ -20,16 +20,17 @@ import sirttas.elementalcraft.world.feature.ECFeatures;
 public abstract class MixinMinecraftServer extends RecursiveEventLoop<TickDelayedTask> implements ISnooperInfo, ICommandSource, AutoCloseable {
 
 	@Shadow
-	public abstract ServerWorld func_241755_D_();
+	public abstract ServerWorld overworld();
 	
 	protected MixinMinecraftServer(String name) {
 		super(name);
 	}
 	
-	@Inject(method = "func_240787_a_(Lnet/minecraft/world/chunk/listener/IChunkStatusListener;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer; func_240786_a_(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/storage/IServerWorldInfo;ZZZ)V"))
+	@Inject(method = "createLevels(Lnet/minecraft/world/chunk/listener/IChunkStatusListener;)V", 
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer; setInitialSpawn(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/world/storage/IServerWorldInfo;ZZZ)V"))
 	private void addSpawnSources(IChunkStatusListener listener, CallbackInfo ci) {
 		if (Boolean.FALSE.equals(ECConfig.COMMON.disableWorldGen.get())) {
-			ECFeatures.addSpawnSources(this.func_241755_D_());
+			ECFeatures.addSpawnSources(this.overworld());
 		}
 	}
 }

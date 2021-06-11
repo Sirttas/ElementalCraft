@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -20,9 +21,14 @@ import sirttas.elementalcraft.api.name.ECNames;
 
 public enum ElementType implements IStringSerializable, IElementTypeProvider {
 
-	NONE(0, 0, 0, "none"), WATER(43, 173, 255, "water"), FIRE(247, 107, 27, "fire"), EARTH(76, 133, 102, "earth"), AIR(238, 255, 219, "air");
+	NONE(0, 0, 0, "none"),
+	WATER(43, 173, 255, "water"),
+	FIRE(247, 107, 27, "fire"),
+	EARTH(76, 133, 102, "earth"),
+	AIR(238, 255, 219, "air");
 
-	public static final Codec<ElementType> CODEC = IStringSerializable.createEnumCodec(ElementType::values, ElementType::byName);
+	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).collect(Collectors.toList()));
+	public static final Codec<ElementType> CODEC = IStringSerializable.fromEnum(ElementType::values, ElementType::byName);
 	public static final EnumProperty<ElementType> STATE_PROPERTY = EnumProperty.create(ECNames.ELEMENT_TYPE, ElementType.class);
 	
 	private final float r;
@@ -77,7 +83,7 @@ public enum ElementType implements IStringSerializable, IElementTypeProvider {
 
 	@Nonnull
 	@Override
-	public String getString() {
+	public String getSerializedName() {
 		return this.name;
 	}
 
@@ -87,7 +93,7 @@ public enum ElementType implements IStringSerializable, IElementTypeProvider {
 	}
 
 	public String getTranslationKey() {
-		return "element.elementalcraft." + getString();
+		return "element.elementalcraft." + getSerializedName();
 	}
 
 	public ITextComponent getDisplayName() {
@@ -104,11 +110,7 @@ public enum ElementType implements IStringSerializable, IElementTypeProvider {
 	}
 
 	public static ElementType getElementType(BlockState state) {
-		return state.get(STATE_PROPERTY);
-	}
-
-	public static List<ElementType> allValid() {
-		return Stream.of(values()).filter(type -> type != NONE).collect(Collectors.toList());
+		return state.getValue(STATE_PROPERTY);
 	}
 
 	public static <T> RecordCodecBuilder<T, ElementType> forGetter(final Function<T, ElementType> getter) {

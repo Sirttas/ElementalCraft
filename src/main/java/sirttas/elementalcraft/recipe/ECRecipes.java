@@ -5,7 +5,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
@@ -13,11 +14,11 @@ import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECRecipes {
 
 	private ECRecipes() {}
@@ -33,5 +34,7 @@ public class ECRecipes {
 		RegistryHelper.register(registry, new InscriptionRecipe.Serializer(), InscriptionRecipe.NAME);
 		RegistryHelper.register(registry, new AirMillGrindingRecipe.Serializer(), IGrindingRecipe.NAME);
 		RegistryHelper.register(registry, new PureInfusionRecipe.Serializer(), PureInfusionRecipe.NAME);
+		RegistryHelper.register(registry, new SpellCraftRecipe.Serializer(), SpellCraftRecipe.NAME);
+		RegistryHelper.register(registry, new StaffRecipe.Serializer(), StaffItem.NAME);
 	}
 }

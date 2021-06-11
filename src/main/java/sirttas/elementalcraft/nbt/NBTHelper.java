@@ -10,7 +10,7 @@ public class NBTHelper {
 	
 	public static ItemStack readItemStack(CompoundNBT cmp, String tag) {
 		if (cmp != null && cmp.contains(tag)) {
-			return ItemStack.read(cmp.getCompound(tag));
+			return ItemStack.of(cmp.getCompound(tag));
 		}
 		return ItemStack.EMPTY;
 	}
@@ -19,7 +19,7 @@ public class NBTHelper {
 		if (cmp != null) {
 			if (stack != null) {
 				CompoundNBT stackNbt = new CompoundNBT();
-				stack.write(stackNbt);
+				stack.save(stackNbt);
 				cmp.put(tag, stackNbt);
 				return stackNbt;
 			} else if (cmp.contains(tag)) {

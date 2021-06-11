@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.tile.renderer.AbstractRendererEC;
+import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererShrine<T extends AbstractTileShrine> extends AbstractRendererEC<T> {
+public class RendererShrine<T extends AbstractShrineBlockEntity> extends AbstractECRenderer<T> {
 
 	public RendererShrine(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn);
@@ -21,9 +21,9 @@ public class RendererShrine<T extends AbstractTileShrine> extends AbstractRender
 	@Override
 	public void render(T shrine, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 		if (shrine.showsRange()) {
-			BlockPos pos = shrine.getPos();
+			BlockPos pos = shrine.getBlockPos();
 			
-			WorldRenderer.drawBoundingBox(matrixStackIn, bufferIn.getBuffer(RenderType.getLines()), shrine.getRangeBoundingBox().offset(new BlockPos(-pos.getX(), -pos.getY(), -pos.getZ())), 1, 1,
+			WorldRenderer.renderLineBox(matrixStackIn, bufferIn.getBuffer(RenderType.lines()), shrine.getRangeBoundingBox().move(new BlockPos(-pos.getX(), -pos.getY(), -pos.getZ())), 1, 1,
 					0.6F, 1);
 		}
 

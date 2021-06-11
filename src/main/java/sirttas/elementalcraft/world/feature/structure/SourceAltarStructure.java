@@ -24,6 +24,7 @@ import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
@@ -37,7 +38,7 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 	}
 
 	@Override
-	public GenerationStage.Decoration getDecorationStage() {
+	public GenerationStage.Decoration step() {
 		return GenerationStage.Decoration.SURFACE_STRUCTURES;
 	}
 
@@ -47,8 +48,8 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 	}
 
 	@Override
-	public String getStructureName() {
-		return ElementalCraft.MODID + ":" + NAME;
+	public String getFeatureName() {
+		return ElementalCraftApi.MODID + ":" + NAME;
 	}
 
 	public static class Start extends StructureStart<IElementTypeFeatureConfig> {
@@ -58,15 +59,15 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 		}
 		
 		@Override
-		public void func_230364_a_/* init */(DynamicRegistries dynamicRegistries, ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn,
+		public void generatePieces/* init */(DynamicRegistries dynamicRegistries, ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn,
 				IElementTypeFeatureConfig config) {
-			this.components.add(new Piece(templateManagerIn, getRoll(), config.getElementType(rand), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
-			this.recalculateStructureSize();
+			this.pieces.add(new Piece(templateManagerIn, getRoll(), config.getElementType(random), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
+			this.calculateBoundingBox();
 
 		}
 		
 		private ResourceLocation getRoll() {
-			int roll = this.rand.nextInt(20);
+			int roll = this.random.nextInt(20);
 			
 			if (roll == 0) {
 				return ElementalCraft.createRL("altar/chapel");
@@ -98,33 +99,33 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 		}
 
 		private void initTemplate(TemplateManager templateManager) {
-			this.setup(templateManager.getTemplateDefaulted(templateName), this.templatePosition,
-					new PlacementSettings().setMirror(Mirror.NONE).setCenterOffset(new BlockPos(1, 0, 1)).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK));
+			this.setup(templateManager.getOrCreate(templateName), this.templatePosition,
+					new PlacementSettings().setMirror(Mirror.NONE).setRotationPivot(new BlockPos(1, 0, 1)).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK));
 		}
 
 		@Override
-		protected void readAdditional(CompoundNBT tagCompound) {
-			super.readAdditional(tagCompound);
+		protected void addAdditionalSaveData(CompoundNBT tagCompound) {
+			super.addAdditionalSaveData(tagCompound);
 			tagCompound.putString("Template", this.templateName.toString());
-			tagCompound.putString("ElementType", this.elementType.getString());
+			tagCompound.putString("ElementType", this.elementType.getSerializedName());
 		}
 
 
 		@Override
-		public boolean func_230383_a_/* create */(ISeedReader worldIn, StructureManager structureManager, ChunkGenerator chunkGeneratorIn, Random randomIn, MutableBoundingBox mutableBoundingBoxIn,
+		public boolean postProcess/* create */(ISeedReader worldIn, StructureManager structureManager, ChunkGenerator chunkGeneratorIn, Random randomIn, MutableBoundingBox mutableBoundingBoxIn,
 				ChunkPos chunkPosIn, BlockPos pos) {
-			this.templatePosition = this.templatePosition.add(0, worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, this.templatePosition.getX(), this.templatePosition.getZ()) - 1, 0);
-			return super.func_230383_a_/* create */(worldIn, structureManager, chunkGeneratorIn, randomIn, mutableBoundingBoxIn, chunkPosIn, pos);
+			this.templatePosition = this.templatePosition.offset(0, worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, this.templatePosition.getX(), this.templatePosition.getZ()) - 1, 0);
+			return super.postProcess/* create */(worldIn, structureManager, chunkGeneratorIn, randomIn, mutableBoundingBoxIn, chunkPosIn, pos);
 
 		}
 
 		@Override
 		protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
 			if (function.endsWith("chest")) {
-				this.generateChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getString()), null);
-				worldIn.updateBlock(pos, Blocks.CHEST);
+				this.createChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getSerializedName()), null);
+				worldIn.blockUpdated(pos, Blocks.CHEST);
 			} else if ("source".equals(function)) {
-				worldIn.setBlockState(pos, ECBlocks.SOURCE.getDefaultState().with(ElementType.STATE_PROPERTY, elementType), 3);
+				worldIn.setBlock(pos, ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType), 3);
 			}
 		}
 

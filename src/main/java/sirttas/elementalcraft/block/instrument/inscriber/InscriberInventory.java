@@ -11,7 +11,7 @@ public class InscriberInventory extends InstrumentInventory {
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+	public boolean canPlaceItem(int slot, ItemStack stack) {
 		return slot != 0 || ECTags.Items.RUNE_SLATES.contains(stack.getItem());
 	}
 

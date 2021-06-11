@@ -19,34 +19,34 @@ public class SpellBookScreen extends ContainerScreen<SpellBookContainer> impleme
 	public SpellBookScreen(SpellBookContainer container, PlayerInventory playerInventory, ITextComponent title) {
 		super(container, playerInventory, title);
 		this.passEvents = false;
-		this.ySize = 114 + SpellBookContainer.ROW_COUNT * 18;
-		this.playerInventoryTitleY = this.ySize - 94;
+		this.imageHeight = 114 + SpellBookContainer.ROW_COUNT * 18;
+		this.inventoryLabelY = this.imageHeight - 94;
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+		this.renderTooltip(matrixStack, mouseX, mouseY);
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-		ITextComponent text = new StringTextComponent(MessageFormat.format("{0}/{1}", this.container.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
+	protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+		ITextComponent text = new StringTextComponent(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
 
-		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-		this.font.drawText(matrixStack, text, (float) this.xSize - this.font.func_243245_a(text.func_241878_f()) - this.titleX, this.titleY, 4210752);
+		super.renderLabels(matrixStack, x, y);
+		this.font.draw(matrixStack, text, (float) this.imageWidth - this.font.width(text.getVisualOrderText()) - this.titleLabelX, this.titleLabelY, 4210752);
 
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.minecraft.getTextureManager().bindTexture(CHEST_GUI_TEXTURE);
-		int i = (this.width - this.xSize) / 2;
-		int j = (this.height - this.ySize) / 2;
-		this.blit(matrixStack, i, j, 0, 0, this.xSize, SpellBookContainer.ROW_COUNT * 18 + 17);
-		this.blit(matrixStack, i, j + SpellBookContainer.ROW_COUNT * 18 + 17, 0, 126, this.xSize, 96);
+		this.minecraft.getTextureManager().bind(CHEST_GUI_TEXTURE);
+		int i = (this.width - this.imageWidth) / 2;
+		int j = (this.height - this.imageHeight) / 2;
+		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, SpellBookContainer.ROW_COUNT * 18 + 17);
+		this.blit(matrixStack, i, j + SpellBookContainer.ROW_COUNT * 18 + 17, 0, 126, this.imageWidth, 96);
 	}
 }

@@ -15,12 +15,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.entity.player.PlayerElementStorage;
@@ -30,7 +29,7 @@ import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
 @SuppressWarnings("resource")
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class GuiHandler {
 
 	private GuiHandler() {}
@@ -44,12 +43,11 @@ public class GuiHandler {
 			getElementStorage(player).ifPresent(storage -> {
 				if (storage instanceof IElementTypeProvider) {
 					ElementType type = ((IElementTypeProvider) storage).getElementType();
-					int amount = storage.getElementAmount(type);
 					Spell spell = getSpell();
 		
-					doRenderElementGauge(matrixStack, amount, storage.getElementCapacity(type), type);
+					doRenderElementGauge(matrixStack, storage.getElementAmount(type), storage.getElementCapacity(type), type);
 					if (spell.isValid() && storage instanceof PlayerElementStorage) {
-						doRenderCanCast(matrixStack, amount >= spell.getConsumeAmount());
+						doRenderCanCast(matrixStack, spell.consume(player, true));
 					}
 				}
 			});
@@ -58,11 +56,11 @@ public class GuiHandler {
 
 	private static Optional<IElementStorage> getElementStorage(PlayerEntity player) {
 		Minecraft minecraft = Minecraft.getInstance();
-		RayTraceResult result = minecraft.objectMouseOver;
+		RayTraceResult result = minecraft.hitResult;
 
-		if (result != null && minecraft.gameSettings.getPointOfView().func_243192_a()) {
-			BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getPos() : null;
-			TileEntity tile = pos != null ? minecraft.player.world.getTileEntity(pos) : null;
+		if (result != null && minecraft.options.getCameraType().isFirstPerson()) {
+			BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getBlockPos() : null;
+			TileEntity tile = pos != null ? minecraft.player.level.getBlockEntity(pos) : null;
 			if (tile != null) {
 				return CapabilityElementStorage.get(tile).filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo());
 			}
@@ -74,7 +72,7 @@ public class GuiHandler {
 				return opt;
 			}
 			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
-				return CapabilityElementStorage.get(player).resolve().map(storage -> new SingleElementStorageWrapper(SpellHelper.getSpell(stack).getElementType(), storage))
+				return CapabilityElementStorage.get(player).resolve().map(storage -> storage.forElement(SpellHelper.getSpell(stack).getElementType()))
 						.map(IElementStorage.class::cast);
 			}
 			return Optional.<IElementStorage>empty();
@@ -95,11 +93,11 @@ public class GuiHandler {
 	}
 
 	public static int getYOffset() {
-		return Minecraft.getInstance().getMainWindow().getScaledHeight() / 2 + ECConfig.CLIENT.gaugeOffsetX.get();
+		return Minecraft.getInstance().getWindow().getGuiScaledHeight() / 2 + ECConfig.CLIENT.gaugeOffsetX.get();
 	}
 
 	public static int getXoffset() {
-		return Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 + ECConfig.CLIENT.gaugeOffsetY.get();
+		return Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2 + ECConfig.CLIENT.gaugeOffsetY.get();
 	}
 	
 	private static void doRenderCanCast(MatrixStack matrixStack, boolean canCast) {

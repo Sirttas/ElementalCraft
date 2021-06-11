@@ -6,8 +6,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 public final class ECMessage {
 
@@ -28,15 +28,15 @@ public final class ECMessage {
 	}
 
 	public static ECMessage decode(PacketBuffer buf) {
-		return new ECMessage(buf.readEnumValue(MessageType.class));
+		return new ECMessage(buf.readEnum(MessageType.class));
 	}
 
 	public void encode(PacketBuffer buf) {
-		buf.writeEnumValue(type);
+		buf.writeEnum(type);
 	}
 
 	private void handelScroll(ServerPlayerEntity player, int delta) {
-		EntityHelper.handStream(player).filter(i -> i.getItem() == ECItems.FOCUS).findFirst().ifPresent(i -> SpellHelper.moveSelected(i, delta));
+		EntityHelper.handStream(player).filter(i -> i.getItem().is(ECTags.Items.SPELL_CAST_TOOLS)).findFirst().ifPresent(i -> SpellHelper.moveSelected(i, delta));
 	}
 
 	public void handle(Supplier<NetworkEvent.Context> ctx) {

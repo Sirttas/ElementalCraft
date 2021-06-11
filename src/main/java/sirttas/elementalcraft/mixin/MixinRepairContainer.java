@@ -15,7 +15,7 @@ import net.minecraft.inventory.container.RepairContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
-import sirttas.elementalcraft.infusion.tool.ToolInfusion;
+import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
 @Mixin(RepairContainer.class)
@@ -23,7 +23,7 @@ public abstract class MixinRepairContainer extends AbstractRepairContainer {
 
 	@Shadow
 	@Final
-	private IntReferenceHolder maximumCost;
+	private IntReferenceHolder cost;
 	
 	protected MixinRepairContainer(ContainerType<?> type, int i, PlayerInventory inv, IWorldPosCallable callable) {
 		super(type, i, inv, callable);
@@ -31,21 +31,22 @@ public abstract class MixinRepairContainer extends AbstractRepairContainer {
 
 	@Unique
 	public ItemStack getLeft() {
-		return this.field_234643_d_.getStackInSlot(0);
+		return this.inputSlots.getItem(0);
 	}
 
 	@Unique
 	public ItemStack getRight() {
-		return this.field_234643_d_.getStackInSlot(1);
+		return this.inputSlots.getItem(1);
 	}
 
 	@Unique
 	public ItemStack getOutput() {
-		return this.field_234642_c_.getStackInSlot(0);
+		return this.resultSlots.getItem(0);
 	}
 	
-	@Inject(method = "updateRepairOutput()V", at = @At("RETURN"))
-	public void onUpdateRepairOutput(CallbackInfo ci) {
+	@Inject(method = "createResult()V", 
+			at = @At("RETURN"))
+	public void updateRepairOutputReturn(CallbackInfo ci) {
 		ToolInfusion left = ToolInfusionHelper.getInfusion(getLeft());
 		ToolInfusion right = ToolInfusionHelper.getInfusion(getRight());
 		ItemStack output = getOutput();
@@ -55,7 +56,7 @@ public abstract class MixinRepairContainer extends AbstractRepairContainer {
 				ToolInfusionHelper.setInfusion(output, left);
 			} else if (right != null) {
 				if (!ToolInfusionHelper.getInfusion(output).equals(right)) {
-					maximumCost.set(maximumCost.get() + 4);
+					cost.set(cost.get() + 4);
 				}
 				ToolInfusionHelper.setInfusion(output, right);
 			} else {

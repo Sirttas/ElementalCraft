@@ -5,6 +5,7 @@ import java.util.stream.StreamSupport;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import net.minecraft.client.resources.I18n;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 
 public class ElementIngredientHelper implements IIngredientHelper<IngredientElementType> {
@@ -16,22 +17,22 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 
 	@Override
 	public String getDisplayName(IngredientElementType ingredient) {
-		return I18n.format(ingredient.getType().getTranslationKey());
+		return I18n.get(ingredient.getType().getTranslationKey());
 	}
 
 	@Override
 	public String getUniqueId(IngredientElementType ingredient) {
-		return ingredient.getType().getString();
+		return ingredient.getType().getSerializedName();
 	}
 
 	@Override
 	public String getModId(IngredientElementType ingredient) {
-		return ElementalCraft.MODID;
+		return ElementalCraftApi.MODID;
 	}
 
 	@Override
 	public String getResourceId(IngredientElementType ingredient) {
-		return ElementalCraft.createRL(ingredient.getType().getString()).toString();
+		return ElementalCraft.createRL(ingredient.getType().getSerializedName()).toString();
 	}
 
 	@Override

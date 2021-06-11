@@ -8,15 +8,17 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
+import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.infusion.tool.effect.AttributeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
@@ -24,7 +26,6 @@ import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
-import sirttas.elementalcraft.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
 public class ToolInfusionHelper {
@@ -34,12 +35,8 @@ public class ToolInfusionHelper {
 	public static ToolInfusion getInfusion(ItemStack stack) {
 		CompoundNBT nbt = NBTHelper.getECTag(stack);
 
-		if (nbt != null) {
-			if (nbt.contains(ECNames.INFUSION, 8)) {
-				return ElementalCraft.TOOL_INFUSION_MANAGER.get(new ResourceLocation(nbt.getString(ECNames.INFUSION)));
-			} else if (nbt.contains(ECNames.INFUSION, 10)) { // TODO 1.17 remove
-				nbt.remove(ECNames.INFUSION);
-			}
+		if (nbt != null && nbt.contains(ECNames.INFUSION, 8)) {
+			return ElementalCraftApi.TOOL_INFUSION_MANAGER.get(new ResourceLocation(nbt.getString(ECNames.INFUSION)));
 		}
 		return null;
 	}
@@ -66,12 +63,12 @@ public class ToolInfusionHelper {
 		return getInfusionEffects(stack, FastDrawToolInfusionEffect.class).findAny().map(FastDrawToolInfusionEffect::getValue).orElse(-1);
 	}
 	
-	public static boolean hasFireInfusion(LivingEntity entity) {
+	public static boolean hasFireInfusion(Entity entity) {
 		return getInfusions(entity)
 				.anyMatch(infusion -> infusion.getElementType() == ElementType.FIRE);
 	}
 	
-	public static double getDodge(LivingEntity entity) {
+	public static double getDodge(Entity entity) {
 		return getInfusionEffects(entity)
 				.filter(DodgeToolInfusionEffect.class::isInstance)
 				.map(DodgeToolInfusionEffect.class::cast)
@@ -79,13 +76,13 @@ public class ToolInfusionHelper {
 				.reduce(1D, (a, b) -> a * b);
 	}
 
-	private static Stream<ToolInfusion> getInfusions(LivingEntity entity) {
-		return StreamSupport.stream(entity.getEquipmentAndArmor().spliterator(), false)
+	private static Stream<ToolInfusion> getInfusions(Entity entity) {
+		return StreamSupport.stream(entity.getAllSlots().spliterator(), false)
 				.map(ToolInfusionHelper::getInfusion)
 				.filter(Objects::nonNull);
 	}
 	
-	private static Stream<IToolInfusionEffect> getInfusionEffects(LivingEntity entity) {
+	private static Stream<IToolInfusionEffect> getInfusionEffects(Entity entity) {
 		return getInfusions(entity).flatMap(t -> t.getEffects().stream());
 	}
 	
@@ -111,7 +108,7 @@ public class ToolInfusionHelper {
 		return map;
 	}
 	
-	public static float getElementCostReduction(LivingEntity entity) {
+	public static float getElementCostReduction(Entity entity) {
 		return (float) getInfusionEffects(entity)
 				.filter(ElementCostReductionToolInfusionEffect.class::isInstance)
 				.map(ElementCostReductionToolInfusionEffect.class::cast)

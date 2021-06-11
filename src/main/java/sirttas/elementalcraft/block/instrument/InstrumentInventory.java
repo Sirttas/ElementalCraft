@@ -23,7 +23,7 @@ public class InstrumentInventory extends AbstractSynchronizableInventory impleme
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getContainerSize() {
 		return size;
 	}
 
@@ -37,12 +37,12 @@ public class InstrumentInventory extends AbstractSynchronizableInventory impleme
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index) {
+	public ItemStack getItem(int index) {
 		return stacks.size() > index ? stacks.get(index) : ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setItem(int index, ItemStack stack) {
 		if (index < stacks.size()) {
 			stacks.set(index, stack);
 		} else if (stack.isEmpty()) {
@@ -51,26 +51,26 @@ public class InstrumentInventory extends AbstractSynchronizableInventory impleme
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
+	public int getMaxStackSize() {
 		return 1;
 	}
 
 	@Override
-	public void clear() {
+	public void clearContent() {
 		stacks.clear();
 
 	}
 
 	@Override
-	public ItemStack decrStackSize(int index, int count) {
-		return ItemStackHelper.getAndSplit(stacks, index, count);
+	public ItemStack removeItem(int index, int count) {
+		return ItemStackHelper.removeItem(stacks, index, count);
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		ItemStack ret = getStackInSlot(index);
+	public ItemStack removeItemNoUpdate(int index) {
+		ItemStack ret = getItem(index);
 
-		setInventorySlotContents(index, ItemStack.EMPTY);
+		setItem(index, ItemStack.EMPTY);
 		return ret;
 	}
 
@@ -84,7 +84,7 @@ public class InstrumentInventory extends AbstractSynchronizableInventory impleme
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		clear();
+		clearContent();
 		ItemStackHelper.loadAllItems(nbt, this.stacks);
 	}
 }

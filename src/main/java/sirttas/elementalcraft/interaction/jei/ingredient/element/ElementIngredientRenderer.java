@@ -32,7 +32,7 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 
 		tooltips.add(ingredient.getDisplayName());
 		if (amount != -1) {
-			tooltips.add(new TranslationTextComponent("tooltip.elemntalcraft.element_amount." + amount).mergeStyle(TextFormatting.GREEN));
+			tooltips.add(new TranslationTextComponent("tooltip.elemntalcraft.element_amount." + amount).withStyle(TextFormatting.GREEN));
 		}
 		return tooltips;
 	}

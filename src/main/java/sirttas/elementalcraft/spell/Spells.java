@@ -7,43 +7,45 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.registry.RegistryHelper;
-import sirttas.elementalcraft.spell.air.SpellDash;
-import sirttas.elementalcraft.spell.air.SpellEnderStrike;
-import sirttas.elementalcraft.spell.air.SpellItemPull;
-import sirttas.elementalcraft.spell.earth.SpellGavelFall;
-import sirttas.elementalcraft.spell.earth.SpellSilkVein;
-import sirttas.elementalcraft.spell.earth.SpellStoneWall;
-import sirttas.elementalcraft.spell.earth.SpellTreeFall;
-import sirttas.elementalcraft.spell.fire.SpellFireBall;
-import sirttas.elementalcraft.spell.fire.SpellFlameCleave;
-import sirttas.elementalcraft.spell.fire.SpellInferno;
-import sirttas.elementalcraft.spell.water.SpellAnimalGrowth;
-import sirttas.elementalcraft.spell.water.SpellPurification;
-import sirttas.elementalcraft.spell.water.SpellRipening;
+import sirttas.elementalcraft.spell.air.DashSpell;
+import sirttas.elementalcraft.spell.air.EnderStrikeSpell;
+import sirttas.elementalcraft.spell.air.ItemPullSpell;
+import sirttas.elementalcraft.spell.air.TranslocationSpell;
+import sirttas.elementalcraft.spell.earth.GavelFallSpell;
+import sirttas.elementalcraft.spell.earth.SilkVeinSpell;
+import sirttas.elementalcraft.spell.earth.StoneWallSpell;
+import sirttas.elementalcraft.spell.earth.TreeFallSpell;
+import sirttas.elementalcraft.spell.fire.FireBallSpell;
+import sirttas.elementalcraft.spell.fire.FlameCleaveSpell;
+import sirttas.elementalcraft.spell.fire.InfernoSpell;
+import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
+import sirttas.elementalcraft.spell.water.PurificationSpell;
+import sirttas.elementalcraft.spell.water.RipeningSpell;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Spells {
 
-	@ObjectHolder(ElementalCraft.MODID + ":none") public static final Spell NONE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":none") public static final Spell NONE = null;
 
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellGavelFall.NAME) public static final SpellGavelFall GRAVEL_FALL = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellStoneWall.NAME) public static final SpellStoneWall STONE_WALL = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFireBall.NAME) public static final SpellFireBall FIRE_BALL = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellItemPull.NAME) public static final SpellItemPull ITEM_PULL = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellEnderStrike.NAME) public static final SpellEnderStrike ENDER_STRIKE = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellAnimalGrowth.NAME) public static final SpellAnimalGrowth ANIMAL_GROWTH = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellTreeFall.NAME) public static final SpellTreeFall TREE_FALL = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellPurification.NAME) public static final SpellPurification PURIFICATION = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellRipening.NAME) public static final SpellRipening RIPENING = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellFlameCleave.NAME) public static final SpellFlameCleave FLAME_CLEAVE = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellInferno.NAME) public static final SpellInferno INFERNO = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellDash.NAME) public static final SpellDash DASH = null;
-	@ObjectHolder(ElementalCraft.MODID + ":" + SpellSilkVein.NAME) public static final SpellSilkVein SILK_VEIN = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + GavelFallSpell.NAME) public static final GavelFallSpell GRAVEL_FALL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + StoneWallSpell.NAME) public static final StoneWallSpell STONE_WALL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + FireBallSpell.NAME) public static final FireBallSpell FIRE_BALL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ItemPullSpell.NAME) public static final ItemPullSpell ITEM_PULL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + EnderStrikeSpell.NAME) public static final EnderStrikeSpell ENDER_STRIKE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + AnimalGrowthSpell.NAME) public static final AnimalGrowthSpell ANIMAL_GROWTH = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + TreeFallSpell.NAME) public static final TreeFallSpell TREE_FALL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + PurificationSpell.NAME) public static final PurificationSpell PURIFICATION = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + RipeningSpell.NAME) public static final RipeningSpell RIPENING = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + FlameCleaveSpell.NAME) public static final FlameCleaveSpell FLAME_CLEAVE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + InfernoSpell.NAME) public static final InfernoSpell INFERNO = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + DashSpell.NAME) public static final DashSpell DASH = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SilkVeinSpell.NAME) public static final SilkVeinSpell SILK_VEIN = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + TranslocationSpell.NAME) public static final TranslocationSpell TRANSLOCATION = null;
 
-	@ObjectHolder(ElementalCraft.MODID + ":heal") public static final EffectSpell HEAL = null;
-	@ObjectHolder(ElementalCraft.MODID + ":speed") public static final EffectSpell SPEED = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":heal") public static final EffectSpell HEAL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":speed") public static final EffectSpell SPEED = null;
 
 	private Spells() {}
 	
@@ -53,22 +55,23 @@ public class Spells {
 
 		RegistryHelper.register(registry, new Spell(), "none");
 
-		RegistryHelper.register(registry, new SpellGavelFall(), SpellGavelFall.NAME);
-		RegistryHelper.register(registry, new SpellStoneWall(), SpellStoneWall.NAME);
-		RegistryHelper.register(registry, new SpellFireBall(), SpellFireBall.NAME);
-		RegistryHelper.register(registry, new SpellItemPull(), SpellItemPull.NAME);
-		RegistryHelper.register(registry, new SpellEnderStrike(), SpellEnderStrike.NAME);
-		RegistryHelper.register(registry, new SpellAnimalGrowth(), SpellAnimalGrowth.NAME);
-		RegistryHelper.register(registry, new SpellTreeFall(), SpellTreeFall.NAME);
-		RegistryHelper.register(registry, new SpellPurification(), SpellPurification.NAME);
-		RegistryHelper.register(registry, new SpellRipening(), SpellRipening.NAME);
-		RegistryHelper.register(registry, new SpellFlameCleave(), SpellFlameCleave.NAME);
-		RegistryHelper.register(registry, new SpellInferno(), SpellInferno.NAME);
-		RegistryHelper.register(registry, new SpellDash(), SpellDash.NAME);
-		RegistryHelper.register(registry, new SpellSilkVein(), SpellSilkVein.NAME);
+		RegistryHelper.register(registry, new GavelFallSpell(), GavelFallSpell.NAME);
+		RegistryHelper.register(registry, new StoneWallSpell(), StoneWallSpell.NAME);
+		RegistryHelper.register(registry, new FireBallSpell(), FireBallSpell.NAME);
+		RegistryHelper.register(registry, new ItemPullSpell(), ItemPullSpell.NAME);
+		RegistryHelper.register(registry, new EnderStrikeSpell(), EnderStrikeSpell.NAME);
+		RegistryHelper.register(registry, new AnimalGrowthSpell(), AnimalGrowthSpell.NAME);
+		RegistryHelper.register(registry, new TreeFallSpell(), TreeFallSpell.NAME);
+		RegistryHelper.register(registry, new PurificationSpell(), PurificationSpell.NAME);
+		RegistryHelper.register(registry, new RipeningSpell(), RipeningSpell.NAME);
+		RegistryHelper.register(registry, new FlameCleaveSpell(), FlameCleaveSpell.NAME);
+		RegistryHelper.register(registry, new InfernoSpell(), InfernoSpell.NAME);
+		RegistryHelper.register(registry, new DashSpell(), DashSpell.NAME);
+		RegistryHelper.register(registry, new SilkVeinSpell(), SilkVeinSpell.NAME);
+		RegistryHelper.register(registry, new TranslocationSpell(), TranslocationSpell.NAME);
 
-		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.INSTANT_HEALTH, 1, 1)), "heal");
-		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.SPEED, 2400, 1), new EffectInstance(Effects.HASTE, 2400)), "speed");
+		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.HEAL, 1, 1)), "heal");
+		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.MOVEMENT_SPEED, 2400, 1), new EffectInstance(Effects.DIG_SPEED, 2400)), "speed");
 	}
 
 }

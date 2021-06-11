@@ -15,11 +15,12 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.boss.earthgolem.EarthGolemEntity;
 import sirttas.elementalcraft.entity.boss.earthgolem.EarthGolemRenderer;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECEntities {
 
 	private ECEntities() {}
@@ -28,7 +29,7 @@ public class ECEntities {
 	public static void registerEntitiess(RegistryEvent.Register<EntityType<?>> event) {
 		IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-		register(registry, Builder.create(EarthGolemEntity::new, EntityClassification.MONSTER).immuneToFire().size(7F, 8.5F), EarthGolemEntity.NAME, EarthGolemEntity.getAttributeModifier().create());
+		register(registry, Builder.of(EarthGolemEntity::new, EntityClassification.MONSTER).fireImmune().sized(7F, 8.5F), EarthGolemEntity.NAME, EarthGolemEntity.getAttributeModifier().build());
 	}
 
 	@OnlyIn(Dist.CLIENT)

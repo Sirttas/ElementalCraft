@@ -20,6 +20,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECAdvancementProvider implements IDataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -30,12 +31,12 @@ public class ECAdvancementProvider implements IDataProvider {
 	}
 
 	@Override
-	public void act(DirectoryCache cache) throws IOException {
+	public void run(DirectoryCache cache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 
 		for (Item item : ForgeRegistries.ITEMS) {
-			if (ElementalCraft.MODID.equals(item.getRegistryName().getNamespace())) {
-				IDataProvider.save(GSON, cache, itemPickup(item).serialize(), getPath(path, item));
+			if (ElementalCraftApi.MODID.equals(item.getRegistryName().getNamespace())) {
+				IDataProvider.save(GSON, cache, itemPickup(item).serializeToJson(), getPath(path, item));
 			}
 		}
 	}
@@ -55,7 +56,7 @@ public class ECAdvancementProvider implements IDataProvider {
 	}
 
 	private Advancement.Builder itemPickup(IItemProvider item) {
-		return Advancement.Builder.builder().withParentId(ElementalCraft.createRL("main/root")).withCriterion("has_" + item.asItem().getRegistryName().getPath(),
+		return Advancement.Builder.advancement().parent(ElementalCraft.createRL("main/root")).addCriterion("has_" + item.asItem().getRegistryName().getPath(),
 				hasItem(item));
 	}
 
@@ -64,7 +65,7 @@ public class ECAdvancementProvider implements IDataProvider {
 	 * a certain item.
 	 */
 	protected static InventoryChangeTrigger.Instance hasItem(IItemProvider item) {
-		return hasItem(ItemPredicate.Builder.create().item(item).build());
+		return hasItem(ItemPredicate.Builder.item().of(item).build());
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class ECAdvancementProvider implements IDataProvider {
 	 * an item within the given tag.
 	 */
 	protected static InventoryChangeTrigger.Instance hasItem(ITag<Item> tag) {
-		return hasItem(ItemPredicate.Builder.create().tag(tag).build());
+		return hasItem(ItemPredicate.Builder.item().of(tag).build());
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class ECAdvancementProvider implements IDataProvider {
 	 * a certain item.
 	 */
 	protected static InventoryChangeTrigger.Instance hasItem(ItemPredicate... predicate) {
-		return new InventoryChangeTrigger.Instance(EntityPredicate.AndPredicate.ANY_AND, MinMaxBounds.IntBound.UNBOUNDED, MinMaxBounds.IntBound.UNBOUNDED, MinMaxBounds.IntBound.UNBOUNDED,
+		return new InventoryChangeTrigger.Instance(EntityPredicate.AndPredicate.ANY, MinMaxBounds.IntBound.ANY, MinMaxBounds.IntBound.ANY, MinMaxBounds.IntBound.ANY,
 				predicate);
 	}
 

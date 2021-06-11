@@ -18,49 +18,49 @@ public class ParticleHelper {
 	private ParticleHelper() {}
 	
 	public static void createSourceParticle(ElementType type, World world, Vector3d pos, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 2 - 1) / 16;
-		double y = pos.getY() - 3D / 16;
-		double z = pos.getZ() + (rand.nextDouble() * 2 - 1) / 16;
+		double x = pos.x() + (rand.nextDouble() * 2 - 1) / 16;
+		double y = pos.y() - 3D / 16;
+		double z = pos.z() + (rand.nextDouble() * 2 - 1) / 16;
 
 		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE, type), x, y, z, 0F, 0F, 0F);
 	}
 	
 	public static void createExhaustedSourceParticle(ElementType type, World world, Vector3d pos, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 6 - 3) / 16;
-		double y = pos.getY() - 3D / 16;
-		double z = pos.getZ() + (rand.nextDouble() * 6 - 3) / 16;
+		double x = pos.x() + (rand.nextDouble() * 6 - 3) / 16;
+		double y = pos.y() - 3D / 16;
+		double z = pos.z() + (rand.nextDouble() * 6 - 3) / 16;
 
 		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE_EXHAUSTED, type), x, y, z, 0F, 0F, 0F);
 	}
 
 	public static void createCraftingParticle(ElementType type, World world, Vector3d pos, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 2 - 1) / 16;
-		double y = pos.getY() - 3D / 16;
-		double z = pos.getZ() + (rand.nextDouble() * 2 - 1) / 16;
+		double x = pos.x() + (rand.nextDouble() * 2 - 1) / 16;
+		double y = pos.y() - 3D / 16;
+		double z = pos.z() + (rand.nextDouble() * 2 - 1) / 16;
 
 		IntStream.range(0, 8 + rand.nextInt(5))
 				.forEach(i -> world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING, type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
 	}
 
 	public static void createElementFlowParticle(ElementType type, World world, Vector3d pos, Direction direction, int scale, Random rand) {
-		createElementFlowParticle(type, world, pos, Vector3d.copy(direction.getOpposite().getDirectionVec()).scale(scale == 0 ? 1 : scale), rand);
+		createElementFlowParticle(type, world, pos, Vector3d.atLowerCornerOf(direction.getOpposite().getNormal()).scale(scale == 0 ? 1 : scale), rand);
 	}
 
 	public static void createElementFlowParticle(ElementType type, World world, Vector3d pos, Vector3d flow, Random rand) {
-		double x = pos.getX() + (rand.nextDouble() * 6 - 3) / 16;
-		double y = pos.getY() - 3D / 16;
-		double z = pos.getZ() + (rand.nextDouble() * 6 - 3) / 16;
+		double x = pos.x() + (rand.nextDouble() * 6 - 3) / 16;
+		double y = pos.y() - 3D / 16;
+		double z = pos.z() + (rand.nextDouble() * 6 - 3) / 16;
 
-		world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, type), x, y, z, flow.getX(), flow.getY(), flow.getZ());
+		world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, type), x, y, z, flow.x(), flow.y(), flow.z());
 	}
 
 	public static void createEnderParticle(World world, Vector3d pos, int count, Random rand) {
 		for (int i = 0; i < count; ++i) {
 			int j = rand.nextInt(2) * 2 - 1;
 			int k = rand.nextInt(2) * 2 - 1;
-			double d0 = pos.getX() + 0.5D + 0.25D * j;
-			double d1 = pos.getY() + rand.nextFloat();
-			double d2 = pos.getZ() + 0.5D + 0.25D * k;
+			double d0 = pos.x() + 0.5D + 0.25D * j;
+			double d1 = pos.y() + rand.nextFloat();
+			double d2 = pos.z() + 0.5D + 0.25D * k;
 			double d3 = rand.nextFloat() * j;
 			double d4 = (rand.nextFloat() - 0.5D) * 0.125D;
 			double d5 = rand.nextFloat() * k;
@@ -74,7 +74,7 @@ public class ParticleHelper {
 			Vector3d loc = pos.add(0, (rand.nextDouble() * 0.2 - 0.2), 0);
 
 			if (world instanceof ServerWorld) {
-				((ServerWorld) world).spawnParticle(new ItemParticleData(ParticleTypes.ITEM, stack), loc.x, loc.y, loc.z, 1, speed.x, speed.y + 0.05D, speed.z, 0.0D);
+				((ServerWorld) world).sendParticles(new ItemParticleData(ParticleTypes.ITEM, stack), loc.x, loc.y, loc.z, 1, speed.x, speed.y + 0.05D, speed.z, 0.0D);
 			} else {
 				world.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), loc.x, loc.y, loc.z, speed.x, speed.y + 0.05D, speed.z);
 			}

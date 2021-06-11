@@ -13,7 +13,7 @@ public class CrystallizerInventory extends InstrumentInventory {
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) { // TODO use tags built from recipes
+	public boolean canPlaceItem(int slot, ItemStack stack) { // TODO use tags built from recipes
 		Item item = stack.getItem();
 
 		if (slot == 0) {

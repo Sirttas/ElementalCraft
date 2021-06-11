@@ -30,7 +30,7 @@ public abstract class AbstractPureOreRecipeInjector<C extends IInventory, T exte
 
 	private Map<ResourceLocation, T> recipes;
 	private RecipeManager recipeManager;
-
+	
 	protected AbstractPureOreRecipeInjector(IRecipeType<T> recipeType) {
 		this(recipeType, true);
 	}
@@ -49,7 +49,7 @@ public abstract class AbstractPureOreRecipeInjector<C extends IInventory, T exte
 	@SuppressWarnings("unchecked")
 	public void init(RecipeManager recipeManager) {
 		this.recipeManager = recipeManager;
-		this.recipes = recipeManager.getRecipes(recipeType).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> (T) entry.getValue()));
+		this.recipes = recipeManager.byType(recipeType).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> (T) entry.getValue()));
 	}
 
 	public boolean filter(T recipe, ItemStack stack) {
@@ -65,7 +65,7 @@ public abstract class AbstractPureOreRecipeInjector<C extends IInventory, T exte
 	}
 
 	public ItemStack getRecipeOutput(T recipe) {
-		return recipe.getRecipeOutput();
+		return recipe.getResultItem();
 	}
 	
 	public abstract T build(T recipe, Ingredient ingredient);
@@ -75,7 +75,10 @@ public abstract class AbstractPureOreRecipeInjector<C extends IInventory, T exte
 	}
 
 	public Optional<T> getRecipe(Item ore) {
-		return getRecipes().values().stream().filter(recipe -> filter(recipe, new ItemStack(ore))).findAny();
+		return getRecipes().values().stream()
+				.filter(recipe -> filter(recipe, new ItemStack(ore)))
+				.sorted((r1, r2) -> r1.getId().compareTo(r2.getId()))
+				.findFirst();
 	}
 
 	public IRecipeType<T> getRecipeType() {

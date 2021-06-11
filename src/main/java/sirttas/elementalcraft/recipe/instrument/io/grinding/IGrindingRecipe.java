@@ -6,12 +6,12 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.registry.Registry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.mill.TileAirMill;
+import sirttas.elementalcraft.api.rune.Rune.BonusType;
+import sirttas.elementalcraft.block.instrument.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
-import sirttas.elementalcraft.rune.Rune.BonusType;
 
-public interface IGrindingRecipe extends IIOInstrumentRecipe<TileAirMill> {
+public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillBlockEntity> {
 
 	public static final String NAME = "grinding";
 	public static final IRecipeType<IGrindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<IGrindingRecipe>() {
@@ -32,12 +32,12 @@ public interface IGrindingRecipe extends IIOInstrumentRecipe<TileAirMill> {
 	}
 	
 	@Override
-	default Random getRand(TileAirMill instrument) {
-		return instrument.getWorld().getRandom();
+	default Random getRand(AirMillBlockEntity instrument) {
+		return instrument.getLevel().getRandom();
 	}
 	
 	@Override
-	default int getLuck(TileAirMill instrument) {
+	default int getLuck(AirMillBlockEntity instrument) {
 		return (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.airMillLuckRatio.get());
 	}
 }

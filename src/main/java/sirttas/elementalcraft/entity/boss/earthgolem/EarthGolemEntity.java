@@ -14,7 +14,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.boss.AbstractECBossEntity;
 import sirttas.elementalcraft.entity.goal.CastSpellGoal;
 import sirttas.elementalcraft.spell.SpellTickManager;
@@ -23,14 +23,14 @@ import sirttas.elementalcraft.spell.Spells;
 public class EarthGolemEntity extends AbstractECBossEntity {
 
 	public static final String NAME = "earthgolem";
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final EntityType<EarthGolemEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final EntityType<EarthGolemEntity> TYPE = null;
 
 	public EarthGolemEntity(EntityType<EarthGolemEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
 
 	public static AttributeModifierMap.MutableAttribute getAttributeModifier() {
-		return AbstractECBossEntity.getAttributeModifier().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0).createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 5.0D);
+		return AbstractECBossEntity.getAttributeModifier().add(Attributes.MOVEMENT_SPEED, 0).add(Attributes.KNOCKBACK_RESISTANCE, 5.0D);
 	}
 
 	@Override
@@ -45,12 +45,12 @@ public class EarthGolemEntity extends AbstractECBossEntity {
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
-		boolean ret = super.attackEntityFrom(source, amount);
+	public boolean hurt(DamageSource source, float amount) {
+		boolean ret = super.hurt(source, amount);
 
-		if (ret && source instanceof IndirectEntityDamageSource && this.rand.nextInt(10) > 2) {
+		if (ret && source instanceof IndirectEntityDamageSource && this.random.nextInt(10) > 2) {
 			Spells.STONE_WALL.castOnSelf(this);
-			SpellTickManager.getInstance(getEntityWorld()).setCooldown(this, Spells.STONE_WALL);
+			SpellTickManager.getInstance(getCommandSenderWorld()).setCooldown(this, Spells.STONE_WALL);
 		}
 		return ret;
 	}
@@ -63,7 +63,7 @@ public class EarthGolemEntity extends AbstractECBossEntity {
 
 		@Override
 		protected double getAttackReachSqr(LivingEntity attackTarget) {
-			return this.attacker.getWidth() * 1.25F * this.attacker.getWidth() * 1.25F + attackTarget.getWidth();
+			return this.mob.getBbWidth() * 1.25F * this.mob.getBbWidth() * 1.25F + attackTarget.getBbWidth();
 		}
 	}
 }

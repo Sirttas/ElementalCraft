@@ -15,7 +15,7 @@ public interface IInventoryTile extends IClearable {
 	LazyOptional<IItemHandler> getItemHandler();
 
 	@Override
-	default void clear() {
-		getInventory().clear();
+	default void clearContent() {
+		getInventory().clearContent();
 	}
 }

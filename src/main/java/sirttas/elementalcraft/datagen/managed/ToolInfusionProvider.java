@@ -18,14 +18,14 @@ import net.minecraft.util.ResourceLocation;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.infusion.tool.ToolInfusion;
+import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
+import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.AttributeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
-import sirttas.elementalcraft.infusion.tool.effect.IToolInfusionEffect;
 
 public class ToolInfusionProvider implements IDataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -36,29 +36,29 @@ public class ToolInfusionProvider implements IDataProvider {
 	}
 
 	@Override
-	public void act(DirectoryCache cache) throws IOException {
+	public void run(DirectoryCache cache) throws IOException {
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FIRE_ASPECT));
-		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FLAME));
+		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FLAMING_ARROWS));
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FIRE_PROTECTION));
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.PIERCING));
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.IMPALING));
-		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.FORTUNE));
-		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.LOOTING));
-		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.LUCK_OF_THE_SEA));
+		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.BLOCK_FORTUNE));
+		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.MOB_LOOTING));
+		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.FISHING_LUCK));
 		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.BLAST_PROTECTION));
 		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.RESPIRATION));
-		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.PUNCH));
+		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.PUNCH_ARROWS));
 		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.MULTISHOT));
 		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.LOYALTY));
 		save(cache, ElementType.WATER, new EnchantmentToolInfusionEffect(Enchantments.DEPTH_STRIDER));
 		save(cache, ElementType.EARTH, new EnchantmentToolInfusionEffect(Enchantments.UNBREAKING));
-		save(cache, ElementType.EARTH, new EnchantmentToolInfusionEffect(Enchantments.PROTECTION));
+		save(cache, ElementType.EARTH, new EnchantmentToolInfusionEffect(Enchantments.ALL_DAMAGE_PROTECTION));
 		save(cache, ElementType.EARTH, new EnchantmentToolInfusionEffect(Enchantments.SHARPNESS));
-		save(cache, ElementType.EARTH, new EnchantmentToolInfusionEffect(Enchantments.POWER));
-		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.FEATHER_FALLING));
-		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.EFFICIENCY));
+		save(cache, ElementType.EARTH, new EnchantmentToolInfusionEffect(Enchantments.POWER_ARROWS));
+		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.FALL_PROTECTION));
+		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.BLOCK_EFFICIENCY));
 		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.QUICK_CHARGE));
-		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.LURE));
+		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.FISHING_SPEED));
 		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.RIPTIDE));
 		save(cache, ElementType.AIR, new EnchantmentToolInfusionEffect(Enchantments.PROJECTILE_PROTECTION));
 
@@ -76,6 +76,15 @@ public class ToolInfusionProvider implements IDataProvider {
 		save(cache, new ElementCostReductionToolInfusionEffect(ElementType.EARTH, 0.1F), "earth_reduction");
 		save(cache, new ElementCostReductionToolInfusionEffect(ElementType.AIR, 0.1F), "air_reduction");
 
+		save(cache, new ToolInfusion(ElementType.FIRE, Lists.newArrayList(new EnchantmentToolInfusionEffect(Enchantments.FIRE_ASPECT), 
+				new ElementCostReductionToolInfusionEffect(ElementType.FIRE, 0.15F))), "fire_staff");
+		save(cache, new ToolInfusion(ElementType.WATER, Lists.newArrayList(new EnchantmentToolInfusionEffect(Enchantments.MOB_LOOTING), 
+				new ElementCostReductionToolInfusionEffect(ElementType.WATER, 0.15F))), "water_staff");
+		save(cache, new ToolInfusion(ElementType.EARTH, Lists.newArrayList(new EnchantmentToolInfusionEffect(Enchantments.SHARPNESS), 
+				new ElementCostReductionToolInfusionEffect(ElementType.EARTH, 0.15F))), "earth_staff");
+		save(cache, new ToolInfusion(ElementType.AIR, Lists.newArrayList(new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlotType.MAINHAND), Attributes.ATTACK_SPEED,
+				new AttributeModifier("Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), new ElementCostReductionToolInfusionEffect(ElementType.AIR, 0.15F))), "air_staff");
+		
 	}
 
 	protected void save(DirectoryCache cache, ElementType type, IToolInfusionEffect infusion, String name) throws IOException {

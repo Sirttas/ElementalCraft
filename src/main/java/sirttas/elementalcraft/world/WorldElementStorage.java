@@ -1,18 +1,15 @@
 package sirttas.elementalcraft.world;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 
-public class WorldElementStorage implements IElementStorage {
+public class WorldElementStorage implements IElementStorage, INBTSerializable<CompoundNBT> {
 	
 	private final SubStorage fire;
 	private final SubStorage water;
@@ -31,7 +28,7 @@ public class WorldElementStorage implements IElementStorage {
 	}
 
 	public static ICapabilityProvider createProvider() {
-		return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY != null ? new CapabilityProvider(new WorldElementStorage()) : null;
+		return CapabilityElementStorage.createProvider(new WorldElementStorage());
 	}
 
 	@Override
@@ -54,21 +51,23 @@ public class WorldElementStorage implements IElementStorage {
 		return getSubStorage(type).extractElement(count, type, simulate);
 	}
 
-	public CompoundNBT writeNBT() {
+	@Override
+	public CompoundNBT serializeNBT() {
 		CompoundNBT compound = new CompoundNBT();
 
-		compound.put(ElementType.FIRE.getString(), fire.writeNBT());
-		compound.put(ElementType.WATER.getString(), water.writeNBT());
-		compound.put(ElementType.EARTH.getString(), earth.writeNBT());
-		compound.put(ElementType.AIR.getString(), air.writeNBT());
+		compound.put(ElementType.FIRE.getSerializedName(), fire.serializeNBT());
+		compound.put(ElementType.WATER.getSerializedName(), water.serializeNBT());
+		compound.put(ElementType.EARTH.getSerializedName(), earth.serializeNBT());
+		compound.put(ElementType.AIR.getSerializedName(), air.serializeNBT());
 		return compound;
 	}
 
-	public void readNBT(CompoundNBT compound) {
-		fire.readNBT(compound.getCompound(ElementType.FIRE.getString()));
-		water.readNBT(compound.getCompound(ElementType.WATER.getString()));
-		earth.readNBT(compound.getCompound(ElementType.EARTH.getString()));
-		air.readNBT(compound.getCompound(ElementType.AIR.getString()));
+	@Override
+	public void deserializeNBT(CompoundNBT compound) {
+		fire.deserializeNBT(compound.getCompound(ElementType.FIRE.getSerializedName()));
+		water.deserializeNBT(compound.getCompound(ElementType.WATER.getSerializedName()));
+		earth.deserializeNBT(compound.getCompound(ElementType.EARTH.getSerializedName()));
+		air.deserializeNBT(compound.getCompound(ElementType.AIR.getSerializedName()));
 	}
 	
 	private IElementStorage getSubStorage(ElementType elementType) {
@@ -95,31 +94,6 @@ public class WorldElementStorage implements IElementStorage {
 
 		public SubStorage(ElementType type) {
 			super(type, 1000000);
-		}
-	}
-	
-	private static class CapabilityProvider implements ICapabilitySerializable<CompoundNBT> {
-
-		private final WorldElementStorage storage;
-		
-		
-		public CapabilityProvider(WorldElementStorage storage) {
-			this.storage = storage;
-		}
-
-		@Override
-		public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-			return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> storage));
-		}
-
-		@Override
-		public CompoundNBT serializeNBT() {
-			return storage.writeNBT();
-		}
-
-		@Override
-		public void deserializeNBT(CompoundNBT nbt) {
-			storage.readNBT(nbt);
 		}
 	}
 }

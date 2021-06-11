@@ -26,8 +26,8 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
-		return recipe.getRecipeOutput();
+	public ItemStack getResultItem() {
+		return recipe.getResultItem();
 	}
 
 	@Override

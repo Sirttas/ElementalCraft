@@ -1,0 +1,17 @@
+{
+  "type": "elementalcraft:spell_craft",
+  "gem": {
+    "tag": "forge:gems/diamond"
+  },
+  "crystal": {
+    "item": "elementalcraft:watercrystal"
+  },
+  "output": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
+      "elementalcraft": {
+        "spell": "elementalcraft:ripening"
+      }
+    }
+  }
+}

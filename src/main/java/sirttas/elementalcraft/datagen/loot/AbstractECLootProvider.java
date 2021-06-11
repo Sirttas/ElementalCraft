@@ -13,7 +13,7 @@ import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.LootTableManager;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.ItemEC;
+import sirttas.elementalcraft.item.ECItem;
 
 public abstract class AbstractECLootProvider implements IDataProvider {
 
@@ -26,10 +26,10 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 	}
 	
 	protected void save(DirectoryCache cache, Builder builder, Path path) throws IOException {
-		IDataProvider.save(GSON, cache, LootTableManager.toJson(builder.build()), path);
+		IDataProvider.save(GSON, cache, LootTableManager.serialize(builder.build()), path);
 	}
 
-	public static ItemEC getCrystalForType(ElementType type) {
+	public static ECItem getCrystalForType(ElementType type) {
 		switch (type) {
 		case AIR:
 			return ECItems.AIR_CRYSTAL;
@@ -44,7 +44,7 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 		}
 	}
 
-	public static ItemEC getShardForType(ElementType type) {
+	public static ECItem getShardForType(ElementType type) {
 		switch (type) {
 		case AIR:
 			return ECItems.AIR_SHARD;
@@ -59,7 +59,7 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 		}
 	}
 
-	public static ItemEC getPowerfulShardForType(ElementType type) {
+	public static ECItem getPowerfulShardForType(ElementType type) {
 		switch (type) {
 		case AIR:
 			return ECItems.POWERFUL_AIR_SHARD;

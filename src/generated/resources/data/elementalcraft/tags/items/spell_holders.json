@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "elementalcraft:focus",
-    "elementalcraft:scroll"
+    "elementalcraft:scroll",
+    "elementalcraft:staff"
   ]
 }

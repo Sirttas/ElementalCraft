@@ -3,8 +3,6 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -20,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
@@ -49,11 +48,11 @@ public class InscriptionRecipeBuilder {
 	}
 
 	public InscriptionRecipeBuilder setSlate(INamedTag<Item> tagIn) {
-		return this.setSlate(Ingredient.fromTag(tagIn));
+		return this.setSlate(Ingredient.of(tagIn));
 	}
 
 	public InscriptionRecipeBuilder setSlate(IItemProvider itemIn) {
-		return this.setSlate(Ingredient.fromItems(itemIn));
+		return this.setSlate(Ingredient.of(itemIn));
 	}
 
 	public InscriptionRecipeBuilder setSlate(Ingredient ingredientIn) {
@@ -62,11 +61,11 @@ public class InscriptionRecipeBuilder {
 	}
 
 	public InscriptionRecipeBuilder addIngredient(INamedTag<Item> tagIn) {
-		return this.addIngredient(Ingredient.fromTag(tagIn));
+		return this.addIngredient(Ingredient.of(tagIn));
 	}
 
 	public InscriptionRecipeBuilder addIngredient(IItemProvider itemIn) {
-		return this.addIngredient(Ingredient.fromItems(itemIn));
+		return this.addIngredient(Ingredient.of(itemIn));
 	}
 
 	public InscriptionRecipeBuilder addIngredient(Ingredient ingredientIn) {
@@ -86,18 +85,15 @@ public class InscriptionRecipeBuilder {
 		consumerIn.accept(new Result(id, this.serializer, this.slate, this.ingredients, this.output, elementType, elementAmount));
 	}
 
-	public static class Result implements IFinishedRecipe {
-		private final ResourceLocation id;
+	public static class Result extends AbstractFinishedRecipe {
 		private final Ingredient slate;
 		private final List<Ingredient> ingredients;
 		private final ResourceLocation output;
 		private final ElementType elementType;
 		private final int elementAmount;
-		private final IRecipeSerializer<?> serializer;
 
-		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, Ingredient slate, List<Ingredient> ingredients, ResourceLocation output, ElementType elementType, int elementAmount) {
-			this.id = idIn;
-			this.serializer = serializerIn;
+		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, Ingredient slate, List<Ingredient> ingredients, ResourceLocation output, ElementType elementType, int elementAmount) {
+			super(id, serializer);
 			this.slate = slate;
 			this.ingredients = ingredients;
 			this.output = output;
@@ -106,14 +102,14 @@ public class InscriptionRecipeBuilder {
 		}
 
 		@Override
-		public void serialize(JsonObject json) {
-			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getString());
+		public void serializeRecipeData(JsonObject json) {
+			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getSerializedName());
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
-			json.add("slate", slate.serialize());
+			json.add("slate", slate.toJson());
 			JsonArray jsonarray = new JsonArray();
 
 			for (Ingredient ingredient : this.ingredients) {
-				jsonarray.add(ingredient.serialize());
+				jsonarray.add(ingredient.toJson());
 			}
 
 			json.add(ECNames.INGREDIENTS, jsonarray);
@@ -130,28 +126,6 @@ public class InscriptionRecipeBuilder {
 			tagJson.add(ECNames.EC_NBT, ecNbtJson);
 			json.add(ECNames.NBT, tagJson);
 			return json;
-		}
-		
-		@Override
-		public ResourceLocation getID() {
-			return this.id;
-		}
-
-		@Override
-		public IRecipeSerializer<?> getSerializer() {
-			return this.serializer;
-		}
-
-		@Override
-		@Nullable
-		public JsonObject getAdvancementJson() {
-			return null;
-		}
-
-		@Override
-		@Nullable
-		public ResourceLocation getAdvancementID() {
-			return null;
 		}
 	}
 }

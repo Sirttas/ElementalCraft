@@ -13,9 +13,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.codec.Codecs;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
+import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.item.ItemEC;
+import sirttas.elementalcraft.item.ECItem;
 
 public class AttributeToolInfusionEffect implements IToolInfusionEffect {
 
@@ -25,7 +27,7 @@ public class AttributeToolInfusionEffect implements IToolInfusionEffect {
 			Codecs.ATTRIBUTE.fieldOf(ECNames.ATTRIBUTE).forGetter(i ->i.attribute),
 			Codecs.ATTRIBUTE_MODIFIER.fieldOf(ECNames.MODIFIER).forGetter(i ->i.modifier)
 	).apply(builder, AttributeToolInfusionEffect::new));
-	@ObjectHolder(ElementalCraft.MODID + ":" + NAME) public static final ToolInfusionEffectType<AttributeToolInfusionEffect> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final ToolInfusionEffectType<AttributeToolInfusionEffect> TYPE = null;
 	
 	private final List<EquipmentSlotType> slots;
 	private final Attribute attribute;
@@ -39,7 +41,7 @@ public class AttributeToolInfusionEffect implements IToolInfusionEffect {
 
 	@Override
 	public ITextComponent getDescription() {
-		return ItemEC.getAttributeTooltip(attribute, modifier).mergeStyle(TextFormatting.YELLOW);
+		return ECItem.getAttributeTooltip(attribute, modifier).withStyle(TextFormatting.YELLOW);
 	}
 
 	@Override

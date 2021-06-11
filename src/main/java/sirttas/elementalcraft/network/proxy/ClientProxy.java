@@ -11,9 +11,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import sirttas.elementalcraft.block.instrument.mill.RendererAirMill;
-import sirttas.elementalcraft.block.solarsynthesizer.RendererSolarSynthesizer;
-import sirttas.elementalcraft.block.tile.renderer.ECRenderers;
+import sirttas.elementalcraft.block.entity.renderer.ECRenderers;
+import sirttas.elementalcraft.block.instrument.mill.AirMillRenderer;
+import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.inventory.container.screen.ECScreens;
 import sirttas.elementalcraft.item.ECItems;
@@ -47,7 +47,7 @@ public class ClientProxy implements IProxy {
 
 	@Override
 	public World getDefaultWorld() {
-		return minecraft.world;
+		return minecraft.level;
 	}
 	
 	@Override
@@ -63,17 +63,17 @@ public class ClientProxy implements IProxy {
 
 	public void registerModels(ModelRegistryEvent event) {
 		Runes.registerModels();
-		ModelLoader.addSpecialModel(RendererSolarSynthesizer.LENSE_LOCATION);
-		ModelLoader.addSpecialModel(RendererAirMill.BLADES_LOCATION);
+		ModelLoader.addSpecialModel(SolarSynthesizerRenderer.LENSE_LOCATION);
+		ModelLoader.addSpecialModel(AirMillRenderer.BLADES_LOCATION);
 	}
 	
 	public void stitchTextures(TextureStitchEvent.Pre event) {
-		addSprite(event, RendererSolarSynthesizer.BEAM);
+		addSprite(event, SolarSynthesizerRenderer.BEAM);
 	}
 	
 	private void addSprite(TextureStitchEvent.Pre event, RenderMaterial sprite) {
-		if (event.getMap().getTextureLocation().equals(sprite.getAtlasLocation())) {
-			event.addSprite(sprite.getTextureLocation());
+		if (event.getMap().location().equals(sprite.atlasLocation())) {
+			event.addSprite(sprite.texture());
 		}
 	}
 }

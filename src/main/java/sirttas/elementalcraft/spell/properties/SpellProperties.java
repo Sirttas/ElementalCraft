@@ -1,30 +1,36 @@
 package sirttas.elementalcraft.spell.properties;
 
+import java.util.Collections;
 import java.util.Map;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.event.DataManagerReloadEvent;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.gui.ECColorHelper;
 import sirttas.elementalcraft.spell.Spell;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class SpellProperties implements IElementTypeProvider {
 
 	public static final String NAME = "spell_properties";
-	public static final String FOLDER = ElementalCraft.MODID + '_' + NAME;
+	public static final String FOLDER = ElementalCraftApi.MODID + '_' + NAME;
 
 	public static final SpellProperties NONE = new SpellProperties();
 	public static final Codec<SpellProperties> CODEC = RecordCodecBuilder.create(builder -> builder.group(
@@ -35,23 +41,25 @@ public class SpellProperties implements IElementTypeProvider {
 			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(SpellProperties::getConsumeAmount),
 			Codec.INT.optionalFieldOf(ECNames.COOLDOWN, 0).forGetter(SpellProperties::getCooldown),
 			Codec.FLOAT.optionalFieldOf(ECNames.RANGE, 0F).forGetter(SpellProperties::getRange),
-			Codecs.COLOR.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::getColor)
+			Codecs.COLOR.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::getColor),
+			Codecs.ATTRIBUTE_MULTIMAP.optionalFieldOf(ECNames.ATTRIBUTES, Multimaps.forMap(Collections.emptyMap())).forGetter(SpellProperties::getAttributes)
 	).apply(builder, SpellProperties::new));
 
-	private int cooldown;
-	private int consumeAmount;
-	private int useDuration;
-	private int weight;
-	private int color;
-	private float range;
-	private ElementType elementType;
-	private Spell.Type spellType;
+	private final int cooldown;
+	private final int consumeAmount;
+	private final int useDuration;
+	private final int weight;
+	private final int color;
+	private final float range;
+	private final ElementType elementType;
+	private final Spell.Type spellType;
+	private final Multimap<Attribute, AttributeModifier> attributes;
 
 	public SpellProperties() {
-		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, -1);
+		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, -1, null);
 	}
 
-	private SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, int color) {
+	private SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, int color, Multimap<Attribute, AttributeModifier> attributes) {
 		this.spellType = spellType;
 		this.elementType = elementType;
 		this.weight = weight;
@@ -60,6 +68,7 @@ public class SpellProperties implements IElementTypeProvider {
 		this.cooldown = cooldown;
 		this.range = range;
 		this.color = color;
+		this.attributes = attributes != null ? Multimaps.unmodifiableMultimap(attributes) : Multimaps.forMap(Collections.emptyMap());
 	}
 
 	public int getCooldown() {
@@ -95,6 +104,11 @@ public class SpellProperties implements IElementTypeProvider {
 		return color;
 	}
 	
+
+	public Multimap<Attribute, AttributeModifier> getAttributes() {
+		return attributes;
+	}
+	
 	@SubscribeEvent
 	public static void onReload(DataManagerReloadEvent<SpellProperties> event) {
 		Map<ResourceLocation, SpellProperties> data = event.getDataManager().getData();
@@ -113,8 +127,7 @@ public class SpellProperties implements IElementTypeProvider {
 	public static final class Builder {
 
 		public static final Encoder<Builder> ENCODER = CodecHelper.remapField(SpellProperties.CODEC, Codecs.HEX_COLOR.fieldOf(ECNames.COLOR), p -> p.color)
-				.comap(
-				builder -> new SpellProperties(builder.type, builder.elementType, builder.weight, builder.useDuration, builder.consumeAmount, builder.cooldown, (float) builder.range, builder.color));
+				.comap(builder -> new SpellProperties(builder.type, builder.elementType, builder.weight, builder.useDuration, builder.consumeAmount, builder.cooldown, (float) builder.range, builder.color, builder.attributes));
 
 		private int cooldown;
 		private int consumeAmount;
@@ -124,6 +137,7 @@ public class SpellProperties implements IElementTypeProvider {
 		private double range;
 		private ElementType elementType;
 		private final Spell.Type type;
+		private final Multimap<Attribute, AttributeModifier> attributes;
 
 		private Builder(Spell.Type type) {
 			this.type = type;
@@ -132,6 +146,7 @@ public class SpellProperties implements IElementTypeProvider {
 			consumeAmount = 0;
 			useDuration = 0;
 			weight = 0;
+			attributes = HashMultimap.create();
 		}
 
 		public static Builder create(Spell.Type type) {
@@ -174,6 +189,11 @@ public class SpellProperties implements IElementTypeProvider {
 			return this;
 		}
 
+		public Builder addAttribute(Attribute attribute, AttributeModifier modifier) {
+			this.attributes.put(attribute, modifier);
+			return this;
+		}
+		
 		public Builder color(int r, int g, int b) {
 			return color(ECColorHelper.packColor(r, g, b));
 		}

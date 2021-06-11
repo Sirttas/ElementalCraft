@@ -42,7 +42,7 @@ public class MekanismInteraction {
 	}
 	
 	public static IGrindingRecipe lookupCrusherRecipe(World world, IInventory inv) {
-		ItemStackToItemStackRecipe crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(world, recipe -> recipe.test(inv.getStackInSlot(0)));
+		ItemStackToItemStackRecipe crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(world, recipe -> recipe.test(inv.getItem(0)));
 		
 		return crusherRecipe != null ? new MekanismCrusherRecipeWrapper(crusherRecipe) : null;
 	}

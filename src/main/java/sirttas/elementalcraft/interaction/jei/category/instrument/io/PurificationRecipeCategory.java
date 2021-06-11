@@ -1,20 +1,18 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 
 import mezz.jei.api.helpers.IGuiHelper;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.instrument.purifier.TilePurifier;
+import sirttas.elementalcraft.block.instrument.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 
-public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCategory<TilePurifier, PurifierRecipe> {
+public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCategory<PurifierBlockEntity, PurifierRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL("purification");
 
 	public PurificationRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper, new ItemStack(ECItems.PURIFIER));
+		super(guiHelper, "elementalcraft.jei.purification", ECItems.PURIFIER);
 	}
 
 	@Override
@@ -23,12 +21,7 @@ public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCatego
 	}
 
 	@Override
-	public Class<? extends PurifierRecipe> getRecipeClass() {
+	public Class<PurifierRecipe> getRecipeClass() {
 		return PurifierRecipe.class;
-	}
-
-	@Override
-	public String getTitle() {
-		return I18n.format("elementalcraft.jei.purification");
 	}
 }

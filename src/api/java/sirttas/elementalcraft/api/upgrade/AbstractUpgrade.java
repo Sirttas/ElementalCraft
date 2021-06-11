@@ -15,12 +15,19 @@ import net.minecraft.world.IWorldReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 
-public abstract class AbstractUpgrade<T extends IStringSerializable> {
+public abstract class AbstractUpgrade<T> {
 
 	private ResourceLocation id;
 	protected IBlockPosPredicate predicate;
 	protected int maxAmount;
 	protected final Map<T, Float> bonuses;
+	
+	protected AbstractUpgrade(IBlockPosPredicate predicate, Map<T, Float> map, int maxAmount) {
+		this.predicate = predicate;
+		this.bonuses = map;
+		this.maxAmount = maxAmount;
+		this.id = null;
+	}
 
 	protected static <T extends IStringSerializable, U extends AbstractUpgrade<T>> P3<Mu<U>, IBlockPosPredicate, Map<T, Float>, Integer> codec(Instance<U> builder, Codec<T> bonusCodec) {
 		return builder.group(
@@ -30,19 +37,13 @@ public abstract class AbstractUpgrade<T extends IStringSerializable> {
 		);
 	}
 
-	protected AbstractUpgrade(IBlockPosPredicate predicate, Map<T, Float> map, int maxAmount) {
-		this.predicate = predicate;
-		this.bonuses = map;
-		this.maxAmount = maxAmount;
-		this.id = null;
-	}
-
+	
 	protected boolean canUpgrade(IWorldReader world, BlockPos pos, int amount) {
 		return predicate.test(world, pos) && (maxAmount == 0 || amount < maxAmount);
 	}
 
 	protected void merge(AbstractUpgrade<T> other) {
-		this.predicate = this.predicate.or(other.predicate);
+		this.predicate = this.predicate.or(other.predicate).simplify();
 		other.bonuses.forEach((bonus, value) -> {
 			if (bonuses.containsKey(bonus)) {
 				bonuses.put(bonus, bonuses.get(bonus) * value);
@@ -79,7 +80,7 @@ public abstract class AbstractUpgrade<T extends IStringSerializable> {
 	
 	@Override
 	public boolean equals(Object other) {
-		if (other != null && this.getClass().isInstance(other) && this.id != null) {
+		if (other instanceof AbstractUpgrade && this.id != null) {
 			return this.id.equals(((AbstractUpgrade<?>) other).id);
 		}
 		return super.equals(other);

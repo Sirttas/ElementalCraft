@@ -13,23 +13,24 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.item.elemental.ItemElementHolder;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.item.holder.ElementHolderItem;
 
 public class ECItemModelProvider extends ItemModelProvider {
 
 	public ECItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, ElementalCraft.MODID, existingFileHelper);
+		super(generator, ElementalCraftApi.MODID, existingFileHelper);
 	}
 
 	@Override
 	protected void registerModels() {
 		for (Item item : ForgeRegistries.ITEMS) {
-			if (ElementalCraft.MODID.equals(item.getRegistryName().getNamespace()) && !exists(item)) {
+			if (ElementalCraftApi.MODID.equals(item.getRegistryName().getNamespace()) && !exists(item)) {
 				String name = item.getRegistryName().getPath();
 
 				if (item instanceof BlockItem) {
 					withExistingParent(name, ElementalCraft.createRL("block/" + name));
-				} else if (item instanceof ItemElementHolder) {
+				} else if (item instanceof ElementHolderItem) {
 					withExistingParent(name, ElementalCraft.createRL("item/template_element_holder"));
 				} else {
 					singleTexture(name);

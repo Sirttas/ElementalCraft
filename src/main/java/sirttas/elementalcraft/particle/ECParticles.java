@@ -9,15 +9,15 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.particle.element.ElementCraftingParticle;
+import sirttas.elementalcraft.particle.element.ElementFlowParticle;
 import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
-import sirttas.elementalcraft.particle.element.ParticleElementCrafting;
-import sirttas.elementalcraft.particle.element.ParticleElementFlow;
-import sirttas.elementalcraft.particle.element.source.ParticleSource;
-import sirttas.elementalcraft.particle.element.source.ParticleSourceExhausted;
+import sirttas.elementalcraft.particle.element.source.SourceExhaustedParticle;
+import sirttas.elementalcraft.particle.element.source.SourceParticle;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECParticles {
 
 	public static final ParticleType<ElementTypeParticleData> SOURCE = ElementTypeParticleData.createParticeLtype(true);
@@ -40,10 +40,10 @@ public class ECParticles {
 	@SuppressWarnings("resource")
 	@OnlyIn(Dist.CLIENT)
 	public static void registerFactories(ParticleFactoryRegisterEvent evt) {
-		Minecraft.getInstance().particles.registerFactory(SOURCE, ParticleSource.Factory::new);
-		Minecraft.getInstance().particles.registerFactory(SOURCE_EXHAUSTED, ParticleSourceExhausted.Factory::new);
-		Minecraft.getInstance().particles.registerFactory(ELEMENT_FLOW, ParticleElementFlow.Factory::new);
-		Minecraft.getInstance().particles.registerFactory(ELEMENT_CRAFTING, ParticleElementCrafting.Factory::new);
+		Minecraft.getInstance().particleEngine.register(SOURCE, SourceParticle.FACTORY);
+		Minecraft.getInstance().particleEngine.register(SOURCE_EXHAUSTED, SourceExhaustedParticle.FACTORY);
+		Minecraft.getInstance().particleEngine.register(ELEMENT_FLOW, ElementFlowParticle.FACTORY);
+		Minecraft.getInstance().particleEngine.register(ELEMENT_CRAFTING, ElementCraftingParticle.FACTORY);
 	}
 
 }

@@ -6,30 +6,30 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.dpanvil.api.annotation.DataHolder;
 import sirttas.dpanvil.api.event.DataManagerReloadEvent;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockFortuneShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockNectarShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BlockSilkTouchShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockBonelessGrowthShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockMysticalGroveShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPickupShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockPlantingShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BlockStemPollinationShrineUpgrade;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.FortuneShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PlantingShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinationShrineUpgradeBlock;
 
-@Mod.EventBusSubscriber(modid = ElementalCraft.MODID)
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class ShrineUpgrades {
 
 	public static final String NAME = "shrine_upgrades";
-	public static final String FOLDER = ElementalCraft.MODID + '_' + NAME;
+	public static final String FOLDER = ElementalCraftApi.MODID + '_' + NAME;
 
-	@DataHolder(ElementalCraft.MODID + ":" + BlockFortuneShrineUpgrade.NAME) public static final ShrineUpgrade FORTUNE = null;
-	@DataHolder(ElementalCraft.MODID + ":" + BlockSilkTouchShrineUpgrade.NAME) public static final ShrineUpgrade SILK_TOUCH = null;
-	@DataHolder(ElementalCraft.MODID + ":" + BlockPlantingShrineUpgrade.NAME) public static final ShrineUpgrade PLANTING = null;
-	@DataHolder(ElementalCraft.MODID + ":" + BlockBonelessGrowthShrineUpgrade.NAME) public static final ShrineUpgrade BONELESS_GROWTH = null;
-	@DataHolder(ElementalCraft.MODID + ":" + BlockPickupShrineUpgrade.NAME) public static final ShrineUpgrade PICKUP = null;
-	@DataHolder(ElementalCraft.MODID + ":" + BlockNectarShrineUpgrade.NAME) public static final ShrineUpgrade NECTAR = null;
-	@DataHolder(ElementalCraft.MODID + ":" + BlockMysticalGroveShrineUpgrade.NAME) public static final ShrineUpgrade MYSTICAL_GROVE = null;
-	@DataHolder(ElementalCraft.MODID + ":" + BlockStemPollinationShrineUpgrade.NAME) public static final ShrineUpgrade STEM_POLLINATION = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + FortuneShrineUpgradeBlock.NAME) public static final ShrineUpgrade FORTUNE = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + SilkTouchShrineUpgradeBlock.NAME) public static final ShrineUpgrade SILK_TOUCH = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + PlantingShrineUpgradeBlock.NAME) public static final ShrineUpgrade PLANTING = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + BonelessGrowthShrineUpgradeBlock.NAME) public static final ShrineUpgrade BONELESS_GROWTH = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + PickupShrineUpgradeBlock.NAME) public static final ShrineUpgrade PICKUP = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + NectarShrineUpgradeBlock.NAME) public static final ShrineUpgrade NECTAR = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + MysticalGroveShrineUpgradeBlock.NAME) public static final ShrineUpgrade MYSTICAL_GROVE = null;
+	@DataHolder(ElementalCraftApi.MODID + ":" + StemPollinationShrineUpgradeBlock.NAME) public static final ShrineUpgrade STEM_POLLINATION = null;
 
 	private ShrineUpgrades() {}
 	
@@ -38,8 +38,8 @@ public class ShrineUpgrades {
 		event.getDataManager().getData().forEach((id, upgrade) -> {
 			Block block = ForgeRegistries.BLOCKS.getValue(id);
 
-			if (block instanceof AbstractBlockShrineUpgrade) {
-				((AbstractBlockShrineUpgrade) block).setUpgrade(upgrade);
+			if (block instanceof AbstractShrineUpgradeBlock) {
+				((AbstractShrineUpgradeBlock) block).setUpgrade(upgrade);
 			}
 		});
 	}
