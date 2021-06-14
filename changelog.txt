@@ -1,3 +1,10 @@
+1.16.5-2.7.1:
+
+- lenses can now only be enchanted with unbreaking
+- moved datagen in its own jar to reduce mod size
+- fix unbreakable lense not working
+
+
 1.16.5-2.7.0:
 
 - new item: staff

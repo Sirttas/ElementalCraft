@@ -44,6 +44,11 @@ sourceSets {
 		compileClasspath += api.output
         runtimeClasspath += api.output
 	}
+    datagen {
+        java {
+            srcDir 'src/datagen/java'
+        }
+    }
 }
 
 ext.updateSourceSetMapping = { sourceSet ->
@@ -60,6 +65,9 @@ configurations {
 	apiCompile.extendsFrom(compile)
     apiImplementation.extendsFrom(implementation)
     apiCompileOnly.extendsFrom(compileOnly)
+    datagenCompile.extendsFrom(compile)
+    datagenImplementation.extendsFrom(implementation)
+    datagenCompileOnly.extendsFrom(compileOnly)
 }
 
 minecraft {
@@ -118,6 +126,7 @@ minecraft {
             mods {
                 elementalcraft {
                     source sourceSets.main
+                    source sourceSets.datagen
                 }
             }
         }
@@ -142,7 +151,6 @@ dependencies {
     
     annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
-    
     // mod dependencies
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
@@ -155,8 +163,9 @@ dependencies {
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     
     // datagen
-    implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
-    
+    datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
+    datagenCompile sourceSets.api.output
+    datagenCompile sourceSets.main.output
 }
 
 jar {
@@ -190,10 +199,18 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+task datagenJar(type: Jar) {
+    archiveClassifier = "datagen"
+    from sourceSets.datagen.output
+    afterEvaluate {finalizedBy('reobfJar') }
+}
+
 build.dependsOn tasks.apiJar
 build.dependsOn tasks.sourcesJar
+build.dependsOn tasks.datagenJar
 
 updateSourceSetMapping(sourceSets.api)
+updateSourceSetMapping(sourceSets.datagen)
 
 sonarqube {
 	properties {
@@ -201,6 +218,7 @@ sonarqube {
     	property "sonar.organization", "sirttas"
     	property "sonar.host.url", "https://sonarcloud.io"
     	properties["sonar.sources"] += sourceSets.api.java.srcDirs
+    	properties["sonar.sources"] += sourceSets.datagen.java.srcDirs
 	}
 }
 
@@ -208,7 +226,7 @@ if (project.hasProperty('modmaven_user')) {
 	publishing {
 	    publications {
 	        mavenJava(MavenPublication) {
-	             artifacts = [apiJar, jar, sourcesJar]
+	             artifacts = [apiJar, jar, sourcesJar, datagenJar]
 	        }
 	    }
 	    

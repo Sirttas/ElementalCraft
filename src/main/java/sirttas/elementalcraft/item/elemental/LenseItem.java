@@ -4,6 +4,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
@@ -40,6 +42,11 @@ public class LenseItem extends ElementalItem {
 		};
 	}
 	
+    @Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+    	return enchantment == Enchantments.UNBREAKING;
+    }
+	
 	private class Storage implements ISingleElementStorage {
 
 		private final int multiplier;
@@ -72,6 +79,9 @@ public class LenseItem extends ElementalItem {
 
 		@Override
 		public int extractElement(int count, ElementType type, boolean simulate) {
+			if (!stack.isDamageableItem()) {
+				return count;
+			}
 			ItemStack target = simulate ? stack.copy() : stack;
 			int damage = target.getDamageValue();
 			
