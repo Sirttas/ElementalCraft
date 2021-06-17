@@ -33,6 +33,7 @@ public class ECNames {
 	public static final String EXTRACTION_AMOUNT = "extraction_amount";
 	public static final String GEM = "gem";
 	public static final String HAS_BOOK = "has_elementopedia";
+	public static final String HAS_DIFFUSED = "has_diffused";
 	public static final String INCOMPATIBILITIES = "incompatibilities";
 	public static final String INDEX = "index";
 	public static final String INFUSION = "infusion";

@@ -29,6 +29,8 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.EXTRACTOR_IMPROVED, list);
 		addItem(ECBlocks.EVAPORATOR, list);
 		addItem(ECBlocks.INFUSER, list);
+		addItem(ECBlocks.SOLAR_SYNTHESIZER, list);
+		addItem(ECBlocks.DIFFUSER, list);
 		addItem(ECBlocks.BINDER, list);
 		addItem(ECBlocks.BINDER_IMPROVED, list);
 		addItem(ECBlocks.CRYSTALLIZER, list);
@@ -53,6 +55,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.PIPE, list);
 		addItem(ECBlocks.PIPE_IMPROVED, list);
 		addItem(ECItems.COVER_FRAM, list);
+		addItem(ECItems.PIPE_PRIORITY, list);
 		addItem(ECBlocks.RETRIEVER, list);
 		addItem(ECBlocks.SORTER, list);
 		addItem(ECBlocks.SPELL_DESK, list);
@@ -81,6 +84,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.NECTAR_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.PROTECTION_SHRINE_UPGRADE, list);
 
 		addItem(ECBlocks.CRYSTAL_ORE, list);
 		addItem(ECBlocks.WHITE_ROCK, list);

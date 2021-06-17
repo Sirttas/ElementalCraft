@@ -87,7 +87,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 
 		playerIn.getAttributes().addTransientAttributeModifiers(attributes);
 		
-		ActionResultType result = Boolean.TRUE.equals(ECConfig.COMMON.spellConsumeOnFail.get()) && spell.consume(playerIn, true) ? castSpell(playerIn, spell) : ActionResultType.FAIL;
+		ActionResultType result = Boolean.TRUE.equals(ECConfig.COMMON.spellConsumeOnFail.get()) || spell.consume(playerIn, true) ? castSpell(playerIn, spell) : ActionResultType.FAIL;
 
 		if (result.consumesAction()) {
 			if (doConsume(playerIn, handIn, stack, spell)) {

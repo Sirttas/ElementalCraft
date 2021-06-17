@@ -7,6 +7,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.extensions.IForgeBlock;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.pipe.IElementPipe.ConnectionType;
 
 public interface IPipeConnectedBlock extends IForgeBlock {
 
@@ -17,25 +19,35 @@ public interface IPipeConnectedBlock extends IForgeBlock {
 
 	default BlockState doGetStateForPlacement(IBlockReader world, BlockPos pos) {
 		return this.getBlock().defaultBlockState()
-				.setValue(NORTH, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.NORTH)), ElementPipeBlock.SOUTH))
-				.setValue(SOUTH, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.SOUTH)), ElementPipeBlock.NORTH))
-				.setValue(EAST, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.EAST)), ElementPipeBlock.EAST))
-				.setValue(WEST, ElementPipeBlock.isConnected(world.getBlockState(pos.relative(Direction.WEST)), ElementPipeBlock.WEST));
+				.setValue(NORTH, isConnectable(world, pos, Direction.NORTH))
+				.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH))
+				.setValue(EAST, isConnectable(world, pos, Direction.EAST))
+				.setValue(WEST, isConnectable(world, pos, Direction.WEST));
 	}
 
-	default BlockState doUpdatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState) {
+	default BlockState doUpdatePostPlacement(BlockState stateIn, IBlockReader world, BlockPos pos, Direction facing) {
 		switch (facing) {
 		case NORTH:
-			return stateIn.setValue(NORTH, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.SOUTH));
+			return stateIn.setValue(NORTH, isConnectable(world, pos, Direction.NORTH));
 		case SOUTH:
-			return stateIn.setValue(SOUTH, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.NORTH));
+			return stateIn.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH));
 		case EAST:
-			return stateIn.setValue(EAST, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.WEST));
+			return stateIn.setValue(EAST, isConnectable(world, pos, Direction.WEST));
 		case WEST:
-			return stateIn.setValue(WEST, ElementPipeBlock.isConnected(facingState, ElementPipeBlock.EAST));
+			return stateIn.setValue(WEST, isConnectable(world, pos, Direction.EAST));
 		default:
 			return stateIn;
 		}
 	}
 	
+	static boolean isConnectable(IBlockReader world, BlockPos from, Direction face) {
+		IElementPipe entity = BlockEntityHelper.getTileEntityAs(world, from.relative(face), IElementPipe.class).orElse(null);
+		
+		if (entity != null) {
+			ConnectionType connection = entity.getConection(face);
+			
+			return connection.isConnected() || connection == ConnectionType.NONE;
+		}
+		return false;
+	}
 }

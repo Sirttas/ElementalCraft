@@ -13,8 +13,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
-import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.spell.SpellHelper;
@@ -37,23 +35,11 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingInven
 			
 			if (item instanceof FocusItem) {
 				SpellHelper.copySpells(stack, staff);
-				copyToolInfusion(stack, staff);
 			} else if (item instanceof SwordItem) {
 				EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(stack), staff);
-				if (ToolInfusionHelper.getInfusion(staff) == null) {
-					copyToolInfusion(stack, staff);
-				}
 			}
 		}
 		return staff;
-	}
-	
-	private void copyToolInfusion(ItemStack source, ItemStack target) {
-		ToolInfusion infusion = ToolInfusionHelper.getInfusion(source);
-		
-		if (infusion != null) {
-			ToolInfusionHelper.setInfusion(target, infusion);
-		}
 	}
 	
 	@Override

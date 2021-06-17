@@ -1,3 +1,18 @@
+1.16.5-2.7.2:
+
+- new item: pipe priority rings
+- new block: diffuser
+- new block: protection shrine upgrade
+- added solar synthesizer to the creative tab
+- improved pipe priority behavior
+- staff no longer get the tool infusion from items in its recipe as its own infusion is diffenrent
+- staff can now also be crafted using a netherite sword
+- greatly reduced loading time
+- fix some dynamic model render
+- fix the spell cast check absent
+- fix a bug where spells could not be cast
+
+
 1.16.5-2.7.1:
 
 - lenses can now only be enchanted with unbreaking
@@ -14,7 +29,7 @@
 - runes have been moved to api
 - tool infusions have been moved to api
 - add tags for grove shrines flowers
-- you can no longer cast spells if you don't have enought element to do so, spell can't break anymore*
+- you can no longer cast spells if you don't have enought element to do so, spell can't break anymore
 - moved to mojmap
 - improved concistency of pure ore generation
 - fix translation mistake

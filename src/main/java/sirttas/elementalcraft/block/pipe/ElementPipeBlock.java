@@ -40,8 +40,10 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.AbstractECBlockEntityProviderBlock;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
@@ -65,32 +67,19 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	private static final List<VoxelShape> SHAPES = ImmutableList.of(EAST_SHAPE, NORTH_SHAPE, WEST_SHAPE, SOUTH_SHAPE, UP_SHAPE, DOWN_SHAPE, BASE_SHAPE, FRAME_SHAPE);
 
 	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
-	
-	public static final EnumProperty<ConnectionType> NORTH = EnumProperty.create("north", ConnectionType.class);
-	public static final EnumProperty<ConnectionType> EAST = EnumProperty.create("east", ConnectionType.class);
-	public static final EnumProperty<ConnectionType> SOUTH = EnumProperty.create("south", ConnectionType.class);
-	public static final EnumProperty<ConnectionType> WEST = EnumProperty.create("west", ConnectionType.class);
-	public static final EnumProperty<ConnectionType> UP = EnumProperty.create("up", ConnectionType.class);
-	public static final EnumProperty<ConnectionType> DOWN = EnumProperty.create("down", ConnectionType.class);
 
 	private int maxTransferAmount;
 
 	public ElementPipeBlock(int maxTransferAmount) {
 		super(AbstractBlock.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).noOcclusion().randomTicks());
 		this.registerDefaultState(this.stateDefinition.any()
-				.setValue(COVER, CoverType.NONE)
-				.setValue(NORTH, ConnectionType.NONE)
-				.setValue(EAST, ConnectionType.NONE)
-				.setValue(SOUTH, ConnectionType.NONE)
-				.setValue(WEST, ConnectionType.NONE)
-				.setValue(UP, ConnectionType.NONE)
-				.setValue(DOWN, ConnectionType.NONE));
+				.setValue(COVER, CoverType.NONE));
 		this.maxTransferAmount = maxTransferAmount;
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> container) {
-		container.add(COVER, NORTH, SOUTH, EAST, WEST, UP, DOWN);
+		container.add(COVER);
 	}
 
 	@Override
@@ -142,25 +131,25 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 		return state.getValue(COVER) == CoverType.COVERED;
 	}
 
-	private boolean isRendered(VoxelShape shape, BlockState state) {
-		return (state.is(this)) && (compareShapes(shape, BASE_SHAPE) 
-				|| (compareShapes(shape, DOWN_SHAPE) && state.getValue(DOWN).isConnected())
-				|| (compareShapes(shape, UP_SHAPE) && state.getValue(UP).isConnected()) 
-				|| (compareShapes(shape, NORTH_SHAPE) && state.getValue(NORTH).isConnected())
-				|| (compareShapes(shape, SOUTH_SHAPE) && state.getValue(SOUTH).isConnected()) 
-				|| (compareShapes(shape, WEST_SHAPE) && state.getValue(WEST).isConnected())
-				|| (compareShapes(shape, EAST_SHAPE) && state.getValue(EAST).isConnected())
+	private boolean isRendered(VoxelShape shape, ElementPipeBlockEntity entity, BlockState state) {
+		return state.is(this) && entity != null && (compareShapes(shape, BASE_SHAPE) 
+				|| (compareShapes(shape, DOWN_SHAPE) && entity.getConection(Direction.DOWN).isConnected())
+				|| (compareShapes(shape, UP_SHAPE) && entity.getConection(Direction.UP).isConnected()) 
+				|| (compareShapes(shape, NORTH_SHAPE) && entity.getConection(Direction.NORTH).isConnected())
+				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConection(Direction.SOUTH).isConnected()) 
+				|| (compareShapes(shape, WEST_SHAPE) && entity.getConection(Direction.WEST).isConnected())
+				|| (compareShapes(shape, EAST_SHAPE) && entity.getConection(Direction.EAST).isConnected())
 				|| (compareShapes(shape, FRAME_SHAPE) && state.getValue(COVER) == CoverType.FRAME));
 	}
 
-	private VoxelShape getCurentShape(BlockState state, PlayerEntity player) {
+	private VoxelShape getCurentShape(BlockState state, ElementPipeBlockEntity entity, PlayerEntity player) {
 		VoxelShape result = VoxelShapes.empty();
 
 		if (showCover(state, player)) {
 			return VoxelShapes.block();
 		}
 		for (final VoxelShape shape : SHAPES) {
-			if (isRendered(shape, state)) {
+			if (isRendered(shape, entity, state)) {
 				result = VoxelShapes.or(result, shape);
 			}
 		}
@@ -178,10 +167,12 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		PlayerEntity player = getPlayer(context);
+		ElementPipeBlockEntity blockEntity = getBlockEntity(world, pos);
 
-		return worldIn instanceof World && ((World) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult, player) : getCurentShape(state, player);
+		return world instanceof World && ((World) world).isClientSide ? getShape(state, pos, blockEntity, Minecraft.getInstance().hitResult, player)
+				: getCurentShape(state, blockEntity, player);
 	}
 
 	private PlayerEntity getPlayer(ISelectionContext context) {
@@ -190,23 +181,23 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 		return entity instanceof PlayerEntity ? (PlayerEntity) entity : ElementalCraft.PROXY.getDefaultPlayer();
 	}
 
-	public VoxelShape getShape(BlockState state, BlockPos pos, RayTraceResult result, PlayerEntity player) {
+	public VoxelShape getShape(BlockState state, BlockPos pos, ElementPipeBlockEntity blockEntity, RayTraceResult result, PlayerEntity player) {
 		if (!showCover(state, player) && result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getBlockPos().equals(pos)) {
 			final Vector3d hit = result.getLocation();
 
 			for (final VoxelShape shape : SHAPES) {
-				if (isRendered(shape, state) && ShapeHelper.vectorCollideWithShape(shape, pos, hit)) {
+				if (isRendered(shape, blockEntity, state) && ShapeHelper.vectorCollideWithShape(shape, pos, hit)) {
 					return shape;
 				}
 			}
 		}
-		return getCurentShape(state, player);
+		return getCurentShape(state, blockEntity, player);
 	}
 
 	@Override
 	@Deprecated
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return getCurentShape(state, null);
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+		return getCurentShape(state, getBlockEntity(world, pos), null);
 	}
 
 	@Override
@@ -215,13 +206,13 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) world.getBlockEntity(pos);
 
 		if (pipe != null) {
-			final VoxelShape shape = getShape(state, pos, hit, player);
+			final VoxelShape shape = getShape(state, pos, getBlockEntity(world, pos), hit, player);
 			
 			if (compareShapes(shape, FRAME_SHAPE) || state.getValue(COVER) == CoverType.FRAME) {
 				return pipe.setCover(player, hand);
 			} else {
 				Direction face = getFace(shape, hit);
-				ActionResultType value = onShapeActivated(face, pipe);
+				ActionResultType value = onShapeActivated(face, pipe, player, hand);
 	
 				if (value != ActionResultType.PASS) {
 					player.displayClientMessage(pipe.getConnectionMessage(face), true);
@@ -232,8 +223,13 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 		return ActionResultType.PASS;
 	}
 
-	private ActionResultType onShapeActivated(Direction face, ElementPipeBlockEntity pipe) {
+	private ActionResultType onShapeActivated(Direction face, ElementPipeBlockEntity pipe, PlayerEntity player, Hand hand) {
 		if (face != null) {
+			ItemStack stack = player.getItemInHand(hand);
+			
+			if (!stack.isEmpty() && stack.getItem() == ECItems.PIPE_PRIORITY) {
+				return pipe.activatePriority(face, player, hand);
+			}
 			return pipe.activatePipe(face);
 		}
 		return ActionResultType.PASS;
@@ -243,46 +239,18 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	@Deprecated
 	public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
+			ElementPipeBlockEntity te = (ElementPipeBlockEntity) worldIn.getBlockEntity(pos);
+			
 			if (isCovered(state)) {
-				InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(((ElementPipeBlockEntity) worldIn.getBlockEntity(pos)).getCoverState().getBlock()));
+				InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack((te).getCoverState().getBlock()));
 			}
+			te.dropAllPriorities();
 			super.onRemove(state, worldIn, pos, newState, isMoving);
 		}
 	}
-
-	public static boolean isConnected(BlockState state, EnumProperty<ConnectionType> prop) {
-		return ECTags.Blocks.PIPES.contains(state.getBlock()) && state.getValue(prop).isConnected();
-	}
-
-	public enum ConnectionType implements IStringSerializable {
-		NONE("none"), CONNECTED("connected"), EXTRACT("extract");
-
-		public static final Codec<ConnectionType> CODEC = IStringSerializable.fromEnum(ConnectionType::values, ConnectionType::byName);
-
-		private final String name;
-
-		private ConnectionType(String name) {
-			this.name = name;
-		}
-
-		@Nonnull
-		@Override
-		public String getSerializedName() {
-			return this.name;
-		}
-
-		public static ConnectionType byName(String name) {
-			for (ConnectionType bonusType : values()) {
-				if (bonusType.name.equals(name)) {
-					return bonusType;
-				}
-			}
-			return NONE;
-		}
-		
-		public boolean isConnected() {
-			return this != NONE;
-		}
+	
+	private static ElementPipeBlockEntity getBlockEntity(IBlockReader world, BlockPos pos) {
+		return BlockEntityHelper.getTileEntityAs(world, pos, ElementPipeBlockEntity.class).orElse(null);
 	}
 	
 	public enum CoverType implements IStringSerializable {
@@ -311,5 +279,4 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 			return NONE;
 		}
 	}
-	
 }

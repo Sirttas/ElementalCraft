@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
         mavenCentral()
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
@@ -163,9 +162,9 @@ dependencies {
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     
     // datagen
+    datagenImplementation sourceSets.api.output
+    datagenImplementation sourceSets.main.output
     datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
-    datagenCompile sourceSets.api.output
-    datagenCompile sourceSets.main.output
 }
 
 jar {
@@ -176,7 +175,7 @@ jar {
         attributes([
             "Specification-Title": "ElementalCraft",
             "Specification-Vendor": "elementalcraft",
-            "Specification-Version": "2",
+            "Specification-Version": "${version}",
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"elementalcraft",
@@ -184,25 +183,26 @@ jar {
             "MixinConfigs": "elementalcraft.mixins.json"
         ])
     }
-    afterEvaluate {finalizedBy('reobfJar') }
+    afterEvaluate { finalizedBy('reobfJar') }
 }
 
 task apiJar(type: Jar) {
     archiveClassifier = "api"
     from sourceSets.api.output
-    afterEvaluate {finalizedBy('reobfJar') }
+    afterEvaluate { finalizedBy('reobfJar') }
+}
+
+task datagenJar(type: Jar) {
+    archiveClassifier = "datagen"
+    from sourceSets.datagen.output
+    afterEvaluate { finalizedBy('reobfJar') }
 }
 
 task sourcesJar(type: Jar) {
     archiveClassifier = "sources"
     from sourceSets.api.allSource
     from sourceSets.main.allSource
-}
-
-task datagenJar(type: Jar) {
-    archiveClassifier = "datagen"
-    from sourceSets.datagen.output
-    afterEvaluate {finalizedBy('reobfJar') }
+    from sourceSets.datagen.allSource
 }
 
 build.dependsOn tasks.apiJar

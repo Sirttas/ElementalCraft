@@ -1,13 +1,19 @@
 package sirttas.elementalcraft.block.pipe;
 
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItem;
@@ -20,8 +26,9 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -34,17 +41,19 @@ import sirttas.elementalcraft.block.entity.AbstractECTickableBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.item.ECItems;
 
-public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
+public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implements IElementPipe {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementPipeBlock.NAME) public static final TileEntityType<ElementPipeBlockEntity> TYPE = null;
-
-	private Map<Direction, ConnectionType> connections;
-	private boolean updateState = true;
+	
+	private final Map<Direction, ConnectionType> connections;
+	private final Map<Direction, Boolean> priorities;
 	private int transferedAmount;
 	private int maxTransferAmount;
 	private BlockState coverState;
-
+	
+	private final Comparator<Entry<Direction, ConnectionType>> comparator;
 
 	public ElementPipeBlockEntity() {
 		this(ECConfig.COMMON.pipeTransferAmount.get());
@@ -53,25 +62,44 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
 	public ElementPipeBlockEntity(int maxTransferAmount) {
 		super(TYPE);
 		this.connections = new EnumMap<>(Direction.class);
+		this.priorities = new EnumMap<>(Direction.class);
 		transferedAmount = 0;
 		this.maxTransferAmount = maxTransferAmount;
+		this.comparator = creatComparator();
+	}
+
+	private Comparator<Entry<Direction, ConnectionType>> creatComparator() {
+		Comparator<Entry<Direction, ConnectionType>> cmp = (c1, c2) -> Boolean.compare(isPriority(c2.getKey()), isPriority(c1.getKey()));
+		
+		return cmp.thenComparing((c1, c2) -> c2.getValue().getValue() - c1.getValue().getValue());
 	}
 
 	private Optional<TileEntity> getAdjacentTile(Direction face) {
 		return this.hasLevel() ? BlockEntityHelper.getTileEntity(this.getLevel(), this.getBlockPos().relative(face)) : Optional.empty();
 	}
 
-	private ConnectionType getConection(Direction face) {
-		if (connections.containsKey(face)) {
-			return connections.get(face);
-		}
-		return ConnectionType.NONE;
+	@Override
+	public ConnectionType getConection(Direction face) {
+		return connections.getOrDefault(face, ConnectionType.NONE);
+	}
+	
+	@Override
+	public boolean isPriority(Direction face) {
+		return Boolean.TRUE.equals(priorities.get(face));
 	}
 
 	private void setConection(Direction face, ConnectionType type) {
 		connections.put(face, type);
+		if (type == ConnectionType.DISCONNECT && isPriority(face)) {
+			this.setPriority(face, false);
+			dropPriorities(null, 1);
+		}
 		this.setChanged();
-		updateState = true;
+	}
+	
+	private void setPriority(Direction face, boolean value) {
+		priorities.put(face, value);
+		this.setChanged();
 	}
 
 	private void refresh(Direction face) {
@@ -95,25 +123,26 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
 		}).orElse(ConnectionType.NONE));
 	}
 
-	public void refresh() {
+	void refresh() {
 		for (Direction face : Direction.values()) {
 			refresh(face);
 		}
 	}
 
 	private void transferElement(IElementStorage sender, ElementType type) {
-		int amount = this.maxTransferAmount - this.transferedAmount;
-
 		if (type != ElementType.NONE) {
 			Path path = new Path(sender);
-			IElementStorage receiver = path.searchReceiver(this, type, sender.extractElement(amount, type, true));
 
-			if (receiver != null) {
+			path.searchReceiver(this, type, sender.extractElement(getRemainingAmount(), type, true)).ifPresent(receiver -> {
 				int remainingAmount = path.amount - sender.transferTo(receiver, type, path.amount);
 
 				path.pipes.forEach(p -> p.transferedAmount += remainingAmount);
-			}
+			});
 		}
+	}
+
+	private int getRemainingAmount() {
+		return this.maxTransferAmount - this.transferedAmount;
 	}
 
 	@Override
@@ -122,29 +151,54 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
 		refresh();
 		transferedAmount = 0;
 		if (this.hasLevel() && !this.level.isClientSide) {
-			connections.forEach((side, connection) -> {
-				if (connection == ConnectionType.EXTRACT) {
-					getAdjacentTile(side).map(tile -> CapabilityElementStorage.get(tile, side.getOpposite())).orElseGet(LazyOptional::empty).ifPresent(sender -> {
+			connections.entrySet().stream()
+					.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
+					.sorted(comparator)
+					.map(Map.Entry::getKey)
+					.map(side -> getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()))
+					.filter(Optional::isPresent)
+					.map(Optional::get)
+					.forEach(sender -> {
 						if (sender instanceof IElementTypeProvider) {
 							this.transferElement(sender, ((IElementTypeProvider) sender).getElementType());
 						}
 					});
-				}
-			});
-		}
-		if (this.updateState && this.hasLevel()) {
-			this.getLevel().setBlockAndUpdate(getBlockPos(),
-					this.getLevel().getBlockState(worldPosition)
-							.setValue(ElementPipeBlock.NORTH, getConection(Direction.NORTH).getStateConnection())
-							.setValue(ElementPipeBlock.EAST, getConection(Direction.EAST).getStateConnection())
-							.setValue(ElementPipeBlock.SOUTH, getConection(Direction.SOUTH).getStateConnection())
-							.setValue(ElementPipeBlock.WEST, getConection(Direction.WEST).getStateConnection())
-							.setValue(ElementPipeBlock.UP, getConection(Direction.UP).getStateConnection())
-							.setValue(ElementPipeBlock.DOWN, getConection(Direction.DOWN).getStateConnection()));
-			updateState = false;
 		}
 	}
 
+	public ActionResultType activatePriority(Direction face, PlayerEntity player, Hand hand) {
+		boolean priority = isPriority(face);
+		
+		this.setPriority(face, !priority);
+		if (priority) {
+			dropPriorities(player, 1);
+		} else {
+			ItemStack stack = player.getItemInHand(hand);
+			
+			if (!player.isCreative()) {
+				stack.shrink(1);
+				if (stack.isEmpty()) {
+					player.setItemInHand(hand, ItemStack.EMPTY);
+				}
+			}
+		}
+		return ActionResultType.SUCCESS;
+	}
+
+	private void dropPriorities(@Nullable PlayerEntity player, int size) {
+		World world = this.getLevel();
+		
+		if (world != null && !world.isClientSide) {
+			Vector3d vect = player != null ? player.position().add(0, 0.25, 0) : Vector3d.atCenterOf(this.getBlockPos());
+			
+			world.addFreshEntity(new ItemEntity(world, vect.x, vect.y, vect.z, new ItemStack(ECItems.PIPE_PRIORITY, size)));
+		}
+	}
+	
+	void dropAllPriorities() {
+		dropPriorities(null, (int) this.priorities.values().stream().filter(Boolean.TRUE::equals).count());
+	}
+	
 	public ActionResultType activatePipe(Direction face) {
 		return getAdjacentTile(face).map(tile -> {
 			ConnectionType connection = this.getConection(face);
@@ -229,6 +283,7 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
 		super.load(state, compound);
 		for (Direction face : Direction.values()) {
 			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.getSerializedName())));
+			this.setPriority(face, compound.getBoolean(face.getSerializedName() + "_priority"));
 		}
 		this.maxTransferAmount = compound.getInt("max_transfer_amount");
 		coverState = compound.contains(ECNames.COVER) ? NBTUtil.readBlockState(compound.getCompound(ECNames.COVER)) : null;
@@ -238,6 +293,7 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
 	public CompoundNBT save(CompoundNBT compound) {
 		super.save(compound);
 		connections.forEach((k, v) -> compound.putInt(k.getSerializedName(), v.getValue()));
+		priorities.forEach((k, v) -> compound.putBoolean(k.getSerializedName() + "_priority", v));
 		compound.putInt("max_transfer_amount", this.maxTransferAmount);
 		if (coverState != null) {
 			compound.put(ECNames.COVER, NBTUtil.writeBlockState(coverState));
@@ -245,45 +301,6 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
 			compound.remove(ECNames.COVER);
 		}
 		return compound;
-	}
-
-	private enum ConnectionType {
-		NONE(0, "none", ElementPipeBlock.ConnectionType.NONE),
-		CONNECT(1, "connect", ElementPipeBlock.ConnectionType.CONNECTED),
-		INSERT(2, "insert", ElementPipeBlock.ConnectionType.CONNECTED),
-		EXTRACT(3, "extract", ElementPipeBlock.ConnectionType.EXTRACT),
-		DISCONNECT(4, "disconnect", ElementPipeBlock.ConnectionType.NONE);
-
-		private ElementPipeBlock.ConnectionType stateConnection;
-		private final int value;
-		private final String translationKey;
-
-		private ConnectionType(int value, String key, ElementPipeBlock.ConnectionType stateConnection) {
-			this.value = value;
-			this.translationKey = "message.elementalcraft." + key;
-			this.stateConnection = stateConnection;
-		}
-
-		public int getValue() {
-			return value;
-		}
-
-		public static ConnectionType fromInteger(int x) {
-			for (ConnectionType type : values()) {
-				if (type.getValue() == x) {
-					return type;
-				}
-			}
-			return NONE;
-		}
-
-		public ITextComponent getDisplayName() {
-			return new TranslationTextComponent(translationKey);
-		}
-		
-		public ElementPipeBlock.ConnectionType getStateConnection() {
-			return this.stateConnection;
-		}
 	}
 
 	private static class Path {
@@ -296,41 +313,46 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity {
 			this.sender = sender;
 		}
 
-		private IElementStorage searchReceiver(ElementPipeBlockEntity pipe, ElementType type, int lastCount) {
-			int count = Math.min(lastCount, pipe.maxTransferAmount - pipe.transferedAmount);
+		private Optional<IElementStorage> searchReceiver(ElementPipeBlockEntity pipe, ElementType type, int lastCount) {
+			int count = Math.min(lastCount, pipe.getRemainingAmount());
 
 			if (count > 0 && !visited.contains(pipe)) {
 				visited.add(pipe);
-				return pipe.connections.entrySet().stream().filter(entry -> {
-					ConnectionType connection = entry.getValue();
-					
-					return connection == ConnectionType.CONNECT || connection == ConnectionType.INSERT;
-				}).sorted((c1, c2) -> c1.getValue().value - c2.getValue().value).map(entry -> {
+				return getConnectionStream(pipe).map(entry -> {
 					Direction side = entry.getKey();
 					ConnectionType connection = entry.getValue();
 				
-					return pipe.getAdjacentTile(side).map(entity -> {
+					return pipe.getAdjacentTile(side).flatMap(entity -> {
 						if (entity instanceof ElementPipeBlockEntity && connection == ConnectionType.CONNECT) {
-							IElementStorage ret = searchReceiver((ElementPipeBlockEntity) entity, type, count);
+							Optional<IElementStorage> receiver = searchReceiver((ElementPipeBlockEntity) entity, type, count);
 
-							if (ret != null) {
+							if (receiver.isPresent()) {
 								this.pipes.add(pipe);
-								return ret;
+								return receiver;
 							}
-						} else if (entity != null && connection == ConnectionType.INSERT) {
-							LazyOptional<IElementStorage> cap = CapabilityElementStorage.get(entity, side.getOpposite());
+						} else if (connection == ConnectionType.INSERT) {
+							Optional<IElementStorage> cap = CapabilityElementStorage.get(entity, side.getOpposite())
+									.filter(receiver -> receiver != sender && receiver.canPipeInsert(type) && receiver.insertElement(count, type, true) < count);
 
-							if (cap.filter(receiver -> receiver != sender && receiver.canPipeInsert(type) && receiver.insertElement(count, type, true) < count).isPresent()) {
+							if (cap.isPresent()) {
 								this.amount = count;
 								this.pipes.add(pipe);
-								return cap.orElse(null);
+								return cap;
 							}
 						}
-						return null;
+						return Optional.empty();
 					});
-				}).filter(Optional::isPresent).map(Optional::get).findAny().orElse(null);
+				}).filter(Optional::isPresent).map(Optional::get).findAny();
 			}
-			return null;
+			return Optional.empty();
+		}
+
+		private Stream<Entry<Direction, ConnectionType>> getConnectionStream(ElementPipeBlockEntity pipe) {
+			return pipe.connections.entrySet().stream().filter(entry -> {
+				ConnectionType connection = entry.getValue();
+				
+				return connection == ConnectionType.CONNECT || connection == ConnectionType.INSERT;
+			}).sorted(pipe.comparator);
 		}
 	}
 }

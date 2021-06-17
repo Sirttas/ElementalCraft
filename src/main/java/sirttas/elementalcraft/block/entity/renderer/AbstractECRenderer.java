@@ -5,8 +5,11 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -91,7 +94,10 @@ public abstract class AbstractECRenderer<T extends TileEntity> extends TileEntit
 		builder.vertex(matrix, x, y + height, 0).color(r, g, b, 1F).uv(sprite.getU0(), sprite.getV1()).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
 	}
 
-
+	public void renderModel(MatrixStack matrixStack, IRenderTypeBuffer buffer, BlockState state, IBakedModel model, int light, int overlay) {
+		Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(state != null ? RenderTypeLookup.getRenderType(state, false)  : Atlases.cutoutBlockSheet()), state, model, 1, 1, 1, light,
+				overlay, EmptyModelData.INSTANCE);
+	}
 
 	public float getAngle(float partialTicks) {
 		return TickHandler.getTicksInGame() + partialTicks % 360;

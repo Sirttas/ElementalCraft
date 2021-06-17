@@ -30,10 +30,9 @@ public class EnderLockHandler {
 	@SubscribeEvent
 	public static void onEndermanTeleport(EnderTeleportEvent event) {
 		LivingEntity entity = event.getEntityLiving();
-		
-		event.setCanceled(
-				RANGE.stream().anyMatch(
-						v -> BlockEntityHelper.getTileEntityAs(entity.getCommandSenderWorld(), entity.blockPosition().offset(v), EnderLockShrineBlockEntity.class).filter(EnderLockShrineBlockEntity::doLock).isPresent()));
+
+		event.setCanceled(RANGE.stream().anyMatch(v -> BlockEntityHelper.getTileEntityAs(entity.getCommandSenderWorld(), entity.blockPosition().offset(v), EnderLockShrineBlockEntity.class)
+				.filter(shrine -> shrine.doLock(entity)).isPresent()));
 
 	}
 

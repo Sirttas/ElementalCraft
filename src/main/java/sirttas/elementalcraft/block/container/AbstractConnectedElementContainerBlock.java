@@ -47,7 +47,7 @@ public abstract class AbstractConnectedElementContainerBlock extends AbstractEle
 	@Override
 	@Deprecated
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		return doUpdatePostPlacement(stateIn, facing, facingState);
+		return doUpdatePostPlacement(stateIn, worldIn, currentPos, facing);
 	}
 	
 }

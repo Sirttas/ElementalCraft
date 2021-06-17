@@ -14,7 +14,9 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
 public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
@@ -30,8 +32,8 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private List<LivingEntity> getEntities() {
-		return this.getLevel().getEntitiesOfClass(LivingEntity.class, getRangeBoundingBox(),
-				e -> !e.isSpectator() && !e.hasEffect(Effects.FIRE_RESISTANCE) && !e.isOnFire() && !ToolInfusionHelper.hasFireInfusion(e));
+		return this.getLevel().getEntitiesOfClass(LivingEntity.class, getRangeBoundingBox(), e -> !e.isSpectator() && !e.hasEffect(Effects.FIRE_RESISTANCE) && !e.isOnFire()
+				&& !ToolInfusionHelper.hasFireInfusion(e) && (!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(e)));
 	}
 	
 	@Override

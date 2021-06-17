@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.item.ItemStack;
@@ -39,5 +40,9 @@ public class EntityHelper {
 		if (player.getCommandSenderWorld().isClientSide && player instanceof ClientPlayerEntity) {
 			((ClientPlayerEntity) player).swing(Hand.MAIN_HAND);
 		}
+	}
+	
+	public static boolean isHostile(Entity entity) {
+		return entity instanceof MobEntity && ((MobEntity) entity).isAggressive();
 	}
 }

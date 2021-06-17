@@ -7,7 +7,7 @@
   ],
   "key": {
     "s": {
-      "item": "minecraft:diamond_sword"
+      "tag": "elementalcraft:staff_craft_sword"
     },
     "f": {
       "item": "elementalcraft:focus"

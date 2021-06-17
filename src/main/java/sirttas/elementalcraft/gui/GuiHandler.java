@@ -22,7 +22,6 @@ import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.entity.player.PlayerElementStorage;
 import sirttas.elementalcraft.item.spell.ISpellHolder;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
@@ -46,7 +45,7 @@ public class GuiHandler {
 					Spell spell = getSpell();
 		
 					doRenderElementGauge(matrixStack, storage.getElementAmount(type), storage.getElementCapacity(type), type);
-					if (spell.isValid() && storage instanceof PlayerElementStorage) {
+					if (spell.isValid()) {
 						doRenderCanCast(matrixStack, spell.consume(player, true));
 					}
 				}

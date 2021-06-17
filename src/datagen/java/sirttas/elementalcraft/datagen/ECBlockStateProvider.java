@@ -29,7 +29,6 @@ import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
 import sirttas.elementalcraft.block.instrument.mill.AirMillBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlock.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
@@ -187,24 +186,10 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	private void pipeBlock(ElementPipeBlock block, String name, String texture) {
 		ModelFile core = models().withExistingParent(name + CORE, prefix("template_elementpipe_core")).texture("texture", prefix(texture));
-		ModelFile side = models().getExistingFile(prefix("elementpipe_side"));
-		ModelFile extract = models().getExistingFile(prefix("elementpipe_extract"));
 		ModelFile frame = models().getExistingFile(prefix("cover_frame"));
 		
 		getMultipartBuilder(block).part().modelFile(core).addModel().end()
-			.part().modelFile(frame).uvLock(true).addModel().condition(ElementPipeBlock.COVER, CoverType.FRAME).end()
-			.part().modelFile(side).uvLock(true).addModel().condition(ElementPipeBlock.NORTH, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
-			.part().modelFile(side).rotationY(90).uvLock(true).addModel().condition(ElementPipeBlock.EAST, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
-			.part().modelFile(side).rotationY(180).uvLock(true).addModel().condition(ElementPipeBlock.SOUTH, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
-			.part().modelFile(side).rotationY(270).uvLock(true).addModel().condition(ElementPipeBlock.WEST, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
-			.part().modelFile(side).rotationX(270).uvLock(true).addModel().condition(ElementPipeBlock.UP, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
-			.part().modelFile(side).rotationX(90).uvLock(true).addModel().condition(ElementPipeBlock.DOWN, ConnectionType.CONNECTED, ConnectionType.EXTRACT).end()
-			.part().modelFile(extract).uvLock(true).addModel().condition(ElementPipeBlock.NORTH, ConnectionType.EXTRACT).end()
-			.part().modelFile(extract).rotationY(90).uvLock(true).addModel().condition(ElementPipeBlock.EAST, ConnectionType.EXTRACT).end()
-			.part().modelFile(extract).rotationY(180).uvLock(true).addModel().condition(ElementPipeBlock.SOUTH, ConnectionType.EXTRACT).end()
-			.part().modelFile(extract).rotationY(270).uvLock(true).addModel().condition(ElementPipeBlock.WEST, ConnectionType.EXTRACT).end()
-			.part().modelFile(extract).rotationX(270).uvLock(true).addModel().condition(ElementPipeBlock.UP, ConnectionType.EXTRACT).end()
-			.part().modelFile(extract).rotationX(90).uvLock(true).addModel().condition(ElementPipeBlock.DOWN, ConnectionType.EXTRACT).end();
+			.part().modelFile(frame).uvLock(true).addModel().condition(ElementPipeBlock.COVER, CoverType.FRAME).end();
 	}
 
 	private void slabBlock(SlabBlock block) {

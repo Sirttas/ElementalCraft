@@ -124,6 +124,6 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	@Override
 	@Deprecated
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		return doUpdatePostPlacement(stateIn, facing, facingState);
+		return doUpdatePostPlacement(stateIn, worldIn, currentPos, facing);
 	}
 }

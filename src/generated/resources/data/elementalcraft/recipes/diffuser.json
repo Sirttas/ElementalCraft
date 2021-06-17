@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " c ",
+    "did",
+    "wcw"
+  ],
+  "key": {
+    "c": {
+      "item": "elementalcraft:containedcrystal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "d": {
+      "tag": "forge:ingots/drenched_iron"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:diffuser"
+  }
+}

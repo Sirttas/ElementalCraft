@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.item.cover;
+package sirttas.elementalcraft.item.pipe;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

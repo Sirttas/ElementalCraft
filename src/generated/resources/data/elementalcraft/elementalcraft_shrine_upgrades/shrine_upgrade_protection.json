@@ -1,0 +1,9 @@
+{
+  "predicate": {
+    "tag": "elementalcraft:shrines/upgradables/protection",
+    "type": "dpanvil:tag"
+  },
+  "bonuses": {
+    "element_consumption": 3.0
+  }
+}

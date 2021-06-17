@@ -52,6 +52,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.StrengthShrineUpg
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.FortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
@@ -63,16 +64,16 @@ import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
-import sirttas.elementalcraft.item.cover.CoverFrameItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.item.elemental.LenseItem;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
 import sirttas.elementalcraft.item.holder.PureElementHolderItem;
+import sirttas.elementalcraft.item.pipe.CoverFrameItem;
 import sirttas.elementalcraft.item.pureore.PureOreItem;
 import sirttas.elementalcraft.item.receptacle.EmptyReceptacleItem;
-import sirttas.elementalcraft.item.receptacle.ReceptacleItem;
 import sirttas.elementalcraft.item.receptacle.ReceptacleHelper;
+import sirttas.elementalcraft.item.receptacle.ReceptacleItem;
 import sirttas.elementalcraft.item.receptacle.improved.EmptyImprovedReceptacleItem;
 import sirttas.elementalcraft.item.receptacle.improved.ImprovedReceptacleItem;
 import sirttas.elementalcraft.item.rune.RuneItem;
@@ -106,6 +107,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + RuneItem.NAME) public static final RuneItem RUNE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ChiselItem.NAME) public static final ChiselItem CHISEL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CoverFrameItem.NAME) public static final CoverFrameItem COVER_FRAM = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":elementpipe_priority") public static final Item PIPE_PRIORITY = null;
 
 	@ObjectHolder("patchouli:guide_book") public static final Item ELEMENTOPEDIA = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":inertcrystal") public static final ECItem INERT_CRYSTAL = null;
@@ -211,6 +213,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NectarShrineUpgradeBlock.NAME) public static final Item NECTOR_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + MysticalGroveShrineUpgradeBlock.NAME) public static final Item MYSTICAL_GROVE_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + StemPollinationShrineUpgradeBlock.NAME) public static final Item STEM_POLLINATION_SHRINE_UPGRADE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ProtectionShrineUpgradeBlock.NAME) public static final Item PROTECTION_SHRINE_UPGRADE = null;
 
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final Item SOURCE = null;
@@ -255,6 +258,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new RuneItem(), RuneItem.NAME);
 		RegistryHelper.register(registry, new ChiselItem(), ChiselItem.NAME);
 		RegistryHelper.register(registry, new CoverFrameItem(), CoverFrameItem.NAME);
+		RegistryHelper.register(registry, new ECItem(), "elementpipe_priority");
 		
 		RegistryHelper.register(registry, new ECItem(), "inertcrystal");
 		RegistryHelper.register(registry, new ECItem(), "containedcrystal");

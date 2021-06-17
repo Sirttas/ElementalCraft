@@ -24,12 +24,14 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
-import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
+import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlockEntity;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlockEntity;
+import sirttas.elementalcraft.block.diffuser.DiffuserBlock;
+import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
 import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
 import sirttas.elementalcraft.block.evaporator.EvaporatorBlockEntity;
 import sirttas.elementalcraft.block.extractor.ExtractorBlock;
@@ -89,6 +91,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.Acce
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.FortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
@@ -128,6 +131,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ImprovedExtractorBlock.NAME) public static final ImprovedExtractorBlock EXTRACTOR_IMPROVED = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final EvaporatorBlock EVAPORATOR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SolarSynthesizerBlock.NAME) public static final SolarSynthesizerBlock SOLAR_SYNTHESIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + DiffuserBlock.NAME) public static final DiffuserBlock DIFFUSER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + InfuserBlock.NAME) public static final InfuserBlock INFUSER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BinderBlock.NAME) public static final BinderBlock BINDER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ImprovedBinderBlock.NAME) public static final ImprovedBinderBlock BINDER_IMPROVED = null;
@@ -173,6 +177,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NectarShrineUpgradeBlock.NAME) public static final NectarShrineUpgradeBlock NECTAR_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + MysticalGroveShrineUpgradeBlock.NAME) public static final MysticalGroveShrineUpgradeBlock MYSTICAL_GROVE_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + StemPollinationShrineUpgradeBlock.NAME) public static final StemPollinationShrineUpgradeBlock STEM_POLLINATION_SHRINE_UPGRADE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ProtectionShrineUpgradeBlock.NAME) public static final ProtectionShrineUpgradeBlock PROTECTION_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final SourceBlock SOURCE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystalOreBlock.NAME) public static final CrystalOreBlock CRYSTAL_ORE = null;
 	
@@ -215,6 +220,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new ImprovedExtractorBlock(), ImprovedExtractorBlock.NAME);
 		RegistryHelper.register(registry, new EvaporatorBlock(), EvaporatorBlock.NAME);
 		RegistryHelper.register(registry, new SolarSynthesizerBlock(), SolarSynthesizerBlock.NAME);
+		RegistryHelper.register(registry, new DiffuserBlock(), DiffuserBlock.NAME);
 		RegistryHelper.register(registry, new InfuserBlock(), InfuserBlock.NAME);
 		RegistryHelper.register(registry, new BinderBlock(), BinderBlock.NAME);
 		RegistryHelper.register(registry, new ImprovedBinderBlock(), ImprovedBinderBlock.NAME);
@@ -259,6 +265,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new PickupShrineUpgradeBlock(), PickupShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new NectarShrineUpgradeBlock(), NectarShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new StemPollinationShrineUpgradeBlock(), StemPollinationShrineUpgradeBlock.NAME);
+		RegistryHelper.register(registry, new ProtectionShrineUpgradeBlock(), ProtectionShrineUpgradeBlock.NAME);
 
 		RegistryHelper.register(registry, new SourceBlock(), SourceBlock.NAME);
 		RegistryHelper.register(registry, new CrystalOreBlock(AbstractBlock.Properties.of(Material.STONE).strength(3.0F, 3.0F)), CrystalOreBlock.NAME);
@@ -310,6 +317,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.of(ExtractorBlockEntity::new, EXTRACTOR, EXTRACTOR_IMPROVED).build(null), ExtractorBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(EvaporatorBlockEntity::new, EVAPORATOR).build(null), EvaporatorBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(SolarSynthesizerBlockEntity::new, SOLAR_SYNTHESIZER).build(null), SolarSynthesizerBlock.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.of(DiffuserBlockEntity::new, DIFFUSER).build(null), DiffuserBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(InfuserBlockEntity::new, INFUSER).build(null), InfuserBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(BinderBlockEntity::new, BINDER).build(null), BinderBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(ImprovedBinderBlockEntity::new, BINDER_IMPROVED).build(null), ImprovedBinderBlock.NAME);

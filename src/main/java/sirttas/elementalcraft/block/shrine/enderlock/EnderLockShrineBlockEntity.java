@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -11,7 +12,9 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.entity.EntityHelper;
 
 public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -37,10 +40,10 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 		return false;
 	}
 
-	public boolean doLock() {
+	public boolean doLock(LivingEntity entity) {
 		int consumeAmount = this.getConsumeAmount();
 
-		if (this.elementStorage.getElementAmount() >= consumeAmount) {
+		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(entity)) && (this.elementStorage.getElementAmount() >= consumeAmount)) {
 			this.consumeElement(consumeAmount);
 			return true;
 		}

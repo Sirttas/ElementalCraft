@@ -74,6 +74,8 @@ public class ECTags {
 		
 		public static final INamedTag<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
 		
+		public static final INamedTag<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
+		
 		public static final INamedTag<Item> PURE_ORES = createTag("pure_ores");
 		public static final INamedTag<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
@@ -163,6 +165,7 @@ public class ECTags {
 		public static final INamedTag<Block> SHRINES_UPGRADABLES_ACCELERATION = createTag("shrines/upgradables/acceleration");
 		public static final INamedTag<Block> SHRINES_UPGRADABLES_RANGE = createTag("shrines/upgradables/range");
 		public static final INamedTag<Block> SHRINES_UPGRADABLES_STRENGTH = createTag("shrines/upgradables/strength");
+		public static final INamedTag<Block> SHRINES_UPGRADABLES_PROTECTION = createTag("shrines/upgradables/protection");
 
 		public static final INamedTag<Block> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
 		public static final INamedTag<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
@@ -173,7 +176,7 @@ public class ECTags {
 		private Blocks() {}
 		
 		private static INamedTag<Block> createTag(String name) {
-			return createTag(ElementalCraftApi.MODID,name);
+			return createTag(ElementalCraftApi.MODID, name);
 		}
 
 		private static INamedTag<Block> createForgeTag(String name) {
