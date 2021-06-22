@@ -44,7 +44,7 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 					if (pedestal != null) {
 						matrixStack.pushPose();
 						matrixStack.translate(direction.getStepX() * 3D, 0, direction.getStepZ() * 3D);
-						renderBlock(pedestal.defaultBlockState(), matrixStack, buffer.getBuffer(ECRenderTypes.GHOST), te.getLevel());
+						renderBlock(pedestal.defaultBlockState(), matrixStack, buffer.getBuffer(ECRenderTypes.GHOST), te.getLevel(), te.getBlockPos().relative(direction, 3));
 						matrixStack.popPose();
 						remaining.remove(type);
 					}

@@ -1,3 +1,10 @@
+1.16.5-2.7.3:
+
+- change required jei version
+- improved rendering
+- fix some shrine upgrades
+
+
 1.16.5-2.7.2:
 
 - new item: pipe priority rings

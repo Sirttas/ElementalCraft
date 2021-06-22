@@ -14,7 +14,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.model.data.EmptyModelData;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -59,7 +58,7 @@ public class SolarSynthesizerRenderer extends AbstractECRenderer<SolarSynthesize
 				}
 				matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
 				minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), lenseModel, r, g,
-						b, light, overlay, EmptyModelData.INSTANCE);
+						b, light, overlay, getModelData(lenseModel, te));
 				matrixStack.popPose();
 				if (isWorking) {
 					Vector3d beamVect = Vector3d.atCenterOf(te.getBlockPos()).subtract(minecraft.getEntityRenderDispatcher().camera.getPosition()).multiply(1, 0, 1).normalize();

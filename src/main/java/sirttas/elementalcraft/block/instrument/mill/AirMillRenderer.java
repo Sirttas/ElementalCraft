@@ -45,7 +45,7 @@ public class AirMillRenderer extends AbstractECRenderer<AirMillBlockEntity> {
 			matrixStack.mulPose(Vector3f.YP.rotationDegrees(-5 * tick));
 			matrixStack.translate(-0.5, 0, -0.5);
 		}
-		renderModel(matrixStack, buffer, te.getBlockState(), bladesModel, light, overlay);
+		renderModel(bladesModel, matrixStack, buffer, te, light, overlay);
 		matrixStack.popPose();
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
 			matrixStack.translate(0.5, 0.3, 0.5);

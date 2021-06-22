@@ -24,7 +24,9 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.IModelData;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.event.TickHandler;
 
@@ -52,14 +54,16 @@ public abstract class AbstractECRenderer<T extends TileEntity> extends TileEntit
 		Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemCameraTransforms.TransformType.GROUND, light, overlay, matrixStack, buffer);
 	}
 
-	public void renderBlock(BlockState state, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
-		Minecraft.getInstance().getBlockRenderer().renderBlock(state, matrixStack, buffer, light, overlay, EmptyModelData.INSTANCE);
+	public void renderBlock(BlockState state, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, IModelData data) {
+		Minecraft.getInstance().getBlockRenderer().renderBlock(state, matrixStack, buffer, light, overlay, data);
 	}
 
-	public void renderBlock(BlockState state, MatrixStack matrixStack, IVertexBuilder builder, World world) {
-		Minecraft.getInstance().getBlockRenderer().renderModel(state, BlockPos.ZERO, world, matrixStack, builder, false, world.random, EmptyModelData.INSTANCE);
+	public void renderBlock(BlockState state, MatrixStack matrixStack, IVertexBuilder builder, World world, BlockPos pos) {
+		matrixStack.pushPose();
+		Minecraft.getInstance().getBlockRenderer().renderModel(state, pos, world, matrixStack, builder, false, world.random, ModelDataManager.getModelData(world, pos));
+		matrixStack.popPose();
 	}
-
+	
 	public void renderRunes(MatrixStack matrixStack, IRenderTypeBuffer buffer, IRuneHandler handler, float tick, int light, int overlay) {
 		int ruenCount = handler.getRuneCount();
 
@@ -94,13 +98,28 @@ public abstract class AbstractECRenderer<T extends TileEntity> extends TileEntit
 		builder.vertex(matrix, x, y + height, 0).color(r, g, b, 1F).uv(sprite.getU0(), sprite.getV1()).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
 	}
 
-	public void renderModel(MatrixStack matrixStack, IRenderTypeBuffer buffer, BlockState state, IBakedModel model, int light, int overlay) {
-		Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(state != null ? RenderTypeLookup.getRenderType(state, false)  : Atlases.cutoutBlockSheet()), state, model, 1, 1, 1, light,
-				overlay, EmptyModelData.INSTANCE);
+	public void renderModel(IBakedModel model, MatrixStack matrixStack, IRenderTypeBuffer buffer, BlockState state, int light, int overlay) {
+		renderModel(model, matrixStack, buffer, state, light, overlay, EmptyModelData.INSTANCE);
+	}
+	
+	public void renderModel(IBakedModel model, MatrixStack matrixStack, IRenderTypeBuffer buffer, T te, int light, int overlay) {
+		renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
 	}
 
+	public void renderModel(IBakedModel model, MatrixStack matrixStack, IRenderTypeBuffer buffer, BlockState state, int light, int overlay, IModelData data) {
+		Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(state != null ? RenderTypeLookup.getRenderType(state, false)  : Atlases.cutoutBlockSheet()), state, model, 1, 1, 1, light,
+				overlay, data);
+	}
+	
 	public float getAngle(float partialTicks) {
 		return TickHandler.getTicksInGame() + partialTicks % 360;
+	}
+	
+	public IModelData getModelData(IBakedModel model, T te) {
+		World world = te.getLevel();
+		BlockPos pos = te.getBlockPos();
+		
+        return model.getModelData(world, pos, te.getBlockState(), ModelDataManager.getModelData(world, pos));
 	}
 
 }

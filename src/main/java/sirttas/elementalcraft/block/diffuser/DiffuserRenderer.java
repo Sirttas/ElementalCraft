@@ -43,7 +43,7 @@ public class DiffuserRenderer extends AbstractECRenderer<DiffuserBlockEntity> {
 		matrixStack.mulPose(Vector3f.YP.rotationDegrees(angle));
 		matrixStack.mulPose(ROTATION);
 		matrixStack.translate(-3D / 16, -3D / 16, -3D / 16);
-		renderModel(matrixStack, buffer, te.getBlockState(), cubeModel, light, overlay);
+		renderModel(cubeModel, matrixStack, buffer, te, light, overlay);
 		matrixStack.popPose();
 	}
 }

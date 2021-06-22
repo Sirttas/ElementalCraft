@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.client.model.ModelDataManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
@@ -49,11 +50,12 @@ public class ElementPipeRenderer extends AbstractECRenderer<ElementPipeBlockEnti
 			prioritytModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
 		if (coverState != null && ElementPipeBlock.showCover(te.getBlockState(), Minecraft.getInstance().player)) {
-			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn);
+			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelDataManager.getModelData(te.getLevel(), te.getBlockPos()));
 		} else {
 			renderPipes(te, matrixStack, buffer, combinedLightIn, combinedOverlayIn);
 			if (coverState != null) {
-				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), matrixStack, buffer, combinedLightIn, combinedOverlayIn);
+				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), matrixStack, buffer, combinedLightIn, combinedOverlayIn,
+						ModelDataManager.getModelData(te.getLevel(), te.getBlockPos()));
 				WorldRenderer.renderLineBox(matrixStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
 			}
 		}
@@ -73,12 +75,12 @@ public class ElementPipeRenderer extends AbstractECRenderer<ElementPipeBlockEnti
 			matrixStack.pushPose();
 			matrixStack.mulPose(side.getRotation());
 			matrixStack.translate(-0.5, -0.5, -0.5);
-			this.renderModel(matrixStack, buffer, te.getBlockState(), sideModel, light, overlay);
+			this.renderModel(sideModel, matrixStack, buffer, te, light, overlay);
 			if (connection == ConnectionType.EXTRACT) {
-				this.renderModel(matrixStack, buffer, te.getBlockState(), extractModel, light, overlay);
+				this.renderModel(extractModel, matrixStack, buffer, te, light, overlay);
 			}
 			if (te.isPriority(side)) {
-				this.renderModel(matrixStack, buffer, te.getBlockState(), prioritytModel, light, overlay);
+				this.renderModel(prioritytModel, matrixStack, buffer, te, light, overlay);
 			}
 			matrixStack.popPose();
 		}

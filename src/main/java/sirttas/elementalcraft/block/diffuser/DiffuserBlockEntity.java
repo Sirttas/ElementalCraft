@@ -58,7 +58,7 @@ public class DiffuserBlockEntity extends AbstractECTickableBlockEntity {
 	public void tick() {
 		ISingleElementStorage tank = getTank();
 		AtomicInteger amount = new AtomicInteger(ECConfig.COMMON.diffuserDiffusionAmount.get());
-
+		
 		hasDiffused = false;
 		super.tick();
 		if (tank != null && !tank.isEmpty()) {

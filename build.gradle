@@ -84,7 +84,6 @@ minecraft {
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
-            property 'mixin.env.refMapRemappingEnv', 'searge'
 
             mods {
                 elementalcraft {
@@ -101,7 +100,6 @@ minecraft {
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
-            property 'mixin.env.refMapRemappingEnv', 'searge'
 
             mods {
                 elementalcraft {
@@ -115,10 +113,8 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
             property 'fml.earlyprogresswindow', 'false'
-            property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
-            property 'mixin.env.refMapRemappingEnv', 'searge'
 
             args '--mod', 'elementalcraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
