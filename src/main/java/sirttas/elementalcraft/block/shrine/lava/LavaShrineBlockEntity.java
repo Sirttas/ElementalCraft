@@ -6,11 +6,12 @@ import java.util.stream.IntStream;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -20,15 +21,15 @@ import sirttas.elementalcraft.tag.ECTags;
 
 public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + LavaShrineBlock.NAME) public static final TileEntityType<LavaShrineBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + LavaShrineBlock.NAME) public static final BlockEntityType<LavaShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE).periode(ECConfig.COMMON.lavaShrinePeriode.get()).consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.lavaShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
 
 	protected static final List<Direction> UPGRRADE_DIRECTIONS = ImmutableList.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	public LavaShrineBlockEntity() {
-		super(TYPE, PROPERTIES);
+	public LavaShrineBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, PROPERTIES);
 	}
 
 	private Optional<BlockPos> findRock() {
@@ -40,14 +41,14 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AxisAlignedBB getRangeBoundingBox() {
+	public AABB getRangeBoundingBox() {
 		int range = ECConfig.COMMON.lavaShrineRange.get();
 
-		return new AxisAlignedBB(this.getBlockPos()).inflate(range, 0, range).move(0, 1, 0);
+		return new AABB(this.getBlockPos()).inflate(range, 0, range).move(0, 1, 0);
 	}
 
 	@Override
-	protected boolean doTick() {
+	protected boolean doPeriode() {
 		return findRock().map(p -> {
 			level.setBlockAndUpdate(p, Blocks.LAVA.defaultBlockState());
 			level.levelEvent(1501, p, 0);

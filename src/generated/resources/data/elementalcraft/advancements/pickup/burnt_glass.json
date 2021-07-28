@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:burnt_glass"
+            "items": [
+              "elementalcraft:burnt_glass"
+            ]
           }
         ]
       }

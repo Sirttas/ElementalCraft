@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:scroll_paper"
+            "items": [
+              "elementalcraft:scroll_paper"
+            ]
           }
         ]
       }

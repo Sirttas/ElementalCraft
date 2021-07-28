@@ -1,18 +1,18 @@
 package sirttas.elementalcraft.block.sorter;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
-import sirttas.elementalcraft.block.shape.Shapes;
 
 public interface ISorterBlock {
 
@@ -20,22 +20,22 @@ public interface ISorterBlock {
 	public static final DirectionProperty TARGET = DirectionProperty.create("target", Direction.values());
 
 	default VoxelShape getSourceShape(BlockState state) {
-		return Shapes.sourceShape(state.getValue(SOURCE));
+		return ECShapes.sourceShape(state.getValue(SOURCE));
 	}
 
 	default VoxelShape getTargetShape(BlockState state) {
-		return Shapes.targetShape(state.getValue(TARGET));
+		return ECShapes.targetShape(state.getValue(TARGET));
 	}
 	
 	VoxelShape getCoreShape(BlockState state);
 	
 	default VoxelShape getCurentShape(BlockState state) {
-		return VoxelShapes.or(getSourceShape(state), getTargetShape(state), getCoreShape(state)).optimize();
+		return Shapes.or(getSourceShape(state), getTargetShape(state), getCoreShape(state)).optimize();
 	}
 	
-	default VoxelShape getShape(BlockState state, BlockPos pos, RayTraceResult result) {
-		if (result != null && result.getType() == RayTraceResult.Type.BLOCK && ((BlockRayTraceResult) result).getBlockPos().equals(pos)) {
-			final Vector3d hit = result.getLocation();
+	default VoxelShape getShape(BlockState state, BlockPos pos, HitResult result) {
+		if (result != null && result.getType() == HitResult.Type.BLOCK && ((BlockHitResult) result).getBlockPos().equals(pos)) {
+			final Vec3 hit = result.getLocation();
 			VoxelShape source = getSourceShape(state);
 			VoxelShape target = getTargetShape(state);
 			VoxelShape core = getCoreShape(state);
@@ -51,22 +51,22 @@ public interface ISorterBlock {
 		return getCurentShape(state);
 	}
 	
-	default ActionResultType moveIO(BlockState state, World world, BlockPos pos, BlockRayTraceResult hit) {
+	default InteractionResult moveIO(BlockState state, Level world, BlockPos pos, BlockHitResult hit) {
 		return this.moveIO(state, world, pos, hit, getShape(state, pos, hit));
 	}
 	
-	default ActionResultType moveIO(BlockState state, World world, BlockPos pos, BlockRayTraceResult hit, VoxelShape shape) {
+	default InteractionResult moveIO(BlockState state, Level world, BlockPos pos, BlockHitResult hit, VoxelShape shape) {
 		Direction direction = hit.getDirection().getOpposite();
 
 		if (state.getValue(SOURCE) == direction || state.getValue(TARGET) == direction) {
-			return ActionResultType.PASS;
-		} else if (Shapes.SOURCE_SHAPES.contains(shape)) {
+			return InteractionResult.PASS;
+		} else if (ECShapes.SOURCE_SHAPES.contains(shape)) {
 			world.setBlockAndUpdate(pos, state.setValue(SOURCE, direction));
-			return ActionResultType.SUCCESS;
-		} else if (Shapes.TARGET_SHAPES.contains(shape)) {
+			return InteractionResult.SUCCESS;
+		} else if (ECShapes.TARGET_SHAPES.contains(shape)) {
 			world.setBlockAndUpdate(pos, state.setValue(TARGET, direction));
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 }

@@ -2,15 +2,15 @@ package sirttas.elementalcraft.inventory;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.inventory.IClearable;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Clearable;
+import net.minecraft.world.Container;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 
-public interface IInventoryTile extends IClearable {
+public interface IInventoryTile extends Clearable {
 
 	@Nonnull
-	IInventory getInventory();
+	Container getInventory();
 	
 	LazyOptional<IItemHandler> getItemHandler();
 

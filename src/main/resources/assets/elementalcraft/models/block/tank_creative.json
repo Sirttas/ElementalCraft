@@ -1,7 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "elementalcraft:block/tank",
-	"textures": {
-		"3": "elementalcraft:block/tank_creative"
-	}
-}

@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell;
 
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -70,8 +70,8 @@ public class Spells {
 		RegistryHelper.register(registry, new SilkVeinSpell(), SilkVeinSpell.NAME);
 		RegistryHelper.register(registry, new TranslocationSpell(), TranslocationSpell.NAME);
 
-		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.HEAL, 1, 1)), "heal");
-		RegistryHelper.register(registry, new EffectSpell(new EffectInstance(Effects.MOVEMENT_SPEED, 2400, 1), new EffectInstance(Effects.DIG_SPEED, 2400)), "speed");
+		RegistryHelper.register(registry, new EffectSpell(new MobEffectInstance(MobEffects.HEAL, 1, 1)), "heal");
+		RegistryHelper.register(registry, new EffectSpell(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2400, 1), new MobEffectInstance(MobEffects.DIG_SPEED, 2400)), "speed");
 	}
 
 }

@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:earth_lense"
+            "items": [
+              "elementalcraft:earth_lense"
+            ]
           }
         ]
       }

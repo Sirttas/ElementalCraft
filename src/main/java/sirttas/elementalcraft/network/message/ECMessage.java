@@ -2,9 +2,9 @@ package sirttas.elementalcraft.network.message;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
@@ -27,21 +27,21 @@ public final class ECMessage {
 		SCROLL_FORWARD, SCROLL_BACKWORD
 	}
 
-	public static ECMessage decode(PacketBuffer buf) {
+	public static ECMessage decode(FriendlyByteBuf buf) {
 		return new ECMessage(buf.readEnum(MessageType.class));
 	}
 
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeEnum(type);
 	}
 
-	private void handelScroll(ServerPlayerEntity player, int delta) {
-		EntityHelper.handStream(player).filter(i -> i.getItem().is(ECTags.Items.SPELL_CAST_TOOLS)).findFirst().ifPresent(i -> SpellHelper.moveSelected(i, delta));
+	private void handelScroll(ServerPlayer player, int delta) {
+		EntityHelper.handStream(player).filter(i -> ECTags.Items.SPELL_CAST_TOOLS.contains(i.getItem())).findFirst().ifPresent(i -> SpellHelper.moveSelected(i, delta));
 	}
 
 	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			ServerPlayerEntity player = ctx.get().getSender();
+			ServerPlayer player = ctx.get().getSender();
 
 			switch (type) {
 			case SCROLL_BACKWORD:

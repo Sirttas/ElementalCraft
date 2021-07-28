@@ -1,16 +1,16 @@
 package sirttas.elementalcraft.item.holder;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.UseAction;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -41,8 +41,8 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 	
 	@Override
-	public UseAction getUseAnimation(ItemStack stack) {
-		return UseAction.BOW;
+	public UseAnim getUseAnimation(ItemStack stack) {
+		return UseAnim.BOW;
 	}
 
 	protected boolean isValidSource(BlockState state) {
@@ -55,12 +55,12 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	@Override
-	public ActionResultType useOn(ItemUseContext context) {
+	public InteractionResult useOn(UseOnContext context) {
 		BlockPos pos = context.getClickedPos();
-		World world = context.getLevel();
+		Level world = context.getLevel();
 		ItemStack stack = context.getItemInHand();
-		PlayerEntity player = context.getPlayer();
-		ActionResultType result = tick(world, player, pos, stack);
+		Player player = context.getPlayer();
+		InteractionResult result = tick(world, player, pos, stack);
 
 		if (result.consumesAction()) {
 			this.setSavedPos(stack, pos);
@@ -80,13 +80,13 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	@Override
-	public void releaseUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+	public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
 		this.removeSavedPos(stack);
 	}
 
 	protected abstract ElementType getElementType(IElementStorage target, BlockState blockstate);
 	
-	private ActionResultType tick(World world, LivingEntity entity, BlockPos pos, ItemStack stack) {
+	private InteractionResult tick(Level world, LivingEntity entity, BlockPos pos, ItemStack stack) {
 		BlockState blockstate = world.getBlockState(pos);
 		return BlockEntityHelper.getElementStorageAt(world, pos).map(storage -> {
 			IElementStorage holder = getElementStorage(stack);
@@ -96,14 +96,14 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 			if (elementType != ElementType.NONE) {
 				if (isSource || entity.isShiftKeyDown()) {
 					if (isSource || storage.canPipeExtract(elementType)) {
-						return storage.transferTo(holder, elementType, transferAmount) > 0 ? ActionResultType.CONSUME : ActionResultType.PASS;
+						return storage.transferTo(holder, elementType, transferAmount) > 0 ? InteractionResult.CONSUME : InteractionResult.PASS;
 					}
 				} else if (storage.canPipeInsert(elementType)) {
-					return holder.transferTo(storage, elementType, transferAmount) > 0 ? ActionResultType.CONSUME : ActionResultType.PASS;
+					return holder.transferTo(storage, elementType, transferAmount) > 0 ? InteractionResult.CONSUME : InteractionResult.PASS;
 				}
 			}
-			return ActionResultType.PASS;
-		}).orElse(ActionResultType.PASS);
+			return InteractionResult.PASS;
+		}).orElse(InteractionResult.PASS);
 	}
 
 	@Override
@@ -112,24 +112,24 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	public BlockPos getSavedPos(ItemStack stack) {
-		CompoundNBT tag = stack.getTag();
+		CompoundTag tag = stack.getTag();
 		
 		if (tag != null) {
-			CompoundNBT savedPos = tag.getCompound(SAVED_POS);
+			CompoundTag savedPos = tag.getCompound(SAVED_POS);
 
 			if (savedPos != null) {
-				return NBTUtil.readBlockPos(savedPos);
+				return NbtUtils.readBlockPos(savedPos);
 			}
 		}
 		return null;
 	}
 
 	public void setSavedPos(ItemStack stack, BlockPos pos) {
-		stack.getOrCreateTag().put(SAVED_POS, NBTUtil.writeBlockPos(pos));
+		stack.getOrCreateTag().put(SAVED_POS, NbtUtils.writeBlockPos(pos));
 	}
 
 	public void removeSavedPos(ItemStack stack) {
-		CompoundNBT tag = stack.getTag();
+		CompoundTag tag = stack.getTag();
 
 		if (tag != null) {
 			tag.remove(SAVED_POS);

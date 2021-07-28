@@ -3,10 +3,12 @@ package sirttas.elementalcraft.block.shrine.sweet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -17,13 +19,13 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SweetShrineBlock.NAME) public static final TileEntityType<SweetShrineBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SweetShrineBlock.NAME) public static final BlockEntityType<SweetShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.sweetShrinePeriode.get()).consumeAmount(ECConfig.COMMON.sweetShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.sweetShrineRange.get());
 
-	public SweetShrineBlockEntity() {
-		super(TYPE, PROPERTIES);
+	public SweetShrineBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, PROPERTIES);
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
@@ -32,18 +34,18 @@ public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 
 
 	@Override
-	protected boolean doTick() {
+	protected boolean doPeriode() {
 		int consumeAmount = this.getConsumeAmount();
 
-		if (this.hasUpgrade(ShrineUpgrades.NECTAR)) {
-			getEntities(BeeEntity.class).forEach(e -> {
+		if (this.hasUpgrade(ShrineUpgrades.NECTAR.get())) {
+			getEntities(Bee.class).forEach(e -> {
 				if (this.elementStorage.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);
 					e.setHasNectar(true);
 				}
 			});
 		} else {
-			getEntities(PlayerEntity.class).forEach(e -> {
+			getEntities(Player.class).forEach(e -> {
 				float strength = this.getMultiplier(BonusType.STRENGTH);
 
 				if (this.elementStorage.getElementAmount() >= consumeAmount) {

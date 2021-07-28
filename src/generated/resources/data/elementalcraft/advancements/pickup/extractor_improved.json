@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:extractor_improved"
+            "items": [
+              "elementalcraft:extractor_improved"
+            ]
           }
         ]
       }

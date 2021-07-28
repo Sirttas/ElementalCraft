@@ -2,13 +2,13 @@ package sirttas.elementalcraft.recipe.instrument.io.grinding;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -17,7 +17,7 @@ import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class AirMillGrindingRecipe implements IGrindingRecipe {
 	
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
 	
 	private final Ingredient ingredient;
 	private final ItemStack output;
@@ -57,15 +57,15 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 	
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AirMillGrindingRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AirMillGrindingRecipe> {
 
 		@Override
 		public AirMillGrindingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient ingredient = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
@@ -76,7 +76,7 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 		}
 
 		@Override
-		public AirMillGrindingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+		public AirMillGrindingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			int elementAmount = buffer.readInt();
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();
@@ -85,7 +85,7 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, AirMillGrindingRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buffer, AirMillGrindingRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
 			recipe.getIngredients().get(0).toNetwork(buffer);
 			buffer.writeItem(recipe.getResultItem());

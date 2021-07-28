@@ -1,8 +1,10 @@
 package sirttas.elementalcraft.block.instrument.purifier;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.registries.ObjectHolder;
@@ -14,12 +16,12 @@ import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 
 public class PurifierBlockEntity extends AbstractInstrumentBlockEntity<PurifierBlockEntity, PurifierRecipe> {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PurifierBlock.NAME) public static final TileEntityType<PurifierBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + PurifierBlock.NAME) public static final BlockEntityType<PurifierBlockEntity> TYPE = null;
 
 	private final PurifierInventory inventory;
 
-	public PurifierBlockEntity() {
-		super(TYPE, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
+	public PurifierBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
 		outputSlot = 1;
 		inventory = new PurifierInventory(this::setChanged);
 	}
@@ -44,7 +46,7 @@ public class PurifierBlockEntity extends AbstractInstrumentBlockEntity<PurifierB
 	}
 
 	@Override
-	public IInventory getInventory() {
+	public Container getInventory() {
 		return inventory;
 	}
 }

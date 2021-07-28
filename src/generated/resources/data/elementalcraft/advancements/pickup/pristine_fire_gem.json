@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:pristine_fire_gem"
+            "items": [
+              "elementalcraft:pristine_fire_gem"
+            ]
           }
         ]
       }

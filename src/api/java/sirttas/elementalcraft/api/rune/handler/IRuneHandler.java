@@ -2,9 +2,9 @@ package sirttas.elementalcraft.api.rune.handler;
 
 import java.util.List;
 
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
@@ -33,16 +33,16 @@ public interface IRuneHandler {
 		return getBonus(BonusType.ELEMENT_PRESERVATION) + 1;
 	}
 	
-	public static ListNBT writeNBT(IRuneHandler handler) {
-		ListNBT nbtTagList = new ListNBT();
+	public static ListTag writeNBT(IRuneHandler handler) {
+		ListTag nbtTagList = new ListTag();
 
-		handler.getRunes().forEach(rune -> nbtTagList.add(StringNBT.valueOf(rune.getId().toString())));
+		handler.getRunes().forEach(rune -> nbtTagList.add(StringTag.valueOf(rune.getId().toString())));
 		return nbtTagList;
 	}
 
-	public static void readNBT(IRuneHandler handler, ListNBT nbtTagList) {
+	public static void readNBT(IRuneHandler handler, ListTag nbtTagList) {
 		nbtTagList.forEach(nbt -> {
-			String name = ((StringNBT) nbt).getAsString();
+			String name = ((StringTag) nbt).getAsString();
 			Rune rune = ElementalCraftApi.RUNE_MANAGER.get(new ResourceLocation(name));
 
 			if (rune != null) {

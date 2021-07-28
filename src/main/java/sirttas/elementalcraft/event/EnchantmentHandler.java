@@ -2,9 +2,9 @@ package sirttas.elementalcraft.event;
 
 import org.apache.commons.lang3.StringUtils;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,9 +24,9 @@ public class EnchantmentHandler {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if (left.getItem().is(ECTags.Items.SPELL_CAST_TOOLS) && right.getItem() == ECItems.SCROLL && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
+		if (ECTags.Items.SPELL_CAST_TOOLS.contains(left.getItem()) && right.getItem() == ECItems.SCROLL && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
 			ItemStack result = left.copy();
-			ListNBT list = SpellHelper.getSpellList(left);
+			ListTag list = SpellHelper.getSpellList(left);
 			int n = 4 * (list != null ? list.size() + 1 : 1);
 
 			if (StringUtils.isBlank(event.getName())) {
@@ -36,7 +36,7 @@ public class EnchantmentHandler {
 				}
 			} else if (!event.getName().equals(left.getHoverName().getString())) {
 				n++;
-				result.setHoverName(new StringTextComponent(event.getName()));
+				result.setHoverName(new TextComponent(event.getName()));
 			}
 			SpellHelper.addSpell(result, SpellHelper.getSpell(right));
 			event.setCost(n);

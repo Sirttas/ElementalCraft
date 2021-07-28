@@ -2,16 +2,17 @@ package sirttas.elementalcraft.block.instrument.firefurnace;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.crafting.AbstractCookingRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -23,11 +24,11 @@ import sirttas.elementalcraft.recipe.instrument.io.FurnaceRecipeWrapper;
 public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRecipe> extends AbstractInstrumentBlockEntity<AbstractFireFurnaceBlockEntity<T>, FurnaceRecipeWrapper<T>> {
 
 	private float exp;
-	private IRecipeType<T> furnaceRecipeType;
+	private RecipeType<T> furnaceRecipeType;
 	private final IOInventory inventory;
 
-	protected AbstractFireFurnaceBlockEntity(TileEntityType<? extends AbstractFireFurnaceBlockEntity<T>> tileEntityTypeIn, IRecipeType<T> recipeType, int transferSpeed, int maxRunes) {
-		super(tileEntityTypeIn, null, transferSpeed, maxRunes);
+	protected AbstractFireFurnaceBlockEntity(BlockEntityType<? extends AbstractFireFurnaceBlockEntity<T>> blockEntityType, BlockPos pos, BlockState state, RecipeType<T> recipeType, int transferSpeed, int maxRunes) {
+		super(blockEntityType, pos, state, null, transferSpeed, maxRunes);
 		this.furnaceRecipeType = recipeType;
 		exp = 0;
 		outputSlot = 1;
@@ -40,13 +41,13 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		this.exp = compound.getFloat(ECNames.XP);
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		compound.putFloat(ECNames.XP, this.exp);
 		return compound;
@@ -71,15 +72,15 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 		super.onProgress();
 	}
 
-	public void dropExperience(PlayerEntity player) {
+	public void dropExperience(Player player) {
 		dropExperience(player.position());
 	}
 
-	public void dropExperience(Vector3d pos) {
+	public void dropExperience(Vec3 pos) {
 		while (exp > 0) {
-			int j = ExperienceOrbEntity.getExperienceValue((int) exp);
+			int j = ExperienceOrb.getExperienceValue((int) exp);
 			exp -= j;
-			level.addFreshEntity(new ExperienceOrbEntity(level, pos.x(), pos.y() + 0.5D, pos.z() + 0.5D, j));
+			level.addFreshEntity(new ExperienceOrb(level, pos.x(), pos.y() + 0.5D, pos.z() + 0.5D, j));
 		}
 		exp = 0;
 	}
@@ -89,7 +90,7 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 	}
 
 	@Override
-	public IInventory getInventory() {
+	public Container getInventory() {
 		return inventory;
 	}
 

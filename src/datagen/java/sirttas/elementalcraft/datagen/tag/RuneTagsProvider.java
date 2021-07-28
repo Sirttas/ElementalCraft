@@ -15,10 +15,10 @@ public class RuneTagsProvider extends AbstractDataTagsProvider<Rune> {
 	}
 
 	@Override
-	protected void registerTags() {
-		getOrCreateBuilder(ECTags.Runes.SPEED_RUNES).add(ElementalCraft.createRL("wii"), ElementalCraft.createRL("fus"), ElementalCraft.createRL("zod"));
-		getOrCreateBuilder(ECTags.Runes.ELEMENT_PRESERVATION_RUNES).add(ElementalCraft.createRL("manx"), ElementalCraft.createRL("jita"), ElementalCraft.createRL("tano"));
-		getOrCreateBuilder(ECTags.Runes.LUCK_RUNES).add(ElementalCraft.createRL("claptrap"), ElementalCraft.createRL("bombadil"), ElementalCraft.createRL("tzeentch"));
+	protected void addTags() {
+		tag(ECTags.Runes.SPEED_RUNES).add(ElementalCraft.createRL("wii"), ElementalCraft.createRL("fus"), ElementalCraft.createRL("zod"));
+		tag(ECTags.Runes.ELEMENT_PRESERVATION_RUNES).add(ElementalCraft.createRL("manx"), ElementalCraft.createRL("jita"), ElementalCraft.createRL("tano"));
+		tag(ECTags.Runes.LUCK_RUNES).add(ElementalCraft.createRL("claptrap"), ElementalCraft.createRL("bombadil"), ElementalCraft.createRL("tzeentch"));
 	}
 	
 	@Override

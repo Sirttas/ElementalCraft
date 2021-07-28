@@ -5,12 +5,12 @@ import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
@@ -22,13 +22,13 @@ public class ECInventoryHelper {
 
 	private ECInventoryHelper() {}
 	
-	public static IItemHandler getItemHandlerAt(@Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nullable Direction side) {
+	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nullable Direction side) {
 		return BlockEntityHelper.getTileEntity(world, pos).map(t -> t.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElseGet(() -> {
-			if (t instanceof ISidedInventory && side != null) {
-				return new SidedInvWrapper((ISidedInventory) t, side);
+			if (t instanceof WorldlyContainer && side != null) {
+				return new SidedInvWrapper((WorldlyContainer) t, side);
 			}
-			if (t instanceof IInventory) {
-				return new InvWrapper((IInventory) t);
+			if (t instanceof Container) {
+				return new InvWrapper((Container) t);
 			}
 			return EmptyHandler.INSTANCE;
 		})).orElse(EmptyHandler.INSTANCE);
@@ -42,7 +42,7 @@ public class ECInventoryHelper {
 		return ItemStack.isSame(stack1, stack2) && stack1.getCount() == stack2.getCount();
 	}
 
-	public static int getSlotFor(IInventory inv, ItemStack stack) {
+	public static int getSlotFor(Container inv, ItemStack stack) {
 		for (int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack current = inv.getItem(i);
 
@@ -54,7 +54,7 @@ public class ECInventoryHelper {
 		return -1;
 	}
 
-	public static int getItemCount(IInventory inv) {
+	public static int getItemCount(Container inv) {
 		return (int) IntStream.range(0, inv.getContainerSize()).filter(i -> !inv.getItem(i).isEmpty()).count();
 	}
 

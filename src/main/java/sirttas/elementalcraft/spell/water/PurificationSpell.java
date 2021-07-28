@@ -2,11 +2,11 @@ package sirttas.elementalcraft.spell.water;
 
 import java.util.Iterator;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.EffectType;
-import net.minecraft.util.ActionResultType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.InteractionResult;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import sirttas.elementalcraft.spell.Spell;
@@ -16,16 +16,16 @@ public class PurificationSpell extends Spell {
 	public static final String NAME = "purification";
 
 	@SuppressWarnings("resource")
-	private ActionResultType cureEffects(Entity target) {
+	private InteractionResult cureEffects(Entity target) {
 		if (target instanceof LivingEntity) {
 			if (!target.getCommandSenderWorld().isClientSide) {
 				LivingEntity livingTarget = (LivingEntity) target;
-				Iterator<EffectInstance> itr = livingTarget.getActiveEffects().iterator();
+				Iterator<MobEffectInstance> itr = livingTarget.getActiveEffects().iterator();
 
 				while (itr.hasNext()) {
-					EffectInstance effect = itr.next();
+					MobEffectInstance effect = itr.next();
 
-					if (!effect.getCurativeItems().isEmpty() && effect.getEffect().getCategory() == EffectType.HARMFUL
+					if (!effect.getCurativeItems().isEmpty() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL
 							&& !MinecraftForge.EVENT_BUS.post(new PotionEvent.PotionRemoveEvent(livingTarget, effect))) {
 						livingTarget.onEffectRemoved(effect);
 						itr.remove();
@@ -33,18 +33,18 @@ public class PurificationSpell extends Spell {
 					}
 				}
 			}
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	@Override
-	public ActionResultType castOnEntity(Entity sender, Entity target) {
+	public InteractionResult castOnEntity(Entity sender, Entity target) {
 		return cureEffects(target);
 	}
 
 	@Override
-	public ActionResultType castOnSelf(Entity sender) {
+	public InteractionResult castOnSelf(Entity sender) {
 		return cureEffects(sender);
 	}
 }

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:small_container"
+    ]
+  },
+  "criteria": {
+    "has_containedcrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:containedcrystal"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:small_container"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_containedcrystal",
+      "has_the_recipe"
+    ]
+  ]
+}

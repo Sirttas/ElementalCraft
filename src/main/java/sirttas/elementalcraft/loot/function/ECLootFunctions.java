@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.loot.function;
 
-import net.minecraft.loot.functions.LootFunctionManager;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECLootFunctions {
@@ -8,6 +8,6 @@ public class ECLootFunctions {
 	private ECLootFunctions() {}
 	
 	public static final void setup() {
-		RandomSpell.type = LootFunctionManager.register/* registerFunction */(ElementalCraftApi.MODID + ":random_spell", new RandomSpell.Serializer());
+		RandomSpell.type = LootItemFunctions.register/* registerFunction */(ElementalCraftApi.MODID + ":random_spell", new RandomSpell.Serializer());
 	}
 }

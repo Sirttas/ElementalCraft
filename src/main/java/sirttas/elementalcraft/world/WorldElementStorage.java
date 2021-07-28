@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.world;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -9,7 +9,7 @@ import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 
-public class WorldElementStorage implements IElementStorage, INBTSerializable<CompoundNBT> {
+public class WorldElementStorage implements IElementStorage, INBTSerializable<CompoundTag> {
 	
 	private final SubStorage fire;
 	private final SubStorage water;
@@ -52,8 +52,8 @@ public class WorldElementStorage implements IElementStorage, INBTSerializable<Co
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT compound = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		CompoundTag compound = new CompoundTag();
 
 		compound.put(ElementType.FIRE.getSerializedName(), fire.serializeNBT());
 		compound.put(ElementType.WATER.getSerializedName(), water.serializeNBT());
@@ -63,7 +63,7 @@ public class WorldElementStorage implements IElementStorage, INBTSerializable<Co
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT compound) {
+	public void deserializeNBT(CompoundTag compound) {
 		fire.deserializeNBT(compound.getCompound(ElementType.FIRE.getSerializedName()));
 		water.deserializeNBT(compound.getCompound(ElementType.WATER.getSerializedName()));
 		earth.deserializeNBT(compound.getCompound(ElementType.EARTH.getSerializedName()));

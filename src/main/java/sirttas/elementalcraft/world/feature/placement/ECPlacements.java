@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.world.feature.placement;
 
-import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,8 +17,8 @@ public class ECPlacements {
 	private ECPlacements() {}
 	
 	@SubscribeEvent
-	public static void registerPlacements(RegistryEvent.Register<Placement<?>> event) {
-		IForgeRegistry<Placement<?>> r = event.getRegistry();
+	public static void registerPlacements(RegistryEvent.Register<FeatureDecorator<?>> event) {
+		IForgeRegistry<FeatureDecorator<?>> r = event.getRegistry();
 
 		RegistryHelper.register(r, new SourcePlacement(), SourcePlacement.NAME);
 	}

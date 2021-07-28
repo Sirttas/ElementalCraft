@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:shrine_upgrade_boneless_growth"
+            "items": [
+              "elementalcraft:shrine_upgrade_boneless_growth"
+            ]
           }
         ]
       }

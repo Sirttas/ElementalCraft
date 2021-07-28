@@ -1,26 +1,24 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
+import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
 @OnlyIn(Dist.CLIENT)
-public class BinderRenderer<T extends BinderBlockEntity> extends AbstractECRenderer<T> {
-	public BinderRenderer(TileEntityRendererDispatcher rendererDispatcher) {
-		super(rendererDispatcher);
-	}
+public class BinderRenderer<T extends BinderBlockEntity> implements IECRenderer<T> {
+	public BinderRenderer(Context context) {}
 
 	@Override
-	public void render(T te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(T te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		float tick = getAngle(partialTicks);
-		IInventory inv = te.getInventory();
+		Container inv = te.getInventory();
 		
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		matrixStack.translate(0.5F, 0.4F, 0.5F);

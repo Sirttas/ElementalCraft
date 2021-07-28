@@ -2,12 +2,12 @@ package sirttas.elementalcraft.recipe.instrument.io;
 
 import java.util.Random;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
@@ -50,7 +50,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> 
 	}
 
 	@Override
-	public IRecipeType<?> getType() {
+	public RecipeType<?> getType() {
 		return null;
 	}
 
@@ -80,7 +80,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> 
 	}
 	
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return null;
 	}
 }

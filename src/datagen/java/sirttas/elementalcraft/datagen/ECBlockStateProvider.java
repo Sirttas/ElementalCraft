@@ -2,20 +2,20 @@ package sirttas.elementalcraft.datagen;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.DirectionalBlock;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.WallBlock;
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourcePackType;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -46,7 +46,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	private ExistingFileHelper existingFileHelper;
 	
 	private ModelFile air;
-	private ModelFile tankConnector;
+	private ModelFile containerConnector;
 
 	public ECBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
 		super(gen, ElementalCraftApi.MODID, exFileHelper);
@@ -56,7 +56,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		air = models().getExistingFile(new ResourceLocation("block/air"));
-		tankConnector = models().getExistingFile(prefix("tank_connector"));
+		containerConnector = models().getExistingFile(prefix("container_connector"));
 		
 		for (Block block : ForgeRegistries.BLOCKS) {
 			if (ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace()) && !exists(block)) {
@@ -66,11 +66,11 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private boolean exists(Block block) {
-		return existingFileHelper.exists(block.getRegistryName(), ResourcePackType.CLIENT_RESOURCES, ".json", "blockstates");
+		return existingFileHelper.exists(block.getRegistryName(), PackType.CLIENT_RESOURCES, ".json", "blockstates");
 	}
 
 	private boolean modelExists(Block block) {
-		return existingFileHelper.exists(block.getRegistryName(), ResourcePackType.CLIENT_RESOURCES, ".json", "models/block");
+		return existingFileHelper.exists(block.getRegistryName(), PackType.CLIENT_RESOURCES, ".json", "models/block");
 	}
 
 	private ResourceLocation prefix(String name) {
@@ -82,12 +82,12 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 		if (block instanceof SlabBlock) {
 			slabBlock((SlabBlock) block);
-		} else if (block instanceof StairsBlock) {
-			stairsBlock((StairsBlock) block);
+		} else if (block instanceof StairBlock) {
+			stairsBlock((StairBlock) block);
 		} else if (block instanceof WallBlock) {
 			wallBlock((WallBlock) block);
-		} else if (block instanceof PaneBlock) {
-			paneBlock((PaneBlock) block);
+		} else if (block instanceof IronBarsBlock) {
+			paneBlock((IronBarsBlock) block);
 		} else if (block == ECBlocks.WHITE_ROCK_FENCE) {
 			fenceBlock((FenceBlock) block, prefix("whiterock"), prefix("iron"));
 		} else if (block instanceof OverloadShrineBlock) {
@@ -118,16 +118,16 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			getMultipartBuilder(block)
 			.part().modelFile(top).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
 			.part().modelFile(base).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
-			.part().modelFile(tankConnector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.NORTH, true).end()
-			.part().modelFile(tankConnector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.EAST, true).end()
-			.part().modelFile(tankConnector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.SOUTH, true).end()
-			.part().modelFile(tankConnector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.WEST, true).end()
+			.part().modelFile(containerConnector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.NORTH, true).end()
+			.part().modelFile(containerConnector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.EAST, true).end()
+			.part().modelFile(containerConnector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.SOUTH, true).end()
+			.part().modelFile(containerConnector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.WEST, true).end()
 			.part().modelFile(connector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.NORTH, true).end()
 			.part().modelFile(connector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.EAST, true).end()
 			.part().modelFile(connector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.SOUTH, true).end()
 			.part().modelFile(connector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.WEST, true).end();
 		} else if (block instanceof ElementContainerBlock) {
-			tankPedestalBlock(block, models().getExistingFile(prefix(name)), tankConnector);
+			tankPedestalBlock(block, models().getExistingFile(prefix(name)), containerConnector);
 		} else if (block instanceof PedestalBlock) {
 			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
 		} else if (block instanceof RetrieverBlock || block instanceof SorterBlock) {
@@ -156,7 +156,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			} else {
 				pipeBlock((ElementPipeBlock) block, name, "iron");
 			}
-		} else if (block.defaultBlockState().hasProperty(HorizontalBlock.FACING)) {
+		} else if (block.defaultBlockState().hasProperty(HorizontalDirectionalBlock.FACING)) {
 			horizontalBlock(block, models().getExistingFile(prefix(name)));
 		} else if (block.defaultBlockState().hasProperty(DirectionalBlock.FACING)) {
 			directionalBlock(block, models().getExistingFile(prefix(name)));
@@ -202,7 +202,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		slabBlock(block, bottom, top, full);
 	}
 
-	private void stairsBlock(StairsBlock block) {
+	private void stairsBlock(StairBlock block) {
 		String name = block.getRegistryName().getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 7));
 		ModelFile stair = models().stairs(name, sourceName, sourceName, sourceName);
@@ -222,7 +222,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		wallBlock(block, post, side, sideTall);
 	}
 
-	private void paneBlock(PaneBlock block) {
+	private void paneBlock(IronBarsBlock block) {
 		String name = block.getRegistryName().getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
 

@@ -1,22 +1,21 @@
 package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
@@ -33,9 +32,9 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	private static final VoxelShape CONNECTOR_WEST = Block.box(0D, 7D, 7D, 2D, 9D, 9D);
 	private static final VoxelShape CONNECTOR_EAST = Block.box(14D, 7D, 7D, 16D, 9D, 9D);
 
-	private static final VoxelShape BASE = VoxelShapes.or(BASE_1, BASE_2, BASE_3);
-	private static final VoxelShape AIR = VoxelShapes.or(Block.box(5D, 0D, 5D, 11D, 3D, 11D), BASE_2, BASE_3);
-	private static final VoxelShape EARTH = VoxelShapes.or(BASE, Block.box(4D, 3D, 0D, 12D, 8D, 16D), Block.box(0D, 3D, 4D, 16D, 8D, 12D));
+	private static final VoxelShape BASE = Shapes.or(BASE_1, BASE_2, BASE_3);
+	private static final VoxelShape AIR = Shapes.or(Block.box(5D, 0D, 5D, 11D, 3D, 11D), BASE_2, BASE_3);
+	private static final VoxelShape EARTH = Shapes.or(BASE, Block.box(4D, 3D, 0D, 12D, 8D, 16D), Block.box(0D, 3D, 4D, 16D, 8D, 12D));
 
 	public static final String NAME = "pedestal";
 	public static final String NAME_FIRE = NAME + "_fire";
@@ -51,48 +50,32 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return this.getElementType() != ElementType.NONE;
-	}
-
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		switch (this.getElementType()) {
-		case AIR:
-			return PedestalBlockEntity.createAir();
-		case EARTH:
-			return PedestalBlockEntity.createEarth();
-		case FIRE:
-			return PedestalBlockEntity.createFire();
-		case WATER:
-			return PedestalBlockEntity.createWater();
-		default:
-			return null;
-		}
+	public PedestalBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return this.getElementType() != ElementType.NONE ? new PedestalBlockEntity(pos, state) : null;
 	}
 
 	@Override
 	@Deprecated
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
 	}
 
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		VoxelShape shape = getBaseShape();
 
 		if (Boolean.TRUE.equals(state.getValue(NORTH))) {
-			shape = VoxelShapes.or(shape, CONNECTOR_NORTH);
+			shape = Shapes.or(shape, CONNECTOR_NORTH);
 		}
 		if (Boolean.TRUE.equals(state.getValue(SOUTH))) {
-			shape = VoxelShapes.or(shape, CONNECTOR_SOUTH);
+			shape = Shapes.or(shape, CONNECTOR_SOUTH);
 		}
 		if (Boolean.TRUE.equals(state.getValue(EAST))) {
-			shape = VoxelShapes.or(shape, CONNECTOR_EAST);
+			shape = Shapes.or(shape, CONNECTOR_EAST);
 		}
 		if (Boolean.TRUE.equals(state.getValue(WEST))) {
-			shape = VoxelShapes.or(shape, CONNECTOR_WEST);
+			shape = Shapes.or(shape, CONNECTOR_WEST);
 		}
 		return shape;
 	}
@@ -112,18 +95,18 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	}
 	
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
 		container.add(NORTH, SOUTH, EAST, WEST);
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return doGetStateForPlacement(context.getLevel(), context.getClickedPos());
 	}
 
 	@Override
 	@Deprecated
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
 		return doUpdatePostPlacement(stateIn, worldIn, currentPos, facing);
 	}
 }

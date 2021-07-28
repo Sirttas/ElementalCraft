@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:crude_earth_gem"
+            "items": [
+              "elementalcraft:crude_earth_gem"
+            ]
           }
         ]
       }

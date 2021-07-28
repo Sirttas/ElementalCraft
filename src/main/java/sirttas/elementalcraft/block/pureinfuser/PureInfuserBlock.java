@@ -1,18 +1,22 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import javax.annotation.Nullable;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 
 public class PureInfuserBlock extends AbstractECContainerBlock {
@@ -26,24 +30,30 @@ public class PureInfuserBlock extends AbstractECContainerBlock {
 	private static final VoxelShape PIPE_3 = Block.box(1D, 3D, 13D, 3D, 16D, 15D);
 	private static final VoxelShape PIPE_4 = Block.box(13D, 3D, 13D, 15D, 16D, 15D);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
+	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
 	public static final String NAME = "pureinfuser";
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new PureInfuserBlockEntity();
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new PureInfuserBlockEntity(pos, state);
+	}
+	
+	@Override
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return createECTicker(level, type, PureInfuserBlockEntity.TYPE, PureInfuserBlockEntity::tick);
 	}
 
 	@Override
 	@Deprecated
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
 	}
 
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 }

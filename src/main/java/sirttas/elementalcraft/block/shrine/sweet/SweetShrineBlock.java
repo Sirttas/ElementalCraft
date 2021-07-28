@@ -1,15 +1,20 @@
 package sirttas.elementalcraft.block.shrine.sweet;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
+import javax.annotation.Nullable;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.shape.Shapes;
+import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
 public class SweetShrineBlock extends AbstractShrineBlock {
@@ -27,7 +32,7 @@ public class SweetShrineBlock extends AbstractShrineBlock {
 	private static final VoxelShape IRON_EAST_1 = Block.box(13D, 9D, 4D, 15D, 11D, 6D);
 	private static final VoxelShape IRON_EAST_2 = Block.box(13D, 9D, 10D, 15D, 11D, 12D);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(Shapes.SHRINE_SHAPE, BASE, IRON_NORTH_1, IRON_NORTH_2, IRON_SOUTH_1,
+	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE, IRON_NORTH_1, IRON_NORTH_2, IRON_SOUTH_1,
 			IRON_SOUTH_2, IRON_EAST_1, IRON_EAST_2, IRON_WEST_1, IRON_WEST_2);
 
 	public SweetShrineBlock() {
@@ -35,14 +40,19 @@ public class SweetShrineBlock extends AbstractShrineBlock {
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new SweetShrineBlockEntity();
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new SweetShrineBlockEntity(pos, state);
 	}
 
+	@Override
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return createShrineTicker(level, type, SweetShrineBlockEntity.TYPE);
+	}
 
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 }

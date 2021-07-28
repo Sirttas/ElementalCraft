@@ -5,30 +5,6 @@
     "minecraft:golden_chestplate",
     "minecraft:diamond_chestplate",
     "minecraft:netherite_chestplate",
-    "#forge:chestplates",
-    {
-      "id": "mekanismtools:bronze_chestplate",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_chestplate",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_chestplate",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_chestplate",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_chestplate",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_chestplate",
-      "required": false
-    }
+    "#forge:chestplates"
   ]
 }

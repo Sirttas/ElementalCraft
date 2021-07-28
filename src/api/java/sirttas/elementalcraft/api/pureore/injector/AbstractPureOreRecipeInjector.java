@@ -7,35 +7,35 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 
-public abstract class AbstractPureOreRecipeInjector<C extends IInventory, T extends IRecipe<C>> extends ForgeRegistryEntry<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> {
+public abstract class AbstractPureOreRecipeInjector<C extends Container, T extends Recipe<C>> extends ForgeRegistryEntry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> {
 
-	public static final IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> REGISTRY = RegistryManager.ACTIVE.getRegistry(AbstractPureOreRecipeInjector.class);
+	public static final IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> REGISTRY = RegistryManager.ACTIVE.getRegistry(AbstractPureOreRecipeInjector.class);
 
-	private final IRecipeType<T> recipeType;
+	private final RecipeType<T> recipeType;
 	private final boolean modProcessing;
 
 	private Map<ResourceLocation, T> recipes;
 	private RecipeManager recipeManager;
 	
-	protected AbstractPureOreRecipeInjector(IRecipeType<T> recipeType) {
+	protected AbstractPureOreRecipeInjector(RecipeType<T> recipeType) {
 		this(recipeType, true);
 	}
 	
-	protected AbstractPureOreRecipeInjector(IRecipeType<T> recipeType, boolean modProcessing) {
+	protected AbstractPureOreRecipeInjector(RecipeType<T> recipeType, boolean modProcessing) {
 		this.recipeType = recipeType;
 		this.recipes = null;
 		this.recipeManager = null;
@@ -81,7 +81,7 @@ public abstract class AbstractPureOreRecipeInjector<C extends IInventory, T exte
 				.findFirst();
 	}
 
-	public IRecipeType<T> getRecipeType() {
+	public RecipeType<T> getRecipeType() {
 		return recipeType;
 	}
 

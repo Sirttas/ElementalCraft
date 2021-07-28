@@ -1,17 +1,16 @@
 package sirttas.elementalcraft.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EntityType.Builder;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityType.Builder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.ElementalCraft;
@@ -29,12 +28,12 @@ public class ECEntities {
 	public static void registerEntitiess(RegistryEvent.Register<EntityType<?>> event) {
 		IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-		register(registry, Builder.of(EarthGolemEntity::new, EntityClassification.MONSTER).fireImmune().sized(7F, 8.5F), EarthGolemEntity.NAME, EarthGolemEntity.getAttributeModifier().build());
+		register(registry, Builder.of(EarthGolemEntity::new, MobCategory.MONSTER).fireImmune().sized(7F, 8.5F), EarthGolemEntity.NAME, EarthGolemEntity.getAttributeModifier().build());
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public static void registerRenderers() {
-		RenderingRegistry.registerEntityRenderingHandler(EarthGolemEntity.TYPE, EarthGolemRenderer::new);
+		EntityRenderers.register(EarthGolemEntity.TYPE, EarthGolemRenderer::new);
 	}
 
 	private static <T extends Entity> EntityType<T> register(IForgeRegistry<EntityType<?>> registry, Builder<T> builder, String name) {
@@ -44,10 +43,10 @@ public class ECEntities {
 		return entityType;
 	}
 
-	private static <T extends LivingEntity> EntityType<T> register(IForgeRegistry<EntityType<?>> registry, Builder<T> builder, String name, AttributeModifierMap map) {
+	private static <T extends LivingEntity> EntityType<T> register(IForgeRegistry<EntityType<?>> registry, Builder<T> builder, String name, AttributeSupplier map) {
 		EntityType<T> entityType = register(registry, builder, name);
 
-		GlobalEntityTypeAttributes.put(entityType, map);
+		// TODO DefaultAttributes.put(entityType, map);
 		return entityType;
 	}
 }

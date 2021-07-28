@@ -1,23 +1,23 @@
 package sirttas.elementalcraft.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.GlassBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.WallBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.GlassBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DatagenModLoader;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fmllegacy.DatagenModLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
@@ -115,18 +115,18 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECBlocks {
 
-	public static final AbstractBlock.IPositionPredicate ALWAYS_FALSE = (a, b, c) -> false;
+	public static final BlockBehaviour.StatePredicate ALWAYS_FALSE = (a, b, c) -> false;
 
 	private ECBlocks() {
 	}
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SmallElementContainerBlock.NAME) public static final SmallElementContainerBlock TANK_SMALL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementContainerBlock.NAME) public static final ElementContainerBlock TANK = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SmallElementContainerBlock.NAME) public static final SmallElementContainerBlock SMALL_CONTAINER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementContainerBlock.NAME) public static final ElementContainerBlock CONTAINER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_FIRE) public static final ReservoirBlock FIRE_RESERVOIR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_WATER) public static final ReservoirBlock WATER_RESERVOIR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_EARTH) public static final ReservoirBlock EARTH_RESERVOIR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_AIR) public static final ReservoirBlock AIR_RESERVOIR = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + CreativeElementContainerBlock.NAME) public static final CreativeElementContainerBlock TANK_CREATIVE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + CreativeElementContainerBlock.NAME) public static final CreativeElementContainerBlock CREATIVE_CONTAINER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ExtractorBlock.NAME) public static final ExtractorBlock EXTRACTOR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ImprovedExtractorBlock.NAME) public static final ImprovedExtractorBlock EXTRACTOR_IMPROVED = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final EvaporatorBlock EVAPORATOR = null;
@@ -183,19 +183,19 @@ public class ECBlocks {
 	
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock") public static final Block WHITE_ROCK = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_slab") public static final SlabBlock WHITE_ROCK_SLAB = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_stairs") public static final StairsBlock WHITE_ROCK_STAIRS = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_stairs") public static final StairBlock WHITE_ROCK_STAIRS = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_wall") public static final WallBlock WHITE_ROCK_WALL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_fence") public static final FenceBlock WHITE_ROCK_FENCE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_brick") public static final Block WHITE_ROCK_BRICK = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_brick_slab") public static final SlabBlock WHITE_ROCK_BRICK_SLAB = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_brick_stairs") public static final StairsBlock WHITE_ROCK_BRICK_STAIRS = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_brick_stairs") public static final StairBlock WHITE_ROCK_BRICK_STAIRS = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_brick_wall") public static final WallBlock WHITE_ROCK_BRICK_WALL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":purerock") public static final Block PURE_ROCK = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":purerock_slab") public static final SlabBlock PURE_ROCK_SLAB = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":purerock_stairs") public static final StairsBlock PURE_ROCK_STAIRS = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":purerock_stairs") public static final StairBlock PURE_ROCK_STAIRS = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":purerock_wall") public static final WallBlock PURE_ROCK_WALL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":burnt_glass") public static final GlassBlock BURNT_GLASS = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":burnt_glass_pane") public static final PaneBlock BURNT_GLASS_PANE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":burnt_glass_pane") public static final IronBarsBlock BURNT_GLASS_PANE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":drenched_iron_block") public static final Block DRENCHED_IRON_BLOCK = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":swift_alloy_block") public static final Block SWIFT_ALLOY_BLOCK = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":fireite_block") public static final Block FIREITE_BLOCK = null;
@@ -268,29 +268,29 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new ProtectionShrineUpgradeBlock(), ProtectionShrineUpgradeBlock.NAME);
 
 		RegistryHelper.register(registry, new SourceBlock(), SourceBlock.NAME);
-		RegistryHelper.register(registry, new CrystalOreBlock(AbstractBlock.Properties.of(Material.STONE).strength(3.0F, 3.0F)), CrystalOreBlock.NAME);
+		RegistryHelper.register(registry, new CrystalOreBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F, 3.0F)), CrystalOreBlock.NAME);
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.WHITEROCK), "whiterock");
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_slab");
-		RegistryHelper.register(registry, new StairsBlock(() -> WHITE_ROCK.defaultBlockState(), ECProperties.Blocks.WHITEROCK), "whiterock_stairs");
+		RegistryHelper.register(registry, new StairBlock(() -> WHITE_ROCK.defaultBlockState(), ECProperties.Blocks.WHITEROCK), "whiterock_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.WHITEROCK), "whiterock_wall");
 		RegistryHelper.register(registry, new FenceBlock(ECProperties.Blocks.WHITEROCK), "whiterock_fence");
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.WHITEROCK), "whiterock_brick");
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_brick_slab");
-		RegistryHelper.register(registry, new StairsBlock(() -> WHITE_ROCK_BRICK.defaultBlockState(), ECProperties.Blocks.WHITEROCK), "whiterock_brick_stairs");
+		RegistryHelper.register(registry, new StairBlock(() -> WHITE_ROCK_BRICK.defaultBlockState(), ECProperties.Blocks.WHITEROCK), "whiterock_brick_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.WHITEROCK), "whiterock_brick_wall");
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.PUREROCK), "purerock");
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.PUREROCK), "purerock_slab");
-		RegistryHelper.register(registry, new StairsBlock(() -> PURE_ROCK.defaultBlockState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
+		RegistryHelper.register(registry, new StairBlock(() -> PURE_ROCK.defaultBlockState(), ECProperties.Blocks.PUREROCK), "purerock_stairs");
 		RegistryHelper.register(registry, new WallBlock(ECProperties.Blocks.PUREROCK), "purerock_wall");
-		RegistryHelper.register(registry, new GlassBlock(AbstractBlock.Properties.of(Material.GLASS).strength(0.7F).sound(SoundType.GLASS).noOcclusion()
+		RegistryHelper.register(registry, new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.7F).sound(SoundType.GLASS).noOcclusion()
 				.isValidSpawn((a, b, c, d) -> false).isRedstoneConductor(ALWAYS_FALSE).isSuffocating(ALWAYS_FALSE).isViewBlocking(ALWAYS_FALSE)), "burnt_glass");
-		RegistryHelper.register(registry, new PaneBlock(AbstractBlock.Properties.of(Material.GLASS).strength(0.7F).sound(SoundType.GLASS).noOcclusion()), "burnt_glass_pane");
-		RegistryHelper.register(registry, new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)),
+		RegistryHelper.register(registry, new IronBarsBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.7F).sound(SoundType.GLASS).noOcclusion()), "burnt_glass_pane");
+		RegistryHelper.register(registry, new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)),
 				"drenched_iron_block");
-		RegistryHelper.register(registry, new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)),
+		RegistryHelper.register(registry, new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)),
 				"swift_alloy_block");
 		RegistryHelper.register(registry,
-				new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(50.0F, 1200.0F).sound(SoundType.NETHERITE_BLOCK)), "fireite_block");
+				new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(50.0F, 1200.0F).sound(SoundType.NETHERITE_BLOCK)), "fireite_block");
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "inertcrystal_block");
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "firecrystal_block");
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES), "watercrystal_block");
@@ -304,48 +304,42 @@ public class ECBlocks {
 	}
 
 	@SubscribeEvent
-	public static void initTileEntities(RegistryEvent.Register<TileEntityType<?>> evt) {
-		IForgeRegistry<TileEntityType<?>> r = evt.getRegistry();
+	public static void initTileEntities(RegistryEvent.Register<BlockEntityType<?>> evt) {
+		IForgeRegistry<BlockEntityType<?>> r = evt.getRegistry();
 
-		RegistryHelper.register(r, TileEntityType.Builder.of(SourceBlockEntity::new, SOURCE).build(null), SourceBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ElementContainerBlockEntity::new, TANK, TANK_SMALL).build(null), ElementContainerBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ReservoirBlockEntity::createFire, FIRE_RESERVOIR).build(null), ReservoirBlock.NAME_FIRE);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ReservoirBlockEntity::createWater, WATER_RESERVOIR).build(null), ReservoirBlock.NAME_WATER);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ReservoirBlockEntity::createEarth, EARTH_RESERVOIR).build(null), ReservoirBlock.NAME_EARTH);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ReservoirBlockEntity::createAir, AIR_RESERVOIR).build(null), ReservoirBlock.NAME_AIR);
-		RegistryHelper.register(r, TileEntityType.Builder.of(CreativeElementContainerBlockEntity::new, TANK_CREATIVE).build(null), CreativeElementContainerBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ExtractorBlockEntity::new, EXTRACTOR, EXTRACTOR_IMPROVED).build(null), ExtractorBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(EvaporatorBlockEntity::new, EVAPORATOR).build(null), EvaporatorBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(SolarSynthesizerBlockEntity::new, SOLAR_SYNTHESIZER).build(null), SolarSynthesizerBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(DiffuserBlockEntity::new, DIFFUSER).build(null), DiffuserBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(InfuserBlockEntity::new, INFUSER).build(null), InfuserBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(BinderBlockEntity::new, BINDER).build(null), BinderBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ImprovedBinderBlockEntity::new, BINDER_IMPROVED).build(null), ImprovedBinderBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(CrystallizerBlockEntity::new, CRYSTALLIZER).build(null), CrystallizerBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(InscriberBlockEntity::new, INSCRIBER).build(null), InscriberBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(AirMillBlockEntity::new, AIR_MILL).build(null), AirMillBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(PedestalBlockEntity::createFire, FIRE_PEDESTAL).build(null), PedestalBlock.NAME_FIRE);
-		RegistryHelper.register(r, TileEntityType.Builder.of(PedestalBlockEntity::createWater, WATER_PEDESTAL).build(null), PedestalBlock.NAME_WATER);
-		RegistryHelper.register(r, TileEntityType.Builder.of(PedestalBlockEntity::createEarth, EARTH_PEDESTAL).build(null), PedestalBlock.NAME_EARTH);
-		RegistryHelper.register(r, TileEntityType.Builder.of(PedestalBlockEntity::createAir, AIR_PEDESTAL).build(null), PedestalBlock.NAME_AIR);
-		RegistryHelper.register(r, TileEntityType.Builder.of(PureInfuserBlockEntity::new, PURE_INFUSER).build(null), PureInfuserBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(FireFurnaceBlockEntity::new, FIRE_FURNACE).build(null), FireFurnaceBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(FireBlastFurnaceBlockEntity::new, FIRE_BLAST_FURNACE).build(null), FireBlastFurnaceBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(PurifierBlockEntity::new, PURIFIER).build(null), PurifierBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(ElementPipeBlockEntity::new, PIPE_IMPAIRED, PIPE, PIPE_IMPROVED).build(null), ElementPipeBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(FirePylonBlockEntity::new, FIRE_PYLON).build(null), FirePylonBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(VacuumShrineBlockEntity::new, VACUUM_SHRINE).build(null), VacuumShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(GrowthShrineBlockEntity::new, GROWTH_SHRINE).build(null), GrowthShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(HarvestShrineBlockEntity::new, HARVEST_SHRINE).build(null), HarvestShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(LavaShrineBlockEntity::new, LAVA_SHRINE).build(null), LavaShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(OreShrineBlockEntity::new, ORE_SHRINE).build(null), OreShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(OverloadShrineBlockEntity::new, OVERLOAD_SHRINE).build(null), OverloadShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(SweetShrineBlockEntity::new, SWEET_SHRINE).build(null), SweetShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(EnderLockShrineBlockEntity::new, ENDER_LOCK_SHRINE).build(null), EnderLockShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(BreedingShrineBlockEntity::new, BREEDING_SHRINE).build(null), BreedingShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(GroveShrineBlockEntity::new, GROVE_SHRINE).build(null), GroveShrineBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(AccelerationShrineUpgradeBlockEntity::new, ACCELERATION_SHRINE_UPGRADE).build(null), AccelerationShrineUpgradeBlock.NAME);
-		RegistryHelper.register(r, TileEntityType.Builder.of(SorterBlockEntity::new, SORTER).build(null), SorterBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(SourceBlockEntity::new, SOURCE).build(null), SourceBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(ElementContainerBlockEntity::new, CONTAINER, SMALL_CONTAINER).build(null), ElementContainerBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(ReservoirBlockEntity::new, FIRE_RESERVOIR, WATER_RESERVOIR, EARTH_RESERVOIR, AIR_RESERVOIR).build(null), ReservoirBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(CreativeElementContainerBlockEntity::new, CREATIVE_CONTAINER).build(null), CreativeElementContainerBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(ExtractorBlockEntity::new, EXTRACTOR, EXTRACTOR_IMPROVED).build(null), ExtractorBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(EvaporatorBlockEntity::new, EVAPORATOR).build(null), EvaporatorBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(SolarSynthesizerBlockEntity::new, SOLAR_SYNTHESIZER).build(null), SolarSynthesizerBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(DiffuserBlockEntity::new, DIFFUSER).build(null), DiffuserBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(InfuserBlockEntity::new, INFUSER).build(null), InfuserBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(BinderBlockEntity::new, BINDER).build(null), BinderBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(ImprovedBinderBlockEntity::new, BINDER_IMPROVED).build(null), ImprovedBinderBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(CrystallizerBlockEntity::new, CRYSTALLIZER).build(null), CrystallizerBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(InscriberBlockEntity::new, INSCRIBER).build(null), InscriberBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(AirMillBlockEntity::new, AIR_MILL).build(null), AirMillBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(PedestalBlockEntity::new, FIRE_PEDESTAL, WATER_PEDESTAL, EARTH_PEDESTAL, AIR_PEDESTAL).build(null), PedestalBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(PureInfuserBlockEntity::new, PURE_INFUSER).build(null), PureInfuserBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(FireFurnaceBlockEntity::new, FIRE_FURNACE).build(null), FireFurnaceBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(FireBlastFurnaceBlockEntity::new, FIRE_BLAST_FURNACE).build(null), FireBlastFurnaceBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(PurifierBlockEntity::new, PURIFIER).build(null), PurifierBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(ElementPipeBlockEntity::new, PIPE_IMPAIRED, PIPE, PIPE_IMPROVED).build(null), ElementPipeBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(FirePylonBlockEntity::new, FIRE_PYLON).build(null), FirePylonBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(VacuumShrineBlockEntity::new, VACUUM_SHRINE).build(null), VacuumShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(GrowthShrineBlockEntity::new, GROWTH_SHRINE).build(null), GrowthShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(HarvestShrineBlockEntity::new, HARVEST_SHRINE).build(null), HarvestShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(LavaShrineBlockEntity::new, LAVA_SHRINE).build(null), LavaShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(OreShrineBlockEntity::new, ORE_SHRINE).build(null), OreShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(OverloadShrineBlockEntity::new, OVERLOAD_SHRINE).build(null), OverloadShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(SweetShrineBlockEntity::new, SWEET_SHRINE).build(null), SweetShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(EnderLockShrineBlockEntity::new, ENDER_LOCK_SHRINE).build(null), EnderLockShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(BreedingShrineBlockEntity::new, BREEDING_SHRINE).build(null), BreedingShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(GroveShrineBlockEntity::new, GROVE_SHRINE).build(null), GroveShrineBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(AccelerationShrineUpgradeBlockEntity::new, ACCELERATION_SHRINE_UPGRADE).build(null), AccelerationShrineUpgradeBlock.NAME);
+		RegistryHelper.register(r, BlockEntityType.Builder.of(SorterBlockEntity::new, SORTER).build(null), SorterBlock.NAME);
 	}
 
 	@SubscribeEvent

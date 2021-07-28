@@ -2,16 +2,16 @@ package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
@@ -19,17 +19,17 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
 
-public class SpellCraftRecipe implements IECRecipe<IInventory> {
+public class SpellCraftRecipe implements IECRecipe<Container> {
 
 	public static final String NAME = "spell_craft";
-	public static final IRecipeType<SpellCraftRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<SpellCraftRecipe>() {
+	public static final RecipeType<SpellCraftRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<SpellCraftRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
 		}
 	});
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<SpellCraftRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<SpellCraftRecipe> SERIALIZER = null;
 	
 	private static final Ingredient SCROLL_PAPER = Ingredient.of(ECItems.SCROLL_PAPER);
 	
@@ -46,7 +46,7 @@ public class SpellCraftRecipe implements IECRecipe<IInventory> {
 	}
 	
 	@Override
-	public boolean matches(IInventory inv, World worldIn) {
+	public boolean matches(Container inv, Level worldIn) {
 		return SCROLL_PAPER.test(inv.getItem(0)) && gem.test(inv.getItem(1)) && crystal.test(inv.getItem(2));
 	}
 
@@ -66,16 +66,16 @@ public class SpellCraftRecipe implements IECRecipe<IInventory> {
 	}
 
 	@Override
-	public IRecipeSerializer<SpellCraftRecipe> getSerializer() {
+	public RecipeSerializer<SpellCraftRecipe> getSerializer() {
 		return SERIALIZER;
 	}
 
 	@Override
-	public IRecipeType<SpellCraftRecipe> getType() {
+	public RecipeType<SpellCraftRecipe> getType() {
 		return TYPE;
 	}
 	
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<SpellCraftRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<SpellCraftRecipe> {
 
 		@Override
 		public SpellCraftRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
@@ -87,7 +87,7 @@ public class SpellCraftRecipe implements IECRecipe<IInventory> {
 		}
 
 		@Override
-		public SpellCraftRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+		public SpellCraftRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			Ingredient gem = Ingredient.fromNetwork(buffer);
 			Ingredient crystal = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();
@@ -96,7 +96,7 @@ public class SpellCraftRecipe implements IECRecipe<IInventory> {
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, SpellCraftRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buffer, SpellCraftRecipe recipe) {
 			recipe.gem.toNetwork(buffer);
 			recipe.crystal.toNetwork(buffer);
 			buffer.writeItem(recipe.getResultItem());

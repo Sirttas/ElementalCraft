@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.property.ECProperties;
@@ -36,16 +36,16 @@ public class FocusItem extends AbstractSpellHolderItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		SpellHelper.forEachSpell(stack, (s, i) -> {
-			TextFormatting formating = s == spell ? TextFormatting.AQUA : TextFormatting.GRAY;
+			ChatFormatting formating = s == spell ? ChatFormatting.AQUA : ChatFormatting.GRAY;
 
 			if (i == 1) {
-				tooltip.add(new StringTextComponent("").append(s.getDisplayName()).withStyle(formating));
+				tooltip.add(new TextComponent("").append(s.getDisplayName()).withStyle(formating));
 			} else {
-				tooltip.add(new StringTextComponent(i + " ").append(s.getDisplayName()).withStyle(formating));
+				tooltip.add(new TextComponent(i + " ").append(s.getDisplayName()).withStyle(formating));
 			}
 		});
 		if (spell != Spells.NONE) {

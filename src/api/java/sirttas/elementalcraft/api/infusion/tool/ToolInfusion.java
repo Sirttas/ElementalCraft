@@ -10,11 +10,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -47,14 +47,14 @@ public class ToolInfusion implements IElementTypeProvider {
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public List<ITextComponent> getTooltipInformation() {
-		List<ITextComponent> tooltip = Lists.newArrayList();
+	public List<Component> getTooltipInformation() {
+		List<Component> tooltip = Lists.newArrayList();
 
 		if (effects.size() == 1) {
-			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.infused.single", elementType.getDisplayName(), effects.get(0).getDescription()).withStyle(TextFormatting.YELLOW));
+			tooltip.add(new TranslatableComponent("tooltip.elementalcraft.infused.single", elementType.getDisplayName(), effects.get(0).getDescription()).withStyle(ChatFormatting.YELLOW));
 		} else {
-			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.infused", elementType.getDisplayName()).withStyle(TextFormatting.YELLOW));
-			effects.stream().map(e -> new StringTextComponent(" ").append(e.getDescription()).withStyle(TextFormatting.YELLOW)).forEach(tooltip::add);
+			tooltip.add(new TranslatableComponent("tooltip.elementalcraft.infused", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
+			effects.stream().map(e -> new TextComponent(" ").append(e.getDescription()).withStyle(ChatFormatting.YELLOW)).forEach(tooltip::add);
 		}
 		return tooltip;
 	}

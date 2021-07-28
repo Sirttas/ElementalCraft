@@ -4,15 +4,15 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
@@ -25,13 +25,13 @@ import sirttas.elementalcraft.recipe.RecipeHelper;
 public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEntity> {
 
 	public static final String NAME = "inscription";
-	public static final IRecipeType<InscriptionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<InscriptionRecipe>() {
+	public static final RecipeType<InscriptionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<InscriptionRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
 		}
 	});
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<InscriptionRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<InscriptionRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
 	private final int elementAmount;
@@ -68,7 +68,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 	}
 
 	@Override
-	public IRecipeType<?> getType() {
+	public RecipeType<?> getType() {
 		return TYPE;
 	}
 
@@ -79,17 +79,17 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InscriptionRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<InscriptionRecipe> {
 
 		@Override
 		public InscriptionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			ElementType type = ElementType.byName(JSONUtils.getAsString(json, ECNames.ELEMENT_TYPE));
-			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
-			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getAsJsonArray(json, ECNames.INGREDIENTS));
+			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(GsonHelper.getAsJsonArray(json, ECNames.INGREDIENTS));
 			ingredients.add(0, RecipeHelper.deserializeIngredient(json, "slate"));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 			
@@ -98,7 +98,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 
 
 		@Override
-		public InscriptionRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+		public InscriptionRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItem();
@@ -113,7 +113,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, InscriptionRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buffer, InscriptionRecipe recipe) {
 			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
 			buffer.writeItem(recipe.getResultItem());

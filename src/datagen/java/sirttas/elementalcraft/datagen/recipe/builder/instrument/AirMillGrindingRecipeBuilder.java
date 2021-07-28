@@ -4,13 +4,13 @@ import java.util.function.Consumer;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -24,12 +24,12 @@ public class AirMillGrindingRecipeBuilder {
 	private Ingredient ingredient;
 	private int elementAmount;
 	
-	public AirMillGrindingRecipeBuilder(IItemProvider resultProviderIn) {
+	public AirMillGrindingRecipeBuilder(ItemLike resultProviderIn) {
 		this.result = resultProviderIn.asItem();
 		elementAmount = 1000;
 	}
 
-	public static AirMillGrindingRecipeBuilder grindingRecipe(IItemProvider resultIn) {
+	public static AirMillGrindingRecipeBuilder grindingRecipe(ItemLike resultIn) {
 		return new AirMillGrindingRecipeBuilder(resultIn);
 	}
 	
@@ -38,11 +38,11 @@ public class AirMillGrindingRecipeBuilder {
 		return this;
 	}
 
-	public AirMillGrindingRecipeBuilder withIngredient(INamedTag<Item> tagIn) {
+	public AirMillGrindingRecipeBuilder withIngredient(Named<Item> tagIn) {
 		return this.withIngredient(Ingredient.of(tagIn));
 	}
 
-	public AirMillGrindingRecipeBuilder withIngredient(IItemProvider itemIn) {
+	public AirMillGrindingRecipeBuilder withIngredient(ItemLike itemIn) {
 		return this.withIngredient(Ingredient.of(itemIn));
 	}
 
@@ -55,13 +55,13 @@ public class AirMillGrindingRecipeBuilder {
 		return this;
 	}
 	
-	public void build(Consumer<IFinishedRecipe> consumerIn) {
+	public void build(Consumer<FinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
 		this.build(consumerIn, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
 		ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Grinding Recipe " + save + " should remove its 'save' argument");
@@ -70,7 +70,7 @@ public class AirMillGrindingRecipeBuilder {
 		}
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.ingredient, this.result, elementAmount));
 	}
 

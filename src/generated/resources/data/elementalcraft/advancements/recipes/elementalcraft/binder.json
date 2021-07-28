@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:containedcrystal"
+            "items": [
+              "elementalcraft:containedcrystal"
+            ]
           }
         ]
       }
@@ -21,7 +23,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:whiterock"
+            "items": [
+              "elementalcraft:whiterock"
+            ]
           }
         ]
       }

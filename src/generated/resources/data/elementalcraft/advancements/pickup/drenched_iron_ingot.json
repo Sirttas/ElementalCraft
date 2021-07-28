@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:drenched_iron_ingot"
+            "items": [
+              "elementalcraft:drenched_iron_ingot"
+            ]
           }
         ]
       }

@@ -1,18 +1,18 @@
 package sirttas.elementalcraft.entity.boss.earthgolem;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IndirectEntityDamageSource;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.boss.AbstractECBossEntity;
@@ -25,11 +25,11 @@ public class EarthGolemEntity extends AbstractECBossEntity {
 	public static final String NAME = "earthgolem";
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final EntityType<EarthGolemEntity> TYPE = null;
 
-	public EarthGolemEntity(EntityType<EarthGolemEntity> type, World worldIn) {
+	public EarthGolemEntity(EntityType<EarthGolemEntity> type, Level worldIn) {
 		super(type, worldIn);
 	}
 
-	public static AttributeModifierMap.MutableAttribute getAttributeModifier() {
+	public static AttributeSupplier.Builder getAttributeModifier() {
 		return AbstractECBossEntity.getAttributeModifier().add(Attributes.MOVEMENT_SPEED, 0).add(Attributes.KNOCKBACK_RESISTANCE, 5.0D);
 	}
 
@@ -38,10 +38,10 @@ public class EarthGolemEntity extends AbstractECBossEntity {
 		this.goalSelector.addGoal(2, new AttackGoal(this));
 		this.goalSelector.addGoal(3, new CastSpellGoal(this, Spells.GRAVEL_FALL));
 		this.goalSelector.addGoal(3, new CastSpellGoal(this, Spells.FIRE_BALL));
-		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 	}
 
 	@Override

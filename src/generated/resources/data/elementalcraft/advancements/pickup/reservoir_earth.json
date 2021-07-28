@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:reservoir_earth"
+            "items": [
+              "elementalcraft:reservoir_earth"
+            ]
           }
         ]
       }

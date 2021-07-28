@@ -8,13 +8,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.DataProvider;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -27,7 +27,7 @@ import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfus
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
-public class ToolInfusionProvider implements IDataProvider {
+public class ToolInfusionProvider implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private final DataGenerator generator;
 
@@ -36,7 +36,7 @@ public class ToolInfusionProvider implements IDataProvider {
 	}
 
 	@Override
-	public void run(DirectoryCache cache) throws IOException {
+	public void run(HashCache cache) throws IOException {
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FIRE_ASPECT));
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FLAMING_ARROWS));
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FIRE_PROTECTION));
@@ -66,9 +66,9 @@ public class ToolInfusionProvider implements IDataProvider {
 		save(cache, ElementType.AIR, new DodgeToolInfusionEffect(0.1D), DodgeToolInfusionEffect.NAME);
 		save(cache, ElementType.AIR, new FastDrawToolInfusionEffect(3), FastDrawToolInfusionEffect.NAME);
 
-		save(cache, ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlotType.MAINHAND), Attributes.ATTACK_SPEED,
+		save(cache, ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.MAINHAND), Attributes.ATTACK_SPEED,
 				new AttributeModifier("Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), "attack_speed");
-		save(cache, ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlotType.LEGS), Attributes.MOVEMENT_SPEED,
+		save(cache, ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.LEGS), Attributes.MOVEMENT_SPEED,
 				new AttributeModifier("Movement Speed Infusion", 0.01D, AttributeModifier.Operation.ADDITION)), "movement_speed");
 		
 		save(cache, new ElementCostReductionToolInfusionEffect(ElementType.FIRE, 0.1F), "fire_reduction");
@@ -82,26 +82,26 @@ public class ToolInfusionProvider implements IDataProvider {
 				new ElementCostReductionToolInfusionEffect(ElementType.WATER, 0.15F))), "water_staff");
 		save(cache, new ToolInfusion(ElementType.EARTH, Lists.newArrayList(new EnchantmentToolInfusionEffect(Enchantments.SHARPNESS), 
 				new ElementCostReductionToolInfusionEffect(ElementType.EARTH, 0.15F))), "earth_staff");
-		save(cache, new ToolInfusion(ElementType.AIR, Lists.newArrayList(new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlotType.MAINHAND), Attributes.ATTACK_SPEED,
+		save(cache, new ToolInfusion(ElementType.AIR, Lists.newArrayList(new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.MAINHAND), Attributes.ATTACK_SPEED,
 				new AttributeModifier("Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), new ElementCostReductionToolInfusionEffect(ElementType.AIR, 0.15F))), "air_staff");
 		
 	}
 
-	protected void save(DirectoryCache cache, ElementType type, IToolInfusionEffect infusion, String name) throws IOException {
+	protected void save(HashCache cache, ElementType type, IToolInfusionEffect infusion, String name) throws IOException {
 		save(cache, createToolInfusion(type, infusion), name);
 	}
 
 
-	private void save(DirectoryCache cache, ElementCostReductionToolInfusionEffect infusion, String name) throws IOException {
+	private void save(HashCache cache, ElementCostReductionToolInfusionEffect infusion, String name) throws IOException {
 		save(cache, createToolInfusion(infusion.getElementType(), infusion), name);
 	}
 	
-	protected void save(DirectoryCache cache, ElementType type, EnchantmentToolInfusionEffect infusion) throws IOException {
+	protected void save(HashCache cache, ElementType type, EnchantmentToolInfusionEffect infusion) throws IOException {
 		save(cache, createToolInfusion(type, infusion), infusion.getEnchantment().getRegistryName().getPath());
 	}
 
-	protected void save(DirectoryCache cache, ToolInfusion infusion, String name) throws IOException {
-		IDataProvider.save(GSON, cache, CodecHelper.encode(ToolInfusion.CODEC, infusion), getPath(ElementalCraft.createRL(name)));
+	protected void save(HashCache cache, ToolInfusion infusion, String name) throws IOException {
+		DataProvider.save(GSON, cache, CodecHelper.encode(ToolInfusion.CODEC, infusion), getPath(ElementalCraft.createRL(name)));
 	}
 
 	private ToolInfusion createToolInfusion(ElementType type, IToolInfusionEffect infusion) {

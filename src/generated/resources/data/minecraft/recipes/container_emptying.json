@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:container"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:container"
+  }
+}

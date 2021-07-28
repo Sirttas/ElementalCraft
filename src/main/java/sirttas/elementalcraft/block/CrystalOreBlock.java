@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CrystalOreBlock extends Block {
 
@@ -14,8 +14,8 @@ public class CrystalOreBlock extends Block {
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, net.minecraft.world.IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-		return silktouch == 0 ? MathHelper.nextInt(RANDOM, 0, 2) : 0;
+	public int getExpDrop(BlockState state, net.minecraft.world.level.LevelReader reader, BlockPos pos, int fortune, int silktouch) {
+		return silktouch == 0 ? Mth.nextInt(RANDOM, 0, 2) : 0;
 	}
 
 }

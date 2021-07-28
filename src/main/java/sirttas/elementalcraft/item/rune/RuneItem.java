@@ -4,18 +4,18 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -36,11 +36,11 @@ public class RuneItem extends ECItem {
 	}
 
 	@Override
-	public ActionResultType useOn(ItemUseContext context) {
-		World world = context.getLevel();
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		ItemStack stack = context.getItemInHand();
-		PlayerEntity player = context.getPlayer();
+		Player player = context.getPlayer();
 		IRuneHandler handler = BlockEntityHelper.getRuneHandlerAt(world, pos);
 		Rune rune = getRune(stack);
 
@@ -52,13 +52,13 @@ public class RuneItem extends ECItem {
 					player.setItemInHand(context.getHand(), ItemStack.EMPTY);
 				}
 			}
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	public static Rune getRune(ItemStack stack) {
-		CompoundNBT tag = NBTHelper.getECTag(stack);
+		CompoundTag tag = NBTHelper.getECTag(stack);
 
 		if (tag != null) {
 			return ElementalCraftApi.RUNE_MANAGER.get(new ResourceLocation(tag.getString(ECNames.RUNE)));
@@ -75,7 +75,7 @@ public class RuneItem extends ECItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		Rune rune = getRune(stack);
 
 		if (rune != null) {
@@ -84,7 +84,7 @@ public class RuneItem extends ECItem {
 	}
 
 	@Override
-	public ITextComponent getName(ItemStack stack) {
+	public Component getName(ItemStack stack) {
 		Rune rune = getRune(stack);
 
 		if (rune != null) {
@@ -94,7 +94,7 @@ public class RuneItem extends ECItem {
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			ElementalCraftApi.RUNE_MANAGER.getData().forEach((id, rune) -> items.add(getRuneStack(rune)));
 		}

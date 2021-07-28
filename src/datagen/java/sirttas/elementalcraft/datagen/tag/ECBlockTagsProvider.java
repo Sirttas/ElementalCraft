@@ -2,14 +2,14 @@ package sirttas.elementalcraft.datagen.tag;
 
 import java.util.Comparator;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.WallBlock;
-import net.minecraft.data.BlockTagsProvider;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.Tags;
@@ -36,10 +36,10 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	@Override
 	protected void addTags() {
 		tag(BlockTags.SLABS).add(getBlocksForClass(SlabBlock.class));
-		tag(BlockTags.STAIRS).add(getBlocksForClass(StairsBlock.class));
+		tag(BlockTags.STAIRS).add(getBlocksForClass(StairBlock.class));
 		tag(BlockTags.WALLS).add(getBlocksForClass(WallBlock.class));
 		tag(BlockTags.FENCES).add(getBlocksForClass(FenceBlock.class));
-		tag(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(PaneBlock.class));
+		tag(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(IronBarsBlock.class));
 		tag(ECTags.Blocks.PIPES).add(getBlocksForClass(ElementPipeBlock.class));
 		tag(ECTags.Blocks.SHRINES).add(getBlocksForClass(AbstractShrineBlock.class));
 		tag(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(PedestalBlock.class));

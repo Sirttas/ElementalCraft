@@ -7,15 +7,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.loot.LootTable.Builder;
-import net.minecraft.loot.LootTableManager;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.DataProvider;
+import net.minecraft.world.level.storage.loot.LootTable.Builder;
+import net.minecraft.world.level.storage.loot.LootTables;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ECItem;
 
-public abstract class AbstractECLootProvider implements IDataProvider {
+public abstract class AbstractECLootProvider implements DataProvider {
 
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -25,8 +25,8 @@ public abstract class AbstractECLootProvider implements IDataProvider {
 		this.generator = generator;
 	}
 	
-	protected void save(DirectoryCache cache, Builder builder, Path path) throws IOException {
-		IDataProvider.save(GSON, cache, LootTableManager.serialize(builder.build()), path);
+	protected void save(HashCache cache, Builder builder, Path path) throws IOException {
+		DataProvider.save(GSON, cache, LootTables.serialize(builder.build()), path);
 	}
 
 	public static ECItem getCrystalForType(ElementType type) {

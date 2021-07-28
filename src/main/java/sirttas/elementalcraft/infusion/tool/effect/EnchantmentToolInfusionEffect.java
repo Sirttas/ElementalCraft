@@ -3,9 +3,9 @@ package sirttas.elementalcraft.infusion.tool.effect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -35,8 +35,8 @@ public class EnchantmentToolInfusionEffect implements IToolInfusionEffect {
 	}
 
 	@Override
-	public ITextComponent getDescription() {
-		return new TranslationTextComponent("tooltip.elementalcraft.enchantment_infused", new TranslationTextComponent(enchantment.getDescriptionId()), level);
+	public Component getDescription() {
+		return new TranslatableComponent("tooltip.elementalcraft.enchantment_infused", new TranslatableComponent(enchantment.getDescriptionId()), level);
 	}
 
 	@Override

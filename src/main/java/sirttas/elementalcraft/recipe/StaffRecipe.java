@@ -2,31 +2,31 @@ package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.spell.SpellHelper;
 
-public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingInventory> {
+public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingContainer> {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + StaffItem.NAME) public static final IRecipeSerializer<ShapedRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + StaffItem.NAME) public static final RecipeSerializer<ShapedRecipe> SERIALIZER = null;
 	
 	private StaffRecipe(ShapedRecipe parent) {
 		super(parent.getId(), parent.getGroup(), parent.getWidth(), parent.getHeight(), parent.getIngredients(), parent.getResultItem());
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory inv) {
+	public ItemStack assemble(CraftingContainer inv) {
 		ItemStack staff = this.getResultItem().copy();
 		
 		for (int i = 0; i < inv.getContainerSize(); i++) {
@@ -43,7 +43,7 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingInven
 	}
 	
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 	
@@ -55,7 +55,7 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingInven
 		}
 
 		@Override
-		public ShapedRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+		public ShapedRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			return new StaffRecipe(super.fromNetwork(recipeId, buffer));
 		}
 	}

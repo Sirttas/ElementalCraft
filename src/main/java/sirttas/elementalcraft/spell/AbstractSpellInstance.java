@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.spell;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 public abstract class AbstractSpellInstance {
 

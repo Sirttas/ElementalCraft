@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.property.ECProperties;
@@ -38,27 +38,27 @@ public class ScrollItem extends AbstractSpellHolderItem {
 	 */
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		if (spell != Spells.NONE) {
-			tooltip.add(new StringTextComponent("").append(spell.getDisplayName()).withStyle(TextFormatting.GRAY));
+			tooltip.add(new TextComponent("").append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
 			addAttributeTooltip(tooltip, spell);
 		}
 	}
 
 	@Override
-	public ITextComponent getName(ItemStack stack) {
+	public Component getName(ItemStack stack) {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		if (spell != Spells.NONE) {
-			return new TranslationTextComponent("tooltip.elementalcraft.scroll_of", spell.getDisplayName());
+			return new TranslatableComponent("tooltip.elementalcraft.scroll_of", spell.getDisplayName());
 		}
 		return super.getName(stack);
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			Spell.REGISTRY.forEach(s -> {
 				if (s.isValid()) {

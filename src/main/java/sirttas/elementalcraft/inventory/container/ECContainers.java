@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.inventory.container;
 
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,16 +16,16 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECContainers {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpellBookItem.NAME) public static final ContainerType<SpellBookContainer> SPELL_BOOK = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpellDeskBlock.NAME) public static final ContainerType<SpellDeskContainer> SPELL_DESK = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpellBookItem.NAME) public static final MenuType<SpellBookContainer> SPELL_BOOK = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpellDeskBlock.NAME) public static final MenuType<SpellDeskContainer> SPELL_DESK = null;
 
 	private ECContainers() {}
 	
 	@SubscribeEvent
-	public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
-		IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
+	public static void registerContainers(RegistryEvent.Register<MenuType<?>> event) {
+		IForgeRegistry<MenuType<?>> registry = event.getRegistry();
 
-		RegistryHelper.register(registry, new ContainerType<>(SpellBookContainer::new), SpellBookItem.NAME);
-		RegistryHelper.register(registry, new ContainerType<>(SpellDeskContainer::new), SpellDeskBlock.NAME);
+		RegistryHelper.register(registry, new MenuType<>(SpellBookContainer::new), SpellBookItem.NAME);
+		RegistryHelper.register(registry, new MenuType<>(SpellDeskContainer::new), SpellDeskBlock.NAME);
 	}
 }

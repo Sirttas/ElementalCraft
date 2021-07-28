@@ -5,17 +5,16 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Multimap;
 
-import mezz.jei.color.ColorGetter;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -58,7 +57,7 @@ public class ECItem extends Item {
 	@OnlyIn(Dist.CLIENT)
 	public static final int lookupColor(ItemStack stack) {
 		try {
-			List<Integer> colors = ColorGetter.getColors(stack, 2);
+			List<Integer> colors = List.of();// TODO (jei) ColorGetter.getColors(stack, 2);
 	
 			if (colors != null && !colors.isEmpty()) {
 				return colors.get(0);
@@ -73,9 +72,9 @@ public class ECItem extends Item {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void addAttributeMultimapToTooltip(List<ITextComponent> tooltip, Multimap<Attribute, AttributeModifier> multimap, ITextComponent title) {
+	public static void addAttributeMultimapToTooltip(List<Component> tooltip, Multimap<Attribute, AttributeModifier> multimap, Component title) {
 		if (!multimap.isEmpty()) {
-			tooltip.add(new StringTextComponent(""));
+			tooltip.add(new TextComponent(""));
 			tooltip.add(title);
 			for (Entry<Attribute, AttributeModifier> entry : multimap.entries()) {
 				tooltip.add(getAttributeTooltip(entry.getKey(), entry.getValue()));
@@ -84,7 +83,7 @@ public class ECItem extends Item {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static IFormattableTextComponent getAttributeTooltip(Attribute attribute, AttributeModifier attributemodifier) {
+	public static MutableComponent getAttributeTooltip(Attribute attribute, AttributeModifier attributemodifier) {
 		double d0 = attributemodifier.getAmount();
 
 		double d1;
@@ -99,12 +98,12 @@ public class ECItem extends Item {
 		}
 
 		if (d0 > 0.0D) {
-			return new TranslationTextComponent("attribute.modifier.plus." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-					new TranslationTextComponent(attribute.getDescriptionId())).withStyle(TextFormatting.BLUE);
+			return new TranslatableComponent("attribute.modifier.plus." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+					new TranslatableComponent(attribute.getDescriptionId())).withStyle(ChatFormatting.BLUE);
 		} else if (d0 < 0.0D) {
 			d1 = d1 * -1.0D;
-			return new TranslationTextComponent("attribute.modifier.take." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-					new TranslationTextComponent(attribute.getDescriptionId())).withStyle(TextFormatting.RED);
+			return new TranslatableComponent("attribute.modifier.take." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+					new TranslatableComponent(attribute.getDescriptionId())).withStyle(ChatFormatting.RED);
 		}
 		return null;
 	}

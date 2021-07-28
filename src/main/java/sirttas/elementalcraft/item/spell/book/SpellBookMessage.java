@@ -3,11 +3,11 @@ package sirttas.elementalcraft.item.spell.book;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 public final class SpellBookMessage {
 
@@ -22,14 +22,14 @@ public final class SpellBookMessage {
 
 	// message handling
 
-	public static SpellBookMessage decode(PacketBuffer buf) {
+	public static SpellBookMessage decode(FriendlyByteBuf buf) {
 		SpellBookMessage message = new SpellBookMessage();
 
 		message.book = buf.readItem();
 		return message;
 	}
 
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeItem(book);
 	}
 
@@ -38,7 +38,7 @@ public final class SpellBookMessage {
 	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			if (ctx.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
-				Container container = Minecraft.getInstance().player.containerMenu;
+				AbstractContainerMenu container = Minecraft.getInstance().player.containerMenu;
 
 				if (container instanceof SpellBookContainer) {
 					((SpellBookContainer) container).setBook(book);

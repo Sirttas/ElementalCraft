@@ -1,9 +1,12 @@
 package sirttas.elementalcraft.block.evaporator;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -17,36 +20,34 @@ import sirttas.elementalcraft.item.elemental.ShardItem;
 
 public class EvaporatorBlockEntity extends AbstractIERBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final TileEntityType<EvaporatorBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final BlockEntityType<EvaporatorBlockEntity> TYPE = null;
 
 	private final SingleStackInventory inventory;
 	private final SingleElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
-	public EvaporatorBlockEntity() {
-		super(TYPE);
+	public EvaporatorBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state);
 		inventory = new SingleStackInventory(this::setChanged);
 		this.elementStorage = new SingleElementStorage(ECConfig.COMMON.shardElementAmount.get() * 20, this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.evaporatorMaxRunes.get());
 	}
 
-	@Override
-	public void tick() {
-		ItemStack stack = inventory.getItem(0);
+	public static void tick(Level level, BlockPos pos, BlockState state, EvaporatorBlockEntity evaporator) {
+		ItemStack stack = evaporator.inventory.getItem(0);
 		Item item = stack.getItem();
 		ElementType type = EvaporatorBlock.getShardElementType(stack);
-		float extractionAmount = runeHandler.getTransferSpeed(ECConfig.COMMON.evaporatorExtractionAmount.get());
+		float extractionAmount = evaporator.runeHandler.getTransferSpeed(ECConfig.COMMON.evaporatorExtractionAmount.get());
 
-		super.tick();
-		if (type != ElementType.NONE && elementStorage.getElementAmount() <= extractionAmount) {
-			elementStorage.insertElement(getShardElementAmount((ShardItem) item), type, false);
+		if (type != ElementType.NONE && evaporator.elementStorage.getElementAmount() <= extractionAmount) {
+			evaporator.elementStorage.insertElement(evaporator.getShardElementAmount((ShardItem) item), type, false);
 			stack.shrink(1);
 			if (stack.isEmpty()) {
-				inventory.setItem(0, ItemStack.EMPTY);
+				evaporator.inventory.setItem(0, ItemStack.EMPTY);
 			}
 		}
-		if (canExtract()) {
-			elementStorage.transferTo(getTank(), extractionAmount, runeHandler.getElementPreservation());
+		if (evaporator.canExtract()) {
+			evaporator.elementStorage.transferTo(evaporator.getTank(), extractionAmount, evaporator.runeHandler.getElementPreservation());
 		}
 	}
 
@@ -61,7 +62,7 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity {
 	}
 
 	@Override
-	public IInventory getInventory() {
+	public Container getInventory() {
 		return inventory;
 	}
 

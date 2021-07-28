@@ -8,17 +8,17 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.core.Registry;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
@@ -37,13 +37,13 @@ import sirttas.elementalcraft.recipe.RecipeHelper;
 public class CrystallizationRecipe extends AbstractInstrumentRecipe<CrystallizerBlockEntity> {
 
 	public static final String NAME = "crystallization";
-	public static final IRecipeType<CrystallizationRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<CrystallizationRecipe>() {
+	public static final RecipeType<CrystallizationRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<CrystallizationRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
 		}
 	});
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<CrystallizationRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<CrystallizationRecipe> SERIALIZER = null;
 	
 	private final NonNullList<Ingredient> ingredients;
 	private final List<ResultEntry> outputs;
@@ -94,14 +94,14 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	}
 
 	@Override
-	public IRecipeType<?> getType() {
+	public RecipeType<?> getType() {
 		return TYPE;
 	}
 
 	@Override
 	public void process(CrystallizerBlockEntity instrument) {
 		int luck = (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
-		IInventory inv = instrument.getInventory();
+		Container inv = instrument.getInventory();
 		
 		for (int i = 2; i < inv.getContainerSize(); i++) {
 			ItemStack stack = inv.getItem(i);
@@ -148,7 +148,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	}
 	
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
@@ -183,19 +183,19 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		}
 		
 		public int getEffectiveWeight(float luck) {
-			return Math.max(MathHelper.floor(weight + quality * luck), 0);
+			return Math.max(Mth.floor(weight + quality * luck), 0);
 		}
 	}
 	
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrystallizationRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<CrystallizationRecipe> {
 
 		private static final Codec<List<ResultEntry>> OUTPUT_CODEC = ResultEntry.LIST_CODEC.fieldOf(ECNames.OUTPUTS).codec();
 
 		@Override
 		public CrystallizationRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			ElementType type = ElementType.byName(JSONUtils.getAsString(json, ECNames.ELEMENT_TYPE));
-			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
-			NonNullList<Ingredient> ingredients = readIngredients(JSONUtils.getAsJsonObject(json, ECNames.INGREDIENTS));
+			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = readIngredients(GsonHelper.getAsJsonObject(json, ECNames.INGREDIENTS));
 			List<ResultEntry> outputs = CodecHelper.decode(ResultEntry.LIST_CODEC, json.get(ECNames.OUTPUTS));
 			
 			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
@@ -211,7 +211,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		}
 
 		@Override
-		public CrystallizationRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+		public CrystallizationRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			List<ResultEntry> outputs = CodecHelper.decode(OUTPUT_CODEC, buffer);
@@ -227,7 +227,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, CrystallizationRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buffer, CrystallizationRecipe recipe) {
 			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
 			CodecHelper.encode(OUTPUT_CODEC, recipe.outputs, buffer);

@@ -4,16 +4,16 @@ import javax.annotation.Nullable;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.resources.ResourceLocation;
 
-public abstract class AbstractFinishedRecipe implements IFinishedRecipe {
+public abstract class AbstractFinishedRecipe implements FinishedRecipe {
 	
 	private final ResourceLocation id;
-	private final IRecipeSerializer<?> serializer;
+	private final RecipeSerializer<?> serializer;
 
-	protected AbstractFinishedRecipe(ResourceLocation idIn, IRecipeSerializer<?> serializerIn) {
+	protected AbstractFinishedRecipe(ResourceLocation idIn, RecipeSerializer<?> serializerIn) {
 		this.id = idIn;
 		this.serializer = serializerIn;
 	}
@@ -25,7 +25,7 @@ public abstract class AbstractFinishedRecipe implements IFinishedRecipe {
 	}
 
 	@Override
-	public IRecipeSerializer<?> getType() {
+	public RecipeSerializer<?> getType() {
 		return this.serializer;
 	}
 

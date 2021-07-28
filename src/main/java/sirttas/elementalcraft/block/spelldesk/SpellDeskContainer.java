@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 import sirttas.elementalcraft.inventory.container.AbstractECContainer;
 import sirttas.elementalcraft.inventory.container.ECContainers;
@@ -22,19 +22,19 @@ import sirttas.elementalcraft.tag.ECTags;
 
 public class SpellDeskContainer extends AbstractECContainer {
 
-	private final IInventory input;
-	private final IInventory output;
-	private final IWorldPosCallable worldPosCallable;
+	private final Container input;
+	private final Container output;
+	private final ContainerLevelAccess worldPosCallable;
 	
-	public SpellDeskContainer(int id, PlayerInventory player) {
-		this(id, player, IWorldPosCallable.NULL);
+	public SpellDeskContainer(int id, Inventory player) {
+		this(id, player, ContainerLevelAccess.NULL);
 	}
 	
-	public SpellDeskContainer(int id, PlayerInventory player, IWorldPosCallable worldPosCallable) {
+	public SpellDeskContainer(int id, Inventory player, ContainerLevelAccess worldPosCallable) {
 		super(ECContainers.SPELL_DESK, id);
 		this.worldPosCallable = worldPosCallable;
-		input = new CraftingInventory(this, 3, 1);
-		output = new Inventory(6);
+		input = new CraftingContainer(this, 3, 1);
+		output = new SimpleContainer(6);
 		
 		this.addSlot(new InputSlot(0, 32, 35, s -> s.getItem() == ECItems.SCROLL_PAPER));
 		this.addSlot(new InputSlot(1, 23, 53, s -> Tags.Items.GEMS.contains(s.getItem())));
@@ -48,12 +48,12 @@ public class SpellDeskContainer extends AbstractECContainer {
 		this.addPlayerSlots(player, 84);
 	}
 
-	public static SpellDeskContainer create(int id, PlayerInventory inventory, IWorldPosCallable worldPosCallable) {
+	public static SpellDeskContainer create(int id, Inventory inventory, ContainerLevelAccess worldPosCallable) {
 		return new SpellDeskContainer(id, inventory, worldPosCallable);
 	}
 
 	@Override
-	public ItemStack quickMoveStack(PlayerEntity player, int index) {
+	public ItemStack quickMoveStack(Player player, int index) {
 		Slot slot = this.slots.get(index);
 
 		if (slot != null && slot.hasItem()) {
@@ -84,7 +84,7 @@ public class SpellDeskContainer extends AbstractECContainer {
 		return ItemStack.EMPTY;
 	}
 	
-	private void updateOutput(World world) {
+	private void updateOutput(Level world) {
 		List<ItemStack> stacks = world.getRecipeManager().getRecipesFor(SpellCraftRecipe.TYPE, input, world).stream()
 				.limit(6)
 				.map(r -> r.assemble(input))
@@ -98,14 +98,14 @@ public class SpellDeskContainer extends AbstractECContainer {
 	}
 	
 	@Override
-	public void slotsChanged(IInventory inventoryIn) {
+	public void slotsChanged(Container inventoryIn) {
 		worldPosCallable.execute((world, pos) -> updateOutput(world));
 	}
 
 	@Override
-	public void removed(PlayerEntity playerIn) {
+	public void removed(Player playerIn) {
 		super.removed(playerIn);
-		worldPosCallable.execute((world, pos) -> clearContainer(playerIn, world, input));
+		worldPosCallable.execute((world, pos) -> clearContainer(playerIn, input));
 	}
 	
 	private class OutputSlot extends Slot {
@@ -120,15 +120,13 @@ public class SpellDeskContainer extends AbstractECContainer {
 		}
 		
 		@Override
-		public ItemStack onTake(PlayerEntity player, ItemStack stack) {
-			ItemStack result = stack.copy();
+		public void onTake(Player player, ItemStack stack) {
 			
-			checkTakeAchievements(result);
+			checkTakeAchievements(stack);
 			for (int i = 0; i < input.getContainerSize(); i++) {
 				input.removeItem(i, 1);
 			}
 			updateOutput(player.level);
-			return result;
 		}
 	}
 	

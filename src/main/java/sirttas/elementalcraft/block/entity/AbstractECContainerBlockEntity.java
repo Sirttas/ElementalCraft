@@ -3,15 +3,16 @@ package sirttas.elementalcraft.block.entity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.inventory.IClearable;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.IInventoryChangedListener;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.Clearable;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerListener;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -21,16 +22,16 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.inventory.IInventoryTile;
 
-public abstract class AbstractECContainerBlockEntity extends AbstractECTickableBlockEntity implements IClearable, IInventoryTile, IInventoryChangedListener {
+public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements Clearable, IInventoryTile, ContainerListener {
 
 	private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(this::createHandler);
 
-	protected AbstractECContainerBlockEntity(TileEntityType<?> tileEntityTypeIn) {
-		super(tileEntityTypeIn);
+	protected AbstractECContainerBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
+		super(blockEntityType, pos, state);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
 		this.clearContent();
 		super.onDataPacket(net, packet);
 	}
@@ -47,9 +48,9 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECTickableB
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
-		IInventory inv = getInventory();
+	public void load(CompoundTag compound) {
+		super.load(compound);
+		Container inv = getInventory();
 
 		if (inv instanceof INBTSerializable && compound.contains(ECNames.INVENTORY)) {
 			((INBTSerializable) inv).deserializeNBT(compound.get(ECNames.INVENTORY));
@@ -57,9 +58,9 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECTickableB
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
-		IInventory inv = getInventory();
+		Container inv = getInventory();
 
 		if (inv instanceof INBTSerializable) {
 			compound.put(ECNames.INVENTORY, ((INBTSerializable<?>) inv).serializeNBT());
@@ -76,12 +77,13 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECTickableB
 		return super.getCapability(cap, side);
 	}
 
+	@Override
 	public LazyOptional<IItemHandler> getItemHandler() {
 		return itemHandler;
 	}
 
 	@Override
-	public void containerChanged(IInventory invBasic) {
+	public void containerChanged(Container invBasic) {
 		this.setChanged();
 	}
 }

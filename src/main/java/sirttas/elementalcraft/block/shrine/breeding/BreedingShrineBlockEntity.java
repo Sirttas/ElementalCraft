@@ -4,16 +4,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -22,13 +23,13 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final TileEntityType<BreedingShrineBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final BlockEntityType<BreedingShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.breedingShrinePeriode.get())
 			.consumeAmount(ECConfig.COMMON.breedingShrineConsumeAmount.get()).range(ECConfig.COMMON.breedingShrineRange.get());
 
-	public BreedingShrineBlockEntity() {
-		super(TYPE, PROPERTIES);
+	public BreedingShrineBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, PROPERTIES);
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
@@ -36,17 +37,17 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AxisAlignedBB getRangeBoundingBox() {
-		return super.getRangeBoundingBox().move(Vector3d.atLowerCornerOf(this.getBlockState().getValue(BreedingShrineBlock.FACING).getNormal()).scale(getRange()));
+	public AABB getRangeBoundingBox() {
+		return super.getRangeBoundingBox().move(Vec3.atLowerCornerOf(this.getBlockState().getValue(BreedingShrineBlock.FACING).getNormal()).scale(getRange()));
 	}
 
 	@Override
-	protected boolean doTick() {
+	protected boolean doPeriode() {
 		EntityType<?> type = null;
-		AnimalEntity first = null;
-		AnimalEntity second = null;
+		Animal first = null;
+		Animal second = null;
 
-		for (AnimalEntity entity : getEntities(AnimalEntity.class)) {
+		for (Animal entity : getEntities(Animal.class)) {
 			if (type == null && entity.canFallInLove()) {
 				type = entity.getType();
 				first = entity;
@@ -60,7 +61,7 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 		return false;
 	}
 
-	public boolean feed(AnimalEntity first, AnimalEntity second) {
+	public boolean feed(Animal first, Animal second) {
 		List<ItemStack> foodList = getEntities(ItemEntity.class).stream().map(ItemEntity::getItem).filter(stack -> first.isFood(stack) && stack.getCount() > 0).collect(Collectors.toList());
 
 		if (!foodList.isEmpty()) {

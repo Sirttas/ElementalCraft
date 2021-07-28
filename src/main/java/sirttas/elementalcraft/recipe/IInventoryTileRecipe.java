@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.recipe;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.inventory.IInventoryTile;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
 
@@ -14,7 +14,7 @@ public interface IInventoryTileRecipe<T extends IInventoryTile> extends IECRecip
 	boolean matches(T inv);
 
 	@Override
-	default boolean matches(InventoryTileWrapper<T> inv, World worldIn) {
+	default boolean matches(InventoryTileWrapper<T> inv, Level worldIn) {
 		return matches(inv.getInstrument());
 	}
 

@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:spell_desk"
+            "items": [
+              "elementalcraft:spell_desk"
+            ]
           }
         ]
       }

@@ -8,59 +8,57 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.EffectUtils;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.extensions.IForgeEffectInstance;
 import sirttas.elementalcraft.item.ECItem;
 
 public class EffectSpell extends Spell {
 
-	private final List<IForgeEffectInstance> effects;
+	private final List<MobEffectInstance> effects;
 
-	public EffectSpell(IForgeEffectInstance... effects) {
+	public EffectSpell(MobEffectInstance... effects) {
 		this.effects = ImmutableList.copyOf(effects);
 	}
 
-	private ActionResultType applyEffect(Entity target) {
+	private InteractionResult applyEffect(Entity target) {
 		if (target instanceof LivingEntity) {
-			effects.forEach(e -> ((LivingEntity) target).addEffect(new EffectInstance(e.getEffectInstance())));
-			return ActionResultType.SUCCESS;
+			effects.forEach(e -> ((LivingEntity) target).addEffect(new MobEffectInstance(e)));
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	@Override
-	public ActionResultType castOnEntity(Entity sender, Entity target) {
+	public InteractionResult castOnEntity(Entity sender, Entity target) {
 		return applyEffect(target);
 	}
 
 	@Override
-	public ActionResultType castOnSelf(Entity sender) {
+	public InteractionResult castOnSelf(Entity sender) {
 		return applyEffect(sender);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(List<ITextComponent> tooltip) {
+	public void addInformation(List<Component> tooltip) {
 		Multimap<Attribute, AttributeModifier> multimap = HashMultimap.create();
 
 		if (!effects.isEmpty()) {
-			for (IForgeEffectInstance forgeEffect : effects) {
-				EffectInstance effectinstance = forgeEffect.getEffectInstance();
-				IFormattableTextComponent iformattabletextcomponent = new TranslationTextComponent(effectinstance.getDescriptionId());
-				Effect effect = effectinstance.getEffect();
+			for (MobEffectInstance effectinstance : effects) {
+				MutableComponent iformattabletextcomponent = new TranslatableComponent(effectinstance.getDescriptionId());
+				MobEffect effect = effectinstance.getEffect();
 
 				Map<Attribute, AttributeModifier> map = effect.getAttributeModifiers();
 				if (!map.isEmpty()) {
@@ -73,21 +71,21 @@ public class EffectSpell extends Spell {
 				}
 
 				if (effectinstance.getAmplifier() > 0) {
-					iformattabletextcomponent = new TranslationTextComponent("potion.withAmplifier", iformattabletextcomponent,
-							new TranslationTextComponent("potion.potency." + effectinstance.getAmplifier()));
+					iformattabletextcomponent = new TranslatableComponent("potion.withAmplifier", iformattabletextcomponent,
+							new TranslatableComponent("potion.potency." + effectinstance.getAmplifier()));
 				}
 
 				if (effectinstance.getDuration() > 20) {
-					iformattabletextcomponent = new TranslationTextComponent("potion.withDuration", iformattabletextcomponent, EffectUtils.formatDuration(effectinstance, 1));
+					iformattabletextcomponent = new TranslatableComponent("potion.withDuration", iformattabletextcomponent, MobEffectUtil.formatDuration(effectinstance, 1));
 				}
 
 				tooltip.add(iformattabletextcomponent.withStyle(effect.getCategory().getTooltipFormatting()));
 			}
 		}
-		ECItem.addAttributeMultimapToTooltip(tooltip, multimap, new TranslationTextComponent("tooltip.elementalcraft.spell_effect_on_use").withStyle(TextFormatting.DARK_PURPLE));
+		ECItem.addAttributeMultimapToTooltip(tooltip, multimap, new TranslatableComponent("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
 	}
 
-	public final List<IForgeEffectInstance> getEffects() {
+	public final List<MobEffectInstance> getEffects() {
 		return effects;
 	}
 }

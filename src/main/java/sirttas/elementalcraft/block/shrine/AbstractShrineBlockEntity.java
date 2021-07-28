@@ -10,12 +10,14 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -25,13 +27,13 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.entity.AbstractECTickableBlockEntity;
+import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.config.ECConfig;
 
-public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockEntity {
+public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
 	protected static final List<Direction> DEFAULT_UPGRRADE_DIRECTIONS = ImmutableList.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
@@ -47,8 +49,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockE
 	private double tick = 0;
 	private int rangeRenderTimer = 0;
 
-	protected AbstractShrineBlockEntity(TileEntityType<?> tileEntityTypeIn, Properties properties) {
-		super(tileEntityTypeIn);
+	protected AbstractShrineBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, Properties properties) {
+		super(blockEntityType, pos, state);
 		basePeriode = properties.periode;
 		baseElementCapacity = properties.capacity;
 		baseRange = properties.range;
@@ -59,42 +61,36 @@ public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockE
 		elementStorage = new ShrineElementStorage(properties.elementType, properties.capacity, this::setChanged);
 	}
 
-
-	protected int consumeElement() {
-		return consumeElement(this.getConsumeAmount());
-	}
-
 	protected int consumeElement(int i) {
 		return elementStorage.extractElement(i, false);
 	}
 
-	protected abstract boolean doTick();
+	protected abstract boolean doPeriode();
 
-	@Override
-	public final void tick() {
-		if (this.isDirty()) {
-			refreshUpgrades();
+	
+	public static void serverTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
+		if (shrine.isDirty()) {
+			shrine.refreshUpgrades();
 		}
-		double periode = getPeriod();
-		int consumeAmount = this.getConsumeAmount();
+		double periode = shrine.getPeriod();
+		int consumeAmount = shrine.getConsumeAmount();
 
-		super.tick();
-		running = false;
-		if (this.hasLevel() && !this.isPowered()) {
-			tick++;
+		shrine.running = false;
+		if (shrine.hasLevel() && !shrine.isPowered()) {
+			shrine.tick++;
 			if (periode <= 0) {
 				ElementalCraftApi.LOGGER.warn("Shrine periode should not be 0");
 				periode = 1;
 			}
-			while (tick >= periode) {
-				if (elementStorage.getElementAmount() >= consumeAmount && doTick()) {
-					this.consumeElement();
+			while (shrine.tick >= periode) {
+				if (shrine.elementStorage.getElementAmount() >= consumeAmount && shrine.doPeriode()) {
+					shrine.consumeElement(consumeAmount);
 				}
-				tick -= periode;
+				shrine.tick -= periode;
 			}
 		}
-		if (rangeRenderTimer > 0) {
-			rangeRenderTimer--;
+		if (shrine.rangeRenderTimer > 0) {
+			shrine.rangeRenderTimer--;
 		}
 	}
 
@@ -161,8 +157,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockE
 		this.rangeRenderTimer = 600;
 	}
 
-	public AxisAlignedBB getRangeBoundingBox() {
-		return new AxisAlignedBB(this.getBlockPos()).inflate(this.getRange());
+	public AABB getRangeBoundingBox() {
+		return new AABB(this.getBlockPos()).inflate(this.getRange());
 	}
 
 	public float getRange() {
@@ -182,8 +178,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockE
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
@@ -192,7 +188,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockE
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 		compound.putBoolean(ECNames.RUNNING, running);

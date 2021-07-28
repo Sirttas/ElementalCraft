@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.inventory;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 
-public class InventoryTileWrapper<T extends IInventoryTile> implements IInventory {
+public class InventoryTileWrapper<T extends IInventoryTile> implements Container {
 
 	private final T inventoryTile;
 
@@ -61,7 +61,7 @@ public class InventoryTileWrapper<T extends IInventoryTile> implements IInventor
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity player) {
+	public boolean stillValid(Player player) {
 		return inventoryTile.getInventory().stillValid(player);
 	}
 

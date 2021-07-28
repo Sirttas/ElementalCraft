@@ -1,26 +1,24 @@
 package sirttas.elementalcraft.block.instrument.firefurnace;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
+import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
 @OnlyIn(Dist.CLIENT)
-public class FireFurnaceRenderer extends AbstractECRenderer<AbstractFireFurnaceBlockEntity<?>> {
+public class FireFurnaceRenderer implements IECRenderer<AbstractFireFurnaceBlockEntity<?>> {
 
-	public FireFurnaceRenderer(TileEntityRendererDispatcher rendererDispatcher) {
-		super(rendererDispatcher);
-	}
+	public FireFurnaceRenderer(Context context) {}
 
 	@Override
-	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
-		IInventory inv = te.getInventory();
+	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+		Container inv = te.getInventory();
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);
 		matrixStack.translate(0.5F, 0.3F, 0.5F);

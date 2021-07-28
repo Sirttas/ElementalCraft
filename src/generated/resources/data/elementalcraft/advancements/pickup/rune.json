@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:rune"
+            "items": [
+              "elementalcraft:rune"
+            ]
           }
         ]
       }

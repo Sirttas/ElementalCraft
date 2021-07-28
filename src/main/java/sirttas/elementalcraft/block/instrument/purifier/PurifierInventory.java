@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.instrument.purifier;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.inventory.IOInventory;
 

@@ -1,11 +1,12 @@
 package sirttas.elementalcraft.block.pipe;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.common.extensions.IForgeBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.IElementPipe.ConnectionType;
@@ -17,15 +18,15 @@ public interface IPipeConnectedBlock extends IForgeBlock {
 	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
 	public static final BooleanProperty WEST = BlockStateProperties.WEST;
 
-	default BlockState doGetStateForPlacement(IBlockReader world, BlockPos pos) {
-		return this.getBlock().defaultBlockState()
+	default BlockState doGetStateForPlacement(BlockGetter world, BlockPos pos) {
+		return ((Block) this).defaultBlockState()
 				.setValue(NORTH, isConnectable(world, pos, Direction.NORTH))
 				.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH))
 				.setValue(EAST, isConnectable(world, pos, Direction.EAST))
 				.setValue(WEST, isConnectable(world, pos, Direction.WEST));
 	}
 
-	default BlockState doUpdatePostPlacement(BlockState stateIn, IBlockReader world, BlockPos pos, Direction facing) {
+	default BlockState doUpdatePostPlacement(BlockState stateIn, BlockGetter world, BlockPos pos, Direction facing) {
 		switch (facing) {
 		case NORTH:
 			return stateIn.setValue(NORTH, isConnectable(world, pos, Direction.NORTH));
@@ -40,7 +41,7 @@ public interface IPipeConnectedBlock extends IForgeBlock {
 		}
 	}
 	
-	static boolean isConnectable(IBlockReader world, BlockPos from, Direction face) {
+	static boolean isConnectable(BlockGetter world, BlockPos from, Direction face) {
 		IElementPipe entity = BlockEntityHelper.getTileEntityAs(world, from.relative(face), IElementPipe.class).orElse(null);
 		
 		if (entity != null) {

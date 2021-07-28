@@ -2,45 +2,78 @@ package sirttas.elementalcraft.block.entity;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 
-public abstract class AbstractECBlockEntity extends TileEntity {
+public abstract class AbstractECBlockEntity extends BlockEntity {
 
-	protected AbstractECBlockEntity(TileEntityType<?> tileEntityTypeIn) {
-		super(tileEntityTypeIn);
+	private boolean dirty = true;
+	
+	protected AbstractECBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
+		super(blockEntityType, pos, state);
 	}
 
+	@Override
+	public void setChanged() {
+		dirty = true;
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	// TODO extract (capability ?)
+	public ISingleElementStorage getTank() {
+		return this.hasLevel() ? BlockEntityHelper.getElementContainer(this.getBlockState().getBlock(), level, worldPosition.below()).orElse(null) : null;
+	}
+
+	// TODO extract (capability ?)
+	public ElementType getTankElementType() {
+		ISingleElementStorage tank = getTank();
+
+		return tank != null ? tank.getElementType() : ElementType.NONE;
+	}
+	
 	public boolean isPowered() {
 		return this.hasLevel() && this.getLevel().hasNeighborSignal(this.getBlockPos());
 	}
 
 	@Override
-	public final SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(worldPosition, 1, getUpdateTag());
+	public final ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return new ClientboundBlockEntityDataPacket(worldPosition, 1, getUpdateTag());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-		load(this.getBlockState(), packet.getTag());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+		load(packet.getTag());
 	}
 
 	@Nonnull
 	@Override
-	public final CompoundNBT getUpdateTag() {
-		return save(new CompoundNBT());
+	public final CompoundTag getUpdateTag() {
+		return save(new CompoundTag());
 	}
 
-	protected void sendUpdate() {
-		SUpdateTileEntityPacket packet = getUpdatePacket();
-
-		if (level instanceof ServerWorld) {
-			PacketDistributor.TRACKING_CHUNK.with(() -> ((ServerWorld) level).getChunkAt(worldPosition)).send(packet);
+	public void sendUpdate() {
+		if (isDirty()) {
+			super.setChanged();
+			this.sendUpdatePacket();
+			dirty = false;
+		}
+	}
+	
+	private void sendUpdatePacket() {
+		if (level instanceof ServerLevel serverLevel) {
+			PacketDistributor.TRACKING_CHUNK.with(() -> serverLevel.getChunkAt(worldPosition)).send(getUpdatePacket());
 		}
 	}
 

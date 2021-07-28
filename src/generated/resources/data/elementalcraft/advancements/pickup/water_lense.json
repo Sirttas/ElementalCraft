@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:water_lense"
+            "items": [
+              "elementalcraft:water_lense"
+            ]
           }
         ]
       }

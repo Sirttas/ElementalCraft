@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
@@ -13,7 +13,7 @@ import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 public interface IInfusionRecipe extends IInstrumentRecipe<IInfuser> {
 
 	public static final String NAME = "infusion";
-	public static final IRecipeType<IInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<IInfusionRecipe>() {
+	public static final RecipeType<IInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<IInfusionRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
@@ -29,7 +29,7 @@ public interface IInfusionRecipe extends IInstrumentRecipe<IInfuser> {
 	}
 
 	@Override
-	default IRecipeType<?> getType() {
+	default RecipeType<?> getType() {
 		return TYPE;
 	}
 	

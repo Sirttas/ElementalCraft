@@ -2,8 +2,8 @@ package sirttas.elementalcraft.recipe.instrument.io;
 
 import java.util.Random;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
@@ -36,7 +36,7 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 	
 	@Override
 	default void process(T instrument) {
-		IInventory inv = instrument.getInventory();
+		Container inv = instrument.getInventory();
 		ItemStack in = inv.getItem(0);
 		ItemStack result = inv.getItem(1);
 		ItemStack craftingResult = getCraftingResult(instrument);

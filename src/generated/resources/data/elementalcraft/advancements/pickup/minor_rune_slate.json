@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:minor_rune_slate"
+            "items": [
+              "elementalcraft:minor_rune_slate"
+            ]
           }
         ]
       }

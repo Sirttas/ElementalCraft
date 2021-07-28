@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:receptacle_improved_empty"
+            "items": [
+              "elementalcraft:receptacle_improved_empty"
+            ]
           }
         ]
       }

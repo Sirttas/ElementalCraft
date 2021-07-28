@@ -2,12 +2,12 @@ package sirttas.elementalcraft.recipe.instrument.infusion;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -19,7 +19,7 @@ import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
 public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implements IInfusionRecipe {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<InfusionRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<InfusionRecipe> SERIALIZER = null;
 
 	private final Ingredient input;
 	private final ItemStack output;
@@ -48,16 +48,16 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InfusionRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<InfusionRecipe> {
 
 		@Override
 		public InfusionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			ElementType type = ElementType.byName(JSONUtils.getAsString(json, ECNames.ELEMENT_TYPE));
-			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
@@ -65,7 +65,7 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 		}
 
 		@Override
-		public InfusionRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+		public InfusionRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			Ingredient input = Ingredient.fromNetwork(buffer);
@@ -75,7 +75,7 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, InfusionRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buffer, InfusionRecipe recipe) {
 			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
 			recipe.getInput().toNetwork(buffer);

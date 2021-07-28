@@ -4,13 +4,13 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.stream.Stream;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.Tags;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.spell.Spell;
@@ -23,7 +23,7 @@ public class SilkVeinSpell extends Spell {
 		return Tags.Blocks.ORES.contains(block);
 	}
 
-	private void mineVein(Entity sender, World world, BlockPos target) {
+	private void mineVein(Entity sender, Level world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
 		float rangeSq = getRange(sender);
 
@@ -34,8 +34,8 @@ public class SilkVeinSpell extends Spell {
 			Block block = world.getBlockState(pos).getBlock();
 			
 			if (isValidBlock(block) && pos.distSqr(target) <= rangeSq) {
-				if (world instanceof ServerWorld) {
-					LootHelper.getDrops((ServerWorld) world, pos, true).forEach(stack -> Block.popResource(world, pos, stack));
+				if (world instanceof ServerLevel) {
+					LootHelper.getDrops((ServerLevel) world, pos, true).forEach(stack -> Block.popResource(world, pos, stack));
 				}
 				world.destroyBlock(pos, false);
 				Stream.of(Direction.values()).forEach(d -> queue.offer(pos.relative(d)));
@@ -44,15 +44,15 @@ public class SilkVeinSpell extends Spell {
 	}
 
 	@Override
-	public ActionResultType castOnBlock(Entity sender, BlockPos target) {
-		World world = sender.getCommandSenderWorld();
+	public InteractionResult castOnBlock(Entity sender, BlockPos target) {
+		Level world = sender.getCommandSenderWorld();
 
 		if (!world.isClientSide && isValidBlock(world.getBlockState(target).getBlock())) {
 			mineVein(sender, world, target);
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 

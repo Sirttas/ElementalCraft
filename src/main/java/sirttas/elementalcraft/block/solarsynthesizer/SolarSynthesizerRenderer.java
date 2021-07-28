@@ -1,37 +1,35 @@
 package sirttas.elementalcraft.block.solarsynthesizer;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.ForgeHooksClient;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
+import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
-public class SolarSynthesizerRenderer extends AbstractECRenderer<SolarSynthesizerBlockEntity> {
+public class SolarSynthesizerRenderer implements IECRenderer<SolarSynthesizerBlockEntity> {
 
-	public static final RenderMaterial BEAM = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/solar_synthesizer_beam"));
+	public static final Material BEAM = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/solar_synthesizer_beam"));
 	public static final ResourceLocation LENSE_LOCATION = ElementalCraft.createRL("block/solar_synthesizer_lense");
 
-	private IBakedModel lenseModel;
+	private BakedModel lenseModel;
 
-	public SolarSynthesizerRenderer(TileEntityRendererDispatcher rendererDispatcher) {
-		super(rendererDispatcher);
-	}
+	public SolarSynthesizerRenderer(Context context) {}
 
 	@Override
-	public void render(SolarSynthesizerBlockEntity te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(SolarSynthesizerBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		ItemStack stack = te.getInventory().getItem(0);
 		Minecraft minecraft = Minecraft.getInstance();
 
@@ -61,7 +59,7 @@ public class SolarSynthesizerRenderer extends AbstractECRenderer<SolarSynthesize
 						b, light, overlay, getModelData(lenseModel, te));
 				matrixStack.popPose();
 				if (isWorking) {
-					Vector3d beamVect = Vector3d.atCenterOf(te.getBlockPos()).subtract(minecraft.getEntityRenderDispatcher().camera.getPosition()).multiply(1, 0, 1).normalize();
+					Vec3 beamVect = Vec3.atCenterOf(te.getBlockPos()).subtract(minecraft.getEntityRenderDispatcher().camera.getPosition()).multiply(1, 0, 1).normalize();
 					
 					matrixStack.pushPose();
 					matrixStack.translate(0.5, 0.5, 0.5);

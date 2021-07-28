@@ -4,10 +4,10 @@ import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import sirttas.elementalcraft.api.element.ElementType;
 
-public interface IElementTypeFeatureConfig extends IFeatureConfig {
+public interface IElementTypeFeatureConfig extends FeatureConfiguration {
 
 	public static final Codec<IElementTypeFeatureConfig> CODEC = Codec.STRING.dispatch(IElementTypeFeatureConfig::getName, name -> {
 		if (name.equals("simple")) {

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:aircrystal"
+            "items": [
+              "elementalcraft:aircrystal"
+            ]
           }
         ]
       }

@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.instrument.crystallizer;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;

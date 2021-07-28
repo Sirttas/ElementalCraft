@@ -22,7 +22,7 @@
         "north": "true"
       },
       "apply": {
-        "model": "elementalcraft:block/tank_connector"
+        "model": "elementalcraft:block/container_connector"
       }
     },
     {
@@ -31,7 +31,7 @@
         "east": "true"
       },
       "apply": {
-        "model": "elementalcraft:block/tank_connector",
+        "model": "elementalcraft:block/container_connector",
         "y": 90
       }
     },
@@ -41,7 +41,7 @@
         "south": "true"
       },
       "apply": {
-        "model": "elementalcraft:block/tank_connector",
+        "model": "elementalcraft:block/container_connector",
         "y": 180
       }
     },
@@ -51,7 +51,7 @@
         "west": "true"
       },
       "apply": {
-        "model": "elementalcraft:block/tank_connector",
+        "model": "elementalcraft:block/container_connector",
         "y": 270
       }
     },

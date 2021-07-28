@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:shrine_upgrade_range"
+            "items": [
+              "elementalcraft:shrine_upgrade_range"
+            ]
           }
         ]
       }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:reservoir_air"
+            "items": [
+              "elementalcraft:reservoir_air"
+            ]
           }
         ]
       }

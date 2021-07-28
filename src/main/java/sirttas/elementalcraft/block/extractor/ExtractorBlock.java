@@ -2,24 +2,29 @@ package sirttas.elementalcraft.block.extractor;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import javax.annotation.Nullable;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.AbstractECBlockEntityProviderBlock;
+import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class ExtractorBlock extends AbstractECBlockEntityProviderBlock {
+public class ExtractorBlock extends AbstractECEntityBlock {
 
 	public static final String NAME = "extractor";
 
@@ -32,29 +37,36 @@ public class ExtractorBlock extends AbstractECBlockEntityProviderBlock {
 	private static final VoxelShape PIPE_E = Block.box(10D, 1D, 7D, 13D, 3D, 9D);
 	private static final VoxelShape PIPE_W = Block.box(3D, 1D, 7D, 6D, 3D, 9D);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(BASE, PILLAR, TOP, PIPE_N, PIPE_S, PIPE_E, PIPE_W);
+	private static final VoxelShape SHAPE = Shapes.or(BASE, PILLAR, TOP, PIPE_N, PIPE_S, PIPE_E, PIPE_W);
 
 	@Override
-	public ExtractorBlockEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new ExtractorBlockEntity();
+	public ExtractorBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new ExtractorBlockEntity(pos, state);
 	}
 	
 	@Override
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return createECTicker(level, type, ExtractorBlockEntity.TYPE, ExtractorBlockEntity::tick);
+	}
+
+	
+	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
+	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
 		BlockEntityHelper.getTileEntityAs(world, pos, ExtractorBlockEntity.class).filter(ExtractorBlockEntity::canExtract)
-				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, Vector3d.atCenterOf(pos), Direction.DOWN, 1, rand));
+				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, Vec3.atCenterOf(pos), Direction.DOWN, 1, rand));
 	}
 }

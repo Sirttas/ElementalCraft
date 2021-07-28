@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:element_holder_air"
+            "items": [
+              "elementalcraft:element_holder_air"
+            ]
           }
         ]
       }

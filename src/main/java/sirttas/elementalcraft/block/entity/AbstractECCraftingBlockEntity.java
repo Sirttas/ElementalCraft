@@ -1,20 +1,22 @@
 package sirttas.elementalcraft.block.entity;
 
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
 
 public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEntity, R extends IInventoryTileRecipe<T>> extends AbstractECContainerBlockEntity implements ICraftingBlockEntity {
 
-	protected final IRecipeType<R> recipeType;
+	protected final RecipeType<R> recipeType;
 	protected final int transferSpeed;
 
 	protected IInventoryTileRecipe<T> recipe;
 	protected int outputSlot = 0;
 	
-	protected AbstractECCraftingBlockEntity(TileEntityType<?> tileEntityTypeIn, IRecipeType<R> recipeType, int transferSpeed) {
-		super(tileEntityTypeIn);
+	protected AbstractECCraftingBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed) {
+		super(blockEntityType, pos, state);
 		this.recipeType = recipeType;
 		this.transferSpeed = transferSpeed;
 	}

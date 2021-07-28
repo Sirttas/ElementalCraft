@@ -2,24 +2,29 @@ package sirttas.elementalcraft.block.diffuser;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import javax.annotation.Nullable;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.AbstractECBlockEntityProviderBlock;
+import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class DiffuserBlock extends AbstractECBlockEntityProviderBlock {
+public class DiffuserBlock extends AbstractECEntityBlock {
 
 	public static final String NAME = "diffuser";
 
@@ -32,29 +37,35 @@ public class DiffuserBlock extends AbstractECBlockEntityProviderBlock {
 	private static final VoxelShape SIDE_PILLAR_3 = SIDE_PILLAR_1.move(0D, 0D, 12D /16);
 	private static final VoxelShape SIDE_PILLAR_4 = SIDE_PILLAR_1.move(12D / 16, 0D, 12D / 16);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, PILLAR, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
+	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PILLAR, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
 
 	@Override
-	public DiffuserBlockEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new DiffuserBlockEntity();
+	public DiffuserBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new DiffuserBlockEntity(pos, state);
+	}
+	
+	@Override
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return createECTicker(level, type, DiffuserBlockEntity.TYPE, DiffuserBlockEntity::tick);
 	}
 	
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
+	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
 		BlockEntityHelper.getTileEntityAs(world, pos, DiffuserBlockEntity.class).filter(DiffuserBlockEntity::hasDiffused)
-				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getTankElementType(), world, Vector3d.atCenterOf(pos), Direction.UP, 1, rand));
+				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getTankElementType(), world, Vec3.atCenterOf(pos), Direction.UP, 1, rand));
 	}
 }

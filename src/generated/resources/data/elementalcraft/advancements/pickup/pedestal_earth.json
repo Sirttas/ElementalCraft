@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:pedestal_earth"
+            "items": [
+              "elementalcraft:pedestal_earth"
+            ]
           }
         ]
       }

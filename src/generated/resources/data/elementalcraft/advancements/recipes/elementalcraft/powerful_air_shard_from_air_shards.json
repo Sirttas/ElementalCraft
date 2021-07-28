@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:air_shard"
+            "items": [
+              "elementalcraft:air_shard"
+            ]
           }
         ]
       }

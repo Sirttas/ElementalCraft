@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.recipe;
 
-import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,8 +24,8 @@ public class ECRecipes {
 	private ECRecipes() {}
 	
 	@SubscribeEvent
-	public static void register(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-		IForgeRegistry<IRecipeSerializer<?>> registry = event.getRegistry();
+	public static void register(RegistryEvent.Register<RecipeSerializer<?>> event) {
+		IForgeRegistry<RecipeSerializer<?>> registry = event.getRegistry();
 
 		RegistryHelper.register(registry, new InfusionRecipe.Serializer(), IInfusionRecipe.NAME);
 		RegistryHelper.register(registry, new ToolInfusionRecipe.Serializer(), ToolInfusionRecipe.NAME);

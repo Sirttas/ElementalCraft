@@ -4,13 +4,13 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.stream.Stream;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.spell.Spell;
 
 public class TreeFallSpell extends Spell {
@@ -21,7 +21,7 @@ public class TreeFallSpell extends Spell {
 		return BlockTags.LOGS.contains(block) || BlockTags.LEAVES.contains(block);
 	}
 
-	private void cutTree(Entity sender, World world, BlockPos target) {
+	private void cutTree(Entity sender, Level world, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
 		float rangeSq = getRange(sender);
 
@@ -39,15 +39,15 @@ public class TreeFallSpell extends Spell {
 	}
 
 	@Override
-	public ActionResultType castOnBlock(Entity sender, BlockPos target) {
-		World world = sender.getCommandSenderWorld();
+	public InteractionResult castOnBlock(Entity sender, BlockPos target) {
+		Level world = sender.getCommandSenderWorld();
 
 		if (!world.isClientSide && isValidBlock(world.getBlockState(target).getBlock())) {
 			cutTree(sender, world, target);
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:watercrystal_block"
+            "items": [
+              "elementalcraft:watercrystal_block"
+            ]
           }
         ]
       }

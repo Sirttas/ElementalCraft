@@ -4,18 +4,17 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
 import sirttas.elementalcraft.api.element.ElementType;
 
-public class ElementTypeParticleData implements IParticleData {
+public class ElementTypeParticleData implements ParticleOptions {
 
 	private ElementType elementType;
 	private ParticleType<ElementTypeParticleData> type;
 
-	@SuppressWarnings("deprecation")
-	public static final IParticleData.IDeserializer<ElementTypeParticleData> DESERIALIZER = new IParticleData.IDeserializer<ElementTypeParticleData>() {
+	public static final ParticleOptions.Deserializer<ElementTypeParticleData> DESERIALIZER = new ParticleOptions.Deserializer<ElementTypeParticleData>() {
 		@Override
 		public ElementTypeParticleData fromCommand(ParticleType<ElementTypeParticleData> type, StringReader reader) throws CommandSyntaxException {
 			reader.expect(' ');
@@ -23,7 +22,7 @@ public class ElementTypeParticleData implements IParticleData {
 		}
 
 		@Override
-		public ElementTypeParticleData fromNetwork(ParticleType<ElementTypeParticleData> type, PacketBuffer buffer) {
+		public ElementTypeParticleData fromNetwork(ParticleType<ElementTypeParticleData> type, FriendlyByteBuf buffer) {
 			return new ElementTypeParticleData(type, ElementType.byName(buffer.readUtf()));
 		}
 	};
@@ -39,7 +38,7 @@ public class ElementTypeParticleData implements IParticleData {
 	}
 
 	@Override
-	public void writeToNetwork(PacketBuffer buffer) {
+	public void writeToNetwork(FriendlyByteBuf buffer) {
 		buffer.writeUtf(elementType.getSerializedName());
 	}
 

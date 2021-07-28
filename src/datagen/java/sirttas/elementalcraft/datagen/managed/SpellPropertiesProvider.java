@@ -7,12 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.DataProvider;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -33,7 +33,7 @@ import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
 import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
 
-public class SpellPropertiesProvider implements IDataProvider {
+public class SpellPropertiesProvider implements DataProvider {
 	
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	
@@ -44,7 +44,7 @@ public class SpellPropertiesProvider implements IDataProvider {
 	}
 
 	@Override
-	public void run(DirectoryCache cache) throws IOException {
+	public void run(HashCache cache) throws IOException {
 		save(cache, SpellProperties.Builder.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).color(175, 179, 179).consumeAmount(250).cooldown(40).weight(20)
 				.addAttribute(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier("Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION)), GavelFallSpell.NAME);
 		save(cache, SpellProperties.Builder.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).color(207, 212, 212).consumeAmount(500).cooldown(100).weight(20), StoneWallSpell.NAME);
@@ -65,12 +65,12 @@ public class SpellPropertiesProvider implements IDataProvider {
 		save(cache, SpellProperties.Builder.create(Spell.Type.UTILITY).elementType(ElementType.EARTH).color(4, 77, 60).consumeAmount(5000).cooldown(700).weight(2).range(15), SilkVeinSpell.NAME);
 		save(cache, SpellProperties.Builder.create(Spell.Type.UTILITY).elementType(ElementType.AIR).color(218, 184, 255).consumeAmount(2000).cooldown(1200).weight(2).range(100), TranslocationSpell.NAME);
 
-		save(cache, SpellProperties.Builder.create(Spell.Type.MIXED).elementType(ElementType.WATER).color(Effects.HEAL.getColor()).consumeAmount(1000).cooldown(600).weight(5), "heal");
-		save(cache, SpellProperties.Builder.create(Spell.Type.MIXED).elementType(ElementType.AIR).color(Effects.MOVEMENT_SPEED.getColor()).consumeAmount(4000).cooldown(2400).weight(2), "speed");
+		save(cache, SpellProperties.Builder.create(Spell.Type.MIXED).elementType(ElementType.WATER).color(MobEffects.HEAL.getColor()).consumeAmount(1000).cooldown(600).weight(5), "heal");
+		save(cache, SpellProperties.Builder.create(Spell.Type.MIXED).elementType(ElementType.AIR).color(MobEffects.MOVEMENT_SPEED.getColor()).consumeAmount(4000).cooldown(2400).weight(2), "speed");
 	}
 
-	protected void save(DirectoryCache cache, SpellProperties.Builder builder, String name) throws IOException {
-		IDataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
+	protected void save(HashCache cache, SpellProperties.Builder builder, String name) throws IOException {
+		DataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
 	}
 
 	private Path getPath(ResourceLocation id) {

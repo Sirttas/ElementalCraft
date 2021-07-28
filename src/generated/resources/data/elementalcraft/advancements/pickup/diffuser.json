@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:diffuser"
+            "items": [
+              "elementalcraft:diffuser"
+            ]
           }
         ]
       }

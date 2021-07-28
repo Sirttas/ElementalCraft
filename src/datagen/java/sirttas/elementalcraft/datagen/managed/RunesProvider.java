@@ -7,9 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.DataProvider;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.rune.Rune;
@@ -18,7 +18,7 @@ import sirttas.elementalcraft.data.predicate.block.rune.TagHasRunePredicate;
 import sirttas.elementalcraft.datagen.ECItemModelProvider;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class RunesProvider implements IDataProvider {
+public class RunesProvider implements DataProvider {
 	
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private final DataGenerator generator;
@@ -36,7 +36,7 @@ public class RunesProvider implements IDataProvider {
 	}
 
 	@Override
-	public void run(DirectoryCache cache) throws IOException {
+	public void run(HashCache cache) throws IOException {
 		itemModelProvider.clear();
 		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.1F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "wii", MINOR_SLATE);
 		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.3F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "fus", SLATE);
@@ -50,15 +50,15 @@ public class RunesProvider implements IDataProvider {
 		itemModelProvider.generateAll(cache);
 	}
 
-	private void addRune(DirectoryCache cache, Rune.Builder builder, String name, ResourceLocation slate) throws IOException {
+	private void addRune(HashCache cache, Rune.Builder builder, String name, ResourceLocation slate) throws IOException {
 		String path = Rune.FOLDER + '/' + name;
 		ResourceLocation runeTexture = ElementalCraft.createRL(path);
 
 		save(cache, builder.model(itemModelProvider.runeTexture("item/" + path, slate, runeTexture)).sprite(runeTexture), name);
 	}
 
-	protected void save(DirectoryCache cache, Rune.Builder builder, String name) throws IOException {
-		IDataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
+	protected void save(HashCache cache, Rune.Builder builder, String name) throws IOException {
+		DataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
 	}
 
 	private Path getPath(ResourceLocation id) {

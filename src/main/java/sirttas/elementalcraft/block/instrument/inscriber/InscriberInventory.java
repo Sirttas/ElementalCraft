@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.instrument.inscriber;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.tag.ECTags;
 

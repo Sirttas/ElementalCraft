@@ -1,7 +1,8 @@
 package sirttas.elementalcraft;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -14,10 +15,10 @@ import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.dpanvil.api.imc.DataTagIMC;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
@@ -62,8 +63,8 @@ public class ElementalCraft {
 	private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECLootFunctions.setup();
-		CapabilityRuneHandler.register();
-		CapabilityElementStorage.register();
+		CapabilityManager.INSTANCE.register(IElementStorage.class);
+		CapabilityManager.INSTANCE.register(IRuneHandler.class);
 	}
 
 

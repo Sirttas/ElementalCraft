@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.block.instrument.firefurnace;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -26,24 +26,24 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 
 	@Override
 	@Deprecated
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		final AbstractFireFurnaceBlockEntity<?> furnace = (AbstractFireFurnaceBlockEntity<?>) world.getBlockEntity(pos);
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 	
-		if (furnace != null && (hand == Hand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (furnace != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
 			if (!inv.getStackInSlot(1).isEmpty()) {
 				furnace.dropExperience(player);
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
 			}
 			return this.onSlotActivated(inv, player, heldItem, 0);
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
+	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
 	}
 }

@@ -13,18 +13,18 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.tags.Tag;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.LevelReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -50,7 +50,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	private ResourceLocation fxSpriteName;
 	
 	@OnlyIn(Dist.CLIENT)
-	private RenderMaterial sprite;
+	private Material sprite;
 
 	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount, ResourceLocation modelName, ResourceLocation fxSpriteName) {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
@@ -58,16 +58,16 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		this.fxSpriteName = fxSpriteName;
 	}
 
-	public boolean canUpgrade(IWorldReader world, BlockPos pos, IRuneHandler handler) {
+	public boolean canUpgrade(LevelReader world, BlockPos pos, IRuneHandler handler) {
 		return handler.getRuneCount() < handler.getMaxRunes() && canUpgrade(world, pos, handler.getRuneCount(this));
 	}
 
-	public void addInformation(List<ITextComponent> tooltip) {
+	public void addInformation(List<Component> tooltip) {
 		bonuses.forEach((type, multiplier) -> tooltip.add(
-				new TranslationTextComponent("rune_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier)).withStyle(multiplier > 0 ? TextFormatting.BLUE : TextFormatting.RED)));
+				new TranslatableComponent("rune_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier)).withStyle(multiplier > 0 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
-			tooltip.add(new StringTextComponent(""));
-			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.max_amount", maxAmount).withStyle(TextFormatting.YELLOW));
+			tooltip.add(new TextComponent(""));
+			tooltip.add(new TranslatableComponent("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
 		}
 	}
 
@@ -84,20 +84,20 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public RenderMaterial getSprite() {
+	public Material getSprite() {
 		if (sprite == null) {
 			sprite = ForgeHooksClient.getBlockMaterial(fxSpriteName);
 		}
 		return sprite;
 	}
 
-	public ITextComponent getDisplayName() {
+	public Component getDisplayName() {
 		ResourceLocation id = getId();
 
-		return new TranslationTextComponent("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
+		return new TranslatableComponent("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
 	}
 	
-	public boolean isIn(ITag<Rune> tagIn) {
+	public boolean isIn(Tag<Rune> tagIn) {
 		return tagIn.contains(this);
 	}
 	
@@ -124,10 +124,10 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		return atomicValue.get();
 	}
 
-	public enum BonusType implements IStringSerializable {
+	public enum BonusType implements StringRepresentable {
 		NONE("none"), SPEED("speed"), ELEMENT_PRESERVATION("element_preservation"), LUCK("luck");
 
-		public static final Codec<BonusType> CODEC = IStringSerializable.fromEnum(BonusType::values, BonusType::byName);
+		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values, BonusType::byName);
 
 		private final String name;
 
@@ -176,7 +176,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			return predicate(IBlockPosPredicate.match(block));
 		}
 
-		public Builder match(INamedTag<Block> tag) {
+		public Builder match(Named<Block> tag) {
 			return predicate(IBlockPosPredicate.match(tag));
 		}
 

@@ -14,32 +14,32 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootFunction;
-import net.minecraft.loot.LootFunctionType;
-import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 
-public class RandomSpell extends LootFunction {
+public class RandomSpell extends LootItemConditionalFunction {
 
 	private ElementType elementType;
 	private final List<Spell> spellList;
 
-	static LootFunctionType type;
+	static LootItemFunctionType type;
 	
-	private RandomSpell(ILootCondition[] condition, Collection<Spell> spellList) {
+	private RandomSpell(LootItemCondition[] condition, Collection<Spell> spellList) {
 		super(condition);
 		this.spellList = ImmutableList.copyOf(spellList);
 		this.elementType = ElementType.NONE;
 	}
 
-	private RandomSpell(ILootCondition[] condition, ElementType elementType) {
+	private RandomSpell(LootItemCondition[] condition, ElementType elementType) {
 		this(condition, ImmutableList.of());
 		this.elementType = elementType;
 	}
@@ -60,19 +60,19 @@ public class RandomSpell extends LootFunction {
 		return stack;
 	}
 
-	public static LootFunction.Builder<?> builder() {
+	public static LootItemConditionalFunction.Builder<?> builder() {
 		return builder(ImmutableList.of());
 	}
 
-	public static LootFunction.Builder<?> builder(Collection<Spell> spellList) {
+	public static LootItemConditionalFunction.Builder<?> builder(Collection<Spell> spellList) {
 		return simpleBuilder(l -> new RandomSpell(l, spellList));
 	}
 
-	public static LootFunction.Builder<?> builder(ElementType elementType) {
+	public static LootItemConditionalFunction.Builder<?> builder(ElementType elementType) {
 		return simpleBuilder(l -> new RandomSpell(l, elementType));
 	}
 
-	public static class Serializer extends LootFunction.Serializer<RandomSpell> {
+	public static class Serializer extends LootItemConditionalFunction.Serializer<RandomSpell> {
 		@Override
 		public void serialize(JsonObject object, RandomSpell function, JsonSerializationContext serializationContext) {
 			super.serialize(object, function, serializationContext);
@@ -93,12 +93,12 @@ public class RandomSpell extends LootFunction {
 		}
 
 		@Override
-		public RandomSpell deserialize(JsonObject object, JsonDeserializationContext deserializationContext, ILootCondition[] conditionsIn) {
+		public RandomSpell deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditionsIn) {
 			List<Spell> list = Lists.newArrayList();
 
 			if (object.has(ECNames.SPELL_LIST)) {
-				for (JsonElement jsonelement : JSONUtils.getAsJsonArray(object, ECNames.SPELL_LIST)) {
-					String s = JSONUtils.convertToString(jsonelement, ECNames.SPELL);
+				for (JsonElement jsonelement : GsonHelper.getAsJsonArray(object, ECNames.SPELL_LIST)) {
+					String s = GsonHelper.convertToString(jsonelement, ECNames.SPELL);
 					Spell spell = Spell.REGISTRY.getValue(new ResourceLocation(s));
 
 					if (spell == null) {
@@ -108,14 +108,14 @@ public class RandomSpell extends LootFunction {
 				}
 				return new RandomSpell(conditionsIn, list);
 			} else if (object.has(ECNames.ELEMENT_TYPE)) {
-				return new RandomSpell(conditionsIn, ElementType.byName(JSONUtils.getAsString(object, ECNames.ELEMENT_TYPE)));
+				return new RandomSpell(conditionsIn, ElementType.byName(GsonHelper.getAsString(object, ECNames.ELEMENT_TYPE)));
 			}
 			return new RandomSpell(conditionsIn, list);
 		} 
 	}
 
 	@Override
-	public LootFunctionType getType() {
+	public LootItemFunctionType getType() {
 		return type;
 	}
 }

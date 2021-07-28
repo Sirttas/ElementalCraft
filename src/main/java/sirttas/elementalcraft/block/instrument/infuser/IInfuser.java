@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.block.instrument.infuser;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 public interface IInfuser extends IInstrument {
 
-	default IInfusionRecipe lookupInfusionRecipe(World world) {
+	default IInfusionRecipe lookupInfusionRecipe(Level world) {
 		return lookupRecipe(world, IInfusionRecipe.TYPE);
 	}
 

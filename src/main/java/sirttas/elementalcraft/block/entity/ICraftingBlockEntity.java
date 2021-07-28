@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.entity;
 
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.world.World;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.inventory.IInventoryTile;
 import sirttas.elementalcraft.inventory.InventoryTileWrapper;
 import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
@@ -16,7 +16,7 @@ public interface ICraftingBlockEntity extends IInventoryTile {
 
 	void process();
 
-	default <C extends ICraftingBlockEntity, U extends IInventoryTileRecipe<C>> U lookupRecipe(World world, IRecipeType<U> recipeType) {
+	default <C extends ICraftingBlockEntity, U extends IInventoryTileRecipe<C>> U lookupRecipe(Level world, RecipeType<U> recipeType) {
 		return world.getRecipeManager().getRecipeFor(recipeType, InventoryTileWrapper.from(cast()), world).orElse(null);
 	}
 

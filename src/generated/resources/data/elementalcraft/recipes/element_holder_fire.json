@@ -13,7 +13,7 @@
       "item": "elementalcraft:extractor"
     },
     "t": {
-      "item": "elementalcraft:tank_small"
+      "item": "elementalcraft:small_container"
     },
     "i": {
       "tag": "forge:ingots/drenched_iron"

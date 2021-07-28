@@ -2,8 +2,8 @@ package sirttas.elementalcraft.recipe.instrument.io.grinding;
 
 import java.util.Random;
 
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.core.Registry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
@@ -14,7 +14,7 @@ import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillBlockEntity> {
 
 	public static final String NAME = "grinding";
-	public static final IRecipeType<IGrindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<IGrindingRecipe>() {
+	public static final RecipeType<IGrindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<IGrindingRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
@@ -27,7 +27,7 @@ public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillBlockEntity>
 	}
 	
 	@Override
-	default IRecipeType<?> getType() {
+	default RecipeType<?> getType() {
 		return TYPE;
 	}
 	

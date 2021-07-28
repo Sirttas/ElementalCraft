@@ -6,16 +6,16 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -38,7 +38,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	
 	@Override
 	@Nullable
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
 		ElementStorage storage = new ElementStorage(stack);
 		
 		if (nbt != null && nbt.contains(ECNames.PARENT)) {
@@ -53,16 +53,16 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	}
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		ElementType.ALL_VALID.forEach(elementType -> tooltip
-				.add(new TranslationTextComponent("tooltip.elementalcraft.element_type_percent_full",
+				.add(new TranslatableComponent("tooltip.elementalcraft.element_type_percent_full",
 						elementType.getDisplayName(),
 						ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(getElementStorage(stack).getElementAmount(elementType) * 100 / elementCapacity))
-						.withStyle(TextFormatting.GREEN)));
+						.withStyle(ChatFormatting.GREEN)));
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			ItemStack full = new ItemStack(this);
 			IElementStorage storage = getElementStorage(full);
@@ -84,7 +84,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		return ElementType.NONE;
 	}
 	
-	private class ElementStorage implements IElementStorage, INBTSerializable<CompoundNBT> {
+	private class ElementStorage implements IElementStorage, INBTSerializable<CompoundTag> {
 
 		private final ItemStack stack;
 		private final Map<ElementType, Integer> amounts = new EnumMap<>(ElementType.class);
@@ -145,19 +145,19 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		}
 		
 		@Override
-		public CompoundNBT serializeNBT() {
-			CompoundNBT compound = new CompoundNBT();
+		public CompoundTag serializeNBT() {
+			CompoundTag compound = new CompoundTag();
 
 			serializeNBT(compound);
 			return compound;
 		}
 
-		private void serializeNBT(CompoundNBT compound) {
+		private void serializeNBT(CompoundTag compound) {
 			amounts.forEach((elementType, amount) -> compound.putInt(elementType.getSerializedName(), amount));
 		}
 		
 		@Override
-		public void deserializeNBT(CompoundNBT compound) {
+		public void deserializeNBT(CompoundTag compound) {
 			amounts.replaceAll((elementType, amount) -> {
 				if (compound != null && compound.contains(elementType.getSerializedName())) {
 					return compound.getInt(elementType.getSerializedName());

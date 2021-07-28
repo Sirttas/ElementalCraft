@@ -8,14 +8,16 @@ import java.util.Map.Entry;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
@@ -35,14 +37,14 @@ import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfuserBlockEntity, PureInfusionRecipe> {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PureInfuserBlock.NAME) public static final TileEntityType<PureInfuserBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + PureInfuserBlock.NAME) public static final BlockEntityType<PureInfuserBlockEntity> TYPE = null;
 
 	private final SingleItemInventory inventory;
 	private final Map<Direction, Integer> progress = new EnumMap<>(Direction.class);
 	private final RuneHandler runeHandler;
 
-	public PureInfuserBlockEntity() {
-		super(TYPE, PureInfusionRecipe.TYPE, ECConfig.COMMON.pureInfuserTransferSpeed.get());
+	public PureInfuserBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, PureInfusionRecipe.TYPE, ECConfig.COMMON.pureInfuserTransferSpeed.get());
 		inventory = new SingleItemInventory(this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get());
 		progress.put(Direction.NORTH, 0);
@@ -55,15 +57,13 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	public void process() {
 		super.process();
 		if (this.level.isClientSide) {
-			ParticleHelper.createCraftingParticle(ElementType.NONE, level, Vector3d.atCenterOf(worldPosition).add(0, 0.7, 0), level.random);
+			ParticleHelper.createCraftingParticle(ElementType.NONE, level, Vec3.atCenterOf(worldPosition).add(0, 0.7, 0), level.random);
 		}
 	}
 
-	@Override
-	public void tick() {
-		super.tick();
-		if (!this.isPowered()) {
-			makeProgress();
+	public static void tick(Level level, BlockPos pos, BlockState state, PureInfuserBlockEntity pureInfuser) {
+		if (!pureInfuser.isPowered()) {
+			pureInfuser.makeProgress();
 		}
 	}
 
@@ -120,7 +120,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	private PedestalBlockEntity getPedestal(Direction direction) {
-		TileEntity te = this.hasLevel() ? this.getLevel().getBlockEntity(worldPosition.relative(direction, 3)) : null;
+		BlockEntity te = this.hasLevel() ? this.getLevel().getBlockEntity(worldPosition.relative(direction, 3)) : null;
 		return te instanceof PedestalBlockEntity ? (PedestalBlockEntity) te : null;
 	}
 
@@ -138,7 +138,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 				progress.put(direction, Math.round(newProgress));
 				if (level.isClientSide && newProgress > 0 && newProgress / transferAmount >= oldProgress / transferAmount) {
-					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vector3d.atCenterOf(pedestal.getBlockPos().relative(offset, 2)).add(0, 0.7, 0), offset, 2, level.random);
+					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vec3.atCenterOf(pedestal.getBlockPos().relative(offset, 2)).add(0, 0.7, 0), offset, 2, level.random);
 				}
 			}
 		}
@@ -153,7 +153,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public IInventory getInventory() {
+	public Container getInventory() {
 		return inventory;
 	}
 
@@ -176,8 +176,8 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		int[] progressArray = compound.getIntArray(ECNames.PROGRESS);
 		
 		for (int i = 0; i < progressArray.length; i++) {
@@ -189,7 +189,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 
 		compound.putIntArray(ECNames.PROGRESS, progress.entrySet().stream().sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue())).mapToInt(Entry::getValue).toArray());

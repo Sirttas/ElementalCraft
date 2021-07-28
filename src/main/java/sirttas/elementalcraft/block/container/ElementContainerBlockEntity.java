@@ -1,48 +1,23 @@
 package sirttas.elementalcraft.block.container;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class ElementContainerBlockEntity extends AbstractElementContainerBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementContainerBlock.NAME) public static final TileEntityType<ElementContainerBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementContainerBlock.NAME) public static final BlockEntityType<ElementContainerBlockEntity> TYPE = null;
 
-	private boolean small = false;
-
-	public ElementContainerBlockEntity(int elementCapacity) {
-		super(TYPE, sync -> new ElementContainerElementStorage(elementCapacity, sync));
-	}
-
-	public ElementContainerBlockEntity(boolean small) {
-		this(small ? ECConfig.COMMON.tankSmallCapacity.get() : ECConfig.COMMON.tankCapacity.get());
-		this.small = small;
-	}
-
-	public ElementContainerBlockEntity() {
-		this(false);
+	public ElementContainerBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, sync -> new ElementContainerElementStorage(state.getBlock() == ECBlocks.SMALL_CONTAINER ? ECConfig.COMMON.tankSmallCapacity.get() : ECConfig.COMMON.tankCapacity.get(), sync));
 	}
 
 	@Override
 	public boolean isSmall() {
-		return small;
+		return this.getBlockState().getBlock() == ECBlocks.SMALL_CONTAINER;
 	}
-
-	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
-		small = compound.getBoolean(ECNames.SMALL);
-	}
-
-	@Override
-	public CompoundNBT save(CompoundNBT compound) {
-		super.save(compound);
-		compound.putBoolean(ECNames.SMALL, small);
-		return compound;
-	}
-
 }

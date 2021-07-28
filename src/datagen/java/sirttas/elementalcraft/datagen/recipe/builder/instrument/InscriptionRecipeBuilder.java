@@ -7,13 +7,13 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -28,10 +28,10 @@ public class InscriptionRecipeBuilder {
 	private final List<Ingredient> ingredients = Lists.newArrayList();
 	private final ElementType elementType;
 	private int elementAmount;
-	private final IRecipeSerializer<?> serializer;
+	private final RecipeSerializer<?> serializer;
 	private Ingredient slate;
 
-	public InscriptionRecipeBuilder(IRecipeSerializer<?> serializerIn, ResourceLocation output, ElementType elementType) {
+	public InscriptionRecipeBuilder(RecipeSerializer<?> serializerIn, ResourceLocation output, ElementType elementType) {
 		this.serializer = serializerIn;
 		this.elementType = elementType;
 		elementAmount = 5000;
@@ -47,11 +47,11 @@ public class InscriptionRecipeBuilder {
 		return this;
 	}
 
-	public InscriptionRecipeBuilder setSlate(INamedTag<Item> tagIn) {
+	public InscriptionRecipeBuilder setSlate(Named<Item> tagIn) {
 		return this.setSlate(Ingredient.of(tagIn));
 	}
 
-	public InscriptionRecipeBuilder setSlate(IItemProvider itemIn) {
+	public InscriptionRecipeBuilder setSlate(ItemLike itemIn) {
 		return this.setSlate(Ingredient.of(itemIn));
 	}
 
@@ -60,11 +60,11 @@ public class InscriptionRecipeBuilder {
 		return this;
 	}
 
-	public InscriptionRecipeBuilder addIngredient(INamedTag<Item> tagIn) {
+	public InscriptionRecipeBuilder addIngredient(Named<Item> tagIn) {
 		return this.addIngredient(Ingredient.of(tagIn));
 	}
 
-	public InscriptionRecipeBuilder addIngredient(IItemProvider itemIn) {
+	public InscriptionRecipeBuilder addIngredient(ItemLike itemIn) {
 		return this.addIngredient(Ingredient.of(itemIn));
 	}
 
@@ -73,15 +73,15 @@ public class InscriptionRecipeBuilder {
 		return this;
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn) {
+	public void build(Consumer<FinishedRecipe> consumerIn) {
 		this.build(consumerIn, output.getPath());
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
 		this.build(consumerIn, ElementalCraft.createRL(InscriptionRecipe.NAME + '/' + save));
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.serializer, this.slate, this.ingredients, this.output, elementType, elementAmount));
 	}
 
@@ -92,7 +92,7 @@ public class InscriptionRecipeBuilder {
 		private final ElementType elementType;
 		private final int elementAmount;
 
-		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, Ingredient slate, List<Ingredient> ingredients, ResourceLocation output, ElementType elementType, int elementAmount) {
+		public Result(ResourceLocation id, RecipeSerializer<?> serializer, Ingredient slate, List<Ingredient> ingredients, ResourceLocation output, ElementType elementType, int elementAmount) {
 			super(id, serializer);
 			this.slate = slate;
 			this.ingredients = ingredients;

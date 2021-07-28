@@ -8,19 +8,19 @@ import javax.annotation.Nonnull;
 import com.google.common.collect.Multimap;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
@@ -47,24 +47,24 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return this.translationKey;
 	}
 
-	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent(getTranslationKey());
+	public Component getDisplayName() {
+		return new TranslatableComponent(getTranslationKey());
 	}
 
 	public Multimap<Attribute, AttributeModifier> getOnUseAttributeModifiers() {
 		return properties.getAttributes();
 	}
 
-	public ActionResultType castOnEntity(Entity sender, Entity target) {
-		return ActionResultType.PASS;
+	public InteractionResult castOnEntity(Entity sender, Entity target) {
+		return InteractionResult.PASS;
 	}
 
-	public ActionResultType castOnBlock(Entity sender, BlockPos target) {
-		return ActionResultType.PASS;
+	public InteractionResult castOnBlock(Entity sender, BlockPos target) {
+		return InteractionResult.PASS;
 	}
 
-	public ActionResultType castOnSelf(Entity sender) {
-		return ActionResultType.PASS;
+	public InteractionResult castOnSelf(Entity sender) {
+		return InteractionResult.PASS;
 	}
 
 	public void addSpellInstance(AbstractSpellInstance instance) {
@@ -72,7 +72,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	}
 
 	public boolean consume(Entity sender, boolean simulate) {
-		if (!(sender instanceof PlayerEntity) || !((PlayerEntity) sender).isCreative()) {
+		if (!(sender instanceof Player) || !((Player) sender).isCreative()) {
 			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(sender));
 			
 			return CapabilityElementStorage.get(sender).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
@@ -80,9 +80,9 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return true;
 	}
 
-	protected boolean consume(Entity sender, IItemProvider item, int count, boolean simulate) {
-		if (sender instanceof PlayerEntity && !((PlayerEntity) sender).isCreative()) {
-			PlayerInventory inv = ((PlayerEntity) sender).inventory;
+	protected boolean consume(Entity sender, ItemLike item, int count, boolean simulate) {
+		if (sender instanceof Player && !((Player) sender).isCreative()) {
+			Inventory inv = ((Player) sender).getInventory();
 			int slot = ECInventoryHelper.getSlotFor(inv, new ItemStack(item));
 
 			if (slot >= 0) {
@@ -156,7 +156,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return getSpellType() != Type.NONE && getElementType() != ElementType.NONE;
 	}
 
-	public void addInformation(List<ITextComponent> tooltip) {
+	public void addInformation(List<Component> tooltip) {
 		// provided for override
 	}
 
@@ -165,10 +165,10 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return this.getRegistryName().getPath();
 	}
 
-	public enum Type implements IStringSerializable {
+	public enum Type implements StringRepresentable {
 		NONE("none"), COMBAT("combat"), UTILITY("utility"), MIXED("mixed");
 		
-		public static final Codec<Type> CODEC = IStringSerializable.fromEnum(Type::values, Type::byName);
+		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values, Type::byName);
 
 		private final String name;
 

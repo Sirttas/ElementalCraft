@@ -7,8 +7,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -18,14 +19,14 @@ import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 public class PlayerElementStorage implements IElementStorage {
 
-	private final PlayerEntity player;
+	private final Player player;
 
-	private PlayerElementStorage(PlayerEntity player) {
+	private PlayerElementStorage(Player player) {
 		this.player = player;
 	}
 
 	@Nullable
-	public static ICapabilityProvider createProvider(PlayerEntity player) {
+	public static ICapabilityProvider createProvider(Player player) {
 		return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY != null ? new ICapabilityProvider() {
 			PlayerElementStorage storage = new PlayerElementStorage(player);
 			
@@ -73,9 +74,12 @@ public class PlayerElementStorage implements IElementStorage {
 	
 	private List<IElementStorage> getStorages() {
 		List<IElementStorage> storages = Lists.newArrayList();
-
-		for (int i = 0; i < player.inventory.getContainerSize(); i++) {
-			CapabilityElementStorage.get(player.inventory.getItem(i)).filter(IElementStorage::usableInInventory).ifPresent(storages::add);
+		Inventory inventory = player.getInventory();
+		
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			CapabilityElementStorage.get(inventory.getItem(i))
+					.filter(IElementStorage::usableInInventory)
+					.ifPresent(storages::add);
 		}
 		return storages;
 	}

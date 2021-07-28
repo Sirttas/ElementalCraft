@@ -2,15 +2,15 @@ package sirttas.elementalcraft.gui;
 
 import java.util.Optional;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,9 +35,9 @@ public class GuiHandler {
 	
 	@SubscribeEvent
 	public static void onDrawScreenPost(RenderGameOverlayEvent.Post event) {
-		if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-			MatrixStack matrixStack = event.getMatrixStack();
-			ClientPlayerEntity player = Minecraft.getInstance().player;
+		if (event.getType() == RenderGameOverlayEvent.ElementType.LAYER) {
+			PoseStack matrixStack = event.getMatrixStack();
+			LocalPlayer player = Minecraft.getInstance().player;
 	
 			getElementStorage(player).ifPresent(storage -> {
 				if (storage instanceof IElementTypeProvider) {
@@ -53,13 +53,13 @@ public class GuiHandler {
 		}
 	}
 
-	private static Optional<IElementStorage> getElementStorage(PlayerEntity player) {
+	private static Optional<IElementStorage> getElementStorage(Player player) {
 		Minecraft minecraft = Minecraft.getInstance();
-		RayTraceResult result = minecraft.hitResult;
+		HitResult result = minecraft.hitResult;
 
 		if (result != null && minecraft.options.getCameraType().isFirstPerson()) {
-			BlockPos pos = result.getType() == RayTraceResult.Type.BLOCK ? ((BlockRayTraceResult) result).getBlockPos() : null;
-			TileEntity tile = pos != null ? minecraft.player.level.getBlockEntity(pos) : null;
+			BlockPos pos = result.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) result).getBlockPos() : null;
+			BlockEntity tile = pos != null ? minecraft.player.level.getBlockEntity(pos) : null;
 			if (tile != null) {
 				return CapabilityElementStorage.get(tile).filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo());
 			}
@@ -87,7 +87,7 @@ public class GuiHandler {
 		}).filter(Spell::isValid).findFirst().orElse(Spells.NONE);
 	}
 
-	private static void doRenderElementGauge(MatrixStack matrixStack, int element, int max, sirttas.elementalcraft.api.element.ElementType type) {
+	private static void doRenderElementGauge(PoseStack matrixStack, int element, int max, sirttas.elementalcraft.api.element.ElementType type) {
 		GuiHelper.renderElementGauge(matrixStack, getXoffset() - 32, getYOffset() - 8, element, max, type);
 	}
 
@@ -99,7 +99,7 @@ public class GuiHandler {
 		return Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2 + ECConfig.CLIENT.gaugeOffsetY.get();
 	}
 	
-	private static void doRenderCanCast(MatrixStack matrixStack, boolean canCast) {
+	private static void doRenderCanCast(PoseStack matrixStack, boolean canCast) {
 		GuiHelper.renderCanCast(matrixStack, getXoffset() - 21, getYOffset() + 3, canCast);
 	}
 }

@@ -5,8 +5,8 @@ import com.google.common.collect.Multimap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;

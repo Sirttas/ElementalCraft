@@ -5,8 +5,8 @@ buildscript {
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        // classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 
@@ -18,17 +18,19 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
+// apply plugin: 'org.spongepowered.mixin'
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-mixin {
+/*mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
-}
+}*/
 
 version = "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 sourceSets {
     api {
@@ -83,7 +85,7 @@ minecraft {
             property 'fml.earlyprogresswindow', 'false'
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            //property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
 
             mods {
                 elementalcraft {
@@ -99,7 +101,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            //property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
 
             mods {
                 elementalcraft {
@@ -114,7 +116,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'fml.earlyprogresswindow', 'false'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            //property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
 
             args '--mod', 'elementalcraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
@@ -126,10 +128,6 @@ minecraft {
             }
         }
     }
-}
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
 }
 
 repositories {
@@ -144,23 +142,23 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     
-    annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
+    //annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    //compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
     runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
     
-    implementation fg.deobf("mezz.jei:jei-${jei_version}")
+    //implementation fg.deobf("mezz.jei:jei-${jei_version}")
     
     // mod interactions
-    implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
+    //implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     
     // datagen
     datagenImplementation sourceSets.api.output
     datagenImplementation sourceSets.main.output
-    datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
+    //datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
 }
 
 jar {
@@ -199,6 +197,7 @@ task sourcesJar(type: Jar) {
     from sourceSets.api.allSource
     from sourceSets.main.allSource
     from sourceSets.datagen.allSource
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 build.dependsOn tasks.apiJar

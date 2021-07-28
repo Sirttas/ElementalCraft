@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:cover_frame"
+            "items": [
+              "elementalcraft:cover_frame"
+            ]
           }
         ]
       }

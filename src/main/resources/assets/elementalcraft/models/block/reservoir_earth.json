@@ -3,7 +3,7 @@
 	"parent": "minecraft:block/block",
 	"ambientocclusion": false,
 	"textures": {
-		"3": "elementalcraft:block/tank",
+		"3": "elementalcraft:block/container",
 		"5": "elementalcraft:block/whiterock",
 		"particle": "elementalcraft:block/whiterock"
 	},

@@ -10,6 +10,4 @@ public interface IInstrument extends ICraftingBlockEntity, IElementTypeProvider 
 	ISingleElementStorage getTank();
 
 	ElementType getTankElementType();
-	
-	
 }

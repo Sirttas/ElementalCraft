@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.particle.element;
 
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.particle.AbstractECParticle;
 
 public abstract class AbstractElementParticle extends AbstractECParticle {
 
-	protected AbstractElementParticle(ClientWorld worldIn, Vector3d coord, ElementType type) {
+	protected AbstractElementParticle(ClientLevel worldIn, Vec3 coord, ElementType type) {
 		super(worldIn, coord);
 		float f = this.random.nextFloat() * 0.4F + 0.6F;
 		

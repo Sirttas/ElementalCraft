@@ -1,16 +1,16 @@
 package sirttas.elementalcraft.item.receptacle;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 
@@ -26,13 +26,13 @@ public class ReceptacleItem extends AbstractReceptacleItem {
 	}
 
 	@Override
-	public ActionResultType useOn(ItemUseContext context) {
-		World world = context.getLevel();
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
 		ItemStack sourceReceptacle = context.getItemInHand();
 		ElementType elementType = ReceptacleHelper.getElementType(sourceReceptacle);
-		PlayerEntity player = context.getPlayer();
-		Hand hand = context.getHand();
-		BlockItemUseContext newContext = new BlockItemUseContext(context);
+		Player player = context.getPlayer();
+		InteractionHand hand = context.getHand();
+		BlockPlaceContext newContext = new BlockPlaceContext(context);
 		BlockPos pos = newContext.getClickedPos();
 
 		if (newContext.canPlace()) {
@@ -46,9 +46,9 @@ public class ReceptacleItem extends AbstractReceptacleItem {
 				}
 				player.setItemInHand(hand, stack);
 			}
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ReceptacleItem extends AbstractReceptacleItem {
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			for (ElementType elementType : ElementType.values()) {
 				if (elementType != ElementType.NONE) {

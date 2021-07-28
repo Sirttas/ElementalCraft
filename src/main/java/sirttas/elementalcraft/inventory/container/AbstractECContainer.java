@@ -1,24 +1,24 @@
 package sirttas.elementalcraft.inventory.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
-public abstract class AbstractECContainer extends Container {
+public abstract class AbstractECContainer extends AbstractContainerMenu {
 	
-	protected AbstractECContainer(ContainerType<?> type, int id) {
+	protected AbstractECContainer(MenuType<?> type, int id) {
 		super(type, id);
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity playerIn) {
+	public boolean stillValid(Player playerIn) {
 		return true;
 	}
 	
-	protected void addPlayerSlots(PlayerInventory playerInventory, int yOffset) {
+	protected void addPlayerSlots(Inventory playerInventory, int yOffset) {
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, i * 18 + yOffset));
@@ -33,12 +33,12 @@ public abstract class AbstractECContainer extends Container {
 	    * Called when the container is closed.
 	    */
 	   @Override
-	public void removed(PlayerEntity playerIn) {
-	      PlayerInventory playerinventory = playerIn.inventory;
+	public void removed(Player playerIn) {
+	      var carried = this.getCarried();
 	      
-	      if (!playerinventory.getCarried().isEmpty()) {
-	         playerIn.drop(playerinventory.getCarried(), false);
-	         playerinventory.setCarried(ItemStack.EMPTY);
+	      if (!carried.isEmpty()) {
+	         playerIn.drop(carried, false);
+	         setCarried(ItemStack.EMPTY);
 	      }
 
 	   }

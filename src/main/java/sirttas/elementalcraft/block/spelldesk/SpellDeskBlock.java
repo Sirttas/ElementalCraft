@@ -1,31 +1,31 @@
 package sirttas.elementalcraft.block.spelldesk;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.property.ECProperties;
 
-public class SpellDeskBlock extends HorizontalBlock {
+public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
 	public static final String NAME = "spell_desk";
 
@@ -49,14 +49,14 @@ public class SpellDeskBlock extends HorizontalBlock {
 	private static final VoxelShape PLATE_SOUTH_2 = Block.box(2D, 10D, 5D, 14D, 12D, 12D);
 	private static final VoxelShape PLATE_SOUTH_3 = Block.box(2D, 12D, 1D, 14D, 14D, 7D);
 
-	private static final VoxelShape MAIN_SHAPE = VoxelShapes.or(BASE_1, BASE_2, PILAR);
+	private static final VoxelShape MAIN_SHAPE = Shapes.or(BASE_1, BASE_2, PILAR);
 
-	private static final VoxelShape NORTH_SHAPE = VoxelShapes.or(MAIN_SHAPE, PLATE_NORTH_1, PLATE_NORTH_2, PLATE_NORTH_3);
-	private static final VoxelShape SOUTH_SHAPE = VoxelShapes.or(MAIN_SHAPE, PLATE_SOUTH_1, PLATE_SOUTH_2, PLATE_SOUTH_3);
-	private static final VoxelShape WEST_SHAPE = VoxelShapes.or(MAIN_SHAPE, PLATE_WEST_1, PLATE_WEST_2, PLATE_WEST_3);
-	private static final VoxelShape EAST_SHAPE = VoxelShapes.or(MAIN_SHAPE, PLATE_EAST_1, PLATE_EAST_2, PLATE_EAST_3);
+	private static final VoxelShape NORTH_SHAPE = Shapes.or(MAIN_SHAPE, PLATE_NORTH_1, PLATE_NORTH_2, PLATE_NORTH_3);
+	private static final VoxelShape SOUTH_SHAPE = Shapes.or(MAIN_SHAPE, PLATE_SOUTH_1, PLATE_SOUTH_2, PLATE_SOUTH_3);
+	private static final VoxelShape WEST_SHAPE = Shapes.or(MAIN_SHAPE, PLATE_WEST_1, PLATE_WEST_2, PLATE_WEST_3);
+	private static final VoxelShape EAST_SHAPE = Shapes.or(MAIN_SHAPE, PLATE_EAST_1, PLATE_EAST_2, PLATE_EAST_3);
 
-	public static final DirectionProperty FACING = HorizontalBlock.FACING;
+	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
 	public SpellDeskBlock() {
 		super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
@@ -64,18 +64,18 @@ public class SpellDeskBlock extends HorizontalBlock {
 	}
 	
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
 		container.add(FACING);
 	}
 
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		switch (state.getValue(FACING)) {
 		case NORTH:
 			return NORTH_SHAPE;
@@ -92,32 +92,32 @@ public class SpellDeskBlock extends HorizontalBlock {
 
 	@Override
 	@Deprecated
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (world.isClientSide) {
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		player.openMenu(new ContainerProvider(world, pos));
-		return ActionResultType.CONSUME;
+		return InteractionResult.CONSUME;
 	}
 	
-	private class ContainerProvider implements INamedContainerProvider {
+	private class ContainerProvider implements MenuProvider {
 
-		private final World world;
+		private final Level world;
 		private final BlockPos pos;
 		
-		public ContainerProvider(World world, BlockPos pos) {
+		public ContainerProvider(Level world, BlockPos pos) {
 			this.world = world;
 			this.pos = pos;
 		}
 
 		@Override
-		public Container createMenu(int id, PlayerInventory inventory, PlayerEntity palyer) {
-			return SpellDeskContainer.create(id, inventory, IWorldPosCallable.create(world, pos));
+		public AbstractContainerMenu createMenu(int id, Inventory inventory, Player palyer) {
+			return SpellDeskContainer.create(id, inventory, ContainerLevelAccess.create(world, pos));
 		}
 
 		@Override
-		public ITextComponent getDisplayName() {
-			return new TranslationTextComponent(getDescriptionId());
+		public Component getDisplayName() {
+			return new TranslatableComponent(getDescriptionId());
 		}
 	}
 }

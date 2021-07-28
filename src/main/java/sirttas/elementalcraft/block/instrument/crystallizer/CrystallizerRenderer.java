@@ -1,24 +1,23 @@
 package sirttas.elementalcraft.block.instrument.crystallizer;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
+import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 
 @OnlyIn(Dist.CLIENT)
-public class CrystallizerRenderer extends AbstractECRenderer<CrystallizerBlockEntity> {
-	public CrystallizerRenderer(TileEntityRendererDispatcher rendererDispatcher) {
-		super(rendererDispatcher);
-	}
+public class CrystallizerRenderer implements IECRenderer<CrystallizerBlockEntity> {
+	
+	public CrystallizerRenderer(Context context) {}
 
 	@Override
-	public void render(CrystallizerBlockEntity te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(CrystallizerBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		float tick = getAngle(partialTicks);
 		InstrumentInventory inv = (InstrumentInventory) te.getInventory();
 
@@ -31,7 +30,7 @@ public class CrystallizerRenderer extends AbstractECRenderer<CrystallizerBlockEn
 		renderShards(matrixStack, buffer, light, overlay, tick, inv);
 	}
 
-	private void renderGem(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, float tick, ItemStack stack) {
+	private void renderGem(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, ItemStack stack) {
 		if (!stack.isEmpty()) {
 			matrixStack.pushPose();
 			matrixStack.translate(0F, -0.15F, 0F);
@@ -41,7 +40,7 @@ public class CrystallizerRenderer extends AbstractECRenderer<CrystallizerBlockEn
 		}
 	}
 
-	private void renderCrystal(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, float tick, ItemStack stack) {
+	private void renderCrystal(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, ItemStack stack) {
 		if (!stack.isEmpty()) {
 			matrixStack.pushPose();
 			matrixStack.translate(0F, 0.9F, 0F);
@@ -51,7 +50,7 @@ public class CrystallizerRenderer extends AbstractECRenderer<CrystallizerBlockEn
 		}
 	}
 
-	private void renderShards(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, float tick, InstrumentInventory inv) {
+	private void renderShards(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentInventory inv) {
 		matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick * 2));
 		for (int i = 2; i < inv.getItemCount(); i++) {
 			ItemStack stack = inv.getItem(i);

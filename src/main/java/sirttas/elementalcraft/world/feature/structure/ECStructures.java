@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.world.feature.structure;
 
-import net.minecraft.world.gen.feature.structure.IStructurePieceType;
-import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.level.levelgen.feature.StructurePieceType;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,14 +13,14 @@ import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECStructures {
 
-	public static final Structure<IElementTypeFeatureConfig> SOURCE_ALTAR = new SourceAltarStructure();
-	public static final IStructurePieceType SOURCE_ALTAR_PIECE_TYPE = SourceAltarStructure.Piece::new;
+	public static final StructureFeature<IElementTypeFeatureConfig> SOURCE_ALTAR = new SourceAltarStructure();
+	public static final StructurePieceType SOURCE_ALTAR_PIECE_TYPE = SourceAltarStructure.Piece::new;
 
 	private ECStructures() {}
 	
 	@SubscribeEvent
-	public static void registerStructures(RegistryEvent.Register<Structure<?>> event) {
-		IForgeRegistry<Structure<?>> r = event.getRegistry();
+	public static void registerStructures(RegistryEvent.Register<StructureFeature<?>> event) {
+		IForgeRegistry<StructureFeature<?>> r = event.getRegistry();
 
 		RegistryHelper.register(r, SOURCE_ALTAR, SourceAltarStructure.NAME);
 	}

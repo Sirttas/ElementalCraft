@@ -4,16 +4,16 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -54,7 +54,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	
 	@Override
 	@Nullable
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
 		ElementStorage storage = new ElementStorage(stack);
 		
 		if (nbt != null && nbt.contains(ECNames.PARENT)) {
@@ -75,14 +75,14 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.percent_full",
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.percent_full",
 				ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(getElementStorage(stack).getElementAmount() * 100 / elementCapacity))
-				.withStyle(TextFormatting.GREEN));
+				.withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			ItemStack full = new ItemStack(this);
 			ISingleElementStorage storage = getElementStorage(full);
@@ -151,7 +151,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 		
 
 		private void refresh() {
-			CompoundNBT tag = stack.getTag();
+			CompoundTag tag = stack.getTag();
 			
 			if (tag != null && tag.contains(ECNames.ELEMENT_AMOUNT)) {
 				elementAmount = tag.getInt(ECNames.ELEMENT_AMOUNT);

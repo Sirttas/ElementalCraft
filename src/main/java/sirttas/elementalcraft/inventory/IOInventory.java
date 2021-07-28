@@ -2,16 +2,16 @@ package sirttas.elementalcraft.inventory;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
-public class IOInventory extends AbstractSynchronizableInventory implements ISidedInventory, INBTSerializable<CompoundNBT> {
+public class IOInventory extends AbstractSynchronizableInventory implements WorldlyContainer, INBTSerializable<CompoundTag> {
 
 	private ItemStack input = ItemStack.EMPTY;
 	private ItemStack output = ItemStack.EMPTY;
@@ -70,7 +70,7 @@ public class IOInventory extends AbstractSynchronizableInventory implements ISid
 
 	@Override
 	public ItemStack removeItem(int index, int count) {
-		ItemStack value = ItemStackHelper.removeItem(Lists.newArrayList(input, output), index, count);
+		ItemStack value = ContainerHelper.removeItem(Lists.newArrayList(input, output), index, count);
 
 		this.setChanged();
 		return value;
@@ -86,8 +86,8 @@ public class IOInventory extends AbstractSynchronizableInventory implements ISid
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT nbt = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		CompoundTag nbt = new CompoundTag();
 
 		NBTHelper.writeItemStack(nbt, ECNames.INPUT, this.input);
 		NBTHelper.writeItemStack(nbt, ECNames.OUTPUT, this.output);
@@ -95,7 +95,7 @@ public class IOInventory extends AbstractSynchronizableInventory implements ISid
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT nbt) {
+	public void deserializeNBT(CompoundTag nbt) {
 		this.input = NBTHelper.readItemStack(nbt, ECNames.INPUT);
 		this.output = NBTHelper.readItemStack(nbt, ECNames.OUTPUT);
 

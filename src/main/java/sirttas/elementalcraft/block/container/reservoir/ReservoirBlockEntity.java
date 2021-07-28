@@ -3,9 +3,11 @@ package sirttas.elementalcraft.block.container.reservoir;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
@@ -18,29 +20,10 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_FIRE) public static final TileEntityType<ReservoirBlockEntity> TYPE_FIRE = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_WATER) public static final TileEntityType<ReservoirBlockEntity> TYPE_WATER = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_EARTH) public static final TileEntityType<ReservoirBlockEntity> TYPE_EARTH = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_AIR) public static final TileEntityType<ReservoirBlockEntity> TYPE_AIR = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME) public static final BlockEntityType<ReservoirBlockEntity> TYPE = null;	
 	
-	private ReservoirBlockEntity(TileEntityType<?> tileEntityType, ElementType type) {
-		super(tileEntityType, r -> new ReservoirElementStorage(type, ECConfig.COMMON.reservoirCapacity.get(), r));
-	}
-	
-	public static ReservoirBlockEntity createFire() {
-		return new ReservoirBlockEntity(TYPE_FIRE, ElementType.FIRE);
-	}
-
-	public static ReservoirBlockEntity createWater() {
-		return new ReservoirBlockEntity(TYPE_WATER, ElementType.WATER);
-	}
-
-	public static ReservoirBlockEntity createEarth() {
-		return new ReservoirBlockEntity(TYPE_EARTH, ElementType.EARTH);
-	}
-
-	public static ReservoirBlockEntity createAir() {
-		return new ReservoirBlockEntity(TYPE_AIR, ElementType.AIR);
+	public ReservoirBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, r -> new ReservoirElementStorage(ElementType.getElementType(state), ECConfig.COMMON.reservoirCapacity.get(), r));
 	}
 
 	@Override

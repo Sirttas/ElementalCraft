@@ -6,8 +6,8 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 
@@ -26,7 +26,7 @@ public class SpellTickManager {
 		spellinstances = Lists.newArrayList();
 	}
 
-	public static SpellTickManager getInstance(World world) {
+	public static SpellTickManager getInstance(Level world) {
 		return world.isClientSide ? CLIENT_INSTANCE : SERVER_INSTANCE;
 	}
 

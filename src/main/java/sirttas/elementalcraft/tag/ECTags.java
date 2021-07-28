@@ -1,13 +1,12 @@
 package sirttas.elementalcraft.tag;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagCollectionManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
@@ -17,207 +16,189 @@ public class ECTags {
 	private ECTags() {}
 	
 	public static class Items {
-		public static final INamedTag<Item> SPELL_CAST_TOOLS = createTag("spell_cast_tools");
+		public static final Named<Item> SPELL_CAST_TOOLS = createTag("spell_cast_tools");
 		
-		public static final INamedTag<Item> INFUSABLE_FOCUS = createTag("infusable/focus");
-		public static final INamedTag<Item> INFUSABLE_STAVES = createTag("infusable/staves");
-		public static final INamedTag<Item> INFUSABLE_SWORDS = createTag("infusable/swords");
-		public static final INamedTag<Item> INFUSABLE_PICKAXES = createTag("infusable/pickaxes");
-		public static final INamedTag<Item> INFUSABLE_AXES = createTag("infusable/axes");
-		public static final INamedTag<Item> INFUSABLE_SHOVELS = createTag("infusable/shovels");
-		public static final INamedTag<Item> INFUSABLE_HOES = createTag("infusable/hoes");
-		public static final INamedTag<Item> INFUSABLE_SHILDS = createTag("infusable/shields");
-		public static final INamedTag<Item> INFUSABLE_BOWS = createTag("infusable/bows");
-		public static final INamedTag<Item> INFUSABLE_CROSSBOWS = createTag("infusable/crossbows");
-		public static final INamedTag<Item> INFUSABLE_FISHING_RODS = createTag("infusable/fishing_rods");
-		public static final INamedTag<Item> INFUSABLE_TRIDENTS = createTag("infusable/tridents");
-		public static final INamedTag<Item> INFUSABLE_HELMETS = createTag("infusable/helmets");
-		public static final INamedTag<Item> INFUSABLE_CHESTPLATES = createTag("infusable/chestplates");
-		public static final INamedTag<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
-		public static final INamedTag<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
+		public static final Named<Item> INFUSABLE_FOCUS = createTag("infusable/focus");
+		public static final Named<Item> INFUSABLE_STAVES = createTag("infusable/staves");
+		public static final Named<Item> INFUSABLE_SWORDS = createTag("infusable/swords");
+		public static final Named<Item> INFUSABLE_PICKAXES = createTag("infusable/pickaxes");
+		public static final Named<Item> INFUSABLE_AXES = createTag("infusable/axes");
+		public static final Named<Item> INFUSABLE_SHOVELS = createTag("infusable/shovels");
+		public static final Named<Item> INFUSABLE_HOES = createTag("infusable/hoes");
+		public static final Named<Item> INFUSABLE_SHILDS = createTag("infusable/shields");
+		public static final Named<Item> INFUSABLE_BOWS = createTag("infusable/bows");
+		public static final Named<Item> INFUSABLE_CROSSBOWS = createTag("infusable/crossbows");
+		public static final Named<Item> INFUSABLE_FISHING_RODS = createTag("infusable/fishing_rods");
+		public static final Named<Item> INFUSABLE_TRIDENTS = createTag("infusable/tridents");
+		public static final Named<Item> INFUSABLE_HELMETS = createTag("infusable/helmets");
+		public static final Named<Item> INFUSABLE_CHESTPLATES = createTag("infusable/chestplates");
+		public static final Named<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
+		public static final Named<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
 
-		public static final INamedTag<Item> SPELL_HOLDERS = createTag("spell_holders");
-		public static final INamedTag<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
-		public static final INamedTag<Item> CRYSTALS = createTag("crystals");
-		public static final INamedTag<Item> LENSES = createTag("lenses");
+		public static final Named<Item> SPELL_HOLDERS = createTag("spell_holders");
+		public static final Named<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
+		public static final Named<Item> CRYSTALS = createTag("crystals");
+		public static final Named<Item> LENSES = createTag("lenses");
 
-		public static final INamedTag<Item> SHARDS = createTag("shards");
-		public static final INamedTag<Item> DEFAULT_SHARDS = createTag("shards/default");
-		public static final INamedTag<Item> POWERFUL_SHARDS = createTag("shards/powerful");
-		public static final INamedTag<Item> FIRE_SHARDS = createTag("shards/fire");
-		public static final INamedTag<Item> WATER_SHARDS = createTag("shards/water");
-		public static final INamedTag<Item> EARTH_SHARDS = createTag("shards/earth");
-		public static final INamedTag<Item> AIR_SHARDS = createTag("shards/air");
+		public static final Named<Item> SHARDS = createTag("shards");
+		public static final Named<Item> DEFAULT_SHARDS = createTag("shards/default");
+		public static final Named<Item> POWERFUL_SHARDS = createTag("shards/powerful");
+		public static final Named<Item> FIRE_SHARDS = createTag("shards/fire");
+		public static final Named<Item> WATER_SHARDS = createTag("shards/water");
+		public static final Named<Item> EARTH_SHARDS = createTag("shards/earth");
+		public static final Named<Item> AIR_SHARDS = createTag("shards/air");
 
-		public static final INamedTag<Item> CRUDE_FIRE_GEMS = createTag("gems/crude_fire");
-		public static final INamedTag<Item> CRUDE_WATER_GEMS = createTag("gems/crude_water");
-		public static final INamedTag<Item> CRUDE_EARTH_GEMS = createTag("gems/crude_earth");
-		public static final INamedTag<Item> CRUDE_AIR_GEMS = createTag("gems/crude_air");
-		public static final INamedTag<Item> FINE_FIRE_GEMS = createTag("gems/fine_fire");
-		public static final INamedTag<Item> FINE_WATER_GEMS = createTag("gems/fine_water");
-		public static final INamedTag<Item> FINE_EARTH_GEMS = createTag("gems/fine_earth");
-		public static final INamedTag<Item> FINE_AIR_GEMS = createTag("gems/fine_air");
-		public static final INamedTag<Item> PRISTINE_FIRE_GEMS = createTag("gems/pristine_fire");
-		public static final INamedTag<Item> PRISTINE_WATER_GEMS = createTag("gems/pristine_water");
-		public static final INamedTag<Item> PRISTINE_EARTH_GEMS = createTag("gems/pristine_earth");
-		public static final INamedTag<Item> PRISTINE_AIR_GEMS = createTag("gems/pristine_air");
-		public static final INamedTag<Item> INPUT_FIRE_GEMS = createTag("gems/input_fire");
-		public static final INamedTag<Item> INPUT_WATER_GEMS = createTag("gems/input_water");
-		public static final INamedTag<Item> INPUT_EARTH_GEMS = createTag("gems/input_earth");
-		public static final INamedTag<Item> INPUT_AIR_GEMS = createTag("gems/input_air");
-		public static final INamedTag<Item> INPUT_GEMS = createTag("gems/input");
+		public static final Named<Item> CRUDE_FIRE_GEMS = createTag("gems/crude_fire");
+		public static final Named<Item> CRUDE_WATER_GEMS = createTag("gems/crude_water");
+		public static final Named<Item> CRUDE_EARTH_GEMS = createTag("gems/crude_earth");
+		public static final Named<Item> CRUDE_AIR_GEMS = createTag("gems/crude_air");
+		public static final Named<Item> FINE_FIRE_GEMS = createTag("gems/fine_fire");
+		public static final Named<Item> FINE_WATER_GEMS = createTag("gems/fine_water");
+		public static final Named<Item> FINE_EARTH_GEMS = createTag("gems/fine_earth");
+		public static final Named<Item> FINE_AIR_GEMS = createTag("gems/fine_air");
+		public static final Named<Item> PRISTINE_FIRE_GEMS = createTag("gems/pristine_fire");
+		public static final Named<Item> PRISTINE_WATER_GEMS = createTag("gems/pristine_water");
+		public static final Named<Item> PRISTINE_EARTH_GEMS = createTag("gems/pristine_earth");
+		public static final Named<Item> PRISTINE_AIR_GEMS = createTag("gems/pristine_air");
+		public static final Named<Item> INPUT_FIRE_GEMS = createTag("gems/input_fire");
+		public static final Named<Item> INPUT_WATER_GEMS = createTag("gems/input_water");
+		public static final Named<Item> INPUT_EARTH_GEMS = createTag("gems/input_earth");
+		public static final Named<Item> INPUT_AIR_GEMS = createTag("gems/input_air");
+		public static final Named<Item> INPUT_GEMS = createTag("gems/input");
 
-		public static final INamedTag<Item> RUNE_SLATES = createTag("rune_slates");
-		public static final INamedTag<Item> PUREROCKS = createTag("purerocks");
-		public static final INamedTag<Item> PIPES = createTag("pipes");
-		public static final INamedTag<Item> SHRINES = createTag("shrines");
+		public static final Named<Item> RUNE_SLATES = createTag("rune_slates");
+		public static final Named<Item> PUREROCKS = createTag("purerocks");
+		public static final Named<Item> PIPES = createTag("pipes");
+		public static final Named<Item> SHRINES = createTag("shrines");
 		
-		public static final INamedTag<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
+		public static final Named<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
 		
-		public static final INamedTag<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
+		public static final Named<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
 		
-		public static final INamedTag<Item> PURE_ORES = createTag("pure_ores");
-		public static final INamedTag<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
+		public static final Named<Item> PURE_ORES = createTag("pure_ores");
+		public static final Named<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
-		public static final INamedTag<Item> IMPROVED_RECEPTACLES = createTag("improved_receptacles");
-		public static final INamedTag<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
-		public static final INamedTag<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
-		public static final INamedTag<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");
-		public static final INamedTag<Item> BOTANIA_PETALS = createOptional("botania", "petals");
-		public static final INamedTag<Item> BOTANIA_LIVINGROCK = createOptional("botania", "livingrock");
+		public static final Named<Item> IMPROVED_RECEPTACLES = createTag("improved_receptacles");
+		public static final Named<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
+		public static final Named<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
+		public static final Named<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");
+		public static final Named<Item> BOTANIA_PETALS = createOptional("botania", "petals");
+		public static final Named<Item> BOTANIA_LIVINGROCK = createOptional("botania", "livingrock");
 		
-		public static final INamedTag<Item> FORGE_SWORDS = createForgeTag("swords");
-		public static final INamedTag<Item> FORGE_PICKAXES = createForgeTag("pickaxes");
-		public static final INamedTag<Item> FORGE_AXES = createForgeTag("axes");
-		public static final INamedTag<Item> FORGE_SHOVELS = createForgeTag("shovels");
-		public static final INamedTag<Item> FORGE_HOES = createForgeTag("hoes");
-		public static final INamedTag<Item> FORGE_SHILDS = createForgeTag("shields");
-		public static final INamedTag<Item> FORGE_BOWS = createForgeTag("bows");
-		public static final INamedTag<Item> FORGE_CROSSBOWS = createForgeTag("crossbows");
-		public static final INamedTag<Item> FORGE_HELMETS = createForgeTag("helmets");
-		public static final INamedTag<Item> FORGE_CHESTPLATES = createForgeTag("chestplates");
-		public static final INamedTag<Item> FORGE_LEGGINGS = createForgeTag("leggings");
-		public static final INamedTag<Item> FORGE_BOOTS = createForgeTag("boots");
+		public static final Named<Item> FORGE_SWORDS = createForgeTag("swords");
+		public static final Named<Item> FORGE_PICKAXES = createForgeTag("pickaxes");
+		public static final Named<Item> FORGE_AXES = createForgeTag("axes");
+		public static final Named<Item> FORGE_SHOVELS = createForgeTag("shovels");
+		public static final Named<Item> FORGE_HOES = createForgeTag("hoes");
+		public static final Named<Item> FORGE_SHILDS = createForgeTag("shields");
+		public static final Named<Item> FORGE_BOWS = createForgeTag("bows");
+		public static final Named<Item> FORGE_CROSSBOWS = createForgeTag("crossbows");
+		public static final Named<Item> FORGE_HELMETS = createForgeTag("helmets");
+		public static final Named<Item> FORGE_CHESTPLATES = createForgeTag("chestplates");
+		public static final Named<Item> FORGE_LEGGINGS = createForgeTag("leggings");
+		public static final Named<Item> FORGE_BOOTS = createForgeTag("boots");
 
-		public static final INamedTag<Item> INGOTS_MANASTEEL = createOptional("forge", "ingots/manasteel");
-		public static final INamedTag<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
-		public static final INamedTag<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
-		public static final INamedTag<Item> INGOTS_FIREITE = createForgeTag("ingots/fireite");
-		public static final INamedTag<Item> NUGGETS_DRENCHED_IRON = createForgeTag("nuggets/drenched_iron");
-		public static final INamedTag<Item> NUGGETS_SWIFT_ALLOY = createForgeTag("nuggets/swift_alloy");
-		public static final INamedTag<Item> NUGGETS_FIREITE = createForgeTag("nuggets/fireite");
-		public static final INamedTag<Item> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
-		public static final INamedTag<Item> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
-		public static final INamedTag<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
+		public static final Named<Item> INGOTS_MANASTEEL = createOptional("forge", "ingots/manasteel");
+		public static final Named<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
+		public static final Named<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
+		public static final Named<Item> INGOTS_FIREITE = createForgeTag("ingots/fireite");
+		public static final Named<Item> NUGGETS_DRENCHED_IRON = createForgeTag("nuggets/drenched_iron");
+		public static final Named<Item> NUGGETS_SWIFT_ALLOY = createForgeTag("nuggets/swift_alloy");
+		public static final Named<Item> NUGGETS_FIREITE = createForgeTag("nuggets/fireite");
+		public static final Named<Item> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
+		public static final Named<Item> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
+		public static final Named<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 
 		private Items() {}
 		
-		private static INamedTag<Item> createTag(String name) {
+		private static Named<Item> createTag(String name) {
 			return ItemTags.bind(ElementalCraftApi.MODID + ':' + name);
 		}
 
-		private static INamedTag<Item> createOptional(String namespace, String name) {
+		private static Named<Item> createOptional(String namespace, String name) {
 			return ItemTags.createOptional(new ResourceLocation(namespace, name));
 		}
 		
-		private static INamedTag<Item> createForgeTag(String name) {
+		private static Named<Item> createForgeTag(String name) {
 			return ItemTags.bind("forge:" + name);
 		}
 
-		public static ITag<Item> getTag(ResourceLocation loc) {
-			ITag<Item> tag = ItemTags.getAllTags().getTag(loc);
+		public static Tag<Item> getTag(ResourceLocation loc) {
+			Tag<Item> tag = ItemTags.getAllTags().getTag(loc);
 
-			if (tag == null) {
-				tag = TagCollectionManager.getInstance().getItems().getTag(loc);
-			}
 			return tag;
 		}
 
-		public static ResourceLocation getTagName(ITag<Item> tag) {
-			if (tag instanceof INamedTag) {
-				return ((INamedTag<Item>) tag).getName();
+		public static ResourceLocation getTagName(Tag<Item> tag) {
+			if (tag instanceof Named) {
+				return ((Named<Item>) tag).getName();
 			}
-			ResourceLocation loc = ItemTags.getAllTags().getId(tag);
-
-			if (loc == null) {
-				loc = TagCollectionManager.getInstance().getItems().getId(tag);
-			}
-			return loc;
+			return ItemTags.getAllTags().getId(tag);
 		}
 	}
 
 	public static class Blocks {
-		public static final INamedTag<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
-		public static final INamedTag<Block> SMALL_TANK_COMPATIBLES = createTag("small_tank_compatibles");
+		public static final Named<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
+		public static final Named<Block> SMALL_TANK_COMPATIBLES = createTag("small_tank_compatibles");
 
-		public static final INamedTag<Block> PUREROCKS = createTag("purerocks");
-		public static final INamedTag<Block> PIPES = createTag("pipes");
-		public static final INamedTag<Block> SHRINES = createTag("shrines");
-		public static final INamedTag<Block> INSTRUMENTS = createTag("instruments");
-		public static final INamedTag<Block> CONTAINER_TOOLS = createTag("container_tools");
-		public static final INamedTag<Block> PEDESTALS = createTag("pedestals");
+		public static final Named<Block> PUREROCKS = createTag("purerocks");
+		public static final Named<Block> PIPES = createTag("pipes");
+		public static final Named<Block> SHRINES = createTag("shrines");
+		public static final Named<Block> INSTRUMENTS = createTag("instruments");
+		public static final Named<Block> CONTAINER_TOOLS = createTag("container_tools");
+		public static final Named<Block> PEDESTALS = createTag("pedestals");
 
-		public static final INamedTag<Block> RUNE_AFFECTED = createTag("rune_affected");
-		public static final INamedTag<Block> RUNE_AFFECTED_SPEED = createTag("rune_affected/speed");
-		public static final INamedTag<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
-		public static final INamedTag<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
+		public static final Named<Block> RUNE_AFFECTED = createTag("rune_affected");
+		public static final Named<Block> RUNE_AFFECTED_SPEED = createTag("rune_affected/speed");
+		public static final Named<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
+		public static final Named<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
 
-		public static final INamedTag<Block> SHRINES_UPGRADABLES_ACCELERATION = createTag("shrines/upgradables/acceleration");
-		public static final INamedTag<Block> SHRINES_UPGRADABLES_RANGE = createTag("shrines/upgradables/range");
-		public static final INamedTag<Block> SHRINES_UPGRADABLES_STRENGTH = createTag("shrines/upgradables/strength");
-		public static final INamedTag<Block> SHRINES_UPGRADABLES_PROTECTION = createTag("shrines/upgradables/protection");
+		public static final Named<Block> SHRINES_UPGRADABLES_ACCELERATION = createTag("shrines/upgradables/acceleration");
+		public static final Named<Block> SHRINES_UPGRADABLES_RANGE = createTag("shrines/upgradables/range");
+		public static final Named<Block> SHRINES_UPGRADABLES_STRENGTH = createTag("shrines/upgradables/strength");
+		public static final Named<Block> SHRINES_UPGRADABLES_PROTECTION = createTag("shrines/upgradables/protection");
 
-		public static final INamedTag<Block> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
-		public static final INamedTag<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
-		public static final INamedTag<Block> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
+		public static final Named<Block> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
+		public static final Named<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
+		public static final Named<Block> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 		
-		public static final INamedTag<Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
+		public static final Named<Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
 
 		private Blocks() {}
 		
-		private static INamedTag<Block> createTag(String name) {
+		private static Named<Block> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);
 		}
 
-		private static INamedTag<Block> createForgeTag(String name) {
+		private static Named<Block> createForgeTag(String name) {
 			return createTag("forge", name);
 		}
 
-		private static INamedTag<Block> createTag(String modId, String name) {
+		private static Named<Block> createTag(String modId, String name) {
 			return BlockTags.bind(modId + ':' + name);
 		}
 		
-		public static ITag<Block> getTag(ResourceLocation loc) {
-			ITag<Block> tag = BlockTags.getAllTags().getTag(loc);
-
-			if (tag == null) {
-				tag = TagCollectionManager.getInstance().getBlocks().getTag(loc);
-			}
-			return tag;
+		public static Tag<Block> getTag(ResourceLocation loc) {
+			return BlockTags.getAllTags().getTag(loc);
 		}
 
-		public static ResourceLocation getTagName(ITag<Block> tag) {
-			if (tag instanceof INamedTag) {
-				return ((INamedTag<Block>) tag).getName();
+		public static ResourceLocation getTagName(Tag<Block> tag) {
+			if (tag instanceof Named) {
+				return ((Named<Block>) tag).getName();
 			}
-			ResourceLocation loc = BlockTags.getAllTags().getId(tag);
-
-			if (loc == null) {
-				loc = TagCollectionManager.getInstance().getBlocks().getId(tag);
-			}
-			return loc;
+			return BlockTags.getAllTags().getId(tag);
 		}
 	}
 	
 	public static class Runes {
 		
-		public static final INamedTag<Rune> SPEED_RUNES = createTag("speed_runes");
-		public static final INamedTag<Rune> ELEMENT_PRESERVATION_RUNES = createTag("element_preservation_runes");
-		public static final INamedTag<Rune> LUCK_RUNES = createTag("luck_runes");
+		public static final Named<Rune> SPEED_RUNES = createTag("speed_runes");
+		public static final Named<Rune> ELEMENT_PRESERVATION_RUNES = createTag("element_preservation_runes");
+		public static final Named<Rune> LUCK_RUNES = createTag("luck_runes");
 		
 		private Runes() {}
 		
-		private static INamedTag<Rune> createTag(String name) {
+		private static Named<Rune> createTag(String name) {
 			return ElementalCraftApi.RUNE_TAGS.makeWrapperTag(ElementalCraft.createRL(name));
 		}
 	}

@@ -3,8 +3,8 @@ package sirttas.elementalcraft.infusion.tool.effect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
@@ -30,8 +30,8 @@ public class FastDrawToolInfusionEffect implements IToolInfusionEffect {
 	}
 	
 	@Override
-	public ITextComponent getDescription() {
-		return new TranslationTextComponent("tooltip.elementalcraft.fastdraw_infused");
+	public Component getDescription() {
+		return new TranslatableComponent("tooltip.elementalcraft.fastdraw_infused");
 	}
 
 	@Override

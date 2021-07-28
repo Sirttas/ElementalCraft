@@ -1,23 +1,23 @@
 package sirttas.elementalcraft.block.shape;
 
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.Vec3;
 
 public class ShapeHelper {
 
 	private ShapeHelper() {}
 	
-	public static boolean vectorCollideWithShape(VoxelShape shape, BlockPos offset, Vector3d vector) {
+	public static boolean vectorCollideWithShape(VoxelShape shape, BlockPos offset, Vec3 vector) {
 		return vectorCollideWithBoundingBox(shape.bounds().move(offset), vector);
 	}
 	
-	public static boolean vectorCollideWithShape(VoxelShape shape, Vector3d offset, Vector3d vector) {
+	public static boolean vectorCollideWithShape(VoxelShape shape, Vec3 offset, Vec3 vector) {
 		return vectorCollideWithBoundingBox(shape.bounds().move(offset), vector);
 	}
 	
-	public static boolean vectorCollideWithBoundingBox(AxisAlignedBB box, Vector3d vector) {
+	public static boolean vectorCollideWithBoundingBox(AABB box, Vec3 vector) {
 		return vector.x >= box.minX && vector.x <= box.maxX && vector.y >= box.minY && vector.y <= box.maxY && vector.z >= box.minZ && vector.z <= box.maxZ;
 	} 
 }

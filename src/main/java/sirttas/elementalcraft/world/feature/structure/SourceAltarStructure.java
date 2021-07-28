@@ -2,34 +2,36 @@ package sirttas.elementalcraft.world.feature.structure;
 
 import java.util.Random;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.feature.structure.StructureStart;
-import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
-import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
-import net.minecraft.world.gen.feature.template.PlacementSettings;
-import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 
-public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
+public class SourceAltarStructure extends StructureFeature<IElementTypeFeatureConfig> {
 
 	public static final String NAME = "source_altar";
 
@@ -38,12 +40,12 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 	}
 
 	@Override
-	public GenerationStage.Decoration step() {
-		return GenerationStage.Decoration.SURFACE_STRUCTURES;
+	public GenerationStep.Decoration step() {
+		return GenerationStep.Decoration.SURFACE_STRUCTURES;
 	}
 
 	@Override
-	public IStartFactory<IElementTypeFeatureConfig> getStartFactory() {
+	public StructureStartFactory<IElementTypeFeatureConfig> getStartFactory() {
 		return Start::new;
 	}
 
@@ -54,16 +56,15 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 
 	public static class Start extends StructureStart<IElementTypeFeatureConfig> {
 
-		public Start(Structure<IElementTypeFeatureConfig> structure, int x, int y, MutableBoundingBox mutableBoundingBox, int k, long l) {
-			super(structure, x, y, mutableBoundingBox, k, l);
+		public Start(StructureFeature<IElementTypeFeatureConfig> structure, ChunkPos pos, int k, long l) {
+			super(structure, pos, k, l);
 		}
 		
 		@Override
-		public void generatePieces/* init */(DynamicRegistries dynamicRegistries, ChunkGenerator generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn,
-				IElementTypeFeatureConfig config) {
-			this.pieces.add(new Piece(templateManagerIn, getRoll(), config.getElementType(random), new BlockPos(chunkX * 16, 0, chunkZ * 16)));
-			this.calculateBoundingBox();
-
+		public void generatePieces(RegistryAccess dynamicRegistries, ChunkGenerator generator, StructureManager templateManagerIn, ChunkPos pos, Biome biomeIn,
+				IElementTypeFeatureConfig config, LevelHeightAccessor heightAccessor) {
+			this.pieces.add(new Piece(templateManagerIn, getRoll(), config.getElementType(random), pos.getBlockAt(0, 0, 0)));
+			this.createBoundingBox();
 		}
 		
 		private ResourceLocation getRoll() {
@@ -80,47 +81,42 @@ public class SourceAltarStructure extends Structure<IElementTypeFeatureConfig> {
 
 	public static class Piece extends TemplateStructurePiece {
 
-		private ResourceLocation templateName;
 		private ElementType elementType;
 
-		public Piece(TemplateManager templateManager, ResourceLocation templateName, ElementType elementType, BlockPos pos) {
-			super(ECStructures.SOURCE_ALTAR_PIECE_TYPE, 0);
-			this.templatePosition = pos;
-			this.templateName = templateName;
+		public Piece(StructureManager templateManager, ResourceLocation templateName, ElementType elementType, BlockPos pos) {
+			super(ECStructures.SOURCE_ALTAR_PIECE_TYPE, 0, templateManager, templateName, templateName.toString(), makeSettings(templateName), pos);
 			this.elementType = elementType;
-			initTemplate(templateManager);
 		}
 
-		public Piece(TemplateManager templateManager, CompoundNBT nbt) {
-			super(ECStructures.SOURCE_ALTAR_PIECE_TYPE, nbt);
-			this.templateName = new ResourceLocation(nbt.getString("Template"));
+		public Piece(ServerLevel level, CompoundTag nbt) {
+			super(ECStructures.SOURCE_ALTAR_PIECE_TYPE, nbt, level, Piece::makeSettings);
 			this.elementType = ElementType.byName(nbt.getString("ElementType"));
-			initTemplate(templateManager);
 		}
-
-		private void initTemplate(TemplateManager templateManager) {
-			this.setup(templateManager.getOrCreate(templateName), this.templatePosition,
-					new PlacementSettings().setMirror(Mirror.NONE).setRotationPivot(new BlockPos(1, 0, 1)).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK));
+		
+		private static StructurePlaceSettings makeSettings(ResourceLocation id) {
+			return new StructurePlaceSettings()
+					.setMirror(Mirror.NONE)
+					.setRotationPivot(new BlockPos(1, 0, 1))
+					.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 		}
 
 		@Override
-		protected void addAdditionalSaveData(CompoundNBT tagCompound) {
-			super.addAdditionalSaveData(tagCompound);
-			tagCompound.putString("Template", this.templateName.toString());
+		protected void addAdditionalSaveData(ServerLevel level, CompoundTag tagCompound) {
+			super.addAdditionalSaveData(level, tagCompound);
 			tagCompound.putString("ElementType", this.elementType.getSerializedName());
 		}
 
 
 		@Override
-		public boolean postProcess/* create */(ISeedReader worldIn, StructureManager structureManager, ChunkGenerator chunkGeneratorIn, Random randomIn, MutableBoundingBox mutableBoundingBoxIn,
+		public boolean postProcess(WorldGenLevel worldIn, StructureFeatureManager structureManager, ChunkGenerator chunkGeneratorIn, Random randomIn, BoundingBox mutableBoundingBoxIn,
 				ChunkPos chunkPosIn, BlockPos pos) {
-			this.templatePosition = this.templatePosition.offset(0, worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, this.templatePosition.getX(), this.templatePosition.getZ()) - 1, 0);
-			return super.postProcess/* create */(worldIn, structureManager, chunkGeneratorIn, randomIn, mutableBoundingBoxIn, chunkPosIn, pos);
+			this.templatePosition = this.templatePosition.offset(0, worldIn.getHeight(Heightmap.Types.WORLD_SURFACE_WG, this.templatePosition.getX(), this.templatePosition.getZ()) - 1, 0);
+			return super.postProcess(worldIn, structureManager, chunkGeneratorIn, randomIn, mutableBoundingBoxIn, chunkPosIn, pos);
 
 		}
 
 		@Override
-		protected void handleDataMarker(String function, BlockPos pos, IServerWorld worldIn, Random rand, MutableBoundingBox sbb) {
+		protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor worldIn, Random rand, BoundingBox sbb) {
 			if (function.endsWith("chest")) {
 				this.createChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getSerializedName()), null);
 				worldIn.blockUpdated(pos, Blocks.CHEST);

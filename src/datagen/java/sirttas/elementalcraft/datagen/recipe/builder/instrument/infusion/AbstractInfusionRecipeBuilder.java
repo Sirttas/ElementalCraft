@@ -4,10 +4,10 @@ import java.util.function.Consumer;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
@@ -17,9 +17,9 @@ public abstract class AbstractInfusionRecipeBuilder {
 
 	protected final Ingredient ingredient;
 	protected int elementAmount;
-	protected final IRecipeSerializer<?> serializer;
+	protected final RecipeSerializer<?> serializer;
 
-	protected AbstractInfusionRecipeBuilder(IRecipeSerializer<?> serializerIn, Ingredient ingredientIn) {
+	protected AbstractInfusionRecipeBuilder(RecipeSerializer<?> serializerIn, Ingredient ingredientIn) {
 		this.serializer = serializerIn;
 		this.ingredient = ingredientIn;
 		elementAmount = 1000;
@@ -32,13 +32,13 @@ public abstract class AbstractInfusionRecipeBuilder {
 
 	protected abstract ResourceLocation getId();
 	
-	public void build(Consumer<IFinishedRecipe> consumerIn) {
+	public void build(Consumer<FinishedRecipe> consumerIn) {
 		ResourceLocation id = getId();
 
 		this.build(consumerIn, new ResourceLocation(id.getNamespace(), IInfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
 		ResourceLocation resourcelocation = getId();
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Infusion Recipe " + save + " should remove its 'save' argument");
@@ -47,14 +47,14 @@ public abstract class AbstractInfusionRecipeBuilder {
 		}
 	}
 
-	public abstract void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id);
+	public abstract void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id);
 	
 	public abstract static class AbstractResult extends AbstractFinishedRecipe {
 		
 		private final Ingredient ingredient;
 		private final int elementAmount;
 
-		protected AbstractResult(ResourceLocation id, IRecipeSerializer<?> serializer, Ingredient ingredientIn, int elementAmount) {
+		protected AbstractResult(ResourceLocation id, RecipeSerializer<?> serializer, Ingredient ingredientIn, int elementAmount) {
 			super(id, serializer);
 			this.ingredient = ingredientIn;
 			this.elementAmount = elementAmount;

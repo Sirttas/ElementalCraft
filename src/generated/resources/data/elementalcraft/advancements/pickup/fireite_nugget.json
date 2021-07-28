@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:fireite_nugget"
+            "items": [
+              "elementalcraft:fireite_nugget"
+            ]
           }
         ]
       }

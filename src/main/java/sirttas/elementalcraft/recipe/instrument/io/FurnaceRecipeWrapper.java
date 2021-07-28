@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.AbstractCookingRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
@@ -38,12 +38,12 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return recipe.getSerializer();
 	}
 
 	@Override
-	public IRecipeType<?> getType() {
+	public RecipeType<?> getType() {
 		return recipe.getType();
 	}
 
@@ -64,7 +64,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Override
 	public int getElementAmount() {
-		return getDuration() * (recipe.getType() == IRecipeType.SMELTING ? ECConfig.COMMON.fireFurnaceElementAmount.get() : ECConfig.COMMON.fireBlastFurnaceElementAmount.get());
+		return getDuration() * (recipe.getType() == RecipeType.SMELTING ? ECConfig.COMMON.fireFurnaceElementAmount.get() : ECConfig.COMMON.fireBlastFurnaceElementAmount.get());
 	}
 
 	@Override

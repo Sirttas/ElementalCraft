@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:containedcrystal"
+            "items": [
+              "elementalcraft:containedcrystal"
+            ]
           }
         ]
       }

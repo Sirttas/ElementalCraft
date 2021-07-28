@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:whiterock_brick_stairs"
+            "items": [
+              "elementalcraft:whiterock_brick_stairs"
+            ]
           }
         ]
       }

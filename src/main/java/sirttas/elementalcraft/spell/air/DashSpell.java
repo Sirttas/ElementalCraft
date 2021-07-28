@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.air;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ActionResultType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.InteractionResult;
 import sirttas.elementalcraft.spell.Spell;
 
 public class DashSpell extends Spell {
@@ -9,8 +9,8 @@ public class DashSpell extends Spell {
 	public static final String NAME = "dash";
 
 	@Override
-	public ActionResultType castOnSelf(Entity sender) {
+	public InteractionResult castOnSelf(Entity sender) {
 		sender.setDeltaMovement(sender.getDeltaMovement().add(sender.getLookAngle().normalize().scale(getRange(sender))));
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 }

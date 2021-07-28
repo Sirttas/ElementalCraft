@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,10 +21,10 @@ public class InputHandler {
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void onMouseScroll(InputEvent.MouseScrollEvent event) {
-		ClientPlayerEntity player = Minecraft.getInstance().player;
+		LocalPlayer player = Minecraft.getInstance().player;
 		
 		if (player.isShiftKeyDown()) {
-			EntityHelper.handStream(player).filter(i -> i.getItem().is(ECTags.Items.SPELL_CAST_TOOLS)).findFirst().ifPresent(i -> {
+			EntityHelper.handStream(player).filter(i -> ECTags.Items.SPELL_CAST_TOOLS.contains(i.getItem())).findFirst().ifPresent(i -> {
 				if (event.getScrollDelta() > 0) {
 					handleFocusScroll(player, i, -1);
 					ECMessage.SCROLL_BACKWORD.send();
@@ -38,7 +38,7 @@ public class InputHandler {
 		}
 	}
 
-	private static void handleFocusScroll(ClientPlayerEntity player, ItemStack stack, int i) {
+	private static void handleFocusScroll(LocalPlayer player, ItemStack stack, int i) {
 		SpellHelper.moveSelected(stack, i);
 		player.displayClientMessage(SpellHelper.getSpell(stack).getDisplayName(), true);
 	}

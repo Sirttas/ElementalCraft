@@ -2,17 +2,17 @@ package sirttas.elementalcraft;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.core.NonNullList;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
 
-public class ElementalCraftTab extends ItemGroup {
+public class ElementalCraftTab extends CreativeModeTab {
 
-	public static final @Nonnull ItemGroup TAB = new ElementalCraftTab();
+	public static final @Nonnull CreativeModeTab TAB = new ElementalCraftTab();
 
 	public ElementalCraftTab() {
 		super(ElementalCraftApi.MODID);
@@ -44,13 +44,13 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.FIRE_FURNACE, list);
 		addItem(ECBlocks.FIRE_BLAST_FURNACE, list);
 		addItem(ECBlocks.PURIFIER, list);
-		addItem(ECBlocks.TANK_SMALL, list);
-		addItem(ECBlocks.TANK, list);
+		addItem(ECBlocks.SMALL_CONTAINER, list);
+		addItem(ECBlocks.CONTAINER, list);
 		addItem(ECBlocks.FIRE_RESERVOIR, list);
 		addItem(ECBlocks.WATER_RESERVOIR, list);
 		addItem(ECBlocks.EARTH_RESERVOIR, list);
 		addItem(ECBlocks.AIR_RESERVOIR, list);
-		addItem(ECBlocks.TANK_CREATIVE, list);
+		addItem(ECBlocks.CREATIVE_CONTAINER, list);
 		addItem(ECBlocks.PIPE_IMPAIRED, list);
 		addItem(ECBlocks.PIPE, list);
 		addItem(ECBlocks.PIPE_IMPROVED, list);
@@ -176,7 +176,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECItems.RUNE, list);
 	}
 
-	private void addItem(IItemProvider item, @Nonnull NonNullList<ItemStack> list) {
+	private void addItem(ItemLike item, @Nonnull NonNullList<ItemStack> list) {
 		if (item != null) {
 			item.asItem().fillItemCategory(this, list);
 		}

@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.network.message;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.fmllegacy.network.NetworkDirection;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
 
 public class MessageHelper {
 
 	private MessageHelper() {}
 	
-	public static <T> void sendToPlayer(ServerPlayerEntity serverPlayer, T message) {
+	public static <T> void sendToPlayer(ServerPlayer serverPlayer, T message) {
 		MessageHandler.CHANNEL.sendTo(message, serverPlayer.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
 	}
 

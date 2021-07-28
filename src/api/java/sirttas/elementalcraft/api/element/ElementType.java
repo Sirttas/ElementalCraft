@@ -12,14 +12,14 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import sirttas.elementalcraft.api.name.ECNames;
 
-public enum ElementType implements IStringSerializable, IElementTypeProvider {
+public enum ElementType implements StringRepresentable, IElementTypeProvider {
 
 	NONE(0, 0, 0, "none"),
 	WATER(43, 173, 255, "water"),
@@ -28,7 +28,7 @@ public enum ElementType implements IStringSerializable, IElementTypeProvider {
 	AIR(238, 255, 219, "air");
 
 	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).collect(Collectors.toList()));
-	public static final Codec<ElementType> CODEC = IStringSerializable.fromEnum(ElementType::values, ElementType::byName);
+	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values, ElementType::byName);
 	public static final EnumProperty<ElementType> STATE_PROPERTY = EnumProperty.create(ECNames.ELEMENT_TYPE, ElementType.class);
 	
 	private final float r;
@@ -96,8 +96,8 @@ public enum ElementType implements IStringSerializable, IElementTypeProvider {
 		return "element.elementalcraft." + getSerializedName();
 	}
 
-	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent(getTranslationKey());
+	public Component getDisplayName() {
+		return new TranslatableComponent(getTranslationKey());
 	}
 
 	public static ElementType byName(String name) {
@@ -110,7 +110,12 @@ public enum ElementType implements IStringSerializable, IElementTypeProvider {
 	}
 
 	public static ElementType getElementType(BlockState state) {
-		return state.getValue(STATE_PROPERTY);
+		if (state.hasProperty(STATE_PROPERTY)) {
+			return state.getValue(STATE_PROPERTY);
+		} else if (state.getBlock() instanceof IElementTypeProvider provider) {
+			return provider.getElementType();
+		}
+		return ElementType.NONE;
 	}
 
 	public static <T> RecordCodecBuilder<T, ElementType> forGetter(final Function<T, ElementType> getter) {

@@ -2,10 +2,12 @@ package sirttas.elementalcraft.block.shrine.vacuum;
 
 import java.util.List;
 
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ObjectHolder;
@@ -20,12 +22,12 @@ import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + VacuumShrineBlock.NAME) public static final TileEntityType<VacuumShrineBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + VacuumShrineBlock.NAME) public static final BlockEntityType<VacuumShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.AIR).consumeAmount(ECConfig.COMMON.vacuumShrineConsumeAmount.get()).range(ECConfig.COMMON.vacuumShrineRange.get());
 
-	public VacuumShrineBlockEntity() {
-		super(TYPE, PROPERTIES);
+	public VacuumShrineBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, PROPERTIES);
 	}
 
 	private List<ItemEntity> getEntities() {
@@ -34,10 +36,10 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	
 	@Override
-	protected boolean doTick() {
+	protected boolean doPeriode() {
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
 
-		return this.hasUpgrade(ShrineUpgrades.PICKUP) ? pickup(inv) : pull(inv);
+		return this.hasUpgrade(ShrineUpgrades.PICKUP.get()) ? pickup(inv) : pull(inv);
 	}
 
 	private boolean pickup(IItemHandler inv) {
@@ -50,7 +52,7 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 	private boolean pull(IItemHandler inv) {
 		int consumeAmount = this.getConsumeAmount();
 		double pullSpeed = ECConfig.COMMON.vacuumShrinePullSpeed.get() * this.getMultiplier(BonusType.STRENGTH);
-		Vector3d pos3d = Vector3d.atCenterOf(this.getBlockPos());
+		Vec3 pos3d = Vec3.atCenterOf(this.getBlockPos());
 
 		getEntities().forEach(entity -> {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {

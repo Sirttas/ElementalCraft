@@ -3,8 +3,8 @@ package sirttas.elementalcraft.infusion.tool.effect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -31,8 +31,8 @@ public class ElementCostReductionToolInfusionEffect implements IToolInfusionEffe
 	}
 
 	@Override
-	public ITextComponent getDescription() {
-		return new TranslationTextComponent("tooltip.elementalcraft.element_cost_reduction_infusion", elementType.getDisplayName());
+	public Component getDescription() {
+		return new TranslatableComponent("tooltip.elementalcraft.element_cost_reduction_infusion", elementType.getDisplayName());
 	}
 
 	@Override

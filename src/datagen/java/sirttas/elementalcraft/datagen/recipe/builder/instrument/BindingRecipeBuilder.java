@@ -7,13 +7,13 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -27,16 +27,16 @@ public class BindingRecipeBuilder {
 	private final List<Ingredient> ingredients = Lists.newArrayList();
 	private final ElementType elementType;
 	private int elementAmount;
-	private final IRecipeSerializer<?> serializer;
+	private final RecipeSerializer<?> serializer;
 
-	public BindingRecipeBuilder(IRecipeSerializer<?> serializerIn, IItemProvider resultProviderIn, ElementType elementType) {
+	public BindingRecipeBuilder(RecipeSerializer<?> serializerIn, ItemLike resultProviderIn, ElementType elementType) {
 		this.serializer = serializerIn;
 		this.result = resultProviderIn.asItem();
 		this.elementType = elementType;
 		elementAmount = 2500;
 	}
 
-	public static BindingRecipeBuilder bindingRecipe(IItemProvider resultIn, ElementType elementType) {
+	public static BindingRecipeBuilder bindingRecipe(ItemLike resultIn, ElementType elementType) {
 		return new BindingRecipeBuilder(BindingRecipe.SERIALIZER, resultIn, elementType);
 	}
 
@@ -45,11 +45,11 @@ public class BindingRecipeBuilder {
 		return this;
 	}
 
-	public BindingRecipeBuilder addIngredient(INamedTag<Item> tagIn) {
+	public BindingRecipeBuilder addIngredient(Named<Item> tagIn) {
 		return this.addIngredient(Ingredient.of(tagIn));
 	}
 
-	public BindingRecipeBuilder addIngredient(IItemProvider itemIn) {
+	public BindingRecipeBuilder addIngredient(ItemLike itemIn) {
 		return this.addIngredient(Ingredient.of(itemIn));
 	}
 
@@ -59,13 +59,13 @@ public class BindingRecipeBuilder {
 	}
 
 
-	public void build(Consumer<IFinishedRecipe> consumerIn) {
+	public void build(Consumer<FinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
 		this.build(consumerIn, new ResourceLocation(id.getNamespace(), AbstractBindingRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
 		ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
@@ -74,7 +74,7 @@ public class BindingRecipeBuilder {
 		}
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.serializer, this.ingredients, this.result, elementType, elementAmount));
 	}
 
@@ -85,7 +85,7 @@ public class BindingRecipeBuilder {
 		private final ElementType elementType;
 		private final int elementAmount;
 
-		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, List<Ingredient> ingredients, Item resultIn, ElementType elementType, int elementAmount) {
+		public Result(ResourceLocation id, RecipeSerializer<?> serializer, List<Ingredient> ingredients, Item resultIn, ElementType elementType, int elementAmount) {
 			super(id, serializer);
 			this.ingredients = ingredients;
 			this.output = resultIn;

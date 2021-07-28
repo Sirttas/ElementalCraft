@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.item.pureore.injector;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.crafting.BlastingRecipe;
-import net.minecraft.item.crafting.CampfireCookingRecipe;
-import net.minecraft.item.crafting.FurnaceRecipe;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.BlastingRecipe;
+import net.minecraft.world.item.crafting.CampfireCookingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,7 +17,6 @@ import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.interaction.ECinteractions;
-import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -26,25 +25,25 @@ public class PureOreRecipeInjectors {
 	private PureOreRecipeInjectors() {}
 	
 	@SubscribeEvent
-	public static void registerPureOreRecipeInjectors(RegistryEvent.Register<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> event) {
-		IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> registry = event.getRegistry();
+	public static void registerPureOreRecipeInjectors(RegistryEvent.Register<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> event) {
+		IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> registry = event.getRegistry();
 
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreSmeltingRecipe.get())) {
-			register(registry, new PureOreCookingRecipeInjector<>(IRecipeType.SMELTING, FurnaceRecipe::new));
+			register(registry, new PureOreCookingRecipeInjector<>(RecipeType.SMELTING, SmeltingRecipe::new));
 		}
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreBlastingRecipe.get())) {
-			register(registry, new PureOreCookingRecipeInjector<>(IRecipeType.BLASTING, BlastingRecipe::new));
+			register(registry, new PureOreCookingRecipeInjector<>(RecipeType.BLASTING, BlastingRecipe::new));
 		}
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreCampFireRecipe.get())) {
-			register(registry, new PureOreCookingRecipeInjector<>(IRecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new));
+			register(registry, new PureOreCookingRecipeInjector<>(RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new));
 		}
 		if (ECinteractions.isMekanismActive()) {
-			MekanismInteraction.registerPureOreRecipeInjectors(registry);
+			// TODO MekanismInteraction.registerPureOreRecipeInjectors(registry);
 		}
 	}
 
-	public static <C extends IInventory, T extends IRecipe<C>> void register(IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> registry, AbstractPureOreRecipeInjector<C, T> injector) {
+	public static <C extends Container, T extends Recipe<C>> void register(IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> registry, AbstractPureOreRecipeInjector<C, T> injector) {
 		ResourceLocation id = injector.getRecipeTypeRegistryName();
 
 		if (id == null) {

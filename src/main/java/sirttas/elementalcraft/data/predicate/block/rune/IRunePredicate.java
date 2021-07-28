@@ -2,8 +2,8 @@ package sirttas.elementalcraft.data.predicate.block.rune;
 
 import java.util.function.Predicate;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -18,7 +18,7 @@ public interface IRunePredicate extends IBlockPosPredicate {
 	}
 
 	@Override
-	default boolean test(IWorldReader world, BlockPos pos) {
+	default boolean test(LevelReader world, BlockPos pos) {
 		return test(BlockEntityHelper.getRuneHandlerAt(world, pos));
 	}
 

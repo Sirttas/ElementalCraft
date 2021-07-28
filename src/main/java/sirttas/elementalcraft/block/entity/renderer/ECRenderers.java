@@ -1,15 +1,12 @@
 package sirttas.elementalcraft.block.entity.renderer;
 
-import java.util.function.Function;
-
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -59,61 +56,56 @@ import sirttas.elementalcraft.block.sorter.SorterRenderer;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ECRenderers {
 
-	private static final Function<TileEntityRendererDispatcher, SingleItemRenderer<PedestalBlockEntity>> PEDESTAL_RENDERER_FACTORY = d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.9, 0.5));
-
 	private ECRenderers() {}
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent evt) {
-		ClientRegistry.bindTileEntityRenderer(ElementPipeBlockEntity.TYPE, ElementPipeRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(InfuserBlockEntity.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5)));
-		ClientRegistry.bindTileEntityRenderer(ExtractorBlockEntity.TYPE, RuneRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(EvaporatorBlockEntity.TYPE, d -> new SingleItemRenderer<>(d, new Vector3d(0.5, 0.2, 0.5), 0.5F));
-		ClientRegistry.bindTileEntityRenderer(SolarSynthesizerBlockEntity.TYPE, SolarSynthesizerRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(DiffuserBlockEntity.TYPE, DiffuserRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(BinderBlockEntity.TYPE, BinderRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(ImprovedBinderBlockEntity.TYPE, BinderRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(CrystallizerBlockEntity.TYPE, CrystallizerRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(InscriberBlockEntity.TYPE, InscriberRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(AirMillBlockEntity.TYPE, AirMillRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(PedestalBlockEntity.TYPE_FIRE, PEDESTAL_RENDERER_FACTORY);
-		ClientRegistry.bindTileEntityRenderer(PedestalBlockEntity.TYPE_WATER, PEDESTAL_RENDERER_FACTORY);
-		ClientRegistry.bindTileEntityRenderer(PedestalBlockEntity.TYPE_EARTH, PEDESTAL_RENDERER_FACTORY);
-		ClientRegistry.bindTileEntityRenderer(PedestalBlockEntity.TYPE_AIR, PEDESTAL_RENDERER_FACTORY);
-		ClientRegistry.bindTileEntityRenderer(PureInfuserBlockEntity.TYPE, PureInfuserRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(FireFurnaceBlockEntity.TYPE, FireFurnaceRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(FireBlastFurnaceBlockEntity.TYPE, FireFurnaceRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(PurifierBlockEntity.TYPE, PurifierRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(AccelerationShrineUpgradeBlockEntity.TYPE, AccelerationShrineUpgradeRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(SorterBlockEntity.TYPE, SorterRenderer::new);
+		BlockEntityRenderers.register(ElementPipeBlockEntity.TYPE, ElementPipeRenderer::new);
+		BlockEntityRenderers.register(InfuserBlockEntity.TYPE, c -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5)));
+		BlockEntityRenderers.register(ExtractorBlockEntity.TYPE, c -> new RuneRenderer<>() {});
+		BlockEntityRenderers.register(EvaporatorBlockEntity.TYPE, c -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5), 0.5F));
+		BlockEntityRenderers.register(SolarSynthesizerBlockEntity.TYPE, SolarSynthesizerRenderer::new);
+		BlockEntityRenderers.register(DiffuserBlockEntity.TYPE, DiffuserRenderer::new);
+		BlockEntityRenderers.register(BinderBlockEntity.TYPE, BinderRenderer::new);
+		BlockEntityRenderers.register(ImprovedBinderBlockEntity.TYPE, BinderRenderer::new);
+		BlockEntityRenderers.register(CrystallizerBlockEntity.TYPE, CrystallizerRenderer::new);
+		BlockEntityRenderers.register(InscriberBlockEntity.TYPE, InscriberRenderer::new);
+		BlockEntityRenderers.register(AirMillBlockEntity.TYPE, AirMillRenderer::new);
+		BlockEntityRenderers.register(PedestalBlockEntity.TYPE, c -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
+		BlockEntityRenderers.register(PureInfuserBlockEntity.TYPE, PureInfuserRenderer::new);
+		BlockEntityRenderers.register(FireFurnaceBlockEntity.TYPE, FireFurnaceRenderer::new);
+		BlockEntityRenderers.register(FireBlastFurnaceBlockEntity.TYPE, FireFurnaceRenderer::new);
+		BlockEntityRenderers.register(PurifierBlockEntity.TYPE, PurifierRenderer::new);
+		BlockEntityRenderers.register(AccelerationShrineUpgradeBlockEntity.TYPE, AccelerationShrineUpgradeRenderer::new);
+		BlockEntityRenderers.register(SorterBlockEntity.TYPE, SorterRenderer::new);
 
-		ClientRegistry.bindTileEntityRenderer(FirePylonBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(VacuumShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(GrowthShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(HarvestShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(LavaShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(OreShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(OverloadShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(SweetShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(EnderLockShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(BreedingShrineBlockEntity.TYPE, RendererShrine::new);
-		ClientRegistry.bindTileEntityRenderer(GroveShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(FirePylonBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(VacuumShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(GrowthShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(HarvestShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(LavaShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(OreShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(OverloadShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(SweetShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(EnderLockShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(BreedingShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(GroveShrineBlockEntity.TYPE, RendererShrine::new);
 	}
 
 	public static void initRenderLayouts() {
-		RenderTypeLookup.setRenderLayer(ECBlocks.TANK_SMALL, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.TANK, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.FIRE_RESERVOIR, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.EARTH_RESERVOIR, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.WATER_RESERVOIR, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.AIR_RESERVOIR, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.TANK_CREATIVE, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.EVAPORATOR, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ECBlocks.FIRE_BLAST_FURNACE, RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(ECBlocks.BURNT_GLASS, RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(ECBlocks.BURNT_GLASS_PANE, RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(ECBlocks.SOURCE, RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(ECBlocks.CAPACITY_SHRINE_UPGRADE, RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(ECBlocks.OPTIMIZATION_SHRINE_UPGRADE, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.SMALL_CONTAINER, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.CONTAINER, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.FIRE_RESERVOIR, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.EARTH_RESERVOIR, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.WATER_RESERVOIR, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.AIR_RESERVOIR, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.CREATIVE_CONTAINER, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.EVAPORATOR, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.FIRE_BLAST_FURNACE, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.BURNT_GLASS, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.BURNT_GLASS_PANE, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.SOURCE, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.CAPACITY_SHRINE_UPGRADE, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.OPTIMIZATION_SHRINE_UPGRADE, RenderType.translucent());
 	}
 }

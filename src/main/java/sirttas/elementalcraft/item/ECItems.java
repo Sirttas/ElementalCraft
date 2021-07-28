@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.item;
 
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.item.Item;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -310,7 +310,7 @@ public class ECItems {
 
 	public static void replaceModels(ModelBakeEvent event) {
 		ModelResourceLocation key = new ModelResourceLocation(ElementalCraft.createRL(RuneItem.NAME), "inventory");
-		IBakedModel oldModel = event.getModelRegistry().get(key);
+		BakedModel oldModel = event.getModelRegistry().get(key);
 		
 		if (oldModel != null) {
 			event.getModelRegistry().put(key, new RuneModel(oldModel));

@@ -3,7 +3,7 @@ package sirttas.elementalcraft.data.predicate.block.shrine;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.ElementalCraft;

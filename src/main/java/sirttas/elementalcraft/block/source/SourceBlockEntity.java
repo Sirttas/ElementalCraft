@@ -7,11 +7,13 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.RandomUtils;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
@@ -20,56 +22,54 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.entity.AbstractECTickableBlockEntity;
+import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class SourceBlockEntity extends AbstractECTickableBlockEntity {
+public class SourceBlockEntity extends AbstractECBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final TileEntityType<SourceBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final BlockEntityType<SourceBlockEntity> TYPE = null;
 
 	private final SourceElementStorage elementStorage;
 	private int recoverRate;
 
-	public SourceBlockEntity() {
-		super(TYPE);
+	public SourceBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state);
 		elementStorage = new SourceElementStorage(RandomUtils.nextInt(ECConfig.COMMON.sourceCapacityMin.get(), ECConfig.COMMON.sourceCapacityMax.get()), this::setChanged);
 		recoverRate = ECConfig.COMMON.sourceRecoverRate.get();
+		elementStorage.setElementType(ElementType.getElementType(state));
 	}
 
-	public SourceBlockEntity(ElementType elementType) {
-		this();
-		elementStorage.setElementType(elementType);
-
-	}
 
 	public ISingleElementStorage getElementStorage() {
 		return elementStorage;
 	}
 
-	@Override
-	public void tick() {
-		if (elementStorage.getElementType() == ElementType.NONE) {
-			elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
+	public static void commonTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
+		if (source.elementStorage.getElementType() == ElementType.NONE) {
+			source.elementStorage.setElementType(ElementType.getElementType(state));
 		}
-		elementStorage.insertElement(recoverRate, false);
-		this.addParticle(level.random);
-		super.tick();
+		source.elementStorage.insertElement(source.recoverRate, false);
+	}
+	
+	public static void clientTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
+		commonTick(level, pos, state, source);
+		source.addParticle(level.random);
 	}
 
 	private void addParticle(Random rand) {
 		if (level.isClientSide && rand.nextFloat() < 0.2F) {
 			if (elementStorage.isExhausted()) {
-				ParticleHelper.createExhaustedSourceParticle(elementStorage.getElementType(), level, Vector3d.atCenterOf(worldPosition), rand);
+				ParticleHelper.createExhaustedSourceParticle(elementStorage.getElementType(), level, Vec3.atCenterOf(worldPosition), rand);
 			} else {
-				ParticleHelper.createSourceParticle(elementStorage.getElementType(), level, Vector3d.atCenterOf(worldPosition), rand);
+				ParticleHelper.createSourceParticle(elementStorage.getElementType(), level, Vec3.atCenterOf(worldPosition), rand);
 			}
 		}
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
@@ -78,7 +78,7 @@ public class SourceBlockEntity extends AbstractECTickableBlockEntity {
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 		compound.putInt(ECNames.RECOVER_RATE, this.recoverRate);

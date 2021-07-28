@@ -1,25 +1,24 @@
 package sirttas.elementalcraft.block.instrument.inscriber;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
+import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.block.instrument.purifier.PurifierBlock;
 
 @OnlyIn(Dist.CLIENT)
-public class InscriberRenderer extends AbstractECRenderer<InscriberBlockEntity> {
-	public InscriberRenderer(TileEntityRendererDispatcher rendererDispatcher) {
-		super(rendererDispatcher);
-	}
+public class InscriberRenderer implements IECRenderer<InscriberBlockEntity> {
+	
+	public InscriberRenderer(Context context) {}
 
 	@Override
-	public void render(InscriberBlockEntity te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(InscriberBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		float tick = getAngle(partialTicks);
 		InstrumentInventory inv = (InstrumentInventory) te.getInventory();
 
@@ -31,7 +30,7 @@ public class InscriberRenderer extends AbstractECRenderer<InscriberBlockEntity> 
 		renderItems(matrixStack, buffer, light, overlay, tick, inv);
 	}
 
-	private void renderRuneSlate(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, ItemStack stack) {
+	private void renderRuneSlate(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, ItemStack stack) {
 		if (!stack.isEmpty()) {
 			matrixStack.pushPose();
 			matrixStack.translate(0F, 0F, 0.0625F);
@@ -41,7 +40,7 @@ public class InscriberRenderer extends AbstractECRenderer<InscriberBlockEntity> 
 		}
 	}
 
-	private void renderItems(MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, float tick, InstrumentInventory inv) {
+	private void renderItems(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentInventory inv) {
 		matrixStack.translate(-0.4F, -0.2F, -0.2F);
 		for (int i = 1; i < inv.getContainerSize(); i++) {
 			ItemStack stack = inv.getItem(i);

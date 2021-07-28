@@ -1,13 +1,19 @@
 package sirttas.elementalcraft.block.instrument.binder.improved;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
+import javax.annotation.Nullable;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlock;
 
 public class ImprovedBinderBlock extends BinderBlock {
@@ -23,16 +29,22 @@ public class ImprovedBinderBlock extends BinderBlock {
 	private static final VoxelShape PIPE_3 = Block.box(1D, 2D, 13D, 3D, 14D, 15D);
 	private static final VoxelShape PIPE_4 = Block.box(13D, 2D, 13D, 15D, 14D, 15D);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(BASE_1, BASE_2, PLATE, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
+	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PLATE, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new ImprovedBinderBlockEntity();
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new ImprovedBinderBlockEntity(pos, state);
+	}
+	
+	@Override
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return createECTicker(level, type, ImprovedBinderBlockEntity.TYPE, AbstractInstrumentBlockEntity::tick);
 	}
 
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 }

@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.item.receptacle;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
@@ -26,8 +26,8 @@ public class EmptyReceptacleItem extends AbstractReceptacleItem implements ISour
 	}
 
 	@Override
-	public ActionResultType useOn(ItemUseContext context) {
-		World world = context.getLevel();
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		BlockState blockstate = world.getBlockState(pos);
 
@@ -39,9 +39,9 @@ public class EmptyReceptacleItem extends AbstractReceptacleItem implements ISour
 				context.getPlayer().setItemInHand(context.getHand(), stack);
 				world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 }

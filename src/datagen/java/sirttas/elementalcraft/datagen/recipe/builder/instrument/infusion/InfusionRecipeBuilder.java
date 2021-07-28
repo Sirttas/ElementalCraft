@@ -4,12 +4,12 @@ import java.util.function.Consumer;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -20,13 +20,13 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	private final Item result;
 	protected final ElementType elementType;
 	
-	public InfusionRecipeBuilder(IRecipeSerializer<?> serializerIn, Ingredient ingredientIn, IItemProvider resultProviderIn, ElementType elementType) {
+	public InfusionRecipeBuilder(RecipeSerializer<?> serializerIn, Ingredient ingredientIn, ItemLike resultProviderIn, ElementType elementType) {
 		super(serializerIn, ingredientIn);
 		this.result = resultProviderIn.asItem();
 		this.elementType = elementType;
 	}
 
-	public static InfusionRecipeBuilder infusionRecipe(Ingredient ingredientIn, IItemProvider resultIn, ElementType elementType) {
+	public static InfusionRecipeBuilder infusionRecipe(Ingredient ingredientIn, ItemLike resultIn, ElementType elementType) {
 		return new InfusionRecipeBuilder(InfusionRecipe.SERIALIZER, ingredientIn, resultIn, elementType);
 	}
 
@@ -36,7 +36,7 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	}
 	
 	@Override
-	public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.serializer, this.ingredient, this.result, elementType, elementAmount));
 	}
 
@@ -45,7 +45,7 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 		private final Item output;
 		protected final ElementType elementType;
 
-		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, Ingredient ingredientIn, Item resultIn, ElementType elementType, int elementAmount) {
+		public Result(ResourceLocation idIn, RecipeSerializer<?> serializerIn, Ingredient ingredientIn, Item resultIn, ElementType elementType, int elementAmount) {
 			super(idIn, serializerIn, ingredientIn, elementAmount);
 			this.output = resultIn;
 			this.elementType = elementType;

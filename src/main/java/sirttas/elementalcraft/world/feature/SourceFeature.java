@@ -1,12 +1,8 @@
 package sirttas.elementalcraft.world.feature;
 
-import java.util.Random;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
@@ -40,13 +36,13 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 	}
 
 	@Override
-	public boolean place(ISeedReader world, ChunkGenerator structureManager, Random rand, BlockPos pos, IElementTypeFeatureConfig config) {
-		ElementType type = config.getElementType(rand);
+	public boolean place(FeaturePlaceContext<IElementTypeFeatureConfig> context) {
+		ElementType type = context.config().getElementType(context.random());
 
 		if (type != ElementType.NONE) {
 			BlockState source = ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, type);
 
-			world.setBlock(pos, source, 3);
+			context.level().setBlock(context.origin(), source, 3);
 			return true;
 		}
 		return false;

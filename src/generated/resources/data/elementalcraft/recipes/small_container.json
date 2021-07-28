@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " p ",
+    "pgp",
+    " p "
+  ],
+  "key": {
+    "g": {
+      "tag": "forge:glass"
+    },
+    "p": {
+      "item": "elementalcraft:elementpipe_impaired"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:small_container"
+  }
+}

@@ -19,14 +19,14 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.block.Block;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
@@ -47,12 +47,12 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), shrine.getUpgradeCount(this));
 	}
 
-	public void addInformation(List<ITextComponent> tooltip) {
-		bonuses.forEach((type, multiplier) -> tooltip.add(new TranslationTextComponent("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
-				.withStyle(type.isPositive() ^ multiplier < 1 ? TextFormatting.BLUE : TextFormatting.RED)));
+	public void addInformation(List<Component> tooltip) {
+		bonuses.forEach((type, multiplier) -> tooltip.add(new TranslatableComponent("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
+				.withStyle(type.isPositive() ^ multiplier < 1 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
-			tooltip.add(new StringTextComponent(""));
-			tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.max_amount", maxAmount).withStyle(TextFormatting.YELLOW));
+			tooltip.add(new TextComponent(""));
+			tooltip.add(new TranslatableComponent("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
 		}
 	}
 
@@ -86,7 +86,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		return atomicValue.get();
 	}
 	
-	public enum BonusType implements IStringSerializable {
+	public enum BonusType implements StringRepresentable {
 		NONE("none", false), 
 		SPEED("speed", false), 
 		ELEMENT_CONSUMPTION("element_consumption", false), 
@@ -94,7 +94,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		RANGE("range", true), 
 		STRENGTH("strength", true);
 
-		public static final Codec<BonusType> CODEC = IStringSerializable.fromEnum(BonusType::values, BonusType::byName);
+		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values, BonusType::byName);
 
 		private final String name;
 		private final boolean positive;
@@ -148,7 +148,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 			return predicate(IBlockPosPredicate.match(block));
 		}
 
-		public Builder match(INamedTag<Block> tag) {
+		public Builder match(Named<Block> tag) {
 			return predicate(IBlockPosPredicate.match(tag));
 		}
 

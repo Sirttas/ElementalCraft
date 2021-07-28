@@ -2,33 +2,31 @@ package sirttas.elementalcraft.block.sorter;
 
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
-import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
-public class SorterRenderer extends AbstractECRenderer<SorterBlockEntity> {
+public class SorterRenderer implements IECRenderer<SorterBlockEntity> {
 
-	public SorterRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-		super(rendererDispatcherIn);
-	}
+	public SorterRenderer(Context context) {}
 
 	@SuppressWarnings("resource")
 	@Override
-	public void render(SorterBlockEntity sorter, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
-		RayTraceResult mouseOver = Minecraft.getInstance().hitResult;
+	public void render(SorterBlockEntity sorter, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+		HitResult mouseOver = Minecraft.getInstance().hitResult;
 		boolean sneeking =  Minecraft.getInstance().player.isShiftKeyDown();
 		List<ItemStack> stacks = sorter.getStacks();
 
-		if (mouseOver != null && mouseOver.getType() == RayTraceResult.Type.BLOCK && !stacks.isEmpty()) {
-			BlockRayTraceResult result = (BlockRayTraceResult) mouseOver;
+		if (mouseOver != null && mouseOver.getType() == HitResult.Type.BLOCK && !stacks.isEmpty()) {
+			BlockHitResult result = (BlockHitResult) mouseOver;
 			
 			if (sorter.getBlockPos().equals(result.getBlockPos())) {
 				int index = sorter.getIndex();
@@ -61,7 +59,7 @@ public class SorterRenderer extends AbstractECRenderer<SorterBlockEntity> {
 		}
 	}
 	
-	private void translate(MatrixStack matrixStack, double value, boolean sneeking) {
+	private void translate(PoseStack matrixStack, double value, boolean sneeking) {
 		if (sneeking) {
 			matrixStack.translate(-value, 0, 0);
 		} else {

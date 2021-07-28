@@ -8,10 +8,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 
@@ -29,7 +29,7 @@ public abstract class AbstractUpgrade<T> {
 		this.id = null;
 	}
 
-	protected static <T extends IStringSerializable, U extends AbstractUpgrade<T>> P3<Mu<U>, IBlockPosPredicate, Map<T, Float>, Integer> codec(Instance<U> builder, Codec<T> bonusCodec) {
+	protected static <T extends StringRepresentable, U extends AbstractUpgrade<T>> P3<Mu<U>, IBlockPosPredicate, Map<T, Float>, Integer> codec(Instance<U> builder, Codec<T> bonusCodec) {
 		return builder.group(
 				IBlockPosPredicate.CODEC.fieldOf(ECNames.PREDICATE).forGetter(u -> u.predicate),
 				Codec.unboundedMap(bonusCodec, Codec.FLOAT).optionalFieldOf(ECNames.BONUSES, ImmutableMap.of()).forGetter(AbstractUpgrade::getBonuses),
@@ -38,7 +38,7 @@ public abstract class AbstractUpgrade<T> {
 	}
 
 	
-	protected boolean canUpgrade(IWorldReader world, BlockPos pos, int amount) {
+	protected boolean canUpgrade(LevelReader world, BlockPos pos, int amount) {
 		return predicate.test(world, pos) && (maxAmount == 0 || amount < maxAmount);
 	}
 

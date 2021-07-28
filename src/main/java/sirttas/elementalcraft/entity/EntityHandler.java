@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -38,7 +38,7 @@ public class EntityHandler {
 	@SubscribeEvent
 	public static void onEntityLivingAttack(LivingAttackEvent event) {
 		LivingEntity entity = event.getEntityLiving();
-		World world = entity.level;
+		Level world = entity.level;
 
 		if (!world.isClientSide && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
 			event.setCanceled(true);
@@ -47,10 +47,10 @@ public class EntityHandler {
 
 	@SubscribeEvent
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		PlayerEntity player = event.getPlayer();
+		Player player = event.getPlayer();
 		
 		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getCommandSenderWorld().isClientSide) {
-			CompoundNBT tag = player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
+			CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {
 				ItemStack book = new ItemStack(ECItems.ELEMENTOPEDIA);
@@ -58,7 +58,7 @@ public class EntityHandler {
 				book.getOrCreateTag().putString("patchouli:book", "elementalcraft:element_book");
 				ItemHandlerHelper.giveItemToPlayer(player, book);
 				tag.putBoolean(ECNames.HAS_BOOK, true);
-				player.getPersistentData().put(PlayerEntity.PERSISTED_NBT_TAG, tag);
+				player.getPersistentData().put(Player.PERSISTED_NBT_TAG, tag);
 			}
 		}
 	}
@@ -67,8 +67,8 @@ public class EntityHandler {
 	public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		Entity entity = event.getObject();
 		
-		if (entity instanceof PlayerEntity) {
-			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), PlayerElementStorage.createProvider((PlayerEntity) entity));
+		if (entity instanceof Player) {
+			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), PlayerElementStorage.createProvider((Player) entity));
 		}
 	}
 }

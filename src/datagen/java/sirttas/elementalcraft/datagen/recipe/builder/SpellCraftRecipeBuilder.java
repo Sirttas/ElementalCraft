@@ -4,13 +4,13 @@ import java.util.function.Consumer;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -22,9 +22,9 @@ public class SpellCraftRecipeBuilder {
 	private Ingredient gem;
 	private Ingredient crystal;
 	private final ResourceLocation output;
-	private final IRecipeSerializer<?> serializer;
+	private final RecipeSerializer<?> serializer;
 
-	private SpellCraftRecipeBuilder(IRecipeSerializer<?> serializerIn, ResourceLocation output) {
+	private SpellCraftRecipeBuilder(RecipeSerializer<?> serializerIn, ResourceLocation output) {
 		this.serializer = serializerIn;
 		this.output = output;
 	}
@@ -33,11 +33,11 @@ public class SpellCraftRecipeBuilder {
 		return new SpellCraftRecipeBuilder(SpellCraftRecipe.SERIALIZER, output);
 	}
 	
-	public SpellCraftRecipeBuilder setGem(INamedTag<Item> tagIn) {
+	public SpellCraftRecipeBuilder setGem(Named<Item> tagIn) {
 		return this.setGem(Ingredient.of(tagIn));
 	}
 
-	public SpellCraftRecipeBuilder setGem(IItemProvider itemIn) {
+	public SpellCraftRecipeBuilder setGem(ItemLike itemIn) {
 		return this.setGem(Ingredient.of(itemIn));
 	}
 
@@ -46,11 +46,11 @@ public class SpellCraftRecipeBuilder {
 		return this;
 	}
 
-	public SpellCraftRecipeBuilder setCrystal(INamedTag<Item> tagIn) {
+	public SpellCraftRecipeBuilder setCrystal(Named<Item> tagIn) {
 		return this.setCrystal(Ingredient.of(tagIn));
 	}
 
-	public SpellCraftRecipeBuilder setCrystal(IItemProvider itemIn) {
+	public SpellCraftRecipeBuilder setCrystal(ItemLike itemIn) {
 		return this.setCrystal(Ingredient.of(itemIn));
 	}
 
@@ -59,15 +59,15 @@ public class SpellCraftRecipeBuilder {
 		return this;
 	}
 	
-	public void build(Consumer<IFinishedRecipe> consumerIn) {
+	public void build(Consumer<FinishedRecipe> consumerIn) {
 		this.build(consumerIn, output.getPath());
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
 		this.build(consumerIn, ElementalCraft.createRL(SpellCraftRecipe.NAME + '/' + save));
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.serializer, this.gem, this.crystal, this.output));
 	}
 	
@@ -77,7 +77,7 @@ public class SpellCraftRecipeBuilder {
 		private final Ingredient crystal;
 		private final ResourceLocation output;
 		
-		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, Ingredient gem, Ingredient crystal, ResourceLocation output) {
+		public Result(ResourceLocation id, RecipeSerializer<?> serializer, Ingredient gem, Ingredient crystal, ResourceLocation output) {
 			super(id, serializer);
 			this.gem = gem;
 			this.crystal = crystal;

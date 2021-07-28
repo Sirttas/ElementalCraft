@@ -4,15 +4,15 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
@@ -24,14 +24,14 @@ import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlockEntity> {
 
 	public static final String NAME = "pureinfusion";
-	public static final IRecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<PureInfusionRecipe>() {
+	public static final RecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<PureInfusionRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
 		}
 	});
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final IRecipeSerializer<PureInfusionRecipe> SERIALIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<PureInfusionRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
 	private final ItemStack output;
@@ -65,12 +65,12 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlock
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
 	@Override
-	public IRecipeType<?> getType() {
+	public RecipeType<?> getType() {
 		return TYPE;
 	}
 
@@ -95,19 +95,19 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlock
 		return elementAmount;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<PureInfusionRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<PureInfusionRecipe> {
 
 		@Override
 		public PureInfusionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			int elementAmount = JSONUtils.getAsInt(json, ECNames.ELEMENT_AMOUNT);
-			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(JSONUtils.getAsJsonArray(json, ECNames.INGREDIENTS));
+			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
+			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(GsonHelper.getAsJsonArray(json, ECNames.INGREDIENTS));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 
 			return new PureInfusionRecipe(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
-		public PureInfusionRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+		public PureInfusionRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItem();
 			int i = buffer.readVarInt();
@@ -121,7 +121,7 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlock
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, PureInfusionRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buffer, PureInfusionRecipe recipe) {
 			buffer.writeInt(recipe.elementAmount);
 			buffer.writeItem(recipe.getResultItem());
 			buffer.writeVarInt(recipe.getIngredients().size());

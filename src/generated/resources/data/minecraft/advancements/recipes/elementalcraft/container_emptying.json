@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:container_emptying"
+    ]
+  },
+  "criteria": {
+    "has_container": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:container"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:container_emptying"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_container",
+      "has_the_recipe"
+    ]
+  ]
+}

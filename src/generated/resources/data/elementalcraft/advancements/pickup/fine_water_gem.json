@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:fine_water_gem"
+            "items": [
+              "elementalcraft:fine_water_gem"
+            ]
           }
         ]
       }

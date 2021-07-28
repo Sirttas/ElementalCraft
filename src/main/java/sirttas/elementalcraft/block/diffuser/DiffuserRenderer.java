@@ -1,21 +1,21 @@
 package sirttas.elementalcraft.block.diffuser;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.entity.renderer.AbstractECRenderer;
+import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
 @OnlyIn(Dist.CLIENT)
-public class DiffuserRenderer extends AbstractECRenderer<DiffuserBlockEntity> {
+public class DiffuserRenderer implements IECRenderer<DiffuserBlockEntity> {
 	
 	public static final ResourceLocation CUBE_LOCATION = ElementalCraft.createRL("block/diffuser_cube");
 	
@@ -24,14 +24,12 @@ public class DiffuserRenderer extends AbstractECRenderer<DiffuserBlockEntity> {
 		ROTATION.mul(Vector3f.ZP.rotationDegrees(45));
 	}
 	
-	private IBakedModel cubeModel;
-	
-	public DiffuserRenderer(TileEntityRendererDispatcher rendererDispatcher) {
-		super(rendererDispatcher);
-	}
+	private BakedModel cubeModel;
 
+	public DiffuserRenderer(Context context) {}
+	
 	@Override
-	public void render(DiffuserBlockEntity te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(DiffuserBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		float angle = getAngle(partialTicks);
 		
 		if (cubeModel == null) {

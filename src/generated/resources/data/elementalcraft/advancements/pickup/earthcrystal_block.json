@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:earthcrystal_block"
+            "items": [
+              "elementalcraft:earthcrystal_block"
+            ]
           }
         ]
       }

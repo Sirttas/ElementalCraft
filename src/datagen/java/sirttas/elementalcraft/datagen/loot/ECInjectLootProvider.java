@@ -5,18 +5,18 @@ import java.nio.file.Path;
 import java.text.MessageFormat;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.entity.EntityType;
-import net.minecraft.loot.ConstantRange;
-import net.minecraft.loot.ItemLootEntry;
-import net.minecraft.loot.LootParameterSets;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.RandomValueRange;
-import net.minecraft.loot.conditions.KilledByPlayer;
-import net.minecraft.loot.conditions.RandomChanceWithLooting;
-import net.minecraft.loot.functions.SetCount;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.HashCache;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithLootingCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.loot.LootHandler;
@@ -35,7 +35,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	@Override
-	public void run(DirectoryCache cache) throws IOException {
+	public void run(HashCache cache) throws IOException {
 		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE);
 		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE_VILLAGER);
 		save(cache, genShard(ElementType.EARTH), EntityType.SKELETON);
@@ -70,17 +70,17 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	private static LootPool.Builder genShard(ElementType type) {
-		return LootPool.lootPool().setRolls(ConstantRange.exactly(1))
-				.add(ItemLootEntry.lootTableItem(getShardForType(type)).apply(SetCount.setCount(RandomValueRange.between(1, 3))).setWeight(10))
-				.add(ItemLootEntry.lootTableItem(getPowerfulShardForType(type)).when(KilledByPlayer.killedByPlayer()))
-				.when(RandomChanceWithLooting.randomChanceAndLootingBoost(0.25F, 0.03F));
+		return LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+				.add(LootItem.lootTableItem(getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(getPowerfulShardForType(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
+				.when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.25F, 0.03F));
 	}
 
-	private void save(DirectoryCache cache, LootPool.Builder pool, EntityType<?> entityType) throws IOException {
-		save(cache, LootTable.lootTable().withPool(pool).setParamSet(LootParameterSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
+	private void save(HashCache cache, LootPool.Builder pool, EntityType<?> entityType) throws IOException {
+		save(cache, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
 	}
 
-	private void save(DirectoryCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
+	private void save(HashCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
 		if (!LootHandler.INJECT_lIST.contains(location.getPath())) {
 			throw new IllegalStateException(MessageFormat.format("{} is not present in LootHandler.INJECT_lIST and will not be injected at runtime!", location));
 		}

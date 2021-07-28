@@ -5,15 +5,17 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
@@ -31,41 +33,39 @@ import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SolarSynthesizerBlock.NAME) public static final TileEntityType<SolarSynthesizerBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SolarSynthesizerBlock.NAME) public static final BlockEntityType<SolarSynthesizerBlockEntity> TYPE = null;
 
 	private final SingleItemInventory inventory;
 	private final RuneHandler runeHandler;
 	private boolean working;
 
-	public SolarSynthesizerBlockEntity() {
-		super(TYPE);
+	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state);
 		inventory = new SingleItemInventory(this::setChanged);
 		runeHandler = new RuneHandler(2);
 		working = false;
 	}
 
 
-	@Override
-	public void tick() {
-		super.tick();
-		ISingleElementStorage tank = getTank();
+	public static void tick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
+		ISingleElementStorage tank = solarSynthesizer.getTank();
 		
-		if (tank != null && level.dimensionType().hasSkyLight() && level.canSeeSky(worldPosition) && level.isDay()) {
-			ItemStack stack = inventory.getItem(0);
-			boolean hasExtract = getElementStorage()
-					.map(storage -> storage.transferTo(tank, runeHandler.getTransferSpeed(ECConfig.COMMON.lenseElementMultiplier.get()), runeHandler.getElementPreservation()) > 0).orElse(false);
+		if (tank != null && level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
+			ItemStack stack = solarSynthesizer.inventory.getItem(0);
+			boolean hasExtract = solarSynthesizer.getElementStorage()
+					.map(storage -> storage.transferTo(tank, solarSynthesizer.runeHandler.getTransferSpeed(ECConfig.COMMON.lenseElementMultiplier.get()), solarSynthesizer.runeHandler.getElementPreservation()) > 0).orElse(false);
 			
-			if (hasExtract || working) {
-				working = hasExtract;
-				this.setChanged();
+			if (hasExtract || solarSynthesizer.working) {
+				solarSynthesizer.working = hasExtract;
+				solarSynthesizer.setChanged();
 			}
 			if (!stack.isEmpty() && stack.getDamageValue() >= stack.getMaxDamage()) {
-				Vector3d position = Vector3d.atCenterOf(worldPosition).add(0, 6.5 / 16, 0);
+				Vec3 position = Vec3.atCenterOf(pos).add(0, 6.5 / 16, 0);
 				
-				inventory.setItem(0, ItemStack.EMPTY);
-				level.playLocalSound(position.x(), position.y(), position.z(), SoundEvents.ITEM_BREAK, SoundCategory.BLOCKS, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
+				solarSynthesizer.inventory.setItem(0, ItemStack.EMPTY);
+				level.playLocalSound(position.x(), position.y(), position.z(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
 				ParticleHelper.createItemBreakParticle(level, position, level.random, stack, 3);
-				this.setChanged();
+				solarSynthesizer.setChanged();
 			}
 		}
 	}
@@ -75,8 +75,8 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
 			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
 		}
@@ -84,7 +84,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 		compound.putBoolean(ECNames.WORKING, working);
@@ -105,7 +105,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 	@Override
-	public IInventory getInventory() {
+	public Container getInventory() {
 		return inventory;
 	}
 

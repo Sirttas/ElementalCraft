@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -18,22 +19,22 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + OverloadShrineBlock.NAME) public static final TileEntityType<OverloadShrineBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + OverloadShrineBlock.NAME) public static final BlockEntityType<OverloadShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.AIR).periode(ECConfig.COMMON.overloadShrinePeriode.get())
 			.consumeAmount(ECConfig.COMMON.overloadShrineConsumeAmount.get());
 
-	public OverloadShrineBlockEntity() {
-		super(TYPE, PROPERTIES);
+	public OverloadShrineBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, PROPERTIES);
 	}
 
-	Optional<ITickableTileEntity> getTarget() {
-		return BlockEntityHelper.getTileEntityAs(level, getTargetPos(), ITickableTileEntity.class);
+	Optional<TickingBlockEntity> getTarget() {
+		return BlockEntityHelper.getTileEntityAs(level, getTargetPos(), TickingBlockEntity.class);
 	}
 
 	@Override
-	public AxisAlignedBB getRangeBoundingBox() {
-		return new AxisAlignedBB(getTargetPos());
+	public AABB getRangeBoundingBox() {
+		return new AABB(getTargetPos());
 	}
 
 	private BlockPos getTargetPos() {
@@ -41,11 +42,15 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doTick() {
-		return getTarget().map(t -> {
-			t.tick();
+	protected boolean doPeriode() {
+		var target = getTargetPos();
+		TickingBlockEntity ticker = this.level.getChunkAt(target).tickersInLevel.get(target);
+		
+		if (ticker != null && !ticker.isRemoved()) {
+			ticker.tick();
 			return true;
-		}).orElse(false);
+		}
+		return false;
 	}
 
 	@Override

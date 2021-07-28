@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
@@ -67,12 +67,12 @@ public class PureOreManager {
 				.stream().filter(e -> !e.isEmpty()).map(JEIPurifierRecipe::new).collect(Collectors.toList());
 	}
 
-	private Collection<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> getInjectors() {
+	private Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> getInjectors() {
 		return AbstractPureOreRecipeInjector.REGISTRY.getValues();
 	}
 
 	private void generatePureOres(RecipeManager recipeManager) {
-		Collection<AbstractPureOreRecipeInjector<?, ? extends IRecipe<?>>> injectors = getInjectors();
+		Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors = getInjectors();
 
 		ElementalCraftApi.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
 				() -> injectors.stream().map(AbstractPureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
@@ -103,18 +103,18 @@ public class PureOreManager {
 		ElementalCraftApi.LOGGER.info("Pure ore generation ended");
 	}
 
-	private <C extends IInventory, T extends IRecipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, List<PureOreManager.Entry> entries) {
+	private <C extends Container, T extends Recipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, List<PureOreManager.Entry> entries) {
 		Map<ResourceLocation, T> map = injector.getRecipes();
 
-		map.putAll(entries.stream().distinct().map(entry -> this.injectEntry(injector, entry)).filter(Objects::nonNull).collect(Collectors.toMap(IRecipe::getId, o -> o, (recipe1, recipe2) -> {
+		map.putAll(entries.stream().distinct().map(entry -> this.injectEntry(injector, entry)).filter(Objects::nonNull).collect(Collectors.toMap(Recipe::getId, o -> o, (recipe1, recipe2) -> {
 			ElementalCraftApi.LOGGER.warn("Duplicated key for type {}: {}", injector.getRecipeType(), recipe1.getId());
 			return recipe1;
 		})));
 		injector.inject(map);
 	}
 
-	public <C extends IInventory, T extends IRecipe<C>> T injectEntry(AbstractPureOreRecipeInjector<C, T> injector, Entry entry) {
-		IRecipeType<T> recipeType = injector.getRecipeType();
+	public <C extends Container, T extends Recipe<C>> T injectEntry(AbstractPureOreRecipeInjector<C, T> injector, Entry entry) {
+		RecipeType<T> recipeType = injector.getRecipeType();
 		try {
 			T recipe = entry.getRecipe(recipeType);
 
@@ -153,7 +153,7 @@ public class PureOreManager {
 		List<Ingredient> ingredients;
 		ItemStack result;
 		int color;
-		Map<IRecipeType<?>, IRecipe<?>> recipes = new HashMap<>();
+		Map<RecipeType<?>, Recipe<?>> recipes = new HashMap<>();
 
 		public Entry(Item ore) {
 			this.ore = ore;
@@ -163,13 +163,13 @@ public class PureOreManager {
 
 
 		@SuppressWarnings("unchecked")
-		public <C extends IInventory, T extends IRecipe<C>> T getRecipe(IRecipeType<T> recipeType) {
+		public <C extends Container, T extends Recipe<C>> T getRecipe(RecipeType<T> recipeType) {
 			return (T) recipes.get(recipeType);
 		}
 
 		@SuppressWarnings("unchecked")
-		public <C extends IInventory, T extends IRecipe<C>> void addRecipe(T recipe) {
-			IRecipeType<?> recipeType = recipe.getType();
+		public <C extends Container, T extends Recipe<C>> void addRecipe(T recipe) {
+			RecipeType<?> recipeType = recipe.getType();
 
 			recipes.put(recipe.getType(), recipe);
 			if (result.isEmpty()) {
@@ -188,7 +188,7 @@ public class PureOreManager {
 				if (!other.result.isEmpty() && !result.isEmpty() && ECInventoryHelper.stackEqualCount(other.result, result)) {
 					return true;
 				}
-				for (IRecipe<?> recipe : other.recipes.values()) {
+				for (Recipe<?> recipe : other.recipes.values()) {
 					if (recipes.containsValue(recipe)) {
 						return true;
 					}

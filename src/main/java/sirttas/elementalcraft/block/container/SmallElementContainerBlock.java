@@ -1,18 +1,17 @@
 package sirttas.elementalcraft.block.container;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 
-	public static final String NAME = "tank_small"; // TODO 1.17 rename "container_small"
+	public static final String NAME = "small_container";
 
 	private static final VoxelShape GLASS = Block.box(3D, 3D, 3D, 13D, 13D, 13D);
 
@@ -31,17 +30,12 @@ public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 	private static final VoxelShape CONNECTOR_UP_1 = Block.box(5D, 13D, 5D, 11D, 15D, 11D);
 	private static final VoxelShape CONNECTOR_UP_2 = Block.box(6D, 15D, 6D, 10D, 16D, 10D);
 
-	private static final VoxelShape SHAPE = VoxelShapes.or(GLASS, CONNECTOR_NORTH_1, CONNECTOR_NORTH_2, CONNECTOR_SOUTH_1, CONNECTOR_SOUTH_2, CONNECTOR_WEST_1, CONNECTOR_WEST_2, CONNECTOR_EAST_1,
+	private static final VoxelShape SHAPE = Shapes.or(GLASS, CONNECTOR_NORTH_1, CONNECTOR_NORTH_2, CONNECTOR_SOUTH_1, CONNECTOR_SOUTH_2, CONNECTOR_WEST_1, CONNECTOR_WEST_2, CONNECTOR_EAST_1,
 			CONNECTOR_EAST_2, CONNECTOR_DOWN_1, CONNECTOR_DOWN_2, CONNECTOR_UP_1, CONNECTOR_UP_2);
-
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new ElementContainerBlockEntity(true);
-	}
-
+	
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 	

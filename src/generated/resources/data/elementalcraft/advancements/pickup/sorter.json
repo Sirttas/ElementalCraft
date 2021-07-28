@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:sorter"
+            "items": [
+              "elementalcraft:sorter"
+            ]
           }
         ]
       }

@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.ECRenderTypes;
@@ -26,12 +26,12 @@ import sirttas.elementalcraft.event.TickHandler;
 
 public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEntity> {
 
-	public PureInfuserRenderer(TileEntityRendererDispatcher rendererDispatcher) {
-		super(rendererDispatcher, new Vector3d(0.5, 0.9, 0.5));
+	public PureInfuserRenderer(Context context) {
+		super(new Vec3(0.5, 0.9, 0.5));
 	}
 
 	@Override
-	public void render(PureInfuserBlockEntity te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
+	public void render(PureInfuserBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get())) {
 			Map<Direction, ElementType> map = getDirectionMap(te);
 			List<ElementType> remaining = getRemainingElements(map);

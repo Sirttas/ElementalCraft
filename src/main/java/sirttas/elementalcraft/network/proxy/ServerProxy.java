@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.network.proxy;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 
 public class ServerProxy implements IProxy {
 
@@ -15,7 +15,7 @@ public class ServerProxy implements IProxy {
 	}
 
 	@Override
-	public World getDefaultWorld() {
+	public Level getDefaultWorld() {
 		return server.overworld();
 	}
 	

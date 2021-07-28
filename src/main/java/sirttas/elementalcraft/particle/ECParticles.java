@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.particle;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;

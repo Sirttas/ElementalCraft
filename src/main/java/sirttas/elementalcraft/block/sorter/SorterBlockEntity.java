@@ -5,68 +5,66 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.entity.AbstractECTickableBlockEntity;
+import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
-public class SorterBlockEntity extends AbstractECTickableBlockEntity {
+public class SorterBlockEntity extends AbstractECBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SorterBlock.NAME) public static final TileEntityType<SorterBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SorterBlock.NAME) public static final BlockEntityType<SorterBlockEntity> TYPE = null;
 	
 	private List<ItemStack> stacks;
 	private int index;
 	private int tick;
 	private boolean alwaysInsert;
 
-	public SorterBlockEntity() {
-		super(TYPE);
+	public SorterBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state);
 		stacks = Lists.newArrayList();
 		index = 0;
 		tick = 0;
 		alwaysInsert = false;
 	}
 	
-	@Override
-	public void tick() {
-		super.tick();
-		if (!level.isClientSide) {
-			tick++;
-			if (tick > ECConfig.COMMON.sorterCooldown.get()) {
-				if (!this.isPowered()) {
-					transfer();
-				}
-				tick = 0;
+	public static void serverTick(Level level, BlockPos pos, BlockState state, SorterBlockEntity sorter) {
+		sorter.tick++;
+		if (sorter.tick > ECConfig.COMMON.sorterCooldown.get()) {
+			if (!sorter.isPowered()) {
+				sorter.transfer();
 			}
+			sorter.tick = 0;
 		}
 	}
 
-	public ActionResultType addStack(ItemStack stack) {
+	public InteractionResult addStack(ItemStack stack) {
 		if (!stacks.isEmpty() && stack.isEmpty()) {
 			stacks.clear();
 			index = 0;
 			this.setChanged();
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		} else if (stacks.size() < ECConfig.COMMON.sorterMaxItem.get()) {
 			ItemStack copy = stack.copy();
 
 			copy.setCount(1);
 			stacks.add(copy);
 			this.setChanged();
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	public List<ItemStack> getStacks() {
@@ -117,8 +115,8 @@ public class SorterBlockEntity extends AbstractECTickableBlockEntity {
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		readStacks(compound.getList(ECNames.STACKS, 10));
 		index = compound.getInt(ECNames.INDEX);
 		if (index > stacks.size()) {
@@ -127,7 +125,7 @@ public class SorterBlockEntity extends AbstractECTickableBlockEntity {
 		alwaysInsert = compound.getBoolean(ECNames.ALWAYSE_INSERT);
 	}
 
-	private void readStacks(ListNBT listNbt) {
+	private void readStacks(ListTag listNbt) {
 		stacks.clear();
 		for (int i = 0; i < listNbt.size(); ++i) {
 			ItemStack itemstack = ItemStack.of(listNbt.getCompound(i));
@@ -140,7 +138,7 @@ public class SorterBlockEntity extends AbstractECTickableBlockEntity {
 	}
 	
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		compound.put(ECNames.STACKS, this.writeStacks());
 		compound.putInt(ECNames.INDEX, index);
@@ -148,12 +146,12 @@ public class SorterBlockEntity extends AbstractECTickableBlockEntity {
 		return compound;
 	}
 
-	private ListNBT writeStacks() {
-		ListNBT listnbt = new ListNBT();
+	private ListTag writeStacks() {
+		ListTag listnbt = new ListTag();
 
 		for (ItemStack itemstack : stacks) {
 			if (!itemstack.isEmpty()) {
-				listnbt.add(itemstack.save(new CompoundNBT()));
+				listnbt.add(itemstack.save(new CompoundTag()));
 			}
 		}
 		return listnbt;

@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
@@ -11,7 +11,7 @@ import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 public abstract class AbstractBindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 
 	public static final String NAME = "binding";
-	public static final IRecipeType<AbstractBindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new IRecipeType<AbstractBindingRecipe>() {
+	public static final RecipeType<AbstractBindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<AbstractBindingRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
@@ -23,7 +23,7 @@ public abstract class AbstractBindingRecipe extends AbstractInstrumentRecipe<IBi
 	}
 
 	@Override
-	public IRecipeType<?> getType() {
+	public RecipeType<?> getType() {
 		return TYPE;
 	}
 }

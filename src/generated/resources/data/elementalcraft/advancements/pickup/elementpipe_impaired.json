@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:elementpipe_impaired"
+            "items": [
+              "elementalcraft:elementpipe_impaired"
+            ]
           }
         ]
       }

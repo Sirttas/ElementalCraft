@@ -11,11 +11,11 @@ import java.util.stream.IntStream;
 
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
@@ -29,17 +29,17 @@ public class SpellHelper {
 	}
 
 	public static void setSpell(ItemStack stack, Spell spell) {
-		CompoundNBT nbt = NBTHelper.getOrCreateECTag(stack);
+		CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
 
 		nbt.putString(ECNames.SPELL, spell.getRegistryName().toString());
 	}
 
 	public static void removeSpell(ItemStack stack, Spell spell) {
-		ListNBT list = getSpellList(stack);
+		ListTag list = getSpellList(stack);
 
 		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
-				CompoundNBT tag = (CompoundNBT) list.get(i);
+				CompoundTag tag = (CompoundTag) list.get(i);
 
 				if (tag.getString(ECNames.SPELL).equals(spell.getRegistryName().toString())) {
 					int count = tag.getInt(ECNames.COUNT);
@@ -59,9 +59,9 @@ public class SpellHelper {
 		}
 	}
 
-	public static ListNBT getOrCreateSpellList(ItemStack stack) {
-		CompoundNBT nbt = NBTHelper.getOrCreateECTag(stack);
-		ListNBT list = nbt.getList(ECNames.SPELL_LIST, 10);
+	public static ListTag getOrCreateSpellList(ItemStack stack) {
+		CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
+		ListTag list = nbt.getList(ECNames.SPELL_LIST, 10);
 
 		if (!nbt.contains(ECNames.SPELL_LIST)) {
 			nbt.put(ECNames.SPELL_LIST, list);
@@ -70,11 +70,11 @@ public class SpellHelper {
 	}
 
 	public static void forEachSpell(ItemStack stack, ObjIntConsumer<Spell> consumer) {
-		ListNBT list = getSpellList(stack);
+		ListTag list = getSpellList(stack);
 
 		if (list != null && !list.isEmpty()) {
 			list.forEach(t -> {
-				CompoundNBT tag = (CompoundNBT) t;
+				CompoundTag tag = (CompoundTag) t;
 
 				consumer.accept(getSpellFromTag(tag), tag.getInt(ECNames.COUNT));
 			});
@@ -82,13 +82,13 @@ public class SpellHelper {
 	}
 
 	public static List<Pair<Spell, Integer>> getSpellsAsMap(ItemStack stack) {
-		ListNBT list = getSpellList(stack);
+		ListTag list = getSpellList(stack);
 
 		if (list != null && !list.isEmpty()) {
 			List<Pair<Spell, Integer>> value = new ArrayList<>(list.size());
 
 			list.forEach(t -> {
-				CompoundNBT tag = (CompoundNBT) t;
+				CompoundTag tag = (CompoundTag) t;
 
 				value.add(new Pair<>(getSpellFromTag(tag), tag.getInt(ECNames.COUNT)));
 			});
@@ -97,8 +97,8 @@ public class SpellHelper {
 		return Collections.emptyList();
 	}
 
-	public static ListNBT getSpellList(ItemStack stack) {
-		CompoundNBT nbt = NBTHelper.getECTag(stack);
+	public static ListTag getSpellList(ItemStack stack) {
+		CompoundTag nbt = NBTHelper.getECTag(stack);
 
 		if (nbt != null && nbt.contains(ECNames.SPELL_LIST)) {
 			return nbt.getList(ECNames.SPELL_LIST, 10);
@@ -107,7 +107,7 @@ public class SpellHelper {
 	}
 
 	public static void copySpells(ItemStack source, ItemStack target) {
-		ListNBT list = getSpellList(source);
+		ListTag list = getSpellList(source);
 		Spell spell = getSpell(source);
 
 		if (list != null && !list.isEmpty()) {
@@ -119,26 +119,26 @@ public class SpellHelper {
 	}
 	
 	public static int getSpellCount(ItemStack stack) {
-		ListNBT list = getSpellList(stack);
+		ListTag list = getSpellList(stack);
 
 		if (list != null && !list.isEmpty()) {
-			return list.stream().mapToInt(t -> ((CompoundNBT) t).getInt(ECNames.COUNT)).sum();
+			return list.stream().mapToInt(t -> ((CompoundTag) t).getInt(ECNames.COUNT)).sum();
 		}
 		return 0;
 	}
 
 	public static void addSpell(ItemStack stack, Spell spell) {
-		ListNBT list = getOrCreateSpellList(stack);
+		ListTag list = getOrCreateSpellList(stack);
 
 		for (int i = 0; i < list.size(); i++) {
-			CompoundNBT tag = (CompoundNBT) list.get(i);
+			CompoundTag tag = (CompoundTag) list.get(i);
 
 			if (isSpellInTag(tag, spell)) {
 				tag.putInt(ECNames.COUNT, tag.getInt(ECNames.COUNT) + 1);
 				return;
 			}
 		}
-		CompoundNBT tag = new CompoundNBT();
+		CompoundTag tag = new CompoundTag();
 
 		tag.putString(ECNames.SPELL, spell.getRegistryName().toString());
 		tag.putInt(ECNames.COUNT, 1);
@@ -149,7 +149,7 @@ public class SpellHelper {
 	}
 
 	public static void moveSelected(ItemStack stack, int i) {
-		ListNBT list = getSpellList(stack);
+		ListTag list = getSpellList(stack);
 		Spell spell = getSpell(stack);
 
 		if (list != null && !list.isEmpty()) {
@@ -164,16 +164,16 @@ public class SpellHelper {
 		}
 	}
 
-	private static Spell getSpellFromTag(INBT nbt) {
-		if (nbt instanceof CompoundNBT) {
-			return Spell.REGISTRY.getValue(new ResourceLocation(((CompoundNBT) nbt).getString(ECNames.SPELL)));
+	private static Spell getSpellFromTag(Tag nbt) {
+		if (nbt instanceof CompoundTag) {
+			return Spell.REGISTRY.getValue(new ResourceLocation(((CompoundTag) nbt).getString(ECNames.SPELL)));
 		}
 		return Spells.NONE;
 	}
 
-	private static boolean isSpellInTag(INBT nbt, Spell spell) {
-		if (nbt instanceof CompoundNBT && ((CompoundNBT) nbt).contains(ECNames.SPELL)) {
-			return ((CompoundNBT) nbt).getString(ECNames.SPELL).equals(spell.getRegistryName().toString());
+	private static boolean isSpellInTag(Tag nbt, Spell spell) {
+		if (nbt instanceof CompoundTag && ((CompoundTag) nbt).contains(ECNames.SPELL)) {
+			return ((CompoundTag) nbt).getString(ECNames.SPELL).equals(spell.getRegistryName().toString());
 		}
 		return false;
 	}

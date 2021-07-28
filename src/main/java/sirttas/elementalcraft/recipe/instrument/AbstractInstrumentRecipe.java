@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 

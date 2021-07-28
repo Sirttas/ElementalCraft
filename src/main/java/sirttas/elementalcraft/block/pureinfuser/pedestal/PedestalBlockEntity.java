@@ -4,10 +4,12 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -22,36 +24,16 @@ import sirttas.elementalcraft.inventory.SingleItemInventory;
 
 public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElementTypeProvider {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PedestalBlock.NAME_FIRE) public static final TileEntityType<PedestalBlockEntity> TYPE_FIRE = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PedestalBlock.NAME_WATER) public static final TileEntityType<PedestalBlockEntity> TYPE_WATER = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PedestalBlock.NAME_EARTH) public static final TileEntityType<PedestalBlockEntity> TYPE_EARTH = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PedestalBlock.NAME_AIR) public static final TileEntityType<PedestalBlockEntity> TYPE_AIR = null;
-
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + PedestalBlock.NAME) public static final BlockEntityType<PedestalBlockEntity> TYPE = null;
 	private final SingleItemInventory inventory;
 	private final SingleElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
-	private PedestalBlockEntity(TileEntityType<?> tileEntityType, ElementType type) {
-		super(tileEntityType);
+	public PedestalBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state);
 		inventory = new SingleItemInventory(this::setChanged);
-		elementStorage = new ElementStorageRenderer(type, this::setChanged);
+		elementStorage = new ElementStorageRenderer(ElementType.getElementType(state), this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get());
-	}
-
-	public static PedestalBlockEntity createFire() {
-		return new PedestalBlockEntity(TYPE_FIRE, ElementType.FIRE);
-	}
-
-	public static PedestalBlockEntity createWater() {
-		return new PedestalBlockEntity(TYPE_WATER, ElementType.WATER);
-	}
-
-	public static PedestalBlockEntity createEarth() {
-		return new PedestalBlockEntity(TYPE_EARTH, ElementType.EARTH);
-	}
-
-	public static PedestalBlockEntity createAir() {
-		return new PedestalBlockEntity(TYPE_AIR, ElementType.AIR);
 	}
 
 	public Direction getPureInfuserDirection() {
@@ -66,7 +48,7 @@ public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElem
 	}
 
 	@Override
-	public IInventory getInventory() {
+	public Container getInventory() {
 		return inventory;
 	}
 

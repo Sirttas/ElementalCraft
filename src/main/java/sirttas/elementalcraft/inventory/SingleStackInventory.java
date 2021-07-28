@@ -4,12 +4,12 @@ import javax.annotation.Nonnull;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class SingleStackInventory extends AbstractSynchronizableInventory implements INBTSerializable<CompoundNBT> {
+public class SingleStackInventory extends AbstractSynchronizableInventory implements INBTSerializable<CompoundTag> {
 
 	protected ItemStack stack;
 
@@ -59,7 +59,7 @@ public class SingleStackInventory extends AbstractSynchronizableInventory implem
 
 	@Override
 	public ItemStack removeItem(int slot, int count) {
-		ItemStack value = ItemStackHelper.removeItem(Lists.newArrayList(stack), slot, count);
+		ItemStack value = ContainerHelper.removeItem(Lists.newArrayList(stack), slot, count);
 
 		this.setChanged();
 		return value;
@@ -76,15 +76,15 @@ public class SingleStackInventory extends AbstractSynchronizableInventory implem
 
 	@Override
 	@Nonnull
-	public CompoundNBT serializeNBT() {
-		CompoundNBT stackNbt = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		CompoundTag stackNbt = new CompoundTag();
 
 		stack.save(stackNbt);
 		return stackNbt;
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT nbt) {
+	public void deserializeNBT(CompoundTag nbt) {
 		stack = ItemStack.of(nbt);
 	}
 

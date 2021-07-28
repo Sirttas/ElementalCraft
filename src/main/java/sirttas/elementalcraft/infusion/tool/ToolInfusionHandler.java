@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,7 +21,7 @@ public class ToolInfusionHandler {
 	@SubscribeEvent
 	public static void addInfusionTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
-		List<ITextComponent> tooltip = event.getToolTip();
+		List<Component> tooltip = event.getToolTip();
 		ToolInfusion infusion = ToolInfusionHelper.getInfusion(stack);
 
 		if (infusion != null) {

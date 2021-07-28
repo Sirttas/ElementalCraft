@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
@@ -31,7 +31,7 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return recipe.getSerializer();
 	}
 }

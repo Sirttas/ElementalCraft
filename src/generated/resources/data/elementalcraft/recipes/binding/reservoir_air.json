@@ -4,7 +4,7 @@
   "element_amount": 10000,
   "ingredients": [
     {
-      "item": "elementalcraft:tank"
+      "item": "elementalcraft:container"
     },
     {
       "item": "elementalcraft:purecrystal"

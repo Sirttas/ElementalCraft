@@ -3,9 +3,9 @@ package sirttas.elementalcraft.data.predicate.block.rune;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -24,13 +24,13 @@ public class TagHasRunePredicate implements IRunePredicate {
 
 	private final int count;
 	private final ResourceLocation tagId;
-	private ITag<Rune> tag;
+	private Tag<Rune> tag;
 
-	public TagHasRunePredicate(INamedTag<Rune> tag) {
+	public TagHasRunePredicate(Named<Rune> tag) {
 		this(tag, 1);
 	}
 
-	public TagHasRunePredicate(INamedTag<Rune> tag, int count) {
+	public TagHasRunePredicate(Named<Rune> tag, int count) {
 		this(tag.getName(), count);
 		this.tag = tag;
 	}

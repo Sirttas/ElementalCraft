@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:crystallizer"
+            "items": [
+              "elementalcraft:crystallizer"
+            ]
           }
         ]
       }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:inertcrystal_block"
+            "items": [
+              "elementalcraft:inertcrystal_block"
+            ]
           }
         ]
       }

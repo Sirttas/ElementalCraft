@@ -4,13 +4,13 @@ import java.util.function.Consumer;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -22,7 +22,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	private final String prefix;
 	
 	
-	public ToolInfusionRecipeBuilder(IRecipeSerializer<?> serializerIn, INamedTag<Item> ingredientIn, ResourceLocation infusion) {
+	public ToolInfusionRecipeBuilder(RecipeSerializer<?> serializerIn, Named<Item> ingredientIn, ResourceLocation infusion) {
 		super(serializerIn, Ingredient.of(ingredientIn));
 		String[] split = ingredientIn.getName().getPath().split("/");
 		
@@ -31,11 +31,11 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 		elementAmount = 2000;
 	}
 
-	public static ToolInfusionRecipeBuilder toolInfusionRecipe(INamedTag<Item> ingredientIn, ResourceLocation infusion) {
+	public static ToolInfusionRecipeBuilder toolInfusionRecipe(Named<Item> ingredientIn, ResourceLocation infusion) {
 		return new ToolInfusionRecipeBuilder(ToolInfusionRecipe.SERIALIZER, ingredientIn, infusion);
 	}
 	
-	public static ToolInfusionRecipeBuilder toolInfusionRecipe(INamedTag<Item> ingredientIn, Enchantment enchantment) {
+	public static ToolInfusionRecipeBuilder toolInfusionRecipe(Named<Item> ingredientIn, Enchantment enchantment) {
 		return new ToolInfusionRecipeBuilder(ToolInfusionRecipe.SERIALIZER, ingredientIn, ElementalCraft.createRL(enchantment.getRegistryName().getPath()));
 	}
 	
@@ -47,7 +47,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	}
 	
 	@Override
-	public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.serializer, this.ingredient, this.infusion, elementAmount));
 	}
 
@@ -55,7 +55,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 		
 		private final ResourceLocation infusion;
 
-		public Result(ResourceLocation idIn, IRecipeSerializer<?> serializerIn, Ingredient ingredientIn, ResourceLocation infusion, int elementAmount) {
+		public Result(ResourceLocation idIn, RecipeSerializer<?> serializerIn, Ingredient ingredientIn, ResourceLocation infusion, int elementAmount) {
 			super(idIn, serializerIn, ingredientIn, elementAmount);
 			this.infusion = infusion;
 		}

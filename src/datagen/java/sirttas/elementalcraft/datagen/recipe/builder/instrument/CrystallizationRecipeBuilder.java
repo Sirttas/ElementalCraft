@@ -6,14 +6,14 @@ import java.util.function.Consumer;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag.INamedTag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -28,9 +28,9 @@ public class CrystallizationRecipeBuilder {
 	private final List<Ingredient> ingredients = Lists.newArrayList(Ingredient.EMPTY, Ingredient.EMPTY, Ingredient.EMPTY);
 	private final ElementType elementType;
 	private int elementAmount;
-	private final IRecipeSerializer<?> serializer;
+	private final RecipeSerializer<?> serializer;
 
-	public CrystallizationRecipeBuilder(IRecipeSerializer<?> serializerIn, ElementType elementType) {
+	public CrystallizationRecipeBuilder(RecipeSerializer<?> serializerIn, ElementType elementType) {
 		this.serializer = serializerIn;
 		this.elementType = elementType;
 		elementAmount = 5000;
@@ -46,11 +46,11 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public CrystallizationRecipeBuilder setGem(INamedTag<Item> tagIn) {
+	public CrystallizationRecipeBuilder setGem(Named<Item> tagIn) {
 		return this.setIngredient(0, tagIn);
 	}
 
-	public CrystallizationRecipeBuilder setGem(IItemProvider itemIn) {
+	public CrystallizationRecipeBuilder setGem(ItemLike itemIn) {
 		return this.setIngredient(0, itemIn);
 	}
 
@@ -58,11 +58,11 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(0, ingredientIn);
 	}
 
-	public CrystallizationRecipeBuilder setCrystal(INamedTag<Item> tagIn) {
+	public CrystallizationRecipeBuilder setCrystal(Named<Item> tagIn) {
 		return this.setIngredient(1, tagIn);
 	}
 
-	public CrystallizationRecipeBuilder setCrystal(IItemProvider itemIn) {
+	public CrystallizationRecipeBuilder setCrystal(ItemLike itemIn) {
 		return this.setIngredient(1, itemIn);
 	}
 
@@ -70,11 +70,11 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(1, ingredientIn);
 	}
 
-	public CrystallizationRecipeBuilder setShard(INamedTag<Item> tagIn) {
+	public CrystallizationRecipeBuilder setShard(Named<Item> tagIn) {
 		return this.setIngredient(2, tagIn);
 	}
 
-	public CrystallizationRecipeBuilder setShard(IItemProvider itemIn) {
+	public CrystallizationRecipeBuilder setShard(ItemLike itemIn) {
 		return this.setIngredient(2, itemIn);
 	}
 
@@ -82,11 +82,11 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(2, ingredientIn);
 	}
 
-	private CrystallizationRecipeBuilder setIngredient(int index, INamedTag<Item> tagIn) {
+	private CrystallizationRecipeBuilder setIngredient(int index, Named<Item> tagIn) {
 		return this.setIngredient(index, Ingredient.of(tagIn));
 	}
 
-	private CrystallizationRecipeBuilder setIngredient(int index, IItemProvider itemIn) {
+	private CrystallizationRecipeBuilder setIngredient(int index, ItemLike itemIn) {
 		return this.setIngredient(index, Ingredient.of(itemIn));
 	}
 
@@ -95,20 +95,20 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public CrystallizationRecipeBuilder addOutput(IItemProvider item, float weight) {
+	public CrystallizationRecipeBuilder addOutput(ItemLike item, float weight) {
 		return addOutput(item, weight, 1);
 	}
 
-	public CrystallizationRecipeBuilder addOutput(IItemProvider item, float weight, float quality) {
+	public CrystallizationRecipeBuilder addOutput(ItemLike item, float weight, float quality) {
 		this.outputs.add(CrystallizationRecipe.createResult(new ItemStack(item), weight, quality));
 		return this;
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
 		this.build(consumerIn, ElementalCraft.createRL(CrystallizationRecipe.NAME + '/' + save));
 	}
 
-	public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.serializer, this.ingredients, this.outputs, elementType, elementAmount));
 	}
 
@@ -118,7 +118,7 @@ public class CrystallizationRecipeBuilder {
 		private final ElementType elementType;
 		private final int elementAmount;
 
-		public Result(ResourceLocation id, IRecipeSerializer<?> serializer, List<Ingredient> ingredients, List<ResultEntry> outputs, ElementType elementType, int elementAmount) {
+		public Result(ResourceLocation id, RecipeSerializer<?> serializer, List<Ingredient> ingredients, List<ResultEntry> outputs, ElementType elementType, int elementAmount) {
 			super(id, serializer);
 			this.ingredients = ingredients;
 			this.outputs = outputs;

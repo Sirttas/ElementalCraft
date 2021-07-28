@@ -7,9 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.DataProvider;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -33,7 +33,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinatio
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class ShrineUpgradeProvider implements IDataProvider {
+public class ShrineUpgradeProvider implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private final DataGenerator generator;
 
@@ -42,7 +42,7 @@ public class ShrineUpgradeProvider implements IDataProvider {
 	}
 
 	@Override
-	public void run(DirectoryCache cache) throws IOException {
+	public void run(HashCache cache) throws IOException {
 		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.ORE_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2)
 				.incompatibleWith(ElementalCraft.createRL(FortuneShrineUpgradeBlock.NAME)), SilkTouchShrineUpgradeBlock.NAME);
 		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.ORE_SHRINE).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F)
@@ -71,8 +71,8 @@ public class ShrineUpgradeProvider implements IDataProvider {
 				OptimizationShrineUpgradeBlock.NAME);
 	}
 
-	protected void save(DirectoryCache cache, ShrineUpgrade.Builder builder, String name) throws IOException {
-		IDataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
+	protected void save(HashCache cache, ShrineUpgrade.Builder builder, String name) throws IOException {
+		DataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
 	}
 
 	private Path getPath(ResourceLocation id) {

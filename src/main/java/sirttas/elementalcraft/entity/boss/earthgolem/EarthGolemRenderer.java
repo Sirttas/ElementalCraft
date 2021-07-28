@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.entity.boss.earthgolem;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class EarthGolemRenderer extends MobRenderer<EarthGolemEntity, EarthGolemModel> {
 
@@ -13,8 +13,8 @@ public class EarthGolemRenderer extends MobRenderer<EarthGolemEntity, EarthGolem
 
 	private static final float SIZE = 5F;
 
-	public EarthGolemRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new EarthGolemModel(), 5F);
+	public EarthGolemRenderer(Context context) {
+		super(context, new EarthGolemModel(), 5F);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class EarthGolemRenderer extends MobRenderer<EarthGolemEntity, EarthGolem
 	}
 
 	@Override
-	public void render(EarthGolemEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {
+	public void render(EarthGolemEntity entity, float entityYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {
 		matrixStack.scale(SIZE, SIZE, SIZE);
 		super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
 		matrixStack.scale(1F / SIZE, 1F / SIZE, 1F / SIZE);

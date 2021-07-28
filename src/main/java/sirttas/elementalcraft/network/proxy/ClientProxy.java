@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.network.proxy;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -23,7 +23,6 @@ import sirttas.elementalcraft.particle.ECParticles;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
-@SuppressWarnings("resource")
 public class ClientProxy implements IProxy {
 
 	private final Minecraft minecraft;
@@ -48,12 +47,12 @@ public class ClientProxy implements IProxy {
 
 
 	@Override
-	public World getDefaultWorld() {
+	public Level getDefaultWorld() {
 		return minecraft.level;
 	}
 	
 	@Override
-	public PlayerEntity getDefaultPlayer() {
+	public Player getDefaultPlayer() {
 		return minecraft.player;
 	}
 	
@@ -77,7 +76,7 @@ public class ClientProxy implements IProxy {
 		addSprite(event, SolarSynthesizerRenderer.BEAM);
 	}
 	
-	private void addSprite(TextureStitchEvent.Pre event, RenderMaterial sprite) {
+	private void addSprite(TextureStitchEvent.Pre event, Material sprite) {
 		if (event.getMap().location().equals(sprite.atlasLocation())) {
 			event.addSprite(sprite.texture());
 		}

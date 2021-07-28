@@ -7,14 +7,14 @@ import java.util.stream.StreamSupport;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -33,7 +33,7 @@ public class ToolInfusionHelper {
 	private ToolInfusionHelper() {}
 	
 	public static ToolInfusion getInfusion(ItemStack stack) {
-		CompoundNBT nbt = NBTHelper.getECTag(stack);
+		CompoundTag nbt = NBTHelper.getECTag(stack);
 
 		if (nbt != null && nbt.contains(ECNames.INFUSION, 8)) {
 			return ElementalCraftApi.TOOL_INFUSION_MANAGER.get(new ResourceLocation(nbt.getString(ECNames.INFUSION)));
@@ -42,13 +42,13 @@ public class ToolInfusionHelper {
 	}
 	
 	public static void setInfusion(ItemStack stack, ToolInfusion infusion) {
-		CompoundNBT nbt = NBTHelper.getOrCreateECTag(stack);
+		CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
 		
 		nbt.putString(ECNames.INFUSION, infusion.getId().toString());
 	}
 
 	public static void removeInfusion(ItemStack stack) {
-		CompoundNBT nbt = NBTHelper.getECTag(stack);
+		CompoundTag nbt = NBTHelper.getECTag(stack);
 
 		if (!stack.isEmpty() && nbt != null && nbt.contains(ECNames.INFUSION)) {
 			nbt.remove(ECNames.INFUSION);
@@ -99,7 +99,7 @@ public class ToolInfusionHelper {
 				.sum();
 	}
 	
-	public static Multimap<Attribute, AttributeModifier> getInfusionAttribute(ItemStack stack, EquipmentSlotType slot) {
+	public static Multimap<Attribute, AttributeModifier> getInfusionAttribute(ItemStack stack, EquipmentSlot slot) {
 		Multimap<Attribute, AttributeModifier> map = ArrayListMultimap.create();
 		
 		getInfusionEffects(stack, AttributeToolInfusionEffect.class)

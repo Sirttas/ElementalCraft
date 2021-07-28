@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.recipe;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 
-public interface IECRecipe<T extends IInventory> extends IRecipe<T> {
+public interface IECRecipe<T extends Container> extends Recipe<T> {
 
 	@Override
 	default boolean canCraftInDimensions(int width, int height) {

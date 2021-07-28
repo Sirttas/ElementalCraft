@@ -1,17 +1,17 @@
 package sirttas.elementalcraft.block.container.creative;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 
 public class CreativeElementContainerBlock extends ElementContainerBlock {
 
-	public static final String NAME = "tank_creative"; // TODO 1.17 rename "container_creative"
+	public static final String NAME = "creative_container";
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new CreativeElementContainerBlockEntity();
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new CreativeElementContainerBlockEntity(pos, state);
 	}
 	
 	@Override

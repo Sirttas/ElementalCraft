@@ -12,23 +12,24 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -37,15 +38,14 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.entity.AbstractECTickableBlockEntity;
+import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
 
-public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implements IElementPipe {
+public class ElementPipeBlockEntity extends AbstractECBlockEntity implements IElementPipe {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementPipeBlock.NAME) public static final TileEntityType<ElementPipeBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementPipeBlock.NAME) public static final BlockEntityType<ElementPipeBlockEntity> TYPE = null;
 	
 	private final Map<Direction, ConnectionType> connections;
 	private final Map<Direction, Boolean> priorities;
@@ -55,16 +55,13 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 	
 	private final Comparator<Entry<Direction, ConnectionType>> comparator;
 
-	public ElementPipeBlockEntity() {
-		this(ECConfig.COMMON.pipeTransferAmount.get());
-	}
 
-	public ElementPipeBlockEntity(int maxTransferAmount) {
-		super(TYPE);
+	public ElementPipeBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state);
 		this.connections = new EnumMap<>(Direction.class);
 		this.priorities = new EnumMap<>(Direction.class);
 		transferedAmount = 0;
-		this.maxTransferAmount = maxTransferAmount;
+		this.maxTransferAmount = ((ElementPipeBlock) state.getBlock()).getMaxTransferAmount();
 		this.comparator = creatComparator();
 	}
 
@@ -74,7 +71,7 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 		return cmp.thenComparing((c1, c2) -> c2.getValue().getValue() - c1.getValue().getValue());
 	}
 
-	private Optional<TileEntity> getAdjacentTile(Direction face) {
+	private Optional<BlockEntity> getAdjacentTile(Direction face) {
 		return this.hasLevel() ? BlockEntityHelper.getTileEntity(this.getLevel(), this.getBlockPos().relative(face)) : Optional.empty();
 	}
 
@@ -145,28 +142,28 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 		return this.maxTransferAmount - this.transferedAmount;
 	}
 
-	@Override
-	public void tick() {
-		super.tick();
-		refresh();
-		transferedAmount = 0;
-		if (this.hasLevel() && !this.level.isClientSide) {
-			connections.entrySet().stream()
-					.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
-					.sorted(comparator)
-					.map(Map.Entry::getKey)
-					.map(side -> getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()))
-					.filter(Optional::isPresent)
-					.map(Optional::get)
-					.forEach(sender -> {
-						if (sender instanceof IElementTypeProvider) {
-							this.transferElement(sender, ((IElementTypeProvider) sender).getElementType());
-						}
-					});
-		}
+	public static void commonTick(Level level, BlockPos pos, BlockState state, ElementPipeBlockEntity pipe) {
+		pipe.refresh();
+		pipe.transferedAmount = 0;
+	}
+	
+	public static void serverTick(Level level, BlockPos pos, BlockState state, ElementPipeBlockEntity pipe) {
+		commonTick(level, pos, state, pipe);
+		pipe.connections.entrySet().stream()
+				.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
+				.sorted(pipe.comparator)
+				.map(Map.Entry::getKey)
+				.map(side -> pipe.getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.forEach(sender -> {
+					if (sender instanceof IElementTypeProvider) {
+						pipe.transferElement(sender, ((IElementTypeProvider) sender).getElementType());
+					}
+				});
 	}
 
-	public ActionResultType activatePriority(Direction face, PlayerEntity player, Hand hand) {
+	public InteractionResult activatePriority(Direction face, Player player, InteractionHand hand) {
 		boolean priority = isPriority(face);
 		
 		this.setPriority(face, !priority);
@@ -182,14 +179,14 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 				}
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
-	private void dropPriorities(@Nullable PlayerEntity player, int size) {
-		World world = this.getLevel();
+	private void dropPriorities(@Nullable Player player, int size) {
+		Level world = this.getLevel();
 		
 		if (world != null && !world.isClientSide) {
-			Vector3d vect = player != null ? player.position().add(0, 0.25, 0) : Vector3d.atCenterOf(this.getBlockPos());
+			Vec3 vect = player != null ? player.position().add(0, 0.25, 0) : Vec3.atCenterOf(this.getBlockPos());
 			
 			world.addFreshEntity(new ItemEntity(world, vect.x, vect.y, vect.z, new ItemStack(ECItems.PIPE_PRIORITY, size)));
 		}
@@ -199,7 +196,7 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 		dropPriorities(null, (int) this.priorities.values().stream().filter(Boolean.TRUE::equals).count());
 	}
 	
-	public ActionResultType activatePipe(Direction face) {
+	public InteractionResult activatePipe(Direction face) {
 		return getAdjacentTile(face).map(tile -> {
 			ConnectionType connection = this.getConection(face);
 
@@ -210,14 +207,14 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 				} else {
 					this.setConection(face, ConnectionType.DISCONNECT);
 				}
-				return ActionResultType.SUCCESS;
+				return InteractionResult.SUCCESS;
 			case EXTRACT:
 			case CONNECT:
 				this.setConection(face, ConnectionType.DISCONNECT);
 				if (tile instanceof ElementPipeBlockEntity) {
 					((ElementPipeBlockEntity) tile).setConection(face.getOpposite(), ConnectionType.DISCONNECT);
 				}
-				return ActionResultType.SUCCESS;
+				return InteractionResult.SUCCESS;
 			case DISCONNECT:
 				LazyOptional<IElementStorage> cap = CapabilityElementStorage.get(tile, face.getOpposite());
 
@@ -229,11 +226,11 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 					this.setConection(face, ConnectionType.CONNECT);
 					((ElementPipeBlockEntity) tile).setConection(face.getOpposite(), ConnectionType.CONNECT);
 				}
-				return ActionResultType.SUCCESS;
+				return InteractionResult.SUCCESS;
 			default:
-				return ActionResultType.PASS;
+				return InteractionResult.PASS;
 			}
-		}).orElse(ActionResultType.PASS);
+		}).orElse(InteractionResult.PASS);
 	}
 
 	private boolean canInsertInStorage(IElementStorage storage) {
@@ -244,7 +241,7 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 		return ElementType.ALL_VALID.stream().anyMatch(storage::canPipeExtract);
 	}
 	
-	public ITextComponent getConnectionMessage(Direction face) {
+	public Component getConnectionMessage(Direction face) {
 		return this.getConection(face).getDisplayName();
 	}
 
@@ -252,7 +249,7 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 		return coverState;
 	}
 	
-	public ActionResultType setCover(PlayerEntity player, Hand hand) {
+	public InteractionResult setCover(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		Item item = stack.getItem();
 
@@ -261,7 +258,7 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 
 			if (state != coverState) {
 				if (coverState != null) {
-					InventoryHelper.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), new ItemStack(coverState.getBlock()));
+					Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), new ItemStack(coverState.getBlock()));
 				}
 				coverState = state;
 				this.getLevel().setBlockAndUpdate(getBlockPos(), this.getLevel().getBlockState(worldPosition).setValue(ElementPipeBlock.COVER, CoverType.COVERED));
@@ -272,31 +269,31 @@ public class ElementPipeBlockEntity extends AbstractECTickableBlockEntity implem
 						player.setItemInHand(hand, ItemStack.EMPTY);
 					}
 				}
-				return ActionResultType.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 	
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		for (Direction face : Direction.values()) {
 			this.setConection(face, ConnectionType.fromInteger(compound.getInt(face.getSerializedName())));
 			this.setPriority(face, compound.getBoolean(face.getSerializedName() + "_priority"));
 		}
 		this.maxTransferAmount = compound.getInt("max_transfer_amount");
-		coverState = compound.contains(ECNames.COVER) ? NBTUtil.readBlockState(compound.getCompound(ECNames.COVER)) : null;
+		coverState = compound.contains(ECNames.COVER) ? NbtUtils.readBlockState(compound.getCompound(ECNames.COVER)) : null;
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		connections.forEach((k, v) -> compound.putInt(k.getSerializedName(), v.getValue()));
 		priorities.forEach((k, v) -> compound.putBoolean(k.getSerializedName() + "_priority", v));
 		compound.putInt("max_transfer_amount", this.maxTransferAmount);
 		if (coverState != null) {
-			compound.put(ECNames.COVER, NBTUtil.writeBlockState(coverState));
+			compound.put(ECNames.COVER, NbtUtils.writeBlockState(coverState));
 		} else if (compound.contains(ECNames.COVER)) {
 			compound.remove(ECNames.COVER);
 		}

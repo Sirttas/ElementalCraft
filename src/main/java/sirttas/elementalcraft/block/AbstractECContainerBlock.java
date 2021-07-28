@@ -1,26 +1,26 @@
 package sirttas.elementalcraft.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
-public abstract class AbstractECContainerBlock extends AbstractECBlockEntityProviderBlock {
+public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 	protected AbstractECContainerBlock() {
 		super();
 	}
 
-	protected AbstractECContainerBlock(AbstractBlock.Properties properties) {
+	protected AbstractECContainerBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 	}
 
@@ -28,9 +28,9 @@ public abstract class AbstractECContainerBlock extends AbstractECBlockEntityProv
 		return ItemHandlerHelper.canItemStacksStack(stack, heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
 	}
 
-	public ActionResultType onSlotActivated(IItemHandler inventory, PlayerEntity player, ItemStack heldItem, int slot) {
+	public InteractionResult onSlotActivated(IItemHandler inventory, Player player, ItemStack heldItem, int slot) {
 		ItemStack stack = inventory.getStackInSlot(slot);
-		World world = player.getCommandSenderWorld();
+		Level world = player.getCommandSenderWorld();
 
 		if (heldItem.isEmpty() || player.isShiftKeyDown() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem, slot))) {
 			if (!stack.isEmpty()) {
@@ -39,9 +39,9 @@ public abstract class AbstractECContainerBlock extends AbstractECBlockEntityProv
 
 					world.addFreshEntity(new ItemEntity(world, player.getX(), player.getY() + 0.25, player.getZ(), extracted));
 				}
-				return ActionResultType.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
-			return ActionResultType.PASS;
+			return InteractionResult.PASS;
 		} else if (stack.isEmpty() && inventory.isItemValid(slot, heldItem)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot));
 
@@ -51,7 +51,7 @@ public abstract class AbstractECContainerBlock extends AbstractECBlockEntityProv
 				heldItem.shrink(size);
 			}
 			inventory.insertItem(slot, stack, false);
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
 
@@ -59,19 +59,19 @@ public abstract class AbstractECContainerBlock extends AbstractECBlockEntityProv
 				heldItem.shrink(size);
 			}
 			stack.grow(size);
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
-	protected ActionResultType onSingleSlotActivated(World world, BlockPos pos, PlayerEntity player, Hand hand) {
+	protected InteractionResult onSingleSlotActivated(Level world, BlockPos pos, Player player, InteractionHand hand) {
 		final IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 
-		if (inv != null && (hand == Hand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (inv != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
 			return this.onSlotActivated(inv, player, heldItem, 0);
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public abstract class AbstractECContainerBlock extends AbstractECBlockEntityProv
 
 	@Override
 	@Deprecated
-	public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
-		return Container.getRedstoneSignalFromBlockEntity(worldIn.getBlockEntity(pos));
+	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+		return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(worldIn.getBlockEntity(pos));
 	}
 }

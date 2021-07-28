@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 
-public class SingleElementStorage implements ISingleElementStorage, INBTSerializable<CompoundNBT> {
+public class SingleElementStorage implements ISingleElementStorage, INBTSerializable<CompoundTag> {
 	
 	protected int elementAmount;
 	protected int elementCapacity;
@@ -100,8 +100,8 @@ public class SingleElementStorage implements ISingleElementStorage, INBTSerializ
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT compound = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		CompoundTag compound = new CompoundTag();
 
 		compound.putString(ECNames.ELEMENT_TYPE, getElementType().getSerializedName());
 		compound.putInt(ECNames.ELEMENT_AMOUNT, getElementAmount());
@@ -110,7 +110,7 @@ public class SingleElementStorage implements ISingleElementStorage, INBTSerializ
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT compound) {
+	public void deserializeNBT(CompoundTag compound) {
 		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
 		elementCapacity = compound.getInt(ECNames.ELEMENT_CAPACITY);

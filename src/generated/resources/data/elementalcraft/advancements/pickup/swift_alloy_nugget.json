@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:swift_alloy_nugget"
+            "items": [
+              "elementalcraft:swift_alloy_nugget"
+            ]
           }
         ]
       }

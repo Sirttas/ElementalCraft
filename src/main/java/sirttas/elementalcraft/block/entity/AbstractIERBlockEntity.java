@@ -3,10 +3,11 @@ package sirttas.elementalcraft.block.entity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -18,8 +19,8 @@ import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 
 public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEntity {
 
-	protected AbstractIERBlockEntity(TileEntityType<?> tileEntityTypeIn) {
-		super(tileEntityTypeIn);
+	protected AbstractIERBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
+		super(blockEntityType, pos, state);
 	}
 	
 	public abstract IElementStorage getElementStorage();
@@ -27,12 +28,12 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		IElementStorage elementStorage = getElementStorage();
 		
 		if (compound.contains(ECNames.ELEMENT_STORAGE) && elementStorage instanceof INBTSerializable) {
-			((INBTSerializable<CompoundNBT>) elementStorage).deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
+			((INBTSerializable<CompoundTag>) elementStorage).deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
 			IRuneHandler.readNBT(getRuneHandler(), compound.getList(ECNames.RUNE_HANDLER, 8));
@@ -40,7 +41,7 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	}
 	
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		IElementStorage elementStorage = getElementStorage();
 		

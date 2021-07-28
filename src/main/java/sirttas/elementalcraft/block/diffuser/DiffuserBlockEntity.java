@@ -6,11 +6,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ObjectHolder;
@@ -21,25 +23,25 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
-import sirttas.elementalcraft.block.entity.AbstractECTickableBlockEntity;
+import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class DiffuserBlockEntity extends AbstractECTickableBlockEntity {
+public class DiffuserBlockEntity extends AbstractECBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + DiffuserBlock.NAME) public static final TileEntityType<DiffuserBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + DiffuserBlock.NAME) public static final BlockEntityType<DiffuserBlockEntity> TYPE = null;
 
 	private boolean hasDiffused;
 	private final RuneHandler runeHandler;
 
-	public DiffuserBlockEntity() {
-		super(TYPE);
+	public DiffuserBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state);
 		runeHandler = new RuneHandler(ECConfig.COMMON.diffuserMaxRunes.get());
 	}
 
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		hasDiffused = compound.getBoolean(ECNames.HAS_DIFFUSED);
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
 			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
@@ -47,30 +49,28 @@ public class DiffuserBlockEntity extends AbstractECTickableBlockEntity {
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		compound.putBoolean(ECNames.HAS_DIFFUSED, hasDiffused);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 		return compound;
 	}
 
-	@Override
-	public void tick() {
-		ISingleElementStorage tank = getTank();
+	public static void tick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {
+		ISingleElementStorage tank = diffuser.getTank();
 		AtomicInteger amount = new AtomicInteger(ECConfig.COMMON.diffuserDiffusionAmount.get());
 		
-		hasDiffused = false;
-		super.tick();
+		diffuser.hasDiffused = false;
 		if (tank != null && !tank.isEmpty()) {
-			this.getLevel().getEntities(null, new AxisAlignedBB(this.getBlockPos()).inflate(ECConfig.COMMON.diffuserRange.get())).stream()
+			diffuser.getLevel().getEntities(null, new AABB(diffuser.getBlockPos()).inflate(ECConfig.COMMON.diffuserRange.get())).stream()
 					.map(CapabilityElementStorage::get)
 					.map(LazyOptional::resolve)
 					.filter(Optional::isPresent)
 					.map(Optional::get)
 					.forEach(storage -> {
 						if (!tank.isEmpty() && amount.get() > 0) {
-							amount.set(tank.transferTo(storage, runeHandler.getTransferSpeed(amount.get()), runeHandler.getElementPreservation()));
-							hasDiffused = true;
+							amount.set(tank.transferTo(storage, diffuser.runeHandler.getTransferSpeed(amount.get()), diffuser.runeHandler.getElementPreservation()));
+							diffuser.hasDiffused = true;
 						}
 					});
 		}

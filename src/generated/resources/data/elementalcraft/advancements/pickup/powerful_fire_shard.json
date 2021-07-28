@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:powerful_fire_shard"
+            "items": [
+              "elementalcraft:powerful_fire_shard"
+            ]
           }
         ]
       }

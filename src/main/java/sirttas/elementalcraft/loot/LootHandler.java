@@ -6,10 +6,10 @@ import java.util.stream.Stream;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.TableLootEntry;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -43,7 +43,7 @@ public final class LootHandler {
 	}
 
 	public static LootPool getInjectPool(ResourceLocation name) {
-		return LootPool.lootPool().add(TableLootEntry.lootTableReference(name).setWeight(1)).bonusRolls(0, 1).name("elementalcraft_inject").build();
+		return LootPool.lootPool().add(LootTableReference.lootTableReference(name).setWeight(1)).bonusRolls(0, 1).name("elementalcraft_inject").build();
 	}
 
 	private static List<String> getInjects(EntityType<?>... types) {

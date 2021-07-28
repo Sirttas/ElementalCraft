@@ -5,15 +5,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.DirectionalPlaceContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.DirectionalPlaceContext;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -24,14 +25,14 @@ import sirttas.elementalcraft.tag.ECTags;
 
 public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final TileEntityType<GroveShrineBlockEntity> TYPE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final BlockEntityType<GroveShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.groveShrinePeriode.get()).consumeAmount(ECConfig.COMMON.groveShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.groveShrineRange.get());
 
 
-	public GroveShrineBlockEntity() {
-		super(TYPE, PROPERTIES);
+	public GroveShrineBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE, pos, state, PROPERTIES);
 	}
 
 	private Optional<BlockPos> findGrass() {
@@ -43,23 +44,22 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.random.nextInt(positions.size())));
 	}
 
-	@SuppressWarnings("deprecation")
 	private boolean canPlant(BlockPos pos) {
 		BlockPos up = pos.above();
 
-		return level.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK && level.getBlockState(up).isAir(this.level, up);
+		return level.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK && level.getBlockState(up).isAir();
 	}
 
 	@Override
-	public AxisAlignedBB getRangeBoundingBox() {
+	public AABB getRangeBoundingBox() {
 		int range = getIntegerRange();
 
-		return new AxisAlignedBB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, -1, 0).expandTowards(0, 1, 0);
+		return new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, -1, 0).expandTowards(0, 1, 0);
 	}
 
 	@Override
-	protected boolean doTick() {
-		if (level instanceof ServerWorld) {
+	protected boolean doPeriode() {
+		if (level instanceof ServerLevel) {
 			return findGrass().map(p -> {
 				BlockItem item = findFlower();
 				
@@ -72,7 +72,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private BlockItem findFlower() {
-		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE) ? ECTags.Items.MYSTICAL_GROVE_FLOWERS.getValues().stream()
+		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE.get()) ? ECTags.Items.MYSTICAL_GROVE_FLOWERS.getValues().stream()
 				: ECTags.Items.GROVE_SHRINE_FLOWERS.getValues().stream().filter(item -> !ECTags.Items.GROVE_SHRINE_BLACKLIST.contains(item)))
 				.filter(BlockItem.class::isInstance).map(BlockItem.class::cast).collect(Collectors.toList());
 

@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.world;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,7 +14,7 @@ public class WorldHandler {
 	private WorldHandler() {}
 	
 	@SubscribeEvent
-	public static void attachCapabilities(AttachCapabilitiesEvent<World> event) {
+	public static void attachCapabilities(AttachCapabilitiesEvent<Level> event) {
 		event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), WorldElementStorage.createProvider());
 	}
 }

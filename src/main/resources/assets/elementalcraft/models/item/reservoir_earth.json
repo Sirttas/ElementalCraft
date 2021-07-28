@@ -4,10 +4,10 @@
 	"ambientocclusion": false,
 	"textures": {
 		"1": "elementalcraft:block/iron",
-		"3": "elementalcraft:block/tank",
-		"4": "elementalcraft:block/tank_top",
+		"3": "elementalcraft:block/container",
+		"4": "elementalcraft:block/container_top",
 		"5": "elementalcraft:block/whiterock",
-		"particle": "elementalcraft:block/tank_top"
+		"particle": "elementalcraft:block/container_top"
 	},
 	"elements": [
 		{

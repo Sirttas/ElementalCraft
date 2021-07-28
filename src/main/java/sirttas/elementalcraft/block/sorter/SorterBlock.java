@@ -1,33 +1,37 @@
 package sirttas.elementalcraft.block.sorter;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import sirttas.elementalcraft.block.AbstractECBlockEntityProviderBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
-public class SorterBlock extends AbstractECBlockEntityProviderBlock implements ISorterBlock {
+public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 
 	public static final String NAME = "sorter";
 
-	private static final VoxelShape CORE_VOID = VoxelShapes.or(Block.box(5D, 6D, 6D, 11D, 10D, 10D), Block.box(6D, 5D, 6D, 10D, 11D, 10D),
+	private static final VoxelShape CORE_VOID = Shapes.or(Block.box(5D, 6D, 6D, 11D, 10D, 10D), Block.box(6D, 5D, 6D, 10D, 11D, 10D),
 			Block.box(6D, 6D, 5D, 10D, 10D, 11D));
-	private static final VoxelShape CORE = VoxelShapes.or(VoxelShapes.join(Block.box(5D, 5D, 5D, 11D, 11D, 11D), CORE_VOID, IBooleanFunction.ONLY_FIRST),
+	private static final VoxelShape CORE = Shapes.or(Shapes.join(Block.box(5D, 5D, 5D, 11D, 11D, 11D), CORE_VOID, BooleanOp.ONLY_FIRST),
 			Block.box(6D, 6D, 6D, 10D, 10D, 10D));
 
 
@@ -36,18 +40,24 @@ public class SorterBlock extends AbstractECBlockEntityProviderBlock implements I
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		Direction direction = context.getClickedFace();
 		return this.defaultBlockState().setValue(SOURCE, direction.getOpposite()).setValue(TARGET, direction);
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new SorterBlockEntity();
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new SorterBlockEntity(pos, state);
+	}
+	
+	@Override
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return level.isClientSide ? null : createECTicker(level, type, SorterBlockEntity.TYPE, SorterBlockEntity::serverTick);
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
 		container.add(SOURCE, TARGET);
 	}
 
@@ -58,22 +68,22 @@ public class SorterBlock extends AbstractECBlockEntityProviderBlock implements I
 	
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return worldIn instanceof World && ((World) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurentShape(state);
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+		return worldIn instanceof Level && ((Level) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurentShape(state);
 	}
 	@Override
 	@Deprecated
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return getCurentShape(state);
 	}
 
 	@Override
 	@Deprecated
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		VoxelShape shape = getShape(state, pos, hit);
 
 		if (CORE.equals(shape)) {
-			return BlockEntityHelper.getTileEntityAs(world, pos, SorterBlockEntity.class).map(sorter -> sorter.addStack(player.getItemInHand(hand))).orElse(ActionResultType.PASS);
+			return BlockEntityHelper.getTileEntityAs(world, pos, SorterBlockEntity.class).map(sorter -> sorter.addStack(player.getItemInHand(hand))).orElse(InteractionResult.PASS);
 		} 
 		return this.moveIO(state, world, pos, hit, shape);
 	}

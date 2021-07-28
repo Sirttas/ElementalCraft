@@ -4,9 +4,7 @@ public class PureOreException extends RuntimeException {
 
 	private static final long serialVersionUID = 2140385988053398117L;
 
-	public PureOreException() {
-		super();
-	}
+	public PureOreException() {}
 
 	public PureOreException(String message) {
 		super(message);

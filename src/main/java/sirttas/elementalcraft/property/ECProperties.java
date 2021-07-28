@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.property;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.Item;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.config.ECConfig;
@@ -14,12 +14,12 @@ public class ECProperties {
 	private ECProperties() {}
 	
 	public static class Blocks {
-		public static final AbstractBlock.Properties DEFAULT_BLOCK_PROPERTIES = AbstractBlock.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL)
+		public static final BlockBehaviour.Properties DEFAULT_BLOCK_PROPERTIES = BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL)
 				.harvestTool(ToolType.PICKAXE).harvestLevel(1);
-		public static final AbstractBlock.Properties BLOCK_NOT_SOLID = AbstractBlock.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)
+		public static final BlockBehaviour.Properties BLOCK_NOT_SOLID = BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)
 				.harvestLevel(1).noOcclusion();
-		public static final AbstractBlock.Properties WHITEROCK = AbstractBlock.Properties.of(Material.STONE, MaterialColor.QUARTZ).strength(1.5F, 6.0F);
-		public static final AbstractBlock.Properties PUREROCK = AbstractBlock.Properties.of(Material.STONE, MaterialColor.QUARTZ).strength(75.0F, 2400.0F);
+		public static final BlockBehaviour.Properties WHITEROCK = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.QUARTZ).strength(1.5F, 6.0F);
+		public static final BlockBehaviour.Properties PUREROCK = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.QUARTZ).strength(75.0F, 2400.0F);
 		
 		private Blocks() {}
 	}

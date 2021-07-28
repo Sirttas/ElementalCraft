@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.particle.element;
 
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.ParticleManager.IParticleMetaFactory;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.ParticleEngine.SpriteParticleRegistration;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -11,10 +11,10 @@ import sirttas.elementalcraft.api.element.ElementType;
 @OnlyIn(Dist.CLIENT)
 public class ElementFlowParticle extends AbstractElementParticle {
 
-	public static final IParticleMetaFactory<ElementTypeParticleData> FACTORY = s -> (data, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> 
-			new ElementFlowParticle(worldIn, new Vector3d(x, y, z), new Vector3d(xSpeed, ySpeed, zSpeed), s, data.getElementType());
+	public static final SpriteParticleRegistration<ElementTypeParticleData> FACTORY = s -> (data, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> 
+			new ElementFlowParticle(worldIn, new Vec3(x, y, z), new Vec3(xSpeed, ySpeed, zSpeed), s, data.getElementType());
 	
-	private ElementFlowParticle(ClientWorld worldIn, Vector3d coord, Vector3d speed, IAnimatedSprite sprite, ElementType type) {
+	private ElementFlowParticle(ClientLevel worldIn, Vec3 coord, Vec3 speed, SpriteSet sprite, ElementType type) {
 		super(worldIn, coord, type);
 		this.xd = speed.x();
 		this.yd = speed.y();

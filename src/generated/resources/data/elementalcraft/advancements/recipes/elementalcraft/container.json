@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:container"
+    ]
+  },
+  "criteria": {
+    "has_containedcrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:containedcrystal"
+            ]
+          }
+        ]
+      }
+    },
+    "has_whiterock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:whiterock"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:container"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_containedcrystal",
+      "has_whiterock",
+      "has_the_recipe"
+    ]
+  ]
+}

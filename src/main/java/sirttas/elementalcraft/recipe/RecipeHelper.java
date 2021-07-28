@@ -9,13 +9,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.inventory.ECInventoryHelper;
 
@@ -24,10 +24,10 @@ public class RecipeHelper {
 	private RecipeHelper() {}
 	
 	public static Ingredient deserializeIngredient(JsonObject json, String key) {
-		if (JSONUtils.isArrayNode(json, key)) {
-			return Ingredient.fromJson(JSONUtils.getAsJsonArray(json, key));
+		if (GsonHelper.isArrayNode(json, key)) {
+			return Ingredient.fromJson(GsonHelper.getAsJsonArray(json, key));
 		}
-		return Ingredient.fromJson(JSONUtils.getAsJsonObject(json, key));
+		return Ingredient.fromJson(GsonHelper.getAsJsonObject(json, key));
 	}
 
 	public static ItemStack readRecipeOutput(JsonObject json, String key) {
@@ -37,7 +37,7 @@ public class RecipeHelper {
 			if (element.isJsonPrimitive()) {
 				return readRecipeOutput(element.getAsString());
 			}
-			return ShapedRecipe.itemFromJson(element.getAsJsonObject());
+			return ShapedRecipe.itemStackFromJson(element.getAsJsonObject());
 		}
 		throw new JsonSyntaxException("Missing " + key + ", expected to find a string");
 	}
@@ -60,7 +60,7 @@ public class RecipeHelper {
 		return nonnulllist;
 	}
 
-	public static boolean matchesUnordered(IInventory inv, List<Ingredient> ingredients) {
+	public static boolean matchesUnordered(Container inv, List<Ingredient> ingredients) {
 		Set<Integer> usedIndex = Sets.newHashSet();
 		int count = ECInventoryHelper.getItemCount(inv);
 

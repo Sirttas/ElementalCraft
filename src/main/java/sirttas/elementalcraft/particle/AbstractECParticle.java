@@ -2,43 +2,44 @@ package sirttas.elementalcraft.particle;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
+import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.settings.GraphicsFanciness;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class AbstractECParticle extends SpriteTexturedParticle {
+public abstract class AbstractECParticle extends TextureSheetParticle {
 
 	protected final double coordX;
 	protected final double coordY;
 	protected final double coordZ;
 
 	@SuppressWarnings("deprecation")
-	static final IParticleRenderType EC_RENDER = new IParticleRenderType() {
+	static final ParticleRenderType EC_RENDER = new ParticleRenderType() {
 		@Override
 		public void begin(BufferBuilder buffer, TextureManager textureManager) {
 			RenderSystem.depthMask(false);
-			textureManager.bind(AtlasTexture.LOCATION_PARTICLES);
+			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
 					GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-			RenderSystem.alphaFunc(516, 0.003921569F);
-			buffer.begin(7, DefaultVertexFormats.PARTICLE);
+			//RenderSystem.alphaFunc(516, 0.003921569F);
+			buffer.begin(Mode.QUADS, DefaultVertexFormat.PARTICLE);
 		}
 
 		@Override
-		public void end(Tessellator tessellator) {
+		public void end(Tesselator tessellator) {
 			tessellator.end();
 			RenderSystem.depthMask(true);
 		}
@@ -49,7 +50,7 @@ public abstract class AbstractECParticle extends SpriteTexturedParticle {
 		}
 	};
 	
-	protected AbstractECParticle(ClientWorld world, Vector3d coord) {
+	protected AbstractECParticle(ClientLevel world, Vec3 coord) {
 		super(world, coord.x(), coord.y(), coord.z());
 		this.coordX = coord.x();
 		this.coordY = coord.y();
@@ -70,8 +71,8 @@ public abstract class AbstractECParticle extends SpriteTexturedParticle {
 	@SuppressWarnings("resource")
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public IParticleRenderType getRenderType() {
-		return Minecraft.getInstance().options.graphicsMode == GraphicsFanciness.FAST ? IParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;
+	public ParticleRenderType getRenderType() {
+		return Minecraft.getInstance().options.graphicsMode == GraphicsStatus.FAST ? ParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;
 	}
 
 	@Override

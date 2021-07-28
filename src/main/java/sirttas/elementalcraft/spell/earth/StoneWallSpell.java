@@ -4,34 +4,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.spell.Spell;
 
 public class StoneWallSpell extends Spell {
 
 	public static final String NAME = "stonewall";
 
-	private void spawn(World world, BlockPos pos) {
+	private void spawn(Level world, BlockPos pos) {
 		world.setBlockAndUpdate(pos, Blocks.STONE.defaultBlockState());
 	}
 
-	private void checkAndSpawn(World world, BlockPos pos) {
+	private void checkAndSpawn(Level world, BlockPos pos) {
 		if (world.getBlockState(pos).getMaterial().isReplaceable()) {
 			spawn(world, pos);
 		}
 	}
 
-	public ActionResultType cast(Entity sender, BlockPos pos, Direction direction) {
-		World world = sender.getCommandSenderWorld();
+	public InteractionResult cast(Entity sender, BlockPos pos, Direction direction) {
+		Level world = sender.getCommandSenderWorld();
 
 		checkAndSpawn(world, pos);
 		checkAndSpawn(world, pos.relative(direction.getClockWise()));
@@ -42,15 +42,15 @@ public class StoneWallSpell extends Spell {
 		checkAndSpawn(world, pos.relative(direction.getClockWise()).above(2));
 		checkAndSpawn(world, pos.relative(direction.getCounterClockWise()).above(1));
 		checkAndSpawn(world, pos.relative(direction.getCounterClockWise()).above(2));
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	public ActionResultType castOnSelf(Entity sender) {
+	public InteractionResult castOnSelf(Entity sender) {
 		Optional<Direction> opt = Stream.of(Direction.orderedByNearest(sender)).filter(d -> d.getAxis() != Axis.Y).findFirst();
 		
 		if (!opt.isPresent()) {
-			return ActionResultType.PASS;
+			return InteractionResult.PASS;
 		}
 		return cast(sender, new BlockPos(sender.position()).relative(opt.get(), 3), opt.get());
 	}
@@ -63,8 +63,8 @@ public class StoneWallSpell extends Spell {
 	}
 	
 	@Override
-	public void addInformation(List<ITextComponent> tooltip) {
-		tooltip.add(new TranslationTextComponent("tooltip.elementalcraft.consumes", new TranslationTextComponent("tooltip.elementalcraft.count", 9, Blocks.STONE.getName()))
-				.withStyle(TextFormatting.YELLOW));
+	public void addInformation(List<Component> tooltip) {
+		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.consumes", new TranslatableComponent("tooltip.elementalcraft.count", 9, Blocks.STONE.getName()))
+				.withStyle(ChatFormatting.YELLOW));
 	}
 }

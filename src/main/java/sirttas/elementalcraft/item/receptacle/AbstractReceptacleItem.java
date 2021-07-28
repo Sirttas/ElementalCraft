@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.item.receptacle;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.property.ECProperties;

@@ -3,11 +3,11 @@ package sirttas.elementalcraft.datagen;
 import javax.annotation.Nonnull;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.resources.ResourcePackType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.HashCache;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -52,7 +52,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	private boolean exists(Item item) {
-		return existingFileHelper.exists(item.getRegistryName(), ResourcePackType.CLIENT_RESOURCES, ".json", "models/item");
+		return existingFileHelper.exists(item.getRegistryName(), PackType.CLIENT_RESOURCES, ".json", "models/item");
 	}
 
 	@Nonnull
@@ -67,7 +67,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	@Override
-	public void generateAll(DirectoryCache cache) {
+	public void generateAll(HashCache cache) {
 		super.generateAll(cache);
 	}
 }

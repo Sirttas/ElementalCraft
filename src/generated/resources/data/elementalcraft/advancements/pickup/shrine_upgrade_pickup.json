@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:shrine_upgrade_pickup"
+            "items": [
+              "elementalcraft:shrine_upgrade_pickup"
+            ]
           }
         ]
       }

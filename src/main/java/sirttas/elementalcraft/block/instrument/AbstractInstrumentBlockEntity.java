@@ -3,12 +3,14 @@ package sirttas.elementalcraft.block.instrument;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -27,25 +29,44 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	private int progress = 0;
 	private final RuneHandler runeHandler;
+	protected boolean lockable = false;
+	private boolean locked = false;
 
-	protected AbstractInstrumentBlockEntity(TileEntityType<?> tileEntityTypeIn, IRecipeType<R> recipeType, int transferSpeed, int maxRunes) {
-		super(tileEntityTypeIn, recipeType, transferSpeed);
+	protected AbstractInstrumentBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed, int maxRunes) {
+		super(blockEntityType, pos, state, recipeType, transferSpeed);
 		runeHandler = maxRunes > 0 ? new RuneHandler(maxRunes) : null;
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
-		if (!this.isPowered() && progressOnTick()) {
-			makeProgress();
+	public void process() {
+		super.process();
+		updateLock();
+	}
+
+	public static <T extends IInstrument, R extends IInstrumentRecipe<T>> void tick(Level level, BlockPos pos, BlockState state, AbstractInstrumentBlockEntity<T, R> instrument) {
+		if (!instrument.isPowered() && instrument.progressOnTick()) {
+			instrument.makeProgress();
 		}
-		if (this.shouldRetriverExtractOutput()) {
-			RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), outputSlot);
+		if (instrument.shouldRetriverExtractOutput()) {
+			RetrieverBlock.sendOutputToRetriever(level, instrument.worldPosition, instrument.getInventory(), instrument.outputSlot);
+		}
+		if (instrument.locked) {
+			instrument.updateLock();
+		}
+	}
+	
+	protected boolean shouldRetriverExtractOutput() {
+		return !lockable || locked;
+	}
+	
+	private void updateLock() {
+		if (lockable) {
+			locked = !getInventory().getItem(outputSlot).isEmpty();
 		}
 	}
 
-	protected boolean shouldRetriverExtractOutput() {
-		return true;
+	public boolean isLocked() {
+		return lockable && locked;
 	}
 	
 	protected boolean progressOnTick() {
@@ -83,7 +104,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	protected void onProgress() {
 		if (level.isClientSide) {
-			ParticleHelper.createElementFlowParticle(getElementType(), level, Vector3d.atCenterOf(worldPosition), Direction.UP, 1, level.random);
+			ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition), Direction.UP, 1, level.random);
 		}
 	}
 
@@ -100,7 +121,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundTag save(CompoundTag compound) {
 		super.save(compound);
 		compound.putInt(ECNames.PROGRESS, progress);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
@@ -108,8 +129,8 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		progress = compound.getInt(ECNames.PROGRESS);
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
 			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));

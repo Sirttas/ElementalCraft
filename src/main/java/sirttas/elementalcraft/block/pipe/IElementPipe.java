@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.block.pipe;
 
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public interface IElementPipe {
 
@@ -46,8 +46,8 @@ public interface IElementPipe {
 			return NONE;
 		}
 
-		public ITextComponent getDisplayName() {
-			return new TranslationTextComponent(translationKey);
+		public Component getDisplayName() {
+			return new TranslatableComponent(translationKey);
 		}
 	}
 }

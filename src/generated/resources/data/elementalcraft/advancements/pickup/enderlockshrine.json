@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:enderlockshrine"
+            "items": [
+              "elementalcraft:enderlockshrine"
+            ]
           }
         ]
       }

@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:shrine_upgrade_acceleration"
+            "items": [
+              "elementalcraft:shrine_upgrade_acceleration"
+            ]
           }
         ]
       }

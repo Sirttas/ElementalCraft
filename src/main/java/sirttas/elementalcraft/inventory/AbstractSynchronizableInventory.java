@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.inventory;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
 
-public abstract class AbstractSynchronizableInventory implements IInventory {
+public abstract class AbstractSynchronizableInventory implements Container {
 
 	private Runnable syncFunction;
 
@@ -19,7 +19,7 @@ public abstract class AbstractSynchronizableInventory implements IInventory {
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity player) {
+	public boolean stillValid(Player player) {
 		return true;
 	}
 }

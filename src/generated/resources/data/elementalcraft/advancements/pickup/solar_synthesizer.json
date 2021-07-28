@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:solar_synthesizer"
+            "items": [
+              "elementalcraft:solar_synthesizer"
+            ]
           }
         ]
       }

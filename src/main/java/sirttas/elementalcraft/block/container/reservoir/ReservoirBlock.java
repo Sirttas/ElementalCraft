@@ -2,25 +2,25 @@ package sirttas.elementalcraft.block.container.reservoir;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -48,7 +48,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 
 	private static final VoxelShape UPPER_CONNECTOR = Block.box(6D, 15D, 6D, 10D, 16D, 10D);
 
-	private static final VoxelShape UPPER_SHAPE = VoxelShapes.or(UPPER_GLASS, UPPER_PIPE_1, UPPER_PIPE_2, UPPER_PIPE_3, UPPER_PIPE_4, UPPER_CONNECTOR);
+	private static final VoxelShape UPPER_SHAPE = Shapes.or(UPPER_GLASS, UPPER_PIPE_1, UPPER_PIPE_2, UPPER_PIPE_3, UPPER_PIPE_4, UPPER_CONNECTOR);
 
 	private static final VoxelShape LOWER_GLASS_1 = Block.box(2D, 2D, 2D, 14D, 16D, 14D);
 	private static final VoxelShape LOWER_GLASS_2 = Block.box(2D, 0D, 2D, 14D, 2D, 14D);
@@ -65,7 +65,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	
 	private static final VoxelShape LOWER_PLATE = Block.box(0D, 0D, 0D, 16D, 2D, 16D);
 	
-	private static final VoxelShape LOWER_BASE = VoxelShapes.or(LOWER_GLASS_1, LOWER_GLASS_2, LOWER_PIPE_1, LOWER_PIPE_2, LOWER_PIPE_3, LOWER_PIPE_4, LOWER_WALL_NORTH, LOWER_WALL_SOUTH,
+	private static final VoxelShape LOWER_BASE = Shapes.or(LOWER_GLASS_1, LOWER_GLASS_2, LOWER_PIPE_1, LOWER_PIPE_2, LOWER_PIPE_3, LOWER_PIPE_4, LOWER_WALL_NORTH, LOWER_WALL_SOUTH,
 			LOWER_WALL_WEST, LOWER_WALL_EAST, LOWER_PLATE);
 	
 	private static final VoxelShape EARTH_WALL_NORTH = Block.box(4D, 9D, 1D, 12D, 14D, 3D);
@@ -73,7 +73,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	private static final VoxelShape EARTH_WALL_WEST = Block.box(1D, 9D, 4D, 3D, 14D, 12D);
 	private static final VoxelShape EARTH_WALL_EAST = Block.box(13D, 9D, 4D, 15D, 14D, 12D);
 	
-	private static final VoxelShape LOWER_EARTH = VoxelShapes.or(LOWER_BASE, EARTH_WALL_NORTH, EARTH_WALL_SOUTH, EARTH_WALL_WEST, EARTH_WALL_EAST);
+	private static final VoxelShape LOWER_EARTH = Shapes.or(LOWER_BASE, EARTH_WALL_NORTH, EARTH_WALL_SOUTH, EARTH_WALL_WEST, EARTH_WALL_EAST);
 	
 	private static final VoxelShape AIR_PIPE_1 = Block.box(1D, 5D, 1D, 3D, 16D, 3D);
 	private static final VoxelShape AIR_PIPE_2 = Block.box(13D, 5D, 1D, 15D, 16D, 3D);
@@ -83,7 +83,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	private static final VoxelShape AIR_PLATE = Block.box(0D, 5D, 0D, 16D, 7D, 16D);
 	private static final VoxelShape AIR_PLATE_2 = Block.box(5D, 0D, 5D, 11D, 2D, 11D);
 	
-	private static final VoxelShape LOWER_AIR = VoxelShapes.or(LOWER_GLASS_1, AIR_PIPE_1, AIR_PIPE_2, AIR_PIPE_3, AIR_PIPE_4, AIR_PLATE, AIR_PLATE_2);
+	private static final VoxelShape LOWER_AIR = Shapes.or(LOWER_GLASS_1, AIR_PIPE_1, AIR_PIPE_2, AIR_PIPE_3, AIR_PIPE_4, AIR_PLATE, AIR_PLATE_2);
 	
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
@@ -95,19 +95,8 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	}
 	
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		switch (this.getElementType()) {
-		case AIR:
-			return ReservoirBlockEntity.createAir();
-		case EARTH:
-			return ReservoirBlockEntity.createEarth();
-		case FIRE:
-			return ReservoirBlockEntity.createFire();
-		case WATER:
-			return ReservoirBlockEntity.createWater();
-		default:
-			return null;
-		}
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new ReservoirBlockEntity(pos, state);
 	}
 
 	@Override
@@ -120,7 +109,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	 * logic
 	 */
 	@Override
-	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		worldIn.setBlock(pos.above(), this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
@@ -129,14 +118,14 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
 		AbstractPylonShrineBlock.doubeHalfHarvest(this, worldIn, pos, state, player);
 		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 	
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		VoxelShape shape;
 
 		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
@@ -154,11 +143,11 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 				break;
 			}
 		}
-		return VoxelShapes.or(shape, super.getShape(state, worldIn, pos, context));
+		return Shapes.or(shape, super.getShape(state, worldIn, pos, context));
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
 		container.add(HALF, NORTH, SOUTH, EAST, WEST);
 	}
 
@@ -168,9 +157,9 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	}
 	
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		ItemStack stack = new ItemStack(this.asItem());
-		CompoundNBT tag = stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG);
+		CompoundTag tag = stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG);
 
 		tag.put(ECNames.ELEMENT_STORAGE, new SingleElementStorage(this.getElementType(), this.getDefaultCapacity(), this.getDefaultCapacity()).serializeNBT());
 		items.add(new ItemStack(this.asItem()));
@@ -179,7 +168,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, World world, BlockPos pos, Random rand) {
+	public void animateTick(BlockState stateIn, Level world, BlockPos pos, Random rand) {
 		if (stateIn.getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
 			super.animateTick(stateIn, world, pos, rand);
 		}

@@ -6,7 +6,9 @@
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:reservoir_fire"
+            "items": [
+              "elementalcraft:reservoir_fire"
+            ]
           }
         ]
       }

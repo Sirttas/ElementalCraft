@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.block.instrument;
 
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.NonNullList;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.inventory.AbstractSynchronizableInventory;
 
-public class InstrumentInventory extends AbstractSynchronizableInventory implements INBTSerializable<CompoundNBT> {
+public class InstrumentInventory extends AbstractSynchronizableInventory implements INBTSerializable<CompoundTag> {
 
 	private final NonNullList<ItemStack> stacks;
 	private final int size;
@@ -63,7 +63,7 @@ public class InstrumentInventory extends AbstractSynchronizableInventory impleme
 
 	@Override
 	public ItemStack removeItem(int index, int count) {
-		return ItemStackHelper.removeItem(stacks, index, count);
+		return ContainerHelper.removeItem(stacks, index, count);
 	}
 
 	@Override
@@ -75,16 +75,16 @@ public class InstrumentInventory extends AbstractSynchronizableInventory impleme
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT nbt = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		CompoundTag nbt = new CompoundTag();
 
-		ItemStackHelper.saveAllItems(nbt, this.stacks);
+		ContainerHelper.saveAllItems(nbt, this.stacks);
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT nbt) {
+	public void deserializeNBT(CompoundTag nbt) {
 		clearContent();
-		ItemStackHelper.loadAllItems(nbt, this.stacks);
+		ContainerHelper.loadAllItems(nbt, this.stacks);
 	}
 }
