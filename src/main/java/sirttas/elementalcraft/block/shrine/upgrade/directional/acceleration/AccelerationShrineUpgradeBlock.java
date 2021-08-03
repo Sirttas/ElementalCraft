@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.CapacityShrineUpgradeBlock;
 
@@ -14,6 +15,10 @@ public class AccelerationShrineUpgradeBlock extends AbstractDirectionalShrineUpg
 
 	public static final String NAME = "shrine_upgrade_acceleration";
 
+	public AccelerationShrineUpgradeBlock() {
+		super(ElementalCraft.createRL(NAME));
+	}
+	
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new AccelerationShrineUpgradeBlockEntity(pos, state);

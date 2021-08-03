@@ -1,11 +1,7 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.dpanvil.api.data.IDataWrapper;
-import sirttas.dpanvil.api.event.DataManagerReloadEvent;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.FortuneShrineUpgradeBlock;
@@ -35,16 +31,5 @@ public class ShrineUpgrades {
 	public static final IDataWrapper<ShrineUpgrade> PROTECTION = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(ProtectionShrineUpgradeBlock.NAME));
 
 	private ShrineUpgrades() {}
-	
-	@SubscribeEvent
-	public  void onReload(DataManagerReloadEvent<ShrineUpgrade> event) {
-		event.getDataManager().getData().forEach((id, upgrade) -> {
-			Block block = ForgeRegistries.BLOCKS.getValue(id);
-
-			if (block instanceof AbstractShrineUpgradeBlock) {
-				((AbstractShrineUpgradeBlock) block).setUpgrade(upgrade);
-			}
-		});
-	}
 
 }

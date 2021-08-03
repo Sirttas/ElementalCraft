@@ -22,8 +22,7 @@ public class EnderStrikeSpell extends Spell {
 
 	@Override
 	public InteractionResult castOnEntity(Entity sender, Entity target) {
-		if (sender instanceof LivingEntity) {
-			LivingEntity livingSender = (LivingEntity) sender;
+		if (sender instanceof LivingEntity livingSender) {
 			Vec3 newPos = target.position().add(target.getLookAngle().reverse().normalize());
 
 			if (MinecraftForge.EVENT_BUS.post(new EnderEntity(livingSender, newPos.x, newPos.y + 0.5F, newPos.z))) { // TODO
@@ -34,9 +33,7 @@ public class EnderStrikeSpell extends Spell {
 				livingSender.getCommandSenderWorld().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT,
 						livingSender.getSoundSource(), 1.0F, 1.0F);
 				livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
-				if (livingSender instanceof Player) {
-					Player playerSender = (Player) livingSender;
-
+				if (livingSender instanceof Player playerSender) {
 					playerSender.attack(target);
 					playerSender.resetAttackStrengthTicker();
 					EntityHelper.swingArm(playerSender);

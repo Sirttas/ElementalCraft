@@ -4,20 +4,21 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.ElementalCraft;
 
 public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
@@ -51,7 +52,10 @@ public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlo
 	private static final VoxelShape PIPE_3_EAST = Block.box(14D, 9D, 10D, 17D, 11D, 12D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_1_EAST, CORE_2_EAST, PIPE_1_EAST, PIPE_2_EAST, PIPE_3_EAST);
 
-
+	public NectarShrineUpgradeBlock() {
+		super(ElementalCraft.createRL(NAME));
+	}
+	
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

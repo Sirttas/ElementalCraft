@@ -1,8 +1,10 @@
 package sirttas.elementalcraft.tag;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.SerializationTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.tags.Tag.Named;
 import net.minecraft.world.item.Item;
@@ -126,7 +128,10 @@ public class ECTags {
 		public static Tag<Item> getTag(ResourceLocation loc) {
 			Tag<Item> tag = ItemTags.getAllTags().getTag(loc);
 
-			return tag;
+			if (tag != null) {
+				return tag;
+			}
+			return SerializationTags.getInstance().getTagOrThrow(Registry.ITEM_REGISTRY, loc, id -> new IllegalStateException("Unknown item tag '" + id + "'"));
 		}
 
 		public static ResourceLocation getTagName(Tag<Item> tag) {
@@ -179,7 +184,12 @@ public class ECTags {
 		}
 		
 		public static Tag<Block> getTag(ResourceLocation loc) {
-			return BlockTags.getAllTags().getTag(loc);
+			var tag = BlockTags.getAllTags().getTag(loc);
+			
+			if (tag != null) {
+				return tag;
+			}
+			return SerializationTags.getInstance().getTagOrThrow(Registry.BLOCK_REGISTRY, loc, id -> new IllegalStateException("Unknown bock tag '" + id + "'"));
 		}
 
 		public static ResourceLocation getTagName(Tag<Block> tag) {

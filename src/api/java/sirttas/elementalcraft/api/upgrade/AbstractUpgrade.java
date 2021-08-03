@@ -8,9 +8,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 
-import net.minecraft.util.StringRepresentable;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.LevelReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -39,7 +39,7 @@ public abstract class AbstractUpgrade<T> {
 
 	
 	protected boolean canUpgrade(LevelReader world, BlockPos pos, int amount) {
-		return predicate.test(world, pos) && (maxAmount == 0 || amount < maxAmount);
+		return (maxAmount == 0 || amount < maxAmount) && predicate.test(world, pos);
 	}
 
 	protected void merge(AbstractUpgrade<T> other) {

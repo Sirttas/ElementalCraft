@@ -1,13 +1,16 @@
 {
   "type": "elementalcraft:binding",
   "element_type": "water",
-  "element_amount": 1000,
+  "element_amount": 2500,
   "ingredients": [
     {
-      "tag": "forge:gems/quartz"
+      "item": "minecraft:amethyst_shard"
     },
     {
       "item": "elementalcraft:burnt_glass_pane"
+    },
+    {
+      "item": "minecraft:copper_ingot"
     },
     {
       "item": "elementalcraft:watercrystal"

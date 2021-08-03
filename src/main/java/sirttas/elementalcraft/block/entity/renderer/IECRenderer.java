@@ -93,6 +93,7 @@ public interface IECRenderer<T extends BlockEntity> extends BlockEntityRenderer<
 		builder.vertex(matrix, x, y + height, 0).color(r, g, b, 1F).uv(sprite.getU0(), sprite.getV1()).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
 	}
 
+	@Deprecated
 	default void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockState state, int light, int overlay) {
 		renderModel(model, matrixStack, buffer, state, light, overlay, EmptyModelData.INSTANCE);
 	}

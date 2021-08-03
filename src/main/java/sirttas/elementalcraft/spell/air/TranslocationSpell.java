@@ -29,10 +29,8 @@ public class TranslocationSpell extends Spell {
 		
 		if (world.getChunk(((int) Math.round(newPos.x)) >> 4, ((int) Math.round(newPos.z)) >> 4) == null) {
 			return InteractionResult.FAIL;
-		} else if (sender instanceof LivingEntity) {
-			LivingEntity livingSender = (LivingEntity) sender;
-			
-			if (MinecraftForge.EVENT_BUS.post(new EnderEntity(livingSender, newPos.x, newPos.y, newPos.z))) {
+		} else if (sender instanceof LivingEntity livingSender) {
+			if (MinecraftForge.EVENT_BUS.post(new EnderEntity(livingSender, newPos.x, newPos.y, newPos.z))) { // TODO
 				return InteractionResult.SUCCESS;
 			}
 			teleport(sender, newPos);

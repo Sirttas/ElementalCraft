@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.property;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.config.ECConfig;
@@ -30,7 +30,7 @@ public class ECProperties {
 		public static final Item.Properties RECEPTACLE = new Item.Properties().tab(ElementalCraftTab.TAB).durability(ECConfig.COMMON.receptacleDurability.get());
 		public static final Item.Properties RECEPTACLE_IMPROVED = new Item.Properties().tab(ElementalCraftTab.TAB).durability(ECConfig.COMMON.improvedReceptacleDurability.get());
 		public static final Item.Properties FIREITE = new Item.Properties().tab(ElementalCraftTab.TAB).fireResistant();
-		public static final Item.Properties LENSE = new Item.Properties().tab(ElementalCraftTab.TAB).durability(1000);
+		public static final Item.Properties LENSE = new Item.Properties().tab(ElementalCraftTab.TAB).durability(1500);
 		
 		private Items() {}
 	}

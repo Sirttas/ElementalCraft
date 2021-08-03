@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
 	"textures": {
 		"0": "elementalcraft:block/iron",
 		"1": "elementalcraft:block/whiterock",

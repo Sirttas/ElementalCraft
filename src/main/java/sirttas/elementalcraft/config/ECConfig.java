@@ -295,11 +295,11 @@ public class ECConfig {
 			playersSpawnWithBook = builder.comment("Players start the game with an elementopedia in their inventory.").define("playersSpawnWithBook", false);
 			shardElementAmount = builder.comment("The amount of element contained in a single shard.").defineInRange("shardElementAmount", 250, 0, 1000);
 			chiselDurability = builder.comment("Define chisel durablility (0 for unbreakable).").defineInRange("chiselDurability", 250, 0, 1000);
-			lenseElementMultiplier = builder.comment("the multiplier of lense (based on 1000)").defineInRange("lenseElementMultiplier", 100, 0, 100);
+			lenseElementMultiplier = builder.comment("the multiplier of lense (based on 1500)").defineInRange("lenseElementMultiplier", 10, 0, 100);
 			
 			builder.pop().comment("Spell config").push("spell");
 			spellConsumeOnFail = builder.comment("Define if a spell will be cast (and destroyed) or not if you dont have enought element.").define("spellConsumeOnFail", false);
-			
+
 			builder.pop().comment("Worldgen config").push("worldgen");
 			disableWorldGen = builder.comment("Disable all elementalcraft world gen.").define("disableWorldGen", false);
 			builder.push("inertCrystal");

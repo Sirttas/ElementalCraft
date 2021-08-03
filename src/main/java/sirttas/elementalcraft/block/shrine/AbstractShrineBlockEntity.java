@@ -8,8 +8,6 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +33,7 @@ import sirttas.elementalcraft.config.ECConfig;
 
 public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
-	protected static final List<Direction> DEFAULT_UPGRRADE_DIRECTIONS = ImmutableList.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> DEFAULT_UPGRRADE_DIRECTIONS = List.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	private final double basePeriode;
 	private final int baseElementCapacity;
@@ -102,8 +100,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 				BlockState state = this.getLevel().getBlockState(getBlockPos().relative(direction));
 				Block block = state.getBlock();
 
-				if (block instanceof AbstractShrineUpgradeBlock) {
-					ShrineUpgrade upgrade = ((AbstractShrineUpgradeBlock) block).getUpgrade();
+				if (block instanceof AbstractShrineUpgradeBlock shrineUpgrageBlock) {
+					ShrineUpgrade upgrade = shrineUpgrageBlock.getUpgrade();
 
 					if (upgrade != null) {
 						setUpgrade(direction, upgrade);

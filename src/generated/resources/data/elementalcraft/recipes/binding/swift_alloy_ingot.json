@@ -10,6 +10,9 @@
       "tag": "forge:ingots/drenched_iron"
     },
     {
+      "item": "minecraft:copper_ingot"
+    },
+    {
       "tag": "forge:dusts/redstone"
     },
     {

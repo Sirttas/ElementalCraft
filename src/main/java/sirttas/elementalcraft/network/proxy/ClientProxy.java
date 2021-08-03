@@ -15,6 +15,7 @@ import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.renderer.ECRenderers;
 import sirttas.elementalcraft.block.instrument.mill.AirMillRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.inventory.container.screen.ECScreens;
@@ -70,6 +71,7 @@ public class ClientProxy implements IProxy {
 		ModelLoader.addSpecialModel(SolarSynthesizerRenderer.LENSE_LOCATION);
 		ModelLoader.addSpecialModel(AirMillRenderer.BLADES_LOCATION);
 		ModelLoader.addSpecialModel(DiffuserRenderer.CUBE_LOCATION);
+		ModelLoader.addSpecialModel(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
 	}
 	
 	public void stitchTextures(TextureStitchEvent.Pre event) {

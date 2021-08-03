@@ -60,7 +60,7 @@ public interface ISingleElementStorage extends IElementStorage, IElementTypeProv
 		return this;
 	}
 	
-	default boolean isValidType(ElementType type) { // TODO java 16 private
+	private boolean isValidType(ElementType type) {
 		ElementType localType = this.getElementType();
 		
 		return type != ElementType.NONE && (localType == ElementType.NONE || type == localType);

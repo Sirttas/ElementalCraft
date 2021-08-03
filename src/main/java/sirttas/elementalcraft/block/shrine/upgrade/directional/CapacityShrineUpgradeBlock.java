@@ -1,12 +1,13 @@
 package sirttas.elementalcraft.block.shrine.upgrade.directional;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import sirttas.elementalcraft.ElementalCraft;
 
 public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
 
@@ -36,6 +37,10 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 	private static final VoxelShape PIPE_EAST = Block.box(12D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST);
 
+	public CapacityShrineUpgradeBlock() {
+		super(ElementalCraft.createRL(NAME));
+	}
+	
 	public static VoxelShape getShape(BlockState state) {
 		switch (state.getValue(FACING)) {
 		case DOWN:

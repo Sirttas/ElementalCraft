@@ -6,6 +6,6 @@
   "element_type": "fire",
   "element_amount": 500,
   "input": {
-    "tag": "forge:glass"
+    "item": "minecraft:tinted_glass"
   }
 }

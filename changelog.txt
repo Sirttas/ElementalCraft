@@ -1,3 +1,11 @@
+1.17.1-3.0.1:
+
+- added back acceleration shrine clock
+- added copper and new 1.17 items to recipes
+- increased cost and element production of lenses
+- fix shrine upgrades
+
+
 1.17.1-3.0.0:
 
 - ported to 1.17.1
