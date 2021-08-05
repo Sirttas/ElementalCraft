@@ -1,3 +1,10 @@
+1.16.5-2.7.4 and 1.17.1-3.0.2:
+
+- add a config to disable source spawn
+- add a config for the amount of runes on a solar sythesizer
+- fix lense producion amount
+
+
 1.16.5-2.7.3:
 
 - change required jei version

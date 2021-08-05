@@ -40,7 +40,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	public SolarSynthesizerBlockEntity() {
 		super(TYPE);
 		inventory = new SingleItemInventory(this::setChanged);
-		runeHandler = new RuneHandler(2);
+		runeHandler = new RuneHandler(ECConfig.COMMON.solarSythesizerMaxRunes.get());
 		working = false;
 	}
 
