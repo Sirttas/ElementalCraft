@@ -69,7 +69,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity {
 					.map(Optional::get)
 					.forEach(storage -> {
 						if (!tank.isEmpty() && amount.get() > 0) {
-							amount.set(tank.transferTo(storage, diffuser.runeHandler.getTransferSpeed(amount.get()), diffuser.runeHandler.getElementPreservation()));
+							amount.set(diffuser.runeHandler.handleElementTransfer(tank, storage, amount.get()));
 							diffuser.hasDiffused = true;
 						}
 					});

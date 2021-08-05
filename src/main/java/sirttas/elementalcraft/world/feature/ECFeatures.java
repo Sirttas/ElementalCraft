@@ -101,10 +101,12 @@ public class ECFeatures {
 
 	public static void onBiomeLoad(BiomeLoadingEvent event) {
 		Biome.BiomeCategory category = event.getCategory();
+		boolean sourceSpawn = Boolean.FALSE.equals(ECConfig.COMMON.disableSourceSpawn.get());
 		
 		if (Boolean.FALSE.equals(ECConfig.COMMON.disableWorldGen.get())) {
-			event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, sourceConfig);
-
+			if (sourceSpawn) {
+				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, sourceConfig);
+			}
 			if (category != Biome.BiomeCategory.THEEND && category != Biome.BiomeCategory.NETHER) {
 				if (Boolean.FALSE.equals(ECConfig.COMMON.disableInertCrystal.get())) {
 					event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, crystalOreConfig);
@@ -114,60 +116,63 @@ public class ECFeatures {
 					event.getGeneration().addStructureStart(sourceAltar);
 				}
 			}
-			switch (category) {
-			case ICY:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, icySourceConfig);
-				break;
-			case JUNGLE:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, jungleSourceConfig);
-				break;
-			case MUSHROOM:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, mushroomSourceConfig);
-				break;
-			case NETHER:
-				event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, netherSourceConfig);
-				break;
-			case OCEAN:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, oceanSourceConfig);
-				break;
-			case EXTREME_HILLS:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, hillSourceConfig);
-				break;
-			case PLAINS:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, plainSourceConfig);
-				break;
-			case BEACH:
-			case RIVER:
-			case SWAMP:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, wetSourceConfig);
-				break;
-			case TAIGA:
-			case FOREST:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, forestSourceConfig);
-				break;
-			case MESA:
-			case DESERT:
-			case SAVANNA:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, drySourceConfig);
-				break;
-			case THEEND:
-				event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, endSourceConfig);
-				break;
-			default:
-				break;
-
+			if (sourceSpawn) {
+				switch (category) {
+				case ICY:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, icySourceConfig);
+					break;
+				case JUNGLE:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, jungleSourceConfig);
+					break;
+				case MUSHROOM:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, mushroomSourceConfig);
+					break;
+				case NETHER:
+					event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, netherSourceConfig);
+					break;
+				case OCEAN:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, oceanSourceConfig);
+					break;
+				case EXTREME_HILLS:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, hillSourceConfig);
+					break;
+				case PLAINS:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, plainSourceConfig);
+					break;
+				case BEACH:
+				case RIVER:
+				case SWAMP:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, wetSourceConfig);
+					break;
+				case TAIGA:
+				case FOREST:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, forestSourceConfig);
+					break;
+				case MESA:
+				case DESERT:
+				case SAVANNA:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, drySourceConfig);
+					break;
+				case THEEND:
+					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, endSourceConfig);
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}
 
 	public static void addSpawnSources(ServerLevel world) {
-		Random rand = new Random(world.getSeed());
-		BlockPos pos = world.getSharedSpawnPos().offset(-100, 0, -100);
-
-		addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnFireSourceConfig);
-		addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnWaterSourceConfig);
-		addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnEarthSourceConfig);
-		addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnAirSourceConfig);
+		if (Boolean.FALSE.equals(ECConfig.COMMON.disableSourceSpawn.get())) {
+			Random rand = new Random(world.getSeed());
+			BlockPos pos = world.getSharedSpawnPos().offset(-100, 0, -100);
+	
+			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnFireSourceConfig);
+			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnWaterSourceConfig);
+			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnEarthSourceConfig);
+			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnAirSourceConfig);
+		}
 	}
 
 	private static void addSpawnSource(ServerLevel world, Random rand, BlockPos pos, ConfiguredFeature<?, ?> source) {

@@ -3,6 +3,8 @@ package sirttas.elementalcraft.item;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -308,6 +310,8 @@ public class ECItems {
 		RegistryHelper.register(registry, new ECItem(), "major_rune_slate");
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
 	public static void replaceModels(ModelBakeEvent event) {
 		ModelResourceLocation key = new ModelResourceLocation(ElementalCraft.createRL(RuneItem.NAME), "inventory");
 		BakedModel oldModel = event.getModelRegistry().get(key);
@@ -317,6 +321,8 @@ public class ECItems {
 		}
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
 	public static void registerItemColors(ColorHandlerEvent.Item event) {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), RECEPTACLE, RECEPTACLE_IMPROVED);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), PURE_ORE);

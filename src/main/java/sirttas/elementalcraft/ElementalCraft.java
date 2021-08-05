@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -25,27 +24,20 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.pureore.PureOreManager;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
-import sirttas.elementalcraft.network.proxy.ClientProxy;
-import sirttas.elementalcraft.network.proxy.IProxy;
-import sirttas.elementalcraft.network.proxy.ServerProxy;
-import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 
 @Mod(ElementalCraftApi.MODID)
 public class ElementalCraft {
-	public static final IProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-
+	
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
 	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).merged(ShrineUpgrade::merge).build();
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER).withDefault(SpellProperties.NONE).build();
 
 	
 	public ElementalCraft() {
-		PROXY.registerHandlers();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-		MinecraftForge.EVENT_BUS.addListener(SpellTickManager::serverTick);
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECFeatures::onBiomeLoad);
 		MinecraftForge.EVENT_BUS.addListener(PURE_ORE_MANAGER::reload);
 

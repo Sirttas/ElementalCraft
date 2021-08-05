@@ -41,7 +41,6 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ToolType;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
@@ -194,7 +193,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 				return opt.get();
 			}
 		}
-		return ElementalCraft.PROXY.getDefaultPlayer();
+		return null;
 	}
 
 	public VoxelShape getShape(BlockState state, BlockPos pos, ElementPipeBlockEntity blockEntity, HitResult result, Player player) {

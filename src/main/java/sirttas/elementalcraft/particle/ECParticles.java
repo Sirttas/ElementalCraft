@@ -39,6 +39,7 @@ public class ECParticles {
 
 	@SuppressWarnings("resource")
 	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
 	public static void registerFactories(ParticleFactoryRegisterEvent evt) {
 		Minecraft.getInstance().particleEngine.register(SOURCE, SourceParticle.FACTORY);
 		Minecraft.getInstance().particleEngine.register(SOURCE_EXHAUSTED, SourceExhaustedParticle.FACTORY);

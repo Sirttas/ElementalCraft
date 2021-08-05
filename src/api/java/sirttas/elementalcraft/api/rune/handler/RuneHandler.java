@@ -53,14 +53,4 @@ public class RuneHandler implements IRuneHandler {
 	public float getBonus(BonusType type) {
 		return bonuses.getOrDefault(type, 0F);
 	}
-
-	@Override
-	public int getRuneCount() {
-		return runes.size();
-	}
-
-	@Override
-	public int getRuneCount(Rune rune) {
-		return runes == null ? 0 : (int) runes.stream().filter(rune::equals).count();
-	}
 }

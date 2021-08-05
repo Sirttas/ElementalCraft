@@ -76,7 +76,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity {
 
 		if (extractor.canExtract(sourceElementType)) {
 			BlockEntityHelper.getTileEntityAs(level, pos.above(), SourceBlockEntity.class).map(SourceBlockEntity::getElementStorage)
-					.ifPresent(sourceStorage -> sourceStorage.transferTo(extractor.getTank(), extractor.runeHandler.getTransferSpeed(extractor.extractionAmount), extractor.runeHandler.getElementPreservation()));
+					.ifPresent(sourceStorage ->  extractor.runeHandler.handleElementTransfer(sourceStorage, extractor.getTank(), extractor.extractionAmount));
 		}
 	}
 

@@ -8,9 +8,15 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class SpellTickManager {
 
 	private static final SpellTickManager SERVER_INSTANCE = new SpellTickManager();
@@ -84,12 +90,15 @@ public class SpellTickManager {
 		return 0;
 	}
 
+	@SubscribeEvent
 	public static void serverTick(TickEvent.ServerTickEvent event) {
 		if (event.phase == Phase.START) {
 			SERVER_INSTANCE.tick();
 		}
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
 	public static void clientTick(TickEvent.ClientTickEvent event) {
 		if (event.phase == Phase.START) {
 			CLIENT_INSTANCE.tick();

@@ -42,7 +42,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
 		inventory = new SingleItemInventory(this::setChanged);
-		runeHandler = new RuneHandler(2);
+		runeHandler = new RuneHandler(ECConfig.COMMON.solarSythesizerMaxRunes.get());
 		working = false;
 	}
 
@@ -53,7 +53,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 		if (tank != null && level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
 			ItemStack stack = solarSynthesizer.inventory.getItem(0);
 			boolean hasExtract = solarSynthesizer.getElementStorage()
-					.map(storage -> storage.transferTo(tank, solarSynthesizer.runeHandler.getTransferSpeed(ECConfig.COMMON.lenseElementMultiplier.get()), solarSynthesizer.runeHandler.getElementPreservation()) > 0).orElse(false);
+					.map(storage -> solarSynthesizer.runeHandler.handleElementTransfer(storage, tank, ECConfig.COMMON.lenseElementMultiplier.get()) > 0).orElse(false);
 			
 			if (hasExtract || solarSynthesizer.working) {
 				solarSynthesizer.working = hasExtract;
