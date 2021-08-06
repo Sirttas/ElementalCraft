@@ -312,8 +312,8 @@ public class ECConfig {
 			inertCrystalSize = builder.comment("Size of inert crystal vein.").defineInRange("inertCrystalSize", 9, 1, 100);
 			inertCrystalYMax = builder.comment("max Y level of inert crystal.").defineInRange("inertCrystalYMax", 96, 1, 256);
 			builder.pop();
-			disableSourceSpawn = builder.comment("Disable creation of sources.").define("disableInertCrystal", false);
-			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("disableSourceSpawn", 30, 1, 10000);
+			disableSourceSpawn = builder.comment("Disable creation of sources.").define("disableSourceSpawn", false);
+			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequante).").defineInRange("sourceSpawnChance", 30, 1, 10000);
 			oceanSourceSpawnChance = builder.comment("Chance to add a source in an ocean biome (the small the more frequante).").defineInRange("oceanSourceSpawnChance", 150, 1, 10000);
 			randomSourceSpawnChance = builder.comment("Chance to add a source in world ingoring biome elemen type (the small the more frequante).").defineInRange("randomSourceSpawnChance", 300, 1,
 					10000);

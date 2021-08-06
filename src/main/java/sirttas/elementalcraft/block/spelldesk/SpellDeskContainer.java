@@ -56,7 +56,7 @@ public class SpellDeskContainer extends AbstractECContainer {
 	public ItemStack quickMoveStack(Player player, int index) {
 		Slot slot = this.slots.get(index);
 
-		if (slot != null && slot.hasItem()) {
+		if (slot.hasItem()) {
 			ItemStack slotStack = slot.getItem();
 			ItemStack stack = slotStack.copy();
 

@@ -74,17 +74,17 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	protected boolean makeProgress() {
-		ISingleElementStorage tank = getTank();
+		ISingleElementStorage container = getContainer();
 
 		if (recipe != null && progress >= recipe.getElementAmount()) {
 			process();
 			progress = 0;
 			return true;
-		} else if (this.isRecipeAvailable() && tank != null) {
+		} else if (this.isRecipeAvailable() && container != null) {
 			float preservation = runeHandler.getElementPreservation();
 			int oldProgress = progress;
 
-			progress += tank.extractElement(Math.min(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), tank.getElementAmount() - 1), getRecipeElementType(), false) * preservation;
+			progress += container.extractElement(Math.min(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), container.getElementAmount() - 1), getRecipeElementType(), false) * preservation;
 			if (progress > 0 &&  progress / this.transferSpeed >= oldProgress / this.transferSpeed) {
 				onProgress();
 			}
@@ -110,7 +110,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	@Override
 	public ElementType getElementType() {
-		ElementType tankType = this.getTankElementType();
+		ElementType tankType = this.getContainerElementType();
 		
 		return tankType != ElementType.NONE || recipe == null ? tankType : getRecipeElementType();
 	}

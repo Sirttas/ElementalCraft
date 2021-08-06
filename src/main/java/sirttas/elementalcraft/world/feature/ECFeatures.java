@@ -139,18 +139,13 @@ public class ECFeatures {
 				case PLAINS:
 					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, plainSourceConfig);
 					break;
-				case BEACH:
-				case RIVER:
-				case SWAMP:
+				case BEACH, RIVER, SWAMP:
 					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, wetSourceConfig);
 					break;
-				case TAIGA:
-				case FOREST:
+				case TAIGA, FOREST:
 					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, forestSourceConfig);
 					break;
-				case MESA:
-				case DESERT:
-				case SAVANNA:
+				case MESA, DESERT, SAVANNA:
 					event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, drySourceConfig);
 					break;
 				case THEEND:

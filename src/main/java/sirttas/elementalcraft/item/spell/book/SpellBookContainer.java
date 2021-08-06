@@ -69,7 +69,7 @@ public class SpellBookContainer extends AbstractECContainer {
 	public ItemStack quickMoveStack(Player playerIn, int index) {
 		Slot slot = this.slots.get(index);
 
-		if (slot != null && slot.hasItem()) {
+		if (slot.hasItem()) {
 			ItemStack stack = slot.getItem();
 			ItemStack old = stack.copy();
 			Spell spell = SpellHelper.getSpell(stack);
@@ -101,7 +101,6 @@ public class SpellBookContainer extends AbstractECContainer {
 		if (slot == null || slot.getItem().getItem() != ECItems.SPELL_BOOK) {
 			if (slotId < 0 || slotId >= SLOT_COUNT || clickTypeIn == ClickType.THROW || clickTypeIn == ClickType.QUICK_MOVE || clickTypeIn == ClickType.PICKUP_ALL) {
 				super.clicked(slotId, dragType, clickTypeIn, player);
-				return;
 			} else if (clickTypeIn == ClickType.CLONE && player.isCreative() && getCarried().isEmpty()) {
 				if (slot != null && slot.hasItem()) {
 					ItemStack scroll = slot.getItem().copy();
@@ -120,7 +119,6 @@ public class SpellBookContainer extends AbstractECContainer {
 						SpellHelper.removeSpell(book, SpellHelper.getSpell(stack));
 						setCarried(scroll);
 						this.refresh();
-						return;
 					}
 				} else {
 					ItemStack stack = getCarried();
@@ -184,7 +182,7 @@ public class SpellBookContainer extends AbstractECContainer {
 			for (int i = 0; i < this.slots.size(); i++) {
 				Slot slot = this.slots.get(i + SLOT_COUNT);
 
-				if (slot != null && !slot.hasItem()) {
+				if (!slot.hasItem()) {
 					ItemStack scroll = new ItemStack(ECItems.SCROLL);
 
 					SpellHelper.setSpell(scroll, spell);
@@ -203,15 +201,13 @@ public class SpellBookContainer extends AbstractECContainer {
 		for (int i = 0; i < SLOT_COUNT; i++) {
 			Slot slot = this.slots.get(i);
 
-			if (slot != null) {
-				ItemStack stackInSlot = slot.getItem();
+			ItemStack stackInSlot = slot.getItem();
 
-				if (stackInSlot.isEmpty() || spell.equals(SpellHelper.getSpell(stackInSlot))) {
-					stack.shrink(1);
-					SpellHelper.addSpell(book, spell);
-					refresh();
-					return;
-				}
+			if (stackInSlot.isEmpty() || spell.equals(SpellHelper.getSpell(stackInSlot))) {
+				stack.shrink(1);
+				SpellHelper.addSpell(book, spell);
+				refresh();
+				return;
 			}
 		}
 	}

@@ -23,10 +23,11 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
+import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class DiffuserBlockEntity extends AbstractECBlockEntity {
+public class DiffuserBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + DiffuserBlock.NAME) public static final BlockEntityType<DiffuserBlockEntity> TYPE = null;
 
@@ -57,7 +58,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public static void tick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {
-		ISingleElementStorage tank = diffuser.getTank();
+		ISingleElementStorage tank = diffuser.getContainer();
 		AtomicInteger amount = new AtomicInteger(ECConfig.COMMON.diffuserDiffusionAmount.get());
 		
 		diffuser.hasDiffused = false;

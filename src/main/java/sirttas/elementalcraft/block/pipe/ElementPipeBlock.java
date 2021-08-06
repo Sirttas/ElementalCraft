@@ -6,7 +6,6 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.client.Minecraft;
@@ -66,7 +65,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			Shapes.or(Block.box(0D, 1D, 1D, 16D, 15D, 15D), Block.box(1D, 0D, 1D, 15D, 16D, 15D), Block.box(1D, 1D, 0D, 15D, 15D, 16D)),
 			BooleanOp.ONLY_FIRST);
 	
-	private static final List<VoxelShape> SHAPES = ImmutableList.of(EAST_SHAPE, NORTH_SHAPE, WEST_SHAPE, SOUTH_SHAPE, UP_SHAPE, DOWN_SHAPE, BASE_SHAPE, FRAME_SHAPE);
+	private static final List<VoxelShape> SHAPES = List.of(EAST_SHAPE, NORTH_SHAPE, WEST_SHAPE, SOUTH_SHAPE, UP_SHAPE, DOWN_SHAPE, BASE_SHAPE, FRAME_SHAPE);
 
 	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
 

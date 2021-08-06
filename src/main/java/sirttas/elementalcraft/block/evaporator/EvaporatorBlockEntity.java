@@ -13,12 +13,13 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
+import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleStackInventory;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 
-public class EvaporatorBlockEntity extends AbstractIERBlockEntity {
+public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements IContainerTopBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final BlockEntityType<EvaporatorBlockEntity> TYPE = null;
 
@@ -47,14 +48,14 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity {
 			}
 		}
 		if (evaporator.canExtract()) {
-			evaporator.elementStorage.transferTo(evaporator.getTank(), extractionAmount, evaporator.runeHandler.getElementPreservation());
+			evaporator.elementStorage.transferTo(evaporator.getContainer(), extractionAmount, evaporator.runeHandler.getElementPreservation());
 		}
 	}
 
 	public boolean canExtract() {
-		ISingleElementStorage tank = getTank();
+		ISingleElementStorage container = getContainer();
 
-		return !elementStorage.isEmpty() && hasLevel() && tank != null && (tank.getElementAmount() < tank.getElementCapacity() || tank.getElementType() != elementStorage.getElementType());
+		return !elementStorage.isEmpty() && hasLevel() && container != null && (container.getElementAmount() < container.getElementCapacity() || container.getElementType() != elementStorage.getElementType());
 	}
 
 	private int getShardElementAmount(ShardItem item) {

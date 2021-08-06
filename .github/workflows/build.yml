@@ -1,9 +1,8 @@
 name: Build
 on:
   push:
-    branches:
-      - '1.16'
-      - '1.17'
+    tags:
+      - '*'
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -36,4 +35,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonarqube --info --stacktrace
+      - name: Publish
+        env:
+          MODMAVEN_USER: ${{ secrets.MODMAVEN_USER }}
+          MODMAVEN_PASSWORD: ${{ secrets.MODMAVEN_PASSWORD }}
+          CURSEFORGE_KEY: ${{ secrets.CURSEFORGE_KEY }}
+        if: startsWith(github.ref, 'refs/tags/')
+        run: ./gradlew publish curseforge --info --stacktrace
 

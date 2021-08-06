@@ -34,7 +34,6 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 			RenderSystem.enableBlend();
 			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
 					GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-			//RenderSystem.alphaFunc(516, 0.003921569F);
 			buffer.begin(Mode.QUADS, DefaultVertexFormat.PARTICLE);
 		}
 
@@ -42,6 +41,7 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 		public void end(Tesselator tessellator) {
 			tessellator.end();
 			RenderSystem.depthMask(true);
+			RenderSystem.disableBlend();
 		}
 
 		@Override

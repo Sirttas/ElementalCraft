@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
@@ -26,7 +24,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE).periode(ECConfig.COMMON.lavaShrinePeriode.get()).consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.lavaShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
 
-	protected static final List<Direction> UPGRRADE_DIRECTIONS = ImmutableList.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public LavaShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);

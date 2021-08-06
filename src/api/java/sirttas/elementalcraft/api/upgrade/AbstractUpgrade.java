@@ -2,7 +2,6 @@ package sirttas.elementalcraft.api.upgrade;
 
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.Products.P3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
@@ -32,7 +31,7 @@ public abstract class AbstractUpgrade<T> {
 	protected static <T extends StringRepresentable, U extends AbstractUpgrade<T>> P3<Mu<U>, IBlockPosPredicate, Map<T, Float>, Integer> codec(Instance<U> builder, Codec<T> bonusCodec) {
 		return builder.group(
 				IBlockPosPredicate.CODEC.fieldOf(ECNames.PREDICATE).forGetter(u -> u.predicate),
-				Codec.unboundedMap(bonusCodec, Codec.FLOAT).optionalFieldOf(ECNames.BONUSES, ImmutableMap.of()).forGetter(AbstractUpgrade::getBonuses),
+				Codec.unboundedMap(bonusCodec, Codec.FLOAT).optionalFieldOf(ECNames.BONUSES, Map.of()).forGetter(AbstractUpgrade::getBonuses),
 				Codec.INT.optionalFieldOf(ECNames.MAX_AMOUNT, 0).forGetter(u -> u.maxAmount)
 		);
 	}

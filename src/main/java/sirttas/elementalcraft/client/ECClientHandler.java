@@ -22,6 +22,8 @@ import sirttas.elementalcraft.rune.Runes;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECClientHandler {
 
+	private ECClientHandler() {}
+	
 	@SubscribeEvent
 	public static void setupClient(FMLClientSetupEvent event) {
 		ECRenderers.initRenderLayouts();

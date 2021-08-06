@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -41,11 +41,11 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public boolean matches(IBinder inv) {
-		if (inv.getTankElementType() != getElementType() || inv.getItemCount() != ingredients.size()) {
+	public boolean matches(IBinder binder) {
+		if (binder.getContainerElementType() != getElementType() || binder.getItemCount() != ingredients.size()) {
 			return false;
 		}
-		return Boolean.TRUE.equals(ECConfig.COMMON.binderRecipeMatchOrder.get()) ? matchesOrdered(inv) : RecipeHelper.matchesUnordered(inv.getInventory(), ingredients);
+		return Boolean.TRUE.equals(ECConfig.COMMON.binderRecipeMatchOrder.get()) ? matchesOrdered(binder) : RecipeHelper.matchesUnordered(binder.getInventory(), ingredients);
 	}
 
 	private boolean matchesOrdered(IBinder inv) {

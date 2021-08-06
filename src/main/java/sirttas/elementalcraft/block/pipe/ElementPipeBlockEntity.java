@@ -208,8 +208,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity implements IEl
 					this.setConection(face, ConnectionType.DISCONNECT);
 				}
 				return InteractionResult.SUCCESS;
-			case EXTRACT:
-			case CONNECT:
+			case EXTRACT, CONNECT:
 				this.setConection(face, ConnectionType.DISCONNECT);
 				if (tile instanceof ElementPipeBlockEntity) {
 					((ElementPipeBlockEntity) tile).setConection(face.getOpposite(), ConnectionType.DISCONNECT);

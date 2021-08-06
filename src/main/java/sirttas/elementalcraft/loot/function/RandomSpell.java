@@ -14,13 +14,13 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.spell.Spell;
@@ -35,12 +35,12 @@ public class RandomSpell extends LootItemConditionalFunction {
 	
 	private RandomSpell(LootItemCondition[] condition, Collection<Spell> spellList) {
 		super(condition);
-		this.spellList = ImmutableList.copyOf(spellList);
+		this.spellList = List.copyOf(spellList);
 		this.elementType = ElementType.NONE;
 	}
 
 	private RandomSpell(LootItemCondition[] condition, ElementType elementType) {
-		this(condition, ImmutableList.of());
+		this(condition, List.of());
 		this.elementType = elementType;
 	}
 

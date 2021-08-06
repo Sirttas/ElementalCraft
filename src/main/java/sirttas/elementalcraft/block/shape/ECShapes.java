@@ -2,8 +2,6 @@ package sirttas.elementalcraft.block.shape;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -25,8 +23,8 @@ public class ECShapes {
 	private static final VoxelShape RS_TARGET_DOWN = Shapes.or(Block.box(7D, 0D, 7D, 9D, 3D, 9D), Block.box(6D, 3D, 6D, 10D, 5D, 10D));
 	private static final VoxelShape RS_TARGET_UP = Shapes.or(Block.box(7D, 13D, 7D, 9D, 16D, 9D), Block.box(6D, 11D, 6D, 10D, 13D, 10D));
 	
-	public static final List<VoxelShape> SOURCE_SHAPES = ImmutableList.of(RS_SOURCE_NORTH, RS_SOURCE_SOUTH, RS_SOURCE_WEST, RS_SOURCE_EAST, RS_SOURCE_DOWN, RS_SOURCE_UP);
-	public static final List<VoxelShape> TARGET_SHAPES = ImmutableList.of(RS_TARGET_NORTH, RS_TARGET_SOUTH, RS_TARGET_WEST, RS_TARGET_EAST, RS_TARGET_DOWN, RS_TARGET_UP);
+	public static final List<VoxelShape> SOURCE_SHAPES = List.of(RS_SOURCE_NORTH, RS_SOURCE_SOUTH, RS_SOURCE_WEST, RS_SOURCE_EAST, RS_SOURCE_DOWN, RS_SOURCE_UP);
+	public static final List<VoxelShape> TARGET_SHAPES = List.of(RS_TARGET_NORTH, RS_TARGET_SOUTH, RS_TARGET_WEST, RS_TARGET_EAST, RS_TARGET_DOWN, RS_TARGET_UP);
 	
 	private static final VoxelShape SHRINE_BASE_1 = Block.box(0D, 0D, 0D, 16D, 3D, 16D);
 	private static final VoxelShape SHRINE_BASE_2 = Block.box(1D, 3D, 1D, 15D, 7D, 15D);

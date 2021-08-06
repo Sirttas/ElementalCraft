@@ -26,12 +26,13 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
+import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity {
+public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity implements IContainerTopBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SolarSynthesizerBlock.NAME) public static final BlockEntityType<SolarSynthesizerBlockEntity> TYPE = null;
 
@@ -48,12 +49,12 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 
 
 	public static void tick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
-		ISingleElementStorage tank = solarSynthesizer.getTank();
+		ISingleElementStorage container = solarSynthesizer.getContainer();
 		
-		if (tank != null && level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
+		if (container != null && level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
 			ItemStack stack = solarSynthesizer.inventory.getItem(0);
 			boolean hasExtract = solarSynthesizer.getElementStorage()
-					.map(storage -> solarSynthesizer.runeHandler.handleElementTransfer(storage, tank, ECConfig.COMMON.lenseElementMultiplier.get()) > 0).orElse(false);
+					.map(storage -> solarSynthesizer.runeHandler.handleElementTransfer(storage, container, ECConfig.COMMON.lenseElementMultiplier.get()) > 0).orElse(false);
 			
 			if (hasExtract || solarSynthesizer.working) {
 				solarSynthesizer.working = hasExtract;

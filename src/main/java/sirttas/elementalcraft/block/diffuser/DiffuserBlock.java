@@ -66,6 +66,6 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
 		BlockEntityHelper.getTileEntityAs(world, pos, DiffuserBlockEntity.class).filter(DiffuserBlockEntity::hasDiffused)
-				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getTankElementType(), world, Vec3.atCenterOf(pos), Direction.UP, 1, rand));
+				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getContainerElementType(), world, Vec3.atCenterOf(pos), Direction.UP, 1, rand));
 	}
 }

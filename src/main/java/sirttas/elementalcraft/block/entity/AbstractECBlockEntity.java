@@ -11,8 +11,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fmllegacy.network.PacketDistributor;
-import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 
 public abstract class AbstractECBlockEntity extends BlockEntity {
 
@@ -29,18 +27,6 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 
 	public boolean isDirty() {
 		return dirty;
-	}
-
-	// TODO extract (capability ?)
-	public ISingleElementStorage getTank() {
-		return this.hasLevel() ? BlockEntityHelper.getElementContainer(this.getBlockState().getBlock(), level, worldPosition.below()).orElse(null) : null;
-	}
-
-	// TODO extract (capability ?)
-	public ElementType getTankElementType() {
-		ISingleElementStorage tank = getTank();
-
-		return tank != null ? tank.getElementType() : ElementType.NONE;
 	}
 	
 	public boolean isPowered() {

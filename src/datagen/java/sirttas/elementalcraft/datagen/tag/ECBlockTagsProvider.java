@@ -64,7 +64,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(Tags.Blocks.ORES).add(ECBlocks.CRYSTAL_ORE);
 		tag(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT);
 		tag(ECTags.Blocks.PUREROCKS).add(ECBlocks.PURE_ROCK, ECBlocks.PURE_ROCK_SLAB, ECBlocks.PURE_ROCK_STAIRS, ECBlocks.PURE_ROCK_WALL);
-		tag(ECTags.Blocks.SMALL_TANK_COMPATIBLES).add(ECBlocks.EXTRACTOR, ECBlocks.INFUSER, ECBlocks.EVAPORATOR);
+		tag(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES).add(ECBlocks.EXTRACTOR, ECBlocks.INFUSER, ECBlocks.EVAPORATOR);
 		tag(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);
 
 		tag(BlockTags.BEACON_BASE_BLOCKS).add(ECBlocks.DRENCHED_IRON_BLOCK, ECBlocks.SWIFT_ALLOY_BLOCK, ECBlocks.FIREITE_BLOCK);

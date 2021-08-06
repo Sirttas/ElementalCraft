@@ -2,8 +2,6 @@ package sirttas.elementalcraft.block.shrine.enderlock;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +22,7 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).consumeAmount(ECConfig.COMMON.enderLockShrineConsumeAmount.get()).range(ECConfig.COMMON.enderLockShrineRange.get());
 
-	protected static final List<Direction> UPGRRADE_DIRECTIONS = ImmutableList.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public EnderLockShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);

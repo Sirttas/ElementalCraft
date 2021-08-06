@@ -4,15 +4,15 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
@@ -50,9 +50,9 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 	}
 
 	@Override
-	public boolean matches(InscriberBlockEntity inv) {
-		if (inv.getTankElementType() == getElementType()) {
-			return RecipeHelper.matchesUnordered(inv.getInventory(), ingredients);
+	public boolean matches(InscriberBlockEntity inscriber) {
+		if (inscriber.getContainerElementType() == getElementType()) {
+			return RecipeHelper.matchesUnordered(inscriber.getInventory(), ingredients);
 		}
 		return false;
 	}

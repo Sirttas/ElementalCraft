@@ -22,12 +22,13 @@ import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class ExtractorBlockEntity extends AbstractECBlockEntity {
+public class ExtractorBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ExtractorBlock.NAME) public static final BlockEntityType<ExtractorBlockEntity> TYPE = null;
 
@@ -76,7 +77,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity {
 
 		if (extractor.canExtract(sourceElementType)) {
 			BlockEntityHelper.getTileEntityAs(level, pos.above(), SourceBlockEntity.class).map(SourceBlockEntity::getElementStorage)
-					.ifPresent(sourceStorage ->  extractor.runeHandler.handleElementTransfer(sourceStorage, extractor.getTank(), extractor.extractionAmount));
+					.ifPresent(sourceStorage ->  extractor.runeHandler.handleElementTransfer(sourceStorage, extractor.getContainer(), extractor.extractionAmount));
 		}
 	}
 
@@ -85,9 +86,9 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity {
 	}
 
 	private boolean canExtract(ElementType sourceElementType) {
-		ISingleElementStorage tank = getTank();
+		ISingleElementStorage container = getContainer();
 
-		return hasLevel() && sourceElementType != ElementType.NONE && tank != null && (tank.getElementAmount() < tank.getElementCapacity() || tank.getElementType() != sourceElementType);
+		return hasLevel() && sourceElementType != ElementType.NONE && container != null && (container.getElementAmount() < container.getElementCapacity() || container.getElementType() != sourceElementType);
 	}
 
 	public RuneHandler getRuneHandler() {

@@ -81,8 +81,8 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	private void save(HashCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
-		if (!LootHandler.INJECT_lIST.contains(location.getPath())) {
-			throw new IllegalStateException(MessageFormat.format("{} is not present in LootHandler.INJECT_lIST and will not be injected at runtime!", location));
+		if (!LootHandler.INJECT_LIST.contains(location.getPath())) {
+			throw new IllegalStateException(MessageFormat.format("{} is not present in LootHandler.INJECT_LIST and will not be injected at runtime!", location));
 		}
 		save(cache, builder, getPath(location));
 	}

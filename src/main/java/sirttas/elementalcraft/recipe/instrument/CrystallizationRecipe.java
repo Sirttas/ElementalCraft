@@ -8,17 +8,17 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.core.Registry;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
@@ -62,10 +62,10 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	}
 
 	@Override
-	public boolean matches(CrystallizerBlockEntity inv) {
-		if (inv.getTankElementType() == getElementType() && inv.getItemCount() >= 2) {
+	public boolean matches(CrystallizerBlockEntity crystallizer) {
+		if (crystallizer.getContainerElementType() == getElementType() && crystallizer.getItemCount() >= 2) {
 			for (int i = 0; i < 2; i++) {
-				if (!ingredients.get(i).test(inv.getInventory().getItem(i))) {
+				if (!ingredients.get(i).test(crystallizer.getInventory().getItem(i))) {
 					return false;
 				}
 			}

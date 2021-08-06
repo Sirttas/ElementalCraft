@@ -36,7 +36,7 @@ public class BlockEntityHelper {
 	}
 
 	public static Optional<ISingleElementStorage> getElementContainer(Block block, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
-		return getTileEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_TANK_COMPATIBLES.contains(block)).map(IElementContainer::getElementStorage);
+		return getTileEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES.contains(block)).map(IElementContainer::getElementStorage);
 	}
 
 	public static boolean isValidContainer(Block block, LevelReader world, BlockPos pos) {

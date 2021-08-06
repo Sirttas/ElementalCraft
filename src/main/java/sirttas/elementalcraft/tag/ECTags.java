@@ -144,7 +144,7 @@ public class ECTags {
 
 	public static class Blocks {
 		public static final Named<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
-		public static final Named<Block> SMALL_TANK_COMPATIBLES = createTag("small_tank_compatibles");
+		public static final Named<Block> SMALL_CONTAINER_COMPATIBLES = createTag("small_container_compatibles");
 
 		public static final Named<Block> PUREROCKS = createTag("purerocks");
 		public static final Named<Block> PIPES = createTag("pipes");

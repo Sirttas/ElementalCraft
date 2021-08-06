@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
@@ -69,6 +69,6 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Override
 	public boolean matches(AbstractFireFurnaceBlockEntity<T> instrument) {
-		return instrument.getTankElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), instrument.getLevel());
+		return instrument.getContainerElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), instrument.getLevel());
 	}
 }

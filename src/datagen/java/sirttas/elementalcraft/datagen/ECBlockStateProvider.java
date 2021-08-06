@@ -127,9 +127,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			.part().modelFile(connector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.SOUTH, true).end()
 			.part().modelFile(connector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.WEST, true).end();
 		} else if (block instanceof ElementContainerBlock) {
-			tankPedestalBlock(block, models().getExistingFile(prefix(name)), containerConnector);
+			pedestalContainerBlock(block, models().getExistingFile(prefix(name)), containerConnector);
 		} else if (block instanceof PedestalBlock) {
-			tankPedestalBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
+			pedestalContainerBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
 		} else if (block instanceof RetrieverBlock || block instanceof SorterBlock) {
 			ModelFile core = models().getExistingFile(prefix(name + CORE));
 			ModelFile source = models().getExistingFile(prefix("instrument_retriever_source"));
@@ -176,7 +176,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		}
 	}
 
-	private void tankPedestalBlock(Block block, ModelFile base, ModelFile connector) {
+	private void pedestalContainerBlock(Block block, ModelFile base, ModelFile connector) {
 		getMultipartBuilder(block).part().modelFile(base).addModel().end()
 			.part().modelFile(connector).addModel().condition(BlockStateProperties.NORTH, true).end()
 			.part().modelFile(connector).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end()
