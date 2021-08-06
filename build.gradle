@@ -15,6 +15,7 @@ plugins {
     id 'eclipse'
 	id 'maven-publish'
 	id "org.sonarqube" version "3.2.0"
+	id "com.matthewprenger.cursegradle" version '1.4.0'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -26,6 +27,7 @@ mixin {
 
 version = "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
+name = 'ElementalCraft'
 archivesBaseName = 'elementalcraft'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
@@ -218,11 +220,11 @@ sonarqube {
 	}
 }
 
-if (project.hasProperty('modmaven_user')) {
+if (System.getenv("MODMAVEN_USER") != null || project.hasProperty('modmaven_user')) {
 	publishing {
 	    publications {
 	        mavenJava(MavenPublication) {
-	             artifacts = [apiJar, jar, sourcesJar, datagenJar]
+				artifacts = [apiJar, jar, sourcesJar, datagenJar]
 	        }
 	    }
 	    
@@ -230,10 +232,54 @@ if (project.hasProperty('modmaven_user')) {
 	        maven {
 	            url = 'https://modmaven.dev/artifactory/local-releases/'
 	            credentials {
-	                username = "${modmaven_user}"
-	                password = "${modmaven_password}"
+					username = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
+	                password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")
 	            }
 	        }
 	    }
+	}
+}
+
+if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_key')) {
+	curseforge {
+		apiKey = System.getenv("CURSEFORGE_KEY") ?: project.findProperty("curseforge_key")
+	
+		def changeLog = { ->
+			def generatedChangelog = ""
+			def changeStart = false;
+			def changeEnd = false;
+			
+			changelogFile = file('changelog.txt').withReader { reader ->
+		        while ((line = reader.readLine()) != null && !changeEnd) {
+		        	if (line.matches('^\\s*- ')) {
+		        		if (!changeStart) {
+		        			changeStart = true;
+		        		}
+		        	} else if (changeStart) {
+		        		changeEnd = true;
+		        	}
+					if (changeStart && !changeEnd) {
+						generatedChangelog += line
+					}
+				}
+			}
+			return generatedChangelog
+		}
+	
+		project {
+			id = '395158'
+			changelogType = "txt"
+			changelog = changeLog
+			releaseType = "${curse_release_type}"
+			mainArtifact(jar) {
+				relations {
+					requiredDependency 'datapack-anvil'
+					requiredDependency 'jei'
+					requiredDependency 'patchouli'
+	        		incompatible 'performant'
+				}
+			}
+			addGameVersion "${minecraft_version}"
+		}
 	}
 }
