@@ -27,7 +27,6 @@ mixin {
 
 version = "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
-name = 'ElementalCraft'
 archivesBaseName = 'elementalcraft'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
@@ -224,6 +223,7 @@ if (System.getenv("MODMAVEN_USER") != null || project.hasProperty('modmaven_user
 	publishing {
 	    publications {
 	        mavenJava(MavenPublication) {
+	        	artifactId = 'ElementalCraft'
 				artifacts = [apiJar, jar, sourcesJar, datagenJar]
 	        }
 	    }
