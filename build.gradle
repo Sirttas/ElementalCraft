@@ -261,7 +261,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 		        		changeEnd = true;
 		        	}
 					if (changeStart && !changeEnd) {
-						generatedChangelog += line
+						generatedChangelog += line + '\n'
 					}
 				}
 			}
@@ -270,7 +270,6 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 	
 		project {
 			id = '395158'
-			changelogType = "txt"
 			changelog = changeLog
 			releaseType = "${curse_release_type}"
 			mainArtifact(jar) {
