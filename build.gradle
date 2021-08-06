@@ -249,7 +249,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			def changeStart = false;
 			def changeEnd = false;
 			
-			changelogFile = file('changelog.txt').withReader { reader ->
+			def changelogFile = file('changelog.txt').withReader { reader ->
 				def line
 			
 		        while ((line = reader.readLine()) != null && !changeEnd) {

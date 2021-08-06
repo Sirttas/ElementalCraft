@@ -1,8 +1,6 @@
 name: Build
 on:
   push:
-    branches:
-      - '1.16'
     tags:
       - '*'
   pull_request:
