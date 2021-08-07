@@ -19,7 +19,7 @@ import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.inventory.container.screen.ECScreens;
 import sirttas.elementalcraft.rune.Runes;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECClientHandler {
 
 	private ECClientHandler() {}

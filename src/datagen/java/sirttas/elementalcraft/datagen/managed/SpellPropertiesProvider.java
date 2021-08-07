@@ -1,19 +1,14 @@
 package sirttas.elementalcraft.datagen.managed;
 
 import java.io.IOException;
-import java.nio.file.Path;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
-import net.minecraft.data.DataProvider;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeMod;
+import sirttas.dpanvil.api.data.AbstractManagedDataProvider;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.spell.Spell;
@@ -33,14 +28,10 @@ import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
 import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
 
-public class SpellPropertiesProvider implements DataProvider {
-	
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	
-	private final DataGenerator generator;
+public class SpellPropertiesProvider extends AbstractManagedDataProvider<SpellProperties> {
 
-	public SpellPropertiesProvider(DataGenerator generatorIn) {
-		this.generator = generatorIn;
+	public SpellPropertiesProvider(DataGenerator generator) {
+		super(generator, ElementalCraft.SPELL_PROPERTIES_MANAGER);
 	}
 
 	@Override
@@ -70,13 +61,8 @@ public class SpellPropertiesProvider implements DataProvider {
 	}
 
 	protected void save(HashCache cache, SpellProperties.Builder builder, String name) throws IOException {
-		DataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
+		save(cache, builder.toJson(), ElementalCraft.createRL(name));
 	}
-
-	private Path getPath(ResourceLocation id) {
-		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/elementalcraft_spell_properties/" + id.getPath() + ".json");
-	}
-
 
 	@Override
 	public String getName() {

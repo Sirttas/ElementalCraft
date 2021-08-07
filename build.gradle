@@ -254,7 +254,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 				def line
 			
 		        while ((line = reader.readLine()) != null && !changeEnd) {
-		        	if (line.matches('^\\s*- ')) {
+		        	if (line ==~ '^\s*- .*') {
 		        		changeStart = true;
 		        	} else if (changeStart) {
 		        		changeEnd = true;

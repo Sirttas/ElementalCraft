@@ -1,22 +1,19 @@
 package sirttas.elementalcraft.datagen.managed;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
-import net.minecraft.data.DataProvider;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.enchantment.Enchantments;
 import sirttas.dpanvil.api.codec.CodecHelper;
+import sirttas.dpanvil.api.data.AbstractManagedDataProvider;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
@@ -27,12 +24,10 @@ import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfus
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
-public class ToolInfusionProvider implements DataProvider {
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private final DataGenerator generator;
+public class ToolInfusionProvider extends AbstractManagedDataProvider<ToolInfusion> {
 
-	public ToolInfusionProvider(DataGenerator generatorIn) {
-		this.generator = generatorIn;
+	public ToolInfusionProvider(DataGenerator generator) {
+		super(generator, ElementalCraftApi.TOOL_INFUSION_MANAGER);
 	}
 
 	@Override
@@ -101,16 +96,13 @@ public class ToolInfusionProvider implements DataProvider {
 	}
 
 	protected void save(HashCache cache, ToolInfusion infusion, String name) throws IOException {
-		DataProvider.save(GSON, cache, CodecHelper.encode(ToolInfusion.CODEC, infusion), getPath(ElementalCraft.createRL(name)));
+		save(cache, CodecHelper.encode(ToolInfusion.CODEC, infusion), ElementalCraft.createRL(name));
 	}
 
 	private ToolInfusion createToolInfusion(ElementType type, IToolInfusionEffect infusion) {
 		return new ToolInfusion(type, Lists.newArrayList(infusion));
 	}
 
-	private Path getPath(ResourceLocation id) {
-		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/" + ToolInfusion.FOLDER + "/" + id.getPath() + ".json");
-	}
 
 	@Override
 	public String getName() {

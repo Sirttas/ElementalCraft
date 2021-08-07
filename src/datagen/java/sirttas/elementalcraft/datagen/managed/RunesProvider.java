@@ -1,27 +1,22 @@
 package sirttas.elementalcraft.datagen.managed;
 
 import java.io.IOException;
-import java.nio.file.Path;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
-import net.minecraft.data.DataProvider;
 import net.minecraft.resources.ResourceLocation;
+import sirttas.dpanvil.api.data.AbstractManagedDataProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.data.predicate.block.rune.TagHasRunePredicate;
 import sirttas.elementalcraft.datagen.ECItemModelProvider;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class RunesProvider implements DataProvider {
+public class RunesProvider extends AbstractManagedDataProvider<Rune> {
 	
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private final DataGenerator generator;
 	private ECItemModelProvider itemModelProvider;
 
 	private static final IBlockPosPredicate LUCK_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(new TagHasRunePredicate(ECTags.Runes.LUCK_RUNES).not());
@@ -30,8 +25,8 @@ public class RunesProvider implements DataProvider {
 	public static final ResourceLocation SLATE = ElementalCraft.createRL("item/rune_slate");
 	public static final ResourceLocation MAJOR_SLATE = ElementalCraft.createRL("item/major_rune_slate");
 
-	public RunesProvider(DataGenerator generatorIn, ECItemModelProvider itemModelProvider) {
-		this.generator = generatorIn;
+	public RunesProvider(DataGenerator generator, ECItemModelProvider itemModelProvider) {
+		super(generator, ElementalCraftApi.RUNE_MANAGER);
 		this.itemModelProvider = itemModelProvider;
 	}
 
@@ -58,13 +53,8 @@ public class RunesProvider implements DataProvider {
 	}
 
 	protected void save(HashCache cache, Rune.Builder builder, String name) throws IOException {
-		DataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
+		save(cache, builder.toJson(), ElementalCraft.createRL(name));
 	}
-
-	private Path getPath(ResourceLocation id) {
-		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + '/' + Rune.FOLDER + '/' + id.getPath() + ".json");
-	}
-
 
 	@Override
 	public String getName() {

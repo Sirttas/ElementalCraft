@@ -14,7 +14,8 @@ public class ElementTypeParticleData implements ParticleOptions {
 	private ElementType elementType;
 	private ParticleType<ElementTypeParticleData> type;
 
-	public static final ParticleOptions.Deserializer<ElementTypeParticleData> DESERIALIZER = new ParticleOptions.Deserializer<ElementTypeParticleData>() {
+	@SuppressWarnings("deprecation")
+	public static final ParticleOptions.Deserializer<ElementTypeParticleData> DESERIALIZER = new ParticleOptions.Deserializer<>() {
 		@Override
 		public ElementTypeParticleData fromCommand(ParticleType<ElementTypeParticleData> type, StringReader reader) throws CommandSyntaxException {
 			reader.expect(' ');

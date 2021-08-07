@@ -1,13 +1,11 @@
-name: Build
+name: Publish
 on:
   push:
-    branches:
-      - '1.17'
-  pull_request:
-    types: [opened, synchronize, reopened]
+    tags:
+      - '*'
 jobs:
-  build:
-    name: Build
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,8 +28,9 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Build and analyze
+      - name: Publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonarqube --info --stacktrace
+          MODMAVEN_USER: ${{ secrets.MODMAVEN_USER }}
+          MODMAVEN_PASSWORD: ${{ secrets.MODMAVEN_PASSWORD }}
+          CURSEFORGE_KEY: ${{ secrets.CURSEFORGE_KEY }}
+        run: ./gradlew publish curseforge --info --stacktrace

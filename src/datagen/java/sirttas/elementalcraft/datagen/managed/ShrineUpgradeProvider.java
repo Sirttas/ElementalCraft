@@ -1,15 +1,11 @@
 package sirttas.elementalcraft.datagen.managed;
 
 import java.io.IOException;
-import java.nio.file.Path;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
-import net.minecraft.data.DataProvider;
-import net.minecraft.resources.ResourceLocation;
+import sirttas.dpanvil.api.data.AbstractManagedDataProvider;
+import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -33,12 +29,10 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinatio
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class ShrineUpgradeProvider implements DataProvider {
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private final DataGenerator generator;
+public class ShrineUpgradeProvider extends AbstractManagedDataProvider<ShrineUpgrade> {
 
-	public ShrineUpgradeProvider(DataGenerator generatorIn) {
-		this.generator = generatorIn;
+	public ShrineUpgradeProvider(DataGenerator generator) {
+		super(generator, ElementalCraft.SHRINE_UPGRADE_MANAGER);
 	}
 
 	@Override
@@ -72,13 +66,13 @@ public class ShrineUpgradeProvider implements DataProvider {
 	}
 
 	protected void save(HashCache cache, ShrineUpgrade.Builder builder, String name) throws IOException {
-		DataProvider.save(GSON, cache, builder.toJson(), getPath(ElementalCraft.createRL(name)));
+		save(cache, builder.toJson(), ElementalCraft.createRL(name));
 	}
-
-	private Path getPath(ResourceLocation id) {
-		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/elementalcraft_shrine_upgrades/" + id.getPath() + ".json");
+	
+	protected void save(HashCache cache, ShrineUpgrade.Builder builder, IDataWrapper<ShrineUpgrade> wrapper) throws IOException {
+		save(cache, builder.toJson(), wrapper);
 	}
-
+	
 	@Override
 	public String getName() {
 		return "ElementalCraft Shrines Upgrades";
