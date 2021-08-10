@@ -249,18 +249,19 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			def changeStart = false;
 			def changeEnd = false;
 			
+			println('Changelog:')
+			
 			def changelogFile = file('changelog.txt').withReader { reader ->
 				def line
 			
 		        while ((line = reader.readLine()) != null && !changeEnd) {
-		        	if (line.matches('^\\s*- ')) {
-		        		if (!changeStart) {
-		        			changeStart = true;
-		        		}
+		        	if (line ==~ '^\\s*- .*') {
+		        		changeStart = true;
 		        	} else if (changeStart) {
 		        		changeEnd = true;
 		        	}
 					if (changeStart && !changeEnd) {
+						println(line)
 						generatedChangelog += line + '\n'
 					}
 				}

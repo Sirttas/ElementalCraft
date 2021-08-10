@@ -35,8 +35,10 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 	private static final VoxelShape BASE_EAST = Block.box(6D, 5D, 5D, 12D, 11D, 11D);
 	private static final VoxelShape PIPE_EAST = Block.box(12D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape SHAPE_EAST = VoxelShapes.or(BASE_EAST, PIPE_EAST);
-
-	public static VoxelShape getShape(BlockState state) {
+	
+	@Override
+	@Deprecated
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		switch (state.getValue(FACING)) {
 		case DOWN:
 			return SHAPE_DOWN;
@@ -51,11 +53,5 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 		default:
 			return SHAPE_UP;
 		}
-	}
-	
-	@Override
-	@Deprecated
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return getShape(state);
 	}
 }

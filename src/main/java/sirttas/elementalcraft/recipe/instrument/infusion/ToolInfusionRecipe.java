@@ -52,7 +52,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	}
 	
 	@Override
-	public ItemStack getCraftingResult(IInfuser instrument) {
+	public ItemStack assemble(IInfuser instrument) {
 		ItemStack stack = instrument.getItem();
 
 		ToolInfusionHelper.setInfusion(stack, getToolInfusion());

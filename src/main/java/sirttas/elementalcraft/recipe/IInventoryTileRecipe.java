@@ -20,7 +20,7 @@ public interface IInventoryTileRecipe<T extends IInventoryTile> extends IECRecip
 
 	@Override
 	default ItemStack assemble(InventoryTileWrapper<T> inv) {
-		return getCraftingResult(inv.getInstrument());
+		return assemble(inv.getInstrument());
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public interface IInventoryTileRecipe<T extends IInventoryTile> extends IECRecip
 		return true;
 	}
 
-	default ItemStack getCraftingResult(T instrument) {
+	default ItemStack assemble(T instrument) {
 		return this.getResultItem().copy();
 	}
 }

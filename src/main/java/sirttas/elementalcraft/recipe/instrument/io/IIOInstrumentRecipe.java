@@ -24,7 +24,7 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 	
 	@Override
 	default boolean matches(T instrument) {
-		ItemStack craftingResult = getCraftingResult(instrument);
+		ItemStack craftingResult = assemble(instrument);
 
 		return instrument.getItemHandler().map(inv -> {
 			ItemStack output = inv.getStackInSlot(1);
@@ -39,7 +39,7 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 		IInventory inv = instrument.getInventory();
 		ItemStack in = inv.getItem(0);
 		ItemStack result = inv.getItem(1);
-		ItemStack craftingResult = getCraftingResult(instrument);
+		ItemStack craftingResult = assemble(instrument);
 		int luck = getLuck(instrument);
 
 		if (craftingResult.sameItem(result) && result.getCount() + craftingResult.getCount() <= result.getMaxStackSize()) {
