@@ -4,10 +4,11 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -28,8 +29,14 @@ public class ECItemModelProvider extends ItemModelProvider {
 			if (ElementalCraftApi.MODID.equals(item.getRegistryName().getNamespace()) && !exists(item)) {
 				String name = item.getRegistryName().getPath();
 
-				if (item instanceof BlockItem) {
-					withExistingParent(name, ElementalCraft.createRL("block/" + name));
+				if (item instanceof BlockItem blockItem) {
+					var block = blockItem.getBlock();
+					
+					if (block instanceof AmethystClusterBlock) {
+						singleTextureInBlock(name);
+					} else {
+						withExistingParent(name, ElementalCraft.createRL("block/" + name));
+					}
 				} else if (item instanceof ElementHolderItem) {
 					withExistingParent(name, ElementalCraft.createRL("item/template_element_holder"));
 				} else {
@@ -41,6 +48,10 @@ public class ECItemModelProvider extends ItemModelProvider {
 
 	public ItemModelBuilder singleTexture(String name) {
 		return singleTexture(name, ElementalCraft.createRL("item/" + name));
+	}
+	
+	public ItemModelBuilder singleTextureInBlock(String name) {
+		return singleTexture(name, ElementalCraft.createRL("block/" + name));
 	}
 
 	public ItemModelBuilder singleTexture(String name, ResourceLocation texture) {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "elementalcraft:block/springaline_cluster"
+  }
+}

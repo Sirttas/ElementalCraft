@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,13 +20,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
-public abstract class AbstractPylonShrineBlock extends AbstractShrineBlock {
+public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEntity>  extends AbstractShrineBlock<T> {
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 	protected AbstractPylonShrineBlock(ElementType elementType) {
 		super(elementType);
-		this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER));
+		this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER).setValue(WATERLOGGED, false));
 	}
 
 	/**
@@ -60,7 +61,7 @@ public abstract class AbstractPylonShrineBlock extends AbstractShrineBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(HALF);
+		builder.add(WATERLOGGED, HALF);
 	}
 
 	@Override
@@ -71,4 +72,11 @@ public abstract class AbstractPylonShrineBlock extends AbstractShrineBlock {
 		}
 	}
 
+	
+	@Override
+	@Deprecated
+	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		return state.getValue(HALF) == DoubleBlockHalf.UPPER && !level.getBlockState(pos.below()).is(this);
+	}
+	
 }

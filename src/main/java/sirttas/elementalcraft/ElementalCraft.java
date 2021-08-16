@@ -36,8 +36,10 @@ public class ElementalCraft {
 
 	
 	public ElementalCraft() {
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+		var modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		
+		modBus.addListener(this::setup);
+		modBus.addListener(this::enqueueIMC);
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECFeatures::onBiomeLoad);
 		MinecraftForge.EVENT_BUS.addListener(PURE_ORE_MANAGER::reload);
 
@@ -58,7 +60,6 @@ public class ElementalCraft {
 		CapabilityManager.INSTANCE.register(IElementStorage.class);
 		CapabilityManager.INSTANCE.register(IRuneHandler.class);
 	}
-
 
 	private void enqueueIMC(InterModEnqueueEvent event) {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ShrineUpgrades.NAME), SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));

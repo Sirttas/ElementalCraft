@@ -24,6 +24,14 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	public boolean matches(IBinder inv) {
 		return inv instanceof IInfuser && recipe.matches((IInfuser) inv);
 	}
+	
+	@Override
+	public ItemStack assemble(IBinder instrument) {
+		if (instrument instanceof IInfuser) {
+			return recipe.assemble((IInfuser) instrument);
+		}
+		return super.assemble(instrument);
+	}
 
 	@Override
 	public ItemStack getResultItem() {

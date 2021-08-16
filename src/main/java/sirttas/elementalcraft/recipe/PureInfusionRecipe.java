@@ -80,13 +80,13 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlock
 	}
 
 	@Override
-	public ItemStack getCraftingResult(PureInfuserBlockEntity inv) {
+	public ItemStack assemble(PureInfuserBlockEntity inv) {
 		return this.getResultItem().copy();
 	}
 
 	@Override
 	public void process(PureInfuserBlockEntity instrument) {
-		instrument.getInventory().setItem(0, this.getCraftingResult(instrument));
+		instrument.getInventory().setItem(0, this.assemble(instrument));
 		instrument.emptyPedestals();
 	}
 

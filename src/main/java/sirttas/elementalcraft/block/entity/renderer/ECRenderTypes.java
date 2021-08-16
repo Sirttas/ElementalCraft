@@ -7,6 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -19,18 +20,18 @@ public class ECRenderTypes {
 	@SuppressWarnings("deprecation") 
 	public static final RenderType GHOST = RenderType.create(GHOST_NAME, DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 256, false, false,
 			RenderType.CompositeState.builder()
+					.setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEntityShadowShader))
 					.setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, false))
 					.setTransparencyState(new RenderStateShard.TransparencyStateShard(GHOST_NAME,
 						() -> {
-							RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-							GlStateManager._enableBlend();
-							GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.5F);
-							GlStateManager._blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA.value);
+							RenderSystem.enableBlend();
+							RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA.value);
+							GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.75F);
 						},
 						() -> {
 							GL14.glBlendColor(1.0F, 1.0F, 1.0F, 1.0F);
-							GlStateManager._blendFunc(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value);
 							RenderSystem.disableBlend();
+							RenderSystem.defaultBlendFunc();
 						}))
 					.createCompositeState(false));
 	

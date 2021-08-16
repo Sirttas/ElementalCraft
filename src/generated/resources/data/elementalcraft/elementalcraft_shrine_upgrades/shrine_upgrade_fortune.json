@@ -9,8 +9,26 @@
         "type": "dpanvil:not"
       },
       {
-        "block": "elementalcraft:oreshrine",
-        "type": "dpanvil:block"
+        "values": [
+          {
+            "values": [
+              {
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_crystal_harvest",
+                "type": "elementalcraft:has_shrien_upgrade"
+              },
+              {
+                "block": "elementalcraft:buddingshrine",
+                "type": "dpanvil:block"
+              }
+            ],
+            "type": "dpanvil:and"
+          },
+          {
+            "block": "elementalcraft:oreshrine",
+            "type": "dpanvil:block"
+          }
+        ],
+        "type": "dpanvil:or"
       }
     ],
     "type": "dpanvil:and"

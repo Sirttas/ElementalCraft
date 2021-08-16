@@ -1,0 +1,28 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "earth",
+  "element_amount": 2500,
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/crude_water"
+    },
+    {
+      "item": "minecraft:amethyst_block"
+    },
+    {
+      "item": "elementalcraft:springaline_shard"
+    },
+    {
+      "tag": "forge:gems/diamond"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:buddingshrine"
+  }
+}

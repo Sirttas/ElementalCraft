@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,waterlogged=false": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 180
+    },
+    "facing=up,waterlogged=false": {
+      "model": "elementalcraft:block/medium_springaline_bud"
+    },
+    "facing=north,waterlogged=false": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90
+    },
+    "facing=south,waterlogged=false": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,waterlogged=false": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,waterlogged=false": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90,
+      "y": 90
+    },
+    "facing=down,waterlogged=true": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 180
+    },
+    "facing=up,waterlogged=true": {
+      "model": "elementalcraft:block/medium_springaline_bud"
+    },
+    "facing=north,waterlogged=true": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90
+    },
+    "facing=south,waterlogged=true": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,waterlogged=true": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,waterlogged=true": {
+      "model": "elementalcraft:block/medium_springaline_bud",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

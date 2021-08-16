@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine.breeding;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -14,9 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -29,7 +24,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
-public class BreedingShrineBlock extends AbstractShrineBlock {
+public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlockEntity> {
 
 	public static final String NAME = "breedingshrine";
 
@@ -80,7 +75,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock {
 
 	public BreedingShrineBlock() {
 		super(ElementType.EARTH);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PART, Part.CORE));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PART, Part.CORE).setValue(WATERLOGGED, false));
 	}
 
 	/**
@@ -117,18 +112,12 @@ public class BreedingShrineBlock extends AbstractShrineBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
-		container.add(FACING, PART);
+		container.add(WATERLOGGED, FACING, PART);
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return state.getValue(PART) == Part.CORE ? new BreedingShrineBlockEntity(pos, state) : null;
-	}
-
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createShrineTicker(level, type, BreedingShrineBlockEntity.TYPE);
+	public BreedingShrineBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return state.getValue(PART) == Part.CORE ? super.newBlockEntity(pos, state) : null;
 	}
 
 	@Override

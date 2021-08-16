@@ -43,8 +43,13 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
 	}
 
-	boolean canUpgrade(AbstractShrineBlockEntity shrine) {
-		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), shrine.getUpgradeCount(this));
+	boolean canUpgrade(AbstractShrineBlockEntity shrine, boolean update) {
+		int count = shrine.getUpgradeCount(this);
+		
+		if (update && count > 0) {
+			count--;
+		}
+		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), count);
 	}
 
 	public void addInformation(List<Component> tooltip) {

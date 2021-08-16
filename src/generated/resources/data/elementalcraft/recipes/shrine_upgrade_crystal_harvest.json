@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gpg",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "p": {
+      "item": "minecraft:diamond_pickaxe"
+    },
+    "g": {
+      "item": "elementalcraft:springaline_glass"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:earthcrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_crystal_harvest"
+  }
+}

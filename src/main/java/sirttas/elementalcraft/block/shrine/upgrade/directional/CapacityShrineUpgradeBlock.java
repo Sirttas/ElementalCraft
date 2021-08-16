@@ -41,7 +41,10 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 		super(ElementalCraft.createRL(NAME));
 	}
 	
-	public static VoxelShape getShape(BlockState state) {
+	
+	@Override
+	@Deprecated
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		switch (state.getValue(FACING)) {
 		case DOWN:
 			return SHAPE_DOWN;
@@ -56,11 +59,5 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 		default:
 			return SHAPE_UP;
 		}
-	}
-	
-	@Override
-	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return getShape(state);
 	}
 }

@@ -1,12 +1,18 @@
 package sirttas.elementalcraft.world.feature.structure;
 
-import net.minecraft.world.level.levelgen.feature.StructurePieceType;
+import com.google.common.collect.ImmutableMap;
+
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.StructurePieceType;
+import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 
@@ -22,7 +28,14 @@ public class ECStructures {
 	public static void registerStructures(RegistryEvent.Register<StructureFeature<?>> event) {
 		IForgeRegistry<StructureFeature<?>> r = event.getRegistry();
 
-		RegistryHelper.register(r, SOURCE_ALTAR, SourceAltarStructure.NAME);
+		register(r, SOURCE_ALTAR, new StructureFeatureConfiguration(ECConfig.COMMON.sourceAltarDistance.get(), 8, 4847339), SourceAltarStructure.NAME);
 	}
-
+	
+	private static void register(IForgeRegistry<StructureFeature<?>> reg, StructureFeature<?> thing, StructureFeatureConfiguration config, String name) {
+		RegistryHelper.register(reg, thing, name);
+		
+		NoiseGeneratorSettings.bootstrap().structureSettings().structureConfig().put(thing, config);
+		StructureSettings.DEFAULTS = ImmutableMap.<StructureFeature<?>, StructureFeatureConfiguration>builder().putAll(StructureSettings.DEFAULTS).put(thing, config).build();
+	}
+	
 }

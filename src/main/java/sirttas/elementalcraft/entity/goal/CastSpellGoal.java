@@ -1,8 +1,9 @@
 package sirttas.elementalcraft.entity.goal;
 
+
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.InteractionResult;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
@@ -23,8 +24,12 @@ public class CastSpellGoal extends Goal {
 			result = this.spell.castOnSelf(caster);
 		}
 		if (result.consumesAction()) {
+			var level = caster.getCommandSenderWorld();
+			
 			this.spell.consume(caster, false);
-			SpellTickManager.getInstance(caster.getCommandSenderWorld()).setCooldown(caster, spell);
+			if (!level.isClientSide) {
+				SpellTickManager.getInstance(caster.getCommandSenderWorld()).setCooldown(caster, spell);
+			}
 		}
 	}
 

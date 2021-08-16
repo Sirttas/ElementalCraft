@@ -2,23 +2,15 @@ package sirttas.elementalcraft.block.shrine.firepylon;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -33,7 +25,7 @@ import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 
-public class FirePylonBlock extends AbstractPylonShrineBlock {
+public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntity> {
 
 	public static final String NAME = "firepylon";
 
@@ -57,26 +49,14 @@ public class FirePylonBlock extends AbstractPylonShrineBlock {
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? new FirePylonBlockEntity(pos, state) : null;
+	public FirePylonBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? super.newBlockEntity(pos, state) : null;
 	}
 
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createShrineTicker(level, type, FirePylonBlockEntity.TYPE);
-	}
 	
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos pos, BlockPos facingPos) {
-		return stateIn.getValue(HALF) == DoubleBlockHalf.UPPER && !worldIn.getBlockState(pos.below()).is(this) ? Blocks.AIR.defaultBlockState()
-				: super.updateShape(stateIn, facing, facingState, worldIn, pos, facingPos);
 	}
 
 	/**

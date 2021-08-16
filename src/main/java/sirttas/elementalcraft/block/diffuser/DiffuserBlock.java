@@ -47,7 +47,7 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createECTicker(level, type, DiffuserBlockEntity.TYPE, DiffuserBlockEntity::tick);
+		return createECServerTicker(level, type, DiffuserBlockEntity.TYPE, DiffuserBlockEntity::serverTick);
 	}
 	
 	@Override

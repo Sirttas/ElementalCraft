@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "elementalcraft:block/large_springaline_bud"
+  }
+}

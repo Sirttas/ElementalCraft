@@ -56,7 +56,7 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createECTicker(level, type, SolarSynthesizerBlockEntity.TYPE, SolarSynthesizerBlockEntity::tick);
+		return createECServerTicker(level, type, SolarSynthesizerBlockEntity.TYPE, SolarSynthesizerBlockEntity::serverTick);
 	}
 	
 	@Override

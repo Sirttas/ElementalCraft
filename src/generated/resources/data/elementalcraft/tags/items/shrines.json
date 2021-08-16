@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "elementalcraft:breedingshrine",
+    "elementalcraft:buddingshrine",
     "elementalcraft:enderlockshrine",
     "elementalcraft:firepylon",
     "elementalcraft:groveshrine",
@@ -10,6 +11,7 @@
     "elementalcraft:lavashrine",
     "elementalcraft:oreshrine",
     "elementalcraft:overloadshrine",
+    "elementalcraft:springshrine",
     "elementalcraft:sweetshrine",
     "elementalcraft:vacuumshrine"
   ]

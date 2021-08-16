@@ -14,7 +14,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 
 public class FireFurnaceBlock extends AbstractFireFurnaceBlock {
 
@@ -41,7 +40,7 @@ public class FireFurnaceBlock extends AbstractFireFurnaceBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createECTicker(level, type, FireFurnaceBlockEntity.TYPE, AbstractInstrumentBlockEntity::tick);
+		return createInstrumentTicker(level, type, FireFurnaceBlockEntity.TYPE);
 	}
 
 	@Override

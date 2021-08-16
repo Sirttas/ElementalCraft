@@ -4,10 +4,10 @@
   "element_amount": 2500,
   "ingredients": [
     {
-      "item": "minecraft:amethyst_shard"
+      "item": "elementalcraft:springaline_shard"
     },
     {
-      "item": "elementalcraft:burnt_glass_pane"
+      "item": "elementalcraft:springaline_glass_pane"
     },
     {
       "item": "minecraft:copper_ingot"

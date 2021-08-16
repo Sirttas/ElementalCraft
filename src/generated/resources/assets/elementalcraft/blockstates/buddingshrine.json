@@ -1,0 +1,25 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elementalcraft:block/buddingshrine_base"
+      }
+    },
+    {
+      "when": {
+        "crystal_type": "amethyst"
+      },
+      "apply": {
+        "model": "elementalcraft:block/buddingshrine_plate_amethyst"
+      }
+    },
+    {
+      "when": {
+        "crystal_type": "springaline"
+      },
+      "apply": {
+        "model": "elementalcraft:block/buddingshrine_plate_springaline"
+      }
+    }
+  ]
+}

@@ -47,7 +47,7 @@ public class ExtractorBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createECTicker(level, type, ExtractorBlockEntity.TYPE, ExtractorBlockEntity::tick);
+		return createECServerTicker(level, type, ExtractorBlockEntity.TYPE, ExtractorBlockEntity::serverTick);
 	}
 
 	

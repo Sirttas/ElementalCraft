@@ -18,7 +18,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public ItemStack getCraftingResult(AbstractFireFurnaceBlockEntity<T> inv) {
+	public ItemStack assemble(AbstractFireFurnaceBlockEntity<T> inv) {
 		return recipe.assemble(inv.getInventory());
 	}
 

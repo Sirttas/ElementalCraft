@@ -115,7 +115,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	}
 
 	@Override
-	public ItemStack getCraftingResult(CrystallizerBlockEntity instrument) {
+	public ItemStack assemble(CrystallizerBlockEntity instrument) {
 		return getCraftingResult(instrument, 0);
 	}
 

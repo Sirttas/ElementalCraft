@@ -55,7 +55,7 @@ public class EvaporatorBlock extends AbstractECContainerBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createECTicker(level, type, EvaporatorBlockEntity.TYPE, EvaporatorBlockEntity::tick);
+		return createECServerTicker(level, type, EvaporatorBlockEntity.TYPE, EvaporatorBlockEntity::serverTick);
 	}
 	
 	@Override

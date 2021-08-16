@@ -36,6 +36,7 @@ import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlockEntity;
 import sirttas.elementalcraft.block.shrine.RendererShrine;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.enderlock.EnderLockShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.firepylon.FirePylonBlockEntity;
 import sirttas.elementalcraft.block.shrine.grove.GroveShrineBlockEntity;
@@ -44,6 +45,7 @@ import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.sweet.SweetShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
@@ -90,6 +92,8 @@ public final class ECRenderers {
 		BlockEntityRenderers.register(EnderLockShrineBlockEntity.TYPE, RendererShrine::new);
 		BlockEntityRenderers.register(BreedingShrineBlockEntity.TYPE, RendererShrine::new);
 		BlockEntityRenderers.register(GroveShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(BuddingShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(SpringShrineBlockEntity.TYPE, RendererShrine::new);
 	}
 
 	public static void initRenderLayouts() {
@@ -101,9 +105,16 @@ public final class ECRenderers {
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.AIR_RESERVOIR, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.CREATIVE_CONTAINER, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.EVAPORATOR, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.SMALL_SPRINGALINE_BUD, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.MEDIUM_SPRINGALINE_BUD, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.LARGE_SPRINGALINE_BUD, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.SPRINGALINE_CLUSTER, RenderType.cutout());
+		
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.FIRE_BLAST_FURNACE, RenderType.translucent());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.BURNT_GLASS, RenderType.translucent());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.BURNT_GLASS_PANE, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.SPRINGALINE_GLASS, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(ECBlocks.SPRINGALINE_GLASS_PANE, RenderType.translucent());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.SOURCE, RenderType.translucent());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.CAPACITY_SHRINE_UPGRADE, RenderType.translucent());
 		ItemBlockRenderTypes.setRenderLayer(ECBlocks.OPTIMIZATION_SHRINE_UPGRADE, RenderType.translucent());

@@ -17,6 +17,9 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 
+/**
+ * IER = Inventory ElementStorage RuneHandler
+ */
 public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEntity {
 
 	protected AbstractIERBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {

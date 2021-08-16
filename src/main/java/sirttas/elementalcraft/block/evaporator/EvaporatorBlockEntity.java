@@ -34,7 +34,7 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 		runeHandler = new RuneHandler(ECConfig.COMMON.evaporatorMaxRunes.get());
 	}
 
-	public static void tick(Level level, BlockPos pos, BlockState state, EvaporatorBlockEntity evaporator) {
+	public static void serverTick(Level level, BlockPos pos, BlockState state, EvaporatorBlockEntity evaporator) {
 		ItemStack stack = evaporator.inventory.getItem(0);
 		Item item = stack.getItem();
 		ElementType type = EvaporatorBlock.getShardElementType(stack);

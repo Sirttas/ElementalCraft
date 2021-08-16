@@ -53,7 +53,7 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return level.isClientSide ? null : createECTicker(level, type, SorterBlockEntity.TYPE, SorterBlockEntity::serverTick);
+		return createECServerTicker(level, type, SorterBlockEntity.TYPE, SorterBlockEntity::serverTick);
 	}
 
 	@Override

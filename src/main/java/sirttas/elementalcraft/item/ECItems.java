@@ -126,6 +126,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":air_silk") public static final ECItem AIR_SILK = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":shrine_upgrade_core") public static final ECItem SHRINE_UPGRADE_CORE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":scroll_paper") public static final ECItem SCROLL_PAPER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":springaline_shard") public static final ECItem SPRINGALINE_SHARD = null;
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":firecrystal") public static final ElementalItem FIRE_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":watercrystal") public static final ElementalItem WATER_CRYSTAL  = null;
@@ -158,7 +159,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":minor_rune_slate") public static final ECItem MINOR_RUNE_SLATE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":rune_slate") public static final ECItem RUNE_SLATE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":major_rune_slate") public static final ECItem MAJOR_RUNE_SLATE = null;
-
+	
 	// BLOCKS
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SmallElementContainerBlock.NAME) public static final Item TANK_SMALL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementContainerBlock.NAME) public static final Item TANK = null;
@@ -276,6 +277,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ECItem(), "air_silk");
 		RegistryHelper.register(registry, new ECItem(), "shrine_upgrade_core");
 		RegistryHelper.register(registry, new ECItem(), "scroll_paper");
+		RegistryHelper.register(registry, new ECItem(), "springaline_shard");
 
 		RegistryHelper.register(registry, new ElementalItem(ElementType.FIRE), "firecrystal");
 		RegistryHelper.register(registry, new ElementalItem(ElementType.WATER), "watercrystal");

@@ -49,7 +49,9 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 		if (source.elementStorage.getElementType() == ElementType.NONE) {
 			source.elementStorage.setElementType(ElementType.getElementType(state));
 		}
-		source.elementStorage.insertElement(source.recoverRate, false);
+		if (source.elementStorage.isExhausted()) {
+			source.elementStorage.insertElement(source.recoverRate, false);
+		}
 	}
 	
 	public static void clientTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
@@ -73,8 +75,11 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
-		this.recoverRate = compound.getInt(ECNames.RECOVER_RATE);
+		recoverRate = compound.getInt(ECNames.RECOVER_RATE);
 		elementStorage.setExhausted(compound.getBoolean(ECNames.EXHAUSTED));
+		if (recoverRate <= 10) { // TODO later remove
+			recoverRate = ECConfig.COMMON.sourceRecoverRate.get();
+		}
 	}
 
 	@Override

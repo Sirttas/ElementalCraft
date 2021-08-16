@@ -74,7 +74,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		int consumeAmount = shrine.getConsumeAmount();
 
 		shrine.running = false;
-		if (shrine.hasLevel() && !shrine.isPowered()) {
+		if (!shrine.isPowered()) {
 			shrine.tick++;
 			if (periode <= 0) {
 				ElementalCraftApi.LOGGER.warn("Shrine periode should not be 0");
@@ -94,14 +94,23 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
 	public void refreshUpgrades() {
 		if (this.hasLevel()) {
+			getUpgradeDirections().forEach(direction -> {
+				BlockPos pos = getBlockPos().relative(direction);
+				BlockState state = this.getLevel().getBlockState(pos);
+				
+				if (!state.canSurvive(this.level, pos)) {
+					this.level.destroyBlock(pos, true);
+				}
+			});
 			this.upgrades.clear();
 			this.upgradeMultipliers.clear();
 			getUpgradeDirections().forEach(direction -> {
-				BlockState state = this.getLevel().getBlockState(getBlockPos().relative(direction));
+				BlockPos pos = getBlockPos().relative(direction);
+				BlockState state = this.getLevel().getBlockState(pos);
 				Block block = state.getBlock();
-
-				if (block instanceof AbstractShrineUpgradeBlock shrineUpgrageBlock) {
-					ShrineUpgrade upgrade = shrineUpgrageBlock.getUpgrade();
+	
+				if (block instanceof AbstractShrineUpgradeBlock shrineBlock) {
+					ShrineUpgrade upgrade = shrineBlock.getUpgrade();
 
 					if (upgrade != null) {
 						setUpgrade(direction, upgrade);

@@ -7,11 +7,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraftforge.common.extensions.IForgeBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.IElementPipe.ConnectionType;
 
-public interface IPipeConnectedBlock extends IForgeBlock {
+public interface IPipeConnectedBlock {
 
 	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
 	public static final BooleanProperty EAST = BlockStateProperties.EAST;
@@ -26,7 +25,7 @@ public interface IPipeConnectedBlock extends IForgeBlock {
 				.setValue(WEST, isConnectable(world, pos, Direction.WEST));
 	}
 
-	default BlockState doUpdatePostPlacement(BlockState stateIn, BlockGetter world, BlockPos pos, Direction facing) {
+	default BlockState doUpdateShape(BlockState stateIn, BlockGetter world, BlockPos pos, Direction facing) {
 		switch (facing) {
 		case NORTH:
 			return stateIn.setValue(NORTH, isConnectable(world, pos, Direction.NORTH));

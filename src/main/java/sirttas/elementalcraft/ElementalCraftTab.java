@@ -2,10 +2,10 @@ package sirttas.elementalcraft;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.core.NonNullList;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
@@ -70,6 +70,8 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.ENDER_LOCK_SHRINE, list);
 		addItem(ECBlocks.BREEDING_SHRINE, list);
 		addItem(ECBlocks.GROVE_SHRINE, list);
+		addItem(ECBlocks.SPRING_SHRINE, list);
+		addItem(ECBlocks.BUDDING_SHRINE, list);
 		addItem(ECBlocks.ACCELERATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.RANGE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CAPACITY_SHRINE_UPGRADE, list);
@@ -85,6 +87,9 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.PROTECTION_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.FILLING_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.SPRINGALINE_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, list);
 
 		addItem(ECBlocks.CRYSTAL_ORE, list);
 		addItem(ECBlocks.WHITE_ROCK, list);
@@ -161,6 +166,14 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.FIREITE_NUGGET, list);
 		addItem(ECItems.FIREITE_INGOT, list);
 		addItem(ECItems.FIREITE_BLOCK, list);
+		addItem(ECItems.SPRINGALINE_SHARD, list);
+		addItem(ECBlocks.SPRINGALINE_BLOCK, list);
+		addItem(ECBlocks.SMALL_SPRINGALINE_BUD, list);
+		addItem(ECBlocks.MEDIUM_SPRINGALINE_BUD, list);
+		addItem(ECBlocks.LARGE_SPRINGALINE_BUD, list);
+		addItem(ECBlocks.SPRINGALINE_CLUSTER, list);
+		addItem(ECBlocks.SPRINGALINE_GLASS, list);
+		addItem(ECBlocks.SPRINGALINE_GLASS_PANE, list);
 		addItem(ECItems.FIRE_LENSE, list);
 		addItem(ECItems.WATER_LENSE, list);
 		addItem(ECItems.EARTH_LENSE, list);

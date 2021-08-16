@@ -25,7 +25,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
@@ -38,7 +37,7 @@ import sirttas.elementalcraft.tag.ECTags;
 public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock {
 
 	protected AbstractElementContainerBlock() {
-		super(BlockBehaviour.Properties.of(Material.GLASS).strength(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).noOcclusion());
+		super(BlockBehaviour.Properties.of(Material.GLASS).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion());
 	}
 
 	@Override

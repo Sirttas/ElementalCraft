@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,12 +16,15 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.network.message.MessageHelper;
+
+
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class SpellTickManager {
 
-	private static final SpellTickManager SERVER_INSTANCE = new SpellTickManager();
-	private static final SpellTickManager CLIENT_INSTANCE = new SpellTickManager();
+	public static final SpellTickManager SERVER_INSTANCE = new SpellTickManager();
+	public static final SpellTickManager CLIENT_INSTANCE = new SpellTickManager();
 
 	private int tick;
 	private Map<Entity, Map<Spell, Cooldown>> cooldowns;
@@ -64,8 +68,10 @@ public class SpellTickManager {
 		} else {
 			entityCooldowns = cooldowns.get(target);
 		}
-
 		entityCooldowns.put(spell, cooldown);
+		if (!target.level.isClientSide && target instanceof ServerPlayer player) {
+			MessageHelper.sendToPlayer(player, new SpellTickCooldownMessage(spell));
+		}
 	}
 
 	public boolean hasCooldown(Entity target, Spell spell) {

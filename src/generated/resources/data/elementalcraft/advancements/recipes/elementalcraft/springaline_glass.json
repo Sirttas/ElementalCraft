@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:springaline_glass"
+    ]
+  },
+  "criteria": {
+    "has_springaline_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:springaline_shard"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:springaline_glass"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_springaline_shard",
+      "has_the_recipe"
+    ]
+  ]
+}

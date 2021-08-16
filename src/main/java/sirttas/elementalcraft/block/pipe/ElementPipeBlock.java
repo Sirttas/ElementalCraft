@@ -39,7 +39,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
@@ -72,7 +71,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	private final int maxTransferAmount;
 
 	public ElementPipeBlock(int maxTransferAmount) {
-		super(BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1).noOcclusion().randomTicks());
+		super(BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion().randomTicks());
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(COVER, CoverType.NONE));
 		this.maxTransferAmount = maxTransferAmount;

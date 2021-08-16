@@ -1,0 +1,6 @@
+{
+  "parent": "elementalcraft:block/template_buddingshrine_plate",
+  "textures": {
+    "texture": "elementalcraft:block/budding_springaline"
+  }
+}

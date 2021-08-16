@@ -1,7 +1,11 @@
 package sirttas.elementalcraft.datagen.tag;
 
 import java.util.Comparator;
+import java.util.List;
 
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceBlock;
@@ -9,11 +13,9 @@ import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
@@ -23,6 +25,8 @@ import sirttas.elementalcraft.tag.ECTags;
 
 public class ECBlockTagsProvider extends BlockTagsProvider {
 
+	private static final List<Block> LOOT_BLACKLIST = List.of(ECBlocks.SOURCE, ECBlocks.BURNT_GLASS, ECBlocks.BURNT_GLASS_PANE, ECBlocks.SPRINGALINE_GLASS, ECBlocks.SPRINGALINE_GLASS_PANE);
+	
 	public ECBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, ElementalCraftApi.MODID, existingFileHelper);
 	}
@@ -35,6 +39,8 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags() {
+		lootTags();
+		
 		tag(BlockTags.SLABS).add(getBlocksForClass(SlabBlock.class));
 		tag(BlockTags.STAIRS).add(getBlocksForClass(StairBlock.class));
 		tag(BlockTags.WALLS).add(getBlocksForClass(WallBlock.class));
@@ -55,7 +61,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER, ECBlocks.PURIFIER, ECBlocks.AIR_MILL);
 
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE, ECBlocks.HARVEST_SHRINE, ECBlocks.LAVA_SHRINE, ECBlocks.ORE_SHRINE, ECBlocks.OVERLOAD_SHRINE,
-				ECBlocks.SWEET_SHRINE, ECBlocks.BREEDING_SHRINE, ECBlocks.GROVE_SHRINE);
+				ECBlocks.SWEET_SHRINE, ECBlocks.BREEDING_SHRINE, ECBlocks.GROVE_SHRINE, ECBlocks.SPRING_SHRINE, ECBlocks.BUDDING_SHRINE);
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.GROWTH_SHRINE, ECBlocks.HARVEST_SHRINE, ECBlocks.ORE_SHRINE, ECBlocks.SWEET_SHRINE, ECBlocks.VACUUM_SHRINE,
 				ECBlocks.FIRE_PYLON, ECBlocks.BREEDING_SHRINE, ECBlocks.GROVE_SHRINE);
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.SWEET_SHRINE, ECBlocks.VACUUM_SHRINE, ECBlocks.FIRE_PYLON);
@@ -75,5 +81,19 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(Tags.Blocks.STORAGE_BLOCKS).addTags(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Blocks.STORAGE_BLOCKS_FIREITE);
 		
 		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).add(ECBlocks.SOURCE);
+	}
+	
+	private void lootTags() {
+		var minableWithPickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
+		
+		for (Block block : ForgeRegistries.BLOCKS) {
+			if (ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace())) {
+				if (!LOOT_BLACKLIST.contains(block)) {
+					minableWithPickaxe.add(block);
+				}
+			}
+		}
+		tag(BlockTags.NEEDS_DIAMOND_TOOL).addTag(ECTags.Blocks.PUREROCKS);
+		tag(BlockTags.NEEDS_IRON_TOOL).add(ECBlocks.CRYSTAL_ORE);
 	}
 }

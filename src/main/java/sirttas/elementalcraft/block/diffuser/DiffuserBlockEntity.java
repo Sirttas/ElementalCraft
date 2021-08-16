@@ -57,7 +57,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 		return compound;
 	}
 
-	public static void tick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {
+	public static void serverTick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {
 		ISingleElementStorage tank = diffuser.getContainer();
 		AtomicInteger amount = new AtomicInteger(ECConfig.COMMON.diffuserDiffusionAmount.get());
 		

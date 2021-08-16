@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.common.ToolType;
 import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.config.ECConfig;
 
@@ -14,10 +13,8 @@ public class ECProperties {
 	private ECProperties() {}
 	
 	public static class Blocks {
-		public static final BlockBehaviour.Properties DEFAULT_BLOCK_PROPERTIES = BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL)
-				.harvestTool(ToolType.PICKAXE).harvestLevel(1);
-		public static final BlockBehaviour.Properties BLOCK_NOT_SOLID = BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE)
-				.harvestLevel(1).noOcclusion();
+		public static final BlockBehaviour.Properties DEFAULT_BLOCK_PROPERTIES = BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops();
+		public static final BlockBehaviour.Properties BLOCK_NOT_SOLID = BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion();
 		public static final BlockBehaviour.Properties WHITEROCK = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.QUARTZ).strength(1.5F, 6.0F);
 		public static final BlockBehaviour.Properties PUREROCK = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.QUARTZ).strength(75.0F, 2400.0F);
 		

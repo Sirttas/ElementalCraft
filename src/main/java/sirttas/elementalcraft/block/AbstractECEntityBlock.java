@@ -68,10 +68,19 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	
 	@Nullable
 	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createECTicker(Level level, BlockEntityType<A> type, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker) {
-		return createTickerHelper(type, expectedType, !level.isClientSide ? (l, pos, state, be) -> {
+		return createTickerHelper(type, expectedType, !level.isClientSide ? createUpdateTicker(ticker) : ticker);
+	}
+	
+	@Nullable
+	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createECServerTicker(Level level, BlockEntityType<A> type, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker) {
+		return level.isClientSide ? null : createTickerHelper(type, expectedType, createUpdateTicker(ticker));
+	}
+
+	private static <E extends BlockEntity> BlockEntityTicker<? super E> createUpdateTicker(BlockEntityTicker<? super E> ticker) {
+		return (l, pos, state, be) -> {
 			ticker.tick(l, pos, state, be);
 			sendUpdate(be);
-		} : ticker);
+		};
 	}
 
 	private static void sendUpdate(BlockEntity blockEntity) {

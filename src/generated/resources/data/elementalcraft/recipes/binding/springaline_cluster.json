@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "water",
+  "element_amount": 2500,
+  "ingredients": [
+    {
+      "item": "minecraft:amethyst_block"
+    },
+    {
+      "tag": "forge:storage_blocks/quartz"
+    },
+    {
+      "item": "elementalcraft:springaline_shard"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:springaline_cluster"
+  }
+}

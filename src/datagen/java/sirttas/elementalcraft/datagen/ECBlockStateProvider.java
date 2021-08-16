@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -33,6 +34,8 @@ import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
+import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
+import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.block.sorter.SorterBlock;
@@ -42,6 +45,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	private static final String SIDE = "_side";
 	private static final String CORE = "_core";
+	private static final String TEXTURE = "texture";
 	
 	private ExistingFileHelper existingFileHelper;
 	
@@ -74,7 +78,12 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private ResourceLocation prefix(String name) {
-		return ElementalCraft.createRL(ModelProvider.BLOCK_FOLDER + '/' + name);
+		return prefix(ElementalCraft.createRL(name));
+	}
+	
+	private ResourceLocation prefix(ResourceLocation name) {
+		return new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
+
 	}
 
 	private void save(Block block) {
@@ -106,6 +115,14 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			ModelFile bowl = models().getExistingFile(prefix(name + "_bowl"));
 
 			horizontalBlock(block, state -> state.getValue(BreedingShrineBlock.PART) == BreedingShrineBlock.Part.CORE ? core : bowl);
+		} else if (block instanceof BuddingShrineBlock) {
+			ModelFile base = models().getExistingFile(prefix(name + "_base"));
+			ModelFile amethyst = models().withExistingParent("buddingshrine_plate_amethyst", prefix("template_buddingshrine_plate")).texture(TEXTURE, prefix("minecraft:budding_amethyst"));
+			ModelFile springaline = models().withExistingParent("buddingshrine_plate_springaline", prefix("template_buddingshrine_plate")).texture(TEXTURE, prefix("budding_springaline"));
+			
+			getMultipartBuilder(block).part().modelFile(base).addModel().end()
+				.part().modelFile(amethyst).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.AMETHYST).end()
+				.part().modelFile(springaline).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.SPRINGALINE).end();
 		} else if (block instanceof AirMillBlock) {
 			getVariantBuilder(block)
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(air))
@@ -116,16 +133,16 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			ModelFile connector = models().getExistingFile(prefix(name + "_connector"));
 			
 			getMultipartBuilder(block)
-			.part().modelFile(top).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
-			.part().modelFile(base).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
-			.part().modelFile(containerConnector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.NORTH, true).end()
-			.part().modelFile(containerConnector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.EAST, true).end()
-			.part().modelFile(containerConnector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.SOUTH, true).end()
-			.part().modelFile(containerConnector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.WEST, true).end()
-			.part().modelFile(connector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.NORTH, true).end()
-			.part().modelFile(connector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.EAST, true).end()
-			.part().modelFile(connector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.SOUTH, true).end()
-			.part().modelFile(connector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.WEST, true).end();
+				.part().modelFile(top).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
+				.part().modelFile(base).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
+				.part().modelFile(containerConnector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.NORTH, true).end()
+				.part().modelFile(containerConnector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.EAST, true).end()
+				.part().modelFile(containerConnector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.SOUTH, true).end()
+				.part().modelFile(containerConnector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).condition(BlockStateProperties.WEST, true).end()
+				.part().modelFile(connector).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.NORTH, true).end()
+				.part().modelFile(connector).rotationY(90).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.EAST, true).end()
+				.part().modelFile(connector).rotationY(180).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.SOUTH, true).end()
+				.part().modelFile(connector).rotationY(270).addModel().condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(BlockStateProperties.WEST, true).end();
 		} else if (block instanceof ElementContainerBlock) {
 			pedestalContainerBlock(block, models().getExistingFile(prefix(name)), containerConnector);
 		} else if (block instanceof PedestalBlock) {
@@ -156,6 +173,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			} else {
 				pipeBlock((ElementPipeBlock) block, name, "iron");
 			}
+		} else if (block instanceof AmethystClusterBlock) {
+			springalineCluster(block);
 		} else if (block.defaultBlockState().hasProperty(HorizontalDirectionalBlock.FACING)) {
 			horizontalBlock(block, models().getExistingFile(prefix(name)));
 		} else if (block.defaultBlockState().hasProperty(DirectionalBlock.FACING)) {
@@ -185,7 +204,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private void pipeBlock(ElementPipeBlock block, String name, String texture) {
-		ModelFile core = models().withExistingParent(name + CORE, prefix("template_elementpipe_core")).texture("texture", prefix(texture));
+		ModelFile core = models().withExistingParent(name + CORE, prefix("template_elementpipe_core")).texture(TEXTURE, prefix(texture));
 		ModelFile frame = models().getExistingFile(prefix("cover_frame"));
 		
 		getMultipartBuilder(block).part().modelFile(core).addModel().end()
@@ -235,6 +254,12 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		fourWayBlock(block, models().fencePost(baseName + "_post", postTexture), models().fenceSide(baseName + SIDE, sideTexture));
 	}
 
+	public void springalineCluster(Block block) {
+		String name = block.getRegistryName().getPath();
+		
+		directionalBlock(block, models().withExistingParent(name, prefix("minecraft:cross")).texture("cross", prefix(name)));
+	}
+	
 	@Nonnull
 	@Override
 	public String getName() {

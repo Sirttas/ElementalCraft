@@ -80,6 +80,12 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		functionTable.put(ECBlocks.CREATIVE_CONTAINER, ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.BURNT_GLASS, ECBlockLootProvider::genOnlySilkTouch);
 		functionTable.put(ECBlocks.BURNT_GLASS_PANE, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.SPRINGALINE_CLUSTER, i -> genOre(i, ECItems.SPRINGALINE_SHARD, 4));
+		functionTable.put(ECBlocks.SMALL_SPRINGALINE_BUD, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.MEDIUM_SPRINGALINE_BUD, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.LARGE_SPRINGALINE_BUD, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.SPRINGALINE_GLASS, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.SPRINGALINE_GLASS_PANE, ECBlockLootProvider::genOnlySilkTouch);
 	}
 
 	@Override
@@ -114,8 +120,12 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	}
 
 	private static Builder genOre(ItemLike ore, ItemLike item) {
+		return genOre(ore, item, 1);
+	}
+		
+	private static Builder genOre(ItemLike ore, ItemLike item, int count) {
 		return LootTable.lootTable()
-				.withPool(LootPool.lootPool().name("main").setRolls(ConstantValue.exactly(1))
+				.withPool(LootPool.lootPool().name("main").setRolls(ConstantValue.exactly(count))
 						.add(LootItem.lootTableItem(ore)
 								.when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
 								.otherwise(LootItem.lootTableItem(item).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)).apply(ApplyExplosionDecay.explosionDecay()))));

@@ -1,14 +1,8 @@
 package sirttas.elementalcraft.block.shrine.grove;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -17,7 +11,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
-public class GroveShrineBlock extends AbstractShrineBlock {
+public class GroveShrineBlock extends AbstractShrineBlock<GroveShrineBlockEntity> {
 
 	public static final String NAME = "groveshrine";
 
@@ -35,17 +29,6 @@ public class GroveShrineBlock extends AbstractShrineBlock {
 
 	public GroveShrineBlock() {
 		super(ElementType.WATER);
-	}
-
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new GroveShrineBlockEntity(pos, state);
-	}
-
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createShrineTicker(level, type, GroveShrineBlockEntity.TYPE);
 	}
 	
 	@Override

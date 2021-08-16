@@ -42,14 +42,6 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	}
 
-	private boolean isSilkTouch() {
-		return this.hasUpgrade(ShrineUpgrades.SILK_TOUCH.get());
-	}
-
-	private int getFortuneLevel() {
-		return this.getUpgradeCount(ShrineUpgrades.FORTUNE.get());
-	}
-
 	@Override
 	public AABB getRangeBoundingBox() {
 		int range = getIntegerRange();
@@ -60,22 +52,28 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	protected boolean doPeriode() {
-		if (level instanceof ServerLevel && !level.isClientSide) {
+		if (level instanceof ServerLevel serverLevel) {
 			return findOre().map(p -> {
-				int fortune = getFortuneLevel();
-
-				if (fortune > 0) {
-					ItemStack pickaxe = new ItemStack(Items.NETHERITE_PICKAXE);
-
-					pickaxe.enchant(Enchantments.BLOCK_FORTUNE, fortune);
-					LootHelper.getDrops((ServerLevel) this.level, p, pickaxe).forEach(s -> Block.popResource(this.level, this.worldPosition.above(), s));
-				} else {
-					LootHelper.getDrops((ServerLevel) this.level, p, isSilkTouch()).forEach(s -> Block.popResource(this.level, this.worldPosition.above(), s));
-				}
-				this.level.setBlockAndUpdate(p, Blocks.STONE.defaultBlockState());
+				harvest(serverLevel, p, this, Blocks.STONE.defaultBlockState());
 				return true;
 			}).orElse(false);
 		}
 		return false;
+	}
+
+	public static void harvest(ServerLevel level, BlockPos pos, AbstractShrineBlockEntity shrine, BlockState newBlock) {
+		int fortune = shrine.getUpgradeCount(ShrineUpgrades.FORTUNE.get());
+
+		if (fortune > 0) {
+			ItemStack pickaxe = new ItemStack(Items.NETHERITE_PICKAXE);
+
+			pickaxe.enchant(Enchantments.BLOCK_FORTUNE, fortune);
+			LootHelper.getDrops(level, pos, pickaxe).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));
+		} else {
+			LootHelper.getDrops(level, pos, shrine.hasUpgrade(ShrineUpgrades.SILK_TOUCH.get())).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));
+		}
+		if (newBlock != null) {
+			level.setBlockAndUpdate(pos, newBlock);
+		}
 	}
 }

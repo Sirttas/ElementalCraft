@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:shrine_upgrade_filling"
+    ]
+  },
+  "criteria": {
+    "has_shrine_upgrade_core": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:shrine_upgrade_core"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:shrine_upgrade_filling"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_shrine_upgrade_core",
+      "has_the_recipe"
+    ]
+  ]
+}

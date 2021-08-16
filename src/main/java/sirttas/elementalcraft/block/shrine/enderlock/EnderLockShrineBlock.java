@@ -2,15 +2,10 @@ package sirttas.elementalcraft.block.shrine.enderlock;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.Vec3;
@@ -25,7 +20,7 @@ import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class EnderLockShrineBlock extends AbstractPylonShrineBlock {
+public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShrineBlockEntity> {
 
 	public static final String NAME = "enderlockshrine";
 
@@ -49,14 +44,8 @@ public class EnderLockShrineBlock extends AbstractPylonShrineBlock {
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? new EnderLockShrineBlockEntity(pos, state) : null;
-	}
-
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createShrineTicker(level, type, EnderLockShrineBlockEntity.TYPE);
+	public EnderLockShrineBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? super.newBlockEntity(pos, state) : null;
 	}
 	
 	@Override

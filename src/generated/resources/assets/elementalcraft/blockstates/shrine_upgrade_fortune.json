@@ -1,17 +1,32 @@
 {
   "variants": {
-    "facing=north": {
+    "facing=north,waterlogged=false": {
       "model": "elementalcraft:block/shrine_upgrade_fortune"
     },
-    "facing=south": {
+    "facing=south,waterlogged=false": {
       "model": "elementalcraft:block/shrine_upgrade_fortune",
       "y": 180
     },
-    "facing=west": {
+    "facing=west,waterlogged=false": {
       "model": "elementalcraft:block/shrine_upgrade_fortune",
       "y": 270
     },
-    "facing=east": {
+    "facing=east,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune",
+      "y": 90
+    },
+    "facing=north,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune"
+    },
+    "facing=south,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune",
+      "y": 180
+    },
+    "facing=west,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_fortune",
+      "y": 270
+    },
+    "facing=east,waterlogged=true": {
       "model": "elementalcraft:block/shrine_upgrade_fortune",
       "y": 90
     }

@@ -2,15 +2,10 @@ package sirttas.elementalcraft.block.shrine.vacuum;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -24,7 +19,7 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-public class VacuumShrineBlock extends AbstractShrineBlock {
+public class VacuumShrineBlock extends AbstractShrineBlock<VacuumShrineBlockEntity> {
 
 	public static final String NAME = "vacuumshrine";
 
@@ -32,17 +27,6 @@ public class VacuumShrineBlock extends AbstractShrineBlock {
 
 	public VacuumShrineBlock() {
 		super(ElementType.AIR);
-	}
-
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new VacuumShrineBlockEntity(pos, state);
-	}
-	
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createShrineTicker(level, type, VacuumShrineBlockEntity.TYPE);
 	}
 
 	@Override

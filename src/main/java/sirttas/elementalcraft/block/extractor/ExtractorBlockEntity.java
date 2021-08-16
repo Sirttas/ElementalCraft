@@ -72,7 +72,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 		return getSourceState().filter(s -> s.getBlock() == ECBlocks.SOURCE).map(ElementType::getElementType).orElse(ElementType.NONE);
 	}
 
-	public static void tick(Level level, BlockPos pos, BlockState state, ExtractorBlockEntity extractor) {
+	public static void serverTick(Level level, BlockPos pos, BlockState state, ExtractorBlockEntity extractor) {
 		ElementType sourceElementType = extractor.getSourceElementType();
 
 		if (extractor.canExtract(sourceElementType)) {

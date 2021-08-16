@@ -1,0 +1,19 @@
+{
+  "type": "elementalcraft:binding",
+  "element_type": "water",
+  "element_amount": 2500,
+  "ingredients": [
+    {
+      "item": "minecraft:amethyst_shard"
+    },
+    {
+      "tag": "forge:gems/quartz"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:springaline_shard"
+  }
+}

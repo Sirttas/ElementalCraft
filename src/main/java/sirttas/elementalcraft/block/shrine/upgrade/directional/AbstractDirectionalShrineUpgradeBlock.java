@@ -18,7 +18,7 @@ public abstract class AbstractDirectionalShrineUpgradeBlock extends AbstractShri
 
 	protected AbstractDirectionalShrineUpgradeBlock(ResourceLocation name) {
 		super(name);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public abstract class AbstractDirectionalShrineUpgradeBlock extends AbstractShri
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
-		container.add(FACING);
+		container.add(WATERLOGGED, FACING);
 	}
 
 	@Override

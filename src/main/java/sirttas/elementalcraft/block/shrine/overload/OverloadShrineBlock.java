@@ -1,16 +1,10 @@
 package sirttas.elementalcraft.block.shrine.overload;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -21,7 +15,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
-public class OverloadShrineBlock extends AbstractShrineBlock {
+public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlockEntity> {
 
 	public static final String NAME = "overloadshrine";
 
@@ -37,18 +31,7 @@ public class OverloadShrineBlock extends AbstractShrineBlock {
 
 	public OverloadShrineBlock() {
 		super(ElementType.AIR);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
-	}
-
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new OverloadShrineBlockEntity(pos, state);
-	}
-	
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createShrineTicker(level, type, OverloadShrineBlockEntity.TYPE);
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
 	}
 
 	@Override
@@ -72,7 +55,7 @@ public class OverloadShrineBlock extends AbstractShrineBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
-		container.add(FACING);
+		container.add(WATERLOGGED, FACING);
 	}
 
 	@Override

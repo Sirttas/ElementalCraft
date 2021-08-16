@@ -48,7 +48,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 
-	public static void tick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
+	public static void serverTick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
 		ISingleElementStorage container = solarSynthesizer.getContainer();
 		
 		if (container != null && level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
