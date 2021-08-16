@@ -15,14 +15,14 @@ import sirttas.elementalcraft.network.message.MessageHelper;
 
 public class SpellTickManager {
 
-	public static final SpellTickManager SERVER_INSTANCE = new SpellTickManager(false);
-	public static final SpellTickManager CLIENT_INSTANCE = new SpellTickManager(true);
+	public static final SpellTickManager SERVER_INSTANCE = new SpellTickManager();
+	public static final SpellTickManager CLIENT_INSTANCE = new SpellTickManager();
 
 	private int tick;
 	private Map<Entity, Map<Spell, Cooldown>> cooldowns;
 	private List<AbstractSpellInstance> spellinstances;
 
-	private SpellTickManager(boolean isClientSide) {
+	private SpellTickManager() {
 		tick = 0;
 		cooldowns = new HashMap<>();
 		spellinstances = Lists.newArrayList();

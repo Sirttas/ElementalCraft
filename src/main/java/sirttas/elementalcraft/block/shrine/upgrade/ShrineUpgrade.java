@@ -46,8 +46,8 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 	boolean canUpgrade(AbstractShrineBlockEntity shrine, boolean update) {
 		int count = shrine.getUpgradeCount(this);
 		
-		if (count > 0 && update) {
-			count++;
+		if (update && count > 0) {
+			count--;
 		}
 		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), count);
 	}

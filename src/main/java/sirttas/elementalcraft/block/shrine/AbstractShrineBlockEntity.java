@@ -101,24 +101,27 @@ public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockE
 
 	public void refreshUpgrades() {
 		if (this.hasLevel()) {
+			getUpgradeDirections().forEach(direction -> {
+				BlockPos pos = getBlockPos().relative(direction);
+				BlockState state = this.getLevel().getBlockState(pos);
+				
+				if (!state.canSurvive(this.level, pos)) {
+					this.level.destroyBlock(pos, true);
+				}
+			});
 			this.upgrades.clear();
 			this.upgradeMultipliers.clear();
 			getUpgradeDirections().forEach(direction -> {
 				BlockPos pos = getBlockPos().relative(direction);
 				BlockState state = this.getLevel().getBlockState(pos);
-				
-				if (state.canSurvive(this.level, pos)) {
-					Block block = state.getBlock();
+				Block block = state.getBlock();
 	
-					if (block instanceof AbstractShrineUpgradeBlock) {
-						ShrineUpgrade upgrade = ((AbstractShrineUpgradeBlock) block).getUpgrade();
-	
-						if (upgrade != null) {
-							setUpgrade(direction, upgrade);
-						}
+				if (block instanceof AbstractShrineUpgradeBlock) {
+					ShrineUpgrade upgrade = ((AbstractShrineUpgradeBlock) block).getUpgrade();
+
+					if (upgrade != null) {
+						setUpgrade(direction, upgrade);
 					}
-				} else {
-					this.level.destroyBlock(pos, true);
 				}
 			});
 		}

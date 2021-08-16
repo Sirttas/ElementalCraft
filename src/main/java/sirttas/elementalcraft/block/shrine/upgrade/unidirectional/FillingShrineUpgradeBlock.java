@@ -26,7 +26,7 @@ public class FillingShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 	public static final String NAME = "shrine_upgrade_filling";
 
 	private static final VoxelShape BASE = Block.box(3D, 4D, 3D, 13D, 8D, 13D);
-	private static final VoxelShape PIPE_UP = Block.box(7D, 8D, 7D, 2D, 8D, 2D);
+	private static final VoxelShape PIPE_UP = Block.box(7D, 8D, 7D, 9D, 16D, 9D);
 	
 	private static final VoxelShape PIPE_NORTH = Block.box(7D, 0D, 4D, 9D, 4D, 6D);
 	private static final VoxelShape PIPE_SOUTH = Block.box(7D, 0D, 10D, 9D, 4D, 12D);
