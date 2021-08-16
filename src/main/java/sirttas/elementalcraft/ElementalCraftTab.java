@@ -70,6 +70,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.ENDER_LOCK_SHRINE, list);
 		addItem(ECBlocks.BREEDING_SHRINE, list);
 		addItem(ECBlocks.GROVE_SHRINE, list);
+		addItem(ECBlocks.SPRING_SHRINE, list);
 		addItem(ECBlocks.ACCELERATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.RANGE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CAPACITY_SHRINE_UPGRADE, list);
@@ -85,6 +86,7 @@ public class ElementalCraftTab extends ItemGroup {
 		addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.PROTECTION_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.FILLING_SHRINE_UPGRADE, list);
 
 		addItem(ECBlocks.CRYSTAL_ORE, list);
 		addItem(ECBlocks.WHITE_ROCK, list);

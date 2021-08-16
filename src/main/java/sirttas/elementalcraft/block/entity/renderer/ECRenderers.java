@@ -47,6 +47,7 @@ import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.sweet.SweetShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
@@ -98,6 +99,7 @@ public final class ECRenderers {
 		ClientRegistry.bindTileEntityRenderer(EnderLockShrineBlockEntity.TYPE, RendererShrine::new);
 		ClientRegistry.bindTileEntityRenderer(BreedingShrineBlockEntity.TYPE, RendererShrine::new);
 		ClientRegistry.bindTileEntityRenderer(GroveShrineBlockEntity.TYPE, RendererShrine::new);
+		ClientRegistry.bindTileEntityRenderer(SpringShrineBlockEntity.TYPE, RendererShrine::new);
 	}
 
 	public static void initRenderLayouts() {

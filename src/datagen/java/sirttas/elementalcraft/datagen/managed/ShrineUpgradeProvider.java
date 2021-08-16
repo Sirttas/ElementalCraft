@@ -26,6 +26,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgrad
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PlantingShrineUpgradeBlock;
@@ -57,6 +58,8 @@ public class ShrineUpgradeProvider implements IDataProvider {
 		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.GROVE_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2F).addBonus(BonusType.SPEED, 2F), MysticalGroveShrineUpgradeBlock.NAME);
 		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.GROWTH_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 4F).addBonus(BonusType.SPEED, 3F).addBonus(BonusType.RANGE, 0.5F)
 				.incompatibleWith(ElementalCraft.createRL(BonelessGrowthShrineUpgradeBlock.NAME)), StemPollinationShrineUpgradeBlock.NAME);
+		save(cache, ShrineUpgrade.Builder.create().match(ECBlocks.SPRING_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F).addBonus(BonusType.SPEED, 2F), FillingShrineUpgradeBlock.NAME);
+		
 		save(cache, ShrineUpgrade.Builder.create().predicate(IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE)
 				.and(new HasShrineUpgradePredicate(ElementalCraft.createRL(PickupShrineUpgradeBlock.NAME))))).addBonus(BonusType.SPEED, 0.5F), AccelerationShrineUpgradeBlock.NAME);
 		save(cache, ShrineUpgrade.Builder.create().match(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).addBonus(BonusType.RANGE, 1.5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).addBonus(BonusType.SPEED,
@@ -65,7 +68,8 @@ public class ShrineUpgradeProvider implements IDataProvider {
 		save(cache, ShrineUpgrade.Builder.create().match(ECTags.Blocks.SHRINES).max(1).addBonus(BonusType.CAPACITY, 5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.1F).addBonus(BonusType.SPEED, 1.1F),
 				CapacityShrineUpgradeBlock.NAME);
 		save(cache, ShrineUpgrade.Builder.create().match(ECTags.Blocks.SHRINES).addBonus(BonusType.CAPACITY, 0.9F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.5F), EfficiencyShrineUpgradeBlock.NAME);
-		save(cache, ShrineUpgrade.Builder.create().match(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).addBonus(BonusType.STRENGTH, 2F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F)
+		save(cache, ShrineUpgrade.Builder.create().predicate(IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).or(IBlockPosPredicate.match(ECBlocks.SPRING_SHRINE)
+				.and(new HasShrineUpgradePredicate(ElementalCraft.createRL(FillingShrineUpgradeBlock.NAME))))).addBonus(BonusType.STRENGTH, 2F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F)
 				.incompatibleWith(ElementalCraft.createRL(NectarShrineUpgradeBlock.NAME)), StrengthShrineUpgradeBlock.NAME);
 		save(cache, ShrineUpgrade.Builder.create().match(ECTags.Blocks.SHRINES).max(2).addBonus(BonusType.CAPACITY, 1.25F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.75F).addBonus(BonusType.SPEED, 0.8F),
 				OptimizationShrineUpgradeBlock.NAME);

@@ -52,7 +52,9 @@ public class SourceBlockEntity extends AbstractECTickableBlockEntity {
 		if (elementStorage.getElementType() == ElementType.NONE) {
 			elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
 		}
-		elementStorage.insertElement(recoverRate, false);
+		if (elementStorage.isExhausted()) {
+			elementStorage.insertElement(recoverRate, false);
+		}
 		this.addParticle(level.random);
 		super.tick();
 	}
@@ -73,8 +75,11 @@ public class SourceBlockEntity extends AbstractECTickableBlockEntity {
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
-		this.recoverRate = compound.getInt(ECNames.RECOVER_RATE);
+		recoverRate = compound.getInt(ECNames.RECOVER_RATE);
 		elementStorage.setExhausted(compound.getBoolean(ECNames.EXHAUSTED));
+		if (recoverRate <= 10) { // TODO later remove
+			recoverRate = ECConfig.COMMON.sourceRecoverRate.get();
+		}
 	}
 
 	@Override

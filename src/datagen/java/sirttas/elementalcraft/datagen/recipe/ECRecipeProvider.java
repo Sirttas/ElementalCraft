@@ -230,6 +230,9 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(ECItems.PROTECTION_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('s', Items.SHIELD).define('i', Tags.Items.INGOTS_IRON)
 				.define('w', ECBlocks.WHITE_ROCK).define('c', ECItems.EARTH_CRYSTAL).pattern("isi").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
 				.save(consumer);
+		ShapedRecipeBuilder.shaped(ECBlocks.FILLING_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('b', Items.BUCKET).define('i', Tags.Items.INGOTS_IRON)
+				.define('w', ECBlocks.WHITE_ROCK).define('c', ECItems.WATER_CRYSTAL).pattern("ibi").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
+				.save(consumer);
 
 		prepareInstrumentRecipe(ECBlocks.PIPE_IMPAIRED, ECItems.CONTAINED_CRYSTAL, 4).define('i', Tags.Items.INGOTS_IRON).pattern("ici").save(consumer);
 		prepareInstrumentRecipe(ECBlocks.PIPE, ECItems.CONTAINED_CRYSTAL, 4).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).pattern("ici").save(consumer);
@@ -289,8 +292,9 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECItems.BREEDING_SHRINE, ElementType.EARTH).addIngredient(ECItems.SHRINE_BASE).addIngredient(ECItems.EARTH_CRYSTAL).addIngredient(ECTags.Items.CRUDE_WATER_GEMS)
 				.addIngredient(Tags.Items.CROPS).addIngredient(Tags.Items.LEATHER).addIngredient(Items.MILK_BUCKET).addIngredient(Tags.Items.GEMS_DIAMOND).withElementAmount(5000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.GROVE_SHRINE, ElementType.WATER).addIngredient(ECItems.SHRINE_BASE).addIngredient(ECItems.WATER_CRYSTAL)
-				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
-				.addIngredient(ItemTags.FLOWERS).addIngredient(Tags.Items.SEEDS).addIngredient(Tags.Items.CROPS).build(consumer);
+				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS).addIngredient(ItemTags.FLOWERS).addIngredient(Tags.Items.SEEDS).addIngredient(Tags.Items.CROPS).build(consumer);
+		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPRING_SHRINE, ElementType.WATER).addIngredient(ECItems.SHRINE_BASE).addIngredient(ECItems.WATER_CRYSTAL).addIngredient(Items.BUCKET)
+				.addIngredient(ItemTags.FISHES).build(consumer);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIRE_PEDESTAL, ElementType.FIRE).addIngredient(ECItems.INFUSER).addIngredient(ECTags.Items.FINE_FIRE_GEMS)
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY).addIngredient(ECItems.WHITE_ROCK).addIngredient(ECItems.WHITE_ROCK).withElementAmount(30000).build(consumer);

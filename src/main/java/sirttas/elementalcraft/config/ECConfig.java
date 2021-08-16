@@ -63,6 +63,9 @@ public class ECConfig {
 		public final IntValue groveShrineRange;
 		public final IntValue groveShrineConsumeAmount;
 		public final DoubleValue groveShrinePeriode;
+		public final IntValue springShrineConsumeAmount;
+		public final DoubleValue springShrinePeriode;
+		public final DoubleValue springShrinefilling;
 
 		public final IntValue tankCapacity;
 		public final IntValue tankSmallCapacity;
@@ -189,7 +192,7 @@ public class ECConfig {
 			oreShrineConsumeAmount = builder.comment("The amount of element consumed by the Ore Shrine.").defineInRange("oreShrineConsumeAmount", 2000, 0, 10000);
 			oreShrinePeriode = builder.comment("The nember of tick betwenn two Ore Shrine activations.").defineInRange("oreShrinePeriode", 200D, 0, 2400);
 			builder.pop().push("overloadShrine");
-			overloadShrineConsumeAmount = builder.comment("The amount of element consumed by the overload Shrine.").defineInRange("overloadShrineConsumeAmount", 100, 0, 1000);
+			overloadShrineConsumeAmount = builder.comment("The amount of element consumed by the overload Shrine.").defineInRange("overloadShrineConsumeAmount", 10, 0, 1000);
 			overloadShrinePeriode = builder.comment("The nember of tick betwenn two Overload Shrine activations.").defineInRange("overloadShrinePeriode", 3D, 0, 2400);
 			builder.pop().push("sweetShrine");
 			sweetShrineRange = builder.comment("The range of the Sweet Shrine.").defineInRange("sweetShrineRange", 10, 0, 100);
@@ -208,6 +211,10 @@ public class ECConfig {
 			groveShrineRange = builder.comment("The range of the wild grove Shrine.").defineInRange("groveShrineRange", 5, 0, 100);
 			groveShrineConsumeAmount = builder.comment("The amount of element consumed by the wild grove Shrine.").defineInRange("groveShrineConsumeAmount", 500, 0, 10000);
 			groveShrinePeriode = builder.comment("The nember of tick betwenn two wild grove Shrine activations.").defineInRange("groveShrinePeriode", 200D, 0, 2400);
+			builder.pop().push("springShrine");
+			springShrineConsumeAmount = builder.comment("The amount of element consumed by the spring Shrine.").defineInRange("springShrineConsumeAmount", 5, 0, 10000);
+			springShrinePeriode = builder.comment("The nember of tick betwenn two spring Shrine activations.").defineInRange("springShrinePeriode", 5D, 0, 2400);
+			springShrinefilling = builder.comment("The amound of water filling a tank with a filling shrine upgrades.").defineInRange("springShrineFilling", 100D, 0, 10000);
 
 			builder.pop(2).comment("Instruments config").push("instruments").push("tank");
 			tankSmallCapacity = builder.comment("The element capacity of a small element container.").defineInRange("tankSmallCapacity", 1000, 0, 100000000);
@@ -323,7 +330,7 @@ public class ECConfig {
 			disableSourceExhaustion = builder.comment("set to true to make sources infinite.").define("disableSourceExhaustion", false);
 			sourceCapacityMin = builder.comment("The minimum element capacity of a source.").defineInRange("sourceCapacityMin", 500000, 0, 10000000);
 			sourceCapacityMax = builder.comment("The maximum element capacity of a source.").defineInRange("sourceCapacityMax", 1000000, 0, 10000000);
-			sourceRecoverRate = builder.comment("The element a source can generate per tick.").defineInRange("sourceRecoverRate", 5, 0, 100);
+			sourceRecoverRate = builder.comment("The element a source can generate per tick.").defineInRange("sourceRecoverRate", 100, 0, 100);
 
 			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);

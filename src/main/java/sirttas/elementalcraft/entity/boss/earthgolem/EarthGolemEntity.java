@@ -50,7 +50,9 @@ public class EarthGolemEntity extends AbstractECBossEntity {
 
 		if (ret && source instanceof IndirectEntityDamageSource && this.random.nextInt(10) > 2) {
 			Spells.STONE_WALL.castOnSelf(this);
-			SpellTickManager.getInstance(getCommandSenderWorld()).setCooldown(this, Spells.STONE_WALL);
+			if (!level.isClientSide) {
+				SpellTickManager.getInstance(level).setCooldown(this, Spells.STONE_WALL);
+			}
 		}
 		return ret;
 	}

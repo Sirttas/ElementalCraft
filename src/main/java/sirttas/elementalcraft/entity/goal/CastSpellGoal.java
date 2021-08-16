@@ -3,6 +3,7 @@ package sirttas.elementalcraft.entity.goal;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.world.World;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
@@ -23,8 +24,12 @@ public class CastSpellGoal extends Goal {
 			result = this.spell.castOnSelf(caster);
 		}
 		if (result.consumesAction()) {
+			World level = caster.getCommandSenderWorld();
+			
 			this.spell.consume(caster, false);
-			SpellTickManager.getInstance(caster.getCommandSenderWorld()).setCooldown(caster, spell);
+			if (!level.isClientSide) {
+				SpellTickManager.getInstance(caster.getCommandSenderWorld()).setCooldown(caster, spell);
+			}
 		}
 	}
 

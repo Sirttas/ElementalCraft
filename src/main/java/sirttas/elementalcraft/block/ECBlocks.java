@@ -80,6 +80,8 @@ import sirttas.elementalcraft.block.shrine.ore.OreShrineBlock;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
+import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.sweet.SweetShrineBlock;
 import sirttas.elementalcraft.block.shrine.sweet.SweetShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.CapacityShrineUpgradeBlock;
@@ -94,6 +96,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgrad
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PlantingShrineUpgradeBlock;
@@ -163,6 +166,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EnderLockShrineBlock.NAME) public static final EnderLockShrineBlock ENDER_LOCK_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final BreedingShrineBlock BREEDING_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final GroveShrineBlock GROVE_SHRINE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpringShrineBlock.NAME) public static final SpringShrineBlock SPRING_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + AccelerationShrineUpgradeBlock.NAME) public static final AccelerationShrineUpgradeBlock ACCELERATION_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + RangeShrineUpgradeBlock.NAME) public static final RangeShrineUpgradeBlock RANGE_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CapacityShrineUpgradeBlock.NAME) public static final CapacityShrineUpgradeBlock CAPACITY_SHRINE_UPGRADE = null;
@@ -178,6 +182,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + MysticalGroveShrineUpgradeBlock.NAME) public static final MysticalGroveShrineUpgradeBlock MYSTICAL_GROVE_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + StemPollinationShrineUpgradeBlock.NAME) public static final StemPollinationShrineUpgradeBlock STEM_POLLINATION_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ProtectionShrineUpgradeBlock.NAME) public static final ProtectionShrineUpgradeBlock PROTECTION_SHRINE_UPGRADE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + FillingShrineUpgradeBlock.NAME) public static final FillingShrineUpgradeBlock FILLING_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final SourceBlock SOURCE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystalOreBlock.NAME) public static final CrystalOreBlock CRYSTAL_ORE = null;
 	
@@ -252,6 +257,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new EnderLockShrineBlock(), EnderLockShrineBlock.NAME);
 		RegistryHelper.register(registry, new BreedingShrineBlock(), BreedingShrineBlock.NAME);
 		RegistryHelper.register(registry, new GroveShrineBlock(), GroveShrineBlock.NAME);
+		RegistryHelper.register(registry, new SpringShrineBlock(), SpringShrineBlock.NAME);
 		RegistryHelper.register(registry, new AccelerationShrineUpgradeBlock(), AccelerationShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new RangeShrineUpgradeBlock(), RangeShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new CapacityShrineUpgradeBlock(), CapacityShrineUpgradeBlock.NAME);
@@ -266,6 +272,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new NectarShrineUpgradeBlock(), NectarShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new StemPollinationShrineUpgradeBlock(), StemPollinationShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new ProtectionShrineUpgradeBlock(), ProtectionShrineUpgradeBlock.NAME);
+		RegistryHelper.register(registry, new FillingShrineUpgradeBlock(), FillingShrineUpgradeBlock.NAME);
 
 		RegistryHelper.register(registry, new SourceBlock(), SourceBlock.NAME);
 		RegistryHelper.register(registry, new CrystalOreBlock(AbstractBlock.Properties.of(Material.STONE).strength(3.0F, 3.0F)), CrystalOreBlock.NAME);
@@ -344,6 +351,7 @@ public class ECBlocks {
 		RegistryHelper.register(r, TileEntityType.Builder.of(EnderLockShrineBlockEntity::new, ENDER_LOCK_SHRINE).build(null), EnderLockShrineBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(BreedingShrineBlockEntity::new, BREEDING_SHRINE).build(null), BreedingShrineBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(GroveShrineBlockEntity::new, GROVE_SHRINE).build(null), GroveShrineBlock.NAME);
+		RegistryHelper.register(r, TileEntityType.Builder.of(SpringShrineBlockEntity::new, SPRING_SHRINE).build(null), SpringShrineBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(AccelerationShrineUpgradeBlockEntity::new, ACCELERATION_SHRINE_UPGRADE).build(null), AccelerationShrineUpgradeBlock.NAME);
 		RegistryHelper.register(r, TileEntityType.Builder.of(SorterBlockEntity::new, SORTER).build(null), SorterBlock.NAME);
 	}

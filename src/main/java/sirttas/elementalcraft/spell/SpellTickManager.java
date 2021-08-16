@@ -7,20 +7,22 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import sirttas.elementalcraft.network.message.MessageHelper;
 
 public class SpellTickManager {
 
-	private static final SpellTickManager SERVER_INSTANCE = new SpellTickManager();
-	private static final SpellTickManager CLIENT_INSTANCE = new SpellTickManager();
+	public static final SpellTickManager SERVER_INSTANCE = new SpellTickManager(false);
+	public static final SpellTickManager CLIENT_INSTANCE = new SpellTickManager(true);
 
 	private int tick;
 	private Map<Entity, Map<Spell, Cooldown>> cooldowns;
 	private List<AbstractSpellInstance> spellinstances;
 
-	private SpellTickManager() {
+	private SpellTickManager(boolean isClientSide) {
 		tick = 0;
 		cooldowns = new HashMap<>();
 		spellinstances = Lists.newArrayList();
@@ -58,8 +60,10 @@ public class SpellTickManager {
 		} else {
 			entityCooldowns = cooldowns.get(target);
 		}
-
 		entityCooldowns.put(spell, cooldown);
+		if (!target.level.isClientSide && target instanceof ServerPlayerEntity) {
+			MessageHelper.sendToPlayer((ServerPlayerEntity) target, new SpellTickCooldownMessage(spell));
+		}
 	}
 
 	public boolean hasCooldown(Entity target, Spell spell) {

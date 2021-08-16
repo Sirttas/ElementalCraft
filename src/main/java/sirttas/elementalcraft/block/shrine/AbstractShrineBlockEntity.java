@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -103,15 +104,21 @@ public abstract class AbstractShrineBlockEntity extends AbstractECTickableBlockE
 			this.upgrades.clear();
 			this.upgradeMultipliers.clear();
 			getUpgradeDirections().forEach(direction -> {
-				BlockState state = this.getLevel().getBlockState(getBlockPos().relative(direction));
-				Block block = state.getBlock();
-
-				if (block instanceof AbstractShrineUpgradeBlock) {
-					ShrineUpgrade upgrade = ((AbstractShrineUpgradeBlock) block).getUpgrade();
-
-					if (upgrade != null) {
-						setUpgrade(direction, upgrade);
+				BlockPos pos = getBlockPos().relative(direction);
+				BlockState state = this.getLevel().getBlockState(pos);
+				
+				if (state.canSurvive(this.level, pos)) {
+					Block block = state.getBlock();
+	
+					if (block instanceof AbstractShrineUpgradeBlock) {
+						ShrineUpgrade upgrade = ((AbstractShrineUpgradeBlock) block).getUpgrade();
+	
+						if (upgrade != null) {
+							setUpgrade(direction, upgrade);
+						}
 					}
+				} else {
+					this.level.destroyBlock(pos, true);
 				}
 			});
 		}

@@ -76,12 +76,14 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	}
 
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-		SpellTickManager.getInstance(worldIn).setCooldown(entityLiving, SpellHelper.getSpell(stack));
+	public ItemStack finishUsingItem(ItemStack stack, World level, LivingEntity entityLiving) {
+		if (!level.isClientSide) {
+			SpellTickManager.getInstance(level).setCooldown(entityLiving, SpellHelper.getSpell(stack));
+		}
 		return stack;
 	}
 
-	private ActionResultType tick(World worldIn, PlayerEntity playerIn, Hand handIn, ItemStack stack, boolean doChannel) {
+	private ActionResultType tick(World level, PlayerEntity playerIn, Hand handIn, ItemStack stack, boolean doChannel) {
 		Spell spell = SpellHelper.getSpell(stack);
 		Multimap<Attribute, AttributeModifier> attributes = spell.getOnUseAttributeModifiers();
 
@@ -94,7 +96,9 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 				result = ActionResultType.SUCCESS;
 			}
 			if (result.shouldSwing() && !playerIn.isCreative()) {
-				SpellTickManager.getInstance(worldIn).setCooldown(playerIn, spell);
+				if (!level.isClientSide) {
+					SpellTickManager.getInstance(level).setCooldown(playerIn, spell);
+				}
 				playerIn.releaseUsingItem();
 			} else if (doChannel && spell.isChannelable()) {
 				playerIn.startUsingItem(handIn);

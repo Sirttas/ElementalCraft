@@ -9,8 +9,26 @@
         "type": "dpanvil:not"
       },
       {
-        "tag": "elementalcraft:shrines/upgradables/strength",
-        "type": "dpanvil:tag"
+        "values": [
+          {
+            "values": [
+              {
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_filling",
+                "type": "elementalcraft:has_shrien_upgrade"
+              },
+              {
+                "block": "elementalcraft:springshrine",
+                "type": "dpanvil:block"
+              }
+            ],
+            "type": "dpanvil:and"
+          },
+          {
+            "tag": "elementalcraft:shrines/upgradables/strength",
+            "type": "dpanvil:tag"
+          }
+        ],
+        "type": "dpanvil:or"
       }
     ],
     "type": "dpanvil:and"

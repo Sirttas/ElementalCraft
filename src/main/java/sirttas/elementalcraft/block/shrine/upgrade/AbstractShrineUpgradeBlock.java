@@ -52,11 +52,11 @@ public abstract class AbstractShrineUpgradeBlock extends Block {
 
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
+	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos) {
 		Direction facing = getFacing(state);
 
-		return BlockEntityHelper.getTileEntityAs(world, pos.relative(facing), AbstractShrineBlockEntity.class)
-				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && upgrade.canUpgrade(shrine)).isPresent();
+		return BlockEntityHelper.getTileEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
+				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && upgrade.canUpgrade(shrine, level.getBlockState(pos).is(this))).isPresent();
 	}
 	
 	@Override
