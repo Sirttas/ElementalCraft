@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "dhd",
-    "isi",
+    "ipi",
     "wcw"
   ],
   "key": {
@@ -21,8 +21,8 @@
     "h": {
       "item": "elementalcraft:hardened_handle"
     },
-    "s": {
-      "item": "minecraft:spyglass"
+    "p": {
+      "item": "elementalcraft:solar_prism"
     }
   },
   "result": {

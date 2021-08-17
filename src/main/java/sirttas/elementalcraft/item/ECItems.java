@@ -127,6 +127,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":shrine_upgrade_core") public static final ECItem SHRINE_UPGRADE_CORE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":scroll_paper") public static final ECItem SCROLL_PAPER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":springaline_shard") public static final ECItem SPRINGALINE_SHARD = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":solar_prism") public static final ECItem SOLAR_PRISM = null;
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":firecrystal") public static final ElementalItem FIRE_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":watercrystal") public static final ElementalItem WATER_CRYSTAL  = null;
@@ -278,6 +279,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new ECItem(), "shrine_upgrade_core");
 		RegistryHelper.register(registry, new ECItem(), "scroll_paper");
 		RegistryHelper.register(registry, new ECItem(), "springaline_shard");
+		RegistryHelper.register(registry, new ECItem(), "solar_prism");
 
 		RegistryHelper.register(registry, new ElementalItem(ElementType.FIRE), "firecrystal");
 		RegistryHelper.register(registry, new ElementalItem(ElementType.WATER), "watercrystal");

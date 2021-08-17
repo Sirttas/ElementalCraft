@@ -2,29 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "elementalcraft:air_mill"
+      "elementalcraft:solar_prism"
     ]
   },
   "criteria": {
-    "has_aircrystal": {
+    "has_springaline_shard": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:aircrystal"
-            ]
-          }
-        ]
-      }
-    },
-    "has_whiterock": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "elementalcraft:whiterock"
+              "elementalcraft:springaline_shard"
             ]
           }
         ]
@@ -33,14 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "elementalcraft:air_mill"
+        "recipe": "elementalcraft:solar_prism"
       }
     }
   },
   "requirements": [
     [
-      "has_aircrystal",
-      "has_whiterock",
+      "has_springaline_shard",
       "has_the_recipe"
     ]
   ]

@@ -71,12 +71,11 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 			BlockEntityHelper.getTileEntityAs(world, pos.below(), AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
 		}
 	}
-
 	
 	@Override
 	@Deprecated
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-		return state.getValue(HALF) == DoubleBlockHalf.UPPER && !level.getBlockState(pos.below()).is(this);
+		return state.getValue(HALF) == DoubleBlockHalf.LOWER || level.getBlockState(pos.below()).is(this);
 	}
 	
 }

@@ -174,6 +174,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.SPRINGALINE_CLUSTER, list);
 		addItem(ECBlocks.SPRINGALINE_GLASS, list);
 		addItem(ECBlocks.SPRINGALINE_GLASS_PANE, list);
+		addItem(ECItems.SOLAR_PRISM, list);
 		addItem(ECItems.FIRE_LENSE, list);
 		addItem(ECItems.WATER_LENSE, list);
 		addItem(ECItems.EARTH_LENSE, list);

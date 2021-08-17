@@ -94,14 +94,6 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
 	public void refreshUpgrades() {
 		if (this.hasLevel()) {
-			getUpgradeDirections().forEach(direction -> {
-				BlockPos pos = getBlockPos().relative(direction);
-				BlockState state = this.getLevel().getBlockState(pos);
-				
-				if (!state.canSurvive(this.level, pos)) {
-					this.level.destroyBlock(pos, true);
-				}
-			});
 			this.upgrades.clear();
 			this.upgradeMultipliers.clear();
 			getUpgradeDirections().forEach(direction -> {
@@ -115,6 +107,14 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 					if (upgrade != null) {
 						setUpgrade(direction, upgrade);
 					}
+				}
+			});
+			getUpgradeDirections().forEach(direction -> {
+				BlockPos pos = getBlockPos().relative(direction);
+				BlockState state = this.getLevel().getBlockState(pos);
+				
+				if (!state.canSurvive(this.level, pos)) {
+					this.level.destroyBlock(pos, true);
 				}
 			});
 		}
@@ -132,7 +132,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		return getUpgradeCount(upgrade) > 0;
 	}
 
-	public void setUpgrade(Direction direction, ShrineUpgrade upgrade) {
+	private void setUpgrade(Direction direction, ShrineUpgrade upgrade) {
 		ShrineUpgrade old = upgrades.get(direction);
 
 		if (old != null) {

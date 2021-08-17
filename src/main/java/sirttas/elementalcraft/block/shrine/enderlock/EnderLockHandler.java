@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.event.entity.EntityTeleportEvent.SpreadPlayersCommand;
+import net.minecraftforge.event.entity.EntityTeleportEvent.TeleportCommand;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -30,6 +33,9 @@ public class EnderLockHandler {
 	public static void onEndermanTeleport(EntityTeleportEvent event) {
 		var entity = event.getEntity();
 
+		if (!(event instanceof TeleportCommand) && !(event instanceof SpreadPlayersCommand) && entity instanceof Player player && (player.isSpectator() || player.isCreative())) {
+			return;
+		}
 		event.setCanceled(RANGE.stream().anyMatch(v -> BlockEntityHelper.getTileEntityAs(entity.getCommandSenderWorld(), entity.blockPosition().offset(v), EnderLockShrineBlockEntity.class)
 				.filter(shrine -> shrine.doLock(entity)).isPresent()));
 
