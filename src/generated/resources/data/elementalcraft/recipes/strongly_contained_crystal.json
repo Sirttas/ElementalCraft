@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sgs",
+    "gcg",
+    "sgs"
+  ],
+  "key": {
+    "g": {
+      "tag": "forge:nuggets/swift_alloy"
+    },
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_shard"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:strongly_contained_crystal"
+  }
+}

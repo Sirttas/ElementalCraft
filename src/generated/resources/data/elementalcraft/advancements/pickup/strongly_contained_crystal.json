@@ -1,13 +1,13 @@
 {
   "parent": "elementalcraft:main/root",
   "criteria": {
-    "has_containedcrystal": {
+    "has_strongly_contained_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:containedcrystal"
+              "elementalcraft:strongly_contained_crystal"
             ]
           }
         ]
@@ -16,7 +16,7 @@
   },
   "requirements": [
     [
-      "has_containedcrystal"
+      "has_strongly_contained_crystal"
     ]
   ]
 }

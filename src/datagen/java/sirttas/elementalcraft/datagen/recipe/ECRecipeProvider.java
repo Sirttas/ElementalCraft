@@ -65,7 +65,7 @@ import sirttas.elementalcraft.tag.ECTags;
 public class ECRecipeProvider extends RecipeProvider {
 
 	private static final String HAS_INERTCRYSTAL = "has_inertcrystal";
-	private static final String HAS_CONTAINEDCRYSTAL = "has_containedcrystal";
+	private static final String HAS_CONTAINED_CRYSTAL = "has_contained_crystal";
 	private static final String HAS_PURECRYSTAL = "has_purecrystal";
 	private static final String HAS_WHITEROCK = "has_whiterock";
 	private static final String HAS_SHRINE_UPGRADE_CORE = "has_shrine_upgrade_core";
@@ -90,6 +90,8 @@ public class ECRecipeProvider extends RecipeProvider {
 
 		ShapedRecipeBuilder.shaped(ECItems.CONTAINED_CRYSTAL).define('g', Tags.Items.NUGGETS_GOLD).define('c', ECItems.INERT_CRYSTAL).pattern(" g ").pattern("gcg").pattern(" g ")
 				.unlockedBy(HAS_INERTCRYSTAL, has(ECItems.INERT_CRYSTAL)).save(consumer);
+		ShapedRecipeBuilder.shaped(ECItems.STRONGLY_CONTAINED_CRYSTAL).define('g', ECTags.Items.NUGGETS_SWIFT_ALLOY).define('c', ECItems.CONTAINED_CRYSTAL).define('s', ECItems.SPRINGALINE_SHARD)
+				.pattern("sgs").pattern("gcg").pattern("sgs").unlockedBy(HAS_CONTAINED_CRYSTAL, has(ECItems.CONTAINED_CRYSTAL)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.SHRINE_BASE).define('w', ECBlocks.WHITE_ROCK).define('c', ECItems.INERT_CRYSTAL).define('p', ECBlocks.PIPE).pattern(" p ").pattern("pcp").pattern("www")
 				.unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.EMPTY_RECEPTACLE).define('c', ECItems.PURE_CRYSTAL).define('d', Tags.Items.GEMS_DIAMOND).define('g', Tags.Items.INGOTS_GOLD)
@@ -120,7 +122,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(ECItems.PURE_HOLDER_CORE).define('i', ECTags.Items.INGOTS_FIREITE).define('c', ECItems.PURE_CRYSTAL).pattern(" i ").pattern("ici").pattern(" i ")
 				.unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.FOCUS).define('d', Tags.Items.GEMS_DIAMOND).define('c', ECItems.CONTAINED_CRYSTAL).define('s', ECItems.HARDENED_HANDLE)
-				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern(" ic").pattern(" si").pattern("d  ").unlockedBy(HAS_CONTAINEDCRYSTAL, has(ECItems.CONTAINED_CRYSTAL)).save(consumer);
+				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern(" ic").pattern(" si").pattern("d  ").unlockedBy(HAS_CONTAINED_CRYSTAL, has(ECItems.CONTAINED_CRYSTAL)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.SPELL_BOOK).define('c', ECItems.PURE_CRYSTAL).define('s', ECItems.AIR_SILK).define('l', Tags.Items.LEATHER).define('p', ECItems.SCROLL_PAPER).pattern("slp")
 				.pattern("clp").pattern("slp").unlockedBy(HAS_PURECRYSTAL, has(ECItems.PURE_CRYSTAL)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.STAFF).define('s', ECTags.Items.STAFF_CRAFT_SWORD).define('f', ECItems.FOCUS).define('h', ECItems.HARDENED_HANDLE).define('i', ECTags.Items.INGOTS_FIREITE)
@@ -167,7 +169,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapelessRecipeBuilder.shapeless(ECItems.AIR_SHARD, 9).requires(ECItems.POWERFUL_AIR_SHARD).unlockedBy("has_powerful_air_shard", has(ECItems.POWERFUL_AIR_SHARD)).save(consumer);
 
 		ShapedRecipeBuilder.shaped(ECBlocks.SMALL_CONTAINER).define('g', Tags.Items.GLASS).define('p', ECBlocks.PIPE_IMPAIRED).pattern(" p ").pattern("pgp").pattern(" p ")
-				.unlockedBy(HAS_CONTAINEDCRYSTAL, has(ECItems.CONTAINED_CRYSTAL)).save(consumer);
+				.unlockedBy(HAS_CONTAINED_CRYSTAL, has(ECItems.CONTAINED_CRYSTAL)).save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.CONTAINER).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).define('g', ECBlocks.BURNT_GLASS).define('p', ECBlocks.PIPE).pattern("ici").pattern("pgp")
 				.pattern("www").save(consumer);
 		prepareInstrumentRecipe(ECBlocks.EXTRACTOR).define('i', Tags.Items.INGOTS_IRON).pattern(" c ").pattern(" i ").pattern("ici").save(consumer);
@@ -182,12 +184,12 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareWhiterockInstrumentRecipe(ECBlocks.BINDER).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).pattern("i i").pattern("wcw").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.BINDER_IMPROVED, ECItems.PURE_CRYSTAL).define('f', ECTags.Items.INGOTS_FIREITE).define('d', Tags.Items.GEMS_DIAMOND).define('b', ECItems.BINDER)
 				.define('i', ECItems.INFUSER).pattern("did").pattern("fbf").pattern("wcw").save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.CRYSTALLIZER).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern("iwi").pattern("i i").pattern("wcw").save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.CRYSTALLIZER, ECItems.STRONGLY_CONTAINED_CRYSTAL).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern("iwi").pattern("i i").pattern("wcw").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL, ECItems.AIR_CRYSTAL).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).define('p', ItemTags.CARPETS).define('g', Items.GRINDSTONE)
 				.pattern("pip").pattern("igi").pattern("wcw").save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.INSCRIBER).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('d', Tags.Items.GEMS_DIAMOND).pattern(" wi").pattern("wdi").pattern("wcw")
+		prepareWhiterockInstrumentRecipe(ECBlocks.INSCRIBER, ECItems.STRONGLY_CONTAINED_CRYSTAL).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('d', Tags.Items.GEMS_DIAMOND).pattern(" wi").pattern("wdi").pattern("wcw")
 				.save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.PURE_INFUSER).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('n', ECBlocks.INFUSER).pattern("wnw").pattern("ici").pattern("www").save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.PURE_INFUSER, ECItems.STRONGLY_CONTAINED_CRYSTAL).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('n', ECBlocks.INFUSER).pattern("wnw").pattern("ici").pattern("www").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.FIRE_FURNACE, ECItems.FIRE_CRYSTAL).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).define('f', Blocks.FURNACE).pattern("www").pattern("wfw")
 				.pattern("ici").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.FIRE_BLAST_FURNACE, ECItems.FIRE_CRYSTAL).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('F', Blocks.BLAST_FURNACE)

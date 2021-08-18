@@ -1,10 +1,5 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "elementalcraft:focus"
-    ]
-  },
+  "parent": "elementalcraft:main/root",
   "criteria": {
     "has_contained_crystal": {
       "trigger": "minecraft:inventory_changed",
@@ -17,18 +12,11 @@
           }
         ]
       }
-    },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "elementalcraft:focus"
-      }
     }
   },
   "requirements": [
     [
-      "has_contained_crystal",
-      "has_the_recipe"
+      "has_contained_crystal"
     ]
   ]
 }

@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "elementalcraft:containedcrystal"
+      "elementalcraft:strongly_contained_crystal"
     ]
   },
   "criteria": {
-    "has_inertcrystal": {
+    "has_contained_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:inertcrystal"
+              "elementalcraft:contained_crystal"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "elementalcraft:containedcrystal"
+        "recipe": "elementalcraft:strongly_contained_crystal"
       }
     }
   },
   "requirements": [
     [
-      "has_inertcrystal",
+      "has_contained_crystal",
       "has_the_recipe"
     ]
   ]

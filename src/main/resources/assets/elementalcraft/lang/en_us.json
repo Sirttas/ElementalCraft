@@ -45,7 +45,8 @@
   "item.elementalcraft.airsword": "Air Sword",
 
   "item.elementalcraft.inertcrystal": "Inert Crystal",
-  "item.elementalcraft.containedcrystal": "Contained Crystal",
+  "item.elementalcraft.contained_crystal": "Contained Crystal",
+  "item.elementalcraft.strongly_contained_crystal": "Strongly Contained Crystal",
   "item.elementalcraft.purecrystal": "Pure Crystal",
   "item.elementalcraft.firecrystal": "Fire Crystal",
   "item.elementalcraft.watercrystal": "Water Crystal",
@@ -332,7 +333,7 @@
   "elementalcraft.page.source0": "$(thing)Sources$() are naturally occurring spots where $(thing)elements$() converge.$(br2)It's strongly recommended to explore a bit and find at least one $(thing)sources$() for each $(thing)element$().$(br)It is also recommended to mark their spots to find them easier again when you need them.",
   "elementalcraft.page.source1": "An $(thing)Air Source$() found naturally.",
   "elementalcraft.page.inertcrystal0": "To get $(item)Inert Crystal$() start digging underground and mine $(item)Inert Crystal Ore$().",
-  "elementalcraft.page.containedcrystal0": "$(item)Contained Crystals$() are the main components of $(thing)instruments$().$(br)By coating an $(item)Inert Crystal$() with $(thing)gold$() you are able to prevent it from being altered by $(thing)elements$() without losing its ability to interact with them.",
+  "elementalcraft.page.contained_crystal0": "$(item)Contained Crystals$() are the main components of $(thing)instruments$().$(br)By coating an $(item)Inert Crystal$() with $(thing)gold$() you are able to prevent it from being altered by $(thing)elements$() without losing its ability to interact with them.",
   "elementalcraft.page.elementpipe0": "$(item)Pipes$() are used to transport $(thing)elements$() across distances.  Their main use is to provide $(thing)instruments$() with the required $(thing)element$().$(br2)You can configure a $(item)pipe$() by right-clicking a section or the core to change it from $(thing)connected$(), $(thing)disconnected$(), $(thing)insert$() or $(thing)extract$().$(br2)$(item)Pipes$() exist in three tiers: impaired, normal and improved.",
   "elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). in an $(ec:infuser).",
   "elementalcraft.page.cover_frame0": "The $(item)pipe cover frame$() allows you to hide a $(ec:pipe)pipe$() behind a block. Use it on a pipe (preferably while sleeking) then right click it with the block you want to hide it behind.$(br)you can hide frames and show pipes by holding a pipe, a frame or having an empty hand.",

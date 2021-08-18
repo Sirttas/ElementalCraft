@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.elementpipe",
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:elementpipe",
-  "advancement": "elementalcraft:pickup/containedcrystal",
+  "advancement": "elementalcraft:pickup/contained_crystal",
   "turnin": "elementalcraft:pickup/elementpipe",
   "priority": true,
   "sortnum": 4,

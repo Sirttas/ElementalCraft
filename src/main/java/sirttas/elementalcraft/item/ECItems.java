@@ -113,7 +113,8 @@ public class ECItems {
 
 	@ObjectHolder("patchouli:guide_book") public static final Item ELEMENTOPEDIA = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":inertcrystal") public static final ECItem INERT_CRYSTAL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":containedcrystal") public static final ECItem CONTAINED_CRYSTAL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":contained_crystal") public static final ECItem CONTAINED_CRYSTAL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":strongly_contained_crystal") public static final ECItem STRONGLY_CONTAINED_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":purecrystal") public static final ECItem PURE_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":drenched_iron_ingot") public static final ECItem DRENCHED_IRON_INGOT = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":drenched_iron_nugget") public static final ECItem DRENCHED_IRON_NUGGET = null;
@@ -265,7 +266,8 @@ public class ECItems {
 		RegistryHelper.register(registry, new ECItem(), "elementpipe_priority");
 		
 		RegistryHelper.register(registry, new ECItem(), "inertcrystal");
-		RegistryHelper.register(registry, new ECItem(), "containedcrystal");
+		RegistryHelper.register(registry, new ECItem(), "contained_crystal");
+		RegistryHelper.register(registry, new ECItem(), "strongly_contained_crystal");
 		RegistryHelper.register(registry, new ECItem().setEffect(true), "purecrystal");
 		RegistryHelper.register(registry, new ECItem(), "drenched_iron_ingot");
 		RegistryHelper.register(registry, new ECItem(), "drenched_iron_nugget");

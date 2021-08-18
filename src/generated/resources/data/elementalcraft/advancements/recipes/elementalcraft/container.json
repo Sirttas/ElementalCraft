@@ -6,13 +6,13 @@
     ]
   },
   "criteria": {
-    "has_containedcrystal": {
+    "has_contained_crystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:containedcrystal"
+              "elementalcraft:contained_crystal"
             ]
           }
         ]
@@ -39,7 +39,7 @@
   },
   "requirements": [
     [
-      "has_containedcrystal",
+      "has_contained_crystal",
       "has_whiterock",
       "has_the_recipe"
     ]

@@ -26,7 +26,8 @@ public class MissingMappingsHandler {
 	private static final Map<String, String> NAME_REMAP = Map.of(
 			"tank", ElementContainerBlock.NAME,
 			"tank_small", SmallElementContainerBlock.NAME,
-			"tank_creative", CreativeElementContainerBlock.NAME);
+			"tank_creative", CreativeElementContainerBlock.NAME,
+			"containedcrystal", "contained_crystal");
 	
 	@SubscribeEvent
 	public static void remapMissingBlockMappings(MissingMappings<Block> event) {

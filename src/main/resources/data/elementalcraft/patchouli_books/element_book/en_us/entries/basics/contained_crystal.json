@@ -1,0 +1,19 @@
+{
+  "name": "item.elementalcraft.contained_crystal",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:contained_crystal",
+  "advancement": "elementalcraft:pickup/inertcrystal",
+  "turnin": "elementalcraft:pickup/contained_crystal",
+  "priority": true,
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.contained_crystal0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:contained_crystal"
+    }
+  ]
+}

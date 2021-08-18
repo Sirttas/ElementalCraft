@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.tank_small",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:tank_small",
-  "advancement": "elementalcraft:pickup/containedcrystal",
+  "advancement": "elementalcraft:pickup/contained_crystal",
   "turnin": "elementalcraft:pickup/tank_small",
   "priority": true,
   "sortnum": 0,

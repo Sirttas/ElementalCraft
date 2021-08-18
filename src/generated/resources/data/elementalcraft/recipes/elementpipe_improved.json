@@ -5,7 +5,7 @@
   ],
   "key": {
     "c": {
-      "item": "elementalcraft:containedcrystal"
+      "item": "elementalcraft:contained_crystal"
     },
     "i": {
       "tag": "forge:ingots/swift_alloy"

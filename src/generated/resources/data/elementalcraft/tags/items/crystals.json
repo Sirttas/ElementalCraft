@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "elementalcraft:inertcrystal",
-    "elementalcraft:containedcrystal",
+    "elementalcraft:contained_crystal",
     "elementalcraft:purecrystal",
     "#elementalcraft:crystals/elemental"
   ]

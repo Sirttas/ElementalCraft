@@ -27,7 +27,7 @@
   "item.elementalcraft.chisel": "符文刻印凿",
 
   "item.elementalcraft.inertcrystal": "惰性水晶",
-  "item.elementalcraft.containedcrystal": "稳定水晶",
+  "item.elementalcraft.contained_crystal": "稳定水晶",
   "item.elementalcraft.purecrystal": "至纯水晶",
   "item.elementalcraft.firecrystal": "火元素水晶",
   "item.elementalcraft.watercrystal": "水元素水晶",
@@ -262,7 +262,7 @@
   "elementalcraft.page.source0": "$(thing)源点$()是$(thing)元素$()自然凝聚的地方。$(br2)建议你在发展之初先大致探索一下世界，保证$(thing)每种元素$()都至少找到一处源点（离你的基地越近越好）。$(br2)别忘了标记位置，之后前来寻找它们时会方便许多。",
   "elementalcraft.page.source1": "一处天然的$(thing)气元素源点$()。",
   "elementalcraft.page.inertcrystal0": "要获得$(item)惰性水晶$()，你需要深入地下、寻找并开采$(item)惰性水晶矿$()。",
-  "elementalcraft.page.containedcrystal0": "$(item)稳定水晶$()是$(thing)元素器械$()的主要组成部分。$(br2)只需将$(item)惰性水晶$()用$(item)金粒$()包裹，水晶自身的性质就不会为元素扰动，但其与元素发生作用的能力是有所保留的。",
+  "elementalcraft.page.contained_crystal0": "$(item)稳定水晶$()是$(thing)元素器械$()的主要组成部分。$(br2)只需将$(item)惰性水晶$()用$(item)金粒$()包裹，水晶自身的性质就不会为元素扰动，但其与元素发生作用的能力是有所保留的。",
   "elementalcraft.page.elementpipe0": "$(item)元素导管$()，顾名思义，用于$(thing)传输元素$()，它们最主要的作用是向$(thing)元素器械$()输送相应的元素。$(br2)你可以右击导管的$(thing)中间段$()或$(thing)连接点$()，以切换所指导管的连接状态：$(thing)连接$()、$(thing)断开$()、$(thing)输入$()或$(thing)输出$()。$(br2)导管有三个等级：$(thing)弱化型$()、$(thing)普通型$()和$(thing)强化型$()，越高级的导管承载能力越强。",
   "elementalcraft.page.whiterock0": "$(item)白石$()是合成$(thing)进阶元素器械$()和$(item)祭坛$()的重要材料。$(br2)只需将$(item)石头$()放入$(ec:infuser)灌注器$()并注入$(thing)地元素$()即可得到白石。$(br2)当然，它也是十分漂亮的建筑材料。",
   "elementalcraft.page.element_holder0": "$(item)元素球$()一方面可被用于$(thing)储存和转移元素$()，另一方面也能为$(thing)法术$()的施用供应元素。$(br2)要填充元素球，手持之并右击$(thing)同一种元素$()的$(ec:source)源点$()即可；要转移元素，手持之并右击任意$(ec:tank)元素容器$()或$(thing)同一种元素$()的$(item)祭坛$()即可。",

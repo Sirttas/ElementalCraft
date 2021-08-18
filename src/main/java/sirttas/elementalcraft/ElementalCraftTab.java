@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.item.ECItems;
 
 public class ElementalCraftTab extends CreativeModeTab {
@@ -84,7 +85,9 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.PICKUP_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.NECTAR_SHRINE_UPGRADE, list);
-		addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
+		if (ECinteractions.isBotaniaActive()) {
+			addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
+		}
 		addItem(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.PROTECTION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.FILLING_SHRINE_UPGRADE, list);
@@ -128,6 +131,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.INERT_CRYSTAL, list);
 		addItem(ECBlocks.INERT_CRYSTAL_BLOCK, list);
 		addItem(ECItems.CONTAINED_CRYSTAL, list);
+		addItem(ECItems.STRONGLY_CONTAINED_CRYSTAL, list);
 		addItem(ECItems.FIRE_CRYSTAL, list);
 		addItem(ECBlocks.FIRE_CRYSTAL_BLOCK, list);
 		addItem(ECItems.WATER_CRYSTAL, list);
