@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_containedcrystal": {
+    "has_aircrystal": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "elementalcraft:containedcrystal"
+            "item": "elementalcraft:aircrystal"
           }
         ]
       }
@@ -35,7 +35,7 @@
   },
   "requirements": [
     [
-      "has_containedcrystal",
+      "has_aircrystal",
       "has_whiterock",
       "has_the_recipe"
     ]

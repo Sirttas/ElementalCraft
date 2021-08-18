@@ -175,8 +175,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareWhiterockInstrumentRecipe(ECBlocks.BINDER_IMPROVED, ECItems.PURE_CRYSTAL).define('f', ECTags.Items.INGOTS_FIREITE).define('d', Tags.Items.GEMS_DIAMOND).define('b', ECItems.BINDER)
 				.define('i', ECItems.INFUSER).pattern("did").pattern("fbf").pattern("wcw").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.CRYSTALLIZER).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern("iwi").pattern("i i").pattern("wcw").save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).define('p', ItemTags.CARPETS).define('g', Items.GRINDSTONE).pattern("pip").pattern("igi")
-				.pattern("wcw").save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL, ECItems.AIR_CRYSTAL).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).define('p', ItemTags.CARPETS).define('g', Items.GRINDSTONE)
+				.pattern("pip").pattern("igi").pattern("wcw").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.INSCRIBER).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('d', Tags.Items.GEMS_DIAMOND).pattern(" wi").pattern("wdi").pattern("wcw")
 				.save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.PURE_INFUSER).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('n', ECBlocks.INFUSER).pattern("wnw").pattern("ici").pattern("www")
