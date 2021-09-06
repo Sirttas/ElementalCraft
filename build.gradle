@@ -1,12 +1,14 @@
 buildscript {
     repositories {
+    	mavenCentral()
         maven { url = 'https://files.minecraftforge.net/maven' }
-        mavenCentral()
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        // classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+        classpath 'org.parchmentmc:librarian:1.+'
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 
@@ -19,12 +21,12 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-// apply plugin: 'org.spongepowered.mixin'
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'org.spongepowered.mixin'
 
-/*mixin {
+mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
-}*/
+}
 
 version = "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
@@ -32,6 +34,10 @@ archivesBaseName = 'elementalcraft'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+
+// TODO remove when forge gradel get fixed
+eclipseJdtApt.enabled = false
+eclipseFactoryPath.enabled = false
 
 sourceSets {
     api {
@@ -86,7 +92,7 @@ minecraft {
             property 'fml.earlyprogresswindow', 'false'
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
-            //property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
                 elementalcraft {
@@ -102,7 +108,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
-            //property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
                 elementalcraft {
@@ -117,7 +123,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'fml.earlyprogresswindow', 'false'
             property 'mixin.env.remapRefMap', 'true'
-            //property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             args '--mod', 'elementalcraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
@@ -138,12 +144,17 @@ repositories {
     maven { url "https://dvs1.progwml6.com/files/maven/" }
   	maven { url "https://modmaven.dev/" }
   	maven { url "https://maven.blamejared.com" }
+  	maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+  	
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     
-    //annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
+    implementation("org.spongepowered:mixin:${mixins_version}") {
+        changing = true
+    }
+  	annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies
     //compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
@@ -151,7 +162,7 @@ dependencies {
     compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
     runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
     
-    //implementation fg.deobf("mezz.jei:jei-${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${jei_version}")
     
     // mod interactions
     //implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
@@ -174,9 +185,8 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"elementalcraft",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-
-
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            "MixinConfigs": "elementalcraft.mixins.json"
         ])
     }
     afterEvaluate { finalizedBy('reobfJar') }
@@ -276,7 +286,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			mainArtifact(jar) {
 				relations {
 					requiredDependency 'datapack-anvil'
-//					requiredDependency 'jei'
+					requiredDependency 'jei'
 //					requiredDependency 'patchouli'
 	        		incompatible 'performant'
 				}

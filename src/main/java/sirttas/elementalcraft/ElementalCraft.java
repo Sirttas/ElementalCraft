@@ -2,7 +2,7 @@ package sirttas.elementalcraft;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -39,6 +39,7 @@ public class ElementalCraft {
 		var modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		
 		modBus.addListener(this::setup);
+		modBus.addListener(this::registerCapabilities);
 		modBus.addListener(this::enqueueIMC);
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECFeatures::onBiomeLoad);
 		MinecraftForge.EVENT_BUS.addListener(PURE_ORE_MANAGER::reload);
@@ -57,10 +58,14 @@ public class ElementalCraft {
 	private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECLootFunctions.setup();
-		CapabilityManager.INSTANCE.register(IElementStorage.class);
-		CapabilityManager.INSTANCE.register(IRuneHandler.class);
 	}
 
+	private void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.register(IElementStorage.class);
+		event.register(IRuneHandler.class);
+		
+	}
+	
 	private void enqueueIMC(InterModEnqueueEvent event) {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ShrineUpgrades.NAME), SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(SpellProperties.NAME), SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));

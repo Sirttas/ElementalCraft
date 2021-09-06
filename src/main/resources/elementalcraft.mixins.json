@@ -1,0 +1,19 @@
+  {
+  "required": true,
+  "minVersion": "0.8.4",
+  "compatibilityLevel": "JAVA_16",
+  "package": "sirttas.elementalcraft.mixin",
+  "refmap": "elementalcraft.refmap.json",
+  "mixins": [
+    "MixinMinecraftServer",
+    "MixinRepairContainer",
+    "MixinEnchantmentHelper",
+    "MixinItemStack"
+  ],
+  "client": [
+    "MixinItemRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

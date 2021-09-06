@@ -32,7 +32,7 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 
 	@Override
 	public void render(PureInfuserBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
-		if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get())) {
+		if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get()) && !te.isRunning()) {
 			Map<Direction, ElementType> map = getDirectionMap(te);
 			List<ElementType> remaining = getRemainingElements(map);
 

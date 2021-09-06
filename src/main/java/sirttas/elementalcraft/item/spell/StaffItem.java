@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.spell;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.HashMultimap;
@@ -14,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -27,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
@@ -108,6 +111,12 @@ public class StaffItem extends FocusItem {
 	@Override
 	public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
 		return ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
+	}
+	
+	@Override
+    @Nonnull
+	public AABB getSweepHitBox(@Nonnull ItemStack stack, @Nonnull Player player, @Nonnull Entity target) {
+		return  player.getBoundingBox().inflate(2, 0.25, 2);
 	}
 
 }
