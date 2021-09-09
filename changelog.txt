@@ -1,3 +1,9 @@
+1.16.5-2.7.10:
+
+- instruments don't lookup recipes if they are empty
+- fix gem crystalizer
+
+
 1.16.5-2.7.9:
 
 - air mill now require an air crystal instead of a contained crystal

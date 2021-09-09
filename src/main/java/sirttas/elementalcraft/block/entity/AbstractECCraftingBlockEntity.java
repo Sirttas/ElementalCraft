@@ -24,10 +24,12 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 		if (recipe != null && recipe.matches(cast())) {
 			return true;
 		}
-		recipe = this.lookupRecipe();
-		if (recipe != null) {
-			this.setChanged();
-			return true;
+		if (!this.getInventory().isEmpty()) {
+			recipe = this.lookupRecipe();
+			if (recipe != null) {
+				this.setChanged();
+				return true;
+			}
 		}
 		return false;
 	}

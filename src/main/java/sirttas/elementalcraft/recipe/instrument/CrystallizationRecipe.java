@@ -110,29 +110,35 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 				luck += ((ShardItem) stack.getItem()).getElementAmount();
 			}
 		}
+		
+		ItemStack gem = instrument.getInventory().getItem(0);
+		
 		instrument.clearContent();
-		instrument.getInventory().setItem(0, this.getCraftingResult(instrument, luck));
+		instrument.getInventory().setItem(0, this.getCraftingResult(gem, instrument, luck));
 	}
 
 	@Override
 	public ItemStack assemble(CrystallizerBlockEntity instrument) {
-		return getCraftingResult(instrument, 0);
+		return getCraftingResult(instrument.getInventory().getItem(0), instrument, 0);
 	}
 
 	@SuppressWarnings("resource")
-	public ItemStack getCraftingResult(CrystallizerBlockEntity instrument, float luck) {
-		ItemStack gem = instrument.getInventory().getItem(0);
-		int index = IntStream.range(0, outputs.size()).filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem)).findFirst().orElse(0);
-		int weight = getTotalWeight(outputs.subList(index, outputs.size()), luck);
-		int roll = Math.min(instrument.getLevel().random.nextInt(weight), weight - 1);
+	private ItemStack getCraftingResult(ItemStack gem, CrystallizerBlockEntity instrument, float luck) {
+		int index = IntStream.range(0, outputs.size()).filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem)).findFirst().orElse(-1);
+		int weight = getTotalWeight(outputs.subList(index + 1, outputs.size()), luck);
 		
-		for (ResultEntry entry : outputs) {
-			roll -= entry.getEffectiveWeight(luck) + luck;
-			if (roll < 0) {
-				return entry.getResult();
+		if (weight > 0) {
+			int roll = Math.min(instrument.getLevel().random.nextInt(weight), weight - 1);
+			
+			
+			for (ResultEntry entry : outputs) {
+				roll -= entry.getEffectiveWeight(luck);
+				if (roll < 0) {
+					return entry.getResult();
+				}
 			}
 		}
-		return ItemStack.EMPTY;
+		return gem;
 	}
 
 	public int getTotalWeight() {

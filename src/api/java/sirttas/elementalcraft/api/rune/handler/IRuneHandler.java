@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.rune.handler;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
@@ -34,10 +35,9 @@ public interface IRuneHandler {
 	}
 	
 	public static ListNBT writeNBT(IRuneHandler handler) {
-		ListNBT nbtTagList = new ListNBT();
-
-		handler.getRunes().forEach(rune -> nbtTagList.add(StringNBT.valueOf(rune.getId().toString())));
-		return nbtTagList;
+		return handler.getRunes().stream()
+				.map(rune -> StringNBT.valueOf(rune.getId().toString()))
+				.collect(Collectors.toCollection(ListNBT::new));
 	}
 
 	public static void readNBT(IRuneHandler handler, ListNBT nbtTagList) {
