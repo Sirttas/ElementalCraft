@@ -46,7 +46,7 @@ public abstract class MixinEnchantmentHelper {
 	}
 	
 	@Redirect(method = "lambda$runIterationOnItem$1(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/world/item/enchantment/Enchantment;)V",
-			at = @At(value = "INVOKE", target = "getEnchantmentLevel(Lnet/minecraft/nbt/CompoundTag;)I"))
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;getEnchantmentLevel(Lnet/minecraft/nbt/CompoundTag;)I"))
 	private static int runIterationOnItemLambdaRedirect(CompoundTag tag) {
 		Enchantment enchanment = ENCHANTMENT.get();
 		int value = enchanment != null ? ToolInfusionHelper.getInfusionEnchantmentLevel(STACK.get(), enchanment) : 0;
