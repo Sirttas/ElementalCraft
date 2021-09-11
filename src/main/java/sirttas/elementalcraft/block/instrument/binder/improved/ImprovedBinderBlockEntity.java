@@ -6,10 +6,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlockEntity;
-import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.IInventoryTileRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.BinderInfusionRecipeWrapper;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
@@ -22,8 +21,8 @@ public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInf
 	}
 
 	@Override
-	protected IInventoryTileRecipe<IBinder> lookupRecipe() {
-		IInventoryTileRecipe<IBinder> bindingRecipe = super.lookupRecipe();
+	protected AbstractBindingRecipe lookupRecipe() {
+		var bindingRecipe = super.lookupRecipe();
 
 		if (bindingRecipe == null) {
 			IInfusionRecipe infusionRecipe = this.lookupInfusionRecipe(level);

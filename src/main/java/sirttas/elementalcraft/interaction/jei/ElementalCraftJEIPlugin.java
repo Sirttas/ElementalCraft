@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.collect.ImmutableList;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
@@ -151,7 +149,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 
 			SpellHelper.setSpell(scroll, spell);
 			SpellHelper.addSpell(stack, spell);
-			return factory.createAnvilRecipe(new ItemStack(item), ImmutableList.of(scroll), ImmutableList.of(stack));
+			return factory.createAnvilRecipe(new ItemStack(item), List.of(scroll), List.of(stack));
 		})).collect(Collectors.toList());
 	}
 }

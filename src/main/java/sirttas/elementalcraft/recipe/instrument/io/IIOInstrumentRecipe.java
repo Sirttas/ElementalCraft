@@ -2,7 +2,6 @@ package sirttas.elementalcraft.recipe.instrument.io;
 
 import java.util.Random;
 
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.instrument.IInstrument;
@@ -32,29 +31,5 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 			return instrument.getContainerElementType() == this.getElementType() && matches(inv.getStackInSlot(0))
 					&& (output.isEmpty() || (ItemHandlerHelper.canItemStacksStack(output, craftingResult) && output.getCount() + craftingResult.getCount() <= inv.getSlotLimit(1)));
 		}).orElse(false);
-	}
-	
-	@Override
-	default void process(T instrument) {
-		Container inv = instrument.getInventory();
-		ItemStack in = inv.getItem(0);
-		ItemStack result = inv.getItem(1);
-		ItemStack craftingResult = assemble(instrument);
-		int luck = getLuck(instrument);
-
-		if (craftingResult.sameItem(result) && result.getCount() + craftingResult.getCount() <= result.getMaxStackSize()) {
-			in.shrink(1);
-			result.grow(craftingResult.getCount());
-		} else if (result.isEmpty()) {
-			in.shrink(1);
-			inv.setItem(1, craftingResult.copy());
-		}
-		if (luck > 0 && getRand(instrument).nextInt(100) < luck) {
-			result.grow(1);
-		}
-		if (in.isEmpty()) {
-			inv.removeItemNoUpdate(0);
-		}
-	}
-	
+	}	
 }

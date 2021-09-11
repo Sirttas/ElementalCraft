@@ -2,16 +2,16 @@ package sirttas.elementalcraft.recipe.instrument.io;
 
 import java.util.Random;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
-import sirttas.elementalcraft.block.instrument.purifier.PurifierBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> {
@@ -25,7 +25,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> 
 
 		this.input = Ingredient.of(ore);
 		this.id = ElementalCraft.createRL(oreName.getNamespace() + '_' + oreName.getPath() + "_to_pure_ore");
-		result = ElementalCraft.PURE_ORE_MANAGER.createPureOre(ore.getItem()).copy();
+		result = ElementalCraft.PURE_ORE_MANAGER.createPureOreFor(ore).copy();
 		result.setCount(ECConfig.COMMON.pureOreMultiplier.get());
 	}
 
@@ -36,7 +36,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> 
 
 	@Override
 	public boolean matches(ItemStack stack) {
-		return ElementalCraft.PURE_ORE_MANAGER.isValidOre(stack) && input.test(stack);
+		return !result.isEmpty() && input.test(stack);
 	}
 
 	@Override

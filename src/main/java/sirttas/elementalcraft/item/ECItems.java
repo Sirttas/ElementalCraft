@@ -26,12 +26,12 @@ import sirttas.elementalcraft.block.extractor.improved.ImprovedExtractorBlock;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlock;
 import sirttas.elementalcraft.block.instrument.binder.improved.ImprovedBinderBlock;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlock;
-import sirttas.elementalcraft.block.instrument.firefurnace.FireFurnaceBlock;
-import sirttas.elementalcraft.block.instrument.firefurnace.blast.FireBlastFurnaceBlock;
 import sirttas.elementalcraft.block.instrument.infuser.InfuserBlock;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlock;
-import sirttas.elementalcraft.block.instrument.mill.AirMillBlock;
-import sirttas.elementalcraft.block.instrument.purifier.PurifierBlock;
+import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceBlock;
+import sirttas.elementalcraft.block.instrument.io.firefurnace.blast.FireBlastFurnaceBlock;
+import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlock;
+import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlock;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
@@ -112,7 +112,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":elementpipe_priority") public static final Item PIPE_PRIORITY = null;
 
 	@ObjectHolder("patchouli:guide_book") public static final Item ELEMENTOPEDIA = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":inertcrystal") public static final ECItem INERT_CRYSTAL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":inert_crystal") public static final ECItem INERT_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":contained_crystal") public static final ECItem CONTAINED_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":strongly_contained_crystal") public static final ECItem STRONGLY_CONTAINED_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":purecrystal") public static final ECItem PURE_CRYSTAL = null;
@@ -265,7 +265,7 @@ public class ECItems {
 		RegistryHelper.register(registry, new CoverFrameItem(), CoverFrameItem.NAME);
 		RegistryHelper.register(registry, new ECItem(), "elementpipe_priority");
 		
-		RegistryHelper.register(registry, new ECItem(), "inertcrystal");
+		RegistryHelper.register(registry, new ECItem(), "inert_crystal");
 		RegistryHelper.register(registry, new ECItem(), "contained_crystal");
 		RegistryHelper.register(registry, new ECItem(), "strongly_contained_crystal");
 		RegistryHelper.register(registry, new ECItem().setEffect(true), "purecrystal");

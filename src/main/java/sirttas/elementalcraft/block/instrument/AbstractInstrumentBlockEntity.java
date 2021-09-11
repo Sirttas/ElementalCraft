@@ -31,16 +31,21 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	private final RuneHandler runeHandler;
 	protected boolean lockable = false;
 	private boolean locked = false;
+	protected Vec3 particleOffset;
 
 	protected AbstractInstrumentBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed, int maxRunes) {
 		super(blockEntityType, pos, state, recipeType, transferSpeed);
 		runeHandler = maxRunes > 0 ? new RuneHandler(maxRunes) : null;
+		particleOffset = Vec3.ZERO;
 	}
 
 	@Override
 	public void process() {
 		super.process();
 		updateLock();
+		if (this.level.isClientSide) {
+			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), level.random);
+		}
 	}
 
 	public static <T extends IInstrument, R extends IInstrumentRecipe<T>> void tick(Level level, BlockPos pos, BlockState state, AbstractInstrumentBlockEntity<T, R> instrument) {
@@ -85,8 +90,9 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 			int oldProgress = progress;
 
 			progress += container.extractElement(Math.min(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), container.getElementAmount() - 1), getRecipeElementType(), false) * preservation;
-			if (progress > 0 &&  progress / this.transferSpeed >= oldProgress / this.transferSpeed) {
-				onProgress();
+			if (level.isClientSide && progress > 0 &&  progress / this.transferSpeed >= oldProgress / this.transferSpeed) {
+				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.random);
+				renderProgressParticles();
 			}
 			return true;
 		} else if (recipe == null) {
@@ -95,6 +101,8 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return false;
 	}
 
+	protected void renderProgressParticles() {}
+	
 	private ElementType getRecipeElementType() {
 		if (recipe instanceof IElementTypeProvider) {
 			return ((IElementTypeProvider) recipe).getElementType();
@@ -102,10 +110,11 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return ElementType.NONE;
 	}
 
-	protected void onProgress() {
-		if (level.isClientSide) {
-			ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition), Direction.UP, 1, level.random);
-		}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void assemble() {
+		getInventory().setItem(0, recipe.assemble((T) this));
 	}
 
 	@Override

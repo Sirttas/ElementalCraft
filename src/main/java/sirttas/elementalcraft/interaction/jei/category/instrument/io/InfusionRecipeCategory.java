@@ -4,13 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.ImmutableList;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
@@ -39,7 +37,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 
 	@Override
 	protected List<ItemStack> getTanks() {
-		return ImmutableList.of(tank, new ItemStack(ECItems.TANK_SMALL));
+		return List.of(tank, new ItemStack(ECItems.TANK_SMALL));
 	}
 
 	@Override

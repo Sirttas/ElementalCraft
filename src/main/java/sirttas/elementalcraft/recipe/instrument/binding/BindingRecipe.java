@@ -68,12 +68,6 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public void process(IBinder instrument) {
-		instrument.clearContent();
-		super.process(instrument);
-	}
-
-	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}

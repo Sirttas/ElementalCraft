@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:inertcrystal_block_from_inert_crystal"
+    ]
+  },
+  "criteria": {
+    "has_inert_crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:inert_crystal"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:inertcrystal_block_from_inert_crystal"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_inert_crystal",
+      "has_the_recipe"
+    ]
+  ]
+}

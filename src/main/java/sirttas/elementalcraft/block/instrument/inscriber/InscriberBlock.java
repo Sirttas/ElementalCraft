@@ -152,7 +152,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	}
 
 	private InteractionResult makeProgress(Player player, InteractionHand hand, InscriberBlockEntity inscriber, ItemStack heldItem) {
-		if (inscriber.makeProgress()) {
+		if (inscriber.useChisle()) {
 			if (heldItem.isDamageableItem() && !player.isCreative()) {
 				heldItem.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
 			}

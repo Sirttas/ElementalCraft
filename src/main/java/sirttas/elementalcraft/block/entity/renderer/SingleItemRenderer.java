@@ -9,10 +9,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.inventory.IInventoryTile;
+import sirttas.elementalcraft.inventory.IInventoryBlockEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class SingleItemRenderer<T extends BlockEntity & IInventoryTile> implements RuneRenderer<T> {
+public class SingleItemRenderer<T extends BlockEntity & IInventoryBlockEntity> implements RuneRenderer<T> {
 
 	private final Vec3 position;
 	private final float size;

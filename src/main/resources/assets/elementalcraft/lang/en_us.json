@@ -44,7 +44,7 @@
   "item.elementalcraft.earthsword": "Earth Sword",
   "item.elementalcraft.airsword": "Air Sword",
 
-  "item.elementalcraft.inertcrystal": "Inert Crystal",
+  "item.elementalcraft.inert_crystal": "Inert Crystal",
   "item.elementalcraft.contained_crystal": "Contained Crystal",
   "item.elementalcraft.strongly_contained_crystal": "Strongly Contained Crystal",
   "item.elementalcraft.purecrystal": "Pure Crystal",
@@ -169,7 +169,7 @@
   "block.elementalcraft.shrine_upgrade_springaline": "Springaline Shrine Upgrade",
   "block.elementalcraft.shrine_upgrade_crystal_harvest": "Crystal Harvest Shrine Upgrade",
 
-  "block.elementalcraft.crystalore": "Inert Crystal Ore",
+  "block.elementalcraft.inert_crystal_ore": "Inert Crystal Ore",
   "block.elementalcraft.whiterock": "White Rock",
   "block.elementalcraft.whiterock_slab": "White Rock Slab",
   "block.elementalcraft.whiterock_stairs": "White Rock Stairs",
@@ -229,6 +229,7 @@
   "elementalcraft_rune.elementalcraft.claptrap": "Claptrap's rune",
   "elementalcraft_rune.elementalcraft.bombadil": "Bombadil's rune",
   "elementalcraft_rune.elementalcraft.tzeentch": "Tzeentch's rune",
+  "elementalcraft_rune.elementalcraft.creative": "Creative rune",
 
   "material.elementalcraft.air_silk": "Air Silk",
   "material.elementalcraft.whiterock": "White Rock",

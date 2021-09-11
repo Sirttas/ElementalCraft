@@ -2,7 +2,6 @@ package sirttas.elementalcraft.event;
 
 import org.apache.commons.lang3.StringUtils;
 
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -26,8 +25,7 @@ public class EnchantmentHandler {
 
 		if (ECTags.Items.SPELL_CAST_TOOLS.contains(left.getItem()) && right.getItem() == ECItems.SCROLL && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
 			ItemStack result = left.copy();
-			ListTag list = SpellHelper.getSpellList(left);
-			int n = 4 * (list != null ? list.size() + 1 : 1);
+			int n = 4 * (SpellHelper.getSpellCount(left) + 1);
 
 			if (StringUtils.isBlank(event.getName())) {
 				if (left.hasCustomHoverName()) {

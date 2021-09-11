@@ -3,27 +3,23 @@ package sirttas.elementalcraft.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentHelper.EnchantmentVisitor;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
 @Mixin(EnchantmentHelper.class)
 public abstract class MixinEnchantmentHelper {
 
 	@Unique private static final ThreadLocal<ItemStack> STACK = ThreadLocal.withInitial(() -> ItemStack.EMPTY);
-	@Unique private static final ThreadLocal<String> ENCHANTMENT_ID = ThreadLocal.withInitial(() -> "");
+	@Unique private static final ThreadLocal<Enchantment> ENCHANTMENT = new ThreadLocal<>();
 	
 	@Inject(method = "getItemEnchantmentLevel(Lnet/minecraft/world/item/enchantment/Enchantment;Lnet/minecraft/world/item/ItemStack;)I", 
 			at = @At("RETURN"), 
@@ -37,22 +33,32 @@ public abstract class MixinEnchantmentHelper {
 	}
 	
 	@Inject(method = "runIterationOnItem(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/world/item/ItemStack;)V",
-			locals = LocalCapture.CAPTURE_FAILHARD,
-			at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/nbt/CompoundTag;getString(Ljava/lang/String;)Ljava/lang/String;"))
-	private static void applyEnchantmentModifierHead(EnchantmentVisitor modifier, ItemStack stack, CallbackInfo ci, ListTag listnbt, int i, String s) {
+			at = @At("HEAD"))
+	private static void runIterationOnItemHead(EnchantmentVisitor modifier, ItemStack stack, CallbackInfo ci) {
 		STACK.set(stack);
-		ENCHANTMENT_ID.set(s);
 	}
 	
-	@ModifyVariable(method = "runIterationOnItem(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/world/item/ItemStack;)V", 
-			index = 5,
-			at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/nbt/CompoundTag;getInt(Ljava/lang/String;)I", shift = Shift.AFTER))
-	private static int applyEnchantmentModifierSetLevel(int j) {
-		Enchantment enchanment = ForgeRegistries.ENCHANTMENTS.getValue(ResourceLocation.tryParse(ENCHANTMENT_ID.get()));
+	
+	@Inject(method = "lambda$runIterationOnItem$1(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/world/item/enchantment/Enchantment;)V",
+			at = @At("HEAD"))
+	private static void runIterationOnItemLambdaHead(EnchantmentVisitor modifier, CompoundTag tag, Enchantment enchantment, CallbackInfo ci) {
+		ENCHANTMENT.set(enchantment);
+	}
+	
+	@Redirect(method = "lambda$runIterationOnItem$1(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/world/item/enchantment/Enchantment;)V",
+			at = @At(value = "INVOKE", target = "getEnchantmentLevel(Lnet/minecraft/nbt/CompoundTag;)I"))
+	private static int runIterationOnItemLambdaRedirect(CompoundTag tag) {
+		Enchantment enchanment = ENCHANTMENT.get();
 		int value = enchanment != null ? ToolInfusionHelper.getInfusionEnchantmentLevel(STACK.get(), enchanment) : 0;
 		
+		return EnchantmentHelper.getEnchantmentLevel(tag) + value;
+	}
+	
+	
+	@Inject(method = "runIterationOnItem(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/world/item/ItemStack;)V",
+			at = @At("HEAD"))
+	private static void runIterationOnItemReturn(EnchantmentVisitor modifier, ItemStack stack, CallbackInfo ci) {
 		STACK.remove();
-		ENCHANTMENT_ID.remove();
-		return j + value;
+		ENCHANTMENT.remove();
 	}
 }

@@ -6,6 +6,6 @@
   "element_type": "fire",
   "element_amount": 1000,
   "input": {
-    "item": "elementalcraft:inertcrystal"
+    "item": "elementalcraft:inert_crystal"
   }
 }

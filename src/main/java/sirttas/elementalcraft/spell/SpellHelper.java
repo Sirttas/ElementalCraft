@@ -9,13 +9,15 @@ import java.util.function.ObjIntConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.annotation.Nullable;
+
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
@@ -97,15 +99,6 @@ public class SpellHelper {
 		return Collections.emptyList();
 	}
 
-	public static ListTag getSpellList(ItemStack stack) {
-		CompoundTag nbt = NBTHelper.getECTag(stack);
-
-		if (nbt != null && nbt.contains(ECNames.SPELL_LIST)) {
-			return nbt.getList(ECNames.SPELL_LIST, 10);
-		}
-		return null;
-	}
-
 	public static void copySpells(ItemStack source, ItemStack target) {
 		ListTag list = getSpellList(source);
 		Spell spell = getSpell(source);
@@ -163,6 +156,16 @@ public class SpellHelper {
 			setSpell(stack, getSpellFromTag(list.get(selected)));
 		}
 	}
+	
+	@Nullable
+	private static ListTag getSpellList(ItemStack stack) {
+		CompoundTag nbt = NBTHelper.getECTag(stack);
+
+		if (nbt != null && nbt.contains(ECNames.SPELL_LIST)) {
+			return nbt.getList(ECNames.SPELL_LIST, 10);
+		}
+		return null;
+	}
 
 	private static Spell getSpellFromTag(Tag nbt) {
 		if (nbt instanceof CompoundTag) {
@@ -190,7 +193,7 @@ public class SpellHelper {
 		List<Spell> list = spells.stream().filter(Spell::isValid).collect(Collectors.toList());
 		int roll = rand.nextInt(list.stream().mapToInt(Spell::getWeight).sum());
 		
-		for (Spell spell : spells) {
+		for (Spell spell : list) {
 			roll -= spell.getWeight();
 			if (roll < 0) {
 				return spell;

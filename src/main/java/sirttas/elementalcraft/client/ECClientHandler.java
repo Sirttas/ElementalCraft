@@ -11,11 +11,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.renderer.ECRenderers;
-import sirttas.elementalcraft.block.instrument.mill.AirMillRenderer;
+import sirttas.elementalcraft.block.instrument.io.mill.AirMillRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
-import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.inventory.container.screen.ECScreens;
 import sirttas.elementalcraft.rune.Runes;
 
@@ -27,7 +26,6 @@ public class ECClientHandler {
 	@SubscribeEvent
 	public static void setupClient(FMLClientSetupEvent event) {
 		ECRenderers.initRenderLayouts();
-		ECEntities.registerRenderers();
 		ECScreens.initScreenFactories();
 	}
 

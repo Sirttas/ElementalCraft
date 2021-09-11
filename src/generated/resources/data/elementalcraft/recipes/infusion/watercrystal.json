@@ -6,6 +6,6 @@
   "element_type": "water",
   "element_amount": 1000,
   "input": {
-    "item": "elementalcraft:inertcrystal"
+    "item": "elementalcraft:inert_crystal"
   }
 }

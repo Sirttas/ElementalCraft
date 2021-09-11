@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class CrystalOreBlock extends Block {
 
-	public static final String NAME = "crystalore";
+	public static final String NAME = "inert_crystal_ore";
 
 	public CrystalOreBlock(Properties properties) {
 		super(properties);

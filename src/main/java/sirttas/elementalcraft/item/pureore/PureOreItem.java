@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.item.pureore;
 
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.ECItem;
 
@@ -14,10 +14,10 @@ public class PureOreItem extends ECItem {
 
 	@Override
 	public Component getName(ItemStack stack) {
-		ItemStack ore = ElementalCraft.PURE_ORE_MANAGER.getOre(stack);
+		var name = ElementalCraft.PURE_ORE_MANAGER.getPureOreName(stack);
 
-		if (!ore.isEmpty()) {
-			return new TranslatableComponent("tooltip.elementalcraft.pure_ore", ore.getHoverName());
+		if (name != null) {
+			return new TranslatableComponent("tooltip.elementalcraft.pure_ore", name);
 		}
 		return super.getName(stack);
 	}
@@ -25,7 +25,7 @@ public class PureOreItem extends ECItem {
 	@Override
 	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
-			ElementalCraft.PURE_ORE_MANAGER.getOres().forEach(o -> items.add(ElementalCraft.PURE_ORE_MANAGER.createPureOre(o)));
+			ElementalCraft.PURE_ORE_MANAGER.getOres().forEach(id -> items.add(ElementalCraft.PURE_ORE_MANAGER.createPureOre(id)));
 		}
 	}
 }

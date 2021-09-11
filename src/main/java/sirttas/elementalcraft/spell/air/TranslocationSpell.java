@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityTeleportEvent.EnderEntity;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import sirttas.elementalcraft.spell.Spell;
 
 public class TranslocationSpell extends Spell {
@@ -29,10 +29,9 @@ public class TranslocationSpell extends Spell {
 		
 		if (world.getChunk(((int) Math.round(newPos.x)) >> 4, ((int) Math.round(newPos.z)) >> 4) == null) {
 			return InteractionResult.FAIL;
+		} else if (MinecraftForge.EVENT_BUS.post(new Event(sender, newPos.x, newPos.y, newPos.z))) {
+			return InteractionResult.SUCCESS;
 		} else if (sender instanceof LivingEntity livingSender) {
-			if (MinecraftForge.EVENT_BUS.post(new EnderEntity(livingSender, newPos.x, newPos.y, newPos.z))) { // TODO
-				return InteractionResult.SUCCESS;
-			}
 			teleport(sender, newPos);
 			livingSender.getCommandSenderWorld().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT,
 					livingSender.getSoundSource(), 1.0F, 1.0F);
@@ -50,5 +49,12 @@ public class TranslocationSpell extends Spell {
 			return Math.max(height, sender.getY());
 		}
 		return height;
+	}
+	
+	public static class Event extends EntityTeleportEvent {
+
+		public Event(Entity entity, double targetX, double targetY, double targetZ) {
+			super(entity, targetX, targetY, targetZ);
+		}
 	}
 }

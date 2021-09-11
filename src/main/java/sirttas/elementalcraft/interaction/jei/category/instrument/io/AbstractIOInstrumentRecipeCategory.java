@@ -2,8 +2,6 @@ package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -31,7 +29,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 	}
 
 	protected List<ItemStack> getTanks() {
-		return ImmutableList.of(tank);
+		return List.of(tank);
 	}
 	
 	@Override

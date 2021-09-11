@@ -6,7 +6,7 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.firefurnace.AbstractFireFurnaceBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>> {
@@ -46,11 +46,9 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	public RecipeType<?> getType() {
 		return recipe.getType();
 	}
-
-	@Override
-	public void process(AbstractFireFurnaceBlockEntity<T> instrument) {
-		IIOInstrumentRecipe.super.process(instrument);
-		instrument.addExperience(recipe.getExperience());
+	
+	public float getExperience() {
+		return recipe.getExperience();
 	}
 
 	@Override

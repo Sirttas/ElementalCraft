@@ -4,13 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.inventory.SingleItemInventory;
-import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, IInfusionRecipe> implements IInfuser {
@@ -33,14 +31,6 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 	@Override
 	protected boolean shouldRetriverExtractOutput() {
 		return this.recipe == null;
-	}
-
-	@Override
-	public void process() {
-		super.process();
-		if (this.level.isClientSide) {
-			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition), level.random);
-		}
 	}
 
 	@Override

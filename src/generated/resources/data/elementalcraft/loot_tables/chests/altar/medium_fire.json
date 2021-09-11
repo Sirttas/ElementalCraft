@@ -104,7 +104,7 @@
               "add": false
             }
           ],
-          "name": "elementalcraft:inertcrystal"
+          "name": "elementalcraft:inert_crystal"
         },
         {
           "type": "minecraft:item",

@@ -19,7 +19,7 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 		if (ingredient != null) {
 			int amount = ingredient.getAmount();
 
-			GuiHelper.renderElementGauge(matrixStack, x, y, amount == -1 ? 4 : amount, 4, ingredient.getType(), false);
+			GuiHelper.renderElementGauge(matrixStack, x, y, amount == -1 ? 4 : amount, 4, ingredient.getElementType(), false);
 		}
 
 	}

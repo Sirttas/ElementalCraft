@@ -20,9 +20,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.inventory.IInventoryTile;
+import sirttas.elementalcraft.inventory.IInventoryBlockEntity;
 
-public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements Clearable, IInventoryTile, ContainerListener {
+public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements Clearable, IInventoryBlockEntity, ContainerListener {
 
 	private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(this::createHandler);
 

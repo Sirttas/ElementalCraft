@@ -4,15 +4,15 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.Registry;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
@@ -21,7 +21,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 
-public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlockEntity> {
+public class PureInfusionRecipe implements IInventoryBlockEntityRecipe<PureInfuserBlockEntity> {
 
 	public static final String NAME = "pureinfusion";
 	public static final RecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<PureInfusionRecipe>() {
@@ -82,12 +82,6 @@ public class PureInfusionRecipe implements IInventoryTileRecipe<PureInfuserBlock
 	@Override
 	public ItemStack assemble(PureInfuserBlockEntity inv) {
 		return this.getResultItem().copy();
-	}
-
-	@Override
-	public void process(PureInfuserBlockEntity instrument) {
-		instrument.getInventory().setItem(0, this.assemble(instrument));
-		instrument.emptyPedestals();
 	}
 
 	@Override

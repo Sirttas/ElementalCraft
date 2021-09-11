@@ -14,17 +14,20 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 
 	@Override
 	public IngredientElementType getMatch(Iterable<IngredientElementType> ingredients, IngredientElementType ingredientToMatch, UidContext context) {
-		return StreamSupport.stream(ingredients.spliterator(), false).filter(type -> type.getType() == ingredientToMatch.getType()).findAny().orElse(null);
+		return StreamSupport.stream(ingredients.spliterator(), false)
+				.filter(type -> type.getElementType() == ingredientToMatch.getElementType())
+				.findAny()
+				.orElse(null);
 	}
 
 	@Override
 	public String getDisplayName(IngredientElementType ingredient) {
-		return I18n.get(ingredient.getType().getTranslationKey());
+		return I18n.get(ingredient.getElementType().getTranslationKey());
 	}
 
 	@Override
 	public String getUniqueId(IngredientElementType ingredient, UidContext context) {
-		return ingredient.getType().getSerializedName();
+		return ingredient.getElementType().getSerializedName();
 	}
 
 	@Override
@@ -34,7 +37,7 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 
 	@Override
 	public String getResourceId(IngredientElementType ingredient) {
-		return ElementalCraft.createRL(ingredient.getType().getSerializedName()).toString();
+		return ElementalCraft.createRL(ingredient.getElementType().getSerializedName()).toString();
 	}
 
 	@Override
@@ -44,12 +47,12 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 
 	@Override
 	public boolean isValidIngredient(IngredientElementType ingredient) {
-		return ingredient.getType() != ElementType.NONE;
+		return ingredient.getElementType() != ElementType.NONE;
 	}
 
 	@Override
 	public String getErrorInfo(IngredientElementType ingredient) {
-		return ingredient != null && ingredient.getType() == ElementType.NONE ? "Element shouldn't be none" : "";
+		return ingredient != null && ingredient.getElementType() == ElementType.NONE ? "Element shouldn't be none" : "";
 	}
 
 	@Override

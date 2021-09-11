@@ -144,6 +144,12 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		}
 	}
 
+	@Override
+	public void assemble() {
+		inventory.setItem(0, recipe.assemble(this));
+		emptyPedestals();
+	}
+	
 	private float getTransferSpeed(PedestalBlockEntity pedestal) {
 		return this.transferSpeed * (runeHandler.getBonus(BonusType.SPEED) + pedestal.getRuneHandler().getBonus(BonusType.SPEED) + 1);
 	}

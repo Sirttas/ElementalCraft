@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
-import sirttas.elementalcraft.block.instrument.purifier.PurifierBlock;
+import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlock;
 
 @OnlyIn(Dist.CLIENT)
 public class InscriberRenderer implements IECRenderer<InscriberBlockEntity> {

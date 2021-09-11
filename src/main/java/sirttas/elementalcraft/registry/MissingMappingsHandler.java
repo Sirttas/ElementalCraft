@@ -16,6 +16,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.CrystalOreBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
@@ -27,6 +28,8 @@ public class MissingMappingsHandler {
 			"tank", ElementContainerBlock.NAME,
 			"tank_small", SmallElementContainerBlock.NAME,
 			"tank_creative", CreativeElementContainerBlock.NAME,
+			"inertcrystal", "inert_crystal",
+			"crystalore", CrystalOreBlock.NAME,
 			"containedcrystal", "contained_crystal");
 	
 	@SubscribeEvent

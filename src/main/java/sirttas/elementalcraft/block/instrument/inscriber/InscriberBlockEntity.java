@@ -10,7 +10,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<InscriberBlockEntity, InscriptionRecipe> {
@@ -23,6 +22,7 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 		super(TYPE, pos, state, InscriptionRecipe.TYPE, ECConfig.COMMON.inscriberTransferSpeed.get(), ECConfig.COMMON.inscriberMaxRunes.get());
 		inventory = new InscriberInventory(this::setChanged);
 		lockable = true;
+		particleOffset = new Vec3(0, 0.2, 0);
 	}
 
 	public int getItemCount() {
@@ -30,13 +30,11 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 	}
 
 	@Override
-	public void process() {
-		super.process();
-		if (this.level.isClientSide) {
-			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(0, 0.2, 0), level.random);
-		}
+	protected void assemble() {
+		clearContent();
+		super.assemble();
 	}
-
+	
 	@Override
 	public Container getInventory() {
 		return inventory;
@@ -47,8 +45,7 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 		return false;
 	}
 
-	@Override
-	public boolean makeProgress() {
-		return super.makeProgress();
+	public boolean useChisle() {
+		return makeProgress();
 	}
 }

@@ -1,17 +1,19 @@
 package sirttas.elementalcraft.block.instrument.crystallizer;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.rune.Rune.BonusType;
+import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentInventory;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 
 public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<CrystallizerBlockEntity, CrystallizationRecipe> {
@@ -24,25 +26,29 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 		super(TYPE, pos, state, CrystallizationRecipe.TYPE, ECConfig.COMMON.crystallizerTransferSpeed.get(), ECConfig.COMMON.crystallizerMaxRunes.get());
 		inventory = new CrystallizerInventory(this::setChanged);
 		lockable = true;
+		particleOffset = new Vec3(0, 0.2, 0);
 	}
 
 	public int getItemCount() {
 		return inventory.getItemCount();
 	}
-
+	
 	@Override
-	public void process() {
-		super.process();
-		if (this.level.isClientSide) {
-			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(0, 0.2, 0), level.random);
+	public void assemble() {
+		int luck = (int) Math.round(getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
+		
+		for (int i = 2; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
+			
+			if (EvaporatorBlock.getShardElementType(stack) == recipe.getElementType()) {
+				luck += ((ShardItem) stack.getItem()).getElementAmount();
+			}
 		}
-	}
-
-	@Override
-	protected void onProgress() {
-		if (level.isClientSide) {
-			ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(0, 0.2D, 0), Direction.UP, 1, level.random);
-		}
+		
+		ItemStack gem = inventory.getItem(0);
+		
+		clearContent();
+		inventory.setItem(0, recipe.assemble(gem, this, luck));
 	}
 
 	@Override

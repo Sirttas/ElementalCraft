@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mezz.jei.api.ingredients.IIngredientType;
-import net.minecraft.util.Mth;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 
-public class IngredientElementType {
+public class IngredientElementType implements IElementTypeProvider {
 
 	public static final IIngredientType<IngredientElementType> TYPE = () -> IngredientElementType.class;
 	
-	private final ElementType type;
+	private final ElementType elementType;
 	private int amount;
 
 	public IngredientElementType(ElementType type) {
@@ -20,12 +21,13 @@ public class IngredientElementType {
 	}
 
 	public IngredientElementType(ElementType type, int amount) {
-		this.type = type;
+		this.elementType = type;
 		this.setAmount(amount);
 	}
 
-	public ElementType getType() {
-		return type;
+	@Override
+	public ElementType getElementType() {
+		return elementType;
 	}
 
 	public int getAmount() {
@@ -37,11 +39,11 @@ public class IngredientElementType {
 	}
 
 	public Component getDisplayName() {
-		return type.getDisplayName();
+		return elementType.getDisplayName();
 	}
 
 	public IngredientElementType copy() {
-		return new IngredientElementType(type, amount);
+		return new IngredientElementType(elementType, amount);
 	}
 
 	public static List<IngredientElementType> all() {

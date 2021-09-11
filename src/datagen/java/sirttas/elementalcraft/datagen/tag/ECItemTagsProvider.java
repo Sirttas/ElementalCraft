@@ -153,7 +153,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 		
-		tag(ECTags.Items.PURE_ORES).addTag(Tags.Items.ORES);
+		tag(ECTags.Items.PURE_ORES_ORE_SOURCE).addTag(Tags.Items.ORES);
+		tag(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE); // TODO use forge tag
 		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST).addTags(Tags.Items.ORES_DIAMOND, Tags.Items.ORES_EMERALD);
 		
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);

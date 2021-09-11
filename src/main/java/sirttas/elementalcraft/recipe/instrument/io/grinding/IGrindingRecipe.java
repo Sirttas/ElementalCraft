@@ -7,7 +7,7 @@ import net.minecraft.core.Registry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
-import sirttas.elementalcraft.block.instrument.mill.AirMillBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 

@@ -73,12 +73,6 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 	}
 
 	@Override
-	public void process(InscriberBlockEntity instrument) {
-		instrument.clearContent();
-		super.process(instrument);
-	}
-
-	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}

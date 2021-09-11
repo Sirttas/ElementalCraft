@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:inertcrystal_block"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:inert_crystal",
+    "count": 9
+  }
+}

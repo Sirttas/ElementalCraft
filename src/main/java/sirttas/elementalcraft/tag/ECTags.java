@@ -77,7 +77,8 @@ public class ECTags {
 		
 		public static final Named<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
 		
-		public static final Named<Item> PURE_ORES = createTag("pure_ores");
+		public static final Named<Item> PURE_ORES_ORE_SOURCE = createTag("pure_ores/ore_source");
+		public static final Named<Item> PURE_ORES_RAW_METAL_SOURCE = createTag("pure_ores/raw_metas_source");
 		public static final Named<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final Named<Item> IMPROVED_RECEPTACLES = createTag("improved_receptacles");

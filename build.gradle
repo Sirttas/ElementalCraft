@@ -70,6 +70,8 @@ ext.updateSourceSetMapping = { sourceSet ->
 }
 
 configurations {
+    library
+    implementation.extendsFrom library
 	apiCompile.extendsFrom(compile)
     apiImplementation.extendsFrom(implementation)
     apiCompileOnly.extendsFrom(compileOnly)
@@ -77,7 +79,11 @@ configurations {
     datagenImplementation.extendsFrom(implementation)
     datagenCompileOnly.extendsFrom(compileOnly)
 }
-
+minecraft.runs.all {
+    lazyToken('minecraft_classpath') {
+        configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+    }
+}
 minecraft {
     mappings channel: "${mappings_channel}", version: "${mappings_version}"
     
@@ -151,9 +157,8 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     
-    implementation("org.spongepowered:mixin:${mixins_version}") {
-        changing = true
-    }
+    library 'com.google.guava:guava:21.0'
+    library "org.spongepowered:mixin:${mixins_version}"
   	annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies

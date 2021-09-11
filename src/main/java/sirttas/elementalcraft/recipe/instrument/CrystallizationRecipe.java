@@ -14,7 +14,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -27,11 +26,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.Rune.BonusType;
-import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 public class CrystallizationRecipe extends AbstractInstrumentRecipe<CrystallizerBlockEntity> {
@@ -99,31 +94,12 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	}
 
 	@Override
-	public void process(CrystallizerBlockEntity instrument) {
-		int luck = (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
-		Container inv = instrument.getInventory();
-		
-		for (int i = 2; i < inv.getContainerSize(); i++) {
-			ItemStack stack = inv.getItem(i);
-			
-			if (EvaporatorBlock.getShardElementType(stack) == this.elementType) {
-				luck += ((ShardItem) stack.getItem()).getElementAmount();
-			}
-		}
-		
-		ItemStack gem = instrument.getInventory().getItem(0);
-		
-		instrument.clearContent();
-		instrument.getInventory().setItem(0, this.getCraftingResult(gem, instrument, luck));
-	}
-
-	@Override
 	public ItemStack assemble(CrystallizerBlockEntity instrument) {
-		return getCraftingResult(instrument.getInventory().getItem(0), instrument, 0);
+		return assemble(instrument.getInventory().getItem(0), instrument, 0);
 	}
 
 	@SuppressWarnings("resource")
-	private ItemStack getCraftingResult(ItemStack gem, CrystallizerBlockEntity instrument, float luck) {
+	public ItemStack assemble(ItemStack gem, CrystallizerBlockEntity instrument, float luck) {
 		int index = IntStream.range(0, outputs.size()).filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem)).findFirst().orElse(-1);
 		int weight = getTotalWeight(outputs.subList(index + 1, outputs.size()), luck);
 		

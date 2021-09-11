@@ -2,25 +2,27 @@ package sirttas.elementalcraft.item.pureore;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.crafting.CompoundIngredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.dpanvil.api.event.DataPackReloadCompletEvent;
@@ -28,43 +30,66 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.ECItem;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 public class PureOreManager {
 
-	private final Map<Item, Entry> pureOres = new HashMap<>();
+	private static final Pattern ORE_PATTERN = Pattern.compile("_?ore$");
 	
-	public ItemStack getOre(ItemStack stack) {
-		return NBTHelper.readItemStack(NBTHelper.getECTag(stack), ECNames.ORE);
-	}
+	private final Map<ResourceLocation, Entry> pureOres = new HashMap<>();
 
 	public boolean isValidOre(ItemStack ore) {
-		return pureOres.containsKey(ore.getItem());
+		return pureOres.values().stream().anyMatch(e -> e.getIngredient().test(ore));
 	}
-
-	public ItemStack createPureOre(Item item) {
-		ItemStack stack = new ItemStack(ECItems.PURE_ORE);
-
-		NBTHelper.writeItemStack(NBTHelper.getOrCreateECTag(stack), ECNames.ORE, new ItemStack(pureOres.containsKey(item) ? pureOres.get(item).ore : item));
-		return stack;
+	
+	public ItemStack createPureOreFor(ItemStack ore) {
+		return pureOres.values().stream()
+				.filter(e -> e.getIngredient().test(ore))
+				.map(e -> this.createPureOre(e.id))
+				.findAny()
+				.orElse(ItemStack.EMPTY);
+	}
+	
+	private ResourceLocation getPureOreId(ItemStack stack) {
+		return new ResourceLocation(NBTHelper.getECTag(stack).getString(ECNames.ORE));
+	}
+	
+	Component getPureOreName(ItemStack stack) {
+		var entry = pureOres.get(getPureOreId(stack));
+		
+		return entry != null ? entry.translationKey : null;
+	}
+	
+	ItemStack createPureOre(ResourceLocation id) {
+		if (this.pureOres.containsKey(id)) {
+			ItemStack stack = new ItemStack(ECItems.PURE_ORE);
+	
+			NBTHelper.getOrCreateECTag(stack).putString(ECNames.ORE, id.toString());
+			return stack;
+		}
+		return ItemStack.EMPTY;
 	}
 
 	public int getColor(ItemStack stack) {
-		return Optional.of(stack).map(this::getOre).map(i -> pureOres.get(i.getItem())).map(o -> o.color).orElse(-1);
+		var entry = pureOres.get(getPureOreId(stack));
+		
+		return entry != null ? entry.color : -1;
 	}
 
-	public List<Item> getOres() {
-		return pureOres.values().stream().distinct().map(o -> o.ore).distinct().collect(Collectors.toList());
+	public List<ResourceLocation> getOres() {
+		return pureOres.keySet().stream().collect(Collectors.toList());
 	}
 
 	public List<PurifierRecipe> getRecipes() {
-		return pureOres.entrySet().stream().collect(Collectors.groupingBy(e -> e.getValue().ore, Collectors.mapping(e -> new ItemStack(e.getKey()), Collectors.toList()))).values()
-				.stream().filter(e -> !e.isEmpty()).map(JEIPurifierRecipe::new).collect(Collectors.toList());
+		return pureOres.values().stream()
+				.map(e -> e.ores.stream().map(ItemStack::new).collect(Collectors.toList()))
+				.filter(e -> !e.isEmpty())
+				.map(JEIPurifierRecipe::new)
+				.collect(Collectors.toList());
 	}
 
 	private Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> getInjectors() {
@@ -76,11 +101,11 @@ public class PureOreManager {
 
 		ElementalCraftApi.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
 				() -> injectors.stream().map(AbstractPureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
-				() -> ECTags.Items.PURE_ORES.getValues().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
+				() -> ECTags.Items.PURE_ORES_ORE_SOURCE.getValues().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 
-		for (Item ore : ECTags.Items.PURE_ORES.getValues()) {
-			Entry entry = new Entry(ore);
+		for (Item ore : ECTags.Items.PURE_ORES_ORE_SOURCE.getValues()) {
+			Entry entry = findOrCreateEntry(ore);
 			boolean isInBlacklist = ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST.contains(ore);
 
 			injectors.forEach(injector -> {
@@ -88,7 +113,6 @@ public class PureOreManager {
 					injector.getRecipe(ore).ifPresent(entry::addRecipe);
 				}
 			});
-			addEntry(entry);
 		}
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
@@ -118,49 +142,65 @@ public class PureOreManager {
 		try {
 			T recipe = entry.getRecipe(recipeType);
 
-			return recipe != null ? injector.build(recipe, entry.getIngredient()) : null;
+			return recipe != null ? injector.build(recipe, new PureOreIngredient(createPureOre(entry.id))) : null;
 		} catch (Exception e) {
 			ElementalCraftApi.LOGGER.error("Error in pure ore recipe injection", e);
 			return null;
 		}
 	}
 
-	private void addEntry(Entry entry) {
-		if (entry.isValid()) {
-			for (Entry other : pureOres.values()) {
-				if (entry.match(other)) {
-					pureOres.put(entry.ore, other);
-					entry.recipes.forEach((type, recipe) -> {
-						if (!other.recipes.containsKey(type)) {
-							other.addRecipe(recipe);
-						}
-					});
-					other.ingredients.add(new PureOreIngredient(createPureOre(entry.ore)));
-					return;
+	private Entry findOrCreateEntry(Item ore) {
+		var id = ore.getRegistryName();
+		var matcher = ORE_PATTERN.matcher(id.getPath());
+		Tag<Item> tag = null;
+		
+		if (matcher.matches()) {
+			var path = matcher.replaceAll("");
+			var namespace = id.getNamespace();
+			var tagName = new ResourceLocation("forge", "ores/" + path);
+			
+			try {
+				tag = ECTags.Items.getTag(tagName);
+				if (tag != null) {
+					namespace = "forge";
 				}
+			} catch (Exception e) {
+				ElementalCraftApi.LOGGER.trace("Tag Not found {}: {}", tagName, e.getMessage());
 			}
-			pureOres.put(entry.ore, entry);
+			id = new ResourceLocation(namespace, path);
 		}
+		
+		var entry = pureOres.computeIfAbsent(id, Entry::new);
+
+		if (entry.translationKey == null) {
+			entry.translationKey = ore.getDescription();
+		}
+		entry.ores.add(ore);
+		if (tag != null) {
+			entry.ores.addAll(tag.getValues());
+		}
+		return entry;
 	}
 
 	public void reload(DataPackReloadCompletEvent event) {
 		this.generatePureOres(event.getRecipeManager());
 	}
-
+	
 	protected class Entry {
-
-		Item ore;
-		List<Ingredient> ingredients;
-		ItemStack result;
+		
+		final Set<Item> ores;
+		final Map<RecipeType<?>, Recipe<?>> recipes;
+		final ResourceLocation id;
+		
 		int color;
-		Map<RecipeType<?>, Recipe<?>> recipes = new HashMap<>();
+		Component translationKey;
 
-		public Entry(Item ore) {
-			this.ore = ore;
-			ingredients = Lists.newArrayList(new PureOreIngredient(createPureOre(ore)));
-			result = ItemStack.EMPTY;
+		public Entry(ResourceLocation id) {
+			this.ores = new HashSet<>();
+			recipes = new HashMap<>();
+			this.id = id;
+			this.color = -1;
 		}
-
 
 		@SuppressWarnings("unchecked")
 		public <C extends Container, T extends Recipe<C>> T getRecipe(RecipeType<T> recipeType) {
@@ -172,33 +212,23 @@ public class PureOreManager {
 			RecipeType<?> recipeType = recipe.getType();
 
 			recipes.put(recipe.getType(), recipe);
-			if (result.isEmpty()) {
-				result = getInjectors().stream().filter(injector -> injector.getRecipeType().equals(recipeType)).findAny()
-						.map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe)).filter(stack -> !stack.isEmpty()).orElse(recipe.getResultItem());
+			if (color == -1) {
+				var result = getInjectors().stream()
+						.filter(injector -> injector.getRecipeType().equals(recipeType))
+						.map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe))
+						.filter(stack -> !stack.isEmpty())
+						.findAny()
+						.orElse(recipe.getResultItem());
 				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ECItem.lookupColor(result));
 			}
 		}
 
-		public Ingredient getIngredient() {
-			return new PureOreCompoundIngredient(ingredients);
-		}
-
-		public boolean match(Entry other) {
-			if (other.isValid() && isValid()) {
-				if (!other.result.isEmpty() && !result.isEmpty() && ECInventoryHelper.stackEqualCount(other.result, result)) {
-					return true;
-				}
-				for (Recipe<?> recipe : other.recipes.values()) {
-					if (recipes.containsValue(recipe)) {
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
 		public boolean isValid() {
 			return !recipes.isEmpty();
+		}
+		
+		public Ingredient getIngredient() {
+			return Ingredient.of(ores.stream().map(ItemStack::new));
 		}
 	}
 
@@ -207,14 +237,6 @@ public class PureOreManager {
 		public PureOreIngredient(ItemStack stack) {
 			super(stack);
 		}
-	}
-
-	private static class PureOreCompoundIngredient extends CompoundIngredient {
-
-		protected PureOreCompoundIngredient(List<Ingredient> children) {
-			super(children);
-		}
-
 	}
 
 	private static class JEIPurifierRecipe extends PurifierRecipe {

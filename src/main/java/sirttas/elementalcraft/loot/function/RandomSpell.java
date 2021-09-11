@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -61,7 +60,7 @@ public class RandomSpell extends LootItemConditionalFunction {
 	}
 
 	public static LootItemConditionalFunction.Builder<?> builder() {
-		return builder(ImmutableList.of());
+		return builder(List.of());
 	}
 
 	public static LootItemConditionalFunction.Builder<?> builder(Collection<Spell> spellList) {

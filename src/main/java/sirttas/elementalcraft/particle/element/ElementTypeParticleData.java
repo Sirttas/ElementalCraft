@@ -8,8 +8,9 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 
-public class ElementTypeParticleData implements ParticleOptions {
+public class ElementTypeParticleData implements ParticleOptions, IElementTypeProvider {
 
 	private ElementType elementType;
 	private ParticleType<ElementTypeParticleData> type;
@@ -48,6 +49,7 @@ public class ElementTypeParticleData implements ParticleOptions {
 		return getType().getRegistryName().toString() + " " + getElementType().getSerializedName();
 	}
 
+	@Override
 	public ElementType getElementType() {
 		return this.elementType;
 	}
