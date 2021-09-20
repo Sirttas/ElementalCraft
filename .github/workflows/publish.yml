@@ -30,4 +30,4 @@ jobs:
           MODMAVEN_USER: ${{ secrets.MODMAVEN_USER }}
           MODMAVEN_PASSWORD: ${{ secrets.MODMAVEN_PASSWORD }}
           CURSEFORGE_KEY: ${{ secrets.CURSEFORGE_KEY }}
-        run: ./gradlew publish -P "tag_varsion=${{ steps.get_tag_version.outputs.TAG_VERSION }}" --info --stacktrace
+        run: ./gradlew publish curseforge -Ptag_version=${{ steps.get_tag_version.outputs.TAG_VERSION }} --info --stacktrace

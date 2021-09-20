@@ -29,7 +29,7 @@ version = project.hasProperty('tag_version') ? "${minecraft_version}-${tag_versi
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
-println('Elemental Craft: ' + project.version)
+println('Building Elemental Craft: ' + project.version)
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
