@@ -25,7 +25,7 @@ mixin {
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = "${elementalcraft_version}"
+version = project.hasProperty('tag_version') ? "${minecraft_version}-${tag_version}" : "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 

@@ -22,9 +22,12 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Get the version in tag
+          id: get_tag_version
+          run: echo ::set-output name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
       - name: Publish
         env:
           MODMAVEN_USER: ${{ secrets.MODMAVEN_USER }}
           MODMAVEN_PASSWORD: ${{ secrets.MODMAVEN_PASSWORD }}
           CURSEFORGE_KEY: ${{ secrets.CURSEFORGE_KEY }}
-        run: ./gradlew publish curseforge --info --stacktrace
+        run: ./gradlew publish curseforge --info --stacktrace -P tag_varsion=${{ steps.get_tag_version.outputs.TAG_VERSION }}
