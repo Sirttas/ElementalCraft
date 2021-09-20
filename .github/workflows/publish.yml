@@ -23,8 +23,8 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Get the version in tag
-          id: get_tag_version
-          run: echo ::set-output name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
+        id: get_tag_version
+        run: echo ::set-output name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
       - name: Publish
         env:
           MODMAVEN_USER: ${{ secrets.MODMAVEN_USER }}
