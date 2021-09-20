@@ -190,7 +190,7 @@ public class SpellHelper {
 		List<Spell> list = spells.stream().filter(Spell::isValid).collect(Collectors.toList());
 		int roll = rand.nextInt(list.stream().mapToInt(Spell::getWeight).sum());
 		
-		for (Spell spell : spells) {
+		for (Spell spell : list) {
 			roll -= spell.getWeight();
 			if (roll < 0) {
 				return spell;

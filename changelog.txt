@@ -1,3 +1,9 @@
+- new rune: creative rune
+- added recipe for inert crystal from ex nihilo sieve
+- chisel can now remove runes
+- fix a bug with spell loot
+
+
 1.16.5-2.7.10:
 
 - instruments don't lookup recipes if they are empty
