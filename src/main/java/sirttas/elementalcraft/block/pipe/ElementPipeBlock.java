@@ -63,7 +63,7 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	private static final VoxelShape FRAME_SHAPE = VoxelShapes.join(VoxelShapes.block(),
 			VoxelShapes.or(Block.box(0D, 1D, 1D, 16D, 15D, 15D), Block.box(1D, 0D, 1D, 15D, 16D, 15D), Block.box(1D, 1D, 0D, 15D, 15D, 16D)),
 			IBooleanFunction.ONLY_FIRST);
-	
+
 	private static final List<VoxelShape> SHAPES = ImmutableList.of(EAST_SHAPE, NORTH_SHAPE, WEST_SHAPE, SOUTH_SHAPE, UP_SHAPE, DOWN_SHAPE, BASE_SHAPE, FRAME_SHAPE);
 
 	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
@@ -121,10 +121,9 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 		}
 		return null;
 	}
-	
+
 	public static boolean showCover(BlockState state, PlayerEntity player) {
-		return isCovered(state)
-				&& (player == null || !player.getMainHandItem().isEmpty() && EntityHelper.handStream(player).noneMatch(stack -> ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
+		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
 	}
 
 	private static boolean isCovered(BlockState state) {
@@ -132,11 +131,11 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	}
 
 	private boolean isRendered(VoxelShape shape, ElementPipeBlockEntity entity, BlockState state) {
-		return state.is(this) && entity != null && (compareShapes(shape, BASE_SHAPE) 
+		return state.is(this) && entity != null && (compareShapes(shape, BASE_SHAPE)
 				|| (compareShapes(shape, DOWN_SHAPE) && entity.getConection(Direction.DOWN).isConnected())
-				|| (compareShapes(shape, UP_SHAPE) && entity.getConection(Direction.UP).isConnected()) 
+				|| (compareShapes(shape, UP_SHAPE) && entity.getConection(Direction.UP).isConnected())
 				|| (compareShapes(shape, NORTH_SHAPE) && entity.getConection(Direction.NORTH).isConnected())
-				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConection(Direction.SOUTH).isConnected()) 
+				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConection(Direction.SOUTH).isConnected())
 				|| (compareShapes(shape, WEST_SHAPE) && entity.getConection(Direction.WEST).isConnected())
 				|| (compareShapes(shape, EAST_SHAPE) && entity.getConection(Direction.EAST).isConnected())
 				|| (compareShapes(shape, FRAME_SHAPE) && state.getValue(COVER) == CoverType.FRAME));
@@ -164,7 +163,7 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 		}
 		return super.getRenderShape(state);
 	}
-	
+
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
@@ -177,7 +176,7 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 
 	private PlayerEntity getPlayer(ISelectionContext context) {
 		Entity entity = context.getEntity();
-		
+
 		return entity instanceof PlayerEntity ? (PlayerEntity) entity : ElementalCraft.PROXY.getDefaultPlayer();
 	}
 
@@ -207,13 +206,13 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 
 		if (pipe != null) {
 			final VoxelShape shape = getShape(state, pos, getBlockEntity(world, pos), hit, player);
-			
+
 			if (compareShapes(shape, FRAME_SHAPE) || state.getValue(COVER) == CoverType.FRAME) {
 				return pipe.setCover(player, hand);
 			} else {
 				Direction face = getFace(shape, hit);
 				ActionResultType value = onShapeActivated(face, pipe, player, hand);
-	
+
 				if (value != ActionResultType.PASS) {
 					player.displayClientMessage(pipe.getConnectionMessage(face), true);
 				}
@@ -226,7 +225,7 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	private ActionResultType onShapeActivated(Direction face, ElementPipeBlockEntity pipe, PlayerEntity player, Hand hand) {
 		if (face != null) {
 			ItemStack stack = player.getItemInHand(hand);
-			
+
 			if (!stack.isEmpty() && stack.getItem() == ECItems.PIPE_PRIORITY) {
 				return pipe.activatePriority(face, player, hand);
 			}
@@ -234,13 +233,13 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 		}
 		return ActionResultType.PASS;
 	}
-	
+
 	@Override
 	@Deprecated
 	public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			ElementPipeBlockEntity te = (ElementPipeBlockEntity) worldIn.getBlockEntity(pos);
-			
+
 			if (isCovered(state)) {
 				InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack((te).getCoverState().getBlock()));
 			}
@@ -248,11 +247,11 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 			super.onRemove(state, worldIn, pos, newState, isMoving);
 		}
 	}
-	
+
 	private static ElementPipeBlockEntity getBlockEntity(IBlockReader world, BlockPos pos) {
 		return BlockEntityHelper.getTileEntityAs(world, pos, ElementPipeBlockEntity.class).orElse(null);
 	}
-	
+
 	public enum CoverType implements IStringSerializable {
 		NONE("none"), FRAME("frame"), COVERED("covered");
 

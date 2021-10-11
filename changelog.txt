@@ -1,3 +1,12 @@
+1.16.5-2.7.12:
+
+- made mystical growth shrine upgrade conditional on botania
+- pipe cover frames no longer hide while player has an empty hand (issue #58)
+- make sieve recipe conditional on Ex Nihilo being loaded (PR #60)
+- fix silent gear materials not having categories (issue #57)
+- fix and add more russian translation (PR #59)
+
+
 1.16.5-2.7.11:
 
 - new rune: creative rune

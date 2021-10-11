@@ -27,6 +27,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
@@ -222,9 +224,10 @@ public class ECRecipeProvider extends RecipeProvider {
 				.define('c', ECItems.PURE_CRYSTAL).pattern("ehe").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.NECTOR_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('h', Items.HONEY_BLOCK).define('s', Items.SUGAR).define('w', ECBlocks.WHITE_ROCK)
 				.define('c', ECItems.WATER_CRYSTAL).pattern("shs").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
-		ShapedRecipeBuilder.shaped(ECItems.MYSTICAL_GROVE_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('p', ECTags.Items.BOTANIA_PETALS).define('m', ECTags.Items.INGOTS_MANASTEEL)
-				.define('w', ECTags.Items.BOTANIA_LIVINGROCK).define('c', ECItems.WATER_CRYSTAL).pattern("pmp").pattern("wCw").pattern(" c ")
-				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
+		ConditionalRecipe.builder().addCondition(new ModLoadedCondition("botania")).addRecipe(ShapedRecipeBuilder.shaped(ECItems.MYSTICAL_GROVE_SHRINE_UPGRADE)
+						.define('C', ECItems.SHRINE_UPGRADE_CORE).define('p', ECTags.Items.BOTANIA_PETALS).define('m', ECTags.Items.INGOTS_MANASTEEL).define('w', ECTags.Items.BOTANIA_LIVINGROCK)
+						.define('c', ECItems.WATER_CRYSTAL).pattern("pmp").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))::save)
+		        .build(consumer, ECItems.MYSTICAL_GROVE_SHRINE_UPGRADE.getRegistryName());
 		ShapedRecipeBuilder.shaped(ECItems.STEM_POLLINATION_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('p', Items.PUMPKIN).define('b', Items.BONE_MEAL).define('w', ECBlocks.WHITE_ROCK)
 				.define('c', ECItems.EARTH_CRYSTAL).pattern("bpb").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.PROTECTION_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('s', Items.SHIELD).define('i', Tags.Items.INGOTS_IRON)
@@ -320,7 +323,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withElementAmount(1000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.AIR_LENSE, ElementType.AIR).addIngredient(Tags.Items.GEMS_QUARTZ).addIngredient(ECBlocks.BURNT_GLASS_PANE).addIngredient(ECItems.AIR_CRYSTAL)
 				.withElementAmount(1000).build(consumer);
-		
+
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIRE_RESERVOIR, ElementType.FIRE).addIngredient(ECBlocks.TANK).addIngredient(ECItems.PURE_CRYSTAL).addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS)
 				.withElementAmount(10000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.WATER_RESERVOIR, ElementType.WATER).addIngredient(ECBlocks.TANK).addIngredient(ECItems.PURE_CRYSTAL).addIngredient(ECTags.Items.PRISTINE_WATER_GEMS)
@@ -378,11 +381,11 @@ public class ECRecipeProvider extends RecipeProvider {
 		CookingRecipeBuilder.smelting(Ingredient.of(ECBlocks.CRYSTAL_ORE), ECItems.INERT_CRYSTAL, 0.5F, 200).unlockedBy("has_crystal_ore", has(ECBlocks.CRYSTAL_ORE)).save(consumer);
 		CookingRecipeBuilder.blasting(Ingredient.of(ECBlocks.CRYSTAL_ORE), ECItems.INERT_CRYSTAL, 0.5F, 100).unlockedBy("has_crystal_ore", has(ECBlocks.CRYSTAL_ORE)).save(consumer,
 				ElementalCraft.createRL("inertcrystal_from_blasting"));
-		
+
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.COBBLESTONE).withIngredient(Tags.Items.STONE).build(consumer);
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.GRAVEL).withIngredient(Tags.Items.COBBLESTONE).build(consumer);
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.SAND).withIngredient(Tags.Items.GRAVEL).build(consumer);
-		
+
 		ShapelessRecipeBuilder.shapeless(ECBlocks.TANK_SMALL).requires(ECBlocks.TANK_SMALL).unlockedBy("has_tank_small", has(ECBlocks.TANK_SMALL)).save(consumer,
 				"tank_small_emptying");
 		ShapelessRecipeBuilder.shapeless(ECBlocks.TANK).requires(ECBlocks.TANK).unlockedBy("has_tank", has(ECBlocks.TANK)).save(consumer, "tank_emptying");
@@ -396,7 +399,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				"air_reservoir_emptying");
 		ShapelessRecipeBuilder.shapeless(ECBlocks.TANK_CREATIVE).requires(ECBlocks.TANK_CREATIVE).unlockedBy("has_tank_creative", has(ECBlocks.TANK_CREATIVE)).save(consumer,
 				"tank_creative_emptying");
-		
+
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(GavelFallSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(StoneWallSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(FireBallSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
@@ -413,7 +416,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(TranslocationSpell.NAME)).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL("heal")).setGem(ECTags.Items.PRISTINE_WATER_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL("speed")).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
-		
+
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.MOB_LOOTING).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.FIRE_ASPECT).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.SHARPNESS).build(consumer);
@@ -467,7 +470,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FIRE_PROTECTION).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.ALL_DAMAGE_PROTECTION).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FALL_PROTECTION).build(consumer);
-		
+
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraft.createRL("fire_reduction")).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraft.createRL("water_reduction")).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraft.createRL("earth_reduction")).build(consumer);
@@ -564,7 +567,7 @@ public class ECRecipeProvider extends RecipeProvider {
 			}
 		});
 	}
-	
+
 	private String from(IItemProvider from, IItemProvider to) {
 		return to.asItem().getRegistryName().getPath() + "_from_" + from.asItem().getRegistryName().getPath();
 	}
