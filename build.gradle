@@ -19,7 +19,7 @@ plugins {
 	id 'maven-publish'
 	id "org.sonarqube" version "3.2.0"
 	id "com.matthewprenger.cursegradle" version '1.4.0'
-	id "com.diffplug.eclipse.apt" version "3.32.1"
+	// id "com.diffplug.eclipse.apt" version "3.32.1"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
