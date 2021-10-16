@@ -54,7 +54,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 	private void handlePlanting(BlockPos pos, ItemLike provider, List<ItemStack> loots) {
 		Item item = provider.asItem();
 
-		if (this.hasUpgrade(ShrineUpgrades.PLANTING.get())) {
+		if (this.hasUpgrade(ShrineUpgrades.PLANTING)) {
 			loots.stream().filter(stack -> stack.getItem().equals(item)).findFirst().ifPresent(seeds -> {
 				if (item instanceof BlockItem && ((BlockItem) item).place(new DirectionalPlaceContext(this.level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction()) {
 					seeds.shrink(1);

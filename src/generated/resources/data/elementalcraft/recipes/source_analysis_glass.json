@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " sg",
+    " is",
+    "h  "
+  ],
+  "key": {
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "g": {
+      "item": "elementalcraft:springaline_glass"
+    },
+    "s": {
+      "item": "elementalcraft:air_silk"
+    },
+    "h": {
+      "item": "elementalcraft:hardened_handle"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:source_analysis_glass"
+  }
+}

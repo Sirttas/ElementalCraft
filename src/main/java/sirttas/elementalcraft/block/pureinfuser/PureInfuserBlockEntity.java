@@ -31,7 +31,7 @@ import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.SingleItemInventory;
+import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
@@ -39,13 +39,13 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PureInfuserBlock.NAME) public static final BlockEntityType<PureInfuserBlockEntity> TYPE = null;
 
-	private final SingleItemInventory inventory;
+	private final SingleItemContainer inventory;
 	private final Map<Direction, Integer> progress = new EnumMap<>(Direction.class);
 	private final RuneHandler runeHandler;
 
 	public PureInfuserBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PureInfusionRecipe.TYPE, ECConfig.COMMON.pureInfuserTransferSpeed.get());
-		inventory = new SingleItemInventory(this::setChanged);
+		inventory = new SingleItemContainer(this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get());
 		progress.put(Direction.NORTH, 0);
 		progress.put(Direction.SOUTH, 0);

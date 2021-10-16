@@ -66,7 +66,7 @@ public class ExtractorBlock extends AbstractECEntityBlock {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
-		BlockEntityHelper.getTileEntityAs(world, pos, ExtractorBlockEntity.class).filter(ExtractorBlockEntity::canExtract)
+		BlockEntityHelper.getBlockEntityAs(world, pos, ExtractorBlockEntity.class).filter(ExtractorBlockEntity::canExtract)
 				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, Vec3.atCenterOf(pos), Direction.DOWN, 1, rand));
 	}
 }

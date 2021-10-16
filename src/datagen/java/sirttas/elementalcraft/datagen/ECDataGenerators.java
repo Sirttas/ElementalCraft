@@ -11,6 +11,7 @@ import sirttas.elementalcraft.datagen.loot.ECChestLootProvider;
 import sirttas.elementalcraft.datagen.loot.ECInjectLootProvider;
 import sirttas.elementalcraft.datagen.managed.RunesProvider;
 import sirttas.elementalcraft.datagen.managed.ShrineUpgradeProvider;
+import sirttas.elementalcraft.datagen.managed.SourceTraitsProvider;
 import sirttas.elementalcraft.datagen.managed.SpellPropertiesProvider;
 import sirttas.elementalcraft.datagen.managed.ToolInfusionProvider;
 import sirttas.elementalcraft.datagen.recipe.ECRecipeProvider;
@@ -46,6 +47,7 @@ public class ECDataGenerators {
 			generator.addProvider(new ShrineUpgradeProvider(generator));
 			generator.addProvider(new SpellPropertiesProvider(generator));
 			generator.addProvider(new ToolInfusionProvider(generator));
+			generator.addProvider(new SourceTraitsProvider(generator));
 		}
 	}
 

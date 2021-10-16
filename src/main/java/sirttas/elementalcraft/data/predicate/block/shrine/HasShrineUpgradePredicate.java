@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
+import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -17,38 +18,33 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
 	public static final String NAME = "has_shrien_upgrade";
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final BlockPosPredicateType<HasShrineUpgradePredicate> TYPE = null;
 	public static final Codec<HasShrineUpgradePredicate> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			ResourceLocation.CODEC.fieldOf(ECNames.SHRINE_UPGRADE).forGetter(p -> p.upgradeId),
+	        IDataWrapper.codec(ElementalCraft.SHRINE_UPGRADE_MANAGER).fieldOf(ECNames.SHRINE_UPGRADE).forGetter(p -> p.upgrade),
 			Codec.INT.optionalFieldOf(ECNames.COUNT, 1).forGetter(p -> p.count)
 	).apply(builder, HasShrineUpgradePredicate::new));
 
 	private final int count;
-	private final ResourceLocation upgradeId;
-	private ShrineUpgrade upgrade;
+	private IDataWrapper<ShrineUpgrade> upgrade;
 
-	public HasShrineUpgradePredicate(ShrineUpgrade upgrade) {
-		this(upgrade, 1);
-	}
+    public HasShrineUpgradePredicate(ResourceLocation upgradeId) {
+        this(upgradeId, 1);
+    }
 
-	public HasShrineUpgradePredicate(ShrineUpgrade upgrade, int count) {
-		this(upgrade.getId(), count);
-		this.upgrade = upgrade;
-	}
+    public HasShrineUpgradePredicate(ResourceLocation upgradeId, int count) {
+        this(ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(upgradeId), count);
+    }
 
-	public HasShrineUpgradePredicate(ResourceLocation upgradeId) {
-		this(upgradeId, 1);
-	}
+    public HasShrineUpgradePredicate(IDataWrapper<ShrineUpgrade> upgrade) {
+        this(upgrade, 1);
+    }
 
-	public HasShrineUpgradePredicate(ResourceLocation upgradeId, int count) {
-		this.upgradeId = upgradeId;
-		this.count = count;
-	}
+    public HasShrineUpgradePredicate(IDataWrapper<ShrineUpgrade> upgrade, int count) {
+        this.upgrade = upgrade;
+        this.count = count;
+    }
 
 	@Override
 	public boolean test(AbstractShrineBlockEntity shrine) {
-		if (upgrade == null) {
-			upgrade = ElementalCraft.SHRINE_UPGRADE_MANAGER.get(upgradeId);
-		}
-		return shrine.getUpgradeCount(upgrade) >= count;
+		return upgrade.isPresent() && shrine.getUpgradeCount(upgrade.get()) >= count;
 	}
 
 	@Override

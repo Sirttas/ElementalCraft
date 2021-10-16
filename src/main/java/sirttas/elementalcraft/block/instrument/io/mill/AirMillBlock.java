@@ -40,7 +40,7 @@ import sirttas.elementalcraft.block.WaterloggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 
 public class AirMillBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
@@ -83,7 +83,7 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (isLower(state)) {
 			final AirMillBlockEntity airMill = (AirMillBlockEntity) world.getBlockEntity(pos);
-			IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+			IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 			ItemStack heldItem = player.getItemInHand(hand);
 	
 			if (airMill != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {

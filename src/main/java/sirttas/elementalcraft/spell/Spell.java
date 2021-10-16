@@ -27,8 +27,8 @@ import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 
@@ -83,7 +83,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	protected boolean consume(Entity sender, ItemLike item, int count, boolean simulate) {
 		if (sender instanceof Player && !((Player) sender).isCreative()) {
 			Inventory inv = ((Player) sender).getInventory();
-			int slot = ECInventoryHelper.getSlotFor(inv, new ItemStack(item));
+			int slot = ECContainerHelper.getSlotFor(inv, new ItemStack(item));
 
 			if (slot >= 0) {
 				ItemStack stack = inv.getItem(slot);

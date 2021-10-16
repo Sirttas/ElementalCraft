@@ -10,19 +10,19 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.container.IOContainer;
 import sirttas.elementalcraft.interaction.ECinteractions;
-import sirttas.elementalcraft.inventory.IOInventory;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 public class AirMillBlockEntity extends AbstractIOInstrumentBlockEntity<AirMillBlockEntity, IGrindingRecipe> {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + AirMillBlock.NAME) public static final BlockEntityType<AirMillBlockEntity> TYPE = null;
 
-	private final IOInventory inventory;
+	private final IOContainer inventory;
 
 	public AirMillBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, IGrindingRecipe.TYPE, ECConfig.COMMON.airMillTransferSpeed.get(), ECConfig.COMMON.airMillMaxRunes.get());
-		inventory = new IOInventory(this::setChanged);
+		inventory = new IOContainer(this::setChanged);
 	}
 
 	@Override

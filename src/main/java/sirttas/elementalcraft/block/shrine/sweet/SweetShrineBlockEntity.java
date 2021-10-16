@@ -37,7 +37,7 @@ public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 	protected boolean doPeriode() {
 		int consumeAmount = this.getConsumeAmount();
 
-		if (this.hasUpgrade(ShrineUpgrades.NECTAR.get())) {
+		if (this.hasUpgrade(ShrineUpgrades.NECTAR)) {
 			getEntities(Bee.class).forEach(e -> {
 				if (this.elementStorage.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);

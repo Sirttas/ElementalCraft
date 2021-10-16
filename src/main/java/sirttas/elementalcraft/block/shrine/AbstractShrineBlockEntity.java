@@ -20,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
@@ -132,6 +133,10 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		return getUpgradeCount(upgrade) > 0;
 	}
 
+    public boolean hasUpgrade(IDataWrapper<ShrineUpgrade> upgrade) {
+        return upgrade.isPresent() && hasUpgrade(upgrade.get());
+    }
+	
 	private void setUpgrade(Direction direction, ShrineUpgrade upgrade) {
 		ShrineUpgrade old = upgrades.get(direction);
 
@@ -140,7 +145,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		}
 		upgrades.put(direction, upgrade);
 		upgrade.getBonuses().forEach((type, bonus) -> upgradeMultipliers.put(type, getMultiplier(type) * bonus));
-		elementStorage.setCapacity((int) (this.baseElementCapacity * getMultiplier(BonusType.CAPACITY)));
+		elementStorage.setCapacity(Math.round(this.baseElementCapacity * getMultiplier(BonusType.CAPACITY)));
 	}
 
 	public Collection<ShrineUpgrade> getAllUpgrades() {

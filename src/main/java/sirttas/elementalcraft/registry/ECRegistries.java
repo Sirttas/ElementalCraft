@@ -10,6 +10,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
+import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 import sirttas.elementalcraft.jewel.JewelType;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -27,6 +28,7 @@ public class ECRegistries {
 		makeRegistry(ElementalCraft.createRL("spell"), Spell.class).setDefaultKey(ElementalCraft.createRL("none")).create();
 		makeRegistry(ElementalCraft.createRL("pure_ore_recipe_injector"), AbstractPureOreRecipeInjector.class).create();
 		makeRegistry(ElementalCraft.createRL("tool_infusion_type"), ToolInfusionEffectType.class).create();
+		makeRegistry(ElementalCraft.createRL("source_trait_value_provider_type"), SourceTraitValueProviderType.class).create();
 		makeRegistry(ElementalCraft.createRL("jewel_type"), JewelType.class).create();
 	}
 

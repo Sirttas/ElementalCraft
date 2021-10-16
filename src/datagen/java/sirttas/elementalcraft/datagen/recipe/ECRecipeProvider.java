@@ -27,6 +27,8 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
@@ -98,6 +100,10 @@ public class ECRecipeProvider extends RecipeProvider {
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern("gig").pattern("dcd").pattern("gig").unlockedBy(HAS_PURECRYSTAL, has(ECItems.PURE_CRYSTAL)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.EMPTY_RECEPTACLE_IMPROVED).define('c', ECItems.PURE_CRYSTAL).define('r', ECItems.EMPTY_RECEPTACLE).define('f', ECTags.Items.INGOTS_FIREITE)
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern("ifi").pattern("crc").pattern("ifi").unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE)).save(consumer);
+		ShapedRecipeBuilder.shaped(ECItems.SOURCE_STABILIZER).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('s', ECBlocks.SPRINGALINE_GLASS).pattern("sis").pattern("i i").pattern("sis")
+				.unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
+		ShapedRecipeBuilder.shaped(ECItems.SOURCE_ANALYSIS_GLASS).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('g', ECBlocks.SPRINGALINE_GLASS).define('s', ECItems.AIR_SILK)
+				.define('h', ECItems.HARDENED_HANDLE).pattern(" sg").pattern(" is").pattern("h  ").unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.CHISEL).define('h', ECItems.HARDENED_HANDLE).define('d', Tags.Items.GEMS_DIAMOND).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern(" i ").pattern(" di")
 				.pattern("h  ").unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.SHRINE_UPGRADE_CORE).define('c', ECItems.CONTAINED_CRYSTAL).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('r', Tags.Items.DUSTS_REDSTONE)
@@ -233,9 +239,10 @@ public class ECRecipeProvider extends RecipeProvider {
 				.define('c', ECItems.PURE_CRYSTAL).pattern("ehe").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.NECTOR_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('h', Items.HONEY_BLOCK).define('s', Items.SUGAR).define('w', ECBlocks.WHITE_ROCK)
 				.define('c', ECItems.WATER_CRYSTAL).pattern("shs").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
-		ShapedRecipeBuilder.shaped(ECItems.MYSTICAL_GROVE_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('p', ECTags.Items.BOTANIA_PETALS).define('m', ECTags.Items.INGOTS_MANASTEEL)
-				.define('w', ECTags.Items.BOTANIA_LIVINGROCK).define('c', ECItems.WATER_CRYSTAL).pattern("pmp").pattern("wCw").pattern(" c ")
-				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
+		ConditionalRecipe.builder().addCondition(new ModLoadedCondition("botania")).addRecipe(ShapedRecipeBuilder.shaped(ECItems.MYSTICAL_GROVE_SHRINE_UPGRADE)
+						.define('C', ECItems.SHRINE_UPGRADE_CORE).define('p', ECTags.Items.BOTANIA_PETALS).define('m', ECTags.Items.INGOTS_MANASTEEL).define('w', ECTags.Items.BOTANIA_LIVINGROCK)
+						.define('c', ECItems.WATER_CRYSTAL).pattern("pmp").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))::save)
+		        .build(consumer, ECItems.MYSTICAL_GROVE_SHRINE_UPGRADE.getRegistryName());
 		ShapedRecipeBuilder.shaped(ECItems.STEM_POLLINATION_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('p', Items.PUMPKIN).define('b', Items.BONE_MEAL)
 				.define('w', ECBlocks.WHITE_ROCK).define('c', ECItems.EARTH_CRYSTAL).pattern("bpb").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
 				.save(consumer);

@@ -76,7 +76,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 		ElementType sourceElementType = extractor.getSourceElementType();
 
 		if (extractor.canExtract(sourceElementType)) {
-			BlockEntityHelper.getTileEntityAs(level, pos.above(), SourceBlockEntity.class).map(SourceBlockEntity::getElementStorage)
+			BlockEntityHelper.getBlockEntityAs(level, pos.above(), SourceBlockEntity.class).map(SourceBlockEntity::getElementStorage)
 					.ifPresent(sourceStorage ->  extractor.runeHandler.handleElementTransfer(sourceStorage, extractor.getContainer(), extractor.extractionAmount));
 		}
 	}

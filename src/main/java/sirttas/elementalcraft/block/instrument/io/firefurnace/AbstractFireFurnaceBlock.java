@@ -24,7 +24,7 @@ import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterloggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 
 public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
@@ -36,7 +36,7 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 	@Deprecated
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		final AbstractFireFurnaceBlockEntity<?> furnace = (AbstractFireFurnaceBlockEntity<?>) world.getBlockEntity(pos);
-		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 	
 		if (furnace != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {

@@ -81,7 +81,11 @@ public class ECTags {
 		public static final Named<Item> PURE_ORES_RAW_METAL_SOURCE = createTag("pure_ores/raw_metas_source");
 		public static final Named<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
-		public static final Named<Item> IMPROVED_RECEPTACLES = createTag("improved_receptacles");
+		public static final Named<Item> RECEPTACLES = createTag("receptacles");
+		public static final Named<Item> RECEPTACLES_EMPTY = createTag("receptacles/empty");
+		public static final Named<Item> RECEPTACLES_FULL = createTag("receptacles/full");
+		public static final Named<Item> RECEPTACLES_IMPROVED = createTag("receptacles/improved");
+		
 		public static final Named<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
 		public static final Named<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
 		public static final Named<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");

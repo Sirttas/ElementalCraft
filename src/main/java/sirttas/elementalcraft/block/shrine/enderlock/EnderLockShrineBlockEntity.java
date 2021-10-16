@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -30,11 +31,16 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public AABB getRangeBoundingBox() {
-		int range = ECConfig.COMMON.enderLockShrineRange.get();
+		var range = this.getRange();
 
 		return new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, 2, 0);
 	}
 
+	@Override
+	public void onLoad() {
+		EnderLockHandler.add(this);
+	}
+	
 	@Override
 	protected boolean doPeriode() {
 		return false;
@@ -42,8 +48,11 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	public boolean doLock(Entity entity) {
 		int consumeAmount = this.getConsumeAmount();
+		var rangeSq = this.getRange();;
 
-		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION.get()) || EntityHelper.isHostile(entity)) && (this.elementStorage.getElementAmount() >= consumeAmount)) {
+		rangeSq *= rangeSq;
+		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(entity)) && entity.getPosition(0).distanceToSqr(Vec3.atCenterOf(getBlockPos())) <= rangeSq
+		        && (this.elementStorage.getElementAmount() >= consumeAmount)) {
 			this.consumeElement(consumeAmount);
 			return true;
 		}

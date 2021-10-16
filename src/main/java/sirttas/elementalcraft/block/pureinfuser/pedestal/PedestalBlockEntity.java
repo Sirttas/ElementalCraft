@@ -20,19 +20,19 @@ import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.SingleItemInventory;
+import sirttas.elementalcraft.container.SingleItemContainer;
 
 public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElementTypeProvider {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PedestalBlock.NAME) public static final BlockEntityType<PedestalBlockEntity> TYPE = null;
-	private final SingleItemInventory inventory;
+	private final SingleItemContainer inventory;
 	private final SingleElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
 	public PedestalBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
-		inventory = new SingleItemInventory(this::setChanged);
-		elementStorage = new ElementStorageRenderer(ElementType.getElementType(state), this::setChanged);
+		inventory = new SingleItemContainer(this::setChanged);
+		elementStorage = new PedestalElementStorage(ElementType.getElementType(state), this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get());
 	}
 

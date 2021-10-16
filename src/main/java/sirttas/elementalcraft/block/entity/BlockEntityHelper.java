@@ -23,20 +23,20 @@ public class BlockEntityHelper {
 	
 	private BlockEntityHelper() {}
 	
-	public static Optional<BlockEntity> getTileEntity(@Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+	public static Optional<BlockEntity> getBlockEntity(@Nonnull BlockGetter world, @Nonnull BlockPos pos) {
 		return Optional.ofNullable(world.getBlockEntity(pos));
 	}
 
-	public static <T> Optional<T> getTileEntityAs(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull Class<T> clazz) {
-		return getTileEntity(world, pos).filter(clazz::isInstance).map(clazz::cast);
+	public static <T> Optional<T> getBlockEntityAs(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull Class<T> clazz) {
+		return getBlockEntity(world, pos).filter(clazz::isInstance).map(clazz::cast);
 	}
 
 	public static Optional<ISingleElementStorage> getElementContainer(@Nonnull BlockGetter world, @Nonnull BlockPos pos, boolean canUseSmall) {
-		return getTileEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || canUseSmall).map(IElementContainer::getElementStorage);
+		return getBlockEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || canUseSmall).map(IElementContainer::getElementStorage);
 	}
 
 	public static Optional<ISingleElementStorage> getElementContainer(Block block, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
-		return getTileEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES.contains(block)).map(IElementContainer::getElementStorage);
+		return getBlockEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES.contains(block)).map(IElementContainer::getElementStorage);
 	}
 
 	public static boolean isValidContainer(Block block, LevelReader world, BlockPos pos) {
@@ -44,12 +44,12 @@ public class BlockEntityHelper {
 	}
 	
 	public static Optional<IElementStorage> getElementStorageAt(LevelReader world, BlockPos pos) {
-		return getTileEntity(world, pos).flatMap(t -> CapabilityElementStorage.get(t).resolve());
+		return getBlockEntity(world, pos).flatMap(t -> CapabilityElementStorage.get(t).resolve());
 	}
 	
 	@Nonnull
 	public static IRuneHandler getRuneHandlerAt(LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.getTileEntity(world, pos)
+		return BlockEntityHelper.getBlockEntity(world, pos)
 				.map(CapabilityRuneHandler::get)
 				.flatMap(LazyOptional::resolve)
 				.orElse(EmptyRuneHandler.INSTANCE);

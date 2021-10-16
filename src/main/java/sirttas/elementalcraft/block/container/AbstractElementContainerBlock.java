@@ -74,7 +74,7 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 	}
 
 	private Optional<ISingleElementStorage> getElementStorage(Level world, BlockPos pos) {
-		return BlockEntityHelper.getTileEntityAs(world, pos, IElementContainer.class).map(IElementContainer::getElementStorage);
+		return BlockEntityHelper.getBlockEntityAs(world, pos, IElementContainer.class).map(IElementContainer::getElementStorage);
 	}
 
 	@Override

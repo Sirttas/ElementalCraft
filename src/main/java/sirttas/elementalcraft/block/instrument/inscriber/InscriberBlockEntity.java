@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
-import sirttas.elementalcraft.block.instrument.InstrumentInventory;
+import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
@@ -16,11 +16,11 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + InscriberBlock.NAME) public static final BlockEntityType<InscriberBlockEntity> TYPE = null;
 
-	private final InstrumentInventory inventory;
+	private final InstrumentContainer inventory;
 
 	public InscriberBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, InscriptionRecipe.TYPE, ECConfig.COMMON.inscriberTransferSpeed.get(), ECConfig.COMMON.inscriberMaxRunes.get());
-		inventory = new InscriberInventory(this::setChanged);
+		inventory = new InscriberContainer(this::setChanged);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}

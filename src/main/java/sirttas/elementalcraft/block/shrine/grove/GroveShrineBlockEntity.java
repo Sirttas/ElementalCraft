@@ -72,7 +72,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private BlockItem findFlower() {
-		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE.get()) ? ECTags.Items.MYSTICAL_GROVE_FLOWERS.getValues().stream()
+		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE) ? ECTags.Items.MYSTICAL_GROVE_FLOWERS.getValues().stream()
 				: ECTags.Items.GROVE_SHRINE_FLOWERS.getValues().stream().filter(item -> !ECTags.Items.GROVE_SHRINE_BLACKLIST.contains(item)))
 				.filter(BlockItem.class::isInstance).map(BlockItem.class::cast).collect(Collectors.toList());
 

@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
-import sirttas.elementalcraft.block.instrument.InstrumentInventory;
+import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 
 @OnlyIn(Dist.CLIENT)
 public class CrystallizerRenderer implements IECRenderer<CrystallizerBlockEntity> {
@@ -19,7 +19,7 @@ public class CrystallizerRenderer implements IECRenderer<CrystallizerBlockEntity
 	@Override
 	public void render(CrystallizerBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		float tick = getAngle(partialTicks);
-		InstrumentInventory inv = (InstrumentInventory) te.getInventory();
+		InstrumentContainer inv = (InstrumentContainer) te.getInventory();
 
 		matrixStack.translate(0F, 0.25F, 0F);
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
@@ -50,7 +50,7 @@ public class CrystallizerRenderer implements IECRenderer<CrystallizerBlockEntity
 		}
 	}
 
-	private void renderShards(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentInventory inv) {
+	private void renderShards(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentContainer inv) {
 		matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick * 2));
 		for (int i = 2; i < inv.getItemCount(); i++) {
 			ItemStack stack = inv.getItem(i);

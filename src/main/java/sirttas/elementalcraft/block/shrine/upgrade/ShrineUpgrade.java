@@ -28,6 +28,7 @@ import net.minecraft.tags.Tag.Named;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.codec.CodecHelper;
+import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
@@ -171,6 +172,14 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 			Collections.addAll(incompatibilities, locs);
 			return this;
 		}
+		
+        @SafeVarargs
+        public final Builder incompatibleWith(IDataWrapper<ShrineUpgrade>... upgrades) {
+            Stream.of(upgrades)
+                    .map(IDataWrapper::getId)
+                    .forEach(incompatibilities::add);
+            return this;
+        }
 
 		public Builder addBonus(BonusType type, float value) {
 			this.bonuses.put(type, value);

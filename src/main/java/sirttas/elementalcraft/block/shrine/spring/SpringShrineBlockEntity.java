@@ -37,8 +37,8 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	protected boolean doPeriode() {
-		if (this.hasUpgrade(ShrineUpgrades.FILLING.get())) {
-			return BlockEntityHelper.getTileEntity(level, worldPosition.above(2))
+		if (this.hasUpgrade(ShrineUpgrades.FILLING)) {
+			return BlockEntityHelper.getBlockEntity(level, worldPosition.above(2))
 					.flatMap(entity -> entity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).resolve())
 					.map(fluid -> fluid.fill(new FluidStack(Fluids.WATER, (int) Math.round(this.getMultiplier(BonusType.STRENGTH) * ECConfig.COMMON.springShrinefilling.get())), FluidAction.EXECUTE) > 0)
 					.orElse(false);

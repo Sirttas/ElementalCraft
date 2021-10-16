@@ -112,7 +112,7 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
 		@Override
 		public AbstractContainerMenu createMenu(int id, Inventory inventory, Player palyer) {
-			return SpellDeskContainer.create(id, inventory, ContainerLevelAccess.create(world, pos));
+			return SpellDeskMenu.create(id, inventory, ContainerLevelAccess.create(world, pos));
 		}
 
 		@Override

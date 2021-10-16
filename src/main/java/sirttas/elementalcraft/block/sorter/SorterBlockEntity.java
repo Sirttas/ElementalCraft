@@ -21,7 +21,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 
 public class SorterBlockEntity extends AbstractECBlockEntity {
 
@@ -79,8 +79,8 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		BlockState state = this.getBlockState();
 		Direction source = state.getValue(ISorterBlock.SOURCE);
 		Direction target = state.getValue(ISorterBlock.TARGET);
-		IItemHandler sourceInv = ECInventoryHelper.getItemHandlerAt(level, worldPosition.relative(source), source.getOpposite());
-		IItemHandler targetInv = ECInventoryHelper.getItemHandlerAt(level, worldPosition.relative(target), target.getOpposite());
+		IItemHandler sourceInv = ECContainerHelper.getItemHandlerAt(level, worldPosition.relative(source), source.getOpposite());
+		IItemHandler targetInv = ECContainerHelper.getItemHandlerAt(level, worldPosition.relative(target), target.getOpposite());
 
 		if (stacks.isEmpty()) {
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
@@ -92,7 +92,7 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 					return;
 				}
 			}
-		} else if (index > 0 || ECInventoryHelper.isEmpty(targetInv) || alwaysInsert) {
+		} else if (index > 0 || ECContainerHelper.isEmpty(targetInv) || alwaysInsert) {
 			ItemStack stack = stacks.get(index).copy();
 
 			for (int i = 0; i < sourceInv.getSlots(); i++) {

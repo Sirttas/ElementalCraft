@@ -19,7 +19,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
 public class RetrieverBlock extends Block implements ISorterBlock {
@@ -90,7 +90,7 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 	public static ItemStack retrive(BlockState state, BlockGetter world, BlockPos pos, ItemStack output) {
 		Direction direction = state.getValue(TARGET);
 
-		return ItemHandlerHelper.insertItem(ECInventoryHelper.getItemHandlerAt(world, pos.relative(direction), direction.getOpposite()), output, false);
+		return ItemHandlerHelper.insertItem(ECContainerHelper.getItemHandlerAt(world, pos.relative(direction), direction.getOpposite()), output, false);
 	}
 
 }

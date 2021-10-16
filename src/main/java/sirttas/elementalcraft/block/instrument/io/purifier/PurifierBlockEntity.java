@@ -18,11 +18,11 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PurifierBlock.NAME) public static final BlockEntityType<PurifierBlockEntity> TYPE = null;
 
-	private final PurifierInventory inventory;
+	private final PurifierContainer inventory;
 
 	public PurifierBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
-		inventory = new PurifierInventory(this::setChanged);
+		inventory = new PurifierContainer(this::setChanged);
 	}
 
 	@Override

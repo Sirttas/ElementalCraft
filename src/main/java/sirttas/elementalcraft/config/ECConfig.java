@@ -152,9 +152,6 @@ public class ECConfig {
 		public final IntValue sourceAltarDistance;
 
 		public final BooleanValue disableSourceExhaustion;
-		public final IntValue sourceCapacityMin;
-		public final IntValue sourceCapacityMax;
-		public final IntValue sourceRecoverRate;
 
 		public final BooleanValue mekanismInteracionEnabled;
 		public final DoubleValue mekanismPureOreDimishingAmount;
@@ -334,9 +331,6 @@ public class ECConfig {
 
 			builder.pop().comment("Source config").push("source");
 			disableSourceExhaustion = builder.comment("set to true to make sources infinite.").define("disableSourceExhaustion", false);
-			sourceCapacityMin = builder.comment("The minimum element capacity of a source.").defineInRange("sourceCapacityMin", 500000, 0, 10000000);
-			sourceCapacityMax = builder.comment("The maximum element capacity of a source.").defineInRange("sourceCapacityMax", 1000000, 0, 10000000);
-			sourceRecoverRate = builder.comment("The element a source can generate per tick.").defineInRange("sourceRecoverRate", 100, 0, 100);
 
 			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);

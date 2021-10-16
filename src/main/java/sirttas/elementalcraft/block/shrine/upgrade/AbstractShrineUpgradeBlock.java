@@ -57,13 +57,13 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	@Override
 	public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		BlockEntityHelper.getTileEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
+		BlockEntityHelper.getBlockEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
 	}
 
 	@Override
 	@Deprecated
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-		BlockEntityHelper.getTileEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
+		BlockEntityHelper.getBlockEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
 		super.onRemove(state, world, pos, newState, isMoving);
 	}
 
@@ -72,7 +72,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		Direction facing = getFacing(state);
 
-		return upgrade.isPresent() && BlockEntityHelper.getTileEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
+		return upgrade.isPresent() && BlockEntityHelper.getBlockEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
 				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && upgrade.get().canUpgrade(shrine, level.getBlockState(pos).is(this))).isPresent();
 	}
 	

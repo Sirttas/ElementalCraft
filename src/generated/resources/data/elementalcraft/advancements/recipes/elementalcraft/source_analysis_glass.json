@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "elementalcraft:source_analysis_glass"
+    ]
+  },
+  "criteria": {
+    "has_swift_alloy_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/swift_alloy"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "elementalcraft:source_analysis_glass"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_swift_alloy_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

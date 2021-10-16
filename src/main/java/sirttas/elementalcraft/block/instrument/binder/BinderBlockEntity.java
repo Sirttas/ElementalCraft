@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
-import sirttas.elementalcraft.block.instrument.InstrumentInventory;
+import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
@@ -16,7 +16,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BinderBlock.NAME) public static final BlockEntityType<BinderBlockEntity> TYPE = null;
 
-	private final InstrumentInventory inventory;
+	private final InstrumentContainer inventory;
 
 	public BinderBlockEntity(BlockPos pos, BlockState state) {
 		this(TYPE, pos, state, ECConfig.COMMON.binderTransferSpeed.get(), ECConfig.COMMON.binderMaxRunes.get());
@@ -24,7 +24,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 
 	protected BinderBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, int transferSpeed, int maxRunes) {
 		super(blockEntityType, pos, state, AbstractBindingRecipe.TYPE, transferSpeed, maxRunes);
-		inventory = new InstrumentInventory(this::setChanged, 10);
+		inventory = new InstrumentContainer(this::setChanged, 10);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}

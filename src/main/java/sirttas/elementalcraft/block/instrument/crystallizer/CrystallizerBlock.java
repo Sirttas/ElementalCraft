@@ -32,7 +32,7 @@ import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterloggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 
 public class CrystallizerBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
@@ -75,7 +75,7 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		final CrystallizerBlockEntity crystallizer = (CrystallizerBlockEntity) world.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
 		if (crystallizer != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
 			if ((crystallizer.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !crystallizer.getInventory().isEmpty()) {

@@ -11,7 +11,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
-import sirttas.elementalcraft.block.instrument.InstrumentInventory;
+import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
@@ -20,11 +20,11 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystallizerBlock.NAME) public static final BlockEntityType<CrystallizerBlockEntity> TYPE = null;
 
-	private final InstrumentInventory inventory;
+	private final InstrumentContainer inventory;
 
 	public CrystallizerBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, CrystallizationRecipe.TYPE, ECConfig.COMMON.crystallizerTransferSpeed.get(), ECConfig.COMMON.crystallizerMaxRunes.get());
-		inventory = new CrystallizerInventory(this::setChanged);
+		inventory = new CrystallizerContainer(this::setChanged);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}

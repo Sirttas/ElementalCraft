@@ -8,18 +8,18 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.SingleItemInventory;
+import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, IInfusionRecipe> implements IInfuser {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + InfuserBlock.NAME) public static final BlockEntityType<InfuserBlockEntity> TYPE = null;
 
-	private final SingleItemInventory inventory;
+	private final SingleItemContainer inventory;
 
 	public InfuserBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, IInfusionRecipe.TYPE, ECConfig.COMMON.infuserTransferSpeed.get(), ECConfig.COMMON.infuserMaxRunes.get());
-		inventory = new SingleItemInventory(this::setChanged);
+		inventory = new SingleItemContainer(this::setChanged);
 		lockable = true;
 	}
 

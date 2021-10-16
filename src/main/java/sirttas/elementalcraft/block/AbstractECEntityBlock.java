@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -46,7 +46,7 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	}
 
 	private void dropItems(Level worldIn, BlockPos pos) {
-		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(worldIn, pos, null);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(worldIn, pos, null);
 
 		if (inv != null) {
 			for (int i = 0; i < inv.getSlots(); i++) {

@@ -5,9 +5,9 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
-import sirttas.elementalcraft.recipe.IInventoryBlockEntityRecipe;
+import sirttas.elementalcraft.recipe.IContainerBlockEntityRecipe;
 
-public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEntity, R extends IInventoryBlockEntityRecipe<T>> extends AbstractECContainerBlockEntity implements ICraftingBlockEntity {
+public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEntity, R extends IContainerBlockEntityRecipe<T>> extends AbstractECContainerBlockEntity implements ICraftingBlockEntity {
 
 	protected final RecipeType<R> recipeType;
 	protected final int transferSpeed;

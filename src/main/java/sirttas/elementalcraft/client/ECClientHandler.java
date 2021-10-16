@@ -15,7 +15,8 @@ import sirttas.elementalcraft.block.instrument.io.mill.AirMillRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
-import sirttas.elementalcraft.inventory.container.screen.ECScreens;
+import sirttas.elementalcraft.block.source.SourceRenderer;
+import sirttas.elementalcraft.container.menu.screen.ECScreens;
 import sirttas.elementalcraft.rune.Runes;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -39,6 +40,7 @@ public class ECClientHandler {
 		ModelLoader.addSpecialModel(AirMillRenderer.BLADES_LOCATION);
 		ModelLoader.addSpecialModel(DiffuserRenderer.CUBE_LOCATION);
 		ModelLoader.addSpecialModel(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
+		ModelLoader.addSpecialModel(SourceRenderer.STABILIZER_LOCATION);	
 	}
 	
 	@SubscribeEvent

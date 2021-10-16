@@ -1,3 +1,29 @@
+1.17.1-3.2.0:
+
+- new item: source analysis glass
+- new item: source stabilizer
+- added source traits, source differs more from each others
+- added recipe for inert crystal from Ex Nihilo sieve
+- bump to forge 37.0.84
+- reworked receptacle tags
+- enderlock shrine can now be affected by range upgrades
+- ported all changes from 1.16.5-2.7.13
+
+
+1.16.5-2.7.13:
+
+- fix a crash
+
+
+1.16.5-2.7.12:
+
+- made mystical growth shrine upgrade conditional on botania
+- pipe cover frames no longer hide while player has an empty hand (issue #58)
+- make sieve recipe conditional on Ex Nihilo being loaded (PR #60)
+- fix silent gear materials not having categories (issue #57)
+- fix and add more russian translation (PR #59)
+
+
 1.17.1-3.1.5:
 
 - new rune: creative rune

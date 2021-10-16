@@ -14,8 +14,7 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlockPosPredicateTypes {
 
-	private BlockPosPredicateTypes() {
-	}
+	private BlockPosPredicateTypes() {}
 
 	@SubscribeEvent
 	public static void registerBlockPosPredicateSerializers(RegistryEvent.Register<BlockPosPredicateType<?>> event) {
@@ -24,6 +23,7 @@ public class BlockPosPredicateTypes {
 		RegistryHelper.register(registry, new BlockPosPredicateType<>(HasShrineUpgradePredicate.CODEC), HasShrineUpgradePredicate.NAME);
 		RegistryHelper.register(registry, new BlockPosPredicateType<>(HasRunePredicate.CODEC), HasRunePredicate.NAME);
 		RegistryHelper.register(registry, new BlockPosPredicateType<>(TagHasRunePredicate.CODEC), TagHasRunePredicate.NAME);
+		RegistryHelper.register(registry, new BlockPosPredicateType<>(RangeFromSpawnPredicate.CODEC), RangeFromSpawnPredicate.NAME);
 	}
 
 }

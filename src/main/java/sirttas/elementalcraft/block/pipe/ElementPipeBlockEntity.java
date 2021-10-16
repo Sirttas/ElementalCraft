@@ -72,7 +72,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity implements IEl
 	}
 
 	private Optional<BlockEntity> getAdjacentTile(Direction face) {
-		return this.hasLevel() ? BlockEntityHelper.getTileEntity(this.getLevel(), this.getBlockPos().relative(face)) : Optional.empty();
+		return this.hasLevel() ? BlockEntityHelper.getBlockEntity(this.getLevel(), this.getBlockPos().relative(face)) : Optional.empty();
 	}
 
 	@Override

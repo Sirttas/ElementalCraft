@@ -116,10 +116,12 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.STAFF, list);
 		addItem(ECItems.SCROLL, list);
 		addItem(ECItems.SPELL_BOOK, list);
+		addItem(ECItems.SOURCE_ANALYSIS_GLASS, list);
 		addItem(ECItems.EMPTY_RECEPTACLE, list);
 		addItem(ECItems.RECEPTACLE, list);
 		addItem(ECItems.EMPTY_RECEPTACLE_IMPROVED, list);
 		addItem(ECItems.RECEPTACLE_IMPROVED, list);
+		addItem(ECItems.SOURCE_STABILIZER, list);
 		addItem(ECItems.FIRE_HOLDER, list);
 		addItem(ECItems.WATER_HOLDER, list);
 		addItem(ECItems.EARTH_HOLDER, list);

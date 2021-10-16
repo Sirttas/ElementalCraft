@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+		mavenLocal()
     	mavenCentral()
         maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
@@ -18,6 +19,7 @@ plugins {
 	id 'maven-publish'
 	id "org.sonarqube" version "3.2.0"
 	id "com.matthewprenger.cursegradle" version '1.4.0'
+	id "com.diffplug.eclipse.apt" version "3.32.1"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -25,19 +27,18 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
 mixin {
+	disableEclipseAddon
     add sourceSets.main, "elementalcraft.refmap.json"
 }
 
-version = "${elementalcraft_version}"
+version = project.hasProperty('tag_version') ? "${minecraft_version}-${tag_version}" : "${elementalcraft_version}"
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
+println('Building Elemental Craft: ' + project.version)
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-
-// TODO remove when forge gradel get fixed
-eclipseJdtApt.enabled = false
-eclipseFactoryPath.enabled = false
 
 sourceSets {
     api {
@@ -70,19 +71,12 @@ ext.updateSourceSetMapping = { sourceSet ->
 }
 
 configurations {
-    library
-    implementation.extendsFrom library
 	apiCompile.extendsFrom(compile)
     apiImplementation.extendsFrom(implementation)
     apiCompileOnly.extendsFrom(compileOnly)
     datagenCompile.extendsFrom(compile)
     datagenImplementation.extendsFrom(implementation)
     datagenCompileOnly.extendsFrom(compileOnly)
-}
-minecraft.runs.all {
-    lazyToken('minecraft_classpath') {
-        configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
-    }
 }
 minecraft {
     mappings channel: "${mappings_channel}", version: "${mappings_version}"
@@ -157,8 +151,6 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     
-    library 'com.google.guava:guava:21.0'
-    library "org.spongepowered:mixin:${mixins_version}"
   	annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies

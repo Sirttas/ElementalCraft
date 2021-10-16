@@ -127,10 +127,9 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 		return null;
 	}
-	
+
 	public static boolean showCover(BlockState state, Player player) {
-		return isCovered(state)
-				&& (player == null || !player.getMainHandItem().isEmpty() && EntityHelper.handStream(player).noneMatch(stack -> ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
+		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
 	}
 
 	private static boolean isCovered(BlockState state) {
@@ -138,11 +137,11 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	private boolean isRendered(VoxelShape shape, ElementPipeBlockEntity entity, BlockState state) {
-		return state.is(this) && entity != null && (compareShapes(shape, BASE_SHAPE) 
+		return state.is(this) && entity != null && (compareShapes(shape, BASE_SHAPE)
 				|| (compareShapes(shape, DOWN_SHAPE) && entity.getConection(Direction.DOWN).isConnected())
-				|| (compareShapes(shape, UP_SHAPE) && entity.getConection(Direction.UP).isConnected()) 
+				|| (compareShapes(shape, UP_SHAPE) && entity.getConection(Direction.UP).isConnected())
 				|| (compareShapes(shape, NORTH_SHAPE) && entity.getConection(Direction.NORTH).isConnected())
-				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConection(Direction.SOUTH).isConnected()) 
+				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConection(Direction.SOUTH).isConnected())
 				|| (compareShapes(shape, WEST_SHAPE) && entity.getConection(Direction.WEST).isConnected())
 				|| (compareShapes(shape, EAST_SHAPE) && entity.getConection(Direction.EAST).isConnected())
 				|| (compareShapes(shape, FRAME_SHAPE) && state.getValue(COVER) == CoverType.FRAME));
@@ -151,7 +150,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	private VoxelShape getCurentShape(BlockState state, ElementPipeBlockEntity entity, Player player) {
 		VoxelShape result = Shapes.empty();
 
-		if (showCover(state, player)) {
+		if (showCover(state, entity != null ? player : null)) {
 			return Shapes.block();
 		}
 		for (final VoxelShape shape : SHAPES) {
@@ -170,7 +169,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 		return super.getRenderShape(state);
 	}
-	
+
 	@Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
@@ -220,7 +219,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 		if (pipe != null) {
 			final VoxelShape shape = getShape(state, pos, getBlockEntity(world, pos), hit, player);
-			
+
 			if (compareShapes(shape, FRAME_SHAPE) || state.getValue(COVER) == CoverType.FRAME) {
 				return pipe.setCover(player, hand);
 			} else {
@@ -239,7 +238,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	private InteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand) {
 		if (face != null) {
 			ItemStack stack = player.getItemInHand(hand);
-			
+
 			if (!stack.isEmpty() && stack.getItem() == ECItems.PIPE_PRIORITY) {
 				return pipe.activatePriority(face, player, hand);
 			}
@@ -247,13 +246,13 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 		return InteractionResult.PASS;
 	}
-	
+
 	@Override
 	@Deprecated
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			ElementPipeBlockEntity te = (ElementPipeBlockEntity) worldIn.getBlockEntity(pos);
-			
+
 			if (isCovered(state)) {
 				Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack((te).getCoverState().getBlock()));
 			}
@@ -263,7 +262,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 	
 	private static ElementPipeBlockEntity getBlockEntity(BlockGetter world, BlockPos pos) {
-		return BlockEntityHelper.getTileEntityAs(world, pos, ElementPipeBlockEntity.class).orElse(null);
+		return BlockEntityHelper.getBlockEntityAs(world, pos, ElementPipeBlockEntity.class).orElse(null);
 	}
 	
 	public int getMaxTransferAmount() {

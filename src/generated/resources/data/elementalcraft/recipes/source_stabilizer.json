@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sis",
+    "i i",
+    "sis"
+  ],
+  "key": {
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_glass"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:source_stabilizer"
+  }
+}

@@ -29,7 +29,7 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	Optional<TickingBlockEntity> getTarget() {
-		return BlockEntityHelper.getTileEntityAs(level, getTargetPos(), TickingBlockEntity.class);
+		return BlockEntityHelper.getBlockEntityAs(level, getTargetPos(), TickingBlockEntity.class);
 	}
 
 	@Override

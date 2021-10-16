@@ -70,7 +70,7 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 				if (it.hasNext()) {
 					setBud(it.next(), state);
 					return true;
-				} else if (this.level instanceof ServerLevel serverLevel && this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST.get())) {
+				} else if (this.level instanceof ServerLevel serverLevel && this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST)) {
 					var above = worldPosition.above();
 					
 					OreShrineBlockEntity.harvest(serverLevel, above, this, Blocks.AIR.defaultBlockState());

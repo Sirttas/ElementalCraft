@@ -42,7 +42,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private boolean stemCanGrow(StemBlock stem) {
-		if (this.hasUpgrade(ShrineUpgrades.STEM_POLLINATION.get())) {
+		if (this.hasUpgrade(ShrineUpgrades.STEM_POLLINATION)) {
 			Block crop = stem.getFruit();
 			
 			return Direction.Plane.HORIZONTAL.stream().map( d -> level.getBlockState(worldPosition.relative(d))).noneMatch(state -> state.is(crop));
@@ -57,7 +57,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		if (block instanceof BonemealableBlock) {
 			BonemealableBlock igrowable = (BonemealableBlock) block;
 
-			return (igrowable.isValidBonemealTarget(level, pos, blockstate, level.isClientSide) && (igrowable.isBonemealSuccess(level, level.random, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH.get())))
+			return (igrowable.isValidBonemealTarget(level, pos, blockstate, level.isClientSide) && (igrowable.isBonemealSuccess(level, level.random, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH)))
 					|| (block instanceof StemBlock && stemCanGrow((StemBlock) block));
 		}
 		return false;

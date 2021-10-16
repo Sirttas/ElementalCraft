@@ -1,6 +1,9 @@
 {
   "availability": {
     "tier": 1,
+    "categories": [
+      "fiber"
+    ],
     "visible": true,
     "gear_blacklist": [],
     "can_salvage": true

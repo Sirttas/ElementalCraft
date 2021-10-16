@@ -21,8 +21,6 @@ spells:
 	
 2.8:
 	remote element tranfer
-	source stabilizer
-	source analyzer
 	ordered sorter config gui
 	holder element flow particles
 	fix spell book

@@ -1,15 +1,18 @@
 package sirttas.elementalcraft.block.source;
 
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 
 public class SourceElementStorage extends StaticElementStorage {
 
 	private boolean exhausted = false;
-
-	public SourceElementStorage(int capacity, Runnable syncCallback) {
-		super(ElementType.NONE, capacity, syncCallback);
+	private final SourceBlockEntity source;
+	
+	public SourceElementStorage(SourceBlockEntity source) {
+		super(ElementType.NONE, 500000, source::setChanged);
+		this.source = source;
 		this.elementAmount = this.elementCapacity;
 	}
 
@@ -43,6 +46,11 @@ public class SourceElementStorage extends StaticElementStorage {
 	}
 
 	@Override
+	public int transferTo(IElementStorage other, ElementType type, float count, float multiplier) {
+		return super.transferTo(other, type, count * source.getSpeedModifier(), multiplier * source.getPreservationModifier());
+	}
+	
+	@Override
 	public boolean canPipeInsert(ElementType elementType) {
 		return false;
 	}
@@ -58,6 +66,10 @@ public class SourceElementStorage extends StaticElementStorage {
 
 	protected void setExhausted(boolean exausted) {
 		this.exhausted = exausted;
+	}
+	
+	protected void setElementCapacity(int elementCapacity) {
+		this.elementCapacity = elementCapacity;
 	}
 
 }

@@ -9,11 +9,13 @@ public class ECNames {
 	public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
 	
 	public static final String ALWAYSE_INSERT = "always_insert";
+	public static final String ANALYZED = "analyzed";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String ATTRIBUTES = "attributes";
 	public static final String BLOCK = DPAnvilNames.BLOCK;
 	public static final String BLOCKS = DPAnvilNames.BLOCKS;
 	public static final String BONUSES = "bonuses";
+	public static final String CHANCE = "chance";
 	public static final String COLOR = "color";
 	public static final String CONSUMPTION = "consumption";
 	public static final String COOLDOWN = "cooldown";
@@ -29,6 +31,7 @@ public class ECNames {
 	public static final String ELEMENT_STORAGE = "element_storage";
 	public static final String ELEMENT_TYPE = "element_type";
 	public static final String ENCHANTMENT = "enchantment";
+	public static final String END = "end";
 	public static final String EXHAUSTED = "exhausted";
 	public static final String EXTRACTION_AMOUNT = "extraction_amount";
 	public static final String GEM = "gem";
@@ -47,7 +50,9 @@ public class ECNames {
 	public static final String MODEL = "model";
 	public static final String MODIFIER = DPAnvilNames.MODIFIER;
 	public static final String MULTIPLIER = "multiplier";
+	public static final String NAME =  DPAnvilNames.NAME;
 	public static final String NBT = "nbt";
+	public static final String ORDER = "order";
 	public static final String ORE = "ore";
 	public static final String OUTPUT = "output";
 	public static final String OUTPUTS = "outputs";
@@ -68,12 +73,17 @@ public class ECNames {
 	public static final String SPELL = "spell";
 	public static final String SPELL_LIST = "spell_list";
 	public static final String SPELL_TYPE = "spell_type";
+	public static final String STABILIZED = "stabilized";
 	public static final String STACKS = "stacks";
+	public static final String START = "start";
+	public static final String STEPS = "steps";
 	public static final String TAG = DPAnvilNames.TAG;
 	public static final String TOOL_INFUSION = "tool_infusion";
+	public static final String TRAITS = "traits";
 	public static final String TYPE = DPAnvilNames.TYPE;
 	public static final String USE_DURATION = "use_duration";
 	public static final String VALUE = DPAnvilNames.VALUE;
+    public static final String VALUES = DPAnvilNames.VALUES;
 	public static final String WEIGHT = "weight";
 	public static final String WORKING = "working";
 	public static final String XP = "experience";

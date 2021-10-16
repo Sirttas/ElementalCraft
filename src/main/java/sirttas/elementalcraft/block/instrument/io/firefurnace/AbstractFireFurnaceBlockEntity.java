@@ -17,21 +17,21 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
-import sirttas.elementalcraft.inventory.IOInventory;
-import sirttas.elementalcraft.inventory.InventoryBlockEntityWrapper;
+import sirttas.elementalcraft.container.IOContainer;
+import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
 import sirttas.elementalcraft.recipe.instrument.io.FurnaceRecipeWrapper;
 
 public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRecipe> extends AbstractIOInstrumentBlockEntity<AbstractFireFurnaceBlockEntity<T>, FurnaceRecipeWrapper<T>> {
 
 	private float exp;
 	private RecipeType<T> furnaceRecipeType;
-	private final IOInventory inventory;
+	private final IOContainer inventory;
 
 	protected AbstractFireFurnaceBlockEntity(BlockEntityType<? extends AbstractFireFurnaceBlockEntity<T>> blockEntityType, BlockPos pos, BlockState state, RecipeType<T> recipeType, int transferSpeed, int maxRunes) {
 		super(blockEntityType, pos, state, null, transferSpeed, maxRunes);
 		this.furnaceRecipeType = recipeType;
 		exp = 0;
-		inventory = new IOInventory(this::setChanged);
+		inventory = new IOContainer(this::setChanged);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 
 	@Override
 	protected FurnaceRecipeWrapper<T> lookupRecipe() {
-		return this.getLevel().getRecipeManager().getRecipeFor(furnaceRecipeType, InventoryBlockEntityWrapper.from(this), this.getLevel()).map(FurnaceRecipeWrapper::new).orElse(null);
+		return this.getLevel().getRecipeManager().getRecipeFor(furnaceRecipeType, ContainerBlockEntityWrapper.from(this), this.getLevel()).map(FurnaceRecipeWrapper::new).orElse(null);
 	}
 
 	@Override

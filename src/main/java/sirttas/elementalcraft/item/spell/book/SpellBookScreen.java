@@ -13,13 +13,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class SpellBookScreen extends AbstractContainerScreen<SpellBookContainer> implements MenuAccess<SpellBookContainer> {
+public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> implements MenuAccess<SpellBookMenu> {
 	private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
 
-	public SpellBookScreen(SpellBookContainer container, Inventory playerInventory, Component title) {
+	public SpellBookScreen(SpellBookMenu container, Inventory playerInventory, Component title) {
 		super(container, playerInventory, title);
 		this.passEvents = false;
-		this.imageHeight = 114 + SpellBookContainer.ROW_COUNT * 18;
+		this.imageHeight = 114 + SpellBookMenu.ROW_COUNT * 18;
 		this.inventoryLabelY = this.imageHeight - 94;
 	}
 
@@ -45,7 +45,7 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookContainer>
 		RenderSystem.setShaderTexture(0, CHEST_GUI_TEXTURE);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, SpellBookContainer.ROW_COUNT * 18 + 17);
-		this.blit(matrixStack, i, j + SpellBookContainer.ROW_COUNT * 18 + 17, 0, 126, this.imageWidth, 96);
+		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, SpellBookMenu.ROW_COUNT * 18 + 17);
+		this.blit(matrixStack, i, j + SpellBookMenu.ROW_COUNT * 18 + 17, 0, 126, this.imageWidth, 96);
 	}
 }

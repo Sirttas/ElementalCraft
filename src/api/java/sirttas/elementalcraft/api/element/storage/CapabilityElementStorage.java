@@ -6,7 +6,8 @@ import javax.annotation.Nullable;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -14,7 +15,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 public class CapabilityElementStorage {
 
-	@CapabilityInject(IElementStorage.class) public static final Capability<IElementStorage> ELEMENT_STORAGE_CAPABILITY = null;
+	public static final Capability<IElementStorage> ELEMENT_STORAGE_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
 	private CapabilityElementStorage() {}
 

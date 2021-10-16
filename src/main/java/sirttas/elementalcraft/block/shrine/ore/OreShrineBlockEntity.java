@@ -70,7 +70,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 			pickaxe.enchant(Enchantments.BLOCK_FORTUNE, fortune);
 			LootHelper.getDrops(level, pos, pickaxe).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));
 		} else {
-			LootHelper.getDrops(level, pos, shrine.hasUpgrade(ShrineUpgrades.SILK_TOUCH.get())).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));
+			LootHelper.getDrops(level, pos, shrine.hasUpgrade(ShrineUpgrades.SILK_TOUCH)).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));
 		}
 		if (newBlock != null) {
 			level.setBlockAndUpdate(pos, newBlock);

@@ -35,7 +35,7 @@ import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterloggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 
 public class InscriberBlock extends AbstractECContainerBlock implements IInstrumentBlock {
@@ -131,7 +131,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		final InscriberBlockEntity inscriber = (InscriberBlockEntity) world.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
 		if (inscriber != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
 			if (heldItem.getItem() == ECItems.CHISEL && !inscriber.isLocked()) {

@@ -29,20 +29,20 @@ import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.SingleItemInventory;
+import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity implements IContainerTopBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SolarSynthesizerBlock.NAME) public static final BlockEntityType<SolarSynthesizerBlockEntity> TYPE = null;
 
-	private final SingleItemInventory inventory;
+	private final SingleItemContainer inventory;
 	private final RuneHandler runeHandler;
 	private boolean working;
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
-		inventory = new SingleItemInventory(this::setChanged);
+		inventory = new SingleItemContainer(this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.solarSythesizerMaxRunes.get());
 		working = false;
 	}

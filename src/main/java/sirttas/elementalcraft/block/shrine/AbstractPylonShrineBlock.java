@@ -68,7 +68,7 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
 		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
-			BlockEntityHelper.getTileEntityAs(world, pos.below(), AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
+			BlockEntityHelper.getBlockEntityAs(world, pos.below(), AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
 		}
 	}
 	

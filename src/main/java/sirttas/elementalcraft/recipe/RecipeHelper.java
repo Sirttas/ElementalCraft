@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 
 public class RecipeHelper {
 
@@ -62,7 +62,7 @@ public class RecipeHelper {
 
 	public static boolean matchesUnordered(Container inv, List<Ingredient> ingredients) {
 		Set<Integer> usedIndex = Sets.newHashSet();
-		int count = ECInventoryHelper.getItemCount(inv);
+		int count = ECContainerHelper.getItemCount(inv);
 
 		return ingredients.stream().allMatch(ingredient -> {
 			for (int i = 0; i < count; i++) {

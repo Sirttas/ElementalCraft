@@ -83,7 +83,7 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 		VoxelShape shape = getShape(state, pos, hit);
 
 		if (CORE.equals(shape)) {
-			return BlockEntityHelper.getTileEntityAs(world, pos, SorterBlockEntity.class).map(sorter -> sorter.addStack(player.getItemInHand(hand))).orElse(InteractionResult.PASS);
+			return BlockEntityHelper.getBlockEntityAs(world, pos, SorterBlockEntity.class).map(sorter -> sorter.addStack(player.getItemInHand(hand))).orElse(InteractionResult.PASS);
 		} 
 		return this.moveIO(state, world, pos, hit, shape);
 	}

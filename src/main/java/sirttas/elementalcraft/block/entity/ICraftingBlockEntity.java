@@ -2,11 +2,11 @@ package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import sirttas.elementalcraft.inventory.IInventoryBlockEntity;
-import sirttas.elementalcraft.inventory.InventoryBlockEntityWrapper;
-import sirttas.elementalcraft.recipe.IInventoryBlockEntityRecipe;
+import sirttas.elementalcraft.container.IContainerBlockEntity;
+import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
+import sirttas.elementalcraft.recipe.IContainerBlockEntityRecipe;
 
-public interface ICraftingBlockEntity extends IInventoryBlockEntity {
+public interface ICraftingBlockEntity extends IContainerBlockEntity {
 
 	boolean isRecipeAvailable();
 
@@ -16,8 +16,8 @@ public interface ICraftingBlockEntity extends IInventoryBlockEntity {
 
 	void process();
 
-	default <C extends ICraftingBlockEntity, U extends IInventoryBlockEntityRecipe<C>> U lookupRecipe(Level world, RecipeType<U> recipeType) {
-		return world.getRecipeManager().getRecipeFor(recipeType, InventoryBlockEntityWrapper.from(cast()), world).orElse(null);
+	default <C extends ICraftingBlockEntity, U extends IContainerBlockEntityRecipe<C>> U lookupRecipe(Level world, RecipeType<U> recipeType) {
+		return world.getRecipeManager().getRecipeFor(recipeType, ContainerBlockEntityWrapper.from(cast()), world).orElse(null);
 	}
 
 	@SuppressWarnings("unchecked")

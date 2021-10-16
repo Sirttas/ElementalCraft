@@ -19,7 +19,7 @@ public interface IShrinePredicate extends IBlockPosPredicate {
 
 	@Override
 	default boolean test(LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.getTileEntityAs(world, pos, AbstractShrineBlockEntity.class).map(this::test).orElse(false);
+		return BlockEntityHelper.getBlockEntityAs(world, pos, AbstractShrineBlockEntity.class).map(this::test).orElse(false);
 	}
 
 }

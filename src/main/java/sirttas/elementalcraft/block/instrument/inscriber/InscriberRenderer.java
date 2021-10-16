@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
-import sirttas.elementalcraft.block.instrument.InstrumentInventory;
+import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlock;
 
 @OnlyIn(Dist.CLIENT)
@@ -20,7 +20,7 @@ public class InscriberRenderer implements IECRenderer<InscriberBlockEntity> {
 	@Override
 	public void render(InscriberBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
 		float tick = getAngle(partialTicks);
-		InstrumentInventory inv = (InstrumentInventory) te.getInventory();
+		InstrumentContainer inv = (InstrumentContainer) te.getInventory();
 
 		matrixStack.translate(0F, 0.25F, 0F);
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
@@ -40,7 +40,7 @@ public class InscriberRenderer implements IECRenderer<InscriberBlockEntity> {
 		}
 	}
 
-	private void renderItems(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentInventory inv) {
+	private void renderItems(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentContainer inv) {
 		matrixStack.translate(-0.4F, -0.2F, -0.2F);
 		for (int i = 1; i < inv.getContainerSize(); i++) {
 			ItemStack stack = inv.getItem(i);

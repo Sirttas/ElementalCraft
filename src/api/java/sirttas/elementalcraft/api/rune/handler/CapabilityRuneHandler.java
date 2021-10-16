@@ -4,13 +4,14 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class CapabilityRuneHandler {
 	
-	@CapabilityInject(IRuneHandler.class) public static final Capability<IRuneHandler> RUNE_HANDLE_CAPABILITY = null;
+	public static final Capability<IRuneHandler> RUNE_HANDLE_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
 	private CapabilityRuneHandler() {}
 

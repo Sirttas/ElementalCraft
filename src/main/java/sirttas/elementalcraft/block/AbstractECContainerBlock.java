@@ -12,7 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 
 public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
@@ -65,7 +65,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 	}
 
 	protected InteractionResult onSingleSlotActivated(Level world, BlockPos pos, Player player, InteractionHand hand) {
-		final IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		final IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 
 		if (inv != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {

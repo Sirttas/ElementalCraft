@@ -17,7 +17,7 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
@@ -37,9 +37,9 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 	
 	@Override
 	protected boolean doPeriode() {
-		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
 
-		return this.hasUpgrade(ShrineUpgrades.PICKUP.get()) ? pickup(inv) : pull(inv);
+		return this.hasUpgrade(ShrineUpgrades.PICKUP) ? pickup(inv) : pull(inv);
 	}
 
 	private boolean pickup(IItemHandler inv) {

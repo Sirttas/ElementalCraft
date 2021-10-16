@@ -10,11 +10,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import sirttas.elementalcraft.ElementalCraft;
 
-public class SpellDeskScreen extends AbstractContainerScreen<SpellDeskContainer> implements MenuAccess<SpellDeskContainer> {
+public class SpellDeskScreen extends AbstractContainerScreen<SpellDeskMenu> implements MenuAccess<SpellDeskMenu> {
 	
 	private static final ResourceLocation SPELL_DESK_GUI_TEXTURE = ElementalCraft.createRL("textures/gui/container/spell_desk.png");
 
-	public SpellDeskScreen(SpellDeskContainer screenContainer, Inventory inv, Component titleIn) {
+	public SpellDeskScreen(SpellDeskMenu screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);
 	}
 	

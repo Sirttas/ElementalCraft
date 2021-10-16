@@ -84,7 +84,7 @@ public class EvaporatorBlock extends AbstractECContainerBlock {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
-		BlockEntityHelper.getTileEntityAs(world, pos, EvaporatorBlockEntity.class).filter(EvaporatorBlockEntity::canExtract)
+		BlockEntityHelper.getBlockEntityAs(world, pos, EvaporatorBlockEntity.class).filter(EvaporatorBlockEntity::canExtract)
 				.ifPresent(evaporator -> ParticleHelper.createElementFlowParticle(evaporator.getElementStorage().getElementType(), world, Vec3.atCenterOf(pos.below()), Direction.DOWN, 1, rand));
 	}
 

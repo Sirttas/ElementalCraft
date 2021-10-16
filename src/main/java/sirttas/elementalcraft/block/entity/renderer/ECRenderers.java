@@ -54,6 +54,8 @@ import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlockEntity
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.block.sorter.SorterBlockEntity;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
+import sirttas.elementalcraft.block.source.SourceBlockEntity;
+import sirttas.elementalcraft.block.source.SourceRenderer;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ECRenderers {
@@ -80,6 +82,7 @@ public final class ECRenderers {
 		BlockEntityRenderers.register(PurifierBlockEntity.TYPE, PurifierRenderer::new);
 		BlockEntityRenderers.register(AccelerationShrineUpgradeBlockEntity.TYPE, AccelerationShrineUpgradeRenderer::new);
 		BlockEntityRenderers.register(SorterBlockEntity.TYPE, SorterRenderer::new);
+		BlockEntityRenderers.register(SourceBlockEntity.TYPE, SourceRenderer::new);
 
 		BlockEntityRenderers.register(FirePylonBlockEntity.TYPE, RendererShrine::new);
 		BlockEntityRenderers.register(VacuumShrineBlockEntity.TYPE, RendererShrine::new);

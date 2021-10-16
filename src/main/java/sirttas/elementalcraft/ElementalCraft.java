@@ -18,6 +18,7 @@ import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
@@ -71,6 +72,7 @@ public class ElementalCraft {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(SpellProperties.NAME), SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(Rune.NAME), ElementalCraftApi.RUNE_MANAGER).withCodec(Rune.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ToolInfusion.NAME), ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(SourceTrait.NAME), ElementalCraftApi.SOURCE_TRAIT_MANAGER).withCodec(SourceTrait.CODEC));
 		DataTagIMC.enqueue(() -> new DataTagIMC<>(ElementalCraftApi.RUNE_MANAGER, ElementalCraftApi.RUNE_TAGS));
 	}
 }

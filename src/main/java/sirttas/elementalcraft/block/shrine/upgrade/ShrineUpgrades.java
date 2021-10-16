@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.Mod;
 import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.StrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.FortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
@@ -33,7 +34,8 @@ public class ShrineUpgrades {
 	public static final IDataWrapper<ShrineUpgrade> PROTECTION = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(ProtectionShrineUpgradeBlock.NAME));
 	public static final IDataWrapper<ShrineUpgrade> FILLING = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(FillingShrineUpgradeBlock.NAME));
 	public static final IDataWrapper<ShrineUpgrade> CRYSTAL_HARVEST = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(CrystalHarvestShrineUpgradeBlock.NAME));
-
+	public static final IDataWrapper<ShrineUpgrade> STRENGTH = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(StrengthShrineUpgradeBlock.NAME));
+	
 	private ShrineUpgrades() {}
 
 }

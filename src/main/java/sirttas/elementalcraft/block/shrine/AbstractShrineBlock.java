@@ -58,7 +58,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@Deprecated
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
-			BlockEntityHelper.getTileEntityAs(worldIn, pos, AbstractShrineBlockEntity.class).ifPresent(shrine -> shrine.getUpgradeDirections().forEach(direction -> {
+			BlockEntityHelper.getBlockEntityAs(worldIn, pos, AbstractShrineBlockEntity.class).ifPresent(shrine -> shrine.getUpgradeDirections().forEach(direction -> {
 				BlockPos newPos = pos.relative(direction);
 				BlockState upgradeState = worldIn.getBlockState(newPos);
 				Block block = upgradeState.getBlock();
@@ -94,7 +94,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
-		BlockEntityHelper.getTileEntityAs(world, pos, AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
+		BlockEntityHelper.getBlockEntityAs(world, pos, AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
 	}
 
 	@OnlyIn(Dist.CLIENT)

@@ -16,20 +16,20 @@ import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.inventory.SingleStackInventory;
+import sirttas.elementalcraft.container.SingleStackContainer;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 
 public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements IContainerTopBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final BlockEntityType<EvaporatorBlockEntity> TYPE = null;
 
-	private final SingleStackInventory inventory;
+	private final SingleStackContainer inventory;
 	private final SingleElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
 	public EvaporatorBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
-		inventory = new SingleStackInventory(this::setChanged);
+		inventory = new SingleStackContainer(this::setChanged);
 		this.elementStorage = new SingleElementStorage(ECConfig.COMMON.shardElementAmount.get() * 20, this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.evaporatorMaxRunes.get());
 	}

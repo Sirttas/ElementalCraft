@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,6 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.material.ECMaterials;
 
 public class SourceBlock extends AbstractECEntityBlock {
@@ -44,7 +46,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createECTicker(level, type, SourceBlockEntity.TYPE, level.isClientSide ? SourceBlockEntity::clientTick : SourceBlockEntity::commonTick);
+		return createECTicker(level, type, SourceBlockEntity.TYPE, level.isClientSide ? SourceBlockEntity::clientTick : SourceBlockEntity::serverTick);
 	}
 
 	@Override
@@ -62,9 +64,8 @@ public class SourceBlock extends AbstractECEntityBlock {
 	@Deprecated
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return showShape(state, context) ? SHAPE : Shapes.empty();
-
 	}
-
+	
 	@Override
 	@Deprecated
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
@@ -77,7 +78,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 					.filter(LivingEntity.class::isInstance)
 					.map(LivingEntity.class::cast)
 					.filter(e -> Stream.of(e.getMainHandItem(), e.getOffhandItem())
-							.anyMatch(s -> s.getItem() instanceof ISourceInteractable && ((ISourceInteractable) s.getItem()).canIteractWithSource(s, state)))
+							.anyMatch(s -> s.getItem() instanceof ISourceInteractable sourceInteractable && sourceInteractable.canIteractWithSource(s, state)))
 					.isPresent();
 			}
 		return false;
@@ -95,6 +96,12 @@ public class SourceBlock extends AbstractECEntityBlock {
 		}
 	}
 
+	@Override
+	@Deprecated
+	public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+		return super.canBeReplaced(state, context) && BlockEntityHelper.getBlockEntityAs(context.getLevel(), context.getClickedPos(), SourceBlockEntity.class).map(s -> !s.isStabalized()).orElse(true);
+	}
+	
 	@Override
 	@Deprecated
 	public RenderShape getRenderShape(BlockState state) {

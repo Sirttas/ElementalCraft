@@ -31,7 +31,7 @@ import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterloggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
-import sirttas.elementalcraft.inventory.ECInventoryHelper;
+import sirttas.elementalcraft.container.ECContainerHelper;
 
 public class BinderBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
@@ -67,7 +67,7 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		final BinderBlockEntity binder = (BinderBlockEntity) world.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(world, pos, null);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
 		if (binder != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
 			if ((binder.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !binder.getInventory().isEmpty()) {

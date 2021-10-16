@@ -41,7 +41,7 @@ public interface IPipeConnectedBlock {
 	}
 	
 	static boolean isConnectable(BlockGetter world, BlockPos from, Direction face) {
-		IElementPipe entity = BlockEntityHelper.getTileEntityAs(world, from.relative(face), IElementPipe.class).orElse(null);
+		IElementPipe entity = BlockEntityHelper.getBlockEntityAs(world, from.relative(face), IElementPipe.class).orElse(null);
 		
 		if (entity != null) {
 			ConnectionType connection = entity.getConection(face);

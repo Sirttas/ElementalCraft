@@ -21,7 +21,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 
-public class PureInfusionRecipe implements IInventoryBlockEntityRecipe<PureInfuserBlockEntity> {
+public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfuserBlockEntity> {
 
 	public static final String NAME = "pureinfusion";
 	public static final RecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<PureInfusionRecipe>() {
