@@ -3,9 +3,8 @@ package sirttas.elementalcraft.block.source.trait;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +16,7 @@ public class SourceTraitHelper {
 
 	private SourceTraitHelper() {}
 	
-	@NonNull
+	@Nonnull
 	public static Map<SourceTrait, ISourceTraitValue> loadTraits(@Nullable CompoundTag tag) {
 		Map<SourceTrait, ISourceTraitValue> traits = new TreeMap<>();
 		
@@ -25,7 +24,7 @@ public class SourceTraitHelper {
 		return traits;
 	}
 	
-	public static void loadTraits(@Nullable CompoundTag tag, @NonNull Map<SourceTrait, ISourceTraitValue> traits) {
+	public static void loadTraits(@Nullable CompoundTag tag, @Nonnull Map<SourceTrait, ISourceTraitValue> traits) {
 		traits.clear();
 		if (tag != null) {
 			for (String key : tag.getAllKeys()) {
@@ -42,8 +41,8 @@ public class SourceTraitHelper {
 		}
 	}
 	
-	@NonNull
-	public static CompoundTag saveTraits(@NonNull Map<SourceTrait, ISourceTraitValue> traits) {
+	@Nonnull
+	public static CompoundTag saveTraits(@Nonnull Map<SourceTrait, ISourceTraitValue> traits) {
 		var traitTag = new CompoundTag();
 
 		traits.forEach((trait, value) -> {
