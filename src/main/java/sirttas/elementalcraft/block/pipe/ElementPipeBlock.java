@@ -123,7 +123,7 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	}
 
 	public static boolean showCover(BlockState state, PlayerEntity player) {
-		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
+		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
 	}
 
 	private static boolean isCovered(BlockState state) {
@@ -144,7 +144,7 @@ public class ElementPipeBlock extends AbstractECBlockEntityProviderBlock {
 	private VoxelShape getCurentShape(BlockState state, ElementPipeBlockEntity entity, PlayerEntity player) {
 		VoxelShape result = VoxelShapes.empty();
 
-		if (showCover(state, player)) {
+		if (showCover(state, entity != null ? player : null)) {
 			return VoxelShapes.block();
 		}
 		for (final VoxelShape shape : SHAPES) {
