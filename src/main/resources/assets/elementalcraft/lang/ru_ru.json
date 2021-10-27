@@ -78,7 +78,6 @@
 "item.elementalcraft.powerful_water_shard": "Великий водный осколок",
 "item.elementalcraft.powerful_earth_shard": "Великий земляной осколок",
 "item.elementalcraft.powerful_air_shard": "Великий воздушный осколок",
-
 "item.elementalcraft.crude_fire_gem": "Неочищенный огненный самоцвет",
 "item.elementalcraft.crude_water_gem": "Неочищенный водный самоцвет",
 "item.elementalcraft.crude_earth_gem": "Неочищенный землянной самоцвет",
@@ -125,6 +124,7 @@
 "block.elementalcraft.oreshrine": "Храм руды",
 "block.elementalcraft.overloadshrine": "Храм перезагрузок",
 "block.elementalcraft.sweetshrine": "Храм нектара",
+  
 "block.elementalcraft.reservoir_fire": "Резервуар огеннного элемента",
 "block.elementalcraft.reservoir_water": "Резервуар водного элемента",
 "block.elementalcraft.reservoir_earth": "Резервуар земляного элемента",
@@ -133,6 +133,7 @@
 "block.elementalcraft.evaporator": "Испаритель элементов",
 "block.elementalcraft.solar_synthesizer": "Солнечный синтез элементов",
 "block.elementalcraft.diffuser": "Элементный рассеиватель",
+
 "block.elementalcraft.binder_improved": "Расширенный элементный связыватель",
 "block.elementalcraft.crystallizer": "Кристаллизатор самоцветов",
 "block.elementalcraft.air_mill": "Дробитель с воздушной мельницей",
@@ -225,7 +226,6 @@
 "shrine_upgrade_bonus.elementalcraft.range": "Радиус: %s",
 "shrine_upgrade_bonus.elementalcraft.strength": "Сила: %s",
 
-
 "rune_bonus.elementalcraft.none": "§4ОШИБКА: %s",
 "rune_bonus.elementalcraft.speed": "Скорость: %s",
 "rune_bonus.elementalcraft.element_preservation": "Сохранение элемента: %s",
@@ -242,6 +242,7 @@
 "elementalcraft_rune.elementalcraft.tzeentch": "Руна Тзинча",
 "elementalcraft_rune.elementalcraft.creative": "Руна креатива",
 
+
 "elementalcraft.jei.infusion": "Элементный инфьюзер",
 "elementalcraft.jei.binding": "Привязка элементом",
 "elementalcraft.jei.pureinfusion": "Очистка инфьюзером",
@@ -254,6 +255,8 @@
 "elementalcraft.jei.crystallization": "Кристализация самоцветов",
 "elementalcraft.jei.inscription": "Высекание рун",
 "elementalcraft.jei.grinding": "Дробление",
+"elementalcraft.jei.spell_craft": "Изготовление заклинаний",
+
 "item.elementalcraft.minor_rune_slate": "Маленькая рунная плита",
 "item.elementalcraft.rune_slate": "Рунная плита",
 "item.elementalcraft.major_rune_slate": "Большая рунная плита",
@@ -382,5 +385,4 @@
 "elementalcraft.page.dash0": "Dash in targeted direction.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().",
 "elementalcraft.page.silk_vein0": "Mine a whole $(thing)ore vein$() with silk touch.$(br)Consumes $(thing)earth$() from an $(ec:holder)element holder$().",
 "elementalcraft.page.speed0": "Increase speed and attack speed for you or the targeted $(thing)entity$().$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$()."
-
 }
