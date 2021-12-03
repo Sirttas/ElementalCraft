@@ -1,25 +1,25 @@
 package sirttas.elementalcraft.api.pureore.injector;
 
-import java.text.MessageFormat;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableMap;
-
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.Registry;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.pureore.PureOreException;
+
+import java.text.MessageFormat;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class AbstractPureOreRecipeInjector<C extends Container, T extends Recipe<C>> extends ForgeRegistryEntry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> {
 
@@ -77,8 +77,7 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 	public Optional<T> getRecipe(Item ore) {
 		return getRecipes().values().stream()
 				.filter(recipe -> filter(recipe, new ItemStack(ore)))
-				.sorted((r1, r2) -> r1.getId().compareTo(r2.getId()))
-				.findFirst();
+				.min(Comparator.comparing(Recipe::getId));
 	}
 
 	public RecipeType<T> getRecipeType() {

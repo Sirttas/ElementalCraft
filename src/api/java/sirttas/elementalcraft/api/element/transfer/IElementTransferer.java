@@ -1,18 +1,29 @@
-package sirttas.elementalcraft.block.pipe;
+package sirttas.elementalcraft.api.element.transfer;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 
-public interface IElementPipe {
+import java.util.Map;
+import java.util.stream.Stream;
 
-	ConnectionType getConection(Direction face);
+public interface IElementTransferer {
 
-	default boolean isPriority(Direction face) {
-		return false;
+	default ConnectionType getConnection(Direction face) {
+		return getConnections().getOrDefault(face, ConnectionType.NONE);
 	}
-	
-	public enum ConnectionType {
+
+	Map<Direction, ConnectionType> getConnections();
+
+	default Stream<Map.Entry<Direction, ConnectionType>> getConnectionStream() {
+		return getConnections().entrySet().stream();
+	}
+
+	int getRemainingTransferAmount();
+
+	void transfer(int amount);
+
+	enum ConnectionType {
 		NONE(0, "none", false),
 		CONNECT(1, "connect", true),
 		INSERT(2, "insert", true),
@@ -23,13 +34,13 @@ public interface IElementPipe {
 		private final String translationKey;
 		private final boolean connected;
 
-		private ConnectionType(int value, String key, boolean connected) {
+		ConnectionType(int value, String key, boolean connected) {
 			this.value = value;
 			this.translationKey = "message.elementalcraft." + key;
 			this.connected = connected;
 		}
 
-		boolean isConnected() {
+		public boolean isConnected() {
 			return connected;
 		}
 

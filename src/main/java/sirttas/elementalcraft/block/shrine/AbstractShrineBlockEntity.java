@@ -1,13 +1,5 @@
 package sirttas.elementalcraft.block.shrine;
 
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -31,6 +23,13 @@ import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.config.ECConfig;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
@@ -200,11 +199,10 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 		compound.putBoolean(ECNames.RUNNING, running);
-		return compound;
 	}
 
 	@Override
@@ -225,7 +223,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		private int consumeAmount;
 		private int capacity;
 		private float range;
-		private ElementType elementType;
+		private final ElementType elementType;
 
 		private Properties(ElementType elementType) {
 			this.elementType = elementType;

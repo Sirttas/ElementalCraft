@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.block.entity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +13,9 @@ import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * IER = Inventory ElementStorage RuneHandler
@@ -44,15 +44,14 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	}
 	
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		IElementStorage elementStorage = getElementStorage();
 		
 		if (elementStorage instanceof INBTSerializable) {
 			compound.put(ECNames.ELEMENT_STORAGE, ((INBTSerializable<?>) elementStorage).serializeNBT());
 		}
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
-		return compound;
 	}
 	
 	@Override

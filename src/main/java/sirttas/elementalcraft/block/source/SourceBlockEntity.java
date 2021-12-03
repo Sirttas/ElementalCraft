@@ -1,12 +1,5 @@
 package sirttas.elementalcraft.block.source;
 
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +22,12 @@ import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.particle.ParticleHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.Random;
+import java.util.TreeMap;
 
 public class SourceBlockEntity extends AbstractECBlockEntity {
 
@@ -149,14 +148,13 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 		compound.putBoolean(ECNames.EXHAUSTED, elementStorage.isExhausted());
 		compound.putBoolean(ECNames.ANALYZED, analyzed);
 		compound.putBoolean(ECNames.STABILIZED, stabalized);
 		compound.put(ECNames.TRAITS, SourceTraitHelper.saveTraits(traits));
-		return compound;
 	}
 
 	@Override

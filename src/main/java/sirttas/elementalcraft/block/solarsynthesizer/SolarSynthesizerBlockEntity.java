@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.solarsynthesizer;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -31,6 +26,10 @@ import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.particle.ParticleHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity implements IContainerTopBlockEntity {
 
@@ -85,11 +84,10 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 		compound.putBoolean(ECNames.WORKING, working);
-		return compound;
 	}
 
 	@Override

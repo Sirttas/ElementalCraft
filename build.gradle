@@ -35,9 +35,9 @@ version = project.hasProperty('tag_version') ? "${minecraft_version}-${tag_versi
 group = 'sirttas.elementalcraft'
 archivesBaseName = 'elementalcraft'
 
-println('Building Elemental Craft: ' + project.version)
+logger.info('Building Elemental Craft: ' + project.version)
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 sourceSets {
@@ -96,8 +96,15 @@ minecraft {
 
             mods {
                 elementalcraft {
+                    source sourceSets.api
                     source sourceSets.main
                 }
+                try {
+                    dpanvil {
+                        source project(":DPAnvil").sourceSets.api
+                        source project(":DPAnvil").sourceSets.main
+                    }
+                } catch (e) { }
             }
         }
 
@@ -112,8 +119,15 @@ minecraft {
 
             mods {
                 elementalcraft {
+                    source sourceSets.api
                     source sourceSets.main
                 }
+                try {
+                    dpanvil {
+                        source project(":DPAnvil").sourceSets.api
+                        source project(":DPAnvil").sourceSets.main
+                    }
+                } catch (e) { }
             }
         }
 
@@ -129,9 +143,16 @@ minecraft {
 
             mods {
                 elementalcraft {
+                    source sourceSets.api
                     source sourceSets.main
                     source sourceSets.datagen
                 }
+                try {
+                    dpanvil {
+                        source project(":DPAnvil").sourceSets.api
+                        source project(":DPAnvil").sourceSets.main
+                    }
+                } catch (e) { }
             }
         }
     }
@@ -154,12 +175,23 @@ dependencies {
   	annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies
+    try {
+        apiCompileOnly project(":DPAnvil").sourceSets.api
+        compileOnly project(":DPAnvil").sourceSets.api
+        runtimeOnly project(":DPAnvil").sourceSets.main
+        datagenCompileOnly project(":DPAnvil").sourceSets.api
+        datagenRuntimeOnly project(":DPAnvil").sourceSets.main
+    } catch (e) {
+        logger.info("DPAnvil not found localy, looking in maven repo")
+        compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
+        runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
+    }
+
     //compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
-    runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
-    
-    implementation fg.deobf("mezz.jei:jei-${jei_version}")
+
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    //implementation fg.deobf("mezz.jei:jei-${jei_version}")
     
     // mod interactions
     //implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
@@ -262,7 +294,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 				def line
 			
 		        while ((line = reader.readLine()) != null && !changeEnd) {
-		        	if (line ==~ '^\s*- .*') {
+		        	if (line ==~ '^\\s*- .*') {
 		        		changeStart = true;
 		        	} else if (changeStart) {
 		        		changeEnd = true;
@@ -283,7 +315,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			mainArtifact(jar) {
 				relations {
 					requiredDependency 'datapack-anvil'
-					requiredDependency 'jei'
+//					requiredDependency 'jei'
 //					requiredDependency 'patchouli'
 	        		incompatible 'performant'
 				}

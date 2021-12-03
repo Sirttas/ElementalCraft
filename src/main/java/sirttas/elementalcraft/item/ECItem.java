@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Multimap;
 
-import mezz.jei.color.ColorGetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -58,7 +57,7 @@ public class ECItem extends Item {
 	@OnlyIn(Dist.CLIENT)
 	public static final int lookupColor(ItemStack stack) {
 		try {
-			List<Integer> colors = ColorGetter.getColors(stack, 2);
+			List<Integer> colors = List.of(); // TODO mezz.jei.color.ColorGetter.getColors(stack, 2);
 	
 			if (colors != null && !colors.isEmpty()) {
 				return colors.get(0);

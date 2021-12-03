@@ -1,16 +1,16 @@
 package sirttas.elementalcraft.item.holder;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -50,7 +50,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	@Override
-	public boolean canIteractWithSource(ItemStack stack, BlockState state) {
+	public boolean canInteractWithSource(ItemStack stack, BlockState state) {
 		return isValidSource(state);
 	}
 

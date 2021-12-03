@@ -18,7 +18,7 @@ public class WaterloggingHelper {
 	
 	public static void sheduleWaterTick(BlockState state, LevelAccessor level, BlockPos pos) {
 		if (isWaterlogged(state)) {
-			level.getLiquidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
 	}
 	

@@ -4,7 +4,7 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -33,14 +33,14 @@ public class ECClientHandler {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		Runes.registerModels();
-		ModelLoader.addSpecialModel(ElementPipeRenderer.SIDE_LOCATION);
-		ModelLoader.addSpecialModel(ElementPipeRenderer.EXTRACT_LOCATION);
-		ModelLoader.addSpecialModel(ElementPipeRenderer.PRIORITY_LOCATION);
-		ModelLoader.addSpecialModel(SolarSynthesizerRenderer.LENSE_LOCATION);
-		ModelLoader.addSpecialModel(AirMillRenderer.BLADES_LOCATION);
-		ModelLoader.addSpecialModel(DiffuserRenderer.CUBE_LOCATION);
-		ModelLoader.addSpecialModel(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
-		ModelLoader.addSpecialModel(SourceRenderer.STABILIZER_LOCATION);	
+		ForgeModelBakery.addSpecialModel(ElementPipeRenderer.SIDE_LOCATION);
+		ForgeModelBakery.addSpecialModel(ElementPipeRenderer.EXTRACT_LOCATION);
+		ForgeModelBakery.addSpecialModel(ElementPipeRenderer.PRIORITY_LOCATION);
+		ForgeModelBakery.addSpecialModel(SolarSynthesizerRenderer.LENSE_LOCATION);
+		ForgeModelBakery.addSpecialModel(AirMillRenderer.BLADES_LOCATION);
+		ForgeModelBakery.addSpecialModel(DiffuserRenderer.CUBE_LOCATION);
+		ForgeModelBakery.addSpecialModel(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
+		ForgeModelBakery.addSpecialModel(SourceRenderer.STABILIZER_LOCATION);
 	}
 	
 	@SubscribeEvent
@@ -49,7 +49,7 @@ public class ECClientHandler {
 	}
 	
 	private static void addSprite(TextureStitchEvent.Pre event, Material sprite) {
-		if (event.getMap().location().equals(sprite.atlasLocation())) {
+		if (event.getAtlas().location().equals(sprite.atlasLocation())) {
 			event.addSprite(sprite.texture());
 		}
 	}

@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.rune;
 
+import net.minecraftforge.client.model.ForgeModelBakery;
 import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.client.Minecraft;
@@ -7,7 +8,6 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelLoader;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
 
@@ -25,7 +25,7 @@ public class Runes {
 	private static void addModel(ResourceLocation runeModel) {
 		String path = StringUtils.removeStart(StringUtils.removeEnd(runeModel.getPath(), ".json"), "models/item/");
 
-		ModelLoader.addSpecialModel(new ModelResourceLocation(new ResourceLocation(runeModel.getNamespace(), path), "inventory"));
+		ForgeModelBakery.addSpecialModel(new ModelResourceLocation(new ResourceLocation(runeModel.getNamespace(), path), "inventory"));
 	}
 
 }

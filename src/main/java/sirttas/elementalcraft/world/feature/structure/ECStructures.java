@@ -11,6 +11,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.registry.RegistryHelper;
@@ -20,7 +21,7 @@ import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 public class ECStructures {
 
 	public static final StructureFeature<IElementTypeFeatureConfig> SOURCE_ALTAR = new SourceAltarStructure();
-	public static final StructurePieceType SOURCE_ALTAR_PIECE_TYPE = SourceAltarStructure.Piece::new;
+	public static final StructurePieceType SOURCE_ALTAR_PIECE_TYPE = StructurePieceType.setTemplatePieceId(SourceAltarStructure.Piece::new, ElementalCraft.createRL("source_altar").toString());
 
 	private ECStructures() {}
 	

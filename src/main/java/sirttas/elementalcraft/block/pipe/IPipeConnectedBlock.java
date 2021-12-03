@@ -7,15 +7,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import sirttas.elementalcraft.api.element.transfer.CapabilityElementTransferer;
+import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.pipe.IElementPipe.ConnectionType;
 
 public interface IPipeConnectedBlock {
 
-	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
-	public static final BooleanProperty EAST = BlockStateProperties.EAST;
-	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
-	public static final BooleanProperty WEST = BlockStateProperties.WEST;
+	BooleanProperty NORTH = BlockStateProperties.NORTH;
+	BooleanProperty EAST = BlockStateProperties.EAST;
+	BooleanProperty SOUTH = BlockStateProperties.SOUTH;
+	BooleanProperty WEST = BlockStateProperties.WEST;
 
 	default BlockState doGetStateForPlacement(BlockGetter world, BlockPos pos) {
 		return ((Block) this).defaultBlockState()
@@ -25,28 +26,25 @@ public interface IPipeConnectedBlock {
 				.setValue(WEST, isConnectable(world, pos, Direction.WEST));
 	}
 
-	default BlockState doUpdateShape(BlockState stateIn, BlockGetter world, BlockPos pos, Direction facing) {
-		switch (facing) {
-		case NORTH:
-			return stateIn.setValue(NORTH, isConnectable(world, pos, Direction.NORTH));
-		case SOUTH:
-			return stateIn.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH));
-		case EAST:
-			return stateIn.setValue(EAST, isConnectable(world, pos, Direction.WEST));
-		case WEST:
-			return stateIn.setValue(WEST, isConnectable(world, pos, Direction.EAST));
-		default:
-			return stateIn;
-		}
+	default BlockState doUpdateShape(BlockState state, BlockGetter world, BlockPos pos, Direction facing) {
+		return switch (facing) {
+			case NORTH -> state.setValue(NORTH, isConnectable(world, pos, Direction.NORTH));
+			case SOUTH -> state.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH));
+			case EAST -> state.setValue(EAST, isConnectable(world, pos, Direction.WEST));
+			case WEST -> state.setValue(WEST, isConnectable(world, pos, Direction.EAST));
+			default -> state;
+		};
 	}
 	
 	static boolean isConnectable(BlockGetter world, BlockPos from, Direction face) {
-		IElementPipe entity = BlockEntityHelper.getBlockEntityAs(world, from.relative(face), IElementPipe.class).orElse(null);
+		IElementTransferer transferer = BlockEntityHelper.getBlockEntity(world, from.relative(face))
+				.flatMap(b -> CapabilityElementTransferer.get(b, face.getOpposite()).resolve())
+				.orElse(null);
 		
-		if (entity != null) {
-			ConnectionType connection = entity.getConection(face);
+		if (transferer != null) {
+			IElementTransferer.ConnectionType connection = transferer.getConnection(face);
 			
-			return connection.isConnected() || connection == ConnectionType.NONE;
+			return connection.isConnected() || connection == IElementTransferer.ConnectionType.NONE;
 		}
 		return false;
 	}

@@ -1,18 +1,17 @@
 package sirttas.elementalcraft.api.source.trait.value;
 
-import javax.annotation.Nullable;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 
+import javax.annotation.Nullable;
+
 public interface ISourceTraitValueProvider {
 
-	public static final Codec<ISourceTraitValueProvider> CODEC = CodecHelper.getRegistryCodec(() -> SourceTraitValueProviderType.REGISTRY).dispatch(ISourceTraitValueProvider::getType, SourceTraitValueProviderType::getCodec);
+	Codec<ISourceTraitValueProvider> CODEC = CodecHelper.getRegistryCodec(() -> SourceTraitValueProviderType.REGISTRY).dispatch(ISourceTraitValueProvider::getType, SourceTraitValueProviderType::getCodec);
 	
 	SourceTraitValueProviderType<? extends ISourceTraitValueProvider> getType();
 	

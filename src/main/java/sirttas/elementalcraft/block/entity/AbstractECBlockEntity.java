@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.entity;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -10,7 +8,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.network.PacketDistributor;
+
+import javax.annotation.Nonnull;
 
 public abstract class AbstractECBlockEntity extends BlockEntity {
 
@@ -35,7 +35,7 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 
 	@Override
 	public final ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return new ClientboundBlockEntityDataPacket(worldPosition, 1, getUpdateTag());
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 	@Nonnull
 	@Override
 	public final CompoundTag getUpdateTag() {
-		return save(new CompoundTag());
+		return saveWithoutMetadata();
 	}
 
 	public void sendUpdate() {

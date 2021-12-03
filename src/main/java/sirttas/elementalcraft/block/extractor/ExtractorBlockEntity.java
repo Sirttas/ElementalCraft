@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.extractor;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -27,6 +22,10 @@ import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class ExtractorBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
 
@@ -57,11 +56,10 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.putInt(ECNames.EXTRACTION_AMOUNT, this.extractionAmount);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-		return compound;
 	}
 
 	protected Optional<BlockState> getSourceState() {

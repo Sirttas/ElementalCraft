@@ -1,9 +1,6 @@
 package sirttas.elementalcraft.block.pipe;
 
-import java.util.stream.Stream;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,10 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.client.model.ModelDataManager;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
-import sirttas.elementalcraft.block.pipe.IElementPipe.ConnectionType;
+
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> {
 
@@ -36,7 +37,8 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 	public ElementPipeRenderer(Context context) {}
 
 	@Override
-	public void render(ElementPipeBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
+	public void render(ElementPipeBlockEntity te, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
+		var level = Objects.requireNonNull(te.getLevel());
 		BlockState coverState = te.getCoverState();
 
 		if (sideModel == null || extractModel == null || prioritytModel == null) {
@@ -47,12 +49,12 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 			prioritytModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
 		if (coverState != null && ElementPipeBlock.showCover(te.getBlockState(), Minecraft.getInstance().player)) {
-			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelDataManager.getModelData(te.getLevel(), te.getBlockPos()));
+			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelDataManager.getModelData(level, te.getBlockPos()));
 		} else {
 			renderPipes(te, matrixStack, buffer, combinedLightIn, combinedOverlayIn);
 			if (coverState != null) {
 				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), matrixStack, buffer, combinedLightIn, combinedOverlayIn,
-						ModelDataManager.getModelData(te.getLevel(), te.getBlockPos()));
+						ModelDataManager.getModelData(level, te.getBlockPos()));
 				LevelRenderer.renderLineBox(matrixStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
 			}
 		}
@@ -66,14 +68,14 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 	}
 	
 	private void renderSide(ElementPipeBlockEntity te, Direction side, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
-		ConnectionType connection = te.getConection(side);
+		IElementTransferer.ConnectionType connection = te.getConnection(side);
 		
 		if (connection.isConnected()) {
 			matrixStack.pushPose();
 			matrixStack.mulPose(side.getRotation());
 			matrixStack.translate(-0.5, -0.5, -0.5);
 			this.renderModel(sideModel, matrixStack, buffer, te, light, overlay);
-			if (connection == ConnectionType.EXTRACT) {
+			if (connection == IElementTransferer.ConnectionType.EXTRACT) {
 				this.renderModel(extractModel, matrixStack, buffer, te, light, overlay);
 			}
 			if (te.isPriority(side)) {

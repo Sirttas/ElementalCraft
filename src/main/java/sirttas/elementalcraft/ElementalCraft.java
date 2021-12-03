@@ -15,6 +15,7 @@ import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.dpanvil.api.imc.DataTagIMC;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -64,7 +65,7 @@ public class ElementalCraft {
 	private void registerCapabilities(RegisterCapabilitiesEvent event) {
 		event.register(IElementStorage.class);
 		event.register(IRuneHandler.class);
-		
+		event.register(IElementTransferer.class);
 	}
 	
 	private void enqueueIMC(InterModEnqueueEvent event) {
@@ -76,4 +77,3 @@ public class ElementalCraft {
 		DataTagIMC.enqueue(() -> new DataTagIMC<>(ElementalCraftApi.RUNE_MANAGER, ElementalCraftApi.RUNE_TAGS));
 	}
 }
-

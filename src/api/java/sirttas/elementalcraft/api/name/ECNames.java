@@ -80,6 +80,7 @@ public class ECNames {
 	public static final String TAG = DPAnvilNames.TAG;
 	public static final String TOOL_INFUSION = "tool_infusion";
 	public static final String TRAITS = "traits";
+	public static final String TRANSFERER = "transferer";
 	public static final String TYPE = DPAnvilNames.TYPE;
 	public static final String USE_DURATION = "use_duration";
 	public static final String VALUE = DPAnvilNames.VALUE;
@@ -87,6 +88,6 @@ public class ECNames {
 	public static final String WEIGHT = "weight";
 	public static final String WORKING = "working";
 	public static final String XP = "experience";
-	
-	private ECNames() {}
+
+    private ECNames() {}
 }

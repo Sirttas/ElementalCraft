@@ -1,10 +1,7 @@
 package sirttas.elementalcraft.block.source;
 
-import java.util.stream.Stream;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -26,6 +23,9 @@ import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.material.ECMaterials;
+
+import javax.annotation.Nullable;
+import java.util.stream.Stream;
 
 public class SourceBlock extends AbstractECEntityBlock {
 
@@ -73,14 +73,10 @@ public class SourceBlock extends AbstractECEntityBlock {
 	}
 
 	private boolean showShape(BlockState state, CollisionContext context) {
-		if (context instanceof EntityCollisionContext entityContext) {
-			return entityContext.getEntity()
-					.filter(LivingEntity.class::isInstance)
-					.map(LivingEntity.class::cast)
-					.filter(e -> Stream.of(e.getMainHandItem(), e.getOffhandItem())
-							.anyMatch(s -> s.getItem() instanceof ISourceInteractable sourceInteractable && sourceInteractable.canIteractWithSource(s, state)))
-					.isPresent();
-			}
+		if (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof LivingEntity e ) {
+			return Stream.of(e.getItemInHand(InteractionHand.MAIN_HAND), e.getItemInHand(InteractionHand.MAIN_HAND))
+					.anyMatch(s -> s.getItem() instanceof ISourceInteractable sourceInteractable && sourceInteractable.canInteractWithSource(s, state));
+		}
 		return false;
 	}
 

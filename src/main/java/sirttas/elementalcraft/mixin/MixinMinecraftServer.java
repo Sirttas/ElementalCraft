@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.commands.CommandSource;
-import net.minecraft.world.SnooperPopulator;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
 import net.minecraft.server.TickTask;
@@ -17,7 +16,7 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 
 @Mixin(MinecraftServer.class)
-public abstract class MixinMinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements SnooperPopulator, CommandSource, AutoCloseable {
+public abstract class MixinMinecraftServer extends ReentrantBlockableEventLoop<TickTask> implements CommandSource, AutoCloseable {
 
 	@Shadow
 	public abstract ServerLevel overworld();

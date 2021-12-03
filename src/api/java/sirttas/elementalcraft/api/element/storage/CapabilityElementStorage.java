@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.api.element.storage;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.capabilities.Capability;
@@ -12,6 +9,10 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CapabilityElementStorage {
 
@@ -33,17 +34,11 @@ public class CapabilityElementStorage {
 	public static <T extends Tag, S extends IElementStorage & INBTSerializable<T>> ICapabilityProvider createProvider(S storage) {
 		return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY != null ? new CapabilityProvider<>(storage) : null;
 	}
-	
-	private static class CapabilityProvider<T extends Tag, S extends IElementStorage & INBTSerializable<T>> implements ICapabilitySerializable<T> {
 
-		private final S storage;
-		
-		public CapabilityProvider(S storage) {
-			this.storage = storage;
-		}
+	private record CapabilityProvider<T extends Tag, S extends IElementStorage & INBTSerializable<T>>(S storage) implements ICapabilitySerializable<T> {
 
 		@Override
-		public <U> LazyOptional<U> getCapability(Capability<U> cap, Direction side) {
+		public <U> @NotNull LazyOptional<U> getCapability(@NotNull Capability<U> cap, @Nullable Direction side) {
 			return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> storage));
 		}
 

@@ -1,11 +1,5 @@
 package sirttas.elementalcraft.block.diffuser;
 
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -26,6 +20,11 @@ import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiffuserBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
 
@@ -50,11 +49,10 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.putBoolean(ECNames.HAS_DIFFUSED, hasDiffused);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-		return compound;
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {

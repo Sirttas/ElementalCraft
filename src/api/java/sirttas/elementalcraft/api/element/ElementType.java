@@ -1,23 +1,20 @@
 package sirttas.elementalcraft.api.element;
 
-import java.util.List;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import sirttas.elementalcraft.api.name.ECNames;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public enum ElementType implements StringRepresentable, IElementTypeProvider {
 
@@ -27,7 +24,7 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	EARTH(76, 133, 102, "earth"),
 	AIR(238, 255, 219, "air");
 
-	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).collect(Collectors.toList()));
+	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).toList());
 	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values, ElementType::byName);
 	public static final EnumProperty<ElementType> STATE_PROPERTY = EnumProperty.create(ECNames.ELEMENT_TYPE, ElementType.class);
 	
@@ -67,18 +64,13 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 
 	public static ElementType random(Random rand) {
 		int random = rand.nextInt(4);
-		switch (random) {
-		case 0:
-			return WATER;
-		case 1:
-			return FIRE;
-		case 2:
-			return EARTH;
-		case 3:
-			return AIR;
-		default:
-			return NONE;
-		}
+		return switch (random) {
+			case 0 -> WATER;
+			case 1 -> FIRE;
+			case 2 -> EARTH;
+			case 3 -> AIR;
+			default -> NONE;
+		};
 	}
 
 	@Nonnull

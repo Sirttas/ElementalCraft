@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.network.message;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
+
+import java.util.function.Supplier;
 
 public final class ECMessage {
 

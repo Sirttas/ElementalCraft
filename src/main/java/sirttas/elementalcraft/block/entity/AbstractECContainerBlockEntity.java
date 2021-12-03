@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.block.entity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +18,9 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements Clearable, IContainerBlockEntity, ContainerListener {
 
@@ -58,14 +58,13 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		Container inv = getInventory();
 
 		if (inv instanceof INBTSerializable) {
 			compound.put(ECNames.INVENTORY, ((INBTSerializable<?>) inv).serializeNBT());
 		}
-		return compound;
 	}
 
 	@Override

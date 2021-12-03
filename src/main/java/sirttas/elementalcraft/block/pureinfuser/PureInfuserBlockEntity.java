@@ -1,13 +1,5 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
-import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,6 +26,13 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfuserBlockEntity, PureInfusionRecipe> {
 
@@ -195,12 +194,11 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 
 		compound.putIntArray(ECNames.PROGRESS, progress.entrySet().stream().sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue())).mapToInt(Entry::getValue).toArray());
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-		return compound;
 	}
 
 	@Override

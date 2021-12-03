@@ -15,8 +15,7 @@
         {
           "condition": "minecraft:survives_explosion"
         }
-      ],
-      "functions": []
+      ]
     },
     {
       "name": "frame",
@@ -48,8 +47,7 @@
             }
           ]
         }
-      ],
-      "functions": []
+      ]
     }
   ]
 }

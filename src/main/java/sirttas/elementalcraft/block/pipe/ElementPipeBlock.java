@@ -1,13 +1,6 @@
 package sirttas.elementalcraft.block.pipe;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,12 +32,18 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 public class ElementPipeBlock extends AbstractECEntityBlock {
 
@@ -83,7 +82,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
 		return new ElementPipeBlockEntity(pos, state);
 	}
 	
@@ -95,14 +94,18 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-		((ElementPipeBlockEntity) worldIn.getBlockEntity(pos)).refresh();
+	public void onPlace(@NotNull BlockState state, Level worldIn, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
+		if (worldIn.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
+			pipe.refresh();
+		}
 	}
 
 	@Override
 	@Deprecated
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
-		((ElementPipeBlockEntity) worldIn.getBlockEntity(pos)).refresh();
+	public void tick(@NotNull BlockState state, ServerLevel worldIn, @NotNull BlockPos pos, @NotNull Random rand) {
+		if (worldIn.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
+			pipe.refresh();
+		}
 	}
 
 	private boolean compareShapes(VoxelShape shape1, VoxelShape shape2) {
@@ -138,12 +141,12 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	private boolean isRendered(VoxelShape shape, ElementPipeBlockEntity entity, BlockState state) {
 		return state.is(this) && entity != null && (compareShapes(shape, BASE_SHAPE)
-				|| (compareShapes(shape, DOWN_SHAPE) && entity.getConection(Direction.DOWN).isConnected())
-				|| (compareShapes(shape, UP_SHAPE) && entity.getConection(Direction.UP).isConnected())
-				|| (compareShapes(shape, NORTH_SHAPE) && entity.getConection(Direction.NORTH).isConnected())
-				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConection(Direction.SOUTH).isConnected())
-				|| (compareShapes(shape, WEST_SHAPE) && entity.getConection(Direction.WEST).isConnected())
-				|| (compareShapes(shape, EAST_SHAPE) && entity.getConection(Direction.EAST).isConnected())
+				|| (compareShapes(shape, DOWN_SHAPE) && entity.getConnection(Direction.DOWN).isConnected())
+				|| (compareShapes(shape, UP_SHAPE) && entity.getConnection(Direction.UP).isConnected())
+				|| (compareShapes(shape, NORTH_SHAPE) && entity.getConnection(Direction.NORTH).isConnected())
+				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConnection(Direction.SOUTH).isConnected())
+				|| (compareShapes(shape, WEST_SHAPE) && entity.getConnection(Direction.WEST).isConnected())
+				|| (compareShapes(shape, EAST_SHAPE) && entity.getConnection(Direction.EAST).isConnected())
 				|| (compareShapes(shape, FRAME_SHAPE) && state.getValue(COVER) == CoverType.FRAME));
 	}
 
@@ -172,23 +175,17 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
 		Player player = getPlayer(context);
 		ElementPipeBlockEntity blockEntity = getBlockEntity(world, pos);
 
-		return world instanceof Level && ((Level) world).isClientSide ? getShape(state, pos, blockEntity, Minecraft.getInstance().hitResult, player)
+		return world instanceof Level level && level.isClientSide ? getShape(state, pos, blockEntity, Minecraft.getInstance().hitResult, player)
 				: getCurentShape(state, blockEntity, player);
 	}
 
 	private Player getPlayer(CollisionContext context) {
-		if (context instanceof EntityCollisionContext entityContext) {
-			var opt = entityContext.getEntity()
-					.filter(Player.class::isInstance)
-					.map(Player.class::cast);
-		
-			if (opt.isPresent()) {
-				return opt.get();
-			}
+		if (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof Player player) {
+			return player;
 		}
 		return null;
 	}
@@ -208,13 +205,13 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
 		return getCurentShape(state, getBlockEntity(world, pos), null);
 	}
 
 	@Override
 	@Deprecated
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
 		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) world.getBlockEntity(pos);
 
 		if (pipe != null) {
@@ -251,12 +248,14 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	@Deprecated
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
-			ElementPipeBlockEntity te = (ElementPipeBlockEntity) worldIn.getBlockEntity(pos);
+			var te =worldIn.getBlockEntity(pos);
 
-			if (isCovered(state)) {
-				Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack((te).getCoverState().getBlock()));
+			if (te  instanceof ElementPipeBlockEntity pipe) {
+				if (isCovered(state)) {
+					Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
+				}
+				pipe.dropAllPriorities();
 			}
-			te.dropAllPriorities();
 			super.onRemove(state, worldIn, pos, newState, isMoving);
 		}
 	}
@@ -276,7 +275,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 		private final String name;
 
-		private CoverType(String name) {
+		CoverType(String name) {
 			this.name = name;
 		}
 

@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.network.message;
 
-import net.minecraftforge.fmllegacy.network.NetworkRegistry;
-import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassMessage;
 import sirttas.elementalcraft.item.spell.book.SpellBookMessage;

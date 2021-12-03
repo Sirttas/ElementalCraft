@@ -1,18 +1,19 @@
 package sirttas.elementalcraft.loot;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public final class LootHandler {
@@ -39,7 +40,7 @@ public final class LootHandler {
 	}
 
 	public static LootPool getInjectPool(ResourceLocation name) {
-		return LootPool.lootPool().add(LootTableReference.lootTableReference(name).setWeight(1)).bonusRolls(0, 1).name("elementalcraft_inject").build();
+		return LootPool.lootPool().add(LootTableReference.lootTableReference(name).setWeight(1)).setBonusRolls(UniformGenerator.between(0, 1)).name("elementalcraft_inject").build();
 	}
 
 	private static List<String> getInjects(EntityType<?>... types) {

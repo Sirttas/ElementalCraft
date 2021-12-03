@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.shrine.harvest;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.IntStream;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +20,10 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.loot.LootHelper;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -72,7 +72,6 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
 		return new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, -2, 0).move(0, -1, 0);
 	}
-
 
 	@Override
 	protected boolean doPeriode() {

@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.registries.ObjectHolder;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
@@ -26,7 +27,7 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 	}
 
 	@Override
-	protected IItemHandler createHandler() {
+	protected @NotNull IItemHandler createHandler() {
 		return new SidedInvWrapper(inventory, null);
 	}
 
@@ -45,7 +46,7 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 	}
 
 	@Override
-	public Container getInventory() {
+	public @NotNull Container getInventory() {
 		return inventory;
 	}
 }

@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.container;
 
-import java.util.function.Function;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +12,10 @@ import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Function;
 
 public abstract class AbstractElementContainerBlockEntity extends AbstractECBlockEntity implements IElementContainer {
 
@@ -36,10 +35,9 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
-		return compound;
 	}
 
 	@Override

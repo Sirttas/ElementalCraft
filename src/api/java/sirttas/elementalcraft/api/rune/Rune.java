@@ -1,18 +1,9 @@
 package sirttas.elementalcraft.api.rune;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
-
-import javax.annotation.Nonnull;
-
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
@@ -36,6 +27,13 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 
+import javax.annotation.Nonnull;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
+
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 	public static final String NAME = "runes";
@@ -46,8 +44,8 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			ResourceLocation.CODEC.fieldOf(ECNames.EFFECT_SPRITE).forGetter(Rune::getSpriteName)
 	)).apply(builder, Rune::new));
 
-	private ResourceLocation modelName;
-	private ResourceLocation fxSpriteName;
+	private final ResourceLocation modelName;
+	private final ResourceLocation fxSpriteName;
 	
 	@OnlyIn(Dist.CLIENT)
 	private Material sprite;
@@ -131,7 +129,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 		private final String name;
 
-		private BonusType(String name) {
+		BonusType(String name) {
 			this.name = name;
 		}
 
