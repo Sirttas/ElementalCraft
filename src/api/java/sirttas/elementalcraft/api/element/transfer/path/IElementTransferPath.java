@@ -5,4 +5,6 @@ public interface IElementTransferPath {
     boolean isValid();
 
     void transfer();
+
+    default void renderDebugPath() {}
 }

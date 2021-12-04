@@ -1,17 +1,6 @@
 package sirttas.elementalcraft.item.pureore;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
@@ -36,6 +25,16 @@ import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 public class PureOreManager {
 
 	private static final Pattern ORE_PATTERN = Pattern.compile("_?ore$");
@@ -55,7 +54,12 @@ public class PureOreManager {
 	}
 	
 	private ResourceLocation getPureOreId(ItemStack stack) {
-		return new ResourceLocation(NBTHelper.getECTag(stack).getString(ECNames.ORE));
+		var nbt = NBTHelper.getECTag(stack);
+
+		if (nbt != null) {
+			return new ResourceLocation(nbt.getString(ECNames.ORE));
+		}
+		return null;
 	}
 	
 	Component getPureOreName(ItemStack stack) {

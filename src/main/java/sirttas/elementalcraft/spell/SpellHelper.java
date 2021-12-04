@@ -1,18 +1,6 @@
 package sirttas.elementalcraft.spell;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.function.ObjIntConsumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import javax.annotation.Nullable;
-
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -21,6 +9,16 @@ import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.function.ObjIntConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SpellHelper {
 
@@ -168,8 +166,8 @@ public class SpellHelper {
 	}
 
 	private static Spell getSpellFromTag(Tag nbt) {
-		if (nbt instanceof CompoundTag) {
-			return Spell.REGISTRY.getValue(new ResourceLocation(((CompoundTag) nbt).getString(ECNames.SPELL)));
+		if (nbt instanceof CompoundTag compoundTag) {
+			return Spell.REGISTRY.getValue(new ResourceLocation(compoundTag.getString(ECNames.SPELL)));
 		}
 		return Spells.NONE;
 	}
