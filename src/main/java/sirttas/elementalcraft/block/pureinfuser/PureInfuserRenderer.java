@@ -1,28 +1,26 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.BooleanUtils;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.apache.commons.lang3.BooleanUtils;
+import sirttas.elementalcraft.api.clinet.renderer.ECRenderTypes;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.entity.renderer.ECRenderTypes;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemRenderer;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.event.TickHandler;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEntity> {
 

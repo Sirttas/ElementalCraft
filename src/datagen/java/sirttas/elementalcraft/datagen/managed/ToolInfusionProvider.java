@@ -1,15 +1,13 @@
 package sirttas.elementalcraft.datagen.managed;
 
-import java.io.IOException;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.enchantment.Enchantments;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.data.AbstractManagedDataProvider;
 import sirttas.elementalcraft.ElementalCraft;
@@ -23,6 +21,8 @@ import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
+
+import java.io.IOException;
 
 public class ToolInfusionProvider extends AbstractManagedDataProvider<ToolInfusion> {
 
@@ -103,9 +103,8 @@ public class ToolInfusionProvider extends AbstractManagedDataProvider<ToolInfusi
 		return new ToolInfusion(type, Lists.newArrayList(infusion));
 	}
 
-
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "ElementalCraft Tool infusion";
 	}
 }

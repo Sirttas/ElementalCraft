@@ -29,15 +29,18 @@ import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.transfer.CapabilityElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer.ConnectionType;
+import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
 import sirttas.elementalcraft.api.element.transfer.path.SimpleElementTransferPathfinder;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -48,11 +51,13 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	private final ElementPipeTransferer transferer;
 	private BlockState coverState;
 	private SimpleElementTransferPathfinder pathfinder;
+	private final Map<Direction, IElementTransferPath> pathMap;
 
 
 	public ElementPipeBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
 		transferer = new ElementPipeTransferer(this);
+		pathMap = new EnumMap<>(Direction.class);
 	}
 
 
@@ -109,9 +114,19 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		}
 	}
 
-	private void transferElement(IElementStorage sender, ElementType type) {
+	Map<Direction, IElementTransferPath> getPathMap() {
+		return pathMap;
+	}
+
+	private void transferElement(IElementStorage sender, Direction side, ElementType type) {
 		if (type != ElementType.NONE && this.pathfinder != null) {
-			this.pathfinder.findPath(type, sender, transferer, this.getBlockPos()).transfer();
+			var path = pathMap.get(side);
+
+			if (!Boolean.TRUE.equals(ECConfig.COMMON.pipePathCache.get()) || path == null || !path.isValid()) {
+				path = this.pathfinder.findPath(type, sender, transferer, this.getBlockPos());
+			}
+			pathMap.put(side, path);
+			path.transfer();
 		}
 	}
 
@@ -129,13 +144,12 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
 				.sorted(pipe.transferer.comparator)
 				.map(Map.Entry::getKey)
-				.map(side -> pipe.getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()))
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.forEach(sender -> {
-					if (sender instanceof IElementTypeProvider provider) {
-						pipe.transferElement(sender, provider.getElementType());
-					}
+				.forEach(side -> {
+					pipe.getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()).ifPresent(sender -> {
+						if (sender instanceof IElementTypeProvider provider) {
+							pipe.transferElement(sender, side, provider.getElementType());
+						}
+					});
 				});
 	}
 

@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine.budding;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -22,11 +20,14 @@ import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 
+import java.util.List;
+
 public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BuddingShrineBlock.NAME) public static final BlockEntityType<BuddingShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.buddingShrinePeriode.get())
+	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
+			.periode(ECConfig.COMMON.buddingShrinePeriode.get())
 			.consumeAmount(ECConfig.COMMON.buddingShrineConsumeAmount.get());
 
 	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);

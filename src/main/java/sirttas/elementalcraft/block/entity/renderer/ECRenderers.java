@@ -34,7 +34,7 @@ import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlockEntity;
-import sirttas.elementalcraft.block.shrine.RendererShrine;
+import sirttas.elementalcraft.block.shrine.ShrineRenderer;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.enderlock.EnderLockShrineBlockEntity;
@@ -84,19 +84,19 @@ public final class ECRenderers {
 		BlockEntityRenderers.register(SorterBlockEntity.TYPE, SorterRenderer::new);
 		BlockEntityRenderers.register(SourceBlockEntity.TYPE, SourceRenderer::new);
 
-		BlockEntityRenderers.register(FirePylonBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(VacuumShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(GrowthShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(HarvestShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(LavaShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(OreShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(OverloadShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(SweetShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(EnderLockShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(BreedingShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(GroveShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(BuddingShrineBlockEntity.TYPE, RendererShrine::new);
-		BlockEntityRenderers.register(SpringShrineBlockEntity.TYPE, RendererShrine::new);
+		BlockEntityRenderers.register(FirePylonBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(VacuumShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(GrowthShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(HarvestShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(LavaShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(OreShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(OverloadShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(SweetShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(EnderLockShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(BreedingShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(GroveShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(BuddingShrineBlockEntity.TYPE, ShrineRenderer::new);
+		BlockEntityRenderers.register(SpringShrineBlockEntity.TYPE, ShrineRenderer::new);
 	}
 
 	public static void initRenderLayouts() {

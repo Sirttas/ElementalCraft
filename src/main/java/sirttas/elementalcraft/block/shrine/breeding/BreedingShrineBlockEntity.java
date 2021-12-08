@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.shrine.breeding;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -21,12 +17,18 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final BlockEntityType<BreedingShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.breedingShrinePeriode.get())
-			.consumeAmount(ECConfig.COMMON.breedingShrineConsumeAmount.get()).range(ECConfig.COMMON.breedingShrineRange.get());
+	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
+			.periode(ECConfig.COMMON.breedingShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.breedingShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.breedingShrineRange.get());
 
 	public BreedingShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);

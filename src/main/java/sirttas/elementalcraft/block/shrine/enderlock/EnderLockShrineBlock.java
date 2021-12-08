@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine.enderlock;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,6 +17,8 @@ import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.particle.ParticleHelper;
+
+import java.util.Random;
 
 public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShrineBlockEntity> {
 

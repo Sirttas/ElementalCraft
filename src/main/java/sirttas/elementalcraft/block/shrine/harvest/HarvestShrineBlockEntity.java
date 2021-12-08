@@ -29,8 +29,10 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + HarvestShrineBlock.NAME) public static final BlockEntityType<HarvestShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.harvestShrinePeriode.get())
-			.consumeAmount(ECConfig.COMMON.harvestShrineConsumeAmount.get()).range(ECConfig.COMMON.harvestShrineRange.get());
+	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
+			.periode(ECConfig.COMMON.harvestShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.harvestShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.harvestShrineRange.get());
 
 	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 

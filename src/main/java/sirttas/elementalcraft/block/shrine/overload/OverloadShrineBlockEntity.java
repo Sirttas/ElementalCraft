@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.shrine.overload;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -13,23 +9,22 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + OverloadShrineBlock.NAME) public static final BlockEntityType<OverloadShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.AIR).periode(ECConfig.COMMON.overloadShrinePeriode.get())
+	private static final Properties PROPERTIES = Properties.create(ElementType.AIR)
+			.periode(ECConfig.COMMON.overloadShrinePeriode.get())
 			.consumeAmount(ECConfig.COMMON.overloadShrineConsumeAmount.get());
 
 	public OverloadShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);
-	}
-
-	Optional<TickingBlockEntity> getTarget() {
-		return BlockEntityHelper.getBlockEntityAs(level, getTargetPos(), TickingBlockEntity.class);
 	}
 
 	@Override

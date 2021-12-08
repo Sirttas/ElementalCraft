@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.block.shrine.ore;
 
-import java.util.Optional;
-import java.util.stream.IntStream;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -22,12 +19,18 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.loot.LootHelper;
 
+import java.util.Optional;
+import java.util.stream.IntStream;
+
 public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + OreShrineBlock.NAME) public static final BlockEntityType<OreShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH).periode(ECConfig.COMMON.oreShrinePeriode.get()).consumeAmount(ECConfig.COMMON.oreShrineConsumeAmount.get())
-			.range(ECConfig.COMMON.oreShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
+	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
+			.periode(ECConfig.COMMON.oreShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.oreShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.oreShrineRange.get())
+			.capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
 
 	public OreShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);

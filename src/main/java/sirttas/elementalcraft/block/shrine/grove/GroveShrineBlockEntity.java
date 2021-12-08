@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.shrine.grove;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -23,11 +18,18 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final BlockEntityType<GroveShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.groveShrinePeriode.get()).consumeAmount(ECConfig.COMMON.groveShrineConsumeAmount.get())
+	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
+			.periode(ECConfig.COMMON.groveShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.groveShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.groveShrineRange.get());
 
 

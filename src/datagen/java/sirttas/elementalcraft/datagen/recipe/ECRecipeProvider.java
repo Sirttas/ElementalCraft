@@ -1,9 +1,6 @@
 package sirttas.elementalcraft.datagen.recipe;
 
-import java.util.function.Consumer;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -64,6 +61,8 @@ import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.function.Consumer;
+
 public class ECRecipeProvider extends RecipeProvider {
 
 	private static final String HAS_INERTCRYSTAL = "has_inertcrystal";
@@ -79,7 +78,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	private static final String HAS_SWIFT_ALLOY_INGOT = "has_swift_alloy_ingot";
 	private static final String HAS_FIREITE_INGOT = "has_fireite_ingot";
 
-	private ExistingFileHelper existingFileHelper;
+	private final ExistingFileHelper existingFileHelper;
 
 	public ECRecipeProvider(DataGenerator generatorIn, ExistingFileHelper exFileHelper) {
 		super(generatorIn);
@@ -429,17 +428,17 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapelessRecipeBuilder.shapeless(ECBlocks.CREATIVE_CONTAINER).requires(ECBlocks.CREATIVE_CONTAINER).unlockedBy("has_creative_container", has(ECBlocks.CREATIVE_CONTAINER)).save(consumer,
 				"creative_container_emptying");
 
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(GavelFallSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(StoneWallSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(FireBallSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(GavelFallSpell.NAME)).setGem(ECTags.Items.INPUT_EARTH_GEMS).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(StoneWallSpell.NAME)).setGem(ECTags.Items.INPUT_EARTH_GEMS).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(FireBallSpell.NAME)).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(ItemPullSpell.NAME)).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(EnderStrikeSpell.NAME)).setGem(ECTags.Items.CRUDE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(AnimalGrowthSpell.NAME)).setGem(ECTags.Items.CRUDE_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(TreeFallSpell.NAME)).setGem(ECTags.Items.FINE_EARTH_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(PurificationSpell.NAME)).setGem(ECTags.Items.CRUDE_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(RipeningSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(RipeningSpell.NAME)).setGem(ECTags.Items.INPUT_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(FlameCleaveSpell.NAME)).setGem(ECTags.Items.CRUDE_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(InfernoSpell.NAME)).setGem(Tags.Items.GEMS_DIAMOND).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(InfernoSpell.NAME)).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(DashSpell.NAME)).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(SilkVeinSpell.NAME)).setGem(ECTags.Items.PRISTINE_EARTH_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(TranslocationSpell.NAME)).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);

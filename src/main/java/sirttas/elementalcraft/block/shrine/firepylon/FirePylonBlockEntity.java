@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine.firepylon;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,11 +17,15 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
+import java.util.List;
+
 public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + FirePylonBlock.NAME) public static final BlockEntityType<FirePylonBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE).consumeAmount(ECConfig.COMMON.firePylonConsumeAmount.get()).range(ECConfig.COMMON.firePylonRange.get());
+	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE)
+			.consumeAmount(ECConfig.COMMON.firePylonConsumeAmount.get())
+			.range(ECConfig.COMMON.firePylonRange.get());
 
 	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 

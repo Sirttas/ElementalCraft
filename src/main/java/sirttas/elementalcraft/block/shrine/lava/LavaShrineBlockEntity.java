@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.shrine.lava;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.IntStream;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
@@ -17,12 +13,19 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
+
 public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + LavaShrineBlock.NAME) public static final BlockEntityType<LavaShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE).periode(ECConfig.COMMON.lavaShrinePeriode.get()).consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
-			.range(ECConfig.COMMON.lavaShrineRange.get()).capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
+	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE)
+			.periode(ECConfig.COMMON.lavaShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.lavaShrineRange.get())
+			.capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
 
 	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 

@@ -2,7 +2,6 @@ package sirttas.elementalcraft.item.source.analysis;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
@@ -41,7 +40,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 		
 		super.renderLabels(pPoseStack, pMouseX, pMouseY);
 		for (var value : traits.values()) {
-			this.font.draw(pPoseStack, value.getDescription(), this.titleLabelX + 4, this.titleLabelY + index * 11F + 15F, -1);
+			this.font.draw(pPoseStack, value.getDescription(), this.titleLabelX + 4f, this.titleLabelY + index * 11F + 15F, -1);
 			index++;
 		}
 	}

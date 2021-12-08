@@ -2,7 +2,7 @@ buildscript {
     repositories {
 		mavenLocal()
     	mavenCentral()
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net/' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         maven { url = 'https://maven.parchmentmc.org' }
     }
@@ -176,11 +176,9 @@ dependencies {
     
     // mod dependencies
     try {
-        apiCompileOnly project(":DPAnvil").sourceSets.api
-        compileOnly project(":DPAnvil").sourceSets.api
-        runtimeOnly project(":DPAnvil").sourceSets.main
-        datagenCompileOnly project(":DPAnvil").sourceSets.api
-        datagenRuntimeOnly project(":DPAnvil").sourceSets.main
+        apiImplementation project(":DPAnvil")
+        implementation project(":DPAnvil")
+        datagenImplementation project(":DPAnvil")
     } catch (e) {
         logger.info("DPAnvil not found localy, looking in maven repo")
         compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
@@ -189,9 +187,8 @@ dependencies {
 
     //compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-    //implementation fg.deobf("mezz.jei:jei-${jei_version}")
+    
+    implementation fg.deobf("mezz.jei:jei-${jei_version}")
     
     // mod interactions
     //implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
@@ -285,8 +282,8 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 	
 		def changeLog = { ->
 			def generatedChangelog = ""
-			def changeStart = false;
-			def changeEnd = false;
+			def changeStart = false
+			def changeEnd = false
 			
 			println('Changelog:')
 			
@@ -295,9 +292,9 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			
 		        while ((line = reader.readLine()) != null && !changeEnd) {
 		        	if (line ==~ '^\\s*- .*') {
-		        		changeStart = true;
+		        		changeStart = true
 		        	} else if (changeStart) {
-		        		changeEnd = true;
+		        		changeEnd = true
 		        	}
 					if (changeStart && !changeEnd) {
 						println(line)
@@ -315,7 +312,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			mainArtifact(jar) {
 				relations {
 					requiredDependency 'datapack-anvil'
-//					requiredDependency 'jei'
+					requiredDependency 'jei'
 //					requiredDependency 'patchouli'
 	        		incompatible 'performant'
 				}

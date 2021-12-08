@@ -11,6 +11,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -18,6 +19,7 @@ import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.item.ECItem;
+import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
 public abstract class AbstractElementHolderItem extends ECItem implements ISourceInteractable {
@@ -86,9 +88,9 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 
 	protected abstract ElementType getElementType(IElementStorage target, BlockState blockstate);
 	
-	private InteractionResult tick(Level world, LivingEntity entity, BlockPos pos, ItemStack stack) {
-		BlockState blockstate = world.getBlockState(pos);
-		return BlockEntityHelper.getElementStorageAt(world, pos).map(storage -> {
+	private InteractionResult tick(Level level, LivingEntity entity, BlockPos pos, ItemStack stack) {
+		BlockState blockstate = level.getBlockState(pos);
+		return BlockEntityHelper.getElementStorageAt(level, pos).map(storage -> {
 			IElementStorage holder = getElementStorage(stack);
 			boolean isSource = isValidSource(blockstate);
 			ElementType elementType = this.getElementType(storage, blockstate);
@@ -96,10 +98,22 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 			if (elementType != ElementType.NONE) {
 				if (isSource || entity.isShiftKeyDown()) {
 					if (isSource || storage.canPipeExtract(elementType)) {
-						return storage.transferTo(holder, elementType, transferAmount) > 0 ? InteractionResult.CONSUME : InteractionResult.PASS;
+						var value = storage.transferTo(holder, elementType, transferAmount);
+
+						if (value > 0) {
+							ParticleHelper.createElementFlowParticle(elementType, level, Vec3.atCenterOf(pos), entity.getRopeHoldPosition(0), level.random);
+							return InteractionResult.CONSUME;
+						}
+						return InteractionResult.PASS;
 					}
 				} else if (storage.canPipeInsert(elementType)) {
-					return holder.transferTo(storage, elementType, transferAmount) > 0 ? InteractionResult.CONSUME : InteractionResult.PASS;
+					var value = holder.transferTo(storage, elementType, transferAmount);
+
+					if (value > 0) {
+						ParticleHelper.createElementFlowParticle(elementType, level, entity.getRopeHoldPosition(0), Vec3.atCenterOf(pos), level.random);
+						return InteractionResult.CONSUME;
+					}
+					return InteractionResult.PASS;
 				}
 			}
 			return InteractionResult.PASS;

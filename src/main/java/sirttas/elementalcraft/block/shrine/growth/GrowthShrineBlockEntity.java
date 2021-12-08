@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.shrine.growth;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -21,11 +16,18 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GrowthShrineBlock.NAME) public static final BlockEntityType<GrowthShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.growthShrinePeriode.get()).consumeAmount(ECConfig.COMMON.growthShrineConsumeAmount.get())
+	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
+			.periode(ECConfig.COMMON.growthShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.growthShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.growthShrineRange.get());
 
 	public GrowthShrineBlockEntity(BlockPos pos, BlockState state) {

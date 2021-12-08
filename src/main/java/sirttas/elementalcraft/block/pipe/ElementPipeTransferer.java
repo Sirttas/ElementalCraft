@@ -67,6 +67,11 @@ public class ElementPipeTransferer implements IElementTransferer {
         this.transferedAmount += amount;
     }
 
+    @Override
+    public boolean isValid() {
+        return this.transferedAmount < this.maxTransferAmount;
+    }
+
     void setConnection(Direction face, ConnectionType type) {
         connections.put(face, type);
         if (!type.isConnected() && isPriority(face)) {

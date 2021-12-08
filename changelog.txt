@@ -1,3 +1,10 @@
+- add back jei interaction
+- you can now use gems for spell crafting instead of diamonds
+- add particle effect on element holder
+- fix air silk SG material
+- fix fire infusion loot modifier
+
+
 1.18-4.0.1:
 
 - fix a crash

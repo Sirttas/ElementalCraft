@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.block.shrine.sweet;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
@@ -17,11 +14,16 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SweetShrineBlock.NAME) public static final BlockEntityType<SweetShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.sweetShrinePeriode.get()).consumeAmount(ECConfig.COMMON.sweetShrineConsumeAmount.get())
+	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
+			.periode(ECConfig.COMMON.sweetShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.sweetShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.sweetShrineRange.get());
 
 	public SweetShrineBlockEntity(BlockPos pos, BlockState state) {

@@ -1,11 +1,10 @@
 package sirttas.elementalcraft.config;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class ECConfig {
 
@@ -55,6 +54,9 @@ public class ECConfig {
 		public final DoubleValue sweetShrinePeriode;
 		public final IntValue sweetShrineFood;
 		public final DoubleValue sweetShrineSaturation;
+		public final DoubleValue spawningShrinePeriode;
+		public final IntValue spawningShrineConsumeAmount;
+		public final IntValue spawningShrineRange;
 		public final IntValue enderLockShrineRange;
 		public final IntValue enderLockShrineConsumeAmount;
 		public final IntValue breedingShrineRange;
@@ -116,6 +118,7 @@ public class ECConfig {
 		public final IntValue impairedPipeTransferAmount;
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
+		public final BooleanValue pipePathCache;
 		public final IntValue sorterCooldown;
 		public final IntValue sorterMaxItem;
 
@@ -199,6 +202,10 @@ public class ECConfig {
 			sweetShrinePeriode = builder.comment("The nember of tick betwenn two Sweet Shrine activations.").defineInRange("sweetShrinePeriode", 40D, 0, 2400);
 			sweetShrineFood = builder.comment("The food given by the sheet shrine.").defineInRange("sweetShrineFood", 1, 1, 10);
 			sweetShrineSaturation = builder.comment("The saturation given by the sheet shrine.").defineInRange("sweetShrineSaturation", 0.1D, 0, 10);
+			builder.pop().push("spawningShrine");
+			spawningShrineRange = builder.comment("The range of the spawning Shrine.").defineInRange("spawningShrineRange", 4, 0, 100);
+			spawningShrineConsumeAmount = builder.comment("The amount of element consumed by the spawning Shrine.").defineInRange("spawningShrineConsumeAmount", 2000, 0, 10000);
+			spawningShrinePeriode = builder.comment("The nember of tick betwenn two Sweet spawning activations.").defineInRange("spawningShrinePeriode", 100D, 0, 2400);
 			builder.pop().push("enderLock");
 			enderLockShrineRange = builder.comment("The range of the Ender Lock Shrine.").defineInRange("enderLockShrineRange", 10, 0, 100);
 			enderLockShrineConsumeAmount = builder.comment("The amount of element consumed by the Ender Lock Shrine.").defineInRange("enderLockShrineConsumeAmount", 500, 0, 10000);
@@ -282,6 +289,7 @@ public class ECConfig {
 			impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
 			improvedPipeTransferAmount = builder.comment("The amount of element transferred by improved pipes.").defineInRange("improvedPipeTransferAmount", 100, 0, 10000);
+			pipePathCache = builder.comment("Cache the last path used by the pipe to increase performances.").define("pipePathCache", true);
 			builder.pop().push("sorter");
 			sorterCooldown = builder.comment("The amount of tick between two ordered sorter item transpher.").defineInRange("sorterCooldown", 10, 0, 100);
 			sorterMaxItem = builder.comment("The max amount of items an order sorter can filter.").defineInRange("sorterMaxItem", 15, 0, 100);
@@ -352,6 +360,7 @@ public class ECConfig {
 		public final IntValue shrineRangeDisplayDuration;
 		public final BooleanValue renderPedestalShadow;
 		public final BooleanValue fastParticleEffects;
+		public final BooleanValue pipeDebugPath;
 
 		public final IntValue gaugeOffsetX;
 		public final IntValue gaugeOffsetY;
@@ -362,6 +371,7 @@ public class ECConfig {
 			shrineRangeDisplayDuration = builder.comment("The duration of shrine range display.").defineInRange("shrineRangeDisplayDuration", 600, 0, 10000);
 			renderPedestalShadow = builder.comment("Display a shadow where pedestals can be placed.").define("renderPedestalShadow", true);
 			fastParticleEffects = builder.comment("Set to true if you want to reduce quality of particles for beter performances.").define("fastParticleEffects", false);
+			pipeDebugPath = builder.comment("Render ap debug path for pipes.").define("pipeDebugPath", false);
 
 			builder.push("gauge");
 			usePaleElementGauge = builder.comment("Use pale element gauges.").define("usePaleElementGauge", false);

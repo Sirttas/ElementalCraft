@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine.enderlock;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -17,11 +15,15 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 
+import java.util.List;
+
 public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EnderLockShrineBlock.NAME) public static final BlockEntityType<EnderLockShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).consumeAmount(ECConfig.COMMON.enderLockShrineConsumeAmount.get()).range(ECConfig.COMMON.enderLockShrineRange.get());
+	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
+			.consumeAmount(ECConfig.COMMON.enderLockShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.enderLockShrineRange.get());
 
 	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
@@ -48,7 +50,7 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	public boolean doLock(Entity entity) {
 		int consumeAmount = this.getConsumeAmount();
-		var rangeSq = this.getRange();;
+		var rangeSq = this.getRange();
 
 		rangeSq *= rangeSq;
 		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(entity)) && entity.getPosition(0).distanceToSqr(Vec3.atCenterOf(getBlockPos())) <= rangeSq

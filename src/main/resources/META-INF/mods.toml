@@ -12,21 +12,21 @@ description='''ElementalCraft is a magic mod based around the 4 elements: fire, 
 [[dependencies.elementalcraft]]
     modId="forge"
     mandatory=true
-    versionRange="[38.0.8,)"
+    versionRange="[38.0.14,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="dpanvil"
     mandatory=true
-    versionRange="[1.18-3.0.0,1.18-3.1.0)"
+    versionRange="[1.18-3.1.0,1.18-3.2.0)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="jei"
     mandatory=false
-    versionRange="[FORGE-1.17.1-8.0.0.16,)"
+    versionRange="[FORGE-1.18-9.0.0.40,)"
     ordering="AFTER"
     side="BOTH"
 

@@ -1,7 +1,7 @@
 {
   "type": "elementalcraft:spell_craft",
   "gem": {
-    "tag": "forge:gems/diamond"
+    "tag": "elementalcraft:gems/input_fire"
   },
   "crystal": {
     "item": "elementalcraft:firecrystal"

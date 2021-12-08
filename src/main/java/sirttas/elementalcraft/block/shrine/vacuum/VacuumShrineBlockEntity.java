@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine.vacuum;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -20,11 +18,15 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
+import java.util.List;
+
 public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + VacuumShrineBlock.NAME) public static final BlockEntityType<VacuumShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.AIR).consumeAmount(ECConfig.COMMON.vacuumShrineConsumeAmount.get()).range(ECConfig.COMMON.vacuumShrineRange.get());
+	private static final Properties PROPERTIES = Properties.create(ElementType.AIR)
+			.consumeAmount(ECConfig.COMMON.vacuumShrineConsumeAmount.get())
+			.range(ECConfig.COMMON.vacuumShrineRange.get());
 
 	public VacuumShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);

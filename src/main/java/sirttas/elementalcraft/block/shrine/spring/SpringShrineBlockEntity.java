@@ -24,7 +24,9 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpringShrineBlock.NAME) public static final BlockEntityType<SpringShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.WATER).periode(ECConfig.COMMON.springShrinePeriode.get()).consumeAmount(ECConfig.COMMON.springShrineConsumeAmount.get());
+	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
+			.periode(ECConfig.COMMON.springShrinePeriode.get())
+			.consumeAmount(ECConfig.COMMON.springShrineConsumeAmount.get());
 
 	public SpringShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);

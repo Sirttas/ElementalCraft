@@ -18,6 +18,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
+import sirttas.elementalcraft.config.ECConfig;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -38,17 +39,19 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 
 	@Override
 	public void render(ElementPipeBlockEntity te, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
+		var minecraft = Minecraft.getInstance();
+		var player = minecraft.player;
 		var level = Objects.requireNonNull(te.getLevel());
 		BlockState coverState = te.getCoverState();
 
 		if (sideModel == null || extractModel == null || prioritytModel == null) {
-			ModelManager modelManager = Minecraft.getInstance().getModelManager();
+			ModelManager modelManager = minecraft.getModelManager();
 			
 			sideModel = modelManager.getModel(SIDE_LOCATION);
 			extractModel = modelManager.getModel(EXTRACT_LOCATION);
 			prioritytModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
-		if (coverState != null && ElementPipeBlock.showCover(te.getBlockState(), Minecraft.getInstance().player)) {
+		if (coverState != null && ElementPipeBlock.showCover(te.getBlockState(), player)) {
 			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelDataManager.getModelData(level, te.getBlockPos()));
 		} else {
 			renderPipes(te, matrixStack, buffer, combinedLightIn, combinedOverlayIn);
@@ -57,6 +60,9 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 						ModelDataManager.getModelData(level, te.getBlockPos()));
 				LevelRenderer.renderLineBox(matrixStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
 			}
+		}
+		if (Boolean.TRUE.equals(ECConfig.CLIENT.pipeDebugPath.get()) && player.isCreative()) {
+			te.getPathMap().values().forEach(path -> path.renderDebugPath(matrixStack, buffer));
 		}
 	}
 	

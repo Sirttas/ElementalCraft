@@ -23,6 +23,8 @@ public interface IElementTransferer {
 
 	void transfer(int amount);
 
+	boolean isValid();
+
 	enum ConnectionType {
 		NONE(0, "none", false),
 		CONNECT(1, "connect", true),
