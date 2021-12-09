@@ -1,8 +1,11 @@
 {
+  "type": "silentgear:standard",
+  "simple": true,
   "availability": {
     "tier": 2,
     "categories": [
-      "rock"
+      "rock",
+      "metal"
     ],
     "visible": true,
     "gear_blacklist": [],
@@ -39,6 +42,20 @@
       {
         "name": "silentgear:brittle",
         "level": 2
+      }
+    ]
+  },
+  "model": {
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#B1A69B"
+      }
+    ],
+    "rod/part": [
+      {
+        "texture": "silentgear:rod",
+        "color": "#B1A69B"
       }
     ]
   }

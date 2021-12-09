@@ -1,4 +1,6 @@
 {
+  "type": "silentgear:standard",
+  "simple": true,
   "availability": {
     "tier": 4,
     "categories": [
@@ -14,7 +16,7 @@
     }
   },
   "name": {
-    "translate": "material.elementalcraft.fireite"
+    "translate": "material.elementalcraft.fireite_ingot"
   },
   "name_prefix": {
     "translate": "material.elementalcraft.fireite"
@@ -94,6 +96,41 @@
       {
         "name": "silentgear:jagged",
         "level": 1
+      }
+    ]
+  },
+  "model": {
+    "tip/all": [
+      {
+        "texture": "silentgear:tip_sharp",
+        "color": "#5A383B"
+      }
+    ],
+    "tip/part": [
+      {
+        "texture": "silentgear:tip_base"
+      },
+      {
+        "texture": "silentgear:tip",
+        "color": "#5A383B"
+      },
+      {
+        "texture": "silentgear:tip_shine"
+      }
+    ],
+    "coating/all": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#5A383B"
+      }
+    ],
+    "coating/part": [
+      {
+        "texture": "silentgear:coating_material",
+        "color": "#5A383B"
+      },
+      {
+        "texture": "silentgear:coating_jar"
       }
     ]
   }

@@ -1,7 +1,10 @@
 {
+  "type": "silentgear:standard",
+  "simple": true,
   "availability": {
     "tier": 1,
     "categories": [
+      "organic",
       "fiber"
     ],
     "visible": true,
@@ -25,7 +28,7 @@
         "mul1": 0.1
       }
     },
-    "bowstring": {
+    "cord": {
       "durability": {
         "mul1": 0.05
       },
@@ -47,7 +50,7 @@
         "level": 2
       }
     ],
-    "bowstring": [
+    "cord": [
       {
         "name": "silentgear:synergistic",
         "level": 2
@@ -55,6 +58,35 @@
       {
         "name": "silentgear:flexible",
         "level": 3
+      }
+    ]
+  },
+  "model": {
+    "binding/all": [
+      {
+        "texture": "silentgear:binding_generic",
+        "color": "#B3804B"
+      }
+    ],
+    "binding/part": [
+      {
+        "texture": "silentgear:binding",
+        "color": "#B3804B"
+      }
+    ],
+    "cord/all": [
+      {
+        "texture": "silentgear:bowstring_string",
+        "color": "#845E37"
+      },
+      {
+        "texture": "silentgear:arrow"
+      }
+    ],
+    "cord/part": [
+      {
+        "texture": "silentgear:bowstring",
+        "color": "#845E37"
       }
     ]
   }

@@ -1,3 +1,10 @@
+1.18-4.0.4:
+
+- add springaline as silent gear material
+- move SG to datagen
+- fix crash when loading with Silent gear (issue #66)
+
+
 1.18-4.0.3:
 
 - fix pipes not working

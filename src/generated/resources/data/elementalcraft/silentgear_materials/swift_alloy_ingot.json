@@ -1,4 +1,6 @@
 {
+  "type": "silentgear:standard",
+  "simple": true,
   "availability": {
     "tier": 3,
     "categories": [
@@ -14,7 +16,7 @@
     }
   },
   "name": {
-    "translate": "material.elementalcraft.swift_alloy"
+    "translate": "material.elementalcraft.swift_alloy_ingot"
   },
   "stats": {
     "main": {
@@ -123,6 +125,50 @@
       {
         "name": "silentgear:accelerate",
         "level": 1
+      }
+    ]
+  },
+  "model": {
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#EEB961"
+      }
+    ],
+    "main/fragment": [
+      {
+        "texture": "silentgear:metal",
+        "color": "#EEB961"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#EEB961"
+      }
+    ],
+    "rod/part": [
+      {
+        "texture": "silentgear:rod",
+        "color": "#EEB961"
+      }
+    ],
+    "tip/all": [
+      {
+        "texture": "silentgear:tip_sharp",
+        "color": "#EEB961"
+      }
+    ],
+    "tip/part": [
+      {
+        "texture": "silentgear:tip_base"
+      },
+      {
+        "texture": "silentgear:tip",
+        "color": "#EEB961"
+      },
+      {
+        "texture": "silentgear:tip_shine"
       }
     ]
   }

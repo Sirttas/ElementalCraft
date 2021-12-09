@@ -6,6 +6,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.datagen.interaction.ECSilentGearMaterialProvider;
 import sirttas.elementalcraft.datagen.loot.ECBlockLootProvider;
 import sirttas.elementalcraft.datagen.loot.ECChestLootProvider;
 import sirttas.elementalcraft.datagen.loot.ECInjectLootProvider;
@@ -48,6 +49,7 @@ public class ECDataGenerators {
 			generator.addProvider(new SpellPropertiesProvider(generator));
 			generator.addProvider(new ToolInfusionProvider(generator));
 			generator.addProvider(new SourceTraitsProvider(generator));
+			generator.addProvider(new ECSilentGearMaterialProvider(generator));
 		}
 	}
 
