@@ -69,7 +69,7 @@ public class ElementPipeTransferer implements IElementTransferer {
 
     @Override
     public boolean isValid() {
-        return this.transferedAmount < this.maxTransferAmount;
+        return this.transferedAmount < this.maxTransferAmount && !pipe.isRemoved();
     }
 
     void setConnection(Direction face, ConnectionType type) {

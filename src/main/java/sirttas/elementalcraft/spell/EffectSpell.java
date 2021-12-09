@@ -1,13 +1,8 @@
 package sirttas.elementalcraft.spell;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,6 +18,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.item.ECItem;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class EffectSpell extends Spell {
 
@@ -82,7 +81,7 @@ public class EffectSpell extends Spell {
 				tooltip.add(iformattabletextcomponent.withStyle(effect.getCategory().getTooltipFormatting()));
 			}
 		}
-		ECItem.addAttributeMultimapToTooltip(tooltip, multimap, new TranslatableComponent("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
+		ECItem.addAttributeMultiMapToTooltip(tooltip, multimap, new TranslatableComponent("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
 	}
 
 	public final List<MobEffectInstance> getEffects() {

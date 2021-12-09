@@ -72,11 +72,11 @@ public class ECItem extends Item {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void addAttributeMultimapToTooltip(List<Component> tooltip, Multimap<Attribute, AttributeModifier> multimap, Component title) {
-		if (!multimap.isEmpty()) {
+	public static void addAttributeMultiMapToTooltip(List<Component> tooltip, Multimap<Attribute, AttributeModifier> multiMap, Component title) {
+		if (!multiMap.isEmpty()) {
 			tooltip.add(new TextComponent(""));
 			tooltip.add(title);
-			for (Entry<Attribute, AttributeModifier> entry : multimap.entries()) {
+			for (Entry<Attribute, AttributeModifier> entry : multiMap.entries()) {
 				tooltip.add(getAttributeTooltip(entry.getKey(), entry.getValue()));
 			}
 		}

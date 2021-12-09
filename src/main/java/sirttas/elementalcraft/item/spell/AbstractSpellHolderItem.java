@@ -1,9 +1,6 @@
 package sirttas.elementalcraft.item.spell;
 
-import java.util.List;
-
 import com.google.common.collect.Multimap;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -29,6 +26,8 @@ import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
+import java.util.List;
+
 public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHolder {
 
 	protected AbstractSpellHolderItem(Properties properties) {
@@ -40,7 +39,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.consumes", spell.getElementType().getDisplayName()).withStyle(ChatFormatting.YELLOW));
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.cooldown", spell.getCooldown() / 20).withStyle(ChatFormatting.YELLOW));
 		spell.addInformation(tooltip);
-		addAttributeMultimapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), new TranslatableComponent("tooltip.elementalcraft.on_spell_use").withStyle(ChatFormatting.GRAY));
+		addAttributeMultiMapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), new TranslatableComponent("tooltip.elementalcraft.on_spell_use").withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override

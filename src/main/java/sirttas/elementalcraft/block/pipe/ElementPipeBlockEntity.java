@@ -35,7 +35,6 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
@@ -120,11 +119,8 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 	private void transferElement(IElementStorage sender, Direction side, ElementType type) {
 		if (type != ElementType.NONE && this.pathfinder != null) {
-			var path = pathMap.get(side);
+			var path =  this.pathfinder.findPath(type, sender, transferer, this.getBlockPos());
 
-			if (!Boolean.TRUE.equals(ECConfig.COMMON.pipePathCache.get()) || path == null || !path.isValid()) {
-				path = this.pathfinder.findPath(type, sender, transferer, this.getBlockPos());
-			}
 			pathMap.put(side, path);
 			path.transfer();
 		}

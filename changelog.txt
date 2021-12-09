@@ -1,3 +1,10 @@
+1.18-4.0.3:
+
+- fix pipes not working
+
+
+1.18-4.0.2:
+
 - add back jei interaction
 - you can now use gems for spell crafting instead of diamonds
 - add particle effect on element holder

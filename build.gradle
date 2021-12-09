@@ -176,11 +176,14 @@ dependencies {
     
     // mod dependencies
     try {
-        apiImplementation project(":DPAnvil")
-        implementation project(":DPAnvil")
-        datagenImplementation project(":DPAnvil")
+        apiCompileOnly project(":DPAnvil").sourceSets.api.output
+        compileOnly project(":DPAnvil").sourceSets.api.output
+        datagenCompileOnly project(":DPAnvil").sourceSets.api.output
+        runtimeOnly project(":DPAnvil").sourceSets.main.output
+        datagenRuntimeOnly project(":DPAnvil").sourceSets.main.output
     } catch (e) {
-        logger.info("DPAnvil not found localy, looking in maven repo")
+        logger.info("DPAnvil not found locally, looking in maven repo")
+        logger.debug("Exception: ", e)
         compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
         runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
     }
