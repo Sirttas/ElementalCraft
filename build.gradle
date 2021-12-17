@@ -18,7 +18,7 @@ plugins {
     id 'eclipse'
 	id 'maven-publish'
 	id "org.sonarqube" version "${sonar_version}"
-	id "com.matthewprenger.cursegradle" version '1.4.0'
+	id "com.matthewprenger.cursegradle" version '1.4.+'
 }
 
 apply plugin: 'net.minecraftforge.gradle'

@@ -165,6 +165,12 @@ public class ECFeatures {
 	}
 
 	public static void registerStructures(BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumer) {
+		BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumerWrapper = (feature, key) -> {
+			if (feature != null) {
+				consumer.accept(feature, key);
+			}
+		};
+
 		for (var entry : BuiltinRegistries.BIOME.entrySet()) {
 			var key = entry.getKey();
 			var category = entry.getValue().getBiomeCategory();
@@ -175,7 +181,7 @@ public class ECFeatures {
 					&& category != Biome.BiomeCategory.OCEAN
 					&& category != Biome.BiomeCategory.RIVER
 					&& category != Biome.BiomeCategory.SWAMP) {
-				consumer.accept(sourceAltar, key);
+				consumerWrapper.accept(sourceAltar, key);
 			}
 		}
 	}
