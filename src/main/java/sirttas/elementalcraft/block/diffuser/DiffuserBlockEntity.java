@@ -40,7 +40,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		hasDiffused = compound.getBoolean(ECNames.HAS_DIFFUSED);
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
@@ -49,12 +49,13 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.putBoolean(ECNames.HAS_DIFFUSED, hasDiffused);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 	}
 
+	@SuppressWarnings("unused")
 	public static void serverTick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {
 		ISingleElementStorage tank = diffuser.getContainer();
 		AtomicInteger amount = new AtomicInteger(ECConfig.COMMON.diffuserDiffusionAmount.get());
@@ -85,7 +86,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
 			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 		}

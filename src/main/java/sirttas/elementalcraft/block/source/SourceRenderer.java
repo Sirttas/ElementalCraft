@@ -2,28 +2,26 @@ package sirttas.elementalcraft.block.source;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
+import javax.annotation.Nonnull;
+
 public class SourceRenderer implements IECRenderer<SourceBlockEntity> {
 
 	public static final ResourceLocation STABILIZER_LOCATION = ElementalCraft.createRL("block/source_stabilizer");
 	
 	private BakedModel stabilizerModel;
-	
-	public SourceRenderer(Context context) {}
 
 	@SuppressWarnings("resource")
 	@Override
-	public void render(SourceBlockEntity source, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(@Nonnull SourceBlockEntity source, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		Minecraft minecraft = Minecraft.getInstance();
 
 		if (stabilizerModel == null) {

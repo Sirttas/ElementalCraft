@@ -19,6 +19,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
+
 public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementType> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL("extraction");
@@ -39,18 +41,21 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/extraction.png"), 0, 0, 45, 44), 0, 0);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<ElementType> getRecipeClass() {
 		return ElementType.class;
 	}
 
-	@Override
-	public List<Component> getTooltipStrings(ElementType recipe, double mouseX, double mouseY) {
+	@Nonnull
+    @Override
+	public List<Component> getTooltipStrings(@Nonnull ElementType recipe, double mouseX, double mouseY) {
 		if (mouseX > 0 && mouseX < 16 && mouseY > 0 && mouseY < 16) {
 			return Lists.newArrayList(new TranslatableComponent("block.elementalcraft.source." + recipe.getSerializedName()));
 		}
@@ -58,12 +63,12 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 	}
 
 	@Override
-	public void setIngredients(ElementType recipe, IIngredients ingredients) {
+	public void setIngredients(@Nonnull ElementType recipe, IIngredients ingredients) {
 		ingredients.setOutput(ECIngredientTypes.ELEMENT, new IngredientElementType(recipe, amount));
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, ElementType recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull ElementType recipe, IIngredients ingredients) {
 		recipeLayout.getItemStacks().init(0, false, 0, 32);
 		recipeLayout.getItemStacks().set(0, tanks);
 		recipeLayout.getItemStacks().init(1, false, 0, 16);

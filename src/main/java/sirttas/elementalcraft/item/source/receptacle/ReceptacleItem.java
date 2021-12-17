@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.source.receptacle;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
@@ -35,7 +36,8 @@ public class ReceptacleItem extends AbstractReceptacleItem {
 		super(properties);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level world = context.getLevel();
 		ItemStack sourceReceptacle = context.getItemInHand();
@@ -61,13 +63,14 @@ public class ReceptacleItem extends AbstractReceptacleItem {
 		return InteractionResult.PASS;
 	}
 
-	@Override
-	public String getDescriptionId(ItemStack stack) {
+	@Nonnull
+    @Override
+	public String getDescriptionId(@Nonnull ItemStack stack) {
 		return this.getDescriptionId() + '.' + ReceptacleHelper.getElementType(stack).getSerializedName();
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			for (ElementType elementType : ElementType.values()) {
 				if (elementType != ElementType.NONE) {
@@ -79,7 +82,7 @@ public class ReceptacleItem extends AbstractReceptacleItem {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		var blockEntityTag = stack.getTagElement(ECNames.BLOCK_ENTITY_TAG);
 		
 		if (blockEntityTag != null) {

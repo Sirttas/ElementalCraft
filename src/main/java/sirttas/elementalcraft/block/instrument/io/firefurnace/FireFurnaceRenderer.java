@@ -2,22 +2,20 @@ package sirttas.elementalcraft.block.instrument.io.firefurnace;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class FireFurnaceRenderer implements IECRenderer<AbstractFireFurnaceBlockEntity<?>> {
 
-	public FireFurnaceRenderer(Context context) {}
-
 	@Override
-	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		Container inv = te.getInventory();
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);

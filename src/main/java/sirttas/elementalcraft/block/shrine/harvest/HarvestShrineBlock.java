@@ -10,6 +10,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
+import javax.annotation.Nonnull;
+
 public class HarvestShrineBlock extends AbstractShrineBlock<HarvestShrineBlockEntity> {
 
 	public static final String NAME = "harvestshrine";
@@ -35,9 +37,10 @@ public class HarvestShrineBlock extends AbstractShrineBlock<HarvestShrineBlockEn
 		super(ElementType.EARTH);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 }

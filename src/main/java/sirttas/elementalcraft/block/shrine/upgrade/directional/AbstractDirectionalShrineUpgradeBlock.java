@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractDirectionalShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	public static final DirectionProperty FACING = DirectionalBlock.FACING;
@@ -31,13 +33,15 @@ public abstract class AbstractDirectionalShrineUpgradeBlock extends AbstractShri
 		container.add(WATERLOGGED, FACING);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
 		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));

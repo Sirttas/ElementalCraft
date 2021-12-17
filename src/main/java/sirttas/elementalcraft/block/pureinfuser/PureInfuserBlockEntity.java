@@ -157,7 +157,8 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		return progress.getOrDefault(direction, 0);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}
@@ -181,7 +182,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		int[] progressArray = compound.getIntArray(ECNames.PROGRESS);
 		
@@ -194,7 +195,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 
 		compound.putIntArray(ECNames.PROGRESS, progress.entrySet().stream().sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue())).mapToInt(Entry::getValue).toArray());
@@ -203,7 +204,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
 			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 		}

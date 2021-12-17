@@ -26,6 +26,7 @@ import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.SpellTickManager;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHolder {
@@ -43,20 +44,22 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	}
 
 	@Override
-	public int getUseDuration(ItemStack stack) {
+	public int getUseDuration(@Nonnull ItemStack stack) {
 		return SpellHelper.getSpell(stack).getUseDuration();
 	}
 
-	@Override
-	public UseAnim getUseAnimation(ItemStack stack) {
+	@Nonnull
+    @Override
+	public UseAnim getUseAnimation(@Nonnull ItemStack stack) {
 		return UseAnim.BOW;
 	}
 
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+	@Nonnull
+    @Override
+	public InteractionResultHolder<ItemStack> use(@Nonnull Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
 		ItemStack stack = playerIn.getItemInHand(handIn);
 
 		return new InteractionResultHolder<>(tick(worldIn, playerIn, handIn, stack, true), stack);
@@ -70,12 +73,13 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	}
 
 	@Override
-	public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
+	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level worldIn, @Nonnull LivingEntity entityLiving, int timeLeft) {
 		finishUsingItem(stack, worldIn, entityLiving);
 	}
 
-	@Override
-	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving) {
+	@Nonnull
+    @Override
+	public ItemStack finishUsingItem(@Nonnull ItemStack stack, Level level, @Nonnull LivingEntity entityLiving) {
 		if (!level.isClientSide) {
 			SpellTickManager.getInstance(level).setCooldown(entityLiving, SpellHelper.getSpell(stack));
 		}

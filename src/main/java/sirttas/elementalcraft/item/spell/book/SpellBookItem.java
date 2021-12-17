@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.spell.book;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
@@ -35,8 +36,9 @@ public class SpellBookItem extends ECItem {
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+	@Nonnull
+    @Override
+	public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
 		return new InteractionResultHolder<>(open(world, player, stack), stack);
@@ -52,7 +54,7 @@ public class SpellBookItem extends ECItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		SpellHelper.forEachSpell(stack, (spell, count) -> {
 			if (count == 1) {
 				tooltip.add(new TextComponent("").append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
@@ -91,11 +93,12 @@ public class SpellBookItem extends ECItem {
 		}
 
 		@Override
-		public AbstractContainerMenu createMenu(int id, Inventory inventory, Player palyer) {
+		public AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, @Nonnull Player palyer) {
 			return SpellBookMenu.create(id, inventory, stack);
 		}
 
-		@Override
+		@Nonnull
+        @Override
 		public Component getDisplayName() {
 			return stack.getHoverName();
 		}

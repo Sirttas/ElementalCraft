@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.spell.fire;
 
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
 
 public class InfernoSpell extends Spell {
@@ -21,9 +21,7 @@ public class InfernoSpell extends Spell {
 		float range = getRange(sender);
 		Vec3 look = sender.getLookAngle().normalize();
 
-		if (sender instanceof LivingEntity) {
-			LivingEntity livingSender = (LivingEntity) sender;
-
+		if (sender instanceof LivingEntity livingSender) {
 			for (LivingEntity target : world.getEntitiesOfClass(LivingEntity.class, sender.getBoundingBox().expandTowards(look.scale(range + 1)).inflate(1.0D, 0.25D, 1.0D))) {
 				if (target != sender && !sender.isAlliedTo(target) && (!(target instanceof ArmorStand) || !((ArmorStand) target).isMarker())
 						&& sender.distanceToSqr(target) < range * range && getAngle(sender, target) <= 30) {

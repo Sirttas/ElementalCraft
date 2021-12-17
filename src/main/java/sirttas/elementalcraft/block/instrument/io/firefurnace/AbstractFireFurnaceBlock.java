@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.instrument.io.firefurnace;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -21,10 +19,13 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
-import sirttas.elementalcraft.block.WaterloggingHelper;
+import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
@@ -32,9 +33,10 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final AbstractFireFurnaceBlockEntity<?> furnace = (AbstractFireFurnaceBlockEntity<?>) world.getBlockEntity(pos);
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
@@ -51,14 +53,14 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
 	}
 	
 	@Override
 	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(WATERLOGGED, WaterloggingHelper.isPlacedInWater(context));
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
 	}
 
 	@Override
@@ -66,16 +68,18 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 		builder.add(WATERLOGGED);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public FluidState getFluidState(BlockState state) {
-		return WaterloggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	public FluidState getFluidState(@Nonnull BlockState state) {
+		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
-		WaterloggingHelper.sheduleWaterTick(state, level, pos);
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
+		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
 	}
 }

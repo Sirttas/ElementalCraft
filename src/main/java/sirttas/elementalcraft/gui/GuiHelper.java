@@ -2,7 +2,6 @@ package sirttas.elementalcraft.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -25,18 +24,13 @@ public class GuiHelper {
 	}
 
 	private static int getElementTypeOffset(ElementType type) {
-		switch (type) {
-		case WATER:
-			return 1;
-		case FIRE:
-			return 2;
-		case EARTH:
-			return 3;
-		case AIR:
-			return 4;
-		default:
-			return 0;
-		}
+		return switch (type) {
+			case WATER -> 1;
+			case FIRE -> 2;
+			case EARTH -> 3;
+			case AIR -> 4;
+			default -> 0;
+		};
 	}
 
 	public static void renderElementGauge(PoseStack matrixStack, int x, int y, int amount, int max, ElementType type) {

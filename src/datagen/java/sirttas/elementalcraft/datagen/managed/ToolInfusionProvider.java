@@ -22,6 +22,7 @@ import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfus
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class ToolInfusionProvider extends AbstractManagedDataProvider<ToolInfusion> {
@@ -31,7 +32,7 @@ public class ToolInfusionProvider extends AbstractManagedDataProvider<ToolInfusi
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FIRE_ASPECT));
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FLAMING_ARROWS));
 		save(cache, ElementType.FIRE, new EnchantmentToolInfusionEffect(Enchantments.FIRE_PROTECTION));

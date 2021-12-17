@@ -27,7 +27,7 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BuddingShrineBlock.NAME) public static final BlockEntityType<BuddingShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.periode(ECConfig.COMMON.buddingShrinePeriode.get())
+			.period(ECConfig.COMMON.buddingShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.buddingShrineConsumeAmount.get());
 
 	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
@@ -49,13 +49,11 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
-		switch (this.getBlockState().getValue(BuddingShrineBlock.CRYSTAL_TYPE)) {
-		case SPRINGALINE:
-			return grow(SPRINGALINES);
-		default:
-			return grow(AMETHYSTS);
-		}
+	protected boolean doPeriod() {
+		return switch (this.getBlockState().getValue(BuddingShrineBlock.CRYSTAL_TYPE)) {
+			case SPRINGALINE -> grow(SPRINGALINES);
+			default -> grow(AMETHYSTS);
+		};
 	}
 
 	private boolean grow(List<Block> blocks) {
@@ -84,7 +82,7 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	private void setBud(Block block, BlockState state) {
 		this.level.setBlockAndUpdate(above(), block.defaultBlockState().setValue(AmethystClusterBlock.FACING, Direction.UP).setValue(AmethystClusterBlock.WATERLOGGED,
-				Boolean.valueOf(state.getFluidState().getType() == Fluids.WATER)));
+				state.getFluidState().getType() == Fluids.WATER));
 	}
 
 	@Override

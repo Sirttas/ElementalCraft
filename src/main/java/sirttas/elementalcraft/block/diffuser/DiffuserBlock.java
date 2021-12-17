@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.diffuser;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -24,6 +20,10 @@ import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Random;
+
 public class DiffuserBlock extends AbstractECEntityBlock {
 
 	public static final String NAME = "diffuser";
@@ -40,32 +40,33 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PILLAR, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
 
 	@Override
-	public DiffuserBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public DiffuserBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new DiffuserBlockEntity(pos, state);
 	}
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
 		return createECServerTicker(level, type, DiffuserBlockEntity.TYPE, DiffuserBlockEntity::serverTick);
 	}
 	
+	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
+	public boolean canSurvive(BlockState state, @Nonnull LevelReader level, BlockPos pos) {
+		return BlockEntityHelper.isValidContainer(state.getBlock(), level, pos.below());
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
-		BlockEntityHelper.getBlockEntityAs(world, pos, DiffuserBlockEntity.class).filter(DiffuserBlockEntity::hasDiffused)
-				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getContainerElementType(), world, Vec3.atCenterOf(pos), Direction.UP, 1, rand));
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+		BlockEntityHelper.getBlockEntityAs(level, pos, DiffuserBlockEntity.class).filter(DiffuserBlockEntity::hasDiffused)
+				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getContainerElementType(), level, Vec3.atCenterOf(pos), Direction.UP, 1, rand));
 	}
 }

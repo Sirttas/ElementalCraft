@@ -11,10 +11,12 @@ import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 
+import javax.annotation.Nonnull;
+
 public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillBlockEntity> {
 
-	public static final String NAME = "grinding";
-	public static final RecipeType<IGrindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<IGrindingRecipe>() {
+	String NAME = "grinding";
+	RecipeType<IGrindingRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<IGrindingRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
@@ -26,6 +28,7 @@ public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillBlockEntity>
 		return ElementType.AIR;
 	}
 	
+	@Nonnull
 	@Override
 	default RecipeType<?> getType() {
 		return TYPE;

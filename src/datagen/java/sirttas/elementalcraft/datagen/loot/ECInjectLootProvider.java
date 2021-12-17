@@ -22,6 +22,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.loot.LootHandler;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 
+import javax.annotation.Nonnull;
+
 /**
  * greatly inspired by Botania
  *
@@ -35,7 +37,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE);
 		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE_VILLAGER);
 		save(cache, genShard(ElementType.EARTH), EntityType.SKELETON);
@@ -91,7 +93,8 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/loot_tables/inject/" + id.getPath() + ".json");
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "ElementalCraft inject loot tables";
 	}

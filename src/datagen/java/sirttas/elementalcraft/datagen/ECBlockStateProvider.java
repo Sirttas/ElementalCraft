@@ -47,7 +47,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	private static final String CORE = "_core";
 	private static final String TEXTURE = "texture";
 	
-	private ExistingFileHelper existingFileHelper;
+	private final ExistingFileHelper existingFileHelper;
 	
 	private ModelFile air;
 	private ModelFile containerConnector;

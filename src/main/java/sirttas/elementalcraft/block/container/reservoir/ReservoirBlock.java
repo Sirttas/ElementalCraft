@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.container.reservoir;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -30,6 +28,9 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.container.AbstractConnectedElementContainerBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.config.ECConfig;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class ReservoirBlock extends AbstractConnectedElementContainerBlock implements IElementTypeProvider {
 
@@ -95,7 +96,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	}
 	
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new ReservoirBlockEntity(pos, state);
 	}
 
@@ -109,7 +110,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	 * logic
 	 */
 	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(Level worldIn, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		worldIn.setBlock(pos.above(), this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
@@ -118,32 +119,27 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
-		AbstractPylonShrineBlock.doubeHalfHarvest(this, worldIn, pos, state, player);
-		super.playerWillDestroy(worldIn, pos, state, player);
+	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+		AbstractPylonShrineBlock.doubleHalfHarvest(this, level, pos, state, player);
+		super.playerWillDestroy(level, pos, state, player);
 	}
 	
+	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		VoxelShape shape;
 
 		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
 			shape = UPPER_SHAPE;
 		} else {
-			switch (this.getElementType()) {
-			case AIR:
-				shape = LOWER_AIR;
-				break;
-			case EARTH:
-				shape = LOWER_EARTH;
-				break;
-			default:
-				shape = LOWER_BASE;
-				break;
-			}
+			shape = switch (this.getElementType()) {
+				case AIR -> LOWER_AIR;
+				case EARTH -> LOWER_EARTH;
+				default -> LOWER_BASE;
+			};
 		}
-		return Shapes.or(shape, super.getShape(state, worldIn, pos, context));
+		return Shapes.or(shape, super.getShape(state, level, pos, context));
 	}
 
 	@Override
@@ -157,7 +153,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	}
 	
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, NonNullList<ItemStack> items) {
 		ItemStack stack = new ItemStack(this.asItem());
 		CompoundTag tag = stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG);
 
@@ -168,9 +164,9 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, Level world, BlockPos pos, Random rand) {
-		if (stateIn.getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
-			super.animateTick(stateIn, world, pos, rand);
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+		if (state.getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
+			super.animateTick(state, level, pos, rand);
 		}
 	}
 

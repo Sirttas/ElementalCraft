@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.spell;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
@@ -36,7 +37,7 @@ public class FocusItem extends AbstractSpellHolderItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		SpellHelper.forEachSpell(stack, (s, i) -> {

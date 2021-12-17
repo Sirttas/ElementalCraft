@@ -18,6 +18,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public abstract class AbstractECParticle extends TextureSheetParticle {
 
@@ -28,7 +30,7 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 	@SuppressWarnings("deprecation")
 	static final ParticleRenderType EC_RENDER = new ParticleRenderType() {
 		@Override
-		public void begin(BufferBuilder buffer, TextureManager textureManager) {
+		public void begin(BufferBuilder buffer, @Nonnull TextureManager textureManager) {
 			RenderSystem.depthMask(false);
 			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
 			RenderSystem.enableBlend();
@@ -68,7 +70,8 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 		return true;
 	}
 
-	@SuppressWarnings("resource")
+	@Nonnull
+    @SuppressWarnings("resource")
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public ParticleRenderType getRenderType() {

@@ -14,6 +14,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
+import javax.annotation.Nonnull;
+
 public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBinder, AbstractBindingRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(AbstractBindingRecipe.NAME);
@@ -27,18 +29,20 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/binding.png"), 0, 0, 124, 83), 10, 10);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<AbstractBindingRecipe> getRecipeClass() {
 		return AbstractBindingRecipe.class;
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, AbstractBindingRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull AbstractBindingRecipe recipe, IIngredients ingredients) {
 		int i = 0;
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 

@@ -11,6 +11,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
+import javax.annotation.Nonnull;
+
 public class GrowthShrineBlock extends AbstractShrineBlock<GrowthShrineBlockEntity> {
 
 	public static final String NAME = "growthshrine";
@@ -27,9 +29,10 @@ public class GrowthShrineBlock extends AbstractShrineBlock<GrowthShrineBlockEnti
 		super(ElementType.WATER);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 }

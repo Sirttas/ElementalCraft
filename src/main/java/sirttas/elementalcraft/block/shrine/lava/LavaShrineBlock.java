@@ -18,6 +18,8 @@ import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 
+import javax.annotation.Nonnull;
+
 public class LavaShrineBlock extends AbstractShrineBlock<LavaShrineBlockEntity> {
 
 	public static final String NAME = "lavashrine";
@@ -31,9 +33,10 @@ public class LavaShrineBlock extends AbstractShrineBlock<LavaShrineBlockEntity> 
 		super(ElementType.FIRE);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 

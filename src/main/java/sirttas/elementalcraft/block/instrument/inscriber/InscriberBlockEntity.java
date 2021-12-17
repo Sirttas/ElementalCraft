@@ -12,6 +12,8 @@ import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
+import javax.annotation.Nonnull;
+
 public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<InscriberBlockEntity, InscriptionRecipe> {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + InscriberBlock.NAME) public static final BlockEntityType<InscriberBlockEntity> TYPE = null;
@@ -35,7 +37,8 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 		super.assemble();
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}

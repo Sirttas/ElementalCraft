@@ -13,6 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import sirttas.elementalcraft.config.ECConfig;
 
+import javax.annotation.Nonnull;
+
 public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> implements MenuAccess<SpellBookMenu> {
 	private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
 
@@ -24,14 +26,14 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.renderTooltip(matrixStack, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderLabels(PoseStack matrixStack, int x, int y) {
+	protected void renderLabels(@Nonnull PoseStack matrixStack, int x, int y) {
 		Component text = new TextComponent(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
 
 		super.renderLabels(matrixStack, x, y);
@@ -40,7 +42,7 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 	}
 
 	@Override
-	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int x, int y) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, CHEST_GUI_TEXTURE);
 		int i = (this.width - this.imageWidth) / 2;

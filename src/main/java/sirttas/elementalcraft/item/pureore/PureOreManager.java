@@ -25,6 +25,7 @@ import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -85,7 +86,7 @@ public class PureOreManager {
 	}
 
 	public List<ResourceLocation> getOres() {
-		return pureOres.keySet().stream().collect(Collectors.toList());
+		return new ArrayList<>(pureOres.keySet());
 	}
 
 	public List<PurifierRecipe> getRecipes() {
@@ -247,7 +248,7 @@ public class PureOreManager {
 
 		public JEIPurifierRecipe(List<ItemStack> ores) {
 			super(ores.get(0));
-			input = Ingredient.of(ores.stream().toArray(ItemStack[]::new));
+			input = Ingredient.of(ores.toArray(ItemStack[]::new));
 		}
 	}
 

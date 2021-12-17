@@ -10,6 +10,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.config.ECConfig;
 
+import javax.annotation.Nonnull;
+
 public class ElementContainerBlock extends AbstractConnectedElementContainerBlock {
 
 	public static final String NAME = "container";
@@ -30,10 +32,11 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return Shapes.or(SHAPE, super.getShape(state, worldIn, pos, context));
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return Shapes.or(SHAPE, super.getShape(state, level, pos, context));
 	}
 
 	@Override

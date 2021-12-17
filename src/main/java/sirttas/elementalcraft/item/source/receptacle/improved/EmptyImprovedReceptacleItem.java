@@ -6,6 +6,8 @@ import sirttas.elementalcraft.item.source.receptacle.EmptyReceptacleItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+
 public class EmptyImprovedReceptacleItem extends EmptyReceptacleItem implements ISourceInteractable {
 
 	public static final String NAME = "receptacle_improved_empty";
@@ -15,7 +17,7 @@ public class EmptyImprovedReceptacleItem extends EmptyReceptacleItem implements 
 	}
 
 	@Override
-	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
+	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
 		return ECTags.Items.INGOTS_FIREITE.contains(repair.getItem());
 	}
 

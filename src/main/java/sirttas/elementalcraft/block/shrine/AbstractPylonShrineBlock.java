@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +18,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
+import javax.annotation.Nonnull;
+import java.util.Random;
+
 public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEntity>  extends AbstractShrineBlock<T> {
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -34,7 +35,7 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	 * logic
 	 */
 	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
@@ -43,19 +44,19 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
-		doubeHalfHarvest(this, worldIn, pos, state, player);
-		super.playerWillDestroy(worldIn, pos, state, player);
+	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+		doubleHalfHarvest(this, level, pos, state, player);
+		super.playerWillDestroy(level, pos, state, player);
 	}
 
-	public static void doubeHalfHarvest(Block block, Level worldIn, BlockPos pos, BlockState state, Player player) {
+	public static void doubleHalfHarvest(@Nonnull Block block, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		DoubleBlockHalf doubleblockhalf = state.getValue(HALF);
 		BlockPos blockpos = doubleblockhalf == DoubleBlockHalf.LOWER ? pos.above() : pos.below();
-		BlockState blockstate = worldIn.getBlockState(blockpos);
+		BlockState blockstate = level.getBlockState(blockpos);
 	
 		if (blockstate.getBlock() == block && blockstate.getValue(HALF) != doubleblockhalf) {
-			worldIn.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
-			worldIn.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
+			level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
+			level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
 		}
 	}
 
@@ -66,15 +67,15 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
 		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
-			BlockEntityHelper.getBlockEntityAs(world, pos.below(), AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
+			BlockEntityHelper.getBlockEntityAs(level, pos.below(), AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
 		}
 	}
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+	public boolean canSurvive(BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
 		return state.getValue(HALF) == DoubleBlockHalf.LOWER || level.getBlockState(pos.below()).is(this);
 	}
 	

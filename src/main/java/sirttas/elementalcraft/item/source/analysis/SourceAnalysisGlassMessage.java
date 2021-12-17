@@ -12,7 +12,7 @@ import sirttas.elementalcraft.network.message.MessageHelper;
 
 public final class SourceAnalysisGlassMessage {
 
-	private Map<SourceTrait, ISourceTraitValue> traits;
+	private final Map<SourceTrait, ISourceTraitValue> traits;
 
 	public SourceAnalysisGlassMessage(Map<SourceTrait, ISourceTraitValue> traits) {
 		this.traits = traits;

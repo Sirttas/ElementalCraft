@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -23,6 +19,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
@@ -69,28 +69,23 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	}
 	
 	public static VoxelShape getShape(BlockState state) {
-		switch (state.getValue(FACING)) {
-		case EAST:
-			return SHAPE_EAST;
-		case NORTH:
-			return SHAPE_NORTH;
-		case SOUTH:
-			return SHAPE_SOUTH;
-		case WEST:
-			return SHAPE_WEST;
-		default:
-			return SHAPE_NORTH;
-		}
+		return switch (state.getValue(FACING)) {
+			case EAST -> SHAPE_EAST;
+			case SOUTH -> SHAPE_SOUTH;
+			case WEST -> SHAPE_WEST;
+			default -> SHAPE_NORTH;
+		};
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return getShape(state);
 	}
 	
 	@Override
-	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(@Nonnull Level level, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		super.setPlacedBy(level, pos, state, placer, stack);
 		setShrineState(level, pos.relative(getFacing(state)), CrystalType.SPRINGALINE);
 	}

@@ -24,6 +24,7 @@ import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.material.ECMaterials;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
@@ -39,13 +40,13 @@ public class SourceBlock extends AbstractECEntityBlock {
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new SourceBlockEntity(pos, state);
 	}
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
 		return createECTicker(level, type, SourceBlockEntity.TYPE, level.isClientSide ? SourceBlockEntity::clientTick : SourceBlockEntity::serverTick);
 	}
 
@@ -56,19 +57,21 @@ public class SourceBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public boolean useShapeForLightOcclusion(BlockState state) {
+	public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
 		return true;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return showShape(state, context) ? SHAPE : Shapes.empty();
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return Shapes.empty();
 	}
 
@@ -86,7 +89,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 	 */
 	@Override
 	@Deprecated
-	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+	public void onPlace(@Nonnull BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
 		if (ElementType.getElementType(state) == ElementType.NONE) {
 			worldIn.setBlockAndUpdate(pos, state.setValue(ElementType.STATE_PROPERTY, ElementType.random()));
 		}
@@ -94,13 +97,14 @@ public class SourceBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+	public boolean canBeReplaced(@Nonnull BlockState state, @Nonnull BlockPlaceContext context) {
 		return super.canBeReplaced(state, context) && BlockEntityHelper.getBlockEntityAs(context.getLevel(), context.getClickedPos(), SourceBlockEntity.class).map(s -> !s.isStabalized()).orElse(true);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public RenderShape getRenderShape(BlockState state) {
+	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.INVISIBLE;
 	}
 }

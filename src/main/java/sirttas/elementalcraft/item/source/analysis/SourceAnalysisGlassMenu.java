@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.item.source.analysis;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -20,6 +17,10 @@ import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.network.message.MessageHelper;
 import sirttas.elementalcraft.tag.ECTags;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SourceAnalysisGlassMenu extends AbstractECMenu {
 
@@ -62,8 +63,9 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 		sendTraits();
 	}
 	
+	@Nonnull
 	@Override
-	public ItemStack quickMoveStack(Player player, int index) {
+	public ItemStack quickMoveStack(@Nonnull Player player, int index) {
 		Slot slot = this.slots.get(index);
 
 		if (slot.hasItem()) {
@@ -75,7 +77,7 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 					return ItemStack.EMPTY;
 				}
 			} else if (index < 2) {
-				if (!this.moveItemStackTo(slotStack.copy(), 2, this.slots.size(), true)) {
+				if (!this.moveItemStackTo(slotStack, 2, this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
 				slot.onTake(player, slotStack);
@@ -115,12 +117,12 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 	}
 	
 	@Override
-	public void slotsChanged(Container inv) {
+	public void slotsChanged(@Nonnull Container inv) {
 		worldPosCallable.execute((world, pos) -> analyseReceptacle());
 	}
 	
 	@Override
-	public void removed(Player player) {
+	public void removed(@Nonnull Player player) {
 		super.removed(player);
 		worldPosCallable.execute((level, pos) -> {
 			clearContainer(player, input);
@@ -129,8 +131,8 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 	}
 	
 	private void sendTraits() {
-		if (player instanceof ServerPlayer) {
-			MessageHelper.sendToPlayer((ServerPlayer) player, new SourceAnalysisGlassMessage(traits));
+		if (player instanceof ServerPlayer serverPlayer) {
+			MessageHelper.sendToPlayer(serverPlayer, new SourceAnalysisGlassMessage(traits));
 		}
 	}
 	
@@ -141,7 +143,7 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 		}
 		
 		@Override
-		public boolean mayPlace(ItemStack stack) {
+		public boolean mayPlace(@Nonnull ItemStack stack) {
 			return false;
 		}
 	}
@@ -160,7 +162,7 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 		@Override
 		public void setChanged() {
 			super.setChanged();
-			analyseReceptacle();
+			worldPosCallable.execute((level, pos) -> analyseReceptacle());
 		}
 	}
 }

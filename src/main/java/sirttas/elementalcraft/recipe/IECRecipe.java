@@ -4,6 +4,8 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 
+import javax.annotation.Nonnull;
+
 public interface IECRecipe<T extends Container> extends Recipe<T> {
 
 	@Override
@@ -11,8 +13,9 @@ public interface IECRecipe<T extends Container> extends Recipe<T> {
 		return true;
 	}
 	
-	@Override
-	default ItemStack assemble(T inv) {
+	@Nonnull
+    @Override
+	default ItemStack assemble(@Nonnull T inv) {
 		return this.getResultItem().copy();
 	}
 	

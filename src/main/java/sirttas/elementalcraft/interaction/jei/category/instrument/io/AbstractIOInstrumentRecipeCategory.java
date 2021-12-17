@@ -14,6 +14,8 @@ import sirttas.elementalcraft.interaction.jei.category.instrument.AbstractInstru
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractInstrumentRecipeCategory<K, T> {
 	
 	private final ItemStack instrument;
@@ -33,7 +35,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, T recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull T recipe, IIngredients ingredients) {
 		recipeLayout.getItemStacks().init(0, true, 0, 0);
 		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
 

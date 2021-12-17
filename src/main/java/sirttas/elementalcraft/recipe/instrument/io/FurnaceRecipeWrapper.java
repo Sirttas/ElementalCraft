@@ -9,6 +9,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
+import javax.annotation.Nonnull;
+
 public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>> {
 
 	private final T recipe;
@@ -27,22 +29,26 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 		return recipe.canCraftInDimensions(width, height);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getResultItem() {
 		return recipe.getResultItem();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getId() {
 		return recipe.getId();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public RecipeSerializer<?> getSerializer() {
 		return recipe.getSerializer();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public RecipeType<?> getType() {
 		return recipe.getType();
 	}

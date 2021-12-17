@@ -1,11 +1,5 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
@@ -45,6 +39,13 @@ import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 /**
  * greatly inspired by Botania
  *
@@ -76,7 +77,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		functionTable.put(ECBlocks.CRYSTAL_ORE, i -> genOre(i, ECItems.INERT_CRYSTAL));
 		functionTable.put(ECBlocks.EVAPORATOR, ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.CONTAINER, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
-		functionTable.put(ECBlocks.SMALL_CONTAINER, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
+		functionTable.put(ECBlocks.SMALL_CONTAINER.get(), i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.CREATIVE_CONTAINER, ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.BURNT_GLASS, ECBlockLootProvider::genOnlySilkTouch);
 		functionTable.put(ECBlocks.BURNT_GLASS_PANE, ECBlockLootProvider::genOnlySilkTouch);
@@ -89,7 +90,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		for (Block block : ForgeRegistries.BLOCKS) {
 			if (ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace())) {
 				save(cache, block);
@@ -168,6 +169,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		return generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/loot_tables/blocks/" + id.getPath() + ".json");
 	}
 
+	@Nonnull
 	@Override
 	public String getName() {
 		return "ElementalCraft block loot tables";

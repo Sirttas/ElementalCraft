@@ -33,8 +33,13 @@ import sirttas.elementalcraft.world.feature.ECFeatures;
 public class ElementalCraft {
 	
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
-	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER).withIdSetter(ShrineUpgrade::setId).merged(ShrineUpgrade::merge).build();
-	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER).withDefault(SpellProperties.NONE).build();
+	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER)
+			.withIdSetter(ShrineUpgrade::setId)
+			.merged(ShrineUpgrade::merge)
+			.build();
+	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER)
+			.withDefault(SpellProperties.NONE)
+			.build();
 
 	
 	public ElementalCraft() {

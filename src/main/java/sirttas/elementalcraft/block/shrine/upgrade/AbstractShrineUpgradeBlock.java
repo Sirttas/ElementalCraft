@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -32,10 +27,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.WaterloggingHelper;
+import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.property.ECProperties;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 public abstract class AbstractShrineUpgradeBlock extends Block implements SimpleWaterloggedBlock {
 
@@ -49,27 +49,28 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public RenderShape getRenderShape(BlockState state) {
+	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.MODEL;
 	}
 
 	@Override
-	public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(@Nonnull Level world, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		BlockEntityHelper.getBlockEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
 	}
 
 	@Override
 	@Deprecated
-	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(@Nonnull BlockState state, @Nonnull Level world, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
 		BlockEntityHelper.getBlockEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
 		super.onRemove(state, world, pos, newState, isMoving);
 	}
 
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
 		Direction facing = getFacing(state);
 
 		return upgrade.isPresent() && BlockEntityHelper.getBlockEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
@@ -78,8 +79,8 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	
 	@Override
 	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(WATERLOGGED, WaterloggingHelper.isPlacedInWater(context));
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
 	}
 
 	@Override
@@ -87,22 +88,24 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 		builder.add(WATERLOGGED);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public FluidState getFluidState(BlockState state) {
-		return WaterloggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	public FluidState getFluidState(@Nonnull BlockState state) {
+		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
-		WaterloggingHelper.sheduleWaterTick(state, level, pos);
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
+		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
 	}
 	
 	@Override
 	@Deprecated
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, @Nonnull ServerLevel worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
 		if (!state.canSurvive(worldIn, pos)) {
 			worldIn.destroyBlock(pos, true);
 		} else {
@@ -114,7 +117,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		upgrade.ifPresent(u -> u.addInformation(tooltip));
 	}
 

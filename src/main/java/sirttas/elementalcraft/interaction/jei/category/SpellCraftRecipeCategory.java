@@ -13,6 +13,8 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 
+import javax.annotation.Nonnull;
+
 public class SpellCraftRecipeCategory extends AbstractInventoryRecipeCategory<Container, SpellCraftRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(SpellCraftRecipe.NAME);
@@ -22,18 +24,20 @@ public class SpellCraftRecipeCategory extends AbstractInventoryRecipeCategory<Co
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/spell_craft.png"), 0, 0, 103, 36), 10, 10);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<? extends SpellCraftRecipe> getRecipeClass() {
 		return SpellCraftRecipe.class;
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, SpellCraftRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull SpellCraftRecipe recipe, IIngredients ingredients) {
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 
 		recipeLayout.getItemStacks().init(0, true, 19, 10);

@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.Direction;
@@ -33,9 +32,7 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 	
 	private BakedModel sideModel;
 	private BakedModel extractModel;
-	private BakedModel prioritytModel;
-	
-	public ElementPipeRenderer(Context context) {}
+	private BakedModel priorityModel;
 
 	@Override
 	public void render(ElementPipeBlockEntity te, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
@@ -44,12 +41,12 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 		var level = Objects.requireNonNull(te.getLevel());
 		BlockState coverState = te.getCoverState();
 
-		if (sideModel == null || extractModel == null || prioritytModel == null) {
+		if (sideModel == null || extractModel == null || priorityModel == null) {
 			ModelManager modelManager = minecraft.getModelManager();
 			
 			sideModel = modelManager.getModel(SIDE_LOCATION);
 			extractModel = modelManager.getModel(EXTRACT_LOCATION);
-			prioritytModel = modelManager.getModel(PRIORITY_LOCATION);
+			priorityModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
 		if (coverState != null && ElementPipeBlock.showCover(te.getBlockState(), player)) {
 			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelDataManager.getModelData(level, te.getBlockPos()));
@@ -61,7 +58,7 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 				LevelRenderer.renderLineBox(matrixStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
 			}
 		}
-		if (Boolean.TRUE.equals(ECConfig.CLIENT.pipeDebugPath.get()) && player.isCreative()) {
+		if (Boolean.TRUE.equals(ECConfig.CLIENT.pipeDebugPath.get()) && player != null && player.isCreative()) {
 			te.getPathMap().values().forEach(path -> path.renderDebugPath(matrixStack, buffer));
 		}
 	}
@@ -85,7 +82,7 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 				this.renderModel(extractModel, matrixStack, buffer, te, light, overlay);
 			}
 			if (te.isPriority(side)) {
-				this.renderModel(prioritytModel, matrixStack, buffer, te, light, overlay);
+				this.renderModel(priorityModel, matrixStack, buffer, te, light, overlay);
 			}
 			matrixStack.popPose();
 		}

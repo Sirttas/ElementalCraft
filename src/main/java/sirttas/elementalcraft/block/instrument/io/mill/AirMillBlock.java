@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.instrument.io.mill;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -36,11 +34,14 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
-import sirttas.elementalcraft.block.WaterloggingHelper;
+import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class AirMillBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
@@ -68,19 +69,20 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return isLower(state) ? new AirMillBlockEntity(pos, state) : null;
 	}
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
 		return isLower(state) ? createInstrumentTicker(level, type, AirMillBlockEntity.TYPE) : null;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		if (isLower(state)) {
 			final AirMillBlockEntity airMill = (AirMillBlockEntity) world.getBlockEntity(pos);
 			IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
@@ -101,7 +103,7 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	 * logic
 	 */
 	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
@@ -110,29 +112,32 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
-		AbstractPylonShrineBlock.doubeHalfHarvest(this, worldIn, pos, state, player);
+	public void playerWillDestroy(@Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+		AbstractPylonShrineBlock.doubleHalfHarvest(this, worldIn, pos, state, player);
 		super.playerWillDestroy(worldIn, pos, state, player);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return isLower(state) ? SHAPE : Shapes.empty();
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, WaterloggingHelper.isPlacedInWater(context));
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
 		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
@@ -145,22 +150,24 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
 		var below = pos.below();
 		
 		return (isLower(state) && BlockEntityHelper.isValidContainer(state.getBlock(), level, below)) || level.getBlockState(below).is(this);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public FluidState getFluidState(BlockState state) {
-		return WaterloggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	public FluidState getFluidState(@Nonnull BlockState state) {
+		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
-		WaterloggingHelper.sheduleWaterTick(state, level, pos);
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
+		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
 	}
 }

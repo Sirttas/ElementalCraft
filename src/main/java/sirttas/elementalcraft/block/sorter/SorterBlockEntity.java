@@ -1,10 +1,7 @@
 package sirttas.elementalcraft.block.sorter;
 
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -23,11 +20,14 @@ import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class SorterBlockEntity extends AbstractECBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SorterBlock.NAME) public static final BlockEntityType<SorterBlockEntity> TYPE = null;
 	
-	private List<ItemStack> stacks;
+	private final List<ItemStack> stacks;
 	private int index;
 	private int tick;
 	private boolean alwaysInsert;
@@ -115,14 +115,14 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		readStacks(compound.getList(ECNames.STACKS, 10));
 		index = compound.getInt(ECNames.INDEX);
 		if (index > stacks.size()) {
 			index = 0;
 		}
-		alwaysInsert = compound.getBoolean(ECNames.ALWAYSE_INSERT);
+		alwaysInsert = compound.getBoolean(ECNames.ALWAYS_INSERT);
 	}
 
 	private void readStacks(ListTag listNbt) {
@@ -137,12 +137,13 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 
 	}
 	
-	@Override
-	public CompoundTag save(CompoundTag compound) {
+	@Nonnull
+    @Override
+	public CompoundTag save(@Nonnull CompoundTag compound) {
 		super.save(compound);
 		compound.put(ECNames.STACKS, this.writeStacks());
 		compound.putInt(ECNames.INDEX, index);
-		compound.putBoolean(ECNames.ALWAYSE_INSERT, alwaysInsert);
+		compound.putBoolean(ECNames.ALWAYS_INSERT, alwaysInsert);
 		return compound;
 	}
 

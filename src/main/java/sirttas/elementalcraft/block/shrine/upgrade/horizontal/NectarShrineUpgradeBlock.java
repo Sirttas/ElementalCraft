@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,6 +15,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
@@ -56,24 +56,21 @@ public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlo
 		super(ElementalCraft.createRL(NAME));
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		switch (state.getValue(FACING)) {
-		case SOUTH:
-			return SHAPE_SOUTH;
-		case WEST:
-			return SHAPE_WEST;
-		case EAST:
-			return SHAPE_EAST;
-		default:
-			return SHAPE_NORTH;
-		}
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return switch (state.getValue(FACING)) {
+			case SOUTH -> SHAPE_SOUTH;
+			case WEST -> SHAPE_WEST;
+			case EAST -> SHAPE_EAST;
+			default -> SHAPE_NORTH;
+		};
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.nectar").withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

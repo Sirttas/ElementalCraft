@@ -17,6 +17,8 @@ import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
+import javax.annotation.Nonnull;
+
 public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implements IInfusionRecipe {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<InfusionRecipe> SERIALIZER = null;
@@ -42,20 +44,23 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 		return input;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getResultItem() {
 		return output;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<InfusionRecipe> {
 
-		@Override
-		public InfusionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		@Nonnull
+        @Override
+		public InfusionRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
@@ -65,7 +70,7 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 		}
 
 		@Override
-		public InfusionRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public InfusionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			Ingredient input = Ingredient.fromNetwork(buffer);

@@ -21,6 +21,8 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 
+import javax.annotation.Nonnull;
+
 public class PedestalBlock extends AbstractECContainerBlock implements IElementTypeProvider, IPipeConnectedBlock {
 
 	private static final VoxelShape BASE_1 = Block.box(0D, 0D, 0D, 16D, 3D, 16D);
@@ -42,7 +44,7 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
 
-	private ElementType elementType;
+	private final ElementType elementType;
 
 	public PedestalBlock(ElementType type) {
 		elementType = type;
@@ -50,19 +52,21 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	}
 
 	@Override
-	public PedestalBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public PedestalBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return this.getElementType() != ElementType.NONE ? new PedestalBlockEntity(pos, state) : null;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		return onSingleSlotActivated(world, pos, player, hand);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		VoxelShape shape = getBaseShape();
 
 		if (Boolean.TRUE.equals(state.getValue(NORTH))) {
@@ -104,9 +108,10 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 		return doGetStateForPlacement(context.getLevel(), context.getClickedPos());
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updateShape(@Nonnull BlockState stateIn, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor worldIn, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
 		return doUpdateShape(stateIn, worldIn, currentPos, facing);
 	}
 }

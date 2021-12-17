@@ -1,20 +1,21 @@
 package sirttas.elementalcraft.container;
 
 import com.google.common.collect.Lists;
-
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
+import javax.annotation.Nonnull;
+
 public class IOContainer extends AbstractSynchronizableContainer implements WorldlyContainer, INBTSerializable<CompoundTag> {
 
-	private ItemStack input = ItemStack.EMPTY;
-	private ItemStack output = ItemStack.EMPTY;
+	private ItemStack input;
+	private ItemStack output;
 
 	public IOContainer() {
 		this(null);
@@ -43,7 +44,8 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
 		return input.isEmpty() && output.isEmpty();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getItem(int index) {
 		if (index == 0) {
 			return input;
@@ -54,7 +56,7 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
 	}
 
 	@Override
-	public void setItem(int index, ItemStack stack) {
+	public void setItem(int index, @Nonnull ItemStack stack) {
 		if (index == 0) {
 			this.input = stack;
 		} else if (index == 1) {
@@ -64,11 +66,12 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, ItemStack stack) {
+	public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
 		return index == 0;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack removeItem(int index, int count) {
 		ItemStack value = ContainerHelper.removeItem(Lists.newArrayList(input, output), index, count);
 
@@ -76,7 +79,8 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
 		return value;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack removeItemNoUpdate(int index) {
 		ItemStack ret = getItem(index);
 
@@ -101,18 +105,19 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
 
 	}
 
-	@Override
-	public int[] getSlotsForFace(Direction side) {
+	@Nonnull
+    @Override
+	public int[] getSlotsForFace(@Nonnull Direction side) {
 		return new int[] { 0, 1 };
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, Direction direction) {
+	public boolean canPlaceItemThroughFace(int index, @Nonnull ItemStack stack, Direction direction) {
 		return index == 0 || direction == null;
 	}
 
 	@Override
-	public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
+	public boolean canTakeItemThroughFace(int index, @Nonnull ItemStack stack, @Nonnull Direction direction) {
 		return index == 1 || direction == null;
 	}
 }

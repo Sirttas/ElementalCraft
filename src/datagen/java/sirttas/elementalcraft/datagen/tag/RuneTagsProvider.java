@@ -8,6 +8,8 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+
 public class RuneTagsProvider extends AbstractDataTagsProvider<Rune> {
 
 	public RuneTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
@@ -21,7 +23,8 @@ public class RuneTagsProvider extends AbstractDataTagsProvider<Rune> {
 		tag(ECTags.Runes.LUCK_RUNES).add(ElementalCraft.createRL("claptrap"), ElementalCraft.createRL("bombadil"), ElementalCraft.createRL("tzeentch"));
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "Elemental Craft Rune tags";
 	}

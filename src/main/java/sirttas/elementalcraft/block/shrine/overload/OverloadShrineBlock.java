@@ -15,6 +15,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
+import javax.annotation.Nonnull;
+
 public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlockEntity> {
 
 	public static final String NAME = "overloadshrine";
@@ -34,23 +36,18 @@ public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlock
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		switch (state.getValue(FACING)) {
-		case UP:
-			return UP_SHAPE;
-		case NORTH:
-			return NORTH_SHAPE;
-		case SOUTH:
-			return SOUTH_SHAPE;
-		case WEST:
-			return WEST_SHAPE;
-		case EAST:
-			return EAST_SHAPE;
-		default:
-			return BASE;
-		}
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return switch (state.getValue(FACING)) {
+			case UP -> UP_SHAPE;
+			case NORTH -> NORTH_SHAPE;
+			case SOUTH -> SOUTH_SHAPE;
+			case WEST -> WEST_SHAPE;
+			case EAST -> EAST_SHAPE;
+			default -> BASE;
+		};
 	}
 
 	@Override
@@ -59,7 +56,7 @@ public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlock
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
 		Direction direction = context.getClickedFace().getOpposite();
 		return this.defaultBlockState().setValue(FACING, direction.getAxis() == Direction.Axis.Y ? Direction.UP : direction);
 	}

@@ -46,19 +46,19 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 		this.getInventory().clearContent();
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked"})
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		Container inv = getInventory();
 
-		if (inv instanceof INBTSerializable && compound.contains(ECNames.INVENTORY)) {
-			((INBTSerializable) inv).deserializeNBT(compound.get(ECNames.INVENTORY));
+		if (inv instanceof INBTSerializable nbtInv && compound.contains(ECNames.INVENTORY)) {
+			nbtInv.deserializeNBT(compound.get(ECNames.INVENTORY));
 		}
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		Container inv = getInventory();
 
@@ -69,7 +69,7 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 
 	@Override
 	@Nonnull
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return getItemHandler().cast();
 		}
@@ -82,7 +82,7 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 	}
 
 	@Override
-	public void containerChanged(Container invBasic) {
+	public void containerChanged(@Nonnull Container invBasic) {
 		this.setChanged();
 	}
 }

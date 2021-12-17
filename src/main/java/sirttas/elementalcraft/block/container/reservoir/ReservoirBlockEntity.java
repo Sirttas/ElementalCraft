@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.block.container.reservoir;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,6 +14,9 @@ import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 
@@ -49,7 +49,7 @@ public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 	
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY && this.getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
 			return this.hasLevel() ? level.getBlockEntity(worldPosition.below()).getCapability(cap, side) : LazyOptional.empty();
 		}

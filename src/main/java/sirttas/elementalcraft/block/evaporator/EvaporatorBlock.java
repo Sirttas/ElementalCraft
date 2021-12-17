@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.evaporator;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -33,6 +29,10 @@ import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Random;
+
 public class EvaporatorBlock extends AbstractECContainerBlock {
 
 	public static final String NAME = "evaporator";
@@ -48,19 +48,20 @@ public class EvaporatorBlock extends AbstractECContainerBlock {
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
 	@Override
-	public EvaporatorBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public EvaporatorBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new EvaporatorBlockEntity(pos, state);
 	}
 
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
 		return createECServerTicker(level, type, EvaporatorBlockEntity.TYPE, EvaporatorBlockEntity::serverTick);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (stack.isEmpty() || getShardElementType(stack) != ElementType.NONE) {
@@ -69,21 +70,22 @@ public class EvaporatorBlock extends AbstractECContainerBlock {
 		return InteractionResult.PASS;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random rand) {
 		BlockEntityHelper.getBlockEntityAs(world, pos, EvaporatorBlockEntity.class).filter(EvaporatorBlockEntity::canExtract)
 				.ifPresent(evaporator -> ParticleHelper.createElementFlowParticle(evaporator.getElementStorage().getElementType(), world, Vec3.atCenterOf(pos.below()), Direction.DOWN, 1, rand));
 	}

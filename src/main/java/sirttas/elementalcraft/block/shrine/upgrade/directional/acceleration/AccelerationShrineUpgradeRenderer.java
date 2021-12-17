@@ -3,10 +3,8 @@ package sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+
+import javax.annotation.Nonnull;
 
 public class AccelerationShrineUpgradeRenderer implements IECRenderer<AccelerationShrineUpgradeBlockEntity> {
 
@@ -23,11 +23,8 @@ public class AccelerationShrineUpgradeRenderer implements IECRenderer<Accelerati
 
 	private BakedModel clockModel;
 
-	public AccelerationShrineUpgradeRenderer(Context context) {
-	}
-
 	@Override
-	public void render(AccelerationShrineUpgradeBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(AccelerationShrineUpgradeBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		BlockState state = te.getBlockState();
 		Direction facing = state.getValue(AbstractDirectionalShrineUpgradeBlock.FACING);
 		Quaternion rotation = facing.getRotation();

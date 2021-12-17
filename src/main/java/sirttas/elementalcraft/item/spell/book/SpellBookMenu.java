@@ -21,6 +21,8 @@ import sirttas.elementalcraft.network.message.MessageHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 
+import javax.annotation.Nonnull;
+
 public class SpellBookMenu extends AbstractECMenu {
 
 	static final int ROW_COUNT = (Spell.REGISTRY.getEntries().size() + 9 - 1) / 9;
@@ -64,8 +66,9 @@ public class SpellBookMenu extends AbstractECMenu {
 	 * Handle when the stack in slot {@code index} is shift-clicked. Normally this
 	 * moves the stack between the player inventory and the other inventory(s).
 	 */
-	@Override
-	public ItemStack quickMoveStack(Player playerIn, int index) {
+	@Nonnull
+    @Override
+	public ItemStack quickMoveStack(@Nonnull Player playerIn, int index) {
 		Slot slot = this.slots.get(index);
 
 		if (slot.hasItem()) {
@@ -94,7 +97,7 @@ public class SpellBookMenu extends AbstractECMenu {
 	}
 
 	@Override
-	public void clicked(int slotId, int dragType, ClickType clickTypeIn, Player player) {
+	public void clicked(int slotId, int dragType, @Nonnull ClickType clickTypeIn, @Nonnull Player player) {
 		Slot slot = slotId >= 0 ? this.slots.get(slotId) : null;
 
 		if (slot == null || slot.getItem().getItem() != ECItems.SPELL_BOOK) {

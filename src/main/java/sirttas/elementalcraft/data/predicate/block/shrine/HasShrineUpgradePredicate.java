@@ -23,7 +23,7 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
 	).apply(builder, HasShrineUpgradePredicate::new));
 
 	private final int count;
-	private IDataWrapper<ShrineUpgrade> upgrade;
+	private final IDataWrapper<ShrineUpgrade> upgrade;
 
     public HasShrineUpgradePredicate(ResourceLocation upgradeId) {
         this(upgradeId, 1);

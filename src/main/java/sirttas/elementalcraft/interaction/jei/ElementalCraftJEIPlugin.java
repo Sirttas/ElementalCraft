@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.interaction.jei;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
@@ -49,11 +44,16 @@ import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
 	private static final ResourceLocation ID = ElementalCraft.createRL("main");
 	
+	@Nonnull
 	@Override
 	public ResourceLocation getPluginUid() {
 		return ID;

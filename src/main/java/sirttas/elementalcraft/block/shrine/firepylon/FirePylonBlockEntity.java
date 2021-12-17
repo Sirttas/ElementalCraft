@@ -39,7 +39,7 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 	}
 	
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		int consumeAmount = this.getConsumeAmount();
 		float strength = this.getMultiplier(BonusType.STRENGTH);
 

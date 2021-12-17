@@ -14,6 +14,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
+import javax.annotation.Nonnull;
+
 public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<InscriberBlockEntity, InscriptionRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(InscriptionRecipe.NAME);
@@ -25,18 +27,20 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<InscriptionRecipe> getRecipeClass() {
 		return InscriptionRecipe.class;
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, InscriptionRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull InscriptionRecipe recipe, IIngredients ingredients) {
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 		List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
 		

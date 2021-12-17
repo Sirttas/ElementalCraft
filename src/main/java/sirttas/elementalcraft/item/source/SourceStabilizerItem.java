@@ -12,6 +12,8 @@ import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.property.ECProperties;
 
+import javax.annotation.Nonnull;
+
 public class SourceStabilizerItem extends ECItem implements ISourceInteractable {
 
 	public static final String NAME = "source_stabilizer";
@@ -20,7 +22,8 @@ public class SourceStabilizerItem extends ECItem implements ISourceInteractable 
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level level = context.getLevel();
 		BlockPos pos = context.getClickedPos();

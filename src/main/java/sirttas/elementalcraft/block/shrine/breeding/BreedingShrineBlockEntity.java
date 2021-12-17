@@ -17,6 +17,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final BlockEntityType<BreedingShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.periode(ECConfig.COMMON.breedingShrinePeriode.get())
+			.period(ECConfig.COMMON.breedingShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.breedingShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.breedingShrineRange.get());
 
@@ -35,7 +36,7 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
-		return this.getLevel().getEntitiesOfClass(clazz, getRangeBoundingBox(), e -> !e.isSpectator()).stream().collect(Collectors.toList());
+		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRangeBoundingBox(), e -> !e.isSpectator()));
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		EntityType<?> type = null;
 		Animal first = null;
 		Animal second = null;
@@ -64,7 +65,7 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	public boolean feed(Animal first, Animal second) {
-		List<ItemStack> foodList = getEntities(ItemEntity.class).stream().map(ItemEntity::getItem).filter(stack -> first.isFood(stack) && stack.getCount() > 0).collect(Collectors.toList());
+		List<ItemStack> foodList = getEntities(ItemEntity.class).stream().map(ItemEntity::getItem).filter(stack -> first.isFood(stack) && stack.getCount() > 0).toList();
 
 		if (!foodList.isEmpty()) {
 			if (foodList.get(0).getCount() >= 2) {
@@ -87,6 +88,6 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 		BlockState state = this.getBlockState();
 
 		return state.getValue(BreedingShrineBlock.PART) == BreedingShrineBlock.Part.BOWL ? Collections.emptyList()
-				: DEFAULT_UPGRRADE_DIRECTIONS.stream().filter(direction -> direction != state.getValue(BreedingShrineBlock.FACING)).collect(Collectors.toList());
+				: DEFAULT_UPGRADE_DIRECTIONS.stream().filter(direction -> direction != state.getValue(BreedingShrineBlock.FACING)).collect(Collectors.toList());
 	}
 }

@@ -28,6 +28,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class SourceAltarStructure extends StructureFeature<IElementTypeFeatureConfig> {
@@ -55,12 +56,14 @@ public class SourceAltarStructure extends StructureFeature<IElementTypeFeatureCo
 		return ElementalCraft.createRL("altar/small");
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public GenerationStep.Decoration step() {
 		return GenerationStep.Decoration.SURFACE_STRUCTURES;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getFeatureName() {
 		return ElementalCraftApi.MODID + ":" + NAME;
 	}
@@ -87,19 +90,19 @@ public class SourceAltarStructure extends StructureFeature<IElementTypeFeatureCo
 		}
 
 		@Override
-		protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag tag) {
+		protected void addAdditionalSaveData(@Nonnull StructurePieceSerializationContext context, @Nonnull CompoundTag tag) {
 			super.addAdditionalSaveData(context, tag);
 			tag.putString("ElementType", this.elementType.getSerializedName());
 		}
 
 		@Override
-		public void postProcess(WorldGenLevel level, StructureFeatureManager structureManager, ChunkGenerator chunkGenerator, Random random, BoundingBox boundingBox, ChunkPos chunkPos, BlockPos pos) {
+		public void postProcess(WorldGenLevel level, @Nonnull StructureFeatureManager structureManager, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random random, @Nonnull BoundingBox boundingBox, @Nonnull ChunkPos chunkPos, @Nonnull BlockPos pos) {
 			this.templatePosition = this.templatePosition.offset(0, level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, this.templatePosition.getX(), this.templatePosition.getZ()) - 1, 0);
 			super.postProcess(level, structureManager, chunkGenerator, random, boundingBox, chunkPos, pos);
 		}
 
 		@Override
-		protected void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor worldIn, Random rand, BoundingBox sbb) {
+		protected void handleDataMarker(String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor worldIn, @Nonnull Random rand, @Nonnull BoundingBox sbb) {
 			if (function.endsWith("chest")) {
 				this.createChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getSerializedName()), null);
 				worldIn.blockUpdated(pos, Blocks.CHEST);

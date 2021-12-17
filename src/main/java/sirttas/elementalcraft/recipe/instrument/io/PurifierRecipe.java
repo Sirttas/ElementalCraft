@@ -14,6 +14,8 @@ import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
+import javax.annotation.Nonnull;
+
 public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> {
 
 	private final ResourceLocation id;
@@ -39,16 +41,19 @@ public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> 
 		return !result.isEmpty() && input.test(stack);
 	}
 
+	@Nonnull
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		return NonNullList.of(Ingredient.EMPTY, this.input);
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack getResultItem() {
 		return result;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeType<?> getType() {
 		return null;
@@ -64,6 +69,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> 
 		return true;
 	}
 
+	@Nonnull
 	@Override
 	public ResourceLocation getId() {
 		return id;
@@ -79,6 +85,7 @@ public class PurifierRecipe implements IIOInstrumentRecipe<PurifierBlockEntity> 
 		return instrument.getLevel().getRandom();
 	}
 	
+	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return null;

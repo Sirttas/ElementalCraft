@@ -24,6 +24,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
+import javax.annotation.Nonnull;
+
 public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlockEntity> {
 
 	public static final String NAME = "breedingshrine";
@@ -83,8 +85,8 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	 * logic
 	 */
 	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		worldIn.setBlock(pos.relative(state.getValue(FACING)), state.setValue(PART, Part.BOWL), 3);
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+		level.setBlock(pos.relative(state.getValue(FACING)), state.setValue(PART, Part.BOWL), 3);
 	}
 
 	/**
@@ -92,7 +94,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, @Nonnull Player player) {
 		Part part = state.getValue(PART);
 		BlockPos blockpos = pos.relative(part == Part.CORE ? state.getValue(FACING) : state.getValue(FACING).getOpposite());
 		BlockState blockstate = worldIn.getBlockState(blockpos);
@@ -106,7 +108,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
@@ -116,39 +118,30 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	}
 
 	@Override
-	public BreedingShrineBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BreedingShrineBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return state.getValue(PART) == Part.CORE ? super.newBlockEntity(pos, state) : null;
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		if (state.getValue(PART) == Part.CORE) {
-			switch (state.getValue(FACING)) {
-			case NORTH:
-				return CORE_NORTH;
-			case SOUTH:
-				return CORE_SOUTH;
-			case WEST:
-				return CORE_WEST;
-			case EAST:
-				return CORE_EAST;
-			default:
-				return BASE_CORE;
-			}
+			return switch (state.getValue(FACING)) {
+				case NORTH -> CORE_NORTH;
+				case SOUTH -> CORE_SOUTH;
+				case WEST -> CORE_WEST;
+				case EAST -> CORE_EAST;
+				default -> BASE_CORE;
+			};
 		}
-		switch (state.getValue(FACING)) {
-		case NORTH:
-			return BOWL_NORTH;
-		case SOUTH:
-			return BOWL_SOUTH;
-		case WEST:
-			return BOWL_WEST;
-		case EAST:
-			return BOWL_EAST;
-		default:
-			return BASE_BOWL;
-		}
+		return switch (state.getValue(FACING)) {
+			case NORTH -> BOWL_NORTH;
+			case SOUTH -> BOWL_SOUTH;
+			case WEST -> BOWL_WEST;
+			case EAST -> BOWL_EAST;
+			default -> BASE_BOWL;
+		};
 	}
 
 	public enum Part implements StringRepresentable {
@@ -156,7 +149,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 		private final String name;
 
-		private Part(String name) {
+		Part(String name) {
 			this.name = name;
 		}
 
@@ -165,6 +158,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 			return this.name;
 		}
 
+		@Nonnull
 		@Override
 		public String getSerializedName() {
 			return this.name;

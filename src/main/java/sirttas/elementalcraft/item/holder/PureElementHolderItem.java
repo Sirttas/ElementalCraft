@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.level.block.state.BlockState;
@@ -53,7 +54,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	}
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		ElementType.ALL_VALID.forEach(elementType -> tooltip
 				.add(new TranslatableComponent("tooltip.elementalcraft.element_type_percent_full",
 						elementType.getDisplayName(),
@@ -62,7 +63,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			ItemStack full = new ItemStack(this);
 			IElementStorage storage = getElementStorage(full);

@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.block.instrument;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +11,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
@@ -24,6 +20,9 @@ import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R extends IInstrumentRecipe<T>> extends AbstractECCraftingBlockEntity<T, R> implements IInstrument {
 
@@ -52,7 +51,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		if (!instrument.isPowered() && instrument.progressOnTick()) {
 			instrument.makeProgress();
 		}
-		if (instrument.shouldRetriverExtractOutput()) {
+		if (instrument.shouldRetrieverExtractOutput()) {
 			RetrieverBlock.sendOutputToRetriever(level, instrument.worldPosition, instrument.getInventory(), instrument.outputSlot);
 		}
 		if (instrument.locked) {
@@ -60,7 +59,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		}
 	}
 	
-	protected boolean shouldRetriverExtractOutput() {
+	protected boolean shouldRetrieverExtractOutput() {
 		return !lockable || locked;
 	}
 	
@@ -104,8 +103,8 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	protected void renderProgressParticles() {}
 	
 	private ElementType getRecipeElementType() {
-		if (recipe instanceof IElementTypeProvider) {
-			return ((IElementTypeProvider) recipe).getElementType();
+		if (recipe != null) {
+			return recipe.getElementType();
 		}
 		return ElementType.NONE;
 	}
@@ -129,8 +128,9 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return progress > 0;
 	}
 
+	@Nonnull
 	@Override
-	public CompoundTag save(CompoundTag compound) {
+	public CompoundTag save(@Nonnull CompoundTag compound) {
 		super.save(compound);
 		compound.putInt(ECNames.PROGRESS, progress);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
@@ -138,7 +138,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		progress = compound.getInt(ECNames.PROGRESS);
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
@@ -167,7 +167,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
 			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 		}

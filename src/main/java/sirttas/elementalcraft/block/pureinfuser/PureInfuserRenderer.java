@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.pureinfuser;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,6 +15,7 @@ import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.event.TickHandler;
 
+import javax.annotation.Nonnull;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 
 public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEntity> {
 
-	public PureInfuserRenderer(Context context) {
+	public PureInfuserRenderer() {
 		super(new Vec3(0.5, 0.9, 0.5));
 	}
 
 	@Override
-	public void render(PureInfuserBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(@Nonnull PureInfuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get()) && !te.isRunning()) {
 			Map<Direction, ElementType> map = getDirectionMap(te);
 			List<ElementType> remaining = getRemainingElements(map);
@@ -53,7 +53,7 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 	}
 
 	private List<ElementType> getRemainingElements(Map<Direction, ElementType> map) {
-		List<ElementType> usedElements = map.values().stream().filter(elementType -> elementType != ElementType.NONE).collect(Collectors.toList());
+		List<ElementType> usedElements = map.values().stream().filter(elementType -> elementType != ElementType.NONE).toList();
 
 		return ElementType.ALL_VALID.stream().filter(type -> !usedElements.contains(type)).collect(Collectors.toList());
 	}
@@ -76,17 +76,12 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 	}
 
 	private Block getPedestalForType(ElementType type) {
-		switch (type) {
-		case WATER:
-			return ECBlocks.WATER_PEDESTAL;
-		case FIRE:
-			return ECBlocks.FIRE_PEDESTAL;
-		case EARTH:
-			return ECBlocks.EARTH_PEDESTAL;
-		case AIR:
-			return ECBlocks.AIR_PEDESTAL;
-		default:
-			return null;
-		}
+		return switch (type) {
+			case WATER -> ECBlocks.WATER_PEDESTAL;
+			case FIRE -> ECBlocks.FIRE_PEDESTAL;
+			case EARTH -> ECBlocks.EARTH_PEDESTAL;
+			case AIR -> ECBlocks.AIR_PEDESTAL;
+			default -> null;
+		};
 	}
 }

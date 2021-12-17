@@ -15,6 +15,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientEleme
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
+import javax.annotation.Nonnull;
+
 public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategory<PureInfuserBlockEntity, PureInfusionRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(PureInfusionRecipe.NAME);
@@ -24,19 +26,21 @@ public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategor
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<? extends PureInfusionRecipe> getRecipeClass() {
 		return PureInfusionRecipe.class;
 	}
 
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, PureInfusionRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull PureInfusionRecipe recipe, IIngredients ingredients) {
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 		List<List<IngredientElementType>> elementInputs = ingredients.getInputs(ECIngredientTypes.ELEMENT);
 

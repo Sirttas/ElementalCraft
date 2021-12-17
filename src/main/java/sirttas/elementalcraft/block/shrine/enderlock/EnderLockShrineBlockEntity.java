@@ -44,7 +44,7 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 	
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		return false;
 	}
 

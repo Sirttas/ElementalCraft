@@ -20,7 +20,6 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
@@ -28,7 +27,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final BlockEntityType<GroveShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
-			.periode(ECConfig.COMMON.groveShrinePeriode.get())
+			.period(ECConfig.COMMON.groveShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.groveShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.groveShrineRange.get());
 
@@ -42,7 +41,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 
 		List<BlockPos> positions = IntStream.range(-range, range + 1)
 				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(-1, 3).mapToObj(y -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + y, worldPosition.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canPlant).map(BlockPos::above).collect(Collectors.toList());
+				.flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canPlant).map(BlockPos::above).toList();
 		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.random.nextInt(positions.size())));
 	}
 
@@ -60,7 +59,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		if (level instanceof ServerLevel) {
 			return findGrass().map(p -> {
 				BlockItem item = findFlower();
@@ -76,7 +75,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	private BlockItem findFlower() {
 		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE) ? ECTags.Items.MYSTICAL_GROVE_FLOWERS.getValues().stream()
 				: ECTags.Items.GROVE_SHRINE_FLOWERS.getValues().stream().filter(item -> !ECTags.Items.GROVE_SHRINE_BLACKLIST.contains(item)))
-				.filter(BlockItem.class::isInstance).map(BlockItem.class::cast).collect(Collectors.toList());
+				.filter(BlockItem.class::isInstance).map(BlockItem.class::cast).toList();
 
 		return flowers.get(this.level.random.nextInt(flowers.size()));
 	}

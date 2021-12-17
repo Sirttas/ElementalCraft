@@ -27,7 +27,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + OreShrineBlock.NAME) public static final BlockEntityType<OreShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.periode(ECConfig.COMMON.oreShrinePeriode.get())
+			.period(ECConfig.COMMON.oreShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.oreShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.oreShrineRange.get())
 			.capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
@@ -54,7 +54,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		if (level instanceof ServerLevel serverLevel) {
 			return findOre().map(p -> {
 				harvest(serverLevel, p, this, Blocks.STONE.defaultBlockState());

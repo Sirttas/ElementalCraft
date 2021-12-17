@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.datagen.recipe.builder;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.gson.JsonObject;
@@ -19,12 +20,14 @@ public abstract class AbstractFinishedRecipe implements FinishedRecipe {
 	}
 
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getId() {
 		return this.id;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public RecipeSerializer<?> getType() {
 		return this.serializer;
 	}

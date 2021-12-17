@@ -30,7 +30,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + HarvestShrineBlock.NAME) public static final BlockEntityType<HarvestShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.periode(ECConfig.COMMON.harvestShrinePeriode.get())
+			.period(ECConfig.COMMON.harvestShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.harvestShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.harvestShrineRange.get());
 
@@ -76,7 +76,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		if (level instanceof ServerLevel && !level.isClientSide) {
 			return findCrop().map(p -> {
 				List<ItemStack> loots = LootHelper.getDrops((ServerLevel) level, p);

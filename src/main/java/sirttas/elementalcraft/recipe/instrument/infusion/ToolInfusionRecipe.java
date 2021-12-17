@@ -19,6 +19,8 @@ import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
+import javax.annotation.Nonnull;
+
 public class ToolInfusionRecipe implements IInfusionRecipe {
 
 	public static final String NAME = "tool_" + IInfusionRecipe.NAME;
@@ -59,7 +61,8 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 		return stack;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getResultItem() {
 		return ItemStack.EMPTY;
 	}
@@ -69,7 +72,8 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 		return true;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getId() {
 		return id;
 	}
@@ -83,15 +87,17 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 		return  toolInfusion.get();
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ToolInfusionRecipe> {
 
-		@Override
-		public ToolInfusionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		@Nonnull
+        @Override
+		public ToolInfusionRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ResourceLocation toolInfusion = new ResourceLocation(GsonHelper.getAsString(json, ECNames.TOOL_INFUSION));
@@ -100,7 +106,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 		}
 
 		@Override
-		public ToolInfusionRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public ToolInfusionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			int elementAmount = buffer.readInt();
 			Ingredient input = Ingredient.fromNetwork(buffer);
 			ResourceLocation toolInfusion = buffer.readResourceLocation();

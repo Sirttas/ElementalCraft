@@ -1,11 +1,5 @@
 package sirttas.elementalcraft.block.container;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -34,6 +28,12 @@ import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
 public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock {
 
 	protected AbstractElementContainerBlock() {
@@ -41,51 +41,51 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new ElementContainerBlockEntity(pos, state);
 	}
 	
 	@Override
 	@Deprecated
-	public boolean hasAnalogOutputSignal(BlockState state) {
+	public boolean hasAnalogOutputSignal(@Nonnull BlockState state) {
 		return true;
 	}
 
 	@Override
 	@Deprecated
-	public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos pos) {
-		return getElementStorage(world, pos).map(storage -> storage.getElementAmount() * 15 / storage.getElementCapacity())
+	public int getAnalogOutputSignal(@Nonnull BlockState blockState, @Nonnull Level level, @Nonnull BlockPos pos) {
+		return getElementStorage(level, pos).map(storage -> storage.getElementAmount() * 15 / storage.getElementCapacity())
 				.orElse(0);
 	}
 
 	@Override
 	@Deprecated
 	@OnlyIn(Dist.CLIENT)
-	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
+	public float getShadeBrightness(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos) {
 		return 1.0F;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState stateIn, Level world, BlockPos pos, Random rand) {
-		getElementStorage(world, pos)
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+		getElementStorage(level, pos)
 				.filter(t -> !t.isEmpty())
-				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), world, Vec3.atCenterOf(pos).add(0, 0.2D, 0), rand));
+				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), level, Vec3.atCenterOf(pos).add(0, 0.2D, 0), rand));
 	}
 
-	private Optional<ISingleElementStorage> getElementStorage(Level world, BlockPos pos) {
-		return BlockEntityHelper.getBlockEntityAs(world, pos, IElementContainer.class).map(IElementContainer::getElementStorage);
+	private Optional<ISingleElementStorage> getElementStorage(Level level, BlockPos pos) {
+		return BlockEntityHelper.getBlockEntityAs(level, pos, IElementContainer.class).map(IElementContainer::getElementStorage);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		CompoundTag tag = stack.getTag();
 
 		if (tag != null && tag.contains(ECNames.BLOCK_ENTITY_TAG)) {
 			CompoundTag blockNbt = tag.getCompound(ECNames.BLOCK_ENTITY_TAG);
 
-			if (blockNbt != null && blockNbt.contains(ECNames.ELEMENT_STORAGE)) {
+			if (blockNbt.contains(ECNames.ELEMENT_STORAGE)) {
 				CompoundTag elementStorageNbt = blockNbt.getCompound(ECNames.ELEMENT_STORAGE);
 				ElementType elementType = ElementType.byName(elementStorageNbt.getString(ECNames.ELEMENT_TYPE));
 				int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
@@ -93,7 +93,7 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 
 				if (elementType != ElementType.NONE && amount > 0 && capacity > 0) {
 					tooltip.add(new TranslatableComponent("tooltip.elementalcraft.contains", elementType.getDisplayName()).withStyle(ChatFormatting.GREEN));
-					tooltip.add(new TranslatableComponent("tooltip.elementalcraft.percent_full", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(amount * 100 / capacity)).withStyle(ChatFormatting.GREEN));
+					tooltip.add(new TranslatableComponent("tooltip.elementalcraft.percent_full", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(amount * 100L / capacity)).withStyle(ChatFormatting.GREEN));
 				}
 			}
 		}
@@ -101,19 +101,19 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 	
 	@Override
 	@Deprecated
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
 			BlockPos up = pos.above();
 
-			if (worldIn.getBlockState(up).is(ECTags.Blocks.CONTAINER_TOOLS)) {
-				worldIn.destroyBlock(up, true);
+			if (level.getBlockState(up).is(ECTags.Blocks.CONTAINER_TOOLS)) {
+				level.destroyBlock(up, true);
 			}
 		}
-		super.onRemove(state, worldIn, pos, newState, isMoving);
+		super.onRemove(state, level, pos, newState, isMoving);
 	}
 	
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, NonNullList<ItemStack> items) {
 		items.add(new ItemStack(this.asItem()));
 		
 		for (ElementType type : ElementType.ALL_VALID) {

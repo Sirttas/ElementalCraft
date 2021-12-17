@@ -11,6 +11,8 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
+import javax.annotation.Nonnull;
+
 public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, IInfusionRecipe> implements IInfuser {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + InfuserBlock.NAME) public static final BlockEntityType<InfuserBlockEntity> TYPE = null;
@@ -29,10 +31,11 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 	}
 
 	@Override
-	protected boolean shouldRetriverExtractOutput() {
+	protected boolean shouldRetrieverExtractOutput() {
 		return this.recipe == null;
 	}
 
+	@Nonnull
 	@Override
 	public Container getInventory() {
 		return inventory;

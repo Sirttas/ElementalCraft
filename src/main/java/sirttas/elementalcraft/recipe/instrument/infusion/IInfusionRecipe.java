@@ -9,10 +9,12 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
+import javax.annotation.Nonnull;
+
 public interface IInfusionRecipe extends IInstrumentRecipe<IInfuser> {
 
-	public static final String NAME = "infusion";
-	public static final RecipeType<IInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<IInfusionRecipe>() {
+	String NAME = "infusion";
+	RecipeType<IInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<IInfusionRecipe>() {
 		@Override
 		public String toString() {
 			return NAME;
@@ -26,6 +28,7 @@ public interface IInfusionRecipe extends IInstrumentRecipe<IInfuser> {
 		return !stack.isEmpty() && infuser.getContainerElementType() == getElementType() && getInput().test(stack);
 	}
 
+	@Nonnull
 	@Override
 	default RecipeType<?> getType() {
 		return TYPE;
@@ -33,6 +36,7 @@ public interface IInfusionRecipe extends IInstrumentRecipe<IInfuser> {
 	
 	Ingredient getInput();
 	
+	@Nonnull
 	@Override
 	default NonNullList<Ingredient> getIngredients() {
 		return NonNullList.of(Ingredient.EMPTY, getInput());

@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.spelldesk;
 
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,6 +15,10 @@ import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.tag.ECTags;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class SpellDeskMenu extends AbstractECMenu {
 
@@ -52,8 +52,9 @@ public class SpellDeskMenu extends AbstractECMenu {
 		return new SpellDeskMenu(id, inventory, worldPosCallable);
 	}
 
-	@Override
-	public ItemStack quickMoveStack(Player player, int index) {
+	@Nonnull
+    @Override
+	public ItemStack quickMoveStack(@Nonnull Player player, int index) {
 		Slot slot = this.slots.get(index);
 
 		if (slot.hasItem()) {
@@ -86,9 +87,8 @@ public class SpellDeskMenu extends AbstractECMenu {
 	
 	private void updateOutput(Level world) {
 		List<ItemStack> stacks = world.getRecipeManager().getRecipesFor(SpellCraftRecipe.TYPE, input, world).stream()
-				.limit(6)
-				.map(r -> r.assemble(input))
-				.collect(Collectors.toList());
+                .limit(6)
+                .map(r -> r.assemble(input)).toList();
 
 		output.clearContent();
 		for (int i = 0; i < stacks.size(); i++) {
@@ -98,12 +98,12 @@ public class SpellDeskMenu extends AbstractECMenu {
 	}
 	
 	@Override
-	public void slotsChanged(Container inventoryIn) {
+	public void slotsChanged(@Nonnull Container inventoryIn) {
 		worldPosCallable.execute((world, pos) -> updateOutput(world));
 	}
 
 	@Override
-	public void removed(Player playerIn) {
+	public void removed(@Nonnull Player playerIn) {
 		super.removed(playerIn);
 		worldPosCallable.execute((world, pos) -> clearContainer(playerIn, input));
 	}
@@ -115,12 +115,12 @@ public class SpellDeskMenu extends AbstractECMenu {
 		}
 		
 		@Override
-		public boolean mayPlace(ItemStack stack) {
+		public boolean mayPlace(@Nonnull ItemStack stack) {
 			return false;
 		}
 		
 		@Override
-		public void onTake(Player player, ItemStack stack) {
+		public void onTake(@Nonnull Player player, @Nonnull ItemStack stack) {
 			
 			checkTakeAchievements(stack);
 			for (int i = 0; i < input.getContainerSize(); i++) {
@@ -141,7 +141,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 		
 		
 		@Override
-		public boolean mayPlace(ItemStack stack) {
+		public boolean mayPlace(@Nonnull ItemStack stack) {
 			return predicate.test(stack);
 		}
 	}

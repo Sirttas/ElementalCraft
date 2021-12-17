@@ -8,6 +8,7 @@ import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -18,9 +19,7 @@ public class SourcePlacement extends PlacementModifier {
 	public static final String NAME = "source";
 
 	private static final SourcePlacement INSTANCE = new SourcePlacement();
-	public static final Codec<SourcePlacement> CODEC = Codec.unit(() -> {
-		return INSTANCE;
-	});
+	public static final Codec<SourcePlacement> CODEC = Codec.unit(INSTANCE);
 
 	private int getHeight(PlacementContext helper, int x, int z) {
 		Predicate<BlockState> predicate = Types.MOTION_BLOCKING_NO_LEAVES.isOpaque();
@@ -33,15 +32,18 @@ public class SourcePlacement extends PlacementModifier {
 		return 0;
 	}
 
+	@Nonnull
 	@Override
-	public Stream<BlockPos> getPositions(PlacementContext helper, Random rand, BlockPos pos) {
+	public Stream<BlockPos> getPositions(PlacementContext helper, @Nonnull Random rand, BlockPos pos) {
+		var level = helper.getLevel();
 		int x = pos.getX();
 		int z = pos.getZ();
-		int y = getHeight(helper, x, z) + 2;
+		int y = getHeight(helper, x, z);
 
-		return y <= helper.getLevel().getSeaLevel() || y >= 125 ? Stream.of() : Stream.of(new BlockPos(x, y, z)); // TODO use bedrock celing
+		return y <= level.getSeaLevel() || y >= level.dimensionType().logicalHeight() ? Stream.of() : Stream.of(new BlockPos(x, y + 2, z));
 	}
 
+	@Nonnull
 	@Override
 	public PlacementModifierType<?> type() {
 		return ECPlacements.SOURCE;

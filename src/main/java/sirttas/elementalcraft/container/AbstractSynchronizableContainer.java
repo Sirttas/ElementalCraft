@@ -3,9 +3,11 @@ package sirttas.elementalcraft.container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractSynchronizableContainer implements Container {
 
-	private Runnable syncFunction;
+	private final Runnable syncFunction;
 
 	protected AbstractSynchronizableContainer(Runnable syncCallback) {
 		this.syncFunction = syncCallback;
@@ -19,7 +21,7 @@ public abstract class AbstractSynchronizableContainer implements Container {
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@Nonnull Player player) {
 		return true;
 	}
 }

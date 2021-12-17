@@ -19,6 +19,7 @@ import net.silentchaos512.gear.util.Const;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ECSilentGearMaterialProvider extends MaterialsProvider {
         super(generator, ElementalCraftApi.MODID);
     }
 
+    @Nonnull
     @Override
     protected Collection<MaterialBuilder> getMaterials() {
         ResourceLocation chargeability = new ResourceLocation("silentgems", "chargeability");

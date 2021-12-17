@@ -39,13 +39,14 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 		return stack.isEmpty();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getItem(int index) {
 		return index == 0 ? stack : ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItem(int index, ItemStack stack) {
+	public void setItem(int index, @Nonnull ItemStack stack) {
 		if (index == 0) {
 			this.stack = stack;
 		}
@@ -53,11 +54,12 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, ItemStack stack) {
+	public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
 		return index == 0;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack removeItem(int slot, int count) {
 		ItemStack value = ContainerHelper.removeItem(Lists.newArrayList(stack), slot, count);
 
@@ -65,7 +67,8 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 		return value;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack removeItemNoUpdate(int index) {
 		ItemStack ret = stack;
 

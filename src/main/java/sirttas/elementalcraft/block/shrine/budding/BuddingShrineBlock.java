@@ -14,6 +14,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 
+import javax.annotation.Nonnull;
+
 public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEntity> {
 
 	public static final String NAME = "buddingshrine";
@@ -31,9 +33,10 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 		this.registerDefaultState(this.defaultBlockState().setValue(CRYSTAL_TYPE, CrystalType.AMETHYST).setValue(WATERLOGGED, false));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 	
@@ -48,11 +51,12 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 
 		private final String name;
 		
-		private CrystalType(String name) {
+		CrystalType(String name) {
 			this.name = name;
 		}
 		
-		@Override
+		@Nonnull
+        @Override
 		public String getSerializedName() {
 			return name;
 		}

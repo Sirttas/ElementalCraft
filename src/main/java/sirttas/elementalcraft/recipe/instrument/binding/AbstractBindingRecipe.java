@@ -8,6 +8,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractBindingRecipe extends AbstractInstrumentRecipe<IBinder> {
 
 	public static final String NAME = "binding";
@@ -22,6 +24,7 @@ public abstract class AbstractBindingRecipe extends AbstractInstrumentRecipe<IBi
 		super(id, type);
 	}
 
+	@Nonnull
 	@Override
 	public RecipeType<?> getType() {
 		return TYPE;

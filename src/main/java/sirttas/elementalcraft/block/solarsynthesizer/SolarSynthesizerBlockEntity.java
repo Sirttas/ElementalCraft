@@ -75,7 +75,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
 			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
@@ -84,7 +84,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 		compound.putBoolean(ECNames.WORKING, working);
@@ -92,7 +92,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove) {
 			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
 				return CapabilityElementStorage.get(inventory.getItem(0)).cast();
@@ -103,7 +103,8 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 		return super.getCapability(cap, side);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}

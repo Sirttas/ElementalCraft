@@ -16,6 +16,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+
 public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCategory {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL("evaporation");
@@ -29,13 +31,14 @@ public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCate
 	}
 
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, Ingredient recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull Ingredient recipe, IIngredients ingredients) {
 		recipeLayout.getItemStacks().init(0, true, 0, 0);
 		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
 

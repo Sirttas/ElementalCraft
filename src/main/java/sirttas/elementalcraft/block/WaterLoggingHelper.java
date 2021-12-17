@@ -8,22 +8,22 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 
-public class WaterloggingHelper {
+public class WaterLoggingHelper {
 
-	private WaterloggingHelper() {}
+	private WaterLoggingHelper() {}
 	
 	public static boolean isWaterlogged(BlockState state) {
 		return state.getOptionalValue(BlockStateProperties.WATERLOGGED).orElse(false);
 	}
 	
-	public static void sheduleWaterTick(BlockState state, LevelAccessor level, BlockPos pos) {
+	public static void scheduleWaterTick(BlockState state, LevelAccessor level, BlockPos pos) {
 		if (isWaterlogged(state)) {
 			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
 	}
 	
-	public static Boolean isPlacedInWater(BlockPlaceContext context) {
-		return Boolean.valueOf(context.getLevel().getFluidState(context.getClickedPos()).is(FluidTags.WATER));
+	public static boolean isPlacedInWater(BlockPlaceContext context) {
+		return context.getLevel().getFluidState(context.getClickedPos()).is(FluidTags.WATER);
 	}
 	
 }

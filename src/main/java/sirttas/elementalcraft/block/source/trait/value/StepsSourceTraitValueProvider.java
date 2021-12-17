@@ -1,14 +1,8 @@
 package sirttas.elementalcraft.block.source.trait.value;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.Tag;
@@ -23,6 +17,10 @@ import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider {
 
@@ -45,8 +43,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	@Override
 	public ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos) {
 		var list = steps.stream()
-				.filter(s -> s.predicate().test(level, pos))
-				.collect(Collectors.toList());
+                .filter(s -> s.predicate().test(level, pos)).toList();
 		int roll = level.random.nextInt(list.stream().mapToInt(Step::weight).sum());
 		
 		

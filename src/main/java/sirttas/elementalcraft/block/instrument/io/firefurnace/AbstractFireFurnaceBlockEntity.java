@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.instrument.io.firefurnace;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -17,14 +15,17 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
-import sirttas.elementalcraft.container.IOContainer;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
+import sirttas.elementalcraft.container.IOContainer;
 import sirttas.elementalcraft.recipe.instrument.io.FurnaceRecipeWrapper;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRecipe> extends AbstractIOInstrumentBlockEntity<AbstractFireFurnaceBlockEntity<T>, FurnaceRecipeWrapper<T>> {
 
 	private float exp;
-	private RecipeType<T> furnaceRecipeType;
+	private final RecipeType<T> furnaceRecipeType;
 	private final IOContainer inventory;
 
 	protected AbstractFireFurnaceBlockEntity(BlockEntityType<? extends AbstractFireFurnaceBlockEntity<T>> blockEntityType, BlockPos pos, BlockState state, RecipeType<T> recipeType, int transferSpeed, int maxRunes) {
@@ -34,19 +35,21 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 		inventory = new IOContainer(this::setChanged);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected IItemHandler createHandler() {
 		return new SidedInvWrapper(inventory, null);
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		this.exp = compound.getFloat(ECNames.XP);
 	}
 
-	@Override
-	public CompoundTag save(CompoundTag compound) {
+	@Nonnull
+    @Override
+	public CompoundTag save(@Nonnull CompoundTag compound) {
 		super.save(compound);
 		compound.putFloat(ECNames.XP, this.exp);
 		return compound;
@@ -91,7 +94,8 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 		this.exp += exp;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}

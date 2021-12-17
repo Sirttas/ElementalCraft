@@ -22,7 +22,7 @@ import sirttas.elementalcraft.spell.SpellTickManager;
 @Mixin(ItemRenderer.class)
 public abstract class MixinItemRenderer implements ResourceManagerReloadListener {
 
-	@Unique private ThreadLocal<ItemStack> stack = ThreadLocal.withInitial(() -> ItemStack.EMPTY);
+	@Unique private final ThreadLocal<ItemStack> stack = ThreadLocal.withInitial(() -> ItemStack.EMPTY);
 
 	@Inject(method = "renderGuiItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V", 
 			at = @At("HEAD"))

@@ -12,10 +12,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
 import sirttas.elementalcraft.gui.GuiHelper;
 
+import javax.annotation.Nonnull;
+
 public class ElementIngredientRenderer implements IIngredientRenderer<IngredientElementType> {
 
 	@Override
-	public void render(PoseStack matrixStack, int x, int y, IngredientElementType ingredient) {
+	public void render(@Nonnull PoseStack matrixStack, int x, int y, IngredientElementType ingredient) {
 		if (ingredient != null) {
 			int amount = ingredient.getAmount();
 
@@ -24,8 +26,9 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 
 	}
 
-	@Override
-	public List<Component> getTooltip(IngredientElementType ingredient, TooltipFlag tooltipFlag) {
+	@Nonnull
+    @Override
+	public List<Component> getTooltip(IngredientElementType ingredient, @Nonnull TooltipFlag tooltipFlag) {
 		List<Component> tooltips = Lists.newArrayList();
 
 		int amount = ingredient.getAmount();

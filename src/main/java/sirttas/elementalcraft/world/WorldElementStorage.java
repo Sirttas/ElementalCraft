@@ -71,18 +71,13 @@ public class WorldElementStorage implements IElementStorage, INBTSerializable<Co
 	}
 	
 	private IElementStorage getSubStorage(ElementType elementType) {
-		switch (elementType) {
-		case FIRE:
-			return fire;
-		case AIR:
-			return air;
-		case EARTH:
-			return earth;
-		case WATER:
-			return water;
-		default:
-			return EmptyElementStorage.INSTANCE;
-		}
+		return switch (elementType) {
+			case FIRE -> fire;
+			case AIR -> air;
+			case EARTH -> earth;
+			case WATER -> water;
+			default -> EmptyElementStorage.INSTANCE;
+		};
 	}
 
 	private static class SubStorage extends StaticElementStorage {

@@ -7,6 +7,8 @@ import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 
+import javax.annotation.Nonnull;
+
 public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCategory<PurifierBlockEntity, PurifierRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL("purification");
@@ -15,12 +17,14 @@ public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCatego
 		super(guiHelper, "elementalcraft.jei.purification", ECItems.PURIFIER);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<PurifierRecipe> getRecipeClass() {
 		return PurifierRecipe.class;
 	}

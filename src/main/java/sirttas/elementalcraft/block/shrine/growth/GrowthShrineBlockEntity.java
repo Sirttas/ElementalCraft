@@ -18,7 +18,6 @@ import sirttas.elementalcraft.config.ECConfig;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
@@ -26,7 +25,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GrowthShrineBlock.NAME) public static final BlockEntityType<GrowthShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
-			.periode(ECConfig.COMMON.growthShrinePeriode.get())
+			.period(ECConfig.COMMON.growthShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.growthShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.growthShrineRange.get());
 
@@ -38,8 +37,8 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		int range = getIntegerRange();
 
 		List<BlockPos> positions = IntStream.range(-range, range + 1)
-				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, 4).mapToObj(y -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + y, worldPosition.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canGrow).collect(Collectors.toList());
+                .mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, 4).mapToObj(y -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + y, worldPosition.getZ() + z))))
+                .flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canGrow).toList();
 		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.random.nextInt(positions.size())));
 	}
 
@@ -56,10 +55,8 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		BlockState blockstate = level.getBlockState(pos);
 		Block block = blockstate.getBlock();
 
-		if (block instanceof BonemealableBlock) {
-			BonemealableBlock igrowable = (BonemealableBlock) block;
-
-			return (igrowable.isValidBonemealTarget(level, pos, blockstate, level.isClientSide) && (igrowable.isBonemealSuccess(level, level.random, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH)))
+		if (block instanceof BonemealableBlock growable) {
+			return (growable.isValidBonemealTarget(level, pos, blockstate, level.isClientSide) && (growable.isBonemealSuccess(level, level.random, pos, blockstate) || this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH)))
 					|| (block instanceof StemBlock && stemCanGrow((StemBlock) block));
 		}
 		return false;
@@ -73,7 +70,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		if (level instanceof ServerLevel) {
 			return findGrowable().map(p -> {
 				BlockState blockstate = level.getBlockState(p);

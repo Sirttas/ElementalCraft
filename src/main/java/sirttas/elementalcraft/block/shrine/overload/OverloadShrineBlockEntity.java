@@ -20,7 +20,7 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + OverloadShrineBlock.NAME) public static final BlockEntityType<OverloadShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.AIR)
-			.periode(ECConfig.COMMON.overloadShrinePeriode.get())
+			.period(ECConfig.COMMON.overloadShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.overloadShrineConsumeAmount.get());
 
 	public OverloadShrineBlockEntity(BlockPos pos, BlockState state) {
@@ -37,7 +37,7 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		var target = getTargetPos();
 		TickingBlockEntity ticker = this.level.getChunkAt(target).tickersInLevel.get(target);
 		
@@ -50,6 +50,6 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public List<Direction> getUpgradeDirections() {
-		return DEFAULT_UPGRRADE_DIRECTIONS.stream().filter(direction -> direction != this.getBlockState().getValue(OverloadShrineBlock.FACING)).collect(Collectors.toList());
+		return DEFAULT_UPGRADE_DIRECTIONS.stream().filter(direction -> direction != this.getBlockState().getValue(OverloadShrineBlock.FACING)).collect(Collectors.toList());
 	}
 }

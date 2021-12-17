@@ -15,6 +15,8 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
+import javax.annotation.Nonnull;
+
 public class AirMillGrindingRecipe implements IGrindingRecipe {
 	
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
@@ -36,7 +38,8 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 		return elementAmount;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getId() {
 		return id;
 	}
@@ -46,25 +49,29 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 		return ingredient.test(stack);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public NonNullList<Ingredient> getIngredients() {
 		return NonNullList.of(Ingredient.EMPTY, ingredient);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getResultItem() {
 		return output;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 	
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AirMillGrindingRecipe> {
 
-		@Override
-		public AirMillGrindingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		@Nonnull
+        @Override
+		public AirMillGrindingRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient ingredient = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
@@ -76,7 +83,7 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 		}
 
 		@Override
-		public AirMillGrindingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public AirMillGrindingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			int elementAmount = buffer.readInt();
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();

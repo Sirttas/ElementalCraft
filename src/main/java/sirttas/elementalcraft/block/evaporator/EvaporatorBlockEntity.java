@@ -19,6 +19,8 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleStackContainer;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 
+import javax.annotation.Nonnull;
+
 public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements IContainerTopBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final BlockEntityType<EvaporatorBlockEntity> TYPE = null;
@@ -62,7 +64,8 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 		return Math.round(ECConfig.COMMON.shardElementAmount.get() * item.getElementAmount() * runeHandler.getElementPreservation());
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}

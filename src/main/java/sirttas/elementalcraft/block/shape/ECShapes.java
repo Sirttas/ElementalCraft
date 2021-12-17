@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.block.shape;
 
-import java.util.List;
-
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.List;
 
 public class ECShapes {
 
@@ -41,36 +41,24 @@ public class ECShapes {
 	private ECShapes() {}
 	
 	public static VoxelShape sourceShape(Direction direction) {
-		switch (direction) {
-		case EAST:
-			return RS_SOURCE_EAST;
-		case NORTH:
-			return RS_SOURCE_NORTH;
-		case SOUTH:
-			return RS_SOURCE_SOUTH;
-		case WEST:
-			return RS_SOURCE_WEST;
-		case DOWN:
-			return RS_SOURCE_DOWN;
-		default:
-			return RS_SOURCE_UP;
-		}
+		return switch (direction) {
+			case EAST -> RS_SOURCE_EAST;
+			case NORTH -> RS_SOURCE_NORTH;
+			case SOUTH -> RS_SOURCE_SOUTH;
+			case WEST -> RS_SOURCE_WEST;
+			case DOWN -> RS_SOURCE_DOWN;
+			default -> RS_SOURCE_UP;
+		};
 	}
 
 	public static VoxelShape targetShape(Direction direction) {
-		switch (direction) {
-		case EAST:
-			return RS_TARGET_EAST;
-		case NORTH:
-			return RS_TARGET_NORTH;
-		case SOUTH:
-			return RS_TARGET_SOUTH;
-		case WEST:
-			return RS_TARGET_WEST;
-		case DOWN:
-			return RS_TARGET_DOWN;
-		default:
-			return RS_TARGET_UP;
-		}
+		return switch (direction) {
+			case EAST -> RS_TARGET_EAST;
+			case NORTH -> RS_TARGET_NORTH;
+			case SOUTH -> RS_TARGET_SOUTH;
+			case WEST -> RS_TARGET_WEST;
+			case DOWN -> RS_TARGET_DOWN;
+			default -> RS_TARGET_UP;
+		};
 	}
 }

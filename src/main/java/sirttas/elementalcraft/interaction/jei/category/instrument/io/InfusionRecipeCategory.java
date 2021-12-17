@@ -17,6 +17,8 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 
+import javax.annotation.Nonnull;
+
 public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<IInfuser, IInfusionRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(IInfusionRecipe.NAME);
@@ -25,12 +27,14 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 		super(guiHelper, "elementalcraft.jei.infusion", ECItems.INFUSER);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<IInfusionRecipe> getRecipeClass() {
 		return IInfusionRecipe.class;
 	}

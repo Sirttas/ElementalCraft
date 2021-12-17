@@ -27,7 +27,7 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
@@ -35,14 +35,14 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 	}
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
 			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
 		}

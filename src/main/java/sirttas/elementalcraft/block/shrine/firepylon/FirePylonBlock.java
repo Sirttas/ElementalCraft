@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.shrine.firepylon;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,6 +22,9 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntity> {
 
@@ -49,13 +50,13 @@ public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntit
 	}
 
 	@Override
-	public FirePylonBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public FirePylonBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? super.newBlockEntity(pos, state) : null;
 	}
 
 	
 	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
@@ -64,17 +65,18 @@ public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntit
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
-		if (!worldIn.isClientSide && player.isCreative()) {
-			DoublePlantBlock.preventCreativeDropFromBottomPart(worldIn, pos, state, player);
+	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+		if (!level.isClientSide && player.isCreative()) {
+			DoublePlantBlock.preventCreativeDropFromBottomPart(level, pos, state, player);
 		}
 
-		super.playerWillDestroy(worldIn, pos, state, player);
+		super.playerWillDestroy(level, pos, state, player);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? LOWER_SHAPE : UPPER_SHAPE;
 	}
 

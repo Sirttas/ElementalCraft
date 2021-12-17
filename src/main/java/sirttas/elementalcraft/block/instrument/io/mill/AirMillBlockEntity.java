@@ -14,6 +14,8 @@ import sirttas.elementalcraft.container.IOContainer;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
+import javax.annotation.Nonnull;
+
 public class AirMillBlockEntity extends AbstractIOInstrumentBlockEntity<AirMillBlockEntity, IGrindingRecipe> {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + AirMillBlock.NAME) public static final BlockEntityType<AirMillBlockEntity> TYPE = null;
@@ -25,12 +27,14 @@ public class AirMillBlockEntity extends AbstractIOInstrumentBlockEntity<AirMillB
 		inventory = new IOContainer(this::setChanged);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected IItemHandler createHandler() {
 		return new SidedInvWrapper(inventory, null);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}

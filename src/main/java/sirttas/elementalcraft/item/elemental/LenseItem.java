@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.elemental;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -35,8 +36,9 @@ public class LenseItem extends ElementalItem {
 	@Nullable
 	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
 		return new ICapabilityProvider() {
+			@Nonnull
 			@Override
-			public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+			public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
 				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> new Storage(stack, ECConfig.COMMON.lenseElementMultiplier.get())));
 			}
 		};

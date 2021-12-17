@@ -7,6 +7,8 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractECMenu extends AbstractContainerMenu implements IMenuOpenListener {
 
 	protected AbstractECMenu(MenuType<?> type, int id) {
@@ -14,7 +16,7 @@ public abstract class AbstractECMenu extends AbstractContainerMenu implements IM
 	}
 
 	@Override
-	public boolean stillValid(Player playerIn) {
+	public boolean stillValid(@Nonnull Player playerIn) {
 		return true;
 	}
 
@@ -33,7 +35,7 @@ public abstract class AbstractECMenu extends AbstractContainerMenu implements IM
 	 * Called when the container is closed.
 	 */
 	@Override
-	public void removed(Player player) {
+	public void removed(@Nonnull Player player) {
 		var carried = this.getCarried();
 
 		if (!carried.isEmpty()) {

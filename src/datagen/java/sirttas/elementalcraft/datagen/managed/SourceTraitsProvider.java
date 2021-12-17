@@ -13,6 +13,8 @@ import sirttas.elementalcraft.block.source.trait.value.RangeBasedSourceTraitValu
 import sirttas.elementalcraft.block.source.trait.value.StepsSourceTraitValueProvider;
 import sirttas.elementalcraft.data.predicate.block.RangeFromSpawnPredicate;
 
+import javax.annotation.Nonnull;
+
 public class SourceTraitsProvider extends AbstractManagedDataProvider<SourceTrait> {
 
 
@@ -21,7 +23,7 @@ public class SourceTraitsProvider extends AbstractManagedDataProvider<SourceTrai
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		save(cache, SourceTrait.builder().order(0).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.element_capacity", 500000, 1000000, 1000)), ECNames.ELEMENT_CAPACITY);
 		save(cache, SourceTrait.builder().order(1).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.recover_rate", 50, 200, 1000)), ECNames.RECOVER_RATE);
 		save(cache, SourceTrait.builder().order(2).chance(0.5F).predicate(new RangeFromSpawnPredicate(100)).value(StepsSourceTraitValueProvider.builder()
@@ -54,7 +56,8 @@ public class SourceTraitsProvider extends AbstractManagedDataProvider<SourceTrai
 		save(cache, builder.toJson(), ElementalCraft.createRL(name));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "ElementalCraft Spell Properties";
 	}

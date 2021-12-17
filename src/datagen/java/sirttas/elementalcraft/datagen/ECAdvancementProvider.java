@@ -22,6 +22,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
+import javax.annotation.Nonnull;
+
 public class ECAdvancementProvider implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private final DataGenerator generator;
@@ -31,7 +33,7 @@ public class ECAdvancementProvider implements DataProvider {
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 
 		for (Item item : ForgeRegistries.ITEMS) {
@@ -50,7 +52,8 @@ public class ECAdvancementProvider implements DataProvider {
 	/**
 	 * Gets a name for this provider, to use in logging.
 	 */
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "ElementalCraft Advancements";
 	}

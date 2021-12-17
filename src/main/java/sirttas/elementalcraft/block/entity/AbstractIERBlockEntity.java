@@ -31,7 +31,7 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		IElementStorage elementStorage = getElementStorage();
 		
@@ -44,7 +44,7 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	}
 	
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		IElementStorage elementStorage = getElementStorage();
 		
@@ -56,7 +56,7 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove) {
 			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
 				IElementStorage elementStorage = getElementStorage();

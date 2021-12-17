@@ -9,6 +9,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import sirttas.elementalcraft.registry.RegistryHelper;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +31,8 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 	public boolean isDirty() {
 		return dirty;
 	}
-	
+
+	@SuppressWarnings({"BooleanMethodIsAlwaysInverted", "ConstantConditions"})
 	public boolean isPowered() {
 		return this.hasLevel() && this.getLevel().hasNeighborSignal(this.getBlockPos());
 	}
@@ -40,7 +44,11 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
-		load(packet.getTag());
+		var tag = packet.getTag();
+
+		if (tag != null) {
+			load(tag);
+		}
 	}
 
 	@Nonnull
@@ -61,6 +69,10 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 		if (level instanceof ServerLevel serverLevel) {
 			PacketDistributor.TRACKING_CHUNK.with(() -> serverLevel.getChunkAt(worldPosition)).send(getUpdatePacket());
 		}
+	}
+
+	protected static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> type(String name) {
+		return RegistryHelper.object(name, ForgeRegistries.BLOCK_ENTITIES);
 	}
 
 }

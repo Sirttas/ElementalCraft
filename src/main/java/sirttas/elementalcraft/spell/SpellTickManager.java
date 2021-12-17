@@ -27,8 +27,8 @@ public class SpellTickManager {
 	public static final SpellTickManager CLIENT_INSTANCE = new SpellTickManager();
 
 	private int tick;
-	private Map<Entity, Map<Spell, Cooldown>> cooldowns;
-	private List<AbstractSpellInstance> spellinstances;
+	private final Map<Entity, Map<Spell, Cooldown>> cooldowns;
+	private final List<AbstractSpellInstance> spellinstances;
 
 	private SpellTickManager() {
 		tick = 0;

@@ -12,6 +12,8 @@ import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
+import javax.annotation.Nonnull;
+
 public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, AbstractBindingRecipe> implements IBinder {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BinderBlock.NAME) public static final BlockEntityType<BinderBlockEntity> TYPE = null;
@@ -40,6 +42,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 		super.assemble();
 	}
 	
+	@Nonnull
 	@Override
 	public Container getInventory() {
 		return inventory;

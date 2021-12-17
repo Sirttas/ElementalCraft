@@ -19,6 +19,8 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
+import javax.annotation.Nonnull;
+
 public class VacuumShrineBlock extends AbstractShrineBlock<VacuumShrineBlockEntity> {
 
 	public static final String NAME = "vacuumshrine";
@@ -29,9 +31,10 @@ public class VacuumShrineBlock extends AbstractShrineBlock<VacuumShrineBlockEnti
 		super(ElementType.AIR);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 

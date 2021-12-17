@@ -12,6 +12,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractConnectedElementContainerBlock extends AbstractElementContainerBlock implements IPipeConnectedBlock {
 
 	private static final VoxelShape CONNECTOR_NORTH = Shapes.or(Block.box(5D, 5D, 1D, 11D, 11D, 2D), Block.box(6D, 6D, 0D, 10D, 10D, 1D));
@@ -19,11 +21,12 @@ public abstract class AbstractConnectedElementContainerBlock extends AbstractEle
 	private static final VoxelShape CONNECTOR_WEST = Shapes.or(Block.box(2D, 5D, 5D, 3D, 11D, 11D), Block.box(0D, 6D, 6D, 1D, 10D, 10D));
 	private static final VoxelShape CONNECTOR_EAST = Shapes.or(Block.box(14D, 5D, 5D, 15D, 11D, 11D), Block.box(15D, 6D, 6D, 16D, 10D, 10D));
 	
+	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		VoxelShape shape = Shapes.empty();
-		
+
 		if (Boolean.TRUE.equals(state.getValue(NORTH))) {
 			shape = Shapes.or(shape, CONNECTOR_NORTH);
 		}
@@ -44,10 +47,11 @@ public abstract class AbstractConnectedElementContainerBlock extends AbstractEle
 		return doGetStateForPlacement(context.getLevel(), context.getClickedPos());
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
-		return doUpdateShape(stateIn, worldIn, currentPos, facing);
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+		return doUpdateShape(state, level, currentPos, facing);
 	}
 	
 }

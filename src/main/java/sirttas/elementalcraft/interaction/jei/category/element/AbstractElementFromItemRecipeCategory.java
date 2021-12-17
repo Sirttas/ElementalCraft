@@ -17,6 +17,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractElementFromItemRecipeCategory extends AbstractECRecipeCategory<Ingredient> {
 	
 	protected AbstractElementFromItemRecipeCategory(String translationKey, IDrawable icon, IDrawable background) {
@@ -45,6 +47,7 @@ public abstract class AbstractElementFromItemRecipeCategory extends AbstractECRe
 		return ElementType.NONE;
 	}
 	
+	@Nonnull
 	@Override
 	public Class<Ingredient> getRecipeClass() {
 		return Ingredient.class;

@@ -11,6 +11,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
 
+import javax.annotation.Nonnull;
+
 public class AccelerationShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock implements EntityBlock {
 
 	public static final String NAME = "shrine_upgrade_acceleration";
@@ -44,27 +46,22 @@ public class AccelerationShrineUpgradeBlock extends AbstractDirectionalShrineUpg
 	}
 	
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new AccelerationShrineUpgradeBlockEntity(pos, state);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		switch (state.getValue(FACING)) {
-		case DOWN:
-			return SHAPE_DOWN;
-		case EAST:
-			return SHAPE_EAST;
-		case NORTH:
-			return SHAPE_NORTH;
-		case SOUTH:
-			return SHAPE_SOUTH;
-		case WEST:
-			return SHAPE_WEST;
-		default:
-			return SHAPE_UP;
-		}
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return switch (state.getValue(FACING)) {
+			case DOWN -> SHAPE_DOWN;
+			case EAST -> SHAPE_EAST;
+			case NORTH -> SHAPE_NORTH;
+			case SOUTH -> SHAPE_SOUTH;
+			case WEST -> SHAPE_WEST;
+			default -> SHAPE_UP;
+		};
 	}
 
 }

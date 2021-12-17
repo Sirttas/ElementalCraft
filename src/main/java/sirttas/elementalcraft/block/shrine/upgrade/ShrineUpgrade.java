@@ -105,7 +105,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		private final String name;
 		private final boolean positive;
 
-		private BonusType(String name, boolean positive) {
+		BonusType(String name, boolean positive) {
 			this.name = name;
 			this.positive = positive;
 		}
@@ -137,7 +137,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
 		private int maxAmount;
-		private Set<ResourceLocation> incompatibilities;
+		private final Set<ResourceLocation> incompatibilities;
 
 		private Builder() {
 			this.bonuses = new EnumMap<>(BonusType.class);

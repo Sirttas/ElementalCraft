@@ -13,11 +13,11 @@ public class ElementContainerBlockEntity extends AbstractElementContainerBlockEn
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementContainerBlock.NAME) public static final BlockEntityType<ElementContainerBlockEntity> TYPE = null;
 
 	public ElementContainerBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, sync -> new ElementContainerElementStorage(state.getBlock() == ECBlocks.SMALL_CONTAINER ? ECConfig.COMMON.tankSmallCapacity.get() : ECConfig.COMMON.tankCapacity.get(), sync));
+		super(TYPE, pos, state, sync -> new ElementContainerElementStorage(state.getBlock() == ECBlocks.SMALL_CONTAINER.get() ? ECConfig.COMMON.tankSmallCapacity.get() : ECConfig.COMMON.tankCapacity.get(), sync));
 	}
 
 	@Override
 	public boolean isSmall() {
-		return this.getBlockState().getBlock() == ECBlocks.SMALL_CONTAINER;
+		return this.getBlockState().getBlock() == ECBlocks.SMALL_CONTAINER.get();
 	}
 }

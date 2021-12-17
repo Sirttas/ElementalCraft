@@ -8,6 +8,8 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
+import javax.annotation.Nonnull;
+
 public class GrindingRecipeCategory extends AbstractIOInstrumentRecipeCategory<AirMillBlockEntity, AirMillGrindingRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(IGrindingRecipe.NAME);
@@ -16,12 +18,14 @@ public class GrindingRecipeCategory extends AbstractIOInstrumentRecipeCategory<A
 		super(guiHelper, "elementalcraft.jei.grinding", ECItems.AIR_MILL);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<AirMillGrindingRecipe> getRecipeClass() {
 		return AirMillGrindingRecipe.class;
 	}

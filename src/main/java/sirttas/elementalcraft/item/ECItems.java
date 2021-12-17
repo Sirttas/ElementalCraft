@@ -205,7 +205,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + OreShrineBlock.NAME) public static final Item ORE_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + OverloadShrineBlock.NAME) public static final Item OVERLOAD_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SweetShrineBlock.NAME) public static final Item SWEET_SHRINE = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + EnderLockShrineBlock.NAME) public static final Item ENDER_LOC_SHRINE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + EnderLockShrineBlock.NAME) public static final Item ENDER_LOCK_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final Item BREEDING_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final Item GROVE_SHRINE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + AccelerationShrineUpgradeBlock.NAME) public static final Item ACCELERATION_SHRINE_UPGRADE = null;

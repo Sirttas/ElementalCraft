@@ -9,7 +9,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 
 public interface IElementTypeFeatureConfig extends FeatureConfiguration {
 
-	public static final Codec<IElementTypeFeatureConfig> CODEC = Codec.STRING.dispatch(IElementTypeFeatureConfig::getName, name -> {
+	Codec<IElementTypeFeatureConfig> CODEC = Codec.STRING.dispatch(IElementTypeFeatureConfig::getName, name -> {
 		if (name.equals("simple")) {
 			return ElementTypeFeatureConfig.CODEC;
 		} else if (name.equals("random")) {

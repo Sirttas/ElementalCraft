@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.shrine;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,9 +33,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
-import sirttas.elementalcraft.block.WaterloggingHelper;
+import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> extends AbstractECEntityBlock implements SimpleWaterloggedBlock {
 
@@ -56,28 +56,29 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@Override
 	@Deprecated
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
-			BlockEntityHelper.getBlockEntityAs(worldIn, pos, AbstractShrineBlockEntity.class).ifPresent(shrine -> shrine.getUpgradeDirections().forEach(direction -> {
+			BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class).ifPresent(shrine -> shrine.getUpgradeDirections().forEach(direction -> {
 				BlockPos newPos = pos.relative(direction);
-				BlockState upgradeState = worldIn.getBlockState(newPos);
+				BlockState upgradeState = level.getBlockState(newPos);
 				Block block = upgradeState.getBlock();
 
 				if (block instanceof AbstractShrineUpgradeBlock && ((AbstractShrineUpgradeBlock) block).getFacing(upgradeState) == direction.getOpposite()) {
-					worldIn.destroyBlock(newPos, true);
+					level.destroyBlock(newPos, true);
 				}
 			}));
 		}
-		super.onRemove(state, worldIn, pos, newState, isMoving);
+		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		final AbstractShrineBlockEntity shrine = (AbstractShrineBlockEntity) world.getBlockEntity(pos);
+	public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		final AbstractShrineBlockEntity shrine = (AbstractShrineBlockEntity) level.getBlockEntity(pos);
 
 		if (shrine != null && player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
-			if (world.isClientSide) {
+			if (level.isClientSide) {
 				shrine.startShowingRange();
 			}
 			return InteractionResult.SUCCESS;
@@ -87,14 +88,14 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.consumes", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand) {
-		BlockEntityHelper.getBlockEntityAs(world, pos, AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, world, pos, rand));
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+		BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -103,13 +104,13 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	}
 
 	@Override
-	public T newBlockEntity(BlockPos pos, BlockState state) {
+	public T newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return getEntityType().create(pos, state);
 	}
 
 	@Override
 	@Nullable
-	public <U extends BlockEntity> BlockEntityTicker<U> getTicker(Level level, BlockState state, BlockEntityType<U> type) {
+	public <U extends BlockEntity> BlockEntityTicker<U> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<U> type) {
 		return createECServerTicker(level, type, getEntityType(), AbstractShrineBlockEntity::serverTick);
 	}
 
@@ -123,8 +124,8 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@Override
 	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(WATERLOGGED, WaterloggingHelper.isPlacedInWater(context));
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
 	}
 
 	@Override
@@ -132,16 +133,18 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 		builder.add(WATERLOGGED);
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public FluidState getFluidState(BlockState state) {
-		return WaterloggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	public FluidState getFluidState(@Nonnull BlockState state) {
+		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
-		WaterloggingHelper.sheduleWaterTick(state, level, pos);
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
+		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
 	}
 }

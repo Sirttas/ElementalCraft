@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.holder;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.level.block.state.BlockState;
@@ -75,14 +76,14 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.percent_full",
 				ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(getElementStorage(stack).getElementAmount() * 100 / elementCapacity))
 				.withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			ItemStack full = new ItemStack(this);
 			ISingleElementStorage storage = getElementStorage(full);

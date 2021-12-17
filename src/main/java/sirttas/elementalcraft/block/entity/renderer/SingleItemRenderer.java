@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -10,6 +9,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> implements RuneRenderer<T> {
@@ -27,7 +28,7 @@ public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> i
 	}
 
 	@Override
-	public void render(T te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(@Nonnull T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		ItemStack stack = te.getInventory().getItem(0);
 
 		RuneRenderer.super.render(te, partialTicks, matrixStack, buffer, light, overlay);

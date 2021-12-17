@@ -14,15 +14,15 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SweetShrineBlock.NAME) public static final BlockEntityType<SweetShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
-			.periode(ECConfig.COMMON.sweetShrinePeriode.get())
+			.period(ECConfig.COMMON.sweetShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.sweetShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.sweetShrineRange.get());
 
@@ -31,12 +31,12 @@ public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
-		return this.getLevel().getEntitiesOfClass(clazz, getRangeBoundingBox(), e -> !e.isSpectator()).stream().collect(Collectors.toList());
+		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRangeBoundingBox(), e -> !e.isSpectator()));
 	}
 
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		int consumeAmount = this.getConsumeAmount();
 
 		if (this.hasUpgrade(ShrineUpgrades.NECTAR)) {

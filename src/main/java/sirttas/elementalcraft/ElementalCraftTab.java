@@ -1,7 +1,5 @@
 package sirttas.elementalcraft;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -11,6 +9,9 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
+import java.util.function.Supplier;
+
 public class ElementalCraftTab extends CreativeModeTab {
 
 	public static final @Nonnull CreativeModeTab TAB = new ElementalCraftTab();
@@ -19,6 +20,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		super(ElementalCraftApi.MODID);
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack makeIcon() {
 		return new ItemStack(ECItems.FOCUS);
@@ -73,6 +75,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.GROVE_SHRINE, list);
 		addItem(ECBlocks.SPRING_SHRINE, list);
 		addItem(ECBlocks.BUDDING_SHRINE, list);
+		addItem(ECBlocks.SPAWNING_SHRINE, list);
 		addItem(ECBlocks.ACCELERATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.RANGE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CAPACITY_SHRINE_UPGRADE, list);
@@ -194,6 +197,10 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.RUNE_SLATE, list);
 		addItem(ECItems.MAJOR_RUNE_SLATE, list);
 		addItem(ECItems.RUNE, list);
+	}
+
+	private <T extends ItemLike> void addItem(@Nonnull Supplier<T> item, @Nonnull NonNullList<ItemStack> list) {
+		addItem(item.get(), list);
 	}
 
 	private void addItem(ItemLike item, @Nonnull NonNullList<ItemStack> list) {

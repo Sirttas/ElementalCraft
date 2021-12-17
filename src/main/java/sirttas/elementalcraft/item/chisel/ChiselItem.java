@@ -18,6 +18,8 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
+
 public class ChiselItem extends ECItem {
 
 	public static final String NAME = "chisel";
@@ -27,11 +29,12 @@ public class ChiselItem extends ECItem {
 	}
 
 	@Override
-	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
+	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
 		return repair.getItem() == ECItems.SWIFT_ALLOY_INGOT;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level level = context.getLevel();
 		Player player = context.getPlayer();

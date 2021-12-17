@@ -4,6 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements IInstrumentRecipe<T> {
 
 	protected final ElementType elementType;
@@ -19,7 +21,8 @@ public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements
 		return elementType;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getId() {
 		return id;
 	}

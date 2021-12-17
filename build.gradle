@@ -17,9 +17,8 @@ plugins {
     id 'java'
     id 'eclipse'
 	id 'maven-publish'
-	id "org.sonarqube" version "3.2.0"
+	id "org.sonarqube" version "${sonar_version}"
 	id "com.matthewprenger.cursegradle" version '1.4.0'
-	// id "com.diffplug.eclipse.apt" version "3.32.1"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -80,8 +79,8 @@ configurations {
 }
 minecraft {
     mappings channel: "${mappings_channel}", version: "${mappings_version}"
-    
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    accessTransformer file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
@@ -143,7 +142,7 @@ minecraft {
 
             mods {
                 elementalcraft {
-                    source sourceSets.api
+                    sources sourceSets.api
                     source sourceSets.main
                     source sourceSets.datagen
                 }
@@ -159,6 +158,10 @@ minecraft {
 }
 
 repositories {
+    def gprCreds = {
+        username System.getenv("GITHUB_USERNAME") ?: project.findProperty("gpr_username")
+        password System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr_token")
+    }
     mavenCentral()
     flatDir { dirs 'libs', '../libs', '../DPAnvil/build/libs' }
     maven { url "https://maven.theillusivec4.top/" }
@@ -166,6 +169,18 @@ repositories {
   	maven { url "https://modmaven.dev/" }
   	maven { url "https://maven.blamejared.com" }
   	maven { url "https://repo.spongepowered.org/repository/maven-public/" }
+    maven {
+        url = uri("https://maven.pkg.github.com/silentchaos512/silent-gear")
+        credentials gprCreds
+    }
+    maven {
+        url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
+        credentials gprCreds
+    }
+    maven {
+        url = uri("https://maven.pkg.github.com/silentchaos512/silent-utils")
+        credentials gprCreds
+    }
 }
 
 dependencies {
@@ -199,10 +214,15 @@ dependencies {
     datagenImplementation sourceSets.api.output
     datagenImplementation sourceSets.main.output
     //datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
-    try {
-        datagenImplementation fg.deobf("net.silentchaos512:silent-gear:${silentgear_version}")
-        datagenImplementation fg.deobf("net.silentchaos512:silent-lib:${silentlib_version}")
-    } catch (e) { }
+    datagenImplementation fg.deobf("net.silentchaos512:silent-gear:${silentgear_version}") {
+        exclude module: 'forge'
+        exclude module: 'jei-1.18'
+        exclude module: 'silent-lib'
+        exclude module: 'curios-forge'
+    }
+    datagenImplementation fg.deobf("net.silentchaos512:silent-lib:${silentlib_version}") {
+        exclude module: 'forge'
+    }
 }
 
 jar {

@@ -12,7 +12,7 @@ import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 public interface IInstrumentBlock extends SimpleWaterloggedBlock {
 
-	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
 	default <T extends IInstrument, R extends IInstrumentRecipe<T>, E extends AbstractInstrumentBlockEntity<T, R>, A extends BlockEntity> BlockEntityTicker<A> createInstrumentTicker(Level level, BlockEntityType<A> type, BlockEntityType<E> expectedType) {
 		return AbstractECEntityBlock.createECTicker(level, type, expectedType, AbstractInstrumentBlockEntity::tick);

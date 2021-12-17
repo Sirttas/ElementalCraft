@@ -17,6 +17,8 @@ import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.spell.SpellHelper;
 
+import javax.annotation.Nonnull;
+
 public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingContainer> {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + StaffItem.NAME) public static final RecipeSerializer<ShapedRecipe> SERIALIZER = null;
@@ -25,7 +27,8 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingConta
 		super(parent.getId(), parent.getGroup(), parent.getWidth(), parent.getHeight(), parent.getIngredients(), parent.getResultItem());
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack assemble(CraftingContainer inv) {
 		ItemStack staff = this.getResultItem().copy();
 		
@@ -42,20 +45,22 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingConta
 		return staff;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 	
 	public static class Serializer extends ShapedRecipe.Serializer {
 
-		@Override
-		public ShapedRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		@Nonnull
+        @Override
+		public ShapedRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			return new StaffRecipe(super.fromJson(recipeId, json));
 		}
 
 		@Override
-		public ShapedRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public ShapedRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
 			return new StaffRecipe(super.fromNetwork(recipeId, buffer));
 		}
 	}

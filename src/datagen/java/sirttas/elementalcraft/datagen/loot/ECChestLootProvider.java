@@ -21,6 +21,8 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.loot.function.RandomSpell;
 
+import javax.annotation.Nonnull;
+
 /**
  * greatly inspired by Botania
  *
@@ -34,7 +36,7 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		save(cache, genInject(), ElementalCraft.createRL("inject"));
 		save(cache, genSmallAltar(ElementType.FIRE), ElementalCraft.createRL("altar/small_fire"));
 		save(cache, genMediumAltar(ElementType.FIRE), ElementalCraft.createRL("altar/medium_fire"));
@@ -134,7 +136,8 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 		return this.generator.getOutputFolder().resolve("data/" + id.getNamespace() + "/loot_tables/chests/" + id.getPath() + ".json");
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "ElementalCraft inject loot tables";
 	}

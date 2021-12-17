@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.spell.water;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.spell.Spell;
 
 public class RipeningSpell extends Spell {
@@ -20,9 +20,7 @@ public class RipeningSpell extends Spell {
 		BlockState state = world.getBlockState(target);
 		Block block = state.getBlock();
 
-		if (block instanceof BonemealableBlock) {
-			BonemealableBlock growable = (BonemealableBlock) block;
-
+		if (block instanceof BonemealableBlock growable) {
 			if (growable.isBonemealSuccess(world, world.random, target, state)) {
 				if (world instanceof ServerLevel) {
 					for (int i = 0; i < 10 && growable.isValidBonemealTarget(world, target, state, world.isClientSide); i++) {

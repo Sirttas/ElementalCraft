@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.rune;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.item.TooltipFlag;
@@ -35,7 +36,8 @@ public class RuneItem extends ECItem {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
@@ -75,7 +77,7 @@ public class RuneItem extends ECItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		Rune rune = getRune(stack);
 
 		if (rune != null) {
@@ -83,8 +85,9 @@ public class RuneItem extends ECItem {
 		}
 	}
 
-	@Override
-	public Component getName(ItemStack stack) {
+	@Nonnull
+    @Override
+	public Component getName(@Nonnull ItemStack stack) {
 		Rune rune = getRune(stack);
 
 		if (rune != null) {
@@ -94,7 +97,7 @@ public class RuneItem extends ECItem {
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			ElementalCraftApi.RUNE_MANAGER.getData().forEach((id, rune) -> items.add(getRuneStack(rune)));
 		}

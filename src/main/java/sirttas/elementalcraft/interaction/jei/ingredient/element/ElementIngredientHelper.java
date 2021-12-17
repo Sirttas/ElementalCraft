@@ -10,37 +10,44 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 
+import javax.annotation.Nonnull;
+
 public class ElementIngredientHelper implements IIngredientHelper<IngredientElementType> {
 
 	@Override
-	public IngredientElementType getMatch(Iterable<IngredientElementType> ingredients, IngredientElementType ingredientToMatch, UidContext context) {
+	public IngredientElementType getMatch(Iterable<IngredientElementType> ingredients, @Nonnull IngredientElementType ingredientToMatch, @Nonnull UidContext context) {
 		return StreamSupport.stream(ingredients.spliterator(), false)
 				.filter(type -> type.getElementType() == ingredientToMatch.getElementType())
 				.findAny()
 				.orElse(null);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getDisplayName(IngredientElementType ingredient) {
 		return I18n.get(ingredient.getElementType().getTranslationKey());
 	}
 
-	@Override
-	public String getUniqueId(IngredientElementType ingredient, UidContext context) {
+	@Nonnull
+    @Override
+	public String getUniqueId(IngredientElementType ingredient, @Nonnull UidContext context) {
 		return ingredient.getElementType().getSerializedName();
 	}
 
-	@Override
-	public String getModId(IngredientElementType ingredient) {
+	@Nonnull
+    @Override
+	public String getModId(@Nonnull IngredientElementType ingredient) {
 		return ElementalCraftApi.MODID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getResourceId(IngredientElementType ingredient) {
 		return ElementalCraft.createRL(ingredient.getElementType().getSerializedName()).toString();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public IngredientElementType copyIngredient(IngredientElementType ingredient) {
 		return ingredient.copy();
 	}
@@ -50,12 +57,14 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 		return ingredient.getElementType() != ElementType.NONE;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getErrorInfo(IngredientElementType ingredient) {
 		return ingredient != null && ingredient.getElementType() == ElementType.NONE ? "Element shouldn't be none" : "";
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public IIngredientType<IngredientElementType> getIngredientType() {
 		return IngredientElementType.TYPE;
 	}

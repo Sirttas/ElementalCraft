@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.item.source.analysis;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -25,11 +22,14 @@ import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.property.ECProperties;
 
+import javax.annotation.Nonnull;
+import java.util.Map;
+import java.util.TreeMap;
+
 public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractable {
 
 	public static final String NAME = "source_analysis_glass";
 
-	private static final ItemStack SPRINGALINE_STACK = new ItemStack(ECItems.SPRINGALINE_SHARD);
 	
 	public SourceAnalysisGlassItem() {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
@@ -39,9 +39,9 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		if (player.isCreative()) {
 			return true;
 		}
-		
+
 		var inv = player.getInventory();
-		var slot = inv.findSlotMatchingItem(SPRINGALINE_STACK);
+		var slot = inv.findSlotMatchingItem(new ItemStack(ECItems.SPRINGALINE_SHARD));
 		
 		if (slot >= 0) {
 			var stack = inv.getItem(slot);
@@ -57,7 +57,8 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		return false;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level level = context.getLevel();
 		BlockPos pos = context.getClickedPos();
@@ -76,8 +77,9 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+	@Nonnull
+    @Override
+	public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
 		return new InteractionResultHolder<>(open(world, player, new TreeMap<>()), stack);
@@ -100,11 +102,12 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		}
 		
 		@Override
-		public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+		public AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, Player player) {
 			return new SourceAnalysisGlassMenu(id, inventory, traits, ContainerLevelAccess.create(player.level, player.getOnPos()));
 		}
 
-		@Override
+		@Nonnull
+        @Override
 		public Component getDisplayName() {
 			return SourceAnalysisGlassItem.this.getDescription();
 		}

@@ -9,8 +9,8 @@ import sirttas.elementalcraft.spell.SpellTickManager;
 
 public class CastSpellGoal extends Goal {
 
-	private PathfinderMob caster;
-	private Spell spell;
+	private final PathfinderMob caster;
+	private final Spell spell;
 
 	public CastSpellGoal(PathfinderMob caster, Spell spell) {
 		this.caster = caster;

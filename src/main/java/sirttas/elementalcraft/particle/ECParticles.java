@@ -20,10 +20,10 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECParticles {
 
-	public static final ParticleType<ElementTypeParticleData> SOURCE = ElementTypeParticleData.createParticeLtype(true);
-	public static final ParticleType<ElementTypeParticleData> SOURCE_EXHAUSTED = ElementTypeParticleData.createParticeLtype(true);
-	public static final ParticleType<ElementTypeParticleData> ELEMENT_FLOW = ElementTypeParticleData.createParticeLtype(false);
-	public static final ParticleType<ElementTypeParticleData> ELEMENT_CRAFTING = ElementTypeParticleData.createParticeLtype(false);
+	public static final ParticleType<ElementTypeParticleData> SOURCE = ElementTypeParticleData.createParticleType(true);
+	public static final ParticleType<ElementTypeParticleData> SOURCE_EXHAUSTED = ElementTypeParticleData.createParticleType(true);
+	public static final ParticleType<ElementTypeParticleData> ELEMENT_FLOW = ElementTypeParticleData.createParticleType(false);
+	public static final ParticleType<ElementTypeParticleData> ELEMENT_CRAFTING = ElementTypeParticleData.createParticleType(false);
 
 	private ECParticles() {}
 	

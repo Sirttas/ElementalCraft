@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
@@ -19,6 +17,9 @@ import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.property.ECProperties;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 
 	protected AbstractECEntityBlock(BlockBehaviour.Properties properties) {
@@ -29,19 +30,20 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 		this(ECProperties.Blocks.BLOCK_NOT_SOLID);
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public RenderShape getRenderShape(BlockState state) {
+	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.MODEL;
 	}
 
 	@Override
 	@Deprecated
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
-			dropItems(worldIn, pos);
-			dropRunes(worldIn, pos);
-			super.onRemove(state, worldIn, pos, newState, isMoving);
+			dropItems(level, pos);
+			dropRunes(level, pos);
+			super.onRemove(state, level, pos, newState, isMoving);
 		}
 	}
 
@@ -62,7 +64,7 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
 		return !level.isClientSide ? (l, p, s, be) -> sendUpdate(be) : null;
 	}
 	

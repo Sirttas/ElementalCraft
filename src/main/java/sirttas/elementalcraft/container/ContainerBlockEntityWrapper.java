@@ -4,6 +4,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.Nonnull;
+
 public class ContainerBlockEntityWrapper<T extends IContainerBlockEntity> implements Container {
 
 	private final T entity;
@@ -35,23 +37,26 @@ public class ContainerBlockEntityWrapper<T extends IContainerBlockEntity> implem
 		return entity.getInventory().isEmpty();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack getItem(int index) {
 		return entity.getInventory().getItem(index);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack removeItem(int index, int count) {
 		return entity.getInventory().removeItem(index, count);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ItemStack removeItemNoUpdate(int index) {
 		return entity.getInventory().removeItemNoUpdate(index);
 	}
 
 	@Override
-	public void setItem(int index, ItemStack stack) {
+	public void setItem(int index, @Nonnull ItemStack stack) {
 		entity.getInventory().setItem(index, stack);
 	}
 
@@ -61,7 +66,7 @@ public class ContainerBlockEntityWrapper<T extends IContainerBlockEntity> implem
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@Nonnull Player player) {
 		return entity.getInventory().stillValid(player);
 	}
 

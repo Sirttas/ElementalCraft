@@ -4,7 +4,6 @@ package sirttas.elementalcraft.block.instrument.io.purifier;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,8 +13,6 @@ import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class PurifierRenderer implements IECRenderer<PurifierBlockEntity> {
-
-	public PurifierRenderer(Context context) {}
 
 	@Override
 	public void render(PurifierBlockEntity te, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int light, int overlay) {

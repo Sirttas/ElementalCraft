@@ -15,6 +15,8 @@ import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntit
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
 
+import javax.annotation.Nonnull;
+
 public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<PurifierBlockEntity, PurifierRecipe> {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PurifierBlock.NAME) public static final BlockEntityType<PurifierBlockEntity> TYPE = null;
@@ -26,7 +28,8 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 		inventory = new PurifierContainer(this::setChanged);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected @NotNull IItemHandler createHandler() {
 		return new SidedInvWrapper(inventory, null);
 	}
@@ -45,7 +48,8 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 		return null;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public @NotNull Container getInventory() {
 		return inventory;
 	}

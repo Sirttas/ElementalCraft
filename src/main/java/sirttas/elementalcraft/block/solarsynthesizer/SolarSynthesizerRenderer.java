@@ -2,11 +2,9 @@ package sirttas.elementalcraft.block.solarsynthesizer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +17,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
+import javax.annotation.Nonnull;
+
 public class SolarSynthesizerRenderer implements IECRenderer<SolarSynthesizerBlockEntity> {
 
 	public static final Material BEAM = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/solar_synthesizer_beam"));
@@ -26,10 +26,8 @@ public class SolarSynthesizerRenderer implements IECRenderer<SolarSynthesizerBlo
 
 	private BakedModel lenseModel;
 
-	public SolarSynthesizerRenderer(Context context) {}
-
 	@Override
-	public void render(SolarSynthesizerBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(SolarSynthesizerBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		ItemStack stack = te.getInventory().getItem(0);
 		Minecraft minecraft = Minecraft.getInstance();
 

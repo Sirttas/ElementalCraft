@@ -33,9 +33,9 @@ import java.util.Map;
 
 public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
-	protected static final List<Direction> DEFAULT_UPGRRADE_DIRECTIONS = List.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> DEFAULT_UPGRADE_DIRECTIONS = List.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	private final double basePeriode;
+	private final double basePeriod;
 	private final int baseElementCapacity;
 	private final float baseRange;
 	private final int baseConsumeAmount;
@@ -49,12 +49,12 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
 	protected AbstractShrineBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, Properties properties) {
 		super(blockEntityType, pos, state);
-		basePeriode = properties.periode;
+		basePeriod = properties.period;
 		baseElementCapacity = properties.capacity;
 		baseRange = properties.range;
 		baseConsumeAmount = properties.consumeAmount;
-		if (basePeriode <= 0) {
-			throw new IllegalArgumentException("Shrine periode should not be 0");
+		if (basePeriod <= 0) {
+			throw new IllegalArgumentException("Shrine period should not be 0");
 		}
 		elementStorage = new ShrineElementStorage(properties.elementType, properties.capacity, this::setChanged);
 	}
@@ -63,28 +63,28 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		return elementStorage.extractElement(i, false);
 	}
 
-	protected abstract boolean doPeriode();
+	protected abstract boolean doPeriod();
 
 	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		if (shrine.isDirty()) {
 			shrine.refreshUpgrades();
 		}
-		double periode = shrine.getPeriod();
+		double period = shrine.getPeriod();
 		int consumeAmount = shrine.getConsumeAmount();
 
 		shrine.running = false;
 		if (!shrine.isPowered()) {
 			shrine.tick++;
-			if (periode <= 0) {
-				ElementalCraftApi.LOGGER.warn("Shrine periode should not be 0");
-				periode = 1;
+			if (period <= 0) {
+				ElementalCraftApi.LOGGER.warn("Shrine period should not be 0");
+				period = 1;
 			}
-			while (shrine.tick >= periode) {
-				if (shrine.elementStorage.getElementAmount() >= consumeAmount && shrine.doPeriode()) {
+			while (shrine.tick >= period) {
+				if (shrine.elementStorage.getElementAmount() >= consumeAmount && shrine.doPeriod()) {
 					shrine.consumeElement(consumeAmount);
 				}
-				shrine.tick -= periode;
+				shrine.tick -= period;
 			}
 		}
 		if (shrine.rangeRenderTimer > 0) {
@@ -152,7 +152,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public List<Direction> getUpgradeDirections() {
-		return DEFAULT_UPGRRADE_DIRECTIONS;
+		return DEFAULT_UPGRADE_DIRECTIONS;
 	}
 
 	public boolean isRunning() {
@@ -185,11 +185,11 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public double getPeriod() {
-		return this.basePeriode * getMultiplier(BonusType.SPEED);
+		return this.basePeriod * getMultiplier(BonusType.SPEED);
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
@@ -199,7 +199,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 		compound.putBoolean(ECNames.RUNNING, running);
@@ -207,7 +207,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
 			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
 		}
@@ -219,7 +219,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public static final class Properties {
-		private double periode;
+		private double period;
 		private int consumeAmount;
 		private int capacity;
 		private float range;
@@ -228,7 +228,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		private Properties(ElementType elementType) {
 			this.elementType = elementType;
 			consumeAmount = 0;
-			periode = 1;
+			period = 1;
 			range = 1;
 			capacity = ECConfig.COMMON.shrinesCapacity.get();
 		}
@@ -243,8 +243,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 			return this;
 		}
 
-		public Properties periode(double periode) {
-			this.periode = periode;
+		public Properties period(double period) {
+			this.period = period;
 			return this;
 		}
 

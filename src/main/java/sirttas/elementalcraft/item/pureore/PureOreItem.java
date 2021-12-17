@@ -8,12 +8,15 @@ import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.item.ECItem;
 
+import javax.annotation.Nonnull;
+
 public class PureOreItem extends ECItem {
 
 	public static final String NAME = "pure_ore";
 
-	@Override
-	public Component getName(ItemStack stack) {
+	@Nonnull
+    @Override
+	public Component getName(@Nonnull ItemStack stack) {
 		var name = ElementalCraft.PURE_ORE_MANAGER.getPureOreName(stack);
 
 		if (name != null) {
@@ -23,7 +26,7 @@ public class PureOreItem extends ECItem {
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			ElementalCraft.PURE_ORE_MANAGER.getOres().forEach(id -> items.add(ElementalCraft.PURE_ORE_MANAGER.createPureOre(id)));
 		}

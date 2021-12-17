@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
@@ -50,9 +51,10 @@ public class FillingShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 		return Direction.DOWN;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 

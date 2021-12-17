@@ -1,26 +1,24 @@
 package sirttas.elementalcraft.block.sorter;
 
-import java.util.List;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class SorterRenderer implements IECRenderer<SorterBlockEntity> {
 
-	public SorterRenderer(Context context) {}
 
 	@SuppressWarnings("resource")
 	@Override
-	public void render(SorterBlockEntity sorter, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(SorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		HitResult mouseOver = Minecraft.getInstance().hitResult;
 		boolean sneeking =  Minecraft.getInstance().player.isShiftKeyDown();
 		List<ItemStack> stacks = sorter.getStacks();

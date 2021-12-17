@@ -9,6 +9,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.ElementalCraft;
 
+import javax.annotation.Nonnull;
+
 public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_capacity";
@@ -42,22 +44,17 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 	}
 	
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		switch (state.getValue(FACING)) {
-		case DOWN:
-			return SHAPE_DOWN;
-		case EAST:
-			return SHAPE_EAST;
-		case NORTH:
-			return SHAPE_NORTH;
-		case SOUTH:
-			return SHAPE_SOUTH;
-		case WEST:
-			return SHAPE_WEST;
-		default:
-			return SHAPE_UP;
-		}
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return switch (state.getValue(FACING)) {
+			case DOWN -> SHAPE_DOWN;
+			case EAST -> SHAPE_EAST;
+			case NORTH -> SHAPE_NORTH;
+			case SOUTH -> SHAPE_SOUTH;
+			case WEST -> SHAPE_WEST;
+			default -> SHAPE_UP;
+		};
 	}
 }

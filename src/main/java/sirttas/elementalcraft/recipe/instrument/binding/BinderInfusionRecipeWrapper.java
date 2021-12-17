@@ -6,6 +6,8 @@ import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
+import javax.annotation.Nonnull;
+
 public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 
 	private final IInfusionRecipe recipe;
@@ -33,11 +35,13 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 		return super.assemble(instrument);
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack getResultItem() {
 		return recipe.getResultItem();
 	}
 
+	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return recipe.getSerializer();

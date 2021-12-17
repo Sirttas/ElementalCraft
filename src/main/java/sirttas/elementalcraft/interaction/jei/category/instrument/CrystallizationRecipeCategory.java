@@ -18,6 +18,8 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
+import javax.annotation.Nonnull;
+
 public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCategory<CrystallizerBlockEntity, CrystallizationRecipe> {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL(CrystallizationRecipe.NAME);
@@ -29,12 +31,14 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/crystallization.png"), 0, 0, 124, 52), 10, 10);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Class<CrystallizationRecipe> getRecipeClass() {
 		return CrystallizationRecipe.class;
 	}
@@ -49,7 +53,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, CrystallizationRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull CrystallizationRecipe recipe, IIngredients ingredients) {
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 
 		recipeLayout.getItemStacks().addTooltipCallback((slot, input, ingredient, tooltip) -> {

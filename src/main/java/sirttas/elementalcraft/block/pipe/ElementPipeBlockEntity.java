@@ -140,13 +140,11 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
 				.sorted(pipe.transferer.comparator)
 				.map(Map.Entry::getKey)
-				.forEach(side -> {
-					pipe.getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()).ifPresent(sender -> {
-						if (sender instanceof IElementTypeProvider provider) {
-							pipe.transferElement(sender, side, provider.getElementType());
-						}
-					});
-				});
+				.forEach(side -> pipe.getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()).ifPresent(sender -> {
+					if (sender instanceof IElementTypeProvider provider) {
+						pipe.transferElement(sender, side, provider.getElementType());
+					}
+				}));
 	}
 
 	public InteractionResult activatePriority(Direction face, Player player, InteractionHand hand) {

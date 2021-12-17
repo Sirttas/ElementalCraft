@@ -19,6 +19,8 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
+
 public class SpellCraftRecipe implements IECRecipe<Container> {
 
 	public static final String NAME = "spell_craft";
@@ -46,30 +48,35 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 	}
 	
 	@Override
-	public boolean matches(Container inv, Level worldIn) {
+	public boolean matches(Container inv, @Nonnull Level worldIn) {
 		return SCROLL_PAPER.test(inv.getItem(0)) && gem.test(inv.getItem(1)) && crystal.test(inv.getItem(2));
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack getResultItem() {
 		return output;
 	}
 	
+	@Nonnull
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		return NonNullList.of(Ingredient.EMPTY, SCROLL_PAPER, gem, crystal);
 	}
 
+	@Nonnull
 	@Override
 	public ResourceLocation getId() {
 		return id;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeSerializer<SpellCraftRecipe> getSerializer() {
 		return SERIALIZER;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeType<SpellCraftRecipe> getType() {
 		return TYPE;
@@ -77,8 +84,9 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 	
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<SpellCraftRecipe> {
 
+		@Nonnull
 		@Override
-		public SpellCraftRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		public SpellCraftRecipe fromJson(@Nonnull ResourceLocation recipeId, JsonObject json) {
 			Ingredient gem = Ingredient.fromJson(json.get(ECNames.GEM));
 			Ingredient crystal = Ingredient.fromJson(json.get(ECNames.CRYSTAL));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
@@ -87,7 +95,7 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 		}
 
 		@Override
-		public SpellCraftRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public SpellCraftRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
 			Ingredient gem = Ingredient.fromNetwork(buffer);
 			Ingredient crystal = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();
@@ -96,7 +104,7 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 		}
 
 		@Override
-		public void toNetwork(FriendlyByteBuf buffer, SpellCraftRecipe recipe) {
+		public void toNetwork(@Nonnull FriendlyByteBuf buffer, SpellCraftRecipe recipe) {
 			recipe.gem.toNetwork(buffer);
 			recipe.crystal.toNetwork(buffer);
 			buffer.writeItem(recipe.getResultItem());

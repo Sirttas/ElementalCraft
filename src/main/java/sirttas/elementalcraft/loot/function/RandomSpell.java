@@ -25,6 +25,8 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 
+import javax.annotation.Nonnull;
+
 public class RandomSpell extends LootItemConditionalFunction {
 
 	private ElementType elementType;
@@ -43,8 +45,9 @@ public class RandomSpell extends LootItemConditionalFunction {
 		this.elementType = elementType;
 	}
 
-	@Override
-	public ItemStack run(ItemStack stack, LootContext context) {
+	@Nonnull
+    @Override
+	public ItemStack run(@Nonnull ItemStack stack, LootContext context) {
 		Random random = context.getRandom();
 		Spell spell;
 
@@ -73,7 +76,7 @@ public class RandomSpell extends LootItemConditionalFunction {
 
 	public static class Serializer extends LootItemConditionalFunction.Serializer<RandomSpell> {
 		@Override
-		public void serialize(JsonObject object, RandomSpell function, JsonSerializationContext serializationContext) {
+		public void serialize(@Nonnull JsonObject object, @Nonnull RandomSpell function, @Nonnull JsonSerializationContext serializationContext) {
 			super.serialize(object, function, serializationContext);
 			if (!function.spellList.isEmpty()) {
 				JsonArray jsonarray = new JsonArray();
@@ -91,8 +94,9 @@ public class RandomSpell extends LootItemConditionalFunction {
 			}
 		}
 
-		@Override
-		public RandomSpell deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditionsIn) {
+		@Nonnull
+        @Override
+		public RandomSpell deserialize(JsonObject object, @Nonnull JsonDeserializationContext deserializationContext, @Nonnull LootItemCondition[] conditionsIn) {
 			List<Spell> list = Lists.newArrayList();
 
 			if (object.has(ECNames.SPELL_LIST)) {
@@ -113,7 +117,8 @@ public class RandomSpell extends LootItemConditionalFunction {
 		} 
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public LootItemFunctionType getType() {
 		return type;
 	}

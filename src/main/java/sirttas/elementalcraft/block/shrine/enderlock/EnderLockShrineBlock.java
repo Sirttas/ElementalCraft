@@ -18,6 +18,7 @@ import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShrineBlockEntity> {
@@ -44,13 +45,14 @@ public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShri
 	}
 
 	@Override
-	public EnderLockShrineBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public EnderLockShrineBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? super.newBlockEntity(pos, state) : null;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return state.getValue(HALF) == DoubleBlockHalf.LOWER ? LOWER_SHAPE : UPPER_SHAPE;
 	}
 

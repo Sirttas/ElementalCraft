@@ -22,6 +22,8 @@ import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractElementHolderItem extends ECItem implements ISourceInteractable {
 	
 	private static final String SAVED_POS = "saved_pos";
@@ -38,12 +40,13 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	public abstract IElementStorage getElementStorage(ItemStack stack);
 
 	@Override
-	public int getUseDuration(ItemStack stack) {
+	public int getUseDuration(@Nonnull ItemStack stack) {
 		return elementCapacity / transferAmount;
 	}
 	
-	@Override
-	public UseAnim getUseAnimation(ItemStack stack) {
+	@Nonnull
+    @Override
+	public UseAnim getUseAnimation(@Nonnull ItemStack stack) {
 		return UseAnim.BOW;
 	}
 
@@ -56,7 +59,8 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 		return isValidSource(state);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		BlockPos pos = context.getClickedPos();
 		Level world = context.getLevel();
@@ -82,7 +86,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	@Override
-	public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
+	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level worldIn, @Nonnull LivingEntity entityLiving, int timeLeft) {
 		this.removeSavedPos(stack);
 	}
 

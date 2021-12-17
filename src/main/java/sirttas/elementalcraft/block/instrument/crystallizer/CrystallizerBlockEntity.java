@@ -16,6 +16,8 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 
+import javax.annotation.Nonnull;
+
 public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<CrystallizerBlockEntity, CrystallizationRecipe> {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystallizerBlock.NAME) public static final BlockEntityType<CrystallizerBlockEntity> TYPE = null;
@@ -51,7 +53,8 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 		inventory.setItem(0, recipe.assemble(gem, this, luck));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}

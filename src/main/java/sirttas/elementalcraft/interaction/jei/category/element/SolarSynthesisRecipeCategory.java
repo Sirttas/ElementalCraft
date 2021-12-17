@@ -16,6 +16,8 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
+
 public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeCategory {
 
 	public static final ResourceLocation UID = ElementalCraft.createRL("solar_synthesis");
@@ -30,13 +32,14 @@ public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeC
 	}
 
 
-	@Override
+	@Nonnull
+    @Override
 	public ResourceLocation getUid() {
 		return UID;
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, Ingredient recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull Ingredient recipe, IIngredients ingredients) {
 		recipeLayout.getItemStacks().init(0, true, 15, 0);
 		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
 

@@ -15,9 +15,11 @@ import sirttas.elementalcraft.data.predicate.block.rune.TagHasRunePredicate;
 import sirttas.elementalcraft.datagen.ECItemModelProvider;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+
 public class RunesProvider extends AbstractManagedDataProvider<Rune> {
 	
-	private ECItemModelProvider itemModelProvider;
+	private final ECItemModelProvider itemModelProvider;
 
 	private static final IBlockPosPredicate LUCK_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(new TagHasRunePredicate(ECTags.Runes.LUCK_RUNES).not());
 	
@@ -31,7 +33,7 @@ public class RunesProvider extends AbstractManagedDataProvider<Rune> {
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		itemModelProvider.clear();
 		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.1F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "wii", MINOR_SLATE);
 		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.3F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "fus", SLATE);
@@ -59,7 +61,8 @@ public class RunesProvider extends AbstractManagedDataProvider<Rune> {
 		save(cache, builder.toJson(), ElementalCraft.createRL(name));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "ElementalCraft Spell Properties";
 	}

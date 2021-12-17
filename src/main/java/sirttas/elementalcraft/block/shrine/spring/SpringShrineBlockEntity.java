@@ -25,7 +25,7 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpringShrineBlock.NAME) public static final BlockEntityType<SpringShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
-			.periode(ECConfig.COMMON.springShrinePeriode.get())
+			.period(ECConfig.COMMON.springShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.springShrineConsumeAmount.get());
 
 	public SpringShrineBlockEntity(BlockPos pos, BlockState state) {
@@ -38,11 +38,11 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		if (this.hasUpgrade(ShrineUpgrades.FILLING)) {
 			return BlockEntityHelper.getBlockEntity(level, worldPosition.above(2))
 					.flatMap(entity -> entity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).resolve())
-					.map(fluid -> fluid.fill(new FluidStack(Fluids.WATER, (int) Math.round(this.getMultiplier(BonusType.STRENGTH) * ECConfig.COMMON.springShrinefilling.get())), FluidAction.EXECUTE) > 0)
+					.map(fluid -> fluid.fill(new FluidStack(Fluids.WATER, (int) Math.round(this.getMultiplier(BonusType.STRENGTH) * ECConfig.COMMON.springShrineFilling.get())), FluidAction.EXECUTE) > 0)
 					.orElse(false);
 		}
 		return ((BucketItem) Items.WATER_BUCKET).emptyContents(null, level, worldPosition.above(), null);

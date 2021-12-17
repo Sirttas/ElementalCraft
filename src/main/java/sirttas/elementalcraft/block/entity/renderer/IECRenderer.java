@@ -6,7 +6,6 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -32,17 +31,12 @@ import sirttas.elementalcraft.event.TickHandler;
 public interface IECRenderer<T extends BlockEntity> extends BlockEntityRenderer<T> {
 
 	default Quaternion getRotation(Direction direction) {
-		switch (direction) {
-		case SOUTH:
-			return Vector3f.YP.rotationDegrees(180.0F);
-		case WEST:
-			return Vector3f.YP.rotationDegrees(90.0F);
-		case EAST:
-			return Vector3f.YP.rotationDegrees(-90.0F);
-		case NORTH:
-		default:
-			return Quaternion.ONE.copy();
-		}
+		return switch (direction) {
+			case SOUTH -> Vector3f.YP.rotationDegrees(180.0F);
+			case WEST -> Vector3f.YP.rotationDegrees(90.0F);
+			case EAST -> Vector3f.YP.rotationDegrees(-90.0F);
+			default -> Quaternion.ONE.copy();
+		};
 	}
 
 	default void renderItem(ItemStack stack, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {

@@ -9,6 +9,8 @@ import sirttas.elementalcraft.item.source.receptacle.ReceptacleItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+
 public class ImprovedReceptacleItem extends ReceptacleItem {
 
 	public static final String NAME = "receptacle_improved";
@@ -18,7 +20,7 @@ public class ImprovedReceptacleItem extends ReceptacleItem {
 	}
 
 	@Override
-	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
+	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
 		return ECTags.Items.INGOTS_FIREITE.contains(repair.getItem());
 	}
 

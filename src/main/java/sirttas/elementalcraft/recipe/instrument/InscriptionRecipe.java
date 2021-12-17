@@ -1,9 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument;
 
-import java.util.List;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -22,6 +19,9 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEntity> {
 
 	public static final String NAME = "inscription";
@@ -39,7 +39,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 
 	public InscriptionRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		super(id, type);
-		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
+		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
 		this.elementAmount = elementAmount;
 		this.output = output;
 	}
@@ -57,21 +57,25 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 		return false;
 	}
 
+	@Nonnull
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		return ingredients;
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack getResultItem() {
 		return output;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeType<?> getType() {
 		return TYPE;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
@@ -79,8 +83,9 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<InscriptionRecipe> {
 
+		@Nonnull
 		@Override
-		public InscriptionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		public InscriptionRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(GsonHelper.getAsJsonArray(json, ECNames.INGREDIENTS));
@@ -92,7 +97,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 
 
 		@Override
-		public InscriptionRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public InscriptionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItem();

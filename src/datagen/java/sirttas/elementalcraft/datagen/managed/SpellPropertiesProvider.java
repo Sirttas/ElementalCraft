@@ -28,6 +28,8 @@ import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
 import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
 
+import javax.annotation.Nonnull;
+
 public class SpellPropertiesProvider extends AbstractManagedDataProvider<SpellProperties> {
 
 	public SpellPropertiesProvider(DataGenerator generator) {
@@ -35,7 +37,7 @@ public class SpellPropertiesProvider extends AbstractManagedDataProvider<SpellPr
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
 		save(cache, SpellProperties.Builder.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).color(175, 179, 179).consumeAmount(250).cooldown(40).weight(20)
 				.addAttribute(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier("Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION)), GavelFallSpell.NAME);
 		save(cache, SpellProperties.Builder.create(Spell.Type.COMBAT).elementType(ElementType.EARTH).color(207, 212, 212).consumeAmount(500).cooldown(100).weight(20), StoneWallSpell.NAME);
@@ -64,7 +66,8 @@ public class SpellPropertiesProvider extends AbstractManagedDataProvider<SpellPr
 		save(cache, builder.toJson(), ElementalCraft.createRL(name));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "ElementalCraft Spell Properties";
 	}

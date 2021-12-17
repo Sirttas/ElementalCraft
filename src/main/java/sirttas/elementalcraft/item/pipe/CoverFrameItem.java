@@ -11,11 +11,14 @@ import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.item.ECItem;
 
+import javax.annotation.Nonnull;
+
 public class CoverFrameItem extends ECItem {
 
 	public static final String NAME = "cover_frame";
 
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level world = context.getLevel();
 		BlockPos pos = context.getClickedPos();

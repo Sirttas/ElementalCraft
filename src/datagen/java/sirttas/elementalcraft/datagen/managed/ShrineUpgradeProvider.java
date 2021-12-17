@@ -21,6 +21,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineU
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+
 public class ShrineUpgradeProvider extends AbstractManagedDataProvider<ShrineUpgrade> {
 
 	private static final IBlockPosPredicate MINING_PREDICATE = IBlockPosPredicate.match(ECBlocks.ORE_SHRINE)
@@ -31,7 +33,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataProvider<ShrineUpg
 	}
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(@Nonnull HashCache cache) throws IOException {
         save(cache, ShrineUpgrade.Builder.create().predicate(MINING_PREDICATE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2).incompatibleWith(ShrineUpgrades.FORTUNE), ShrineUpgrades.SILK_TOUCH);
         save(cache, ShrineUpgrade.Builder.create().predicate(MINING_PREDICATE).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F).incompatibleWith(ShrineUpgrades.SILK_TOUCH),
                 ShrineUpgrades.FORTUNE);
@@ -73,7 +75,8 @@ public class ShrineUpgradeProvider extends AbstractManagedDataProvider<ShrineUpg
 		save(cache, builder.toJson(), wrapper);
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public String getName() {
 		return "ElementalCraft Shrines Upgrades";
 	}

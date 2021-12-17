@@ -3,6 +3,7 @@ package sirttas.elementalcraft.entity.player;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
@@ -28,10 +29,11 @@ public class PlayerElementStorage implements IElementStorage {
 	@Nullable
 	public static ICapabilityProvider createProvider(Player player) {
 		return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY != null ? new ICapabilityProvider() {
-			PlayerElementStorage storage = new PlayerElementStorage(player);
+			final PlayerElementStorage storage = new PlayerElementStorage(player);
 			
+			@Nonnull
 			@Override
-			public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+			public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
 				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> storage));
 			}
 		} : null;

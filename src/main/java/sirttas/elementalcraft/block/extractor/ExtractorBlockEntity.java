@@ -47,7 +47,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 
 
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		this.extractionAmount = compound.getInt(ECNames.EXTRACTION_AMOUNT);
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
@@ -56,7 +56,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.putInt(ECNames.EXTRACTION_AMOUNT, this.extractionAmount);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
@@ -95,7 +95,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
 			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 		}

@@ -8,6 +8,8 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> {
 
 	private final String translationKey;
@@ -24,15 +26,18 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		this.translationKey = translationKey;
 	}
 	
-	@Override
+	@Nonnull
+    @Override
 	public Component getTitle() {
 		return new TranslatableComponent(translationKey);
 	}
-	@Override
+	@Nonnull
+    @Override
 	public IDrawable getIcon() {
 		return icon;
 	}
-	@Override
+	@Nonnull
+    @Override
 	public IDrawable getBackground() {
 		return background;
 	}
@@ -44,7 +49,7 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 	}
 
 	@Override
-	public void draw(T recipe, PoseStack matrixStack, double mouseX, double mouseY) {
+	public void draw(@Nonnull T recipe, @Nonnull PoseStack matrixStack, double mouseX, double mouseY) {
 		if (overlay != null) {
 			RenderSystem.enableBlend();
 			overlay.draw(matrixStack, overlayX, overlayY);

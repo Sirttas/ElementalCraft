@@ -47,7 +47,8 @@ public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElem
 		return elementStorage.getElementType();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Container getInventory() {
 		return inventory;
 	}

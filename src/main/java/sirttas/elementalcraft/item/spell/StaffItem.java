@@ -55,12 +55,12 @@ public class StaffItem extends FocusItem {
 	}
 
 	@Override
-	public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player) {
+	public boolean canAttackBlock(@Nonnull BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, Player player) {
 		return !player.isCreative();
 	}
 
 	@Override
-	public float getDestroySpeed(ItemStack stack, BlockState state) {
+	public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
 		if (state.is(Blocks.COBWEB)) {
 			return 15.0F;
 		} else {
@@ -71,13 +71,13 @@ public class StaffItem extends FocusItem {
 	}
 
 	@Override
-	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+	public boolean hurtEnemy(ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		return true;
 	}
 
 	@Override
-	public boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+	public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level worldIn, BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
 		if (state.getDestroySpeed(worldIn, pos) > 0.0F) {
 			stack.hurtAndBreak(2, entityLiving, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		}

@@ -1,16 +1,16 @@
 package sirttas.elementalcraft.spell.fire;
 
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
 import sirttas.elementalcraft.entity.EntityHelper;
@@ -25,8 +25,7 @@ public class FlameCleaveSpell extends Spell {
 		Level world = sender.getCommandSenderWorld();
 		float range = getRange(sender);
 
-		if (sender instanceof LivingEntity) {
-			LivingEntity livingSender = (LivingEntity) sender;
+		if (sender instanceof LivingEntity livingSender) {
 			float damageBase = (float) livingSender.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
 			float damageMult = (1 + EnchantmentHelper.getSweepingDamageRatio(livingSender));
 
@@ -35,9 +34,7 @@ public class FlameCleaveSpell extends Spell {
 			}
 
 			world.playSound(null, livingSender.getX(), livingSender.getY(), livingSender.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, livingSender.getSoundSource(), 1.0F, 1.0F);
-			if (livingSender instanceof Player) {
-				Player playerSender = (Player) livingSender;
-
+			if (livingSender instanceof Player playerSender) {
 				playerSender.sweepAttack();
 				playerSender.resetAttackStrengthTicker();
 				EntityHelper.swingArm(playerSender);

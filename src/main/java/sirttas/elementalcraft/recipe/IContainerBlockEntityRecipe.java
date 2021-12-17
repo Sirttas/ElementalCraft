@@ -5,6 +5,8 @@ import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
 
+import javax.annotation.Nonnull;
+
 public interface IContainerBlockEntityRecipe<T extends IContainerBlockEntity> extends IECRecipe<ContainerBlockEntityWrapper<T>> {
 
 	int getElementAmount();
@@ -12,11 +14,12 @@ public interface IContainerBlockEntityRecipe<T extends IContainerBlockEntity> ex
 	boolean matches(T inv);
 
 	@Override
-	default boolean matches(ContainerBlockEntityWrapper<T> inv, Level worldIn) {
+	default boolean matches(ContainerBlockEntityWrapper<T> inv, @Nonnull Level worldIn) {
 		return matches(inv.getEntity());
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	default ItemStack assemble(ContainerBlockEntityWrapper<T> inv) {
 		return assemble(inv.getEntity());
 	}

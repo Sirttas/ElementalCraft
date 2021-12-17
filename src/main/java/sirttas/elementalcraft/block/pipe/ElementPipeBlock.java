@@ -88,7 +88,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
 		return createECTicker(level, type, ElementPipeBlockEntity.TYPE, level.isClientSide ? ElementPipeBlockEntity::commonTick : ElementPipeBlockEntity::serverTick);
 	}
 
@@ -164,9 +164,10 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		return result;
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public RenderShape getRenderShape(BlockState state) {
+	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		if (isCovered(state)) {
 			return RenderShape.ENTITYBLOCK_ANIMATED;
 		}
@@ -246,17 +247,17 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
-			var te =worldIn.getBlockEntity(pos);
+			var te = level.getBlockEntity(pos);
 
 			if (te  instanceof ElementPipeBlockEntity pipe) {
 				if (isCovered(state)) {
-					Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
+					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
 				}
 				pipe.dropAllPriorities();
 			}
-			super.onRemove(state, worldIn, pos, newState, isMoving);
+			super.onRemove(state, level, pos, newState, isMoving);
 		}
 	}
 	

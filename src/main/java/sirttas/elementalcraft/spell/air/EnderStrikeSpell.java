@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.spell.air;
 
-import java.util.Comparator;
-
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
@@ -15,6 +13,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.Spell;
+
+import java.util.Comparator;
 
 public class EnderStrikeSpell extends Spell {
 
@@ -48,7 +48,7 @@ public class EnderStrikeSpell extends Spell {
 		Vec3 pos = sender.position();
 
 		return sender.getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(sender))).stream()
-				.filter(Enemy.class::isInstance).sorted(Comparator.comparingDouble(e -> pos.distanceTo(e.position()))).findFirst().map(e -> castOnEntity(sender, e)).orElse(InteractionResult.PASS);
+				.filter(Enemy.class::isInstance).min(Comparator.comparingDouble(e -> pos.distanceTo(e.position()))).map(e -> castOnEntity(sender, e)).orElse(InteractionResult.PASS);
 	}
 	
 	public static class Event extends EntityTeleportEvent {

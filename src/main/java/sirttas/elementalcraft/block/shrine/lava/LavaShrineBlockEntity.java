@@ -22,7 +22,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + LavaShrineBlock.NAME) public static final BlockEntityType<LavaShrineBlockEntity> TYPE = null;
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE)
-			.periode(ECConfig.COMMON.lavaShrinePeriode.get())
+			.period(ECConfig.COMMON.lavaShrinePeriod.get())
 			.consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
 			.range(ECConfig.COMMON.lavaShrineRange.get())
 			.capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
@@ -49,7 +49,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	protected boolean doPeriode() {
+	protected boolean doPeriod() {
 		return findRock().map(p -> {
 			level.setBlockAndUpdate(p, Blocks.LAVA.defaultBlockState());
 			level.levelEvent(1501, p, 0);

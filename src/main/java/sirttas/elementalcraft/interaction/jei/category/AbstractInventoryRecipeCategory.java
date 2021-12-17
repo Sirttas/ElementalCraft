@@ -13,7 +13,7 @@ import sirttas.elementalcraft.item.ECItems;
 
 public abstract class AbstractInventoryRecipeCategory<I extends Container, T extends Recipe<I>> extends AbstractECRecipeCategory<T> {
 
-	protected ItemStack tank = new ItemStack(ECItems.TANK);
+	protected final ItemStack tank = new ItemStack(ECItems.TANK);
 	
 	protected AbstractInventoryRecipeCategory(String translationKey, IDrawable icon, IDrawable background) {
 		super(translationKey, icon, background);

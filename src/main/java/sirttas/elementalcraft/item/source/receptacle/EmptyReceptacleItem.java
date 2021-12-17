@@ -16,6 +16,8 @@ import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.item.ECItems;
 
+import javax.annotation.Nonnull;
+
 public class EmptyReceptacleItem extends AbstractReceptacleItem implements ISourceInteractable {
 
 	public static final String NAME = "receptacle_empty";
@@ -27,7 +29,8 @@ public class EmptyReceptacleItem extends AbstractReceptacleItem implements ISour
 		super(properties);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level level = context.getLevel();
 		BlockPos pos = context.getClickedPos();

@@ -1,9 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
-import java.util.List;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -20,17 +17,20 @@ import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class BindingRecipe extends AbstractBindingRecipe {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<BindingRecipe> SERIALIZER = null;
 
-	private NonNullList<Ingredient> ingredients;
-	private ItemStack output;
-	private int elementAmount;
+	private final NonNullList<Ingredient> ingredients;
+	private final ItemStack output;
+	private final int elementAmount;
 
 	public BindingRecipe(ResourceLocation id, ElementType type, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		super(id, type);
-		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
+		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
 		this.output = output;
 		this.elementAmount = elementAmount;
 	}
@@ -57,16 +57,19 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		return true;
 	}
 
+	@Nonnull
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		return ingredients;
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack getResultItem() {
 		return output;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
@@ -74,8 +77,9 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<BindingRecipe> {
 
+		@Nonnull
 		@Override
-		public BindingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		public BindingRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(GsonHelper.getAsJsonArray(json, ECNames.INGREDIENTS));
@@ -88,7 +92,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		}
 
 		@Override
-		public BindingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public BindingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItem();

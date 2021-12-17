@@ -44,12 +44,8 @@ public final class ECMessage {
 			ServerPlayer player = ctx.get().getSender();
 
 			switch (type) {
-			case SCROLL_BACKWORD:
-				handelScroll(player, -1);
-				break;
-			case SCROLL_FORWARD:
-				handelScroll(player, 1);
-				break;
+				case SCROLL_BACKWORD -> handelScroll(player, -1);
+				case SCROLL_FORWARD -> handelScroll(player, 1);
 			}
 		});
 		ctx.get().setPacketHandled(true);

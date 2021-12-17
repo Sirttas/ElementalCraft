@@ -1,9 +1,6 @@
 package sirttas.elementalcraft.recipe;
 
-import java.util.List;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,6 +17,9 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfuserBlockEntity> {
 
@@ -40,11 +40,12 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 
 	public PureInfusionRecipe(ResourceLocation id, int elementAmount, ItemStack output, List<Ingredient> ingredients) {
 		this.id = id;
-		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.stream().toArray(s -> new Ingredient[s]));
+		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
 		this.output = output;
 		this.elementAmount = elementAmount;
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack getResultItem() {
 		return output;
@@ -59,21 +60,25 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 				&& ingredients.get(4).test(inv.getStackInPedestal(ElementType.AIR));
 	}
 
+	@Nonnull
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		return ingredients;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
 
+	@Nonnull
 	@Override
 	public RecipeType<?> getType() {
 		return TYPE;
 	}
 
+	@Nonnull
 	@Override
 	public ResourceLocation getId() {
 		return id;
@@ -91,8 +96,9 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<PureInfusionRecipe> {
 
+		@Nonnull
 		@Override
-		public PureInfusionRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+		public PureInfusionRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			NonNullList<Ingredient> ingredients = RecipeHelper.readIngredients(GsonHelper.getAsJsonArray(json, ECNames.INGREDIENTS));
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
@@ -101,7 +107,7 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 		}
 
 		@Override
-		public PureInfusionRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public PureInfusionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			int elementAmount = buffer.readInt();
 			ItemStack output = buffer.readItem();
 			int i = buffer.readVarInt();

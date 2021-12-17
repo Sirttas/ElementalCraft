@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.property.ECProperties;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -45,7 +46,7 @@ public class ECItem extends Item {
 	 */
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public boolean isFoil(ItemStack stack) {
+	public boolean isFoil(@Nonnull ItemStack stack) {
 		return glint || super.isFoil(stack);
 	}
 

@@ -1,25 +1,24 @@
 package sirttas.elementalcraft.datagen.recipe.builder;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag.Named;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class PureInfusionRecipeBuilder {
 	private final Item result;
@@ -69,20 +68,14 @@ public class PureInfusionRecipeBuilder {
 	}
 
 	private int getIndex(ElementType type) {
-		switch (type) {
-		case NONE:
-			return 0;
-		case WATER:
-			return 1;
-		case FIRE:
-			return 2;
-		case EARTH:
-			return 3;
-		case AIR:
-			return 4;
-		default:
-			return -1;
-		}
+		return switch (type) {
+			case NONE -> 0;
+			case WATER -> 1;
+			case FIRE -> 2;
+			case EARTH -> 3;
+			case AIR -> 4;
+			default -> -1;
+		};
 	}
 	
 	public void build(Consumer<FinishedRecipe> consumerIn) {

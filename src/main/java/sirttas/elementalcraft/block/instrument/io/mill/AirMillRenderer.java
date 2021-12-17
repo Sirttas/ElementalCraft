@@ -3,10 +3,8 @@ package sirttas.elementalcraft.block.instrument.io.mill;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -16,17 +14,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class AirMillRenderer implements IECRenderer<AirMillBlockEntity> {
 
 	public static final ResourceLocation BLADES_LOCATION = ElementalCraft.createRL("block/air_mill_blades");
 	
 	private BakedModel bladesModel;
-	
-	public AirMillRenderer(Context context) {}
 
 	@Override
-	public void render(AirMillBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(@Nonnull AirMillBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		if (bladesModel == null) {
 			bladesModel = Minecraft.getInstance().getModelManager().getModel(BLADES_LOCATION);
 		}

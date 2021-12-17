@@ -3,16 +3,16 @@ package sirttas.elementalcraft.block.diffuser;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class DiffuserRenderer implements IECRenderer<DiffuserBlockEntity> {
@@ -25,11 +25,9 @@ public class DiffuserRenderer implements IECRenderer<DiffuserBlockEntity> {
 	}
 	
 	private BakedModel cubeModel;
-
-	public DiffuserRenderer(Context context) {}
 	
 	@Override
-	public void render(DiffuserBlockEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
+	public void render(@Nonnull DiffuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		float angle = getAngle(partialTicks);
 		
 		if (cubeModel == null) {

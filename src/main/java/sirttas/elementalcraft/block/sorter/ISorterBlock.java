@@ -16,8 +16,8 @@ import sirttas.elementalcraft.block.shape.ShapeHelper;
 
 public interface ISorterBlock {
 
-	public static final DirectionProperty SOURCE = DirectionProperty.create("source", Direction.values());
-	public static final DirectionProperty TARGET = DirectionProperty.create("target", Direction.values());
+	DirectionProperty SOURCE = DirectionProperty.create("source", Direction.values());
+	DirectionProperty TARGET = DirectionProperty.create("target", Direction.values());
 
 	default VoxelShape getSourceShape(BlockState state) {
 		return ECShapes.sourceShape(state.getValue(SOURCE));

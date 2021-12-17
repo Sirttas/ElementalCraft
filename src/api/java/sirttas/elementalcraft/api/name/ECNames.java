@@ -8,12 +8,10 @@ public class ECNames {
 	public static final String EC_NBT = ElementalCraftApi.MODID;
 	public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
 	
-	public static final String ALWAYSE_INSERT = "always_insert";
+	public static final String ALWAYS_INSERT = "always_insert";
 	public static final String ANALYZED = "analyzed";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String ATTRIBUTES = "attributes";
-	public static final String BLOCK = DPAnvilNames.BLOCK;
-	public static final String BLOCKS = DPAnvilNames.BLOCKS;
 	public static final String BONUSES = "bonuses";
 	public static final String CHANCE = "chance";
 	public static final String COLOR = "color";
@@ -22,7 +20,6 @@ public class ECNames {
 	public static final String COUNT = "count";
 	public static final String COVER = "cover";
 	public static final String CRYSTAL = "crystal";
-	public static final String DURATION = "duration";
 	public static final String EFFECT_SPRITE = "effect_sprite";
 	public static final String EFFECTS = "effects";
 	public static final String ELEMENT_AMOUNT = "element_amount";
@@ -37,10 +34,8 @@ public class ECNames {
 	public static final String GEM = "gem";
 	public static final String HAS_BOOK = "has_elementopedia";
 	public static final String HAS_DIFFUSED = "has_diffused";
-	public static final String INCOMPATIBILITIES = "incompatibilities";
 	public static final String INDEX = "index";
 	public static final String INFUSION = "infusion";
-	public static final String INFUSION_APPLIED = "applied";
 	public static final String INGREDIENTS = "ingredients";
 	public static final String INPUT = "input";
 	public static final String INVENTORY = "inventory";
@@ -49,7 +44,6 @@ public class ECNames {
 	public static final String MAX_AMOUNT = "max_amount";
 	public static final String MODEL = "model";
 	public static final String MODIFIER = DPAnvilNames.MODIFIER;
-	public static final String MULTIPLIER = "multiplier";
 	public static final String NAME =  DPAnvilNames.NAME;
 	public static final String NBT = "nbt";
 	public static final String ORDER = "order";
@@ -84,7 +78,6 @@ public class ECNames {
 	public static final String TYPE = DPAnvilNames.TYPE;
 	public static final String USE_DURATION = "use_duration";
 	public static final String VALUE = DPAnvilNames.VALUE;
-    public static final String VALUES = DPAnvilNames.VALUES;
 	public static final String WEIGHT = "weight";
 	public static final String WORKING = "working";
 	public static final String XP = "experience";

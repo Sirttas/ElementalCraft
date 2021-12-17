@@ -136,7 +136,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 	}
 	
 	@Override
-	public void load(CompoundTag compound) {
+	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
@@ -148,7 +148,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
+	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 		compound.putBoolean(ECNames.EXHAUSTED, elementStorage.isExhausted());
@@ -159,7 +159,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 
 	@Override
 	@Nonnull
-	public <U> LazyOptional<U> getCapability(Capability<U> cap, @Nullable Direction side) {
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
 			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
 		}

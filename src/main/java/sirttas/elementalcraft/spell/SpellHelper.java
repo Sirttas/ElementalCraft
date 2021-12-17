@@ -121,10 +121,8 @@ public class SpellHelper {
 	public static void addSpell(ItemStack stack, Spell spell) {
 		ListTag list = getOrCreateSpellList(stack);
 
-		for (int i = 0; i < list.size(); i++) {
-			CompoundTag tag = (CompoundTag) list.get(i);
-
-			if (isSpellInTag(tag, spell)) {
+		for (Tag value : list) {
+			if (value instanceof CompoundTag tag && isSpellInTag(tag, spell)) {
 				tag.putInt(ECNames.COUNT, tag.getInt(ECNames.COUNT) + 1);
 				return;
 			}
@@ -188,7 +186,7 @@ public class SpellHelper {
 	}
 
 	public static Spell randomSpell(Collection<Spell> spells, Random rand) {
-		List<Spell> list = spells.stream().filter(Spell::isValid).collect(Collectors.toList());
+		List<Spell> list = spells.stream().filter(Spell::isValid).toList();
 		int roll = rand.nextInt(list.stream().mapToInt(Spell::getWeight).sum());
 		
 		for (Spell spell : list) {

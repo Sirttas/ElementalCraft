@@ -1,11 +1,13 @@
 package sirttas.elementalcraft.block.instrument;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.NonNullList;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.container.AbstractSynchronizableContainer;
+
+import javax.annotation.Nonnull;
 
 public class InstrumentContainer extends AbstractSynchronizableContainer implements INBTSerializable<CompoundTag> {
 
@@ -36,13 +38,14 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 		return stacks.isEmpty() || stacks.stream().allMatch(ItemStack::isEmpty);
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack getItem(int index) {
 		return stacks.size() > index ? stacks.get(index) : ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItem(int index, ItemStack stack) {
+	public void setItem(int index, @Nonnull ItemStack stack) {
 		if (index < stacks.size()) {
 			stacks.set(index, stack);
 		} else if (stack.isEmpty()) {
@@ -61,11 +64,13 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack removeItem(int index, int count) {
 		return ContainerHelper.removeItem(stacks, index, count);
 	}
 
+	@Nonnull
 	@Override
 	public ItemStack removeItemNoUpdate(int index) {
 		ItemStack ret = getItem(index);

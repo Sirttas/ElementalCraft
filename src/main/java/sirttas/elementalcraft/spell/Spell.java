@@ -172,7 +172,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 
 		private final String name;
 
-		private Type(String name) {
+		Type(String name) {
 			this.name = name;
 		}
 

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.spell;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.item.TooltipFlag;
@@ -38,7 +39,7 @@ public class ScrollItem extends AbstractSpellHolderItem {
 	 */
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		if (spell != Spells.NONE) {
@@ -47,8 +48,9 @@ public class ScrollItem extends AbstractSpellHolderItem {
 		}
 	}
 
-	@Override
-	public Component getName(ItemStack stack) {
+	@Nonnull
+    @Override
+	public Component getName(@Nonnull ItemStack stack) {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		if (spell != Spells.NONE) {
@@ -58,7 +60,7 @@ public class ScrollItem extends AbstractSpellHolderItem {
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			Spell.REGISTRY.forEach(s -> {
 				if (s.isValid()) {
