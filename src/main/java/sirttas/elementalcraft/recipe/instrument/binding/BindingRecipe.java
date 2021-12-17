@@ -88,7 +88,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 			if (!output.isEmpty()) {
 				return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
 			}
-			return null;
+			throw new IllegalStateException("Binding recipe output is empty!");
 		}
 
 		@Override

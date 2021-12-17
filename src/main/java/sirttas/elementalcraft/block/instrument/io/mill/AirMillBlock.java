@@ -50,12 +50,12 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	private static final VoxelShape OVEN_SLAB = Block.box(0D, 2D, 0D, 16D, 4D, 16D);
 	private static final VoxelShape OVEN_SLAB_2 = Block.box(0D, 10D, 0D, 16D, 12D, 16D);
 	private static final VoxelShape CONNECTION = Block.box(6D, 0D, 6D, 10D, 2D, 10D);
-	private static final VoxelShape PILLAT_1 = Block.box(1D, 0D, 1D, 3D, 10D, 3D);
-	private static final VoxelShape PILLAT_2 = Block.box(13D, 0D, 1D, 15D, 10D, 3D);
-	private static final VoxelShape PILLAT_3 = Block.box(1D, 0D, 13D, 3D, 10D, 15D);
-	private static final VoxelShape PILLAT_4 = Block.box(13D, 0D, 13D, 15D, 10D, 15D);
+	private static final VoxelShape PILLAR_1 = Block.box(1D, 0D, 1D, 3D, 10D, 3D);
+	private static final VoxelShape PILLAR_2 = Block.box(13D, 0D, 1D, 15D, 10D, 3D);
+	private static final VoxelShape PILLAR_3 = Block.box(1D, 0D, 13D, 3D, 10D, 15D);
+	private static final VoxelShape PILLAR_4 = Block.box(13D, 0D, 13D, 15D, 10D, 15D);
 	private static final VoxelShape GRINDSTONE = Block.box(4D, 5D, 4D, 12D, 8D, 12D);
-	private static final VoxelShape SHAPE = Shapes.or(OVEN_SLAB, OVEN_SLAB_2, CONNECTION, PILLAT_1, PILLAT_2, PILLAT_3, PILLAT_4, GRINDSTONE);
+	private static final VoxelShape SHAPE = Shapes.or(OVEN_SLAB, OVEN_SLAB_2, CONNECTION, PILLAR_1, PILLAR_2, PILLAR_3, PILLAR_4, GRINDSTONE);
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;

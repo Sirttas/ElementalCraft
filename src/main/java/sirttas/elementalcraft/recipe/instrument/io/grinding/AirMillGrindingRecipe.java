@@ -1,14 +1,13 @@
 package sirttas.elementalcraft.recipe.instrument.io.grinding;
 
 import com.google.gson.JsonObject;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -79,7 +78,7 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 			if (!output.isEmpty()) {
 				return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount);
 			}
-			return null;
+			throw new IllegalStateException("Binding recipe output is empty!");
 		}
 
 		@Override
