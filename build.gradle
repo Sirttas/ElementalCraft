@@ -203,7 +203,7 @@ dependencies {
     }
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     
     implementation fg.deobf("mezz.jei:jei-${jei_version}")
     

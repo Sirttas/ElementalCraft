@@ -46,7 +46,7 @@ public class EmptyReceptacleItem extends AbstractReceptacleItem implements ISour
 						source.setStabalized(false);
 						level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY() + 0.25, player.getZ(), new ItemStack(ECItems.SOURCE_STABILIZER)));
 					}
-					source.save(stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG));
+					source.saveAdditional(stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG));
 				});
 				player.setItemInHand(context.getHand(), stack);
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

@@ -36,6 +36,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.registry.RegistryHelper;
@@ -69,10 +70,6 @@ public class ECFeatures {
 	private static PlacedFeature hillSourcePlaced;
 	private static PlacedFeature plainSourcePlaced;
 	private static PlacedFeature oceanSourcePlaced;
-	private static PlacedFeature spawnFireSourcePlaced;
-	private static PlacedFeature spawnWaterSourcePlaced;
-	private static PlacedFeature spawnEarthSourcePlaced;
-	private static PlacedFeature spawnAirSourcePlaced;
 	private static ConfiguredStructureFeature<?, ?> sourceAltar;
 
 	private ECFeatures() {}
@@ -115,14 +112,6 @@ public class ECFeatures {
 		netherSourcePlaced = PlacementUtils.register(SourceFeature.NAME_NETHER, netherSourceConfig.placed(chanceSourcePlacement));
 		ConfiguredFeature<?, ?> oceanSourceConfig = register(SourceFeature.NAME_OCEAN, source.configured(ElementTypeFeatureConfig.WATER));
 		oceanSourcePlaced = PlacementUtils.register(SourceFeature.NAME_OCEAN, oceanSourceConfig.placed(sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.oceanSourceSpawnChance.get()))));
-		ConfiguredFeature<?, ?> spawnFireSourceConfig = register(SourceFeature.NAME_FIRE_SPAWN, source.configured(ElementTypeFeatureConfig.FIRE));
-		spawnFireSourcePlaced = PlacementUtils.register(SourceFeature.NAME_FIRE_SPAWN, spawnFireSourceConfig.placed(sourcePlacement));
-		ConfiguredFeature<?, ?> spawnWaterSourceConfig = register(SourceFeature.NAME_WATER_SPAWN, source.configured(ElementTypeFeatureConfig.WATER));
-		spawnWaterSourcePlaced = PlacementUtils.register(SourceFeature.NAME_WATER_SPAWN, spawnWaterSourceConfig.placed(sourcePlacement));
-		ConfiguredFeature<?, ?> spawnEarthSourceConfig = register(SourceFeature.NAME_EARTH_SPAWN, source.configured(ElementTypeFeatureConfig.EARTH));
-		spawnEarthSourcePlaced = PlacementUtils.register(SourceFeature.NAME_EARTH_SPAWN, spawnEarthSourceConfig.placed(sourcePlacement));
-		ConfiguredFeature<?, ?> spawnAirSourceConfig = register(SourceFeature.NAME_AIR_SPAWN, source.configured(ElementTypeFeatureConfig.AIR));
-		spawnAirSourcePlaced = PlacementUtils.register(SourceFeature.NAME_AIR_SPAWN, spawnAirSourceConfig.placed(sourcePlacement));
 
 		sourceAltar = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, RandomElementTypeFeatureConfig.ALL, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
 	}
@@ -153,7 +142,7 @@ public class ECFeatures {
 					case MUSHROOM -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, mushroomSourcePlaced);
 					case NETHER -> generation.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, netherSourcePlaced);
 					case OCEAN -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, oceanSourcePlaced);
-					case EXTREME_HILLS -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, hillSourcePlaced);
+					case EXTREME_HILLS, MOUNTAIN, UNDERGROUND -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, hillSourcePlaced);
 					case PLAINS -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, plainSourcePlaced);
 					case BEACH, RIVER, SWAMP -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, wetSourcePlaced);
 					case TAIGA, FOREST -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, forestSourcePlaced);
@@ -190,20 +179,24 @@ public class ECFeatures {
 		if (Boolean.FALSE.equals(ECConfig.COMMON.disableSourceSpawn.get())) {
 			Random rand = new Random(world.getSeed());
 			BlockPos pos = world.getSharedSpawnPos().offset(-100, 0, -100);
-	
-			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnFireSourcePlaced);
-			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnWaterSourcePlaced);
-			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnEarthSourcePlaced);
-			addSpawnSource(world, rand, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), spawnAirSourcePlaced);
+
+			for (var type : ElementType.ALL_VALID) {
+				for (int i = 0; i < ECConfig.COMMON.sourceSpawnCount.get(); i++) {
+					addSpawnSource(world, pos.offset(rand.nextInt(100), 0, rand.nextInt(100)), type);
+				}
+			}
 		}
 	}
 
-	private static void addSpawnSource(ServerLevel world, Random rand, BlockPos pos, PlacedFeature source) {
+	private static void addSpawnSource(ServerLevel level, BlockPos pos, ElementType type) {
+		var x = pos.getX();
+		var z = pos.getZ();
+		var y = SourcePlacement.getHeight(level, x, z);
 		ChunkPos chunkPos = new ChunkPos(pos);
-		ServerChunkCache chunkProvider = world.getChunkSource();
-		
+		ServerChunkCache chunkProvider = level.getChunkSource();
+
 		chunkProvider.getChunk(chunkPos.x, chunkPos.z, true);
-		source.place(world, chunkProvider.getGenerator(), rand, pos);
+		level.setBlock(new BlockPos(x, y, z), ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
 	}
 
 	private static <C extends FeatureConfiguration> ConfiguredFeature<C, ?> register(String name, ConfiguredFeature<C, ?> feature) {

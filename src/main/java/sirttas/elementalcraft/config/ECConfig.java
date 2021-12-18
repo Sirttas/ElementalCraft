@@ -150,6 +150,7 @@ public class ECConfig {
 		public final IntValue inertCrystalYMax;
 		public final BooleanValue disableSourceSpawn;
 		public final IntValue sourceSpawnChance;
+		public final IntValue sourceSpawnCount;
 		public final IntValue oceanSourceSpawnChance;
 		public final IntValue randomSourceSpawnChance;
 		public final IntValue sourceAltarDistance;
@@ -332,6 +333,7 @@ public class ECConfig {
 			builder.pop();
 			disableSourceSpawn = builder.comment("Disable creation of sources.").define("disableSourceSpawn", false);
 			sourceSpawnChance = builder.comment("Chance to add a source in world (the small the more frequent).").defineInRange("sourceSpawnChance", 30, 1, 10000);
+			sourceSpawnCount = builder.comment("number of sources at spawn per element type.").defineInRange("sourceSpawnCount", 2, 1, 20);
 			oceanSourceSpawnChance = builder.comment("Chance to add a source in an ocean biome (the small the more frequent).").defineInRange("oceanSourceSpawnChance", 150, 1, 10000);
 			randomSourceSpawnChance = builder.comment("Chance to add a source in world ignoring biome element type (the small the more frequent).").defineInRange("randomSourceSpawnChance", 300, 1,
 					10000);

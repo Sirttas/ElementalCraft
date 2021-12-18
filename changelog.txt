@@ -1,3 +1,9 @@
+1.18.1-4.1.3:
+
+- fix receptacle not copying traits
+- fix crash during worldgen
+
+
 1.18.1-4.1.2:
 
 - fix a crash on startup

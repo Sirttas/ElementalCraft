@@ -25,7 +25,7 @@ public class ImprovedReceptacleItem extends ReceptacleItem {
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			for (ElementType elementType : ElementType.values()) {
 				if (elementType != ElementType.NONE) {

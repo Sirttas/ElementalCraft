@@ -52,7 +52,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 	}
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
-        source.iniTraits();
+        source.initTraits();
         if (source.elementStorage.isExhausted()) {
             source.elementStorage.insertElement(source.getRecoverRate(), false);
         }
@@ -62,7 +62,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 		source.addParticle(level.random);
 	}
 
-    private void iniTraits() {
+    private void initTraits() {
         if (elementStorage.getElementType() == ElementType.NONE) {
             elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
         }
