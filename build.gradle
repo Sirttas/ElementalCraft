@@ -28,6 +28,7 @@ apply plugin: 'org.spongepowered.mixin'
 mixin {
 	disableEclipseAddon
     add sourceSets.main, "elementalcraft.refmap.json"
+    config 'elementalcraft.mixins.json'
 }
 
 version = project.hasProperty('tag_version') ? "${minecraft_version}-${tag_version}" : "${elementalcraft_version}"

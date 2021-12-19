@@ -107,13 +107,14 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 				.filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem))
 				.findFirst()
 				.orElse(-1);
-		int weight = getTotalWeight(outputs.subList(index + 1, outputs.size()), luck);
+		var list = outputs.subList(index + 1, outputs.size());
+		int weight = getTotalWeight(list, luck);
 		
 		if (weight > 0) {
 			int roll = Math.min(instrument.getLevel().random.nextInt(weight), weight - 1);
 			
 			
-			for (ResultEntry entry : outputs) {
+			for (ResultEntry entry : list) {
 				roll -= entry.getEffectiveWeight(luck);
 				if (roll < 0) {
 					return entry.getResult();

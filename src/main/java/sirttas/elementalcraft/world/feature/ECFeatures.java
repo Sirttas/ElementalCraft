@@ -70,7 +70,7 @@ public class ECFeatures {
 	private static PlacedFeature hillSourcePlaced;
 	private static PlacedFeature plainSourcePlaced;
 	private static PlacedFeature oceanSourcePlaced;
-	private static ConfiguredStructureFeature<?, ?> sourceAltar;
+	private static final ConfiguredStructureFeature<?, ?> SOURCE_ALTER = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, RandomElementTypeFeatureConfig.ALL, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
 
 	private ECFeatures() {}
 	
@@ -112,8 +112,6 @@ public class ECFeatures {
 		netherSourcePlaced = PlacementUtils.register(SourceFeature.NAME_NETHER, netherSourceConfig.placed(chanceSourcePlacement));
 		ConfiguredFeature<?, ?> oceanSourceConfig = register(SourceFeature.NAME_OCEAN, source.configured(ElementTypeFeatureConfig.WATER));
 		oceanSourcePlaced = PlacementUtils.register(SourceFeature.NAME_OCEAN, oceanSourceConfig.placed(sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.oceanSourceSpawnChance.get()))));
-
-		sourceAltar = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, RandomElementTypeFeatureConfig.ALL, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
 	}
 
 	private static List<PlacementModifier> sourcePlacement(PlacementModifier ... modifiers) {
@@ -154,12 +152,6 @@ public class ECFeatures {
 	}
 
 	public static void registerStructures(BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumer) {
-		BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumerWrapper = (feature, key) -> {
-			if (feature != null) {
-				consumer.accept(feature, key);
-			}
-		};
-
 		for (var entry : BuiltinRegistries.BIOME.entrySet()) {
 			var key = entry.getKey();
 			var category = entry.getValue().getBiomeCategory();
@@ -170,7 +162,7 @@ public class ECFeatures {
 					&& category != Biome.BiomeCategory.OCEAN
 					&& category != Biome.BiomeCategory.RIVER
 					&& category != Biome.BiomeCategory.SWAMP) {
-				consumerWrapper.accept(sourceAltar, key);
+				consumer.accept(SOURCE_ALTER, key);
 			}
 		}
 	}

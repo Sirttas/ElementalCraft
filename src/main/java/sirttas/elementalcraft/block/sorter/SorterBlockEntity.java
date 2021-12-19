@@ -136,25 +136,23 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		}
 
 	}
-	
-	@Nonnull
+
     @Override
-	public CompoundTag save(@Nonnull CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(@Nonnull CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.put(ECNames.STACKS, this.writeStacks());
 		compound.putInt(ECNames.INDEX, index);
 		compound.putBoolean(ECNames.ALWAYS_INSERT, alwaysInsert);
-		return compound;
 	}
 
 	private ListTag writeStacks() {
-		ListTag listnbt = new ListTag();
+		ListTag listTag = new ListTag();
 
 		for (ItemStack itemstack : stacks) {
 			if (!itemstack.isEmpty()) {
-				listnbt.add(itemstack.save(new CompoundTag()));
+				listTag.add(itemstack.save(new CompoundTag()));
 			}
 		}
-		return listnbt;
+		return listTag;
 	}
 }

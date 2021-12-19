@@ -97,7 +97,7 @@ public class SourceAltarStructure extends StructureFeature<IElementTypeFeatureCo
 
 		@Override
 		public void postProcess(WorldGenLevel level, @Nonnull StructureFeatureManager structureManager, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random random, @Nonnull BoundingBox boundingBox, @Nonnull ChunkPos chunkPos, @Nonnull BlockPos pos) {
-			this.templatePosition = this.templatePosition.offset(0, level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, this.templatePosition.getX(), this.templatePosition.getZ()) - 1, 0);
+			this.templatePosition = new BlockPos(templatePosition.getX(), level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, this.templatePosition.getX(), this.templatePosition.getZ()) - 1, templatePosition.getZ());
 			super.postProcess(level, structureManager, chunkGenerator, random, boundingBox, chunkPos, pos);
 		}
 
