@@ -41,6 +41,7 @@ public class ElementPipeRenderer extends AbstractECRenderer<ElementPipeBlockEnti
 	@Override
 	public void render(ElementPipeBlockEntity te, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn) {
 		BlockState coverState = te.getCoverState();
+		boolean showCover = coverState != null && !coverState.isAir();
 
 		if (sideModel == null || extractModel == null || prioritytModel == null) {
 			ModelManager modelManager = Minecraft.getInstance().getModelManager();
@@ -49,11 +50,11 @@ public class ElementPipeRenderer extends AbstractECRenderer<ElementPipeBlockEnti
 			extractModel = modelManager.getModel(EXTRACT_LOCATION);
 			prioritytModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
-		if (coverState != null && ElementPipeBlock.showCover(te.getBlockState(), Minecraft.getInstance().player)) {
+		if (showCover && ElementPipeBlock.showCover(te.getBlockState(), Minecraft.getInstance().player)) {
 			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelDataManager.getModelData(te.getLevel(), te.getBlockPos()));
 		} else {
 			renderPipes(te, matrixStack, buffer, combinedLightIn, combinedOverlayIn);
-			if (coverState != null) {
+			if (showCover) {
 				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), matrixStack, buffer, combinedLightIn, combinedOverlayIn,
 						ModelDataManager.getModelData(te.getLevel(), te.getBlockPos()));
 				WorldRenderer.renderLineBox(matrixStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);

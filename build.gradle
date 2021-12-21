@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net/' }
         mavenCentral()
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
@@ -248,8 +248,8 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 	
 		def changeLog = { ->
 			def generatedChangelog = ""
-			def changeStart = false;
-			def changeEnd = false;
+			def changeStart = false
+			def changeEnd = false
 			
 			println('Changelog:')
 			
@@ -258,9 +258,9 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			
 		        while ((line = reader.readLine()) != null && !changeEnd) {
 		        	if (line ==~ '^\\s*- .*') {
-		        		changeStart = true;
+		        		changeStart = true
 		        	} else if (changeStart) {
-		        		changeEnd = true;
+		        		changeEnd = true
 		        	}
 					if (changeStart && !changeEnd) {
 						println(line)
