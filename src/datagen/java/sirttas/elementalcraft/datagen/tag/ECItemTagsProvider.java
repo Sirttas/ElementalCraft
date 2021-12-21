@@ -1,13 +1,7 @@
 package sirttas.elementalcraft.datagen.tag;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -33,6 +27,11 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 public class ECItemTagsProvider extends ItemTagsProvider {
 
 	private static final String BOTANIA = "botania";
@@ -50,6 +49,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(BlockTags.WALLS, ItemTags.WALLS);
 		copy(BlockTags.FENCES, ItemTags.FENCES);
 		copy(Tags.Blocks.GLASS_PANES, Tags.Items.GLASS_PANES);
+		copy(ECTags.Blocks.ORES_INERT_CRYSTAL, ECTags.Items.ORES_INERT_CRYSTAL);
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
 		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);

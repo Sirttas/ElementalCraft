@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.text.MessageFormat;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +19,9 @@ import sirttas.elementalcraft.loot.LootHandler;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.text.MessageFormat;
 
 /**
  * greatly inspired by Botania
@@ -45,6 +44,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 		save(cache, genShard(ElementType.EARTH), EntityType.SILVERFISH);
 		save(cache, genShard(ElementType.EARTH), EntityType.IRON_GOLEM);
 		save(cache, genShard(ElementType.EARTH), EntityType.SKELETON_HORSE);
+		save(cache, genShard(ElementType.EARTH), EntityType.GOAT);
 		save(cache, genShard(ElementType.FIRE), EntityType.CREEPER);
 		save(cache, genShard(ElementType.FIRE), EntityType.GHAST);
 		save(cache, genShard(ElementType.FIRE), EntityType.BLAZE);
@@ -58,6 +58,8 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 		save(cache, genShard(ElementType.WATER), EntityType.SLIME);
 		save(cache, genShard(ElementType.WATER), EntityType.STRAY);
 		save(cache, genShard(ElementType.WATER), EntityType.SQUID);
+		save(cache, genShard(ElementType.WATER), EntityType.GLOW_SQUID);
+		save(cache, genShard(ElementType.WATER), EntityType.AXOLOTL);
 		save(cache, genShard(ElementType.WATER), EntityType.POLAR_BEAR);
 		save(cache, genShard(ElementType.WATER), EntityType.DOLPHIN);
 		save(cache, genShard(ElementType.WATER), EntityType.COD);

@@ -98,6 +98,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, list);
 
 		addItem(ECBlocks.CRYSTAL_ORE, list);
+		addItem(ECBlocks.DEEPSLATE_CRYSTAL_ORE, list);
 		addItem(ECBlocks.WHITE_ROCK, list);
 		addItem(ECBlocks.WHITE_ROCK_SLAB, list);
 		addItem(ECBlocks.WHITE_ROCK_STAIRS, list);

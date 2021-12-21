@@ -205,6 +205,7 @@ public class ECBlocks {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final SourceBlock SOURCE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystalOreBlock.NAME) public static final CrystalOreBlock CRYSTAL_ORE = null;
+	public static final RegistryObject<Block> DEEPSLATE_CRYSTAL_ORE = object(CrystalOreBlock.NAME_DEEPSLATE);
 	
 	public static final RegistryObject<Block> WHITE_ROCK = object("whiterock");
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock_slab") public static final SlabBlock WHITE_ROCK_SLAB = null;
@@ -310,6 +311,7 @@ public class ECBlocks {
 
 		RegistryHelper.register(registry, new SourceBlock(), SourceBlock.NAME);
 		RegistryHelper.register(registry, new CrystalOreBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F, 3.0F)), CrystalOreBlock.NAME);
+		RegistryHelper.register(registry, new CrystalOreBlock(BlockBehaviour.Properties.of(Material.STONE).color(MaterialColor.DEEPSLATE).strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE)), DEEPSLATE_CRYSTAL_ORE);
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.WHITEROCK), WHITE_ROCK);
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_slab");
 		RegistryHelper.register(registry, new StairBlock(() -> WHITE_ROCK.get().defaultBlockState(), ECProperties.Blocks.WHITEROCK), "whiterock_stairs");

@@ -115,6 +115,7 @@ public class ECTags {
 		public static final Named<Item> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
 		public static final Named<Item> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
 		public static final Named<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
+		public static final Named<Item> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
 
 		private Items() {}
 		
@@ -171,7 +172,9 @@ public class ECTags {
 		public static final Named<Block> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
 		public static final Named<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
 		public static final Named<Block> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
-		
+
+		public static final Named<Block> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
+
 		public static final Named<Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
 
 		private Blocks() {}

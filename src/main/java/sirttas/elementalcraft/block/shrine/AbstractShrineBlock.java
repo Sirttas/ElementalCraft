@@ -95,7 +95,9 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
-		BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
+		BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class)
+				.filter(AbstractShrineBlockEntity::isRunning)
+				.ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
 	}
 
 	@OnlyIn(Dist.CLIENT)

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "elementalcraft:inert_crystal_ore"
+    "#forge:ores/inert_crystal"
   ]
 }

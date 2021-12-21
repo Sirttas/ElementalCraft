@@ -75,6 +75,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		}
 
 		functionTable.put(ECBlocks.CRYSTAL_ORE, i -> genOre(i, ECItems.INERT_CRYSTAL));
+		functionTable.put(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), i -> genOre(i, ECItems.INERT_CRYSTAL));
 		functionTable.put(ECBlocks.EVAPORATOR, ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.CONTAINER, i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.SMALL_CONTAINER.get(), i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));

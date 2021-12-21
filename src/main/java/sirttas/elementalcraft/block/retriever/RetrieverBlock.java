@@ -1,22 +1,22 @@
 package sirttas.elementalcraft.block.retriever;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -77,11 +77,11 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 
 		if (!world.hasNeighborSignal(pos) && !stack.isEmpty()) {
 			for (Direction direction : Direction.values()) {
-				BlockPos retriverPos = pos.relative(direction);
-				BlockState blockState = world.getBlockState(retriverPos);
+				BlockPos retrieverPos = pos.relative(direction);
+				BlockState blockState = world.getBlockState(retrieverPos);
 
 				if (blockState.getBlock() instanceof RetrieverBlock && blockState.getValue(SOURCE) == direction.getOpposite()) {
-					stack = retrive(blockState, world, retriverPos, stack);
+					stack = retrieve(blockState, world, retrieverPos, stack);
 
 					inventory.setItem(slot, stack);
 					if (stack.isEmpty()) {
@@ -92,7 +92,7 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 		}
 	}
 
-	public static ItemStack retrive(BlockState state, BlockGetter world, BlockPos pos, ItemStack output) {
+	public static ItemStack retrieve(BlockState state, BlockGetter world, BlockPos pos, ItemStack output) {
 		Direction direction = state.getValue(TARGET);
 
 		return ItemHandlerHelper.insertItem(ECContainerHelper.getItemHandlerAt(world, pos.relative(direction), direction.getOpposite()), output, false);

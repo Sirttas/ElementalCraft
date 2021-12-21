@@ -21,7 +21,8 @@ public final class LootHandler {
 	private static final List<String> BLACKLIST = List.of("dispenser");
 	public static final List<String> INJECT_LIST = List.copyOf(getInjects(EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.SILVERFISH,
 			EntityType.IRON_GOLEM, EntityType.SKELETON_HORSE, EntityType.CREEPER, EntityType.GHAST, EntityType.BLAZE, EntityType.HUSK, EntityType.MAGMA_CUBE, EntityType.ZOMBIFIED_PIGLIN,
-			EntityType.ZOGLIN, EntityType.DROWNED, EntityType.GUARDIAN, EntityType.ELDER_GUARDIAN, EntityType.SLIME, EntityType.STRAY, EntityType.SQUID, EntityType.POLAR_BEAR, EntityType.DOLPHIN,
+			EntityType.ZOGLIN, EntityType.DROWNED, EntityType.GUARDIAN, EntityType.ELDER_GUARDIAN, EntityType.SLIME, EntityType.STRAY, EntityType.SQUID, EntityType.GLOW_SQUID,
+			EntityType.GOAT, EntityType.AXOLOTL, EntityType.POLAR_BEAR, EntityType.DOLPHIN,
 			EntityType.COD, EntityType.SALMON, EntityType.TROPICAL_FISH, EntityType.PUFFERFISH, EntityType.ENDERMAN, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.PHANTOM,
 			EntityType.SHULKER));
 

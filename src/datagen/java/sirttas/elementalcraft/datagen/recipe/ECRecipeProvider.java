@@ -410,9 +410,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tzeentch"), ElementType.WATER).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE)
 				.addIngredient(ECTags.Items.PRISTINE_WATER_GEMS).addIngredient(Tags.Items.GEMS_EMERALD).addIngredient(Tags.Items.GEMS_EMERALD).build(consumer);
 
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ECBlocks.CRYSTAL_ORE), ECItems.INERT_CRYSTAL, 0.5F, 200).unlockedBy("has_crystal_ore", has(ECBlocks.CRYSTAL_ORE)).save(consumer);
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(ECBlocks.CRYSTAL_ORE), ECItems.INERT_CRYSTAL, 0.5F, 100).unlockedBy("has_crystal_ore", has(ECBlocks.CRYSTAL_ORE)).save(consumer,
-				ElementalCraft.createRL("inertcrystal_from_blasting"));
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ECTags.Items.ORES_INERT_CRYSTAL), ECItems.INERT_CRYSTAL, 0.5F, 200).unlockedBy("has_crystal_ore", has(ECTags.Items.ORES_INERT_CRYSTAL)).save(consumer);
+		SimpleCookingRecipeBuilder.blasting(Ingredient.of(ECTags.Items.ORES_INERT_CRYSTAL), ECItems.INERT_CRYSTAL, 0.5F, 100).unlockedBy("has_crystal_ore", has(ECTags.Items.ORES_INERT_CRYSTAL)).save(consumer, ElementalCraft.createRL("inertcrystal_from_blasting"));
 
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.COBBLESTONE).withIngredient(Tags.Items.STONE).build(consumer);
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.GRAVEL).withIngredient(Tags.Items.COBBLESTONE).build(consumer);

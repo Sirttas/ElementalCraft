@@ -35,11 +35,12 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 	private BakedModel priorityModel;
 
 	@Override
-	public void render(ElementPipeBlockEntity te, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
+	public void render(ElementPipeBlockEntity te, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int light, int overlay) {
 		var minecraft = Minecraft.getInstance();
 		var player = minecraft.player;
 		var level = Objects.requireNonNull(te.getLevel());
 		BlockState coverState = te.getCoverState();
+		boolean showCover = coverState != null && !coverState.isAir();
 
 		if (sideModel == null || extractModel == null || priorityModel == null) {
 			ModelManager modelManager = minecraft.getModelManager();
@@ -48,18 +49,17 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 			extractModel = modelManager.getModel(EXTRACT_LOCATION);
 			priorityModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
-		if (coverState != null && ElementPipeBlock.showCover(te.getBlockState(), player)) {
-			renderBlock(coverState, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelDataManager.getModelData(level, te.getBlockPos()));
+		if (showCover && ElementPipeBlock.showCover(te.getBlockState(), player)) {
+			renderBlock(coverState, poseStack, buffer, light, overlay, ModelDataManager.getModelData(level, te.getBlockPos()));
 		} else {
-			renderPipes(te, matrixStack, buffer, combinedLightIn, combinedOverlayIn);
-			if (coverState != null) {
-				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), matrixStack, buffer, combinedLightIn, combinedOverlayIn,
-						ModelDataManager.getModelData(level, te.getBlockPos()));
-				LevelRenderer.renderLineBox(matrixStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
+			renderPipes(te, poseStack, buffer, light, overlay);
+			if (showCover) {
+				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), poseStack, buffer, light, overlay, ModelDataManager.getModelData(level, te.getBlockPos()));
+				LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
 			}
 		}
 		if (Boolean.TRUE.equals(ECConfig.CLIENT.pipeDebugPath.get()) && player != null && player.isCreative()) {
-			te.getPathMap().values().forEach(path -> path.renderDebugPath(matrixStack, buffer));
+			te.getPathMap().values().forEach(path -> path.renderDebugPath(poseStack, buffer));
 		}
 	}
 	

@@ -1,3 +1,11 @@
+1.18.1-4.1.5:
+
+- added shards to goat, glow squid and axolotl
+- added deepslate inert crystal ore
+- added sources in mountains
+- fix a crash while removing pipe cover
+
+
 1.18.1-4.1.4:
 
 - fix source altars still not spawning

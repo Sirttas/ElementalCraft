@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "elementalcraft:inert_crystal_ore"
-            ]
+            "tag": "forge:ores/inert_crystal"
           }
         ]
       }

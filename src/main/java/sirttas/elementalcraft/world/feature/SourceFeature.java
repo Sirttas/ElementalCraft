@@ -19,17 +19,9 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 	public static final String NAME_END = NAME + "_end";
 	public static final String NAME_FOREST = NAME + "_forest";
 	public static final String NAME_HILL = NAME + "_hill";
+	public static final String NAME_MOUNTAIN = NAME + "_mountain";
 	public static final String NAME_PLAIN = NAME + "_plain";
 	public static final String NAME_OCEAN = NAME + "_ocean";
-	public static final String NAME_FIRE = NAME + "_fire";
-	public static final String NAME_WATER = NAME + "_water";
-	public static final String NAME_EARTH = NAME + "_earth";
-	public static final String NAME_AIR = NAME + "_air";
-	public static final String SPAWN = "_spawn";
-	public static final String NAME_FIRE_SPAWN = NAME_FIRE + SPAWN;
-	public static final String NAME_WATER_SPAWN = NAME_WATER + SPAWN;
-	public static final String NAME_EARTH_SPAWN = NAME_EARTH + SPAWN;
-	public static final String NAME_AIR_SPAWN = NAME_AIR + SPAWN;
 
 	public SourceFeature() {
 		super(IElementTypeFeatureConfig.CODEC);

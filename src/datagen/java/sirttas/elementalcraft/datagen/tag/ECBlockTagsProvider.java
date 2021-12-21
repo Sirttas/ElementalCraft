@@ -67,7 +67,9 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.SWEET_SHRINE, ECBlocks.VACUUM_SHRINE, ECBlocks.FIRE_PYLON);
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_PROTECTION).add(ECBlocks.FIRE_PYLON, ECBlocks.ENDER_LOCK_SHRINE);
 
-		tag(Tags.Blocks.ORES).add(ECBlocks.CRYSTAL_ORE);
+		tag(ECTags.Blocks.ORES_INERT_CRYSTAL).add(ECBlocks.CRYSTAL_ORE, ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
+
+		tag(Tags.Blocks.ORES).addTag(ECTags.Blocks.ORES_INERT_CRYSTAL);
 		tag(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT);
 		tag(ECTags.Blocks.PUREROCKS).add(ECBlocks.PURE_ROCK.get(), ECBlocks.PURE_ROCK_SLAB, ECBlocks.PURE_ROCK_STAIRS, ECBlocks.PURE_ROCK_WALL);
 		tag(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES).add(ECBlocks.EXTRACTOR, ECBlocks.INFUSER, ECBlocks.EVAPORATOR);
@@ -94,6 +96,6 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 			}
 		}
 		tag(BlockTags.NEEDS_DIAMOND_TOOL).addTag(ECTags.Blocks.PUREROCKS);
-		tag(BlockTags.NEEDS_IRON_TOOL).add(ECBlocks.CRYSTAL_ORE);
+		tag(BlockTags.NEEDS_IRON_TOOL).addTag(ECTags.Blocks.ORES_INERT_CRYSTAL);
 	}
 }

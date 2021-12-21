@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "elementalcraft:inert_crystal_ore"
+    "tag": "forge:ores/inert_crystal"
   },
   "result": "elementalcraft:inert_crystal",
   "experience": 0.5,

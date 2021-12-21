@@ -68,6 +68,7 @@ public class ECFeatures {
 	private static PlacedFeature endSourcePlaced;
 	private static PlacedFeature forestSourcePlaced;
 	private static PlacedFeature hillSourcePlaced;
+	private static PlacedFeature mountainSourcePlaced;
 	private static PlacedFeature plainSourcePlaced;
 	private static PlacedFeature oceanSourcePlaced;
 	private static final ConfiguredStructureFeature<?, ?> SOURCE_ALTER = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, RandomElementTypeFeatureConfig.ALL, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
@@ -78,7 +79,7 @@ public class ECFeatures {
 	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
 		IForgeRegistry<Feature<?>> r = event.getRegistry();
 		Feature<IElementTypeFeatureConfig> source = new SourceFeature();
-		var oreInertCrystalTargetList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ECBlocks.CRYSTAL_ORE.defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ECBlocks.CRYSTAL_ORE.defaultBlockState()));
+		var oreInertCrystalTargetList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ECBlocks.CRYSTAL_ORE.defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ECBlocks.DEEPSLATE_CRYSTAL_ORE.get().defaultBlockState()));
 		var sourcePlacement = sourcePlacement();
 		var chanceSourcePlacement = sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.sourceSpawnChance.get()));
 		
@@ -106,6 +107,8 @@ public class ECFeatures {
 		forestSourcePlaced = PlacementUtils.register(SourceFeature.NAME_FOREST, forestSourceConfig.placed(chanceSourcePlacement));
 		ConfiguredFeature<?, ?> hillSourceConfig = register(SourceFeature.NAME_HILL, source.configured(RandomElementTypeFeatureConfig.HILL));
 		hillSourcePlaced = PlacementUtils.register(SourceFeature.NAME_HILL, hillSourceConfig.placed(chanceSourcePlacement));
+		ConfiguredFeature<?, ?> mountainSourceConfig = register(SourceFeature.NAME_MOUNTAIN, source.configured(RandomElementTypeFeatureConfig.MOUNTAIN));
+		mountainSourcePlaced = PlacementUtils.register(SourceFeature.NAME_MOUNTAIN, mountainSourceConfig.placed(chanceSourcePlacement));
 		ConfiguredFeature<?, ?> plainSourceConfig = register(SourceFeature.NAME_PLAIN, source.configured(RandomElementTypeFeatureConfig.PLAIN));
 		plainSourcePlaced = PlacementUtils.register(SourceFeature.NAME_PLAIN, plainSourceConfig.placed(chanceSourcePlacement));
 		ConfiguredFeature<?, ?> netherSourceConfig = register(SourceFeature.NAME_NETHER, source.configured(RandomElementTypeFeatureConfig.NETHER));
@@ -140,7 +143,8 @@ public class ECFeatures {
 					case MUSHROOM -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, mushroomSourcePlaced);
 					case NETHER -> generation.addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, netherSourcePlaced);
 					case OCEAN -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, oceanSourcePlaced);
-					case EXTREME_HILLS, MOUNTAIN, UNDERGROUND -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, hillSourcePlaced);
+					case EXTREME_HILLS -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, hillSourcePlaced);
+					case MOUNTAIN -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, mountainSourcePlaced);
 					case PLAINS -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, plainSourcePlaced);
 					case BEACH, RIVER, SWAMP -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, wetSourcePlaced);
 					case TAIGA, FOREST -> generation.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, forestSourcePlaced);
