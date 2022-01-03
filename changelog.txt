@@ -1,3 +1,8 @@
+1.18.1-4.1.6:
+
+- fix source not spawning (issue #70)
+
+
 1.18.1-4.1.5:
 
 - added shards to goat, glow squid and axolotl
@@ -10,7 +15,7 @@
 
 - fix source altars still not spawning
 - fix source altar spawning in the sky
-- fix crystalazier output
+- fix crystalazier output (issue #67)
 - fix ordered sorter not saving
 
 
@@ -22,7 +27,7 @@
 
 1.18.1-4.1.2:
 
-- fix a crash on startup
+- fix a crash on startup (issue #68)
 
 
 1.18.1-4.1.1:

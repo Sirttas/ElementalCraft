@@ -36,7 +36,7 @@ public class SourcePlacement extends PlacementModifier {
 	private int getHeight(PlacementContext helper, int x, int z) {
 		var h = getHeight(helper.getLevel(), x, z);
 
-		return Math.max(h, helper.getGenDepth());
+		return Math.min(h, helper.getGenDepth());
 	}
 
 	@Nonnull
