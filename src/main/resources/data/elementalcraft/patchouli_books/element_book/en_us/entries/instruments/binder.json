@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.binder",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:binder",
-  "advancement": "elementalcraft:pickup/tank",
+  "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/binder",
   "priority": true,
   "sortnum": 6,
@@ -20,7 +20,7 @@
       "multiblock": {
         "mapping": {
           "I": "elementalcraft:binder",
-          "0": "elementalcraft:tank"
+          "0": "elementalcraft:container"
         },
         "pattern": [
           ["I"],

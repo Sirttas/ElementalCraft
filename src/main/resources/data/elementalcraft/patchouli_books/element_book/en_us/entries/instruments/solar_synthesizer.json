@@ -19,7 +19,7 @@
       "multiblock": {
         "mapping": {
           "I": "elementalcraft:solar_synthesizer",
-          "0": "elementalcraft:tank"
+          "0": "elementalcraft:container"
         },
         "pattern": [
           ["I"],

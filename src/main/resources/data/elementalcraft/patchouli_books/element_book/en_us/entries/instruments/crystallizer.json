@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.crystallizer",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:crystallizer",
-  "advancement": "elementalcraft:pickup/tank",
+  "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/crystallizer",
   "priority": true,
   "sortnum": 8,
@@ -20,7 +20,7 @@
       "multiblock": {
         "mapping": {
           "I": "elementalcraft:crystallizer",
-          "0": "elementalcraft:tank"
+          "0": "elementalcraft:container"
         },
         "pattern": [
           ["I"],

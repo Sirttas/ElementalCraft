@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.purifier",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:purifier",
-  "advancement": "elementalcraft:pickup/tank",
+  "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/purifier",
   "sortnum": 13,
   "pages": [
@@ -19,7 +19,7 @@
       "multiblock": {
         "mapping": {
           "I": "elementalcraft:purifier",
-          "0": "elementalcraft:tank"
+          "0": "elementalcraft:container"
         },
         "pattern": [
           ["I"],
@@ -29,4 +29,3 @@
     }
   ]
 }
-

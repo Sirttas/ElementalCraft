@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.inscriber",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:inscriber",
-  "advancement": "elementalcraft:pickup/tank",
+  "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/inscriber",
   "sortnum": 9,
   "pages": [
@@ -20,7 +20,7 @@
       "multiblock": {
         "mapping": {
           "I": "elementalcraft:inscriber",
-          "0": "elementalcraft:tank"
+          "0": "elementalcraft:container"
         },
         "pattern": [
           ["I"],

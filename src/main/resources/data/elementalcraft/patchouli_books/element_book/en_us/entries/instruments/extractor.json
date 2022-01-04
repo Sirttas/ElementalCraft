@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.extractor",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:extractor",
-  "advancement": "elementalcraft:pickup/tank_small",
+  "advancement": "elementalcraft:pickup/small_container",
   "turnin": "elementalcraft:pickup/extractor",
   "priority": true,
   "sortnum": 1,
@@ -20,7 +20,7 @@
       "multiblock": {
         "mapping": {
           "I": "elementalcraft:extractor",
-          "0": "elementalcraft:tank_small"
+          "0": "elementalcraft:small_container"
         },
         "pattern": [
           ["I"],

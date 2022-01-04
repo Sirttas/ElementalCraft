@@ -1,3 +1,8 @@
+1.18.1-4.1.7:
+
+- fix patchouli not loading (issue #69)
+- fix spell desk entry (issue #71)
+
 1.18.1-4.1.6:
 
 - fix source not spawning (issue #70)

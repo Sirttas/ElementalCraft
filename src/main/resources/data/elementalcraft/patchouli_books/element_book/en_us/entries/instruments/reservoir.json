@@ -2,8 +2,8 @@
   "name": "elementalcraft.entry.reservoir",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:reservoir_fire",
-  "advancement": "elementalcraft:pickup/tank",
-  "turnin": "elementalcraft:pickup/tank",
+  "advancement": "elementalcraft:pickup/container",
+  "turnin": "elementalcraft:pickup/container",
   "sortnum": 14,
   "pages": [
     {

@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.air_mill",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:air_mill",
-  "advancement": "elementalcraft:pickup/tank",
+  "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/air_mill",
   "sortnum": 5,
   "pages": [
@@ -19,7 +19,7 @@
       "multiblock": {
         "mapping": {
           "I": "elementalcraft:air_mill",
-          "0": "elementalcraft:tank"
+          "0": "elementalcraft:container"
         },
         "pattern": [
           ["I"],
@@ -29,4 +29,3 @@
     }
   ]
 }
-

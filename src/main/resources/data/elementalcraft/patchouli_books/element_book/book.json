@@ -7,8 +7,8 @@
 	"version": 20,
 	"macros": {
 		"$(ec:source)": "$(l:basics/source)",
-		"$(ec:tank)": "$(l:instruments/tank)",
-		"$(ec:tank_small)": "$(l:instruments/tank_small)",
+		"$(ec:container)": "$(l:instruments/container)",
+		"$(ec:small_container)": "$(l:instruments/small_container)",
 		"$(ec:pipe)": "$(l:basics/elementpipe)",
 		"$(ec:infuser)": "$(l:instruments/infuser)",
 		"$(ec:extractor)": "$(l:instruments/extractor)",
