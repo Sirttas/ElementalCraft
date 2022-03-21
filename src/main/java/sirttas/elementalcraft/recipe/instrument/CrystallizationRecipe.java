@@ -102,30 +102,34 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	public void process(CrystallizerBlockEntity instrument) {
 		int luck = (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
 		IInventory inv = instrument.getInventory();
-		
+
 		for (int i = 2; i < inv.getContainerSize(); i++) {
 			ItemStack stack = inv.getItem(i);
-			
+
 			if (EvaporatorBlock.getShardElementType(stack) == this.elementType) {
 				luck += ((ShardItem) stack.getItem()).getElementAmount();
 			}
 		}
-		
+
 		ItemStack gem = instrument.getInventory().getItem(0);
-		
+
 		instrument.clearContent();
-		instrument.getInventory().setItem(0, this.getCraftingResult(gem, instrument, luck));
+		instrument.getInventory().setItem(0, this.assemble(gem, instrument, luck));
 	}
 
 	@Override
 	public ItemStack assemble(CrystallizerBlockEntity instrument) {
-		return getCraftingResult(instrument.getInventory().getItem(0), instrument, 0);
+		return assemble(instrument.getInventory().getItem(0), instrument, 0);
 	}
 
 	@SuppressWarnings("resource")
-	private ItemStack getCraftingResult(ItemStack gem, CrystallizerBlockEntity instrument, float luck) {
-		int index = IntStream.range(0, outputs.size()).filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem)).findFirst().orElse(-1);
-		int weight = getTotalWeight(outputs.subList(index + 1, outputs.size()), luck);
+	private ItemStack assemble(ItemStack gem, CrystallizerBlockEntity instrument, float luck) {
+		int index = IntStream.range(0, outputs.size())
+				.filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem))
+				.findFirst()
+				.orElse(-1);
+		List<ResultEntry> list = outputs.subList(index + 1, outputs.size());
+		int weight = getTotalWeight(list, luck);
 		
 		if (weight > 0) {
 			int roll = Math.min(instrument.getLevel().random.nextInt(weight), weight - 1);

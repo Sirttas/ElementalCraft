@@ -33,7 +33,7 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 
 	private List<LivingEntity> getEntities() {
 		return this.getLevel().getEntitiesOfClass(LivingEntity.class, getRangeBoundingBox(), e -> !e.isSpectator() && !e.hasEffect(Effects.FIRE_RESISTANCE) && !e.isOnFire()
-				&& !ToolInfusionHelper.hasFireInfusion(e) && (!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(e)));
+				&& !ToolInfusionHelper.hasFireInfusion(e) && (!this.hasUpgrade(ShrineUpgrades.PROTECTION.get()) || EntityHelper.isHostile(e)));
 	}
 	
 	@Override

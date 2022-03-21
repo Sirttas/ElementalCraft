@@ -43,7 +43,7 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 	public boolean doLock(LivingEntity entity) {
 		int consumeAmount = this.getConsumeAmount();
 
-		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(entity)) && (this.elementStorage.getElementAmount() >= consumeAmount)) {
+		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION.get()) || EntityHelper.isHostile(entity)) && (this.elementStorage.getElementAmount() >= consumeAmount)) {
 			this.consumeElement(consumeAmount);
 			return true;
 		}

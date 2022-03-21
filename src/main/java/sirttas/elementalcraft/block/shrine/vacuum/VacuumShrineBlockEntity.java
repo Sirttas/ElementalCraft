@@ -37,7 +37,7 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 	protected boolean doTick() {
 		IItemHandler inv = ECInventoryHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
 
-		return this.hasUpgrade(ShrineUpgrades.PICKUP) ? pickup(inv) : pull(inv);
+		return this.hasUpgrade(ShrineUpgrades.PICKUP.get()) ? pickup(inv) : pull(inv);
 	}
 
 	private boolean pickup(IItemHandler inv) {
