@@ -21,15 +21,18 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 		super(type, worldIn);
 	}
 
-	@ModifyVariable(method = "attack(Lnet/minecraft/entity/Entity;)V", 
-			index = 10, 
-			at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;", shift = Shift.AFTER))
-	public boolean attackTargetEntityWithCurrentItemSetFlag3(boolean flag3) {
-		if (isHoldinStaff()) {
-			return true;
-		}
-		return flag3;
-	}
+	@SuppressWarnings("rawtypes")
+        @Redirect(
+        method = "attack(Lnet/minecraft/world/entity/Entity;)V",
+            at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;",
+                shift = At.Shift.AFTER
+            )
+        )
+        private boolean impl$onAttack(final Object item, final Class target) {
+            return item instanceof SwordItem || isHoldinStaff();
+        }
 	
 	@Redirect(method = "attack(Lnet/minecraft/entity/Entity;)V", 
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/AxisAlignedBB;"))
