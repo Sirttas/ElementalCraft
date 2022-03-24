@@ -1,3 +1,8 @@
+1.16.5-2.7.17:
+
+- fix Startup Crash with SpongeForge 1.16.5 (issue #76, PR #77)
+
+
 1.16.5-2.7.15:
 
 - fix shrine upgrades not working with java 12 onwards
