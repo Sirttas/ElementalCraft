@@ -42,11 +42,11 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private boolean isSilkTouch() {
-		return this.hasUpgrade(ShrineUpgrades.SILK_TOUCH);
+		return this.hasUpgrade(ShrineUpgrades.SILK_TOUCH.get());
 	}
 
 	private int getFortuneLevel() {
-		return this.getUpgradeCount(ShrineUpgrades.FORTUNE);
+		return this.getUpgradeCount(ShrineUpgrades.FORTUNE.get());
 	}
 
 	@Override

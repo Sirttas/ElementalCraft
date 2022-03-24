@@ -46,7 +46,7 @@ public abstract class AbstractMekanismPureOreRecipeInjector<C extends IInventory
 		IRecipeType<T> type = getRecipeType();
 
 		if (type instanceof MekanismRecipeType) {
-			return new ResourceLocation(((MekanismRecipeType<?>) type).toString());
+			return new ResourceLocation(type.toString());
 		}
 		return super.getRecipeTypeRegistryName();
 	}

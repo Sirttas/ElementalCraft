@@ -1,8 +1,10 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net/' }
+        mavenLocal()
         mavenCentral()
+        maven { url = 'https://maven.minecraftforge.net/' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url = 'https://reposilite.shendai.rip/public' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
@@ -86,12 +88,19 @@ minecraft {
             property 'fml.earlyprogresswindow', 'false'
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
                 elementalcraft {
+                    source sourceSets.api
                     source sourceSets.main
                 }
+                try {
+                    dpanvil {
+                        source project(":DPAnvil").sourceSets.api
+                        source project(":DPAnvil").sourceSets.main
+                    }
+                } catch (e) { }
             }
         }
 
@@ -102,12 +111,19 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'mixin.debug.verbose', 'true'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
                 elementalcraft {
+                    source sourceSets.api
                     source sourceSets.main
                 }
+                try {
+                    dpanvil {
+                        source project(":DPAnvil").sourceSets.api
+                        source project(":DPAnvil").sourceSets.main
+                    }
+                } catch (e) { }
             }
         }
 
@@ -117,31 +133,31 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             property 'fml.earlyprogresswindow', 'false'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', createSrgToMcp.output
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             args '--mod', 'elementalcraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 elementalcraft {
+                    sources sourceSets.api
                     source sourceSets.main
                     source sourceSets.datagen
                 }
+                try {
+                    dpanvil {
+                        source project(":DPAnvil").sourceSets.api
+                        source project(":DPAnvil").sourceSets.main
+                    }
+                } catch (e) { }
             }
         }
     }
 }
 
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
 repositories {
     mavenCentral()
-    flatDir { dirs 'libs', '../DPAnvil/build/libs' }
-    maven { url "https://maven.theillusivec4.top/" }
-    maven { url "https://dvs1.progwml6.com/files/maven/" }
-  	maven { url "https://modmaven.dev/" }
-  	maven { url "https://maven.blamejared.com" }
+    flatDir { dirs 'libs', '../libs', '../DPAnvil/build/libs' }
+    maven { url "https://reposilite.shendai.rip/public" }
 }
 
 dependencies {
@@ -150,10 +166,21 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies
+    try {
+        apiCompileOnly project(":DPAnvil").sourceSets.api.output
+        compileOnly project(":DPAnvil").sourceSets.api.output
+        datagenCompileOnly project(":DPAnvil").sourceSets.api.output
+        runtimeOnly project(":DPAnvil").sourceSets.main.output
+        datagenRuntimeOnly project(":DPAnvil").sourceSets.main.output
+    } catch (e) {
+        logger.info("DPAnvil not found locally, looking in maven repo")
+        logger.debug("Exception: ", e)
+        compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
+        runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
+    }
+
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
-    runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
     
     implementation fg.deobf("mezz.jei:jei-${jei_version}")
     
@@ -221,7 +248,14 @@ sonarqube {
 	}
 }
 
-if (System.getenv("MODMAVEN_USER") != null || project.hasProperty('modmaven_user')) {
+def modmaven_user = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
+def modmaven_password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")
+def use_modmaven = modmaven_user != null && modmaven_password != null
+def shendai_reposlite_user = System.getenv("SHENDAI_REPOSLITE_USER") ?: project.findProperty("shendai_reposlite_user")
+def shendai_reposlite_password = System.getenv("SHENDAI_REPOSLITE_PASSWORD") ?: project.findProperty("shendai_reposlite_password")
+def use_shendai_reposlite = shendai_reposlite_user != null && shendai_reposlite_password != null
+
+if (use_modmaven || use_shendai_reposlite) {
 	publishing {
 	    publications {
 	        mavenJava(MavenPublication) {
@@ -231,13 +265,24 @@ if (System.getenv("MODMAVEN_USER") != null || project.hasProperty('modmaven_user
 	    }
 	    
 	    repositories {
-	        maven {
-	            url = 'https://modmaven.dev/artifactory/local-releases/'
-	            credentials {
-					username = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
-	                password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")
-	            }
-	        }
+            if (use_modmaven) {
+                maven {
+                    url = 'https://modmaven.dev/artifactory/local-releases/'
+                    credentials {
+                        username = modmaven_user
+                        password = modmaven_password
+                    }
+                }
+            }
+            if (use_shendai_reposlite) {
+                maven {
+                    url = 'https://reposilite.shendai.rip/releases'
+                    credentials {
+                        username = shendai_reposlite_user
+                        password = shendai_reposlite_password
+                    }
+                }
+            }
 	    }
 	}
 }
