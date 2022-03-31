@@ -15,7 +15,7 @@ public interface IContainerTopBlockEntity {
 		var self = self();
 
 		//noinspection ConstantConditions
-		return self.hasLevel() ? BlockEntityHelper.getElementContainer(self.getBlockState().getBlock(), self.getLevel(), self.getBlockPos().below()).orElse(null) : null;
+		return self.hasLevel() ? BlockEntityHelper.getElementContainer(self.getBlockState(), self.getLevel(), self.getBlockPos().below()).orElse(null) : null;
 	}
 
 	default ElementType getContainerElementType() {

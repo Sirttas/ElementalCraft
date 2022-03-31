@@ -14,7 +14,7 @@ public class InscriberContainer extends InstrumentContainer {
 
 	@Override
 	public boolean canPlaceItem(int slot, @Nonnull ItemStack stack) {
-		return slot != 0 || ECTags.Items.RUNE_SLATES.contains(stack.getItem());
+		return slot != 0 || stack.is(ECTags.Items.RUNE_SLATES);
 	}
 
 }

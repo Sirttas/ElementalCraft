@@ -37,8 +37,8 @@ public class SpellDeskMenu extends AbstractECMenu {
 		output = new SimpleContainer(6);
 		
 		this.addSlot(new InputSlot(0, 32, 35, s -> s.getItem() == ECItems.SCROLL_PAPER));
-		this.addSlot(new InputSlot(1, 23, 53, s -> Tags.Items.GEMS.contains(s.getItem())));
-		this.addSlot(new InputSlot(2, 41, 53, s -> ECTags.Items.CRYSTALS.contains(s.getItem())));
+		this.addSlot(new InputSlot(1, 23, 53, s -> s.is(Tags.Items.GEMS)));
+		this.addSlot(new InputSlot(2, 41, 53, s -> s.is(ECTags.Items.CRYSTALS)));
 		this.addSlot(new OutputSlot(0, 108, 35));
 		this.addSlot(new OutputSlot(1, 126, 35));
 		this.addSlot(new OutputSlot(2, 144, 35));

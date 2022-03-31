@@ -1,14 +1,10 @@
 package sirttas.elementalcraft.block.entity;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -18,6 +14,9 @@ import sirttas.elementalcraft.api.rune.handler.EmptyRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.container.IElementContainer;
 import sirttas.elementalcraft.tag.ECTags;
+
+import javax.annotation.Nonnull;
+import java.util.Optional;
 
 public class BlockEntityHelper {
 	
@@ -35,12 +34,12 @@ public class BlockEntityHelper {
 		return getBlockEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || canUseSmall).map(IElementContainer::getElementStorage);
 	}
 
-	public static Optional<ISingleElementStorage> getElementContainer(Block block, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
-		return getBlockEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES.contains(block)).map(IElementContainer::getElementStorage);
+	public static Optional<ISingleElementStorage> getElementContainer(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+		return getBlockEntityAs(world, pos, IElementContainer.class).filter(t -> !t.isSmall() || state.is(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES)).map(IElementContainer::getElementStorage);
 	}
 
-	public static boolean isValidContainer(Block block, LevelReader world, BlockPos pos) {
-		return getElementContainer(block, world, pos).isPresent();
+	public static boolean isValidContainer(BlockState state, LevelReader world, BlockPos pos) {
+		return getElementContainer(state, world, pos).isPresent();
 	}
 	
 	public static Optional<IElementStorage> getElementStorageAt(LevelReader world, BlockPos pos) {

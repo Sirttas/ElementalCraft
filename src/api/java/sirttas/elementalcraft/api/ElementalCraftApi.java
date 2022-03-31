@@ -3,7 +3,6 @@ package sirttas.elementalcraft.api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.dpanvil.api.tag.DataTagRegistry;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
@@ -17,7 +16,6 @@ public class ElementalCraftApi {
 			.withIdSetter(Rune::setId)
 			.merged(Rune::merge)
 			.build();
-	public static final DataTagRegistry<Rune> RUNE_TAGS = new DataTagRegistry<>();
 	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, ToolInfusion.FOLDER)
 			.withDefault(ToolInfusion.NONE)
 			.withIdSetter(ToolInfusion::setId)

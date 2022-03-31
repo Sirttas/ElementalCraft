@@ -153,7 +153,7 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
 		var below = pos.below();
 		
-		return (isLower(state) && BlockEntityHelper.isValidContainer(state.getBlock(), level, below)) || level.getBlockState(below).is(this);
+		return (isLower(state) && BlockEntityHelper.isValidContainer(state, level, below)) || level.getBlockState(below).is(this);
 	}
 	
 	@Nonnull

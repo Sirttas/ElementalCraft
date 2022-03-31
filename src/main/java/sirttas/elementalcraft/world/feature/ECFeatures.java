@@ -2,15 +2,18 @@ package sirttas.elementalcraft.world.feature;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.StructureFeatures;
+import net.minecraft.data.worldgen.StructureSets;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.OrePlacements;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -19,7 +22,6 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.StructurePieceType;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
@@ -27,7 +29,13 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
+import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,6 +51,7 @@ import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.world.feature.config.ElementTypeFeatureConfig;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 import sirttas.elementalcraft.world.feature.config.RandomElementTypeFeatureConfig;
+import sirttas.elementalcraft.world.feature.placement.ECPlacements;
 import sirttas.elementalcraft.world.feature.placement.SourcePlacement;
 import sirttas.elementalcraft.world.feature.structure.ECStructures;
 import sirttas.elementalcraft.world.feature.structure.SourceAltarStructure;
@@ -50,71 +59,72 @@ import sirttas.elementalcraft.world.feature.structure.SourceAltarStructure;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.function.BiConsumer;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECFeatures {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceFeature.NAME) public static final Feature<IElementTypeFeatureConfig> SOURCE = null;
 
-	private static PlacedFeature crystalOrePlaced;
-	private static PlacedFeature sourcePlaced;
-	private static PlacedFeature icySourcePlaced;
-	private static PlacedFeature jungleSourcePlaced;
-	private static PlacedFeature mushroomSourcePlaced;
-	private static PlacedFeature netherSourcePlaced;
-	private static PlacedFeature wetSourcePlaced;
-	private static PlacedFeature drySourcePlaced;
-	private static PlacedFeature endSourcePlaced;
-	private static PlacedFeature forestSourcePlaced;
-	private static PlacedFeature hillSourcePlaced;
-	private static PlacedFeature mountainSourcePlaced;
-	private static PlacedFeature plainSourcePlaced;
-	private static PlacedFeature oceanSourcePlaced;
-	private static final ConfiguredStructureFeature<?, ?> SOURCE_ALTER = registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, RandomElementTypeFeatureConfig.ALL, ECStructures.SOURCE_ALTAR_PIECE_TYPE);
+	private static Holder<PlacedFeature> crystalOrePlaced;
+	private static Holder<PlacedFeature> sourcePlaced;
+	private static Holder<PlacedFeature> icySourcePlaced;
+	private static Holder<PlacedFeature> jungleSourcePlaced;
+	private static Holder<PlacedFeature> mushroomSourcePlaced;
+	private static Holder<PlacedFeature> netherSourcePlaced;
+	private static Holder<PlacedFeature> wetSourcePlaced;
+	private static Holder<PlacedFeature> drySourcePlaced;
+	private static Holder<PlacedFeature> endSourcePlaced;
+	private static Holder<PlacedFeature> forestSourcePlaced;
+	private static Holder<PlacedFeature> hillSourcePlaced;
+	private static Holder<PlacedFeature> mountainSourcePlaced;
+	private static Holder<PlacedFeature> plainSourcePlaced;
+	private static Holder<PlacedFeature> oceanSourcePlaced;
 
 	private ECFeatures() {}
 	
 	@SubscribeEvent
 	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
+		registerPlacement("source", ECPlacements.SOURCE);
+
 		IForgeRegistry<Feature<?>> r = event.getRegistry();
 		Feature<IElementTypeFeatureConfig> source = new SourceFeature();
 		var oreInertCrystalTargetList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ECBlocks.CRYSTAL_ORE.defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ECBlocks.DEEPSLATE_CRYSTAL_ORE.get().defaultBlockState()));
-		var sourcePlacement = sourcePlacement();
 		var chanceSourcePlacement = sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.sourceSpawnChance.get()));
 		
 		RegistryHelper.register(r, source, SourceFeature.NAME);
 
-		ConfiguredFeature<?, ?> crystalOreConfig = register("crystal_ore", Feature.ORE.configured(new OreConfiguration(oreInertCrystalTargetList, ECConfig.COMMON.inertCrystalSize.get())));
-		crystalOrePlaced =  PlacementUtils.register("crystal_ore_middle", crystalOreConfig.placed(OrePlacements.commonOrePlacement(ECConfig.COMMON.inertCrystalCount.get(), HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(ECConfig.COMMON.inertCrystalYMax.get())))));
+		Holder<ConfiguredFeature<?, ?>> crystalOreConfig = register("crystal_ore", Feature.ORE, new OreConfiguration(oreInertCrystalTargetList, ECConfig.COMMON.inertCrystalSize.get()));
+		crystalOrePlaced = register("crystal_ore_middle", crystalOreConfig, OrePlacements.commonOrePlacement(ECConfig.COMMON.inertCrystalCount.get(), HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(ECConfig.COMMON.inertCrystalYMax.get()))));
 
-		ConfiguredFeature<?, ?> sourceConfig = register(SourceFeature.NAME, source.configured(RandomElementTypeFeatureConfig.ALL));
-		sourcePlaced = PlacementUtils.register(SourceFeature.NAME, sourceConfig.placed(sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.randomSourceSpawnChance.get()))));
+		Holder<ConfiguredFeature<?, ?>> sourceConfig = register(SourceFeature.NAME, source, RandomElementTypeFeatureConfig.ALL);
+		sourcePlaced = register(SourceFeature.NAME, sourceConfig, sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.randomSourceSpawnChance.get())));
 
-		ConfiguredFeature<?, ?> icySourceConfig = register(SourceFeature.NAME_ICY, source.configured(RandomElementTypeFeatureConfig.ICY));
-		icySourcePlaced = PlacementUtils.register(SourceFeature.NAME_ICY, icySourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> jungleSourceConfig = register(SourceFeature.NAME_JUNGLE, source.configured(RandomElementTypeFeatureConfig.JUNGLE));
-		jungleSourcePlaced = PlacementUtils.register(SourceFeature.NAME_JUNGLE, jungleSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> mushroomSourceConfig = register(SourceFeature.NAME_MUSHROOM, source.configured(RandomElementTypeFeatureConfig.ALL));
-		mushroomSourcePlaced = PlacementUtils.register(SourceFeature.NAME_MUSHROOM, mushroomSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> wetSourceConfig = register(SourceFeature.NAME_WET, source.configured(RandomElementTypeFeatureConfig.WET));
-		wetSourcePlaced = PlacementUtils.register(SourceFeature.NAME_WET, wetSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> drySourceConfig = register(SourceFeature.NAME_DRY, source.configured(RandomElementTypeFeatureConfig.DRY));
-		drySourcePlaced = PlacementUtils.register(SourceFeature.NAME_DRY, drySourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> endSourceConfig = register(SourceFeature.NAME_END, source.configured(RandomElementTypeFeatureConfig.END));
-		endSourcePlaced = PlacementUtils.register(SourceFeature.NAME_END, endSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> forestSourceConfig = register(SourceFeature.NAME_FOREST, source.configured(RandomElementTypeFeatureConfig.FOREST));
-		forestSourcePlaced = PlacementUtils.register(SourceFeature.NAME_FOREST, forestSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> hillSourceConfig = register(SourceFeature.NAME_HILL, source.configured(RandomElementTypeFeatureConfig.HILL));
-		hillSourcePlaced = PlacementUtils.register(SourceFeature.NAME_HILL, hillSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> mountainSourceConfig = register(SourceFeature.NAME_MOUNTAIN, source.configured(RandomElementTypeFeatureConfig.MOUNTAIN));
-		mountainSourcePlaced = PlacementUtils.register(SourceFeature.NAME_MOUNTAIN, mountainSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> plainSourceConfig = register(SourceFeature.NAME_PLAIN, source.configured(RandomElementTypeFeatureConfig.PLAIN));
-		plainSourcePlaced = PlacementUtils.register(SourceFeature.NAME_PLAIN, plainSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> netherSourceConfig = register(SourceFeature.NAME_NETHER, source.configured(RandomElementTypeFeatureConfig.NETHER));
-		netherSourcePlaced = PlacementUtils.register(SourceFeature.NAME_NETHER, netherSourceConfig.placed(chanceSourcePlacement));
-		ConfiguredFeature<?, ?> oceanSourceConfig = register(SourceFeature.NAME_OCEAN, source.configured(ElementTypeFeatureConfig.WATER));
-		oceanSourcePlaced = PlacementUtils.register(SourceFeature.NAME_OCEAN, oceanSourceConfig.placed(sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.oceanSourceSpawnChance.get()))));
+		Holder<ConfiguredFeature<?, ?>> icySourceConfig = register(SourceFeature.NAME_ICY, source, RandomElementTypeFeatureConfig.ICY);
+		icySourcePlaced =register(SourceFeature.NAME_ICY, icySourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> jungleSourceConfig = register(SourceFeature.NAME_JUNGLE, source, RandomElementTypeFeatureConfig.JUNGLE);
+		jungleSourcePlaced = register(SourceFeature.NAME_JUNGLE, jungleSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> mushroomSourceConfig = register(SourceFeature.NAME_MUSHROOM, source, RandomElementTypeFeatureConfig.ALL);
+		mushroomSourcePlaced = register(SourceFeature.NAME_MUSHROOM, mushroomSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> wetSourceConfig = register(SourceFeature.NAME_WET, source, RandomElementTypeFeatureConfig.WET);
+		wetSourcePlaced = register(SourceFeature.NAME_WET, wetSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> drySourceConfig = register(SourceFeature.NAME_DRY, source, RandomElementTypeFeatureConfig.DRY);
+		drySourcePlaced = register(SourceFeature.NAME_DRY, drySourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> endSourceConfig = register(SourceFeature.NAME_END, source, RandomElementTypeFeatureConfig.END);
+		endSourcePlaced = register(SourceFeature.NAME_END, endSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> forestSourceConfig = register(SourceFeature.NAME_FOREST, source, RandomElementTypeFeatureConfig.FOREST);
+		forestSourcePlaced = register(SourceFeature.NAME_FOREST, forestSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> hillSourceConfig = register(SourceFeature.NAME_HILL, source, RandomElementTypeFeatureConfig.HILL);
+		hillSourcePlaced = register(SourceFeature.NAME_HILL, hillSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> mountainSourceConfig = register(SourceFeature.NAME_MOUNTAIN, source, RandomElementTypeFeatureConfig.MOUNTAIN);
+		mountainSourcePlaced = register(SourceFeature.NAME_MOUNTAIN, mountainSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> plainSourceConfig = register(SourceFeature.NAME_PLAIN, source, RandomElementTypeFeatureConfig.PLAIN);
+		plainSourcePlaced = register(SourceFeature.NAME_PLAIN, plainSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> netherSourceConfig = register(SourceFeature.NAME_NETHER, source, RandomElementTypeFeatureConfig.NETHER);
+		netherSourcePlaced = register(SourceFeature.NAME_NETHER, netherSourceConfig, chanceSourcePlacement);
+		Holder<ConfiguredFeature<?, ?>> oceanSourceConfig = register(SourceFeature.NAME_OCEAN, source, ElementTypeFeatureConfig.WATER);
+		oceanSourcePlaced = register(SourceFeature.NAME_OCEAN, oceanSourceConfig, sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.oceanSourceSpawnChance.get())));
+
+		registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, RandomElementTypeFeatureConfig.ALL, ECStructures.SOURCE_ALTAR_PIECE_TYPE, new RandomSpreadStructurePlacement(ECConfig.COMMON.sourceAltarDistance.get(), 8, RandomSpreadType.LINEAR, 4847339));
 	}
 
 	private static List<PlacementModifier> sourcePlacement(PlacementModifier ... modifiers) {
@@ -155,22 +165,6 @@ public class ECFeatures {
 		}
 	}
 
-	public static void registerStructures(BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumer) {
-		for (var entry : BuiltinRegistries.BIOME.entrySet()) {
-			var key = entry.getKey();
-			var category = entry.getValue().getBiomeCategory();
-
-			if (category != Biome.BiomeCategory.THEEND
-					&& category != Biome.BiomeCategory.NETHER
-					&& category != Biome.BiomeCategory.BEACH
-					&& category != Biome.BiomeCategory.OCEAN
-					&& category != Biome.BiomeCategory.RIVER
-					&& category != Biome.BiomeCategory.SWAMP) {
-				consumer.accept(SOURCE_ALTER, key);
-			}
-		}
-	}
-
 	public static void addSpawnSources(ServerLevel world) {
 		if (Boolean.FALSE.equals(ECConfig.COMMON.disableSourceSpawn.get())) {
 			Random rand = new Random(world.getSeed());
@@ -195,16 +189,28 @@ public class ECFeatures {
 		level.setBlock(new BlockPos(x, y, z), ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
 	}
 
-	private static <C extends FeatureConfiguration> ConfiguredFeature<C, ?> register(String name, ConfiguredFeature<C, ?> feature) {
-		return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, ElementalCraft.createRL(name), feature);
+	public static <C extends FeatureConfiguration, F extends Feature<C>> Holder<ConfiguredFeature<?, ?>> register(String name, F feature, C config) {
+		return BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE, ElementalCraft.createRL(name), new ConfiguredFeature<>(feature, config));
 	}
 
-	private static <C extends FeatureConfiguration> ConfiguredStructureFeature<C, ?> registerStructure(String name, StructureFeature<C> structure, C config, StructurePieceType structurePieceType) {
-		ResourceLocation location = ElementalCraft.createRL(name);
-		ConfiguredStructureFeature<C, ?> structureFeature = Registry.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, location, new ConfiguredStructureFeature<>(structure, config));
-		
-		Registry.register(Registry.STRUCTURE_PIECE, location, structurePieceType);
-		StructureFeature.STRUCTURES_REGISTRY.put(structure.getFeatureName(), structure);
-		return structureFeature;
+	public static Holder<PlacedFeature> register(String name, Holder<? extends ConfiguredFeature<?, ?>> config, List<PlacementModifier> placement) {
+		return BuiltinRegistries.register(BuiltinRegistries.PLACED_FEATURE, ElementalCraft.createRL(name), new PlacedFeature(Holder.hackyErase(config), List.copyOf(placement)));
 	}
+
+	private static <C extends FeatureConfiguration> Holder<ConfiguredStructureFeature<?, ?>> registerStructure(String name, StructureFeature<C> structure, C config, StructurePieceType structurePieceType, StructurePlacement structurePlacement) {
+		ResourceLocation location = ElementalCraft.createRL(name);
+		var key = ResourceKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
+		var setKey = ResourceKey.create(Registry.STRUCTURE_SET_REGISTRY, location);
+
+		var configuredStructureFeatureHolder = StructureFeatures.register(key, structure.configured(config, BiomeTags.IS_HILL)); //TODO: Add biome tags
+
+		StructureSets.register(setKey, new StructureSet(configuredStructureFeatureHolder, structurePlacement));
+		Registry.register(Registry.STRUCTURE_PIECE, location, structurePieceType);
+		return configuredStructureFeatureHolder;
+	}
+
+	private static <P extends PlacementModifier> PlacementModifierType<P> registerPlacement(String name, PlacementModifierType<P> pPlacementModifierType) {
+		return Registry.register(Registry.PLACEMENT_MODIFIERS, ElementalCraft.createRL(name), pPlacementModifierType);
+	}
+
 }

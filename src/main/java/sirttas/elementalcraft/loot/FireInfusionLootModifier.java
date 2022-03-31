@@ -1,24 +1,17 @@
 package sirttas.elementalcraft.loot;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-
 import com.google.gson.JsonObject;
-
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -27,6 +20,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FireInfusionLootModifier extends LootModifier {
@@ -49,7 +47,7 @@ public class FireInfusionLootModifier extends LootModifier {
 			ItemStack ret = recipe.get().getResultItem().copy();
 
 			ret.setCount(ret.getCount() * stack.getCount());
-			if (Tags.Items.ORES.contains(stack.getItem())) {
+			if (stack.is(Tags.Items.ORES)) {
 				FORTUNE.apply(ret, context);
 			}
 			return ret;

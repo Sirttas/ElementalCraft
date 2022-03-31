@@ -156,7 +156,7 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 		
 		@Override
 		public boolean mayPlace(ItemStack stack) {
-			return ECTags.Items.RECEPTACLES_FULL.contains(stack.getItem());
+			return stack.is(ECTags.Items.RECEPTACLES_FULL);
 		}
 		
 		@Override

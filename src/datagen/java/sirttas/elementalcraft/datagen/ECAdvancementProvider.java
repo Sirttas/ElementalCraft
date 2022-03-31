@@ -1,28 +1,26 @@
 package sirttas.elementalcraft.datagen;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.data.DataProvider;
-import net.minecraft.world.item.Item;
-import net.minecraft.tags.Tag;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class ECAdvancementProvider implements DataProvider {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -75,7 +73,7 @@ public class ECAdvancementProvider implements DataProvider {
 	 * Creates a new {@link InventoryChangeTrigger} that checks for a player having
 	 * an item within the given tag.
 	 */
-	protected static InventoryChangeTrigger.TriggerInstance hasItem(Tag<Item> tag) {
+	protected static InventoryChangeTrigger.TriggerInstance hasItem(TagKey<Item> tag) {
 		return hasItem(ItemPredicate.Builder.item().of(tag).build());
 	}
 

@@ -128,13 +128,11 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return progress > 0;
 	}
 
-	@Nonnull
 	@Override
-	public CompoundTag save(@Nonnull CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(@Nonnull CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.putInt(ECNames.PROGRESS, progress);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-		return compound;
 	}
 
 	@Override

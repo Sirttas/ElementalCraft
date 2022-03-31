@@ -60,7 +60,7 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	@Override
 	@Deprecated
 	public boolean canSurvive(BlockState state, @Nonnull LevelReader level, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state.getBlock(), level, pos.below());
+		return BlockEntityHelper.isValidContainer(state, level, pos.below());
 	}
 	
 	@Override

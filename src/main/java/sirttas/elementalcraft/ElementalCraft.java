@@ -12,7 +12,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
-import sirttas.dpanvil.api.imc.DataTagIMC;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
@@ -79,6 +78,5 @@ public class ElementalCraft {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(Rune.NAME), ElementalCraftApi.RUNE_MANAGER).withCodec(Rune.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ToolInfusion.NAME), ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(SourceTrait.NAME), ElementalCraftApi.SOURCE_TRAIT_MANAGER).withCodec(SourceTrait.CODEC));
-		DataTagIMC.enqueue(() -> new DataTagIMC<>(ElementalCraftApi.RUNE_MANAGER, ElementalCraftApi.RUNE_TAGS));
 	}
 }

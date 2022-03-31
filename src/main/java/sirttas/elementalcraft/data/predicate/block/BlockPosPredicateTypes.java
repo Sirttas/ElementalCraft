@@ -7,7 +7,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.data.predicate.block.rune.HasRunePredicate;
-import sirttas.elementalcraft.data.predicate.block.rune.TagHasRunePredicate;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
@@ -22,7 +21,6 @@ public class BlockPosPredicateTypes {
 
 		RegistryHelper.register(registry, new BlockPosPredicateType<>(HasShrineUpgradePredicate.CODEC), HasShrineUpgradePredicate.NAME);
 		RegistryHelper.register(registry, new BlockPosPredicateType<>(HasRunePredicate.CODEC), HasRunePredicate.NAME);
-		RegistryHelper.register(registry, new BlockPosPredicateType<>(TagHasRunePredicate.CODEC), TagHasRunePredicate.NAME);
 		RegistryHelper.register(registry, new BlockPosPredicateType<>(RangeFromSpawnPredicate.CODEC), RangeFromSpawnPredicate.NAME);
 	}
 

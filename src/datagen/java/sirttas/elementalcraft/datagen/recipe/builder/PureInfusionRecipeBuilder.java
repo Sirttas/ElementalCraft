@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag.Named;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -41,7 +41,7 @@ public class PureInfusionRecipeBuilder {
 		return this;
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(Named<Item> tagIn) {
+	public PureInfusionRecipeBuilder setIngredient(TagKey<Item> tagIn) {
 		return this.setIngredient(ElementType.NONE, Ingredient.of(tagIn));
 	}
 
@@ -53,7 +53,7 @@ public class PureInfusionRecipeBuilder {
 		return this.setIngredient(ElementType.NONE, ingredientIn);
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(ElementType type, Named<Item> tagIn) {
+	public PureInfusionRecipeBuilder setIngredient(ElementType type, TagKey<Item> tagIn) {
 		return this.setIngredient(type, Ingredient.of(tagIn));
 	}
 

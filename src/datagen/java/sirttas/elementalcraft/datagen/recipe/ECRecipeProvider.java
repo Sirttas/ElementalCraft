@@ -11,7 +11,7 @@ import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -110,7 +110,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("rir").pattern("ici").pattern("rir").unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
 		ShapelessRecipeBuilder.shapeless(ECItems.SCROLL_PAPER).requires(ECItems.AIR_CRYSTAL).requires(Items.PAPER).requires(Items.INK_SAC).unlockedBy("has_air_silk", has(ECItems.AIR_SILK))
 				.save(consumer);
-		ShapedRecipeBuilder.shaped(ECItems.SOLAR_PRISM).define('s', ECItems.SPRINGALINE_SHARD).define('c', Items.COPPER_INGOT /* TODO tags */).define('d', Tags.Items.GEMS_DIAMOND)
+		ShapedRecipeBuilder.shaped(ECItems.SOLAR_PRISM).define('s', ECItems.SPRINGALINE_SHARD).define('c', Tags.Items.INGOTS_COPPER).define('d', Tags.Items.GEMS_DIAMOND)
 				.pattern(" s ").pattern("cdc").pattern(" s ").unlockedBy(HAS_SPRINGALINE_SHARD, has(ECItems.SPRINGALINE_SHARD)).save(consumer);
 
 		ShapedRecipeBuilder.shaped(ECItems.FIRE_HOLDER).define('g', Tags.Items.INGOTS_GOLD).define('e', ECBlocks.EXTRACTOR).define('t', ECBlocks.SMALL_CONTAINER.get())
@@ -336,7 +336,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY).addIngredient(ECItems.WHITE_ROCK).addIngredient(ECItems.WHITE_ROCK).withElementAmount(30000).build(consumer);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.SWIFT_ALLOY_INGOT, ElementType.AIR).addIngredient(Tags.Items.INGOTS_GOLD).addIngredient(ECTags.Items.INGOTS_DRENCHED_IRON)
-				.addIngredient(Items.COPPER_INGOT /* TODO tag */).addIngredient(Tags.Items.DUSTS_REDSTONE).addIngredient(ECItems.AIR_CRYSTAL).withElementAmount(1250).build(consumer);
+				.addIngredient(Tags.Items.INGOTS_COPPER).addIngredient(Tags.Items.DUSTS_REDSTONE).addIngredient(ECItems.AIR_CRYSTAL).withElementAmount(1250).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIREITE_INGOT, ElementType.FIRE).addIngredient(Tags.Items.INGOTS_NETHERITE).addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.addIngredient(ECItems.SPRINGALINE_SHARD).addIngredient(ECItems.PURE_CRYSTAL).withElementAmount(30000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.HARDENED_HANDLE, ElementType.EARTH).addIngredient(Items.STICK).addIngredient(ECBlocks.WHITE_ROCK.get()).addIngredient(ECItems.AIR_SILK)
@@ -348,13 +348,13 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECItems.SPRINGALINE_SHARD).addIngredient(ECItems.WATER_CRYSTAL).build(consumer);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIRE_LENSE, ElementType.FIRE).addIngredient(ECItems.SPRINGALINE_SHARD).addIngredient(ECBlocks.SPRINGALINE_GLASS_PANE)
-				.addIngredient(Items.COPPER_INGOT /* TODO tag */).addIngredient(ECItems.FIRE_CRYSTAL).build(consumer);
+				.addIngredient(Tags.Items.INGOTS_COPPER).addIngredient(ECItems.FIRE_CRYSTAL).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.WATER_LENSE, ElementType.WATER).addIngredient(ECItems.SPRINGALINE_SHARD).addIngredient(ECBlocks.SPRINGALINE_GLASS_PANE)
-				.addIngredient(Items.COPPER_INGOT /* TODO tag */).addIngredient(ECItems.WATER_CRYSTAL).build(consumer);
+				.addIngredient(Tags.Items.INGOTS_COPPER).addIngredient(ECItems.WATER_CRYSTAL).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.EARTH_LENSE, ElementType.EARTH).addIngredient(ECItems.SPRINGALINE_SHARD).addIngredient(ECBlocks.SPRINGALINE_GLASS_PANE)
-				.addIngredient(Items.COPPER_INGOT /* TODO tag */).addIngredient(ECItems.EARTH_CRYSTAL).build(consumer);
+				.addIngredient(Tags.Items.INGOTS_COPPER).addIngredient(ECItems.EARTH_CRYSTAL).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.AIR_LENSE, ElementType.AIR).addIngredient(ECItems.SPRINGALINE_SHARD).addIngredient(ECBlocks.SPRINGALINE_GLASS_PANE)
-				.addIngredient(Items.COPPER_INGOT /* TODO tag */).addIngredient(ECItems.AIR_CRYSTAL).build(consumer);
+				.addIngredient(Tags.Items.INGOTS_COPPER).addIngredient(ECItems.AIR_CRYSTAL).build(consumer);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIRE_RESERVOIR, ElementType.FIRE).addIngredient(ECBlocks.CONTAINER).addIngredient(ECBlocks.SPRINGALINE_GLASS).addIngredient(ECItems.PURE_CRYSTAL)
 				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS).withElementAmount(10000).build(consumer);
@@ -537,7 +537,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		});
 	}
 
-	private void createNuggetIngotBlock(ItemLike nugget, Tag<Item> nuggetTag, ItemLike ingot, Tag<Item> ingotTag, ItemLike block, Tag<Item> blockTag, Consumer<FinishedRecipe> consumer) {
+	private void createNuggetIngotBlock(ItemLike nugget, TagKey<Item> nuggetTag, ItemLike ingot, TagKey<Item> ingotTag, ItemLike block, TagKey<Item> blockTag, Consumer<FinishedRecipe> consumer) {
 		ShapedRecipeBuilder.shaped(ingot).define('#', nuggetTag).pattern("###").pattern("###").pattern("###").unlockedBy(buildHas(nugget), has(nuggetTag)).save(consumer,
 				ElementalCraft.createRL(from(nugget, ingot)));
 		ShapelessRecipeBuilder.shapeless(nugget, 9).requires(ingotTag).unlockedBy(buildHas(ingot), has(ingotTag)).save(consumer, from(ingot, nugget));

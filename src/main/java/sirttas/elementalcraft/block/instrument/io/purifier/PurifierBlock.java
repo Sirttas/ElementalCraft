@@ -153,7 +153,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 	@Override
 	@Deprecated
 	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
+		return BlockEntityHelper.isValidContainer(state, world, pos.below());
 	}
 	
 	@Nonnull

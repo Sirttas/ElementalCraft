@@ -2,15 +2,20 @@ package sirttas.elementalcraft.block.shrine.grove;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ObjectHolder;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -25,6 +30,9 @@ import java.util.stream.IntStream;
 public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final BlockEntityType<GroveShrineBlockEntity> TYPE = null;
+
+	private static final Lazy<HolderSet.Named<Item>> MYSTICAL_GROVE_FLOWERS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS));
+	private static final Lazy<HolderSet.Named<Item>> GROVE_SHRINE_FLOWERS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.GROVE_SHRINE_FLOWERS));
 
 	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
 			.period(ECConfig.COMMON.groveShrinePeriod.get())
@@ -73,9 +81,10 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private BlockItem findFlower() {
-		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE) ? ECTags.Items.MYSTICAL_GROVE_FLOWERS.getValues().stream()
-				: ECTags.Items.GROVE_SHRINE_FLOWERS.getValues().stream().filter(item -> !ECTags.Items.GROVE_SHRINE_BLACKLIST.contains(item)))
-				.filter(BlockItem.class::isInstance).map(BlockItem.class::cast).toList();
+		List<BlockItem> flowers = (this.hasUpgrade(ShrineUpgrades.MYSTICAL_GROVE) ? MYSTICAL_GROVE_FLOWERS.get().stream() : GROVE_SHRINE_FLOWERS.get().stream().filter(item -> !item.is(ECTags.Items.GROVE_SHRINE_BLACKLIST)))
+				.map(Holder::value)
+				.mapMulti(ElementalCraftUtils.cast(BlockItem.class))
+				.toList();
 
 		return flowers.get(this.level.random.nextInt(flowers.size()));
 	}

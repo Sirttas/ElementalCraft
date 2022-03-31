@@ -49,10 +49,9 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 
 	@Nonnull
     @Override
-	public CompoundTag save(@Nonnull CompoundTag compound) {
-		super.save(compound);
+	public void saveAdditional(@Nonnull CompoundTag compound) {
+		super.saveAdditional(compound);
 		compound.putFloat(ECNames.XP, this.exp);
-		return compound;
 	}
 
 	@Override

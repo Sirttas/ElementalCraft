@@ -10,9 +10,12 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraftforge.common.util.Lazy;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.interaction.ECinteractions;
@@ -51,6 +54,7 @@ import java.util.stream.Collectors;
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
+	private final Lazy<HolderSet.Named<Item>> SPELL_CAST_TOOLS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.SPELL_CAST_TOOLS));
 	private static final ResourceLocation ID = ElementalCraft.createRL("main");
 	
 	@Nonnull
@@ -143,7 +147,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	}
 
 	private List<?> createFocusStaffAnvilRecipes(IVanillaRecipeFactory factory) {
-		return Spell.REGISTRY.getValues().stream().filter(Spell::isValid).flatMap(spell -> ECTags.Items.SPELL_CAST_TOOLS.getValues().stream().map(item -> {
+		return Spell.REGISTRY.getValues().stream().filter(Spell::isValid).flatMap(spell -> SPELL_CAST_TOOLS.get().stream().map(item -> {
 			ItemStack scroll = new ItemStack(ECItems.SCROLL);
 			ItemStack stack = new ItemStack(item);
 

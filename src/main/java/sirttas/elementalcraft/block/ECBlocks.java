@@ -126,6 +126,7 @@ import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.item.TooltipImageBlockItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
@@ -394,7 +395,7 @@ public class ECBlocks {
 
 
 	@SubscribeEvent
-	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
+	public static void registerBlockItems(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
 
 		RegistryHelper.register(registry, new BlockItem(FIREITE_BLOCK.get(), ECProperties.Items.FIREITE), FIREITE_BLOCK);
@@ -402,7 +403,9 @@ public class ECBlocks {
 			var registryName = block.getRegistryName();
 
 			if (registryName != null && ElementalCraftApi.MODID.equals(registryName.getNamespace()) && !registry.containsKey(registryName)) {
-				RegistryHelper.register(registry, new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES), registryName);
+				var blockItem = block instanceof ITooltipImageBlock ? new TooltipImageBlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES) : new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
+
+				RegistryHelper.register(registry, blockItem, registryName);
 			}
 		}
 	}

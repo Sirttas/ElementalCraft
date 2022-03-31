@@ -11,8 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
-import net.minecraft.tags.Tag.Named;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -94,11 +93,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 		return new TranslatableComponent("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
 	}
-	
-	public boolean isIn(Tag<Rune> tagIn) {
-		return tagIn.contains(this);
-	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Rune) {
@@ -174,7 +169,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			return predicate(IBlockPosPredicate.match(block));
 		}
 
-		public Builder match(Named<Block> tag) {
+		public Builder match(TagKey<Block> tag) {
 			return predicate(IBlockPosPredicate.match(tag));
 		}
 

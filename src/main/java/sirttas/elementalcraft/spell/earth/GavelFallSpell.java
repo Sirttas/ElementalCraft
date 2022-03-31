@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.spell.earth;
 
-import java.util.List;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -13,12 +11,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.spell.Spell;
 
+import java.util.List;
+
 public class GavelFallSpell extends Spell {
 
 	public static final String NAME = "gravelfall";
 
 	private void spawn(Level world, BlockPos pos) {
-		FallingBlockEntity entity = new FallingBlockEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, Blocks.GRAVEL.defaultBlockState());
+		FallingBlockEntity entity = FallingBlockEntity.fall(world, pos, Blocks.GRAVEL.defaultBlockState());
 
 		entity.time = 1;
 		entity.setHurtsEntities(1F, 100); // TODO config

@@ -10,7 +10,7 @@
       "item": "elementalcraft:springaline_shard"
     },
     "c": {
-      "item": "minecraft:copper_ingot"
+      "tag": "forge:ingots/copper"
     },
     "d": {
       "tag": "forge:gems/diamond"

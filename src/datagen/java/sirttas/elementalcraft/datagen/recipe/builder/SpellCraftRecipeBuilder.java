@@ -1,21 +1,20 @@
 package sirttas.elementalcraft.datagen.recipe.builder;
 
-import java.util.function.Consumer;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag.Named;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
+
+import java.util.function.Consumer;
 
 public class SpellCraftRecipeBuilder {
 
@@ -33,7 +32,7 @@ public class SpellCraftRecipeBuilder {
 		return new SpellCraftRecipeBuilder(SpellCraftRecipe.SERIALIZER, output);
 	}
 	
-	public SpellCraftRecipeBuilder setGem(Named<Item> tagIn) {
+	public SpellCraftRecipeBuilder setGem(TagKey<Item> tagIn) {
 		return this.setGem(Ingredient.of(tagIn));
 	}
 
@@ -46,7 +45,7 @@ public class SpellCraftRecipeBuilder {
 		return this;
 	}
 
-	public SpellCraftRecipeBuilder setCrystal(Named<Item> tagIn) {
+	public SpellCraftRecipeBuilder setCrystal(TagKey<Item> tagIn) {
 		return this.setCrystal(Ingredient.of(tagIn));
 	}
 

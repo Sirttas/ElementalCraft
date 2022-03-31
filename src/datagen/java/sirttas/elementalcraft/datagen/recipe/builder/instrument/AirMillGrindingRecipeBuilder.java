@@ -1,22 +1,21 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
-import java.util.function.Consumer;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag.Named;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+
+import java.util.function.Consumer;
 
 public class AirMillGrindingRecipeBuilder {
 	
@@ -38,8 +37,8 @@ public class AirMillGrindingRecipeBuilder {
 		return this;
 	}
 
-	public AirMillGrindingRecipeBuilder withIngredient(Named<Item> tagIn) {
-		return this.withIngredient(Ingredient.of(tagIn));
+	public AirMillGrindingRecipeBuilder withIngredient(TagKey<Item> tag) {
+		return this.withIngredient(Ingredient.of(tag));
 	}
 
 	public AirMillGrindingRecipeBuilder withIngredient(ItemLike itemIn) {

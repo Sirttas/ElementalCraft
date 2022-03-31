@@ -1,20 +1,19 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion;
 
-import java.util.function.Consumer;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag.Named;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.enchantment.Enchantment;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
+
+import java.util.function.Consumer;
 
 public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	
@@ -22,20 +21,20 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	private final String prefix;
 	
 	
-	public ToolInfusionRecipeBuilder(RecipeSerializer<?> serializerIn, Named<Item> ingredientIn, ResourceLocation infusion) {
+	public ToolInfusionRecipeBuilder(RecipeSerializer<?> serializerIn, TagKey<Item> ingredientIn, ResourceLocation infusion) {
 		super(serializerIn, Ingredient.of(ingredientIn));
-		String[] split = ingredientIn.getName().getPath().split("/");
+		String[] split = ingredientIn.location().getPath().split("/");
 		
 		this.prefix = "tool/" + split[split.length - 1] + "_";
 		this.infusion = infusion;
 		elementAmount = 2000;
 	}
 
-	public static ToolInfusionRecipeBuilder toolInfusionRecipe(Named<Item> ingredientIn, ResourceLocation infusion) {
+	public static ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredientIn, ResourceLocation infusion) {
 		return new ToolInfusionRecipeBuilder(ToolInfusionRecipe.SERIALIZER, ingredientIn, infusion);
 	}
 	
-	public static ToolInfusionRecipeBuilder toolInfusionRecipe(Named<Item> ingredientIn, Enchantment enchantment) {
+	public static ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredientIn, Enchantment enchantment) {
 		return new ToolInfusionRecipeBuilder(ToolInfusionRecipe.SERIALIZER, ingredientIn, ElementalCraft.createRL(enchantment.getRegistryName().getPath()));
 	}
 	

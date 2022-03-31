@@ -23,7 +23,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnorePr
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
@@ -60,12 +59,6 @@ public class SourceAltarStructure extends StructureFeature<IElementTypeFeatureCo
     @Override
 	public GenerationStep.Decoration step() {
 		return GenerationStep.Decoration.SURFACE_STRUCTURES;
-	}
-
-	@Nonnull
-    @Override
-	public String getFeatureName() {
-		return ElementalCraftApi.MODID + ":" + NAME;
 	}
 
 	public static class Piece extends TemplateStructurePiece {

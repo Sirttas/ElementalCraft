@@ -24,17 +24,20 @@ public class InputHandler {
 		LocalPlayer player = Minecraft.getInstance().player;
 		
 		if (player.isShiftKeyDown()) {
-			EntityHelper.handStream(player).filter(i -> ECTags.Items.SPELL_CAST_TOOLS.contains(i.getItem())).findFirst().ifPresent(i -> {
-				if (event.getScrollDelta() > 0) {
-					handleFocusScroll(player, i, -1);
-					ECMessage.SCROLL_BACKWORD.send();
-					event.setCanceled(true);
-				} else if (event.getScrollDelta() < 0) {
-					handleFocusScroll(player, i, 1);
-					ECMessage.SCROLL_FORWARD.send();
-					event.setCanceled(true);
-				}
-			});
+			EntityHelper.handStream(player)
+					.filter(i -> i.is(ECTags.Items.SPELL_CAST_TOOLS))
+					.findFirst()
+					.ifPresent(i -> {
+						if (event.getScrollDelta() > 0) {
+							handleFocusScroll(player, i, -1);
+							ECMessage.SCROLL_BACKWORD.send();
+							event.setCanceled(true);
+						} else if (event.getScrollDelta() < 0) {
+							handleFocusScroll(player, i, 1);
+							ECMessage.SCROLL_FORWARD.send();
+							event.setCanceled(true);
+						}
+					});
 		}
 	}
 

@@ -132,7 +132,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	public static boolean showCover(BlockState state, Player player) {
-		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && ECTags.Items.PIPE_COVER_HIDING.contains(stack.getItem())));
+		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && stack.is(ECTags.Items.PIPE_COVER_HIDING)));
 	}
 
 	private static boolean isCovered(BlockState state) {
@@ -150,7 +150,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 				|| (compareShapes(shape, FRAME_SHAPE) && state.getValue(COVER) == CoverType.FRAME));
 	}
 
-	private VoxelShape getCurentShape(BlockState state, ElementPipeBlockEntity entity, Player player) {
+	private VoxelShape getCurrentShape(BlockState state, ElementPipeBlockEntity entity, Player player) {
 		VoxelShape result = Shapes.empty();
 
 		if (showCover(state, entity != null ? player : null)) {
@@ -181,7 +181,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		ElementPipeBlockEntity blockEntity = getBlockEntity(world, pos);
 
 		return world instanceof Level level && level.isClientSide ? getShape(state, pos, blockEntity, Minecraft.getInstance().hitResult, player)
-				: getCurentShape(state, blockEntity, player);
+				: getCurrentShape(state, blockEntity, player);
 	}
 
 	private Player getPlayer(CollisionContext context) {
@@ -201,13 +201,13 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 				}
 			}
 		}
-		return getCurentShape(state, blockEntity, player);
+		return getCurrentShape(state, blockEntity, player);
 	}
 
 	@Override
 	@Deprecated
 	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-		return getCurentShape(state, getBlockEntity(world, pos), null);
+		return getCurrentShape(state, getBlockEntity(world, pos), null);
 	}
 
 	@Override

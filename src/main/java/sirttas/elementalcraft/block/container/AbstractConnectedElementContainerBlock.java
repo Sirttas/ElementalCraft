@@ -53,5 +53,4 @@ public abstract class AbstractConnectedElementContainerBlock extends AbstractEle
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
 		return doUpdateShape(state, level, currentPos, facing);
 	}
-	
 }

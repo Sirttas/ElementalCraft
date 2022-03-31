@@ -41,7 +41,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
 		return IntStream.range(-range, range + 1)
 				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, worldPosition.getY() + 1).mapToObj(y -> new BlockPos(worldPosition.getX() + x, y, worldPosition.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> Tags.Blocks.ORES.contains(level.getBlockState(p).getBlock())).findAny();
+				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> level.getBlockState(p).is(Tags.Blocks.ORES)).findAny();
 
 	}
 

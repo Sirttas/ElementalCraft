@@ -1,30 +1,17 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
-import java.text.DecimalFormat;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag.Named;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.codec.CodecHelper;
@@ -34,6 +21,17 @@ import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
+
+import javax.annotation.Nonnull;
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
@@ -154,7 +152,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 			return predicate(IBlockPosPredicate.match(block));
 		}
 
-		public Builder match(Named<Block> tag) {
+		public Builder match(TagKey<Block> tag) {
 			return predicate(IBlockPosPredicate.match(tag));
 		}
 

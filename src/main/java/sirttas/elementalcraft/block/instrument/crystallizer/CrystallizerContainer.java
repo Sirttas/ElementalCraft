@@ -17,11 +17,11 @@ public class CrystallizerContainer extends InstrumentContainer {
 		Item item = stack.getItem();
 
 		if (slot == 0) {
-			return ECTags.Items.INPUT_GEMS.contains(item);
+			return stack.is(ECTags.Items.INPUT_GEMS);
 		} else if (slot == 1) {
-			return ECTags.Items.ELEMENTAL_CRYSTALS.contains(item) || ECItems.PURE_CRYSTAL == item;
+			return stack.is(ECTags.Items.ELEMENTAL_CRYSTALS) || ECItems.PURE_CRYSTAL == item;
 		}
-		return ECTags.Items.SHARDS.contains(item);
+		return stack.is(ECTags.Items.SHARDS);
 	}
 
 }

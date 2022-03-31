@@ -1,11 +1,16 @@
 package sirttas.elementalcraft.block.container;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -24,7 +29,10 @@ import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.ITooltipImageBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.gui.GuiHelper;
+import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -34,7 +42,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock {
+public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock implements ITooltipImageBlock {
 
 	protected AbstractElementContainerBlock() {
 		super(BlockBehaviour.Properties.of(Material.GLASS).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion());
@@ -80,6 +88,30 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+		if (ECinteractions.calledFromJEI()) {
+			CompoundTag tag = stack.getTag();
+
+			if (tag != null && tag.contains(ECNames.BLOCK_ENTITY_TAG)) {
+				CompoundTag blockNbt = tag.getCompound(ECNames.BLOCK_ENTITY_TAG);
+
+				if (blockNbt.contains(ECNames.ELEMENT_STORAGE)) {
+					CompoundTag elementStorageNbt = blockNbt.getCompound(ECNames.ELEMENT_STORAGE);
+					ElementType elementType = ElementType.byName(elementStorageNbt.getString(ECNames.ELEMENT_TYPE));
+					int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
+					int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
+
+					if (elementType != ElementType.NONE && amount > 0 && capacity > 0) {
+						tooltip.add(new TranslatableComponent("tooltip.elementalcraft.contains", elementType.getDisplayName()).withStyle(ChatFormatting.GREEN));
+						tooltip.add(new TranslatableComponent("tooltip.elementalcraft.percent_full", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(amount * 100L / capacity)).withStyle(ChatFormatting.GREEN));
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	@Nonnull
+	public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {
 		CompoundTag tag = stack.getTag();
 
 		if (tag != null && tag.contains(ECNames.BLOCK_ENTITY_TAG)) {
@@ -91,12 +123,12 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 				int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
 				int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
 
-				if (elementType != ElementType.NONE && amount > 0 && capacity > 0) {
-					tooltip.add(new TranslatableComponent("tooltip.elementalcraft.contains", elementType.getDisplayName()).withStyle(ChatFormatting.GREEN));
-					tooltip.add(new TranslatableComponent("tooltip.elementalcraft.percent_full", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(amount * 100L / capacity)).withStyle(ChatFormatting.GREEN));
+				if (amount > 0) {
+					return Optional.of(new Tooltip(elementType, amount, capacity));
 				}
 			}
 		}
+		return Optional.empty();
 	}
 	
 	@Override
@@ -124,7 +156,39 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 			items.add(stack);
 		}
 	}
-	
+
 	protected abstract int getDefaultCapacity();
+
+	public record Tooltip(
+			ElementType elementType,
+			int amount,
+			int capacity
+	) implements TooltipComponent { }
+
+	public record ClientTooltip(
+			ElementType elementType,
+			int amount,
+			int capacity
+	) implements ClientTooltipComponent {
+
+		public ClientTooltip(Tooltip tooltip) {
+			this(tooltip.elementType, tooltip.amount, tooltip.capacity);
+		}
+
+		@Override
+		public int getHeight() {
+			return 18;
+		}
+
+		@Override
+		public int getWidth(@Nonnull Font font) {
+			return 16;
+		}
+
+		@Override
+		public void renderImage(@Nonnull Font font, int x, int y, @Nonnull PoseStack poseStack, @Nonnull ItemRenderer itemRenderer, int blitOffset) {
+			GuiHelper.renderElementGauge(poseStack, x, y, amount, capacity, elementType, false);
+		}
+	}
 
 }

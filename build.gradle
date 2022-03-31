@@ -5,6 +5,7 @@ buildscript {
         maven { url = 'https://maven.minecraftforge.net/' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         maven { url = 'https://maven.parchmentmc.org' }
+        maven { url = 'https://reposilite.shendai.rip/public' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
@@ -159,29 +160,9 @@ minecraft {
 }
 
 repositories {
-    def gprCreds = {
-        username System.getenv("GITHUB_USERNAME") ?: project.findProperty("gpr_username")
-        password System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr_token")
-    }
     mavenCentral()
     flatDir { dirs 'libs', '../libs', '../DPAnvil/build/libs' }
-    maven { url "https://maven.theillusivec4.top/" }
-    maven { url "https://dvs1.progwml6.com/files/maven/" }
-  	maven { url "https://modmaven.dev/" }
-  	maven { url "https://maven.blamejared.com" }
-  	maven { url "https://repo.spongepowered.org/repository/maven-public/" }
-    maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silent-gear")
-        credentials gprCreds
-    }
-    maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
-        credentials gprCreds
-    }
-    maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silent-utils")
-        credentials gprCreds
-    }
+    maven { url "https://reposilite.shendai.rip/public" }
 }
 
 dependencies {
@@ -282,7 +263,14 @@ sonarqube {
 	}
 }
 
-if (System.getenv("MODMAVEN_USER") != null || project.hasProperty('modmaven_user')) {
+def modmaven_user = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
+def modmaven_password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")
+def use_modmaven = modmaven_user != null && modmaven_password != null
+def shendai_reposlite_user = System.getenv("SHENDAI_REPOSLITE_USER") ?: project.findProperty("shendai_reposlite_user")
+def shendai_reposlite_password = System.getenv("SHENDAI_REPOSLITE_PASSWORD") ?: project.findProperty("shendai_reposlite_password")
+def use_shendai_reposlite = shendai_reposlite_user != null && shendai_reposlite_password != null
+
+if (use_modmaven || use_shendai_reposlite) {
 	publishing {
 	    publications {
 	        mavenJava(MavenPublication) {
@@ -292,13 +280,24 @@ if (System.getenv("MODMAVEN_USER") != null || project.hasProperty('modmaven_user
 	    }
 	    
 	    repositories {
-	        maven {
-	            url = 'https://modmaven.dev/artifactory/local-releases/'
-	            credentials {
-					username = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
-	                password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")
-	            }
-	        }
+            if (use_modmaven) {
+                maven {
+                    url = 'https://modmaven.dev/artifactory/local-releases/'
+                    credentials {
+                        username = modmaven_user
+                        password = modmaven_password
+                    }
+                }
+            }
+            if (use_shendai_reposlite) {
+                maven {
+                    url = 'https://reposilite.shendai.rip/releases'
+                    credentials {
+                        username = shendai_reposlite_user
+                        password = shendai_reposlite_password
+                    }
+                }
+            }
 	    }
 	}
 }

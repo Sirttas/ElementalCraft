@@ -105,7 +105,7 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 	@Override
 	@Deprecated
 	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
+		return BlockEntityHelper.isValidContainer(state, world, pos.below());
 	}
 	
 	@Override

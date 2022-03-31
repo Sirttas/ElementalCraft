@@ -80,7 +80,7 @@ public class EvaporatorBlock extends AbstractECContainerBlock {
 	@Override
 	@Deprecated
 	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
+		return BlockEntityHelper.isValidContainer(state, world, pos.below());
 	}
 
 	@Override
@@ -94,8 +94,8 @@ public class EvaporatorBlock extends AbstractECContainerBlock {
 		if (!stack.isEmpty()) {
 			Item item = stack.getItem();
 
-			if (ECTags.Items.SHARDS.contains(item) && item instanceof ShardItem) {
-				return ((ShardItem) item).getElementType();
+			if (stack.is(ECTags.Items.SHARDS) && item instanceof ShardItem shardItem) {
+				return shardItem.getElementType();
 			}
 		}
 		return ElementType.NONE;

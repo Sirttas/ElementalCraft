@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.item.source.receptacle;
 
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
@@ -29,7 +29,7 @@ public class ReceptacleHelper {
 	}
 
 	public static ItemStack createFrom(ItemStack from, ElementType elementType) {
-		ItemStack stack = ECTags.Items.RECEPTACLES_IMPROVED.contains(from.getItem()) ? ReceptacleHelper.createImproved(elementType) : ReceptacleHelper.create(elementType);
+		ItemStack stack = from.is(ECTags.Items.RECEPTACLES_IMPROVED) ? ReceptacleHelper.createImproved(elementType) : ReceptacleHelper.create(elementType);
 
 		if (stack.isDamageableItem()) {
 			stack.setDamageValue(from.getDamageValue());

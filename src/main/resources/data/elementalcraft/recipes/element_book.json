@@ -1,17 +1,30 @@
 {
-  "type": "minecraft:crafting_shapeless",
-   "ingredients": [
+  "type": "forge:conditional",
+  "recipes": [
     {
-      "item": "minecraft:book"
-    },
-    {
-      "item": "elementalcraft:inert_crystal"
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "patchouli"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+         "ingredients": [
+          {
+            "item": "minecraft:book"
+          },
+          {
+            "item": "elementalcraft:inert_crystal"
+          }
+        ],
+        "result": {
+          "item": "patchouli:guide_book",
+          "nbt": {
+              "patchouli:book": "elementalcraft:element_book"
+          }
+        }
+      }
     }
-  ],
-  "result": {
-    "item": "patchouli:guide_book",
-    "nbt": {
-   		"patchouli:book": "elementalcraft:element_book"
-    }
-  }
+  ]
 }

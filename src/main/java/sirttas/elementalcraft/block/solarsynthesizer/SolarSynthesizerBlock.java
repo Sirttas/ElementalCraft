@@ -65,7 +65,7 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		if (stack.isEmpty() || ECTags.Items.LENSES.contains(stack.getItem())) {
+		if (stack.isEmpty() || stack.is(ECTags.Items.LENSES)) {
 			return onSingleSlotActivated(world, pos, player, hand);
 		}
 		return InteractionResult.PASS;
@@ -89,6 +89,6 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	@Override
 	@Deprecated
 	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state.getBlock(), world, pos.below());
+		return BlockEntityHelper.isValidContainer(state, world, pos.below());
 	}
 }

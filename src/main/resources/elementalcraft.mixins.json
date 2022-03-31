@@ -6,10 +6,8 @@
   "refmap": "elementalcraft.refmap.json",
   "mixins": [
     "MixinEnchantmentHelper",
-    "MixinItemStack",
     "MixinMinecraftServer",
-    "MixinRepairContainer",
-    "MixinStructureFeatures"
+    "MixinRepairContainer"
   ],
   "client": [
     "MixinItemRenderer"

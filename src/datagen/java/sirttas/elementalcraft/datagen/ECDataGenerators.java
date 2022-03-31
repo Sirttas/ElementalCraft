@@ -18,7 +18,6 @@ import sirttas.elementalcraft.datagen.managed.ToolInfusionProvider;
 import sirttas.elementalcraft.datagen.recipe.ECRecipeProvider;
 import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
-import sirttas.elementalcraft.datagen.tag.RuneTagsProvider;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECDataGenerators {
@@ -42,7 +41,6 @@ public class ECDataGenerators {
 			generator.addProvider(itemModelProvider);
 			generator.addProvider(blockTagsProvider);
 			generator.addProvider(new ECItemTagsProvider(generator, blockTagsProvider, fileHelper));
-			generator.addProvider(new RuneTagsProvider(generator, fileHelper));
 			generator.addProvider(new ECRecipeProvider(generator, fileHelper));
 			generator.addProvider(new ECAdvancementProvider(generator));
 			generator.addProvider(new ShrineUpgradeProvider(generator));

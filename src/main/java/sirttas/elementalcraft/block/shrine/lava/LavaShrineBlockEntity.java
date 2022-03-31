@@ -27,7 +27,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 			.range(ECConfig.COMMON.lavaShrineRange.get())
 			.capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
 
-	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public LavaShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PROPERTIES);
@@ -37,7 +37,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 		int range = ECConfig.COMMON.lavaShrineRange.get();
 
 		return IntStream.range(-range, range + 1).mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + 1, worldPosition.getZ() + z))).flatMap(s -> s)
-				.filter(p -> ECTags.Blocks.LAVASHRINE_LIQUIFIABLES.contains(level.getBlockState(p).getBlock())).findAny();
+				.filter(p -> level.getBlockState(p).is(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES)).findAny();
 
 	}
 
@@ -59,6 +59,6 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public List<Direction> getUpgradeDirections() {
-		return UPGRRADE_DIRECTIONS;
+		return UPGRADE_DIRECTIONS;
 	}
 }

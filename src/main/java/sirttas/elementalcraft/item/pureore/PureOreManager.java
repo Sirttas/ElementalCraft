@@ -1,9 +1,10 @@
 package sirttas.elementalcraft.item.pureore;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,8 +14,10 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fml.DistExecutor;
 import sirttas.dpanvil.api.event.DataPackReloadCompletEvent;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
@@ -38,6 +41,8 @@ import java.util.stream.Collectors;
 
 public class PureOreManager {
 
+
+	private static final Lazy<HolderSet.Named<Item>> PURE_ORES_ORE_SOURCE = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.PURE_ORES_ORE_SOURCE));
 	private static final Pattern ORE_PATTERN = Pattern.compile("_?ore$");
 	
 	private final Map<ResourceLocation, Entry> pureOres = new HashMap<>();
@@ -106,19 +111,23 @@ public class PureOreManager {
 
 		ElementalCraftApi.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
 				() -> injectors.stream().map(AbstractPureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
-				() -> ECTags.Items.PURE_ORES_ORE_SOURCE.getValues().stream().map(o -> o.getRegistryName().toString()).collect(Collectors.joining(", ")));
+				() -> PURE_ORES_ORE_SOURCE.get().stream()
+						.mapMulti(ElementalCraftUtils.cast(Holder.Reference.class))
+						.map(r -> r.key().toString())
+						.collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 
-		for (Item ore : ECTags.Items.PURE_ORES_ORE_SOURCE.getValues()) {
+		PURE_ORES_ORE_SOURCE.get().stream().forEach(holder -> {
+			var ore = holder.value();
 			Entry entry = findOrCreateEntry(ore);
-			boolean isInBlacklist = ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST.contains(ore);
+			boolean isInBlacklist = holder.is(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 
 			injectors.forEach(injector -> {
 				if (!injector.isModProcessing() || !isInBlacklist) {
 					injector.getRecipe(ore).ifPresent(entry::addRecipe);
 				}
 			});
-		}
+		});
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection");
@@ -157,7 +166,7 @@ public class PureOreManager {
 	private Entry findOrCreateEntry(Item ore) {
 		var id = ore.getRegistryName();
 		var matcher = ORE_PATTERN.matcher(id.getPath());
-		Tag<Item> tag = null;
+		HolderSet.Named<Item> tag = null;
 		
 		if (matcher.matches()) {
 			var path = matcher.replaceAll("");
@@ -182,7 +191,9 @@ public class PureOreManager {
 		}
 		entry.ores.add(ore);
 		if (tag != null) {
-			entry.ores.addAll(tag.getValues());
+			tag.stream()
+					.map(Holder::value)
+					.forEach(entry.ores::add);
 		}
 		return entry;
 	}

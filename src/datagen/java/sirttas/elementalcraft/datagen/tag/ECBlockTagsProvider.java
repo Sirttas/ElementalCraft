@@ -86,12 +86,12 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	}
 	
 	private void lootTags() {
-		var minableWithPickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
+		var mineableWithPickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
 		
 		for (Block block : ForgeRegistries.BLOCKS) {
 			if (ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace())) {
 				if (!LOOT_BLACKLIST.contains(block)) {
-					minableWithPickaxe.add(block);
+					mineableWithPickaxe.add(block);
 				}
 			}
 		}

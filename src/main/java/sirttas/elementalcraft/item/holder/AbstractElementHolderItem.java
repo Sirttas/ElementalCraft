@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
@@ -14,8 +15,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
+import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.item.ECItem;
@@ -23,6 +26,7 @@ import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 public abstract class AbstractElementHolderItem extends ECItem implements ISourceInteractable {
 	
@@ -152,5 +156,11 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 		if (tag != null) {
 			tag.remove(SAVED_POS);
 		}
+	}
+
+	@Nonnull
+	@Override
+	public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {
+		return CapabilityElementStorage.get(stack).map(ElementGaugeTooltip::new);
 	}
 }

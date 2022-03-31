@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.datagen.managed;
 
-import java.io.IOException;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
@@ -11,17 +9,21 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
-import sirttas.elementalcraft.data.predicate.block.rune.TagHasRunePredicate;
+import sirttas.elementalcraft.data.predicate.block.rune.HasRunePredicate;
 import sirttas.elementalcraft.datagen.ECItemModelProvider;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 
 public class RunesProvider extends AbstractManagedDataProvider<Rune> {
 	
 	private final ECItemModelProvider itemModelProvider;
 
-	private static final IBlockPosPredicate LUCK_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(new TagHasRunePredicate(ECTags.Runes.LUCK_RUNES).not());
+	private static final IBlockPosPredicate LUCK_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(IBlockPosPredicate.createOr(
+			new HasRunePredicate(ElementalCraft.createRL("claptrap")),
+			new HasRunePredicate(ElementalCraft.createRL("bombadil")),
+			new HasRunePredicate(ElementalCraft.createRL("tzeentch"))).not());
 	
 	public static final ResourceLocation MINOR_SLATE = ElementalCraft.createRL("item/minor_rune_slate");
 	public static final ResourceLocation SLATE = ElementalCraft.createRL("item/rune_slate");

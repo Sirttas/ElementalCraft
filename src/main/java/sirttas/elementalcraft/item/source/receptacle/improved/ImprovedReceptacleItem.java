@@ -21,7 +21,7 @@ public class ImprovedReceptacleItem extends ReceptacleItem {
 
 	@Override
 	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
-		return ECTags.Items.INGOTS_FIREITE.contains(repair.getItem());
+		return repair.is(ECTags.Items.INGOTS_FIREITE);
 	}
 
 	@Override

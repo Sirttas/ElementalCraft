@@ -10,7 +10,7 @@
       "item": "elementalcraft:springaline_glass_pane"
     },
     {
-      "item": "minecraft:copper_ingot"
+      "tag": "forge:ingots/copper"
     },
     {
       "item": "elementalcraft:firecrystal"

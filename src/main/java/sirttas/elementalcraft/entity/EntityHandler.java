@@ -68,9 +68,12 @@ public class EntityHandler {
 	@SubscribeEvent
 	public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		Entity entity = event.getObject();
-		
-		if (entity instanceof Player) {
-			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), PlayerElementStorage.createProvider((Player) entity));
+
+		if (entity.level.isClientSide) {
+			return;
+		}
+		if (entity instanceof Player player) {
+			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), PlayerElementStorage.createProvider(player));
 		}
 	}
 	

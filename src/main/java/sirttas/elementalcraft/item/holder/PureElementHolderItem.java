@@ -1,22 +1,15 @@
 package sirttas.elementalcraft.item.holder;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.NonNullList;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -28,6 +21,13 @@ import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.interaction.ECinteractions;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public class PureElementHolderItem extends AbstractElementHolderItem implements ISourceInteractable {
 
@@ -55,11 +55,13 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
-		ElementType.ALL_VALID.forEach(elementType -> tooltip
-				.add(new TranslatableComponent("tooltip.elementalcraft.element_type_percent_full",
-						elementType.getDisplayName(),
-						ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(getElementStorage(stack).getElementAmount(elementType) * 100 / elementCapacity))
-						.withStyle(ChatFormatting.GREEN)));
+		if (ECinteractions.calledFromJEI()) {
+			ElementType.ALL_VALID.forEach(elementType -> tooltip
+					.add(new TranslatableComponent("tooltip.elementalcraft.element_type_percent_full",
+							elementType.getDisplayName(),
+							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(getElementStorage(stack).getElementAmount(elementType) * 100 / elementCapacity))
+							.withStyle(ChatFormatting.GREEN)));
+		}
 	}
 
 	@Override

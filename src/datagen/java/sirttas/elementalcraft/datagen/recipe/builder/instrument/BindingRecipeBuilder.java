@@ -1,19 +1,15 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag.Named;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -21,6 +17,9 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class BindingRecipeBuilder {
 	private final Item result;
@@ -45,8 +44,8 @@ public class BindingRecipeBuilder {
 		return this;
 	}
 
-	public BindingRecipeBuilder addIngredient(Named<Item> tagIn) {
-		return this.addIngredient(Ingredient.of(tagIn));
+	public BindingRecipeBuilder addIngredient(TagKey<Item> tag) {
+		return this.addIngredient(Ingredient.of(tag));
 	}
 
 	public BindingRecipeBuilder addIngredient(ItemLike itemIn) {

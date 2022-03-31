@@ -1,19 +1,15 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag.Named;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -21,6 +17,9 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class CrystallizationRecipeBuilder {
 
@@ -46,8 +45,8 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public CrystallizationRecipeBuilder setGem(Named<Item> tagIn) {
-		return this.setIngredient(0, tagIn);
+	public CrystallizationRecipeBuilder setGem(TagKey<Item> tag) {
+		return this.setIngredient(0, tag);
 	}
 
 	public CrystallizationRecipeBuilder setGem(ItemLike itemIn) {
@@ -58,7 +57,7 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(0, ingredientIn);
 	}
 
-	public CrystallizationRecipeBuilder setCrystal(Named<Item> tagIn) {
+	public CrystallizationRecipeBuilder setCrystal(TagKey<Item> tagIn) {
 		return this.setIngredient(1, tagIn);
 	}
 
@@ -70,8 +69,8 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(1, ingredientIn);
 	}
 
-	public CrystallizationRecipeBuilder setShard(Named<Item> tagIn) {
-		return this.setIngredient(2, tagIn);
+	public CrystallizationRecipeBuilder setShard(TagKey<Item> tag) {
+		return this.setIngredient(2, tag);
 	}
 
 	public CrystallizationRecipeBuilder setShard(ItemLike itemIn) {
@@ -82,8 +81,8 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(2, ingredientIn);
 	}
 
-	private CrystallizationRecipeBuilder setIngredient(int index, Named<Item> tagIn) {
-		return this.setIngredient(index, Ingredient.of(tagIn));
+	private CrystallizationRecipeBuilder setIngredient(int index, TagKey<Item> tag) {
+		return this.setIngredient(index, Ingredient.of(tag));
 	}
 
 	private CrystallizationRecipeBuilder setIngredient(int index, ItemLike itemIn) {
