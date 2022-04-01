@@ -18,6 +18,7 @@ import sirttas.elementalcraft.datagen.managed.ToolInfusionProvider;
 import sirttas.elementalcraft.datagen.recipe.ECRecipeProvider;
 import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
+import sirttas.elementalcraft.interaction.ECinteractions;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECDataGenerators {
@@ -47,7 +48,9 @@ public class ECDataGenerators {
 			generator.addProvider(new SpellPropertiesProvider(generator));
 			generator.addProvider(new ToolInfusionProvider(generator));
 			generator.addProvider(new SourceTraitsProvider(generator));
-			generator.addProvider(new ECSilentGearMaterialProvider(generator));
+			if (ECinteractions.isSilentGearActive()) {
+				generator.addProvider(new ECSilentGearMaterialProvider(generator));
+			}
 		}
 	}
 

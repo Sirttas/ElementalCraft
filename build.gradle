@@ -196,13 +196,13 @@ dependencies {
     datagenImplementation sourceSets.api.output
     datagenImplementation sourceSets.main.output
     //datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
-    datagenImplementation fg.deobf("net.silentchaos512:silent-gear:${silentgear_version}") {
+    datagenCompileOnly fg.deobf("net.silentchaos512:silent-gear:${silentgear_version}") {
         exclude module: 'forge'
         exclude module: 'jei-1.18'
         exclude module: 'silent-lib'
         exclude module: 'curios-forge'
     }
-    datagenImplementation fg.deobf("net.silentchaos512:silent-lib:${silentlib_version}") {
+    datagenCompileOnly fg.deobf("net.silentchaos512:silent-lib:${silentlib_version}") {
         exclude module: 'forge'
     }
 }
@@ -271,6 +271,12 @@ def shendai_reposlite_password = System.getenv("SHENDAI_REPOSLITE_PASSWORD") ?: 
 def use_shendai_reposlite = shendai_reposlite_user != null && shendai_reposlite_password != null
 
 if (use_modmaven || use_shendai_reposlite) {
+    if (use_modmaven) {
+        logger.info("Maven publish setup for modmaven")
+    }
+    if (use_shendai_reposlite) {
+        logger.info("Maven publish setup for shendai reposlite")
+    }
 	publishing {
 	    publications {
 	        mavenJava(MavenPublication) {
@@ -282,6 +288,7 @@ if (use_modmaven || use_shendai_reposlite) {
 	    repositories {
             if (use_modmaven) {
                 maven {
+                    name = "ModMaven"
                     url = 'https://modmaven.dev/artifactory/local-releases/'
                     credentials {
                         username = modmaven_user
@@ -291,6 +298,7 @@ if (use_modmaven || use_shendai_reposlite) {
             }
             if (use_shendai_reposlite) {
                 maven {
+                    name = "ShendaiReposLite"
                     url = 'https://reposilite.shendai.rip/releases'
                     credentials {
                         username = shendai_reposlite_user

@@ -237,7 +237,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.PICKUP_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('e', Items.ENDER_EYE).define('h', Items.HOPPER).define('w', ECBlocks.WHITE_ROCK.get())
 				.define('c', ECItems.PURE_CRYSTAL).pattern("ehe").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
-		ShapedRecipeBuilder.shaped(ECItems.NECTOR_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('h', Items.HONEY_BLOCK).define('s', Items.SUGAR).define('w', ECBlocks.WHITE_ROCK.get())
+		ShapedRecipeBuilder.shaped(ECItems.NECTAR_SHRINE_UPGRADE).define('C', ECItems.SHRINE_UPGRADE_CORE).define('h', Items.HONEY_BLOCK).define('s', Items.SUGAR).define('w', ECBlocks.WHITE_ROCK.get())
 				.define('c', ECItems.WATER_CRYSTAL).pattern("shs").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
 		ConditionalRecipe.builder().addCondition(new ModLoadedCondition("botania")).addRecipe(ShapedRecipeBuilder.shaped(ECItems.MYSTICAL_GROVE_SHRINE_UPGRADE)
 						.define('C', ECItems.SHRINE_UPGRADE_CORE).define('p', ECTags.Items.BOTANIA_PETALS).define('m', ECTags.Items.INGOTS_MANASTEEL).define('w', ECTags.Items.BOTANIA_LIVINGROCK)

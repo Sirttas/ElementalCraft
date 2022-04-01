@@ -219,7 +219,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PlantingShrineUpgradeBlock.NAME) public static final Item PLANTING_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BonelessGrowthShrineUpgradeBlock.NAME) public static final Item BONELESS_GROWTH_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PickupShrineUpgradeBlock.NAME) public static final Item PICKUP_SHRINE_UPGRADE = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NectarShrineUpgradeBlock.NAME) public static final Item NECTOR_SHRINE_UPGRADE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NectarShrineUpgradeBlock.NAME) public static final Item NECTAR_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + MysticalGroveShrineUpgradeBlock.NAME) public static final Item MYSTICAL_GROVE_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + StemPollinationShrineUpgradeBlock.NAME) public static final Item STEM_POLLINATION_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ProtectionShrineUpgradeBlock.NAME) public static final Item PROTECTION_SHRINE_UPGRADE = null;

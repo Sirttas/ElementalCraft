@@ -1,16 +1,14 @@
 package sirttas.elementalcraft.interaction.jei.ingredient.element;
 
-import java.util.stream.StreamSupport;
-
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.resources.language.I18n;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 
 import javax.annotation.Nonnull;
+import java.util.stream.StreamSupport;
 
 public class ElementIngredientHelper implements IIngredientHelper<IngredientElementType> {
 
@@ -43,7 +41,7 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 	@Nonnull
     @Override
 	public String getResourceId(IngredientElementType ingredient) {
-		return ElementalCraft.createRL(ingredient.getElementType().getSerializedName()).toString();
+		return ingredient.getElementType().getSerializedName();
 	}
 
 	@Nonnull
