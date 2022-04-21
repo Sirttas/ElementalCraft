@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
@@ -20,6 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import java.util.stream.Stream;
@@ -30,7 +32,19 @@ public class EntityHelper {
 	
 	public static Stream<ItemStack> handStream(Player player) {
 		return Stream.of(player.getMainHandItem(), player.getOffhandItem());
+	}
 
+	public static HitResult rayTrace(Entity entity) {
+		double range = 5;
+
+		if (entity instanceof LivingEntity livingEntity) {
+			var reach = livingEntity.getAttribute(ForgeMod.REACH_DISTANCE.get());
+
+			if (reach != null) {
+				range = reach.getValue();
+			}
+		}
+		return rayTrace(entity, range);
 	}
 
 	public static HitResult rayTrace(Entity entity, double range) {
@@ -95,5 +109,13 @@ public class EntityHelper {
 			}
 		}
 		return false;
+	}
+
+	public static boolean isFighting(Entity entity) {
+		return isFighting(entity, 20);
+	}
+
+	public static boolean isFighting(Entity entity, int ticks) {
+		return entity instanceof LivingEntity livingEntity && livingEntity.attackStrengthTicker < ticks;
 	}
 }

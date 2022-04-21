@@ -1,26 +1,27 @@
 package sirttas.elementalcraft.interaction.jei.category;
 
-import java.util.List;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class SpellCraftRecipeCategory extends AbstractInventoryRecipeCategory<Container, SpellCraftRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL(SpellCraftRecipe.NAME);
+	private static final ResourceLocation UID = ElementalCraft.createRL(SpellCraftRecipe.NAME);
 
 	public SpellCraftRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.spell_craft", guiHelper.createDrawableIngredient(new ItemStack(ECItems.SPELL_DESK)), guiHelper.createBlankDrawable(123, 55));
+		super("elementalcraft.jei.spell_craft", createDrawableStack(guiHelper, new ItemStack(ECItems.SPELL_DESK)), guiHelper.createBlankDrawable(123, 55));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/spell_craft.png"), 0, 0, 103, 36), 10, 10);
 	}
 
@@ -34,6 +35,12 @@ public class SpellCraftRecipeCategory extends AbstractInventoryRecipeCategory<Co
     @Override
 	public Class<? extends SpellCraftRecipe> getRecipeClass() {
 		return SpellCraftRecipe.class;
+	}
+
+	@Nonnull
+	@Override
+	public RecipeType<SpellCraftRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.SPELL_CRAFTING;
 	}
 
 	@Override

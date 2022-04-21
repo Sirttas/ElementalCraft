@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "fwf",
+    "cUc",
+    "sws"
+  ],
+  "key": {
+    "w": {
+      "tag": "elementalcraft:gems/pristine_water"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "f": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "s": {
+      "item": "minecraft:scute"
+    },
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:jewel",
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:basilisk"
+      }
+    }
+  }
+}

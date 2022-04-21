@@ -1,29 +1,30 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument;
 
-import java.util.List;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.world.item.ItemStack;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<InscriberBlockEntity, InscriptionRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL(InscriptionRecipe.NAME);
+	private  static final ResourceLocation UID = ElementalCraft.createRL(InscriptionRecipe.NAME);
+
 	private static final ItemStack INSCRIBER = new ItemStack(ECItems.INSCRIBER);
-	
 
 	public InscriptionRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.inscription", guiHelper.createDrawableIngredient(INSCRIBER), guiHelper.createBlankDrawable(100, 100));
+		super("elementalcraft.jei.inscription", createDrawableStack(guiHelper, INSCRIBER), guiHelper.createBlankDrawable(100, 100));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
 	}
 
@@ -37,6 +38,12 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
     @Override
 	public Class<InscriptionRecipe> getRecipeClass() {
 		return InscriptionRecipe.class;
+	}
+
+	@Nonnull
+	@Override
+	public RecipeType<InscriptionRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.INSCRIPTION;
 	}
 
 	@Override

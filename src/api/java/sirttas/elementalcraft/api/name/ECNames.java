@@ -40,6 +40,7 @@ public class ECNames {
 	public static final String INPUT = "input";
 	public static final String INVENTORY = "inventory";
 	public static final String ITEM = "item";
+	public static final String JEWEL = "jewel";
 	public static final String LEVEL = "level";
 	public static final String MAX_AMOUNT = "max_amount";
 	public static final String MODEL = "model";

@@ -12,6 +12,7 @@ import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntit
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.IOContainer;
 import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 import javax.annotation.Nonnull;
@@ -44,7 +45,7 @@ public class AirMillBlockEntity extends AbstractIOInstrumentBlockEntity<AirMillB
 		var recipe = super.lookupRecipe();
 		
 		if (recipe == null && ECinteractions.isMekanismActive()) {
-			return null; // TODO MekanismInteraction.lookupCrusherRecipe(level, inventory);
+			return MekanismInteraction.lookupCrusherRecipe(level, inventory);
 		}
 		return recipe;
 	}

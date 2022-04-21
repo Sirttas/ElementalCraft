@@ -5,6 +5,54 @@
     "minecraft:golden_sword",
     "minecraft:diamond_sword",
     "minecraft:netherite_sword",
-    "#forge:swords"
+    "#forge:swords",
+    {
+      "id": "mekanismtools:bronze_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_sword",
+      "required": false
+    },
+    {
+      "id": "silentgear:dagger",
+      "required": false
+    },
+    {
+      "id": "silentgear:katana",
+      "required": false
+    },
+    {
+      "id": "silentgear:knife",
+      "required": false
+    },
+    {
+      "id": "silentgear:machete",
+      "required": false
+    },
+    {
+      "id": "silentgear:spear",
+      "required": false
+    },
+    {
+      "id": "silentgear:sword",
+      "required": false
+    }
   ]
 }

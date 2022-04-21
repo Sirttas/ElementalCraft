@@ -1,25 +1,26 @@
 package sirttas.elementalcraft.interaction.jei.category;
 
-import java.util.List;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.world.item.ItemStack;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategory<PureInfuserBlockEntity, PureInfusionRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL(PureInfusionRecipe.NAME);
+	private static final ResourceLocation UID = ElementalCraft.createRL(PureInfusionRecipe.NAME);
 
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.pureinfusion", guiHelper.createDrawableIngredient(new ItemStack(ECItems.PURE_INFUSER)), guiHelper.createBlankDrawable(177, 134));
@@ -38,6 +39,11 @@ public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategor
 		return PureInfusionRecipe.class;
 	}
 
+	@Nonnull
+	@Override
+	public RecipeType<PureInfusionRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.PURE_INFUSION;
+	}
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull PureInfusionRecipe recipe, IIngredients ingredients) {

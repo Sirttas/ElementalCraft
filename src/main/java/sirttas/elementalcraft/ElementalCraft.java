@@ -40,7 +40,6 @@ public class ElementalCraft {
 			.withDefault(SpellProperties.NONE)
 			.build();
 
-	
 	public ElementalCraft() {
 		var modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		

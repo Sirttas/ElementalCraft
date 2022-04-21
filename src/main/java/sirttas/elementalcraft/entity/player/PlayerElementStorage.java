@@ -1,13 +1,5 @@
 package sirttas.elementalcraft.entity.player;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +10,17 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class PlayerElementStorage implements IElementStorage {
 
+	private int tickCount = -1;
 	private final Player player;
+	private final List<IElementStorage> storages = new ArrayList<>();
 
 	private PlayerElementStorage(Player player) {
 		this.player = player;
@@ -75,13 +75,16 @@ public class PlayerElementStorage implements IElementStorage {
 	}
 	
 	private List<IElementStorage> getStorages() {
-		List<IElementStorage> storages = Lists.newArrayList();
-		Inventory inventory = player.getInventory();
-		
-		for (int i = 0; i < inventory.getContainerSize(); i++) {
-			CapabilityElementStorage.get(inventory.getItem(i))
-					.filter(IElementStorage::usableInInventory)
-					.ifPresent(storages::add);
+		if (tickCount != player.tickCount) {
+			storages.clear();
+			Inventory inventory = player.getInventory();
+
+			for (int i = 0; i < inventory.getContainerSize(); i++) {
+				CapabilityElementStorage.get(inventory.getItem(i))
+						.filter(IElementStorage::usableInInventory)
+						.ifPresent(storages::add);
+			}
+			tickCount = player.tickCount;
 		}
 		return storages;
 	}

@@ -6,7 +6,11 @@
   "refmap": "elementalcraft.refmap.json",
   "mixins": [
     "MixinEnchantmentHelper",
+    "MixinEntity",
+    "MixinLivingEntity",
     "MixinMinecraftServer",
+    "MixinPowderSnowBlock",
+    "MixinProjectile",
     "MixinRepairContainer"
   ],
   "client": [

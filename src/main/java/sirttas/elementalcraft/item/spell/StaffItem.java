@@ -1,15 +1,9 @@
 package sirttas.elementalcraft.item.spell;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -35,6 +29,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import sirttas.elementalcraft.ElementalCraftTab;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class StaffItem extends FocusItem {
 
@@ -81,7 +79,6 @@ public class StaffItem extends FocusItem {
 		if (state.getDestroySpeed(worldIn, pos) > 0.0F) {
 			stack.hurtAndBreak(2, entityLiving, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		}
-
 		return true;
 	}
 
@@ -94,7 +91,7 @@ public class StaffItem extends FocusItem {
 	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack) {
 		Multimap<Attribute, AttributeModifier> map = HashMultimap.create();
 		
-				map.putAll(super.getAttributeModifiers(equipmentSlot, stack));
+		map.putAll(super.getAttributeModifiers(equipmentSlot, stack));
 		if (equipmentSlot == EquipmentSlot.MAINHAND) {
 			map.putAll(ATTRIBUTE_MODIFIERS);
 		}
@@ -103,7 +100,7 @@ public class StaffItem extends FocusItem {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.staff.range").withStyle(ChatFormatting.BLUE));
 	}

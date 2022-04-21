@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -37,6 +38,12 @@ public class EnchantmentHandler {
 			}
 			SpellHelper.addSpell(result, SpellHelper.getSpell(right));
 			event.setCost(n);
+			event.setOutput(result);
+		} else if (left.is(ECTags.Items.JEWEL_SOCKETABLES) && right.getItem() == ECItems.JEWEL && JewelHelper.getJewel(left) == null) {
+			ItemStack result = left.copy();
+
+			JewelHelper.setJewel(result, JewelHelper.getJewel(right));
+			event.setCost(10);
 			event.setOutput(result);
 		}
 	}

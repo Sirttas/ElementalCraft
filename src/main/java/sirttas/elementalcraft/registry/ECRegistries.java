@@ -9,9 +9,10 @@ import net.minecraftforge.registries.RegistryBuilder;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
-import sirttas.elementalcraft.jewel.JewelType;
+import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.spell.Spell;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -29,7 +30,7 @@ public class ECRegistries {
 		event.create(makeRegistry(ElementalCraft.createRL("pure_ore_recipe_injector"), AbstractPureOreRecipeInjector.class));
 		event.create(makeRegistry(ElementalCraft.createRL("tool_infusion_type"), ToolInfusionEffectType.class));
 		event.create(makeRegistry(ElementalCraft.createRL("source_trait_value_provider_type"), SourceTraitValueProviderType.class));
-		event.create(makeRegistry(ElementalCraft.createRL("jewel_type"), JewelType.class));
+		event.create(makeRegistry(ElementalCraft.createRL(ECNames.JEWEL), Jewel.class));
 	}
 
 	private static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeRegistry(ResourceLocation name, Class<T> clazz) {

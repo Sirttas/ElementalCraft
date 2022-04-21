@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
-import java.util.Random;
-
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+
+import java.util.Random;
 
 public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentRecipe<T> {
 
@@ -16,9 +16,13 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 	default int getLuck(T instrument) {
 		return 0;
 	}
-	
+
+	default int getInputSize() {
+		return 1;
+	}
+
 	default boolean matches(ItemStack input) {
-		return true;
+		return input.getCount() >= getInputSize();
 	}
 	
 	@Override

@@ -34,7 +34,7 @@ public class StaticElementStorage extends SingleElementStorage {
 	
 	@Override
 	public ISingleElementStorage forElement(ElementType type) {
-		if (type == elementType) {
+		if (type != elementType) {
 			return EmptyElementStorage.getSingle(type);
 		}
 		return this;

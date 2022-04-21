@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -71,6 +72,8 @@ import sirttas.elementalcraft.item.elemental.LenseItem;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
 import sirttas.elementalcraft.item.holder.PureElementHolderItem;
+import sirttas.elementalcraft.item.jewel.JewelItem;
+import sirttas.elementalcraft.item.jewel.JewelModel;
 import sirttas.elementalcraft.item.pipe.CoverFrameItem;
 import sirttas.elementalcraft.item.pureore.PureOreItem;
 import sirttas.elementalcraft.item.rune.RuneItem;
@@ -89,6 +92,9 @@ import sirttas.elementalcraft.item.spell.book.SpellBookItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.spell.SpellHelper;
+
+import java.util.Map;
+import java.util.function.UnaryOperator;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECItems {
@@ -224,7 +230,6 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + StemPollinationShrineUpgradeBlock.NAME) public static final Item STEM_POLLINATION_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ProtectionShrineUpgradeBlock.NAME) public static final Item PROTECTION_SHRINE_UPGRADE = null;
 
-
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final Item SOURCE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystalOreBlock.NAME) public static final Item CRYSTAL_ORE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":whiterock") public static final Item WHITE_ROCK = null;
@@ -241,9 +246,10 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":swift_alloy_block") public static final Item SWIFT_ALLOY_BLOCK = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":fireite_block") public static final Item FIREITE_BLOCK = null;
 
-	private ECItems() {
+	@ObjectHolder(ElementalCraftApi.MODID + ":unset_jewel") public static final Item UNSET_JEWEL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + JewelItem.NAME) public static final JewelItem JEWEL = null;
 
-	}
+	private ECItems() {}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -320,17 +326,22 @@ public class ECItems {
 		RegistryHelper.register(registry, new ECItem(), "minor_rune_slate");
 		RegistryHelper.register(registry, new ECItem(), "rune_slate");
 		RegistryHelper.register(registry, new ECItem(), "major_rune_slate");
+
+		RegistryHelper.register(registry, new ECItem(), "unset_jewel");
+		RegistryHelper.register(registry, new JewelItem(), JewelItem.NAME);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void replaceModels(ModelBakeEvent event) {
-		ModelResourceLocation key = new ModelResourceLocation(ElementalCraft.createRL(RuneItem.NAME), "inventory");
-		BakedModel oldModel = event.getModelRegistry().get(key);
-		
-		if (oldModel != null) {
-			event.getModelRegistry().put(key, new RuneModel(oldModel));
-		}
+		var modelRegistry = event.getModelRegistry();
+
+		replaceModels(modelRegistry, RuneItem.NAME, RuneModel::new);
+		replaceModels(modelRegistry, JewelItem.NAME, JewelModel::new);
+	}
+
+	private static void replaceModels(Map<ResourceLocation, BakedModel> modelRegistry, String name, UnaryOperator<BakedModel> modelFactory) {
+		modelRegistry.computeIfPresent(new ModelResourceLocation(ElementalCraft.createRL(name), "inventory"), (k, v) -> modelFactory.apply(v));
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -339,7 +350,6 @@ public class ECItems {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), RECEPTACLE, RECEPTACLE_IMPROVED);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), PURE_ORE);
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), SCROLL);
-		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ElementHolderItem) s.getItem()).getElementType().getColor(), 
-				FIRE_HOLDER, WATER_HOLDER, EARTH_HOLDER, AIR_HOLDER);
+		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ElementHolderItem) s.getItem()).getElementType().getColor(), FIRE_HOLDER, WATER_HOLDER, EARTH_HOLDER, AIR_HOLDER);
 	}
 }

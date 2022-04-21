@@ -13,11 +13,11 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
 
 import javax.annotation.Nonnull;
 
-public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<PurifierBlockEntity, PurifierRecipe> {
+public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<PurifierBlockEntity, IPurifierRecipe> {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PurifierBlock.NAME) public static final BlockEntityType<PurifierBlockEntity> TYPE = null;
 
@@ -35,11 +35,11 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 	}
 
 	@Override
-	protected PurifierRecipe lookupRecipe() {
+	protected IPurifierRecipe lookupRecipe() {
 		ItemStack input = inventory.getItem(0);
 
-		if (!input.isEmpty() && ElementalCraft.PURE_ORE_MANAGER.isValidOre(input)) {
-			PurifierRecipe recipe = new PurifierRecipe(input);
+		if (!input.isEmpty()) {
+			IPurifierRecipe recipe = ElementalCraft.PURE_ORE_MANAGER.getRecipes(input);
 
 			if (recipe.matches(this)) {
 				return recipe;

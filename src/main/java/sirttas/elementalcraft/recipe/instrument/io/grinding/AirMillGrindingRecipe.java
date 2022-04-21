@@ -45,7 +45,7 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 	
 	@Override
 	public boolean matches(ItemStack stack) {
-		return ingredient.test(stack);
+		return ingredient.test(stack) && IGrindingRecipe.super.matches(stack);
 	}
 	
 	@Nonnull

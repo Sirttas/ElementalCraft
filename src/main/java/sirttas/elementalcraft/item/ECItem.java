@@ -18,6 +18,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -73,10 +74,17 @@ public class ECItem extends Item {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void addAttributeMultiMapToTooltip(List<Component> tooltip, Multimap<Attribute, AttributeModifier> multiMap, Component title) {
+	public static void addAttributeMultiMapToTooltip(List<Component> tooltip, Multimap<Attribute, AttributeModifier> multiMap) {
+		addAttributeMultiMapToTooltip(tooltip, multiMap, null);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void addAttributeMultiMapToTooltip(List<Component> tooltip, Multimap<Attribute, AttributeModifier> multiMap, @Nullable Component title) {
 		if (!multiMap.isEmpty()) {
 			tooltip.add(new TextComponent(""));
-			tooltip.add(title);
+			if (title != null) {
+				tooltip.add(title);
+			}
 			for (Entry<Attribute, AttributeModifier> entry : multiMap.entries()) {
 				tooltip.add(getAttributeTooltip(entry.getKey(), entry.getValue()));
 			}

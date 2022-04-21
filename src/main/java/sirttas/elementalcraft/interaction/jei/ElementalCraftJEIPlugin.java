@@ -2,7 +2,8 @@ package sirttas.elementalcraft.interaction.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -36,6 +37,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredie
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientRenderer;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.jewel.Jewel;
+import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
@@ -49,12 +52,12 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
-	private final Lazy<HolderSet.Named<Item>> SPELL_CAST_TOOLS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.SPELL_CAST_TOOLS));
+	private static final Lazy<HolderSet.Named<Item>> SPELL_CAST_TOOLS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.SPELL_CAST_TOOLS));
+	private static final Lazy<HolderSet.Named<Item>> JEWEL_SOCKETALBES = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.JEWEL_SOCKETABLES));
 	private static final ResourceLocation ID = ElementalCraft.createRL("main");
 	
 	@Nonnull
@@ -70,11 +73,11 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration registry) {
-	
 		registry.useNbtForSubtypes(ECItems.SCROLL);
 		registry.useNbtForSubtypes(ECItems.RECEPTACLE, ECItems.RECEPTACLE_IMPROVED);
 		registry.useNbtForSubtypes(ECItems.PURE_ORE);
 		registry.useNbtForSubtypes(ECItems.RUNE);
+		registry.useNbtForSubtypes(ECItems.JEWEL);
 		registry.useNbtForSubtypes(ECItems.TANK, ECItems.TANK_SMALL, ECItems.TANK_CREATIVE);
 		registry.useNbtForSubtypes(ECItems.FIRE_RESERVOIR, ECItems.WATER_RESERVOIR, ECItems.EARTH_RESERVOIR, ECItems.AIR_RESERVOIR);
 		registry.useNbtForSubtypes(ECItems.FIRE_HOLDER, ECItems.WATER_HOLDER, ECItems.EARTH_HOLDER, ECItems.AIR_HOLDER, ECItems.PURE_HOLDER);
@@ -98,55 +101,55 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
-		registry.addRecipeCatalyst(new ItemStack(ECItems.FIRE_FURNACE), VanillaRecipeCategoryUid.FURNACE);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.FIRE_BLAST_FURNACE), VanillaRecipeCategoryUid.BLASTING);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.EXTRACTOR), ExtractionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.EXTRACTOR_IMPROVED), ImprovedExtractionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.EVAPORATOR), EvaporationRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.SOLAR_SYNTHESIZER), SolarSynthesisRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.INFUSER), InfusionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.BINDER_IMPROVED), InfusionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.BINDER), BindingRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.BINDER_IMPROVED), BindingRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.CRYSTALLIZER), CrystallizationRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.INSCRIBER), InscriptionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.CHISEL), InscriptionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.PURE_INFUSER), PureInfusionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.FIRE_PEDESTAL), PureInfusionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.WATER_PEDESTAL), PureInfusionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.EARTH_PEDESTAL), PureInfusionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_PEDESTAL), PureInfusionRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.PURIFIER), PurificationRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_MILL), GrindingRecipeCategory.UID);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.SPELL_DESK), SpellCraftRecipeCategory.UID);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.FIRE_FURNACE), RecipeTypes.SMELTING);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.FIRE_BLAST_FURNACE), RecipeTypes.BLASTING);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.EXTRACTOR), ECJEIRecipeTypes.EXTRACTION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.EXTRACTOR_IMPROVED), ECJEIRecipeTypes.EXTRACTION_IMPROVED);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.EVAPORATOR), ECJEIRecipeTypes.EVAPORATION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.SOLAR_SYNTHESIZER), ECJEIRecipeTypes.SOLAR_SYNTHESIS);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.INFUSER), ECJEIRecipeTypes.INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.BINDER_IMPROVED), ECJEIRecipeTypes.INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.BINDER), ECJEIRecipeTypes.BINDING);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.BINDER_IMPROVED), ECJEIRecipeTypes.BINDING);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.CRYSTALLIZER), ECJEIRecipeTypes.CRYSTALLIZATION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.INSCRIBER), ECJEIRecipeTypes.INSCRIPTION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.CHISEL), ECJEIRecipeTypes.INSCRIPTION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.PURE_INFUSER), ECJEIRecipeTypes.PURE_INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.FIRE_PEDESTAL), ECJEIRecipeTypes.PURE_INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.WATER_PEDESTAL), ECJEIRecipeTypes.PURE_INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.EARTH_PEDESTAL), ECJEIRecipeTypes.PURE_INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_PEDESTAL), ECJEIRecipeTypes.PURE_INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.PURIFIER), ECJEIRecipeTypes.PURIFICATION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_MILL), ECJEIRecipeTypes.GRINDING);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.SPELL_DESK), ECJEIRecipeTypes.SPELL_CRAFTING);
 		
 		if (ECinteractions.isMekanismActive()) {
 			registry.addRecipeCatalyst(new ItemStack(ECItems.AIR_MILL), new ResourceLocation("mekanism", "crusher"));
 		}
 	}
 
-	@SuppressWarnings("resource")
+	@SuppressWarnings({"resource", "ConstantConditions"})
 	@Override
 	public void registerRecipes(@Nonnull IRecipeRegistration registry) {
 		RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
-		registry.addRecipes(ElementType.ALL_VALID, ExtractionRecipeCategory.UID);
-		registry.addRecipes(ElementType.ALL_VALID, ImprovedExtractionRecipeCategory.UID);
-		registry.addRecipes(EvaporationRecipeCategory.getShards(), EvaporationRecipeCategory.UID);
-		registry.addRecipes(SolarSynthesisRecipeCategory.getLenses(), SolarSynthesisRecipeCategory.UID);
-		registry.addRecipes(recipeManager.byType(IInfusionRecipe.TYPE).values(), InfusionRecipeCategory.UID);
-		registry.addRecipes(recipeManager.byType(AbstractBindingRecipe.TYPE).values(), BindingRecipeCategory.UID);
-		registry.addRecipes(recipeManager.byType(CrystallizationRecipe.TYPE).values(), CrystallizationRecipeCategory.UID);
-		registry.addRecipes(recipeManager.byType(InscriptionRecipe.TYPE).values(), InscriptionRecipeCategory.UID);
-		registry.addRecipes(recipeManager.byType(PureInfusionRecipe.TYPE).values(), PureInfusionRecipeCategory.UID);
-		registry.addRecipes(recipeManager.byType(IGrindingRecipe.TYPE).values(), GrindingRecipeCategory.UID);
-		registry.addRecipes(recipeManager.byType(SpellCraftRecipe.TYPE).values(), SpellCraftRecipeCategory.UID);
-		registry.addRecipes(ElementalCraft.PURE_ORE_MANAGER.getRecipes(), PurificationRecipeCategory.UID);
-		registry.addRecipes(createFocusStaffAnvilRecipes(registry.getVanillaRecipeFactory()), VanillaRecipeCategoryUid.ANVIL);
-		
+		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION, ElementType.ALL_VALID);
+		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION_IMPROVED, ElementType.ALL_VALID);
+		registry.addRecipes(ECJEIRecipeTypes.EVAPORATION, EvaporationRecipeCategory.getShards());
+		registry.addRecipes(ECJEIRecipeTypes.SOLAR_SYNTHESIS, SolarSynthesisRecipeCategory.getLenses());
+		registry.addRecipes(ECJEIRecipeTypes.INFUSION, recipeManager.getAllRecipesFor(IInfusionRecipe.TYPE));
+		registry.addRecipes(ECJEIRecipeTypes.BINDING, recipeManager.getAllRecipesFor(AbstractBindingRecipe.TYPE));
+		registry.addRecipes(ECJEIRecipeTypes.CRYSTALLIZATION, recipeManager.getAllRecipesFor(CrystallizationRecipe.TYPE));
+		registry.addRecipes(ECJEIRecipeTypes.INSCRIPTION, recipeManager.getAllRecipesFor(InscriptionRecipe.TYPE));
+		registry.addRecipes(ECJEIRecipeTypes.PURE_INFUSION, recipeManager.getAllRecipesFor(PureInfusionRecipe.TYPE));
+		registry.addRecipes(ECJEIRecipeTypes.GRINDING, recipeManager.getAllRecipesFor(IGrindingRecipe.TYPE));
+		registry.addRecipes(ECJEIRecipeTypes.SPELL_CRAFTING, recipeManager.getAllRecipesFor(SpellCraftRecipe.TYPE));
+		registry.addRecipes(ECJEIRecipeTypes.PURIFICATION, ElementalCraft.PURE_ORE_MANAGER.getRecipes());
+		registry.addRecipes(RecipeTypes.ANVIL, createFocusStaffAnvilRecipes(registry.getVanillaRecipeFactory()));
+		registry.addRecipes(RecipeTypes.ANVIL, createJewelsAnvilRecipes(registry.getVanillaRecipeFactory()));
 	}
 
-	private List<?> createFocusStaffAnvilRecipes(IVanillaRecipeFactory factory) {
+	private List<IJeiAnvilRecipe> createFocusStaffAnvilRecipes(IVanillaRecipeFactory factory) {
 		return Spell.REGISTRY.getValues().stream().filter(Spell::isValid).flatMap(spell -> SPELL_CAST_TOOLS.get().stream().map(item -> {
 			ItemStack scroll = new ItemStack(ECItems.SCROLL);
 			ItemStack stack = new ItemStack(item);
@@ -154,6 +157,19 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 			SpellHelper.setSpell(scroll, spell);
 			SpellHelper.addSpell(stack, spell);
 			return factory.createAnvilRecipe(new ItemStack(item), List.of(scroll), List.of(stack));
-		})).collect(Collectors.toList());
+		})).toList();
+	}
+
+	private List<IJeiAnvilRecipe> createJewelsAnvilRecipes(IVanillaRecipeFactory factory) {
+
+
+		return Jewel.REGISTRY.getValues().stream().flatMap(jewel -> JEWEL_SOCKETALBES.get().stream().map(item -> {
+			ItemStack jewelItem = new ItemStack(ECItems.JEWEL);
+			ItemStack stack = new ItemStack(item);
+
+			JewelHelper.setJewel(jewelItem, jewel);
+			JewelHelper.setJewel(stack, jewel);
+			return factory.createAnvilRecipe(new ItemStack(item), List.of(jewelItem), List.of(stack));
+		})).toList();
 	}
 }

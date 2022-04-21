@@ -1,5 +1,10 @@
 package sirttas.elementalcraft.mixin;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper.EnchantmentVisitor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -7,12 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.EnchantmentHelper.EnchantmentVisitor;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
 @Mixin(EnchantmentHelper.class)
@@ -48,8 +47,8 @@ public abstract class MixinEnchantmentHelper {
 	@Redirect(method = "lambda$runIterationOnItem$1(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/world/item/enchantment/Enchantment;)V",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;getEnchantmentLevel(Lnet/minecraft/nbt/CompoundTag;)I"))
 	private static int runIterationOnItemLambdaRedirect(CompoundTag tag) {
-		Enchantment enchanment = ENCHANTMENT.get();
-		int value = enchanment != null ? ToolInfusionHelper.getInfusionEnchantmentLevel(STACK.get(), enchanment) : 0;
+		Enchantment enchantment = ENCHANTMENT.get();
+		int value = enchantment != null ? ToolInfusionHelper.getInfusionEnchantmentLevel(STACK.get(), enchantment) : 0;
 		
 		return EnchantmentHelper.getEnchantmentLevel(tag) + value;
 	}

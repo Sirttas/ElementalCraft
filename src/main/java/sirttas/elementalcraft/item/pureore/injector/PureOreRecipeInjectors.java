@@ -17,6 +17,7 @@ import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -39,7 +40,7 @@ public class PureOreRecipeInjectors {
 			register(registry, new PureOreCookingRecipeInjector<>(RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new));
 		}
 		if (ECinteractions.isMekanismActive()) {
-			// TODO MekanismInteraction.registerPureOreRecipeInjectors(registry);
+			MekanismInteraction.registerPureOreRecipeInjectors(registry);
 		}
 	}
 
@@ -47,7 +48,7 @@ public class PureOreRecipeInjectors {
 		ResourceLocation id = injector.getRecipeTypeRegistryName();
 
 		if (id == null) {
-			throw new PureOreException("Cannot register injector as its RecipeType is absant in registry.");
+			throw new PureOreException("Cannot register injector as its RecipeType is absent in registry.");
 		}
 		RegistryHelper.register(registry, injector, ElementalCraft.createRL(id.getNamespace() + '_' + id.getPath()));
 	}

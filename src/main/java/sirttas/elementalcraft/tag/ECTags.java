@@ -82,6 +82,8 @@ public class ECTags {
 		public static final TagKey<Item> PURE_ORES_RAW_METAL_SOURCE = createTag("pure_ores/raw_metas_source");
 		public static final TagKey<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
+		public static final TagKey<Item> JEWEL_SOCKETABLES = createTag("jewel_socketables");
+
 		public static final TagKey<Item> RECEPTACLES = createTag("receptacles");
 		public static final TagKey<Item> RECEPTACLES_EMPTY = createTag("receptacles/empty");
 		public static final TagKey<Item> RECEPTACLES_FULL = createTag("receptacles/full");
@@ -140,7 +142,7 @@ public class ECTags {
 			return getTag(t -> t.equals(key));
 		}
 
-		private static HolderSet.Named<Item> getTag(Predicate<TagKey<Item>> predicate) {
+		public static HolderSet.Named<Item> getTag(Predicate<TagKey<Item>> predicate) {
 			return Registry.ITEM.getTags()
 					.filter(p -> predicate.test(p.getFirst()))
 					.map(Pair::getSecond)

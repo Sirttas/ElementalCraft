@@ -1,26 +1,27 @@
 package sirttas.elementalcraft.interaction.jei.category.element;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCategory {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL("evaporation");
+	public static final String NAME = "evaporation";
+	private static final ResourceLocation UID = ElementalCraft.createRL(NAME);
 
 	protected static final List<ItemStack> TANKS = Lists.newArrayList(new ItemStack(ECItems.TANK), new ItemStack(ECItems.TANK_SMALL));
 	private static final ItemStack EVAPORATOR = new ItemStack(ECItems.EVAPORATOR);
@@ -35,6 +36,12 @@ public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCate
     @Override
 	public ResourceLocation getUid() {
 		return UID;
+	}
+
+	@Nonnull
+	@Override
+	public RecipeType<Ingredient> getRecipeType() {
+		return ECJEIRecipeTypes.EVAPORATION;
 	}
 
 	@Override

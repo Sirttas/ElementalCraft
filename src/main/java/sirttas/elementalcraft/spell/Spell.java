@@ -1,13 +1,7 @@
 package sirttas.elementalcraft.spell;
 
-import java.util.List;
-import java.util.stream.StreamSupport;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Multimap;
 import com.mojang.serialization.Codec;
-
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -31,6 +25,10 @@ import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
 public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProvider {
 
@@ -81,8 +79,8 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	}
 
 	protected boolean consume(Entity sender, ItemLike item, int count, boolean simulate) {
-		if (sender instanceof Player && !((Player) sender).isCreative()) {
-			Inventory inv = ((Player) sender).getInventory();
+		if (sender instanceof Player player && !player.isCreative()) {
+			Inventory inv = player.getInventory();
 			int slot = ECContainerHelper.getSlotFor(inv, new ItemStack(item));
 
 			if (slot >= 0) {

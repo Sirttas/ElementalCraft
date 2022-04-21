@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gag",
+    "cUc",
+    "gag"
+  ],
+  "key": {
+    "a": {
+      "tag": "elementalcraft:gems/fine_air"
+    },
+    "g": {
+      "tag": "forge:dusts/glowstone"
+    },
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    },
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:jewel",
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:hawk"
+      }
+    }
+  }
+}

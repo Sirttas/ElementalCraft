@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 
-import java.util.List;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -15,6 +13,7 @@ import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractInstrumentRecipeCategory<K, T> {
 	
@@ -25,7 +24,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 	}
 	
 	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack instrument) {
-		super(translationKey, guiHelper.createDrawableIngredient(instrument), guiHelper.createBlankDrawable(75, 75));
+		super(translationKey, createDrawableStack(guiHelper, instrument), guiHelper.createBlankDrawable(75, 75));
 		this.instrument = instrument;
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
 	}

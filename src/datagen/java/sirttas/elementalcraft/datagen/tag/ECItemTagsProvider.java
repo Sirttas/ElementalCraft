@@ -18,8 +18,11 @@ import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Wearable;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -36,6 +39,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 	private static final String BOTANIA = "botania";
 	private static final String MEKANISM_TOOLS = "mekanismtools";
+	private static final String MINECRAFT = "minecraft";
+	private static final String SILENTGEAR = "silentgear";
 	
 	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, blockTagsProvider, ElementalCraftApi.MODID, existingFileHelper);
@@ -84,29 +89,42 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.INFUSABLE_FOCUS).add(ECItems.FOCUS);
 		tag(ECTags.Items.INFUSABLE_STAVES).add(ECItems.STAFF);
 		addOptionals(tag(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD).addTag(ECTags.Items.FORGE_SWORDS),
-				getItems(MEKANISM_TOOLS, SwordItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE)
-				.addTag(ECTags.Items.FORGE_PICKAXES), getItems(MEKANISM_TOOLS, PickaxeItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_SHOVELS).add(Items.IRON_SHOVEL, Items.GOLDEN_SHOVEL, Items.DIAMOND_SHOVEL, Items.NETHERITE_SHOVEL)
-				.addTag(ECTags.Items.FORGE_SHOVELS), getItems(MEKANISM_TOOLS, ShovelItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_HOES).add(Items.IRON_HOE, Items.GOLDEN_HOE, Items.DIAMOND_HOE, Items.NETHERITE_HOE)
-				.addTag(ECTags.Items.FORGE_HOES), getItems(MEKANISM_TOOLS, HoeItem.class));
+				getItems(MEKANISM_TOOLS, SwordItem.class),
+				getItems(SILENTGEAR, SwordItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE).addTag(ECTags.Items.FORGE_PICKAXES),
+				getItems(MEKANISM_TOOLS, PickaxeItem.class),
+				getItems(SILENTGEAR, PickaxeItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_SHOVELS).add(Items.IRON_SHOVEL, Items.GOLDEN_SHOVEL, Items.DIAMOND_SHOVEL, Items.NETHERITE_SHOVEL).addTag(ECTags.Items.FORGE_SHOVELS),
+				getItems(MEKANISM_TOOLS, ShovelItem.class),
+				getItems(SILENTGEAR, ShovelItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_HOES).add(Items.IRON_HOE, Items.GOLDEN_HOE, Items.DIAMOND_HOE, Items.NETHERITE_HOE).addTag(ECTags.Items.FORGE_HOES),
+				getItems(MEKANISM_TOOLS, HoeItem.class),
+				getItems(SILENTGEAR, HoeItem.class));
 		addOptionals(tag(ECTags.Items.INFUSABLE_AXES).add(Items.IRON_AXE, Items.GOLDEN_AXE, Items.DIAMOND_AXE, Items.NETHERITE_AXE).addTag(ECTags.Items.FORGE_AXES),
-				getItems(MEKANISM_TOOLS, AxeItem.class));
+				getItems(MEKANISM_TOOLS, AxeItem.class),
+				getItems(SILENTGEAR, AxeItem.class));
 		tag(ECTags.Items.INFUSABLE_SHILDS);
-		addOptionals(tag(ECTags.Items.INFUSABLE_BOWS).add(Items.BOW).addTag(ECTags.Items.FORGE_BOWS), getItems(MEKANISM_TOOLS, BowItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_CROSSBOWS).add(Items.CROSSBOW).addTag(ECTags.Items.FORGE_CROSSBOWS), getItems(MEKANISM_TOOLS, CrossbowItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_BOWS).add(Items.BOW).addTag(ECTags.Items.FORGE_BOWS),
+				getItems(MEKANISM_TOOLS, BowItem.class),
+				getItems(SILENTGEAR, BowItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_CROSSBOWS).add(Items.CROSSBOW).addTag(ECTags.Items.FORGE_CROSSBOWS),
+				getItems(MEKANISM_TOOLS, CrossbowItem.class),
+				getItems(SILENTGEAR, CrossbowItem.class));
 		tag(ECTags.Items.INFUSABLE_FISHING_RODS).add(Items.FISHING_ROD);
 		tag(ECTags.Items.INFUSABLE_TRIDENTS).add(Items.TRIDENT);
 
 		addOptionals(tag(ECTags.Items.INFUSABLE_HELMETS).add(Items.IRON_HELMET, Items.GOLDEN_HELMET, Items.DIAMOND_HELMET, Items.NETHERITE_HELMET).addTag(ECTags.Items.FORGE_HELMETS),
-				getItems(MEKANISM_TOOLS, ArmorItem.class, item -> item.getSlot() == EquipmentSlot.HEAD));
-		addOptionals(tag(ECTags.Items.INFUSABLE_CHESTPLATES).add(Items.IRON_CHESTPLATE, Items.GOLDEN_CHESTPLATE, Items.DIAMOND_CHESTPLATE, Items.NETHERITE_CHESTPLATE)
-				.addTag(ECTags.Items.FORGE_CHESTPLATES), getItems(MEKANISM_TOOLS, ArmorItem.class, item -> item.getSlot() == EquipmentSlot.CHEST));
-		addOptionals(tag(ECTags.Items.INFUSABLE_LEGGINGS).add(Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS, Items.DIAMOND_LEGGINGS, Items.NETHERITE_LEGGINGS)
-				.addTag(ECTags.Items.FORGE_LEGGINGS), getItems(MEKANISM_TOOLS, ArmorItem.class, item -> item.getSlot() == EquipmentSlot.LEGS));
+				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.HEAD)),
+				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.HEAD)));
+		addOptionals(tag(ECTags.Items.INFUSABLE_CHESTPLATES).add(Items.IRON_CHESTPLATE, Items.GOLDEN_CHESTPLATE, Items.DIAMOND_CHESTPLATE, Items.NETHERITE_CHESTPLATE).addTag(ECTags.Items.FORGE_CHESTPLATES),
+				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.CHEST)),
+				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.CHEST)));
+		addOptionals(tag(ECTags.Items.INFUSABLE_LEGGINGS).add(Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS, Items.DIAMOND_LEGGINGS, Items.NETHERITE_LEGGINGS).addTag(ECTags.Items.FORGE_LEGGINGS),
+				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.LEGS)),
+				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.LEGS)));
 		addOptionals(tag(ECTags.Items.INFUSABLE_BOOTS).add(Items.IRON_BOOTS, Items.GOLDEN_BOOTS, Items.DIAMOND_BOOTS, Items.NETHERITE_BOOTS).addTag(ECTags.Items.FORGE_BOOTS),
-				getItems(MEKANISM_TOOLS, ArmorItem.class, item -> item.getSlot() == EquipmentSlot.FEET));
+				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.FEET)),
+				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.FEET)));
 
 		tag(ECTags.Items.SPELL_HOLDERS).add(getItems(AbstractSpellHolderItem.class));
 		tag(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.FIRE_CRYSTAL, ECItems.WATER_CRYSTAL, ECItems.EARTH_CRYSTAL, ECItems.AIR_CRYSTAL);
@@ -157,8 +175,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 		
 		tag(ECTags.Items.PURE_ORES_ORE_SOURCE).addTag(Tags.Items.ORES);
-		tag(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE); // TODO use forge tag
-		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST).addTags(Tags.Items.ORES_DIAMOND, Tags.Items.ORES_EMERALD);
+		tag(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE).addTag(Tags.Items.RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 		
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
 		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BOTANIA, "double_mystical_flowers"))
@@ -166,6 +184,29 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				.addOptionalTag(new ResourceLocation(BOTANIA, "floating_flowers"));
 		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BOTANIA, "double_mystical_flowers"))
 				.addOptionalTag(new ResourceLocation(BOTANIA, "mystical_flowers"));
+
+		var jewelSocketables = tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(ECTags.Items.FORGE_SWORDS, ECTags.Items.FORGE_SHILDS, ECTags.Items.SPELL_CAST_TOOLS)
+				.addTags(ECTags.Items.FORGE_PICKAXES, ECTags.Items.FORGE_AXES, ECTags.Items.FORGE_SHOVELS, ECTags.Items.FORGE_HOES)
+				.addTags(ECTags.Items.FORGE_BOWS, ECTags.Items.FORGE_CROSSBOWS)
+				.addTags(ECTags.Items.FORGE_HELMETS, ECTags.Items.FORGE_CHESTPLATES, ECTags.Items.FORGE_LEGGINGS, ECTags.Items.FORGE_BOOTS)
+				.add(Items.FISHING_ROD, Items.TRIDENT)
+				.add(getItems(MINECRAFT, Wearable.class))
+				.add(getItems(MINECRAFT, TieredItem.class))
+				.add(getItems(MINECRAFT, ProjectileWeaponItem.class));
+
+		addOptionals(jewelSocketables, getItems(SILENTGEAR, Wearable.class));
+		addOptionals(jewelSocketables, getItems(SILENTGEAR, TieredItem.class));
+		addOptionals(jewelSocketables, getItems(SILENTGEAR, ProjectileWeaponItem.class));
+		addOptionals(jewelSocketables, getItems(MEKANISM_TOOLS, Wearable.class));
+		addOptionals(jewelSocketables, getItems(MEKANISM_TOOLS, TieredItem.class));
+		addOptionals(jewelSocketables, getItems(MEKANISM_TOOLS, ProjectileWeaponItem.class));
+	}
+
+	public TagsProvider.TagAppender<Item> addOptionals(TagsProvider.TagAppender<Item> builder, Item[]... optionals) {
+		for (var opt : optionals) {
+			addOptionals(builder, opt);
+		}
+		return builder;
 	}
 
 	public TagsProvider.TagAppender<Item> addOptionals(TagsProvider.TagAppender<Item> builder, Item... optionals) {
@@ -173,24 +214,33 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		return builder;
 	}
 
-	protected <T extends Item> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {
-		return registry.stream().filter(i -> modIds.contains(i.getRegistryName().getNamespace()) && clazz.isInstance(i)).map(clazz::cast).filter(filter)
-				.sorted(Comparator.comparing(Item::getRegistryName)).toArray(Item[]::new);
+	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {
+		return registry.stream()
+				.filter(i -> modIds.contains(i.getRegistryName().getNamespace()) && clazz.isInstance(i))
+				.map(clazz::cast)
+				.filter(filter)
+				.map(Item.class::cast)
+				.sorted(Comparator.comparing(Item::getRegistryName))
+				.toArray(Item[]::new);
 	}
 
-	protected <T extends Item> Item[] getItems(String modId, Class<T> clazz, Predicate<T> filter) {
+	protected <T> Item[] getItems(String modId, Class<T> clazz, Predicate<T> filter) {
 		return getItems(Lists.newArrayList(modId), clazz, filter);
 	}
 
-	protected Item[] getItems(List<String> modIds, Class<? extends Item> clazz) {
+	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz) {
 		return getItems(modIds, clazz, Predicates.alwaysTrue());
 	}
 
-	protected Item[] getItems(String modId, Class<? extends Item> clazz) {
+	protected <T> Item[] getItems(String modId, Class<T> clazz) {
 		return getItems(modId, clazz, Predicates.alwaysTrue());
 	}
 
-	protected Item[] getItems(Class<? extends Item> clazz) {
+	protected <T> Item[] getItems(Class<T> clazz) {
 		return getItems(ElementalCraftApi.MODID, clazz);
+	}
+
+	private Predicate<ArmorItem> forSlot(EquipmentSlot slot) {
+		return item -> item.getSlot() == slot;
 	}
 }

@@ -1,29 +1,31 @@
 package sirttas.elementalcraft.interaction.jei.category.element;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
+import java.util.List;
 
 public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementType> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL("extraction");
+	public static final String NAME = "extraction";
+	private static final ResourceLocation UID = ElementalCraft.createRL(NAME);
 
 	private final int amount;
 	private final ItemStack extractor;
@@ -34,7 +36,7 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 	}
 
 	protected ExtractionRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack extractor, List<ItemStack> tanks, int amount) {
-		super(translationKey, guiHelper.createDrawableIngredient(extractor), guiHelper.createBlankDrawable(64, 48));
+		super(translationKey, createDrawableStack(guiHelper, extractor), guiHelper.createBlankDrawable(64, 48));
 		this.extractor = extractor;
 		this.tanks = tanks;
 		this.amount = amount;
@@ -54,8 +56,14 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 	}
 
 	@Nonnull
+	@Override
+	public RecipeType<ElementType> getRecipeType() {
+		return ECJEIRecipeTypes.EXTRACTION;
+	}
+
+	@Nonnull
     @Override
-	public List<Component> getTooltipStrings(@Nonnull ElementType recipe, double mouseX, double mouseY) {
+	public List<Component> getTooltipStrings(@Nonnull ElementType recipe, @Nonnull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 		if (mouseX > 0 && mouseX < 16 && mouseY > 0 && mouseY < 16) {
 			return Lists.newArrayList(new TranslatableComponent("block.elementalcraft.source." + recipe.getSerializedName()));
 		}

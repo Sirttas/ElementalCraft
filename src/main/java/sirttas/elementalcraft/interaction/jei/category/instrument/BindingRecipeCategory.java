@@ -1,31 +1,32 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument;
 
-import java.util.List;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.world.item.ItemStack;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBinder, AbstractBindingRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL(AbstractBindingRecipe.NAME);
+	private static final ResourceLocation UID = ElementalCraft.createRL(AbstractBindingRecipe.NAME);
 	
 	private static final ItemStack BINDER = new ItemStack(ECItems.BINDER);
 	private static final int RADIUS = 42;
 
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.binding", guiHelper.createDrawableIngredient(BINDER), guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16));
+		super("elementalcraft.jei.binding", createDrawableStack(guiHelper, BINDER), guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/binding.png"), 0, 0, 124, 83), 10, 10);
 	}
 
@@ -40,7 +41,13 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 	public Class<AbstractBindingRecipe> getRecipeClass() {
 		return AbstractBindingRecipe.class;
 	}
-	
+
+	@Nonnull
+	@Override
+	public RecipeType<AbstractBindingRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.BINDING;
+	}
+
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull AbstractBindingRecipe recipe, IIngredients ingredients) {
 		int i = 0;

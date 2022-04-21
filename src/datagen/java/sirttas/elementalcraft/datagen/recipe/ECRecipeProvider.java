@@ -31,6 +31,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.datagen.recipe.builder.PureInfusionRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.SpellCraftRecipeBuilder;
@@ -44,6 +45,8 @@ import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.jewel.Jewel;
+import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.recipe.StaffRecipe;
 import sirttas.elementalcraft.spell.air.DashSpell;
 import sirttas.elementalcraft.spell.air.EnderStrikeSpell;
@@ -63,6 +66,7 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 public class ECRecipeProvider extends RecipeProvider {
 
@@ -285,6 +289,26 @@ public class ECRecipeProvider extends RecipeProvider {
 				.unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get())).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.MAJOR_RUNE_SLATE, 4).pattern("www").pattern("wiw").pattern("www").define('w', ECBlocks.WHITE_ROCK.get()).define('i', ECTags.Items.INGOTS_FIREITE)
 				.unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get())).save(consumer);
+
+		ShapedRecipeBuilder.shaped(ECItems.UNSET_JEWEL).pattern("sis").pattern("idi").pattern("sis").define('s', ECItems.SPRINGALINE_SHARD).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.define('d', Tags.Items.GEMS_DIAMOND).unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
+
+		createJewelRecipe(Jewels.SALMON, b -> b.pattern(" w ").pattern("cUc").pattern(" a ").define('w', ECTags.Items.FINE_WATER_GEMS).define('a', ECTags.Items.CRUDE_AIR_GEMS).define('c', ECItems.WATER_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.DOLPHIN, b -> b.pattern(" w ").pattern("cUc").pattern(" w ").define('w', ECTags.Items.CRUDE_WATER_GEMS).define('c', ECItems.WATER_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.LEOPARD, b -> b.pattern(" a ").pattern("cUc").pattern(" e ").define('a', ECTags.Items.FINE_AIR_GEMS).define('e', ECTags.Items.FINE_EARTH_GEMS).define('c', ECItems.AIR_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.PHOENIX, b -> b.pattern("fgf").pattern("bUb").pattern("fpf").define('g', ECTags.Items.PRISTINE_FIRE_GEMS).define('b', Tags.Items.RODS_BLAZE).define('f', Tags.Items.FEATHERS).define('p', ECItems.PURE_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.TORTOISE, b -> b.pattern("ses").pattern("gUg").pattern("ses").define('g', Tags.Items.GRAVEL).define('e', ECTags.Items.CRUDE_EARTH_GEMS).define('s', Items.SCUTE), consumer);
+		createJewelRecipe(Jewels.DEMIGOD, b -> b.pattern("tat").pattern("cUc").pattern("tet").define('e', ECTags.Items.PRISTINE_EARTH_GEMS).define('a', ECTags.Items.PRISTINE_AIR_GEMS).define('t', Items.TOTEM_OF_UNDYING).define('c', ECItems.PURE_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.MOLE, b -> b.pattern(" e ").pattern("sUa").pattern(" p ").define('e', ECTags.Items.PRISTINE_EARTH_GEMS).define('a', Items.DIAMOND_PICKAXE).define('s', Items.DIAMOND_SHOVEL).define('p', ECItems.PURE_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.TIGER, b -> b.pattern("sas").pattern("cUc").pattern("sfs").define('a', ECTags.Items.PRISTINE_AIR_GEMS).define('c', ECItems.AIR_CRYSTAL).define('f', ECTags.Items.FINE_AIR_GEMS).define('s', Items.SUGAR), consumer);
+		createJewelRecipe(Jewels.BEAR, b -> b.pattern("heh").pattern("cUc").pattern("hfh").define('e', ECTags.Items.PRISTINE_EARTH_GEMS).define('c', ECItems.EARTH_CRYSTAL).define('f', ECTags.Items.FINE_EARTH_GEMS).define('h', Items.HONEY_BOTTLE), consumer);
+		createJewelRecipe(Jewels.VIPER, b -> b.pattern(" w ").pattern("sUs").pattern(" e ").define('e', ECTags.Items.FINE_EARTH_GEMS).define('w', ECTags.Items.FINE_WATER_GEMS).define('s', Items.SPIDER_EYE), consumer);
+		createJewelRecipe(Jewels.HAWK, b -> b.pattern("gag").pattern("cUc").pattern("gag").define('a', ECTags.Items.FINE_AIR_GEMS).define('g', Tags.Items.DUSTS_GLOWSTONE).define('c', ECItems.AIR_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.KIRIN, b -> b.pattern("sfs").pattern("cUc").pattern("sas").define('f', ECTags.Items.PRISTINE_FIRE_GEMS).define('a', ECTags.Items.PRISTINE_AIR_GEMS).define('s', ECItems.SPRINGALINE_SHARD).define('c', ECItems.PURE_CRYSTAL), consumer);
+		createJewelRecipe(Jewels.ARCTIC_HARES, b -> b.pattern(" w ").pattern("fUf").pattern(" a ").define('w', ECTags.Items.FINE_WATER_GEMS).define('a', ECTags.Items.CRUDE_AIR_GEMS).define('f', Items.RABBIT_FOOT), consumer);
+		createJewelRecipe(Jewels.STRIDER, b -> b.pattern(" f ").pattern("bUb").pattern(" f ").define('f', ECTags.Items.FINE_FIRE_GEMS).define('b', Items.LAVA_BUCKET), consumer);
+		createJewelRecipe(Jewels.WATER_STRIDER, b -> b.pattern(" w ").pattern("bUb").pattern(" w ").define('w', ECTags.Items.FINE_WATER_GEMS).define('b', Items.WATER_BUCKET), consumer);
+		createJewelRecipe(Jewels.BASILISK, b -> b.pattern("fwf").pattern("cUc").pattern("sws").define('w', ECTags.Items.PRISTINE_WATER_GEMS).define('c', ECItems.PURE_CRYSTAL).define('f', Items.FERMENTED_SPIDER_EYE).define('s', Items.SCUTE), consumer);
 
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(ECItems.INERT_CRYSTAL), ECItems.FIRE_CRYSTAL, ElementType.FIRE).build(consumer);
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(ECItems.INERT_CRYSTAL), ECItems.WATER_CRYSTAL, ElementType.WATER).build(consumer);
@@ -596,6 +620,52 @@ public class ECRecipeProvider extends RecipeProvider {
 				return recipe.getAdvancementId();
 			}
 		});
+	}
+
+	private void createJewelRecipe(Jewel jewel, UnaryOperator<ShapedRecipeBuilder> patternBuilder, Consumer<FinishedRecipe> consumer) {
+		var builder = ShapedRecipeBuilder.shaped(ECItems.JEWEL);
+		var nameSuffix = "/" + jewel.getRegistryName().getPath();
+
+		patternBuilder.apply(builder).define('U', ECItems.UNSET_JEWEL).unlockedBy("has_unset_jewel", has(ECItems.UNSET_JEWEL)).save(recipe -> consumer.accept(new FinishedRecipe() {
+			@Override
+			public void serializeRecipeData(@Nonnull JsonObject json) {
+				recipe.serializeRecipeData(json);
+
+				var resultJson = json.getAsJsonObject("result");
+				var nbt = new JsonObject();
+				var ecNbt = new JsonObject();
+
+				ecNbt.addProperty(ECNames.JEWEL, jewel.getRegistryName().toString());
+				nbt.add(ECNames.EC_NBT, ecNbt);
+				resultJson.add("nbt", nbt);
+			}
+
+			@Nonnull
+			@Override
+			public ResourceLocation getId() {
+				var oldId = recipe.getId();
+
+				return new ResourceLocation(oldId.getNamespace(), oldId.getPath()+ nameSuffix);
+			}
+
+			@Nonnull
+			@Override
+			public RecipeSerializer<?> getType() {
+				return recipe.getType();
+			}
+
+			@Override
+			public JsonObject serializeAdvancement() {
+				return recipe.serializeAdvancement();
+			}
+
+			@Override
+			public ResourceLocation getAdvancementId() {
+				var oldId = recipe.getAdvancementId();
+
+				return new ResourceLocation(oldId.getNamespace(), oldId.getPath()+ nameSuffix);
+			}
+		}));
 	}
 
 	private String from(ItemLike from, ItemLike to) {

@@ -1,13 +1,14 @@
 package sirttas.elementalcraft.item.pureore.injector;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
+import sirttas.elementalcraft.tag.ECTags;
 
 public class PureOreCookingRecipeInjector<T extends AbstractCookingRecipe> extends AbstractPureOreRecipeInjector<Container, T> {
 
@@ -27,4 +28,8 @@ public class PureOreCookingRecipeInjector<T extends AbstractCookingRecipe> exten
 		T create(ResourceLocation id, String group, Ingredient ingredient, ItemStack result, float experience, int cookTime);
 	}
 
+	@Override
+	public boolean filter(T recipe, ItemStack stack) {
+		return super.filter(recipe, stack) && stack.is(ECTags.Items.PURE_ORES_ORE_SOURCE);
+	}
 }

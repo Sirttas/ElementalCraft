@@ -198,6 +198,8 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.RUNE_SLATE, list);
 		addItem(ECItems.MAJOR_RUNE_SLATE, list);
 		addItem(ECItems.RUNE, list);
+		addItem(ECItems.UNSET_JEWEL, list);
+		addItem(ECItems.JEWEL, list);
 	}
 
 	private <T extends ItemLike> void addItem(@Nonnull Supplier<T> item, @Nonnull NonNullList<ItemStack> list) {

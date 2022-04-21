@@ -5,6 +5,30 @@
     "minecraft:golden_axe",
     "minecraft:diamond_axe",
     "minecraft:netherite_axe",
-    "#forge:axes"
+    "#forge:axes",
+    {
+      "id": "mekanismtools:bronze_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_axe",
+      "required": false
+    }
   ]
 }

@@ -1,23 +1,16 @@
 package sirttas.elementalcraft.item.pureore;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.crafting.NBTIngredient;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fml.DistExecutor;
 import sirttas.dpanvil.api.event.DataPackReloadCompletEvent;
-import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
@@ -25,38 +18,34 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.NBTHelper;
-import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PureOreManager {
 
+	private static final PureOreLoader ORE_LOADER = PureOreLoader.create(ECTags.Items.PURE_ORES_ORE_SOURCE)
+			.pattern("_?ore$")
+			.tagFolder("ores")
+			.inputSize(ECConfig.COMMON.pureOreOresInput.get())
+			.outputSize(ECConfig.COMMON.pureOreOresOutput.get());
+	private static final PureOreLoader RAW_MATERIALS_LOADER = PureOreLoader.create(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE)
+			.pattern("^raw_?")
+			.tagFolder("raw_materials")
+			.inputSize(ECConfig.COMMON.pureOreRawMaterialsInput.get())
+			.outputSize(ECConfig.COMMON.pureOreRawMaterialsOutput.get());
 
-	private static final Lazy<HolderSet.Named<Item>> PURE_ORES_ORE_SOURCE = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.PURE_ORES_ORE_SOURCE));
-	private static final Pattern ORE_PATTERN = Pattern.compile("_?ore$");
-	
 	private final Map<ResourceLocation, Entry> pureOres = new HashMap<>();
 
 	public boolean isValidOre(ItemStack ore) {
-		return pureOres.values().stream().anyMatch(e -> e.getIngredient().test(ore));
-	}
-	
-	public ItemStack createPureOreFor(ItemStack ore) {
-		return pureOres.values().stream()
-				.filter(e -> e.getIngredient().test(ore))
-				.map(e -> this.createPureOre(e.id))
-				.findAny()
-				.orElse(ItemStack.EMPTY);
+		return pureOres.values().stream().anyMatch(e -> e.test(ore));
 	}
 	
 	private ResourceLocation getPureOreId(ItemStack stack) {
@@ -67,11 +56,24 @@ public class PureOreManager {
 		}
 		return null;
 	}
-	
+
+	public IPurifierRecipe getRecipes(ItemStack ore) {
+		return pureOres.values().stream()
+				.filter(e -> e.test(ore))
+				.<IPurifierRecipe>mapMulti((e, downstream) -> e.getRecipes().forEach(downstream))
+				.filter(r -> r.matches(ore))
+				.findAny()
+				.orElse(null);
+	}
+
+	public static Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> getInjectors() {
+		return AbstractPureOreRecipeInjector.REGISTRY.getValues();
+	}
+
 	Component getPureOreName(ItemStack stack) {
 		var entry = pureOres.get(getPureOreId(stack));
 		
-		return entry != null ? entry.translationKey : null;
+		return entry != null ? entry.getDescription() : null;
 	}
 	
 	ItemStack createPureOre(ResourceLocation id) {
@@ -84,183 +86,139 @@ public class PureOreManager {
 		return ItemStack.EMPTY;
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	public int getColor(ItemStack stack) {
 		var entry = pureOres.get(getPureOreId(stack));
-		
-		return entry != null ? entry.color : -1;
+
+		return entry != null ? entry.getColor() : -1;
 	}
 
 	public List<ResourceLocation> getOres() {
 		return new ArrayList<>(pureOres.keySet());
 	}
 
-	public List<PurifierRecipe> getRecipes() {
+	public List<IPurifierRecipe> getRecipes() {
 		return pureOres.values().stream()
-				.map(e -> e.ores.stream().map(ItemStack::new).collect(Collectors.toList()))
-				.filter(e -> !e.isEmpty())
-				.map(JEIPurifierRecipe::new)
-				.collect(Collectors.toList());
+				.<IPurifierRecipe>mapMulti((e, downstream) -> e.getRecipes().forEach(downstream))
+				.toList();
 	}
 
-	private Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> getInjectors() {
-		return AbstractPureOreRecipeInjector.REGISTRY.getValues();
-	}
-
-	private void generatePureOres(RecipeManager recipeManager) {
+	public void reload(DataPackReloadCompletEvent event) {
+		var recipeManager = event.getRecipeManager();
 		Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors = getInjectors();
 
-		ElementalCraftApi.LOGGER.info("Pure ore generation started.\r\n\tRecipe Types: {}\r\n\tOres found: {}",
-				() -> injectors.stream().map(AbstractPureOreRecipeInjector::toString).collect(Collectors.joining(", ")),
-				() -> PURE_ORES_ORE_SOURCE.get().stream()
-						.mapMulti(ElementalCraftUtils.cast(Holder.Reference.class))
-						.map(r -> r.key().toString())
+		ElementalCraftApi.LOGGER.info("Pure ore generation started.\n\r\tRecipe Types: {}",
+				() -> injectors.stream()
+						.map(AbstractPureOreRecipeInjector::toString)
 						.collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
-
-		PURE_ORES_ORE_SOURCE.get().stream().forEach(holder -> {
-			var ore = holder.value();
-			Entry entry = findOrCreateEntry(ore);
-			boolean isInBlacklist = holder.is(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
-
-			injectors.forEach(injector -> {
-				if (!injector.isModProcessing() || !isInBlacklist) {
-					injector.getRecipe(ore).ifPresent(entry::addRecipe);
-				}
-			});
-		});
+		this.pureOres.clear();
+		ORE_LOADER.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), Entry::new).ore = e);
+		RAW_MATERIALS_LOADER.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), Entry::new).rawMaterial = e);
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection");
 
-			List<Entry> entries = pureOres.values().stream().distinct().collect(Collectors.toList());
+			List<Entry> entries = pureOres.values().stream().distinct().toList();
 
 			recipeManager.recipes = recipeManager.recipes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 			injectors.forEach(injector -> inject(injector, entries));
 			recipeManager.recipes = recipeManager.recipes.entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
 		}
-		ElementalCraftApi.LOGGER.info("Pure ore generation ended");
+
+		ElementalCraftApi.LOGGER.info("Pure ore generation ended\r\n\tOres: {}", () -> pureOres.keySet().stream()
+				.map(ResourceLocation::toString)
+				.collect(Collectors.joining(", ")));
 	}
 
-	private <C extends Container, T extends Recipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, List<PureOreManager.Entry> entries) {
+	private <C extends Container, T extends Recipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, List<Entry> entries) {
 		Map<ResourceLocation, T> map = injector.getRecipes();
 
-		map.putAll(entries.stream().distinct().map(entry -> this.injectEntry(injector, entry)).filter(Objects::nonNull).collect(Collectors.toMap(Recipe::getId, o -> o, (recipe1, recipe2) -> {
-			ElementalCraftApi.LOGGER.warn("Duplicated key for type {}: {}", injector.getRecipeType(), recipe1.getId());
-			return recipe1;
-		})));
+		map.putAll(entries.stream()
+				.distinct()
+				.<T>mapMulti((entry, downstream) -> {
+					if (entry.ore != null) {
+						downstream.accept(this.injectEntry(injector, entry.ore));
+					}
+					if (entry.rawMaterial != null) {
+						downstream.accept(this.injectEntry(injector, entry.rawMaterial));
+					}
+				})
+				.filter(Objects::nonNull)
+				.collect(Collectors.toMap(Recipe::getId, o -> o, (recipe1, recipe2) -> {
+					ElementalCraftApi.LOGGER.warn("Duplicated key for type {}: {}", injector.getRecipeType(), recipe1.getId());
+					return recipe1;
+				})));
 		injector.inject(map);
 	}
 
-	public <C extends Container, T extends Recipe<C>> T injectEntry(AbstractPureOreRecipeInjector<C, T> injector, Entry entry) {
+	private <C extends Container, T extends Recipe<C>> T injectEntry(AbstractPureOreRecipeInjector<C, T> injector, PureOre entry) {
 		RecipeType<T> recipeType = injector.getRecipeType();
 		try {
 			T recipe = entry.getRecipe(recipeType);
 
-			return recipe != null ? injector.build(recipe, new PureOreIngredient(createPureOre(entry.id))) : null;
+			return recipe != null ? injector.build(recipe, NBTIngredient.of(createPureOre(entry.getId()))) : null;
 		} catch (Exception e) {
 			ElementalCraftApi.LOGGER.error("Error in pure ore recipe injection", e);
 			return null;
 		}
 	}
 
-	private Entry findOrCreateEntry(Item ore) {
-		var id = ore.getRegistryName();
-		var matcher = ORE_PATTERN.matcher(id.getPath());
-		HolderSet.Named<Item> tag = null;
-		
-		if (matcher.matches()) {
-			var path = matcher.replaceAll("");
-			var namespace = id.getNamespace();
-			var tagName = new ResourceLocation("forge", "ores/" + path);
-			
-			try {
-				tag = ECTags.Items.getTag(tagName);
-				if (tag != null) {
-					namespace = "forge";
-				}
-			} catch (Exception e) {
-				ElementalCraftApi.LOGGER.trace("Tag Not found {}: {}", tagName, e.getMessage());
-			}
-			id = new ResourceLocation(namespace, path);
-		}
-		
-		var entry = pureOres.computeIfAbsent(id, Entry::new);
+	private static class Entry {
 
-		if (entry.translationKey == null) {
-			entry.translationKey = ore.getDescription();
-		}
-		entry.ores.add(ore);
-		if (tag != null) {
-			tag.stream()
-					.map(Holder::value)
-					.forEach(entry.ores::add);
-		}
-		return entry;
-	}
-
-	public void reload(DataPackReloadCompletEvent event) {
-		this.generatePureOres(event.getRecipeManager());
-	}
-	
-	protected class Entry {
-		
-		final Set<Item> ores;
-		final Map<RecipeType<?>, Recipe<?>> recipes;
-		final ResourceLocation id;
-		
-		int color;
-		Component translationKey;
+		private final ResourceLocation id;
+		@OnlyIn(Dist.CLIENT)
+		private int color = -1;
+		private PureOre ore;
+		private PureOre rawMaterial;
 
 		public Entry(ResourceLocation id) {
-			this.ores = new HashSet<>();
-			recipes = new HashMap<>();
 			this.id = id;
-			this.color = -1;
 		}
 
-		@SuppressWarnings("unchecked")
-		public <C extends Container, T extends Recipe<C>> T getRecipe(RecipeType<T> recipeType) {
-			return (T) recipes.get(recipeType);
-		}
-
-		@SuppressWarnings("unchecked")
-		public <C extends Container, T extends Recipe<C>> void addRecipe(T recipe) {
-			RecipeType<?> recipeType = recipe.getType();
-
-			recipes.put(recipe.getType(), recipe);
-			if (color == -1) {
-				var result = getInjectors().stream()
-						.filter(injector -> injector.getRecipeType().equals(recipeType))
-						.map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe))
-						.filter(stack -> !stack.isEmpty())
-						.findAny()
-						.orElse(recipe.getResultItem());
-				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> color = ECItem.lookupColor(result));
+		public Component getDescription() {
+			if (ore != null) {
+				return ore.getDescription();
+			} else if (rawMaterial != null) {
+				return rawMaterial.getDescription();
 			}
+			return null;
 		}
 
-		public boolean isValid() {
-			return !recipes.isEmpty();
+		public boolean test(ItemStack ore) {
+			return (this.ore != null && this.ore.getIngredient().test(ore)) || (this.rawMaterial != null && this.rawMaterial.getIngredient().test(ore));
 		}
-		
-		public Ingredient getIngredient() {
-			return Ingredient.of(ores.stream().map(ItemStack::new));
+
+		public List<IPurifierRecipe> getRecipes() {
+			var list = new ArrayList<IPurifierRecipe>();
+
+			if (ore != null) {
+				var recipe = ore.getRecipe();
+
+				if (recipe != null) {
+					list.add(recipe);
+				}
+			}
+			if (rawMaterial != null) {
+				var recipe = rawMaterial.getRecipe();
+
+				if (recipe != null) {
+					list.add(recipe);
+				}
+			}
+			return list;
+		}
+
+		@OnlyIn(Dist.CLIENT)
+		private int getColor() {
+			if (color == -1) {
+				if (ore != null) {
+					color = ECItem.lookupColor(ore.getResultForColor());
+				} else if (rawMaterial != null) {
+					color = ECItem.lookupColor(rawMaterial.getResultForColor());
+				}
+			}
+			return color;
 		}
 	}
-
-	private static class PureOreIngredient extends NBTIngredient {
-
-		public PureOreIngredient(ItemStack stack) {
-			super(stack);
-		}
-	}
-
-	private static class JEIPurifierRecipe extends PurifierRecipe {
-
-		public JEIPurifierRecipe(List<ItemStack> ores) {
-			super(ores.get(0));
-			input = Ingredient.of(ores.toArray(ItemStack[]::new));
-		}
-	}
-
 }

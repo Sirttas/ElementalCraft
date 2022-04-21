@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItem;
@@ -119,7 +118,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 		}
 		
 		InteractionResult result = InteractionResult.PASS;
-		HitResult ray = EntityHelper.rayTrace(player, player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue());
+		HitResult ray = EntityHelper.rayTrace(player);
 		HitResult.Type rayType = ray.getType();
 		
 		if (rayType == HitResult.Type.ENTITY) {

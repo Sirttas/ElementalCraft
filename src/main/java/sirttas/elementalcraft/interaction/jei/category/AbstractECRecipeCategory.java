@@ -2,11 +2,13 @@ package sirttas.elementalcraft.interaction.jei.category;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +27,11 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		this.icon = icon;
 		this.translationKey = translationKey;
 	}
-	
+
+	protected static IDrawable createDrawableStack(IGuiHelper guiHelper, ItemStack stack) {
+		return guiHelper.createDrawableIngredient(VanillaTypes.ITEM, stack);
+	}
+
 	@Nonnull
     @Override
 	public Component getTitle() {

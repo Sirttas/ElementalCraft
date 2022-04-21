@@ -1,17 +1,20 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.recipe.instrument.io.PurifierRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
 
 import javax.annotation.Nonnull;
 
-public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCategory<PurifierBlockEntity, PurifierRecipe> {
+public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCategory<PurifierBlockEntity, IPurifierRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL("purification");
+	public static final String NAME = "purification";
+	private static final ResourceLocation UID = ElementalCraft.createRL(NAME);
 
 	public PurificationRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper, "elementalcraft.jei.purification", ECItems.PURIFIER);
@@ -25,7 +28,13 @@ public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCatego
 
 	@Nonnull
     @Override
-	public Class<PurifierRecipe> getRecipeClass() {
-		return PurifierRecipe.class;
+	public Class<IPurifierRecipe> getRecipeClass() {
+		return IPurifierRecipe.class;
+	}
+
+	@Nonnull
+	@Override
+	public RecipeType<IPurifierRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.PURIFICATION;
 	}
 }

@@ -2,6 +2,14 @@
   "replace": false,
   "values": [
     "minecraft:bow",
-    "#forge:bows"
+    "#forge:bows",
+    {
+      "id": "silentgear:bow",
+      "required": false
+    },
+    {
+      "id": "silentgear:slingshot",
+      "required": false
+    }
   ]
 }

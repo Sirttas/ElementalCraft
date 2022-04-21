@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " w ",
+    "cUc",
+    " a "
+  ],
+  "key": {
+    "w": {
+      "tag": "elementalcraft:gems/fine_water"
+    },
+    "a": {
+      "tag": "elementalcraft:gems/crude_air"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:jewel",
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:salmon"
+      }
+    }
+  }
+}

@@ -22,6 +22,8 @@ import sirttas.elementalcraft.container.menu.IMenuOpenListener;
 import sirttas.elementalcraft.entity.player.PlayerElementStorage;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.jewel.handler.ClientJewelHandler;
+import sirttas.elementalcraft.jewel.handler.JewelHandler;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class EntityHandler {
@@ -69,14 +71,17 @@ public class EntityHandler {
 	public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		Entity entity = event.getObject();
 
-		if (entity.level.isClientSide) {
-			return;
-		}
 		if (entity instanceof Player player) {
 			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), PlayerElementStorage.createProvider(player));
 		}
+		if (entity.level.isClientSide) {
+			event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), ClientJewelHandler.createProvider());
+		} else {
+			event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), JewelHandler.createProvider(entity));
+		}
 	}
-	
+
+
 	@SubscribeEvent
 	public static void onContainerOpen(PlayerContainerEvent.Open event) {
 		if (event.getContainer() instanceof IMenuOpenListener listener) {

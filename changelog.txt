@@ -1,3 +1,19 @@
+1.18.2-4.3.0:
+
+- add back mekanism interaction
+- new feature: jewels
+- new item: unset jewel
+- pure ore are unified for different ore variantss (ex: stone/deepslate)
+- can now  display multiple element gauges
+- fix spell not showing element gauge
+
+
+1.18.2-4.2.2:
+
+- fix datagen
+- added back silent gear compatibility
+
+
 1.18.2-4.2.1:
 
 - fix build errors

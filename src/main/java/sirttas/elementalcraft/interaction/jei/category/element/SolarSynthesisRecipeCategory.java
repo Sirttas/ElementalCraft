@@ -1,41 +1,47 @@
 package sirttas.elementalcraft.interaction.jei.category.element;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeCategory {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL("solar_synthesis");
+	public static final String NAME = "solar_synthesis";
+	private static final ResourceLocation UID = ElementalCraft.createRL(NAME);
 
 	private static final ItemStack SOLAR_SYNTHESIZER = new ItemStack(ECBlocks.SOLAR_SYNTHESIZER);
 
 	protected final ItemStack tank = new ItemStack(ECItems.TANK);
 
 	public SolarSynthesisRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.solar_synthesis", guiHelper.createDrawableIngredient(SOLAR_SYNTHESIZER), guiHelper.createBlankDrawable(84, 66));
+		super("elementalcraft.jei.solar_synthesis", createDrawableStack(guiHelper, SOLAR_SYNTHESIZER), guiHelper.createBlankDrawable(84, 66));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/solar_synthesis.png"), 0, 0, 49, 54), 8, 4);
 	}
-
 
 	@Nonnull
     @Override
 	public ResourceLocation getUid() {
 		return UID;
+	}
+
+	@Nonnull
+	@Override
+	public RecipeType<Ingredient> getRecipeType() {
+		return ECJEIRecipeTypes.SOLAR_SYNTHESIS;
 	}
 
 	@Override

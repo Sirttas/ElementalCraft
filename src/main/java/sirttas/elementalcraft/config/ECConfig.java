@@ -110,11 +110,14 @@ public class ECConfig {
 		public final IntValue purifierDuration;
 		public final DoubleValue purifierLuckRatio;
 		public final IntValue purifierBaseCost;
-		public final IntValue pureOreMultiplier;
 		public final BooleanValue pureOreRecipeInjection;
 		public final BooleanValue pureOreSmeltingRecipe;
 		public final BooleanValue pureOreBlastingRecipe;
 		public final BooleanValue pureOreCampFireRecipe;
+		public final IntValue pureOreOresInput;
+		public final IntValue pureOreOresOutput;
+		public final IntValue pureOreRawMaterialsInput;
+		public final IntValue pureOreRawMaterialsOutput;
 		public final IntValue impairedPipeTransferAmount;
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
@@ -158,7 +161,8 @@ public class ECConfig {
 		public final BooleanValue disableSourceExhaustion;
 
 		public final BooleanValue mekanismInteracionEnabled;
-		public final DoubleValue mekanismPureOreDimishingAmount;
+		public final IntValue mekanismPureOreInputMultiplier;
+		public final IntValue mekanismPureOreOutputMultiplier;
 		public final BooleanValue mekanismPureOreDissolutionRecipe;
 		public final BooleanValue mekanismPureOreInjectingRecipe;
 		public final BooleanValue mekanismPureOrePurifyingRecipe;
@@ -281,12 +285,17 @@ public class ECConfig {
 			purifierLuckRatio = builder.comment("The ratio of each luck rune on a purifier.").defineInRange("purifierLuckRatio", 3D, 0D, 10D);
 			purifierBaseCost = builder.comment("The base cost of a purifier recipe.").defineInRange("purifierBaseCost", 2500, 0, 10000);
 			builder.push("pureOre");
-			pureOreMultiplier = builder.comment("The number of output pure ores by a purifier.").defineInRange("pureOreMultiplier", 2, 1, 20);
 			pureOreRecipeInjection = builder.comment("Set to false if you want to manually manage processing of pure ore.").define("pureOreRecipeInjection", true);
 			pureOreSmeltingRecipe = builder.comment("Set to false if you want pure ore to not use smelting recipes.").define("pureOreSmeltingRecipe", true);
 			pureOreBlastingRecipe = builder.comment("Set to false if you want pure ore to not use blasting recipes.").define("pureOreBlastingRecipe", true);
 			pureOreCampFireRecipe = builder.comment("Set to false if you want pure ore to not use camp fire recipes.").define("pureOreCampFireRecipe", true);
-			builder.pop(2).push("elementPipe");
+			builder.push("ores");
+			pureOreOresInput = builder.comment("The number of input pure ores by a purifier. Using ore blocks.").defineInRange("pureOreOresInput", 1, 1, 20);
+			pureOreOresOutput = builder.comment("The number of output pure ores by a purifier. Using ore blocks.").defineInRange("pureOreOresOutput", 2, 1, 20);
+			builder.pop().push("rawMaterials");
+			pureOreRawMaterialsInput = builder.comment("The number of input pure ores by a purifier. Using raw materials.").defineInRange("pureOreRawMaterialsInput", 3, 1, 20);
+			pureOreRawMaterialsOutput = builder.comment("The number of output pure ores by a purifier. Using raw materials.").defineInRange("pureOreRawMaterialsOutput", 4, 1, 20);
+			builder.pop(3).push("elementPipe");
 			impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
 			improvedPipeTransferAmount = builder.comment("The amount of element transferred by improved pipes.").defineInRange("improvedPipeTransferAmount", 100, 0, 10000);
@@ -344,8 +353,8 @@ public class ECConfig {
 
 			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
-			mekanismPureOreDimishingAmount = builder.comment("The dimishing amount multiplier when using pure ore in mekanism. it prevent an exploit.").defineInRange("mekanismPureOreDimishingAmount",
-					0.75D, 0, 1);
+			mekanismPureOreInputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreInputMultiplier",5, 0, 20);
+			mekanismPureOreOutputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreOutputMultiplier",3, 0, 20);
 			mekanismPureOreDissolutionRecipe = builder.comment("Set to false if you want pure ore to not use mekanism dissolution recipes.").define("mekanismPureOreDissolutionRecipe", true);
 			mekanismPureOreInjectingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism injecting recipes.").define("mekanismPureOreInjectingRecipe", true);
 			mekanismPureOrePurifyingRecipe = builder.comment("Set to false if you want pure ore to not use mekanism purifying recipes.").define("mekanismPureOrePurifyingRecipe", true);

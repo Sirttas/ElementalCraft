@@ -1,33 +1,34 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
+import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCategory<CrystallizerBlockEntity, CrystallizationRecipe> {
 
-	public static final ResourceLocation UID = ElementalCraft.createRL(CrystallizationRecipe.NAME);
+	private static final ResourceLocation UID = ElementalCraft.createRL(CrystallizationRecipe.NAME);
 
 	private static final ItemStack CRYSTALLIZER = new ItemStack(ECItems.CRYSTALLIZER);
 
 	public CrystallizationRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.crystallization", guiHelper.createDrawableIngredient(CRYSTALLIZER), guiHelper.createBlankDrawable(132, 110));
+		super("elementalcraft.jei.crystallization", createDrawableStack(guiHelper, CRYSTALLIZER), guiHelper.createBlankDrawable(132, 110));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/crystallization.png"), 0, 0, 124, 52), 10, 10);
 	}
 
@@ -41,6 +42,12 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
     @Override
 	public Class<CrystallizationRecipe> getRecipeClass() {
 		return CrystallizationRecipe.class;
+	}
+
+	@Nonnull
+	@Override
+	public RecipeType<CrystallizationRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.CRYSTALLIZATION;
 	}
 
 	@Override

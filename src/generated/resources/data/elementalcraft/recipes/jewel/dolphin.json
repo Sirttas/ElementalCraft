@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " w ",
+    "cUc",
+    " w "
+  ],
+  "key": {
+    "w": {
+      "tag": "elementalcraft:gems/crude_water"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:jewel",
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:dolphin"
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ses",
+    "gUg",
+    "ses"
+  ],
+  "key": {
+    "g": {
+      "tag": "forge:gravel"
+    },
+    "e": {
+      "tag": "elementalcraft:gems/crude_earth"
+    },
+    "s": {
+      "item": "minecraft:scute"
+    },
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:jewel",
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:tortoise"
+      }
+    }
+  }
+}
