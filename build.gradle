@@ -348,6 +348,7 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 				relations {
 					requiredDependency 'datapack-anvil'
 					requiredDependency 'jei'
+                    requiredDependency 'patchouli'
 	        		incompatible 'performant'
 				}
 			}

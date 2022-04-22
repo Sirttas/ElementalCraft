@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.interaction.jei.category.element;
 
 import com.google.common.collect.Lists;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -25,7 +25,6 @@ import java.util.List;
 public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementType> {
 
 	public static final String NAME = "extraction";
-	private static final ResourceLocation UID = ElementalCraft.createRL(NAME);
 
 	private final int amount;
 	private final ItemStack extractor;
@@ -44,18 +43,6 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 	}
 
 	@Nonnull
-    @Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Nonnull
-    @Override
-	public Class<ElementType> getRecipeClass() {
-		return ElementType.class;
-	}
-
-	@Nonnull
 	@Override
 	public RecipeType<ElementType> getRecipeType() {
 		return ECJEIRecipeTypes.EXTRACTION;
@@ -71,20 +58,12 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 	}
 
 	@Override
-	public void setIngredients(@Nonnull ElementType recipe, IIngredients ingredients) {
-		ingredients.setOutput(ECIngredientTypes.ELEMENT, new IngredientElementType(recipe, amount));
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementType type, @Nonnull IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 16)
+				.addItemStack(extractor);
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 32)
+				.addItemStacks(tanks);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 32)
+				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(type, amount));
 	}
-
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull ElementType recipe, IIngredients ingredients) {
-		recipeLayout.getItemStacks().init(0, false, 0, 32);
-		recipeLayout.getItemStacks().set(0, tanks);
-		recipeLayout.getItemStacks().init(1, false, 0, 16);
-		recipeLayout.getItemStacks().set(1, extractor);
-
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(2, true, 47, 31);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(2, ingredients.getOutputs(ECIngredientTypes.ELEMENT).get(0));
-
-	}
-
 }

@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.name.ECNames;
 
 import java.util.function.Predicate;
 
@@ -108,7 +109,7 @@ public class ECTags {
 		public static final TagKey<Item> FORGE_LEGGINGS = createForgeTag("leggings");
 		public static final TagKey<Item> FORGE_BOOTS = createForgeTag("boots");
 
-		public static final TagKey<Item> INGOTS_MANASTEEL = createOptional("forge", "ingots/manasteel");
+		public static final TagKey<Item> INGOTS_MANASTEEL = createOptional(ECNames.FORGE, "ingots/manasteel");
 		public static final TagKey<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
 		public static final TagKey<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
 		public static final TagKey<Item> INGOTS_FIREITE = createForgeTag("ingots/fireite");
@@ -131,7 +132,7 @@ public class ECTags {
 		}
 		
 		private static TagKey<Item> createForgeTag(String name) {
-			return ItemTags.create(new ResourceLocation("forge", name));
+			return ItemTags.create(new ResourceLocation(ECNames.FORGE, name));
 		}
 
 		public static HolderSet.Named<Item> getTag(ResourceLocation loc) {
@@ -187,7 +188,7 @@ public class ECTags {
 		}
 
 		private static TagKey<Block> createForgeTag(String name) {
-			return createTag("forge", name);
+			return createTag(ECNames.FORGE, name);
 		}
 
 		private static TagKey<Block> createTag(String modId, String name) {

@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.ElementalCraft;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractInstrumentRecipeCategory<K, T> {
 	
-	private final ItemStack instrument;
+	protected final ItemStack instrument;
 
 	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemLike item) {
 		this(guiHelper, translationKey, new ItemStack(item));
@@ -32,21 +32,28 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 	protected List<ItemStack> getTanks() {
 		return List.of(tank);
 	}
-	
+
+	@Nonnull
+	protected List<ItemStack> getOutputs(@Nonnull T recipe) {
+		return List.of(recipe.getResultItem());
+	}
+
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull T recipe, IIngredients ingredients) {
-		recipeLayout.getItemStacks().init(0, true, 0, 0);
-		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull T recipe, @Nonnull IFocusGroup focuses) {
+		var ingredients = recipe.getIngredients();
 
-		recipeLayout.getItemStacks().init(1, false, 30, 40);
-		recipeLayout.getItemStacks().set(1, getTanks());
-		recipeLayout.getItemStacks().init(2, false, 30, 24);
-		recipeLayout.getItemStacks().set(2, instrument);
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
+				.addIngredients(ingredients.get(0));
 
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(3, true, 31, 58);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(3, ingredients.getInputs(ECIngredientTypes.ELEMENT).get(0));
+		builder.addSlot(RecipeIngredientRole.CATALYST, 30, 24)
+				.addItemStack(instrument);
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 30, 40)
+				.addItemStacks(getTanks());
 
-		recipeLayout.getItemStacks().init(4, false, 59, 0);
-		recipeLayout.getItemStacks().set(4, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 58)
+				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
+
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 59, 0)
+				.addItemStacks(getOutputs(recipe));
 	}
 }

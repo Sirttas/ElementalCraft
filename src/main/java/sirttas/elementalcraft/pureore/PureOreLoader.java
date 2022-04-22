@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.item.pureore;
+package sirttas.elementalcraft.pureore;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;

@@ -4,10 +4,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -29,7 +31,7 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 	}
 
 	protected static IDrawable createDrawableStack(IGuiHelper guiHelper, ItemStack stack) {
-		return guiHelper.createDrawableIngredient(VanillaTypes.ITEM, stack);
+		return guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, stack);
 	}
 
 	@Nonnull
@@ -37,11 +39,13 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 	public Component getTitle() {
 		return new TranslatableComponent(translationKey);
 	}
+
 	@Nonnull
     @Override
 	public IDrawable getIcon() {
 		return icon;
 	}
+
 	@Nonnull
     @Override
 	public IDrawable getBackground() {
@@ -55,11 +59,24 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 	}
 
 	@Override
-	public void draw(@Nonnull T recipe, @Nonnull PoseStack matrixStack, double mouseX, double mouseY) {
+	public void draw(@Nonnull T recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack matrixStack, double mouseX, double mouseY) {
 		if (overlay != null) {
 			RenderSystem.enableBlend();
 			overlay.draw(matrixStack, overlayX, overlayY);
 			RenderSystem.disableBlend();
 		}
+	}
+
+
+	@Nonnull
+	@Override
+	public ResourceLocation getUid() {
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public Class<? extends T> getRecipeClass() {
+		return null;
 	}
 }

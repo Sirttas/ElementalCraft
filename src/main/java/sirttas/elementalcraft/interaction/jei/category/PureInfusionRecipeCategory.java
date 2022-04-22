@@ -1,11 +1,10 @@
 package sirttas.elementalcraft.interaction.jei.category;
 
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
@@ -16,27 +15,12 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategory<PureInfuserBlockEntity, PureInfusionRecipe> {
 
-	private static final ResourceLocation UID = ElementalCraft.createRL(PureInfusionRecipe.NAME);
-
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.pureinfusion", guiHelper.createDrawableIngredient(new ItemStack(ECItems.PURE_INFUSER)), guiHelper.createBlankDrawable(177, 134));
+		super("elementalcraft.jei.pureinfusion", createDrawableStack(guiHelper, new ItemStack(ECItems.PURE_INFUSER)), guiHelper.createBlankDrawable(177, 134));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
-	}
-
-	@Nonnull
-    @Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Nonnull
-    @Override
-	public Class<? extends PureInfusionRecipe> getRecipeClass() {
-		return PureInfusionRecipe.class;
 	}
 
 	@Nonnull
@@ -46,37 +30,38 @@ public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategor
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull PureInfusionRecipe recipe, IIngredients ingredients) {
-		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
-		List<List<IngredientElementType>> elementInputs = ingredients.getInputs(ECIngredientTypes.ELEMENT);
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull PureInfusionRecipe recipe, @Nonnull IFocusGroup focuses) {
+		var ingredients = recipe.getIngredients();
+		var elementIngredients = IngredientElementType.all(getGaugeValue(recipe.getElementAmount()));
 
-		recipeLayout.getItemStacks().init(0, true, 59, 60);
-		recipeLayout.getItemStacks().set(0, inputs.get(0));
-		recipeLayout.getItemStacks().init(1, true, 25, 60);
-		recipeLayout.getItemStacks().set(1, inputs.get(1));
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(1, true, 10, 61);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(1, elementInputs.get(0));
-		recipeLayout.getItemStacks().init(2, true, 59, 26);
-		recipeLayout.getItemStacks().set(2, inputs.get(2));
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(2, true, 61, 10);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(2, elementInputs.get(1));
-		recipeLayout.getItemStacks().init(3, true, 59, 94);
-		recipeLayout.getItemStacks().set(3, inputs.get(3));
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(3, true, 60, 111);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(3, elementInputs.get(2));
-		recipeLayout.getItemStacks().init(4, true, 93, 60);
-		recipeLayout.getItemStacks().set(4, inputs.get(4));
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(4, true, 111, 61);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(4, elementInputs.get(3));
-		recipeLayout.getItemStacks().init(5, false, 153, 60);
-		recipeLayout.getItemStacks().set(5, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
+		builder.addSlot(RecipeIngredientRole.INPUT, 60, 61)
+				.addIngredients(ingredients.get(0));
 
+		// Left
+		builder.addSlot(RecipeIngredientRole.INPUT, 26, 61)
+				.addIngredients(ingredients.get(1));
+		builder.addSlot(RecipeIngredientRole.INPUT, 9, 61)
+				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(0));
+
+		// Top
+		builder.addSlot(RecipeIngredientRole.INPUT, 60, 27)
+				.addIngredients(ingredients.get(2));
+		builder.addSlot(RecipeIngredientRole.INPUT, 60, 10)
+				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(1));
+
+		// Bottom
+		builder.addSlot(RecipeIngredientRole.INPUT, 60, 95)
+				.addIngredients(ingredients.get(3));
+		builder.addSlot(RecipeIngredientRole.INPUT, 60, 112)
+				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(2));
+
+		// Right
+		builder.addSlot(RecipeIngredientRole.INPUT, 94, 61)
+				.addIngredients(ingredients.get(4));
+		builder.addSlot(RecipeIngredientRole.INPUT, 111, 61)
+				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(3));
+
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 154, 61)
+				.addItemStack(recipe.getResultItem());
 	}
-
-	@Override
-	public void setIngredients(PureInfusionRecipe recipe, IIngredients ingredients) {
-		super.setIngredients(recipe, ingredients);
-		ingredients.setInputs(ECIngredientTypes.ELEMENT, IngredientElementType.all(getGaugeValue(recipe.getElementAmount())));
-	}
-
 }

@@ -1,12 +1,11 @@
 package sirttas.elementalcraft.interaction.jei.category.element;
 
 import com.google.common.collect.Lists;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import sirttas.elementalcraft.ElementalCraft;
@@ -21,21 +20,13 @@ import java.util.List;
 public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCategory {
 
 	public static final String NAME = "evaporation";
-	private static final ResourceLocation UID = ElementalCraft.createRL(NAME);
 
 	protected static final List<ItemStack> TANKS = Lists.newArrayList(new ItemStack(ECItems.TANK), new ItemStack(ECItems.TANK_SMALL));
 	private static final ItemStack EVAPORATOR = new ItemStack(ECItems.EVAPORATOR);
 
 	public EvaporationRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.evaporation", guiHelper.createDrawableIngredient(EVAPORATOR), guiHelper.createBlankDrawable(99, 59));
+		super("elementalcraft.jei.evaporation", createDrawableStack(guiHelper, EVAPORATOR), guiHelper.createBlankDrawable(99, 59));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/evaporation.png"), 0, 0, 64, 29), 8, 20);
-	}
-
-
-	@Nonnull
-    @Override
-	public ResourceLocation getUid() {
-		return UID;
 	}
 
 	@Nonnull
@@ -45,18 +36,16 @@ public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCate
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull Ingredient recipe, IIngredients ingredients) {
-		recipeLayout.getItemStacks().init(0, true, 0, 0);
-		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull Ingredient ingredient, @Nonnull IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
+				.addIngredients(ingredient);
 
-		recipeLayout.getItemStacks().init(1, false, 30, 40);
-		recipeLayout.getItemStacks().set(1, TANKS);
-		recipeLayout.getItemStacks().init(2, false, 30, 24);
-		recipeLayout.getItemStacks().set(2, EVAPORATOR);
-
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(2, true, 75, 36);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(2, ingredients.getOutputs(ECIngredientTypes.ELEMENT).get(0));
-
+		builder.addSlot(RecipeIngredientRole.CATALYST, 30, 24)
+				.addItemStack(EVAPORATOR);
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 30, 40)
+				.addItemStacks(TANKS);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 75, 36)
+				.addIngredient(ECIngredientTypes.ELEMENT, getOutput(ingredient));
 	}
 
 	public static List<Ingredient> getShards() {

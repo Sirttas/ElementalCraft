@@ -1,28 +1,24 @@
 package sirttas.elementalcraft.interaction.jei.ingredient.element;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import mezz.jei.api.ingredients.IIngredientRenderer;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.TooltipFlag;
 import sirttas.elementalcraft.gui.GuiHelper;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ElementIngredientRenderer implements IIngredientRenderer<IngredientElementType> {
 
 	@Override
-	public void render(@Nonnull PoseStack matrixStack, int x, int y, IngredientElementType ingredient) {
-		if (ingredient != null) {
-			int amount = ingredient.getAmount();
+	public void render(@Nonnull PoseStack matrixStack, @Nonnull IngredientElementType ingredient) {
+		int amount = ingredient.getAmount();
 
-			GuiHelper.renderElementGauge(matrixStack, x, y, amount == -1 ? 4 : amount, 4, ingredient.getElementType(), false);
-		}
+		GuiHelper.renderElementGauge(matrixStack, 0, 0, amount == -1 ? 4 : amount, 4, ingredient.getElementType(), false);
 
 	}
 

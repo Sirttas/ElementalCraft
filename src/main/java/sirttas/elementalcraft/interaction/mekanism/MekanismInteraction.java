@@ -16,7 +16,7 @@ import sirttas.elementalcraft.interaction.mekanism.injector.ChemicalDissolutionP
 import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackGasToItemStackPureOreRecipeInjector;
 import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackToItemStackPureOreRecipeInjector;
 import sirttas.elementalcraft.interaction.mekanism.recipe.MekanismCrusherRecipeWrapper;
-import sirttas.elementalcraft.item.pureore.injector.PureOreRecipeInjectors;
+import sirttas.elementalcraft.pureore.injector.PureOreRecipeInjectors;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 public class MekanismInteraction {

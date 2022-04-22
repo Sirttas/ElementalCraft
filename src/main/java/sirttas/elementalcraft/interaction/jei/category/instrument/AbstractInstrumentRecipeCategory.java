@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument;
 
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.ingredients.IIngredients;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.interaction.jei.category.AbstractBlockEntityRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+
+import javax.annotation.Nonnull;
 
 public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractBlockEntityRecipeCategory<K, T> {
 
@@ -14,10 +14,9 @@ public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T 
 		super(translationKey, icon, background);
 	}
 
-	@Override
-	public void setIngredients(T recipe, IIngredients ingredients) {
-		super.setIngredients(recipe, ingredients);
-		ingredients.setInput(ECIngredientTypes.ELEMENT, new IngredientElementType(recipe.getElementType(), getGaugeValue(recipe.getElementAmount())));
+	@Nonnull
+	protected IngredientElementType getElementTypeIngredient(@Nonnull T recipe) {
+		return new IngredientElementType(recipe.getElementType(), getGaugeValue(recipe.getElementAmount()));
 	}
 
 }

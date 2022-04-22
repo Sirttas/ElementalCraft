@@ -22,9 +22,9 @@ import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.pureore.PureOreManager;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
+import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 import sirttas.elementalcraft.world.feature.ECFeatures;
 

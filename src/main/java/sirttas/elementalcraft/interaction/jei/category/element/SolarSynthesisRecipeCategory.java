@@ -1,12 +1,11 @@
 package sirttas.elementalcraft.interaction.jei.category.element;
 
 import com.google.common.collect.Lists;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import sirttas.elementalcraft.ElementalCraft;
@@ -21,7 +20,6 @@ import java.util.List;
 public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeCategory {
 
 	public static final String NAME = "solar_synthesis";
-	private static final ResourceLocation UID = ElementalCraft.createRL(NAME);
 
 	private static final ItemStack SOLAR_SYNTHESIZER = new ItemStack(ECBlocks.SOLAR_SYNTHESIZER);
 
@@ -33,30 +31,22 @@ public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeC
 	}
 
 	@Nonnull
-    @Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Nonnull
 	@Override
 	public RecipeType<Ingredient> getRecipeType() {
 		return ECJEIRecipeTypes.SOLAR_SYNTHESIS;
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull Ingredient recipe, IIngredients ingredients) {
-		recipeLayout.getItemStacks().init(0, true, 15, 0);
-		recipeLayout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull Ingredient ingredient, @Nonnull IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 15, 0)
+				.addIngredients(ingredient);
 
-		recipeLayout.getItemStacks().init(1, false, 15, 47);
-		recipeLayout.getItemStacks().set(1, tank);
-		recipeLayout.getItemStacks().init(2, false, 15, 31);
-		recipeLayout.getItemStacks().set(2, SOLAR_SYNTHESIZER);
-
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(2, true, 60, 44);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(2, ingredients.getOutputs(ECIngredientTypes.ELEMENT).get(0));
-
+		builder.addSlot(RecipeIngredientRole.CATALYST, 15, 31)
+				.addItemStack(SOLAR_SYNTHESIZER);
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 15, 47)
+				.addItemStack(tank);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 60, 44)
+				.addIngredient(ECIngredientTypes.ELEMENT, getOutput(ingredient));
 	}
 
 	public static List<Ingredient> getLenses() {

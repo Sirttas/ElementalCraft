@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.registry;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -26,15 +25,15 @@ public class ECRegistries {
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public static void createECRegistry(NewRegistryEvent event) {
-		event.create(makeRegistry(ElementalCraft.createRL("spell"), Spell.class).setDefaultKey(ElementalCraft.createRL("none")));
-		event.create(makeRegistry(ElementalCraft.createRL("pure_ore_recipe_injector"), AbstractPureOreRecipeInjector.class));
-		event.create(makeRegistry(ElementalCraft.createRL("tool_infusion_type"), ToolInfusionEffectType.class));
-		event.create(makeRegistry(ElementalCraft.createRL("source_trait_value_provider_type"), SourceTraitValueProviderType.class));
-		event.create(makeRegistry(ElementalCraft.createRL(ECNames.JEWEL), Jewel.class));
+		event.create(makeRegistry(ECNames.SPELL, Spell.class).setDefaultKey(ElementalCraft.createRL("none")));
+		event.create(makeRegistry(ECNames.PURE_ORE_RECIPE_INJECTOR, AbstractPureOreRecipeInjector.class));
+		event.create(makeRegistry(ECNames.TOOL_INFUSION_TYPE, ToolInfusionEffectType.class));
+		event.create(makeRegistry(ECNames.SOURCE_TRAIT_VALUE_PROVIDER_TYPE, SourceTraitValueProviderType.class));
+		event.create(makeRegistry(ECNames.JEWEL, Jewel.class));
 	}
 
-	private static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeRegistry(ResourceLocation name, Class<T> clazz) {
-		return new RegistryBuilder<T>().setName(name).setIDRange(MIN_ID, MAX_ID).setType(clazz);
+	private static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeRegistry(String name, Class<T> clazz) {
+		return new RegistryBuilder<T>().setName(ElementalCraft.createRL(name)).setIDRange(MIN_ID, MAX_ID).setType(clazz);
 	}
 
 }

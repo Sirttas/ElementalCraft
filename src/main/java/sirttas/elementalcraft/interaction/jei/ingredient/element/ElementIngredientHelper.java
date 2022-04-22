@@ -4,21 +4,14 @@ import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.resources.ResourceLocation;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 
 import javax.annotation.Nonnull;
-import java.util.stream.StreamSupport;
 
 public class ElementIngredientHelper implements IIngredientHelper<IngredientElementType> {
-
-	@Override
-	public IngredientElementType getMatch(Iterable<IngredientElementType> ingredients, @Nonnull IngredientElementType ingredientToMatch, @Nonnull UidContext context) {
-		return StreamSupport.stream(ingredients.spliterator(), false)
-				.filter(type -> type.getElementType() == ingredientToMatch.getElementType())
-				.findAny()
-				.orElse(null);
-	}
 
 	@Nonnull
     @Override
@@ -42,6 +35,12 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
     @Override
 	public String getResourceId(IngredientElementType ingredient) {
 		return ingredient.getElementType().getSerializedName();
+	}
+
+	@Nonnull
+	@Override
+	public ResourceLocation getResourceLocation(IngredientElementType ingredient) {
+		return ElementalCraft.createRL(ingredient.getElementType().getSerializedName());
 	}
 
 	@Nonnull

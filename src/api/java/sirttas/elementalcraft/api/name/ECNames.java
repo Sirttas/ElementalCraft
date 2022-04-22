@@ -31,6 +31,7 @@ public class ECNames {
 	public static final String END = "end";
 	public static final String EXHAUSTED = "exhausted";
 	public static final String EXTRACTION_AMOUNT = "extraction_amount";
+	public static final String FORGE = "forge";
 	public static final String GEM = "gem";
 	public static final String HAS_BOOK = "has_elementopedia";
 	public static final String HAS_DIFFUSED = "has_diffused";
@@ -54,6 +55,7 @@ public class ECNames {
 	public static final String PARENT = "Parent";
 	public static final String PREDICATE = "predicate";
 	public static final String PROGRESS = "progress";
+	public static final String PURE_ORE_RECIPE_INJECTOR = "pure_ore_recipe_injector";
 	public static final String QUALITY = "quality";
 	public static final String RANGE = "range";
 	public static final String RECOVER_RATE = "recover_rate";
@@ -65,6 +67,7 @@ public class ECNames {
 	public static final String SHRINE_UPGRADE = "shrine_upgrade";
 	public static final String SLOT = "slot";
 	public static final String SMALL = "small";
+	public static final String SOURCE_TRAIT_VALUE_PROVIDER_TYPE = "source_trait_value_provider_type";
 	public static final String SPELL = "spell";
 	public static final String SPELL_LIST = "spell_list";
 	public static final String SPELL_TYPE = "spell_type";
@@ -74,6 +77,7 @@ public class ECNames {
 	public static final String STEPS = "steps";
 	public static final String TAG = DPAnvilNames.TAG;
 	public static final String TOOL_INFUSION = "tool_infusion";
+	public static final String TOOL_INFUSION_TYPE = "tool_infusion_type";
 	public static final String TRAITS = "traits";
 	public static final String TRANSFERER = "transferer";
 	public static final String TYPE = DPAnvilNames.TYPE;

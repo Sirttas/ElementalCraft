@@ -62,8 +62,8 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 		super.saveAdditional(compound);
 		Container inv = getInventory();
 
-		if (inv instanceof INBTSerializable) {
-			compound.put(ECNames.INVENTORY, ((INBTSerializable<?>) inv).serializeNBT());
+		if (inv instanceof INBTSerializable nbtInv) {
+			compound.put(ECNames.INVENTORY, nbtInv.serializeNBT());
 		}
 	}
 

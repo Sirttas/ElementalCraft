@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.registry;
 
-import java.util.Map;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +19,8 @@ import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
 
+import java.util.Map;
+
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class MissingMappingsHandler {
 
@@ -31,7 +31,9 @@ public class MissingMappingsHandler {
 			"inertcrystal", "inert_crystal",
 			"crystalore", CrystalOreBlock.NAME,
 			"containedcrystal", "contained_crystal");
-	
+
+	private MissingMappingsHandler() {}
+
 	@SubscribeEvent
 	public static void remapMissingBlockMappings(MissingMappings<Block> event) {
 		remapMissingMappings(event, ForgeRegistries.BLOCKS);

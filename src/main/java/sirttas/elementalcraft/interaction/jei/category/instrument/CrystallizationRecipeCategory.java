@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument;
 
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
@@ -17,13 +17,8 @@ import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCategory<CrystallizerBlockEntity, CrystallizationRecipe> {
-
-	private static final ResourceLocation UID = ElementalCraft.createRL(CrystallizationRecipe.NAME);
 
 	private static final ItemStack CRYSTALLIZER = new ItemStack(ECItems.CRYSTALLIZER);
 
@@ -33,63 +28,34 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 	}
 
 	@Nonnull
-    @Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Nonnull
-    @Override
-	public Class<CrystallizationRecipe> getRecipeClass() {
-		return CrystallizationRecipe.class;
-	}
-
-	@Nonnull
 	@Override
 	public RecipeType<CrystallizationRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.CRYSTALLIZATION;
 	}
 
 	@Override
-	public void setIngredients(CrystallizationRecipe recipe, IIngredients ingredients) {
-		List<List<ItemStack>> outputs = new ArrayList<>();
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull CrystallizationRecipe recipe, @Nonnull IFocusGroup focuses) {
+		var ingredients = recipe.getIngredients();
 
-		outputs.add(recipe.getOutputs().stream().map(ResultEntry::getResult).collect(Collectors.toList()));
-		super.setIngredients(recipe, ingredients);
-		ingredients.setOutputLists(VanillaTypes.ITEM, outputs);
-	}
+		builder.addSlot(RecipeIngredientRole.INPUT, 42, 32)
+				.addIngredients(ingredients.get(0));
+		builder.addSlot(RecipeIngredientRole.INPUT, 42, 14)
+				.addIngredients(ingredients.get(1));
+		builder.addSlot(RecipeIngredientRole.INPUT, 6, 21)
+				.addIngredients(ingredients.get(2))
+				.addTooltipCallback((recipeSlotView, tooltip) -> tooltip.add(new TranslatableComponent("tooltip.elementalcraft.optional")));
 
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull CrystallizationRecipe recipe, IIngredients ingredients) {
-		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
+		builder.addSlot(RecipeIngredientRole.CATALYST, 42, 52)
+				.addItemStack(CRYSTALLIZER);
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 42, 68)
+				.addItemStack(tank);
 
-		recipeLayout.getItemStacks().addTooltipCallback((slot, input, ingredient, tooltip) -> {
-			if (slot == 6) {
-				tooltip.add(new TranslatableComponent("tooltip.elementalcraft.chance", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(recipe.getWeight(ingredient) * 100F / recipe.getTotalWeight())));
-			} else if (slot == 2) {
-				tooltip.add(new TranslatableComponent("tooltip.elementalcraft.optional"));
-			}
-		});
-		
-		recipeLayout.getItemStacks().init(0, true, 42, 32);
-		recipeLayout.getItemStacks().set(0, inputs.get(0));
-		recipeLayout.getItemStacks().init(1, true, 42, 14);
-		recipeLayout.getItemStacks().set(1, inputs.get(1));
+		builder.addSlot(RecipeIngredientRole.INPUT, 42, 86)
+				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
 
-		recipeLayout.getItemStacks().init(2, true, 6, 21);
-		recipeLayout.getItemStacks().set(2, inputs.get(2));
-
-		recipeLayout.getItemStacks().init(3, false, 42, 68);
-		recipeLayout.getItemStacks().set(3, tank);
-		recipeLayout.getItemStacks().init(4, false, 42, 52);
-		recipeLayout.getItemStacks().set(4, CRYSTALLIZER);
-
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(5, true, 43, 86);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(5, ingredients.getInputs(ECIngredientTypes.ELEMENT).get(0));
-
-		recipeLayout.getItemStacks().init(6, false, 116, 42);
-		recipeLayout.getItemStacks().set(6, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
-
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 42)
+				.addItemStacks(recipe.getOutputs().stream().map(ResultEntry::getResult).toList())
+				.addTooltipCallback((recipeSlotView, tooltip) -> tooltip.add(new TranslatableComponent("tooltip.elementalcraft.chance", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(recipeSlotView.getDisplayedIngredient(VanillaTypes.ITEM_STACK).map(recipe::getWeight).orElse(0F) * 100F / recipe.getTotalWeight()))));
 	}
 
 }

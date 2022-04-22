@@ -15,17 +15,6 @@ public class ECinteractions {
 		return ModList.get().isLoaded("botania");
 	}
 
-	public static boolean calledFromJEI() { // TODO remove once JEI update to show tooltip images
-		var stack = Thread.currentThread().getStackTrace();
-
-		for (StackTraceElement stackTraceElement : stack) {
-			if (stackTraceElement.getClassName().contains("mezz.jei")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public static boolean isSilentGearActive() {
 		return ModList.get().isLoaded("silentgear");
 	}

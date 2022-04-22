@@ -1,11 +1,10 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument;
 
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
@@ -15,11 +14,8 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<InscriberBlockEntity, InscriptionRecipe> {
-
-	private  static final ResourceLocation UID = ElementalCraft.createRL(InscriptionRecipe.NAME);
 
 	private static final ItemStack INSCRIBER = new ItemStack(ECItems.INSCRIBER);
 
@@ -29,50 +25,33 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 	}
 
 	@Nonnull
-    @Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Nonnull
-    @Override
-	public Class<InscriptionRecipe> getRecipeClass() {
-		return InscriptionRecipe.class;
-	}
-
-	@Nonnull
 	@Override
 	public RecipeType<InscriptionRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.INSCRIPTION;
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull InscriptionRecipe recipe, IIngredients ingredients) {
-		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
-		List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
-		
-		recipeLayout.getItemStacks().init(0, true, 22, 4);
-		recipeLayout.getItemStacks().set(0, inputs.get(0));
-		recipeLayout.getItemStacks().init(1, true, 6, 22);
-		recipeLayout.getItemStacks().set(1, inputs.get(1));
-		recipeLayout.getItemStacks().init(2, true, 22, 22);
-		recipeLayout.getItemStacks().set(2, inputs.get(2));
-		recipeLayout.getItemStacks().init(3, true, 38, 22);
-		recipeLayout.getItemStacks().set(3, inputs.get(3));
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull InscriptionRecipe recipe, @Nonnull IFocusGroup focuses) {
+		var ingredients = recipe.getIngredients();
 
-		recipeLayout.getItemStacks().init(4, false, 22, 58);
-		recipeLayout.getItemStacks().set(4, tank);
-		recipeLayout.getItemStacks().init(5, false, 22, 42);
-		recipeLayout.getItemStacks().set(5, INSCRIBER);
+		builder.addSlot(RecipeIngredientRole.INPUT, 22, 4)
+				.addIngredients(ingredients.get(0));
+		builder.addSlot(RecipeIngredientRole.INPUT, 6, 22)
+				.addIngredients(ingredients.get(1));
+		builder.addSlot(RecipeIngredientRole.INPUT, 22, 22)
+				.addIngredients(ingredients.get(2));
+		builder.addSlot(RecipeIngredientRole.INPUT, 38, 22)
+				.addIngredients(ingredients.get(3));
 
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).init(6, true, 23, 76);
-		recipeLayout.getIngredientsGroup(ECIngredientTypes.ELEMENT).set(6, ingredients.getInputs(ECIngredientTypes.ELEMENT).get(0));
+		builder.addSlot(RecipeIngredientRole.CATALYST, 22, 42)
+				.addItemStack(INSCRIBER);
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 22, 58)
+				.addItemStack(tank);
 
-		if (!outputs.isEmpty()) {
-			recipeLayout.getItemStacks().init(7, false, 72, 34);
-			recipeLayout.getItemStacks().set(7, outputs.get(0));
-		}
+		builder.addSlot(RecipeIngredientRole.INPUT, 23, 76)
+				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
 
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 34)
+				.addItemStack(recipe.getResultItem());
 	}
-
 }

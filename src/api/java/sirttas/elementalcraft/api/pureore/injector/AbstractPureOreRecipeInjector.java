@@ -14,6 +14,8 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 
 import java.text.MessageFormat;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractPureOreRecipeInjector<C extends Container, T extends Recipe<C>> extends ForgeRegistryEntry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> {
 
-	public static final IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> REGISTRY = RegistryManager.ACTIVE.getRegistry(AbstractPureOreRecipeInjector.class);
+	public static final IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> REGISTRY = RegistryManager.ACTIVE.getRegistry(new ResourceLocation(ElementalCraftApi.MODID, ECNames.PURE_ORE_RECIPE_INJECTOR));
 
 	private final Lazy<RecipeType<T>> recipeType;
 	private final boolean modProcessing;

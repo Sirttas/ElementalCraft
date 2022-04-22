@@ -13,6 +13,8 @@ import javax.annotation.Nonnull;
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class MoleJewelHandler {
 
+    private MoleJewelHandler() {}
+
     @SubscribeEvent
     public static void onLeftClickBlock(@Nonnull PlayerInteractEvent.LeftClickBlock event) {
         var player = event.getPlayer();

@@ -18,9 +18,11 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -32,7 +34,7 @@ import java.util.stream.StreamSupport;
 
 public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProvider {
 
-	public static final IForgeRegistry<Spell> REGISTRY = RegistryManager.ACTIVE.getRegistry(Spell.class);
+	public static final IForgeRegistry<Spell> REGISTRY = RegistryManager.ACTIVE.getRegistry(ElementalCraft.createRL(ECNames.SPELL));
 
 	private String translationKey;
 	protected SpellProperties properties = SpellProperties.NONE;

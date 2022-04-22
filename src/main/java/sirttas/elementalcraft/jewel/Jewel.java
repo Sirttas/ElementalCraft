@@ -11,16 +11,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 
 import java.util.List;
 
 public class Jewel extends ForgeRegistryEntry<Jewel> implements IElementTypeProvider {
 
 	@SuppressWarnings("removal")
-	public static final IForgeRegistry<Jewel> REGISTRY = RegistryManager.ACTIVE.getRegistry(Jewel.class);
+	public static final IForgeRegistry<Jewel> REGISTRY = RegistryManager.ACTIVE.getRegistry(ElementalCraft.createRL(ECNames.JEWEL));
 
 	private final ElementType elementType;
 	private final int consumption;
