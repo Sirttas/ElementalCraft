@@ -1,9 +1,9 @@
 {
-  "name": "block.elementalcraft.tank_small",
+  "name": "block.elementalcraft.small_container",
   "category": "elementalcraft:instruments",
-  "icon": "elementalcraft:tank_small",
+  "icon": "elementalcraft:small_container",
   "advancement": "elementalcraft:pickup/contained_crystal",
-  "turnin": "elementalcraft:pickup/tank_small",
+  "turnin": "elementalcraft:pickup/small_container",
   "priority": true,
   "sortnum": 0,
   "pages": [
@@ -13,7 +13,7 @@
     },
     {
       "type": "crafting",
-      "recipe": "elementalcraft:tank_small"
+      "recipe": "elementalcraft:small_container"
     }
   ]
 }

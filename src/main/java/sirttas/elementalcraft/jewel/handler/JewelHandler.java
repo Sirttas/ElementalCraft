@@ -20,7 +20,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
-import sirttas.elementalcraft.jewel.attack.AttackJewel;
+import sirttas.elementalcraft.jewel.attack.AbstractAttackJewel;
 import sirttas.elementalcraft.jewel.defence.DefenceJewel;
 import sirttas.elementalcraft.jewel.effect.EffectJewel;
 import sirttas.elementalcraft.network.message.MessageHelper;
@@ -144,7 +144,7 @@ public class JewelHandler implements IJewelHandler {
         }
         if (attacker != null) {
             for (var jewel : JewelHelper.getActiveJewels(attacker)) {
-                if (jewel instanceof AttackJewel attackJewel) {
+                if (jewel instanceof AbstractAttackJewel attackJewel) {
                     attackJewel.onAttack(attacker, event.getEntityLiving());
                     if (!jewel.isTicking()) {
                         jewel.consume(attacker);

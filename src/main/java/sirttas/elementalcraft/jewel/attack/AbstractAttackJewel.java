@@ -5,9 +5,9 @@ import net.minecraft.world.entity.LivingEntity;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.jewel.Jewel;
 
-public abstract class AttackJewel extends Jewel {
+public abstract class AbstractAttackJewel extends Jewel {
 
-    protected AttackJewel(ElementType elementType, int consumption) {
+    protected AbstractAttackJewel(ElementType elementType, int consumption) {
         super(elementType, consumption);
         this.ticking = false;
     }

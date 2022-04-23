@@ -11,7 +11,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 
 import java.util.List;
 
-public class ViperJewel extends AttackJewel {
+public class ViperJewel extends AbstractAttackJewel {
 
     public static final String NAME = "viper";
 

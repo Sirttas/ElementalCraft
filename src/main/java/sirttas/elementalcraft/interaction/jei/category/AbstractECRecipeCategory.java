@@ -71,12 +71,12 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 	@Nonnull
 	@Override
 	public ResourceLocation getUid() {
-		return null;
+		return this.getRecipeType().getUid();
 	}
 
 	@Nonnull
 	@Override
 	public Class<? extends T> getRecipeClass() {
-		return null;
+		return this.getRecipeType().getRecipeClass();
 	}
 }

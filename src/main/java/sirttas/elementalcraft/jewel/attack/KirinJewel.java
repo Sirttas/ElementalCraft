@@ -12,7 +12,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 
 import java.util.List;
 
-public class KirinJewel extends AttackJewel {
+public class KirinJewel extends AbstractAttackJewel {
 
     public static final String NAME = "kirin";
 
