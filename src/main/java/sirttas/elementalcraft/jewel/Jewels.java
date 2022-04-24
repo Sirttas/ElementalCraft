@@ -14,6 +14,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.jewel.attack.KirinJewel;
 import sirttas.elementalcraft.jewel.attack.ViperJewel;
 import sirttas.elementalcraft.jewel.attribute.BearJewel;
+import sirttas.elementalcraft.jewel.attribute.DolphinJewel;
 import sirttas.elementalcraft.jewel.attribute.LeopardJewel;
 import sirttas.elementalcraft.jewel.attribute.TigerJewel;
 import sirttas.elementalcraft.jewel.defence.ArcticHaresJewel;
@@ -30,7 +31,7 @@ import java.util.function.Consumer;
 public class Jewels {
 
     @ObjectHolder(ElementalCraftApi.MODID + ":" + SalmonJewel.NAME) public static final SalmonJewel SALMON = null;
-    @ObjectHolder(ElementalCraftApi.MODID + ":" + LeopardJewel.DolphinJewel.NAME) public static final LeopardJewel.DolphinJewel DOLPHIN = null;
+    @ObjectHolder(ElementalCraftApi.MODID + ":" + DolphinJewel.NAME) public static final DolphinJewel DOLPHIN = null;
     @ObjectHolder(ElementalCraftApi.MODID + ":" + LeopardJewel.NAME) public static final LeopardJewel LEOPARD = null;
     @ObjectHolder(ElementalCraftApi.MODID + ":" + PhoenixJewel.NAME) public static final PhoenixJewel PHOENIX = null;
     @ObjectHolder(ElementalCraftApi.MODID + ":" + TortoiseJewel.NAME) public static final TortoiseJewel TORTOISE = null;
@@ -54,7 +55,7 @@ public class Jewels {
         IForgeRegistry<Jewel> registry = event.getRegistry();
 
         RegistryHelper.register(registry, new SalmonJewel(), SalmonJewel.NAME);
-        RegistryHelper.register(registry, new LeopardJewel.DolphinJewel(), LeopardJewel.DolphinJewel.NAME);
+        RegistryHelper.register(registry, new DolphinJewel(), DolphinJewel.NAME);
         RegistryHelper.register(registry, new LeopardJewel(), LeopardJewel.NAME);
         RegistryHelper.register(registry, new PhoenixJewel(), PhoenixJewel.NAME);
         RegistryHelper.register(registry, new TortoiseJewel(), TortoiseJewel.NAME);

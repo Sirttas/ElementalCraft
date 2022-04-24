@@ -7,7 +7,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class PhoenixJewel extends EffectJewel {
@@ -21,8 +24,8 @@ public class PhoenixJewel extends EffectJewel {
     }
 
     @Override
-    public boolean isActive(Entity entity) {
-        return entity.isOnFire() && super.isActive(entity);
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        return entity.isOnFire() && super.isActive(entity, elementStorage);
     }
 
     @Override

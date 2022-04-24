@@ -17,7 +17,7 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.attack.AbstractAttackJewel;
@@ -38,11 +38,13 @@ public class JewelHandler implements IJewelHandler {
     private static final List<JewelHandler> HANDLERS = new ArrayList<>();
 
     private final Entity entity;
+    private final IElementStorage elementStorage;
     private List<Jewel> activeJewels;
     private Multimap<Attribute, AttributeModifier> oldAttributes;
 
-    private JewelHandler(Entity entity) {
+    private JewelHandler(Entity entity, IElementStorage elementStorage) {
         this.entity = entity;
+        this.elementStorage = elementStorage;
         activeJewels = new ArrayList<>();
         synchronized (FUTURE_HANDLERS) {
             FUTURE_HANDLERS.add(this);
@@ -50,9 +52,9 @@ public class JewelHandler implements IJewelHandler {
     }
 
     @Nullable
-    public static ICapabilityProvider createProvider(Entity entity) {
+    public static ICapabilityProvider createProvider(Entity entity, IElementStorage elementStorage) {
         if (JEWEL_HANDLER_CAPABILITY != null) {
-            var handler = new JewelHandler(entity);
+            var handler = new JewelHandler(entity, elementStorage);
 
             return new ICapabilityProvider() {
                 @Nonnull
@@ -74,20 +76,20 @@ public class JewelHandler implements IJewelHandler {
     private void tick() {
         List<Jewel> jewels = new ArrayList<>();
 
-        CapabilityElementStorage.get(entity).ifPresent(storage -> {
-            for (Jewel jewel : JewelHelper.getAllJewels(entity)) {
-                if (jewel.isActive(entity)) {
-                    jewels.add(jewel);
-                    if (jewel.isTicking()) {
-                        jewel.consume(entity);
-                        if (jewel instanceof EffectJewel effectJewel) {
-                            effectJewel.apply(entity);
-                        }
+        for (Jewel jewel : JewelHelper.getAllJewels(entity)) {
+            if (jewel.isActive(entity, elementStorage)) {
+                jewels.add(jewel);
+                if (jewel.isTicking()) {
+                    jewel.consume(entity, elementStorage);
+                    if (jewel instanceof EffectJewel effectJewel) {
+                        effectJewel.apply(entity);
                     }
                 }
             }
-        });
-        jewels.sort(Comparator.comparing(Jewel::getRegistryName));
+        }
+        if (jewels.size() != activeJewels.size()) {
+            jewels.sort(Comparator.comparing(Jewel::getRegistryName));
+        }
         if (!jewels.equals(activeJewels)) {
             activeJewels = jewels;
             this.onActiveJewelsChanged();

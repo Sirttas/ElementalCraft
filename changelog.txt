@@ -1,3 +1,9 @@
+1.18.2-4.3.3:
+
+- JEI is now an optional dependency
+- improved jewels performances
+
+
 1.18.2-4.3.2:
 
 - fix crash with JEI and CC Tweaker

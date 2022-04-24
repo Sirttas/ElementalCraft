@@ -10,8 +10,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.entity.EntityHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class BasiliskJewel extends EffectJewel {
@@ -34,8 +37,8 @@ public class BasiliskJewel extends EffectJewel {
     }
 
     @Override
-    public boolean isActive(Entity entity) {
-        if (!super.isActive(entity)) {
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        if (!super.isActive(entity, elementStorage)) {
             return false;
         }
 

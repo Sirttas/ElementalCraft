@@ -15,11 +15,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.container.ECContainerHelper;
-import sirttas.elementalcraft.jewel.Jewel;
-import sirttas.elementalcraft.jewel.JewelHelper;
-import sirttas.elementalcraft.jewel.Jewels;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class DemigodJewel extends Jewel {
@@ -52,17 +52,18 @@ public class DemigodJewel extends Jewel {
     }
 
     @Override
-    public boolean isActive(Entity entity) {
-        if (super.isActive(entity) && entity instanceof Player player) {
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        if (super.isActive(entity, elementStorage) && entity instanceof Player player) {
             Inventory inv = player.getInventory();
             return ECContainerHelper.getSlotFor(inv, new ItemStack(Items.TOTEM_OF_UNDYING)) >= 0;
         }
         return false;
     }
 
+
     @Override
-    public void consume(Entity entity) {
-        super.consume(entity);
+    public void consume(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        super.consume(entity, elementStorage);
         if (entity instanceof Player player) {
             Inventory inv = player.getInventory();
             var slot = ECContainerHelper.getSlotFor(inv, new ItemStack(Items.TOTEM_OF_UNDYING));

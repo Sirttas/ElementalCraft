@@ -347,8 +347,8 @@ if (System.getenv("CURSEFORGE_KEY") != null || project.hasProperty('curseforge_k
 			mainArtifact(jar) {
 				relations {
 					requiredDependency 'datapack-anvil'
-					requiredDependency 'jei'
                     requiredDependency 'patchouli'
+                    optionalDependency  'jei'
 	        		incompatible 'performant'
 				}
 			}

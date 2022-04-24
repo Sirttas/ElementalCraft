@@ -9,7 +9,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ArcticHaresJewel extends DefenceJewel {
@@ -29,8 +32,8 @@ public class ArcticHaresJewel extends DefenceJewel {
     }
 
     @Override
-    public boolean isActive(Entity entity) {
-        return (entity.isInPowderSnow || entity.wasInPowderSnow || isOnSnow(entity)) && super.isActive(entity);
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        return (entity.isInPowderSnow || entity.wasInPowderSnow || isOnSnow(entity)) && super.isActive(entity, elementStorage);
     }
 
     @Override

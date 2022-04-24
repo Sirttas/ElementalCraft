@@ -6,7 +6,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -15,8 +14,11 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class Jewel extends ForgeRegistryEntry<Jewel> implements IElementTypeProvider {
@@ -58,18 +60,18 @@ public class Jewel extends ForgeRegistryEntry<Jewel> implements IElementTypeProv
 		return new TranslatableComponent("elementalcraft_jewel." + id.getNamespace() + '.' + id.getPath());
 	}
 
-	public boolean isActive(Entity entity) {
-		return (entity instanceof Player player && player.isCreative()) || CapabilityElementStorage.get(entity)
-				.map(s -> s.extractElement(consumption, elementType, true) == consumption)
-				.orElse(entity instanceof Mob);
+	public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+		return (entity instanceof Player player && player.isCreative()) || (elementStorage != null && elementStorage.extractElement(consumption, elementType, true) == consumption);
 	}
-	
-	public void consume(Entity entity) {
-		CapabilityElementStorage.get(entity).ifPresent(s -> {
-			if (s.extractElement(consumption, elementType, true) == consumption) {
-				s.extractElement(consumption, elementType, false);
-			}
-		});
+
+	public final void consume(@Nonnull Entity entity) {
+		this.consume(entity, CapabilityElementStorage.get(entity).orElse(null));
+	}
+
+	public void consume(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+		if (elementStorage != null) {
+			elementStorage.extractElement(consumption, elementType, false);
+		}
 	}
 
 	public void appendHoverText(List<Component> tooltip) {

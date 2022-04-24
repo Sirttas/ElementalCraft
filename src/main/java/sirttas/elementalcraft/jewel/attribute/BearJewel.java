@@ -9,8 +9,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.entity.EntityHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class BearJewel extends AttributeJewel {
@@ -28,8 +31,8 @@ public class BearJewel extends AttributeJewel {
     }
 
     @Override
-    public boolean isActive(Entity entity) {
-        return EntityHelper.isFighting(entity) && super.isActive(entity);
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        return EntityHelper.isFighting(entity) && super.isActive(entity, elementStorage);
     }
 
     @Override

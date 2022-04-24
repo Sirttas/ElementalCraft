@@ -6,6 +6,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class StriderJewel extends Jewel {
 
@@ -24,8 +28,8 @@ public class StriderJewel extends Jewel {
     }
 
     @Override
-    public boolean isActive(Entity entity) {
-        return isOnFluid(entity) && super.isActive(entity);
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        return isOnFluid(entity) && super.isActive(entity, elementStorage);
     }
 
     public TagKey<Fluid> getTag() {

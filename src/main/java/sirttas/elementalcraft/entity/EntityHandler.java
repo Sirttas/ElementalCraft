@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.IMenuOpenListener;
@@ -70,17 +72,21 @@ public class EntityHandler {
 	@SubscribeEvent
 	public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		Entity entity = event.getObject();
+		IElementStorage elementStorage = null;
+
 
 		if (entity instanceof Player player) {
-			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), PlayerElementStorage.createProvider(player));
+			var provider = PlayerElementStorage.createProvider(player);
+
+			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), provider);
+			elementStorage = CapabilityElementStorage.get(provider).orElse(null);
 		}
 		if (entity.level.isClientSide) {
 			event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), ClientJewelHandler.createProvider());
 		} else {
-			event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), JewelHandler.createProvider(entity));
+			event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), JewelHandler.createProvider(entity, elementStorage));
 		}
 	}
-
 
 	@SubscribeEvent
 	public static void onContainerOpen(PlayerContainerEvent.Open event) {

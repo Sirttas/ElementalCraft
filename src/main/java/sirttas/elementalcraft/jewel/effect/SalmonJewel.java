@@ -10,8 +10,10 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.jewel.effect.EffectJewel;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class SalmonJewel extends EffectJewel {
@@ -23,8 +25,8 @@ public class SalmonJewel extends EffectJewel {
     }
 
     @Override
-    public boolean isActive(Entity entity) {
-        return entity.isEyeInFluid(FluidTags.WATER) && !entity.level.getBlockState(new BlockPos(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN) && super.isActive(entity);
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        return entity.isEyeInFluid(FluidTags.WATER) && !entity.level.getBlockState(new BlockPos(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN) && super.isActive(entity, elementStorage);
     }
 
     @Override
