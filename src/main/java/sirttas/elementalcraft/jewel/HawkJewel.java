@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.jewel.Jewel;
 
 import java.util.List;
 

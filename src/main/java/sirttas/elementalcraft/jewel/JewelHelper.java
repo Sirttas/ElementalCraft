@@ -13,10 +13,9 @@ import sirttas.elementalcraft.jewel.attribute.AttributeJewel;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.StreamSupport;
 
 public class JewelHelper {
 
@@ -46,10 +45,16 @@ public class JewelHelper {
     }
 
     public static List<Jewel> getAllJewels(Entity entity) {
-        return StreamSupport.stream(entity.getAllSlots().spliterator(), false)
-                .map(JewelHelper::getJewel)
-                .filter(Objects::nonNull)
-                .toList();
+        var list = new ArrayList<Jewel>();
+
+        for (var item: entity.getAllSlots()) {
+            var jewel = getJewel(item);
+
+            if (jewel != null) {
+                list.add(jewel);
+            }
+        }
+        return list;
     }
 
     public static List<Jewel> getActiveJewels(Entity entity) {

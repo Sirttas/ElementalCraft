@@ -170,9 +170,6 @@ public class PureOreManager {
 		private PureOre ore;
 		private PureOre rawMaterial;
 
-		public Entry() {
-		}
-
 		public Component getDescription() {
 			if (ore != null) {
 				return ore.getDescription();

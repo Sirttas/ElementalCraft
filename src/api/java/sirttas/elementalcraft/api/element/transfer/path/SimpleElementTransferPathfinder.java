@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.api.element.transfer.path;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -92,30 +87,6 @@ public class SimpleElementTransferPathfinder {
                     }
                 }
             }
-        }
-
-        @Override
-        public void renderDebugPath(PoseStack matrices, MultiBufferSource multiBufferSource) {
-            if (!path.isEmpty()) {
-                var buffer = multiBufferSource.getBuffer(RenderType.lines());
-                var last = path.get(0).pos;
-                var r = type.getRed();
-                var g = type.getGreen();
-                var b = type.getBlue();
-
-
-                for (int i = 1; i < path.size(); i++) {
-                    var node = path.get(i);
-                    var current = node.pos;
-
-                    Matrix4f pose = matrices.last().pose();
-                    Matrix3f normal = matrices.last().normal();
-                    buffer.vertex(pose, current.getX(), current.getY(), current.getZ()).color(r, g, b, 1).normal(normal, 1.0F, 0.0F, 0.0F).endVertex();
-                    buffer.vertex(pose, last.getX(), last.getY(), last.getZ()).color(r, g, b, 1).normal(normal, 1.0F, 0.0F, 0.0F).endVertex();
-                    last = current;
-                }
-            }
-
         }
     }
 

@@ -10,8 +10,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import org.lwjgl.opengl.GL14;
 
-import java.util.OptionalDouble;
-
 public class ECRenderTypes extends RenderType {
 
 	private static final String GHOST_NAME = "elementalcraft:ghost";
@@ -33,17 +31,6 @@ public class ECRenderTypes extends RenderType {
 							RenderSystem.disableBlend();
 							RenderSystem.defaultBlendFunc();
 						}))
-					.createCompositeState(false));
-
-	public static final RenderType PIPE_DEBUG_LINE = create(PIPE_DEBUG_LINE_NAME, DefaultVertexFormat.POSITION_COLOR_NORMAL, VertexFormat.Mode.LINES, 256, false, false,
-			CompositeState.builder().setShaderState(RENDERTYPE_LINES_SHADER)
-					.setLineState(new RenderStateShard.LineStateShard(OptionalDouble.empty()))
-					.setLayeringState(VIEW_OFFSET_Z_LAYERING)
-					.setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-					.setOutputState(ITEM_ENTITY_TARGET)
-					.setWriteMaskState(COLOR_DEPTH_WRITE)
-					.setCullState(NO_CULL)
-					.setDepthTestState(NO_DEPTH_TEST)
 					.createCompositeState(false));
 
 	private ECRenderTypes(String name, VertexFormat fmt, VertexFormat.Mode glMode, int size, boolean doCrumbling, boolean depthSorting, Runnable onEnable, Runnable onDisable) {

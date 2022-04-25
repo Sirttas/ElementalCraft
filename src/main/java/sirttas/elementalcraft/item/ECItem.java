@@ -57,7 +57,7 @@ public class ECItem extends Item {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static final int lookupColor(ItemStack stack) {
+	public static int lookupColor(ItemStack stack) {
 		try {
 			List<Integer> colors = ColorGetter.getColors(stack, 2);
 	
@@ -116,4 +116,14 @@ public class ECItem extends Item {
 		}
 		return null;
 	}
+
+
+
+
+
+
+
+
+
+
 }

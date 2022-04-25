@@ -1,3 +1,8 @@
+1.18.2-4.3.4:
+
+- fix huge jewel performance issue (issue #81)
+
+
 1.18.2-4.3.3:
 
 - JEI is now an optional dependency

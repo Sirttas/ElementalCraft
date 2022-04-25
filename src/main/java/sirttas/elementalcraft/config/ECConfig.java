@@ -371,7 +371,6 @@ public class ECConfig {
 		public final IntValue shrineRangeDisplayDuration;
 		public final BooleanValue renderPedestalShadow;
 		public final BooleanValue fastParticleEffects;
-		public final BooleanValue pipeDebugPath;
 
 		public final IntValue gaugeOffsetX;
 		public final IntValue gaugeOffsetY;
@@ -382,7 +381,6 @@ public class ECConfig {
 			shrineRangeDisplayDuration = builder.comment("The duration of shrine range display.").defineInRange("shrineRangeDisplayDuration", 600, 0, 10000);
 			renderPedestalShadow = builder.comment("Display a shadow where pedestals can be placed.").define("renderPedestalShadow", true);
 			fastParticleEffects = builder.comment("Set to true if you want to reduce quality of particles for beter performances.").define("fastParticleEffects", false);
-			pipeDebugPath = builder.comment("Render ap debug path for pipes.").define("pipeDebugPath", false);
 
 			builder.push("gauge");
 			usePaleElementGauge = builder.comment("Use pale element gauges.").define("usePaleElementGauge", false);
