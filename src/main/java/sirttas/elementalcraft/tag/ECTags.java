@@ -93,8 +93,6 @@ public class ECTags {
 		public static final TagKey<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
 		public static final TagKey<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
 		public static final TagKey<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");
-		public static final TagKey<Item> BOTANIA_PETALS = createOptional("botania", "petals");
-		public static final TagKey<Item> BOTANIA_LIVINGROCK = createOptional("botania", "livingrock");
 		
 		public static final TagKey<Item> FORGE_SWORDS = createForgeTag("swords");
 		public static final TagKey<Item> FORGE_PICKAXES = createForgeTag("pickaxes");

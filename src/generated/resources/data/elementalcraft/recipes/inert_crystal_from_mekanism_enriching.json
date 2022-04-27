@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "mekanism",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "mekanism:enriching",
+        "input": {
+          "ingredient": {
+            "item": "elementalcraft:inert_crystal_ore"
+          }
+        },
+        "output": {
+          "item": "elementalcraft:inert_crystal",
+          "count": 2
+        }
+      }
+    }
+  ]
+}

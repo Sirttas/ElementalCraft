@@ -1,9 +1,11 @@
 {
   "replace": false,
   "values": [
-    "minecraft:iron_chestplate",
-    "minecraft:golden_chestplate",
+    "minecraft:chainmail_chestplate",
     "minecraft:diamond_chestplate",
+    "minecraft:golden_chestplate",
+    "minecraft:iron_chestplate",
+    "minecraft:leather_chestplate",
     "minecraft:netherite_chestplate",
     "#forge:chestplates",
     {
@@ -11,7 +13,23 @@
       "required": false
     },
     {
+      "id": "silentgear:chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_chestplate",
+      "required": false
+    },
+    {
       "id": "mekanismtools:lapis_lazuli_chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:manaweave_chestplate",
       "required": false
     },
     {
@@ -31,7 +49,7 @@
       "required": false
     },
     {
-      "id": "silentgear:chestplate",
+      "id": "botania:terrasteel_chestplate",
       "required": false
     }
   ]

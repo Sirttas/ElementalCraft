@@ -26,7 +26,7 @@
             "tag": "forge:ingots/manasteel"
           },
           "w": {
-            "tag": "botania:livingrock"
+            "item": "botania:livingrock"
           },
           "c": {
             "item": "elementalcraft:watercrystal"

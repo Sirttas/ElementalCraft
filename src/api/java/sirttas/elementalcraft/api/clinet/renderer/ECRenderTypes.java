@@ -13,7 +13,6 @@ import org.lwjgl.opengl.GL14;
 public class ECRenderTypes extends RenderType {
 
 	private static final String GHOST_NAME = "elementalcraft:ghost";
-	private static final String PIPE_DEBUG_LINE_NAME = "elementalcraft:pipe_debug_line";
 	
 	@SuppressWarnings("deprecation") 
 	public static final RenderType GHOST = create(GHOST_NAME, DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 256, false, false,

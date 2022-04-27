@@ -8,6 +8,14 @@
       "required": false
     },
     {
+      "id": "botania:crystal_bow",
+      "required": false
+    },
+    {
+      "id": "botania:livingwood_bow",
+      "required": false
+    },
+    {
       "id": "silentgear:slingshot",
       "required": false
     }

@@ -1,9 +1,11 @@
 {
   "replace": false,
   "values": [
-    "minecraft:iron_boots",
-    "minecraft:golden_boots",
+    "minecraft:chainmail_boots",
     "minecraft:diamond_boots",
+    "minecraft:golden_boots",
+    "minecraft:iron_boots",
+    "minecraft:leather_boots",
     "minecraft:netherite_boots",
     "#forge:boots",
     {
@@ -15,7 +17,19 @@
       "required": false
     },
     {
+      "id": "botania:elementium_boots",
+      "required": false
+    },
+    {
       "id": "mekanismtools:lapis_lazuli_boots",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_boots",
+      "required": false
+    },
+    {
+      "id": "botania:manaweave_boots",
       "required": false
     },
     {
@@ -32,6 +46,10 @@
     },
     {
       "id": "mekanismtools:steel_boots",
+      "required": false
+    },
+    {
+      "id": "botania:terrasteel_boots",
       "required": false
     }
   ]

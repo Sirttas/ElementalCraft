@@ -1,3 +1,10 @@
+1.18.2-4.3.5:
+
+- added inert crystal to mekanism enriching
+- fix mystical grove shrine upgrade recipe
+- made botania tools and armo infusable or able to receive jewels
+
+
 1.18.2-4.3.4:
 
 - fix huge jewel performance issue (issue #81)

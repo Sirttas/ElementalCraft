@@ -79,98 +79,6 @@
       "required": false
     },
     {
-      "id": "silentgear:chestplate",
-      "required": false
-    },
-    {
-      "id": "silentgear:elytra",
-      "required": false
-    },
-    {
-      "id": "silentgear:helmet",
-      "required": false
-    },
-    {
-      "id": "silentgear:leggings",
-      "required": false
-    },
-    {
-      "id": "silentgear:axe",
-      "required": false
-    },
-    {
-      "id": "silentgear:dagger",
-      "required": false
-    },
-    {
-      "id": "silentgear:excavator",
-      "required": false
-    },
-    {
-      "id": "silentgear:hammer",
-      "required": false
-    },
-    {
-      "id": "silentgear:katana",
-      "required": false
-    },
-    {
-      "id": "silentgear:knife",
-      "required": false
-    },
-    {
-      "id": "silentgear:machete",
-      "required": false
-    },
-    {
-      "id": "silentgear:mattock",
-      "required": false
-    },
-    {
-      "id": "silentgear:paxel",
-      "required": false
-    },
-    {
-      "id": "silentgear:pickaxe",
-      "required": false
-    },
-    {
-      "id": "silentgear:prospector_hammer",
-      "required": false
-    },
-    {
-      "id": "silentgear:saw",
-      "required": false
-    },
-    {
-      "id": "silentgear:shovel",
-      "required": false
-    },
-    {
-      "id": "silentgear:sickle",
-      "required": false
-    },
-    {
-      "id": "silentgear:spear",
-      "required": false
-    },
-    {
-      "id": "silentgear:sword",
-      "required": false
-    },
-    {
-      "id": "silentgear:bow",
-      "required": false
-    },
-    {
-      "id": "silentgear:crossbow",
-      "required": false
-    },
-    {
-      "id": "silentgear:slingshot",
-      "required": false
-    },
-    {
       "id": "mekanismtools:bronze_boots",
       "required": false
     },
@@ -187,6 +95,34 @@
       "required": false
     },
     {
+      "id": "silentgear:chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_boots",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_helmet",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_leggings",
+      "required": false
+    },
+    {
+      "id": "silentgear:elytra",
+      "required": false
+    },
+    {
+      "id": "silentgear:helmet",
+      "required": false
+    },
+    {
       "id": "mekanismtools:lapis_lazuli_boots",
       "required": false
     },
@@ -200,6 +136,42 @@
     },
     {
       "id": "mekanismtools:lapis_lazuli_leggings",
+      "required": false
+    },
+    {
+      "id": "silentgear:leggings",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_boots",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_helmet",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_leggings",
+      "required": false
+    },
+    {
+      "id": "botania:manaweave_boots",
+      "required": false
+    },
+    {
+      "id": "botania:manaweave_chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:manaweave_helmet",
+      "required": false
+    },
+    {
+      "id": "botania:manaweave_leggings",
       "required": false
     },
     {
@@ -267,6 +239,26 @@
       "required": false
     },
     {
+      "id": "botania:terrasteel_boots",
+      "required": false
+    },
+    {
+      "id": "botania:terrasteel_chestplate",
+      "required": false
+    },
+    {
+      "id": "botania:terrasteel_helmet",
+      "required": false
+    },
+    {
+      "id": "botania:terrasteel_leggings",
+      "required": false
+    },
+    {
+      "id": "silentgear:axe",
+      "required": false
+    },
+    {
       "id": "mekanismtools:bronze_axe",
       "required": false
     },
@@ -291,7 +283,43 @@
       "required": false
     },
     {
+      "id": "silentgear:dagger",
+      "required": false
+    },
+    {
       "id": "mekanismtools:diamond_paxel",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_axe",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_hoe",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_pickaxe",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_shovel",
+      "required": false
+    },
+    {
+      "id": "botania:elementium_sword",
+      "required": false
+    },
+    {
+      "id": "botania:ender_dagger",
+      "required": false
+    },
+    {
+      "id": "silentgear:excavator",
+      "required": false
+    },
+    {
+      "id": "botania:glass_pickaxe",
       "required": false
     },
     {
@@ -299,7 +327,19 @@
       "required": false
     },
     {
+      "id": "silentgear:hammer",
+      "required": false
+    },
+    {
       "id": "mekanismtools:iron_paxel",
+      "required": false
+    },
+    {
+      "id": "silentgear:katana",
+      "required": false
+    },
+    {
+      "id": "silentgear:knife",
       "required": false
     },
     {
@@ -324,6 +364,34 @@
     },
     {
       "id": "mekanismtools:lapis_lazuli_sword",
+      "required": false
+    },
+    {
+      "id": "silentgear:machete",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_axe",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_hoe",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_pick",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_shovel",
+      "required": false
+    },
+    {
+      "id": "botania:manasteel_sword",
+      "required": false
+    },
+    {
+      "id": "silentgear:mattock",
       "required": false
     },
     {
@@ -352,6 +420,18 @@
     },
     {
       "id": "mekanismtools:osmium_sword",
+      "required": false
+    },
+    {
+      "id": "silentgear:paxel",
+      "required": false
+    },
+    {
+      "id": "silentgear:pickaxe",
+      "required": false
+    },
+    {
+      "id": "silentgear:prospector_hammer",
       "required": false
     },
     {
@@ -403,6 +483,26 @@
       "required": false
     },
     {
+      "id": "silentgear:saw",
+      "required": false
+    },
+    {
+      "id": "silentgear:shovel",
+      "required": false
+    },
+    {
+      "id": "silentgear:sickle",
+      "required": false
+    },
+    {
+      "id": "silentgear:spear",
+      "required": false
+    },
+    {
+      "id": "botania:star_sword",
+      "required": false
+    },
+    {
       "id": "mekanismtools:steel_axe",
       "required": false
     },
@@ -431,7 +531,47 @@
       "required": false
     },
     {
+      "id": "silentgear:sword",
+      "required": false
+    },
+    {
+      "id": "botania:terra_axe",
+      "required": false
+    },
+    {
+      "id": "botania:terra_pick",
+      "required": false
+    },
+    {
+      "id": "botania:terra_sword",
+      "required": false
+    },
+    {
+      "id": "botania:thunder_sword",
+      "required": false
+    },
+    {
       "id": "mekanismtools:wood_paxel",
+      "required": false
+    },
+    {
+      "id": "silentgear:bow",
+      "required": false
+    },
+    {
+      "id": "silentgear:crossbow",
+      "required": false
+    },
+    {
+      "id": "botania:crystal_bow",
+      "required": false
+    },
+    {
+      "id": "botania:livingwood_bow",
+      "required": false
+    },
+    {
+      "id": "silentgear:slingshot",
       "required": false
     }
   ]

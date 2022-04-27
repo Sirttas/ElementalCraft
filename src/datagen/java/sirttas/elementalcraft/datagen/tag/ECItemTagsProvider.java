@@ -2,6 +2,7 @@ package sirttas.elementalcraft.datagen.tag;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
+import mekanism.tools.common.MekanismTools;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -25,10 +26,12 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Wearable;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.silentchaos512.gear.SilentGear;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
+import vazkii.botania.api.BotaniaAPI;
 
 import java.util.Comparator;
 import java.util.List;
@@ -37,11 +40,11 @@ import java.util.stream.Stream;
 
 public class ECItemTagsProvider extends ItemTagsProvider {
 
-	private static final String BOTANIA = "botania";
-	private static final String MEKANISM_TOOLS = "mekanismtools";
 	private static final String MINECRAFT = "minecraft";
-	private static final String SILENTGEAR = "silentgear";
-	
+
+
+	List<String> MOD_IDS = List.of(BotaniaAPI.MODID, MekanismTools.MODID, SilentGear.MOD_ID);
+
 	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, blockTagsProvider, ElementalCraftApi.MODID, existingFileHelper);
 	}
@@ -88,43 +91,21 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		
 		tag(ECTags.Items.INFUSABLE_FOCUS).add(ECItems.FOCUS);
 		tag(ECTags.Items.INFUSABLE_STAVES).add(ECItems.STAFF);
-		addOptionals(tag(ECTags.Items.INFUSABLE_SWORDS).add(Items.IRON_SWORD, Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD).addTag(ECTags.Items.FORGE_SWORDS),
-				getItems(MEKANISM_TOOLS, SwordItem.class),
-				getItems(SILENTGEAR, SwordItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_PICKAXES).add(Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE).addTag(ECTags.Items.FORGE_PICKAXES),
-				getItems(MEKANISM_TOOLS, PickaxeItem.class),
-				getItems(SILENTGEAR, PickaxeItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_SHOVELS).add(Items.IRON_SHOVEL, Items.GOLDEN_SHOVEL, Items.DIAMOND_SHOVEL, Items.NETHERITE_SHOVEL).addTag(ECTags.Items.FORGE_SHOVELS),
-				getItems(MEKANISM_TOOLS, ShovelItem.class),
-				getItems(SILENTGEAR, ShovelItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_HOES).add(Items.IRON_HOE, Items.GOLDEN_HOE, Items.DIAMOND_HOE, Items.NETHERITE_HOE).addTag(ECTags.Items.FORGE_HOES),
-				getItems(MEKANISM_TOOLS, HoeItem.class),
-				getItems(SILENTGEAR, HoeItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_AXES).add(Items.IRON_AXE, Items.GOLDEN_AXE, Items.DIAMOND_AXE, Items.NETHERITE_AXE).addTag(ECTags.Items.FORGE_AXES),
-				getItems(MEKANISM_TOOLS, AxeItem.class),
-				getItems(SILENTGEAR, AxeItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_SWORDS).add(getItems(MINECRAFT, SwordItem.class)).addTag(ECTags.Items.FORGE_SWORDS), getItems(MOD_IDS, SwordItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_PICKAXES).add(getItems(MINECRAFT, PickaxeItem.class)).addTag(ECTags.Items.FORGE_PICKAXES), getItems(MOD_IDS, PickaxeItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_SHOVELS).add(getItems(MINECRAFT, ShovelItem.class)).addTag(ECTags.Items.FORGE_SHOVELS), getItems(MOD_IDS, ShovelItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_HOES).add(getItems(MINECRAFT, HoeItem.class)).addTag(ECTags.Items.FORGE_HOES), getItems(MOD_IDS, HoeItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_AXES).add(getItems(MINECRAFT, AxeItem.class)).addTag(ECTags.Items.FORGE_AXES), getItems(MOD_IDS, AxeItem.class));
 		tag(ECTags.Items.INFUSABLE_SHILDS);
-		addOptionals(tag(ECTags.Items.INFUSABLE_BOWS).add(Items.BOW).addTag(ECTags.Items.FORGE_BOWS),
-				getItems(MEKANISM_TOOLS, BowItem.class),
-				getItems(SILENTGEAR, BowItem.class));
-		addOptionals(tag(ECTags.Items.INFUSABLE_CROSSBOWS).add(Items.CROSSBOW).addTag(ECTags.Items.FORGE_CROSSBOWS),
-				getItems(MEKANISM_TOOLS, CrossbowItem.class),
-				getItems(SILENTGEAR, CrossbowItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_BOWS).add(getItems(MINECRAFT, BowItem.class)).addTag(ECTags.Items.FORGE_BOWS), getItems(MOD_IDS, BowItem.class));
+		addOptionals(tag(ECTags.Items.INFUSABLE_CROSSBOWS).add(getItems(MINECRAFT, CrossbowItem.class)).addTag(ECTags.Items.FORGE_CROSSBOWS), getItems(MOD_IDS, CrossbowItem.class));
 		tag(ECTags.Items.INFUSABLE_FISHING_RODS).add(Items.FISHING_ROD);
 		tag(ECTags.Items.INFUSABLE_TRIDENTS).add(Items.TRIDENT);
 
-		addOptionals(tag(ECTags.Items.INFUSABLE_HELMETS).add(Items.IRON_HELMET, Items.GOLDEN_HELMET, Items.DIAMOND_HELMET, Items.NETHERITE_HELMET).addTag(ECTags.Items.FORGE_HELMETS),
-				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.HEAD)),
-				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.HEAD)));
-		addOptionals(tag(ECTags.Items.INFUSABLE_CHESTPLATES).add(Items.IRON_CHESTPLATE, Items.GOLDEN_CHESTPLATE, Items.DIAMOND_CHESTPLATE, Items.NETHERITE_CHESTPLATE).addTag(ECTags.Items.FORGE_CHESTPLATES),
-				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.CHEST)),
-				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.CHEST)));
-		addOptionals(tag(ECTags.Items.INFUSABLE_LEGGINGS).add(Items.IRON_LEGGINGS, Items.GOLDEN_LEGGINGS, Items.DIAMOND_LEGGINGS, Items.NETHERITE_LEGGINGS).addTag(ECTags.Items.FORGE_LEGGINGS),
-				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.LEGS)),
-				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.LEGS)));
-		addOptionals(tag(ECTags.Items.INFUSABLE_BOOTS).add(Items.IRON_BOOTS, Items.GOLDEN_BOOTS, Items.DIAMOND_BOOTS, Items.NETHERITE_BOOTS).addTag(ECTags.Items.FORGE_BOOTS),
-				getItems(SILENTGEAR, ArmorItem.class, forSlot(EquipmentSlot.FEET)),
-				getItems(MEKANISM_TOOLS, ArmorItem.class, forSlot(EquipmentSlot.FEET)));
+		addOptionals(tag(ECTags.Items.INFUSABLE_HELMETS).add(getItems(MINECRAFT, ArmorItem.class, forSlot(EquipmentSlot.HEAD))).addTag(ECTags.Items.FORGE_HELMETS), getItems(MOD_IDS, ArmorItem.class, forSlot(EquipmentSlot.HEAD)));
+		addOptionals(tag(ECTags.Items.INFUSABLE_CHESTPLATES).add(getItems(MINECRAFT, ArmorItem.class, forSlot(EquipmentSlot.CHEST))).addTag(ECTags.Items.FORGE_CHESTPLATES), getItems(MOD_IDS, ArmorItem.class, forSlot(EquipmentSlot.CHEST)));
+		addOptionals(tag(ECTags.Items.INFUSABLE_LEGGINGS).add(getItems(MINECRAFT, ArmorItem.class, forSlot(EquipmentSlot.LEGS))).addTag(ECTags.Items.FORGE_LEGGINGS), getItems(MOD_IDS, ArmorItem.class, forSlot(EquipmentSlot.LEGS)));
+		addOptionals(tag(ECTags.Items.INFUSABLE_BOOTS).add(getItems(MINECRAFT, ArmorItem.class, forSlot(EquipmentSlot.FEET))).addTag(ECTags.Items.FORGE_BOOTS), getItems(MOD_IDS, ArmorItem.class, forSlot(EquipmentSlot.FEET)));
 
 		tag(ECTags.Items.SPELL_HOLDERS).add(getItems(AbstractSpellHolderItem.class));
 		tag(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.FIRE_CRYSTAL, ECItems.WATER_CRYSTAL, ECItems.EARTH_CRYSTAL, ECItems.AIR_CRYSTAL);
@@ -179,11 +160,11 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 		
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
-		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BOTANIA, "double_mystical_flowers"))
-				.addOptionalTag(new ResourceLocation(BOTANIA, "mystical_flowers")).addOptionalTag(new ResourceLocation(BOTANIA, "special_flowers"))
-				.addOptionalTag(new ResourceLocation(BOTANIA, "floating_flowers"));
-		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BOTANIA, "double_mystical_flowers"))
-				.addOptionalTag(new ResourceLocation(BOTANIA, "mystical_flowers"));
+		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers"))
+				.addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers"))
+				.addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
+		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers"))
+				.addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
 
 		var jewelSocketables = tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(ECTags.Items.FORGE_SWORDS, ECTags.Items.FORGE_SHILDS, ECTags.Items.SPELL_CAST_TOOLS)
 				.addTags(ECTags.Items.FORGE_PICKAXES, ECTags.Items.FORGE_AXES, ECTags.Items.FORGE_SHOVELS, ECTags.Items.FORGE_HOES)
@@ -194,12 +175,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				.add(getItems(MINECRAFT, TieredItem.class))
 				.add(getItems(MINECRAFT, ProjectileWeaponItem.class));
 
-		addOptionals(jewelSocketables, getItems(SILENTGEAR, Wearable.class));
-		addOptionals(jewelSocketables, getItems(SILENTGEAR, TieredItem.class));
-		addOptionals(jewelSocketables, getItems(SILENTGEAR, ProjectileWeaponItem.class));
-		addOptionals(jewelSocketables, getItems(MEKANISM_TOOLS, Wearable.class));
-		addOptionals(jewelSocketables, getItems(MEKANISM_TOOLS, TieredItem.class));
-		addOptionals(jewelSocketables, getItems(MEKANISM_TOOLS, ProjectileWeaponItem.class));
+		addOptionals(jewelSocketables, getItems(MOD_IDS, Wearable.class));
+		addOptionals(jewelSocketables, getItems(MOD_IDS, TieredItem.class));
+		addOptionals(jewelSocketables, getItems(MOD_IDS, ProjectileWeaponItem.class));
 	}
 
 	public TagsProvider.TagAppender<Item> addOptionals(TagsProvider.TagAppender<Item> builder, Item[]... optionals) {
