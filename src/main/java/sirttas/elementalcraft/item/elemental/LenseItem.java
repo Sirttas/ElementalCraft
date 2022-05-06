@@ -1,23 +1,23 @@
 package sirttas.elementalcraft.item.elemental;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.property.ECProperties;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public class LenseItem extends ElementalItem {
 	
@@ -27,7 +27,7 @@ public class LenseItem extends ElementalItem {
 	public static final String NAME_WATER = "water_" + NAME;
 	public static final String NAME_EARTH = "earth_" + NAME;
 	public static final String NAME_AIR = "air_" + NAME;
-	
+
 	public LenseItem(ElementType elementType) {
 		super(ECProperties.Items.LENSE, elementType);
 	}
@@ -39,12 +39,17 @@ public class LenseItem extends ElementalItem {
 			@Nonnull
 			@Override
 			public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> new Storage(stack, ECConfig.COMMON.lenseElementMultiplier.get())));
+				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> getStorage(stack, ECConfig.COMMON.lenseElementMultiplier.get())));
 			}
 		};
 	}
-	
-    @Override
+
+	@Nonnull
+	public IElementStorage getStorage(ItemStack stack, int multiplier) {
+		return new Storage(stack, multiplier);
+	}
+
+	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
     	return enchantment == Enchantments.UNBREAKING;
     }
@@ -84,12 +89,27 @@ public class LenseItem extends ElementalItem {
 			if (!stack.isDamageableItem()) {
 				return count;
 			}
+			Random rand = new Random();
 			ItemStack target = simulate ? stack.copy() : stack;
 			int damage = target.getDamageValue();
-			
-			target.hurt(count / multiplier, new Random(), null);
-			return (target.getDamageValue() - damage) * multiplier;
+
+			var floor = randomFloor(rand, count);
+
+			if (floor == 0) {
+				return count;
+			}
+			target.hurt(floor, rand, null);
+			return Math.min(count, (target.getDamageValue() - damage) * multiplier);
 		}
-		
+
+		private int randomFloor(Random rand, float count) {
+			float v = count / multiplier;
+			int floor = (int) Math.floor(v);
+
+			if (rand.nextDouble() < v - floor) {
+				return floor + 1;
+			}
+			return floor;
+		}
 	}
 }

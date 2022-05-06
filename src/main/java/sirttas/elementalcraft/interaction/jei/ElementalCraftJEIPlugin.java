@@ -3,6 +3,8 @@ package sirttas.elementalcraft.interaction.jei;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IModIngredientRegistration;
@@ -16,9 +18,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.util.Lazy;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.jei.category.PureInfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.SpellCraftRecipeCategory;
@@ -81,6 +85,16 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.useNbtForSubtypes(ECItems.TANK, ECItems.TANK_SMALL, ECItems.TANK_CREATIVE);
 		registry.useNbtForSubtypes(ECItems.FIRE_RESERVOIR, ECItems.WATER_RESERVOIR, ECItems.EARTH_RESERVOIR, ECItems.AIR_RESERVOIR);
 		registry.useNbtForSubtypes(ECItems.FIRE_HOLDER, ECItems.WATER_HOLDER, ECItems.EARTH_HOLDER, ECItems.AIR_HOLDER, ECItems.PURE_HOLDER);
+
+		if (!ECinteractions.isBotaniaActive()) {
+			excludeSubtypes(registry, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE);
+		}
+	}
+
+	private void excludeSubtypes(ISubtypeRegistration registry, ItemLike... items) {
+		for (ItemLike item : items) {
+			registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, item.asItem(), (i, c) -> IIngredientSubtypeInterpreter.NONE);
+		}
 	}
 
 	@Override

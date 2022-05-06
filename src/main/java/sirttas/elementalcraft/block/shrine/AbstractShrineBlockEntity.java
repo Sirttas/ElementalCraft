@@ -87,6 +87,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 				shrine.tick -= period;
 			}
 		}
+	}
+	public static void clientTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		if (shrine.rangeRenderTimer > 0) {
 			shrine.rangeRenderTimer--;
 		}

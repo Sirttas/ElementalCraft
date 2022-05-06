@@ -113,7 +113,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@Override
 	@Nullable
 	public <U extends BlockEntity> BlockEntityTicker<U> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<U> type) {
-		return createECServerTicker(level, type, getEntityType(), AbstractShrineBlockEntity::serverTick);
+		return createECServerTicker(level, type, getEntityType(), level.isClientSide ? AbstractShrineBlockEntity::clientTick : AbstractShrineBlockEntity::serverTick);
 	}
 
 	@SuppressWarnings("unchecked")

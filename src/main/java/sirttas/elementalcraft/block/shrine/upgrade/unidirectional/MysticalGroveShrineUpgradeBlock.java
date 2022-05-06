@@ -1,15 +1,12 @@
 package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -22,6 +19,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.interaction.ECinteractions;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MysticalGroveShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
@@ -54,8 +56,15 @@ public class MysticalGroveShrineUpgradeBlock extends AbstractShrineUpgradeBlock 
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.mystical_grove").withStyle(ChatFormatting.BLUE));
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		super.appendHoverText(stack, worldIn, tooltip, flag);
+	}
+
+	@Override
+	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
+		if (ECinteractions.isBotaniaActive()) {
+			super.fillItemCategory(group, items);
+		}
 	}
 }

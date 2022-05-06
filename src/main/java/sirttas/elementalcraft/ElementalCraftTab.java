@@ -6,7 +6,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
@@ -57,7 +56,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.PIPE_IMPAIRED, list);
 		addItem(ECBlocks.PIPE, list);
 		addItem(ECBlocks.PIPE_IMPROVED, list);
-		addItem(ECItems.COVER_FRAM, list);
+		addItem(ECItems.COVER_FRAME, list);
 		addItem(ECItems.PIPE_PRIORITY, list);
 		addItem(ECBlocks.RETRIEVER, list);
 		addItem(ECBlocks.SORTER, list);
@@ -88,9 +87,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.PICKUP_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.NECTAR_SHRINE_UPGRADE, list);
-		if (ECinteractions.isBotaniaActive()) {
-			addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
-		}
+		addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.PROTECTION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.FILLING_SHRINE_UPGRADE, list);

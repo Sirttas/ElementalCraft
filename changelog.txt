@@ -1,3 +1,11 @@
+1.18.2-4.3.6:
+
+- improve parity between lense durability and element produces
+- hide Mystical Grove Shrine Upgrade in JEI when Botania is not present
+- fix shrine range box not despairing
+- fix crash with ore purifier (issue #82)
+
+
 1.18.2-4.3.5:
 
 - added inert crystal to mekanism enriching

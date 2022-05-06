@@ -41,7 +41,7 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 		if (!input.isEmpty()) {
 			IPurifierRecipe recipe = ElementalCraft.PURE_ORE_MANAGER.getRecipes(input);
 
-			if (recipe.matches(this)) {
+			if (recipe != null && recipe.matches(this)) {
 				return recipe;
 			}
 		}

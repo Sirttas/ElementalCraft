@@ -88,7 +88,7 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
+	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state, world, pos.below());
 	}
 }

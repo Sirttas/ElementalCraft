@@ -444,9 +444,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.unlockedBy(HAS_SWIFT_ALLOY_NUGGET, has(ECTags.Items.NUGGETS_SWIFT_ALLOY)).save(consumer, ElementalCraft.createRL("improved_elementpipe_from_impaired_elementpipe_and_nugget"));
 		ShapelessRecipeBuilder.shapeless(ECBlocks.PIPE_IMPROVED, 4).requires(ECBlocks.PIPE_IMPAIRED, 4).requires(Ingredient.of(ECTags.Items.INGOTS_SWIFT_ALLOY), 2)
 				.unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer, ElementalCraft.createRL("improved_elementpipe_from_impaired_elementpipe_and_ingot"));
-		ShapedRecipeBuilder.shaped(ECItems.COVER_FRAM, 8).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).pattern("iii").pattern("i i").pattern("iii")
+		ShapedRecipeBuilder.shaped(ECItems.COVER_FRAME, 8).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).pattern("iii").pattern("i i").pattern("iii")
 				.unlockedBy(HAS_DRENCHED_IRON_INGOT, has(ECTags.Items.INGOTS_DRENCHED_IRON)).save(consumer);
-		ShapedRecipeBuilder.shaped(ECItems.PIPE_PRIORITY).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('f', ECItems.COVER_FRAM).pattern(" i ").pattern("ifi").pattern(" i ")
+		ShapedRecipeBuilder.shaped(ECItems.PIPE_PRIORITY).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('f', ECItems.COVER_FRAME).pattern(" i ").pattern("ifi").pattern(" i ")
 				.unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
 	}
 

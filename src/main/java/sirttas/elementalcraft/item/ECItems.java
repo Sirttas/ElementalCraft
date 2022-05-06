@@ -118,7 +118,7 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PureOreItem.NAME) public static final PureOreItem PURE_ORE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + RuneItem.NAME) public static final RuneItem RUNE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ChiselItem.NAME) public static final ChiselItem CHISEL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + CoverFrameItem.NAME) public static final CoverFrameItem COVER_FRAM = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + CoverFrameItem.NAME) public static final CoverFrameItem COVER_FRAME = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":elementpipe_priority") public static final Item PIPE_PRIORITY = null;
 
 	@ObjectHolder("patchouli:guide_book") public static final Item ELEMENTOPEDIA = null;

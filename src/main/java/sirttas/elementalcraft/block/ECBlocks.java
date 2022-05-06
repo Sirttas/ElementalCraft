@@ -352,7 +352,7 @@ public class ECBlocks {
 	}
 
 	@SubscribeEvent
-	public static void initTileEntities(RegistryEvent.Register<BlockEntityType<?>> evt) {
+	public static void initBlockEntities(RegistryEvent.Register<BlockEntityType<?>> evt) {
 		IForgeRegistry<BlockEntityType<?>> r = evt.getRegistry();
 
 		register(r, BlockEntityType.Builder.of(SourceBlockEntity::new, SOURCE), SourceBlock.NAME);
@@ -414,7 +414,7 @@ public class ECBlocks {
 		register(registry, builder, object.getId());
 	}
 
-	private static <T extends BlockEntity> void register(IForgeRegistry<BlockEntityType<?>> registry, BlockEntityType.Builder<T> builder, String name) {
+	public static <T extends BlockEntity> void register(IForgeRegistry<BlockEntityType<?>> registry, BlockEntityType.Builder<T> builder, String name) {
 		register(registry, builder, ElementalCraft.createRL(name));
 	}
 

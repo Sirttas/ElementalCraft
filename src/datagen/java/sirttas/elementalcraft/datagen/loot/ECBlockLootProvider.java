@@ -108,7 +108,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 
 
 	private static Builder genPipe(ItemLike block) {
-		return genRegular(block).withPool(LootPool.lootPool().name("frame").setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ECItems.COVER_FRAM))
+		return genRegular(block).withPool(LootPool.lootPool().name("frame").setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ECItems.COVER_FRAME))
 				.when(AlternativeLootItemCondition.alternative(
 						LootItemBlockStatePropertyCondition.hasBlockStateProperties((Block) block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.FRAME)), 
 						LootItemBlockStatePropertyCondition.hasBlockStateProperties((Block) block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.FRAME)))));
