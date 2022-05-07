@@ -87,7 +87,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.useNbtForSubtypes(ECItems.FIRE_HOLDER, ECItems.WATER_HOLDER, ECItems.EARTH_HOLDER, ECItems.AIR_HOLDER, ECItems.PURE_HOLDER);
 
 		if (!ECinteractions.isBotaniaActive()) {
-			excludeSubtypes(registry, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE);
+			excludeSubtypes(registry, ECBlocks.MANA_SYNTHESIZER, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE);
 		}
 	}
 

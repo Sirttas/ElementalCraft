@@ -1,15 +1,13 @@
 package sirttas.elementalcraft.api.rune.handler;
 
+import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.api.rune.Rune.BonusType;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import com.google.common.collect.ImmutableList;
-
-import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.api.rune.Rune.BonusType;
 
 public class RuneHandler implements IRuneHandler {
 
@@ -46,11 +44,17 @@ public class RuneHandler implements IRuneHandler {
 
 	@Override
 	public List<Rune> getRunes() {
-		return runes.stream().filter(Objects::nonNull).collect(ImmutableList.toImmutableList());
+		return runes.stream().filter(Objects::nonNull).toList();
 	}
 
 	@Override
 	public float getBonus(BonusType type) {
 		return bonuses.getOrDefault(type, 0F);
+	}
+
+	@Override
+	public void clear() {
+		runes.clear();
+		bonuses.clear();
 	}
 }

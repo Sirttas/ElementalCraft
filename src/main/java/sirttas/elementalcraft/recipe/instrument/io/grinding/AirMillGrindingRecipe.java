@@ -12,25 +12,22 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
 
-public class AirMillGrindingRecipe implements IGrindingRecipe {
-	
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
-	
-	private final Ingredient ingredient;
-	private final ItemStack output;
-	private final int elementAmount;
-	private final ResourceLocation id;
-	
-	protected AirMillGrindingRecipe(ResourceLocation id, Ingredient ingredient, ItemStack output, int elementAmount) {
-		this.id = id;
-		this.ingredient = ingredient;
-		this.output = output;
-		this.elementAmount = elementAmount;
-	}
+public record AirMillGrindingRecipe(
+		ResourceLocation id,
+		Ingredient ingredient,
+		ItemStack output,
+		int elementAmount,
+		int luckRation
+) implements IGrindingRecipe {
+
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME)
+	public static final RecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
 
 	@Override
 	public int getElementAmount() {
@@ -42,12 +39,12 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 	public ResourceLocation getId() {
 		return id;
 	}
-	
+
 	@Override
 	public boolean matches(ItemStack stack) {
 		return ingredient.test(stack) && IGrindingRecipe.super.matches(stack);
 	}
-	
+
 	@Nonnull
     @Override
 	public NonNullList<Ingredient> getIngredients() {
@@ -65,7 +62,12 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER;
 	}
-	
+
+	@Override
+	public int getLuck(AirMillBlockEntity instrument) {
+		return Math.round(instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK) * luckRation);
+	}
+
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AirMillGrindingRecipe> {
 
 		@Nonnull
@@ -74,9 +76,10 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient ingredient = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
+			int luckRation = GsonHelper.getAsInt(json, ECNames.LUCK_RATION);
 
 			if (!output.isEmpty()) {
-				return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount);
+				return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
 			}
 			throw new IllegalStateException("Binding recipe output is empty!");
 		}
@@ -86,8 +89,9 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 			int elementAmount = buffer.readInt();
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();
+			int luckRation = buffer.readInt();
 
-			return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount);
+			return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
 		}
 
 		@Override
@@ -95,8 +99,8 @@ public class AirMillGrindingRecipe implements IGrindingRecipe {
 			buffer.writeInt(recipe.getElementAmount());
 			recipe.getIngredients().get(0).toNetwork(buffer);
 			buffer.writeItem(recipe.getResultItem());
+			buffer.writeInt(recipe.luckRation());
 		}
-		
+
 	}
-	
 }

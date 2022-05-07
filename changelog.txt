@@ -1,3 +1,16 @@
+1.18.2-4.4.0:
+
+- new block: Mana Element Synthesizer
+- new block: Vortex Shrine Upgrade
+- air mill luck no longer apply on mekanism crushing recipes (this prevents a duping exploit)
+- instrument luck that grant additional output now respect stack size
+- moved air mill luck ratio to recipes
+- pure ore luck ratio now differs between ore and raw materials
+- no longer generate pure ores that can't be processed
+- fix pure ore rendering with raw materials
+- fix runes not sent correctly to client
+
+
 1.18.2-4.3.6:
 
 - improve parity between lense durability and element produces

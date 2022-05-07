@@ -40,34 +40,55 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	private boolean working;
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
+		this(TYPE, pos, state);
+	}
+
+	protected SolarSynthesizerBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
+		super(blockEntityType, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.solarSythesizerMaxRunes.get());
 		working = false;
 	}
 
-
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
-		ISingleElementStorage container = solarSynthesizer.getContainer();
-		
-		if (container != null && level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
-			ItemStack stack = solarSynthesizer.inventory.getItem(0);
-			boolean hasExtract = solarSynthesizer.getElementStorage()
-					.map(storage -> solarSynthesizer.runeHandler.handleElementTransfer(storage, container, ECConfig.COMMON.lenseElementMultiplier.get()) > 0).orElse(false);
-			
-			if (hasExtract || solarSynthesizer.working) {
-				solarSynthesizer.working = hasExtract;
-				solarSynthesizer.setChanged();
-			}
-			if (!stack.isEmpty() && stack.getDamageValue() >= stack.getMaxDamage()) {
-				Vec3 position = Vec3.atCenterOf(pos).add(0, 6.5 / 16, 0);
-				
-				solarSynthesizer.inventory.setItem(0, ItemStack.EMPTY);
-				level.playLocalSound(position.x(), position.y(), position.z(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
-				ParticleHelper.createItemBreakParticle(level, position, level.random, stack, 3);
-				solarSynthesizer.setChanged();
+		if (level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
+			var synthesized = solarSynthesizer.handleSynthesis(ECConfig.COMMON.lenseElementMultiplier.get());
+
+			if (synthesized > 0) {
+				solarSynthesizer.breakLense(level, pos);
 			}
 		}
+	}
+
+	protected void breakLense(Level level, BlockPos pos) {
+		ItemStack stack = inventory.getItem(0);
+
+		if (!stack.isEmpty() && stack.getDamageValue() >= stack.getMaxDamage()) {
+			Vec3 position = Vec3.atCenterOf(pos).add(0, 6.5 / 16, 0);
+
+			inventory.setItem(0, ItemStack.EMPTY);
+			level.playLocalSound(position.x(), position.y(), position.z(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
+			ParticleHelper.createItemBreakParticle(level, position, level.random, stack, 3);
+			setChanged();
+		}
+	}
+
+	protected int handleSynthesis(float amount) {
+		ISingleElementStorage container = getContainer();
+
+		if (container != null) {
+			int synthesized = getElementStorage()
+					.map(storage -> runeHandler.handleElementTransfer(storage, container, amount))
+					.orElse(0);
+			var hasSynthesized = synthesized > 0;
+			
+			if (hasSynthesized || working) {
+				working = hasSynthesized;
+				setChanged();
+			}
+			return synthesized;
+		}
+		return 0;
 	}
 
 	public boolean isWorking() {
@@ -110,7 +131,9 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	}
 
 	public Optional<ISingleElementStorage> getElementStorage() {
-		return CapabilityElementStorage.get(this).filter(ISingleElementStorage.class::isInstance).map(ISingleElementStorage.class::cast);
+		return CapabilityElementStorage.get(this)
+				.filter(ISingleElementStorage.class::isInstance)
+				.map(ISingleElementStorage.class::cast);
 	}
 
 	public RuneHandler getRuneHandler() {

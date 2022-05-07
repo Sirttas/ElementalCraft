@@ -4,6 +4,7 @@
   "input": {
     "tag": "forge:cobblestone"
   },
+  "luck_ration": 2,
   "output": {
     "item": "minecraft:gravel"
   }

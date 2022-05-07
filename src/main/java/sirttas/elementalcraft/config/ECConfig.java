@@ -104,11 +104,9 @@ public class ECConfig {
 		public final IntValue inscriberMaxRunes;
 		public final IntValue airMillTransferSpeed;
 		public final IntValue airMillMaxRunes;
-		public final DoubleValue airMillLuckRatio;
 		public final IntValue purifierTransferSpeed;
 		public final IntValue purifierMaxRunes;
 		public final IntValue purifierDuration;
-		public final DoubleValue purifierLuckRatio;
 		public final IntValue purifierBaseCost;
 		public final BooleanValue pureOreRecipeInjection;
 		public final BooleanValue pureOreSmeltingRecipe;
@@ -116,8 +114,10 @@ public class ECConfig {
 		public final BooleanValue pureOreCampFireRecipe;
 		public final IntValue pureOreOresInput;
 		public final IntValue pureOreOresOutput;
+		public final DoubleValue pureOreOresLuckRatio;
 		public final IntValue pureOreRawMaterialsInput;
 		public final IntValue pureOreRawMaterialsOutput;
+		public final DoubleValue pureOreRawMaterialsLuckRatio;
 		public final IntValue impairedPipeTransferAmount;
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
@@ -159,6 +159,12 @@ public class ECConfig {
 		public final IntValue sourceAltarDistance;
 
 		public final BooleanValue disableSourceExhaustion;
+
+		public final BooleanValue botaniaInteracionEnabled;
+		public final IntValue manaSythesizerMaxRunes;
+		public final IntValue manaSythesizerManaCapacity;
+		public final DoubleValue manaElementRatio;
+		public final IntValue manaSythesizerLenseElementMultiplier;
 
 		public final BooleanValue mekanismInteracionEnabled;
 		public final IntValue mekanismPureOreInputMultiplier;
@@ -277,12 +283,10 @@ public class ECConfig {
 			builder.pop().push("airMill");
 			airMillTransferSpeed = builder.comment("The max amount of element consumed by the Air Mill Grindstone per tick.").defineInRange("airMillTransferSpeed", 10, 0, 1000);
 			airMillMaxRunes = builder.comment("The max amount of runes on an Air Mill Grindstone.").defineInRange("airMillMaxRunes", 3, 0, 10);
-			airMillLuckRatio = builder.comment("The ratio of each luck rune on a Air Mill Grindstone.").defineInRange("airMillLuckRatio", 2D, 0D, 10D);
 			builder.pop().push("purifier");
 			purifierTransferSpeed = builder.comment("The max amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierTransferSpeed", 25, 0, 1000);
 			purifierMaxRunes = builder.comment("The max amount of runes on an purifier.").defineInRange("purifierMaxRunes", 3, 0, 10);
 			purifierDuration = builder.comment("The number of tick for a Ore Purifier to process one item.").defineInRange("purifierDuration", 100, 0, 2400);
-			purifierLuckRatio = builder.comment("The ratio of each luck rune on a purifier.").defineInRange("purifierLuckRatio", 3D, 0D, 10D);
 			purifierBaseCost = builder.comment("The base cost of a purifier recipe.").defineInRange("purifierBaseCost", 2500, 0, 10000);
 			builder.push("pureOre");
 			pureOreRecipeInjection = builder.comment("Set to false if you want to manually manage processing of pure ore.").define("pureOreRecipeInjection", true);
@@ -292,9 +296,11 @@ public class ECConfig {
 			builder.push("ores");
 			pureOreOresInput = builder.comment("The number of input pure ores by a purifier. Using ore blocks.").defineInRange("pureOreOresInput", 1, 1, 20);
 			pureOreOresOutput = builder.comment("The number of output pure ores by a purifier. Using ore blocks.").defineInRange("pureOreOresOutput", 2, 1, 20);
+			pureOreOresLuckRatio = builder.comment("The ratio of each luck rune on a purifier.  Using ore blocks.").defineInRange("pureOreOresLuckRatio", 5D, 0D, 10D);
 			builder.pop().push("rawMaterials");
 			pureOreRawMaterialsInput = builder.comment("The number of input pure ores by a purifier. Using raw materials.").defineInRange("pureOreRawMaterialsInput", 3, 1, 20);
 			pureOreRawMaterialsOutput = builder.comment("The number of output pure ores by a purifier. Using raw materials.").defineInRange("pureOreRawMaterialsOutput", 4, 1, 20);
+			pureOreRawMaterialsLuckRatio = builder.comment("The ratio of each luck rune on a purifier.  Using raw materials.").defineInRange("pureOreRawMaterialsLuckRatio", 2D, 0D, 10D);
 			builder.pop(3).push("elementPipe");
 			impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
@@ -351,7 +357,15 @@ public class ECConfig {
 			builder.pop().comment("Source config").push("source");
 			disableSourceExhaustion = builder.comment("set to true to make sources infinite.").define("disableSourceExhaustion", false);
 
-			builder.pop().comment("mod interaction config").push("interaction").push("mekanism");
+			builder.pop().comment("mod interaction config").push("interaction");
+			builder.push("botania");
+			botaniaInteracionEnabled = builder.comment("Enable interaction with botania.").define("botaniaInteracionEnabled", true);
+			builder.push("manaSythesizer");
+			manaSythesizerMaxRunes = builder.comment("The max amount of runes on a Mana Sythesizer.").defineInRange("manaSythesizerMaxRunes", 2, 0, 10);
+			manaSythesizerManaCapacity = builder.comment("The mana capacity of the Mana Sythesizer.").defineInRange("manaSythesizerManaCapacity", 10000, 0, 1000000);
+			manaSythesizerLenseElementMultiplier = builder.comment("the multiplier of lense in the Mana Sythesizer (based on 1500)").defineInRange("manaSythesizerLenseElementMultiplier", 25, 0, 100);
+			manaElementRatio = builder.comment("The amount of element 1 mana is worth.").defineInRange("manaElementRatio", 0.1, 0, 100);
+			builder.pop(2).push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
 			mekanismPureOreInputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreInputMultiplier",5, 0, 20);
 			mekanismPureOreOutputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreOutputMultiplier",3, 0, 20);

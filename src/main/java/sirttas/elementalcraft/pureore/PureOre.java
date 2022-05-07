@@ -55,14 +55,16 @@ public class PureOre {
 
     private final int inputSize;
     private final int outputSize;
+    private final double luckRatio;
 
-    public PureOre(ResourceLocation id, int inputSize, int outputSize) {
+    public PureOre(ResourceLocation id, int inputSize, int outputSize, double luckRatio) {
         this.id = id;
         this.ores = new HashSet<>();
         recipes = new HashMap<>();
         this.resultForColor = ItemStack.EMPTY;
         this.inputSize = inputSize;
         this.outputSize = outputSize;
+        this.luckRatio = luckRatio;
     }
 
     public Component getDescription() {
@@ -91,6 +93,10 @@ public class PureOre {
 
     public Set<Item> getOres() {
         return ores;
+    }
+
+    public boolean isProcessable() {
+        return !ores.isEmpty() && !recipes.isEmpty();
     }
 
     @SuppressWarnings("unchecked")
@@ -166,6 +172,11 @@ public class PureOre {
         @Override
         public int getInputSize() {
             return inputSize;
+        }
+
+        @Override
+        public double getLuckRatio() {
+            return luckRatio;
         }
     }
 }

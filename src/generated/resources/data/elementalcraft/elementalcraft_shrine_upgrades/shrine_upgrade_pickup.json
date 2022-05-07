@@ -1,7 +1,19 @@
 {
   "predicate": {
-    "block": "elementalcraft:vacuumshrine",
-    "type": "dpanvil:block"
+    "values": [
+      {
+        "value": {
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex",
+          "type": "elementalcraft:has_shrien_upgrade"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "block": "elementalcraft:vacuumshrine",
+        "type": "dpanvil:block"
+      }
+    ],
+    "type": "dpanvil:and"
   },
   "bonuses": {
     "speed": 20.0,

@@ -12,7 +12,7 @@ public class ECinteractions {
 	}
 	
 	public static boolean isBotaniaActive() {
-		return ModList.get().isLoaded("botania");
+		return ModList.get().isLoaded("botania") && Boolean.TRUE.equals(ECConfig.COMMON.botaniaInteracionEnabled.get());
 	}
 
 	public static boolean isSilentGearActive() {

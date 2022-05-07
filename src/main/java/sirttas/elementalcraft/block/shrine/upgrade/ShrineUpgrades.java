@@ -16,6 +16,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveS
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinationShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeBlock;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class ShrineUpgrades {
@@ -28,6 +29,7 @@ public class ShrineUpgrades {
 	public static final IDataWrapper<ShrineUpgrade> PLANTING = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(PlantingShrineUpgradeBlock.NAME));
 	public static final IDataWrapper<ShrineUpgrade> BONELESS_GROWTH = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(BonelessGrowthShrineUpgradeBlock.NAME));
 	public static final IDataWrapper<ShrineUpgrade> PICKUP = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(PickupShrineUpgradeBlock.NAME));
+	public static final IDataWrapper<ShrineUpgrade> VORTEX = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(VortexShrineUpgradeBlock.NAME));
 	public static final IDataWrapper<ShrineUpgrade> NECTAR = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(NectarShrineUpgradeBlock.NAME));
 	public static final IDataWrapper<ShrineUpgrade> MYSTICAL_GROVE = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(MysticalGroveShrineUpgradeBlock.NAME));
 	public static final IDataWrapper<ShrineUpgrade> STEM_POLLINATION = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(ElementalCraft.createRL(StemPollinationShrineUpgradeBlock.NAME));

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "elementalcraft:block/mana_synthesizer"
+    }
+  }
+}

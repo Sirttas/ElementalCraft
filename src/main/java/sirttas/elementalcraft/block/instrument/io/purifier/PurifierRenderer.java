@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,12 +26,19 @@ public class PurifierRenderer implements IECRenderer<PurifierBlockEntity> {
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
 			matrixStack.translate(0.5, 0.5, 0.5);
 			matrixStack.mulPose(getRotation(te.getBlockState().getValue(PurifierBlock.FACING)));
-			matrixStack.translate(0, -5D / 16, -6D / 16);
 			if (!stack.isEmpty()) {
+				matrixStack.pushPose();
+				matrixStack.translate(0, -5D / 16, -6D / 16);
+				if (!(stack.getItem() instanceof BlockItem)) {
+					matrixStack.translate(0, 2D / 16, 0);
+					matrixStack.scale(0.5F, 0.5F, 0.5F);
+					matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+				}
 				renderItem(stack, matrixStack, buffer, light, overlay);
+				matrixStack.popPose();
 			}
 			if (!stack2.isEmpty()) {
-				matrixStack.translate(0, 0.6, 6D / 16);
+				matrixStack.translate(0, 4.6 / 16, 0);
 				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
 				renderItem(stack2, matrixStack, buffer, light, overlay);
 			}

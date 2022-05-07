@@ -21,6 +21,10 @@ public interface IRuneHandler {
 
 	int getMaxRunes();
 
+	default void clear() {
+		getRunes().forEach(this::removeRune);
+	}
+
 	List<Rune> getRunes();
 	
 	default int getRuneCount() {
@@ -58,6 +62,7 @@ public interface IRuneHandler {
 	}
 
 	static void readNBT(IRuneHandler handler, ListTag nbtTagList) {
+		handler.clear();
 		nbtTagList.forEach(nbt -> {
 			String name = nbt.getAsString();
 			Rune rune = ElementalCraftApi.RUNE_MANAGER.get(new ResourceLocation(name));
@@ -69,6 +74,4 @@ public interface IRuneHandler {
 			}
 		});
 	}
-	
-
 }

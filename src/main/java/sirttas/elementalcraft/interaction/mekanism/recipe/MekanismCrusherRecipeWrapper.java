@@ -51,5 +51,4 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 	public RecipeSerializer<?> getSerializer() {
 		return crushingRecipe.getSerializer();
 	}
-
 }

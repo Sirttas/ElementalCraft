@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ehe",
+    "wCw",
+    " c "
+  ],
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "e": {
+      "item": "minecraft:ender_pearl"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    },
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    }
+  },
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_vortex"
+  }
+}

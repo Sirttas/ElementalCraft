@@ -49,7 +49,7 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_5, PIPE_6);
 
 	@Override
-	public SolarSynthesizerBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new SolarSynthesizerBlockEntity(pos, state);
 	}
 	

@@ -21,6 +21,7 @@ import sirttas.elementalcraft.block.entity.renderer.ECRenderers;
 import sirttas.elementalcraft.block.instrument.io.mill.AirMillRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.container.menu.screen.ECScreens;
@@ -56,6 +57,7 @@ public class ECClientHandler {
 		ForgeModelBakery.addSpecialModel(AirMillRenderer.BLADES_LOCATION);
 		ForgeModelBakery.addSpecialModel(DiffuserRenderer.CUBE_LOCATION);
 		ForgeModelBakery.addSpecialModel(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
+		ForgeModelBakery.addSpecialModel(VortexShrineUpgradeRenderer.RING_LOCATION);
 		ForgeModelBakery.addSpecialModel(SourceRenderer.STABILIZER_LOCATION);
 	}
 

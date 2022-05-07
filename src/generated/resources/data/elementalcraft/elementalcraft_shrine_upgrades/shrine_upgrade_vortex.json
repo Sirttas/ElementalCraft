@@ -1,0 +1,23 @@
+{
+  "predicate": {
+    "values": [
+      {
+        "value": {
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup",
+          "type": "elementalcraft:has_shrien_upgrade"
+        },
+        "type": "dpanvil:not"
+      },
+      {
+        "block": "elementalcraft:vacuumshrine",
+        "type": "dpanvil:block"
+      }
+    ],
+    "type": "dpanvil:and"
+  },
+  "bonuses": {
+    "element_consumption": 2.0,
+    "range": 0.75
+  },
+  "max_amount": 1
+}

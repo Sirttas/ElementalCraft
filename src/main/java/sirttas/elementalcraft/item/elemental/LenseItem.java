@@ -111,5 +111,6 @@ public class LenseItem extends ElementalItem {
 			}
 			return floor;
 		}
+
 	}
 }

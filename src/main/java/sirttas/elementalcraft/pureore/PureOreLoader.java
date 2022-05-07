@@ -30,11 +30,13 @@ public class PureOreLoader {
 	private String tagFolder;
 	private int inputSize;
 	private int outputSize;
+	private double luckRatio;
 
 	private PureOreLoader(TagKey<Item> sourceTag) {
 		this.source = Lazy.of(() -> ECTags.Items.getTag(sourceTag));
 		this.inputSize = 1;
 		this.outputSize = 2;
+		this.luckRatio = 0;
 	}
 
 	public static PureOreLoader create(TagKey<Item> sourceTag) {
@@ -60,6 +62,12 @@ public class PureOreLoader {
 		this.outputSize = outputSize;
 		return this;
 	}
+
+	public PureOreLoader luckRatio(double luckRatio) {
+		this.luckRatio = luckRatio;
+		return this;
+	}
+
 
 	public List<PureOre> generate(Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors) {
 		return List.copyOf(this.generatePureOres(injectors).values());
@@ -120,7 +128,7 @@ public class PureOreLoader {
 			id = new ResourceLocation(namespace, path);
 		}
 		
-		var entry = pureOres.computeIfAbsent(id, i -> new PureOre(i, inputSize, outputSize));
+		var entry = pureOres.computeIfAbsent(id, i -> new PureOre(i, inputSize, outputSize, luckRatio));
 
 		entry.getOres().add(ore);
 		if (tag != null) {

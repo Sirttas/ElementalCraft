@@ -35,12 +35,14 @@ public class PureOreManager {
 			.pattern("_?ore$")
 			.tagFolder("ores")
 			.inputSize(ECConfig.COMMON.pureOreOresInput.get())
-			.outputSize(ECConfig.COMMON.pureOreOresOutput.get());
+			.outputSize(ECConfig.COMMON.pureOreOresOutput.get())
+			.luckRatio(ECConfig.COMMON.pureOreOresLuckRatio.get());
 	private static final PureOreLoader RAW_MATERIALS_LOADER = PureOreLoader.create(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE)
 			.pattern("^raw_?")
 			.tagFolder("raw_materials")
 			.inputSize(ECConfig.COMMON.pureOreRawMaterialsInput.get())
-			.outputSize(ECConfig.COMMON.pureOreRawMaterialsOutput.get());
+			.outputSize(ECConfig.COMMON.pureOreRawMaterialsOutput.get())
+			.luckRatio(ECConfig.COMMON.pureOreRawMaterialsLuckRatio.get());
 
 	private final Map<ResourceLocation, Entry> pureOres = new HashMap<>();
 
@@ -118,6 +120,7 @@ public class PureOreManager {
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection");
+			this.pureOres.values().removeIf(o -> !o.isProcessable());
 
 			List<Entry> entries = pureOres.values().stream().distinct().toList();
 
@@ -183,6 +186,10 @@ public class PureOreManager {
 			return (this.ore != null && this.ore.getIngredient().test(ore)) || (this.rawMaterial != null && this.rawMaterial.getIngredient().test(ore));
 		}
 
+		public boolean isProcessable() {
+			return (ore != null && ore.isProcessable() || (rawMaterial != null && rawMaterial.isProcessable()));
+		}
+
 		public List<IPurifierRecipe> getRecipes() {
 			var list = new ArrayList<IPurifierRecipe>();
 
@@ -214,5 +221,6 @@ public class PureOreManager {
 			}
 			return color;
 		}
+
 	}
 }

@@ -32,6 +32,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.EVAPORATOR, list);
 		addItem(ECBlocks.INFUSER, list);
 		addItem(ECBlocks.SOLAR_SYNTHESIZER, list);
+		addItem(ECBlocks.MANA_SYNTHESIZER, list);
 		addItem(ECBlocks.DIFFUSER, list);
 		addItem(ECBlocks.BINDER, list);
 		addItem(ECBlocks.BINDER_IMPROVED, list);
@@ -86,6 +87,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.PLANTING_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.PICKUP_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.VORTEX_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.NECTAR_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE, list);

@@ -1,17 +1,14 @@
 package sirttas.elementalcraft.recipe.instrument.io.grinding;
 
-import java.util.Random;
-
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.core.Registry;
+import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillBlockEntity> {
 
@@ -37,10 +34,5 @@ public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillBlockEntity>
 	@Override
 	default Random getRand(AirMillBlockEntity instrument) {
 		return instrument.getLevel().getRandom();
-	}
-	
-	@Override
-	default int getLuck(AirMillBlockEntity instrument) {
-		return (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.airMillLuckRatio.get());
 	}
 }

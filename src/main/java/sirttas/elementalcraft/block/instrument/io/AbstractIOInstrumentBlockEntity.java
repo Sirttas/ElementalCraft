@@ -25,18 +25,21 @@ public abstract class AbstractIOInstrumentBlockEntity<T extends IInstrument, R e
 		ItemStack in = inv.getItem(0);
 		ItemStack result = inv.getItem(1);
 		ItemStack craftingResult = recipe.assemble(self);
-		int luck = recipe.getLuck(self);
 		int inputSize = recipe.getInputSize();
+		int luck = recipe.getLuck(self);
 
-		if (craftingResult.sameItem(result) && result.getCount() + craftingResult.getCount() <= result.getMaxStackSize()) {
+		if (luck > 0 && recipe.getRand(self).nextInt(100) < luck) {
+			craftingResult.grow(1);
+		}
+
+		var count = craftingResult.getCount();
+
+		if (craftingResult.sameItem(result) && result.getCount() + count <= result.getMaxStackSize()) {
 			in.shrink(inputSize);
-			result.grow(craftingResult.getCount());
+			result.grow(count);
 		} else if (result.isEmpty()) {
 			in.shrink(inputSize);
-			inv.setItem(1, craftingResult.copy());
-		}
-		if (luck > 0 && recipe.getRand(self).nextInt(100) < luck) {
-			result.grow(1);
+			inv.setItem(1, craftingResult);
 		}
 		if (in.isEmpty()) {
 			inv.removeItemNoUpdate(0);

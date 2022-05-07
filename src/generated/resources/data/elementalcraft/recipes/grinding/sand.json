@@ -4,6 +4,7 @@
   "input": {
     "tag": "forge:gravel"
   },
+  "luck_ration": 5,
   "output": {
     "item": "minecraft:sand"
   }

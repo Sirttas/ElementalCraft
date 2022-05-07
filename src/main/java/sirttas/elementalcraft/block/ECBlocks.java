@@ -64,6 +64,7 @@ import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlock;
 import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlock;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
+import sirttas.elementalcraft.block.manasynthesizer.ManaSynthesizerBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlock;
@@ -116,6 +117,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveS
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinationShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlock;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlockEntity;
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlock;
@@ -126,6 +129,8 @@ import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.botania.BotaniaInteractions;
 import sirttas.elementalcraft.item.TooltipImageBlockItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.registry.RegistryHelper;
@@ -149,6 +154,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ImprovedExtractorBlock.NAME) public static final ImprovedExtractorBlock EXTRACTOR_IMPROVED = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + EvaporatorBlock.NAME) public static final EvaporatorBlock EVAPORATOR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SolarSynthesizerBlock.NAME) public static final SolarSynthesizerBlock SOLAR_SYNTHESIZER = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + ManaSynthesizerBlock.NAME) public static final ManaSynthesizerBlock MANA_SYNTHESIZER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + DiffuserBlock.NAME) public static final DiffuserBlock DIFFUSER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + InfuserBlock.NAME) public static final InfuserBlock INFUSER = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BinderBlock.NAME) public static final BinderBlock BINDER = null;
@@ -196,6 +202,7 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PlantingShrineUpgradeBlock.NAME) public static final PlantingShrineUpgradeBlock PLANTING_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BonelessGrowthShrineUpgradeBlock.NAME) public static final BonelessGrowthShrineUpgradeBlock BONELESS_GROWTH_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PickupShrineUpgradeBlock.NAME) public static final PickupShrineUpgradeBlock PICKUP_SHRINE_UPGRADE = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":" + VortexShrineUpgradeBlock.NAME) public static final VortexShrineUpgradeBlock VORTEX_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + NectarShrineUpgradeBlock.NAME) public static final NectarShrineUpgradeBlock NECTAR_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + MysticalGroveShrineUpgradeBlock.NAME) public static final MysticalGroveShrineUpgradeBlock MYSTICAL_GROVE_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + StemPollinationShrineUpgradeBlock.NAME) public static final StemPollinationShrineUpgradeBlock STEM_POLLINATION_SHRINE_UPGRADE = null;
@@ -255,6 +262,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new ImprovedExtractorBlock(), ImprovedExtractorBlock.NAME);
 		RegistryHelper.register(registry, new EvaporatorBlock(), EvaporatorBlock.NAME);
 		RegistryHelper.register(registry, new SolarSynthesizerBlock(), SolarSynthesizerBlock.NAME);
+		RegistryHelper.register(registry, new ManaSynthesizerBlock(), ManaSynthesizerBlock.NAME);
 		RegistryHelper.register(registry, new DiffuserBlock(), DiffuserBlock.NAME);
 		RegistryHelper.register(registry, new InfuserBlock(), InfuserBlock.NAME);
 		RegistryHelper.register(registry, new BinderBlock(), BinderBlock.NAME);
@@ -302,6 +310,7 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new PlantingShrineUpgradeBlock(), PlantingShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new BonelessGrowthShrineUpgradeBlock(), BonelessGrowthShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new PickupShrineUpgradeBlock(), PickupShrineUpgradeBlock.NAME);
+		RegistryHelper.register(registry, new VortexShrineUpgradeBlock(), VortexShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new NectarShrineUpgradeBlock(), NectarShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new StemPollinationShrineUpgradeBlock(), StemPollinationShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new ProtectionShrineUpgradeBlock(), ProtectionShrineUpgradeBlock.NAME);
@@ -390,7 +399,12 @@ public class ECBlocks {
 		register(r, BlockEntityType.Builder.of(BuddingShrineBlockEntity::new, BUDDING_SHRINE), BuddingShrineBlock.NAME);
 		register(r, BlockEntityType.Builder.of(SpawningShrineBlockEntity::new, SPAWNING_SHRINE), SpawningShrineBlock.NAME);
 		register(r, BlockEntityType.Builder.of(AccelerationShrineUpgradeBlockEntity::new, ACCELERATION_SHRINE_UPGRADE), AccelerationShrineUpgradeBlock.NAME);
+		register(r, BlockEntityType.Builder.of(VortexShrineUpgradeBlockEntity::new, VORTEX_SHRINE_UPGRADE), VortexShrineUpgradeBlock.NAME);
 		register(r, BlockEntityType.Builder.of(SorterBlockEntity::new, SORTER), SorterBlock.NAME);
+
+		if (ECinteractions.isBotaniaActive()) {
+			BotaniaInteractions.registerBlockEntities(r);
+		}
 	}
 
 

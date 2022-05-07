@@ -55,6 +55,8 @@ import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.sweet.SweetShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeBlockEntity;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlockEntity;
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
@@ -62,6 +64,8 @@ import sirttas.elementalcraft.block.sorter.SorterBlockEntity;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.block.source.SourceRenderer;
+import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.botania.BotaniaInteractions;
 
 import java.util.function.Supplier;
 
@@ -89,6 +93,7 @@ public final class ECRenderers {
 		register(FireBlastFurnaceBlockEntity.TYPE, FireFurnaceRenderer::new);
 		register(PurifierBlockEntity.TYPE, PurifierRenderer::new);
 		register(AccelerationShrineUpgradeBlockEntity.TYPE, AccelerationShrineUpgradeRenderer::new);
+		register(VortexShrineUpgradeBlockEntity.TYPE, VortexShrineUpgradeRenderer::new);
 		register(SorterBlockEntity.TYPE, SorterRenderer::new);
 		register(SourceBlockEntity.TYPE, SourceRenderer::new);
 
@@ -106,6 +111,10 @@ public final class ECRenderers {
 		register(BuddingShrineBlockEntity.TYPE, ShrineRenderer::new);
 		register(SpringShrineBlockEntity.TYPE, ShrineRenderer::new);
 		register(SpawningShrineBlockEntity.TYPE, ShrineRenderer::new);
+
+		if (ECinteractions.isBotaniaActive()) {
+			BotaniaInteractions.registerModels();
+		}
 	}
 
 	public static void initRenderLayouts() {

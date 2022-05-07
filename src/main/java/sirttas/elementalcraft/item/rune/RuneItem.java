@@ -1,21 +1,16 @@
 package sirttas.elementalcraft.item.rune;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,6 +23,10 @@ import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class RuneItem extends ECItem {
 
 	public static final String NAME = ECNames.RUNE;
@@ -39,14 +38,18 @@ public class RuneItem extends ECItem {
 	@Nonnull
     @Override
 	public InteractionResult useOn(UseOnContext context) {
-		Level world = context.getLevel();
+		Level level = context.getLevel();
+
+		if (level.isClientSide) {
+			return InteractionResult.PASS;
+		}
 		BlockPos pos = context.getClickedPos();
 		ItemStack stack = context.getItemInHand();
 		Player player = context.getPlayer();
-		IRuneHandler handler = BlockEntityHelper.getRuneHandlerAt(world, pos);
+		IRuneHandler handler = BlockEntityHelper.getRuneHandlerAt(level, pos);
 		Rune rune = getRune(stack);
 
-		if (rune != null && rune.canUpgrade(world, pos, handler)) {
+		if (rune != null && rune.canUpgrade(level, pos, handler)) {
 			handler.addRune(rune);
 			if (!player.isCreative()) {
 				stack.shrink(1);

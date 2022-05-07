@@ -121,7 +121,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 				}
 			}
 		}
-		return gem;
+		return gem.copy();
 	}
 
 	public int getTotalWeight() {

@@ -18,6 +18,8 @@ public interface IPurifierRecipe extends IIOInstrumentRecipe<PurifierBlockEntity
 		return ECConfig.COMMON.purifierBaseCost.get();
 	}
 
+	double getLuckRatio();
+
 	@Override
 	default boolean matches(ItemStack stack) {
 		return getIngredients().stream().allMatch(i -> i.test(stack)) && !this.getResultItem().isEmpty() && IIOInstrumentRecipe.super.matches(stack);
@@ -41,7 +43,7 @@ public interface IPurifierRecipe extends IIOInstrumentRecipe<PurifierBlockEntity
 
 	@Override
 	default int getLuck(PurifierBlockEntity instrument) {
-		return (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.purifierLuckRatio.get());
+		return (int) Math.round(instrument.getRuneHandler().getBonus(BonusType.LUCK) * getLuckRatio());
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
 import com.google.gson.JsonObject;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -55,7 +54,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	
 	@Override
 	public ItemStack assemble(IInfuser instrument) {
-		ItemStack stack = instrument.getItem();
+		ItemStack stack = instrument.getItem().copy();
 
 		ToolInfusionHelper.setInfusion(stack, getToolInfusion());
 		return stack;
