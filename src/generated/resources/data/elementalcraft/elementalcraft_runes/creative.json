@@ -1,4 +1,5 @@
 {
+  "max_amount": 1,
   "model": "elementalcraft:elementalcraft_runes/creative",
   "effect_sprite": "elementalcraft:elementalcraft_runes/creative",
   "predicate": {

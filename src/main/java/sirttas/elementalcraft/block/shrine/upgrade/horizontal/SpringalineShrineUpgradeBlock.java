@@ -94,7 +94,7 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	
 	@Override
 	@Deprecated
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(@Nonnull BlockState state, @Nonnull Level level, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
 		super.onRemove(state, level, pos, newState, isMoving);
 		setShrineState(level, pos.relative(getFacing(state)), CrystalType.AMETHYST);
 	}
@@ -105,7 +105,7 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.springaline_shrine_upgrade").withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

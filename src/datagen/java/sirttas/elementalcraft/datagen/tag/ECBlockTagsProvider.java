@@ -18,6 +18,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.Comparator;
@@ -48,6 +49,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(IronBarsBlock.class));
 		tag(ECTags.Blocks.PIPES).add(getBlocksForClass(ElementPipeBlock.class));
 		tag(ECTags.Blocks.SHRINES).add(getBlocksForClass(AbstractShrineBlock.class));
+		tag(ECTags.Blocks.SHRINE_UPGRADES).add(getBlocksForClass(AbstractShrineUpgradeBlock.class));
 		tag(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(PedestalBlock.class));
 
 		tag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.INFUSER, ECBlocks.BINDER, ECBlocks.CRYSTALLIZER, ECBlocks.INSCRIBER, ECBlocks.FIRE_FURNACE, ECBlocks.FIRE_BLAST_FURNACE,

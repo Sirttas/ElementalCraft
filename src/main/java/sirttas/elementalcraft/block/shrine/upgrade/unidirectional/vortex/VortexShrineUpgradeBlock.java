@@ -52,7 +52,7 @@ public class VortexShrineUpgradeBlock extends AbstractShrineUpgradeBlock impleme
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, @Nonnull TooltipFlag flag) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.vortex").withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flag);
 	}

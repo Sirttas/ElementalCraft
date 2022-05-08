@@ -24,7 +24,7 @@ public abstract class AbstractHorizontalShrineUpgradeBlock extends AbstractShrin
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 

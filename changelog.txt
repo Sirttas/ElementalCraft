@@ -1,3 +1,11 @@
+1.18.2-4.4.1:
+
+- add new tag for shrine upgrades
+- render a ghost version of the shrine upgrade the player is holding on the valid position around shrines
+- limit creative rune to one (as you don't need more than one)
+- fix acceleration shrine upgrade shape
+
+
 1.18.2-4.4.0:
 
 - new block: Mana Element Synthesizer

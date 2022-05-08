@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,6 +17,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class StemPollinationShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
@@ -60,7 +59,7 @@ public class StemPollinationShrineUpgradeBlock extends AbstractShrineUpgradeBloc
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.stem_pollination").withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

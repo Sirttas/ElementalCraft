@@ -42,8 +42,7 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 	public CapacityShrineUpgradeBlock() {
 		super(ElementalCraft.createRL(NAME));
 	}
-	
-	
+
 	@Nonnull
     @Override
 	@Deprecated

@@ -47,7 +47,7 @@ public class RunesProvider extends AbstractManagedDataProvider<Rune> {
 		addRune(cache, Rune.Builder.create().predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 2).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1), "bombadil", SLATE);
 		addRune(cache, Rune.Builder.create().predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 3).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1), "tzeentch", MAJOR_SLATE);
 		
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED).addBonus(BonusType.SPEED, 1000000F).addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F), "creative", MAJOR_SLATE);
+		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED).addBonus(BonusType.SPEED, 1000000F).addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F).max(1), "creative", MAJOR_SLATE);
 		
 		itemModelProvider.generateAll(cache);
 	}

@@ -24,7 +24,7 @@ public abstract class AbstractDirectionalShrineUpgradeBlock extends AbstractShri
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getClickedFace().getOpposite());
 	}
 

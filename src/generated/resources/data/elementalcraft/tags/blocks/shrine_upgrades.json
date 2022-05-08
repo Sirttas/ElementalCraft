@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:shrine_upgrade_acceleration",
+    "elementalcraft:shrine_upgrade_boneless_growth",
+    "elementalcraft:shrine_upgrade_capacity",
+    "elementalcraft:shrine_upgrade_crystal_harvest",
+    "elementalcraft:shrine_upgrade_efficiency",
+    "elementalcraft:shrine_upgrade_filling",
+    "elementalcraft:shrine_upgrade_fortune",
+    "elementalcraft:shrine_upgrade_mystical_grove",
+    "elementalcraft:shrine_upgrade_nectar",
+    "elementalcraft:shrine_upgrade_optimization",
+    "elementalcraft:shrine_upgrade_pickup",
+    "elementalcraft:shrine_upgrade_planting",
+    "elementalcraft:shrine_upgrade_protection",
+    "elementalcraft:shrine_upgrade_range",
+    "elementalcraft:shrine_upgrade_silk_touch",
+    "elementalcraft:shrine_upgrade_springaline",
+    "elementalcraft:shrine_upgrade_stem_pollination",
+    "elementalcraft:shrine_upgrade_strength",
+    "elementalcraft:shrine_upgrade_vortex"
+  ]
+}

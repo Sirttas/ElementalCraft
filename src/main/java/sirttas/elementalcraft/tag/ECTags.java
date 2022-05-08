@@ -157,6 +157,7 @@ public class ECTags {
 		public static final TagKey<Block> PUREROCKS = createTag("purerocks");
 		public static final TagKey<Block> PIPES = createTag("pipes");
 		public static final TagKey<Block> SHRINES = createTag("shrines");
+		public static final TagKey<Block> SHRINE_UPGRADES = createTag("shrine_upgrades");
 		public static final TagKey<Block> INSTRUMENTS = createTag("instruments");
 		public static final TagKey<Block> CONTAINER_TOOLS = createTag("container_tools");
 		public static final TagKey<Block> PEDESTALS = createTag("pedestals");

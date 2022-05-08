@@ -74,7 +74,8 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 		Direction facing = getFacing(state);
 
 		return upgrade.isPresent() && BlockEntityHelper.getBlockEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
-				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && upgrade.get().canUpgrade(shrine, level.getBlockState(pos).is(this))).isPresent();
+				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && upgrade.get().canUpgrade(shrine, level.getBlockState(pos).is(this)))
+				.isPresent();
 	}
 	
 	@Override

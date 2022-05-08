@@ -52,7 +52,7 @@ public class PickupShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, @Nonnull TooltipFlag flag) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.pickup").withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flag);
 	}
