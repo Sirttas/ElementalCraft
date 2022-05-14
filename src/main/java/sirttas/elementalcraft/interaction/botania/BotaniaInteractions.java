@@ -6,9 +6,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.ECRenderers;
-import sirttas.elementalcraft.block.manasynthesizer.ManaSynthesizerBlock;
-import sirttas.elementalcraft.block.manasynthesizer.ManaSynthesizerBlockEntity;
-import sirttas.elementalcraft.block.manasynthesizer.ManaSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerRenderer;
 
 public class BotaniaInteractions {
 

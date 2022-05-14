@@ -12,7 +12,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
@@ -39,7 +38,7 @@ public class LenseItem extends ElementalItem {
 			@Nonnull
 			@Override
 			public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> getStorage(stack, ECConfig.COMMON.lenseElementMultiplier.get())));
+				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> getStorage(stack, 1)));
 			}
 		};
 	}

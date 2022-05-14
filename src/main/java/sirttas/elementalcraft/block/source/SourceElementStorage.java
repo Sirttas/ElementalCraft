@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.source;
 
+import net.minecraft.core.Direction;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
@@ -51,12 +52,12 @@ public class SourceElementStorage extends StaticElementStorage {
 	}
 	
 	@Override
-	public boolean canPipeInsert(ElementType elementType) {
+	public boolean canPipeInsert(ElementType elementType, Direction side) {
 		return false;
 	}
 
 	@Override
-	public boolean canPipeExtract(ElementType elementType) {
+	public boolean canPipeExtract(ElementType elementType, Direction side) {
 		return false;
 	}
 
@@ -64,8 +65,8 @@ public class SourceElementStorage extends StaticElementStorage {
 		return exhausted;
 	}
 
-	protected void setExhausted(boolean exausted) {
-		this.exhausted = exausted;
+	protected void setExhausted(boolean exhausted) {
+		this.exhausted = exhausted;
 	}
 	
 	protected void setElementCapacity(int elementCapacity) {

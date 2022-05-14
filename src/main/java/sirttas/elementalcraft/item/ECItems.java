@@ -63,9 +63,9 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUp
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlock;
-import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.item.elemental.LenseItem;

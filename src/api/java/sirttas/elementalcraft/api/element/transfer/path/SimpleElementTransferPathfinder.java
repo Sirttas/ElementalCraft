@@ -147,19 +147,20 @@ public class SimpleElementTransferPathfinder {
         public void run() {
             transferer.getConnectionStream().forEach(entry -> {
                 Direction side = entry.getKey();
+                var opposite = side.getOpposite();
                 IElementTransferer.ConnectionType connection = entry.getValue();
 
                 if (connection == IElementTransferer.ConnectionType.INSERT) {
                     getConnectedCapability(side, CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY).ifPresent(s -> {
-                        if (s.canPipeInsert(type) && s.insertElement(1, type, true) == 0) {
-                            nodes.push(new InsertNode(this, pos.relative(side), s, side.getOpposite()));
+                        if (s.canPipeInsert(type, opposite) && s.insertElement(1, type, true) == 0) {
+                            nodes.push(new InsertNode(this, pos.relative(side), s, opposite));
                         }
                     });
                 } else if (connection == IElementTransferer.ConnectionType.CONNECT) {
                     getConnectedCapability(side, CapabilityElementTransferer.ELEMENT_TRANSFERER_CAPABILITY).ifPresent(t -> {
                         if (!visited.contains(t) && t.isValid()) {
                             visited.add(t);
-                            nodes.push(new ConnectNode(this, pos.relative(side), t, side.getOpposite()));
+                            nodes.push(new ConnectNode(this, pos.relative(side), t, opposite));
                         }
                     });
                 }

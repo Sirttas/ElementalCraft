@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine;
 
+import net.minecraft.core.Direction;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 
@@ -10,7 +11,7 @@ public class ShrineElementStorage extends StaticElementStorage {
 	}
 
 	@Override
-	public boolean canPipeExtract(ElementType elementType) {
+	public boolean canPipeExtract(ElementType elementType, Direction side) {
 		return false;
 	}
 

@@ -1,7 +1,15 @@
+1.18.2-4.4.2:
+
+- render a shadow version of the instrument the player is holding on the top of valid containers
+- made the shadow effect dimmer to easier distinguish it from blocks
+- add client config for shadow block
+- double the efficiency of lenses in the mana synthesizer
+
+
 1.18.2-4.4.1:
 
 - add new tag for shrine upgrades
-- render a ghost version of the shrine upgrade the player is holding on the valid position around shrines
+- render a shadow version of the shrine upgrade the player is holding on the valid position around shrines
 - limit creative rune to one (as you don't need more than one)
 - fix acceleration shrine upgrade shape
 

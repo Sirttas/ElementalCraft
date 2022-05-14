@@ -105,7 +105,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 
 			if (elementType != ElementType.NONE) {
 				if (isSource || entity.isShiftKeyDown()) {
-					if (isSource || storage.canPipeExtract(elementType)) {
+					if (isSource || storage.canPipeExtract(elementType, null)) {
 						var value = storage.transferTo(holder, elementType, transferAmount);
 
 						if (value > 0) {
@@ -114,7 +114,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 						}
 						return InteractionResult.PASS;
 					}
-				} else if (storage.canPipeInsert(elementType)) {
+				} else if (storage.canPipeInsert(elementType, null)) {
 					var value = holder.transferTo(storage, elementType, transferAmount);
 
 					if (value > 0) {

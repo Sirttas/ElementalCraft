@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
+import net.minecraft.core.Direction;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
@@ -43,12 +44,12 @@ public interface ISingleElementStorage extends IElementStorage, IElementTypeProv
 	}
 
 	@Override
-	default boolean canPipeInsert(ElementType type) {
+	default boolean canPipeInsert(ElementType type, Direction side) {
 		return isValidType(type);
 	}
 
 	@Override
-	default boolean canPipeExtract(ElementType type) {
+	default boolean canPipeExtract(ElementType type, Direction side) {
 		return isValidType(type);
 	}
 	

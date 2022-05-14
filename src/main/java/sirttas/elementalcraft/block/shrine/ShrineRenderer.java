@@ -12,6 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.clinet.renderer.ECRenderTypes;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
+import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -29,7 +30,9 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements IECR
 			LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), shrine.getRangeBoundingBox().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
 		}
 
-		renderGhostUpgrades(shrine, poseStack, bufferSource);
+		if (Boolean.TRUE.equals(ECConfig.CLIENT.renderShrineUpgradeShadow.get())) {
+			renderGhostUpgrades(shrine, poseStack, bufferSource);
+		}
 	}
 
 	private void renderGhostUpgrades(T shrine, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource) {

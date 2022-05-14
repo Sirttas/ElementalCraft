@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.manasynthesizer.ManaSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlockEntity;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 import javax.annotation.Nonnull;

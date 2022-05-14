@@ -81,6 +81,7 @@ public class ECConfig {
 		public final IntValue evaporatorExtractionAmount;
 		public final IntValue evaporatorMaxRunes;
 		public final IntValue solarSythesizerMaxRunes;
+		public final IntValue solarSythesizerLenseElementMultiplier;
 		public final IntValue diffuserDiffusionAmount;
 		public final IntValue diffuserMaxRunes;
 		public final IntValue diffuserRange;
@@ -142,7 +143,6 @@ public class ECConfig {
 		public final BooleanValue playersSpawnWithBook;
 		public final IntValue shardElementAmount;
 		public final IntValue chiselDurability;
-		public final IntValue lenseElementMultiplier;
 		
 		public final BooleanValue spellConsumeOnFail;
 
@@ -251,6 +251,7 @@ public class ECConfig {
 			evaporatorMaxRunes = builder.comment("The max amount of runes on an evaporator.").defineInRange("evaporatorMaxRunes", 1, 0, 10);
 			builder.pop().push("solarSythesizer");
 			solarSythesizerMaxRunes = builder.comment("The max amount of runes on a Solar Sythesizer.").defineInRange("solarSythesizerMaxRunes", 2, 0, 10);
+			solarSythesizerLenseElementMultiplier = builder.comment("the multiplier of lense in the Solar Sythesizer (based on 1500)").defineInRange("solarSythesizerLenseElementMultiplier", 10, 0, 100);
 			builder.pop().push("diffuser");
 			diffuserDiffusionAmount = builder.comment("The amount of element transfered by a diffuser.").defineInRange("diffuserDiffusionAmount", 5, 0, 100);
 			diffuserMaxRunes = builder.comment("The max amount of runes on a diffuser.").defineInRange("diffuserMaxRunes", 3, 0, 10);
@@ -333,8 +334,7 @@ public class ECConfig {
 			playersSpawnWithBook = builder.comment("Players start the game with an elementopedia in their inventory.").define("playersSpawnWithBook", false);
 			shardElementAmount = builder.comment("The amount of element contained in a single shard.").defineInRange("shardElementAmount", 250, 0, 1000);
 			chiselDurability = builder.comment("Define chisel durablility (0 for unbreakable).").defineInRange("chiselDurability", 250, 0, 1000);
-			lenseElementMultiplier = builder.comment("the multiplier of lense (based on 1500)").defineInRange("lenseElementMultiplier", 10, 0, 100);
-			
+
 			builder.pop().comment("Spell config").push("spell");
 			spellConsumeOnFail = builder.comment("Define if a spell will be cast (and destroyed) or not if you dont have enought element.").define("spellConsumeOnFail", false);
 
@@ -363,7 +363,7 @@ public class ECConfig {
 			builder.push("manaSythesizer");
 			manaSythesizerMaxRunes = builder.comment("The max amount of runes on a Mana Sythesizer.").defineInRange("manaSythesizerMaxRunes", 2, 0, 10);
 			manaSythesizerManaCapacity = builder.comment("The mana capacity of the Mana Sythesizer.").defineInRange("manaSythesizerManaCapacity", 10000, 0, 1000000);
-			manaSythesizerLenseElementMultiplier = builder.comment("the multiplier of lense in the Mana Sythesizer (based on 1500)").defineInRange("manaSythesizerLenseElementMultiplier", 25, 0, 100);
+			manaSythesizerLenseElementMultiplier = builder.comment("the multiplier of lense in the Mana Sythesizer (based on 1500)").defineInRange("manaSythesizerLenseElementMultiplier", 50, 0, 100);
 			manaElementRatio = builder.comment("The amount of element 1 mana is worth.").defineInRange("manaElementRatio", 0.1, 0, 100);
 			builder.pop(2).push("mekanism");
 			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
@@ -384,6 +384,8 @@ public class ECConfig {
 		public final BooleanValue usePaleElementGauge;
 		public final IntValue shrineRangeDisplayDuration;
 		public final BooleanValue renderPedestalShadow;
+		public final BooleanValue renderShrineUpgradeShadow;
+		public final BooleanValue renderInstrumentShadow;
 		public final BooleanValue fastParticleEffects;
 
 		public final IntValue gaugeOffsetX;
@@ -393,10 +395,14 @@ public class ECConfig {
 			builder.comment("ElementalCraft client config").push("elementalcraft-client");
 
 			shrineRangeDisplayDuration = builder.comment("The duration of shrine range display.").defineInRange("shrineRangeDisplayDuration", 600, 0, 10000);
-			renderPedestalShadow = builder.comment("Display a shadow where pedestals can be placed.").define("renderPedestalShadow", true);
 			fastParticleEffects = builder.comment("Set to true if you want to reduce quality of particles for beter performances.").define("fastParticleEffects", false);
 
-			builder.push("gauge");
+			builder.push("shadowBlocks");
+			renderPedestalShadow = builder.comment("Display a shadow where pedestals can be placed.").define("renderPedestalShadow", true);
+			renderShrineUpgradeShadow = builder.comment("Display a shadow where shrine upgrades can be placed.").define("renderShrineUpgradeShadow", true);
+			renderInstrumentShadow = builder.comment("Display a shadow where instruments can be placed.").define("renderInstrumentShadow", true);
+
+			builder.pop().push("gauge");
 			usePaleElementGauge = builder.comment("Use pale element gauges.").define("usePaleElementGauge", false);
 			gaugeOffsetX = builder.comment("the offset of the gauge on the X axis.").defineInRange("gaugeOffsetX", 0, -10000, 10000);
 			gaugeOffsetY = builder.comment("the offset of the gauge on the Y axis.").defineInRange("gaugeOffsetY", 0, -10000, 10000);

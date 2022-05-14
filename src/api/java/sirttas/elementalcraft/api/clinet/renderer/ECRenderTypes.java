@@ -23,7 +23,7 @@ public class ECRenderTypes extends RenderType {
 						() -> {
 							RenderSystem.enableBlend();
 							RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA.value);
-							GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.75F);
+							GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.5F);
 						},
 						() -> {
 							GL14.glBlendColor(1.0F, 1.0F, 1.0F, 1.0F);

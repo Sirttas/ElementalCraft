@@ -15,6 +15,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.container.ContainerRenderer;
+import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
+import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlockEntity;
+import sirttas.elementalcraft.block.container.reservoir.ReservoirBlockEntity;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.evaporator.EvaporatorBlockEntity;
@@ -58,12 +62,12 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.Acce
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlockEntity;
-import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlockEntity;
-import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.block.sorter.SorterBlockEntity;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.block.source.SourceRenderer;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.botania.BotaniaInteractions;
 
@@ -111,6 +115,10 @@ public final class ECRenderers {
 		register(BuddingShrineBlockEntity.TYPE, ShrineRenderer::new);
 		register(SpringShrineBlockEntity.TYPE, ShrineRenderer::new);
 		register(SpawningShrineBlockEntity.TYPE, ShrineRenderer::new);
+
+		register(ElementContainerBlockEntity.TYPE, ContainerRenderer::new);
+		register(CreativeElementContainerBlockEntity.TYPE, ContainerRenderer::new);
+		register(ReservoirBlockEntity.TYPE, ContainerRenderer::new);
 
 		if (ECinteractions.isBotaniaActive()) {
 			BotaniaInteractions.registerModels();

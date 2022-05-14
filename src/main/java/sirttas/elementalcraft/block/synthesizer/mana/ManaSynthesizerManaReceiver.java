@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.manasynthesizer;
+package sirttas.elementalcraft.block.synthesizer.mana;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

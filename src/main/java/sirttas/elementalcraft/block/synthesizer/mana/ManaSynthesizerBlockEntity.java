@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.manasynthesizer;
+package sirttas.elementalcraft.block.synthesizer.mana;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,9 +12,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
-import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.elemental.LenseItem;
 import vazkii.botania.api.BotaniaForgeCapabilities;
 
 import javax.annotation.Nonnull;
@@ -64,12 +63,7 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 			if (cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
 				return LazyOptional.of(manaReceiver != null ? () -> manaReceiver : null).cast();
 			} else if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
-				var item = getInventory().getItem(0);
-
-				if (item.getItem() instanceof LenseItem lenseItem) {
-					return LazyOptional.of(() -> lenseItem.getStorage(item, ECConfig.COMMON.manaSythesizerLenseElementMultiplier.get())).cast();
-				}
-				return CapabilityElementStorage.get(item).cast();
+				return getElementStorage(ECConfig.COMMON.manaSythesizerLenseElementMultiplier.get());
 			}
 		}
 		return super.getCapability(cap, side);

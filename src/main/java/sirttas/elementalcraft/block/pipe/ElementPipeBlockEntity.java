@@ -87,6 +87,8 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	private void refresh(Direction face) {
+		var opposite = face.getOpposite();
+
 		this.setConnection(face, getAdjacentTile(face).map(tile -> {
 			ConnectionType connection = this.getConnection(face);
 
@@ -96,10 +98,10 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 			if (tile instanceof ElementPipeBlockEntity) {
 				return ConnectionType.CONNECT;
 			}
-			return CapabilityElementStorage.get(tile, face.getOpposite()).map(storage -> {
-				if (this.canInsertInStorage(storage)) {
+			return CapabilityElementStorage.get(tile, opposite).map(storage -> {
+				if (this.canInsertInStorage(storage, opposite)) {
 					return ConnectionType.INSERT;
-				} else if (this.canExtractFromStorage(storage)) {
+				} else if (this.canExtractFromStorage(storage, opposite)) {
 					return ConnectionType.EXTRACT;
 				}
 				return ConnectionType.NONE;
@@ -181,12 +183,14 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 	
 	public InteractionResult activatePipe(Direction face) {
+		var opposite = face.getOpposite();
+
 		return getAdjacentTile(face).map(tile -> {
 			ConnectionType connection = this.getConnection(face);
 
 			switch (connection) {
 			case INSERT:
-				if (CapabilityElementStorage.get(tile, face.getOpposite()).filter(this::canExtractFromStorage).isPresent()) {
+				if (CapabilityElementStorage.get(tile, opposite).filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
 					this.setConnection(face, ConnectionType.EXTRACT);
 				} else {
 					this.setConnection(face, ConnectionType.DISCONNECT);
@@ -201,9 +205,9 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 			case DISCONNECT:
 				LazyOptional<IElementStorage> cap = CapabilityElementStorage.get(tile, face.getOpposite());
 
-				if (cap.filter(this::canInsertInStorage).isPresent()) {
+				if (cap.filter(storage -> canInsertInStorage(storage, opposite)).isPresent()) {
 					this.setConnection(face, ConnectionType.INSERT);
-				} else if (cap.filter(this::canExtractFromStorage).isPresent()) {
+				} else if (cap.filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
 					this.setConnection(face, ConnectionType.EXTRACT);
 				} else if (tile instanceof ElementPipeBlockEntity pipe) {
 					this.setConnection(face, ConnectionType.CONNECT);
@@ -216,12 +220,12 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		}).orElse(InteractionResult.PASS);
 	}
 
-	private boolean canInsertInStorage(IElementStorage storage) {
-		return ElementType.ALL_VALID.stream().anyMatch(storage::canPipeInsert);
+	private boolean canInsertInStorage(IElementStorage storage, Direction face) {
+		return ElementType.ALL_VALID.stream().anyMatch(type -> storage.canPipeInsert(type, face));
 	}
 	
-	private boolean canExtractFromStorage(IElementStorage storage) {
-		return ElementType.ALL_VALID.stream().anyMatch(storage::canPipeExtract);
+	private boolean canExtractFromStorage(IElementStorage storage, Direction face) {
+		return ElementType.ALL_VALID.stream().anyMatch(type -> storage.canPipeExtract(type, face));
 	}
 	
 	public Component getConnectionMessage(Direction face) {

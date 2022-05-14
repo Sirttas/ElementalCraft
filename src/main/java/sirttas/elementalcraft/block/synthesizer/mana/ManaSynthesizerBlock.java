@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.manasynthesizer;
+package sirttas.elementalcraft.block.synthesizer.mana;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -17,7 +17,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.botania.ManaSynthesizerBlockInteractions;
 

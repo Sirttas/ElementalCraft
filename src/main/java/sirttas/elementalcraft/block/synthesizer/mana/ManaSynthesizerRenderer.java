@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.manasynthesizer;
+package sirttas.elementalcraft.block.synthesizer.mana;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.solarsynthesizer.SolarSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 
 import javax.annotation.Nonnull;
 

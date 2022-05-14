@@ -33,4 +33,5 @@ dependencies {
 You will also need to add dependency to [DataPack Anvil](https://github.com/Sirttas/DataPack-Anvil).
 
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X8CLYPH)
 [![discord](https://i.imgur.com/mANW7ms.png "discord")](https://discord.gg/BFfAmJP "")
