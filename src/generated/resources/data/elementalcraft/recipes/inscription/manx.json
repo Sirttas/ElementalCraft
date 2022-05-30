@@ -1,19 +1,19 @@
 {
   "type": "elementalcraft:inscription",
-  "element_type": "air",
+  "element_type": "fire",
   "element_amount": 2000,
   "slate": {
     "item": "elementalcraft:minor_rune_slate"
   },
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/crude_air"
+      "tag": "elementalcraft:gems/crude_fire"
     },
     {
-      "item": "minecraft:sugar"
+      "tag": "minecraft:coals"
     },
     {
-      "item": "minecraft:sugar"
+      "tag": "minecraft:coals"
     }
   ],
   "output": {

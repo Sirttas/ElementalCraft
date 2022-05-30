@@ -32,7 +32,7 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 		ElementType type = context.config().getElementType(context.random());
 
 		if (type != ElementType.NONE) {
-			BlockState source = ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, type);
+			BlockState source = ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type);
 
 			context.level().setBlock(context.origin(), source, 3);
 			return true;

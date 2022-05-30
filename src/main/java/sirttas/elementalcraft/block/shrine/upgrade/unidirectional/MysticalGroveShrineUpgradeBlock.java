@@ -17,8 +17,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.interaction.ECinteractions;
 
 import javax.annotation.Nonnull;
@@ -39,7 +39,7 @@ public class MysticalGroveShrineUpgradeBlock extends AbstractShrineUpgradeBlock 
 	private static final VoxelShape SHAPE = Shapes.or(BASE, CONNECTOR, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
 	public MysticalGroveShrineUpgradeBlock() {
-		super(ElementalCraft.createRL(NAME));
+		super(ShrineUpgrades.MYSTICAL_GROVE);
 	}
 	
 	@Override

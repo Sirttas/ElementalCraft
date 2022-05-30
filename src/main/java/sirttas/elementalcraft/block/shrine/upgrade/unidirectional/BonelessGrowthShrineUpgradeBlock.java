@@ -15,8 +15,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +37,7 @@ public class BonelessGrowthShrineUpgradeBlock extends AbstractShrineUpgradeBlock
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_5);
 
 	public BonelessGrowthShrineUpgradeBlock() {
-		super(ElementalCraft.createRL(NAME));
+		super(ShrineUpgrades.BONELESS_GROWTH);
 	}
 	
 	@Override

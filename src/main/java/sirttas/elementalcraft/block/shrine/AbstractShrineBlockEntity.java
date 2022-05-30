@@ -2,7 +2,9 @@ package sirttas.elementalcraft.block.shrine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -12,17 +14,19 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import sirttas.dpanvil.api.data.IDataWrapper;
+import sirttas.dpanvil.api.data.IDataManager;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
-import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -31,14 +35,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
+public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider {
 
 	protected static final List<Direction> DEFAULT_UPGRADE_DIRECTIONS = List.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	private final double basePeriod;
-	private final int baseElementCapacity;
-	private final float baseRange;
-	private final int baseConsumeAmount;
+	protected final Holder<ShrineProperties> properties;
+
 	private final Map<Direction, ShrineUpgrade> upgrades = new EnumMap<>(Direction.class);
 	private final Map<ShrineUpgrade.BonusType, Float> upgradeMultipliers = new EnumMap<>(ShrineUpgrade.BonusType.class);
 	protected final ShrineElementStorage elementStorage;
@@ -47,16 +49,15 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	private double tick = 0;
 	private int rangeRenderTimer = 0;
 
-	protected AbstractShrineBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, Properties properties) {
+	protected AbstractShrineBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> upgradeKey) {
 		super(blockEntityType, pos, state);
-		basePeriod = properties.period;
-		baseElementCapacity = properties.capacity;
-		baseRange = properties.range;
-		baseConsumeAmount = properties.consumeAmount;
-		if (basePeriod <= 0) {
-			throw new IllegalArgumentException("Shrine period should not be 0");
-		}
-		elementStorage = new ShrineElementStorage(properties.elementType, properties.capacity, this::setChanged);
+		elementStorage = new ShrineElementStorage(this);
+		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(upgradeKey);
+	}
+
+	@Nonnull
+	protected static ResourceKey<ShrineProperties> createKey(@Nonnull String name) {
+		return IDataManager.createKey(ElementalCraft.SHRINE_PROPERTIES_MANAGER_KEY, ElementalCraft.createRL(name));
 	}
 
 	protected int consumeElement(int i) {
@@ -68,7 +69,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		if (shrine.isDirty()) {
-			shrine.refreshUpgrades();
+			shrine.refresh();
 		}
 		double period = shrine.getPeriod();
 		int consumeAmount = shrine.getConsumeAmount();
@@ -94,8 +95,10 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		}
 	}
 
-	public void refreshUpgrades() {
+	public void refresh() {
 		if (this.hasLevel()) {
+			elementStorage.refresh();
+
 			this.upgrades.clear();
 			this.upgradeMultipliers.clear();
 			getUpgradeDirections().forEach(direction -> {
@@ -130,14 +133,18 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		return upgrade == null ? 0 : (int) upgrades.values().stream().filter(upgrade::equals).count();
 	}
 
+	public int getUpgradeCount(ResourceKey<ShrineUpgrade> key) {
+		return key == null ? 0 : (int) upgrades.values().stream().filter(u -> u.is(key)).count();
+	}
+
 	public boolean hasUpgrade(ShrineUpgrade upgrade) {
 		return getUpgradeCount(upgrade) > 0;
 	}
 
-    public boolean hasUpgrade(IDataWrapper<ShrineUpgrade> upgrade) {
-        return upgrade.isPresent() && hasUpgrade(upgrade.get());
-    }
-	
+	public boolean hasUpgrade(ResourceKey<ShrineUpgrade> key) {
+		return getUpgradeCount(key) > 0;
+	}
+
 	private void setUpgrade(Direction direction, ShrineUpgrade upgrade) {
 		ShrineUpgrade old = upgrades.get(direction);
 
@@ -146,7 +153,6 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		}
 		upgrades.put(direction, upgrade);
 		upgrade.getBonuses().forEach((type, bonus) -> upgradeMultipliers.put(type, getMultiplier(type) * bonus));
-		elementStorage.setCapacity(Math.round(this.baseElementCapacity * getMultiplier(BonusType.CAPACITY)));
 	}
 
 	public Collection<ShrineUpgrade> getAllUpgrades() {
@@ -174,8 +180,13 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		return new AABB(this.getBlockPos()).inflate(this.getRange());
 	}
 
+	@Override
+	public ElementType getElementType() {
+		return getProperties().getElementType();
+	}
+
 	public float getRange() {
-		return baseRange * getMultiplier(BonusType.RANGE);
+		return getProperties().range() * getMultiplier(BonusType.RANGE);
 	}
 
 	public int getIntegerRange() {
@@ -183,11 +194,30 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public int getConsumeAmount() {
-		return Math.round(baseConsumeAmount * getMultiplier(BonusType.ELEMENT_CONSUMPTION));
+		return Math.round(getProperties().consumption() * getMultiplier(BonusType.ELEMENT_CONSUMPTION));
 	}
 
 	public double getPeriod() {
-		return this.basePeriod * getMultiplier(BonusType.SPEED);
+		return getProperties().period() * getMultiplier(BonusType.SPEED);
+	}
+
+	@Nonnull
+	public ShrineProperties getProperties() {
+		return this.properties.value();
+	}
+
+	public int getCapacity() {
+		return Math.round(getProperties().capacity() * getMultiplier(BonusType.CAPACITY));
+	}
+
+	public double getStrength() {
+		return this.getStrength(0);
+	}
+
+	public double getStrength(int index) {
+		var value = getProperties().strength().get(index);
+
+		return (value != null ? value : 1) * getMultiplier(BonusType.STRENGTH);
 	}
 
 	@Override
@@ -197,7 +227,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
 		running = compound.getBoolean(ECNames.RUNNING);
-		refreshUpgrades();
+		refresh();
 	}
 
 	@Override
@@ -220,44 +250,4 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity {
 		return elementStorage;
 	}
 
-	public static final class Properties {
-		private double period;
-		private int consumeAmount;
-		private int capacity;
-		private float range;
-		private final ElementType elementType;
-
-		private Properties(ElementType elementType) {
-			this.elementType = elementType;
-			consumeAmount = 0;
-			period = 1;
-			range = 1;
-			capacity = ECConfig.COMMON.shrinesCapacity.get();
-		}
-
-		public static Properties create(ElementType elementType) {
-			return new Properties(elementType);
-		}
-
-
-		public Properties consumeAmount(int consumeAmount) {
-			this.consumeAmount = consumeAmount;
-			return this;
-		}
-
-		public Properties period(double period) {
-			this.period = period;
-			return this;
-		}
-
-		public Properties capacity(int capacity) {
-			this.capacity = capacity;
-			return this;
-		}
-
-		public Properties range(float range) {
-			this.range = range;
-			return this;
-		}
-	}
 }

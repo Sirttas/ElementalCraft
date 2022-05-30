@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
 
@@ -40,7 +40,7 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST);
 
 	public CapacityShrineUpgradeBlock() {
-		super(ElementalCraft.createRL(NAME));
+		super(ShrineUpgrades.CAPACITY);
 	}
 
 	@Nonnull

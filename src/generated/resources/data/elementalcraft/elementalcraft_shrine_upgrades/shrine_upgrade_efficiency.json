@@ -5,6 +5,6 @@
   },
   "bonuses": {
     "element_consumption": 0.5,
-    "capacity": 0.9
+    "element_capacity": 0.9
   }
 }

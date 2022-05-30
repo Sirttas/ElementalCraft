@@ -14,7 +14,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,7 +58,7 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_EAST, PILAR_EAST, BASE_1_EAST, BASE_2_EAST, PIPE_1_EAST, PIPE_2_EAST);
 
 	public SilkTouchShrineUpgradeBlock() {
-		super(ElementalCraft.createRL(NAME));
+		super(ShrineUpgrades.SILK_TOUCH);
 	}
 	
 	@Nonnull

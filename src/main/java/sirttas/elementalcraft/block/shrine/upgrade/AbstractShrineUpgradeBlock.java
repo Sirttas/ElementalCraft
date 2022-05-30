@@ -2,8 +2,9 @@ package sirttas.elementalcraft.block.shrine.upgrade;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +26,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -41,11 +41,11 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
-	private final IDataWrapper<ShrineUpgrade> upgrade;
+	private final Holder<ShrineUpgrade> upgrade;
 
-	protected AbstractShrineUpgradeBlock(ResourceLocation name) {
+	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key) {
 		super(ECProperties.Blocks.BLOCK_NOT_SOLID);
-		upgrade = ElementalCraft.SHRINE_UPGRADE_MANAGER.getWrapper(name);
+		upgrade = ElementalCraft.SHRINE_UPGRADE_MANAGER.getOrCreateHolder(key);
 		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
 	}
 
@@ -73,8 +73,8 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
 		Direction facing = getFacing(state);
 
-		return upgrade.isPresent() && BlockEntityHelper.getBlockEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
-				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && upgrade.get().canUpgrade(shrine, level.getBlockState(pos).is(this)))
+		return upgrade.isBound() && BlockEntityHelper.getBlockEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
+				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this)))
 				.isPresent();
 	}
 	
@@ -119,10 +119,12 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
-		upgrade.ifPresent(u -> u.addInformation(tooltip));
+		if (upgrade.isBound()) {
+			getUpgrade().addInformation(tooltip);
+		}
 	}
 
 	public ShrineUpgrade getUpgrade() {
-		return upgrade.get();
+		return upgrade.value();
 	}
 }

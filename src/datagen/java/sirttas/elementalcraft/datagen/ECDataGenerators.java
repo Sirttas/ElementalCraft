@@ -11,11 +11,13 @@ import sirttas.elementalcraft.datagen.loot.ECBlockLootProvider;
 import sirttas.elementalcraft.datagen.loot.ECChestLootProvider;
 import sirttas.elementalcraft.datagen.loot.ECInjectLootProvider;
 import sirttas.elementalcraft.datagen.managed.RunesProvider;
+import sirttas.elementalcraft.datagen.managed.ShrinePropertiesProvider;
 import sirttas.elementalcraft.datagen.managed.ShrineUpgradeProvider;
 import sirttas.elementalcraft.datagen.managed.SourceTraitsProvider;
 import sirttas.elementalcraft.datagen.managed.SpellPropertiesProvider;
 import sirttas.elementalcraft.datagen.managed.ToolInfusionProvider;
 import sirttas.elementalcraft.datagen.recipe.ECRecipeProvider;
+import sirttas.elementalcraft.datagen.tag.ECBiomeTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
 import sirttas.elementalcraft.interaction.ECinteractions;
@@ -42,12 +44,14 @@ public class ECDataGenerators {
 			generator.addProvider(itemModelProvider);
 			generator.addProvider(blockTagsProvider);
 			generator.addProvider(new ECItemTagsProvider(generator, blockTagsProvider, fileHelper));
+			generator.addProvider(new ECBiomeTagsProvider(generator, fileHelper));
 			generator.addProvider(new ECRecipeProvider(generator, fileHelper));
 			generator.addProvider(new ECAdvancementProvider(generator));
 			generator.addProvider(new ShrineUpgradeProvider(generator));
 			generator.addProvider(new SpellPropertiesProvider(generator));
 			generator.addProvider(new ToolInfusionProvider(generator));
 			generator.addProvider(new SourceTraitsProvider(generator));
+			generator.addProvider(new ShrinePropertiesProvider(generator));
 			if (ECinteractions.isSilentGearActive()) {
 				generator.addProvider(new ECSilentGearMaterialProvider(generator));
 			}

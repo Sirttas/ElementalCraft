@@ -32,6 +32,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -42,7 +43,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> extends AbstractECEntityBlock implements SimpleWaterloggedBlock {
+public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> extends AbstractECEntityBlock implements SimpleWaterloggedBlock, IElementTypeProvider {
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -52,6 +53,11 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	protected AbstractShrineBlock(ElementType elementType) {
 		this.elementType = elementType;
 		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+	}
+
+	@Override
+	public ElementType getElementType() {
+		return this.elementType;
 	}
 
 	@Override

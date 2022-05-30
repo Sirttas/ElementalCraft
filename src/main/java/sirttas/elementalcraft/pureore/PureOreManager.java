@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.crafting.NBTIngredient;
-import sirttas.dpanvil.api.event.DataPackReloadCompletEvent;
+import sirttas.dpanvil.api.event.DataPackReloadCompleteEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
@@ -105,7 +105,7 @@ public class PureOreManager {
 				.toList();
 	}
 
-	public void reload(DataPackReloadCompletEvent event) {
+	public void reload(DataPackReloadCompleteEvent event) {
 		var recipeManager = event.getRecipeManager();
 		Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors = getInjectors();
 

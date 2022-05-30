@@ -50,7 +50,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements IECR
 		while(iterator.hasNext() && !wasRendered) {
 			var stack = iterator.next();
 
-			if (stack.getItem() instanceof BlockItem blockItem) {
+			if (stack.getItem() instanceof BlockItem blockItem && stack.is(ECTags.Items.SHRINE_UPGRADES)) {
 				var block = blockItem.getBlock();
 
 				for (var direction : shrine.getUpgradeDirections()) {
@@ -59,7 +59,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements IECR
 					if (level.getBlockState(upgradePos).isAir()) {
 						var state = block.getStateForPlacement(new DirectionalPlaceContext(level, upgradePos, direction.getOpposite(), stack, direction));
 
-						if (state != null && state.is(ECTags.Blocks.SHRINE_UPGRADES) && state.canSurvive(level, upgradePos)) {
+						if (state != null && state.canSurvive(level, upgradePos)) {
 							poseStack.pushPose();
 							poseStack.translate(direction.getStepX(), direction.getStepY(), direction.getStepZ());
 							renderBlock(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, upgradePos);

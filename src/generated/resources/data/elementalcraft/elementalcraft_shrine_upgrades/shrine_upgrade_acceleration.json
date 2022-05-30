@@ -5,7 +5,7 @@
         "values": [
           {
             "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup",
-            "type": "elementalcraft:has_shrien_upgrade"
+            "type": "elementalcraft:has_shrine_upgrade"
           },
           {
             "block": "elementalcraft:vacuumshrine",

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.budding;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
@@ -13,12 +14,11 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.config.ECConfig;
 
 import java.util.List;
 
@@ -26,17 +26,15 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BuddingShrineBlock.NAME) public static final BlockEntityType<BuddingShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.period(ECConfig.COMMON.buddingShrinePeriod.get())
-			.consumeAmount(ECConfig.COMMON.buddingShrineConsumeAmount.get());
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(BuddingShrineBlock.NAME);
 
-	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	private static final List<Block> AMETHYSTS = List.of(Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, Blocks.AMETHYST_CLUSTER);
 	private static final List<Block> SPRINGALINES = List.of(ECBlocks.SMALL_SPRINGALINE_BUD, ECBlocks.MEDIUM_SPRINGALINE_BUD, ECBlocks.LARGE_SPRINGALINE_BUD, ECBlocks.SPRINGALINE_CLUSTER);
 
 	public BuddingShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES);
+		super(TYPE, pos, state, PROPERTIES_KEY);
 	}
 
 	@Override
@@ -87,6 +85,6 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public List<Direction> getUpgradeDirections() {
-		return UPGRRADE_DIRECTIONS;
+		return UPGRADE_DIRECTIONS;
 	}
 }

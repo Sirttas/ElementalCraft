@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ECBlockTagsProvider extends BlockTagsProvider {
 
-	private static final List<Block> LOOT_BLACKLIST = List.of(ECBlocks.SOURCE, ECBlocks.BURNT_GLASS, ECBlocks.BURNT_GLASS_PANE, ECBlocks.SPRINGALINE_GLASS, ECBlocks.SPRINGALINE_GLASS_PANE);
+	private static final List<Block> LOOT_BLACKLIST = List.of(ECBlocks.SOURCE.get(), ECBlocks.BURNT_GLASS, ECBlocks.BURNT_GLASS_PANE, ECBlocks.SPRINGALINE_GLASS, ECBlocks.SPRINGALINE_GLASS_PANE);
 	
 	public ECBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, ElementalCraftApi.MODID, existingFileHelper);
@@ -69,7 +69,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.SWEET_SHRINE, ECBlocks.VACUUM_SHRINE, ECBlocks.FIRE_PYLON);
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_PROTECTION).add(ECBlocks.FIRE_PYLON, ECBlocks.ENDER_LOCK_SHRINE);
 
-		tag(ECTags.Blocks.ORES_INERT_CRYSTAL).add(ECBlocks.CRYSTAL_ORE, ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
+		tag(ECTags.Blocks.ORES_INERT_CRYSTAL).add(ECBlocks.CRYSTAL_ORE.get(), ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
 
 		tag(Tags.Blocks.ORES).addTag(ECTags.Blocks.ORES_INERT_CRYSTAL);
 		tag(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT);
@@ -84,7 +84,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.STORAGE_BLOCKS_FIREITE).add(ECBlocks.FIREITE_BLOCK.get());
 		tag(Tags.Blocks.STORAGE_BLOCKS).addTags(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Blocks.STORAGE_BLOCKS_FIREITE);
 		
-		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).add(ECBlocks.SOURCE);
+		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).add(ECBlocks.SOURCE.get());
 	}
 	
 	private void lootTags() {

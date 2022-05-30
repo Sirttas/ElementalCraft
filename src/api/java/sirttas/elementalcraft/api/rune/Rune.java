@@ -118,7 +118,10 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	}
 
 	public enum BonusType implements StringRepresentable {
-		NONE("none"), SPEED("speed"), ELEMENT_PRESERVATION("element_preservation"), LUCK("luck");
+		NONE(ECNames.NONE),
+		SPEED(ECNames.SPEED),
+		ELEMENT_PRESERVATION(ECNames.ELEMENT_PRESERVATION),
+		LUCK(ECNames.LUCK);
 
 		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values, BonusType::byName);
 

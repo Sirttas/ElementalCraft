@@ -37,7 +37,7 @@ public class EmptyReceptacleItem extends AbstractReceptacleItem implements ISour
 		BlockState blockstate = level.getBlockState(pos);
 		var player = context.getPlayer();
 
-		if (blockstate.getBlock() == ECBlocks.SOURCE) {
+		if (blockstate.getBlock() == ECBlocks.SOURCE.get()) {
 			if (!level.isClientSide) {
 				ItemStack stack = ReceptacleHelper.createFrom(context.getItemInHand(), ElementType.getElementType(blockstate));
 

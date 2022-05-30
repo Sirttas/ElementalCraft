@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.breeding;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
@@ -13,9 +14,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,13 +26,9 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final BlockEntityType<BreedingShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.period(ECConfig.COMMON.breedingShrinePeriod.get())
-			.consumeAmount(ECConfig.COMMON.breedingShrineConsumeAmount.get())
-			.range(ECConfig.COMMON.breedingShrineRange.get());
-
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(BreedingShrineBlock.NAME);
 	public BreedingShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES);
+		super(TYPE, pos, state, PROPERTIES_KEY);
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {

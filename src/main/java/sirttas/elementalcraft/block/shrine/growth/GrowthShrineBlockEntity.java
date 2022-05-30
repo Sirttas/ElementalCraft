@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.growth;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -11,10 +12,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.config.ECConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,13 +24,9 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + GrowthShrineBlock.NAME) public static final BlockEntityType<GrowthShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.WATER)
-			.period(ECConfig.COMMON.growthShrinePeriod.get())
-			.consumeAmount(ECConfig.COMMON.growthShrineConsumeAmount.get())
-			.range(ECConfig.COMMON.growthShrineRange.get());
-
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(GrowthShrineBlock.NAME);
 	public GrowthShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES);
+		super(TYPE, pos, state, PROPERTIES_KEY);
 	}
 
 	private Optional<BlockPos> findGrowable() {

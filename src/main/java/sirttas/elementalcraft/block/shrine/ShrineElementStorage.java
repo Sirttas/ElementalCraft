@@ -6,8 +6,11 @@ import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 
 public class ShrineElementStorage extends StaticElementStorage {
 
-	public ShrineElementStorage(ElementType elementType, int capacity, Runnable syncCallback) {
-		super(elementType, capacity, syncCallback);
+	private final AbstractShrineBlockEntity shrine;
+
+	public ShrineElementStorage(AbstractShrineBlockEntity shrine) {
+		super(ElementType.NONE, 0, shrine::setChanged);
+		this.shrine = shrine;
 	}
 
 	@Override
@@ -15,8 +18,8 @@ public class ShrineElementStorage extends StaticElementStorage {
 		return false;
 	}
 
-	void setCapacity(int capacity) {
-		this.elementCapacity = capacity;
+	void refresh() {
+		this.elementType = shrine.getElementType();
+		this.elementCapacity = shrine.getCapacity();
 	}
-
 }

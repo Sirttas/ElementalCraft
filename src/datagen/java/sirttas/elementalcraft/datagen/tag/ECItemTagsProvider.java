@@ -61,6 +61,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
 		copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
 		copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
+		copy(ECTags.Blocks.SHRINE_UPGRADES, ECTags.Items.SHRINE_UPGRADES);
+		copy(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES, ECTags.Items.SMALL_CONTAINER_COMPATIBLES);
+		copy(ECTags.Blocks.INSTRUMENTS, ECTags.Items.INSTRUMENTS);
+		copy(ECTags.Blocks.CONTAINER_TOOLS, ECTags.Items.CONTAINER_TOOLS);
 
 		copy(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Items.STORAGE_BLOCKS_DRENCHED_IRON);
 		copy(ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Items.STORAGE_BLOCKS_SWIFT_ALLOY);

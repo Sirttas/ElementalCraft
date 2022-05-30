@@ -10,21 +10,21 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.codec.CodecHelper;
-import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +67,10 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		return String.format("%+d%%", Math.round((multiplier - 1) * 100));
 	}
 
+	public boolean is(ResourceKey<ShrineUpgrade> key) {
+		return key.location().equals(this.getId());
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof ShrineUpgrade) {
@@ -91,12 +95,12 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 	}
 	
 	public enum BonusType implements StringRepresentable {
-		NONE("none", false), 
-		SPEED("speed", false), 
-		ELEMENT_CONSUMPTION("element_consumption", false), 
-		CAPACITY("capacity", true), 
-		RANGE("range", true), 
-		STRENGTH("strength", true);
+		NONE(ECNames.NONE, false),
+		SPEED(ECNames.SPEED, false),
+		ELEMENT_CONSUMPTION(ECNames.ELEMENT_CONSUMPTION, false), 
+		CAPACITY(ECNames.ELEMENT_CAPACITY, true),
+		RANGE(ECNames.RANGE, true),
+		STRENGTH(ECNames.STRENGTH, true);
 
 		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values, BonusType::byName);
 
@@ -135,7 +139,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
 		private int maxAmount;
-		private final Set<ResourceLocation> incompatibilities;
+		private final Set<ResourceKey<ShrineUpgrade>> incompatibilities;
 
 		private Builder() {
 			this.bonuses = new EnumMap<>(BonusType.class);
@@ -166,18 +170,11 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 			return this;
 		}
 
-		public Builder incompatibleWith(ResourceLocation... locs) {
-			Collections.addAll(incompatibilities, locs);
+		@SafeVarargs
+		public final Builder incompatibleWith(ResourceKey<ShrineUpgrade>... upgrades) {
+			incompatibilities.addAll(Arrays.asList(upgrades));
 			return this;
 		}
-		
-        @SafeVarargs
-        public final Builder incompatibleWith(IDataWrapper<ShrineUpgrade>... upgrades) {
-            Stream.of(upgrades)
-                    .map(IDataWrapper::getId)
-                    .forEach(incompatibilities::add);
-            return this;
-        }
 
 		public Builder addBonus(BonusType type, float value) {
 			this.bonuses.put(type, value);

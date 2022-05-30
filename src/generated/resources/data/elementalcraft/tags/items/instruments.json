@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:infuser",
+    "elementalcraft:binder",
+    "elementalcraft:crystallizer",
+    "elementalcraft:inscriber",
+    "elementalcraft:firefurnace",
+    "elementalcraft:fireblastfurnace",
+    "elementalcraft:purifier",
+    "elementalcraft:air_mill",
+    "elementalcraft:binder_improved"
+  ]
+}

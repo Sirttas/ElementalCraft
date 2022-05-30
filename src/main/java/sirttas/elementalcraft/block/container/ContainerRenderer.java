@@ -35,14 +35,14 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
         while(iterator.hasNext() && !wasRendered) {
             var stack = iterator.next();
 
-            if (stack.getItem() instanceof BlockItem blockItem) {
+            if (stack.getItem() instanceof BlockItem blockItem && stack.is(container.isSmall() ? ECTags.Items.SMALL_CONTAINER_COMPATIBLES : ECTags.Items.CONTAINER_TOOLS)) {
                 var block = blockItem.getBlock();
                 var instrumentPos = pos.above();
 
                 if (level.getBlockState(instrumentPos).isAir()) {
                     var state = block.getStateForPlacement(new DirectionalPlaceContext(level, instrumentPos, Direction.DOWN, stack, Direction.UP));
 
-                    if (state != null && state.is(container.isSmall() ? ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES : ECTags.Blocks.CONTAINER_TOOLS) && state.canSurvive(level, instrumentPos)) {
+                    if (state != null && state.canSurvive(level, instrumentPos)) {
                         poseStack.pushPose();
                         poseStack.translate(0, 1, 0);
                         renderBlock(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, instrumentPos);

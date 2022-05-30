@@ -34,4 +34,5 @@ jobs:
           SHENDAI_REPOSLITE_USER: ${{ secrets.SHENDAI_REPOSLITE_USER }}
           SHENDAI_REPOSLITE_PASSWORD: ${{ secrets.SHENDAI_REPOSLITE_PASSWORD }}
           CURSEFORGE_KEY: ${{ secrets.CURSEFORGE_KEY }}
-        run: ./gradlew publish curseforge -Ptag_version=${{ steps.get_tag_version.outputs.TAG_VERSION }} --info --stacktrace
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew publish curseforge modrinth -Ptag_version=${{ steps.get_tag_version.outputs.TAG_VERSION }} --info --stacktrace

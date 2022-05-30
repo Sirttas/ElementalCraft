@@ -6,7 +6,7 @@
   "bonuses": {
     "speed": 1.1,
     "element_consumption": 1.1,
-    "capacity": 5.0
+    "element_capacity": 5.0
   },
   "max_amount": 1
 }

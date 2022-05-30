@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.item.source.receptacle;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -24,6 +19,10 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ReceptacleItem extends AbstractReceptacleItem {
 
@@ -48,7 +47,7 @@ public class ReceptacleItem extends AbstractReceptacleItem {
 		BlockPos pos = newContext.getClickedPos();
 
 		if (newContext.canPlace()) {
-			world.setBlockAndUpdate(pos, ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType));
+			world.setBlockAndUpdate(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType));
 			BlockItem.updateCustomBlockEntityTag(world, player, pos, sourceReceptacle);
 			if (!player.isCreative()) {
 				ItemStack stack = ReceptacleHelper.createFrom(sourceReceptacle, ElementType.NONE);

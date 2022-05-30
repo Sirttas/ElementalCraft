@@ -1,0 +1,7 @@
+{
+  "element_capacity": 10000,
+  "range": 4.0,
+  "element_type": "earth",
+  "periode": 20.0,
+  "element_consumption": 100
+}

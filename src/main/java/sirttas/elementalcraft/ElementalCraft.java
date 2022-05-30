@@ -1,5 +1,6 @@
 package sirttas.elementalcraft;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -19,6 +20,7 @@ import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.config.ECConfig;
@@ -32,12 +34,19 @@ import sirttas.elementalcraft.world.feature.ECFeatures;
 public class ElementalCraft {
 	
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
+
+	public static ResourceKey<IDataManager<ShrineUpgrade>> SHRINE_UPGRADE_MANAGER_KEY = IDataManager.createManagerKey(createRL(ShrineUpgrades.NAME));
 	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER)
 			.withIdSetter(ShrineUpgrade::setId)
 			.merged(ShrineUpgrade::merge)
 			.build();
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER)
 			.withDefault(SpellProperties.NONE)
+			.build();
+
+	public static ResourceKey<IDataManager<ShrineProperties>> SHRINE_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(ShrineProperties.NAME));
+	public static final IDataManager<ShrineProperties> SHRINE_PROPERTIES_MANAGER = IDataManager.builder(ShrineProperties.class, ShrineProperties.FOLDER)
+			.withDefault(ShrineProperties.DEFAULT)
 			.build();
 
 	public ElementalCraft() {
@@ -72,7 +81,8 @@ public class ElementalCraft {
 	}
 	
 	private void enqueueIMC(InterModEnqueueEvent event) {
-		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ShrineUpgrades.NAME), SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SHRINE_UPGRADE_MANAGER_KEY, SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SHRINE_PROPERTIES_MANAGER_KEY, SHRINE_PROPERTIES_MANAGER).withCodec(ShrineProperties.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(SpellProperties.NAME), SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(Rune.NAME), ElementalCraftApi.RUNE_MANAGER).withCodec(Rune.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(createRL(ToolInfusion.NAME), ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));

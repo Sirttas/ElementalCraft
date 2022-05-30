@@ -1,3 +1,15 @@
+1.18.2-4.4.3:
+
+- added item tags for shrine upgrades, instruments, container tools and small_container_compatibles
+- moved shrine config to datapack using shrine properties
+- rename capacity to element capacity in json
+- fix speed and preservation runes recipes being inverted
+- fix source altar generation
+- fix a crash while rendering ghost shrine upgrades
+- fix a crash while rendering ghost container tops
+- fix a typo in datapack
+
+
 1.18.2-4.4.2:
 
 - render a shadow version of the instrument the player is holding on the top of valid containers

@@ -8,6 +8,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -74,7 +75,12 @@ public class ECTags {
 		public static final TagKey<Item> PUREROCKS = createTag("purerocks");
 		public static final TagKey<Item> PIPES = createTag("pipes");
 		public static final TagKey<Item> SHRINES = createTag("shrines");
-		
+		public static final TagKey<Item> SHRINE_UPGRADES = createTag("shrine_upgrades");
+
+		public static final TagKey<Item> SMALL_CONTAINER_COMPATIBLES = createTag("small_container_compatibles");
+		public static final TagKey<Item> INSTRUMENTS = createTag("instruments");
+		public static final TagKey<Item> CONTAINER_TOOLS = createTag("container_tools");
+
 		public static final TagKey<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
 		
 		public static final TagKey<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
@@ -192,6 +198,23 @@ public class ECTags {
 
 		private static TagKey<Block> createTag(String modId, String name) {
 			return BlockTags.create(new ResourceLocation(modId, name));
+		}
+	}
+
+	public static class Biomes {
+		public static final TagKey<Biome> HAS_SOURCE_ALTAR = createTag("has_structure/source_altar");
+		private Biomes() {}
+
+		private static TagKey<Biome> createTag(String name) {
+			return createTag(ElementalCraftApi.MODID, name);
+		}
+
+		private static TagKey<Biome> createForgeTag(String name) {
+			return createTag(ECNames.FORGE, name);
+		}
+
+		private static TagKey<Biome> createTag(String modId, String name) {
+			return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(modId, name));
 		}
 	}
 

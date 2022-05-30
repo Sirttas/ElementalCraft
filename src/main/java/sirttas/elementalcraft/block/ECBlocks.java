@@ -135,6 +135,8 @@ import sirttas.elementalcraft.item.TooltipImageBlockItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
+import java.util.Arrays;
+
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECBlocks {
 
@@ -144,7 +146,7 @@ public class ECBlocks {
 	}
 
 	public static final RegistryObject<Block> SMALL_CONTAINER = object(SmallElementContainerBlock.NAME);
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementContainerBlock.NAME) public static final ElementContainerBlock CONTAINER = null;
+	public static final RegistryObject<Block> CONTAINER = object(ElementContainerBlock.NAME);
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_FIRE) public static final ReservoirBlock FIRE_RESERVOIR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_WATER) public static final ReservoirBlock WATER_RESERVOIR = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME_EARTH) public static final ReservoirBlock EARTH_RESERVOIR = null;
@@ -211,8 +213,8 @@ public class ECBlocks {
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpringalineShrineUpgradeBlock.NAME) public static final SpringalineShrineUpgradeBlock SPRINGALINE_SHRINE_UPGRADE = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystalHarvestShrineUpgradeBlock.NAME) public static final CrystalHarvestShrineUpgradeBlock CRYSTAL_HARVEST_SHRINE_UPGRADE = null;
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final SourceBlock SOURCE = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystalOreBlock.NAME) public static final CrystalOreBlock CRYSTAL_ORE = null;
+	public static final RegistryObject<Block> SOURCE = object(SourceBlock.NAME);
+	public static final RegistryObject<Block> CRYSTAL_ORE = object(CrystalOreBlock.NAME);
 	public static final RegistryObject<Block> DEEPSLATE_CRYSTAL_ORE = object(CrystalOreBlock.NAME_DEEPSLATE);
 	
 	public static final RegistryObject<Block> WHITE_ROCK = object("whiterock");
@@ -319,8 +321,8 @@ public class ECBlocks {
 		RegistryHelper.register(registry, new CrystalHarvestShrineUpgradeBlock(), CrystalHarvestShrineUpgradeBlock.NAME);
 		RegistryHelper.register(registry, new MysticalGroveShrineUpgradeBlock(), MysticalGroveShrineUpgradeBlock.NAME);	
 
-		RegistryHelper.register(registry, new SourceBlock(), SourceBlock.NAME);
-		RegistryHelper.register(registry, new CrystalOreBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F, 3.0F)), CrystalOreBlock.NAME);
+		RegistryHelper.register(registry, new SourceBlock(), SOURCE);
+		RegistryHelper.register(registry, new CrystalOreBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F, 3.0F)), CRYSTAL_ORE);
 		RegistryHelper.register(registry, new CrystalOreBlock(BlockBehaviour.Properties.of(Material.STONE).color(MaterialColor.DEEPSLATE).strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE)), DEEPSLATE_CRYSTAL_ORE);
 		RegistryHelper.register(registry, new Block(ECProperties.Blocks.WHITEROCK), WHITE_ROCK);
 		RegistryHelper.register(registry, new SlabBlock(ECProperties.Blocks.WHITEROCK), "whiterock_slab");
@@ -364,8 +366,8 @@ public class ECBlocks {
 	public static void initBlockEntities(RegistryEvent.Register<BlockEntityType<?>> evt) {
 		IForgeRegistry<BlockEntityType<?>> r = evt.getRegistry();
 
-		register(r, BlockEntityType.Builder.of(SourceBlockEntity::new, SOURCE), SourceBlock.NAME);
-		register(r, BlockEntityType.Builder.of(ElementContainerBlockEntity::new, CONTAINER, SMALL_CONTAINER.get()), ElementContainerBlock.NAME);
+		register(r, builder(SourceBlockEntity::new, SOURCE), SourceBlock.NAME);
+		register(r, builder(ElementContainerBlockEntity::new, CONTAINER, SMALL_CONTAINER), ElementContainerBlock.NAME);
 		register(r, BlockEntityType.Builder.of(ReservoirBlockEntity::new, FIRE_RESERVOIR, WATER_RESERVOIR, EARTH_RESERVOIR, AIR_RESERVOIR), ReservoirBlock.NAME);
 		register(r, BlockEntityType.Builder.of(CreativeElementContainerBlockEntity::new, CREATIVE_CONTAINER), CreativeElementContainerBlock.NAME);
 		register(r, BlockEntityType.Builder.of(ExtractorBlockEntity::new, EXTRACTOR, EXTRACTOR_IMPROVED), ExtractorBlock.NAME);
@@ -407,6 +409,12 @@ public class ECBlocks {
 		}
 	}
 
+	@SafeVarargs
+	public static <T extends BlockEntity> BlockEntityType.Builder<T> builder(BlockEntityType.BlockEntitySupplier<? extends T> pFactory, RegistryObject<? extends Block>... pValidBlocks) {
+		return BlockEntityType.Builder.of(pFactory, Arrays.stream(pValidBlocks)
+				.map(RegistryObject::get)
+				.toArray(Block[]::new));
+	}
 
 	@SubscribeEvent
 	public static void registerBlockItems(RegistryEvent.Register<Item> event) {

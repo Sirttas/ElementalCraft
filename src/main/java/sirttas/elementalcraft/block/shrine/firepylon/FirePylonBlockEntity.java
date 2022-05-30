@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.firepylon;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,11 +10,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
@@ -23,14 +22,12 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + FirePylonBlock.NAME) public static final BlockEntityType<FirePylonBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE)
-			.consumeAmount(ECConfig.COMMON.firePylonConsumeAmount.get())
-			.range(ECConfig.COMMON.firePylonRange.get());
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(FirePylonBlock.NAME);
 
-	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public FirePylonBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES);
+		super(TYPE, pos, state, PROPERTIES_KEY);
 	}
 
 	private List<LivingEntity> getEntities() {
@@ -41,11 +38,11 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 	@Override
 	protected boolean doPeriod() {
 		int consumeAmount = this.getConsumeAmount();
-		float strength = this.getMultiplier(BonusType.STRENGTH);
+		var strength = (float) this.getStrength();
 
 		getEntities().forEach(e -> {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {
-				e.hurt(DamageSource.IN_FIRE, (float) (strength * ECConfig.COMMON.firePylonDamage.get()));
+				e.hurt(DamageSource.IN_FIRE, strength);
 				e.setSecondsOnFire((int)(this.consumeElement(consumeAmount) * strength));
 			}
 		});
@@ -54,6 +51,6 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public List<Direction> getUpgradeDirections() {
-		return UPGRRADE_DIRECTIONS;
+		return UPGRADE_DIRECTIONS;
 	}
 }

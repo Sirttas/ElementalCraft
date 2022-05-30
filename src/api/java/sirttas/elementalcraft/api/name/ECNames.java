@@ -54,6 +54,7 @@ public class ECNames {
 	public static final String OUTPUT = "output";
 	public static final String OUTPUTS = "outputs";
 	public static final String PARENT = "Parent";
+	public static final String PERIODE = "periode";
 	public static final String PREDICATE = "predicate";
 	public static final String PROGRESS = "progress";
 	public static final String PURE_ORE_RECIPE_INJECTOR = "pure_ore_recipe_injector";
@@ -87,6 +88,11 @@ public class ECNames {
 	public static final String WEIGHT = "weight";
 	public static final String WORKING = "working";
 	public static final String XP = "experience";
+	public static final String NONE = "none";
+	public static final String SPEED = "speed";
+	public static final String ELEMENT_PRESERVATION = "element_preservation";
+	public static final String LUCK = "luck";
+	public static String STRENGTH = "strength";
 
-    private ECNames() {}
+	private ECNames() {}
 }

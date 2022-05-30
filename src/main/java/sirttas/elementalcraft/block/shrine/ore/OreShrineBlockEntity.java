@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.shrine.ore;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -13,10 +14,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.loot.LootHelper;
 
 import java.util.Optional;
@@ -26,14 +26,10 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + OreShrineBlock.NAME) public static final BlockEntityType<OreShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.period(ECConfig.COMMON.oreShrinePeriod.get())
-			.consumeAmount(ECConfig.COMMON.oreShrineConsumeAmount.get())
-			.range(ECConfig.COMMON.oreShrineRange.get())
-			.capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(OreShrineBlock.NAME);
 
 	public OreShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES);
+		super(TYPE, pos, state, PROPERTIES_KEY);
 	}
 
 	private Optional<BlockPos> findOre() {
@@ -65,7 +61,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	public static void harvest(ServerLevel level, BlockPos pos, AbstractShrineBlockEntity shrine, BlockState newBlock) {
-		int fortune = shrine.getUpgradeCount(ShrineUpgrades.FORTUNE.get());
+		int fortune = shrine.getUpgradeCount(ShrineUpgrades.FORTUNE);
 
 		if (fortune > 0) {
 			ItemStack pickaxe = new ItemStack(Items.NETHERITE_PICKAXE);

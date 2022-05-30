@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 
 import javax.annotation.Nonnull;
 
@@ -18,8 +19,8 @@ public abstract class AbstractHorizontalShrineUpgradeBlock extends AbstractShrin
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	protected AbstractHorizontalShrineUpgradeBlock(ResourceLocation name) {
-		super(name);
+	protected AbstractHorizontalShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key) {
+		super(key);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
 	}
 

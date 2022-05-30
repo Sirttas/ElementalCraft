@@ -1,19 +1,19 @@
 {
   "type": "elementalcraft:inscription",
-  "element_type": "air",
+  "element_type": "fire",
   "element_amount": 5000,
   "slate": {
     "item": "elementalcraft:rune_slate"
   },
   "ingredients": [
     {
-      "tag": "elementalcraft:gems/fine_air"
+      "tag": "elementalcraft:gems/fine_fire"
     },
     {
-      "tag": "forge:string"
+      "item": "minecraft:blaze_rod"
     },
     {
-      "tag": "forge:string"
+      "item": "minecraft:blaze_rod"
     }
   ],
   "output": {

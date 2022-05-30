@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.harvest;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -15,10 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.loot.LootHelper;
 
 import java.util.List;
@@ -29,15 +29,12 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + HarvestShrineBlock.NAME) public static final BlockEntityType<HarvestShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.EARTH)
-			.period(ECConfig.COMMON.harvestShrinePeriod.get())
-			.consumeAmount(ECConfig.COMMON.harvestShrineConsumeAmount.get())
-			.range(ECConfig.COMMON.harvestShrineRange.get());
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(HarvestShrineBlock.NAME);
 
-	protected static final List<Direction> UPGRRADE_DIRECTIONS = List.of(Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public HarvestShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES);
+		super(TYPE, pos, state, PROPERTIES_KEY);
 	}
 
 	private Optional<BlockPos> findCrop() {
@@ -93,6 +90,6 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public List<Direction> getUpgradeDirections() {
-		return UPGRRADE_DIRECTIONS;
+		return UPGRADE_DIRECTIONS;
 	}
 }

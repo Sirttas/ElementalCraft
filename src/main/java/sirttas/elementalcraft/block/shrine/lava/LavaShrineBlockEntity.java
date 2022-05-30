@@ -2,15 +2,15 @@ package sirttas.elementalcraft.block.shrine.lava;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
@@ -21,20 +21,16 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + LavaShrineBlock.NAME) public static final BlockEntityType<LavaShrineBlockEntity> TYPE = null;
 
-	private static final Properties PROPERTIES = Properties.create(ElementType.FIRE)
-			.period(ECConfig.COMMON.lavaShrinePeriod.get())
-			.consumeAmount(ECConfig.COMMON.lavaShrineConsumeAmount.get())
-			.range(ECConfig.COMMON.lavaShrineRange.get())
-			.capacity(ECConfig.COMMON.shrinesCapacity.get() * 10);
+	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(LavaShrineBlock.NAME);
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public LavaShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES);
+		super(TYPE, pos, state, PROPERTIES_KEY);
 	}
 
 	private Optional<BlockPos> findRock() {
-		int range = ECConfig.COMMON.lavaShrineRange.get();
+		int range = (int) Math.round(this.getProperties().range());
 
 		return IntStream.range(-range, range + 1).mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + 1, worldPosition.getZ() + z))).flatMap(s -> s)
 				.filter(p -> level.getBlockState(p).is(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES)).findAny();
@@ -43,7 +39,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public AABB getRangeBoundingBox() {
-		int range = ECConfig.COMMON.lavaShrineRange.get();
+		int range = (int) Math.round(this.getProperties().range());
 
 		return new AABB(this.getBlockPos()).inflate(range, 0, range).move(0, 1, 0);
 	}

@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -32,7 +31,6 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
@@ -48,6 +46,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.registry.RegistryHelper;
+import sirttas.elementalcraft.tag.ECTags;
 import sirttas.elementalcraft.world.feature.config.ElementTypeFeatureConfig;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 import sirttas.elementalcraft.world.feature.config.RandomElementTypeFeatureConfig;
@@ -88,7 +87,7 @@ public class ECFeatures {
 
 		IForgeRegistry<Feature<?>> r = event.getRegistry();
 		Feature<IElementTypeFeatureConfig> source = new SourceFeature();
-		var oreInertCrystalTargetList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ECBlocks.CRYSTAL_ORE.defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ECBlocks.DEEPSLATE_CRYSTAL_ORE.get().defaultBlockState()));
+		var oreInertCrystalTargetList = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ECBlocks.CRYSTAL_ORE.get().defaultBlockState()), OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ECBlocks.DEEPSLATE_CRYSTAL_ORE.get().defaultBlockState()));
 		var chanceSourcePlacement = sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.sourceSpawnChance.get()));
 		
 		RegistryHelper.register(r, source, SourceFeature.NAME);
@@ -124,7 +123,7 @@ public class ECFeatures {
 		Holder<ConfiguredFeature<?, ?>> oceanSourceConfig = register(SourceFeature.NAME_OCEAN, source, ElementTypeFeatureConfig.WATER);
 		oceanSourcePlaced = register(SourceFeature.NAME_OCEAN, oceanSourceConfig, sourcePlacement(RarityFilter.onAverageOnceEvery(ECConfig.COMMON.oceanSourceSpawnChance.get())));
 
-		registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR, RandomElementTypeFeatureConfig.ALL, ECStructures.SOURCE_ALTAR_PIECE_TYPE, new RandomSpreadStructurePlacement(ECConfig.COMMON.sourceAltarDistance.get(), 8, RandomSpreadType.LINEAR, 4847339));
+		registerStructure(SourceAltarStructure.NAME, ECStructures.SOURCE_ALTAR.configured(RandomElementTypeFeatureConfig.ALL, ECTags.Biomes.HAS_SOURCE_ALTAR), new RandomSpreadStructurePlacement(ECConfig.COMMON.sourceAltarDistance.get(), 8, RandomSpreadType.LINEAR, 4847339));
 	}
 
 	private static List<PlacementModifier> sourcePlacement(PlacementModifier ... modifiers) {
@@ -186,7 +185,7 @@ public class ECFeatures {
 		ServerChunkCache chunkProvider = level.getChunkSource();
 
 		chunkProvider.getChunk(chunkPos.x, chunkPos.z, true);
-		level.setBlock(new BlockPos(x, y, z), ECBlocks.SOURCE.defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
+		level.setBlock(new BlockPos(x, y, z), ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
 	}
 
 	public static <C extends FeatureConfiguration, F extends Feature<C>> Holder<ConfiguredFeature<?, ?>> register(String name, F feature, C config) {
@@ -197,15 +196,13 @@ public class ECFeatures {
 		return BuiltinRegistries.register(BuiltinRegistries.PLACED_FEATURE, ElementalCraft.createRL(name), new PlacedFeature(Holder.hackyErase(config), List.copyOf(placement)));
 	}
 
-	private static <C extends FeatureConfiguration> Holder<ConfiguredStructureFeature<?, ?>> registerStructure(String name, StructureFeature<C> structure, C config, StructurePieceType structurePieceType, StructurePlacement structurePlacement) {
+	private static <C extends FeatureConfiguration> Holder<ConfiguredStructureFeature<?, ?>> registerStructure(String name, ConfiguredStructureFeature<C, ? extends StructureFeature<C>> structure, StructurePlacement structurePlacement) {
 		ResourceLocation location = ElementalCraft.createRL(name);
 		var key = ResourceKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
 		var setKey = ResourceKey.create(Registry.STRUCTURE_SET_REGISTRY, location);
 
-		var configuredStructureFeatureHolder = StructureFeatures.register(key, structure.configured(config, BiomeTags.IS_HILL)); //TODO: Add biome tags
-
+		var configuredStructureFeatureHolder = StructureFeatures.register(key, structure);
 		StructureSets.register(setKey, new StructureSet(configuredStructureFeatureHolder, structurePlacement));
-		Registry.register(Registry.STRUCTURE_PIECE, location, structurePieceType);
 		return configuredStructureFeatureHolder;
 	}
 
