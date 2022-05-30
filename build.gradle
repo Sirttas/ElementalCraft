@@ -322,30 +322,28 @@ def modrinth_token = System.getenv("MODRINTH_TOKEN") ?: project.findProperty("mo
 def changeLog
 
 if (curseforge_key  != null || modrinth_token != null) {
-    changeLog = { ->
-        def generatedChangelog = ""
-        def changeStart = false
-        def changeEnd = false
+    def generatedChangelog = ""
+    def changeStart = false
+    def changeEnd = false
 
-        println('Changelog:')
+    println('Changelog:')
 
-        def changelogFile = file('changelog.txt').withReader { reader ->
-            def line
+    file('changelog.txt').withReader { reader ->
+        def line
 
-            while ((line = reader.readLine()) != null && !changeEnd) {
-                if (line ==~ '^\\s*- .*') {
-                    changeStart = true
-                } else if (changeStart) {
-                    changeEnd = true
-                }
-                if (changeStart && !changeEnd) {
-                    println(line)
-                    generatedChangelog += line + '\n'
-                }
+        while ((line = reader.readLine()) != null && !changeEnd) {
+            if (line ==~ '^\\s*- .*') {
+                changeStart = true
+            } else if (changeStart) {
+                changeEnd = true
+            }
+            if (changeStart && !changeEnd) {
+                println(line)
+                generatedChangelog += line + '\n'
             }
         }
-        return generatedChangelog
     }
+    changeLog = generatedChangelog
 }
 
 if (curseforge_key != null) {
@@ -376,7 +374,7 @@ if (modrinth_token != null) {
         versionNumber = project.version
         versionType = "${release_type}"
         uploadFile = jar
-        gameVersions = "${minecraft_version}"
+        gameVersions = ["${minecraft_version}"]
         loaders = ["forge"]
         changelog = changeLog
         dependencies {
