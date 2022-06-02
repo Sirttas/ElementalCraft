@@ -1,22 +1,19 @@
 package sirttas.elementalcraft.api.source.trait;
 
-import javax.annotation.Nullable;
-
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
+
+import javax.annotation.Nullable;
 
 public class SourceTrait implements Comparable<SourceTrait> {
 	
@@ -137,10 +134,6 @@ public class SourceTrait implements Comparable<SourceTrait> {
 		public Builder value(ISourceTraitValueProvider valueProvider) {
 			this.valueProvider = valueProvider;
 			return this;
-		}
-		
-		public JsonElement toJson() {
-			return CodecHelper.encode(ENCODER, this);
 		}
 	}
 }

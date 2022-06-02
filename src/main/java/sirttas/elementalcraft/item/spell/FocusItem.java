@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.item.spell;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -17,6 +12,10 @@ import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class FocusItem extends AbstractSpellHolderItem {
 
@@ -41,15 +40,15 @@ public class FocusItem extends AbstractSpellHolderItem {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		SpellHelper.forEachSpell(stack, (s, i) -> {
-			ChatFormatting formating = s == spell ? ChatFormatting.AQUA : ChatFormatting.GRAY;
+			ChatFormatting style = s == spell ? ChatFormatting.AQUA : ChatFormatting.GRAY;
 
 			if (i == 1) {
-				tooltip.add(new TextComponent("").append(s.getDisplayName()).withStyle(formating));
+				tooltip.add(new TextComponent("").append(s.getDisplayName()).withStyle(style));
 			} else {
-				tooltip.add(new TextComponent(i + " ").append(s.getDisplayName()).withStyle(formating));
+				tooltip.add(new TextComponent(i + " ").append(s.getDisplayName()).withStyle(style));
 			}
 		});
-		if (spell != Spells.NONE) {
+		if (spell != Spells.NONE.get()) {
 			addAttributeTooltip(tooltip, SpellHelper.getSpell(stack));
 		}
 	}

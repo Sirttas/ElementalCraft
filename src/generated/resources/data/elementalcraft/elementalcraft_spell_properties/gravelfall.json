@@ -9,9 +9,9 @@
       }
     ]
   },
-  "element_consumption": 250,
   "cooldown": 40,
+  "weight": 20,
+  "element_consumption": 250,
   "spell_type": "combat",
-  "element_type": "earth",
-  "weight": 20
+  "element_type": "earth"
 }

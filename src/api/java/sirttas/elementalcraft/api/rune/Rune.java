@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.api.rune;
 
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -19,7 +18,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -201,10 +199,6 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		public Builder addBonus(BonusType type, float value) {
 			this.bonuses.put(type, value);
 			return this;
-		}
-
-		public JsonElement toJson() {
-			return CodecHelper.encode(ENCODER, this);
 		}
 	}
 }

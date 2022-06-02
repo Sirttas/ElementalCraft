@@ -1,11 +1,6 @@
 package sirttas.elementalcraft.spell;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -18,6 +13,10 @@ import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.network.message.MessageHelper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
@@ -28,12 +27,12 @@ public class SpellTickManager {
 
 	private int tick;
 	private final Map<Entity, Map<Spell, Cooldown>> cooldowns;
-	private final List<AbstractSpellInstance> spellinstances;
+	private final List<AbstractSpellInstance> spellInstances;
 
 	private SpellTickManager() {
 		tick = 0;
 		cooldowns = new HashMap<>();
-		spellinstances = Lists.newArrayList();
+		spellInstances = Lists.newArrayList();
 	}
 
 	public static SpellTickManager getInstance(Level world) {
@@ -47,15 +46,16 @@ public class SpellTickManager {
 		if (cooldowns.isEmpty()) {
 			tick = 0;
 		}
-		spellinstances.forEach(i -> {
+		spellInstances.removeIf(i -> i.sender.isRemoved());
+		spellInstances.forEach(i -> {
 			i.tick();
 			i.decTick();
 		});
-		spellinstances.removeIf(AbstractSpellInstance::isFinished);
+		spellInstances.removeIf(AbstractSpellInstance::isFinished);
 	}
 
 	public void addSpellInstance(AbstractSpellInstance instance) {
-		spellinstances.add(instance);
+		spellInstances.add(instance);
 	}
 
 	public void setCooldown(Entity target, Spell spell) {

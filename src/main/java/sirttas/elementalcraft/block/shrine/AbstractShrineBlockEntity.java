@@ -203,7 +203,10 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	@Nonnull
 	public ShrineProperties getProperties() {
-		return this.properties.value();
+		if (properties.isBound()) {
+			return this.properties.value();
+		}
+		return ShrineProperties.DEFAULT;
 	}
 
 	public int getCapacity() {

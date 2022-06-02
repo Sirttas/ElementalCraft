@@ -1,10 +1,15 @@
 package sirttas.elementalcraft.registry;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
+
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public class RegistryHelper {
 
@@ -24,6 +29,14 @@ public class RegistryHelper {
 	}
 
 	public static <T extends IForgeRegistryEntry<T>, U extends T> RegistryObject<U> object(final String name, IForgeRegistry<T> registry) {
-		return RegistryObject.of(ElementalCraft.createRL(name), registry);
+		return RegistryObject.create(ElementalCraft.createRL(name), registry);
 	}
+
+    public static <T extends IForgeRegistryEntry<T>> Supplier<IForgeRegistry<T>> makeRegistry(DeferredRegister<T> deferredRegister, Class<T> clazz) {
+        return makeRegistry(deferredRegister, clazz, UnaryOperator.identity());
+    }
+
+    public static <T extends IForgeRegistryEntry<T>> Supplier<IForgeRegistry<T>> makeRegistry(DeferredRegister<T> deferredRegister, Class<T> clazz, UnaryOperator<RegistryBuilder<T>> mapper) {
+        return deferredRegister.makeRegistry(clazz, () -> mapper.apply(new RegistryBuilder<>()));
+    }
 }

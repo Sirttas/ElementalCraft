@@ -27,4 +27,8 @@ public abstract class AbstractSpellInstance {
 	public boolean isFinished() {
 		return remaingTicks <= 0;
 	}
+
+	public int getTicks() {
+		return spell.getCooldown() - remaingTicks;
+	}
 }

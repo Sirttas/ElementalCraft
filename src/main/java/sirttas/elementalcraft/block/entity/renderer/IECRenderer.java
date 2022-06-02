@@ -49,7 +49,7 @@ public interface IECRenderer<T extends BlockEntity> extends BlockEntityRenderer<
 
 	default void renderBlock(BlockState state, PoseStack matrixStack, VertexConsumer builder, Level world, BlockPos pos) {
 		matrixStack.pushPose();
-		Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, world, matrixStack, builder, false, world.random, ModelDataManager.getModelData(world, pos));
+		Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, world, matrixStack, builder, false, world.random, getModelData(world, pos));
 		matrixStack.popPose();
 	}
 	
@@ -106,10 +106,22 @@ public interface IECRenderer<T extends BlockEntity> extends BlockEntityRenderer<
 	}
 	
 	default IModelData getModelData(BakedModel model, T te) {
-		Level world = te.getLevel();
+		Level level = te.getLevel();
 		BlockPos pos = te.getBlockPos();
-		
-        return model.getModelData(world, pos, te.getBlockState(), ModelDataManager.getModelData(world, pos));
+
+		if (level == null) {
+			return EmptyModelData.INSTANCE;
+		}
+        return model.getModelData(level, pos, te.getBlockState(), getModelData(level, pos));
+	}
+
+	default IModelData getModelData(Level level, BlockPos pos) {
+		var data = ModelDataManager.getModelData(level, pos);
+
+		if (data == null) {
+			return EmptyModelData.INSTANCE;
+		}
+		return data;
 	}
 
 }

@@ -23,7 +23,7 @@ public abstract class MixinEntity extends CapabilityProvider<Entity> implements 
             at = @At("RETURN"),
             cancellable = true)
     private void canFreeze$return(CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValueZ() && JewelHelper.hasJewel((Entity) (Object) this, Jewels.ARCTIC_HARES)) {
+        if (!cir.getReturnValueZ() && JewelHelper.hasJewel((Entity) (Object) this, Jewels.ARCTIC_HARES.get())) {
             cir.setReturnValue(true);
         }
     }

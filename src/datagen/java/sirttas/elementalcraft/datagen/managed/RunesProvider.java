@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen.managed;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
-import sirttas.dpanvil.api.data.AbstractManagedDataProvider;
+import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -16,7 +16,7 @@ import sirttas.elementalcraft.tag.ECTags;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 
-public class RunesProvider extends AbstractManagedDataProvider<Rune> {
+public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune.Builder> {
 	
 	private final ECItemModelProvider itemModelProvider;
 
@@ -30,37 +30,39 @@ public class RunesProvider extends AbstractManagedDataProvider<Rune> {
 	public static final ResourceLocation MAJOR_SLATE = ElementalCraft.createRL("item/major_rune_slate");
 
 	public RunesProvider(DataGenerator generator, ECItemModelProvider itemModelProvider) {
-		super(generator, ElementalCraftApi.RUNE_MANAGER);
+		super(generator, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
 		this.itemModelProvider = itemModelProvider;
 	}
 
 	@Override
-	public void run(@Nonnull HashCache cache) throws IOException {
+	public void collectBuilders() {
 		itemModelProvider.clear();
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.1F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "wii", MINOR_SLATE);
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.3F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "fus", SLATE);
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.5F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F), "zod", MAJOR_SLATE);
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F).addBonus(BonusType.SPEED, -0.1F), "manx", MINOR_SLATE);
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F).addBonus(BonusType.SPEED, -0.1F), "jita", SLATE);
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.15F).addBonus(BonusType.SPEED, -0.1F), "tano", MAJOR_SLATE);
-		addRune(cache, Rune.Builder.create().predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 1).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1), "claptrap", MINOR_SLATE);
-		addRune(cache, Rune.Builder.create().predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 2).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1), "bombadil", SLATE);
-		addRune(cache, Rune.Builder.create().predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 3).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1), "tzeentch", MAJOR_SLATE);
+		builder("wii", MINOR_SLATE).match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.1F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+		builder("fus", SLATE).match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.3F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+		builder("zod", MAJOR_SLATE).match(ECTags.Blocks.RUNE_AFFECTED_SPEED).addBonus(BonusType.SPEED, 0.5F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+		builder("manx", MINOR_SLATE).match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F).addBonus(BonusType.SPEED, -0.1F);
+		builder("jita", SLATE).match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F).addBonus(BonusType.SPEED, -0.1F);
+		builder("tano", MAJOR_SLATE).match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.15F).addBonus(BonusType.SPEED, -0.1F);
+		builder("claptrap", MINOR_SLATE).predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 1).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1);
+		builder("bombadil", SLATE).predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 2).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1);
+		builder("tzeentch", MAJOR_SLATE).predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 3).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1);
 		
-		addRune(cache, Rune.Builder.create().match(ECTags.Blocks.RUNE_AFFECTED).addBonus(BonusType.SPEED, 1000000F).addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F).max(1), "creative", MAJOR_SLATE);
-		
+		builder("creative", MAJOR_SLATE).match(ECTags.Blocks.RUNE_AFFECTED).addBonus(BonusType.SPEED, 1000000F).addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F).max(1);
+	}
+
+	@Override
+	public void run(@Nonnull HashCache cache) throws IOException {
+		super.run(cache);
 		itemModelProvider.generateAll(cache);
 	}
 
-	private void addRune(HashCache cache, Rune.Builder builder, String name, ResourceLocation slate) throws IOException {
+	private Rune.Builder builder(String name, ResourceLocation slate) {
 		String path = Rune.FOLDER + '/' + name;
 		ResourceLocation runeTexture = ElementalCraft.createRL(path);
+		var builder = Rune.Builder.create().model(itemModelProvider.runeTexture("item/" + path, slate, runeTexture)).sprite(runeTexture);
 
-		save(cache, builder.model(itemModelProvider.runeTexture("item/" + path, slate, runeTexture)).sprite(runeTexture), name);
-	}
-
-	protected void save(HashCache cache, Rune.Builder builder, String name) throws IOException {
-		save(cache, builder.toJson(), ElementalCraft.createRL(name));
+		add(ElementalCraft.createRL(name), builder);
+		return builder;
 	}
 
 	@Nonnull

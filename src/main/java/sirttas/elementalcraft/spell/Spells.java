@@ -1,16 +1,19 @@
 package sirttas.elementalcraft.spell;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.registries.RegistryObject;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.spell.air.DashSpell;
 import sirttas.elementalcraft.spell.air.EnderStrikeSpell;
+import sirttas.elementalcraft.spell.air.FeatherSpikesSpell;
 import sirttas.elementalcraft.spell.air.ItemPullSpell;
 import sirttas.elementalcraft.spell.air.TranslocationSpell;
 import sirttas.elementalcraft.spell.earth.GavelFallSpell;
@@ -24,54 +27,44 @@ import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
 import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 public class Spells {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":none") public static final Spell NONE = null;
+	private static final DeferredRegister<Spell> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.SPELL), ElementalCraftApi.MODID);
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + GavelFallSpell.NAME) public static final GavelFallSpell GRAVEL_FALL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + StoneWallSpell.NAME) public static final StoneWallSpell STONE_WALL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + FireBallSpell.NAME) public static final FireBallSpell FIRE_BALL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ItemPullSpell.NAME) public static final ItemPullSpell ITEM_PULL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + EnderStrikeSpell.NAME) public static final EnderStrikeSpell ENDER_STRIKE = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + AnimalGrowthSpell.NAME) public static final AnimalGrowthSpell ANIMAL_GROWTH = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + TreeFallSpell.NAME) public static final TreeFallSpell TREE_FALL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PurificationSpell.NAME) public static final PurificationSpell PURIFICATION = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + RipeningSpell.NAME) public static final RipeningSpell RIPENING = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + FlameCleaveSpell.NAME) public static final FlameCleaveSpell FLAME_CLEAVE = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + InfernoSpell.NAME) public static final InfernoSpell INFERNO = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + DashSpell.NAME) public static final DashSpell DASH = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SilkVeinSpell.NAME) public static final SilkVeinSpell SILK_VEIN = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + TranslocationSpell.NAME) public static final TranslocationSpell TRANSLOCATION = null;
+	public static final Supplier<IForgeRegistry<Spell>> REGISTRY = RegistryHelper.makeRegistry(DEFERRED_REGISTER, Spell.class, b -> b.setDefaultKey(ElementalCraft.createRL("none")));
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":heal") public static final EffectSpell HEAL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":speed") public static final EffectSpell SPEED = null;
+
+	public static final RegistryObject<Spell> NONE = register("none", Spell::new);
+
+	public static final RegistryObject<GavelFallSpell> GRAVEL_FALL = register(GavelFallSpell.NAME, GavelFallSpell::new);
+	public static final RegistryObject<StoneWallSpell> STONE_WALL = register(StoneWallSpell.NAME, StoneWallSpell::new);
+	public static final RegistryObject<FireBallSpell> FIRE_BALL = register(FireBallSpell.NAME, FireBallSpell::new);
+	public static final RegistryObject<ItemPullSpell> ITEM_PULL = register(ItemPullSpell.NAME, ItemPullSpell::new);
+	public static final RegistryObject<EnderStrikeSpell> ENDER_STRIKE = register(EnderStrikeSpell.NAME, EnderStrikeSpell::new);
+	public static final RegistryObject<FlameCleaveSpell> FLAME_CLEAVE = register(FlameCleaveSpell.NAME, FlameCleaveSpell::new);
+	public static final RegistryObject<TranslocationSpell> TRANSLOCATION = register(TranslocationSpell.NAME, TranslocationSpell::new);
+	public static final RegistryObject<DashSpell> DASH = register(DashSpell.NAME, DashSpell::new);
+	public static final RegistryObject<SilkVeinSpell> SILK_VEIN = register(SilkVeinSpell.NAME, SilkVeinSpell::new);
+	public static final RegistryObject<AnimalGrowthSpell> ANIMAL_GROWTH = register(AnimalGrowthSpell.NAME, AnimalGrowthSpell::new);
+	public static final RegistryObject<RipeningSpell> RIPENING = register(RipeningSpell.NAME, RipeningSpell::new);
+	public static final RegistryObject<PurificationSpell> PURIFICATION = register(PurificationSpell.NAME, PurificationSpell::new);
+	public static final RegistryObject<FeatherSpikesSpell> FEATHER_SPIKES = register(FeatherSpikesSpell.NAME, k -> new FeatherSpikesSpell(k, 3));
+	public static final RegistryObject<TreeFallSpell> TREE_FALL = register(TreeFallSpell.NAME, TreeFallSpell::new);
+	public static final RegistryObject<InfernoSpell> INFERNO = register(InfernoSpell.NAME, InfernoSpell::new);
+	public static final RegistryObject<EffectSpell> HEAL = register("heal", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.HEAL, 1, 1)));
+	public static final RegistryObject<EffectSpell> SPEED = register("speed", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2400, 1), new MobEffectInstance(MobEffects.DIG_SPEED, 2400)));
+	public static final RegistryObject<AoeSpell> SHOCKWAVE = register("shockwave", AoeSpell::new);
 
 	private Spells() {}
-	
-	@SubscribeEvent
-	public static void registerSpells(RegistryEvent.Register<Spell> event) {
-		IForgeRegistry<Spell> registry = event.getRegistry();
 
-		RegistryHelper.register(registry, new Spell(), "none");
-
-		RegistryHelper.register(registry, new GavelFallSpell(), GavelFallSpell.NAME);
-		RegistryHelper.register(registry, new StoneWallSpell(), StoneWallSpell.NAME);
-		RegistryHelper.register(registry, new FireBallSpell(), FireBallSpell.NAME);
-		RegistryHelper.register(registry, new ItemPullSpell(), ItemPullSpell.NAME);
-		RegistryHelper.register(registry, new EnderStrikeSpell(), EnderStrikeSpell.NAME);
-		RegistryHelper.register(registry, new AnimalGrowthSpell(), AnimalGrowthSpell.NAME);
-		RegistryHelper.register(registry, new TreeFallSpell(), TreeFallSpell.NAME);
-		RegistryHelper.register(registry, new PurificationSpell(), PurificationSpell.NAME);
-		RegistryHelper.register(registry, new RipeningSpell(), RipeningSpell.NAME);
-		RegistryHelper.register(registry, new FlameCleaveSpell(), FlameCleaveSpell.NAME);
-		RegistryHelper.register(registry, new InfernoSpell(), InfernoSpell.NAME);
-		RegistryHelper.register(registry, new DashSpell(), DashSpell.NAME);
-		RegistryHelper.register(registry, new SilkVeinSpell(), SilkVeinSpell.NAME);
-		RegistryHelper.register(registry, new TranslocationSpell(), TranslocationSpell.NAME);
-
-		RegistryHelper.register(registry, new EffectSpell(new MobEffectInstance(MobEffects.HEAL, 1, 1)), "heal");
-		RegistryHelper.register(registry, new EffectSpell(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2400, 1), new MobEffectInstance(MobEffects.DIG_SPEED, 2400)), "speed");
+	private static <T extends Spell> RegistryObject<T> register(String name, Function<ResourceKey<Spell>, ? extends T> builder) {
+		return DEFERRED_REGISTER.register(name, () -> builder.apply(ResourceKey.create(REGISTRY.get().getRegistryKey(), ElementalCraft.createRL(name))));
 	}
 
+	public static void register(IEventBus modBus) {
+		DEFERRED_REGISTER.register(modBus);
+	}
 }

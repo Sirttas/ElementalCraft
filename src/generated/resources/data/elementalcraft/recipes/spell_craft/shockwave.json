@@ -1,0 +1,17 @@
+{
+  "type": "elementalcraft:spell_craft",
+  "gem": {
+    "tag": "elementalcraft:gems/crude_air"
+  },
+  "crystal": {
+    "item": "elementalcraft:aircrystal"
+  },
+  "output": {
+    "item": "elementalcraft:scroll",
+    "nbt": {
+      "elementalcraft": {
+        "spell": "elementalcraft:shockwave"
+      }
+    }
+  }
+}

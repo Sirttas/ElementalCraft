@@ -50,7 +50,7 @@ public class SpellHelper {
 						moveSelected(stack, -1);
 						list.remove(i);
 						if (list.isEmpty()) {
-							setSpell(stack, Spells.NONE);
+							setSpell(stack, Spells.NONE.get());
 						}
 					}
 					return;
@@ -165,9 +165,9 @@ public class SpellHelper {
 
 	private static Spell getSpellFromTag(Tag nbt) {
 		if (nbt instanceof CompoundTag compoundTag) {
-			return Spell.REGISTRY.getValue(new ResourceLocation(compoundTag.getString(ECNames.SPELL)));
+			return Spells.REGISTRY.get().getValue(new ResourceLocation(compoundTag.getString(ECNames.SPELL)));
 		}
-		return Spells.NONE;
+		return Spells.NONE.get();
 	}
 
 	private static boolean isSpellInTag(Tag nbt, Spell spell) {
@@ -178,11 +178,11 @@ public class SpellHelper {
 	}
 
 	public static Spell randomSpell(Random rand) {
-		return randomSpell(Spell.REGISTRY.getValues(), rand);
+		return randomSpell(Spells.REGISTRY.get().getValues(), rand);
 	}
 
 	public static Spell randomSpell(ElementType type, Random rand) {
-		return randomSpell(Spell.REGISTRY.getValues().stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
+		return randomSpell(Spells.REGISTRY.get().getValues().stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
 	}
 
 	public static Spell randomSpell(Collection<Spell> spells, Random rand) {

@@ -9,10 +9,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
+import sirttas.elementalcraft.spell.Spell;
 
 import java.util.function.Consumer;
 
@@ -23,13 +25,13 @@ public class SpellCraftRecipeBuilder {
 	private final ResourceLocation output;
 	private final RecipeSerializer<?> serializer;
 
-	private SpellCraftRecipeBuilder(RecipeSerializer<?> serializerIn, ResourceLocation output) {
-		this.serializer = serializerIn;
+	private SpellCraftRecipeBuilder(RecipeSerializer<?> serializer, ResourceLocation output) {
+		this.serializer = serializer;
 		this.output = output;
 	}
 	
-	public static SpellCraftRecipeBuilder spellCraftRecipe(ResourceLocation output) {
-		return new SpellCraftRecipeBuilder(SpellCraftRecipe.SERIALIZER, output);
+	public static SpellCraftRecipeBuilder spellCraftRecipe(RegistryObject<? extends Spell> output) {
+		return new SpellCraftRecipeBuilder(SpellCraftRecipe.SERIALIZER, output.getId());
 	}
 	
 	public SpellCraftRecipeBuilder setGem(TagKey<Item> tagIn) {

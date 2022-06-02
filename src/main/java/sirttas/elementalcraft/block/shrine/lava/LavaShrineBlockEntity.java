@@ -30,7 +30,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private Optional<BlockPos> findRock() {
-		int range = (int) Math.round(this.getProperties().range());
+		int range = Math.round(this.getProperties().range());
 
 		return IntStream.range(-range, range + 1).mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + 1, worldPosition.getZ() + z))).flatMap(s -> s)
 				.filter(p -> level.getBlockState(p).is(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES)).findAny();
@@ -39,7 +39,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public AABB getRangeBoundingBox() {
-		int range = (int) Math.round(this.getProperties().range());
+		int range = Math.round(this.getProperties().range());
 
 		return new AABB(this.getBlockPos()).inflate(range, 0, range).move(0, 1, 0);
 	}

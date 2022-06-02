@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.loot.function;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -12,7 +8,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
@@ -24,8 +19,12 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 public class RandomSpell extends LootItemConditionalFunction {
 
@@ -82,7 +81,7 @@ public class RandomSpell extends LootItemConditionalFunction {
 				JsonArray jsonarray = new JsonArray();
 
 				for (Spell spell : function.spellList) {
-					ResourceLocation resourcelocation = Spell.REGISTRY.getKey(spell);
+					ResourceLocation resourcelocation = Spells.REGISTRY.get().getKey(spell);
 					if (resourcelocation == null) {
 						throw new IllegalArgumentException("Don't know how to serialize spell " + spell);
 					}
@@ -102,7 +101,7 @@ public class RandomSpell extends LootItemConditionalFunction {
 			if (object.has(ECNames.SPELL_LIST)) {
 				for (JsonElement jsonelement : GsonHelper.getAsJsonArray(object, ECNames.SPELL_LIST)) {
 					String s = GsonHelper.convertToString(jsonelement, ECNames.SPELL);
-					Spell spell = Spell.REGISTRY.getValue(new ResourceLocation(s));
+					Spell spell = Spells.REGISTRY.get().getValue(new ResourceLocation(s));
 
 					if (spell == null) {
 						throw new JsonSyntaxException("Unknown spell '" + s + "'");

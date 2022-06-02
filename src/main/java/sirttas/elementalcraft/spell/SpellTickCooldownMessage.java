@@ -20,7 +20,7 @@ public class SpellTickCooldownMessage {
 	// message handling
 
 	public static SpellTickCooldownMessage decode(FriendlyByteBuf buf) {
-		return new SpellTickCooldownMessage(Spell.REGISTRY.getValue(buf.readResourceLocation()));
+		return new SpellTickCooldownMessage(Spells.REGISTRY.get().getValue(buf.readResourceLocation()));
 	}
 
 	public void encode(FriendlyByteBuf buf) {

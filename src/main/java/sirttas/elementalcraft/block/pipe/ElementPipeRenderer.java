@@ -11,7 +11,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.client.model.ModelDataManager;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
@@ -49,11 +48,11 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 			priorityModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
 		if (showCover && ElementPipeBlock.showCover(te.getBlockState(), player)) {
-			renderBlock(coverState, poseStack, buffer, light, overlay, ModelDataManager.getModelData(level, te.getBlockPos()));
+			renderBlock(coverState, poseStack, buffer, light, overlay, getModelData(level, te.getBlockPos()));
 		} else {
 			renderPipes(te, poseStack, buffer, light, overlay);
 			if (showCover) {
-				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), poseStack, buffer, light, overlay, ModelDataManager.getModelData(level, te.getBlockPos()));
+				renderBlock(te.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), poseStack, buffer, light, overlay, getModelData(level, te.getBlockPos()));
 				LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
 			}
 		}

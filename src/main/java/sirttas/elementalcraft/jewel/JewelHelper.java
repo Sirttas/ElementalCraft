@@ -29,7 +29,7 @@ public class JewelHelper {
         CompoundTag nbt = NBTHelper.getECTag(stack);
 
         if (nbt != null && nbt.contains(ECNames.JEWEL, 8)) {
-            return Jewel.REGISTRY.getValue(new ResourceLocation(nbt.getString(ECNames.JEWEL)));
+            return Jewels.REGISTRY.get().getValue(new ResourceLocation(nbt.getString(ECNames.JEWEL)));
         }
         return null;
     }

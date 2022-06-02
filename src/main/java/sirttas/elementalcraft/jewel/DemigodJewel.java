@@ -32,7 +32,9 @@ public class DemigodJewel extends Jewel {
     }
 
     public static boolean trigger(LivingEntity entity) {
-        if (JewelHelper.hasJewel(entity, Jewels.DEMIGOD)) {
+        var demigod = Jewels.DEMIGOD.get();
+
+        if (JewelHelper.hasJewel(entity, demigod)) {
             var itemStack = new ItemStack(Items.TOTEM_OF_UNDYING);
 
             if (entity instanceof ServerPlayer serverplayer) {
@@ -45,7 +47,7 @@ public class DemigodJewel extends Jewel {
             entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1));
             entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
             entity.level.broadcastEntityEvent(entity, (byte) 35);
-            Jewels.DEMIGOD.consume(entity);
+            demigod.consume(entity);
             return true;
         }
         return false;

@@ -1,3 +1,13 @@
+1.18.2-4.4.4:
+
+- new spell: feather spikes
+- new spell: shockwave
+- increased staff attack range
+- fix holder not working
+- fix spell desk in jei
+- fix a crash while breaking a cover frame with certain blocks
+
+
 1.18.2-4.4.3:
 
 - added item tags for shrine upgrades, instruments, container tools and small_container_compatibles

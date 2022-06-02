@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import sirttas.elementalcraft.jewel.Jewel;
+import sirttas.elementalcraft.jewel.Jewels;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -37,7 +37,7 @@ public record ActiveJewelsMessage(List<ResourceLocation> jewels) {
                             .filter(ClientJewelHandler.class::isInstance)
                             .map(ClientJewelHandler.class::cast)
                             .ifPresent(handler -> handler.setActiveJewels(jewels.stream()
-                                    .map(Jewel.REGISTRY::getValue)
+                                    .map(Jewels.REGISTRY.get()::getValue)
                                     .toList()));
                 }
             }

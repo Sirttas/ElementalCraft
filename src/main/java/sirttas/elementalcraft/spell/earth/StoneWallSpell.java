@@ -1,24 +1,29 @@
 package sirttas.elementalcraft.spell.earth;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import sirttas.elementalcraft.spell.Spell;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Direction.Axis;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.level.Level;
-import sirttas.elementalcraft.spell.Spell;
-
 public class StoneWallSpell extends Spell {
 
 	public static final String NAME = "stonewall";
+
+	public StoneWallSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	private void spawn(Level world, BlockPos pos) {
 		world.setBlockAndUpdate(pos, Blocks.STONE.defaultBlockState());

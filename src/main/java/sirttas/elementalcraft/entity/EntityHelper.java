@@ -1,10 +1,8 @@
 package sirttas.elementalcraft.entity;
 
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.random.WeightedRandomList;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -57,13 +55,6 @@ public class EntityHelper {
 				entity.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0D, 1.0D, 1.0D), e -> !e.isSpectator() && e.isPickable());
 
 		return entityResult != null && entityResult.getLocation().subtract(eyePos).length() <= blockResult.getLocation().subtract(eyePos).length() ? entityResult : blockResult;
-	}
-
-	@SuppressWarnings("resource")
-	public static void swingArm(Player player) {
-		if (player.getCommandSenderWorld().isClientSide && player instanceof LocalPlayer) {
-			player.swing(InteractionHand.MAIN_HAND);
-		}
 	}
 	
 	public static boolean isHostile(Entity entity) {

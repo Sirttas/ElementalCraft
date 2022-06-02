@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.spell.fire;
 
 import net.minecraft.core.Vec3i;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +15,10 @@ import sirttas.elementalcraft.spell.Spell;
 public class InfernoSpell extends Spell {
 
 	public static final String NAME = "inferno";
+
+	public InfernoSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	@Override
 	public InteractionResult castOnSelf(Entity sender) {

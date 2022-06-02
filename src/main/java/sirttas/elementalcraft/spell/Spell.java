@@ -4,8 +4,10 @@ import com.google.common.collect.Multimap;
 import com.mojang.serialization.Codec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -16,13 +18,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -34,14 +33,16 @@ import java.util.stream.StreamSupport;
 
 public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProvider {
 
-	public static final IForgeRegistry<Spell> REGISTRY = RegistryManager.ACTIVE.getRegistry(ElementalCraft.createRL(ECNames.SPELL));
-
 	private String translationKey;
-	protected SpellProperties properties = SpellProperties.NONE;
+	protected final Holder<SpellProperties> properties;
+
+	protected Spell(ResourceKey<Spell> key) {
+		properties = ElementalCraft.SPELL_PROPERTIES_MANAGER.getOrCreateHolder(SpellProperties.getKey(key));
+	}
 
 	public String getTranslationKey() {
 		if (this.translationKey == null) {
-			this.translationKey = Util.makeDescriptionId("spell", REGISTRY.getKey(this));
+			this.translationKey = Util.makeDescriptionId("spell", Spells.REGISTRY.get().getKey(this));
 		}
 
 		return this.translationKey;
@@ -52,7 +53,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	}
 
 	public Multimap<Attribute, AttributeModifier> getOnUseAttributeModifiers() {
-		return properties.getAttributes();
+		return getProperties().getAttributes();
 	}
 
 	public InteractionResult castOnEntity(Entity sender, Entity target) {
@@ -105,34 +106,29 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return true;
 	}
 
-	public void setProperties(SpellProperties properties) {
-		this.properties = properties;
-
-	}
-
 	public int getCooldown() {
-		return properties.getCooldown();
+		return getProperties().cooldown();
 	}
 
 	public int getConsumeAmount() {
-		return properties.getConsumeAmount();
+		return getProperties().consumeAmount();
 	}
 
 	@Override
 	public ElementType getElementType() {
-		return properties.getElementType();
+		return getProperties().getElementType();
 	}
 
 	public Type getSpellType() {
-		return properties.getSpellType();
+		return getProperties().spellType();
 	}
 
 	public int getUseDuration() {
-		return properties.getUseDuration();
+		return getProperties().useDuration();
 	}
 
 	public int getWeight() {
-		return properties.getWeight();
+		return getProperties().weight();
 	}
 	
 	public float getRange(Entity sender) {
@@ -141,11 +137,18 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		if (StreamSupport.stream(sender.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.getItem() == ECItems.STAFF)) {
 			bonus++;
 		}
-		return properties.getRange() + bonus;
+		return getProperties().range() + bonus;
 	}
 	
 	public int getColor() {
-		return properties.getColor();
+		return getProperties().color();
+	}
+
+	private SpellProperties getProperties() {
+		if (properties.isBound()) {
+			return properties.value();
+		}
+		return SpellProperties.NONE;
 	}
 
 	public boolean isChannelable() {
@@ -162,7 +165,11 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 
 	@Override
 	public String toString() {
-		return this.getRegistryName().getPath();
+		return this.getRegistryName().toString();
+	}
+
+	public boolean isVisible() {
+		return isValid() && !getProperties().hidden();
 	}
 
 	public enum Type implements StringRepresentable {

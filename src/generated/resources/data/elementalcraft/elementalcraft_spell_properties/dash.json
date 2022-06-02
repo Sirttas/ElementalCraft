@@ -1,9 +1,9 @@
 {
-  "range": 6.0,
   "color": "#BECEED",
-  "element_consumption": 400,
   "cooldown": 40,
+  "range": 6.0,
+  "weight": 5,
+  "element_consumption": 400,
   "spell_type": "mixed",
-  "element_type": "air",
-  "weight": 5
+  "element_type": "air"
 }

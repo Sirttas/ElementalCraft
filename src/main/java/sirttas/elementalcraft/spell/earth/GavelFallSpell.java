@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -16,6 +17,10 @@ import java.util.List;
 public class GavelFallSpell extends Spell {
 
 	public static final String NAME = "gravelfall";
+
+	public GavelFallSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	private void spawn(Level world, BlockPos pos) {
 		FallingBlockEntity entity = FallingBlockEntity.fall(world, pos, Blocks.GRAVEL.defaultBlockState());

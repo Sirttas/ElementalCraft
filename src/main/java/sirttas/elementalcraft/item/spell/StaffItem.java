@@ -26,28 +26,33 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.common.util.Lazy;
 import sirttas.elementalcraft.ElementalCraftTab;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 public class StaffItem extends FocusItem {
 
 	public static final String NAME = "staff";
-	
-	private static final Multimap<Attribute, AttributeModifier> ATTRIBUTE_MODIFIERS;
-	
-	static {
-	    Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-	    
-	    builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 8, AttributeModifier.Operation.ADDITION));
-	    builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -2.2, AttributeModifier.Operation.ADDITION));
-	    ATTRIBUTE_MODIFIERS = builder.build();
-	}
-	
+
+	protected static final UUID BASE_ATTACK_RANGE_UUID = UUID.fromString("f413e701-0c60-4333-a9bb-a9dc0d73901e");
+
+	private static final Lazy<Multimap<Attribute, AttributeModifier>> ATTRIBUTE_MODIFIERS = Lazy.of(() -> {
+		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+
+		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 8, AttributeModifier.Operation.ADDITION));
+		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -2.2, AttributeModifier.Operation.ADDITION));
+		builder.put(ForgeMod.ATTACK_RANGE.get(), new AttributeModifier(BASE_ATTACK_RANGE_UUID, "Attack range", 1, AttributeModifier.Operation.ADDITION));
+		return builder.build();
+	});
+
+
 	public StaffItem() {
 		super(new Item.Properties().tab(ElementalCraftTab.TAB).durability(2252).fireResistant());
 	}
@@ -93,7 +98,7 @@ public class StaffItem extends FocusItem {
 		
 		map.putAll(super.getAttributeModifiers(equipmentSlot, stack));
 		if (equipmentSlot == EquipmentSlot.MAINHAND) {
-			map.putAll(ATTRIBUTE_MODIFIERS);
+			map.putAll(ATTRIBUTE_MODIFIERS.get());
 		}
 		return map;
 	}

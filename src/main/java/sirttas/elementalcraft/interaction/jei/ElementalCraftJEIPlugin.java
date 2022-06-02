@@ -41,8 +41,8 @@ import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredie
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientRenderer;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
+import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
@@ -52,6 +52,7 @@ import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -159,25 +160,27 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.GRINDING, recipeManager.getAllRecipesFor(IGrindingRecipe.TYPE));
 		registry.addRecipes(ECJEIRecipeTypes.SPELL_CRAFTING, recipeManager.getAllRecipesFor(SpellCraftRecipe.TYPE));
 		registry.addRecipes(ECJEIRecipeTypes.PURIFICATION, ElementalCraft.PURE_ORE_MANAGER.getRecipes());
-		registry.addRecipes(RecipeTypes.ANVIL, createFocusStaffAnvilRecipes(registry.getVanillaRecipeFactory()));
+		registry.addRecipes(RecipeTypes.ANVIL, createCastToolsAnvilRecipes(registry.getVanillaRecipeFactory()));
 		registry.addRecipes(RecipeTypes.ANVIL, createJewelsAnvilRecipes(registry.getVanillaRecipeFactory()));
 	}
 
-	private List<IJeiAnvilRecipe> createFocusStaffAnvilRecipes(IVanillaRecipeFactory factory) {
-		return Spell.REGISTRY.getValues().stream().filter(Spell::isValid).flatMap(spell -> SPELL_CAST_TOOLS.get().stream().map(item -> {
-			ItemStack scroll = new ItemStack(ECItems.SCROLL);
-			ItemStack stack = new ItemStack(item);
+	private List<IJeiAnvilRecipe> createCastToolsAnvilRecipes(IVanillaRecipeFactory factory) {
+		return Spells.REGISTRY.get().getValues().stream()
+				.filter(Spell::isVisible)
+				.<IJeiAnvilRecipe>mapMulti((spell, downstream) -> SPELL_CAST_TOOLS.get().forEach(item -> {
+					ItemStack scroll = new ItemStack(ECItems.SCROLL);
+					ItemStack stack = new ItemStack(item);
 
-			SpellHelper.setSpell(scroll, spell);
-			SpellHelper.addSpell(stack, spell);
-			return factory.createAnvilRecipe(new ItemStack(item), List.of(scroll), List.of(stack));
-		})).toList();
+					SpellHelper.setSpell(scroll, spell);
+					SpellHelper.addSpell(stack, spell);
+					downstream.accept(factory.createAnvilRecipe(new ItemStack(item), List.of(scroll), List.of(stack)));
+				})).toList();
 	}
 
 	private List<IJeiAnvilRecipe> createJewelsAnvilRecipes(IVanillaRecipeFactory factory) {
 
 
-		return Jewel.REGISTRY.getValues().stream().flatMap(jewel -> JEWEL_SOCKETALBES.get().stream().map(item -> {
+		return Jewels.REGISTRY.get().getValues().stream().flatMap(jewel -> JEWEL_SOCKETALBES.get().stream().map(item -> {
 			ItemStack jewelItem = new ItemStack(ECItems.JEWEL);
 			ItemStack stack = new ItemStack(item);
 

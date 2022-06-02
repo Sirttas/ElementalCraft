@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.spell.fire;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,6 +11,10 @@ import sirttas.elementalcraft.spell.Spell;
 public class FireBallSpell extends Spell {
 
 	public static final String NAME = "fireball";
+
+	public FireBallSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	@Override
 	public InteractionResult castOnSelf(Entity sender) {

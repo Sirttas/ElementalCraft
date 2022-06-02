@@ -55,7 +55,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	protected boolean isValidSource(BlockState state) {
-		return state.getBlock().equals(ECBlocks.SOURCE);
+		return state.getBlock() == ECBlocks.SOURCE.get();
 	}
 
 	@Override

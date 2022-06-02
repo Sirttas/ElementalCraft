@@ -1,10 +1,6 @@
 package sirttas.elementalcraft.item.spell.book;
 
-import java.util.List;
-import java.util.stream.IntStream;
-
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -20,12 +16,15 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.network.message.MessageHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class SpellBookMenu extends AbstractECMenu {
 
-	static final int ROW_COUNT = (Spell.REGISTRY.getEntries().size() + 9 - 1) / 9;
+	static final int ROW_COUNT = (Spells.REGISTRY.get().getEntries().size() + 9 - 1) / 9;
 	static final int SLOT_COUNT = ROW_COUNT * 9;
 
 	private ItemStack book;

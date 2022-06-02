@@ -22,7 +22,7 @@ public abstract class MixinPowderSnowBlock extends Block implements BucketPickup
             at = @At("RETURN"),
             cancellable = true)
     private static void canEntityWalkOnPowderSnow$return(Entity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValueZ() && JewelHelper.hasJewel(entity, Jewels.ARCTIC_HARES)) {
+        if (!cir.getReturnValueZ() && JewelHelper.hasJewel(entity, Jewels.ARCTIC_HARES.get())) {
             cir.setReturnValue(true);
         }
     }

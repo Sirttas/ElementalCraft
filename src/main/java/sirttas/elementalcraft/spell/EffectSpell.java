@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,7 +28,8 @@ public class EffectSpell extends Spell {
 
 	private final List<MobEffectInstance> effects;
 
-	public EffectSpell(MobEffectInstance... effects) {
+	public EffectSpell(ResourceKey<Spell> key, MobEffectInstance... effects) {
+		super(key);
 		this.effects = ImmutableList.copyOf(effects);
 	}
 

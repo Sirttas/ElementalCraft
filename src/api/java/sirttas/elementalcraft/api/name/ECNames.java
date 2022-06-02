@@ -92,7 +92,7 @@ public class ECNames {
 	public static final String SPEED = "speed";
 	public static final String ELEMENT_PRESERVATION = "element_preservation";
 	public static final String LUCK = "luck";
-	public static String STRENGTH = "strength";
+	public static final String STRENGTH = "strength";
 
 	private ECNames() {}
 }

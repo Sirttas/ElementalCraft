@@ -2,6 +2,7 @@ package sirttas.elementalcraft.spell.earth;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -19,6 +20,10 @@ import java.util.stream.Stream;
 public class SilkVeinSpell extends Spell {
 
 	public static final String NAME = "silk_vein";
+
+	public SilkVeinSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	private boolean isValidBlock(BlockState state) {
 		return state.is(Tags.Blocks.ORES);

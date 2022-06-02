@@ -1,19 +1,24 @@
 package sirttas.elementalcraft.spell.water;
 
-import java.util.Iterator;
-
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.InteractionResult;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import sirttas.elementalcraft.spell.Spell;
 
+import java.util.Iterator;
+
 public class PurificationSpell extends Spell {
 
 	public static final String NAME = "purification";
+
+	public PurificationSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	@SuppressWarnings("resource")
 	private InteractionResult cureEffects(Entity target) {

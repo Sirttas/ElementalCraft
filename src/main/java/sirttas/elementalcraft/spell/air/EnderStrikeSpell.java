@@ -1,7 +1,9 @@
 package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +13,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
-import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.Spell;
 
 import java.util.Comparator;
@@ -19,6 +20,10 @@ import java.util.Comparator;
 public class EnderStrikeSpell extends Spell {
 
 	public static final String NAME = "ender_strike";
+
+	public EnderStrikeSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	@Override
 	public InteractionResult castOnEntity(Entity sender, Entity target) {
@@ -31,10 +36,10 @@ public class EnderStrikeSpell extends Spell {
 			livingSender.lookAt(EntityAnchorArgument.Anchor.EYES, target.position());
 			livingSender.getCommandSenderWorld().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
 			livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+			livingSender.swing(InteractionHand.MAIN_HAND);
 			if (livingSender instanceof Player playerSender) {
 				playerSender.attack(target);
 				playerSender.resetAttackStrengthTicker();
-				EntityHelper.swingArm(playerSender);
 			} else {
 				livingSender.doHurtTarget(target);
 			}

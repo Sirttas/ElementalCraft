@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +16,10 @@ import sirttas.elementalcraft.spell.Spell;
 public class TranslocationSpell extends Spell {
 
 	public static final String NAME = "translocation";
+
+	public TranslocationSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	private void teleport(Entity sender, Vec3 newPos) {
 		sender.setPos(newPos.x, newPos.y, newPos.z);

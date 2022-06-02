@@ -32,6 +32,7 @@ import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -53,20 +54,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.recipe.StaffRecipe;
-import sirttas.elementalcraft.spell.air.DashSpell;
-import sirttas.elementalcraft.spell.air.EnderStrikeSpell;
-import sirttas.elementalcraft.spell.air.ItemPullSpell;
-import sirttas.elementalcraft.spell.air.TranslocationSpell;
-import sirttas.elementalcraft.spell.earth.GavelFallSpell;
-import sirttas.elementalcraft.spell.earth.SilkVeinSpell;
-import sirttas.elementalcraft.spell.earth.StoneWallSpell;
-import sirttas.elementalcraft.spell.earth.TreeFallSpell;
-import sirttas.elementalcraft.spell.fire.FireBallSpell;
-import sirttas.elementalcraft.spell.fire.FlameCleaveSpell;
-import sirttas.elementalcraft.spell.fire.InfernoSpell;
-import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
-import sirttas.elementalcraft.spell.water.PurificationSpell;
-import sirttas.elementalcraft.spell.water.RipeningSpell;
+import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.tag.ECTags;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.common.block.ModBlocks;
@@ -513,22 +501,24 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void registerSpells(Consumer<FinishedRecipe> consumer) {
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(GavelFallSpell.NAME)).setGem(ECTags.Items.INPUT_EARTH_GEMS).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(StoneWallSpell.NAME)).setGem(ECTags.Items.INPUT_EARTH_GEMS).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(FireBallSpell.NAME)).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(ItemPullSpell.NAME)).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(EnderStrikeSpell.NAME)).setGem(ECTags.Items.CRUDE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(AnimalGrowthSpell.NAME)).setGem(ECTags.Items.CRUDE_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(TreeFallSpell.NAME)).setGem(ECTags.Items.FINE_EARTH_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(PurificationSpell.NAME)).setGem(ECTags.Items.CRUDE_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(RipeningSpell.NAME)).setGem(ECTags.Items.INPUT_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(FlameCleaveSpell.NAME)).setGem(ECTags.Items.CRUDE_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(InfernoSpell.NAME)).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(DashSpell.NAME)).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(SilkVeinSpell.NAME)).setGem(ECTags.Items.PRISTINE_EARTH_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL(TranslocationSpell.NAME)).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL("heal")).setGem(ECTags.Items.PRISTINE_WATER_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(ElementalCraft.createRL("speed")).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.GRAVEL_FALL).setGem(ECTags.Items.INPUT_EARTH_GEMS).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.STONE_WALL).setGem(ECTags.Items.INPUT_EARTH_GEMS).setCrystal(ECItems.EARTH_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FIRE_BALL).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ITEM_PULL).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ENDER_STRIKE).setGem(ECTags.Items.CRUDE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ANIMAL_GROWTH).setGem(ECTags.Items.CRUDE_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.TREE_FALL).setGem(ECTags.Items.FINE_EARTH_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.PURIFICATION).setGem(ECTags.Items.CRUDE_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.RIPENING).setGem(ECTags.Items.INPUT_WATER_GEMS).setCrystal(ECItems.WATER_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FLAME_CLEAVE).setGem(ECTags.Items.CRUDE_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.INFERNO).setGem(ECTags.Items.INPUT_FIRE_GEMS).setCrystal(ECItems.FIRE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.DASH).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SILK_VEIN).setGem(ECTags.Items.PRISTINE_EARTH_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.TRANSLOCATION).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FEATHER_SPIKES).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.HEAL).setGem(ECTags.Items.PRISTINE_WATER_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SPEED).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SHOCKWAVE).setGem(ECTags.Items.CRUDE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
 	}
 
 	private void registerToolInfusions(Consumer<FinishedRecipe> consumer) {
@@ -550,7 +540,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.BLOCK_EFFICIENCY).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.MOB_LOOTING).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.FIRE_ASPECT).build(consumer);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.SHARPNESS /* TODO chopping ? */).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.SHARPNESS /* TODO cleaving ? */).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.BLOCK_EFFICIENCY).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.PUNCH_ARROWS).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.FLAMING_ARROWS).build(consumer);
@@ -659,6 +649,10 @@ public class ECRecipeProvider extends RecipeProvider {
 				return recipe.getAdvancementId();
 			}
 		});
+	}
+
+	private void createJewelRecipe(RegistryObject<? extends Jewel> jewel, UnaryOperator<ShapedRecipeBuilder> patternBuilder, Consumer<FinishedRecipe> consumer) {
+		createJewelRecipe(jewel.get(), patternBuilder, consumer);
 	}
 
 	private void createJewelRecipe(Jewel jewel, UnaryOperator<ShapedRecipeBuilder> patternBuilder, Consumer<FinishedRecipe> consumer) {

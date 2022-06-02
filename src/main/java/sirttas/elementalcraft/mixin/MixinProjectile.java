@@ -48,10 +48,12 @@ public abstract class MixinProjectile extends Entity {
             return;
         }
 
-        if (!hasBeenShot && JewelHelper.hasJewel(owner, Jewels.HAWK)) {
+        var hawk = Jewels.HAWK.get();
+
+        if (!hasBeenShot && JewelHelper.hasJewel(owner, hawk)) {
             homing = true;
             if (!this.level.isClientSide) {
-                Jewels.HAWK.consume(owner);
+                hawk.consume(owner);
             }
             return;
         }

@@ -129,8 +129,8 @@ public class GuiHandler {
 			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
 				return SpellHelper.getSpell(stack);
 			}
-			return Spells.NONE;
-		}).filter(Spell::isValid).findFirst().orElse(Spells.NONE);
+			return Spells.NONE.get();
+		}).filter(Spell::isValid).findFirst().orElseGet(Spells.NONE);
 	}
 
 	private static void doRenderElementGauge(PoseStack matrixStack, int element, int max, ElementType type, int index) {

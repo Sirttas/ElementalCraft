@@ -2,6 +2,7 @@ package sirttas.elementalcraft.spell.earth;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -16,6 +17,10 @@ import java.util.stream.Stream;
 public class TreeFallSpell extends Spell {
 
 	public static final String NAME = "tree_fall";
+
+	public TreeFallSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	private boolean isValidBlock(BlockState state) {
 		return state.is(BlockTags.LOGS) ||state.is(BlockTags.LEAVES);

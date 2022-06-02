@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.spell.water;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +14,10 @@ import sirttas.elementalcraft.spell.Spell;
 public class RipeningSpell extends Spell {
 
 	public static final String NAME = "ripening";
+
+	public RipeningSpell(ResourceKey<Spell> key) {
+		super(key);
+	}
 
 	@Override
 	public InteractionResult castOnBlock(Entity sender, BlockPos target) {

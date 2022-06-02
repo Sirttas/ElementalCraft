@@ -15,6 +15,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
 import sirttas.elementalcraft.jewel.Jewel;
+import sirttas.elementalcraft.jewel.Jewels;
 
 import javax.annotation.Nonnull;
 
@@ -46,7 +47,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 				}
 			}
 		}
-		for (Jewel jewel : Jewel.REGISTRY) {
+		for (Jewel jewel : Jewels.REGISTRY.get()) {
 			if (ElementalCraftApi.MODID.equals(jewel.getRegistryName().getNamespace()) && !exists(jewel)) {
 				singleJewelTexture(jewel.getRegistryName().getPath());
 			}
