@@ -105,14 +105,14 @@ public class StaffItem extends FocusItem {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+		super.appendHoverText(stack, level, tooltip, flag);
 		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.staff.range").withStyle(ChatFormatting.BLUE));
 	}
 	
 	@Override
 	public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-		return ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
+		return ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction) || super.canPerformAction(stack, toolAction);
 	}
 	
 	@Override

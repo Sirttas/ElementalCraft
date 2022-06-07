@@ -519,6 +519,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.HEAL).setGem(ECTags.Items.PRISTINE_WATER_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SPEED).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SHOCKWAVE).setGem(ECTags.Items.CRUDE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.AIR_SHIELD).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL).build(consumer);
 	}
 
 	private void registerToolInfusions(Consumer<FinishedRecipe> consumer) {

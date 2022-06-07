@@ -33,7 +33,7 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 		super(TYPE, pos, state);
 		inventory = new SingleStackContainer(this::setChanged);
 		this.elementStorage = new SingleElementStorage(ECConfig.COMMON.shardElementAmount.get() * 20, this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.evaporatorMaxRunes.get());
+		runeHandler = new RuneHandler(ECConfig.COMMON.evaporatorMaxRunes.get(), this::setChanged);
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, EvaporatorBlockEntity evaporator) {

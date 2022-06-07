@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import sirttas.elementalcraft.ElementalCraft;
@@ -56,33 +57,40 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return getProperties().getAttributes();
 	}
 
-	public InteractionResult castOnEntity(Entity sender, Entity target) {
+	@Nonnull
+	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
 		return InteractionResult.PASS;
 	}
 
-	public InteractionResult castOnBlock(Entity sender, BlockPos target) {
+	@Nonnull
+	public InteractionResult castOnBlock(@Nonnull Entity caster, @Nonnull BlockPos target) {
 		return InteractionResult.PASS;
 	}
 
-	public InteractionResult castOnSelf(Entity sender) {
+	@Nonnull
+	public InteractionResult castOnSelf(@Nonnull Entity caster) {
 		return InteractionResult.PASS;
 	}
 
 	public void addSpellInstance(AbstractSpellInstance instance) {
-		SpellTickManager.getInstance(instance.sender.level).addSpellInstance(instance);
+		SpellTickManager.getInstance(instance.getCaster().level).addSpellInstance(instance);
 	}
 
-	public boolean consume(Entity sender, boolean simulate) {
-		if (!(sender instanceof Player) || !((Player) sender).isCreative()) {
-			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(sender));
+	public void delay(Entity caster, int delay, Runnable cast) {
+		addSpellInstance(AbstractSpellInstance.delay(caster, this, delay, cast));
+	}
+
+	public boolean consume(Entity caster, boolean simulate) {
+		if (!(caster instanceof Player) || !((Player) caster).isCreative()) {
+			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(caster));
 			
-			return CapabilityElementStorage.get(sender).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
+			return CapabilityElementStorage.get(caster).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
 		}
 		return true;
 	}
 
-	protected boolean consume(Entity sender, ItemLike item, int count, boolean simulate) {
-		if (sender instanceof Player player && !player.isCreative()) {
+	protected boolean consume(Entity caster, ItemLike item, int count, boolean simulate) {
+		if (caster instanceof Player player && !player.isCreative()) {
 			Inventory inv = player.getInventory();
 			int slot = ECContainerHelper.getSlotFor(inv, new ItemStack(item));
 
@@ -97,7 +105,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 					}
 				}
 				if (size < count) {
-					return consume(sender, item, count - size, simulate);
+					return consume(caster, item, count - size, simulate);
 				}
 				return true;
 			}
@@ -131,10 +139,10 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return getProperties().weight();
 	}
 	
-	public float getRange(Entity sender) {
+	public float getRange(Entity caster) {
 		int bonus = 0;
 		
-		if (StreamSupport.stream(sender.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.getItem() == ECItems.STAFF)) {
+		if (StreamSupport.stream(caster.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.getItem() == ECItems.STAFF)) {
 			bonus++;
 		}
 		return getProperties().range() + bonus;
@@ -172,7 +180,11 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 		return isValid() && !getProperties().hidden();
 	}
 
-	public enum Type implements StringRepresentable {
+    public UseAnim getUseAnimation() {
+		return UseAnim.BOW;
+    }
+
+    public enum Type implements StringRepresentable {
 		NONE("none"), COMBAT("combat"), UTILITY("utility"), MIXED("mixed");
 		
 		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values, Type::byName);

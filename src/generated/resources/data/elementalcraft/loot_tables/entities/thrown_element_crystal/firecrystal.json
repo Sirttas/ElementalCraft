@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:selector",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 5.0,
+                "max": 7.0
+              },
+              "add": false
+            }
+          ],
+          "name": "elementalcraft:fire_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:powerful_fire_shard"
+        }
+      ]
+    }
+  ]
+}

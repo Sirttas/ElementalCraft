@@ -2,7 +2,7 @@ buildscript {
     repositories {
 		mavenLocal()
     	mavenCentral()
-        maven { url = 'https://reposilite.shendai.rip/public' }
+        maven { url = 'https://repo.elementalcraft.org/public' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
@@ -162,7 +162,7 @@ minecraft {
 repositories {
     mavenCentral()
     flatDir { dirs 'libs', '../libs', '../DPAnvil/build/libs' }
-    maven { url "https://reposilite.shendai.rip/public" }
+    maven { url "https://repo.elementalcraft.org/public" }
 }
 
 dependencies {
@@ -274,16 +274,16 @@ sonarqube {
 def modmaven_user = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
 def modmaven_password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")
 def use_modmaven = modmaven_user != null && modmaven_password != null
-def shendai_reposlite_user = System.getenv("SHENDAI_REPOSLITE_USER") ?: project.findProperty("shendai_reposlite_user")
-def shendai_reposlite_password = System.getenv("SHENDAI_REPOSLITE_PASSWORD") ?: project.findProperty("shendai_reposlite_password")
-def use_shendai_reposlite = shendai_reposlite_user != null && shendai_reposlite_password != null
+def elemental_craft_repo_user = System.getenv("ELEMENTAL_CRAFT_REPO_USER") ?: project.findProperty("elemental_craft_repo_user")
+def elemental_craft_repo_password = System.getenv("ELEMENTAL_CRAFT_REPO_PASSWORD") ?: project.findProperty("elemental_craft_repo_password")
+def use_elemental_craft_repo = elemental_craft_repo_user != null && elemental_craft_repo_password != null
 
-if (use_modmaven || use_shendai_reposlite) {
+if (use_modmaven || use_elemental_craft_repo) {
     if (use_modmaven) {
         logger.info("Maven publish setup for modmaven")
     }
-    if (use_shendai_reposlite) {
-        logger.info("Maven publish setup for shendai reposlite")
+    if (use_elemental_craft_repo) {
+        logger.info("Maven publish setup for elementalcraft repo")
     }
 	publishing {
 	    publications {
@@ -304,13 +304,13 @@ if (use_modmaven || use_shendai_reposlite) {
                     }
                 }
             }
-            if (use_shendai_reposlite) {
+            if (use_elemental_craft_repo) {
                 maven {
-                    name = "ShendaiReposLite"
-                    url = 'https://reposilite.shendai.rip/releases'
+                    name = "ElementalCraftRepo"
+                    url = 'repo.elementalcraft.org/releases'
                     credentials {
-                        username = shendai_reposlite_user
-                        password = shendai_reposlite_password
+                        username = elemental_craft_repo_user
+                        password = elemental_craft_repo_password
                     }
                 }
             }

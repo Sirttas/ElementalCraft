@@ -42,8 +42,8 @@ public class ParticleHelper {
 				.forEach(i -> world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING, type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
 	}
 
-	public static void createElementFlowParticle(ElementType type, Level level, Vec3 pos, Direction direction, int scale, Random rand) {
-		createElementFlowParticle(type, level, pos, Vec3.atLowerCornerOf(direction.getOpposite().getNormal()).scale(scale == 0 ? 1 : scale), new Vec3(3,3,3), rand);
+	public static void createElementFlowParticle(ElementType type, Level level, Vec3 pos, Direction direction, float scale, Random rand) {
+		createElementFlowParticle(type, level, pos, Vec3.atLowerCornerOf(direction.getOpposite().getNormal()).scale(scale <= 0 ? 1F : scale), new Vec3(3,3,3), rand);
 	}
 
 	public static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 end, Random rand) {

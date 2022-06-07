@@ -24,11 +24,11 @@ public class CastSpellGoal extends Goal {
 			result = this.spell.castOnSelf(caster);
 		}
 		if (result.consumesAction()) {
-			var level = caster.getCommandSenderWorld();
+			var level = caster.getLevel();
 			
 			this.spell.consume(caster, false);
 			if (!level.isClientSide) {
-				SpellTickManager.getInstance(caster.getCommandSenderWorld()).setCooldown(caster, spell);
+				SpellTickManager.getInstance(caster.getLevel()).setCooldown(caster, spell);
 			}
 		}
 	}

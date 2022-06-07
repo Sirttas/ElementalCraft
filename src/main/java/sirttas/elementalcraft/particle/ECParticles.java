@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.particle;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -33,18 +34,23 @@ public class ECParticles {
 
 		RegistryHelper.register(r, SOURCE, "source");
 		RegistryHelper.register(r, SOURCE_EXHAUSTED, "source_exhausted");
-		RegistryHelper.register(r, ELEMENT_FLOW, "elementflow");
+		RegistryHelper.register(r, ELEMENT_FLOW, "element_flow");
 		RegistryHelper.register(r, ELEMENT_CRAFTING, "elementcrafting");
 	}
 
-	@SuppressWarnings("resource")
+
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerFactories(ParticleFactoryRegisterEvent evt) {
-		Minecraft.getInstance().particleEngine.register(SOURCE, SourceParticle.FACTORY);
-		Minecraft.getInstance().particleEngine.register(SOURCE_EXHAUSTED, SourceExhaustedParticle.FACTORY);
-		Minecraft.getInstance().particleEngine.register(ELEMENT_FLOW, ElementFlowParticle.FACTORY);
-		Minecraft.getInstance().particleEngine.register(ELEMENT_CRAFTING, ElementCraftingParticle.FACTORY);
+		registerFactory(SOURCE, SourceParticle.FACTORY);
+		registerFactory(SOURCE_EXHAUSTED, SourceExhaustedParticle.FACTORY);
+		registerFactory(ELEMENT_FLOW, ElementFlowParticle.FACTORY);
+		registerFactory(ELEMENT_CRAFTING, ElementCraftingParticle.FACTORY);
+	}
+
+	@SuppressWarnings("resource")
+	private static void registerFactory(ParticleType<ElementTypeParticleData> particleType, ParticleEngine.SpriteParticleRegistration<ElementTypeParticleData> factory) {
+		Minecraft.getInstance().particleEngine.register(particleType, factory);
 	}
 
 }

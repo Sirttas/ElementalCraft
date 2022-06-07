@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class GavelFallSpell extends Spell {
@@ -37,7 +38,7 @@ public class GavelFallSpell extends Spell {
 	}
 
 	private InteractionResult spawnGravel(Entity sender, BlockPos pos) {
-		Level world = sender.getCommandSenderWorld();
+		Level world = sender.getLevel();
 
 		checkAndSpawn(world, pos.above(4));
 		checkAndSpawn(world, pos.above(5));
@@ -45,14 +46,16 @@ public class GavelFallSpell extends Spell {
 		return InteractionResult.SUCCESS;
 	}
 
+	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(Entity sender, BlockPos target) {
+	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target) {
 		return spawnGravel(sender, target);
 	}
 
+	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(Entity sender, Entity target) {
-		return spawnGravel(sender, new BlockPos(target.position()));
+	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
+		return spawnGravel(caster, new BlockPos(target.position()));
 	}
 
 	@Override

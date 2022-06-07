@@ -5,6 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -197,4 +199,12 @@ public class SpellHelper {
 		}
 		return list.get(list.size() - 1);
 	}
+
+    public static Spell getSpellInUse(Entity entity) {
+		// TODO spell casting monster
+		if (entity instanceof LivingEntity livingEntity) {
+			return getSpell(livingEntity.getUseItem());
+		}
+		return Spells.NONE.get();
+    }
 }

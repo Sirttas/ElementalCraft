@@ -51,7 +51,7 @@ public class EntityHelper {
 		Vec3 look = entity.getViewVector(1);
 		Vec3 rayVector = eyePos.add(look.x * range, look.y * range, look.z * range);
 		BlockHitResult blockResult = entity.level.clip(new ClipContext(eyePos, rayVector, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, entity));
-		EntityHitResult entityResult = ProjectileUtil.getEntityHitResult(entity.getCommandSenderWorld(), entity, eyePos, rayVector,
+		EntityHitResult entityResult = ProjectileUtil.getEntityHitResult(entity.getLevel(), entity, eyePos, rayVector,
 				entity.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0D, 1.0D, 1.0D), e -> !e.isSpectator() && e.isPickable());
 
 		return entityResult != null && entityResult.getLocation().subtract(eyePos).length() <= blockResult.getLocation().subtract(eyePos).length() ? entityResult : blockResult;

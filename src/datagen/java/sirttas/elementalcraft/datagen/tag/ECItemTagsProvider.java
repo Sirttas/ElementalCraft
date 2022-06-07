@@ -168,6 +168,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers"))
 				.addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
 
+		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT, ECItems.SWIFT_ALLOY_INGOT, ECItems.FIREITE_INGOT);
+
 		var jewelSocketables = tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(ECTags.Items.FORGE_SWORDS, ECTags.Items.FORGE_SHILDS, ECTags.Items.SPELL_CAST_TOOLS)
 				.addTags(ECTags.Items.FORGE_PICKAXES, ECTags.Items.FORGE_AXES, ECTags.Items.FORGE_SHOVELS, ECTags.Items.FORGE_HOES)
 				.addTags(ECTags.Items.FORGE_BOWS, ECTags.Items.FORGE_CROSSBOWS)

@@ -54,7 +54,7 @@ public class EntityHandler {
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		Player player = event.getPlayer();
 		
-		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getCommandSenderWorld().isClientSide) {
+		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getLevel().isClientSide) {
 			CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {

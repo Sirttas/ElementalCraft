@@ -1,9 +1,5 @@
 package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
-import java.util.stream.Stream;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -22,6 +18,9 @@ import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 
+import javax.annotation.Nonnull;
+import java.util.stream.Stream;
+
 public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElementTypeProvider {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + PedestalBlock.NAME) public static final BlockEntityType<PedestalBlockEntity> TYPE = null;
@@ -33,7 +32,7 @@ public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElem
 		super(TYPE, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
 		elementStorage = new PedestalElementStorage(ElementType.getElementType(state), this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get());
+		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get(), this::setChanged);
 	}
 
 	public Direction getPureInfuserDirection() {

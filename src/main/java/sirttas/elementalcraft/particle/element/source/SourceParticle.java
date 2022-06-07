@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.particle.element.source;
 
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.ParticleEngine.SpriteParticleRegistration;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleEngine.SpriteParticleRegistration;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,8 +13,7 @@ import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 @OnlyIn(Dist.CLIENT)
 public class SourceParticle extends AbstractElementParticle {
 
-	public static final SpriteParticleRegistration<ElementTypeParticleData> FACTORY = s -> (data, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> 
-			new SourceParticle(worldIn, new Vec3(x, y, z), s, data.getElementType());
+	public static final SpriteParticleRegistration<ElementTypeParticleData> FACTORY = s -> (data, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> new SourceParticle(worldIn, new Vec3(x, y, z), s, data.getElementType());
 	
 	protected SourceParticle(ClientLevel worldIn, Vec3 coord, SpriteSet sprite, ElementType type) {
 		super(worldIn, coord, type);

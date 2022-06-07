@@ -47,6 +47,7 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 		builder(Spells.SPEED, Spell.Type.MIXED, ElementType.AIR).color(MobEffects.MOVEMENT_SPEED.getColor()).consumeAmount(4000).cooldown(2400).weight(2);
 		builder(Spells.SHOCKWAVE, Spell.Type.COMBAT, ElementType.AIR).color(189, 188, 182).consumeAmount(250).cooldown(120).weight(10).range(5)
 				.addAttribute(Attributes.ATTACK_KNOCKBACK, new AttributeModifier("Knockback modifier", 1, AttributeModifier.Operation.ADDITION));
+		builder(Spells.AIR_SHIELD, Spell.Type.COMBAT, ElementType.AIR).color(215, 227, 245).consumeAmount(25).useDuration(400).cooldown(60).weight(5);
 	}
 
 	private SpellProperties.Builder builder(RegistryObject<? extends Spell> spell, Spell.Type type, ElementType elementType) {

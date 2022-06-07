@@ -32,7 +32,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 	public InteractionResult onSlotActivated(IItemHandler inventory, Player player, ItemStack heldItem, int slot) {
 		ItemStack stack = inventory.getStackInSlot(slot);
-		Level world = player.getCommandSenderWorld();
+		Level world = player.getLevel();
 
 		if (heldItem.isEmpty() || player.isShiftKeyDown() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem, slot))) {
 			if (!stack.isEmpty()) {

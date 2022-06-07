@@ -4,8 +4,8 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -17,6 +17,7 @@ import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -24,17 +25,19 @@ public class SpellDeskMenu extends AbstractECMenu {
 
 	private final Container input;
 	private final Container output;
-	private final ContainerLevelAccess worldPosCallable;
-	
+	private final Level level;
+
+	private final DataSlot page = DataSlot.standalone();
+	private final DataSlot pageCount = DataSlot.standalone();
+
+	private List<ItemStack> stacks;
+
 	public SpellDeskMenu(int id, Inventory player) {
-		this(id, player, ContainerLevelAccess.NULL);
-	}
-	
-	public SpellDeskMenu(int id, Inventory player, ContainerLevelAccess worldPosCallable) {
 		super(ECMenus.SPELL_DESK, id);
-		this.worldPosCallable = worldPosCallable;
+		this.level = player.player.getLevel();
 		input = new CraftingContainer(this, 3, 1);
 		output = new SimpleContainer(6);
+		stacks = Collections.emptyList();
 		
 		this.addSlot(new InputSlot(0, 32, 35, s -> s.getItem() == ECItems.SCROLL_PAPER));
 		this.addSlot(new InputSlot(1, 23, 53, s -> s.is(Tags.Items.GEMS)));
@@ -46,10 +49,8 @@ public class SpellDeskMenu extends AbstractECMenu {
 		this.addSlot(new OutputSlot(4, 126, 53));
 		this.addSlot(new OutputSlot(5, 144, 53));
 		this.addPlayerSlots(player, 84);
-	}
-
-	public static SpellDeskMenu create(int id, Inventory inventory, ContainerLevelAccess worldPosCallable) {
-		return new SpellDeskMenu(id, inventory, worldPosCallable);
+		this.addDataSlot(this.page);
+		this.addDataSlot(this.pageCount);
 	}
 
 	@Nonnull
@@ -85,29 +86,57 @@ public class SpellDeskMenu extends AbstractECMenu {
 		return ItemStack.EMPTY;
 	}
 	
-	private void updateOutput(Level world) {
-		List<ItemStack> stacks = world.getRecipeManager().getRecipesFor(SpellCraftRecipe.TYPE, input, world).stream()
-                .limit(6)
-                .map(r -> r.assemble(input)).toList();
+	private void updateRecipeList(Level level) {
+		stacks = level.getRecipeManager().getRecipesFor(SpellCraftRecipe.TYPE, input, level).stream()
+                .map(r -> r.assemble(input))
+				.toList();
 
+		this.page.set(0);
+		this.pageCount.set(Math.max(1, (int) Math.ceil(stacks.size() / 6.0)));
+		setOutput();
+	}
+
+	private void setOutput() {
 		output.clearContent();
-		for (int i = 0; i < stacks.size(); i++) {
-			output.setItem(i, stacks.get(i));
+		var size = Math.min(stacks.size(), 6);
+		var index = page.get() * 6;
+
+		for (int i = 0; i < size; i++) {
+			output.setItem(i, stacks.get(i + index));
 		}
 		this.broadcastChanges();
 	}
-	
+
 	@Override
-	public void slotsChanged(@Nonnull Container inventoryIn) {
-		worldPosCallable.execute((world, pos) -> updateOutput(world));
+	public void slotsChanged(@Nonnull Container container) {
+		updateRecipeList(level);
 	}
 
 	@Override
-	public void removed(@Nonnull Player playerIn) {
-		super.removed(playerIn);
-		worldPosCallable.execute((world, pos) -> clearContainer(playerIn, input));
+	public void removed(@Nonnull Player player) {
+		super.removed(player);
+		clearContainer(player, input);
 	}
-	
+
+	public int getPage() {
+		return page.get();
+	}
+
+	public int getPageCount() {
+		return pageCount.get();
+	}
+
+	public void nextPage() {
+		page.set(Math.min(getPage() + 1, getPageCount() - 1));
+		setOutput();
+	}
+
+	public void previousPage() {
+		page.set(Math.max(getPage() - 1, 0));
+		setOutput();
+	}
+
+
 	private class OutputSlot extends Slot {
 
 		public OutputSlot(int index, int xPosition, int yPosition) {
@@ -121,12 +150,11 @@ public class SpellDeskMenu extends AbstractECMenu {
 		
 		@Override
 		public void onTake(@Nonnull Player player, @Nonnull ItemStack stack) {
-			
 			checkTakeAchievements(stack);
 			for (int i = 0; i < input.getContainerSize(); i++) {
 				input.removeItem(i, 1);
 			}
-			updateOutput(player.level);
+			updateRecipeList(player.level);
 		}
 	}
 	

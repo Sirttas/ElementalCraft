@@ -1,7 +1,10 @@
 package sirttas.elementalcraft.mixin;
 
-import javax.annotation.Nullable;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.world.item.ItemStack;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -9,14 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.SpellTickManager;
+
+import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
 @Mixin(ItemRenderer.class)

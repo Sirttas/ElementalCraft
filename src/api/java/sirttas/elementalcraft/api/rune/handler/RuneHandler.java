@@ -14,11 +14,18 @@ public class RuneHandler implements IRuneHandler {
 	private final int max;
 	private final List<Rune> runes;
 	private final Map<BonusType, Float> bonuses;
+
+	private final Runnable onChange;
 	
 	public RuneHandler(int max) {
+		this(max, null);
+	}
+
+	public RuneHandler(int max, Runnable onChange) {
 		this.max = max;
 		runes = new ArrayList<>(max);
 		bonuses = new EnumMap<>(BonusType.class);
+		this.onChange = onChange;
 	}
 
 	@Override
@@ -26,6 +33,9 @@ public class RuneHandler implements IRuneHandler {
 		if (runes.size() < max) {
 			runes.add(rune);
 			rune.getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) + value));
+			if (onChange != null) {
+				onChange.run();
+			}
 		}
 	}
 
@@ -34,6 +44,9 @@ public class RuneHandler implements IRuneHandler {
 		if (runes.contains(rune)) {
 			runes.remove(rune);
 			rune.getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) - value));
+			if (onChange != null) {
+				onChange.run();
+			}
 		}
 	}
 

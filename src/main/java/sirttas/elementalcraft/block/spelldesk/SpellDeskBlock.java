@@ -10,7 +10,6 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -95,23 +94,15 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 		if (world.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
-		player.openMenu(new ContainerProvider(world, pos));
+		player.openMenu(new ContainerProvider());
 		return InteractionResult.CONSUME;
 	}
 	
 	private class ContainerProvider implements MenuProvider {
 
-		private final Level world;
-		private final BlockPos pos;
-		
-		public ContainerProvider(Level world, BlockPos pos) {
-			this.world = world;
-			this.pos = pos;
-		}
-
 		@Override
-		public AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, @Nonnull Player palyer) {
-			return SpellDeskMenu.create(id, inventory, ContainerLevelAccess.create(world, pos));
+		public AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, @Nonnull Player player) {
+			return new SpellDeskMenu(id, inventory);
 		}
 
 		@Nonnull

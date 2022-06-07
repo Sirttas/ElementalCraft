@@ -35,7 +35,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 
 	public DiffuserBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
-		runeHandler = new RuneHandler(ECConfig.COMMON.diffuserMaxRunes.get());
+		runeHandler = new RuneHandler(ECConfig.COMMON.diffuserMaxRunes.get(), this::setChanged);
 	}
 
 

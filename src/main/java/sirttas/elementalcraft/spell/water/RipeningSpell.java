@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
+
 public class RipeningSpell extends Spell {
 
 	public static final String NAME = "ripening";
@@ -19,9 +21,10 @@ public class RipeningSpell extends Spell {
 		super(key);
 	}
 
+	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(Entity sender, BlockPos target) {
-		Level world = sender.getCommandSenderWorld();
+	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target) {
+		Level world = sender.getLevel();
 		BlockState state = world.getBlockState(target);
 		Block block = state.getBlock();
 

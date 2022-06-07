@@ -13,6 +13,9 @@ import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.network.message.MessageHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,27 @@ public class SpellTickManager {
 		return world.isClientSide ? CLIENT_INSTANCE : SERVER_INSTANCE;
 	}
 
+	@Nullable
+	public static AbstractSpellInstance getSpellInstance(Entity caster, Spell spell) {
+		if (caster == null || caster.isRemoved()) {
+			return null;
+		}
+		return getInstance(caster.level).spellInstances.stream()
+				.filter(spellInstance -> spellInstance.getCaster().equals(caster) && spellInstance.getSpell().equals(spell))
+				.findFirst()
+				.orElse(null);
+	}
+
+	@Nonnull
+	public static List<AbstractSpellInstance> getSpellInstances(Entity caster) {
+		if (caster == null || caster.isRemoved()) {
+			return Collections.emptyList();
+		}
+		return getInstance(caster.level).spellInstances.stream()
+				.filter(spellInstance -> spellInstance.getCaster().equals(caster))
+				.toList();
+	}
+
 	private void tick() {
 		tick++;
 		cooldowns.keySet().removeIf(e -> !e.isAlive());
@@ -46,7 +70,7 @@ public class SpellTickManager {
 		if (cooldowns.isEmpty()) {
 			tick = 0;
 		}
-		spellInstances.removeIf(i -> i.sender.isRemoved());
+		spellInstances.removeIf(AbstractSpellInstance::isFinished);
 		spellInstances.forEach(i -> {
 			i.tick();
 			i.decTick();

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.source.analysis;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -54,6 +55,7 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 				return true;
 			}
 		}
+		player.displayClientMessage(new TranslatableComponent("message.elementalcraft.missing_springaline"), true);
 		return false;
 	}
 	

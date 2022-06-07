@@ -57,5 +57,4 @@ public abstract class AbstractECLootProvider implements DataProvider {
 			default -> throw new IllegalArgumentException("Element Type must not be NONE");
 		};
 	}
-
 }

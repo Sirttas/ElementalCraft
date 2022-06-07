@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -36,7 +37,7 @@ public class StoneWallSpell extends Spell {
 	}
 
 	public InteractionResult cast(Entity sender, BlockPos pos, Direction direction) {
-		Level world = sender.getCommandSenderWorld();
+		Level world = sender.getLevel();
 
 		checkAndSpawn(world, pos);
 		checkAndSpawn(world, pos.relative(direction.getClockWise()));
@@ -51,13 +52,13 @@ public class StoneWallSpell extends Spell {
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		Optional<Direction> opt = Stream.of(Direction.orderedByNearest(sender)).filter(d -> d.getAxis() != Axis.Y).findFirst();
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		Optional<Direction> opt = Stream.of(Direction.orderedByNearest(caster)).filter(d -> d.getAxis() != Axis.Y).findFirst();
 		
 		if (!opt.isPresent()) {
 			return InteractionResult.PASS;
 		}
-		return cast(sender, new BlockPos(sender.position()).relative(opt.get(), 3), opt.get());
+		return cast(caster, new BlockPos(caster.position()).relative(opt.get(), 3), opt.get());
 	}
 
 	@Override

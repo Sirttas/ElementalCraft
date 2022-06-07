@@ -28,6 +28,7 @@ import sirttas.elementalcraft.container.menu.screen.ECScreens;
 import sirttas.elementalcraft.gui.tooltip.ElementGaugeClientTooltip;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.rune.Runes;
+import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECClientHandler {
@@ -71,6 +72,8 @@ public class ECClientHandler {
 	@SubscribeEvent
 	public static void stitchTextures(TextureStitchEvent.Pre event) {
 		addSprite(event, SolarSynthesizerRenderer.BEAM);
+		addSprite(event, AirShieldSpellRenderer.BACKGROUND);
+		addSprite(event, AirShieldSpellRenderer.BLADE);
 	}
 	
 	private static void addSprite(TextureStitchEvent.Pre event, Material sprite) {

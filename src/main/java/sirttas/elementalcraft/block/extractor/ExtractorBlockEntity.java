@@ -38,10 +38,10 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 		super(TYPE, pos, state);
 		if (state.getBlock() == ECBlocks.EXTRACTOR_IMPROVED) {
 			this.extractionAmount = ECConfig.COMMON.improvedExtractorExtractionAmount.get();
-			runeHandler = new RuneHandler(ECConfig.COMMON.improvedExtractorMaxRunes.get());
+			runeHandler = new RuneHandler(ECConfig.COMMON.improvedExtractorMaxRunes.get(), this::setChanged);
 		} else {
 			this.extractionAmount = ECConfig.COMMON.extractorExtractionAmount.get();
-			runeHandler = new RuneHandler(ECConfig.COMMON.extractorMaxRunes.get());
+			runeHandler = new RuneHandler(ECConfig.COMMON.extractorMaxRunes.get(), this::setChanged);
 		}
 	}
 

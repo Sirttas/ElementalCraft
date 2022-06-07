@@ -5,6 +5,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
+
 public class DashSpell extends Spell {
 
 	public static final String NAME = "dash";
@@ -14,8 +16,8 @@ public class DashSpell extends Spell {
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		sender.setDeltaMovement(sender.getDeltaMovement().add(sender.getLookAngle().normalize().scale(getRange(sender))));
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		caster.setDeltaMovement(caster.getDeltaMovement().add(caster.getLookAngle().normalize().scale(getRange(caster))));
 		return InteractionResult.SUCCESS;
 	}
 }

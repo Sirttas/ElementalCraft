@@ -10,6 +10,8 @@ import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
+
 public class ItemPullSpell extends Spell {
 
 	public static final String NAME = "item_pull";
@@ -19,11 +21,11 @@ public class ItemPullSpell extends Spell {
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		Vec3 pos = sender.position();
-		Level world = sender.getCommandSenderWorld();
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		Vec3 pos = caster.position();
+		Level world = caster.getLevel();
 
-		world.getEntitiesOfClass(ItemEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(sender))).forEach(i -> {
+		world.getEntitiesOfClass(ItemEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).forEach(i -> {
 			if (world.isClientSide) {
 				ParticleHelper.createEnderParticle(world, i.position(), 3, world.random);
 			}

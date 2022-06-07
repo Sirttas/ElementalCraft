@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:drenched_iron_ingot",
+    "elementalcraft:swift_alloy_ingot",
+    "elementalcraft:fireite_ingot"
+  ]
+}

@@ -18,7 +18,6 @@ First, find Inert Crystals from ore, this is the starting point of the mod, you 
 
 Once you got all of these start exploring and find an element source put the extractor under it and the tank under the extractor. then put the second tank nearby and the infuser on top of it, connect them with pipes and right click the pipe section connected to the extractor's tank. You can now put an inert crystal in the infuser by right clicking it to craft an infused crystal.
 
-
 Elemental Craft is hosted on [ModMaven](https://modmaven.dev/) add this to your `build.gradle`:
 ```grouvy
 repositories {
@@ -32,6 +31,7 @@ dependencies {
 ```
 You will also need to add dependency to [DataPack Anvil](https://github.com/Sirttas/DataPack-Anvil).
 
+Elemental craft also has a [wiki](http://wiki.elementalcraft.org/).
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X8CLYPH)
 [![discord](https://i.imgur.com/mANW7ms.png "discord")](https://discord.gg/BFfAmJP "")

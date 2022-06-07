@@ -67,6 +67,7 @@ import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
+import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.item.elemental.LenseItem;
 import sirttas.elementalcraft.item.elemental.ShardItem;
@@ -140,10 +141,10 @@ public class ECItems {
 	@ObjectHolder(ElementalCraftApi.MODID + ":springaline_shard") public static final ECItem SPRINGALINE_SHARD = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":solar_prism") public static final ECItem SOLAR_PRISM = null;
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":firecrystal") public static final ElementalItem FIRE_CRYSTAL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":watercrystal") public static final ElementalItem WATER_CRYSTAL  = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":earthcrystal") public static final ElementalItem EARTH_CRYSTAL = null;
-	@ObjectHolder(ElementalCraftApi.MODID + ":aircrystal") public static final ElementalItem AIR_CRYSTAL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":firecrystal") public static final CrystalItem FIRE_CRYSTAL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":watercrystal") public static final CrystalItem WATER_CRYSTAL  = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":earthcrystal") public static final CrystalItem EARTH_CRYSTAL = null;
+	@ObjectHolder(ElementalCraftApi.MODID + ":aircrystal") public static final CrystalItem AIR_CRYSTAL = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ShardItem.NAME_FIRE) public static final ShardItem FIRE_SHARD = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ShardItem.NAME_WATER) public static final ShardItem WATER_SHARD = null;
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + ShardItem.NAME_EARTH) public static final ShardItem EARTH_SHARD = null;
@@ -295,10 +296,10 @@ public class ECItems {
 		RegistryHelper.register(registry, new ECItem(), "springaline_shard");
 		RegistryHelper.register(registry, new ECItem(), "solar_prism");
 
-		RegistryHelper.register(registry, new ElementalItem(ElementType.FIRE), "firecrystal");
-		RegistryHelper.register(registry, new ElementalItem(ElementType.WATER), "watercrystal");
-		RegistryHelper.register(registry, new ElementalItem(ElementType.EARTH), "earthcrystal");
-		RegistryHelper.register(registry, new ElementalItem(ElementType.AIR), "aircrystal");
+		RegistryHelper.register(registry, new CrystalItem(ElementType.FIRE), "firecrystal");
+		RegistryHelper.register(registry, new CrystalItem(ElementType.WATER), "watercrystal");
+		RegistryHelper.register(registry, new CrystalItem(ElementType.EARTH), "earthcrystal");
+		RegistryHelper.register(registry, new CrystalItem(ElementType.AIR), "aircrystal");
 		RegistryHelper.register(registry, new ShardItem(ElementType.FIRE), ShardItem.NAME_FIRE);
 		RegistryHelper.register(registry, new ShardItem(ElementType.WATER), ShardItem.NAME_WATER);
 		RegistryHelper.register(registry, new ShardItem(ElementType.EARTH), ShardItem.NAME_EARTH);

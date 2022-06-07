@@ -84,7 +84,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 		BlockPos pos = this.getSavedPos(stack);
 		double reach = player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue();
 		
-		if (player.blockPosition().distSqr(pos) + 1 > reach * reach || !this.tick(player.getCommandSenderWorld(), player, pos, stack).consumesAction()) {
+		if (player.blockPosition().distSqr(pos) + 1 > reach * reach || !this.tick(player.getLevel(), player, pos, stack).consumesAction()) {
 			player.releaseUsingItem();
 		}
 	}

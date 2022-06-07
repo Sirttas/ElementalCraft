@@ -15,6 +15,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
 
+import javax.annotation.Nonnull;
+
 public class AoeSpell extends Spell {
 
 	protected AoeSpell(ResourceKey<Spell> key) {
@@ -22,11 +24,11 @@ public class AoeSpell extends Spell {
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		Level level = sender.getCommandSenderWorld();
-		float range = getRange(sender);
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		Level level = caster.getLevel();
+		float range = getRange(caster);
 
-		if (sender instanceof LivingEntity livingSender) {
+		if (caster instanceof LivingEntity livingSender) {
 			var attribute = livingSender.getAttribute(Attributes.ATTACK_DAMAGE);
 			float damageBase = attribute != null ? (float) attribute.getValue() : 1;
 			float damageMultiplier = (1 + EnchantmentHelper.getSweepingDamageRatio(livingSender));

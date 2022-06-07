@@ -8,6 +8,8 @@ import sirttas.elementalcraft.entity.projectile.FeatherSpike;
 import sirttas.elementalcraft.spell.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
+
 public class FeatherSpikesSpell extends Spell {
 
     public static final String NAME = FeatherSpike.NAME +'s';
@@ -20,8 +22,8 @@ public class FeatherSpikesSpell extends Spell {
     }
 
     @Override
-    public InteractionResult castOnSelf(Entity sender) {
-        if (sender instanceof LivingEntity livingEntity) {
+    public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+        if (caster instanceof LivingEntity livingEntity) {
             this.addSpellInstance(new Instance(livingEntity));
             return InteractionResult.SUCCESS;
         }
@@ -30,11 +32,13 @@ public class FeatherSpikesSpell extends Spell {
 
     private class Instance extends AbstractSpellInstance {
 
+        private static final int INTERVAL = 10;
+
         private final LivingEntity livingEntity;
         private int remainingCasts;
 
         protected Instance(LivingEntity sender) {
-            super(sender, FeatherSpikesSpell.this);
+            super(sender, FeatherSpikesSpell.this, castCount * INTERVAL);
             this.livingEntity = sender;
             this.remainingCasts = castCount;
         }
@@ -43,7 +47,7 @@ public class FeatherSpikesSpell extends Spell {
         public void tick() {
             if (this.remainingCasts <= 0) {
                 end();
-            } else if (this.getTicks() % 10 == 0) {
+            } else if (this.getTicks() % INTERVAL == 0) {
                 var level = livingEntity.level;
                 var spike = new FeatherSpike(level, livingEntity);
 

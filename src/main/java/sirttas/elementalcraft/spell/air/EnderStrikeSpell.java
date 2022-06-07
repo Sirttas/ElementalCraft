@@ -15,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
 import java.util.Comparator;
 
 public class EnderStrikeSpell extends Spell {
@@ -25,16 +26,17 @@ public class EnderStrikeSpell extends Spell {
 		super(key);
 	}
 
+	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(Entity sender, Entity target) {
+	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
 		Vec3 newPos = target.position().add(target.getLookAngle().reverse().normalize());
 
-		if (MinecraftForge.EVENT_BUS.post(new Event(sender, newPos.x, newPos.y + 0.5F, newPos.z))) {
+		if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y + 0.5F, newPos.z))) {
 			return InteractionResult.SUCCESS;
 		}
-		if (sender instanceof LivingEntity livingSender && livingSender.randomTeleport(newPos.x, newPos.y + 0.5F, newPos.z, true)) {
+		if (caster instanceof LivingEntity livingSender && livingSender.randomTeleport(newPos.x, newPos.y + 0.5F, newPos.z, true)) {
 			livingSender.lookAt(EntityAnchorArgument.Anchor.EYES, target.position());
-			livingSender.getCommandSenderWorld().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
+			livingSender.getLevel().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
 			livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
 			livingSender.swing(InteractionHand.MAIN_HAND);
 			if (livingSender instanceof Player playerSender) {
@@ -49,11 +51,11 @@ public class EnderStrikeSpell extends Spell {
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		Vec3 pos = sender.position();
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		Vec3 pos = caster.position();
 
-		return sender.getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(sender))).stream()
-				.filter(Enemy.class::isInstance).min(Comparator.comparingDouble(e -> pos.distanceTo(e.position()))).map(e -> castOnEntity(sender, e)).orElse(InteractionResult.PASS);
+		return caster.getLevel().getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).stream()
+				.filter(Enemy.class::isInstance).min(Comparator.comparingDouble(e -> pos.distanceTo(e.position()))).map(e -> castOnEntity(caster, e)).orElse(InteractionResult.PASS);
 	}
 	
 	public static class Event extends EntityTeleportEvent {

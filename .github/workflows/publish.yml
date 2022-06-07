@@ -31,8 +31,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODMAVEN_USER: ${{ secrets.MODMAVEN_USER }}
           MODMAVEN_PASSWORD: ${{ secrets.MODMAVEN_PASSWORD }}
-          SHENDAI_REPOSLITE_USER: ${{ secrets.SHENDAI_REPOSLITE_USER }}
-          SHENDAI_REPOSLITE_PASSWORD: ${{ secrets.SHENDAI_REPOSLITE_PASSWORD }}
+          ELEMENTAL_CRAFT_REPO_USER: ${{ secrets.ELEMENTAL_CRAFT_REPO_USER }}
+          ELEMENTAL_CRAFT_REPO_PASSWORD: ${{ secrets.ELEMENTAL_CRAFT_REPO_PASSWORD }}
           CURSEFORGE_KEY: ${{ secrets.CURSEFORGE_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         run: ./gradlew publish curseforge modrinth -Ptag_version=${{ steps.get_tag_version.outputs.TAG_VERSION }} --info --stacktrace

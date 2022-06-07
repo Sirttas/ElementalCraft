@@ -46,6 +46,10 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 		this.setChanged();
 	}
 
+	protected int getProgressRounded(float transferAmount, float progress) {
+		return Math.round(progress / (transferAmount * 3));
+	}
+
 	protected abstract void assemble();
 	
 	protected R lookupRecipe() {

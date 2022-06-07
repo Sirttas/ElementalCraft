@@ -9,7 +9,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraftforge.fml.common.Mod;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.data.IDataManager;
@@ -23,7 +22,6 @@ import sirttas.elementalcraft.spell.Spell;
 
 import java.util.Collections;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public record SpellProperties(
 		Spell.Type spellType,
 		ElementType elementType,

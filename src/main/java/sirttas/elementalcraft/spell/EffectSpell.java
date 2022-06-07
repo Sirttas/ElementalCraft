@@ -20,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.item.ECItem;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,14 +42,15 @@ public class EffectSpell extends Spell {
 		return InteractionResult.PASS;
 	}
 
+	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(Entity sender, Entity target) {
+	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
 		return applyEffect(target);
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		return applyEffect(sender);
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		return applyEffect(caster);
 	}
 
 	@Override

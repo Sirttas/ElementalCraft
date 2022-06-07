@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.stream.Stream;
@@ -43,9 +44,10 @@ public class TreeFallSpell extends Spell {
 		}
 	}
 
+	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(Entity sender, BlockPos target) {
-		Level world = sender.getCommandSenderWorld();
+	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target) {
+		Level world = sender.getLevel();
 
 		if (!world.isClientSide && isValidBlock(world.getBlockState(target))) {
 			cutTree(sender, world, target);

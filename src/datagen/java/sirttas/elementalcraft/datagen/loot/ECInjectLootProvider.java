@@ -35,42 +35,47 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 		ECLootFunctions.setup();
 	}
 
+	private static final LootPool.Builder FIRE = genShard(ElementType.FIRE);
+	private static final LootPool.Builder EARTH = genShard(ElementType.EARTH);
+	private static final LootPool.Builder WATER = genShard(ElementType.WATER);
+	private static final LootPool.Builder AIR = genShard(ElementType.AIR);
+	
 	@Override
 	public void run(@Nonnull HashCache cache) throws IOException {
-		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE);
-		save(cache, genShard(ElementType.EARTH), EntityType.ZOMBIE_VILLAGER);
-		save(cache, genShard(ElementType.EARTH), EntityType.SKELETON);
-		save(cache, genShard(ElementType.EARTH), EntityType.WITHER_SKELETON);
-		save(cache, genShard(ElementType.EARTH), EntityType.SILVERFISH);
-		save(cache, genShard(ElementType.EARTH), EntityType.IRON_GOLEM);
-		save(cache, genShard(ElementType.EARTH), EntityType.SKELETON_HORSE);
-		save(cache, genShard(ElementType.EARTH), EntityType.GOAT);
-		save(cache, genShard(ElementType.FIRE), EntityType.CREEPER);
-		save(cache, genShard(ElementType.FIRE), EntityType.GHAST);
-		save(cache, genShard(ElementType.FIRE), EntityType.BLAZE);
-		save(cache, genShard(ElementType.FIRE), EntityType.HUSK);
-		save(cache, genShard(ElementType.FIRE), EntityType.MAGMA_CUBE);
-		save(cache, genShard(ElementType.FIRE), EntityType.ZOMBIFIED_PIGLIN);
-		save(cache, genShard(ElementType.FIRE), EntityType.ZOGLIN);
-		save(cache, genShard(ElementType.WATER), EntityType.DROWNED);
-		save(cache, genShard(ElementType.WATER), EntityType.GUARDIAN);
-		save(cache, genShard(ElementType.WATER), EntityType.ELDER_GUARDIAN);
-		save(cache, genShard(ElementType.WATER), EntityType.SLIME);
-		save(cache, genShard(ElementType.WATER), EntityType.STRAY);
-		save(cache, genShard(ElementType.WATER), EntityType.SQUID);
-		save(cache, genShard(ElementType.WATER), EntityType.GLOW_SQUID);
-		save(cache, genShard(ElementType.WATER), EntityType.AXOLOTL);
-		save(cache, genShard(ElementType.WATER), EntityType.POLAR_BEAR);
-		save(cache, genShard(ElementType.WATER), EntityType.DOLPHIN);
-		save(cache, genShard(ElementType.WATER), EntityType.COD);
-		save(cache, genShard(ElementType.WATER), EntityType.SALMON);
-		save(cache, genShard(ElementType.WATER), EntityType.TROPICAL_FISH);
-		save(cache, genShard(ElementType.WATER), EntityType.PUFFERFISH);
-		save(cache, genShard(ElementType.AIR), EntityType.ENDERMAN);
-		save(cache, genShard(ElementType.AIR), EntityType.SPIDER);
-		save(cache, genShard(ElementType.AIR), EntityType.CAVE_SPIDER);
-		save(cache, genShard(ElementType.AIR), EntityType.PHANTOM);
-		save(cache, genShard(ElementType.AIR), EntityType.SHULKER);
+		save(cache, EARTH, EntityType.ZOMBIE);
+		save(cache, EARTH, EntityType.ZOMBIE_VILLAGER);
+		save(cache, EARTH, EntityType.SKELETON);
+		save(cache, EARTH, EntityType.WITHER_SKELETON);
+		save(cache, EARTH, EntityType.SILVERFISH);
+		save(cache, EARTH, EntityType.IRON_GOLEM);
+		save(cache, EARTH, EntityType.SKELETON_HORSE);
+		save(cache, EARTH, EntityType.GOAT);
+		save(cache, FIRE, EntityType.CREEPER);
+		save(cache, FIRE, EntityType.GHAST);
+		save(cache, FIRE, EntityType.BLAZE);
+		save(cache, FIRE, EntityType.HUSK);
+		save(cache, FIRE, EntityType.MAGMA_CUBE);
+		save(cache, FIRE, EntityType.ZOMBIFIED_PIGLIN);
+		save(cache, FIRE, EntityType.ZOGLIN);
+		save(cache, WATER, EntityType.DROWNED);
+		save(cache, WATER, EntityType.GUARDIAN);
+		save(cache, WATER, EntityType.ELDER_GUARDIAN);
+		save(cache, WATER, EntityType.SLIME);
+		save(cache, WATER, EntityType.STRAY);
+		save(cache, WATER, EntityType.SQUID);
+		save(cache, WATER, EntityType.GLOW_SQUID);
+		save(cache, WATER, EntityType.AXOLOTL);
+		save(cache, WATER, EntityType.POLAR_BEAR);
+		save(cache, WATER, EntityType.DOLPHIN);
+		save(cache, WATER, EntityType.COD);
+		save(cache, WATER, EntityType.SALMON);
+		save(cache, WATER, EntityType.TROPICAL_FISH);
+		save(cache, WATER, EntityType.PUFFERFISH);
+		save(cache, AIR, EntityType.ENDERMAN);
+		save(cache, AIR, EntityType.SPIDER);
+		save(cache, AIR, EntityType.CAVE_SPIDER);
+		save(cache, AIR, EntityType.PHANTOM);
+		save(cache, AIR, EntityType.SHULKER);
 	}
 
 	private static LootPool.Builder genShard(ElementType type) {
@@ -79,6 +84,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 				.add(LootItem.lootTableItem(getPowerfulShardForType(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
 				.when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.25F, 0.03F));
 	}
+
 
 	private void save(HashCache cache, LootPool.Builder pool, EntityType<?> entityType) throws IOException {
 		save(cache, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));

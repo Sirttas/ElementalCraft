@@ -16,13 +16,14 @@ import sirttas.elementalcraft.spell.air.EnderStrikeSpell;
 import sirttas.elementalcraft.spell.air.FeatherSpikesSpell;
 import sirttas.elementalcraft.spell.air.ItemPullSpell;
 import sirttas.elementalcraft.spell.air.TranslocationSpell;
+import sirttas.elementalcraft.spell.airshield.AirShieldSpell;
 import sirttas.elementalcraft.spell.earth.GavelFallSpell;
 import sirttas.elementalcraft.spell.earth.SilkVeinSpell;
 import sirttas.elementalcraft.spell.earth.StoneWallSpell;
 import sirttas.elementalcraft.spell.earth.TreeFallSpell;
 import sirttas.elementalcraft.spell.fire.FireBallSpell;
-import sirttas.elementalcraft.spell.fire.FlameCleaveSpell;
 import sirttas.elementalcraft.spell.fire.InfernoSpell;
+import sirttas.elementalcraft.spell.flamecleave.FlameCleaveSpell;
 import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
 import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
@@ -57,6 +58,7 @@ public class Spells {
 	public static final RegistryObject<EffectSpell> HEAL = register("heal", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.HEAL, 1, 1)));
 	public static final RegistryObject<EffectSpell> SPEED = register("speed", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2400, 1), new MobEffectInstance(MobEffects.DIG_SPEED, 2400)));
 	public static final RegistryObject<AoeSpell> SHOCKWAVE = register("shockwave", AoeSpell::new);
+	public static final RegistryObject<AirShieldSpell> AIR_SHIELD = register(AirShieldSpell.NAME, AirShieldSpell::new);
 
 	private Spells() {}
 

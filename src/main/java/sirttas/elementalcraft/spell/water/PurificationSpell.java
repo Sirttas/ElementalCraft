@@ -10,6 +10,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 
 public class PurificationSpell extends Spell {
@@ -23,7 +24,7 @@ public class PurificationSpell extends Spell {
 	@SuppressWarnings("resource")
 	private InteractionResult cureEffects(Entity target) {
 		if (target instanceof LivingEntity) {
-			if (!target.getCommandSenderWorld().isClientSide) {
+			if (!target.getLevel().isClientSide) {
 				LivingEntity livingTarget = (LivingEntity) target;
 				Iterator<MobEffectInstance> itr = livingTarget.getActiveEffects().iterator();
 
@@ -43,13 +44,14 @@ public class PurificationSpell extends Spell {
 		return InteractionResult.PASS;
 	}
 
+	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(Entity sender, Entity target) {
+	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
 		return cureEffects(target);
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		return cureEffects(sender);
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		return cureEffects(caster);
 	}
 }

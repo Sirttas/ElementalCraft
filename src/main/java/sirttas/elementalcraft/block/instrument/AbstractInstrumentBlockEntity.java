@@ -34,7 +34,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	protected AbstractInstrumentBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed, int maxRunes) {
 		super(blockEntityType, pos, state, recipeType, transferSpeed);
-		runeHandler = maxRunes > 0 ? new RuneHandler(maxRunes) : null;
+		runeHandler = maxRunes > 0 ? new RuneHandler(maxRunes, this::setChanged) : null;
 		particleOffset = Vec3.ZERO;
 	}
 
@@ -89,7 +89,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 			int oldProgress = progress;
 
 			progress += container.extractElement(Math.min(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), container.getElementAmount() - 1), getRecipeElementType(), false) * preservation;
-			if (level.isClientSide && progress > 0 &&  progress / this.transferSpeed >= oldProgress / this.transferSpeed) {
+			if (level.isClientSide && progress > 0 &&  getProgressRounded(this.transferSpeed, progress) > getProgressRounded(this.transferSpeed, oldProgress)) {
 				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.random);
 				renderProgressParticles();
 			}

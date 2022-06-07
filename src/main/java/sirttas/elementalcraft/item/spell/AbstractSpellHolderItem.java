@@ -18,12 +18,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.common.ToolAction;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.SpellTickManager;
+import sirttas.elementalcraft.spell.ToolActionSpell;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -50,7 +52,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	@Nonnull
     @Override
 	public UseAnim getUseAnimation(@Nonnull ItemStack stack) {
-		return UseAnim.BOW;
+		return SpellHelper.getSpell(stack).getUseAnimation();
 	}
 
 	/**
@@ -58,57 +60,57 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	 */
 	@Nonnull
     @Override
-	public InteractionResultHolder<ItemStack> use(@Nonnull Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
-		ItemStack stack = playerIn.getItemInHand(handIn);
+	public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
+		ItemStack stack = player.getItemInHand(hand);
 
-		return new InteractionResultHolder<>(tick(worldIn, playerIn, handIn, stack, true), stack);
+		return new InteractionResultHolder<>(tick(level, player, hand, stack, true), stack);
 	}
 
 	@Override
 	public void onUsingTick(ItemStack stack, LivingEntity entity, int count) {
-		if (!(entity instanceof Player) || tick(entity.getCommandSenderWorld(), (Player) entity, entity.getUsedItemHand(), stack, false) != InteractionResult.CONSUME) {
+		if (!(entity instanceof Player player) || tick(entity.getLevel(), player, entity.getUsedItemHand(), stack, false) != InteractionResult.CONSUME) {
 			entity.releaseUsingItem();
 		}
 	}
 
 	@Override
-	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level worldIn, @Nonnull LivingEntity entityLiving, int timeLeft) {
-		finishUsingItem(stack, worldIn, entityLiving);
+	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
+		finishUsingItem(stack, level, entityLiving);
 	}
 
 	@Nonnull
     @Override
 	public ItemStack finishUsingItem(@Nonnull ItemStack stack, Level level, @Nonnull LivingEntity entityLiving) {
-		if (!level.isClientSide) {
+		if (!level.isClientSide && !(entityLiving instanceof Player player && player.isCreative())) {
 			SpellTickManager.getInstance(level).setCooldown(entityLiving, SpellHelper.getSpell(stack));
 		}
 		return stack;
 	}
 
-	private InteractionResult tick(Level level, Player playerIn, InteractionHand handIn, ItemStack stack, boolean doChannel) {
+	private InteractionResult tick(Level level, Player player, InteractionHand hand, ItemStack stack, boolean doChannel) {
 		Spell spell = SpellHelper.getSpell(stack);
 		Multimap<Attribute, AttributeModifier> attributes = spell.getOnUseAttributeModifiers();
 
-		playerIn.getAttributes().addTransientAttributeModifiers(attributes);
+		player.getAttributes().addTransientAttributeModifiers(attributes);
 		
-		InteractionResult result = Boolean.TRUE.equals(ECConfig.COMMON.spellConsumeOnFail.get()) || spell.consume(playerIn, true) ? castSpell(playerIn, spell) : InteractionResult.FAIL;
+		InteractionResult result = Boolean.TRUE.equals(ECConfig.COMMON.spellConsumeOnFail.get()) || spell.consume(player, true) ? castSpell(player, spell) : InteractionResult.FAIL;
 
 		if (result.consumesAction()) {
-			if (doConsume(playerIn, handIn, stack, spell)) {
+			if (doConsume(player, hand, stack, spell)) {
 				result = InteractionResult.SUCCESS;
 			}
-			if (result.shouldSwing() && !playerIn.isCreative()) {
+			if (result.shouldSwing() && !player.isCreative()) {
 				if (!level.isClientSide) {
-					SpellTickManager.getInstance(level).setCooldown(playerIn, spell);
+					SpellTickManager.getInstance(level).setCooldown(player, spell);
 				}
-				playerIn.releaseUsingItem();
+				player.releaseUsingItem();
 			} else if (doChannel && spell.isChannelable()) {
-				playerIn.startUsingItem(handIn);
+				player.startUsingItem(hand);
 			}
 		} else {
-			playerIn.releaseUsingItem();
+			player.releaseUsingItem();
 		}
-		playerIn.getAttributes().removeAttributeModifiers(attributes);
+		player.getAttributes().removeAttributeModifiers(attributes);
 		return result;
 	}
 
@@ -133,14 +135,19 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 		return result;
 	}
 	
-	private boolean doConsume(Player playerIn, InteractionHand handIn, ItemStack stack, Spell spell) {
-		if (!playerIn.isCreative() && !spell.consume(playerIn, false)) {
+	private boolean doConsume(Player player, InteractionHand hand, ItemStack stack, Spell spell) {
+		if (!player.isCreative() && !spell.consume(player, false)) {
 			consume(stack);
-			playerIn.broadcastBreakEvent(handIn);
+			player.broadcastBreakEvent(hand);
 			return true;
 		}
 		return false;
 	}
 
 	protected abstract void consume(ItemStack stack);
+
+	@Override
+	public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+		return SpellHelper.getSpell(stack) instanceof ToolActionSpell toolActionSpell && toolActionSpell.getActions().contains(toolAction);
+	}
 }

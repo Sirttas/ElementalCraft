@@ -1,3 +1,17 @@
+1.18.2-4.4.5:
+
+- new spell: Air shield
+- add a message when using the source analysis glass without springaline shards in inventory
+- drenched iron, swift alloy and fireite can now be used as beacon payment
+- reduced the amount of particle created by the pure infuser and instruments
+- you can now throw and break element crystals to get shards
+- added link to the new wiki
+- added pages to spell desk result
+- added an animation to flame cleave
+- fix channeling spells cooldown applying in creative
+- fix rune not being sync
+
+
 1.18.2-4.4.4:
 
 - new spell: feather spikes
@@ -5,7 +19,7 @@
 - increased staff attack range
 - fix holder not working
 - fix spell desk in jei
-- fix a crash while breaking a cover frame with certain blocks
+- fix a crash while breaking a cover frame with certain blocks (issue #86)
 
 
 1.18.2-4.4.3:

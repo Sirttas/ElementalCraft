@@ -45,7 +45,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	public PureInfuserBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state, PureInfusionRecipe.TYPE, ECConfig.COMMON.pureInfuserTransferSpeed.get());
 		inventory = new SingleItemContainer(this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get());
+		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get(), this::setChanged);
 		progress.put(Direction.NORTH, 0);
 		progress.put(Direction.SOUTH, 0);
 		progress.put(Direction.WEST, 0);
@@ -136,8 +136,8 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 				float newProgress = oldProgress + pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false) * preservation;
 
 				progress.put(direction, Math.round(newProgress));
-				if (level.isClientSide && newProgress > 0 && newProgress / transferAmount >= oldProgress / transferAmount) {
-					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vec3.atCenterOf(pedestal.getBlockPos().relative(offset, 2)).add(0, 0.7, 0), offset, 2, level.random);
+				if (level.isClientSide && newProgress > 0 && getProgressRounded(transferAmount, newProgress) > getProgressRounded(transferAmount, oldProgress)) {
+					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vec3.atCenterOf(pedestal.getBlockPos().relative(offset, 3)).add(0, 0.7, 0), offset, 2.5f, level.random);
 				}
 			}
 		}

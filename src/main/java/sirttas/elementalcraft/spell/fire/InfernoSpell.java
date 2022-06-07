@@ -12,6 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
 
+import javax.annotation.Nonnull;
+
 public class InfernoSpell extends Spell {
 
 	public static final String NAME = "inferno";
@@ -21,16 +23,16 @@ public class InfernoSpell extends Spell {
 	}
 
 	@Override
-	public InteractionResult castOnSelf(Entity sender) {
-		Level world = sender.getCommandSenderWorld();
-		float range = getRange(sender);
-		Vec3 look = sender.getLookAngle().normalize();
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+		Level world = caster.getLevel();
+		float range = getRange(caster);
+		Vec3 look = caster.getLookAngle().normalize();
 
-		if (sender instanceof LivingEntity livingSender) {
-			for (LivingEntity target : world.getEntitiesOfClass(LivingEntity.class, sender.getBoundingBox().expandTowards(look.scale(range + 1)).inflate(1.0D, 0.25D, 1.0D))) {
-				if (target != sender && !sender.isAlliedTo(target) && (!(target instanceof ArmorStand) || !((ArmorStand) target).isMarker())
-						&& sender.distanceToSqr(target) < range * range && getAngle(sender, target) <= 30) {
-					target.hurt((sender instanceof Player ? DamageSource.playerAttack((Player) sender) : DamageSource.mobAttack(livingSender)).setIsFire(), 2);
+		if (caster instanceof LivingEntity livingSender) {
+			for (LivingEntity target : world.getEntitiesOfClass(LivingEntity.class, caster.getBoundingBox().expandTowards(look.scale(range + 1)).inflate(1.0D, 0.25D, 1.0D))) {
+				if (target != caster && !caster.isAlliedTo(target) && (!(target instanceof ArmorStand) || !((ArmorStand) target).isMarker())
+						&& caster.distanceToSqr(target) < range * range && getAngle(caster, target) <= 30) {
+					target.hurt((caster instanceof Player ? DamageSource.playerAttack((Player) caster) : DamageSource.mobAttack(livingSender)).setIsFire(), 2);
 					target.setSecondsOnFire(1);
 				}
 			}
