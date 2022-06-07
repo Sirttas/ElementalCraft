@@ -307,7 +307,7 @@ if (use_modmaven || use_elemental_craft_repo) {
             if (use_elemental_craft_repo) {
                 maven {
                     name = "ElementalCraftRepo"
-                    url = 'repo.elementalcraft.org/releases'
+                    url = 'https://repo.elementalcraft.org/releases'
                     credentials {
                         username = elemental_craft_repo_user
                         password = elemental_craft_repo_password
