@@ -42,8 +42,8 @@ public class EmptyReceptacleItem extends AbstractReceptacleItem implements ISour
 				ItemStack stack = ReceptacleHelper.createFrom(context.getItemInHand(), ElementType.getElementType(blockstate));
 
 				BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(source -> {
-					if (source.isStabalized()) {
-						source.setStabalized(false);
+					if (source.isStabilized()) {
+						source.setStabilized(false);
 						level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY() + 0.25, player.getZ(), new ItemStack(ECItems.SOURCE_STABILIZER)));
 					}
 					source.saveAdditional(stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG));

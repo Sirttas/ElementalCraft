@@ -98,7 +98,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 	@Override
 	@Deprecated
 	public boolean canBeReplaced(@Nonnull BlockState state, @Nonnull BlockPlaceContext context) {
-		return super.canBeReplaced(state, context) && BlockEntityHelper.getBlockEntityAs(context.getLevel(), context.getClickedPos(), SourceBlockEntity.class).map(s -> !s.isStabalized()).orElse(true);
+		return super.canBeReplaced(state, context) && BlockEntityHelper.getBlockEntityAs(context.getLevel(), context.getClickedPos(), SourceBlockEntity.class).map(s -> !s.isStabilized()).orElse(true);
 	}
 	
 	@Nonnull

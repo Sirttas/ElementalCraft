@@ -28,7 +28,7 @@ public class SourceRenderer implements IECRenderer<SourceBlockEntity> {
 			stabilizerModel = minecraft.getModelManager().getModel(STABILIZER_LOCATION);
 		}
 		
-		if (source.isStabalized()) {
+		if (source.isStabilized()) {
 			ElementType elementType = source.getElementStorage().getElementType();
 			float r = elementType.getRed();
 			float g = elementType.getGreen();

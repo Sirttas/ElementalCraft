@@ -32,8 +32,8 @@ public class SourceStabilizerItem extends ECItem implements ISourceInteractable 
 		
 		return BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class)
 				.map(source -> {
-					if (!source.isStabalized() && source.isAnalyzed()) {
-						source.setStabalized(true);
+					if (!source.isStabilized() && source.isAnalyzed()) {
+						source.setStabilized(true);
 						if (!player.isCreative()) {
 							stack.shrink(1);
 							if (stack.isEmpty()) {
