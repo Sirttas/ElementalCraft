@@ -212,11 +212,11 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) world.getBlockEntity(pos);
+	public @NotNull InteractionResult use(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) level.getBlockEntity(pos);
 
 		if (pipe != null) {
-			final VoxelShape shape = getShape(state, pos, getBlockEntity(world, pos), hit, player);
+			final VoxelShape shape = getShape(state, pos, getBlockEntity(level, pos), hit, player);
 
 			if (compareShapes(shape, FRAME_SHAPE) || state.getValue(COVER) == CoverType.FRAME) {
 				return pipe.setCover(player, hand);
@@ -226,6 +226,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	
 				if (value != InteractionResult.PASS) {
 					player.displayClientMessage(pipe.getConnectionMessage(face), true);
+					level.updateNeighborsAt(pos, this);
 				}
 				return value;
 			}

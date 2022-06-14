@@ -379,8 +379,8 @@ if (modrinth_token != null) {
         loaders = ["forge"]
         changelog = changeLog
         dependencies {
-            required.project "7zu3jG0v" // datapack-anvil
-            required.project "nU0bVIaL" // patchouli
+            required.project "dpanvil"
+            required.project "patchouli"
         }
     }
 }

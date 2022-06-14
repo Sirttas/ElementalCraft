@@ -13,6 +13,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -29,12 +30,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class SourceBlockEntity extends AbstractECBlockEntity {
+public class SourceBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider {
 
 	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final BlockEntityType<SourceBlockEntity> TYPE = null;
 
 	private boolean analyzed = false;
-	private boolean stabalized = false;
+	private boolean stabilized = false;
 	
 	private final SourceElementStorage elementStorage;
 	private final Map<SourceTrait, ISourceTraitValue> traits;
@@ -92,9 +93,9 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 	
 	public int getRecoverRate() {
 		var rate = getTrait(SourceTraits.RECOVER_RATE);
-		var diurnal = 1F + getTrait(SourceTraits.DIURNAL_NOCTURNAL) * (this.level.isDay() ? 1 : -1);
+		var diurnal = 1F + getTrait(SourceTraits.DIURNAL_NOCTURNAL) * (this.level.isDay() ? 1 : this.level.isNight() ? -1 : 0);
 		
-		return Math.round(rate * diurnal) + (stabalized ? 20 : 0);
+		return Math.round(rate * diurnal) + (stabilized ? 20 : 0);
 	}
 	
 	public float getSpeedModifier() {
@@ -121,16 +122,23 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 	
 	public void setAnalyzed(boolean analyzed) {
 		this.analyzed = analyzed;
+		this.setChanged();
+	}
+
+	public boolean isStabilized() {
+		return stabilized;
 	}
 	
-	public boolean isStabalized() {
-		return stabalized;
+	public void setStabilized(boolean stabilized) {
+		this.stabilized = stabilized;
+		this.setChanged();
 	}
-	
-	public void setStabalized(boolean stabalized) {
-		this.stabalized = stabalized;
+
+	@Override
+	public ElementType getElementType() {
+		return this.elementStorage.getElementType();
 	}
-	
+
 	public Map<SourceTrait, ISourceTraitValue> getTraits() {
 		return traits;
 	}
@@ -143,7 +151,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 		}
 		elementStorage.setExhausted(compound.getBoolean(ECNames.EXHAUSTED));
 		analyzed = compound.getBoolean(ECNames.ANALYZED);
-		stabalized = compound.getBoolean(ECNames.STABILIZED);
+		stabilized = compound.getBoolean(ECNames.STABILIZED);
 		SourceTraitHelper.loadTraits(compound.getCompound(ECNames.TRAITS), traits);
 	}
 
@@ -153,7 +161,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
 		compound.putBoolean(ECNames.EXHAUSTED, elementStorage.isExhausted());
 		compound.putBoolean(ECNames.ANALYZED, analyzed);
-		compound.putBoolean(ECNames.STABILIZED, stabalized);
+		compound.putBoolean(ECNames.STABILIZED, stabilized);
 		compound.put(ECNames.TRAITS, SourceTraitHelper.saveTraits(traits));
 	}
 
@@ -165,4 +173,5 @@ public class SourceBlockEntity extends AbstractECBlockEntity {
 		}
 		return super.getCapability(cap, side);
 	}
+
 }

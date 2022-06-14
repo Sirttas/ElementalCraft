@@ -1,11 +1,9 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import net.minecraft.advancements.critereon.EnchantmentPredicate;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
+import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
@@ -25,7 +23,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.AlternativeLootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
-import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -46,11 +43,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-/**
- * greatly inspired by Botania
- *
- * 
- */
 public class ECBlockLootProvider extends AbstractECLootProvider {
 	private final Map<Block, Function<ItemLike, Builder>> functionTable = new HashMap<>();
 
@@ -117,7 +109,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	private static Builder genOnlySilkTouch(ItemLike item) {
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool().name("main")
-						.when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
+						.when(BlockLoot.HAS_SILK_TOUCH)
 						.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(item)));
 	}
 
@@ -129,7 +121,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		return LootTable.lootTable()
 				.withPool(LootPool.lootPool().name("main").setRolls(ConstantValue.exactly(count))
 						.add(LootItem.lootTableItem(ore)
-								.when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
+								.when(BlockLoot.HAS_SILK_TOUCH)
 								.otherwise(LootItem.lootTableItem(item).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)).apply(ApplyExplosionDecay.explosionDecay()))));
 	}
 

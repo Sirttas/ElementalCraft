@@ -1,3 +1,11 @@
+1.18.2-4.4.6:
+
+- diurnal/nocturnal source trait no longer affect sources in dimensions with no day/night circle
+- pipes now correctly update adjacent blocks when their connexion change
+- fix shrine client ticker
+- fix source sync
+
+
 1.18.2-4.4.5:
 
 - new spell: Air shield
