@@ -77,6 +77,12 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 		}
 	}
 
+
+	@Override
+	public int getBarColor(@Nonnull ItemStack stack) {
+		return elementType.getColor();
+	}
+
 	@Override
 	public int getDamage(ItemStack stack) {
 		return 1000 * (elementCapacity - getElementStorage(stack).getElementAmount()) / elementCapacity;
@@ -85,6 +91,11 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	@Override
 	public int getMaxDamage(ItemStack stack) {
 		return 1000;
+	}
+
+	@Override
+	public boolean isBarVisible(@Nonnull ItemStack stack) {
+		return true;
 	}
 
 	@Override

@@ -81,25 +81,34 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 	@Override
 	@Nonnull
 	public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {
+		var elementStorageNbt = getElementStorageTag(stack);
+
+		if (elementStorageNbt != null) {
+			ElementType elementType = ElementType.byName(elementStorageNbt.getString(ECNames.ELEMENT_TYPE));
+			int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
+			int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
+
+			if (amount > 0) {
+				return Optional.of(new Tooltip(elementType, amount, capacity));
+			}
+		}
+		return Optional.empty();
+	}
+
+	public CompoundTag getElementStorageTag(@Nonnull ItemStack stack) {
 		CompoundTag tag = stack.getTag();
 
 		if (tag != null && tag.contains(ECNames.BLOCK_ENTITY_TAG)) {
 			CompoundTag blockNbt = tag.getCompound(ECNames.BLOCK_ENTITY_TAG);
 
 			if (blockNbt.contains(ECNames.ELEMENT_STORAGE)) {
-				CompoundTag elementStorageNbt = blockNbt.getCompound(ECNames.ELEMENT_STORAGE);
-				ElementType elementType = ElementType.byName(elementStorageNbt.getString(ECNames.ELEMENT_TYPE));
-				int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
-				int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
-
-				if (amount > 0) {
-					return Optional.of(new Tooltip(elementType, amount, capacity));
-				}
+				return blockNbt.getCompound(ECNames.ELEMENT_STORAGE);
 			}
 		}
-		return Optional.empty();
+		return null;
 	}
-	
+
+
 	@Override
 	@Deprecated
 	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {

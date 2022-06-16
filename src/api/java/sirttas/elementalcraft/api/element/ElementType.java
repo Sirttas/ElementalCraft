@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -39,7 +40,7 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 		this.g = g / 255F;
 		this.b = b / 255F;
 		this.name = name;
-		this.color = r << 16 | g << 8 | b;
+		this.color = Mth.color(this.r, this.g, this.b);
 	}
 
 	public float getRed() {

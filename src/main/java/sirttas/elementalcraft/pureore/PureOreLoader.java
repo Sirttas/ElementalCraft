@@ -1,4 +1,5 @@
 package sirttas.elementalcraft.pureore;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +13,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +21,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PureOreLoader {
 
 	private static final Pattern DEEPSLATE_PATTERN = Pattern.compile("^deepslate_");
 
+	private final TagKey<Item> sourceTag;
 	private final Lazy<HolderSet.Named<Item>> source;
 
 	private Pattern pattern;
@@ -33,6 +37,7 @@ public class PureOreLoader {
 	private double luckRatio;
 
 	private PureOreLoader(TagKey<Item> sourceTag) {
+		this.sourceTag = sourceTag;
 		this.source = Lazy.of(() -> ECTags.Items.getTag(sourceTag));
 		this.inputSize = 1;
 		this.outputSize = 2;
@@ -77,12 +82,12 @@ public class PureOreLoader {
 		Map<ResourceLocation, PureOre> pureOres = new HashMap<>();
 
 		ElementalCraftApi.LOGGER.info("Loading pure ores.\r\n\tSource ores: {}",
-				() -> source.get().stream()
+				() -> streamSourceTag()
 						.mapMulti(ElementalCraftUtils.cast(Holder.Reference.class))
 						.map(r -> r.key().location().toString())
 						.collect(Collectors.joining(", ")));
 
-		source.get().stream().forEach(holder -> {
+		streamSourceTag().forEach(holder -> {
 			var ore = holder.value();
 			PureOre entry = findOrCreateEntry(pureOres, ore);
 			boolean isInBlacklist = holder.is(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
@@ -94,6 +99,18 @@ public class PureOreLoader {
 			});
 		});
 		return pureOres;
+	}
+
+	@Nonnull
+	private Stream<Holder<Item>> streamSourceTag() {
+		var value = this.source.get();
+
+		if (value == null) {
+			ElementalCraftApi.LOGGER.error("Source tag: {} is null!", sourceTag::location);
+			return Stream.empty();
+		}
+
+		return  value.stream();
 	}
 
 	private PureOre findOrCreateEntry(Map<ResourceLocation, PureOre> pureOres, Item ore) {

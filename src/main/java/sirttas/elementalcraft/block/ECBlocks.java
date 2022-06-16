@@ -32,8 +32,10 @@ import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
+import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlockEntity;
@@ -425,7 +427,15 @@ public class ECBlocks {
 			var registryName = block.getRegistryName();
 
 			if (registryName != null && ElementalCraftApi.MODID.equals(registryName.getNamespace()) && !registry.containsKey(registryName)) {
-				var blockItem = block instanceof ITooltipImageBlock ? new TooltipImageBlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES) : new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
+				BlockItem blockItem;
+
+				if (block instanceof AbstractElementContainerBlock containerBlock) {
+					blockItem = new ElementContainerBlockItem(containerBlock, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
+				} else if (block instanceof ITooltipImageBlock) {
+					blockItem = new TooltipImageBlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
+				} else {
+					blockItem = new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
+				}
 
 				RegistryHelper.register(registry, blockItem, registryName);
 			}
