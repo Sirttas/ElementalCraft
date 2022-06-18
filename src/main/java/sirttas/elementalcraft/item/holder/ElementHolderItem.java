@@ -84,13 +84,8 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	}
 
 	@Override
-	public int getDamage(ItemStack stack) {
-		return 1000 * (elementCapacity - getElementStorage(stack).getElementAmount()) / elementCapacity;
-	}
-
-	@Override
-	public int getMaxDamage(ItemStack stack) {
-		return 1000;
+	public int getBarWidth(@Nonnull ItemStack stack) {
+		return Math.round(getElementStorage(stack).getElementAmount() * 13F / elementCapacity);
 	}
 
 	@Override

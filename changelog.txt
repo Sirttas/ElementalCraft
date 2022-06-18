@@ -1,3 +1,8 @@
+1.18.2-4.4.8:
+
+- fix a crash with forbiden and arcanus (issue #90)
+
+
 1.18.2-4.4.7:
 
 - add item bar with element colors for containers and holders

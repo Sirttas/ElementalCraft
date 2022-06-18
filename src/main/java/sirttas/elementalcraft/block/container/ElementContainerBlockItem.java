@@ -29,7 +29,12 @@ public class ElementContainerBlockItem extends TooltipImageBlockItem {
     }
 
     @Override
-    public int getDamage(ItemStack stack) {
+    public boolean isBarVisible(@Nonnull ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getBarWidth(@Nonnull ItemStack stack) {
         var elementStorageNbt = getElementStorageTag(stack);
 
         if (elementStorageNbt != null) {
@@ -37,19 +42,9 @@ public class ElementContainerBlockItem extends TooltipImageBlockItem {
             int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
 
             if (amount > 0) {
-                return 1000 * (capacity - amount) / capacity;
+                return Math.round(amount * 13.0F / capacity);
             }
         }
-        return 1000;
-    }
-
-    @Override
-    public int getMaxDamage(ItemStack stack) {
-        return 1000;
-    }
-
-    @Override
-    public boolean isBarVisible(@Nonnull ItemStack stack) {
-        return true;
+        return 0;
     }
 }
