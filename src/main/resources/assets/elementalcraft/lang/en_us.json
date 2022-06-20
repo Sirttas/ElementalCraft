@@ -350,6 +350,9 @@
   "tooltip.elementalcraft.water_strider": "Allows you to walk on water",
   "tooltip.elementalcraft.basilisk": "Slow down the enemy you are looking at",
 
+  "death.attack.elementalcraft.jewel.kirin": "%1$s was smited by %2$s",
+  "death.attack.elementalcraft.jewel.kirin.item": "%1$s was smited by %2$s using %3$s",
+
   "source_trait.elementalcraft.linear": "%s: %d%%",
   "source_trait.elementalcraft.element_capacity": "Capacity",
   "source_trait.elementalcraft.recover_rate": "Recovery",

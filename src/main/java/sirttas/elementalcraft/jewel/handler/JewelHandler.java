@@ -139,7 +139,12 @@ public class JewelHandler implements IJewelHandler {
 
     @SubscribeEvent
     public static void onLivingAttack(@Nonnull LivingAttackEvent event) {
-        var attacker = event.getSource().getEntity();
+        var source = event.getSource();
+
+        if (source.getMsgId().startsWith("elementalcraft.jewel.")) {
+            return;
+        }
+        var attacker = source.getEntity();
 
         if (attacker instanceof Projectile projectile) {
             attacker = projectile.getOwner();

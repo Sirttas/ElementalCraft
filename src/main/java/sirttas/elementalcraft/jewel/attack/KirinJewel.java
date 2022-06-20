@@ -21,7 +21,7 @@ public class KirinJewel extends AbstractAttackJewel {
     }
 
     public static DamageSource holyFire(Entity source) {
-        return new EntityDamageSource("elementalcraft:holy_fire", source).bypassArmor();
+        return new EntityDamageSource("elementalcraft.jewel.kirin", source).bypassArmor();
     }
 
     @Override

@@ -1,3 +1,9 @@
+1.18.2-4.4.9:
+
+- fix a crash with Jewel of the Kirin (issue #91)
+- added text for the jewel of the kirin death message
+
+
 1.18.2-4.4.8:
 
 - fix a crash with forbiden and arcanus (issue #90)
