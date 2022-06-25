@@ -119,7 +119,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	private PedestalBlockEntity getPedestal(Direction direction) {
-		BlockEntity te = this.hasLevel() ? this.getLevel().getBlockEntity(worldPosition.relative(direction, 3)) : null;
+		BlockEntity te = this.level != null ? this.level.getBlockEntity(worldPosition.relative(direction, 3)) : null;
 		return te instanceof PedestalBlockEntity ? (PedestalBlockEntity) te : null;
 	}
 
@@ -136,7 +136,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 				float newProgress = oldProgress + pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false) * preservation;
 
 				progress.put(direction, Math.round(newProgress));
-				if (level.isClientSide && newProgress > 0 && getProgressRounded(transferAmount, newProgress) > getProgressRounded(transferAmount, oldProgress)) {
+				if (level != null && level.isClientSide && newProgress > 0 && getProgressRounded(transferAmount, newProgress) > getProgressRounded(transferAmount, oldProgress)) {
 					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vec3.atCenterOf(pedestal.getBlockPos().relative(offset, 3)).add(0, 0.7, 0), offset, 2.5f, level.random);
 				}
 			}

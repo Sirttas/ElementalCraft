@@ -10,6 +10,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.block.extractor.ExtractorBlock;
 import sirttas.elementalcraft.block.extractor.ExtractorBlockEntity;
 
+import javax.annotation.Nonnull;
+
 public class ImprovedExtractorBlock extends ExtractorBlock {
 
 	public static final String NAME = "extractor_improved";
@@ -27,13 +29,14 @@ public class ImprovedExtractorBlock extends ExtractorBlock {
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PILLAR, TOP, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
 
 	@Override
-	public ExtractorBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public ExtractorBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new ExtractorBlockEntity(pos, state);
 	}
 
+	@Nonnull
 	@Override
 	@Deprecated
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 }

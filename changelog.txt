@@ -1,3 +1,9 @@
+1.18.2-4.4.10:
+
+- fix extractor ignoring exhausted sources
+- fix empty container not showing element gauge
+
+
 1.18.2-4.4.9:
 
 - fix a crash with Jewel of the Kirin (issue #91)

@@ -112,6 +112,9 @@ public class GuiHandler {
 	}
 
 	private static List<ISingleElementStorage> splitStorage(IElementStorage storage) {
+		if (storage instanceof ISingleElementStorage singleElementStorage) {
+			return Collections.singletonList(singleElementStorage);
+		}
 		return splitStorage(storage, ElementType.ALL_VALID);
 	}
 	private static List<ISingleElementStorage> splitStorage(IElementStorage storage, List<ElementType> elementTypes) {

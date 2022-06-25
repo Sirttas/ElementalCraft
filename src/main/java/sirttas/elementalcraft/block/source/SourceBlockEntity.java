@@ -90,6 +90,10 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 			}
 		}
 	}
+
+	public boolean isExhausted() {
+		return elementStorage.isExhausted();
+	}
 	
 	public int getRecoverRate() {
 		var rate = getTrait(SourceTraits.RECOVER_RATE);

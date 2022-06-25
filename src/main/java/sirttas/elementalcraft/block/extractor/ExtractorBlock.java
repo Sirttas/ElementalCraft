@@ -60,14 +60,15 @@ public class ExtractorBlock extends AbstractECEntityBlock {
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
+	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state, world, pos.below());
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random rand) {
-		BlockEntityHelper.getBlockEntityAs(world, pos, ExtractorBlockEntity.class).filter(ExtractorBlockEntity::canExtract)
+		BlockEntityHelper.getBlockEntityAs(world, pos, ExtractorBlockEntity.class)
+				.filter(ExtractorBlockEntity::canExtract)
 				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getSourceElementType(), world, Vec3.atCenterOf(pos), Direction.DOWN, 1, rand));
 	}
 }

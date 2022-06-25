@@ -63,7 +63,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 	}
 
 	protected Optional<BlockState> getSourceState() {
-		return this.hasLevel() ? Optional.of(this.getLevel().getBlockState(worldPosition.above())) : Optional.empty();
+		return this.level != null ? Optional.of(this.level.getBlockState(worldPosition.above())) : Optional.empty();
 	}
 
 	public ElementType getSourceElementType() {
@@ -71,22 +71,27 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ExtractorBlockEntity extractor) {
-		ElementType sourceElementType = extractor.getSourceElementType();
-
-		if (extractor.canExtract(sourceElementType)) {
+		if (extractor.canExtract()) {
 			BlockEntityHelper.getBlockEntityAs(level, pos.above(), SourceBlockEntity.class).map(SourceBlockEntity::getElementStorage)
 					.ifPresent(sourceStorage ->  extractor.runeHandler.handleElementTransfer(sourceStorage, extractor.getContainer(), extractor.extractionAmount));
 		}
 	}
 
 	public boolean canExtract() {
-		return canExtract(getSourceElementType());
-	}
+		if (this.level == null) {
+			return false;
+		}
 
-	private boolean canExtract(ElementType sourceElementType) {
-		ISingleElementStorage container = getContainer();
+		return BlockEntityHelper.getBlockEntityAs(this.level, this.worldPosition.above(), SourceBlockEntity.class).map(source -> {
+			if (source.isExhausted()) {
+				return false;
+			}
 
-		return hasLevel() && sourceElementType != ElementType.NONE && container != null && (container.getElementAmount() < container.getElementCapacity() || container.getElementType() != sourceElementType);
+			ElementType sourceElementType = source.getElementType();
+			ISingleElementStorage container = getContainer();
+
+			return hasLevel() && sourceElementType != ElementType.NONE && container != null && (container.getElementAmount() < container.getElementCapacity() || container.getElementType() != sourceElementType);
+		}).orElse(false);
 	}
 
 	public RuneHandler getRuneHandler() {
