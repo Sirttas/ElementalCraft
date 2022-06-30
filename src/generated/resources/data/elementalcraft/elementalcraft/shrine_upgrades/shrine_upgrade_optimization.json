@@ -1,0 +1,12 @@
+{
+  "bonuses": {
+    "element_capacity": 1.25,
+    "element_consumption": 0.75,
+    "speed": 0.8
+  },
+  "max_amount": 2,
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:shrines"
+  }
+}

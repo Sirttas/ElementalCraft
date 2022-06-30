@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "e": {
+      "tag": "elementalcraft:gems/fine_earth"
+    },
+    "s": {
+      "item": "minecraft:spider_eye"
+    },
+    "w": {
+      "tag": "elementalcraft:gems/fine_water"
+    }
+  },
   "pattern": [
     " w ",
     "sUs",
     " e "
   ],
-  "key": {
-    "e": {
-      "tag": "elementalcraft:gems/fine_earth"
-    },
-    "w": {
-      "tag": "elementalcraft:gems/fine_water"
-    },
-    "s": {
-      "item": "minecraft:spider_eye"
-    },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    }
-  },
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

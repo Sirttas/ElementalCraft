@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +34,6 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
-import java.util.Random;
 
 public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock implements ITooltipImageBlock {
 
@@ -68,7 +68,7 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		getElementStorage(level, pos)
 				.filter(t -> !t.isEmpty())
 				.ifPresent(t -> ParticleHelper.createSourceParticle(t.getElementType(), level, Vec3.atCenterOf(pos).add(0, 0.2D, 0), rand));

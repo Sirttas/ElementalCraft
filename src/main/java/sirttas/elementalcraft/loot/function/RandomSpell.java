@@ -24,7 +24,6 @@ import sirttas.elementalcraft.spell.Spells;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 public class RandomSpell extends LootItemConditionalFunction {
 
@@ -47,7 +46,7 @@ public class RandomSpell extends LootItemConditionalFunction {
 	@Nonnull
     @Override
 	public ItemStack run(@Nonnull ItemStack stack, LootContext context) {
-		Random random = context.getRandom();
+		var random = context.getRandom();
 		Spell spell;
 
 		if (!this.spellList.isEmpty()) {

@@ -2,15 +2,12 @@ package sirttas.elementalcraft.block.source.trait.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -20,7 +17,6 @@ import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderTyp
 public class FixedSourceTraitValueProvider implements ISourceTraitValueProvider {
 
 	public static final String NAME = "fixed";
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final SourceTraitValueProviderType<FixedSourceTraitValueProvider> TYPE = null;
 	public static final Codec<FixedSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Codec.STRING.fieldOf(ECNames.NAME).forGetter(p -> p.translationKey),
 			Codec.FLOAT.fieldOf(ECNames.VALUE).forGetter(FixedSourceTraitValueProvider::getValue)
@@ -45,8 +41,8 @@ public class FixedSourceTraitValueProvider implements ISourceTraitValueProvider 
 	}
 	
 	@Override
-	public SourceTraitValueProviderType<? extends ISourceTraitValueProvider> getType() {
-		return TYPE;
+	public @NotNull SourceTraitValueProviderType<FixedSourceTraitValueProvider> getType() {
+		return SourceTraitValueProviderTypes.FIXED.get();
 	}
 	
 	@Override
@@ -74,7 +70,7 @@ public class FixedSourceTraitValueProvider implements ISourceTraitValueProvider 
 
 		@Override
 		public Component getDescription() {
-			return new TranslatableComponent(translationKey);
+			return Component.translatable(translationKey);
 		}
 	}
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "elementalcraft:block/template_source_displacement_plate",
+  "textures": {
+    "texture": "elementalcraft:block/source_displacement_plate_air_top"
+  }
+}

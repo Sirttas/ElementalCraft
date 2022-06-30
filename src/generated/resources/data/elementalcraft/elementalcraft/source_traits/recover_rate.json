@@ -1,0 +1,10 @@
+{
+  "order": 1,
+  "value": {
+    "type": "elementalcraft:range_based",
+    "end": 200.0,
+    "name": "source_trait.elementalcraft.recover_rate",
+    "start": 50.0,
+    "weight": 10000.0
+  }
+}

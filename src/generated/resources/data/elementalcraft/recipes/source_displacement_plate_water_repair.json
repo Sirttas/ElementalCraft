@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:broken_source_displacement_plate"
+    },
+    {
+      "tag": "elementalcraft:gems/pristine_water"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:source_displacement_plate_water"
+  }
+}

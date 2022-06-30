@@ -3,14 +3,14 @@ package sirttas.elementalcraft.block.source;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.dpanvil.api.data.IDataWrapper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -20,31 +20,30 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 
 public class SourceBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SourceBlock.NAME) public static final BlockEntityType<SourceBlockEntity> TYPE = null;
 
 	private boolean analyzed = false;
 	private boolean stabilized = false;
 	
 	private final SourceElementStorage elementStorage;
-	private final Map<SourceTrait, ISourceTraitValue> traits;
+	private final Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits;
 
 	public SourceBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
+		super(ECBlockEntityTypes.SOURCE, pos, state);
 		elementStorage = new SourceElementStorage(this);
 		elementStorage.setElementType(ElementType.getElementType(state));
-		traits = new TreeMap<>();
+		traits = new TreeMap<>(Comparator.comparingInt(SourceTraits::getOrder));
 	}
 
 
@@ -53,36 +52,49 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
-        source.initTraits();
+        source.initTraits(false);
         if (source.elementStorage.isExhausted()) {
-            source.elementStorage.insertElement(source.getRecoverRate(), false);
+			if (source.isFleeting()) {
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			} else {
+				source.elementStorage.insertElement(source.getRecoverRate(), false);
+			}
         }
     }
-	
-	public static void clientTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
-		source.addParticle(level.random);
-	}
 
-    private void initTraits() {
+    private void initTraits(boolean fleeting) {
         if (elementStorage.getElementType() == ElementType.NONE) {
             elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
+			this.setChanged();
         }
         if (traits.isEmpty()) {
-            for (var trait : ElementalCraftApi.SOURCE_TRAIT_MANAGER.getData().values()) {
-                var value = trait.roll(level, worldPosition);
+            for (var entry : ElementalCraftApi.SOURCE_TRAIT_MANAGER.getData().entrySet()) {
+				var key = SourceTraits.key(entry.getKey());
+
+				if (key.equals(SourceTraits.FLEETING) && !fleeting) {
+					continue;
+				}
+                var value = entry.getValue().roll(level, worldPosition);
 
                 if (value != null) {
-                    if (trait == SourceTraits.ELEMENT_CAPACITY.get()) {
-                        elementStorage.setElementCapacity(Math.round(value.getValue()));
-                    }
-                    traits.put(trait, value);
+                    traits.put(key, value);
                 }
             }
+			var capacity = getCapacity();
+
+			elementStorage.setElementCapacity(capacity);
+			elementStorage.setElementAmount(capacity);
+			this.setChanged();
         }
     }
+
+	public void resetTraits(boolean fleeting) {
+		traits.clear();
+		this.initTraits(fleeting);
+	}
 	
-	private void addParticle(Random rand) {
-		if (level.isClientSide && rand.nextFloat() < 0.2F) {
+	private void addParticle(RandomSource rand) {
+		if (level != null && level.isClientSide && rand.nextFloat() < 0.2F) {
 			if (elementStorage.isExhausted()) {
 				ParticleHelper.createExhaustedSourceParticle(elementStorage.getElementType(), level, Vec3.atCenterOf(worldPosition), rand);
 			} else {
@@ -101,6 +113,13 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		
 		return Math.round(rate * diurnal) + (stabilized ? 20 : 0);
 	}
+
+	public int getCapacity() {
+		var capacity = getTrait(SourceTraits.ELEMENT_CAPACITY);
+		var fleeting = Math.max(1, getTrait(SourceTraits.FLEETING));
+
+		return Math.round(capacity * fleeting);
+	}
 	
 	public float getSpeedModifier() {
 		return 1 + getTrait(SourceTraits.GENEROSITY);
@@ -110,11 +129,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		return 1 + getTrait(SourceTraits.THRIFTINESS);
 	}
 	
-	private float getTrait(IDataWrapper<SourceTrait> trait) {
-		return trait.isPresent() ? getTrait(trait.get()) : 0;
-	}
-	
-	private float getTrait(SourceTrait trait) {
+	private float getTrait(ResourceKey<SourceTrait> trait) {
 		var value = traits.get(trait);
 		
 		return value != null ? value.getValue() : 0;
@@ -129,10 +144,20 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		this.setChanged();
 	}
 
+	public boolean isFleeting() {
+		return traits.containsKey(SourceTraits.FLEETING);
+	}
+
 	public boolean isStabilized() {
 		return stabilized;
 	}
-	
+
+	public void exhaust() {
+		if (!this.isFleeting()) {
+			elementStorage.setElementAmount(0);
+		}
+	}
+
 	public void setStabilized(boolean stabilized) {
 		this.stabilized = stabilized;
 		this.setChanged();
@@ -143,7 +168,16 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		return this.elementStorage.getElementType();
 	}
 
-	public Map<SourceTrait, ISourceTraitValue> getTraits() {
+	public float getRemainingRatio() {
+		var capacity = this.elementStorage.getElementCapacity();
+
+		if (capacity == 0) {
+			return 0;
+		}
+		return this.elementStorage.getElementAmount() / (float) capacity;
+	}
+
+	public Map<ResourceKey<SourceTrait>, ISourceTraitValue> getTraits() {
 		return traits;
 	}
 	
@@ -177,5 +211,4 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		}
 		return super.getCapability(cap, side);
 	}
-
 }

@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "tag": "elementalcraft:gems/pristine_air"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "e": {
+      "tag": "elementalcraft:gems/pristine_earth"
+    },
+    "t": {
+      "item": "minecraft:totem_of_undying"
+    }
+  },
   "pattern": [
     "tat",
     "cUc",
     "tet"
   ],
-  "key": {
-    "e": {
-      "tag": "elementalcraft:gems/pristine_earth"
-    },
-    "a": {
-      "tag": "elementalcraft:gems/pristine_air"
-    },
-    "t": {
-      "item": "minecraft:totem_of_undying"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    }
-  },
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

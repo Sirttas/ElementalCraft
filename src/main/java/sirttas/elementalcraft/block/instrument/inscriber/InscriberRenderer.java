@@ -17,7 +17,7 @@ public class InscriberRenderer implements IECRenderer<InscriberBlockEntity> {
 
 	@Override
 	public void render(InscriberBlockEntity te, float partialTicks, PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float tick = getAngle(partialTicks);
+		float tick = getClientTicks(partialTicks);
 		InstrumentContainer inv = (InstrumentContainer) te.getInventory();
 
 		matrixStack.translate(0F, 0.25F, 0F);

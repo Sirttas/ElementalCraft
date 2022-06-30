@@ -1,0 +1,13 @@
+{
+  "bonuses": {
+    "element_preservation": 1000000.0,
+    "speed": 1000000.0
+  },
+  "effect_sprite": "elementalcraft:elementalcraft/runes/creative",
+  "max_amount": 1,
+  "model": "elementalcraft:elementalcraft/runes/creative",
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:rune_affected"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "type": "elementalcraft:binding",
-  "element_type": "air",
   "element_amount": 1250,
+  "element_type": "air",
   "ingredients": [
     {
       "tag": "forge:ingots/gold"

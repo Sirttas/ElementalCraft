@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/plain",
+  "features": "elementalcraft:source_plain",
+  "step": "top_layer_modification"
+}

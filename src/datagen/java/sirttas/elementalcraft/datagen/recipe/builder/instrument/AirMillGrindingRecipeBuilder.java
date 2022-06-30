@@ -12,7 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 import java.util.function.Consumer;
@@ -88,7 +88,7 @@ public class AirMillGrindingRecipeBuilder {
 		private final int luckRatio;
 
 		public Result(ResourceLocation id, Ingredient ingredient, Item resultIn, int elementAmount, int luckRatio) {
-			super(id, AirMillGrindingRecipe.SERIALIZER);
+			super(id, ECRecipeSerializers.AIR_MILL_GRINDING.get());
 			this.ingredient = ingredient;
 			this.output = resultIn;
 			this.elementAmount = elementAmount;

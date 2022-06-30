@@ -1,13 +1,13 @@
 {
   "type": "elementalcraft:crystallization",
-  "element_type": "earth",
   "element_amount": 5000,
+  "element_type": "earth",
   "ingredients": {
-    "gem": {
-      "tag": "elementalcraft:gems/input_earth"
-    },
     "crystal": {
       "item": "elementalcraft:earthcrystal"
+    },
+    "gem": {
+      "tag": "elementalcraft:gems/input_earth"
     },
     "shard": {
       "tag": "elementalcraft:shards/earth"
@@ -15,27 +15,27 @@
   },
   "outputs": [
     {
+      "quality": -0.5,
       "result": {
-        "id": "elementalcraft:crude_earth_gem",
-        "Count": 1
+        "Count": 1,
+        "id": "elementalcraft:crude_earth_gem"
       },
-      "weight": 15.0,
-      "quality": -0.5
+      "weight": 15.0
     },
     {
       "result": {
-        "id": "elementalcraft:fine_earth_gem",
-        "Count": 1
+        "Count": 1,
+        "id": "elementalcraft:fine_earth_gem"
       },
       "weight": 4.0
     },
     {
+      "quality": 2.0,
       "result": {
-        "id": "elementalcraft:pristine_earth_gem",
-        "Count": 1
+        "Count": 1,
+        "id": "elementalcraft:pristine_earth_gem"
       },
-      "weight": 1.0,
-      "quality": 2.0
+      "weight": 1.0
     }
   ]
 }

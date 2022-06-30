@@ -31,7 +31,7 @@ public class AirMillRenderer implements IECRenderer<AirMillBlockEntity> {
 		Container inv = te.getInventory();
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);
-		float tick = getAngle(partialTicks);
+		float tick = getClientTicks(partialTicks);
 		
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		matrixStack.pushPose();

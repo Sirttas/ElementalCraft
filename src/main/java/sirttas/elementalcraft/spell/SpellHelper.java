@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.function.ObjIntConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,7 +33,7 @@ public class SpellHelper {
 	public static void setSpell(ItemStack stack, Spell spell) {
 		CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
 
-		nbt.putString(ECNames.SPELL, spell.getRegistryName().toString());
+		nbt.putString(ECNames.SPELL, spell.getKey().toString());
 	}
 
 	public static void removeSpell(ItemStack stack, Spell spell) {
@@ -43,7 +43,7 @@ public class SpellHelper {
 			for (int i = 0; i < list.size(); i++) {
 				CompoundTag tag = (CompoundTag) list.get(i);
 
-				if (tag.getString(ECNames.SPELL).equals(spell.getRegistryName().toString())) {
+				if (tag.getString(ECNames.SPELL).equals(spell.getKey().toString())) {
 					int count = tag.getInt(ECNames.COUNT);
 
 					if (count > 1) {
@@ -131,7 +131,7 @@ public class SpellHelper {
 		}
 		CompoundTag tag = new CompoundTag();
 
-		tag.putString(ECNames.SPELL, spell.getRegistryName().toString());
+		tag.putString(ECNames.SPELL, spell.getKey().toString());
 		tag.putInt(ECNames.COUNT, 1);
 		list.add(tag);
 		if (list.size() == 1) {
@@ -174,20 +174,20 @@ public class SpellHelper {
 
 	private static boolean isSpellInTag(Tag nbt, Spell spell) {
 		if (nbt instanceof CompoundTag && ((CompoundTag) nbt).contains(ECNames.SPELL)) {
-			return ((CompoundTag) nbt).getString(ECNames.SPELL).equals(spell.getRegistryName().toString());
+			return ((CompoundTag) nbt).getString(ECNames.SPELL).equals(spell.getKey().toString());
 		}
 		return false;
 	}
 
-	public static Spell randomSpell(Random rand) {
+	public static Spell randomSpell(RandomSource rand) {
 		return randomSpell(Spells.REGISTRY.get().getValues(), rand);
 	}
 
-	public static Spell randomSpell(ElementType type, Random rand) {
+	public static Spell randomSpell(ElementType type, RandomSource rand) {
 		return randomSpell(Spells.REGISTRY.get().getValues().stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
 	}
 
-	public static Spell randomSpell(Collection<Spell> spells, Random rand) {
+	public static Spell randomSpell(Collection<Spell> spells, RandomSource rand) {
 		List<Spell> list = spells.stream().filter(Spell::isValid).toList();
 		int roll = rand.nextInt(list.stream().mapToInt(Spell::getWeight).sum());
 		

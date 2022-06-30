@@ -9,14 +9,12 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
@@ -24,8 +22,6 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class SorterBlockEntity extends AbstractECBlockEntity {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SorterBlock.NAME) public static final BlockEntityType<SorterBlockEntity> TYPE = null;
 	
 	private final List<ItemStack> stacks;
 	private int index;
@@ -33,7 +29,7 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 	private boolean alwaysInsert;
 
 	public SorterBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
+		super(ECBlockEntityTypes.SORTER, pos, state);
 		stacks = Lists.newArrayList();
 		index = 0;
 		tick = 0;

@@ -3,7 +3,6 @@ package sirttas.elementalcraft.jewel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -78,7 +77,7 @@ public class DemigodJewel extends Jewel {
 
     @Override
     public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(new TranslatableComponent("tooltip.elementalcraft.demigod").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("tooltip.elementalcraft.demigod").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(tooltip);
     }
 

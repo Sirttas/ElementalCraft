@@ -2,7 +2,6 @@ package sirttas.elementalcraft.item.spell;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -43,9 +42,9 @@ public class FocusItem extends AbstractSpellHolderItem {
 			ChatFormatting style = s == spell ? ChatFormatting.AQUA : ChatFormatting.GRAY;
 
 			if (i == 1) {
-				tooltip.add(new TextComponent("").append(s.getDisplayName()).withStyle(style));
+				tooltip.add(Component.empty().append(s.getDisplayName()).withStyle(style));
 			} else {
-				tooltip.add(new TextComponent(i + " ").append(s.getDisplayName()).withStyle(style));
+				tooltip.add(Component.literal(i + " ").append(s.getDisplayName()).withStyle(style));
 			}
 		});
 		if (spell != Spells.NONE.get()) {

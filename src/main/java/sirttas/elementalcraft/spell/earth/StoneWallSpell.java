@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -70,7 +69,7 @@ public class StoneWallSpell extends Spell {
 	
 	@Override
 	public void addInformation(List<Component> tooltip) {
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.consumes", new TranslatableComponent("tooltip.elementalcraft.count", 9, Blocks.STONE.getName()))
+		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", Component.translatable("tooltip.elementalcraft.count", 9, Blocks.STONE.getName()))
 				.withStyle(ChatFormatting.YELLOW));
 	}
 }

@@ -4,12 +4,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -19,13 +17,11 @@ import java.util.List;
 
 public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + EnderLockShrineBlock.NAME) public static final BlockEntityType<EnderLockShrineBlockEntity> TYPE = null;
-
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(EnderLockShrineBlock.NAME);
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public EnderLockShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.ENDER_LOCK_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	@Override

@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.5,
   "ingredient": {
     "tag": "forge:ores/inert_crystal"
   },
-  "result": "elementalcraft:inert_crystal",
-  "experience": 0.5,
-  "cookingtime": 200
+  "result": "elementalcraft:inert_crystal"
 }

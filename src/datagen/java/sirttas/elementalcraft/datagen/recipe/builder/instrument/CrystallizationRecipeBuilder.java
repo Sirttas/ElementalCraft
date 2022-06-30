@@ -15,6 +15,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
@@ -37,7 +38,7 @@ public class CrystallizationRecipeBuilder {
 	}
 
 	public static CrystallizationRecipeBuilder crystallizationRecipe(ElementType elementType) {
-		return new CrystallizationRecipeBuilder(CrystallizationRecipe.SERIALIZER, elementType);
+		return new CrystallizationRecipeBuilder(ECRecipeSerializers.CRYSTALLIZATION.get(), elementType);
 	}
 
 	public CrystallizationRecipeBuilder withElementAmount(int elementAmount) {

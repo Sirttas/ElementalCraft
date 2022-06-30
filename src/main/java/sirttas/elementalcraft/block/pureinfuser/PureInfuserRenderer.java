@@ -7,8 +7,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
-import sirttas.elementalcraft.api.clinet.renderer.ECRenderTypes;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemRenderer;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
@@ -77,10 +77,10 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 
 	private Block getPedestalForType(ElementType type) {
 		return switch (type) {
-			case WATER -> ECBlocks.WATER_PEDESTAL;
-			case FIRE -> ECBlocks.FIRE_PEDESTAL;
-			case EARTH -> ECBlocks.EARTH_PEDESTAL;
-			case AIR -> ECBlocks.AIR_PEDESTAL;
+			case WATER -> ECBlocks.WATER_PEDESTAL.get();
+			case FIRE -> ECBlocks.FIRE_PEDESTAL.get();
+			case EARTH -> ECBlocks.EARTH_PEDESTAL.get();
+			case AIR -> ECBlocks.AIR_PEDESTAL.get();
 			default -> null;
 		};
 	}

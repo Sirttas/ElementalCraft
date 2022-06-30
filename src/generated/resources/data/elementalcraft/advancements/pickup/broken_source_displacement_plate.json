@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_broken_source_displacement_plate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:broken_source_displacement_plate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_broken_source_displacement_plate"
+    ]
+  ]
+}

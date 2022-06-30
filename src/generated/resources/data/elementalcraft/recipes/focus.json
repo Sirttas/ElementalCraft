@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "s": {
+      "item": "elementalcraft:hardened_handle"
+    }
+  },
   "pattern": [
     " ic",
     " si",
     "d  "
   ],
-  "key": {
-    "d": {
-      "tag": "forge:gems/diamond"
-    },
-    "c": {
-      "item": "elementalcraft:contained_crystal"
-    },
-    "s": {
-      "item": "elementalcraft:hardened_handle"
-    },
-    "i": {
-      "tag": "forge:ingots/swift_alloy"
-    }
-  },
   "result": {
     "item": "elementalcraft:focus"
   }

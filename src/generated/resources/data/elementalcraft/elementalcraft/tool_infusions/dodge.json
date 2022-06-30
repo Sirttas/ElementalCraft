@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:dodge",
+      "value": 0.1
+    }
+  ],
+  "element_type": "air"
+}

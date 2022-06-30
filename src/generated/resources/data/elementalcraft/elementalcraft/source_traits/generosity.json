@@ -1,0 +1,65 @@
+{
+  "order": 3,
+  "value": {
+    "type": "elementalcraft:predicate",
+    "predicate": {
+      "type": "elementalcraft:range_from_spawn",
+      "range": 500
+    },
+    "provider": {
+      "type": "elementalcraft:chance",
+      "chance": 0.5,
+      "provider": {
+        "type": "elementalcraft:steps",
+        "steps": [
+          {
+            "name": "source_trait.elementalcraft.selfish.3",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 2500
+            },
+            "value": -0.2,
+            "weight": 1
+          },
+          {
+            "name": "source_trait.elementalcraft.selfish.2",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 1000
+            },
+            "value": -0.1,
+            "weight": 5
+          },
+          {
+            "name": "source_trait.elementalcraft.selfish.1",
+            "value": -0.05,
+            "weight": 25
+          },
+          {
+            "name": "source_trait.elementalcraft.generous.1",
+            "value": 0.05,
+            "weight": 25
+          },
+          {
+            "name": "source_trait.elementalcraft.generous.2",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 1000
+            },
+            "value": 0.1,
+            "weight": 5
+          },
+          {
+            "name": "source_trait.elementalcraft.generous.3",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 2500
+            },
+            "value": 0.2,
+            "weight": 1
+          }
+        ]
+      }
+    }
+  }
+}

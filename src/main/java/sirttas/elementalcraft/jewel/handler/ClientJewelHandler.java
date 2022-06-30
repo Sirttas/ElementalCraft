@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewel;
@@ -56,13 +57,13 @@ public class ClientJewelHandler implements IJewelHandler {
     public static void addJewelTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         var item = stack.getItem();
-        if (item != ECItems.JEWEL) {
+        if (item != ECItems.JEWEL.get()) {
             List<Component> tooltip = event.getToolTip();
             var jewel = JewelHelper.getJewel(stack);
 
             if (jewel != null) {
                 var index = IntStream.range(0, tooltip.size())
-                        .filter(i -> item.getRegistryName().toString().equals(tooltip.get(i).getString()))
+                        .filter(i -> ForgeRegistries.ITEMS.getKey(item).toString().equals(tooltip.get(i).getString()))
                         .findFirst()
                         .orElse(tooltip.size());
 

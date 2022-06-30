@@ -1,9 +1,0 @@
-{
-  "element_type": "air",
-  "effects": [
-    {
-      "enchantment": "minecraft:quick_charge",
-      "type": "elementalcraft:enchantment"
-    }
-  ]
-}

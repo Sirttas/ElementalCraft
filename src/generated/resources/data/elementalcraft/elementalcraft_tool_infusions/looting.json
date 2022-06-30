@@ -1,9 +1,0 @@
-{
-  "element_type": "water",
-  "effects": [
-    {
-      "enchantment": "minecraft:looting",
-      "type": "elementalcraft:enchantment"
-    }
-  ]
-}

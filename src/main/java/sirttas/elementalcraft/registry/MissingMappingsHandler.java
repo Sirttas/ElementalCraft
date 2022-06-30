@@ -1,23 +1,17 @@
 package sirttas.elementalcraft.registry;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.event.RegistryEvent.MissingMappings;
-import net.minecraftforge.event.RegistryEvent.MissingMappings.Mapping;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.MissingMappingsEvent;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.CrystalOreBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
+import sirttas.elementalcraft.item.elemental.LensItem;
 
 import java.util.Map;
 
@@ -29,31 +23,30 @@ public class MissingMappingsHandler {
 			"tank_small", SmallElementContainerBlock.NAME,
 			"tank_creative", CreativeElementContainerBlock.NAME,
 			"inertcrystal", "inert_crystal",
-			"crystalore", CrystalOreBlock.NAME,
-			"containedcrystal", "contained_crystal");
+			"crystalore", "inert_crystal_ore",
+			"containedcrystal", "contained_crystal",
+			"fire_lense", LensItem.NAME_FIRE,
+			"water_lense", LensItem.NAME_WATER,
+			"earth_lense", LensItem.NAME_EARTH,
+			"air_lense", LensItem.NAME_AIR);
 
 	private MissingMappingsHandler() {}
+	@SubscribeEvent
+	public static void remapMissingMappings(MissingMappingsEvent event) {
+		remapMissingMappings(event, event.getRegistry());
+	}
+	
+	private static <T> void remapMissingMappings(MissingMappingsEvent event, IForgeRegistry<T> registry) {
+		var key = registry.getRegistryKey();
 
-	@SubscribeEvent
-	public static void remapMissingBlockMappings(MissingMappings<Block> event) {
-		remapMissingMappings(event, ForgeRegistries.BLOCKS);
-	}
-	
-	@SubscribeEvent
-	public static void remapMissingBlockEntityTypeMappings(MissingMappings<BlockEntityType<?>> event) {
-		remapMissingMappings(event, ForgeRegistries.BLOCK_ENTITIES);
-	}
-	
-	@SubscribeEvent
-	public static void remapMissingItemMappings(MissingMappings<Item> event) {
-		remapMissingMappings(event, ForgeRegistries.ITEMS);
-	}
-	
-	private static <T extends IForgeRegistryEntry<T>> void remapMissingMappings(MissingMappings<T> event, IForgeRegistry<T> registry) {
+		if (!key.equals(event.getKey())) {
+			return;
+		}
+
 		var defaultValue = registry.getDefaultKey() != null ? registry.getValue(registry.getDefaultKey()) : null;
 
-		for (Mapping<T> mapping : event.getMappings(ElementalCraftApi.MODID)) {
-			ResourceLocation oldId = mapping.key;
+		for (MissingMappingsEvent.Mapping<T> mapping : event.getMappings(key, ElementalCraftApi.MODID)) {
+			ResourceLocation oldId = mapping.getKey();
 			var oldName = oldId.getPath();
 			String newName = NAME_REMAP.get(oldName);
 

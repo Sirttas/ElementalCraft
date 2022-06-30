@@ -5,15 +5,13 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
-
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -23,7 +21,6 @@ import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderTyp
 public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider {
 
 	public static final String NAME = "linear";
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final SourceTraitValueProviderType<LinearSourceTraitValueProvider> TYPE = null;
 	public static final Codec<LinearSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> codec(builder)
 	        .apply(builder, LinearSourceTraitValueProvider::new));
 	
@@ -63,8 +60,8 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	}
 	
 	@Override
-	public SourceTraitValueProviderType<? extends ISourceTraitValueProvider> getType() {
-		return TYPE;
+	public @NotNull SourceTraitValueProviderType<? extends LinearSourceTraitValueProvider> getType() {
+		return SourceTraitValueProviderTypes.LINEAR.get();
 	}
 	
 	@Override
@@ -94,11 +91,29 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 			return value;
 		}
 
+		public float getRatio() {
+			var e = end - start;
+
+			if (e == 0) {
+				return 0;
+			}
+			return (value - start) / e;
+		}
+
 		@Override
 		public Component getDescription() {
-			return new TranslatableComponent("source_trait.elementalcraft.linear",
-					new TranslatableComponent(translationKey), 
-					Math.round(value * 100F / end));
+			var ratio = getRatio();
+
+			return Component.translatable("source_trait.elementalcraft.linear", Component.translatable(translationKey), Math.round(ratio * 100F)).withStyle(getFormatting(ratio));
+		}
+
+		private ChatFormatting getFormatting(float ratio) {
+			if (ratio < 0.25F) {
+				return ChatFormatting.RED;
+			} else if (ratio < 0.5F) {
+				return ChatFormatting.YELLOW;
+			}
+			return ChatFormatting.GREEN;
 		}
 	}
 }

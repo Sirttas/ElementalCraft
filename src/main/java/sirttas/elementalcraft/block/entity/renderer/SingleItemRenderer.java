@@ -34,7 +34,7 @@ public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> i
 		RuneRenderer.super.render(te, partialTicks, matrixStack, buffer, light, overlay);
 		if (!stack.isEmpty()) {
 			matrixStack.translate(position.x, position.y, position.z);
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(getAngle(partialTicks)));
+			matrixStack.mulPose(Vector3f.YP.rotationDegrees(getClientTicks(partialTicks)));
 			matrixStack.scale(size, size, size);
 			renderItem(stack, matrixStack, buffer, light, overlay);
 		}

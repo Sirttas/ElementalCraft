@@ -2,7 +2,7 @@ package sirttas.elementalcraft.item.source.analysis;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -37,12 +37,12 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 	}
 	
 	public static boolean consumeSpringaline(Player player) {
-		if (player.isCreative()) {
+		if (player == null || player.isCreative()) {
 			return true;
 		}
 
 		var inv = player.getInventory();
-		var slot = inv.findSlotMatchingItem(new ItemStack(ECItems.SPRINGALINE_SHARD));
+		var slot = inv.findSlotMatchingItem(new ItemStack(ECItems.SPRINGALINE_SHARD.get()));
 		
 		if (slot >= 0) {
 			var stack = inv.getItem(slot);
@@ -55,7 +55,7 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 				return true;
 			}
 		}
-		player.displayClientMessage(new TranslatableComponent("message.elementalcraft.missing_springaline"), true);
+		player.displayClientMessage(Component.translatable("message.elementalcraft.missing_springaline"), true);
 		return false;
 	}
 	
@@ -87,19 +87,19 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		return new InteractionResultHolder<>(open(world, player, new TreeMap<>()), stack);
 	}
 	
-	public InteractionResult open(Level world, Player player, Map<SourceTrait, ISourceTraitValue> traiMap) {
+	public InteractionResult open(Level world, Player player, Map<ResourceKey<SourceTrait>, ISourceTraitValue> traitMap) {
 		if (world.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
-		player.openMenu(new Menu(traiMap));
+		player.openMenu(new Menu(traitMap));
 		return InteractionResult.CONSUME;
 	}
 
 	private class Menu implements MenuProvider {
 
-		private final Map<SourceTrait, ISourceTraitValue> traits;
+		private final Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits;
 		
-		private Menu(Map<SourceTrait, ISourceTraitValue> traits) {
+		private Menu(Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits) {
 			this.traits = traits;
 		}
 		

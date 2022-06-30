@@ -6,6 +6,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.ElementalCraft;
@@ -87,7 +88,7 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 	}
 	
 	protected void add(ElementType type, EnchantmentToolInfusionEffect infusion) {
-		add(createToolInfusion(type, infusion), infusion.getEnchantment().getRegistryName().getPath());
+		add(createToolInfusion(type, infusion), ForgeRegistries.ENCHANTMENTS.getKey(infusion.getEnchantment()).getPath());
 	}
 
 	protected void add(ToolInfusion infusion, String name) {

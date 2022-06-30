@@ -1,19 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "dhd",
-    "ipi",
-    "wcw"
-  ],
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
-    "i": {
-      "tag": "forge:ingots/swift_alloy"
     },
     "d": {
       "tag": "forge:ingots/drenched_iron"
@@ -21,10 +10,21 @@
     "h": {
       "item": "elementalcraft:hardened_handle"
     },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
     "p": {
       "item": "elementalcraft:solar_prism"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
     }
   },
+  "pattern": [
+    "dhd",
+    "ipi",
+    "wcw"
+  ],
   "result": {
     "item": "elementalcraft:solar_synthesizer"
   }

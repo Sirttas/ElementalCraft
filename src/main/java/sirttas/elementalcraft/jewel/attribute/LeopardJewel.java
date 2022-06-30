@@ -3,7 +3,6 @@ package sirttas.elementalcraft.jewel.attribute;
 import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -35,7 +34,7 @@ public class LeopardJewel extends AttributeJewel {
 
     @Override
     protected Component getAttributesTitle() {
-        return new TranslatableComponent("tooltip.elementalcraft.while_sprinting").withStyle(ChatFormatting.GRAY);
+        return Component.translatable("tooltip.elementalcraft.while_sprinting").withStyle(ChatFormatting.GRAY);
     }
 
 }

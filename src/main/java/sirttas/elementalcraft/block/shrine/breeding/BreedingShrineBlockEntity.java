@@ -8,12 +8,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 
@@ -24,11 +22,9 @@ import java.util.stream.Collectors;
 
 public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + BreedingShrineBlock.NAME) public static final BlockEntityType<BreedingShrineBlockEntity> TYPE = null;
-
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(BreedingShrineBlock.NAME);
 	public BreedingShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.BREEDING_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {

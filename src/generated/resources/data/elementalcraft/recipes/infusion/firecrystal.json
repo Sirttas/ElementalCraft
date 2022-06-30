@@ -1,11 +1,11 @@
 {
   "type": "elementalcraft:infusion",
-  "output": {
-    "item": "elementalcraft:firecrystal"
-  },
-  "element_type": "fire",
   "element_amount": 1000,
+  "element_type": "fire",
   "input": {
     "item": "elementalcraft:inert_crystal"
+  },
+  "output": {
+    "item": "elementalcraft:firecrystal"
   }
 }

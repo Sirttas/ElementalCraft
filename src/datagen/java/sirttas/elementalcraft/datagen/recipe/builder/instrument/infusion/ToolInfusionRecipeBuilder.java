@@ -8,10 +8,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 
 import java.util.function.Consumer;
 
@@ -31,11 +32,11 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	}
 
 	public static ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredientIn, ResourceLocation infusion) {
-		return new ToolInfusionRecipeBuilder(ToolInfusionRecipe.SERIALIZER, ingredientIn, infusion);
+		return new ToolInfusionRecipeBuilder(ECRecipeSerializers.TOOL_INFUSION.get(), ingredientIn, infusion);
 	}
 	
 	public static ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredientIn, Enchantment enchantment) {
-		return new ToolInfusionRecipeBuilder(ToolInfusionRecipe.SERIALIZER, ingredientIn, ElementalCraft.createRL(enchantment.getRegistryName().getPath()));
+		return new ToolInfusionRecipeBuilder(ECRecipeSerializers.TOOL_INFUSION.get(), ingredientIn, ElementalCraft.createRL(ForgeRegistries.ENCHANTMENTS.getKey(enchantment).getPath()));
 	}
 	
 	@Override

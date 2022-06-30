@@ -2,16 +2,14 @@ package sirttas.elementalcraft.world.feature.placement;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
@@ -19,16 +17,16 @@ public class SourcePlacement extends PlacementModifier {
 
 	public static final String NAME = "source";
 
-	private static final SourcePlacement INSTANCE = new SourcePlacement();
+	public static final SourcePlacement INSTANCE = new SourcePlacement();
 	public static final Codec<SourcePlacement> CODEC = Codec.unit(INSTANCE);
 
-	public static int getHeight(LevelAccessor level, int x, int z) {
-		Predicate<BlockState> predicate = Types.MOTION_BLOCKING_NO_LEAVES.isOpaque();
+	private SourcePlacement() {}
 
-		for (int y = level.getSeaLevel(); y < level.getMaxBuildHeight(); y++) {
-			if (!predicate.test(level.getBlockState(new BlockPos(x, y, z)))) {
-				return y + 2;
-			}
+	public static int getHeight(LevelAccessor level, int x, int z) {
+		var y = level.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+
+		if (y < level.getMaxBuildHeight()) {
+			return Math.max(level.getSeaLevel(), y) + level.getRandom().nextInt(4);
 		}
 		return 0;
 	}
@@ -41,7 +39,7 @@ public class SourcePlacement extends PlacementModifier {
 
 	@Nonnull
 	@Override
-	public Stream<BlockPos> getPositions(PlacementContext helper, @Nonnull Random rand, BlockPos pos) {
+	public Stream<BlockPos> getPositions(PlacementContext helper, @Nonnull RandomSource rand, BlockPos pos) {
 		var level = helper.getLevel();
 		int x = pos.getX();
 		int z = pos.getZ();
@@ -53,7 +51,7 @@ public class SourcePlacement extends PlacementModifier {
 	@Nonnull
 	@Override
 	public PlacementModifierType<?> type() {
-		return ECPlacements.SOURCE;
+		return ECPlacements.SOURCE.get();
 	}
 
 }

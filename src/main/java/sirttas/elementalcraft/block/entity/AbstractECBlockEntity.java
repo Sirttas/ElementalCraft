@@ -9,9 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.registry.RegistryHelper;
 
 import javax.annotation.Nonnull;
 
@@ -19,8 +17,8 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 
 	private boolean dirty = true;
 	
-	protected AbstractECBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
-		super(blockEntityType, pos, state);
+	protected AbstractECBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state) {
+		super(blockEntityType.get(), pos, state);
 	}
 
 	@Override
@@ -70,9 +68,4 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 			PacketDistributor.TRACKING_CHUNK.with(() -> serverLevel.getChunkAt(worldPosition)).send(getUpdatePacket());
 		}
 	}
-
-	protected static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> type(String name) {
-		return RegistryHelper.object(name, ForgeRegistries.BLOCK_ENTITIES);
-	}
-
 }

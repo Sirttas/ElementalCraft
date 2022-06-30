@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.datagen.managed;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
@@ -51,7 +51,7 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	}
 
 	@Override
-	public void run(@Nonnull HashCache cache) throws IOException {
+	public void run(@Nonnull CachedOutput cache) throws IOException {
 		super.run(cache);
 		itemModelProvider.generateAll(cache);
 	}

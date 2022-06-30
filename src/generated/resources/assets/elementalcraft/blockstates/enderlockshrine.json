@@ -1,10 +1,10 @@
 {
   "variants": {
-    "half=upper": {
-      "model": "elementalcraft:block/enderlockshrine_upper"
-    },
     "half=lower": {
       "model": "elementalcraft:block/enderlockshrine_lower"
+    },
+    "half=upper": {
+      "model": "elementalcraft:block/enderlockshrine_upper"
     }
   }
 }

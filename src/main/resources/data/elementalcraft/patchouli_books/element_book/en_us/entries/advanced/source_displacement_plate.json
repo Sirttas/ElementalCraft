@@ -1,0 +1,34 @@
+{
+  "name": "elementalcraft.entry.source_displacement_plates",
+  "category": "elementalcraft:advanced",
+  "icon": "elementalcraft:source_displacement_plate_fire",
+  "advancement": "elementalcraft:pickup/purecrystal",
+  "turnin": "elementalcraft:pickup/source_displacement_plates",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_displacement_plates0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:source_displacement_plate_fire",
+      "recipe2" : "elementalcraft:source_displacement_plate_fire_repair"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:source_displacement_plate_water",
+      "recipe2" : "elementalcraft:source_displacement_plate_water_repair"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:source_displacement_plate_earth",
+      "recipe2": "elementalcraft:source_displacement_plate_earth_repair"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:source_displacement_plate_air",
+      "recipe2" : "elementalcraft:source_displacement_plate_air_repair"
+    }
+  ]
+}

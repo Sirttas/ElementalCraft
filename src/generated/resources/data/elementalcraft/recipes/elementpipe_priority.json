@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "f": {
+      "item": "elementalcraft:cover_frame"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    }
+  },
   "pattern": [
     " i ",
     "ifi",
     " i "
   ],
-  "key": {
-    "i": {
-      "tag": "forge:ingots/swift_alloy"
-    },
-    "f": {
-      "item": "elementalcraft:cover_frame"
-    }
-  },
   "result": {
     "item": "elementalcraft:elementpipe_priority"
   }

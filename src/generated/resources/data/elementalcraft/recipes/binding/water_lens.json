@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 2500,
+  "element_type": "water",
+  "ingredients": [
+    {
+      "item": "elementalcraft:springaline_shard"
+    },
+    {
+      "item": "elementalcraft:springaline_glass_pane"
+    },
+    {
+      "tag": "forge:ingots/copper"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:water_lens"
+  }
+}

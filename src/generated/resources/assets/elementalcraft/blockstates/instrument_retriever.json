@@ -6,121 +6,121 @@
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "uvlock": true
+      },
       "when": {
         "source": "south"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_source",
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "uvlock": true,
+        "y": 90
+      },
       "when": {
         "source": "west"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_source",
-        "y": 90,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "uvlock": true,
+        "y": 180
+      },
       "when": {
         "source": "north"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_source",
-        "y": 180,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "uvlock": true,
+        "y": 270
+      },
       "when": {
         "source": "east"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_source",
-        "y": 270,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "uvlock": true,
+        "x": 270
+      },
       "when": {
         "source": "down"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_source",
-        "x": 270,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_source",
+        "uvlock": true,
+        "x": 90
+      },
       "when": {
         "source": "up"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_source",
-        "x": 90,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "uvlock": true,
+        "y": 180
+      },
       "when": {
         "target": "south"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_target",
-        "y": 180,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "uvlock": true,
+        "y": 270
+      },
       "when": {
         "target": "west"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_target",
-        "y": 270,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "uvlock": true
+      },
       "when": {
         "target": "north"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_target",
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "uvlock": true,
+        "y": 90
+      },
       "when": {
         "target": "east"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_target",
-        "y": 90,
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/instrument_retriever_target",
+        "uvlock": true,
+        "x": 90
+      },
       "when": {
         "target": "down"
-      },
-      "apply": {
-        "model": "elementalcraft:block/instrument_retriever_target",
-        "x": 90,
-        "uvlock": true
       }
     },
     {
-      "when": {
-        "target": "up"
-      },
       "apply": {
         "model": "elementalcraft:block/instrument_retriever_target",
-        "x": 270,
-        "uvlock": true
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "target": "up"
       }
     }
   ]

@@ -1,21 +1,15 @@
 package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
-
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.Registry;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -24,16 +18,8 @@ import javax.annotation.Nonnull;
 public class SpellCraftRecipe implements IECRecipe<Container> {
 
 	public static final String NAME = "spell_craft";
-	public static final RecipeType<SpellCraftRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<SpellCraftRecipe>() {
-		@Override
-		public String toString() {
-			return NAME;
-		}
-	});
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<SpellCraftRecipe> SERIALIZER = null;
 	
-	private static final Ingredient SCROLL_PAPER = Ingredient.of(ECItems.SCROLL_PAPER);
+	private static final Ingredient SCROLL_PAPER = Ingredient.of(ECItems.SCROLL_PAPER.get());
 	
 	private final Ingredient gem;
 	private final Ingredient crystal;
@@ -73,16 +59,16 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 	@Nonnull
 	@Override
 	public RecipeSerializer<SpellCraftRecipe> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.SPELL_CRAFT.get();
 	}
 
 	@Nonnull
 	@Override
 	public RecipeType<SpellCraftRecipe> getType() {
-		return TYPE;
+		return ECRecipeTypes.SPELL_CRAFT.get();
 	}
 	
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<SpellCraftRecipe> {
+	public static class Serializer implements RecipeSerializer<SpellCraftRecipe> {
 
 		@Nonnull
 		@Override

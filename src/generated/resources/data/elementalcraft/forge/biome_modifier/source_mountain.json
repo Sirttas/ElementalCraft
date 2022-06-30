@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/mountain",
+  "features": "elementalcraft:source_mountain",
+  "step": "top_layer_modification"
+}

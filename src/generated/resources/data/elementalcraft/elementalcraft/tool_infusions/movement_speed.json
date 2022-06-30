@@ -1,0 +1,17 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:attribute",
+      "attribute": "minecraft:generic.movement_speed",
+      "modifier": {
+        "amount": 0.01,
+        "name": "Movement Speed Infusion",
+        "operation": "addition"
+      },
+      "slot": [
+        "legs"
+      ]
+    }
+  ],
+  "element_type": "air"
+}

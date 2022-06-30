@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "b": {
+      "item": "minecraft:bucket"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "g": {
+      "item": "elementalcraft:springaline_glass"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
   "pattern": [
     "gbg",
     "wCw",
     " c "
   ],
-  "key": {
-    "C": {
-      "item": "elementalcraft:shrine_upgrade_core"
-    },
-    "g": {
-      "item": "elementalcraft:springaline_glass"
-    },
-    "b": {
-      "item": "minecraft:bucket"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
-    "c": {
-      "item": "elementalcraft:watercrystal"
-    }
-  },
   "result": {
     "item": "elementalcraft:shrine_upgrade_capacity"
   }

@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.shrine.enderlock;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +20,6 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShrineBlockEntity> {
 
@@ -58,7 +58,7 @@ public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShri
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
 		ParticleHelper.createEnderParticle(world, Vec3.atLowerCornerOf(pos), 8 + rand.nextInt(5), rand);
 	}
 }

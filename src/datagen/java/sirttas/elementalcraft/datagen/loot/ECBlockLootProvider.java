@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -26,6 +26,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.registries.ForgeRegistries;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -49,8 +50,10 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	public ECBlockLootProvider(DataGenerator generator) {
 		super(generator);
 
-		for (Block block : ForgeRegistries.BLOCKS) {
-			if (!ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace())) {
+		for (var entry : ForgeRegistries.BLOCKS.getEntries()) {
+			var block = entry.getValue();
+
+			if (!ElementalCraft.owns(entry)) {
 				continue;
 			}
 			if (block instanceof SlabBlock) {
@@ -66,27 +69,30 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 			}	
 		}
 
-		functionTable.put(ECBlocks.CRYSTAL_ORE.get(), i -> genOre(i, ECItems.INERT_CRYSTAL));
-		functionTable.put(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), i -> genOre(i, ECItems.INERT_CRYSTAL));
-		functionTable.put(ECBlocks.EVAPORATOR, ECBlockLootProvider::genCopyElementStorage);
+		functionTable.put(ECBlocks.CRYSTAL_ORE.get(), i -> genOre(i, ECItems.INERT_CRYSTAL.get()));
+		functionTable.put(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), i -> genOre(i, ECItems.INERT_CRYSTAL.get()));
+		functionTable.put(ECBlocks.EVAPORATOR.get(), ECBlockLootProvider::genCopyElementStorage);
 		functionTable.put(ECBlocks.CONTAINER.get(), i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.SMALL_CONTAINER.get(), i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
-		functionTable.put(ECBlocks.CREATIVE_CONTAINER, ECBlockLootProvider::genCopyElementStorage);
-		functionTable.put(ECBlocks.BURNT_GLASS, ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.BURNT_GLASS_PANE, ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.SPRINGALINE_CLUSTER, i -> genOre(i, ECItems.SPRINGALINE_SHARD, 4));
-		functionTable.put(ECBlocks.SMALL_SPRINGALINE_BUD, ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.MEDIUM_SPRINGALINE_BUD, ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.LARGE_SPRINGALINE_BUD, ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.SPRINGALINE_GLASS, ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.SPRINGALINE_GLASS_PANE, ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLootProvider::genCopyElementStorage);
+		functionTable.put(ECBlocks.BURNT_GLASS.get(), ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.BURNT_GLASS_PANE.get(), ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.SPRINGALINE_CLUSTER.get(), i -> genOre(i, ECItems.SPRINGALINE_SHARD.get(), 4));
+		functionTable.put(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.LARGE_SPRINGALINE_BUD.get(), ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.SPRINGALINE_GLASS.get(), ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.SPRINGALINE_GLASS_PANE.get(), ECBlockLootProvider::genOnlySilkTouch);
 	}
 
 	@Override
-	public void run(@Nonnull HashCache cache) throws IOException {
-		for (Block block : ForgeRegistries.BLOCKS) {
-			if (ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace())) {
-				save(cache, block);
+	public void run(@Nonnull CachedOutput cache) throws IOException {
+		for (var entry : ForgeRegistries.BLOCKS.getEntries()) {
+			var block = entry.getValue();
+			var key = entry.getKey().location();
+
+			if (ElementalCraftApi.MODID.equals(key.getNamespace())) {
+				save(cache, key, block);
 			}
 		}
 	}
@@ -100,7 +106,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 
 
 	private static Builder genPipe(ItemLike block) {
-		return genRegular(block).withPool(LootPool.lootPool().name("frame").setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ECItems.COVER_FRAME))
+		return genRegular(block).withPool(LootPool.lootPool().name("frame").setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ECItems.COVER_FRAME.get()))
 				.when(AlternativeLootItemCondition.alternative(
 						LootItemBlockStatePropertyCondition.hasBlockStateProperties((Block) block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.FRAME)), 
 						LootItemBlockStatePropertyCondition.hasBlockStateProperties((Block) block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.FRAME)))));
@@ -151,11 +157,11 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 		return LootTable.lootTable().withPool(LootPool.lootPool().name("main").setRolls(ConstantValue.exactly(1)).add(entry));
 	}
 
-	private void save(HashCache cache, Block block) throws IOException {
+	private void save(CachedOutput cache, ResourceLocation key, Block block) throws IOException {
 		Function<ItemLike, Builder> func = functionTable.get(block);
 		Builder builder = func != null ? func.apply(block) : genRegular(block);
 
-		save(cache, builder.setParamSet(LootContextParamSets.BLOCK), getPath(block.getRegistryName()));
+		save(cache, builder.setParamSet(LootContextParamSets.BLOCK), getPath(key));
 	}
 
 	private Path getPath(ResourceLocation id) {

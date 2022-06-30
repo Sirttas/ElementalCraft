@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.firepylon;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +25,6 @@ import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntity> {
 
@@ -82,7 +82,7 @@ public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntit
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
 		double x = pos.getX() + (4 + rand.nextDouble() * 7) / 16;
 		double y = pos.getY() + 6D / 16;
 		double z = pos.getZ() + (4 + rand.nextDouble() * 7) / 16;

@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:earthcrystal"
+    },
+    "h": {
+      "item": "minecraft:diamond_hoe"
+    },
+    "s": {
+      "tag": "forge:seeds"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
   "pattern": [
     "shs",
     "wCw",
     " c "
   ],
-  "key": {
-    "C": {
-      "item": "elementalcraft:shrine_upgrade_core"
-    },
-    "s": {
-      "tag": "forge:seeds"
-    },
-    "h": {
-      "item": "minecraft:diamond_hoe"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
-    "c": {
-      "item": "elementalcraft:earthcrystal"
-    }
-  },
   "result": {
     "item": "elementalcraft:shrine_upgrade_planting"
   }

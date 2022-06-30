@@ -6,38 +6,38 @@
       }
     },
     {
-      "when": {
-        "north": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector"
+      },
+      "when": {
+        "north": "true"
       }
     },
     {
-      "when": {
-        "east": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector",
         "y": 90
+      },
+      "when": {
+        "east": "true"
       }
     },
     {
-      "when": {
-        "south": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector",
         "y": 180
+      },
+      "when": {
+        "south": "true"
       }
     },
     {
-      "when": {
-        "west": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector",
         "y": 270
+      },
+      "when": {
+        "west": "true"
       }
     }
   ]

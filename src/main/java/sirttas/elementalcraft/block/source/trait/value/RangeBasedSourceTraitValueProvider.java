@@ -2,22 +2,18 @@ package sirttas.elementalcraft.block.source.trait.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
-import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
 public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValueProvider {
 
 	public static final String NAME = "range_based";
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final SourceTraitValueProviderType<RangeBasedSourceTraitValueProvider> TYPE = null;
 	public static final Codec<RangeBasedSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> codec(builder)
 	        .and(Codec.FLOAT.fieldOf(ECNames.WEIGHT).forGetter(p -> p.weight))
 	        .apply(builder, RangeBasedSourceTraitValueProvider::new));
@@ -42,7 +38,7 @@ public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValuePr
 	}
 	
 	@Override
-	public SourceTraitValueProviderType<? extends ISourceTraitValueProvider> getType() {
-		return TYPE;
+	public @NotNull SourceTraitValueProviderType<RangeBasedSourceTraitValueProvider> getType() {
+		return SourceTraitValueProviderTypes.RANGE_BASED.get();
 	}
 }

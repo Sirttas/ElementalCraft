@@ -90,11 +90,6 @@ public class ECTags {
 		public static final TagKey<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final TagKey<Item> JEWEL_SOCKETABLES = createTag("jewel_socketables");
-
-		public static final TagKey<Item> RECEPTACLES = createTag("receptacles");
-		public static final TagKey<Item> RECEPTACLES_EMPTY = createTag("receptacles/empty");
-		public static final TagKey<Item> RECEPTACLES_FULL = createTag("receptacles/full");
-		public static final TagKey<Item> RECEPTACLES_IMPROVED = createTag("receptacles/improved");
 		
 		public static final TagKey<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
 		public static final TagKey<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
@@ -203,6 +198,22 @@ public class ECTags {
 
 	public static class Biomes {
 		public static final TagKey<Biome> HAS_SOURCE_ALTAR = createTag("has_structure/source_altar");
+		public static final TagKey<Biome> HAS_INERT_CRYSTAL = createTag("has_inert_crystal");
+		public static final TagKey<Biome> HAS_SOURCE_ALL = createTag("has_sources/all");
+        public static final TagKey<Biome> HAS_SOURCE_ICY = createTag("has_sources/icy");
+		public static final TagKey<Biome> HAS_SOURCE_JUNGLE = createTag("has_sources/jungle");
+		public static final TagKey<Biome> HAS_SOURCE_MUSHROOM = createTag("has_sources/mushroom");
+		public static final TagKey<Biome> HAS_SOURCE_NETHER = createTag("has_sources/nether");
+		public static final TagKey<Biome> HAS_SOURCE_OCEAN = createTag("has_sources/ocean");
+		public static final TagKey<Biome> HAS_SOURCE_PLAIN = createTag("has_sources/plain");
+		public static final TagKey<Biome> HAS_SOURCE_WET = createTag("has_sources/wet");
+		public static final TagKey<Biome> HAS_SOURCE_DRY = createTag("has_sources/dry");
+		public static final TagKey<Biome> HAS_SOURCE_MOUNTAIN = createTag("has_sources/mountain");
+		public static final TagKey<Biome> HAS_SOURCE_HILL = createTag("has_sources/hill");
+		public static final TagKey<Biome> HAS_SOURCE_FOREST = createTag("has_sources/forest");
+		public static final TagKey<Biome> HAS_SOURCE_END = createTag("has_sources/end");
+
+
 		private Biomes() {}
 
 		private static TagKey<Biome> createTag(String name) {

@@ -1,27 +1,22 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
 import com.google.gson.JsonObject;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
 public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implements IInfusionRecipe {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<InfusionRecipe> SERIALIZER = null;
 
 	private final Ingredient input;
 	private final ItemStack output;
@@ -53,10 +48,10 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 	@Nonnull
     @Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.INFUSION.get();
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<InfusionRecipe> {
+	public static class Serializer implements RecipeSerializer<InfusionRecipe> {
 
 		@Nonnull
         @Override

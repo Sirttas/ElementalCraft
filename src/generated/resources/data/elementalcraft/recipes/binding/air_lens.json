@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 2500,
+  "element_type": "air",
+  "ingredients": [
+    {
+      "item": "elementalcraft:springaline_shard"
+    },
+    {
+      "item": "elementalcraft:springaline_glass_pane"
+    },
+    {
+      "tag": "forge:ingots/copper"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:air_lens"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "attributes": {
+    "minecraft:generic.attack_knockback": [
+      {
+        "amount": 1.0,
+        "name": "Knockback modifier",
+        "operation": "addition"
+      }
+    ]
+  },
+  "color": "#BDBCB6",
+  "cooldown": 120,
+  "element_consumption": 250,
+  "element_type": "air",
+  "range": 5.0,
+  "spell_type": "combat",
+  "weight": 10
+}

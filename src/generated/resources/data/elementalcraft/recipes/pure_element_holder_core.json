@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "i": {
+      "tag": "forge:ingots/fireite"
+    }
+  },
   "pattern": [
     " i ",
     "ici",
     " i "
   ],
-  "key": {
-    "i": {
-      "tag": "forge:ingots/fireite"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    }
-  },
   "result": {
     "item": "elementalcraft:pure_element_holder_core"
   }

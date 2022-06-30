@@ -1,11 +1,10 @@
 package sirttas.elementalcraft.datagen;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -28,9 +27,12 @@ public class ECItemModelProvider extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		for (Item item : ForgeRegistries.ITEMS) {
-			if (ElementalCraftApi.MODID.equals(item.getRegistryName().getNamespace()) && !exists(item)) {
-				String name = item.getRegistryName().getPath();
+		for (var entry : ForgeRegistries.ITEMS.getEntries()) {
+			var item = entry.getValue();
+			var key = entry.getKey().location();
+
+			if (ElementalCraftApi.MODID.equals(key.getNamespace()) && !exists(key)) {
+				String name = key.getPath();
 
 				if (item instanceof BlockItem blockItem) {
 					var block = blockItem.getBlock();
@@ -48,8 +50,8 @@ public class ECItemModelProvider extends ItemModelProvider {
 			}
 		}
 		for (Jewel jewel : Jewels.REGISTRY.get()) {
-			if (ElementalCraftApi.MODID.equals(jewel.getRegistryName().getNamespace()) && !exists(jewel)) {
-				singleJewelTexture(jewel.getRegistryName().getPath());
+			if (ElementalCraftApi.MODID.equals(jewel.getKey().getNamespace()) && !exists(jewel)) {
+				singleJewelTexture(jewel.getKey().getPath());
 			}
 		}
 	}
@@ -67,19 +69,19 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	public ItemModelBuilder singleJewelTexture(String name) {
-		return singleTexture("item/elementalcraft_jewels/" + name, ElementalCraft.createRL("elementalcraft_jewels/" + name));
+		return singleTexture("item/elementalcraft_jewels/" + name, ElementalCraft.createRL("elementalcraft/jewels/" + name));
 	}
 
 	public ItemModelBuilder runeTexture(String name, ResourceLocation slate, ResourceLocation rune) {
 		return singleTexture(name, slate).texture("layer1", rune);
 	}
 
-	private boolean exists(Item item) {
-		return existingFileHelper.exists(item.getRegistryName(), PackType.CLIENT_RESOURCES, ".json", "models/item");
+	private boolean exists(ResourceLocation key) {
+		return existingFileHelper.exists(key, PackType.CLIENT_RESOURCES, ".json", "models/item");
 	}
 
 	private boolean exists(Jewel jewel) {
-		return existingFileHelper.exists(jewel.getRegistryName(), PackType.CLIENT_RESOURCES, ".json", "models/item/elementalcraft_jewels");
+		return existingFileHelper.exists(jewel.getKey(), PackType.CLIENT_RESOURCES, ".json", "models/item/elementalcraft/jewels");
 	}
 
 	@Nonnull
@@ -94,7 +96,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	@Override
-	public void generateAll(HashCache cache) {
+	public void generateAll(CachedOutput cache) {
 		super.generateAll(cache);
 	}
 }

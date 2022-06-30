@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:protection"
+    }
+  ],
+  "element_type": "earth"
+}

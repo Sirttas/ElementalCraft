@@ -1,0 +1,14 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:sharpness"
+    },
+    {
+      "type": "dpanvil:element_cost_reduction",
+      "element_type": "earth",
+      "value": 0.15
+    }
+  ],
+  "element_type": "earth"
+}

@@ -1,15 +1,13 @@
 package sirttas.elementalcraft.datagen;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -23,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class ECAdvancementProvider implements DataProvider {
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private final DataGenerator generator;
 
 	public ECAdvancementProvider(DataGenerator generatorIn) {
@@ -31,19 +28,20 @@ public class ECAdvancementProvider implements DataProvider {
 	}
 
 	@Override
-	public void run(@Nonnull HashCache cache) throws IOException {
+	public void run(@Nonnull CachedOutput cache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 
-		for (Item item : ForgeRegistries.ITEMS) {
-			if (ElementalCraftApi.MODID.equals(item.getRegistryName().getNamespace())) {
-				DataProvider.save(GSON, cache, itemPickup(item).serializeToJson(), getPath(path, item));
+		for (var entry : ForgeRegistries.ITEMS.getEntries()) {
+			var item = entry.getValue();
+			var key = entry.getKey().location();
+
+			if (ElementalCraftApi.MODID.equals(key.getNamespace())) {
+				DataProvider.saveStable(cache, itemPickup(item, key).serializeToJson(), getPath(path, key));
 			}
 		}
 	}
 
-	private static Path getPath(Path path, ItemLike item) {
-		ResourceLocation name = item.asItem().getRegistryName();
-
+	private static Path getPath(Path path, ResourceLocation name) {
 		return path.resolve("data/" + name.getNamespace() + "/advancements/pickup/" + name.getPath() + ".json");
 	}
 
@@ -56,9 +54,8 @@ public class ECAdvancementProvider implements DataProvider {
 		return "ElementalCraft Advancements";
 	}
 
-	private Advancement.Builder itemPickup(ItemLike item) {
-		return Advancement.Builder.advancement().parent(ElementalCraft.createRL("main/root")).addCriterion("has_" + item.asItem().getRegistryName().getPath(),
-				hasItem(item));
+	private Advancement.Builder itemPickup(ItemLike item, ResourceLocation name) {
+		return Advancement.Builder.advancement().parent(ElementalCraft.createRL("main/root")).addCriterion("has_" + name.getPath(), hasItem(item));
 	}
 
 	/**

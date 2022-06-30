@@ -32,6 +32,7 @@ import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -124,7 +125,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createInstrumentTicker(level, type, InscriberBlockEntity.TYPE);
+		return createInstrumentTicker(level, type, ECBlockEntityTypes.INSCRIBER);
 	}
 
 	@Nonnull
@@ -136,7 +137,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
 		if (inscriber != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
-			if (heldItem.getItem() == ECItems.CHISEL && !inscriber.isLocked()) {
+			if (heldItem.is(ECItems.CHISEL.get()) && !inscriber.isLocked()) {
 				return makeProgress(player, hand, inscriber, heldItem);
 			} else if ((inscriber.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !inscriber.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {

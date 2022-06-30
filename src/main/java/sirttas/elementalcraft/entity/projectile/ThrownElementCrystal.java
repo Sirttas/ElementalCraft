@@ -14,8 +14,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraftforge.registries.ForgeRegistries;
+import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
@@ -24,20 +24,18 @@ public class ThrownElementCrystal extends ThrowableItemProjectile {
 
     public static final String NAME = "thrown_element_crystal";
 
-    @ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final EntityType<ThrownElementCrystal> TYPE = null;
-
     public ThrownElementCrystal(EntityType<? extends ThrownElementCrystal> type, Level level) {
         super(type, level);
     }
 
     public ThrownElementCrystal(Level level, LivingEntity sender) {
-        super(TYPE, sender, level);
+        super(ECEntities.THROWN_ELEMENT_CRYSTAL.get(), sender, level);
     }
 
     @Nonnull
     @Override
     protected Item getDefaultItem() {
-        return ECItems.INERT_CRYSTAL;
+        return ECItems.INERT_CRYSTAL.get();
     }
 
     @Override
@@ -57,7 +55,7 @@ public class ThrownElementCrystal extends ThrowableItemProjectile {
     }
 
     protected void dropFromLootTable() {
-        ResourceLocation itemLocation = this.getItem().getItem().getRegistryName();
+        ResourceLocation itemLocation = ForgeRegistries.ITEMS.getKey(this.getItem().getItem());
         LootTable lootTable = this.level.getServer().getLootTables().get(new ResourceLocation(itemLocation.getNamespace(), "entities/thrown_element_crystal/" + itemLocation.getPath()));
         LootContext ctx = new LootContext.Builder((ServerLevel)this.level)
                 .withRandom(this.random)

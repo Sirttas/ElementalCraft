@@ -19,7 +19,7 @@ public class VortexShrineUpgradeRenderer implements IECRenderer<VortexShrineUpgr
 
 	@Override
 	public void render(@Nonnull VortexShrineUpgradeBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float angle = getAngle(partialTicks);
+		float angle = getClientTicks(partialTicks);
 
 		if (ringModel == null) {
 			ringModel = Minecraft.getInstance().getModelManager().getModel(RING_LOCATION);

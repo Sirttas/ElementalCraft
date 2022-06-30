@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -15,14 +14,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.codec.CodecHelper;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
@@ -32,13 +29,6 @@ import java.util.stream.IntStream;
 public class CrystallizationRecipe extends AbstractInstrumentRecipe<CrystallizerBlockEntity> {
 
 	public static final String NAME = "crystallization";
-	public static final RecipeType<CrystallizationRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<CrystallizationRecipe>() {
-		@Override
-		public String toString() {
-			return NAME;
-		}
-	});
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<CrystallizationRecipe> SERIALIZER = null;
 	
 	private final NonNullList<Ingredient> ingredients;
 	private final List<ResultEntry> outputs;
@@ -93,7 +83,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	@Nonnull
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return ECRecipeTypes.CRYSTALLIZATION.get();
 	}
 
 	@Override
@@ -139,7 +129,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.CRYSTALLIZATION.get();
 	}
 
 	public static ResultEntry createResult(ItemStack result, float weight) {
@@ -177,7 +167,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		}
 	}
 	
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<CrystallizationRecipe> {
+	public static class Serializer implements RecipeSerializer<CrystallizationRecipe> {
 
 		private static final Codec<List<ResultEntry>> OUTPUT_CODEC = ResultEntry.LIST_CODEC.fieldOf(ECNames.OUTPUTS).codec();
 

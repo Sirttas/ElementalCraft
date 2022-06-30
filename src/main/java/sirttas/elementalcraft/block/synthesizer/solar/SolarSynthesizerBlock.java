@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.synthesizer.solar;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -24,12 +25,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 
@@ -56,7 +57,7 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECServerTicker(level, type, SolarSynthesizerBlockEntity.TYPE, SolarSynthesizerBlockEntity::serverTick);
+		return createECServerTicker(level, type, ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerBlockEntity::serverTick);
 	}
 	
 	@Nonnull
@@ -81,7 +82,7 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		BlockEntityHelper.getBlockEntityAs(world, pos, SolarSynthesizerBlockEntity.class).filter(SolarSynthesizerBlockEntity::isWorking).flatMap(SolarSynthesizerBlockEntity::getElementStorage)
 				.ifPresent(storage -> ParticleHelper.createElementFlowParticle(storage.getElementType(), world, Vec3.atCenterOf(pos.below()), Direction.DOWN, 1, rand));
 	}

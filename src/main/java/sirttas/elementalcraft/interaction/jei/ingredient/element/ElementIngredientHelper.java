@@ -6,7 +6,6 @@ import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 
 import javax.annotation.Nonnull;
@@ -22,18 +21,6 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 	@Nonnull
     @Override
 	public String getUniqueId(IngredientElementType ingredient, @Nonnull UidContext context) {
-		return ingredient.getElementType().getSerializedName();
-	}
-
-	@Nonnull
-    @Override
-	public String getModId(@Nonnull IngredientElementType ingredient) {
-		return ElementalCraftApi.MODID;
-	}
-
-	@Nonnull
-    @Override
-	public String getResourceId(IngredientElementType ingredient) {
 		return ingredient.getElementType().getSerializedName();
 	}
 

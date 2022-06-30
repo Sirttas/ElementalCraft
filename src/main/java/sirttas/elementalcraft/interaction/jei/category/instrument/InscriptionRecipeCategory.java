@@ -7,17 +7,17 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 import javax.annotation.Nonnull;
 
 public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<InscriberBlockEntity, InscriptionRecipe> {
 
-	private static final ItemStack INSCRIBER = new ItemStack(ECItems.INSCRIBER);
+	private static final ItemStack INSCRIBER = new ItemStack(ECBlocks.INSCRIBER.get());
 
 	public InscriptionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.inscription", createDrawableStack(guiHelper, INSCRIBER), guiHelper.createBlankDrawable(100, 100));
@@ -46,7 +46,7 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 		builder.addSlot(RecipeIngredientRole.CATALYST, 22, 42)
 				.addItemStack(INSCRIBER);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 22, 58)
-				.addItemStack(tank);
+				.addItemStack(container);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 23, 76)
 				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));

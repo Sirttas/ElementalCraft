@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/end",
+  "features": "elementalcraft:source_end",
+  "step": "top_layer_modification"
+}

@@ -1,9 +1,8 @@
 {
-  "replace": false,
   "values": [
-    "elementalcraft:fire_lense",
-    "elementalcraft:water_lense",
-    "elementalcraft:earth_lense",
-    "elementalcraft:air_lense"
+    "elementalcraft:fire_lens",
+    "elementalcraft:water_lens",
+    "elementalcraft:earth_lens",
+    "elementalcraft:air_lens"
   ]
 }

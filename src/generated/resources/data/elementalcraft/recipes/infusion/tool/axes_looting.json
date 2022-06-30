@@ -1,8 +1,8 @@
 {
   "type": "elementalcraft:tool_infusion",
-  "tool_infusion": "elementalcraft:looting",
   "element_amount": 2000,
   "input": {
     "tag": "elementalcraft:infusable/axes"
-  }
+  },
+  "tool_infusion": "elementalcraft:looting"
 }

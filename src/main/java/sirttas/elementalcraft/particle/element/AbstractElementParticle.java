@@ -9,8 +9,8 @@ public abstract class AbstractElementParticle extends AbstractECParticle {
 
 	protected AbstractElementParticle(ClientLevel worldIn, Vec3 coord, ElementType type) {
 		super(worldIn, coord);
-		float f = this.random.nextFloat() * 0.4F + 0.6F;
-		
+		float f = this.random.nextFloat() * 0.3F + 0.7F;
+
 		this.rCol = f * type.getRed();
 		this.gCol = f * type.getGreen();
 		this.bCol = f * type.getBlue();

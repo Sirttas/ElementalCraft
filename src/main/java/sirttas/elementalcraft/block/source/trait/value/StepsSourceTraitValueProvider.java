@@ -7,17 +7,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +23,6 @@ import java.util.List;
 public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider {
 
 	public static final String NAME = "steps";
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final SourceTraitValueProviderType<StepsSourceTraitValueProvider> TYPE = null;
 	public static final Codec<StepsSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Step.CODEC.listOf().fieldOf(ECNames.STEPS).forGetter(p -> p.steps)
 	).apply(builder, StepsSourceTraitValueProvider::new));
@@ -55,10 +52,11 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		}
 		return null;
 	}
-	
+
+	@Nonnull
 	@Override
-	public SourceTraitValueProviderType<? extends ISourceTraitValueProvider> getType() {
-		return TYPE;
+	public SourceTraitValueProviderType<StepsSourceTraitValueProvider> getType() {
+		return SourceTraitValueProviderTypes.STEPS.get();
 	}
 
 	@Override
@@ -71,7 +69,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		return value instanceof Step step ? IntTag.valueOf(steps.indexOf(step)) : null;
 	}
 	
-	public static class Builder {
+	public static class Builder implements ISourceTraitValueProviderBuilder {
 		
 		private final List<Step> steps;
 		
@@ -88,6 +86,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 			return this;
 		}
 		
+		@Override
 		public StepsSourceTraitValueProvider build() {
 			return new StepsSourceTraitValueProvider(steps);
 		}
@@ -109,7 +108,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 
 		@Override
 		public Component getDescription() {
-			return new TranslatableComponent(translationKey);
+			return Component.translatable(translationKey);
 		}
 	}
 }

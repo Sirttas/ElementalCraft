@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "wlw",
-    " i ",
-    " w "
-  ],
   "key": {
     "i": {
       "tag": "forge:ingots/drenched_iron"
@@ -16,6 +11,11 @@
       "item": "elementalcraft:whiterock"
     }
   },
+  "pattern": [
+    "wlw",
+    " i ",
+    " w "
+  ],
   "result": {
     "item": "elementalcraft:spell_desk"
   }

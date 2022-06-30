@@ -7,6 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -120,7 +121,7 @@ public class PureOreLoader {
 			}
 		}
 
-		var id = ore.getRegistryName();
+		var id = ForgeRegistries.ITEMS.getKey(ore);
 		var path = DEEPSLATE_PATTERN.matcher(id.getPath()).replaceAll("");
 
 		Matcher matcher = pattern != null ? pattern.matcher(path) : null;
@@ -140,7 +141,7 @@ public class PureOreLoader {
 					path = StringUtils.removeStart(tag.key().location().getPath(), folderPath);
 				}
 			} catch (Exception e) {
-				ElementalCraftApi.LOGGER.trace("Tag Not found with {}: {}", ore::getRegistryName, e::getMessage);
+				ElementalCraftApi.LOGGER.trace("Tag Not found with {}: {}", id::toString, e::getMessage);
 			}
 			id = new ResourceLocation(namespace, path);
 		}

@@ -1,9 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "n n",
-    "ici"
-  ],
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
@@ -15,6 +11,10 @@
       "tag": "forge:nuggets/iron"
     }
   },
+  "pattern": [
+    "n n",
+    "ici"
+  ],
   "result": {
     "item": "elementalcraft:infuser"
   }

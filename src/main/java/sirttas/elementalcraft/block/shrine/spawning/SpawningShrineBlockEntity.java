@@ -4,23 +4,19 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.entity.EntityHelper;
 
 public class SpawningShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SpawningShrineBlock.NAME) public static final BlockEntityType<SpawningShrineBlockEntity> TYPE = null;
-
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(SpawningShrineBlock.NAME);
 
 	public SpawningShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.SPAWNING_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	@Override

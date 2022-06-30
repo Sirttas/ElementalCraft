@@ -14,7 +14,7 @@ public class ManaSynthesizerRenderer extends SolarSynthesizerRenderer<ManaSynthe
 
 	@Override
 	public void render(ManaSynthesizerBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float tick = getAngle(partialTicks);
+		float tick = getClientTicks(partialTicks);
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 
 		var elementType = getElementType(te);

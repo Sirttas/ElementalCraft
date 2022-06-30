@@ -8,13 +8,11 @@ import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -24,17 +22,15 @@ import java.util.List;
 
 public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + BuddingShrineBlock.NAME) public static final BlockEntityType<BuddingShrineBlockEntity> TYPE = null;
-
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(BuddingShrineBlock.NAME);
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	private static final List<Block> AMETHYSTS = List.of(Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, Blocks.AMETHYST_CLUSTER);
-	private static final List<Block> SPRINGALINES = List.of(ECBlocks.SMALL_SPRINGALINE_BUD, ECBlocks.MEDIUM_SPRINGALINE_BUD, ECBlocks.LARGE_SPRINGALINE_BUD, ECBlocks.SPRINGALINE_CLUSTER);
+	private static final List<Block> SPRINGALINES = List.of(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get(), ECBlocks.SPRINGALINE_CLUSTER.get()); // FIXME
 
 	public BuddingShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.BREEDING_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	@Override

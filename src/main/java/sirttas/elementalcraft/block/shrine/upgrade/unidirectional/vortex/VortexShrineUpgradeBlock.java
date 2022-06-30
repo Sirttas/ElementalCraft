@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -53,7 +52,7 @@ public class VortexShrineUpgradeBlock extends AbstractShrineUpgradeBlock impleme
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.vortex").withStyle(ChatFormatting.BLUE));
+		tooltip.add(Component.translatable("tooltip.elementalcraft.vortex").withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flag);
 	}
 }

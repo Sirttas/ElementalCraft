@@ -23,6 +23,7 @@ import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.source.SourceRenderer;
+import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.container.menu.screen.ECScreens;
 import sirttas.elementalcraft.gui.tooltip.ElementGaugeClientTooltip;
@@ -74,6 +75,10 @@ public class ECClientHandler {
 		addSprite(event, SolarSynthesizerRenderer.BEAM);
 		addSprite(event, AirShieldSpellRenderer.BACKGROUND);
 		addSprite(event, AirShieldSpellRenderer.BLADE);
+		addSprite(event, SourceDisplacementPlateRenderer.SOURCE_DISPLACEMENT);
+		addSprite(event, SourceDisplacementPlateRenderer.CIRCLE);
+		addSprite(event, SourceRenderer.OUTER);
+		addSprite(event, SourceRenderer.MIDDLE);
 	}
 	
 	private static void addSprite(TextureStitchEvent.Pre event, Material sprite) {

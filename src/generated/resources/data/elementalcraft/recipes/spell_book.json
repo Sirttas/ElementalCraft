@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "slp",
-    "clp",
-    "slp"
-  ],
   "key": {
     "c": {
       "item": "elementalcraft:purecrystal"
-    },
-    "s": {
-      "item": "elementalcraft:air_silk"
     },
     "l": {
       "tag": "forge:leather"
     },
     "p": {
       "item": "elementalcraft:scroll_paper"
+    },
+    "s": {
+      "item": "elementalcraft:air_silk"
     }
   },
+  "pattern": [
+    "slp",
+    "clp",
+    "slp"
+  ],
   "result": {
     "item": "elementalcraft:spell_book"
   }

@@ -1,0 +1,24 @@
+{
+  "feature": {
+    "type": "elementalcraft:source",
+    "config": {
+      "type": "simple",
+      "element_type": "water"
+    }
+  },
+  "placement": [
+    {
+      "type": "elementalcraft:source"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 400
+    }
+  ]
+}

@@ -30,7 +30,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 	}
 
 	protected List<ItemStack> getTanks() {
-		return List.of(tank);
+		return List.of(container);
 	}
 
 	@Nonnull

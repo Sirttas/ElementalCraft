@@ -1,9 +1,0 @@
-{
-  "element_type": "earth",
-  "effects": [
-    {
-      "enchantment": "minecraft:power",
-      "type": "elementalcraft:enchantment"
-    }
-  ]
-}

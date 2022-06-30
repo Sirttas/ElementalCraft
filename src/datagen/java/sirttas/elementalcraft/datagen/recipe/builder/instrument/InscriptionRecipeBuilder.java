@@ -16,6 +16,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class InscriptionRecipeBuilder {
 	}
 
 	public static InscriptionRecipeBuilder inscriptionRecipe(ResourceLocation output, ElementType elementType) {
-		return new InscriptionRecipeBuilder(InscriptionRecipe.SERIALIZER, output, elementType);
+		return new InscriptionRecipeBuilder(ECRecipeSerializers.INSCRIPTION.get(), output, elementType);
 	}
 
 	public InscriptionRecipeBuilder withElementAmount(int elementAmount) {
@@ -120,7 +121,7 @@ public class InscriptionRecipeBuilder {
 			JsonObject tagJson = new JsonObject();
 			JsonObject ecNbtJson = new JsonObject();
 			
-			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.RUNE).toString());
+			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.RUNE.get()).toString());
 			ecNbtJson.addProperty(ECNames.RUNE, this.output.toString());
 			tagJson.add(ECNames.EC_NBT, ecNbtJson);
 			json.add(ECNames.NBT, tagJson);

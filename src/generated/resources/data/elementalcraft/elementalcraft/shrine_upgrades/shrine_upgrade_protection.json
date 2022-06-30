@@ -1,0 +1,28 @@
+{
+  "bonuses": {
+    "element_consumption": 3.0
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:or",
+    "values": [
+      {
+        "type": "dpanvil:and",
+        "values": [
+          {
+            "type": "dpanvil:has_shrine_upgrade",
+            "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex"
+          },
+          {
+            "type": "dpanvil:block",
+            "block": "elementalcraft:vacuumshrine"
+          }
+        ]
+      },
+      {
+        "type": "dpanvil:tag",
+        "tag": "elementalcraft:shrines/upgradables/protection"
+      }
+    ]
+  }
+}

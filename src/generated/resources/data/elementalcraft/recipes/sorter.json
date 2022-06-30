@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "d": {
+      "item": "minecraft:dispenser"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    }
+  },
   "pattern": [
     "ii ",
     "hdi",
     "ii "
   ],
-  "key": {
-    "i": {
-      "tag": "forge:ingots/swift_alloy"
-    },
-    "h": {
-      "item": "minecraft:hopper"
-    },
-    "d": {
-      "item": "minecraft:dispenser"
-    }
-  },
   "result": {
     "item": "elementalcraft:sorter"
   }

@@ -7,7 +7,6 @@ import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -107,7 +106,7 @@ public class StaffItem extends FocusItem {
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		super.appendHoverText(stack, level, tooltip, flag);
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.staff.range").withStyle(ChatFormatting.BLUE));
+		tooltip.add(Component.translatable("tooltip.elementalcraft.staff.range").withStyle(ChatFormatting.BLUE));
 	}
 	
 	@Override

@@ -1,0 +1,22 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:attribute",
+      "attribute": "minecraft:generic.attack_speed",
+      "modifier": {
+        "amount": 0.8,
+        "name": "Attack Speed Infusion",
+        "operation": "addition"
+      },
+      "slot": [
+        "mainhand"
+      ]
+    },
+    {
+      "type": "dpanvil:element_cost_reduction",
+      "element_type": "air",
+      "value": 0.15
+    }
+  ],
+  "element_type": "air"
+}

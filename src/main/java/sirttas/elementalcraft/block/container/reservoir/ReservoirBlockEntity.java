@@ -2,28 +2,24 @@ package sirttas.elementalcraft.block.container.reservoir;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlockEntity;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ReservoirBlock.NAME) public static final BlockEntityType<ReservoirBlockEntity> TYPE = null;	
 	
 	public ReservoirBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, r -> new ReservoirElementStorage(ElementType.getElementType(state), ECConfig.COMMON.reservoirCapacity.get(), r));
+		super(ECBlockEntityTypes.RESERVOIR, pos, state, r -> new ReservoirElementStorage(ElementType.getElementType(state), ECConfig.COMMON.reservoirCapacity.get(), r));
 	}
 
 	@Override

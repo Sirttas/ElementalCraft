@@ -1,8 +1,0 @@
-{
-  "color": "#F5AE16",
-  "cooldown": 100,
-  "weight": 30,
-  "element_consumption": 500,
-  "spell_type": "combat",
-  "element_type": "fire"
-}

@@ -4,12 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -20,6 +17,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
@@ -28,15 +26,12 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class ExtractorBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ExtractorBlock.NAME) public static final BlockEntityType<ExtractorBlockEntity> TYPE = null;
-
 	private int extractionAmount;
 	private final RuneHandler runeHandler;
 
 	public ExtractorBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
-		if (state.getBlock() == ECBlocks.EXTRACTOR_IMPROVED) {
+		super(ECBlockEntityTypes.EXTRACTOR, pos, state);
+		if (state.is(ECBlocks.EXTRACTOR_IMPROVED.get())) {
 			this.extractionAmount = ECConfig.COMMON.improvedExtractorExtractionAmount.get();
 			runeHandler = new RuneHandler(ECConfig.COMMON.improvedExtractorMaxRunes.get(), this::setChanged);
 		} else {

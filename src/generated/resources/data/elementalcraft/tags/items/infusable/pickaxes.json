@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "minecraft:diamond_pickaxe",
     "minecraft:golden_pickaxe",
@@ -7,46 +6,6 @@
     "minecraft:netherite_pickaxe",
     "minecraft:stone_pickaxe",
     "minecraft:wooden_pickaxe",
-    "#forge:pickaxes",
-    {
-      "id": "mekanismtools:bronze_pickaxe",
-      "required": false
-    },
-    {
-      "id": "botania:elementium_pickaxe",
-      "required": false
-    },
-    {
-      "id": "botania:glass_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_pickaxe",
-      "required": false
-    },
-    {
-      "id": "botania:manasteel_pick",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_pickaxe",
-      "required": false
-    },
-    {
-      "id": "botania:terra_pick",
-      "required": false
-    }
+    "#forge:pickaxes"
   ]
 }

@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.container.reservoir;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -30,7 +31,6 @@ import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class ReservoirBlock extends AbstractConnectedElementContainerBlock implements IElementTypeProvider {
 
@@ -164,7 +164,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		if (state.getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
 			super.animateTick(state, level, pos, rand);
 		}

@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "gig",
-    "wew",
-    "ici"
-  ],
   "key": {
     "c": {
       "item": "elementalcraft:purecrystal"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
-    "i": {
-      "tag": "forge:ingots/swift_alloy"
     },
     "e": {
       "tag": "elementalcraft:gems/fine_earth"
     },
     "g": {
       "tag": "forge:ingots/gold"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
     }
   },
+  "pattern": [
+    "gig",
+    "wew",
+    "ici"
+  ],
   "result": {
     "item": "elementalcraft:purifier"
   }

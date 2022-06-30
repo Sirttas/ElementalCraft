@@ -1,0 +1,10 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:element_cost_reduction",
+      "element_type": "air",
+      "value": 0.1
+    }
+  ],
+  "element_type": "air"
+}

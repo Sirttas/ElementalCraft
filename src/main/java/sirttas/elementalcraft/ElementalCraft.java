@@ -1,10 +1,10 @@
 package sirttas.elementalcraft;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -20,17 +20,34 @@ import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.block.source.trait.value.SourceTraitValueProviderTypes;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.container.menu.ECMenus;
+import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
+import sirttas.elementalcraft.entity.ECEntities;
+import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectTypes;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewels;
+import sirttas.elementalcraft.loot.ECLootModifiers;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
+import sirttas.elementalcraft.particle.ECParticles;
 import sirttas.elementalcraft.pureore.PureOreManager;
+import sirttas.elementalcraft.pureore.injector.PureOreRecipeInjectors;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 import sirttas.elementalcraft.world.feature.ECFeatures;
+import sirttas.elementalcraft.world.feature.placement.ECPlacements;
+import sirttas.elementalcraft.world.feature.structure.ECStructureTypes;
+
+import java.util.Map;
 
 @Mod(ElementalCraftApi.MODID)
 public class ElementalCraft {
@@ -56,17 +73,32 @@ public class ElementalCraft {
 	public ElementalCraft() {
 		var modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECConfig.COMMON_SPEC);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
+
+		ECBlocks.register(modBus);
+		ECBlockEntityTypes.register(modBus);
+		ECItems.register(modBus);
+		ECEntities.register(modBus);
 		Spells.register(modBus);
 		Jewels.register(modBus);
+		ECMenus.register(modBus);
+		ECParticles.register(modBus);
+		ECRecipeTypes.register(modBus);
+		ECRecipeSerializers.register(modBus);
+		ECFeatures.register(modBus);
+		ECStructureTypes.register(modBus);
+		ECPlacements.register(modBus);
+		ECLootModifiers.register(modBus);
+		ECBlockPosPredicateTypes.register(modBus);
+		ToolInfusionEffectTypes.register(modBus);
+		SourceTraitValueProviderTypes.register(modBus);
+		PureOreRecipeInjectors.register(modBus);
 
 		modBus.addListener(this::setup);
 		modBus.addListener(this::registerCapabilities);
 		modBus.addListener(this::enqueueIMC);
-		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, ECFeatures::onBiomeLoad);
 		MinecraftForge.EVENT_BUS.addListener(PURE_ORE_MANAGER::reload);
-
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECConfig.COMMON_SPEC);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
 	}
 
 	public static ResourceLocation createRL(String name) {
@@ -76,7 +108,19 @@ public class ElementalCraft {
 		return new ResourceLocation(ElementalCraftApi.MODID, name);
 	}
 
-	private void setup(FMLCommonSetupEvent event) {
+	public static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
+		return ResourceKey.createRegistryKey(createRL(name));
+	}
+
+    public static boolean owns(ResourceKey<?> key) {
+		return ElementalCraftApi.MODID.equals(key.location().getNamespace());
+    }
+
+	public static <T> boolean owns(Map.Entry<ResourceKey<T>, T> entry) {
+		return owns(entry.getKey());
+	}
+
+    private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECLootFunctions.setup();
 	}

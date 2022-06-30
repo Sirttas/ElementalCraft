@@ -2,50 +2,46 @@ package sirttas.elementalcraft.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.particle.element.ElementCraftingParticle;
 import sirttas.elementalcraft.particle.element.ElementFlowParticle;
 import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 import sirttas.elementalcraft.particle.element.source.SourceExhaustedParticle;
 import sirttas.elementalcraft.particle.element.source.SourceParticle;
-import sirttas.elementalcraft.registry.RegistryHelper;
+
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECParticles {
 
-	public static final ParticleType<ElementTypeParticleData> SOURCE = ElementTypeParticleData.createParticleType(true);
-	public static final ParticleType<ElementTypeParticleData> SOURCE_EXHAUSTED = ElementTypeParticleData.createParticleType(true);
-	public static final ParticleType<ElementTypeParticleData> ELEMENT_FLOW = ElementTypeParticleData.createParticleType(false);
-	public static final ParticleType<ElementTypeParticleData> ELEMENT_CRAFTING = ElementTypeParticleData.createParticleType(false);
+	private static final DeferredRegister<ParticleType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, ElementalCraftApi.MODID);
+
+	public static final RegistryObject<ParticleType<ElementTypeParticleData>> SOURCE = register(() -> ElementTypeParticleData.createParticleType(true), "source");
+	public static final RegistryObject<ParticleType<ElementTypeParticleData>> SOURCE_EXHAUSTED = register(() -> ElementTypeParticleData.createParticleType(true),  "source_exhausted");
+	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_FLOW = register(() -> ElementTypeParticleData.createParticleType(false), "element_flow");
+	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_CRAFTING = register(() -> ElementTypeParticleData.createParticleType(false), "elementcrafting");
 
 	private ECParticles() {}
-	
-	@SubscribeEvent
-	public static void registerParticles(RegistryEvent.Register<ParticleType<?>> event) {
-		IForgeRegistry<ParticleType<?>> r = event.getRegistry();
-
-		RegistryHelper.register(r, SOURCE, "source");
-		RegistryHelper.register(r, SOURCE_EXHAUSTED, "source_exhausted");
-		RegistryHelper.register(r, ELEMENT_FLOW, "element_flow");
-		RegistryHelper.register(r, ELEMENT_CRAFTING, "elementcrafting");
-	}
 
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerFactories(ParticleFactoryRegisterEvent evt) {
-		registerFactory(SOURCE, SourceParticle.FACTORY);
-		registerFactory(SOURCE_EXHAUSTED, SourceExhaustedParticle.FACTORY);
-		registerFactory(ELEMENT_FLOW, ElementFlowParticle.FACTORY);
-		registerFactory(ELEMENT_CRAFTING, ElementCraftingParticle.FACTORY);
+		registerFactory(SOURCE.get(), SourceParticle.FACTORY);
+		registerFactory(SOURCE_EXHAUSTED.get(), SourceExhaustedParticle.FACTORY);
+		registerFactory(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
+		registerFactory(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
 	}
 
 	@SuppressWarnings("resource")
@@ -53,4 +49,11 @@ public class ECParticles {
 		Minecraft.getInstance().particleEngine.register(particleType, factory);
 	}
 
+	private static <O extends ParticleOptions, T extends ParticleType<O>> RegistryObject<T> register(Supplier<T> type, String name) {
+		return DEFERRED_REGISTER.register(name, type);
+	}
+
+	public static void register(IEventBus bus) {
+		DEFERRED_REGISTER.register(bus);
+	}
 }

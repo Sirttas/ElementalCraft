@@ -8,15 +8,14 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
-import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -31,7 +30,7 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 	protected final List<ItemStack> tanks;
 
 	public ExtractionRecipeCategory(IGuiHelper guiHelper) {
-		this(guiHelper, "elementalcraft.jei.extraction", new ItemStack(ECItems.EXTRACTOR), Lists.newArrayList(new ItemStack(ECItems.TANK), new ItemStack(ECItems.TANK_SMALL)), 1);
+		this(guiHelper, "elementalcraft.jei.extraction", new ItemStack(ECBlocks.EXTRACTOR.get()), Lists.newArrayList(new ItemStack(ECBlocks.CONTAINER.get()), new ItemStack(ECBlocks.SMALL_CONTAINER.get())), 1);
 	}
 
 	protected ExtractionRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack extractor, List<ItemStack> tanks, int amount) {
@@ -52,7 +51,7 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
     @Override
 	public List<Component> getTooltipStrings(@Nonnull ElementType recipe, @Nonnull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 		if (mouseX > 0 && mouseX < 16 && mouseY > 0 && mouseY < 16) {
-			return Lists.newArrayList(new TranslatableComponent("block.elementalcraft.source." + recipe.getSerializedName()));
+			return Lists.newArrayList(Component.translatable("block.elementalcraft.source." + recipe.getSerializedName()));
 		}
 		return Collections.emptyList();
 	}

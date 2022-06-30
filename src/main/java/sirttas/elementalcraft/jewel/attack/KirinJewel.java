@@ -2,7 +2,6 @@ package sirttas.elementalcraft.jewel.attack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
@@ -34,7 +33,7 @@ public class KirinJewel extends AbstractAttackJewel {
 
     @Override
     public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(new TranslatableComponent("tooltip.elementalcraft.kirin").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("tooltip.elementalcraft.kirin").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(tooltip);
     }
 }

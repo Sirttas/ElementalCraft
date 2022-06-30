@@ -13,7 +13,7 @@ import net.minecraftforge.common.Tags;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.recipe.SpellCraftRecipe;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -39,7 +39,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 		output = new SimpleContainer(6);
 		stacks = Collections.emptyList();
 		
-		this.addSlot(new InputSlot(0, 32, 35, s -> s.getItem() == ECItems.SCROLL_PAPER));
+		this.addSlot(new InputSlot(0, 32, 35, s -> s.is(ECItems.SCROLL_PAPER.get())));
 		this.addSlot(new InputSlot(1, 23, 53, s -> s.is(Tags.Items.GEMS)));
 		this.addSlot(new InputSlot(2, 41, 53, s -> s.is(ECTags.Items.CRYSTALS)));
 		this.addSlot(new OutputSlot(0, 108, 35));
@@ -87,7 +87,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 	}
 	
 	private void updateRecipeList(Level level) {
-		stacks = level.getRecipeManager().getRecipesFor(SpellCraftRecipe.TYPE, input, level).stream()
+		stacks = level.getRecipeManager().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), input, level).stream()
                 .map(r -> r.assemble(input))
 				.toList();
 

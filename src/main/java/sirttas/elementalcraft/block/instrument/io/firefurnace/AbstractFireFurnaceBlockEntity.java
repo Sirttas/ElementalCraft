@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
@@ -20,7 +21,6 @@ import sirttas.elementalcraft.container.IOContainer;
 import sirttas.elementalcraft.recipe.instrument.io.FurnaceRecipeWrapper;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRecipe> extends AbstractIOInstrumentBlockEntity<AbstractFireFurnaceBlockEntity<T>, FurnaceRecipeWrapper<T>> {
 
@@ -28,7 +28,7 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 	private final RecipeType<T> furnaceRecipeType;
 	private final IOContainer inventory;
 
-	protected AbstractFireFurnaceBlockEntity(BlockEntityType<? extends AbstractFireFurnaceBlockEntity<T>> blockEntityType, BlockPos pos, BlockState state, RecipeType<T> recipeType, int transferSpeed, int maxRunes) {
+	protected AbstractFireFurnaceBlockEntity(RegistryObject<? extends BlockEntityType<? extends AbstractFireFurnaceBlockEntity<T>>> blockEntityType, BlockPos pos, BlockState state, RecipeType<T> recipeType, int transferSpeed, int maxRunes) {
 		super(blockEntityType, pos, state, null, transferSpeed, maxRunes);
 		this.furnaceRecipeType = recipeType;
 		exp = 0;
@@ -61,7 +61,7 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 
 	@Override
 	protected void renderProgressParticles() {
-		Random rand = level.random;
+		var rand = level.random;
 		double x = worldPosition.getX() + (5 + rand.nextDouble() * 6) / 16;
 		double y = worldPosition.getY() + 6D / 16;
 		double z = worldPosition.getZ() + (5 + rand.nextDouble() * 6) / 16;

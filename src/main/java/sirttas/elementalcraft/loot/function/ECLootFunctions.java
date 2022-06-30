@@ -8,6 +8,6 @@ public class ECLootFunctions {
 	private ECLootFunctions() {}
 	
 	public static final void setup() {
-		RandomSpell.type = LootItemFunctions.register/* registerFunction */(ElementalCraftApi.MODID + ":random_spell", new RandomSpell.Serializer());
+		RandomSpell.type = LootItemFunctions.register(ElementalCraftApi.MODID + ":random_spell", new RandomSpell.Serializer());
 	}
 }

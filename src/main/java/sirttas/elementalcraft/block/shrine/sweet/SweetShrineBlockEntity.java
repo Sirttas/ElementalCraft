@@ -5,10 +5,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -18,12 +16,10 @@ import java.util.List;
 
 public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + SweetShrineBlock.NAME) public static final BlockEntityType<SweetShrineBlockEntity> TYPE = null;
-
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(SweetShrineBlock.NAME);
 
 	public SweetShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.SWEET_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {

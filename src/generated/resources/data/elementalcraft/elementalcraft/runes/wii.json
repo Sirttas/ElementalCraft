@@ -1,0 +1,12 @@
+{
+  "bonuses": {
+    "element_preservation": -0.05,
+    "speed": 0.1
+  },
+  "effect_sprite": "elementalcraft:elementalcraft/runes/wii",
+  "model": "elementalcraft:elementalcraft/runes/wii",
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:rune_affected/speed"
+  }
+}

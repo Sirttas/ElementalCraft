@@ -8,21 +8,17 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public class BindingRecipe extends AbstractBindingRecipe {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<BindingRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
 	private final ItemStack output;
@@ -72,10 +68,10 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.BINDING.get();
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<BindingRecipe> {
+	public static class Serializer implements RecipeSerializer<BindingRecipe> {
 
 		@Nonnull
 		@Override

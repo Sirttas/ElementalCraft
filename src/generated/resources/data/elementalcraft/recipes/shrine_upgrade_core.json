@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "rir",
-    "ici",
-    "rir"
-  ],
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
@@ -16,6 +11,11 @@
       "tag": "forge:dusts/redstone"
     }
   },
+  "pattern": [
+    "rir",
+    "ici",
+    "rir"
+  ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_core"
   }

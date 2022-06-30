@@ -1,0 +1,9 @@
+{
+  "color": "#FAFCDE",
+  "cooldown": 200,
+  "element_consumption": 1000,
+  "element_type": "air",
+  "range": 10.0,
+  "spell_type": "utility",
+  "weight": 5
+}

@@ -16,6 +16,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
 
@@ -26,7 +27,7 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 
 	private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(this::createHandler);
 
-	protected AbstractECContainerBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
+	protected AbstractECContainerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
 	}
 

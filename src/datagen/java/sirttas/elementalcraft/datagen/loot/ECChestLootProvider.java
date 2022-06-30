@@ -1,10 +1,7 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -22,6 +19,8 @@ import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.loot.function.RandomSpell;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * greatly inspired by Botania
@@ -36,7 +35,7 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	}
 
 	@Override
-	public void run(@Nonnull HashCache cache) throws IOException {
+	public void run(@Nonnull CachedOutput cache) throws IOException {
 		save(cache, genInject(), ElementalCraft.createRL("inject"));
 		save(cache, genSmallAltar(ElementType.FIRE), ElementalCraft.createRL("altar/small_fire"));
 		save(cache, genMediumAltar(ElementType.FIRE), ElementalCraft.createRL("altar/medium_fire"));
@@ -50,20 +49,20 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 
 	private static LootPool.Builder genInject() {
 		return genBase(UniformGenerator.between(0, 2))
-				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 5))).setWeight(20))
-				.add(LootItem.lootTableItem(ECItems.FIRE_CRYSTAL).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.EARTH_CRYSTAL).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.WATER_CRYSTAL).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.AIR_CRYSTAL).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.FIRE_SHARD).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.WATER_SHARD).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.EARTH_SHARD).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.AIR_SHARD).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_FIRE_SHARD).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_WATER_SHARD).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_EARTH_SHARD).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.POWERFUL_AIR_SHARD).setWeight(2))
-				.add(LootItem.lootTableItem(ECItems.SCROLL).apply(RandomSpell.builder()).setWeight(15));
+				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 5))).setWeight(20))
+				.add(LootItem.lootTableItem(ECItems.FIRE_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.EARTH_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.WATER_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.AIR_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.FIRE_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
+				.add(LootItem.lootTableItem(ECItems.WATER_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
+				.add(LootItem.lootTableItem(ECItems.EARTH_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
+				.add(LootItem.lootTableItem(ECItems.AIR_SHARD.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 8))).setWeight(5))
+				.add(LootItem.lootTableItem(ECItems.POWERFUL_FIRE_SHARD.get()).setWeight(2))
+				.add(LootItem.lootTableItem(ECItems.POWERFUL_WATER_SHARD.get()).setWeight(2))
+				.add(LootItem.lootTableItem(ECItems.POWERFUL_EARTH_SHARD.get()).setWeight(2))
+				.add(LootItem.lootTableItem(ECItems.POWERFUL_AIR_SHARD.get()).setWeight(2))
+				.add(LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder()).setWeight(15));
 	}
 
 	private static LootTable.Builder genSmallAltar(ElementType type) {
@@ -76,30 +75,29 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 
 	private static LootPool.Builder genBase(NumberProvider range) {
 		return LootPool.lootPool().name("main").setRolls(range)
-				.add(LootItem.lootTableItem(ECItems.DRENCHED_IRON_INGOT).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.DRENCHED_IRON_NUGGET).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5))).setWeight(15))
-				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_INGOT).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2))).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))).setWeight(7))
-				.add(LootItem.lootTableItem(ECItems.SCROLL_PAPER).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))).setWeight(8));
+				.add(LootItem.lootTableItem(ECItems.DRENCHED_IRON_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.DRENCHED_IRON_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5))).setWeight(15))
+				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2))).setWeight(5))
+				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))).setWeight(7))
+				.add(LootItem.lootTableItem(ECItems.SCROLL_PAPER.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))).setWeight(8));
 	}
 	
 	private static LootTable.Builder genWithType(NumberProvider range, ElementType type) {
 		return addVanilla(LootTable.lootTable().withPool(genBase(range)
-				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
 				.add(LootItem.lootTableItem(getCrystalForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
 				.add(LootItem.lootTableItem(getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
 				.add(LootItem.lootTableItem(getPowerfulShardForType(type)).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.SCROLL).apply(RandomSpell.builder(type)).setWeight(15))));
+				.add(LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder(type)).setWeight(15))));
 	}
 	
 	private static LootTable.Builder addAdvanced(LootTable.Builder builder, NumberProvider range, ElementType type) {
 		return builder.withPool(LootPool.lootPool().name("advanced").setRolls(range)
 				.add(LootItem.lootTableItem(Items.GOLD_INGOT).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 4.0F))).setWeight(15))
-				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_INGOT).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5))).setWeight(15))
-				.add(LootItem.lootTableItem(ECItems.SCROLL).apply(RandomSpell.builder(type)).setWeight(15))
-				.add(LootItem.lootTableItem(ECItems.PURE_CRYSTAL).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.EMPTY_RECEPTACLE).setWeight(2)));
+				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5))).setWeight(15))
+				.add(LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder(type)).setWeight(15))
+				.add(LootItem.lootTableItem(ECItems.PURE_CRYSTAL.get()).setWeight(5)));
 		
 	}
 	
@@ -124,11 +122,11 @@ public class ECChestLootProvider extends AbstractECLootProvider {
 	}
 
 
-	private void save(HashCache cache, LootPool.Builder pool, ResourceLocation location) throws IOException {
+	private void save(CachedOutput cache, LootPool.Builder pool, ResourceLocation location) throws IOException {
 		save(cache, LootTable.lootTable().withPool(pool), location);
 	}
 
-	private void save(HashCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
+	private void save(CachedOutput cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
 		save(cache, builder.setParamSet(LootContextParamSets.CHEST), getPath(location));
 	}
 

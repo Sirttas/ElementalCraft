@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "minecraft:chainmail_leggings",
     "minecraft:diamond_leggings",
@@ -7,50 +6,6 @@
     "minecraft:iron_leggings",
     "minecraft:leather_leggings",
     "minecraft:netherite_leggings",
-    "#forge:leggings",
-    {
-      "id": "mekanismtools:bronze_leggings",
-      "required": false
-    },
-    {
-      "id": "botania:elementium_leggings",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_leggings",
-      "required": false
-    },
-    {
-      "id": "silentgear:leggings",
-      "required": false
-    },
-    {
-      "id": "botania:manasteel_leggings",
-      "required": false
-    },
-    {
-      "id": "botania:manaweave_leggings",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_leggings",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_leggings",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_leggings",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_leggings",
-      "required": false
-    },
-    {
-      "id": "botania:terrasteel_leggings",
-      "required": false
-    }
+    "#forge:leggings"
   ]
 }

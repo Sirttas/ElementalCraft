@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -49,7 +50,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	private double tick = 0;
 	private int rangeRenderTimer = 0;
 
-	protected AbstractShrineBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> upgradeKey) {
+	protected AbstractShrineBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> upgradeKey) {
 		super(blockEntityType, pos, state);
 		elementStorage = new ShrineElementStorage(this);
 		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(upgradeKey);

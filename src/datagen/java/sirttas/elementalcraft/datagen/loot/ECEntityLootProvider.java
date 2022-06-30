@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.datagen.loot;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 
@@ -30,15 +31,15 @@ public class ECEntityLootProvider extends AbstractECLootProvider {
 	}
 
 	@Override
-	public void run(@Nonnull HashCache cache) throws IOException {
+	public void run(@Nonnull CachedOutput cache) throws IOException {
 		saveThrownElementCrystal(cache, ElementType.FIRE);
 		saveThrownElementCrystal(cache, ElementType.WATER);
 		saveThrownElementCrystal(cache, ElementType.EARTH);
 		saveThrownElementCrystal(cache, ElementType.AIR);
 	}
 
-	private void saveThrownElementCrystal(HashCache cache, ElementType type) throws IOException {
-		var crystalLocation = getCrystalForType(type).getRegistryName();
+	private void saveThrownElementCrystal(CachedOutput cache, ElementType type) throws IOException {
+		var crystalLocation = ForgeRegistries.ITEMS.getKey(getCrystalForType(type));
 
 		save(cache, LootTable.lootTable().withPool(genShard(type)).setParamSet(LootContextParamSets.SELECTOR), new ResourceLocation(crystalLocation.getNamespace(), "thrown_element_crystal/" + crystalLocation.getPath()));
 	}
@@ -49,7 +50,7 @@ public class ECEntityLootProvider extends AbstractECLootProvider {
 				.add(LootItem.lootTableItem(getPowerfulShardForType(type)));
 	}
 
-	private void save(HashCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
+	private void save(CachedOutput cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
 		save(cache, builder, getPath(location));
 	}
 

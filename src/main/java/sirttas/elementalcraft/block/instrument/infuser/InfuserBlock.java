@@ -26,6 +26,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 
 import javax.annotation.Nonnull;
@@ -57,7 +58,7 @@ public class InfuserBlock extends AbstractECContainerBlock implements IInstrumen
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createInstrumentTicker(level, type, InfuserBlockEntity.TYPE);
+		return createInstrumentTicker(level, type, ECBlockEntityTypes.INFUSER);
 	}
 	
 	@Nonnull

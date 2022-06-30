@@ -8,8 +8,6 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -37,7 +35,7 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 	@Nonnull
     @Override
 	public Component getTitle() {
-		return new TranslatableComponent(translationKey);
+		return Component.translatable(translationKey);
 	}
 
 	@Nonnull
@@ -65,18 +63,5 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 			overlay.draw(matrixStack, overlayX, overlayY);
 			RenderSystem.disableBlend();
 		}
-	}
-
-
-	@Nonnull
-	@Override
-	public ResourceLocation getUid() {
-		return this.getRecipeType().getUid();
-	}
-
-	@Nonnull
-	@Override
-	public Class<? extends T> getRecipeClass() {
-		return this.getRecipeType().getRecipeClass();
 	}
 }

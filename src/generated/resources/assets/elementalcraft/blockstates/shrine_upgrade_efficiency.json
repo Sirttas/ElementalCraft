@@ -4,10 +4,25 @@
       "model": "elementalcraft:block/shrine_upgrade_efficiency",
       "x": 180
     },
-    "facing=up,waterlogged=false": {
-      "model": "elementalcraft:block/shrine_upgrade_efficiency"
+    "facing=down,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_efficiency",
+      "x": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_efficiency",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_efficiency",
+      "x": 90,
+      "y": 90
     },
     "facing=north,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_efficiency",
+      "x": 90
+    },
+    "facing=north,waterlogged=true": {
       "model": "elementalcraft:block/shrine_upgrade_efficiency",
       "x": 90
     },
@@ -16,41 +31,26 @@
       "x": 90,
       "y": 180
     },
-    "facing=west,waterlogged=false": {
-      "model": "elementalcraft:block/shrine_upgrade_efficiency",
-      "x": 90,
-      "y": 270
-    },
-    "facing=east,waterlogged=false": {
-      "model": "elementalcraft:block/shrine_upgrade_efficiency",
-      "x": 90,
-      "y": 90
-    },
-    "facing=down,waterlogged=true": {
-      "model": "elementalcraft:block/shrine_upgrade_efficiency",
-      "x": 180
-    },
-    "facing=up,waterlogged=true": {
-      "model": "elementalcraft:block/shrine_upgrade_efficiency"
-    },
-    "facing=north,waterlogged=true": {
-      "model": "elementalcraft:block/shrine_upgrade_efficiency",
-      "x": 90
-    },
     "facing=south,waterlogged=true": {
       "model": "elementalcraft:block/shrine_upgrade_efficiency",
       "x": 90,
       "y": 180
     },
-    "facing=west,waterlogged=true": {
+    "facing=up,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_efficiency"
+    },
+    "facing=up,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_efficiency"
+    },
+    "facing=west,waterlogged=false": {
       "model": "elementalcraft:block/shrine_upgrade_efficiency",
       "x": 90,
       "y": 270
     },
-    "facing=east,waterlogged=true": {
+    "facing=west,waterlogged=true": {
       "model": "elementalcraft:block/shrine_upgrade_efficiency",
       "x": 90,
-      "y": 90
+      "y": 270
     }
   }
 }

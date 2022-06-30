@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "g": {
+      "tag": "elementalcraft:gems/pristine_earth"
+    },
+    "s": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    " g ",
+    "scs",
+    "www"
+  ],
+  "result": {
+    "item": "elementalcraft:source_displacement_plate_earth"
+  }
+}

@@ -1,20 +1,15 @@
 package sirttas.elementalcraft.infusion.tool;
 
-import java.util.Objects;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -27,6 +22,10 @@ import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfus
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.nbt.NBTHelper;
+
+import java.util.Objects;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class ToolInfusionHelper {
 
@@ -60,7 +59,7 @@ public class ToolInfusionHelper {
 	}
 	
 	public static int getFasterDraw(ItemStack stack) {
-		return getInfusionEffects(stack, FastDrawToolInfusionEffect.class).findAny().map(FastDrawToolInfusionEffect::getValue).orElse(-1);
+		return getInfusionEffects(stack, FastDrawToolInfusionEffect.class).findAny().map(FastDrawToolInfusionEffect::value).orElse(-1);
 	}
 	
 	public static boolean hasFireInfusion(Entity entity) {
@@ -72,7 +71,7 @@ public class ToolInfusionHelper {
 		return getInfusionEffects(entity)
 				.filter(DodgeToolInfusionEffect.class::isInstance)
 				.map(DodgeToolInfusionEffect.class::cast)
-				.mapToDouble(infusion -> 1D - infusion.getValue())
+				.mapToDouble(infusion -> 1D - infusion.value())
 				.reduce(1D, (a, b) -> a * b);
 	}
 
@@ -103,8 +102,8 @@ public class ToolInfusionHelper {
 		Multimap<Attribute, AttributeModifier> map = ArrayListMultimap.create();
 		
 		getInfusionEffects(stack, AttributeToolInfusionEffect.class)
-				.filter(i -> i.getSlots().contains(slot))
-				.forEach(i -> map.put(i.getAttribute(), i.getModifier()));
+				.filter(i -> i.slots().contains(slot))
+				.forEach(i -> map.put(i.attribute(), i.modifier()));
 		return map;
 	}
 	
@@ -112,7 +111,7 @@ public class ToolInfusionHelper {
 		return (float) getInfusionEffects(entity)
 				.filter(ElementCostReductionToolInfusionEffect.class::isInstance)
 				.map(ElementCostReductionToolInfusionEffect.class::cast)
-				.mapToDouble(infusion -> 1D - infusion.getValue())
+				.mapToDouble(infusion -> 1D - infusion.value())
 				.reduce(1D, (a, b) -> a * b);
 	}
 }

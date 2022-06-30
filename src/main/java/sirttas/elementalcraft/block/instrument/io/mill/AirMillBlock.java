@@ -36,6 +36,7 @@ import net.minecraftforge.items.IItemHandler;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -76,7 +77,7 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return isLower(state) ? createInstrumentTicker(level, type, AirMillBlockEntity.TYPE) : null;
+		return isLower(state) ? createInstrumentTicker(level, type, ECBlockEntityTypes.AIR_MILL) : null;
 	}
 
 	@Nonnull

@@ -1,9 +1,7 @@
 package sirttas.elementalcraft.world.feature.config;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
-
+import net.minecraft.util.RandomSource;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 
@@ -23,7 +21,7 @@ public class ElementTypeFeatureConfig implements IElementTypeFeatureConfig {
 	}
 
 	@Override
-	public ElementType getElementType(Random rand) {
+	public ElementType getElementType(RandomSource rand) {
 		return elementType;
 	}
 

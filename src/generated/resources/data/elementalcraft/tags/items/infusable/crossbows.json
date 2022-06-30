@@ -1,11 +1,6 @@
 {
-  "replace": false,
   "values": [
     "minecraft:crossbow",
-    "#forge:crossbows",
-    {
-      "id": "silentgear:crossbow",
-      "required": false
-    }
+    "#forge:crossbows"
   ]
 }

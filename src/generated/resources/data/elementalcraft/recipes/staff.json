@@ -1,14 +1,6 @@
 {
   "type": "elementalcraft:staff",
-  "pattern": [
-    " if",
-    "ihi",
-    "si "
-  ],
   "key": {
-    "s": {
-      "tag": "elementalcraft:staff_craft_sword"
-    },
     "f": {
       "item": "elementalcraft:focus"
     },
@@ -17,8 +9,16 @@
     },
     "i": {
       "tag": "forge:ingots/fireite"
+    },
+    "s": {
+      "tag": "elementalcraft:staff_craft_sword"
     }
   },
+  "pattern": [
+    " if",
+    "ihi",
+    "si "
+  ],
   "result": {
     "item": "elementalcraft:staff"
   }

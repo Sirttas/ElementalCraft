@@ -101,7 +101,7 @@ public class RuneItem extends ECItem {
 
 	@Override
 	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowdedIn(group)) {
+		if (this.allowedIn(group)) {
 			ElementalCraftApi.RUNE_MANAGER.getData().forEach((id, rune) -> items.add(getRuneStack(rune)));
 		}
 	}

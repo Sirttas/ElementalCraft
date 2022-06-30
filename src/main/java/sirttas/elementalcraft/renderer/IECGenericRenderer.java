@@ -102,8 +102,8 @@ public interface IECGenericRenderer {
                 overlay, data);
     }
 
-    default float getAngle(float partialTicks) {
-        return TickHandler.getTicksInGame() + partialTicks % 360;
+    default float getClientTicks(float partialTicks) {
+        return TickHandler.getTicksInGame() + partialTicks;
     }
 
     default IModelData getModelData(Level level, BlockPos pos) {

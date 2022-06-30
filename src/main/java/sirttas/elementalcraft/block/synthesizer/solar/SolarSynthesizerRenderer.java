@@ -28,7 +28,7 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 
 	@Override
 	public void render(T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		renderRunes(matrixStack, buffer, te.getRuneHandler(), getAngle(partialTicks), light, overlay);
+		renderRunes(matrixStack, buffer, te.getRuneHandler(), getClientTicks(partialTicks), light, overlay);
 
 		var elementType = getElementType(te);
 

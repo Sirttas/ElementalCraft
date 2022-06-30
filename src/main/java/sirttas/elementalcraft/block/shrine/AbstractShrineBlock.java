@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -41,7 +41,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> extends AbstractECEntityBlock implements SimpleWaterloggedBlock, IElementTypeProvider {
 
@@ -95,19 +94,19 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.consumes", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
+		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class)
 				.filter(AbstractShrineBlockEntity::isRunning)
 				.ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
 		BoneMealItem.addGrowthParticles(world, pos, 1);
 	}
 
@@ -125,7 +124,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@SuppressWarnings("unchecked")
 	private BlockEntityType<T> getEntityType() {
 		if (entityType == null) {
-			entityType = (BlockEntityType<T>) ForgeRegistries.BLOCK_ENTITIES.getValue(this.getRegistryName());
+			entityType = (BlockEntityType<T>) ForgeRegistries.BLOCK_ENTITIES.getValue(ForgeRegistries.BLOCKS.getKey(this));
 		}
 		return entityType;
 	}

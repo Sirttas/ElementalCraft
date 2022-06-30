@@ -6,8 +6,8 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -18,7 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -32,25 +31,31 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProvider {
+public class Spell implements IElementTypeProvider {
 
 	private String translationKey;
 	protected final Holder<SpellProperties> properties;
+	private final ResourceKey<Spell> key;
 
 	protected Spell(ResourceKey<Spell> key) {
 		properties = ElementalCraft.SPELL_PROPERTIES_MANAGER.getOrCreateHolder(SpellProperties.getKey(key));
+		this.key = key;
 	}
 
 	public String getTranslationKey() {
 		if (this.translationKey == null) {
-			this.translationKey = Util.makeDescriptionId("spell", Spells.REGISTRY.get().getKey(this));
+			this.translationKey = Util.makeDescriptionId("spell", getKey());
 		}
 
 		return this.translationKey;
 	}
 
+	public ResourceLocation getKey() {
+		return key.location();
+	}
+
 	public Component getDisplayName() {
-		return new TranslatableComponent(getTranslationKey());
+		return Component.translatable(getTranslationKey());
 	}
 
 	public Multimap<Attribute, AttributeModifier> getOnUseAttributeModifiers() {
@@ -142,7 +147,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 	public float getRange(Entity caster) {
 		int bonus = 0;
 		
-		if (StreamSupport.stream(caster.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.getItem() == ECItems.STAFF)) {
+		if (StreamSupport.stream(caster.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.is(ECItems.STAFF.get()))) {
 			bonus++;
 		}
 		return getProperties().range() + bonus;
@@ -173,7 +178,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
 
 	@Override
 	public String toString() {
-		return this.getRegistryName().toString();
+		return this.key.toString();
 	}
 
 	public boolean isVisible() {
@@ -187,7 +192,7 @@ public class Spell extends ForgeRegistryEntry<Spell> implements IElementTypeProv
     public enum Type implements StringRepresentable {
 		NONE("none"), COMBAT("combat"), UTILITY("utility"), MIXED("mixed");
 		
-		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values, Type::byName);
+		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
 
 		private final String name;
 

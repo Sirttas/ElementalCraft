@@ -16,60 +16,25 @@ import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ContainerRenderer;
-import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
-import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlockEntity;
-import sirttas.elementalcraft.block.container.reservoir.ReservoirBlockEntity;
-import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
-import sirttas.elementalcraft.block.evaporator.EvaporatorBlockEntity;
-import sirttas.elementalcraft.block.extractor.ExtractorBlockEntity;
-import sirttas.elementalcraft.block.instrument.binder.BinderBlockEntity;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.binder.BinderRenderer;
-import sirttas.elementalcraft.block.instrument.binder.improved.ImprovedBinderBlockEntity;
-import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerRenderer;
-import sirttas.elementalcraft.block.instrument.infuser.InfuserBlockEntity;
-import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberRenderer;
-import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceBlockEntity;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceRenderer;
-import sirttas.elementalcraft.block.instrument.io.firefurnace.blast.FireBlastFurnaceBlockEntity;
-import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.block.instrument.io.mill.AirMillRenderer;
-import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierRenderer;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
-import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
-import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlockEntity;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
-import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.enderlock.EnderLockShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.firepylon.FirePylonBlockEntity;
-import sirttas.elementalcraft.block.shrine.grove.GroveShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.growth.GrowthShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.spawning.SpawningShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.sweet.SweetShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeRenderer;
-import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlockEntity;
-import sirttas.elementalcraft.block.sorter.SorterBlockEntity;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
-import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.block.source.SourceRenderer;
-import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
-import sirttas.elementalcraft.interaction.ECinteractions;
-import sirttas.elementalcraft.interaction.botania.BotaniaInteractions;
+import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlockEntity;
+import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
 
 import java.util.function.Supplier;
 
@@ -80,49 +45,48 @@ public final class ECRenderers {
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent evt) {
-		register(ElementPipeBlockEntity.TYPE, ElementPipeRenderer::new);
-		register(InfuserBlockEntity.TYPE, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5)));
-		register(ExtractorBlockEntity.TYPE, RuneRenderer::create);
-		register(EvaporatorBlockEntity.TYPE, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5), 0.5F));
-		register(SolarSynthesizerBlockEntity.TYPE, SolarSynthesizerRenderer::new);
-		register(DiffuserBlockEntity.TYPE, DiffuserRenderer::new);
-		register(BinderBlockEntity.TYPE, BinderRenderer::new);
-		register(ImprovedBinderBlockEntity.TYPE, BinderRenderer::new);
-		register(CrystallizerBlockEntity.TYPE, CrystallizerRenderer::new);
-		register(InscriberBlockEntity.TYPE, InscriberRenderer::new);
-		register(AirMillBlockEntity.TYPE, AirMillRenderer::new);
-		register(PedestalBlockEntity.TYPE, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
-		register(PureInfuserBlockEntity.TYPE, PureInfuserRenderer::new);
-		register(FireFurnaceBlockEntity.TYPE, FireFurnaceRenderer::new);
-		register(FireBlastFurnaceBlockEntity.TYPE, FireFurnaceRenderer::new);
-		register(PurifierBlockEntity.TYPE, PurifierRenderer::new);
-		register(AccelerationShrineUpgradeBlockEntity.TYPE, AccelerationShrineUpgradeRenderer::new);
-		register(VortexShrineUpgradeBlockEntity.TYPE, VortexShrineUpgradeRenderer::new);
-		register(SorterBlockEntity.TYPE, SorterRenderer::new);
-		register(SourceBlockEntity.TYPE, SourceRenderer::new);
+		register(ECBlockEntityTypes.PIPE, ElementPipeRenderer::new);
+		register(ECBlockEntityTypes.INFUSER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5)));
+		register(ECBlockEntityTypes.EXTRACTOR, RuneRenderer::create);
+		register(ECBlockEntityTypes.EVAPORATOR, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5), 0.5F));
+		register(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerRenderer::new);
+		register(ECBlockEntityTypes.MANA_SYNTHESIZER, ManaSynthesizerRenderer::new);
+		register(ECBlockEntityTypes.DIFFUSER, DiffuserRenderer::new);
+		register(ECBlockEntityTypes.BINDER, BinderRenderer::new);
+		register(ECBlockEntityTypes.BINDER_IMPROVED, BinderRenderer::new);
+		register(ECBlockEntityTypes.CRYSTALLIZER, CrystallizerRenderer::new);
+		register(ECBlockEntityTypes.INSCRIBER, InscriberRenderer::new);
+		register(ECBlockEntityTypes.AIR_MILL, AirMillRenderer::new);
+		register(ECBlockEntityTypes.PEDESTAL, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
+		register(ECBlockEntityTypes.PURE_INFUSER, PureInfuserRenderer::new);
+		register(ECBlockEntityTypes.FIRE_FURNACE, FireFurnaceRenderer::new);
+		register(ECBlockEntityTypes.FIRE_BLAST_FURNACE, FireFurnaceRenderer::new);
+		register(ECBlockEntityTypes.PURIFIER, PurifierRenderer::new);
+		register(ECBlockEntityTypes.ACCELERATION_SHRINE_UPGRADE, AccelerationShrineUpgradeRenderer::new);
+		register(ECBlockEntityTypes.VORTEX_SHRINE_UPGRADE, VortexShrineUpgradeRenderer::new);
+		register(ECBlockEntityTypes.SORTER, SorterRenderer::new);
+		register(ECBlockEntityTypes.SOURCE, SourceRenderer::new);
 
-		register(FirePylonBlockEntity.TYPE, ShrineRenderer::new);
-		register(VacuumShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(GrowthShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(HarvestShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(LavaShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(OreShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(OverloadShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(SweetShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(EnderLockShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(BreedingShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(GroveShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(BuddingShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(SpringShrineBlockEntity.TYPE, ShrineRenderer::new);
-		register(SpawningShrineBlockEntity.TYPE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.FIRE_PYLON, ShrineRenderer::new);
+		register(ECBlockEntityTypes.GROVE_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.BUDDING_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.BREEDING_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.SPAWNING_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.LAVA_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.ORE_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.OVERLOAD_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.SWEET_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.GROWTH_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.HARVEST_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.ENDER_LOCK_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.SPRING_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.VACUUM_SHRINE, ShrineRenderer::new);
 
-		register(ElementContainerBlockEntity.TYPE, ContainerRenderer::new);
-		register(CreativeElementContainerBlockEntity.TYPE, ContainerRenderer::new);
-		register(ReservoirBlockEntity.TYPE, ContainerRenderer::new);
+		register(ECBlockEntityTypes.CONTAINER, ContainerRenderer::new);
+		register(ECBlockEntityTypes.CREATIVE_CONTAINER, ContainerRenderer::new);
+		register(ECBlockEntityTypes.RESERVOIR, ContainerRenderer::new);
 
-		if (ECinteractions.isBotaniaActive()) {
-			BotaniaInteractions.registerModels();
-		}
+		register(ECBlockEntityTypes.SOURCE_DISPLACEMENT_PLATE, SourceDisplacementPlateRenderer::new);
 	}
 
 	public static void initRenderLayouts() {
@@ -139,7 +103,6 @@ public final class ECRenderers {
 		setRenderLayer(ECBlocks.LARGE_SPRINGALINE_BUD, RenderType.cutout());
 		setRenderLayer(ECBlocks.SPRINGALINE_CLUSTER, RenderType.cutout());
 		setRenderLayer(ECBlocks.SPAWNING_SHRINE, RenderType.cutout());
-		
 		setRenderLayer(ECBlocks.FIRE_BLAST_FURNACE, RenderType.translucent());
 		setRenderLayer(ECBlocks.BURNT_GLASS, RenderType.translucent());
 		setRenderLayer(ECBlocks.BURNT_GLASS_PANE, RenderType.translucent());
@@ -158,7 +121,7 @@ public final class ECRenderers {
 		BlockEntityRenderers.register(type, d -> renderProvider.get());
 	}
 
-	public static void setRenderLayer(RegistryObject<Block> block, RenderType type) {
+	public static void setRenderLayer(RegistryObject<? extends Block> block, RenderType type) {
 		setRenderLayer(block.get(), type);
 	}
 

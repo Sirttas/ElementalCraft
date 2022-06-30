@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.util.Lazy;
 import sirttas.dpanvil.api.event.DataPackReloadCompleteEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -31,18 +32,18 @@ import java.util.stream.Collectors;
 
 public class PureOreManager {
 
-	private static final PureOreLoader ORE_LOADER = PureOreLoader.create(ECTags.Items.PURE_ORES_ORE_SOURCE)
+	private static final Lazy<PureOreLoader> ORE_LOADER = Lazy.of(() -> PureOreLoader.create(ECTags.Items.PURE_ORES_ORE_SOURCE)
 			.pattern("_?ore$")
 			.tagFolder("ores")
 			.inputSize(ECConfig.COMMON.pureOreOresInput.get())
 			.outputSize(ECConfig.COMMON.pureOreOresOutput.get())
-			.luckRatio(ECConfig.COMMON.pureOreOresLuckRatio.get());
-	private static final PureOreLoader RAW_MATERIALS_LOADER = PureOreLoader.create(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE)
+			.luckRatio(ECConfig.COMMON.pureOreOresLuckRatio.get()));
+	private static final Lazy<PureOreLoader> RAW_MATERIALS_LOADER = Lazy.of(() -> PureOreLoader.create(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE)
 			.pattern("^raw_?")
 			.tagFolder("raw_materials")
 			.inputSize(ECConfig.COMMON.pureOreRawMaterialsInput.get())
 			.outputSize(ECConfig.COMMON.pureOreRawMaterialsOutput.get())
-			.luckRatio(ECConfig.COMMON.pureOreRawMaterialsLuckRatio.get());
+			.luckRatio(ECConfig.COMMON.pureOreRawMaterialsLuckRatio.get()));
 
 	private final Map<ResourceLocation, Entry> pureOres = new HashMap<>();
 
@@ -80,7 +81,7 @@ public class PureOreManager {
 
 	public ItemStack createPureOre(ResourceLocation id) {
 		if (this.pureOres.containsKey(id)) {
-			ItemStack stack = new ItemStack(ECItems.PURE_ORE);
+			ItemStack stack = new ItemStack(ECItems.PURE_ORE.get());
 	
 			NBTHelper.getOrCreateECTag(stack).putString(ECNames.ORE, id.toString());
 			return stack;
@@ -115,8 +116,8 @@ public class PureOreManager {
 						.collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 		this.pureOres.clear();
-		ORE_LOADER.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ore = e);
-		RAW_MATERIALS_LOADER.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).rawMaterial = e);
+		ORE_LOADER.get().generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ore = e);
+		RAW_MATERIALS_LOADER.get().generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).rawMaterial = e);
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection");

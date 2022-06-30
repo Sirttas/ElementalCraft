@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
+  "count": 1,
   "ingredient": {
     "item": "elementalcraft:whiterock"
   },
-  "result": "elementalcraft:whiterock_brick",
-  "count": 1
+  "result": "elementalcraft:whiterock_brick"
 }

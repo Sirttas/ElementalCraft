@@ -16,7 +16,7 @@ public class Runes {
 	@OnlyIn(Dist.CLIENT)
 	public static void registerModels(Consumer<ResourceLocation> addModel) {
 		ElementalCraftApi.RUNE_MANAGER.getData().values().forEach(rune -> addModel.accept(rune.getModelName()));
-		Minecraft.getInstance().getResourceManager().listResources("models/item/" + Rune.FOLDER, fileName -> fileName.endsWith(".json")).forEach(addModel);
+		Minecraft.getInstance().getResourceManager().listResources("models/item/" + Rune.FOLDER, fileName -> fileName.getPath().endsWith(".json")).keySet().forEach(addModel);
 	}
 
 }

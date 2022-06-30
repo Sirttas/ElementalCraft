@@ -1,0 +1,25 @@
+{
+  "attributes": {
+    "forge:reach_distance": [
+      {
+        "amount": 5.0,
+        "name": "Reach distance modifier",
+        "operation": "addition"
+      }
+    ],
+    "minecraft:generic.attack_damage": [
+      {
+        "amount": 1.0,
+        "name": "Weapon modifier",
+        "operation": "multiply_total"
+      }
+    ]
+  },
+  "color": "#670F69",
+  "cooldown": 60,
+  "element_consumption": 1000,
+  "element_type": "air",
+  "range": 20.0,
+  "spell_type": "combat",
+  "weight": 15
+}

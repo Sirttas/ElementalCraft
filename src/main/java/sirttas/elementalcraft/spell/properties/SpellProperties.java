@@ -36,12 +36,12 @@ public record SpellProperties(
 ) implements IElementTypeProvider {
 
 	public static final String NAME = "spell_properties";
-	public static final String FOLDER = ElementalCraftApi.MODID + '_' + NAME;
+	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
 
 	public static final SpellProperties NONE = new SpellProperties();
 	public static final Codec<SpellProperties> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Spell.Type.CODEC.fieldOf(ECNames.SPELL_TYPE).forGetter(SpellProperties::spellType),
-			ElementType.forGetter(SpellProperties::elementType),
+			ElementType.forGetter(SpellProperties::getElementType),
 			Codec.INT.optionalFieldOf(ECNames.WEIGHT, 0).forGetter(SpellProperties::weight),
 			Codec.INT.optionalFieldOf(ECNames.USE_DURATION, 0).forGetter(SpellProperties::useDuration),
 			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(SpellProperties::consumeAmount),

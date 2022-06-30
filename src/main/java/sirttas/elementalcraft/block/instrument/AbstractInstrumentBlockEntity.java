@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -32,7 +33,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	private boolean locked = false;
 	protected Vec3 particleOffset;
 
-	protected AbstractInstrumentBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed, int maxRunes) {
+	protected AbstractInstrumentBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed, int maxRunes) {
 		super(blockEntityType, pos, state, recipeType, transferSpeed);
 		runeHandler = maxRunes > 0 ? new RuneHandler(maxRunes, this::setChanged) : null;
 		particleOffset = Vec3.ZERO;

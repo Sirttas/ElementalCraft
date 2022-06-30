@@ -93,6 +93,7 @@ public class ECNames {
 	public static final String ELEMENT_PRESERVATION = "element_preservation";
 	public static final String LUCK = "luck";
 	public static final String STRENGTH = "strength";
+    public static final String PROVIDER = "provider";
 
-	private ECNames() {}
+    private ECNames() {}
 }

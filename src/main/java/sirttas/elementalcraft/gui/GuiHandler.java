@@ -40,7 +40,7 @@ public class GuiHandler {
 	@SubscribeEvent
 	public static void onDrawScreenPost(RenderGameOverlayEvent.Post event) {
 		if (event.getType() == RenderGameOverlayEvent.ElementType.LAYER) {
-			PoseStack matrixStack = event.getMatrixStack();
+			PoseStack matrixStack = event.getPoseStack();
 			LocalPlayer player = Minecraft.getInstance().player;
 			Spell spell = getSpell();
 			int i = 0;

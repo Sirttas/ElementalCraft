@@ -1,23 +1,6 @@
 {
-  "replace": false,
   "values": [
     "minecraft:bow",
-    "#forge:bows",
-    {
-      "id": "silentgear:bow",
-      "required": false
-    },
-    {
-      "id": "botania:crystal_bow",
-      "required": false
-    },
-    {
-      "id": "botania:livingwood_bow",
-      "required": false
-    },
-    {
-      "id": "silentgear:slingshot",
-      "required": false
-    }
+    "#forge:bows"
   ]
 }

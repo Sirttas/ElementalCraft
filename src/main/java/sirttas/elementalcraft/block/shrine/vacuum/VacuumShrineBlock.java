@@ -1,8 +1,7 @@
 package sirttas.elementalcraft.block.shrine.vacuum;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -40,7 +39,7 @@ public class VacuumShrineBlock extends AbstractShrineBlock<VacuumShrineBlockEnti
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
 		ParticleHelper.createEnderParticle(world, Vec3.atLowerCornerOf(pos), 3, rand);
 	}
 }

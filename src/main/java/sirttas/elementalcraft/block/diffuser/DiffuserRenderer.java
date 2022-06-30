@@ -28,7 +28,7 @@ public class DiffuserRenderer implements IECRenderer<DiffuserBlockEntity> {
 	
 	@Override
 	public void render(@Nonnull DiffuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float angle = getAngle(partialTicks);
+		float angle = getClientTicks(partialTicks);
 		
 		if (cubeModel == null) {
 			cubeModel = Minecraft.getInstance().getModelManager().getModel(CUBE_LOCATION);

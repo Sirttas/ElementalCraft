@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_inert_crystal",
+  "features": "elementalcraft:inert_crystal_ore_middle",
+  "step": "underground_ores"
+}

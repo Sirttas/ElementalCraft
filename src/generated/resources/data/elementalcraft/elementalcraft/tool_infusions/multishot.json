@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:multishot"
+    }
+  ],
+  "element_type": "water"
+}

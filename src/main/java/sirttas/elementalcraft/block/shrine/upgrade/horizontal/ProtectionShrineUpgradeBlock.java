@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -63,9 +62,9 @@ public class ProtectionShrineUpgradeBlock extends AbstractHorizontalShrineUpgrad
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.protection").withStyle(ChatFormatting.BLUE));
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+		tooltip.add(Component.translatable("tooltip.elementalcraft.protection").withStyle(ChatFormatting.BLUE));
+		super.appendHoverText(stack, worldIn, tooltip, flag);
 	}
 
 }

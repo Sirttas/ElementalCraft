@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.spelldesk;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -108,7 +107,7 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 		@Nonnull
         @Override
 		public Component getDisplayName() {
-			return new TranslatableComponent(getDescriptionId());
+			return Component.translatable(getDescriptionId());
 		}
 	}
 }

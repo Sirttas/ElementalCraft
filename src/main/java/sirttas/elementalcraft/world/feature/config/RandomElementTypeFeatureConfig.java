@@ -2,13 +2,13 @@ package sirttas.elementalcraft.world.feature.config;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
+import net.minecraft.util.RandomSource;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
 public class RandomElementTypeFeatureConfig implements IElementTypeFeatureConfig {
 
@@ -77,7 +77,7 @@ public class RandomElementTypeFeatureConfig implements IElementTypeFeatureConfig
 	}
 
 	@Override
-	public ElementType getElementType(Random rand) {
+	public ElementType getElementType(RandomSource rand) {
 		int roll = rand.nextInt(elementTypes.values().stream().mapToInt(i -> i).sum());
 		
 		for (Entry<ElementType, Integer> entry : elementTypes.entrySet()) {

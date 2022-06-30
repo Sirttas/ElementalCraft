@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlock;
 
 import javax.annotation.Nonnull;
@@ -39,7 +40,7 @@ public class ImprovedBinderBlock extends BinderBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createInstrumentTicker(level, type, ImprovedBinderBlockEntity.TYPE);
+		return createInstrumentTicker(level, type, ECBlockEntityTypes.BINDER_IMPROVED);
 	}
 
 	@Nonnull

@@ -1,7 +1,7 @@
 {
   "type": "elementalcraft:binding",
-  "element_type": "water",
   "element_amount": 10000,
+  "element_type": "water",
   "ingredients": [
     {
       "item": "elementalcraft:container"

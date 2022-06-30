@@ -41,7 +41,7 @@ public class JewelHelper {
 
         CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
 
-        nbt.putString(ECNames.JEWEL, jewel.getRegistryName().toString());
+        nbt.putString(ECNames.JEWEL, jewel.getKey().toString());
     }
 
     public static List<Jewel> getAllJewels(Entity entity) {

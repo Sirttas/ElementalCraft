@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -18,28 +17,22 @@ import javax.annotation.Nullable;
 public class SourceTrait implements Comparable<SourceTrait> {
 	
 	public static final String NAME = "source_traits";
-	public static final String FOLDER = ElementalCraftApi.MODID + '_' + NAME;
+	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
 	public static final Codec<SourceTrait> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			Codec.FLOAT.optionalFieldOf(ECNames.CHANCE, 1F).forGetter(SourceTrait::getChance),
 			Codec.INT.fieldOf(ECNames.ORDER).forGetter(SourceTrait::getOrder),
-			IBlockPosPredicate.CODEC.optionalFieldOf(ECNames.PREDICATE, IBlockPosPredicate.any()).forGetter(SourceTrait::getPredicate),
 			ISourceTraitValueProvider.CODEC.fieldOf(ECNames.VALUE).forGetter(t -> t.valueProvider)
 	).apply(builder, SourceTrait::new));
 	
 	private ResourceLocation id;
-	private final float chance;
 	private final int order;
-	private final IBlockPosPredicate predicate;
 	private final ISourceTraitValueProvider valueProvider;
 	
 	public static Builder builder() {
 		return new Builder();
 	}
 	
-	public SourceTrait(float chance, int order, IBlockPosPredicate predicate, ISourceTraitValueProvider valueProvider) {
-		this.chance = chance;
+	public SourceTrait(int order, ISourceTraitValueProvider valueProvider) {
 		this.order = order;
-		this.predicate = predicate;
 		this.valueProvider = valueProvider;
 	}
 	
@@ -51,24 +44,13 @@ public class SourceTrait implements Comparable<SourceTrait> {
 		this.id = id;
 	}
 	
-	public float getChance() {
-		return chance;
-	}
-	
 	public int getOrder() {
 		return order;
 	}
 	
-	public IBlockPosPredicate getPredicate() {
-		return predicate;
-	}
-	
 	@Nullable
 	public ISourceTraitValue roll(Level level, BlockPos pos) {
-		if (predicate.test(level, pos) && level.random.nextDouble() < chance) {
-			return valueProvider.roll(this, level, pos);
-		}
-		return null;
+		return valueProvider.roll(this, level, pos);
 	}
 
 	@Nullable
@@ -103,31 +85,17 @@ public class SourceTrait implements Comparable<SourceTrait> {
 	
 	public static class Builder {
 		
-		public static final Encoder<Builder> ENCODER = SourceTrait.CODEC.comap(builder -> new SourceTrait(builder.chance, builder.order, builder.predicate, builder.valueProvider));
+		public static final Encoder<Builder> ENCODER = SourceTrait.CODEC.comap(builder -> new SourceTrait(builder.order, builder.valueProvider));
 
 		private int order;
-		private float chance;
-		private IBlockPosPredicate predicate;
 		private ISourceTraitValueProvider valueProvider;
 		
 		private Builder() {
-			chance = 1F;
 			order = 0;
-			predicate = IBlockPosPredicate.any();
-		}
-		
-		public Builder chance(float chance) {
-			this.chance = chance;
-			return this;
 		}
 		
 		public Builder order(int order) {
 			this.order = order;
-			return this;
-		}
-		
-		public Builder predicate(IBlockPosPredicate predicate) {
-			this.predicate = predicate;
 			return this;
 		}
 		

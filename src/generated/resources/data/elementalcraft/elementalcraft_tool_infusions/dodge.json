@@ -1,9 +1,0 @@
-{
-  "element_type": "air",
-  "effects": [
-    {
-      "value": 0.1,
-      "type": "elementalcraft:dodge"
-    }
-  ]
-}

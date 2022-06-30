@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.interaction.jei.ingredient.element;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import mezz.jei.api.ingredients.IIngredientType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class IngredientElementType implements IElementTypeProvider {
 

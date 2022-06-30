@@ -8,8 +8,6 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
@@ -52,11 +50,11 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 	}
 
 	public void addInformation(List<Component> tooltip) {
-		bonuses.forEach((type, multiplier) -> tooltip.add(new TranslatableComponent("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
+		bonuses.forEach((type, multiplier) -> tooltip.add(Component.translatable("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
 				.withStyle(type.isPositive() ^ multiplier < 1 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
-			tooltip.add(new TextComponent(""));
-			tooltip.add(new TranslatableComponent("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
+			tooltip.add(Component.empty());
+			tooltip.add(Component.translatable("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
 		}
 	}
 
@@ -102,7 +100,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		RANGE(ECNames.RANGE, true),
 		STRENGTH(ECNames.STRENGTH, true);
 
-		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values, BonusType::byName);
+		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values);
 
 		private final String name;
 		private final boolean positive;

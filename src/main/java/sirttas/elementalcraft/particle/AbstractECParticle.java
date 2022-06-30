@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -31,17 +30,17 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 	static final ParticleRenderType EC_RENDER = new ParticleRenderType() {
 		@Override
 		public void begin(BufferBuilder buffer, @Nonnull TextureManager textureManager) {
+			RenderSystem.enableDepthTest();
 			RenderSystem.depthMask(false);
 			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
 			RenderSystem.enableBlend();
-			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-					GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 			buffer.begin(Mode.QUADS, DefaultVertexFormat.PARTICLE);
 		}
 
 		@Override
-		public void end(Tesselator tessellator) {
-			tessellator.end();
+		public void end(Tesselator tesselator) {
+			tesselator.end();
 			RenderSystem.depthMask(true);
 			RenderSystem.disableBlend();
 		}
@@ -75,7 +74,7 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public ParticleRenderType getRenderType() {
-		return Minecraft.getInstance().options.graphicsMode == GraphicsStatus.FAST ? ParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;
+		return Minecraft.getInstance().options.graphicsMode().get() == GraphicsStatus.FAST ? ParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;
 	}
 
 	@Override

@@ -1,0 +1,8 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:autosmelt"
+    }
+  ],
+  "element_type": "fire"
+}

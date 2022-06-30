@@ -24,7 +24,7 @@ public class SpellTickCooldownMessage {
 	}
 
 	public void encode(FriendlyByteBuf buf) {
-		buf.writeResourceLocation(spell.getRegistryName());
+		buf.writeResourceLocation(spell.getKey());
 	}
 
 	public void handle(Supplier<NetworkEvent.Context> ctx) {

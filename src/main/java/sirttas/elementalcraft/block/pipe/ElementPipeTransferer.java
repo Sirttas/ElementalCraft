@@ -4,6 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
+import sirttas.elementalcraft.config.ECConfig;
 
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -25,7 +26,11 @@ public class ElementPipeTransferer implements IElementTransferer {
         this.connections = new EnumMap<>(Direction.class);
         this.priorities = new EnumMap<>(Direction.class);
         this.comparator = creatComparator();
-        this.maxTransferAmount = ((ElementPipeBlock) pipe.getBlockState().getBlock()).getMaxTransferAmount();
+        this.maxTransferAmount = switch (((ElementPipeBlock) pipe.getBlockState().getBlock()).getType()) {
+            case IMPAIRED -> ECConfig.COMMON.impairedPipeTransferAmount.get();
+            case STANDARD -> ECConfig.COMMON.pipeTransferAmount.get();
+            case IMPROVED -> ECConfig.COMMON.improvedPipeTransferAmount.get();
+        };
     }
 
     private Comparator<Map.Entry<Direction, ConnectionType>> creatComparator() {

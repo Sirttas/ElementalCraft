@@ -6,6 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -35,7 +36,6 @@ import sirttas.elementalcraft.property.ECProperties;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 public abstract class AbstractShrineUpgradeBlock extends Block implements SimpleWaterloggedBlock {
 
@@ -106,7 +106,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	
 	@Override
 	@Deprecated
-	public void tick(BlockState state, @Nonnull ServerLevel worldIn, @Nonnull BlockPos pos, @Nonnull Random rand) {
+	public void tick(BlockState state, @Nonnull ServerLevel worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		if (!state.canSurvive(worldIn, pos)) {
 			worldIn.destroyBlock(pos, true);
 		} else {
@@ -118,7 +118,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		if (upgrade.isBound()) {
 			getUpgrade().addInformation(tooltip);
 		}

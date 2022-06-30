@@ -9,9 +9,9 @@ import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -21,8 +21,8 @@ public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCate
 
 	public static final String NAME = "evaporation";
 
-	protected static final List<ItemStack> TANKS = Lists.newArrayList(new ItemStack(ECItems.TANK), new ItemStack(ECItems.TANK_SMALL));
-	private static final ItemStack EVAPORATOR = new ItemStack(ECItems.EVAPORATOR);
+	protected static final List<ItemStack> CONTAINERS = Lists.newArrayList(new ItemStack(ECBlocks.CONTAINER.get()), new ItemStack(ECBlocks.SMALL_CONTAINER.get()));
+	private static final ItemStack EVAPORATOR = new ItemStack(ECBlocks.EVAPORATOR.get());
 
 	public EvaporationRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.evaporation", createDrawableStack(guiHelper, EVAPORATOR), guiHelper.createBlankDrawable(99, 59));
@@ -43,7 +43,7 @@ public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCate
 		builder.addSlot(RecipeIngredientRole.CATALYST, 30, 24)
 				.addItemStack(EVAPORATOR);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 30, 40)
-				.addItemStacks(TANKS);
+				.addItemStacks(CONTAINERS);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 75, 36)
 				.addIngredient(ECIngredientTypes.ELEMENT, getOutput(ingredient));
 	}

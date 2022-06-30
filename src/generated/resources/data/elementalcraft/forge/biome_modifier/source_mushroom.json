@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/mushroom",
+  "features": "elementalcraft:source_mushroom",
+  "step": "top_layer_modification"
+}

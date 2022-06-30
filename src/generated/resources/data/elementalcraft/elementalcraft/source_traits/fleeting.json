@@ -1,0 +1,8 @@
+{
+  "order": 5,
+  "value": {
+    "type": "elementalcraft:fixed",
+    "name": "source_trait.elementalcraft.fleeting",
+    "value": 5.0
+  }
+}

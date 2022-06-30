@@ -1,64 +1,64 @@
 {
   "variants": {
-    "facing=north,part=core,waterlogged=false": {
-      "model": "elementalcraft:block/breedingshrine_core"
+    "facing=east,part=bowl,waterlogged=false": {
+      "model": "elementalcraft:block/breedingshrine_bowl",
+      "y": 90
     },
-    "facing=south,part=core,waterlogged=false": {
-      "model": "elementalcraft:block/breedingshrine_core",
-      "y": 180
-    },
-    "facing=west,part=core,waterlogged=false": {
-      "model": "elementalcraft:block/breedingshrine_core",
-      "y": 270
+    "facing=east,part=bowl,waterlogged=true": {
+      "model": "elementalcraft:block/breedingshrine_bowl",
+      "y": 90
     },
     "facing=east,part=core,waterlogged=false": {
+      "model": "elementalcraft:block/breedingshrine_core",
+      "y": 90
+    },
+    "facing=east,part=core,waterlogged=true": {
       "model": "elementalcraft:block/breedingshrine_core",
       "y": 90
     },
     "facing=north,part=bowl,waterlogged=false": {
       "model": "elementalcraft:block/breedingshrine_bowl"
     },
+    "facing=north,part=bowl,waterlogged=true": {
+      "model": "elementalcraft:block/breedingshrine_bowl"
+    },
+    "facing=north,part=core,waterlogged=false": {
+      "model": "elementalcraft:block/breedingshrine_core"
+    },
+    "facing=north,part=core,waterlogged=true": {
+      "model": "elementalcraft:block/breedingshrine_core"
+    },
     "facing=south,part=bowl,waterlogged=false": {
       "model": "elementalcraft:block/breedingshrine_bowl",
+      "y": 180
+    },
+    "facing=south,part=bowl,waterlogged=true": {
+      "model": "elementalcraft:block/breedingshrine_bowl",
+      "y": 180
+    },
+    "facing=south,part=core,waterlogged=false": {
+      "model": "elementalcraft:block/breedingshrine_core",
+      "y": 180
+    },
+    "facing=south,part=core,waterlogged=true": {
+      "model": "elementalcraft:block/breedingshrine_core",
       "y": 180
     },
     "facing=west,part=bowl,waterlogged=false": {
       "model": "elementalcraft:block/breedingshrine_bowl",
       "y": 270
     },
-    "facing=east,part=bowl,waterlogged=false": {
-      "model": "elementalcraft:block/breedingshrine_bowl",
-      "y": 90
-    },
-    "facing=north,part=core,waterlogged=true": {
-      "model": "elementalcraft:block/breedingshrine_core"
-    },
-    "facing=south,part=core,waterlogged=true": {
-      "model": "elementalcraft:block/breedingshrine_core",
-      "y": 180
-    },
-    "facing=west,part=core,waterlogged=true": {
-      "model": "elementalcraft:block/breedingshrine_core",
-      "y": 270
-    },
-    "facing=east,part=core,waterlogged=true": {
-      "model": "elementalcraft:block/breedingshrine_core",
-      "y": 90
-    },
-    "facing=north,part=bowl,waterlogged=true": {
-      "model": "elementalcraft:block/breedingshrine_bowl"
-    },
-    "facing=south,part=bowl,waterlogged=true": {
-      "model": "elementalcraft:block/breedingshrine_bowl",
-      "y": 180
-    },
     "facing=west,part=bowl,waterlogged=true": {
       "model": "elementalcraft:block/breedingshrine_bowl",
       "y": 270
     },
-    "facing=east,part=bowl,waterlogged=true": {
-      "model": "elementalcraft:block/breedingshrine_bowl",
-      "y": 90
+    "facing=west,part=core,waterlogged=false": {
+      "model": "elementalcraft:block/breedingshrine_core",
+      "y": 270
+    },
+    "facing=west,part=core,waterlogged=true": {
+      "model": "elementalcraft:block/breedingshrine_core",
+      "y": 270
     }
   }
 }

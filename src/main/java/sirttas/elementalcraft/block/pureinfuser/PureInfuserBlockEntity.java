@@ -7,13 +7,10 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
@@ -21,10 +18,12 @@ import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 import javax.annotation.Nonnull;
@@ -36,14 +35,12 @@ import java.util.Map.Entry;
 
 public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfuserBlockEntity, PureInfusionRecipe> {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + PureInfuserBlock.NAME) public static final BlockEntityType<PureInfuserBlockEntity> TYPE = null;
-
 	private final SingleItemContainer inventory;
 	private final Map<Direction, Integer> progress = new EnumMap<>(Direction.class);
 	private final RuneHandler runeHandler;
 
 	public PureInfuserBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PureInfusionRecipe.TYPE, ECConfig.COMMON.pureInfuserTransferSpeed.get());
+		super(ECBlockEntityTypes.PURE_INFUSER, pos, state, ECRecipeTypes.PURE_INFUSION.get(), ECConfig.COMMON.pureInfuserTransferSpeed.get());
 		inventory = new SingleItemContainer(this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get(), this::setChanged);
 		progress.put(Direction.NORTH, 0);

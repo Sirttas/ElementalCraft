@@ -1,19 +1,16 @@
 package sirttas.elementalcraft.item.spell.book;
 
-import java.text.MessageFormat;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
+import java.text.MessageFormat;
 
 public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> implements MenuAccess<SpellBookMenu> {
 	private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
@@ -34,7 +31,7 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 
 	@Override
 	protected void renderLabels(@Nonnull PoseStack matrixStack, int x, int y) {
-		Component text = new TextComponent(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
+		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
 
 		super.renderLabels(matrixStack, x, y);
 		this.font.draw(matrixStack, text, (float) this.imageWidth - this.font.width(text.getVisualOrderText()) - this.titleLabelX, this.titleLabelY, 4210752);

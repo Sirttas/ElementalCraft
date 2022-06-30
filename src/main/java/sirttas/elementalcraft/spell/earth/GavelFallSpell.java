@@ -3,7 +3,6 @@ package sirttas.elementalcraft.spell.earth;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -67,7 +66,7 @@ public class GavelFallSpell extends Spell {
 	
 	@Override
 	public void addInformation(List<Component> tooltip) {
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.consumes", new TranslatableComponent("tooltip.elementalcraft.count", 3, Blocks.GRAVEL.getName()))
+		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", Component.translatable("tooltip.elementalcraft.count", 3, Blocks.GRAVEL.getName()))
 				.withStyle(ChatFormatting.YELLOW));
 	}
 }

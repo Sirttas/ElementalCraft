@@ -3,8 +3,6 @@ package sirttas.elementalcraft.item.spell;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -37,11 +35,11 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	}
 
 	protected void addAttributeTooltip(List<Component> tooltip, Spell spell) {
-		tooltip.add(new TextComponent(""));
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.consumes", spell.getElementType().getDisplayName()).withStyle(ChatFormatting.YELLOW));
-		tooltip.add(new TranslatableComponent("tooltip.elementalcraft.cooldown", spell.getCooldown() / 20).withStyle(ChatFormatting.YELLOW));
+		tooltip.add(Component.empty());
+		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", spell.getElementType().getDisplayName()).withStyle(ChatFormatting.YELLOW));
+		tooltip.add(Component.translatable("tooltip.elementalcraft.cooldown", spell.getCooldown() / 20).withStyle(ChatFormatting.YELLOW));
 		spell.addInformation(tooltip);
-		addAttributeMultiMapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), new TranslatableComponent("tooltip.elementalcraft.on_spell_use").withStyle(ChatFormatting.GRAY));
+		addAttributeMultiMapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), Component.translatable("tooltip.elementalcraft.on_spell_use").withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -35,6 +36,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -43,7 +45,6 @@ import sirttas.elementalcraft.tag.ECTags;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 public class ElementPipeBlock extends AbstractECEntityBlock {
 
@@ -67,13 +68,13 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
 
-	private final int maxTransferAmount;
+	private final PipeType type;
 
-	public ElementPipeBlock(int maxTransferAmount) {
+	public ElementPipeBlock(PipeType type) {
 		super(BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion().randomTicks());
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(COVER, CoverType.NONE));
-		this.maxTransferAmount = maxTransferAmount;
+		this.type = type;
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECTicker(level, type, ElementPipeBlockEntity.TYPE, level.isClientSide ? ElementPipeBlockEntity::commonTick : ElementPipeBlockEntity::serverTick);
+		return createECTicker(level, type, ECBlockEntityTypes.PIPE, level.isClientSide ? ElementPipeBlockEntity::commonTick : ElementPipeBlockEntity::serverTick);
 	}
 
 	@Override
@@ -102,7 +103,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public void tick(@NotNull BlockState state, ServerLevel worldIn, @NotNull BlockPos pos, @NotNull Random rand) {
+	public void tick(@NotNull BlockState state, ServerLevel worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
 		if (worldIn.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
 			pipe.refresh();
 		}
@@ -238,7 +239,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		if (face != null) {
 			ItemStack stack = player.getItemInHand(hand);
 
-			if (!stack.isEmpty() && stack.getItem() == ECItems.PIPE_PRIORITY) {
+			if (!stack.isEmpty() && stack.getItem() == ECItems.PIPE_PRIORITY.get()) {
 				return pipe.activatePriority(face, player, hand);
 			}
 			return pipe.activatePipe(face);
@@ -265,15 +266,15 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	private static ElementPipeBlockEntity getBlockEntity(BlockGetter world, BlockPos pos) {
 		return BlockEntityHelper.getBlockEntityAs(world, pos, ElementPipeBlockEntity.class).orElse(null);
 	}
-	
-	public int getMaxTransferAmount() {
-		return maxTransferAmount;
+
+	public PipeType getType() {
+		return type;
 	}
 
 	public enum CoverType implements StringRepresentable {
 		NONE("none"), FRAME("frame"), COVERED("covered");
 
-		public static final Codec<CoverType> CODEC = StringRepresentable.fromEnum(CoverType::values, CoverType::byName);
+		public static final Codec<CoverType> CODEC = StringRepresentable.fromEnum(CoverType::values);
 
 		private final String name;
 
@@ -296,4 +297,9 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			return NONE;
 		}
 	}
+
+	public enum PipeType {
+		IMPAIRED, STANDARD, IMPROVED;
+	}
+
 }

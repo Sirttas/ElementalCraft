@@ -25,7 +25,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	public static final String NAME = "pure_element_holder";
 
 	public PureElementHolderItem() {
-		super(ECConfig.COMMON.pureElementHolderCapacity.get(), ECConfig.COMMON.pureElementHolderTransferAmount.get());
+		super(ECConfig.COMMON.pureElementHolderCapacity::get, ECConfig.COMMON.pureElementHolderTransferAmount::get);
 	}
 	
 	@Override
@@ -46,16 +46,21 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 
 	@Override
 	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowdedIn(group)) {
+		if (this.allowedIn(group)) {
 			ItemStack full = new ItemStack(this);
 			IElementStorage storage = getElementStorage(full);
 
-			ElementType.ALL_VALID.forEach(elementType -> storage.insertElement(elementCapacity, elementType, false));
+			ElementType.ALL_VALID.forEach(elementType -> storage.insertElement(this.getElementCapacity(elementType), elementType, false));
 			items.add(new ItemStack(this));
 			items.add(full);
 		}
 	}
-	
+
+	public int getElementCapacity(ElementType type) {
+		return elementCapacity.getAsInt();
+	}
+
+
 	@Override
 	protected ElementType getElementType(IElementStorage target, BlockState blockstate) {
 		if (blockstate.hasProperty(ElementType.STATE_PROPERTY)) {
@@ -90,13 +95,13 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 
 		@Override
 		public int getElementCapacity(ElementType type) {
-			return elementCapacity;
+			return PureElementHolderItem.this.getElementCapacity(type);
 		}
 
 		@Override
 		public int insertElement(int count, ElementType type, boolean simulate) {
 			int amount = getElementAmount(type);
-			int newCount = Math.min(amount + count, elementCapacity);
+			int newCount = Math.min(amount + count, getElementCapacity(type));
 			int ret = count - newCount + amount;
 
 			if (!simulate) {

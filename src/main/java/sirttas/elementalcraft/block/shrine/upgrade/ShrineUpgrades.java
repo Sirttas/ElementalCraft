@@ -29,7 +29,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexS
 public class ShrineUpgrades {
 
 	public static final String NAME = "shrine_upgrades";
-	public static final String FOLDER = ElementalCraftApi.MODID + '_' + NAME;
+	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
 
 	public static final ResourceKey<ShrineUpgrade> FORTUNE = createKey(FortuneShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> SILK_TOUCH = createKey(SilkTouchShrineUpgradeBlock.NAME);

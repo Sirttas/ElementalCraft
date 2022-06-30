@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -9,7 +10,6 @@ import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public interface IPurifierRecipe extends IIOInstrumentRecipe<PurifierBlockEntity> {
 
@@ -47,7 +47,7 @@ public interface IPurifierRecipe extends IIOInstrumentRecipe<PurifierBlockEntity
 	}
 
 	@Override
-	default Random getRand(PurifierBlockEntity instrument) {
+	default RandomSource getRand(PurifierBlockEntity instrument) {
 		return instrument.getLevel().getRandom();
 	}
 	

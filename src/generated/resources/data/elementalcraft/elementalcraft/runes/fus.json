@@ -1,0 +1,12 @@
+{
+  "bonuses": {
+    "element_preservation": -0.05,
+    "speed": 0.3
+  },
+  "effect_sprite": "elementalcraft:elementalcraft/runes/fus",
+  "model": "elementalcraft:elementalcraft/runes/fus",
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:rune_affected/speed"
+  }
+}

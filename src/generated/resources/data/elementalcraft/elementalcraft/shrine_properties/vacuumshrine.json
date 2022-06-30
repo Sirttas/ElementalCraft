@@ -1,0 +1,10 @@
+{
+  "element_capacity": 10000,
+  "element_consumption": 5,
+  "element_type": "air",
+  "periode": 1.0,
+  "range": 10.0,
+  "strength": [
+    2.0
+  ]
+}

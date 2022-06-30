@@ -2,7 +2,6 @@ package sirttas.elementalcraft.recipe.instrument;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -10,13 +9,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
@@ -25,13 +22,6 @@ import java.util.List;
 public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEntity> {
 
 	public static final String NAME = "inscription";
-	public static final RecipeType<InscriptionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<InscriptionRecipe>() {
-		@Override
-		public String toString() {
-			return NAME;
-		}
-	});
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<InscriptionRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
 	private final int elementAmount;
@@ -72,16 +62,16 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 	@Nonnull
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return ECRecipeTypes.INSCRIPTION.get();
 	}
 
 	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.INSCRIPTION.get();
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<InscriptionRecipe> {
+	public static class Serializer implements RecipeSerializer<InscriptionRecipe> {
 
 		@Nonnull
 		@Override

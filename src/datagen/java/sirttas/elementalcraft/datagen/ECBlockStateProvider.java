@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.datagen;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -40,6 +38,9 @@ import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.block.sorter.SorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
+import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
+
+import javax.annotation.Nonnull;
 
 public class ECBlockStateProvider extends BlockStateProvider {
 
@@ -62,19 +63,22 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		air = models().getExistingFile(new ResourceLocation("block/air"));
 		containerConnector = models().getExistingFile(prefix("container_connector"));
 		
-		for (Block block : ForgeRegistries.BLOCKS) {
-			if (ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace()) && !exists(block)) {
-				save(block);
+		for (var entry : ForgeRegistries.BLOCKS.getEntries()) {
+			var block = entry.getValue();
+			var key = entry.getKey().location();
+
+			if (ElementalCraftApi.MODID.equals(key.getNamespace()) && !exists(key)) {
+				save(key, block);
 			}
 		}
 	}
 
-	private boolean exists(Block block) {
-		return existingFileHelper.exists(block.getRegistryName(), PackType.CLIENT_RESOURCES, ".json", "blockstates");
+	private boolean exists(ResourceLocation name) {
+		return existingFileHelper.exists(name, PackType.CLIENT_RESOURCES, ".json", "blockstates");
 	}
 
-	private boolean modelExists(Block block) {
-		return existingFileHelper.exists(block.getRegistryName(), PackType.CLIENT_RESOURCES, ".json", "models/block");
+	private boolean modelExists(ResourceLocation name) {
+		return existingFileHelper.exists(name, PackType.CLIENT_RESOURCES, ".json", "models/block");
 	}
 
 	private ResourceLocation prefix(String name) {
@@ -86,19 +90,19 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	}
 
-	private void save(Block block) {
-		String name = block.getRegistryName().getPath();
+	private void save(ResourceLocation key, Block block) {
+		String name = key.getPath();
 
-		if (block instanceof SlabBlock) {
-			slabBlock((SlabBlock) block);
-		} else if (block instanceof StairBlock) {
-			stairsBlock((StairBlock) block);
-		} else if (block instanceof WallBlock) {
-			wallBlock((WallBlock) block);
-		} else if (block instanceof IronBarsBlock) {
-			paneBlock((IronBarsBlock) block);
-		} else if (block == ECBlocks.WHITE_ROCK_FENCE) {
-			fenceBlock((FenceBlock) block, prefix("whiterock"), prefix("iron"));
+		if (block instanceof SlabBlock slabBlock) {
+			slabBlock(key, slabBlock);
+		} else if (block instanceof StairBlock stairsBlock) {
+			stairsBlock(key, stairsBlock);
+		} else if (block instanceof WallBlock wallBlock) {
+			wallBlock(key, wallBlock);
+		} else if (block instanceof IronBarsBlock paneBlock) {
+			paneBlock(key, paneBlock);
+		} else if (block instanceof FenceBlock fenceBlock) {
+			fenceBlock(key, fenceBlock, prefix("whiterock"), prefix("iron"));
 		} else if (block instanceof OverloadShrineBlock) {
 			ModelFile base = models().getExistingFile(prefix(name + "_base"));
 			ModelFile top = models().getExistingFile(prefix(name + "_top"));
@@ -165,16 +169,16 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(target).rotationY(90).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.EAST).end()
 				.part().modelFile(target).rotationX(90).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.DOWN).end()
 				.part().modelFile(target).rotationX(270).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.UP).end();
-		} else if (block instanceof ElementPipeBlock) {
-			if (block == ECBlocks.PIPE) {
-				pipeBlock((ElementPipeBlock) block, name, "brass");
-			} else if (block == ECBlocks.PIPE_IMPROVED) {
-				pipeBlock((ElementPipeBlock) block, name, "pure_iron");
+		} else if (block instanceof ElementPipeBlock pipe) {
+			if (block == ECBlocks.PIPE.get()) {
+				pipeBlock(pipe, name, "brass");
+			} else if (block == ECBlocks.PIPE_IMPROVED.get()) {
+				pipeBlock(pipe, name, "pure_iron");
 			} else {
-				pipeBlock((ElementPipeBlock) block, name, "iron");
+				pipeBlock(pipe, name, "iron");
 			}
 		} else if (block instanceof AmethystClusterBlock) {
-			springalineCluster(block);
+			springalineCluster(key, block);
 		} else if (block.defaultBlockState().hasProperty(HorizontalDirectionalBlock.FACING)) {
 			horizontalBlock(block, models().getExistingFile(prefix(name)));
 		} else if (block.defaultBlockState().hasProperty(DirectionalBlock.FACING)) {
@@ -188,7 +192,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(lower));
 		} else if (block instanceof SourceBlock) {
 			simpleBlock(block, air);
-		} else if (modelExists(block)) {
+		} else if (block instanceof SourceDisplacementPlateBlock sourceDisplacementPlateBlock) {
+			simpleBlock(block, models().withExistingParent(name, prefix("template_source_displacement_plate")).texture(TEXTURE, prefix("source_displacement_plate_" + sourceDisplacementPlateBlock.getElementType().getSerializedName() + "_top")));
+		} else if (modelExists(key)) {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
 		} else {
 			simpleBlock(block);
@@ -211,8 +217,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			.part().modelFile(frame).uvLock(true).addModel().condition(ElementPipeBlock.COVER, CoverType.FRAME).end();
 	}
 
-	private void slabBlock(SlabBlock block) {
-		String name = block.getRegistryName().getPath();
+	private void slabBlock(ResourceLocation key, SlabBlock block) {
+		String name = key.getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
 		ModelFile bottom = models().slab(name, sourceName, sourceName, sourceName);
 		ModelFile top = models().slabTop(name + "_top", sourceName, sourceName, sourceName);
@@ -221,8 +227,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		slabBlock(block, bottom, top, full);
 	}
 
-	private void stairsBlock(StairBlock block) {
-		String name = block.getRegistryName().getPath();
+	private void stairsBlock(ResourceLocation key, StairBlock block) {
+		String name = key.getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 7));
 		ModelFile stair = models().stairs(name, sourceName, sourceName, sourceName);
 		ModelFile inner = models().stairsInner(name + "_inner", sourceName, sourceName, sourceName);
@@ -231,8 +237,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		stairsBlock(block, stair, inner, outer);
 	}
 
-	private void wallBlock(WallBlock block) {
-		String name = block.getRegistryName().getPath();
+	private void wallBlock(ResourceLocation key, WallBlock block) {
+		String name = key.getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
 		ModelFile post = models().wallPost(name + "_post", sourceName);
 		ModelFile side = models().wallSide(name + SIDE, sourceName);
@@ -241,21 +247,21 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		wallBlock(block, post, side, sideTall);
 	}
 
-	private void paneBlock(IronBarsBlock block) {
-		String name = block.getRegistryName().getPath();
+	private void paneBlock(ResourceLocation key, IronBarsBlock block) {
+		String name = key.getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
 
 		paneBlock(block, sourceName, sourceName);
 	}
 
-	public void fenceBlock(FenceBlock block, ResourceLocation postTexture, ResourceLocation sideTexture) {
-		String baseName = block.getRegistryName().toString();
+	public void fenceBlock(ResourceLocation key, FenceBlock block, ResourceLocation postTexture, ResourceLocation sideTexture) {
+		String baseName = key.toString();
 
 		fourWayBlock(block, models().fencePost(baseName + "_post", postTexture), models().fenceSide(baseName + SIDE, sideTexture));
 	}
 
-	public void springalineCluster(Block block) {
-		String name = block.getRegistryName().getPath();
+	public void springalineCluster(ResourceLocation key,Block block) {
+		String name = key.getPath();
 		
 		directionalBlock(block, models().withExistingParent(name, prefix("minecraft:cross")).texture("cross", prefix(name)));
 	}

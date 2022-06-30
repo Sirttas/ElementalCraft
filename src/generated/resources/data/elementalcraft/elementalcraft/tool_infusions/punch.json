@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:punch"
+    }
+  ],
+  "element_type": "water"
+}

@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.datagen.loot;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -41,7 +41,7 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	private static final LootPool.Builder AIR = genShard(ElementType.AIR);
 	
 	@Override
-	public void run(@Nonnull HashCache cache) throws IOException {
+	public void run(@Nonnull CachedOutput cache) throws IOException {
 		save(cache, EARTH, EntityType.ZOMBIE);
 		save(cache, EARTH, EntityType.ZOMBIE_VILLAGER);
 		save(cache, EARTH, EntityType.SKELETON);
@@ -86,11 +86,11 @@ public class ECInjectLootProvider extends AbstractECLootProvider {
 	}
 
 
-	private void save(HashCache cache, LootPool.Builder pool, EntityType<?> entityType) throws IOException {
+	private void save(CachedOutput cache, LootPool.Builder pool, EntityType<?> entityType) throws IOException {
 		save(cache, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
 	}
 
-	private void save(HashCache cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
+	private void save(CachedOutput cache, LootTable.Builder builder, ResourceLocation location) throws IOException {
 		if (!LootHandler.INJECT_LIST.contains(location.getPath())) {
 			throw new IllegalStateException(MessageFormat.format("{} is not present in LootHandler.INJECT_LIST and will not be injected at runtime!", location));
 		}

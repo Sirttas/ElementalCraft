@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -22,7 +23,7 @@ import javax.annotation.Nullable;
  */
 public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEntity {
 
-	protected AbstractIERBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
+	protected AbstractIERBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
 	}
 	

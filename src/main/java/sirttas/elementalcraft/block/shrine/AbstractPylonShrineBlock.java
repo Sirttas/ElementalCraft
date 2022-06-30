@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.shrine;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +20,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEntity>  extends AbstractShrineBlock<T> {
 
@@ -67,7 +67,7 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
 			BlockEntityHelper.getBlockEntityAs(level, pos.below(), AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
 		}

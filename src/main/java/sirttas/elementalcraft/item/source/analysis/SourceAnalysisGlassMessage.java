@@ -1,20 +1,21 @@
 package sirttas.elementalcraft.item.source.analysis;
 
-import java.util.Map;
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.network.NetworkEvent;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.network.message.MessageHelper;
 
+import java.util.Map;
+import java.util.function.Supplier;
+
 public final class SourceAnalysisGlassMessage {
 
-	private final Map<SourceTrait, ISourceTraitValue> traits;
+	private final Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits;
 
-	public SourceAnalysisGlassMessage(Map<SourceTrait, ISourceTraitValue> traits) {
+	public SourceAnalysisGlassMessage(Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits) {
 		this.traits = traits;
 	}
 

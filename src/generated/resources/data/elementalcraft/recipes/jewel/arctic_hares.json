@@ -1,13 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " w ",
-    "fUf",
-    " a "
-  ],
   "key": {
-    "w": {
-      "tag": "elementalcraft:gems/fine_water"
+    "U": {
+      "item": "elementalcraft:unset_jewel"
     },
     "a": {
       "tag": "elementalcraft:gems/crude_air"
@@ -15,10 +10,15 @@
     "f": {
       "item": "minecraft:rabbit_foot"
     },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
+    "w": {
+      "tag": "elementalcraft:gems/fine_water"
     }
   },
+  "pattern": [
+    " w ",
+    "fUf",
+    " a "
+  ],
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

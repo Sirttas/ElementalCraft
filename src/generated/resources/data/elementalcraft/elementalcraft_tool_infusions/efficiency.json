@@ -1,9 +1,0 @@
-{
-  "element_type": "air",
-  "effects": [
-    {
-      "enchantment": "minecraft:efficiency",
-      "type": "elementalcraft:enchantment"
-    }
-  ]
-}

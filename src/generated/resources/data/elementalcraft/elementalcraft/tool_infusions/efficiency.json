@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:efficiency"
+    }
+  ],
+  "element_type": "air"
+}

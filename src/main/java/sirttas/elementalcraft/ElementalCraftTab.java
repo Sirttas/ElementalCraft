@@ -22,7 +22,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 	@Nonnull
 	@Override
 	public ItemStack makeIcon() {
-		return new ItemStack(ECItems.FOCUS);
+		return new ItemStack(ECItems.FOCUS.get());
 	}
 
 	@Override
@@ -96,6 +96,12 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.SPRINGALINE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, list);
 
+		addItem(ECBlocks.SOURCE, list);
+		addItem(ECBlocks.BROKEN_SOURCE_DISPLACEMENT_PLATE, list);
+		addItem(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, list);
+		addItem(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE, list);
+		addItem(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE, list);
+		addItem(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.CRYSTAL_ORE, list);
 		addItem(ECBlocks.DEEPSLATE_CRYSTAL_ORE, list);
 		addItem(ECBlocks.WHITE_ROCK, list);
@@ -120,10 +126,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.SCROLL, list);
 		addItem(ECItems.SPELL_BOOK, list);
 		addItem(ECItems.SOURCE_ANALYSIS_GLASS, list);
-		addItem(ECItems.EMPTY_RECEPTACLE, list);
 		addItem(ECItems.RECEPTACLE, list);
-		addItem(ECItems.EMPTY_RECEPTACLE_IMPROVED, list);
-		addItem(ECItems.RECEPTACLE_IMPROVED, list);
 		addItem(ECItems.SOURCE_STABILIZER, list);
 		addItem(ECItems.FIRE_HOLDER, list);
 		addItem(ECItems.WATER_HOLDER, list);
@@ -168,13 +171,13 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.PRISTINE_AIR_GEM, list);
 		addItem(ECItems.DRENCHED_IRON_NUGGET, list);
 		addItem(ECItems.DRENCHED_IRON_INGOT, list);
-		addItem(ECItems.DRENCHED_IRON_BLOCK, list);
+		addItem(ECBlocks.DRENCHED_IRON_BLOCK, list);
 		addItem(ECItems.SWIFT_ALLOY_NUGGET, list);
 		addItem(ECItems.SWIFT_ALLOY_INGOT, list);
-		addItem(ECItems.SWIFT_ALLOY_BLOCK, list);
+		addItem(ECBlocks.SWIFT_ALLOY_BLOCK, list);
 		addItem(ECItems.FIREITE_NUGGET, list);
 		addItem(ECItems.FIREITE_INGOT, list);
-		addItem(ECItems.FIREITE_BLOCK, list);
+		addItem(ECBlocks.FIREITE_BLOCK, list);
 		addItem(ECItems.SPRINGALINE_SHARD, list);
 		addItem(ECBlocks.SPRINGALINE_BLOCK, list);
 		addItem(ECBlocks.SMALL_SPRINGALINE_BUD, list);
@@ -184,10 +187,10 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.SPRINGALINE_GLASS, list);
 		addItem(ECBlocks.SPRINGALINE_GLASS_PANE, list);
 		addItem(ECItems.SOLAR_PRISM, list);
-		addItem(ECItems.FIRE_LENSE, list);
-		addItem(ECItems.WATER_LENSE, list);
-		addItem(ECItems.EARTH_LENSE, list);
-		addItem(ECItems.AIR_LENSE, list);
+		addItem(ECItems.FIRE_LENS, list);
+		addItem(ECItems.WATER_LENS, list);
+		addItem(ECItems.EARTH_LENS, list);
+		addItem(ECItems.AIR_LENS, list);
 		addItem(ECItems.AIR_SILK, list);
 		addItem(ECItems.HARDENED_HANDLE, list);
 		addItem(ECItems.SCROLL_PAPER, list);

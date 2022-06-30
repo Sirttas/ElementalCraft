@@ -1,0 +1,10 @@
+{
+  "bonuses": {
+    "element_consumption": 1.5
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:block",
+    "block": "elementalcraft:buddingshrine"
+  }
+}

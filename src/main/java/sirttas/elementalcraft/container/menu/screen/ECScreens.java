@@ -11,8 +11,8 @@ public class ECScreens {
 	private ECScreens() {}
 	
 	public static void initScreenFactories() {
-		MenuScreens.register(ECMenus.SPELL_BOOK, SpellBookScreen::new);
-		MenuScreens.register(ECMenus.SPELL_DESK, SpellDeskScreen::new);
-		MenuScreens.register(ECMenus.SOURCE_ANALYSIS_GLASS, SourceAnalysisGlassScreen::new);
+		MenuScreens.register(ECMenus.SPELL_BOOK.get(), SpellBookScreen::new);
+		MenuScreens.register(ECMenus.SPELL_DESK.get(), SpellDeskScreen::new);
+		MenuScreens.register(ECMenus.SOURCE_ANALYSIS_GLASS.get(), SourceAnalysisGlassScreen::new);
 	}
 }

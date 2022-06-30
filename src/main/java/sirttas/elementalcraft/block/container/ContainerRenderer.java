@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
-import sirttas.elementalcraft.api.clinet.renderer.ECRenderTypes;
+import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;

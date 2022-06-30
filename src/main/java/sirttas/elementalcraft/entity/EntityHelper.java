@@ -62,7 +62,7 @@ public class EntityHelper {
 	}
 
 	public static boolean spawnMob(ServerLevel level, BlockPos pos) {
-		return WeightedRandomList.create(level.getChunkSource().getGenerator().getMobsAt(level.getBiome(pos), level.structureFeatureManager(), MobCategory.MONSTER, pos)
+		return WeightedRandomList.create(level.getChunkSource().getGenerator().getMobsAt(level.getBiome(pos), level.structureManager(), MobCategory.MONSTER, pos)
 						.unwrap().stream()
 						.filter(data -> canSpawn(level, pos, data))
 						.toList())

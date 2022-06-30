@@ -2,20 +2,16 @@ package sirttas.elementalcraft.data.predicate.block;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelReader;
-import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 
 public class RangeFromSpawnPredicate implements IBlockPosPredicate {
 
 	public static final String NAME = "range_from_spawn";
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final BlockPosPredicateType<RangeFromSpawnPredicate> TYPE = null;
 	public static final Codec<RangeFromSpawnPredicate> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Codec.INT.fieldOf(ECNames.RANGE).forGetter(p -> p.range)
 	).apply(builder, RangeFromSpawnPredicate::new));
@@ -30,7 +26,7 @@ public class RangeFromSpawnPredicate implements IBlockPosPredicate {
 	
 	@Override
 	public BlockPosPredicateType<RangeFromSpawnPredicate> getType() {
-		return TYPE;
+		return ECBlockPosPredicateTypes.RANGE_FROM_SPAWN.get();
 	}
 
 	@Override

@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "tag": "elementalcraft:gems/fine_air"
+    },
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    },
+    "e": {
+      "tag": "elementalcraft:gems/fine_earth"
+    }
+  },
   "pattern": [
     " a ",
     "cUc",
     " e "
   ],
-  "key": {
-    "a": {
-      "tag": "elementalcraft:gems/fine_air"
-    },
-    "e": {
-      "tag": "elementalcraft:gems/fine_earth"
-    },
-    "c": {
-      "item": "elementalcraft:aircrystal"
-    },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    }
-  },
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:fastdraw",
+      "value": 3
+    }
+  ],
+  "element_type": "air"
+}

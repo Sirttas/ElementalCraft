@@ -20,7 +20,7 @@ public class PurifierRenderer implements IECRenderer<PurifierBlockEntity> {
 		Container inv = te.getInventory();
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);
-		float tick = getAngle(partialTicks);
+		float tick = getClientTicks(partialTicks);
 		
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		if (!stack.isEmpty() || !stack2.isEmpty()) {

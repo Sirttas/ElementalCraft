@@ -27,15 +27,16 @@ import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
+import java.util.function.IntSupplier;
 
 public abstract class AbstractElementHolderItem extends ECItem implements ISourceInteractable {
 	
 	private static final String SAVED_POS = "saved_pos";
 
-	protected final int elementCapacity;
-	protected final int transferAmount;
+	protected final IntSupplier elementCapacity;
+	protected final IntSupplier transferAmount;
 	
-	protected AbstractElementHolderItem(int elementCapacity, int transferAmount) {
+	protected AbstractElementHolderItem(IntSupplier elementCapacity, IntSupplier transferAmount) {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
 		this.elementCapacity = elementCapacity;
 		this.transferAmount = transferAmount;
@@ -45,7 +46,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 
 	@Override
 	public int getUseDuration(@Nonnull ItemStack stack) {
-		return elementCapacity / transferAmount;
+		return elementCapacity.getAsInt() / transferAmount.getAsInt();
 	}
 	
 	@Nonnull
@@ -97,6 +98,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	protected abstract ElementType getElementType(IElementStorage target, BlockState blockstate);
 	
 	private InteractionResult tick(Level level, LivingEntity entity, BlockPos pos, ItemStack stack) {
+		var amount = this.transferAmount.getAsInt();
 		BlockState blockstate = level.getBlockState(pos);
 		return BlockEntityHelper.getElementStorageAt(level, pos).map(storage -> {
 			IElementStorage holder = getElementStorage(stack);
@@ -106,7 +108,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 			if (elementType != ElementType.NONE) {
 				if (isSource || entity.isShiftKeyDown()) {
 					if (isSource || storage.canPipeExtract(elementType, null)) {
-						var value = storage.transferTo(holder, elementType, transferAmount);
+						var value = storage.transferTo(holder, elementType, amount);
 
 						if (value > 0) {
 							ParticleHelper.createElementFlowParticle(elementType, level, Vec3.atCenterOf(pos), entity.getRopeHoldPosition(0), level.random);
@@ -115,7 +117,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 						return InteractionResult.PASS;
 					}
 				} else if (storage.canPipeInsert(elementType, null)) {
-					var value = holder.transferTo(storage, elementType, transferAmount);
+					var value = holder.transferTo(storage, elementType, amount);
 
 					if (value > 0) {
 						ParticleHelper.createElementFlowParticle(elementType, level, entity.getRopeHoldPosition(0), Vec3.atCenterOf(pos), level.random);

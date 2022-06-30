@@ -1,9 +1,0 @@
-{
-  "element_type": "air",
-  "effects": [
-    {
-      "value": 3,
-      "type": "elementalcraft:fastdraw"
-    }
-  ]
-}

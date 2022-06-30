@@ -38,6 +38,11 @@ public class ECShapes {
 	
 	public static final VoxelShape SHRINE_SHAPE = Shapes.or(SHRINE_BASE_1, SHRINE_BASE_2, SHRINE_BASE_3, SHRINE_PIPE_UP, SHRINE_PIPE_NORTH, SHRINE_PIPE_SOUTH, SHRINE_PIPE_EAST, SHRINE_PIPE_WEST);
 
+
+	private static final VoxelShape SOURCE_DISPLACEMENT_PLATE_BASE_1 = Block.box(0D, 0D, 0D, 16D, 2D, 16D);
+	private static final VoxelShape SOURCE_DISPLACEMENT_PLATE_BASE_2 = Block.box(1D, 2D, 1D, 15D, 3D, 15D);
+	public static final VoxelShape SOURCE_DISPLACEMENT_PLATE_SHAPE = Shapes.or(SOURCE_DISPLACEMENT_PLATE_BASE_1, SOURCE_DISPLACEMENT_PLATE_BASE_2);
+
 	private ECShapes() {}
 	
 	public static VoxelShape sourceShape(Direction direction) {

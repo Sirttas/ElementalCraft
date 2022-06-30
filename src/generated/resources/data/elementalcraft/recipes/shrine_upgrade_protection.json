@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:earthcrystal"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "s": {
+      "item": "minecraft:shield"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
   "pattern": [
     "isi",
     "wCw",
     " c "
   ],
-  "key": {
-    "C": {
-      "item": "elementalcraft:shrine_upgrade_core"
-    },
-    "s": {
-      "item": "minecraft:shield"
-    },
-    "i": {
-      "tag": "forge:ingots/iron"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
-    "c": {
-      "item": "elementalcraft:earthcrystal"
-    }
-  },
   "result": {
     "item": "elementalcraft:shrine_upgrade_protection"
   }

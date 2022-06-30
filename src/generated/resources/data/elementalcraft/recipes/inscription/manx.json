@@ -1,10 +1,7 @@
 {
   "type": "elementalcraft:inscription",
-  "element_type": "fire",
   "element_amount": 2000,
-  "slate": {
-    "item": "elementalcraft:minor_rune_slate"
-  },
+  "element_type": "fire",
   "ingredients": [
     {
       "tag": "elementalcraft:gems/crude_fire"
@@ -23,5 +20,8 @@
         "rune": "elementalcraft:manx"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
   }
 }

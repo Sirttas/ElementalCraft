@@ -22,6 +22,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,7 +55,7 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECServerTicker(level, type, SorterBlockEntity.TYPE, SorterBlockEntity::serverTick);
+		return createECServerTicker(level, type, ECBlockEntityTypes.SORTER, SorterBlockEntity::serverTick);
 	}
 
 	@Override

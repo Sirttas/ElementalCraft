@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/hill",
+  "features": "elementalcraft:source_hill",
+  "step": "top_layer_modification"
+}

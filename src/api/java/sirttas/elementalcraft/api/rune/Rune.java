@@ -7,8 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
@@ -34,7 +33,7 @@ import java.util.stream.Stream;
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 	public static final String NAME = "runes";
-	public static final String FOLDER = ElementalCraftApi.MODID + '_' + NAME;
+	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
 	
 	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).and(builder.group(
 			ResourceLocation.CODEC.fieldOf(ECNames.MODEL).forGetter(Rune::getModelName),
@@ -59,10 +58,10 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 	public void addInformation(List<Component> tooltip) {
 		bonuses.forEach((type, multiplier) -> tooltip.add(
-				new TranslatableComponent("rune_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier)).withStyle(multiplier > 0 ? ChatFormatting.BLUE : ChatFormatting.RED)));
+				Component.translatable("rune_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier)).withStyle(multiplier > 0 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
-			tooltip.add(new TextComponent(""));
-			tooltip.add(new TranslatableComponent("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
+			tooltip.add(Component.empty());
+			tooltip.add(Component.translatable("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
 		}
 	}
 
@@ -89,7 +88,11 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	public Component getDisplayName() {
 		ResourceLocation id = getId();
 
-		return new TranslatableComponent("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
+		return Component.translatable("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
+	}
+
+	public boolean is(ResourceKey<Rune> key) {
+		return key.location().equals(this.getId());
 	}
 
 	@Override
@@ -121,7 +124,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		ELEMENT_PRESERVATION(ECNames.ELEMENT_PRESERVATION),
 		LUCK(ECNames.LUCK);
 
-		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values, BonusType::byName);
+		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values);
 
 		private final String name;
 

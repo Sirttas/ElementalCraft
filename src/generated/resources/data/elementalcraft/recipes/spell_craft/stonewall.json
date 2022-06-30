@@ -1,10 +1,10 @@
 {
   "type": "elementalcraft:spell_craft",
-  "gem": {
-    "tag": "elementalcraft:gems/input_earth"
-  },
   "crystal": {
     "item": "elementalcraft:earthcrystal"
+  },
+  "gem": {
+    "tag": "elementalcraft:gems/input_earth"
   },
   "output": {
     "item": "elementalcraft:scroll",

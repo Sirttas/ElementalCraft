@@ -6,7 +6,6 @@ import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
@@ -56,36 +55,36 @@ public class EffectSpell extends Spell {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(List<Component> tooltip) {
-		Multimap<Attribute, AttributeModifier> multimap = HashMultimap.create();
+		Multimap<Attribute, AttributeModifier> multiMap = HashMultimap.create();
 
 		if (!effects.isEmpty()) {
-			for (MobEffectInstance effectinstance : effects) {
-				MutableComponent iformattabletextcomponent = new TranslatableComponent(effectinstance.getDescriptionId());
-				MobEffect effect = effectinstance.getEffect();
+			for (MobEffectInstance effectInstance : effects) {
+				MutableComponent mutableComponent = Component.translatable(effectInstance.getDescriptionId());
+				MobEffect effect = effectInstance.getEffect();
 
 				Map<Attribute, AttributeModifier> map = effect.getAttributeModifiers();
 				if (!map.isEmpty()) {
 					for (Entry<Attribute, AttributeModifier> entry : map.entrySet()) {
 						AttributeModifier attributemodifier = entry.getValue();
-						AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), effect.getAttributeModifierValue(effectinstance.getAmplifier(), attributemodifier),
+						AttributeModifier attributeModifier1 = new AttributeModifier(attributemodifier.getName(), effect.getAttributeModifierValue(effectInstance.getAmplifier(), attributemodifier),
 								attributemodifier.getOperation());
-						multimap.put(entry.getKey(), attributemodifier1);
+						multiMap.put(entry.getKey(), attributeModifier1);
 					}
 				}
 
-				if (effectinstance.getAmplifier() > 0) {
-					iformattabletextcomponent = new TranslatableComponent("potion.withAmplifier", iformattabletextcomponent,
-							new TranslatableComponent("potion.potency." + effectinstance.getAmplifier()));
+				if (effectInstance.getAmplifier() > 0) {
+					mutableComponent = Component.translatable("potion.withAmplifier", mutableComponent,
+							Component.translatable("potion.potency." + effectInstance.getAmplifier()));
 				}
 
-				if (effectinstance.getDuration() > 20) {
-					iformattabletextcomponent = new TranslatableComponent("potion.withDuration", iformattabletextcomponent, MobEffectUtil.formatDuration(effectinstance, 1));
+				if (effectInstance.getDuration() > 20) {
+					mutableComponent = Component.translatable("potion.withDuration", mutableComponent, MobEffectUtil.formatDuration(effectInstance, 1));
 				}
 
-				tooltip.add(iformattabletextcomponent.withStyle(effect.getCategory().getTooltipFormatting()));
+				tooltip.add(mutableComponent.withStyle(effect.getCategory().getTooltipFormatting()));
 			}
 		}
-		ECItem.addAttributeMultiMapToTooltip(tooltip, multimap, new TranslatableComponent("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
+		ECItem.addAttributeMultiMapToTooltip(tooltip, multiMap, Component.translatable("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
 	}
 
 	public final List<MobEffectInstance> getEffects() {

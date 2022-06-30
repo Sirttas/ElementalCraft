@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "g": {
+      "item": "elementalcraft:burnt_glass"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_shard"
+    }
+  },
   "pattern": [
     " s ",
     "sgs",
     " s "
   ],
-  "key": {
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    },
-    "g": {
-      "item": "elementalcraft:burnt_glass"
-    }
-  },
   "result": {
-    "item": "elementalcraft:springaline_glass",
-    "count": 2
+    "count": 2,
+    "item": "elementalcraft:springaline_glass"
   }
 }

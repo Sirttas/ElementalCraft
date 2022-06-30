@@ -6,7 +6,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import sirttas.elementalcraft.ElementalCraft;
@@ -27,8 +26,8 @@ public class SpellDeskScreen extends AbstractContainerScreen<SpellDeskMenu> impl
 	@Override
 	protected void init() {
 		super.init();
-		previous = new Button(leftPos + 107, topPos + 13, 10, 20, new TextComponent("<"), b -> menu.previousPage());
-		next = new Button(leftPos + 151, topPos + 13, 10, 20, new TextComponent(">"), b -> menu.nextPage());
+		previous = new Button(leftPos + 107, topPos + 13, 10, 20, Component.literal("<"), b -> menu.previousPage());
+		next = new Button(leftPos + 151, topPos + 13, 10, 20, Component.literal(">"), b -> menu.nextPage());
 		addRenderableOnly(previous);
 		addRenderableOnly(next);
 	}
@@ -44,7 +43,7 @@ public class SpellDeskScreen extends AbstractContainerScreen<SpellDeskMenu> impl
 
 		previous.active = page > 0;
 		next.active = page < pageCount - 1;
-		Component pages = new TextComponent(String.format("%d / %d", page + 1, pageCount));
+		Component pages = Component.literal(String.format("%d / %d", page + 1, pageCount));
 
 		font.draw(poseStack, pages.getVisualOrderText(), leftPos + 136 - (font.width(pages) / 2F), topPos + 23 - (font.lineHeight / 2F), 4210752);
 	}

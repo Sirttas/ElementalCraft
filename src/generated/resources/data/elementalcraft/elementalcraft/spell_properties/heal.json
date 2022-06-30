@@ -1,0 +1,8 @@
+{
+  "color": "#F82423",
+  "cooldown": 600,
+  "element_consumption": 1000,
+  "element_type": "water",
+  "spell_type": "mixed",
+  "weight": 5
+}

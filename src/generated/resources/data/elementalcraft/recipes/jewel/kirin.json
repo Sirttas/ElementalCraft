@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "tag": "elementalcraft:gems/pristine_air"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "f": {
+      "tag": "elementalcraft:gems/pristine_fire"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_shard"
+    }
+  },
   "pattern": [
     "sfs",
     "cUc",
     "sas"
   ],
-  "key": {
-    "f": {
-      "tag": "elementalcraft:gems/pristine_fire"
-    },
-    "a": {
-      "tag": "elementalcraft:gems/pristine_air"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    }
-  },
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

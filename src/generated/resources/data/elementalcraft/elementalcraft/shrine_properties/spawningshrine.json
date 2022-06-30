@@ -1,0 +1,7 @@
+{
+  "element_capacity": 10000,
+  "element_consumption": 2000,
+  "element_type": "fire",
+  "periode": 100.0,
+  "range": 4.0
+}

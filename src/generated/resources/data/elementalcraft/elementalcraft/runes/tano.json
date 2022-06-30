@@ -1,0 +1,12 @@
+{
+  "bonuses": {
+    "element_preservation": 0.15,
+    "speed": -0.1
+  },
+  "effect_sprite": "elementalcraft:elementalcraft/runes/tano",
+  "model": "elementalcraft:elementalcraft/runes/tano",
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:rune_affected/preservation"
+  }
+}

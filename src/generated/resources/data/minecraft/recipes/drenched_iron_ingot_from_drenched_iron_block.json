@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "elementalcraft:drenched_iron_ingot",
-    "count": 9
+    "count": 9,
+    "item": "elementalcraft:drenched_iron_ingot"
   }
 }

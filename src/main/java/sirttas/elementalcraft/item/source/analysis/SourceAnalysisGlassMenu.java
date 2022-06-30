@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.item.source.analysis;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -15,8 +16,8 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.network.message.MessageHelper;
-import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -28,13 +29,13 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 	private final Container output;
 	private final Player player;
 	private final ContainerLevelAccess worldPosCallable;
-	private Map<SourceTrait, ISourceTraitValue> traits;
+	private Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits;
 	
 	public SourceAnalysisGlassMenu(int id, Inventory inventory) {
 		this(id, inventory, new HashMap<>(), ContainerLevelAccess.NULL);
 	}
 	
-	public SourceAnalysisGlassMenu(int id, Inventory inventory, Map<SourceTrait, ISourceTraitValue> traits, ContainerLevelAccess worldPosCallable) {
+	public SourceAnalysisGlassMenu(int id, Inventory inventory, Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits, ContainerLevelAccess worldPosCallable) {
 		super(ECMenus.SOURCE_ANALYSIS_GLASS, id);
 		this.player = inventory.player;
 		input = new CraftingContainer(this, 1, 1);
@@ -50,11 +51,11 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 		addPlayerSlots(inventory, 98);
 	}
 
-	public Map<SourceTrait, ISourceTraitValue> getTraits() {
+	public Map<ResourceKey<SourceTrait>, ISourceTraitValue> getTraits() {
 		return traits;
 	}
 
-	public void setTraits(Map<SourceTrait, ISourceTraitValue> traits) {
+	public void setTraits(Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits) {
 		this.traits = traits;
 	}
 	
@@ -156,7 +157,7 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 		
 		@Override
 		public boolean mayPlace(ItemStack stack) {
-			return stack.is(ECTags.Items.RECEPTACLES_FULL);
+			return stack.is(ECItems.RECEPTACLE.get());
 		}
 		
 		@Override

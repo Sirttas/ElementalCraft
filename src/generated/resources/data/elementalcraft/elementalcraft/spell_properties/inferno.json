@@ -1,0 +1,10 @@
+{
+  "color": "#FF8030",
+  "cooldown": 120,
+  "element_consumption": 10,
+  "element_type": "fire",
+  "range": 5.0,
+  "spell_type": "combat",
+  "use_duration": 200,
+  "weight": 20
+}

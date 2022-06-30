@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "elementalcraft:elementalcraft_jewels/kirin"
+    "layer0": "elementalcraft:elementalcraft/jewels/kirin"
   }
 }

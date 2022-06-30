@@ -1,10 +1,10 @@
 {
   "variants": {
-    "half=upper": {
-      "model": "elementalcraft:block/firepylon_upper"
-    },
     "half=lower": {
       "model": "elementalcraft:block/firepylon_lower"
+    },
+    "half=upper": {
+      "model": "elementalcraft:block/firepylon_upper"
     }
   }
 }

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.api.rune.handler;
 
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -35,6 +36,12 @@ public interface IRuneHandler {
 		var runes = getRunes();
 		
 		return runes == null ? 0 : (int) runes.stream().filter(rune::equals).count();
+	}
+
+	default int getRuneCount(ResourceKey<Rune> rune) {
+		var runes = getRunes();
+
+		return runes == null ? 0 : (int) runes.stream().filter(r -> r.is(rune)).count();
 	}
 
 	float getBonus(Rune.BonusType type);

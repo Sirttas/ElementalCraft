@@ -1,0 +1,65 @@
+{
+  "order": 4,
+  "value": {
+    "type": "elementalcraft:predicate",
+    "predicate": {
+      "type": "elementalcraft:range_from_spawn",
+      "range": 1000
+    },
+    "provider": {
+      "type": "elementalcraft:chance",
+      "chance": 0.2,
+      "provider": {
+        "type": "elementalcraft:steps",
+        "steps": [
+          {
+            "name": "source_trait.elementalcraft.wasteful.3",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 5000
+            },
+            "value": -0.2,
+            "weight": 1
+          },
+          {
+            "name": "source_trait.elementalcraft.wasteful.2",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 2500
+            },
+            "value": -0.1,
+            "weight": 5
+          },
+          {
+            "name": "source_trait.elementalcraft.wasteful.1",
+            "value": -0.05,
+            "weight": 25
+          },
+          {
+            "name": "source_trait.elementalcraft.thrifty.1",
+            "value": 0.05,
+            "weight": 25
+          },
+          {
+            "name": "source_trait.elementalcraft.thrifty.2",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 2500
+            },
+            "value": 0.1,
+            "weight": 5
+          },
+          {
+            "name": "source_trait.elementalcraft.thrifty.3",
+            "predicate": {
+              "type": "elementalcraft:range_from_spawn",
+              "range": 5000
+            },
+            "value": 0.2,
+            "weight": 1
+          }
+        ]
+      }
+    }
+  }
+}

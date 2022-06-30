@@ -1,9 +1,0 @@
-{
-  "color": "#044D3C",
-  "cooldown": 700,
-  "range": 15.0,
-  "weight": 2,
-  "element_consumption": 5000,
-  "spell_type": "utility",
-  "element_type": "earth"
-}

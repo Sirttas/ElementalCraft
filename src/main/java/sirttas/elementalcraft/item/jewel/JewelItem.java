@@ -51,7 +51,7 @@ public class JewelItem extends ECItem {
 
     @Override
     public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (this.allowdedIn(group)) {
+        if (this.allowedIn(group)) {
             Jewels.REGISTRY.get().forEach(j -> items.add(getJewelStack(j)));
         }
     }

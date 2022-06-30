@@ -2,33 +2,33 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "main",
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
           "name": "elementalcraft:springshrine"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "functions": [
         {
           "function": "minecraft:copy_nbt",
-          "source": "block_entity",
           "ops": [
             {
+              "op": "replace",
               "source": "element_storage",
-              "target": "BlockEntityTag.element_storage",
-              "op": "replace"
+              "target": "BlockEntityTag.element_storage"
             }
-          ]
+          ],
+          "source": "block_entity"
         }
-      ]
+      ],
+      "name": "main",
+      "rolls": 1.0
     }
   ]
 }

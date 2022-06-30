@@ -1,0 +1,7 @@
+{
+  "element_capacity": 10000,
+  "element_consumption": 50,
+  "element_type": "water",
+  "periode": 20.0,
+  "range": 4.0
+}

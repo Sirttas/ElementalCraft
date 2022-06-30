@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "wnw",
-    "ici",
-    "www"
-  ],
   "key": {
     "c": {
       "item": "elementalcraft:strongly_contained_crystal"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
     },
     "i": {
       "tag": "forge:ingots/swift_alloy"
     },
     "n": {
       "item": "elementalcraft:infuser"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
     }
   },
+  "pattern": [
+    "wnw",
+    "ici",
+    "www"
+  ],
   "result": {
     "item": "elementalcraft:pureinfuser"
   }

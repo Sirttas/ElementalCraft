@@ -3,29 +3,26 @@ package sirttas.elementalcraft.block.instrument.crystallizer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.elemental.ShardItem;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 
 import javax.annotation.Nonnull;
 
 public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<CrystallizerBlockEntity, CrystallizationRecipe> {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + CrystallizerBlock.NAME) public static final BlockEntityType<CrystallizerBlockEntity> TYPE = null;
-
 	private final InstrumentContainer inventory;
 
 	public CrystallizerBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, CrystallizationRecipe.TYPE, ECConfig.COMMON.crystallizerTransferSpeed.get(), ECConfig.COMMON.crystallizerMaxRunes.get());
+		super(ECBlockEntityTypes.CRYSTALLIZER, pos, state, ECRecipeTypes.CRYSTALLIZATION.get(), ECConfig.COMMON.crystallizerTransferSpeed.get(), ECConfig.COMMON.crystallizerMaxRunes.get());
 		inventory = new CrystallizerContainer(this::setChanged);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);

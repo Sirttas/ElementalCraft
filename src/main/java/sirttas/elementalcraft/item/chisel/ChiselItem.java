@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.item.chisel;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -14,23 +12,24 @@ import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ChiselItem extends ECItem {
 
 	public static final String NAME = "chisel";
 
 	public ChiselItem() {
-		super(new Item.Properties().tab(ElementalCraftTab.TAB).stacksTo(1).durability(ECConfig.COMMON.chiselDurability.get()));
+		super(new Item.Properties().tab(ElementalCraftTab.TAB).stacksTo(1).durability(250));
 	}
 
 	@Override
 	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == ECItems.SWIFT_ALLOY_INGOT;
+		return repair.is(ECTags.Items.INGOTS_SWIFT_ALLOY);
 	}
 	
 	@Nonnull
@@ -43,12 +42,12 @@ public class ChiselItem extends ECItem {
 		IRuneHandler handler = BlockEntityHelper.getRuneHandlerAt(level, pos);
 		List<Rune> runes = handler.getRunes();
 		
-		if (!runes.isEmpty()) {
+		if (!runes.isEmpty() && player != null) {
 			if (!level.isClientSide) {
 				for (Rune rune : runes) {
 					if (!stack.isEmpty()) {
 						stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(context.getHand()));
-						level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY() + 0.25, player.getZ(), ECItems.RUNE.getRuneStack(rune)));
+						level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY() + 0.25, player.getZ(), ECItems.RUNE.get().getRuneStack(rune)));
 						handler.removeRune(rune);
 					}
 				}

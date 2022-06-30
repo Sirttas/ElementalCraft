@@ -1,13 +1,13 @@
 {
   "variants": {
-    "type=top": {
-      "model": "elementalcraft:block/whiterock_slab_top"
-    },
     "type=bottom": {
       "model": "elementalcraft:block/whiterock_slab"
     },
     "type=double": {
       "model": "elementalcraft:block/whiterock"
+    },
+    "type=top": {
+      "model": "elementalcraft:block/whiterock_slab_top"
     }
   }
 }

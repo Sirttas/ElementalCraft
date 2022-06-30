@@ -11,13 +11,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ObjectHolder;
 import sirttas.elementalcraft.ElementalCraftUtils;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -29,15 +27,13 @@ import java.util.stream.IntStream;
 
 public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + GroveShrineBlock.NAME) public static final BlockEntityType<GroveShrineBlockEntity> TYPE = null;
-
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(GroveShrineBlock.NAME);
 
 	private static final Lazy<HolderSet.Named<Item>> MYSTICAL_GROVE_FLOWERS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS));
 	private static final Lazy<HolderSet.Named<Item>> GROVE_SHRINE_FLOWERS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.GROVE_SHRINE_FLOWERS));
 
 	public GroveShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.GROVE_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	private Optional<BlockPos> findGrass() {

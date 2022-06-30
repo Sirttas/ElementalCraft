@@ -4,62 +4,62 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
 
-import java.util.Random;
 import java.util.stream.IntStream;
 
 public class ParticleHelper {
 	
 	private ParticleHelper() {}
 	
-	public static void createSourceParticle(ElementType type, Level world, Vec3 pos, Random rand) {
+	public static void createSourceParticle(ElementType type, Level world, Vec3 pos, RandomSource rand) {
 		double x = pos.x() + (rand.nextDouble() * 2 - 1) / 16;
 		double y = pos.y() - 3D / 16;
 		double z = pos.z() + (rand.nextDouble() * 2 - 1) / 16;
 
-		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE, type), x, y, z, 0F, 0F, 0F);
+		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE.get(), type), x, y, z, 0F, 0F, 0F);
 	}
 	
-	public static void createExhaustedSourceParticle(ElementType type, Level world, Vec3 pos, Random rand) {
+	public static void createExhaustedSourceParticle(ElementType type, Level world, Vec3 pos, RandomSource rand) {
 		double x = pos.x() + (rand.nextDouble() * 6 - 3) / 16;
 		double y = pos.y() - 3D / 16;
 		double z = pos.z() + (rand.nextDouble() * 6 - 3) / 16;
 
-		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE_EXHAUSTED, type), x, y, z, 0F, 0F, 0F);
+		world.addParticle(new ElementTypeParticleData(ECParticles.SOURCE_EXHAUSTED.get(), type), x, y, z, 0F, 0F, 0F);
 	}
 
-	public static void createCraftingParticle(ElementType type, Level world, Vec3 pos, Random rand) {
+	public static void createCraftingParticle(ElementType type, Level world, Vec3 pos, RandomSource rand) {
 		double x = pos.x() + (rand.nextDouble() * 2 - 1) / 16;
 		double y = pos.y() - 3D / 16;
 		double z = pos.z() + (rand.nextDouble() * 2 - 1) / 16;
 
 		IntStream.range(0, 8 + rand.nextInt(5))
-				.forEach(i -> world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING, type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
+				.forEach(i -> world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING.get(), type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
 	}
 
-	public static void createElementFlowParticle(ElementType type, Level level, Vec3 pos, Direction direction, float scale, Random rand) {
+	public static void createElementFlowParticle(ElementType type, Level level, Vec3 pos, Direction direction, float scale, RandomSource rand) {
 		createElementFlowParticle(type, level, pos, Vec3.atLowerCornerOf(direction.getOpposite().getNormal()).scale(scale <= 0 ? 1F : scale), new Vec3(3,3,3), rand);
 	}
 
-	public static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 end, Random rand) {
+	public static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 end, RandomSource rand) {
 		createElementFlowParticle(type, level, start, start.subtract(end), new Vec3(1,1,1), rand);
 	}
 
-	private static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 flow, Vec3 radius, Random rand) {
+	private static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 flow, Vec3 radius, RandomSource rand) {
 		double x = start.x() + (((2 * rand.nextDouble()) - 1) * radius.x()) / 16;
 		double y = start.y() + (((2 * rand.nextDouble()) - 1) * radius.y()) / 16;
 		double z = start.z() + (((2 * rand.nextDouble()) - 1) * radius.z()) / 16;
 
-		level.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, type), x, y, z, flow.x(), flow.y(), flow.z());
+		level.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW.get(), type), x, y, z, flow.x(), flow.y(), flow.z());
 	}
 
 
-	public static void createEnderParticle(Level world, Vec3 pos, int count, Random rand) {
+	public static void createEnderParticle(Level world, Vec3 pos, int count, RandomSource rand) {
 		for (int i = 0; i < count; ++i) {
 			int j = rand.nextInt(2) * 2 - 1;
 			int k = rand.nextInt(2) * 2 - 1;
@@ -73,7 +73,7 @@ public class ParticleHelper {
 		}
 	}
 
-	public static void createItemBreakParticle(Level world, Vec3 pos, Random rand, ItemStack stack, int count) {
+	public static void createItemBreakParticle(Level world, Vec3 pos, RandomSource rand, ItemStack stack, int count) {
 		for (int i = 0; i < count; ++i) {
 			Vec3 speed = new Vec3(0, rand.nextDouble() * 0.1 + 0.1, 0);
 			Vec3 loc = pos.add(0, (rand.nextDouble() * 0.2 - 0.2), 0);

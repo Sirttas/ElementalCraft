@@ -1,0 +1,12 @@
+{
+  "bonuses": {
+    "element_preservation": -0.05,
+    "speed": 0.5
+  },
+  "effect_sprite": "elementalcraft:elementalcraft/runes/zod",
+  "model": "elementalcraft:elementalcraft/runes/zod",
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:rune_affected/speed"
+  }
+}

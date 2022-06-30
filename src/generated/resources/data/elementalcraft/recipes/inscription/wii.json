@@ -1,10 +1,7 @@
 {
   "type": "elementalcraft:inscription",
-  "element_type": "air",
   "element_amount": 2000,
-  "slate": {
-    "item": "elementalcraft:minor_rune_slate"
-  },
+  "element_type": "air",
   "ingredients": [
     {
       "tag": "elementalcraft:gems/crude_air"
@@ -23,5 +20,8 @@
         "rune": "elementalcraft:wii"
       }
     }
+  },
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
   }
 }

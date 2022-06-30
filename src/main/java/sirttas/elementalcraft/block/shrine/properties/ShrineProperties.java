@@ -23,7 +23,7 @@ public record ShrineProperties(
 ) implements IElementTypeProvider {
 
     public static final String NAME = "shrine_properties";
-    public static final String FOLDER = ElementalCraftApi.MODID + '_' + NAME;
+    public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
     public static final ShrineProperties DEFAULT = new ShrineProperties(ElementType.NONE, 1.0, 0, 1000000, 1, Collections.emptyList());
 
     public static final Codec<ShrineProperties> CODEC = RecordCodecBuilder.create(builder -> builder.group(

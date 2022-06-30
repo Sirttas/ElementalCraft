@@ -1,13 +1,7 @@
 package sirttas.elementalcraft.item.spell.book;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -24,6 +18,10 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.spell.SpellHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class SpellBookItem extends ECItem {
 
@@ -57,9 +55,9 @@ public class SpellBookItem extends ECItem {
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
 		SpellHelper.forEachSpell(stack, (spell, count) -> {
 			if (count == 1) {
-				tooltip.add(new TextComponent("").append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
+				tooltip.add(Component.empty().append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
 			} else {
-				tooltip.add(new TextComponent(count + " ").append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
+				tooltip.add(Component.literal(count + " ").append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
 			}
 		});
 	}

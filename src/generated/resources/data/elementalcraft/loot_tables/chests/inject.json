@@ -2,269 +2,269 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "name": "main",
-      "rolls": {
-        "type": "minecraft:uniform",
-        "min": 0.0,
-        "max": 2.0
-      },
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
+                "max": 3.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:drenched_iron_ingot"
+          "name": "elementalcraft:drenched_iron_ingot",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2.0,
-                "max": 5.0
+                "max": 5.0,
+                "min": 2.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:drenched_iron_nugget"
+          "name": "elementalcraft:drenched_iron_nugget",
+          "weight": 15
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 2.0
+                "max": 2.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:swift_alloy_ingot"
+          "name": "elementalcraft:swift_alloy_ingot",
+          "weight": 5
         },
         {
           "type": "minecraft:item",
-          "weight": 7,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2.0,
-                "max": 4.0
+                "max": 4.0,
+                "min": 2.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:swift_alloy_nugget"
+          "name": "elementalcraft:swift_alloy_nugget",
+          "weight": 7
         },
         {
           "type": "minecraft:item",
-          "weight": 8,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2.0,
-                "max": 4.0
+                "max": 4.0,
+                "min": 2.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:scroll_paper"
+          "name": "elementalcraft:scroll_paper",
+          "weight": 8
         },
         {
           "type": "minecraft:item",
-          "weight": 20,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 5.0
+                "max": 5.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:inert_crystal"
+          "name": "elementalcraft:inert_crystal",
+          "weight": 20
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
+                "max": 3.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:firecrystal"
+          "name": "elementalcraft:firecrystal",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
+                "max": 3.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:earthcrystal"
+          "name": "elementalcraft:earthcrystal",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
+                "max": 3.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:watercrystal"
+          "name": "elementalcraft:watercrystal",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
+                "max": 3.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:aircrystal"
+          "name": "elementalcraft:aircrystal",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 3.0,
-                "max": 8.0
+                "max": 8.0,
+                "min": 3.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:fire_shard"
+          "name": "elementalcraft:fire_shard",
+          "weight": 5
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 3.0,
-                "max": 8.0
+                "max": 8.0,
+                "min": 3.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:water_shard"
+          "name": "elementalcraft:water_shard",
+          "weight": 5
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 3.0,
-                "max": 8.0
+                "max": 8.0,
+                "min": 3.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:earth_shard"
+          "name": "elementalcraft:earth_shard",
+          "weight": 5
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 3.0,
-                "max": 8.0
+                "max": 8.0,
+                "min": 3.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:air_shard"
+          "name": "elementalcraft:air_shard",
+          "weight": 5
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "elementalcraft:powerful_fire_shard"
+          "name": "elementalcraft:powerful_fire_shard",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "elementalcraft:powerful_water_shard"
+          "name": "elementalcraft:powerful_water_shard",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "elementalcraft:powerful_earth_shard"
+          "name": "elementalcraft:powerful_earth_shard",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "elementalcraft:powerful_air_shard"
+          "name": "elementalcraft:powerful_air_shard",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
           "functions": [
             {
               "function": "elementalcraft:random_spell"
             }
           ],
-          "name": "elementalcraft:scroll"
+          "name": "elementalcraft:scroll",
+          "weight": 15
         }
-      ]
+      ],
+      "name": "main",
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 2.0,
+        "min": 0.0
+      }
     }
   ]
 }

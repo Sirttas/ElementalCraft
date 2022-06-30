@@ -16,6 +16,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,7 +44,7 @@ public class PureInfuserBlock extends AbstractECContainerBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECTicker(level, type, PureInfuserBlockEntity.TYPE, PureInfuserBlockEntity::tick);
+		return createECTicker(level, type, ECBlockEntityTypes.PURE_INFUSER, PureInfuserBlockEntity::tick);
 	}
 
 	@Nonnull

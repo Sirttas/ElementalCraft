@@ -25,8 +25,8 @@ public class SourceElementStorage extends StaticElementStorage {
 	public int insertElement(int count, ElementType type, boolean simulate) {
 		int value = super.insertElement(count, type, simulate);
 
-		if (!simulate && this.getElementAmount() >= this.elementCapacity * 0.9F) {
-			this.exhausted = false;
+		if (!simulate) {
+			checkExhausted();
 		}
 		return value;
 	}
@@ -38,8 +38,8 @@ public class SourceElementStorage extends StaticElementStorage {
 		} else if (!exhausted) {
 			int value = super.extractElement(count, type, simulate);
 
-			if (!simulate && this.getElementAmount() <= this.elementCapacity * 0.1F) {
-				this.exhausted = true;
+			if (!simulate) {
+				checkExhausted();
 			}
 			return value;
 		}
@@ -73,4 +73,16 @@ public class SourceElementStorage extends StaticElementStorage {
 		this.elementCapacity = elementCapacity;
 	}
 
+	public void setElementAmount(int amount) {
+		this.elementAmount = amount;
+		checkExhausted();
+	}
+
+	private void checkExhausted() {
+		if (this.getElementAmount() <= 100) {
+			this.exhausted = true;
+		} else if (this.getElementAmount() >= this.elementCapacity - 100) {
+			this.exhausted = false;
+		}
+	}
 }

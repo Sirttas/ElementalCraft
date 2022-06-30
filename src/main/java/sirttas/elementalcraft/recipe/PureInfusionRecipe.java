@@ -2,7 +2,6 @@ package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -10,10 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
@@ -24,14 +19,6 @@ import java.util.List;
 public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfuserBlockEntity> {
 
 	public static final String NAME = "pureinfusion";
-	public static final RecipeType<PureInfusionRecipe> TYPE = Registry.register(Registry.RECIPE_TYPE, ElementalCraft.createRL(NAME), new RecipeType<PureInfusionRecipe>() {
-		@Override
-		public String toString() {
-			return NAME;
-		}
-	});
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<PureInfusionRecipe> SERIALIZER = null;
 
 	private final NonNullList<Ingredient> ingredients;
 	private final ItemStack output;
@@ -69,13 +56,13 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.PURE_INFUSION.get();
 	}
 
 	@Nonnull
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return ECRecipeTypes.PURE_INFUSION.get();
 	}
 
 	@Nonnull
@@ -94,7 +81,7 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 		return elementAmount;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<PureInfusionRecipe> {
+	public static class Serializer implements RecipeSerializer<PureInfusionRecipe> {
 
 		@Nonnull
 		@Override

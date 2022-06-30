@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_source_displacement_plate_fire": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:source_displacement_plate_fire"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_displacement_plate_fire"
+    ]
+  ]
+}

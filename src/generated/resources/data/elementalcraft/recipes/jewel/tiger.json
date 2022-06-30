@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "sas",
-    "cUc",
-    "sfs"
-  ],
   "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
     "a": {
       "tag": "elementalcraft:gems/pristine_air"
     },
@@ -17,11 +15,13 @@
     },
     "s": {
       "item": "minecraft:sugar"
-    },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
     }
   },
+  "pattern": [
+    "sas",
+    "cUc",
+    "sfs"
+  ],
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

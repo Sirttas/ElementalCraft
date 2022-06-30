@@ -1,16 +1,15 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
-import java.util.Random;
-
 public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentRecipe<T> {
 
-	default Random getRand(T instrument) {
-		return new Random();
+	default RandomSource getRand(T instrument) {
+		return RandomSource.create();
 	}
 	
 	default int getLuck(T instrument) {

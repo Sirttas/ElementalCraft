@@ -1,13 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ehe",
-    "wCw",
-    " c "
-  ],
   "key": {
     "C": {
       "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
     },
     "e": {
       "item": "minecraft:ender_eye"
@@ -17,11 +15,13 @@
     },
     "w": {
       "item": "elementalcraft:whiterock"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
     }
   },
+  "pattern": [
+    "ehe",
+    "wCw",
+    " c "
+  ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_pickup"
   }

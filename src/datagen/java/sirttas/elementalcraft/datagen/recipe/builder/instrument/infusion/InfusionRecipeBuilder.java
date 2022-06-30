@@ -1,19 +1,18 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion;
 
-import java.util.function.Consumer;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+
+import java.util.function.Consumer;
 
 public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	
@@ -27,7 +26,7 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	}
 
 	public static InfusionRecipeBuilder infusionRecipe(Ingredient ingredientIn, ItemLike resultIn, ElementType elementType) {
-		return new InfusionRecipeBuilder(InfusionRecipe.SERIALIZER, ingredientIn, resultIn, elementType);
+		return new InfusionRecipeBuilder(ECRecipeSerializers.INFUSION.get(), ingredientIn, resultIn, elementType);
 	}
 
 	@Override

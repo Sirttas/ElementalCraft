@@ -6,46 +6,46 @@
       }
     },
     {
-      "when": {
-        "facing": "up"
-      },
       "apply": {
         "model": "elementalcraft:block/overloadshrine_top"
+      },
+      "when": {
+        "facing": "up"
       }
     },
     {
-      "when": {
-        "facing": "north"
-      },
       "apply": {
         "model": "elementalcraft:block/overloadshrine_side"
+      },
+      "when": {
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "east"
-      },
       "apply": {
         "model": "elementalcraft:block/overloadshrine_side",
         "y": 90
+      },
+      "when": {
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "south"
-      },
       "apply": {
         "model": "elementalcraft:block/overloadshrine_side",
         "y": 180
+      },
+      "when": {
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "west"
-      },
       "apply": {
         "model": "elementalcraft:block/overloadshrine_side",
         "y": 270
+      },
+      "when": {
+        "facing": "west"
       }
     }
   ]

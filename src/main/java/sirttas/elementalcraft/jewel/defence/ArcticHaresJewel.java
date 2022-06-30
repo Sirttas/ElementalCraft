@@ -3,7 +3,6 @@ package sirttas.elementalcraft.jewel.defence;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
@@ -43,7 +42,7 @@ public class ArcticHaresJewel extends DefenceJewel {
 
     @Override
     public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(new TranslatableComponent("tooltip.elementalcraft.arctic_hares").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("tooltip.elementalcraft.arctic_hares").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(tooltip);
     }
 }

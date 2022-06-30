@@ -1,13 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "fwf",
-    "cUc",
-    "sws"
-  ],
   "key": {
-    "w": {
-      "tag": "elementalcraft:gems/pristine_water"
+    "U": {
+      "item": "elementalcraft:unset_jewel"
     },
     "c": {
       "item": "elementalcraft:purecrystal"
@@ -18,10 +13,15 @@
     "s": {
       "item": "minecraft:scute"
     },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
+    "w": {
+      "tag": "elementalcraft:gems/pristine_water"
     }
   },
+  "pattern": [
+    "fwf",
+    "cUc",
+    "sws"
+  ],
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

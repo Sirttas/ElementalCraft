@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.diffuser;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -18,11 +19,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class DiffuserBlock extends AbstractECEntityBlock {
 
@@ -47,7 +48,7 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECServerTicker(level, type, DiffuserBlockEntity.TYPE, DiffuserBlockEntity::serverTick);
+		return createECServerTicker(level, type, ECBlockEntityTypes.DIFFUSER, DiffuserBlockEntity::serverTick);
 	}
 	
 	@Nonnull
@@ -59,13 +60,13 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	
 	@Override
 	@Deprecated
-	public boolean canSurvive(BlockState state, @Nonnull LevelReader level, BlockPos pos) {
+	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
 		return BlockEntityHelper.isValidContainer(state, level, pos.below());
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Random rand) {
+	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		BlockEntityHelper.getBlockEntityAs(level, pos, DiffuserBlockEntity.class).filter(DiffuserBlockEntity::hasDiffused)
 				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getContainerElementType(), level, Vec3.atCenterOf(pos), Direction.UP, 1, rand));
 	}

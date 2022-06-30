@@ -2,12 +2,10 @@ package sirttas.elementalcraft.datagen.tag;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
-import mekanism.tools.common.MekanismTools;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -26,12 +24,11 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Wearable;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.silentchaos512.gear.SilentGear;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
-import vazkii.botania.api.BotaniaAPI;
 
 import java.util.Comparator;
 import java.util.List;
@@ -41,7 +38,7 @@ import java.util.stream.Stream;
 public class ECItemTagsProvider extends ItemTagsProvider {
 
 	private static final String MINECRAFT = "minecraft";
-	private static final List<String> MOD_IDS = List.of(BotaniaAPI.MODID, MekanismTools.MODID, SilentGear.MOD_ID);
+	private static final List<String> MOD_IDS = List.of(/* BotaniaAPI.MODID, */ /*MekanismTools.MODID *//*, SilentGear.MOD_ID */);
 
 	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, blockTagsProvider, ElementalCraftApi.MODID, existingFileHelper);
@@ -84,15 +81,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.FORGE_LEGGINGS);
 		tag(ECTags.Items.FORGE_BOOTS);
 
-		tag(ECTags.Items.RECEPTACLES_EMPTY).add(ECItems.EMPTY_RECEPTACLE, ECItems.EMPTY_RECEPTACLE_IMPROVED);
-		tag(ECTags.Items.RECEPTACLES_FULL).add(ECItems.RECEPTACLE, ECItems.RECEPTACLE_IMPROVED);
-		tag(ECTags.Items.RECEPTACLES_IMPROVED).add(ECItems.EMPTY_RECEPTACLE_IMPROVED, ECItems.RECEPTACLE_IMPROVED);
-		tag(ECTags.Items.RECEPTACLES).addTags(ECTags.Items.RECEPTACLES_EMPTY, ECTags.Items.RECEPTACLES_FULL);
-
-		tag(ECTags.Items.SPELL_CAST_TOOLS).add(ECItems.FOCUS, ECItems.STAFF);
+		tag(ECTags.Items.SPELL_CAST_TOOLS).add(ECItems.FOCUS.get(), ECItems.STAFF.get());
 		
-		tag(ECTags.Items.INFUSABLE_FOCUS).add(ECItems.FOCUS);
-		tag(ECTags.Items.INFUSABLE_STAVES).add(ECItems.STAFF);
+		tag(ECTags.Items.INFUSABLE_FOCUS).add(ECItems.FOCUS.get());
+		tag(ECTags.Items.INFUSABLE_STAVES).add(ECItems.STAFF.get());
 		addOptionals(tag(ECTags.Items.INFUSABLE_SWORDS).add(getItems(MINECRAFT, SwordItem.class)).addTag(ECTags.Items.FORGE_SWORDS), getItems(MOD_IDS, SwordItem.class));
 		addOptionals(tag(ECTags.Items.INFUSABLE_PICKAXES).add(getItems(MINECRAFT, PickaxeItem.class)).addTag(ECTags.Items.FORGE_PICKAXES), getItems(MOD_IDS, PickaxeItem.class));
 		addOptionals(tag(ECTags.Items.INFUSABLE_SHOVELS).add(getItems(MINECRAFT, ShovelItem.class)).addTag(ECTags.Items.FORGE_SHOVELS), getItems(MOD_IDS, ShovelItem.class));
@@ -110,50 +102,50 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		addOptionals(tag(ECTags.Items.INFUSABLE_BOOTS).add(getItems(MINECRAFT, ArmorItem.class, forSlot(EquipmentSlot.FEET))).addTag(ECTags.Items.FORGE_BOOTS), getItems(MOD_IDS, ArmorItem.class, forSlot(EquipmentSlot.FEET)));
 
 		tag(ECTags.Items.SPELL_HOLDERS).add(getItems(AbstractSpellHolderItem.class));
-		tag(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.FIRE_CRYSTAL, ECItems.WATER_CRYSTAL, ECItems.EARTH_CRYSTAL, ECItems.AIR_CRYSTAL);
-		tag(ECTags.Items.CRYSTALS).add(ECItems.INERT_CRYSTAL, ECItems.CONTAINED_CRYSTAL, ECItems.PURE_CRYSTAL).addTag(ECTags.Items.ELEMENTAL_CRYSTALS);
-		tag(ECTags.Items.LENSES).add(ECItems.FIRE_LENSE, ECItems.WATER_LENSE, ECItems.EARTH_LENSE, ECItems.AIR_LENSE);
+		tag(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.FIRE_CRYSTAL.get(), ECItems.WATER_CRYSTAL.get(), ECItems.EARTH_CRYSTAL.get(), ECItems.AIR_CRYSTAL.get());
+		tag(ECTags.Items.CRYSTALS).add(ECItems.INERT_CRYSTAL.get(), ECItems.CONTAINED_CRYSTAL.get(), ECItems.PURE_CRYSTAL.get()).addTag(ECTags.Items.ELEMENTAL_CRYSTALS);
+		tag(ECTags.Items.LENSES).add(ECItems.FIRE_LENS.get(), ECItems.WATER_LENS.get(), ECItems.EARTH_LENS.get(), ECItems.AIR_LENS.get());
 		
-		tag(ECTags.Items.DEFAULT_SHARDS).add(ECItems.FIRE_SHARD, ECItems.WATER_SHARD, ECItems.EARTH_SHARD, ECItems.AIR_SHARD);
-		tag(ECTags.Items.POWERFUL_SHARDS).add(ECItems.POWERFUL_FIRE_SHARD, ECItems.POWERFUL_WATER_SHARD, ECItems.POWERFUL_EARTH_SHARD, ECItems.POWERFUL_AIR_SHARD);
-		tag(ECTags.Items.FIRE_SHARDS).add(ECItems.FIRE_SHARD, ECItems.POWERFUL_FIRE_SHARD);
-		tag(ECTags.Items.WATER_SHARDS).add(ECItems.WATER_SHARD, ECItems.POWERFUL_WATER_SHARD);
-		tag(ECTags.Items.EARTH_SHARDS).add(ECItems.EARTH_SHARD, ECItems.POWERFUL_EARTH_SHARD);
-		tag(ECTags.Items.AIR_SHARDS).add(ECItems.AIR_SHARD, ECItems.POWERFUL_AIR_SHARD);
+		tag(ECTags.Items.DEFAULT_SHARDS).add(ECItems.FIRE_SHARD.get(), ECItems.WATER_SHARD.get(), ECItems.EARTH_SHARD.get(), ECItems.AIR_SHARD.get());
+		tag(ECTags.Items.POWERFUL_SHARDS).add(ECItems.POWERFUL_FIRE_SHARD.get(), ECItems.POWERFUL_WATER_SHARD.get(), ECItems.POWERFUL_EARTH_SHARD.get(), ECItems.POWERFUL_AIR_SHARD.get());
+		tag(ECTags.Items.FIRE_SHARDS).add(ECItems.FIRE_SHARD.get(), ECItems.POWERFUL_FIRE_SHARD.get());
+		tag(ECTags.Items.WATER_SHARDS).add(ECItems.WATER_SHARD.get(), ECItems.POWERFUL_WATER_SHARD.get());
+		tag(ECTags.Items.EARTH_SHARDS).add(ECItems.EARTH_SHARD.get(), ECItems.POWERFUL_EARTH_SHARD.get());
+		tag(ECTags.Items.AIR_SHARDS).add(ECItems.AIR_SHARD.get(), ECItems.POWERFUL_AIR_SHARD.get());
 		tag(ECTags.Items.SHARDS).addTag(ECTags.Items.DEFAULT_SHARDS).addTag(ECTags.Items.POWERFUL_SHARDS);
 
-		tag(ECTags.Items.INGOTS_DRENCHED_IRON).add(ECItems.DRENCHED_IRON_INGOT);
-		tag(ECTags.Items.INGOTS_SWIFT_ALLOY).add(ECItems.SWIFT_ALLOY_INGOT);
-		tag(ECTags.Items.INGOTS_FIREITE).add(ECItems.FIREITE_INGOT);
+		tag(ECTags.Items.INGOTS_DRENCHED_IRON).add(ECItems.DRENCHED_IRON_INGOT.get());
+		tag(ECTags.Items.INGOTS_SWIFT_ALLOY).add(ECItems.SWIFT_ALLOY_INGOT.get());
+		tag(ECTags.Items.INGOTS_FIREITE).add(ECItems.FIREITE_INGOT.get());
 		tag(Tags.Items.INGOTS).addTags(ECTags.Items.INGOTS_DRENCHED_IRON, ECTags.Items.INGOTS_SWIFT_ALLOY, ECTags.Items.INGOTS_FIREITE);
 
-		tag(ECTags.Items.NUGGETS_DRENCHED_IRON).add(ECItems.DRENCHED_IRON_NUGGET);
-		tag(ECTags.Items.NUGGETS_SWIFT_ALLOY).add(ECItems.SWIFT_ALLOY_NUGGET);
-		tag(ECTags.Items.NUGGETS_FIREITE).add(ECItems.FIREITE_NUGGET);
+		tag(ECTags.Items.NUGGETS_DRENCHED_IRON).add(ECItems.DRENCHED_IRON_NUGGET.get());
+		tag(ECTags.Items.NUGGETS_SWIFT_ALLOY).add(ECItems.SWIFT_ALLOY_NUGGET.get());
+		tag(ECTags.Items.NUGGETS_FIREITE).add(ECItems.FIREITE_NUGGET.get());
 		tag(Tags.Items.NUGGETS).addTags(ECTags.Items.NUGGETS_DRENCHED_IRON, ECTags.Items.NUGGETS_SWIFT_ALLOY, ECTags.Items.NUGGETS_FIREITE);
 
-		tag(ECTags.Items.PRISTINE_FIRE_GEMS).add(ECItems.PRISTINE_FIRE_GEM);
-		tag(ECTags.Items.FINE_FIRE_GEMS).add(ECItems.FINE_FIRE_GEM, ECItems.PRISTINE_FIRE_GEM);
-		tag(ECTags.Items.CRUDE_FIRE_GEMS).add(ECItems.CRUDE_FIRE_GEM, ECItems.FINE_FIRE_GEM, ECItems.PRISTINE_FIRE_GEM);
-		tag(ECTags.Items.INPUT_FIRE_GEMS).add(ECItems.CRUDE_FIRE_GEM, ECItems.FINE_FIRE_GEM, ECItems.PRISTINE_FIRE_GEM).addTag(Tags.Items.GEMS_DIAMOND);
-		tag(ECTags.Items.PRISTINE_WATER_GEMS).add(ECItems.PRISTINE_WATER_GEM);
-		tag(ECTags.Items.FINE_WATER_GEMS).add(ECItems.FINE_WATER_GEM, ECItems.PRISTINE_WATER_GEM);
-		tag(ECTags.Items.CRUDE_WATER_GEMS).add(ECItems.CRUDE_WATER_GEM, ECItems.FINE_WATER_GEM, ECItems.PRISTINE_WATER_GEM);
-		tag(ECTags.Items.INPUT_WATER_GEMS).add(ECItems.CRUDE_WATER_GEM, ECItems.FINE_WATER_GEM, ECItems.PRISTINE_WATER_GEM).addTag(Tags.Items.GEMS_DIAMOND);
-		tag(ECTags.Items.PRISTINE_EARTH_GEMS).add(ECItems.PRISTINE_EARTH_GEM);
-		tag(ECTags.Items.FINE_EARTH_GEMS).add(ECItems.FINE_EARTH_GEM, ECItems.PRISTINE_EARTH_GEM);
-		tag(ECTags.Items.CRUDE_EARTH_GEMS).add(ECItems.CRUDE_EARTH_GEM, ECItems.FINE_EARTH_GEM, ECItems.PRISTINE_EARTH_GEM);
-		tag(ECTags.Items.INPUT_EARTH_GEMS).add(ECItems.CRUDE_EARTH_GEM, ECItems.FINE_EARTH_GEM, ECItems.PRISTINE_EARTH_GEM).addTag(Tags.Items.GEMS_DIAMOND);
-		tag(ECTags.Items.PRISTINE_AIR_GEMS).add(ECItems.PRISTINE_AIR_GEM);
-		tag(ECTags.Items.FINE_AIR_GEMS).add(ECItems.FINE_AIR_GEM, ECItems.PRISTINE_AIR_GEM);
-		tag(ECTags.Items.CRUDE_AIR_GEMS).add(ECItems.CRUDE_AIR_GEM, ECItems.FINE_AIR_GEM, ECItems.PRISTINE_AIR_GEM);
-		tag(ECTags.Items.INPUT_AIR_GEMS).add(ECItems.CRUDE_AIR_GEM, ECItems.FINE_AIR_GEM, ECItems.PRISTINE_AIR_GEM).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.PRISTINE_FIRE_GEMS).add(ECItems.PRISTINE_FIRE_GEM.get());
+		tag(ECTags.Items.FINE_FIRE_GEMS).add(ECItems.FINE_FIRE_GEM.get(), ECItems.PRISTINE_FIRE_GEM.get());
+		tag(ECTags.Items.CRUDE_FIRE_GEMS).add(ECItems.CRUDE_FIRE_GEM.get(), ECItems.FINE_FIRE_GEM.get(), ECItems.PRISTINE_FIRE_GEM.get());
+		tag(ECTags.Items.INPUT_FIRE_GEMS).add(ECItems.CRUDE_FIRE_GEM.get(), ECItems.FINE_FIRE_GEM.get(), ECItems.PRISTINE_FIRE_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.PRISTINE_WATER_GEMS).add(ECItems.PRISTINE_WATER_GEM.get());
+		tag(ECTags.Items.FINE_WATER_GEMS).add(ECItems.FINE_WATER_GEM.get(), ECItems.PRISTINE_WATER_GEM.get());
+		tag(ECTags.Items.CRUDE_WATER_GEMS).add(ECItems.CRUDE_WATER_GEM.get(), ECItems.FINE_WATER_GEM.get(), ECItems.PRISTINE_WATER_GEM.get());
+		tag(ECTags.Items.INPUT_WATER_GEMS).add(ECItems.CRUDE_WATER_GEM.get(), ECItems.FINE_WATER_GEM.get(), ECItems.PRISTINE_WATER_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.PRISTINE_EARTH_GEMS).add(ECItems.PRISTINE_EARTH_GEM.get());
+		tag(ECTags.Items.FINE_EARTH_GEMS).add(ECItems.FINE_EARTH_GEM.get(), ECItems.PRISTINE_EARTH_GEM.get());
+		tag(ECTags.Items.CRUDE_EARTH_GEMS).add(ECItems.CRUDE_EARTH_GEM.get(), ECItems.FINE_EARTH_GEM.get(), ECItems.PRISTINE_EARTH_GEM.get());
+		tag(ECTags.Items.INPUT_EARTH_GEMS).add(ECItems.CRUDE_EARTH_GEM.get(), ECItems.FINE_EARTH_GEM.get(), ECItems.PRISTINE_EARTH_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
+		tag(ECTags.Items.PRISTINE_AIR_GEMS).add(ECItems.PRISTINE_AIR_GEM.get());
+		tag(ECTags.Items.FINE_AIR_GEMS).add(ECItems.FINE_AIR_GEM.get(), ECItems.PRISTINE_AIR_GEM.get());
+		tag(ECTags.Items.CRUDE_AIR_GEMS).add(ECItems.CRUDE_AIR_GEM.get(), ECItems.FINE_AIR_GEM.get(), ECItems.PRISTINE_AIR_GEM.get());
+		tag(ECTags.Items.INPUT_AIR_GEMS).add(ECItems.CRUDE_AIR_GEM.get(), ECItems.FINE_AIR_GEM.get(), ECItems.PRISTINE_AIR_GEM.get()).addTag(Tags.Items.GEMS_DIAMOND);
 		tag(ECTags.Items.INPUT_GEMS).addTags(ECTags.Items.INPUT_FIRE_GEMS, ECTags.Items.INPUT_WATER_GEMS, ECTags.Items.INPUT_EARTH_GEMS, ECTags.Items.INPUT_AIR_GEMS);
 		tag(Tags.Items.GEMS).addTags(ECTags.Items.INPUT_GEMS);
 
-		tag(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE, ECItems.RUNE_SLATE, ECItems.MAJOR_RUNE_SLATE);
+		tag(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE.get(), ECItems.RUNE_SLATE.get(), ECItems.MAJOR_RUNE_SLATE.get());
 		
-		tag(ECTags.Items.PIPE_COVER_HIDING).addTag(ECTags.Items.PIPES).add(ECItems.COVER_FRAME, ECItems.PIPE_PRIORITY);
+		tag(ECTags.Items.PIPE_COVER_HIDING).addTag(ECTags.Items.PIPES).add(ECItems.COVER_FRAME.get(), ECItems.PIPE_PRIORITY.get());
 		
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 		
@@ -162,13 +154,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 		
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
-		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers"))
-				.addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers"))
-				.addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
-		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers"))
-				.addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
+		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST);
+		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS);
 
-		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT, ECItems.SWIFT_ALLOY_INGOT, ECItems.FIREITE_INGOT);
+		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT.get(), ECItems.SWIFT_ALLOY_INGOT.get(), ECItems.FIREITE_INGOT.get());
 
 		var jewelSocketables = tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(ECTags.Items.FORGE_SWORDS, ECTags.Items.FORGE_SHILDS, ECTags.Items.SPELL_CAST_TOOLS)
 				.addTags(ECTags.Items.FORGE_PICKAXES, ECTags.Items.FORGE_AXES, ECTags.Items.FORGE_SHOVELS, ECTags.Items.FORGE_HOES)
@@ -192,17 +181,17 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	}
 
 	public TagsProvider.TagAppender<Item> addOptionals(TagsProvider.TagAppender<Item> builder, Item... optionals) {
-		Stream.of(optionals).map(Item::getRegistryName).forEach(builder::addOptional);
+		Stream.of(optionals).map(ForgeRegistries.ITEMS::getKey).forEach(builder::addOptional);
 		return builder;
 	}
 
 	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {
 		return registry.stream()
-				.filter(i -> modIds.contains(i.getRegistryName().getNamespace()) && clazz.isInstance(i))
+				.filter(i -> modIds.contains(ForgeRegistries.ITEMS.getKey(i).getNamespace()) && clazz.isInstance(i))
 				.map(clazz::cast)
 				.filter(filter)
 				.map(Item.class::cast)
-				.sorted(Comparator.comparing(Item::getRegistryName))
+				.sorted(Comparator.comparing(ForgeRegistries.ITEMS::getKey))
 				.toArray(Item[]::new);
 	}
 

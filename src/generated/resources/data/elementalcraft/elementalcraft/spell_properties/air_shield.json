@@ -1,0 +1,9 @@
+{
+  "color": "#D7E3F5",
+  "cooldown": 60,
+  "element_consumption": 25,
+  "element_type": "air",
+  "spell_type": "combat",
+  "use_duration": 400,
+  "weight": 5
+}

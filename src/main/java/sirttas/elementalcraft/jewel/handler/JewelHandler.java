@@ -42,7 +42,7 @@ public class JewelHandler implements IJewelHandler {
     private List<Jewel> activeJewels;
     private Multimap<Attribute, AttributeModifier> oldAttributes;
 
-    private JewelHandler(Entity entity, IElementStorage elementStorage) {
+    private JewelHandler(Entity entity, @Nullable IElementStorage elementStorage) {
         this.entity = entity;
         this.elementStorage = elementStorage;
         activeJewels = new ArrayList<>();
@@ -52,7 +52,7 @@ public class JewelHandler implements IJewelHandler {
     }
 
     @Nullable
-    public static ICapabilityProvider createProvider(Entity entity, IElementStorage elementStorage) {
+    public static ICapabilityProvider createProvider(Entity entity, @Nullable IElementStorage elementStorage) {
         if (JEWEL_HANDLER_CAPABILITY != null) {
             var handler = new JewelHandler(entity, elementStorage);
 
@@ -88,7 +88,7 @@ public class JewelHandler implements IJewelHandler {
             }
         }
         if (jewels.size() != activeJewels.size()) {
-            jewels.sort(Comparator.comparing(Jewel::getRegistryName));
+            jewels.sort(Comparator.comparing(Jewel::getKey));
         }
         if (!jewels.equals(activeJewels)) {
             activeJewels = jewels;

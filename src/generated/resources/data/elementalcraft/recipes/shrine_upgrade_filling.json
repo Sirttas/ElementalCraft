@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ibi",
-    "wCw",
-    " c "
-  ],
   "key": {
     "C": {
       "item": "elementalcraft:shrine_upgrade_core"
@@ -12,16 +7,21 @@
     "b": {
       "item": "minecraft:bucket"
     },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
     "i": {
       "tag": "forge:ingots/iron"
     },
     "w": {
       "item": "elementalcraft:whiterock"
-    },
-    "c": {
-      "item": "elementalcraft:watercrystal"
     }
   },
+  "pattern": [
+    "ibi",
+    "wCw",
+    " c "
+  ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_filling"
   }

@@ -13,6 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -31,7 +32,7 @@ public class SpellCraftRecipeBuilder {
 	}
 	
 	public static SpellCraftRecipeBuilder spellCraftRecipe(RegistryObject<? extends Spell> output) {
-		return new SpellCraftRecipeBuilder(SpellCraftRecipe.SERIALIZER, output.getId());
+		return new SpellCraftRecipeBuilder(ECRecipeSerializers.SPELL_CRAFT.get(), output.getId());
 	}
 	
 	public SpellCraftRecipeBuilder setGem(TagKey<Item> tagIn) {
@@ -97,7 +98,7 @@ public class SpellCraftRecipeBuilder {
 			JsonObject tagJson = new JsonObject();
 			JsonObject ecNbtJson = new JsonObject();
 			
-			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.SCROLL).toString());
+			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.SCROLL.get()).toString());
 			ecNbtJson.addProperty(ECNames.SPELL, this.output.toString());
 			tagJson.add(ECNames.EC_NBT, ecNbtJson);
 			json.add(ECNames.NBT, tagJson);

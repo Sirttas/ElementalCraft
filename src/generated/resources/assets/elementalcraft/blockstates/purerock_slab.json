@@ -1,13 +1,13 @@
 {
   "variants": {
-    "type=top": {
-      "model": "elementalcraft:block/purerock_slab_top"
-    },
     "type=bottom": {
       "model": "elementalcraft:block/purerock_slab"
     },
     "type=double": {
       "model": "elementalcraft:block/purerock"
+    },
+    "type=top": {
+      "model": "elementalcraft:block/purerock_slab_top"
     }
   }
 }

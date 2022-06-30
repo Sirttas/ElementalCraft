@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "i i",
-    "wcw"
-  ],
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
     },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
     "i": {
       "tag": "forge:ingots/drenched_iron"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
     }
   },
+  "pattern": [
+    "i i",
+    "wcw"
+  ],
   "result": {
     "item": "elementalcraft:binder"
   }

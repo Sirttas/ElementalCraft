@@ -7,11 +7,11 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 import javax.annotation.Nonnull;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategory<PureInfuserBlockEntity, PureInfusionRecipe> {
 
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.pureinfusion", createDrawableStack(guiHelper, new ItemStack(ECItems.PURE_INFUSER)), guiHelper.createBlankDrawable(177, 134));
+		super("elementalcraft.jei.pureinfusion", createDrawableStack(guiHelper, new ItemStack(ECBlocks.PURE_INFUSER.get())), guiHelper.createBlankDrawable(177, 134));
 		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
 	}
 

@@ -7,17 +7,17 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
 import javax.annotation.Nonnull;
 
 public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBinder, AbstractBindingRecipe> {
 
-	private static final ItemStack BINDER = new ItemStack(ECItems.BINDER);
+	private static final ItemStack BINDER = new ItemStack(ECBlocks.BINDER.get());
 	private static final int RADIUS = 42;
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
@@ -37,7 +37,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 		var ingredients = recipe.getIngredients();
 
 		for (var ingredient : ingredients) {
-			double a = Math.toRadians((double) i / (double) ingredients.size() * 360D + 180);
+			double a = Math.toRadians(i / (double) ingredients.size() * 360D + 180);
 
 			builder.addSlot(RecipeIngredientRole.INPUT, RADIUS + (int) (-RADIUS * Math.sin(a)), RADIUS + (int) (RADIUS * Math.cos(a)))
 					.addIngredients(ingredient);
@@ -47,7 +47,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 		builder.addSlot(RecipeIngredientRole.CATALYST, RADIUS, RADIUS - 16)
 				.addItemStack(BINDER);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, RADIUS, RADIUS)
-				.addItemStack(tank);
+				.addItemStack(container);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, RADIUS, RADIUS + 18)
 				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));

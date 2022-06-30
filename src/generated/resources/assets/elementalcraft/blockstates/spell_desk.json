@@ -1,5 +1,9 @@
 {
   "variants": {
+    "facing=east": {
+      "model": "elementalcraft:block/spell_desk",
+      "y": 90
+    },
     "facing=north": {
       "model": "elementalcraft:block/spell_desk"
     },
@@ -10,10 +14,6 @@
     "facing=west": {
       "model": "elementalcraft:block/spell_desk",
       "y": 270
-    },
-    "facing=east": {
-      "model": "elementalcraft:block/spell_desk",
-      "y": 90
     }
   }
 }

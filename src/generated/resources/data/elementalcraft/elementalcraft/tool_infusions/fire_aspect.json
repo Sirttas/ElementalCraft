@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:fire_aspect"
+    }
+  ],
+  "element_type": "fire"
+}

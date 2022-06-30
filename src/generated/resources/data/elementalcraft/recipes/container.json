@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "g": {
+      "item": "elementalcraft:burnt_glass"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    },
+    "p": {
+      "item": "elementalcraft:elementpipe"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
   "pattern": [
     "ici",
     "pgp",
     "www"
   ],
-  "key": {
-    "c": {
-      "item": "elementalcraft:contained_crystal"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
-    "i": {
-      "tag": "forge:ingots/drenched_iron"
-    },
-    "g": {
-      "item": "elementalcraft:burnt_glass"
-    },
-    "p": {
-      "item": "elementalcraft:elementpipe"
-    }
-  },
   "result": {
     "item": "elementalcraft:container"
   }

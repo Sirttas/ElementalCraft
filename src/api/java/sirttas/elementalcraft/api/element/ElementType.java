@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -13,7 +13,6 @@ import sirttas.elementalcraft.api.name.ECNames;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -22,11 +21,11 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	NONE(0, 0, 0, "none"),
 	WATER(43, 173, 255, "water"),
 	FIRE(247, 107, 27, "fire"),
-	EARTH(76, 133, 102, "earth"),
+	EARTH(13, 128, 37, "earth"),
 	AIR(238, 255, 219, "air");
 
 	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).toList());
-	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values, ElementType::byName);
+	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values);
 	public static final EnumProperty<ElementType> STATE_PROPERTY = EnumProperty.create(ECNames.ELEMENT_TYPE, ElementType.class);
 	
 	private final float r;
@@ -60,10 +59,10 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	}
 
 	public static ElementType random() {
-		return random(new Random());
+		return random(RandomSource.create());
 	}
 
-	public static ElementType random(Random rand) {
+	public static ElementType random(RandomSource rand) {
 		int random = rand.nextInt(4);
 		return switch (random) {
 			case 0 -> WATER;
@@ -90,7 +89,7 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	}
 
 	public Component getDisplayName() {
-		return new TranslatableComponent(getTranslationKey());
+		return Component.translatable(getTranslationKey());
 	}
 
 	public static ElementType byName(String name) {

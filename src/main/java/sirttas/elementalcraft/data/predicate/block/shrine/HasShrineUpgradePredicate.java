@@ -4,19 +4,17 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ObjectHolder;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
+import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 
 public class HasShrineUpgradePredicate implements IShrinePredicate {
 
 	public static final String NAME = "has_shrine_upgrade";
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final BlockPosPredicateType<HasShrineUpgradePredicate> TYPE = null;
 	public static final Codec<HasShrineUpgradePredicate> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 	        IDataManager.keyCodec(ElementalCraft.SHRINE_UPGRADE_MANAGER_KEY).fieldOf(ECNames.SHRINE_UPGRADE).forGetter(p -> p.key),
 			Codec.INT.optionalFieldOf(ECNames.COUNT, 1).forGetter(p -> p.count)
@@ -50,6 +48,6 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
 
 	@Override
 	public BlockPosPredicateType<HasShrineUpgradePredicate> getType() {
-		return TYPE;
+		return ECBlockPosPredicateTypes.HAS_SHRINE_UPGRADE.get();
 	}
 }

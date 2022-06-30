@@ -1,0 +1,24 @@
+{
+  "bonuses": {
+    "element_consumption": 500.0,
+    "range": 0.5,
+    "speed": 20.0
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "dpanvil:has_shrine_upgrade",
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex"
+        }
+      },
+      {
+        "type": "dpanvil:block",
+        "block": "elementalcraft:vacuumshrine"
+      }
+    ]
+  }
+}

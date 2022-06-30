@@ -1,0 +1,40 @@
+{
+  "bonuses": {
+    "element_consumption": 1.2,
+    "strength": 2.0
+  },
+  "predicate": {
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "dpanvil:has_shrine_upgrade",
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
+        }
+      },
+      {
+        "type": "dpanvil:or",
+        "values": [
+          {
+            "type": "dpanvil:and",
+            "values": [
+              {
+                "type": "dpanvil:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
+              },
+              {
+                "type": "dpanvil:block",
+                "block": "elementalcraft:springshrine"
+              }
+            ]
+          },
+          {
+            "type": "dpanvil:tag",
+            "tag": "elementalcraft:shrines/upgradables/strength"
+          }
+        ]
+      }
+    ]
+  }
+}

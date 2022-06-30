@@ -1,0 +1,23 @@
+{
+  "bonuses": {
+    "element_consumption": 5.0,
+    "speed": 4.0
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "dpanvil:has_shrine_upgrade",
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_stem_pollination"
+        }
+      },
+      {
+        "type": "dpanvil:block",
+        "block": "elementalcraft:growthshrine"
+      }
+    ]
+  }
+}

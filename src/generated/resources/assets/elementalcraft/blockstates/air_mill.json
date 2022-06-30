@@ -1,10 +1,10 @@
 {
   "variants": {
-    "half=upper": {
-      "model": "minecraft:block/air"
-    },
     "half=lower": {
       "model": "elementalcraft:block/air_mill"
+    },
+    "half=upper": {
+      "model": "minecraft:block/air"
     }
   }
 }

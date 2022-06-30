@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:depth_strider"
+    }
+  ],
+  "element_type": "water"
+}

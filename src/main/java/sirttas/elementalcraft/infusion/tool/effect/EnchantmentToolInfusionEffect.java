@@ -2,13 +2,9 @@ package sirttas.elementalcraft.infusion.tool.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraft.world.item.enchantment.Enchantment;
 import sirttas.dpanvil.api.codec.Codecs;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -20,8 +16,7 @@ public class EnchantmentToolInfusionEffect implements IToolInfusionEffect {
 			Codecs.ENCHANTMENT.fieldOf(ECNames.ENCHANTMENT).forGetter(EnchantmentToolInfusionEffect::getEnchantment),
 			Codec.INT.optionalFieldOf(ECNames.LEVEL, 1).forGetter(EnchantmentToolInfusionEffect::getLevel)
 	).apply(builder, EnchantmentToolInfusionEffect::new));
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final ToolInfusionEffectType<EnchantmentToolInfusionEffect> TYPE = null;
-	
+
 	private final Enchantment enchantment;
 	private final int level;
 
@@ -36,12 +31,12 @@ public class EnchantmentToolInfusionEffect implements IToolInfusionEffect {
 
 	@Override
 	public Component getDescription() {
-		return new TranslatableComponent("tooltip.elementalcraft.enchantment_infused", new TranslatableComponent(enchantment.getDescriptionId()), level);
+		return Component.translatable("tooltip.elementalcraft.enchantment_infused", Component.translatable(enchantment.getDescriptionId()), level);
 	}
 
 	@Override
 	public ToolInfusionEffectType<? extends IToolInfusionEffect> getType() {
-		return TYPE;
+		return ToolInfusionEffectTypes.ENCHANTMENT.get();
 	}
 
 	public Enchantment getEnchantment() {

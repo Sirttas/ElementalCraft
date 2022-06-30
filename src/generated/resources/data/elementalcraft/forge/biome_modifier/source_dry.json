@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/dry",
+  "features": "elementalcraft:source_dry",
+  "step": "top_layer_modification"
+}

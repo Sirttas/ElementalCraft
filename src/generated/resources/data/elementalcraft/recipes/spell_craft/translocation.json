@@ -1,10 +1,10 @@
 {
   "type": "elementalcraft:spell_craft",
-  "gem": {
-    "tag": "elementalcraft:gems/pristine_air"
-  },
   "crystal": {
     "item": "elementalcraft:purecrystal"
+  },
+  "gem": {
+    "tag": "elementalcraft:gems/pristine_air"
   },
   "output": {
     "item": "elementalcraft:scroll",

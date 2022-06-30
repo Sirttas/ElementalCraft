@@ -1,7 +1,7 @@
 {
   "type": "elementalcraft:binding",
-  "element_type": "fire",
   "element_amount": 10000,
+  "element_type": "fire",
   "ingredients": [
     {
       "item": "elementalcraft:container"

@@ -2,15 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "main",
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "elementalcraft:burnt_glass_pane"
-        }
-      ],
       "conditions": [
         {
           "condition": "minecraft:match_tool",
@@ -25,7 +17,15 @@
             ]
           }
         }
-      ]
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:burnt_glass_pane"
+        }
+      ],
+      "name": "main",
+      "rolls": 1.0
     }
   ]
 }

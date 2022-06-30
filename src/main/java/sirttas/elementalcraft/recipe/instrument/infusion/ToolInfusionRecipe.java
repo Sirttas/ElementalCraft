@@ -1,21 +1,21 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.Holder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.dpanvil.api.data.IDataWrapper;
+import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
@@ -23,16 +23,15 @@ import javax.annotation.Nonnull;
 public class ToolInfusionRecipe implements IInfusionRecipe {
 
 	public static final String NAME = "tool_" + IInfusionRecipe.NAME;
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final RecipeSerializer<ToolInfusionRecipe> SERIALIZER = null;
 	
 	private final Ingredient input;
 	private final int elementAmount;
-	private final IDataWrapper<ToolInfusion> toolInfusion;
+	private final Holder<ToolInfusion> toolInfusion;
 	protected final ResourceLocation id;
 	
 	public ToolInfusionRecipe(ResourceLocation id, ResourceLocation toolInfusion, Ingredient input, int elementAmount) {
 		this.id = id;
-		this.toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getWrapper(toolInfusion);
+		this.toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(IDataManager.createKey(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, toolInfusion));
 		this.input = input;
 		this.elementAmount = elementAmount;
 	}
@@ -89,10 +88,10 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	@Nonnull
     @Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.TOOL_INFUSION.get();
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ToolInfusionRecipe> {
+	public static class Serializer implements RecipeSerializer<ToolInfusionRecipe> {
 
 		@Nonnull
         @Override

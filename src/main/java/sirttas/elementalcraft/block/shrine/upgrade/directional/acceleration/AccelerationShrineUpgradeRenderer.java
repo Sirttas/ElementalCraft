@@ -34,7 +34,7 @@ public class AccelerationShrineUpgradeRenderer implements IECRenderer<Accelerati
 			clockModel = Minecraft.getInstance().getModelManager().getModel(CLOCK_LOCATION);
 		}
 		matrixStack.translate(0.5, 0.5, 0.5);
-		matrixStack.mulPose(facing.step().rotation((float) Math.toRadians(getAngle(partialTicks))));
+		matrixStack.mulPose(facing.step().rotation((float) Math.toRadians(getClientTicks(partialTicks))));
 		newPos.transform(rotation);
 		matrixStack.translate(newPos.x(), newPos.y(), newPos.z());
 		matrixStack.mulPose(rotation);

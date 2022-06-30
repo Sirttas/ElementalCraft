@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "minecraft:chainmail_helmet",
     "minecraft:diamond_helmet",
@@ -8,50 +7,6 @@
     "minecraft:leather_helmet",
     "minecraft:netherite_helmet",
     "minecraft:turtle_helmet",
-    "#forge:helmets",
-    {
-      "id": "mekanismtools:bronze_helmet",
-      "required": false
-    },
-    {
-      "id": "botania:elementium_helmet",
-      "required": false
-    },
-    {
-      "id": "silentgear:helmet",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_helmet",
-      "required": false
-    },
-    {
-      "id": "botania:manasteel_helmet",
-      "required": false
-    },
-    {
-      "id": "botania:manaweave_helmet",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_helmet",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_helmet",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_helmet",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_helmet",
-      "required": false
-    },
-    {
-      "id": "botania:terrasteel_helmet",
-      "required": false
-    }
+    "#forge:helmets"
   ]
 }

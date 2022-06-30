@@ -1,0 +1,17 @@
+{
+  "attributes": {
+    "forge:reach_distance": [
+      {
+        "amount": 5.0,
+        "name": "Reach distance modifier",
+        "operation": "addition"
+      }
+    ]
+  },
+  "color": "#AFB3B3",
+  "cooldown": 40,
+  "element_consumption": 250,
+  "element_type": "earth",
+  "spell_type": "combat",
+  "weight": 20
+}

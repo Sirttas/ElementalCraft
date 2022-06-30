@@ -1,9 +1,8 @@
 package sirttas.elementalcraft.block.shrine.lava;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -42,7 +41,7 @@ public class LavaShrineBlock extends AbstractShrineBlock<LavaShrineBlockEntity> 
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, Random rand) {
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
 		double x = pos.getX() + (4 + rand.nextDouble() * 7) / 16;
 		double y = pos.getY() + 6D / 16;
 		double z = pos.getZ() + (4 + rand.nextDouble() * 7) / 16;

@@ -11,7 +11,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -25,7 +24,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public abstract class AbstractPureOreRecipeInjector<C extends Container, T extends Recipe<C>> extends ForgeRegistryEntry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> {
+public abstract class AbstractPureOreRecipeInjector<C extends Container, T extends Recipe<C>> {
 
 	public static final IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> REGISTRY = RegistryManager.ACTIVE.getRegistry(new ResourceLocation(ElementalCraftApi.MODID, ECNames.PURE_ORE_RECIPE_INJECTOR));
 

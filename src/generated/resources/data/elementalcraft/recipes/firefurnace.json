@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:firecrystal"
+    },
+    "f": {
+      "item": "minecraft:furnace"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
   "pattern": [
     "www",
     "wfw",
     "ici"
   ],
-  "key": {
-    "c": {
-      "item": "elementalcraft:firecrystal"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    },
-    "i": {
-      "tag": "forge:ingots/drenched_iron"
-    },
-    "f": {
-      "item": "minecraft:furnace"
-    }
-  },
   "result": {
     "item": "elementalcraft:firefurnace"
   }

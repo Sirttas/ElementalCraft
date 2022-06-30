@@ -1,7 +1,7 @@
 {
   "type": "elementalcraft:binding",
-  "element_type": "fire",
   "element_amount": 2500,
+  "element_type": "fire",
   "ingredients": [
     {
       "item": "elementalcraft:shrinebase"

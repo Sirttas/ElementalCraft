@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "###"
-  ],
   "key": {
     "#": {
       "item": "elementalcraft:purerock"
     }
   },
+  "pattern": [
+    "###",
+    "###"
+  ],
   "result": {
-    "item": "elementalcraft:purerock_wall",
-    "count": 6
+    "count": 6,
+    "item": "elementalcraft:purerock_wall"
   }
 }

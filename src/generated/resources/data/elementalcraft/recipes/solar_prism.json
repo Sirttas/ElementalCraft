@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " s ",
-    "cdc",
-    " s "
-  ],
   "key": {
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    },
     "c": {
       "tag": "forge:ingots/copper"
     },
     "d": {
       "tag": "forge:gems/diamond"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_shard"
     }
   },
+  "pattern": [
+    " s ",
+    "cdc",
+    " s "
+  ],
   "result": {
     "item": "elementalcraft:solar_prism"
   }

@@ -15,8 +15,8 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
-import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -36,7 +36,7 @@ public class BindingRecipeBuilder {
 	}
 
 	public static BindingRecipeBuilder bindingRecipe(ItemLike resultIn, ElementType elementType) {
-		return new BindingRecipeBuilder(BindingRecipe.SERIALIZER, resultIn, elementType);
+		return new BindingRecipeBuilder(ECRecipeSerializers.BINDING.get(), resultIn, elementType);
 	}
 
 	public BindingRecipeBuilder withElementAmount(int elementAmount) {

@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 
@@ -25,7 +26,7 @@ public class ToolInfusionClientHandler {
 
 		if (infusion != null) {
 			var index = IntStream.range(0, tooltip.size())
-					.filter(i -> stack.getItem().getRegistryName().toString().equals(tooltip.get(i).getString()))
+					.filter(i -> ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(tooltip.get(i).getString()))
 					.findFirst()
 					.orElse(tooltip.size());
 

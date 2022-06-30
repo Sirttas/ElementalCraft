@@ -1,13 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " w ",
-    "cUc",
-    " a "
-  ],
   "key": {
-    "w": {
-      "tag": "elementalcraft:gems/fine_water"
+    "U": {
+      "item": "elementalcraft:unset_jewel"
     },
     "a": {
       "tag": "elementalcraft:gems/crude_air"
@@ -15,10 +10,15 @@
     "c": {
       "item": "elementalcraft:watercrystal"
     },
-    "U": {
-      "item": "elementalcraft:unset_jewel"
+    "w": {
+      "tag": "elementalcraft:gems/fine_water"
     }
   },
+  "pattern": [
+    " w ",
+    "cUc",
+    " a "
+  ],
   "result": {
     "item": "elementalcraft:jewel",
     "nbt": {

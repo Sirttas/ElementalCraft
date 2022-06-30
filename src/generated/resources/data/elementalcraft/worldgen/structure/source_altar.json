@@ -1,0 +1,6 @@
+{
+  "type": "elementalcraft:source_altar",
+  "biomes": "#elementalcraft:has_structure/source_altar",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

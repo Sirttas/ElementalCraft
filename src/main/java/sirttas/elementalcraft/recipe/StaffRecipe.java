@@ -1,27 +1,21 @@
 package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
-
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import sirttas.elementalcraft.item.spell.FocusItem;
-import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 import javax.annotation.Nonnull;
 
 public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingContainer> {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + StaffItem.NAME) public static final RecipeSerializer<ShapedRecipe> SERIALIZER = null;
 	
 	private StaffRecipe(ShapedRecipe parent) {
 		super(parent.getId(), parent.getGroup(), parent.getWidth(), parent.getHeight(), parent.getIngredients(), parent.getResultItem());
@@ -48,7 +42,7 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingConta
 	@Nonnull
     @Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.STAFF.get();
 	}
 	
 	public static class Serializer extends ShapedRecipe.Serializer {

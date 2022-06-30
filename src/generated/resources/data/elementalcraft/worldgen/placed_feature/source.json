@@ -1,0 +1,29 @@
+{
+  "feature": {
+    "type": "elementalcraft:source",
+    "config": {
+      "type": "random",
+      "element_type": {
+        "air": 1,
+        "earth": 1,
+        "fire": 1,
+        "water": 1
+      }
+    }
+  },
+  "placement": [
+    {
+      "type": "elementalcraft:source"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 900
+    }
+  ]
+}

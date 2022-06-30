@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
@@ -33,7 +34,7 @@ public class PureInfusionRecipeBuilder {
 	}
 
 	public static PureInfusionRecipeBuilder pureInfusionRecipe(ItemLike resultIn) {
-		return new PureInfusionRecipeBuilder(PureInfusionRecipe.SERIALIZER, resultIn);
+		return new PureInfusionRecipeBuilder(ECRecipeSerializers.PURE_INFUSION.get(), resultIn);
 	}
 
 	public PureInfusionRecipeBuilder withElementAmount(int elementAmount) {

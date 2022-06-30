@@ -3,8 +3,6 @@ package sirttas.elementalcraft.item.spell;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -42,7 +40,7 @@ public class ScrollItem extends AbstractSpellHolderItem {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		if (spell != Spells.NONE.get()) {
-			tooltip.add(new TextComponent("").append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.empty().append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
 			addAttributeTooltip(tooltip, spell);
 		}
 	}
@@ -53,14 +51,14 @@ public class ScrollItem extends AbstractSpellHolderItem {
 		Spell spell = SpellHelper.getSpell(stack);
 
 		if (spell != Spells.NONE.get()) {
-			return new TranslatableComponent("tooltip.elementalcraft.scroll_of", spell.getDisplayName());
+			return Component.translatable("tooltip.elementalcraft.scroll_of", spell.getDisplayName());
 		}
 		return super.getName(stack);
 	}
 
 	@Override
 	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowdedIn(group)) {
+		if (this.allowedIn(group)) {
 			Spells.REGISTRY.get().forEach(s -> {
 				if (s.isVisible()) {
 					ItemStack stack = new ItemStack(this);

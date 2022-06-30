@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_water_lens": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:water_lens"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_water_lens"
+    ]
+  ]
+}

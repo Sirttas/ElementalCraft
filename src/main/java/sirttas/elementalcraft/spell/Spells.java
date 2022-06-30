@@ -35,7 +35,7 @@ public class Spells {
 
 	private static final DeferredRegister<Spell> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.SPELL), ElementalCraftApi.MODID);
 
-	public static final Supplier<IForgeRegistry<Spell>> REGISTRY = RegistryHelper.makeRegistry(DEFERRED_REGISTER, Spell.class, b -> b.setDefaultKey(ElementalCraft.createRL("none")));
+	public static final Supplier<IForgeRegistry<Spell>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryHelper.builder(b -> b.setDefaultKey(ElementalCraft.createRL("none"))));
 
 
 	public static final RegistryObject<Spell> NONE = register("none", Spell::new);

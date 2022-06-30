@@ -1,0 +1,14 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:looting"
+    },
+    {
+      "type": "dpanvil:element_cost_reduction",
+      "element_type": "water",
+      "value": 0.15
+    }
+  ],
+  "element_type": "water"
+}

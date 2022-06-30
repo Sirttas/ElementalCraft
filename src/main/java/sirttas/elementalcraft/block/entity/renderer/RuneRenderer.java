@@ -19,7 +19,7 @@ public interface RuneRenderer<T extends BlockEntity> extends IECRenderer<T> {
 
 	@Override
 	default void render(@Nonnull T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		CapabilityRuneHandler.get(te).ifPresent(handler -> renderRunes(matrixStack, buffer, handler, getAngle(partialTicks), light, overlay));
+		CapabilityRuneHandler.get(te).ifPresent(handler -> renderRunes(matrixStack, buffer, handler, getClientTicks(partialTicks), light, overlay));
 	}
 
 

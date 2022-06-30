@@ -1,97 +1,97 @@
 {
   "multipart": [
     {
-      "when": {
-        "half": "upper"
-      },
       "apply": {
         "model": "elementalcraft:block/reservoir_top"
+      },
+      "when": {
+        "half": "upper"
       }
     },
     {
-      "when": {
-        "half": "lower"
-      },
       "apply": {
         "model": "elementalcraft:block/reservoir_water"
+      },
+      "when": {
+        "half": "lower"
       }
     },
     {
-      "when": {
-        "half": "upper",
-        "north": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector"
+      },
+      "when": {
+        "half": "upper",
+        "north": "true"
       }
     },
     {
-      "when": {
-        "half": "upper",
-        "east": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector",
         "y": 90
+      },
+      "when": {
+        "east": "true",
+        "half": "upper"
       }
     },
     {
-      "when": {
-        "half": "upper",
-        "south": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector",
         "y": 180
+      },
+      "when": {
+        "half": "upper",
+        "south": "true"
       }
     },
     {
-      "when": {
-        "half": "upper",
-        "west": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/container_connector",
         "y": 270
+      },
+      "when": {
+        "half": "upper",
+        "west": "true"
       }
     },
     {
+      "apply": {
+        "model": "elementalcraft:block/reservoir_water_connector"
+      },
       "when": {
         "half": "lower",
         "north": "true"
-      },
-      "apply": {
-        "model": "elementalcraft:block/reservoir_water_connector"
       }
     },
     {
-      "when": {
-        "half": "lower",
-        "east": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/reservoir_water_connector",
         "y": 90
+      },
+      "when": {
+        "east": "true",
+        "half": "lower"
       }
     },
     {
-      "when": {
-        "half": "lower",
-        "south": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/reservoir_water_connector",
         "y": 180
+      },
+      "when": {
+        "half": "lower",
+        "south": "true"
       }
     },
     {
-      "when": {
-        "half": "lower",
-        "west": "true"
-      },
       "apply": {
         "model": "elementalcraft:block/reservoir_water_connector",
         "y": 270
+      },
+      "when": {
+        "half": "lower",
+        "west": "true"
       }
     }
   ]

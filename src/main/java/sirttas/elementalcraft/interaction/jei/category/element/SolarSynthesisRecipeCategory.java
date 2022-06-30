@@ -21,9 +21,9 @@ public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeC
 
 	public static final String NAME = "solar_synthesis";
 
-	private static final ItemStack SOLAR_SYNTHESIZER = new ItemStack(ECBlocks.SOLAR_SYNTHESIZER);
+	private static final ItemStack SOLAR_SYNTHESIZER = new ItemStack(ECBlocks.SOLAR_SYNTHESIZER.get());
 
-	protected final ItemStack tank = new ItemStack(ECItems.TANK);
+	protected final ItemStack container = new ItemStack(ECBlocks.CONTAINER.get());
 
 	public SolarSynthesisRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.solar_synthesis", createDrawableStack(guiHelper, SOLAR_SYNTHESIZER), guiHelper.createBlankDrawable(84, 66));
@@ -44,13 +44,13 @@ public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeC
 		builder.addSlot(RecipeIngredientRole.CATALYST, 15, 31)
 				.addItemStack(SOLAR_SYNTHESIZER);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 15, 47)
-				.addItemStack(tank);
+				.addItemStack(container);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 60, 44)
 				.addIngredient(ECIngredientTypes.ELEMENT, getOutput(ingredient));
 	}
 
 	public static List<Ingredient> getLenses() {
-		return Lists.newArrayList(Ingredient.of(ECItems.FIRE_LENSE), Ingredient.of(ECItems.WATER_LENSE), Ingredient.of(ECItems.EARTH_LENSE), Ingredient.of(ECItems.AIR_LENSE));
+		return Lists.newArrayList(Ingredient.of(ECItems.FIRE_LENS.get()), Ingredient.of(ECItems.WATER_LENS.get()), Ingredient.of(ECItems.EARTH_LENS.get()), Ingredient.of(ECItems.AIR_LENS.get()));
 	}
 
 }

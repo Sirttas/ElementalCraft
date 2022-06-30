@@ -15,14 +15,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.ObjectHolder;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
@@ -34,6 +31,7 @@ import sirttas.elementalcraft.api.element.transfer.path.SimpleElementTransferPat
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -45,8 +43,6 @@ import java.util.Optional;
 
 public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + ElementPipeBlock.NAME) public static final BlockEntityType<ElementPipeBlockEntity> TYPE = null;
-
 	private final ElementPipeTransferer transferer;
 	private BlockState coverState;
 	private SimpleElementTransferPathfinder pathfinder;
@@ -54,7 +50,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 
 	public ElementPipeBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
+		super(ECBlockEntityTypes.PIPE, pos, state);
 		transferer = new ElementPipeTransferer(this);
 		pathMap = new EnumMap<>(Direction.class);
 	}
@@ -174,7 +170,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		if (world != null && !world.isClientSide) {
 			Vec3 vect = player != null ? player.position().add(0, 0.25, 0) : Vec3.atCenterOf(this.getBlockPos());
 			
-			world.addFreshEntity(new ItemEntity(world, vect.x, vect.y, vect.z, new ItemStack(ECItems.PIPE_PRIORITY, size)));
+			world.addFreshEntity(new ItemEntity(world, vect.x, vect.y, vect.z, new ItemStack(ECItems.PIPE_PRIORITY.get(), size)));
 		}
 	}
 	

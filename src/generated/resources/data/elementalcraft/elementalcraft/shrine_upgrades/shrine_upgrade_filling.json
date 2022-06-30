@@ -1,0 +1,11 @@
+{
+  "bonuses": {
+    "element_consumption": 3.0,
+    "speed": 2.0
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:block",
+    "block": "elementalcraft:springshrine"
+  }
+}

@@ -2,30 +2,30 @@
   "type": "minecraft:selector",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 5.0,
-                "max": 7.0
+                "max": 7.0,
+                "min": 5.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:water_shard"
+          "name": "elementalcraft:water_shard",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
           "name": "elementalcraft:powerful_water_shard"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

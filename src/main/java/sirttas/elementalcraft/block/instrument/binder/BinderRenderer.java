@@ -16,7 +16,7 @@ public class BinderRenderer<T extends BinderBlockEntity> implements IECRenderer<
 
 	@Override
 	public void render(@Nonnull T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float tick = getAngle(partialTicks);
+		float tick = getClientTicks(partialTicks);
 		Container inv = te.getInventory();
 		
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);

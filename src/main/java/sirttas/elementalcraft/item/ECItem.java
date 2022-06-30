@@ -1,12 +1,10 @@
 package sirttas.elementalcraft.item;
 
 import com.google.common.collect.Multimap;
-import mezz.jei.color.ColorGetter;
+import mezz.jei.common.color.ColorGetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -81,7 +79,7 @@ public class ECItem extends Item {
 	@OnlyIn(Dist.CLIENT)
 	public static void addAttributeMultiMapToTooltip(List<Component> tooltip, Multimap<Attribute, AttributeModifier> multiMap, @Nullable Component title) {
 		if (!multiMap.isEmpty()) {
-			tooltip.add(new TextComponent(""));
+			tooltip.add(Component.empty());
 			if (title != null) {
 				tooltip.add(title);
 			}
@@ -107,12 +105,12 @@ public class ECItem extends Item {
 		}
 
 		if (d0 > 0.0D) {
-			return new TranslatableComponent("attribute.modifier.plus." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-					new TranslatableComponent(attribute.getDescriptionId())).withStyle(ChatFormatting.BLUE);
+			return Component.translatable("attribute.modifier.plus." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+					Component.translatable(attribute.getDescriptionId())).withStyle(ChatFormatting.BLUE);
 		} else if (d0 < 0.0D) {
 			d1 = d1 * -1.0D;
-			return new TranslatableComponent("attribute.modifier.take." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-					new TranslatableComponent(attribute.getDescriptionId())).withStyle(ChatFormatting.RED);
+			return Component.translatable("attribute.modifier.take." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+					Component.translatable(attribute.getDescriptionId())).withStyle(ChatFormatting.RED);
 		}
 		return null;
 	}

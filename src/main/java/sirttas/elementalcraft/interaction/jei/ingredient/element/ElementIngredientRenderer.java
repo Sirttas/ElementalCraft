@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.TooltipFlag;
 import sirttas.elementalcraft.gui.GuiHelper;
 
@@ -31,7 +30,7 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 
 		tooltips.add(ingredient.getDisplayName());
 		if (amount != -1) {
-			tooltips.add(new TranslatableComponent("tooltip.elemntalcraft.element_amount." + amount).withStyle(ChatFormatting.GREEN));
+			tooltips.add(Component.translatable("tooltip.elemntalcraft.element_amount." + amount).withStyle(ChatFormatting.GREEN));
 		}
 		return tooltips;
 	}

@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:projectile_protection"
+    }
+  ],
+  "element_type": "air"
+}

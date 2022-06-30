@@ -1,0 +1,11 @@
+{
+  "bonuses": {
+    "element_consumption": 1.2,
+    "range": 1.5,
+    "speed": 1.2
+  },
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:shrines/upgradables/range"
+  }
+}

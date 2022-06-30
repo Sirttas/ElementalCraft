@@ -5,8 +5,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.entity.ECEntities;
 
 import javax.annotation.Nonnull;
 
@@ -14,10 +13,8 @@ public class FeatherSpike extends AbstractArrow {
 
     public static final String NAME = "feather_spike";
 
-    @ObjectHolder(ElementalCraftApi.MODID + ":" + NAME) public static final EntityType<FeatherSpike> TYPE = null;
-
     public FeatherSpike(Level level) {
-        this(TYPE, level);
+        this(ECEntities.FEATHER_SPIKE.get(), level);
     }
 
     public FeatherSpike(EntityType<? extends FeatherSpike> type, Level level) {
@@ -26,7 +23,7 @@ public class FeatherSpike extends AbstractArrow {
     }
 
     public FeatherSpike(Level level, LivingEntity sender) {
-        super(TYPE, sender, level);
+        super(ECEntities.FEATHER_SPIKE.get(), sender, level);
         pickup = AbstractArrow.Pickup.DISALLOWED;
     }
 

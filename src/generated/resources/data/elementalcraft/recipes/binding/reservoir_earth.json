@@ -1,7 +1,7 @@
 {
   "type": "elementalcraft:binding",
-  "element_type": "earth",
   "element_amount": 10000,
+  "element_type": "earth",
   "ingredients": [
     {
       "item": "elementalcraft:container"

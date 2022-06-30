@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "minecraft:diamond_sword",
     "minecraft:golden_sword",
@@ -7,78 +6,6 @@
     "minecraft:netherite_sword",
     "minecraft:stone_sword",
     "minecraft:wooden_sword",
-    "#forge:swords",
-    {
-      "id": "mekanismtools:bronze_sword",
-      "required": false
-    },
-    {
-      "id": "silentgear:dagger",
-      "required": false
-    },
-    {
-      "id": "botania:elementium_sword",
-      "required": false
-    },
-    {
-      "id": "botania:ender_dagger",
-      "required": false
-    },
-    {
-      "id": "silentgear:katana",
-      "required": false
-    },
-    {
-      "id": "silentgear:knife",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_sword",
-      "required": false
-    },
-    {
-      "id": "silentgear:machete",
-      "required": false
-    },
-    {
-      "id": "botania:manasteel_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_sword",
-      "required": false
-    },
-    {
-      "id": "silentgear:spear",
-      "required": false
-    },
-    {
-      "id": "botania:star_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_sword",
-      "required": false
-    },
-    {
-      "id": "silentgear:sword",
-      "required": false
-    },
-    {
-      "id": "botania:terra_sword",
-      "required": false
-    },
-    {
-      "id": "botania:thunder_sword",
-      "required": false
-    }
+    "#forge:swords"
   ]
 }

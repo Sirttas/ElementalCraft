@@ -20,7 +20,7 @@ public class FireFurnaceRenderer implements IECRenderer<AbstractFireFurnaceBlock
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);
 		matrixStack.translate(0.5F, 0.3F, 0.5F);
-		float tick = getAngle(partialTicks);
+		float tick = getClientTicks(partialTicks);
 		
 		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		if (!stack.isEmpty() || !stack2.isEmpty()) {

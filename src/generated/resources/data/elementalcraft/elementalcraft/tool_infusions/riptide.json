@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:riptide"
+    }
+  ],
+  "element_type": "air"
+}

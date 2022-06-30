@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.event;
 
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +23,7 @@ public class EnchantmentHandler {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 
-		if (left.is(ECTags.Items.SPELL_CAST_TOOLS) && right.getItem() == ECItems.SCROLL && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
+		if (left.is(ECTags.Items.SPELL_CAST_TOOLS) && right.is(ECItems.SCROLL.get()) && SpellHelper.getSpellCount(left) < ECConfig.COMMON.focusMaxSpell.get()) {
 			ItemStack result = left.copy();
 			int n = 4 * (SpellHelper.getSpellCount(left) + 1);
 
@@ -34,12 +34,12 @@ public class EnchantmentHandler {
 				}
 			} else if (!event.getName().equals(left.getHoverName().getString())) {
 				n++;
-				result.setHoverName(new TextComponent(event.getName()));
+				result.setHoverName(Component.literal(event.getName()));
 			}
 			SpellHelper.addSpell(result, SpellHelper.getSpell(right));
 			event.setCost(n);
 			event.setOutput(result);
-		} else if (left.is(ECTags.Items.JEWEL_SOCKETABLES) && right.getItem() == ECItems.JEWEL && JewelHelper.getJewel(left) == null) {
+		} else if (left.is(ECTags.Items.JEWEL_SOCKETABLES) && right.is(ECItems.JEWEL.get()) && JewelHelper.getJewel(left) == null) {
 			ItemStack result = left.copy();
 
 			JewelHelper.setJewel(result, JewelHelper.getJewel(right));

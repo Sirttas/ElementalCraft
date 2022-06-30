@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:quick_charge"
+    }
+  ],
+  "element_type": "air"
+}

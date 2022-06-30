@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/ocean",
+  "features": "elementalcraft:source_ocean",
+  "step": "top_layer_modification"
+}

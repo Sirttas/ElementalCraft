@@ -22,7 +22,7 @@ public class SpellRenderers {
     private SpellRenderers() {}
 
     public static ISpellRenderer get(Spell spell) {
-        return SPELL_RENDERERS.get(spell.getRegistryName());
+        return SPELL_RENDERERS.get(spell.getKey());
     }
 
     public static void register(RegistryObject<? extends Spell> spell, ISpellRenderer renderer) {

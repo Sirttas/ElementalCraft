@@ -5,7 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public record ActiveJewelsMessage(List<ResourceLocation> jewels) {
 
     public static ActiveJewelsMessage create(IJewelHandler jewelHandler) {
         return new ActiveJewelsMessage(jewelHandler.getActiveJewels().stream()
-                .map(ForgeRegistryEntry::getRegistryName)
+                .map(Jewel::getKey)
                 .toList());
     }
 

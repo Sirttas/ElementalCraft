@@ -2,24 +2,30 @@
   "type": "minecraft:entity",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "chance": 0.25,
+          "condition": "minecraft:random_chance_with_looting",
+          "looting_multiplier": 0.03
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
+                "max": 3.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "elementalcraft:fire_shard"
+          "name": "elementalcraft:fire_shard",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
@@ -31,13 +37,7 @@
           "name": "elementalcraft:powerful_fire_shard"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:random_chance_with_looting",
-          "chance": 0.25,
-          "looting_multiplier": 0.03
-        }
-      ]
+      "rolls": 1.0
     }
   ]
 }

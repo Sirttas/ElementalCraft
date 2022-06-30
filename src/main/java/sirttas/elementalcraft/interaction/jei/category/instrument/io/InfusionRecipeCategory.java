@@ -7,11 +7,11 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<IInfuser, IInfusionRecipe> {
 
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper, "elementalcraft.jei.infusion", ECItems.INFUSER);
+		super(guiHelper, "elementalcraft.jei.infusion", ECBlocks.INFUSER.get());
 	}
 
 	@Nonnull
@@ -33,7 +33,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 
 	@Override
 	protected List<ItemStack> getTanks() {
-		return List.of(tank, new ItemStack(ECItems.TANK_SMALL));
+		return List.of(container, new ItemStack(ECBlocks.SMALL_CONTAINER.get()));
 	}
 
 	@Override

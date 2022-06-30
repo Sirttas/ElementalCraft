@@ -8,12 +8,10 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.ObjectHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
@@ -25,9 +23,6 @@ public record AirMillGrindingRecipe(
 		int elementAmount,
 		int luckRation
 ) implements IGrindingRecipe {
-
-	@ObjectHolder(ElementalCraftApi.MODID + ":" + NAME)
-	public static final RecipeSerializer<AirMillGrindingRecipe> SERIALIZER = null;
 
 	@Override
 	public int getElementAmount() {
@@ -60,7 +55,7 @@ public record AirMillGrindingRecipe(
 	@Nonnull
     @Override
 	public RecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
+		return ECRecipeSerializers.AIR_MILL_GRINDING.get();
 	}
 
 	@Override
@@ -68,7 +63,7 @@ public record AirMillGrindingRecipe(
 		return Math.round(instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK) * luckRation);
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AirMillGrindingRecipe> {
+	public static class Serializer implements RecipeSerializer<AirMillGrindingRecipe> {
 
 		@Nonnull
         @Override

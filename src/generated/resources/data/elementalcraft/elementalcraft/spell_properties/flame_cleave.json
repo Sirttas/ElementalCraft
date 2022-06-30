@@ -1,0 +1,18 @@
+{
+  "attributes": {
+    "minecraft:generic.attack_damage": [
+      {
+        "amount": 0.5,
+        "name": "Weapon modifier",
+        "operation": "multiply_total"
+      }
+    ]
+  },
+  "color": "#9C2D0B",
+  "cooldown": 60,
+  "element_consumption": 1000,
+  "element_type": "fire",
+  "range": 3.0,
+  "spell_type": "combat",
+  "weight": 15
+}

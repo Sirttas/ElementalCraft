@@ -22,6 +22,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.material.ECMaterials;
 
 import javax.annotation.Nonnull;
@@ -35,7 +36,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 	public static final String NAME = "source";
 
 	public SourceBlock() {
-		super(BlockBehaviour.Properties.of(ECMaterials.SOURCE).strength(-1.0F, 3600000.0F).lightLevel(s -> 7).noOcclusion().noDrops());
+		super(BlockBehaviour.Properties.of(ECMaterials.SOURCE).strength(-1.0F, 3600000.0F).lightLevel(s -> 7).noOcclusion().noLootTable());
 		this.registerDefaultState(this.stateDefinition.any().setValue(ElementType.STATE_PROPERTY, ElementType.NONE));
 	}
 
@@ -47,7 +48,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECTicker(level, type, SourceBlockEntity.TYPE, level.isClientSide ? SourceBlockEntity::clientTick : SourceBlockEntity::serverTick);
+		return createECServerTicker(level, type, ECBlockEntityTypes.SOURCE, SourceBlockEntity::serverTick);
 	}
 
 	@Override

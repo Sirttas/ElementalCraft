@@ -1,7 +1,7 @@
 {
   "type": "elementalcraft:binding",
-  "element_type": "earth",
   "element_amount": 5000,
+  "element_type": "earth",
   "ingredients": [
     {
       "item": "elementalcraft:growthshrine"

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/wet",
+  "features": "elementalcraft:source_wet",
+  "step": "top_layer_modification"
+}

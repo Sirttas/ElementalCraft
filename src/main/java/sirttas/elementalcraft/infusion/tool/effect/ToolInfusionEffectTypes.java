@@ -1,28 +1,38 @@
 package sirttas.elementalcraft.infusion.tool.effect;
 
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import com.mojang.serialization.Codec;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
-import sirttas.elementalcraft.registry.RegistryHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+import java.util.function.Supplier;
+
 public class ToolInfusionEffectTypes {
 
+	private static final DeferredRegister<ToolInfusionEffectType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.TOOL_INFUSION_EFFECT_TYPE_REGISTRY_KEY, ElementalCraftApi.MODID);
+	public static final Supplier<IForgeRegistry<ToolInfusionEffectType<?>>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryBuilder::new);
+
+	public static final RegistryObject<ToolInfusionEffectType<EnchantmentToolInfusionEffect>> ENCHANTMENT = register(EnchantmentToolInfusionEffect.CODEC, EnchantmentToolInfusionEffect.NAME);
+	public static final RegistryObject<ToolInfusionEffectType<AttributeToolInfusionEffect>> ATTRIBUTE = register(AttributeToolInfusionEffect.CODEC, AttributeToolInfusionEffect.NAME);
+	public static final RegistryObject<ToolInfusionEffectType<AutoSmeltToolInfusionEffect>> AUTO_SMELT = register(AutoSmeltToolInfusionEffect.CODEC, AutoSmeltToolInfusionEffect.NAME);
+	public static final RegistryObject<ToolInfusionEffectType<DodgeToolInfusionEffect>> DODGE = register(DodgeToolInfusionEffect.CODEC, DodgeToolInfusionEffect.NAME);
+	public static final RegistryObject<ToolInfusionEffectType<FastDrawToolInfusionEffect>> FAST_DRAW = register(FastDrawToolInfusionEffect.CODEC, FastDrawToolInfusionEffect.NAME);
+	public static final RegistryObject<ToolInfusionEffectType<ElementCostReductionToolInfusionEffect>> ELEMENT_COST_REDUCTION = register(ElementCostReductionToolInfusionEffect.CODEC, ElementCostReductionToolInfusionEffect.NAME);
+
 	private ToolInfusionEffectTypes() {}
-	
-	@SubscribeEvent
-	public static void registerToolInfusionTypes(RegistryEvent.Register<ToolInfusionEffectType<?>> event) {
-		IForgeRegistry<ToolInfusionEffectType<?>> registry = event.getRegistry();
-		
-		RegistryHelper.register(registry, new ToolInfusionEffectType<>(EnchantmentToolInfusionEffect.CODEC), EnchantmentToolInfusionEffect.NAME);
-		RegistryHelper.register(registry, new ToolInfusionEffectType<>(AttributeToolInfusionEffect.CODEC), AttributeToolInfusionEffect.NAME);
-		RegistryHelper.register(registry, new ToolInfusionEffectType<>(AutoSmeltToolInfusionEffect.CODEC), AutoSmeltToolInfusionEffect.NAME);
-		RegistryHelper.register(registry, new ToolInfusionEffectType<>(DodgeToolInfusionEffect.CODEC), DodgeToolInfusionEffect.NAME);
-		RegistryHelper.register(registry, new ToolInfusionEffectType<>(FastDrawToolInfusionEffect.CODEC), FastDrawToolInfusionEffect.NAME);
-		RegistryHelper.register(registry, new ToolInfusionEffectType<>(ElementCostReductionToolInfusionEffect.CODEC), ElementCostReductionToolInfusionEffect.NAME);
+
+
+	private static <T extends IToolInfusionEffect> RegistryObject<ToolInfusionEffectType<T>> register(Codec<T> codec, String name) {
+		return DEFERRED_REGISTER.register(name, () -> new ToolInfusionEffectType<>(codec));
+	}
+
+	public static void register(IEventBus bus) {
+		DEFERRED_REGISTER.register(bus);
 	}
 	
 }

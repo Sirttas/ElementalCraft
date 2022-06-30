@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
+  "count": 2,
   "ingredient": {
     "item": "elementalcraft:purerock"
   },
-  "result": "elementalcraft:purerock_slab",
-  "count": 2
+  "result": "elementalcraft:purerock_slab"
 }

@@ -2,7 +2,6 @@ package sirttas.elementalcraft.jewel.effect.mole;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -21,7 +20,7 @@ public class MoleJewel extends EffectJewel {
 
     @Override
     public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(new TranslatableComponent("tooltip.elementalcraft.mole").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("tooltip.elementalcraft.mole").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(tooltip);
     }
 }

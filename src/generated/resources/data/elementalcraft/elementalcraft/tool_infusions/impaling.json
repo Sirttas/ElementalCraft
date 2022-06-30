@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "dpanvil:enchantment",
+      "enchantment": "minecraft:impaling"
+    }
+  ],
+  "element_type": "fire"
+}

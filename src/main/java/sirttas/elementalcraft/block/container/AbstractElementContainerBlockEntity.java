@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
@@ -21,7 +22,7 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 
 	protected final SingleElementStorage elementStorage;
 
-	protected AbstractElementContainerBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, Function<Runnable, SingleElementStorage> elementStorage) {
+	protected AbstractElementContainerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, Function<Runnable, SingleElementStorage> elementStorage) {
 		super(blockEntityType, pos, state);
 		this.elementStorage = elementStorage.apply(this::setChanged);
 	}

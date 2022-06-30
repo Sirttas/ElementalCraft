@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_earth_lens": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:earth_lens"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_earth_lens"
+    ]
+  ]
+}

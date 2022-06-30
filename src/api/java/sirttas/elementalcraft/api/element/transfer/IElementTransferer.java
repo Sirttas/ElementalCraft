@@ -2,7 +2,6 @@ package sirttas.elementalcraft.api.element.transfer;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.Map;
 import java.util.stream.Stream;
@@ -60,7 +59,7 @@ public interface IElementTransferer {
 		}
 
 		public Component getDisplayName() {
-			return new TranslatableComponent(translationKey);
+			return Component.translatable(translationKey);
 		}
 	}
 }

@@ -30,7 +30,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	private final ElementType elementType;
 
 	public ElementHolderItem(ElementType elementType) {
-		super(ECConfig.COMMON.elementHolderCapacity.get(), ECConfig.COMMON.elementHolderTransferAmount.get());
+		super(ECConfig.COMMON.elementHolderCapacity::get, ECConfig.COMMON.elementHolderTransferAmount::get);
 		this.elementType = elementType;
 	}
 
@@ -67,11 +67,11 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 
 	@Override
 	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowdedIn(group)) {
+		if (this.allowedIn(group)) {
 			ItemStack full = new ItemStack(this);
 			ISingleElementStorage storage = getElementStorage(full);
 
-			storage.insertElement(elementCapacity, false);
+			storage.insertElement(elementCapacity.getAsInt(), false);
 			items.add(new ItemStack(this));
 			items.add(full);
 		}
@@ -85,7 +85,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 
 	@Override
 	public int getBarWidth(@Nonnull ItemStack stack) {
-		return Math.round(getElementStorage(stack).getElementAmount() * 13F / elementCapacity);
+		return Math.round(getElementStorage(stack).getElementAmount() * 13F / elementCapacity.getAsInt());
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 		private final ItemStack stack;
 		
 		public ElementStorage(ItemStack stack) {
-			super(ElementHolderItem.this.elementType, ElementHolderItem.this.elementCapacity);
+			super(ElementHolderItem.this.elementType, ElementHolderItem.this.elementCapacity.getAsInt());
 			this.stack = stack;
 		}
 
