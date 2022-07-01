@@ -1,3 +1,8 @@
+1.19-5.0.1:
+
+- air mill grindstone can now process ancient debris (also works with pure ore) to netherite scrap
+
+
 1.19-5.0.0:
 
 - initial port to 1.19

@@ -46,6 +46,7 @@ public class PureOreRecipeInjectors {
 		register(registry, new PureOreCookingRecipeInjector<>(RecipeType.SMELTING, SmeltingRecipe::new));
 		register(registry, new PureOreCookingRecipeInjector<>(RecipeType.BLASTING, BlastingRecipe::new));
 		register(registry, new PureOreCookingRecipeInjector<>(RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new));
+		register(registry, new PureOreGrindingRecipeInjector());
 
 //		if (ECinteractions.isMekanismActive()) {
 //			MekanismInteraction.registerPureOreRecipeInjectors(registry);
