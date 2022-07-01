@@ -1,0 +1,11 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 5000,
+  "input": {
+    "tag": "forge:ores/netherite_scrap"
+  },
+  "luck_ration": 1,
+  "output": {
+    "item": "minecraft:netherite_scrap"
+  }
+}

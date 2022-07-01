@@ -39,6 +39,7 @@ public class PureOreRecipeInjectors {
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreCampFireRecipe.get())) {
 			register(registry, new PureOreCookingRecipeInjector<>(RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new));
 		}
+		register(registry, new PureOreGrindingRecipeInjector());
 		if (ECinteractions.isMekanismActive()) {
 			MekanismInteraction.registerPureOreRecipeInjectors(registry);
 		}
