@@ -1,3 +1,8 @@
+1.18.2-4.4.12:
+
+- fix elementopedia entry
+
+
 1.18.2-4.4.11:
 
 - air mill grindstone can now process ancient debris (also works with pure ore) to netherite scrap
