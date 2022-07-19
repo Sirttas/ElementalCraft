@@ -73,12 +73,18 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	private void setConnection(Direction face, ConnectionType type) {
+		if (transferer.getConnection(face) == type) {
+			return;
+		}
 		transferer.setConnection(face, type);
 		if (!type.isConnected() && isPriority(face)) {
 			this.setPriority(face, false);
 			dropPriorities(null, 1);
 		}
 		this.setChanged();
+		if (this.level != null) {
+			this.getBlockState().updateNeighbourShapes(this.level, this.getBlockPos(), 1);
+		}
 	}
 	
 	private void setPriority(Direction face, boolean value) {

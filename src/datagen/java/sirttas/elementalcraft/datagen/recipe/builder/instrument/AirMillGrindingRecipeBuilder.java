@@ -23,11 +23,13 @@ public class AirMillGrindingRecipeBuilder {
 	private Ingredient ingredient;
 	private int elementAmount;
 	private int luckRatio;
-	
+	private int count;
+
 	public AirMillGrindingRecipeBuilder(ItemLike resultProviderIn) {
 		this.result = resultProviderIn.asItem();
 		elementAmount = 1000;
 		luckRatio = 0;
+		count = 1;
 	}
 
 	public static AirMillGrindingRecipeBuilder grindingRecipe(ItemLike resultIn) {
@@ -60,6 +62,11 @@ public class AirMillGrindingRecipeBuilder {
 		this.luckRatio = luckRatio;
 		return this;
 	}
+
+	public AirMillGrindingRecipeBuilder withCount(int count) {
+		this.count = count;
+		return this;
+	}
 	
 	public void build(Consumer<FinishedRecipe> consumerIn) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
@@ -77,7 +84,7 @@ public class AirMillGrindingRecipeBuilder {
 	}
 
 	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.ingredient, this.result, elementAmount, luckRatio));
+		consumerIn.accept(new Result(id, this.ingredient, this.result, elementAmount, luckRatio, count));
 	}
 
 	public static class Result extends AbstractFinishedRecipe {
@@ -86,13 +93,15 @@ public class AirMillGrindingRecipeBuilder {
 		private final Item output;
 		private final int elementAmount;
 		private final int luckRatio;
+		private final int count;
 
-		public Result(ResourceLocation id, Ingredient ingredient, Item resultIn, int elementAmount, int luckRatio) {
+		public Result(ResourceLocation id, Ingredient ingredient, Item resultIn, int elementAmount, int luckRatio, int count) {
 			super(id, AirMillGrindingRecipe.SERIALIZER);
 			this.ingredient = ingredient;
 			this.output = resultIn;
 			this.elementAmount = elementAmount;
 			this.luckRatio = luckRatio;
+			this.count = count;
 		}
 
 		@Override
@@ -101,8 +110,11 @@ public class AirMillGrindingRecipeBuilder {
 			json.add(ECNames.INPUT, ingredient.toJson());
 			json.addProperty(ECNames.LUCK_RATION, luckRatio);
 			JsonObject outputJson = new JsonObject();
-			
+
 			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
+			if (this.count > 1) {
+				outputJson.addProperty("count", this.count);
+			}
 			json.add(ECNames.OUTPUT, outputJson);
 		}
 	}

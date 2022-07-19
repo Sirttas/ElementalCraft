@@ -1,3 +1,9 @@
+1.18.2-4.4.14:
+
+- air mill now grind ancient debris to 2 netherite scraps
+- fix element storage connector with pipes not displaying
+
+
 1.18.2-4.4.13:
 
 - fix elementopedia entry

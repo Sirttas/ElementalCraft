@@ -30,19 +30,20 @@ public interface IPipeConnectedBlock {
 		return switch (facing) {
 			case NORTH -> state.setValue(NORTH, isConnectable(world, pos, Direction.NORTH));
 			case SOUTH -> state.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH));
-			case EAST -> state.setValue(EAST, isConnectable(world, pos, Direction.WEST));
-			case WEST -> state.setValue(WEST, isConnectable(world, pos, Direction.EAST));
+			case EAST -> state.setValue(EAST, isConnectable(world, pos, Direction.EAST));
+			case WEST -> state.setValue(WEST, isConnectable(world, pos, Direction.WEST));
 			default -> state;
 		};
 	}
 	
 	static boolean isConnectable(BlockGetter world, BlockPos from, Direction face) {
+		var opposite = face.getOpposite();
 		IElementTransferer transferer = BlockEntityHelper.getBlockEntity(world, from.relative(face))
-				.flatMap(b -> CapabilityElementTransferer.get(b, face.getOpposite()).resolve())
+				.flatMap(b -> CapabilityElementTransferer.get(b, opposite).resolve())
 				.orElse(null);
 		
 		if (transferer != null) {
-			IElementTransferer.ConnectionType connection = transferer.getConnection(face);
+			IElementTransferer.ConnectionType connection = transferer.getConnection(opposite);
 			
 			return connection.isConnected() || connection == IElementTransferer.ConnectionType.NONE;
 		}
