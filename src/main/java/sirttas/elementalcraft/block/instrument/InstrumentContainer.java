@@ -61,7 +61,6 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 	@Override
 	public void clearContent() {
 		stacks.clear();
-
 	}
 
 	@Nonnull
