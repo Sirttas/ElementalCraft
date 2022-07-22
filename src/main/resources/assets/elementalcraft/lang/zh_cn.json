@@ -414,8 +414,8 @@
 
   "elementalcraft.page.container0": "$(item)元素容器$()是一种元素存储装置，相比$(ec:small_container)小型元素容器$()可以储存$(thing)更多元素$()，同时可适用于所有$(thing)元素器械$()。",
   "elementalcraft.page.extractor0": "$(item)提取器$()用于从$(ec:source)源点$()中提取$(thing)元素$()。$(br2)将$(item)提取器$()放置在$(ec:container)元素容器$()的上、待提取的$(ec:source)源点$()的下方即可。",
-  "elementalcraft.page.evaporator0": "$(item)蒸馏器$()能将$(l:basics/shards)元素碎片$()转化为$(thing)元素$()，但转化速度非常慢。$(br2)将蒸馏器放置在$(ec:tank)元素容器$()上，再放入元素碎片即可。",
-  "elementalcraft.page.infuser0": "现在你可以提取$(item)元素$()，那么是时候用它们来灌注了。$(br2)先将$(item)灌注器$()放置在$(ec:tank)元素容器$()上，然后用$(ec:pipe)导管$()连接依附有$(ec:extractor)提取器$()的元素容器，最后调整导管的连接状态即可。",
+  "elementalcraft.page.evaporator0": "$(item)蒸馏器$()能将$(l:basics/shards)元素碎片$()转化为$(thing)元素$()，但转化速度非常慢。$(br2)将蒸馏器放置在$(ec:container)元素容器$()上，再放入元素碎片即可。",
+  "elementalcraft.page.infuser0": "现在你可以提取$(item)元素$()，那么是时候用它们来灌注了。$(br2)先将$(item)灌注器$()放置在$(ec:container)元素容器$()上，然后用$(ec:pipe)导管$()连接依附有$(ec:extractor)提取器$()的元素容器，最后调整导管的连接状态即可。",
   "elementalcraft.page.small_container0": "$(item)小型元素容器$()是一个简易的$(thing)元素$()储存装这，可被用来为一些基础的$(thing)元素器械$()供应$(thing)元素$()。所有$(thing)元素器械$()均需放置在$(item)元素容器$()上方才能工作。$(br2)$(item)小型元素容器$()只能与$(ec:extractor)提取器$()和$(ec:infuser)灌注器$()协同工作。$(br2)你可以用$(ec:pipe)导管$()连接两个元素容器来转移$(thing)元素$()，记得调整导管的连接状态。",
   "elementalcraft.page.binder0": "$(item)聚合器$()是元素工艺中最重要的$(thing)元素器械$()之一，通过引导$(thing)元素$()形成原子链接，它能将多个物品逐个结合在一起。$(br2)值得注意的是，物品摆放的顺序是有考究的，请善用 JEI 合成表。$(br)至于其他$(thing)元素器械$()，$(item)进阶元素聚合器$()需要放置在非$(ec:small_container)小型元素容器$()的$(ec:container)元素容器$()之上。",
   "elementalcraft.page.solar_synthesizer0": "$(item)日光元素合成器$()能从阳光中收获$(thing)元素$()，需要露天放置，并且只能在白天工作。同时，还需要插入透镜使其开始工作。$(br2)$(item)日光合成器$()需要放置在$(ec:container)元素容器$()上。",
@@ -454,7 +454,7 @@
   "elementalcraft.page.instrument_retriever0": "$(item)物品导出器$()是一个能被精密调节的装置，会将$(thing)元素器械$()的合成产物泵出至外部容器中。$(br2)你可以手动调节它的输入与输出方向，只需右击大头（输出）或小头（输入），它们便会转向你所面对的方向。",
   "elementalcraft.page.sorter0": "$(item)有序物品导出器$()应用了迅金材料的高级特性，能以特定顺序抽取特定物品，并泵入$(item)元素器械$()或其他$(thing)容器$()中。$(br2)手持物品并右击导出器的中部以追加导出项。$(br2)与$(item)物品导出器$()类似，右击头部可以调整输入与输出方向。",
   "elementalcraft.page.spell_book0": "$(item)元素使魔典$()用于存放$(item)法术卷轴$()，右击打开内部存储空间。",
-  "elementalcraft.page.rune0": "$(item)符文所蕴含的元素之力可被转移到$(thing)元素器械$()中，以提升其性能。$(br)使用$(l:instruments/inscriber)符文刻印器$()来制作符文。",
+  "elementalcraft.page.rune0": "$(item)符文$()所蕴含的元素之力可被转移到$(thing)元素器械$()中，以提升其性能。$(br)使用$(l:instruments/inscriber)符文刻印器$()来制作符文。",
   
   "elementalcraft.page.fireball0": "向你所面对的方向发射一颗$(thing)火球$()。$(br2)从$(ec:holder)元素球$()中消耗$(thing)火元素$()。",
   "elementalcraft.page.gravelfall0": "在目标$(thing)方块$()或$(thing)实体$()上方生成一列$(item)沙砾$()。$(br2)从$(ec:holder)元素球$()中消耗$(thing)地元素$()和3个$(item)沙砾$()。",
