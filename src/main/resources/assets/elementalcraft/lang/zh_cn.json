@@ -454,7 +454,7 @@
   "elementalcraft.page.instrument_retriever0": "$(item)物品导出器$()是一个能被精密调节的装置，会将$(thing)元素器械$()的合成产物泵出至外部容器中。$(br2)你可以手动调节它的输入与输出方向，只需右击大头（输出）或小头（输入），它们便会转向你所面对的方向。",
   "elementalcraft.page.sorter0": "$(item)有序物品导出器$()应用了迅金材料的高级特性，能以特定顺序抽取特定物品，并泵入$(item)元素器械$()或其他$(thing)容器$()中。$(br2)手持物品并右击导出器的中部以追加导出项。$(br2)与$(item)物品导出器$()类似，右击头部可以调整输入与输出方向。",
   "elementalcraft.page.spell_book0": "$(item)元素使魔典$()用于存放$(item)法术卷轴$()，右击打开内部存储空间。",
-  "elementalcraft.page.rune0": "$(item)符文所蕴含的元素之力可被转移到$(thing)元素器械$()中，以提升其性能。$(br)使用$(l:instruments/inscriber)符文刻印器$()来制作符文。",
+  "elementalcraft.page.rune0": "$(item)符文$()所蕴含的元素之力可被转移到$(thing)元素器械$()中，以提升其性能。$(br)使用$(l:instruments/inscriber)符文刻印器$()来制作符文。",
   
   "elementalcraft.page.fireball0": "向你所面对的方向发射一颗$(thing)火球$()。$(br2)从$(ec:holder)元素球$()中消耗$(thing)火元素$()。",
   "elementalcraft.page.gravelfall0": "在目标$(thing)方块$()或$(thing)实体$()上方生成一列$(item)沙砾$()。$(br2)从$(ec:holder)元素球$()中消耗$(thing)地元素$()和3个$(item)沙砾$()。",
