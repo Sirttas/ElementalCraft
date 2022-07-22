@@ -1,3 +1,9 @@
+1.18.2-4.4.15:
+
+- fix a lot of text errors (thanks to ZY10086 for reporting them)
+- update simplified chinese translation (PR #94 and #95, thanks to ZY10086)
+
+
 1.18.2-4.4.14:
 
 - air mill now grind ancient debris to 2 netherite scraps

@@ -268,7 +268,7 @@
   "shrine_upgrade_bonus.elementalcraft.none": "§4ERROR: %s",
   "shrine_upgrade_bonus.elementalcraft.speed": "Periode: %s",
   "shrine_upgrade_bonus.elementalcraft.element_consumption": "Element Consumption: %s",
-  "shrine_upgrade_bonus.elementalcraft.capacity": "Capacity: %s",
+  "shrine_upgrade_bonus.elementalcraft.element_capacity": "Capacity: %s",
   "shrine_upgrade_bonus.elementalcraft.range": "Range: %s",
   "shrine_upgrade_bonus.elementalcraft.strength": "Strength: %s",
 
@@ -307,8 +307,6 @@
   "tooltip.elementalcraft.consumes": "Consumes %s",
   "tooltip.elementalcraft.cooldown": "Cooldown: %ds",
   "tooltip.elementalcraft.contains": "Contains %s",
-  "tooltip.elementalcraft.percent_full": "%s%% full",
-  "tooltip.elementalcraft.element_type_percent_full": "%s: %s%% full",
   "tooltip.elementalcraft.max_amount": "Limited to %d",
   "tooltip.elementalcraft.incompatibilities": "Incompatible With:",
   "tooltip.elementalcraft.chance": "Chance: %s%%",
@@ -381,7 +379,7 @@
   "message.elementalcraft.insert": "Inserting",
   "message.elementalcraft.missing_springaline": "You don't have a springaline shard in your inventory",
 
-  "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().$(br2)You can you can also find more information on the wiki:  $(l/https://wiki.elementalcraft.org/)https://wiki.elementalcraft.org/$().",
+  "elementalcraft.landing": "$(thing)ElementalCraft$() is a magic mod based around the 4 $(thing)elements$(): $(thing)fire$(), $(thing)water$(), $(thing)earth$() and $(thing)air$().$(br2)You can you can also find more information on the $(l:https://wiki.elementalcraft.org/)wiki$().",
 
   "elementalcraft.category.basics": "Basics",
   "elementalcraft.category.basics.desc": "Basics and early-game mechanics.",
@@ -407,7 +405,7 @@
   "elementalcraft.page.inert_crystal0": "To get $(item)Inert Crystal$() start digging underground and mine $(item)Inert Crystal Ore$().",
   "elementalcraft.page.contained_crystal0": "$(item)Contained Crystals$() are the main components of $(thing)instruments$().$(br)By coating an $(item)Inert Crystal$() with $(thing)gold$() you are able to prevent it from being altered by $(thing)elements$() without losing its ability to interact with them.",
   "elementalcraft.page.elementpipe0": "$(item)Pipes$() are used to transport $(thing)elements$() across distances.  Their main use is to provide $(thing)instruments$() with the required $(thing)element$().$(br2)You can configure a $(item)pipe$() by right-clicking a section or the core to change it from $(thing)connected$(), $(thing)disconnected$(), $(thing)insert$() or $(thing)extract$().$(br2)$(item)Pipes$() exist in three tiers: impaired, normal and improved.",
-  "elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). in an $(ec:infuser).",
+  "elementalcraft.page.whiterock0": "$(item)Whiterock$() is $(thing)earth infused$() $(item)stone$().$(br)It is used in the crafting of advanced $(thing)instruments$() and $(thing)shrines$().$(br)To get it simply put $(item)stone$(). In an $(ec:infuser).",
   "elementalcraft.page.cover_frame0": "The $(item)pipe cover frame$() allows you to hide a $(ec:pipe)pipe$() behind a block. Use it on a pipe (preferably while sleeking) then right click it with the block you want to hide it behind.$(br)you can hide frames and show pipes by holding a pipe, a frame or having an empty hand.",
   "elementalcraft.page.element_holder0": "$(item)Element Holders$() can hold $(thing)elements$(), for transport or for use by $(thing)spells$().$(br)To fill them hold right-click on a $(ec:source)source$() of the same $(thing)element$() type. You can also transfer $(thing)element$() back to a receiver by holding right-click on it.",
   "elementalcraft.page.focus0": "A $(item)focus$() can hold multiple $(thing)spells$().$(br)You can add $(thing)spells$() to it by putting the $(item)focus$() in an $(item)anvil$() with the $(item)scroll$() of the $(thing)spell$(). You can circle through $(thing)spells$() by holding shift and scrolling.",
@@ -442,7 +440,7 @@
   "elementalcraft.page.lavashrine0": "The $(item)Lava Shrine$() melts $(item)basalt$() above it into $(item)lava$().$(br2)It consumes $(thing)fire element$().",
   "elementalcraft.page.sweetshrine0": "The $(item)Sweet Shrine$() periodically refills hunger and boost nearby $(thing)bees$() production.$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.vacuumshrine0": "The $(item)Vacuum Shrine$() pulls towards itself nearby $(item)items$() and stores them in the container below it.$(br2)It consumes $(thing)air element$().",
-  "elementalcraft.page.growthshrine0": "The $(item)Growth Shrine$() accelerates $(thing)crops$() growth above it. To grow $(thing)crops$() that cannot grow with $(item)bonemeal$() you need to upgrade the $(item)growth shrine$() with a $(item)boneless growth shrine$().$(br2)It consumes $(thing)water element$().",
+  "elementalcraft.page.growthshrine0": "The $(item)Growth Shrine$() accelerates $(thing)crops$() growth from its level up to 3 block above it. To grow $(thing)crops$() that cannot grow with $(item)bonemeal$() you need to upgrade the $(item)growth shrine$() with a $(item)boneless growth shrine$().$(br2)It consumes $(thing)water element$().",
   "elementalcraft.page.harvestshrine0": "The $(item)Harvest Shrine$() harvest $(thing)crops$() below it.$(br2)It consumes $(thing)earth element$().",
   "elementalcraft.page.overloadshrine0": "The $(item)Overload Shrine$() boost the speed of the $(item)block$() it's facing.$(br2)It consumes $(thing)air element$().",
   "elementalcraft.page.enderlockshrine0": "The $(item)Ender Lock Shrine$() channels $(thing)water$() through the ender matrix preventing anything passing through it.$(br)Near it $(thing)endermen$() can't teleport, $(item)ender pearls$() or $(l:spells/ender_strike)Ender strinke$() don't work.$(br2)It consumes $(thing)water element$().",
@@ -456,7 +454,7 @@
   "elementalcraft.page.instrument_retriever0": "The $(item)Instrument Output Retriever$() is a finely-tweaked machine that can interact with $(thing)instruments$() and handle their output for themself, allowing you to extract their output upon crafting and store it in a $(item)chest$(), for example.$(br2)You can reorient its input and output by right-clicking them.",
   "elementalcraft.page.sorter0": "The $(item)Ordered Sorter$() use the advanced properties of swift alloy to insert specific items in a specific order into any $(thing)instrument$() or $(thing)chest$().$(br)You can add a new item to the order list by right-clicking the middle part.$(br)You can reorient its input and output by right-clicking them.",
   "elementalcraft.page.spell_book0": "The $(item)Elementalist Grimoire$() allows you to store $(thing)spells$().You can right-click it to open its inventory.",
-  "elementalcraft.page.rune0": "$(thing)Runes$() are infused with element power that can be transered to $(thing)instruments$() to boost their properties.$(br)They are created using an $(l:instruments/inscriber)inscriber$()",
+  "elementalcraft.page.rune0": "$(thing)Runes$() are infused with element power that can be transferred to $(thing)instruments$() to boost their properties.$(br)They are created using an $(l:instruments/inscriber)inscriber$()",
   
   "elementalcraft.page.fireball0": "Throw a $(thing)fire ball$() in the direction you are looking.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().",
   "elementalcraft.page.gravelfall0": "Summon a column of $(item)gravel$() above the targeted $(thing)block$() or $(thing)entity$().$(br)Consumes $(thing)earth$() from an $(ec:holder)element holder$() and three $(item)gravel$().",
