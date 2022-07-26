@@ -137,7 +137,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 				progress.put(direction, Math.round(newProgress));
 				if (level != null && level.isClientSide && newProgress > 0 && getProgressRounded(transferAmount, newProgress) > getProgressRounded(transferAmount, oldProgress)) {
-					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vec3.atCenterOf(pedestal.getBlockPos().relative(offset, 3)).add(0, 0.7, 0), offset, 2.5f, level.random);
+					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vec3.atCenterOf(worldPosition).add(0, 0.7, 0), offset, 2.5f, level.random);
 				}
 			}
 		}

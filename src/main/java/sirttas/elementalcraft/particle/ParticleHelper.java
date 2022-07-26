@@ -42,18 +42,18 @@ public class ParticleHelper {
 				.forEach(i -> world.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING, type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
 	}
 
-	public static void createElementFlowParticle(ElementType type, Level level, Vec3 pos, Direction direction, float scale, Random rand) {
-		createElementFlowParticle(type, level, pos, Vec3.atLowerCornerOf(direction.getOpposite().getNormal()).scale(scale <= 0 ? 1F : scale), new Vec3(3,3,3), rand);
+	public static void createElementFlowParticle(ElementType type, Level level, Vec3 end, Direction direction, float scale, Random rand) {
+		createElementFlowParticle(type, level, end, Vec3.atLowerCornerOf(direction.getOpposite().getNormal()).scale(scale <= 0 ? 1F : scale), new Vec3(3,3,3), rand);
 	}
 
 	public static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 end, Random rand) {
-		createElementFlowParticle(type, level, start, start.subtract(end), new Vec3(1,1,1), rand);
+		createElementFlowParticle(type, level, end, start.subtract(end), new Vec3(1,1,1), rand);
 	}
 
-	private static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 flow, Vec3 radius, Random rand) {
-		double x = start.x() + (((2 * rand.nextDouble()) - 1) * radius.x()) / 16;
-		double y = start.y() + (((2 * rand.nextDouble()) - 1) * radius.y()) / 16;
-		double z = start.z() + (((2 * rand.nextDouble()) - 1) * radius.z()) / 16;
+	private static void createElementFlowParticle(ElementType type, Level level, Vec3 end, Vec3 flow, Vec3 radius, Random rand) {
+		double x = end.x() + (((2 * rand.nextDouble()) - 1) * radius.x()) / 16;
+		double y = end.y() + (((2 * rand.nextDouble()) - 1) * radius.y()) / 16;
+		double z = end.z() + (((2 * rand.nextDouble()) - 1) * radius.z()) / 16;
 
 		level.addParticle(new ElementTypeParticleData(ECParticles.ELEMENT_FLOW, type), x, y, z, flow.x(), flow.y(), flow.z());
 	}

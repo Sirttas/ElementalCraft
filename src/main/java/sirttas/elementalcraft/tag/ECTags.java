@@ -10,9 +10,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.interaction.curios.CuriosConstants;
 
 import java.util.function.Predicate;
 
@@ -113,7 +113,7 @@ public class ECTags {
 		public static final TagKey<Item> FORGE_LEGGINGS = createForgeTag("leggings");
 		public static final TagKey<Item> FORGE_BOOTS = createForgeTag("boots");
 
-		public static final TagKey<Item> INGOTS_MANASTEEL = createOptional(ECNames.FORGE, "ingots/manasteel");
+		public static final TagKey<Item> INGOTS_MANASTEEL = createTag(ECNames.FORGE, "ingots/manasteel");
 		public static final TagKey<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
 		public static final TagKey<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
 		public static final TagKey<Item> INGOTS_FIREITE = createForgeTag("ingots/fireite");
@@ -125,18 +125,20 @@ public class ECTags {
 		public static final TagKey<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 		public static final TagKey<Item> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
 
+		public static final TagKey<Item> CURIOS_ELEMENT_HOLDER = createTag("curios", CuriosConstants.ELEMENT_HOLDER_SLOT);
+
 		private Items() {}
 		
 		private static TagKey<Item> createTag(String name) {
-			return ItemTags.create(ElementalCraft.createRL(name));
+			return createTag(ElementalCraftApi.MODID, name);
 		}
 
-		private static TagKey<Item> createOptional(String namespace, String name) {
+		private static TagKey<Item> createTag(String namespace, String name) {
 			return ItemTags.create(new ResourceLocation(namespace, name));
 		}
 		
 		private static TagKey<Item> createForgeTag(String name) {
-			return ItemTags.create(new ResourceLocation(ECNames.FORGE, name));
+			return createTag(ECNames.FORGE, name);
 		}
 
 		public static HolderSet.Named<Item> getTag(ResourceLocation loc) {

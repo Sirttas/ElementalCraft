@@ -18,4 +18,8 @@ public class ECinteractions {
 	public static boolean isSilentGearActive() {
 		return ModList.get().isLoaded("silentgear");
 	}
+
+	public static boolean isCuriosActive() {
+		return ModList.get().isLoaded("curios");
+	}
 }

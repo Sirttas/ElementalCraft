@@ -26,6 +26,8 @@ import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.container.menu.screen.ECScreens;
 import sirttas.elementalcraft.gui.tooltip.ElementGaugeClientTooltip;
+import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.curios.CuriosConstants;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;
@@ -74,6 +76,9 @@ public class ECClientHandler {
 		addSprite(event, SolarSynthesizerRenderer.BEAM);
 		addSprite(event, AirShieldSpellRenderer.BACKGROUND);
 		addSprite(event, AirShieldSpellRenderer.BLADE);
+		if (ECinteractions.isCuriosActive()) {
+			event.addSprite(CuriosConstants.EMPTY_ELEMENT_HOLDER_SLOT);
+		}
 	}
 	
 	private static void addSprite(TextureStitchEvent.Pre event, Material sprite) {

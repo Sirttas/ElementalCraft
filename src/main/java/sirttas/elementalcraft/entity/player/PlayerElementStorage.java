@@ -9,6 +9,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -83,6 +85,12 @@ public class PlayerElementStorage implements IElementStorage {
 				CapabilityElementStorage.get(inventory.getItem(i))
 						.filter(IElementStorage::usableInInventory)
 						.ifPresent(storages::add);
+			}
+			if (ECinteractions.isCuriosActive()) {
+				CuriosInteractions.getHolders(player).stream()
+						.<IElementStorage>mapMulti((i, downstream) -> CapabilityElementStorage.get(i).ifPresent(downstream::accept))
+						.filter(IElementStorage::usableInInventory)
+						.forEach(storages::add);
 			}
 			tickCount = player.tickCount;
 		}

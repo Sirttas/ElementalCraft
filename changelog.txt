@@ -1,3 +1,10 @@
+1.18.2-4.4.16:
+
+- add element holders to curios
+- fix holder particle effect
+- fix elementopedia entry
+
+
 1.18.2-4.4.15:
 
 - fix a lot of text errors (thanks to ZY10086 for reporting them)

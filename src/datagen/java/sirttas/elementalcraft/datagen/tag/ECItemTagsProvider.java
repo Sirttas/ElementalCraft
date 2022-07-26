@@ -182,6 +182,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		addOptionals(jewelSocketables, getItems(MOD_IDS, Wearable.class));
 		addOptionals(jewelSocketables, getItems(MOD_IDS, TieredItem.class));
 		addOptionals(jewelSocketables, getItems(MOD_IDS, ProjectileWeaponItem.class));
+
+		tag(ECTags.Items.CURIOS_ELEMENT_HOLDER).add(ECItems.FIRE_HOLDER, ECItems.WATER_HOLDER, ECItems.EARTH_HOLDER, ECItems.AIR_HOLDER, ECItems.PURE_HOLDER);
 	}
 
 	public TagsProvider.TagAppender<Item> addOptionals(TagsProvider.TagAppender<Item> builder, Item[]... optionals) {
