@@ -36,7 +36,9 @@ public class SourceDisplacementPlateBlockEntity extends AbstractECBlockEntity im
         var above = pos.above();
         var state =  level.getBlockState(above);
 
-        return state.getBlock() == ECBlocks.SOURCE.get() && ElementType.getElementType(state) == elementType && BlockEntityHelper.getBlockEntityAs(level, above, SourceBlockEntity.class).filter(SourceBlockEntity::isAnalyzed).isPresent();
+        return state.getBlock() == ECBlocks.SOURCE.get() && ElementType.getElementType(state) == elementType && BlockEntityHelper.getBlockEntityAs(level, above, SourceBlockEntity.class)
+                .filter(SourceBlockEntity::isAnalyzed)
+                .isPresent();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SourceDisplacementPlateBlockEntity sourceDisplacementPlate) {

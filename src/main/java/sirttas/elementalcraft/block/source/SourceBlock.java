@@ -44,7 +44,7 @@ public class SourceBlock extends AbstractECEntityBlock {
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new SourceBlockEntity(pos, state);
 	}
-	
+
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
@@ -63,21 +63,21 @@ public class SourceBlock extends AbstractECEntityBlock {
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return showShape(state, context) ? SHAPE : Shapes.empty();
 	}
-	
+
 	@Nonnull
-    @Override
+	@Override
 	@Deprecated
 	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return Shapes.empty();
 	}
 
 	private boolean showShape(BlockState state, CollisionContext context) {
-		if (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof LivingEntity e ) {
+		if (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof LivingEntity e) {
 			return Stream.of(e.getItemInHand(InteractionHand.MAIN_HAND), e.getItemInHand(InteractionHand.MAIN_HAND))
 					.anyMatch(s -> s.getItem() instanceof ISourceInteractable sourceInteractable && sourceInteractable.canInteractWithSource(s, state));
 		}
@@ -90,20 +90,22 @@ public class SourceBlock extends AbstractECEntityBlock {
 	 */
 	@Override
 	@Deprecated
-	public void onPlace(@Nonnull BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
+	public void onPlace(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
 		if (ElementType.getElementType(state) == ElementType.NONE) {
-			worldIn.setBlockAndUpdate(pos, state.setValue(ElementType.STATE_PROPERTY, ElementType.random()));
+			level.setBlockAndUpdate(pos, state.setValue(ElementType.STATE_PROPERTY, ElementType.random()));
 		}
 	}
 
 	@Override
 	@Deprecated
 	public boolean canBeReplaced(@Nonnull BlockState state, @Nonnull BlockPlaceContext context) {
-		return super.canBeReplaced(state, context) && BlockEntityHelper.getBlockEntityAs(context.getLevel(), context.getClickedPos(), SourceBlockEntity.class).map(s -> !s.isStabilized()).orElse(true);
+		return super.canBeReplaced(state, context) && BlockEntityHelper.getBlockEntityAs(context.getLevel(), context.getClickedPos(), SourceBlockEntity.class)
+				.map(s -> !s.isStabilized())
+				.orElse(true);
 	}
-	
+
 	@Nonnull
-    @Override
+	@Override
 	@Deprecated
 	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.INVISIBLE;

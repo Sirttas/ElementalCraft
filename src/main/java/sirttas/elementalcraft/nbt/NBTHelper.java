@@ -1,8 +1,10 @@
 package sirttas.elementalcraft.nbt;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.name.ECNames;
+
+import javax.annotation.Nonnull;
 
 public class NBTHelper {
 
@@ -49,6 +51,14 @@ public class NBTHelper {
 			nbt.put(ECNames.EC_NBT, new CompoundTag());
 		}
 		return nbt.getCompound(ECNames.EC_NBT);
+	}
+
+	public static CompoundTag getOrCreate(@Nonnull CompoundTag cmp, String tag) {
+		if (cmp.contains(tag)) {
+			return cmp.getCompound(tag);
+		}
+		cmp.put(tag, new CompoundTag());
+		return cmp.getCompound(tag);
 	}
 
 }

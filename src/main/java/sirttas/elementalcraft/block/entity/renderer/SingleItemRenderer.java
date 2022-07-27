@@ -13,7 +13,7 @@ import sirttas.elementalcraft.container.IContainerBlockEntity;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> implements RuneRenderer<T> {
+public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> implements IRuneRenderer<T> {
 
 	private final Vec3 position;
 	private final float size;
@@ -31,7 +31,7 @@ public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> i
 	public void render(@Nonnull T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		ItemStack stack = te.getInventory().getItem(0);
 
-		RuneRenderer.super.render(te, partialTicks, matrixStack, buffer, light, overlay);
+		IRuneRenderer.super.render(te, partialTicks, matrixStack, buffer, light, overlay);
 		if (!stack.isEmpty()) {
 			matrixStack.translate(position.x, position.y, position.z);
 			matrixStack.mulPose(Vector3f.YP.rotationDegrees(getClientTicks(partialTicks)));

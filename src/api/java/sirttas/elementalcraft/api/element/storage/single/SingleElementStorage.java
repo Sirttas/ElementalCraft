@@ -114,6 +114,5 @@ public class SingleElementStorage implements ISingleElementStorage, INBTSerializ
 		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
 		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
 		elementCapacity = compound.getInt(ECNames.ELEMENT_CAPACITY);
-
 	}
 }

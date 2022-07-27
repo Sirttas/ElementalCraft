@@ -2,6 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"ambientocclusion": false,
+	"render_type": "minecraft:translucent",
 	"textures": {
 		"0": "elementalcraft:block/whiterock_burnt",
 		"1": "elementalcraft:block/iron",

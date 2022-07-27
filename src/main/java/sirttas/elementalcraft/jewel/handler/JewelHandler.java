@@ -152,7 +152,7 @@ public class JewelHandler implements IJewelHandler {
         if (attacker != null) {
             for (var jewel : JewelHelper.getActiveJewels(attacker)) {
                 if (jewel instanceof AbstractAttackJewel attackJewel) {
-                    attackJewel.onAttack(attacker, event.getEntityLiving());
+                    attackJewel.onAttack(attacker, event.getEntity());
                     if (!jewel.isTicking()) {
                         jewel.consume(attacker);
                     }
@@ -163,7 +163,7 @@ public class JewelHandler implements IJewelHandler {
 
     @SubscribeEvent
     public static void onLivingDamage(@Nonnull LivingDamageEvent event) {
-        var target = event.getEntityLiving();
+        var target = event.getEntity();
 
         for (var jewel : JewelHelper.getActiveJewels(target)) {
             if (jewel instanceof DefenceJewel defenceJewel) {

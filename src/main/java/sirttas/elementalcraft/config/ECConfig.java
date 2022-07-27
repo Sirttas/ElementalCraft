@@ -84,6 +84,10 @@ public class ECConfig {
 		public final IntValue pureInfuserMaxRunes;
 		public final IntValue pedestalCapacity;
 		public final IntValue pedestalMaxRunes;
+		public final IntValue sourceBreederTransferSpeed;
+		public final IntValue sourceBreederMaxRunes;
+		public final IntValue sourceBreederPedestalCapacity;
+		public final IntValue sourceBreederPedestalMaxRunes;
 		public final IntValue elementHolderCapacity;
 		public final IntValue elementHolderTransferAmount;
 		public final IntValue pureElementHolderCapacity;
@@ -100,13 +104,11 @@ public class ECConfig {
 
 		public final BooleanValue disableSourceExhaustion;
 
-		public final BooleanValue botaniaInteracionEnabled;
 		public final IntValue manaSythesizerMaxRunes;
 		public final IntValue manaSythesizerManaCapacity;
 		public final DoubleValue manaElementRatio;
 		public final IntValue manaSythesizerLenseElementMultiplier;
 
-		public final BooleanValue mekanismInteracionEnabled;
 		public final IntValue mekanismPureOreInputMultiplier;
 		public final IntValue mekanismPureOreOutputMultiplier;
 
@@ -190,6 +192,12 @@ public class ECConfig {
 			builder.push("pedestals");
 			pedestalMaxRunes = builder.comment("The max amount of runes on a pedestal.").defineInRange("pedestalMaxRunes", 1, 0, 10);
 			pedestalCapacity = builder.comment("The element capacity of a pedestal.").defineInRange("pedestalCapacity", 10000, 0, 100000000);
+			builder.pop(2).comment("Source Breeder and pedestals config").push("sourceBreeder");
+			sourceBreederTransferSpeed = builder.comment("The max amount of element consumed by the source breeder per tick.").defineInRange("sourceBreederTransferSpeed", 500, 0, 1000);
+			sourceBreederMaxRunes = builder.comment("The max amount of runes on a source breeder.").defineInRange("sourceBreederMaxRunes", 3, 0, 10);
+			builder.push("pedestals");
+			sourceBreederPedestalMaxRunes = builder.comment("The max amount of runes on a source breeder pedestal.").defineInRange("sourceBreederPedestalMaxRunes", 1, 0, 10);
+			sourceBreederPedestalCapacity = builder.comment("The element capacity of a source breeder pedestal.").defineInRange("sourceBreederPedestalCapacity", 100000, 0, 100000000);
 
 			builder.pop(2).comment("Items config").push("items");
 			builder.push("elementHolder");
@@ -215,15 +223,12 @@ public class ECConfig {
 			sourceSpawnCount = builder.comment("number of sources at spawn per element type.").defineInRange("sourceSpawnCount", 2, 1, 20);
 
 			builder.pop(2).comment("mod interaction config").push("interaction");
-			builder.push("botania");
-			botaniaInteracionEnabled = builder.comment("Enable interaction with botania.").define("botaniaInteracionEnabled", true);
-			builder.push("manaSythesizer");
+			builder.push("botania").push("manaSythesizer");
 			manaSythesizerMaxRunes = builder.comment("The max amount of runes on a Mana Sythesizer.").defineInRange("manaSythesizerMaxRunes", 2, 0, 10);
 			manaSythesizerManaCapacity = builder.comment("The mana capacity of the Mana Sythesizer.").defineInRange("manaSythesizerManaCapacity", 10000, 0, 1000000);
 			manaSythesizerLenseElementMultiplier = builder.comment("the multiplier of lense in the Mana Sythesizer (based on 1500)").defineInRange("manaSythesizerLenseElementMultiplier", 50, 0, 100);
 			manaElementRatio = builder.comment("The amount of element 1 mana is worth.").defineInRange("manaElementRatio", 0.1, 0, 100);
 			builder.pop(2).push("mekanism");
-			mekanismInteracionEnabled = builder.comment("Enable interaction with mekanism.").define("mekanismInteracionEnabled", true);
 			mekanismPureOreInputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreInputMultiplier",5, 0, 20);
 			mekanismPureOreOutputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreOutputMultiplier",3, 0, 20);
 

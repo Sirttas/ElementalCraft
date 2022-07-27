@@ -42,7 +42,7 @@ public class EntityHandler {
 	
 	@SubscribeEvent
 	public static void onEntityLivingAttack(LivingAttackEvent event) {
-		LivingEntity entity = event.getEntityLiving();
+		LivingEntity entity = event.getEntity();
 		Level world = entity.level;
 
 		if (!world.isClientSide && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
@@ -52,9 +52,9 @@ public class EntityHandler {
 
 	@SubscribeEvent
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		Player player = event.getPlayer();
+		Player player = event.getEntity();
 		
-		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntityLiving().getLevel().isClientSide) {
+		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntity().getLevel().isClientSide) {
 			CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {
@@ -87,7 +87,7 @@ public class EntityHandler {
 	@SubscribeEvent
 	public static void onContainerOpen(PlayerContainerEvent.Open event) {
 		if (event.getContainer() instanceof IMenuOpenListener listener) {
-			listener.onOpen(event.getPlayer());
+			listener.onOpen(event.getEntity());
 		}
 	}
 }

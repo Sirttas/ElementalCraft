@@ -11,7 +11,7 @@
       {
         "type": "dpanvil:not",
         "value": {
-          "type": "dpanvil:has_shrine_upgrade",
+          "type": "elementalcraft:has_shrine_upgrade",
           "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex"
         }
       },

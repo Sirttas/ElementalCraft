@@ -23,6 +23,7 @@ import sirttas.elementalcraft.container.IContainerBlockEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements Clearable, IContainerBlockEntity, ContainerListener {
 
 	private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(this::createHandler);
@@ -47,7 +48,6 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 		this.getInventory().clearContent();
 	}
 
-	@SuppressWarnings({ "unchecked"})
 	@Override
 	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);

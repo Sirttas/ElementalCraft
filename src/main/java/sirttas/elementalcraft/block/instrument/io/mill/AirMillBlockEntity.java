@@ -9,6 +9,8 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.IOContainer;
+import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
@@ -39,9 +41,9 @@ public class AirMillBlockEntity extends AbstractIOInstrumentBlockEntity<AirMillB
 	protected IGrindingRecipe lookupRecipe() {
 		var recipe = super.lookupRecipe();
 		
-//		if (recipe == null && ECinteractions.isMekanismActive()) {
-//			return MekanismInteraction.lookupCrusherRecipe(level, inventory);
-//		}
+		if (recipe == null && ECinteractions.isMekanismActive()) {
+			return MekanismInteraction.lookupCrusherRecipe(level, inventory);
+		}
 		return recipe;
 	}
 }

@@ -9,6 +9,8 @@ import sirttas.elementalcraft.block.ITooltipImageBlock;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class TooltipImageBlockItem extends BlockItem {
 
     public TooltipImageBlockItem(Block block, Properties properties) {

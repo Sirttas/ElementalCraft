@@ -5,6 +5,8 @@ import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+
 public class CrystallizerContainer extends InstrumentContainer {
 
 	public CrystallizerContainer(Runnable syncCallback) {
@@ -12,7 +14,7 @@ public class CrystallizerContainer extends InstrumentContainer {
 	}
 
 	@Override
-	public boolean canPlaceItem(int slot, ItemStack stack) {
+	public boolean canPlaceItem(int slot, @Nonnull ItemStack stack) {
 		if (slot == 0) {
 			return stack.is(ECTags.Items.INPUT_GEMS);
 		} else if (slot == 1) {

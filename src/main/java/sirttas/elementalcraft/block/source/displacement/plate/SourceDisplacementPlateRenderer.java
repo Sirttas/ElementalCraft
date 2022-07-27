@@ -6,16 +6,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.ForgeHooksClient;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
 public class SourceDisplacementPlateRenderer implements IECRenderer<SourceDisplacementPlateBlockEntity> {
 
-    public static final Material SOURCE_DISPLACEMENT = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/source_displacement"));
-    public static final Material CIRCLE = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/source_displacement_circle"));
+    public static final Material SOURCE_DISPLACEMENT = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/source_displacement"));
+    public static final Material CIRCLE = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/source_displacement_circle"));
 
     @Override
     public void render(@Nonnull SourceDisplacementPlateBlockEntity blockEntity, float partialTick, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {

@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.source.trait;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -10,7 +11,6 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class SourceTraitHelper {
 
@@ -18,7 +18,7 @@ public class SourceTraitHelper {
 	
 	@Nonnull
 	public static Map<ResourceKey<SourceTrait>, ISourceTraitValue> loadTraits(@Nullable CompoundTag tag) {
-		Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits = new TreeMap<>();
+		Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits = SourceTraits.createTraitMap();
 		
 		loadTraits(tag, traits);
 		return traits;
@@ -28,7 +28,7 @@ public class SourceTraitHelper {
 		traits.clear();
 		if (tag != null) {
 			for (String name : tag.getAllKeys()) {
-				var key = SourceTraits.key(name);
+  				var key = SourceTraits.key(name);
 				var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(new ResourceLocation(name));
 				
 				if (trait != null) {
@@ -38,7 +38,7 @@ public class SourceTraitHelper {
 						traits.put(key, value);
 					}
 				}
-			}
+  			}
 		}
 	}
 	
@@ -58,5 +58,19 @@ public class SourceTraitHelper {
 		});
 		return traitTag;
 	}
-	
+
+	public static Map<ResourceKey<SourceTrait>, ISourceTraitValue> breed(@Nonnull Level level, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map1, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map2) {
+		Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits = SourceTraits.createTraitMap();
+
+		for (var entry : ElementalCraftApi.SOURCE_TRAIT_MANAGER.getData().entrySet()) {
+			var key = SourceTraits.key(entry.getKey());
+
+			var value = entry.getValue().breed(level, map1.get(key), map2.get(key));
+
+			if (value != null) {
+				traits.put(key, value);
+			}
+		}
+		return traits;
+	}
 }

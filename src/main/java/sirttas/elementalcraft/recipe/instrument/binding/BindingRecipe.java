@@ -44,9 +44,13 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		return Boolean.TRUE.equals(ECConfig.COMMON.binderRecipeMatchOrder.get()) ? matchesOrdered(binder) : RecipeHelper.matchesUnordered(binder.getInventory(), ingredients);
 	}
 
-	private boolean matchesOrdered(IBinder inv) {
-		for (int i = 0; i < inv.getItemCount(); i++) {
-			if (!ingredients.get(i).test(inv.getInventory().getItem(i))) {
+	private boolean matchesOrdered(IBinder binder) {
+		var inv = binder.getInventory();
+
+		for (int i = 0; i < inv.getContainerSize(); i++) {
+			var s = inv.getItem(i);
+
+			if (!s.isEmpty() && !ingredients.get(i).test(s)) {
 				return false;
 			}
 		}

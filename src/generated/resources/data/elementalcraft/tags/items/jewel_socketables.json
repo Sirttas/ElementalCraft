@@ -72,6 +72,270 @@
     "minecraft:wooden_shovel",
     "minecraft:wooden_sword",
     "minecraft:bow",
-    "minecraft:crossbow"
+    "minecraft:crossbow",
+    {
+      "id": "mekanismtools:bronze_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_chestplate",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_leggings",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_chestplate",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_leggings",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_chestplate",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_leggings",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_chestplate",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_leggings",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_chestplate",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_leggings",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_boots",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_chestplate",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_helmet",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_leggings",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_pickaxe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_shovel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:bronze_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:diamond_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:gold_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:iron_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_pickaxe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_shovel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:lapis_lazuli_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:netherite_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_pickaxe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_shovel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:osmium_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_pickaxe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_shovel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_glowstone_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_pickaxe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_shovel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:refined_obsidian_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_axe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_hoe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_pickaxe",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_shovel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:steel_sword",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:stone_paxel",
+      "required": false
+    },
+    {
+      "id": "mekanismtools:wood_paxel",
+      "required": false
+    }
   ]
 }

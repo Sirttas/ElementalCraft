@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_source_breeder": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:source_breeder"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_breeder"
+    ]
+  ]
+}

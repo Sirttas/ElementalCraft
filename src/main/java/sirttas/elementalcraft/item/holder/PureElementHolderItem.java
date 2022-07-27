@@ -60,7 +60,6 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		return elementCapacity.getAsInt();
 	}
 
-
 	@Override
 	protected ElementType getElementType(IElementStorage target, BlockState blockstate) {
 		if (blockstate.hasProperty(ElementType.STATE_PROPERTY)) {

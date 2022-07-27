@@ -1,11 +1,11 @@
 {
   "effects": [
     {
-      "type": "dpanvil:enchantment",
+      "type": "elementalcraft:enchantment",
       "enchantment": "minecraft:fire_aspect"
     },
     {
-      "type": "dpanvil:element_cost_reduction",
+      "type": "elementalcraft:element_cost_reduction",
       "element_type": "fire",
       "value": 0.15
     }

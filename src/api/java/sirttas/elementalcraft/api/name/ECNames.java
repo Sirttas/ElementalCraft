@@ -13,7 +13,9 @@ public class ECNames {
 	public static final String ATTRIBUTE = "attribute";
 	public static final String ATTRIBUTES = "attributes";
 	public static final String BONUSES = "bonuses";
+	public static final String BONUS_TYPE = "bonus_type";
 	public static final String CHANCE = "chance";
+	public static final String CHANCE_ON_BRED = "chance_on_bred";
 	public static final String COLOR = "color";
 	public static final String CONSUMPTION = "consumption";
 	public static final String COOLDOWN = "cooldown";
@@ -31,6 +33,7 @@ public class ECNames {
 	public static final String END = "end";
 	public static final String EXHAUSTED = "exhausted";
 	public static final String EXTRACTION_AMOUNT = "extraction_amount";
+	public static final String EXTRACTION_SPEED = "extraction_speed";
 	public static final String FORGE = "forge";
 	public static final String GEM = "gem";
 	public static final String HAS_BOOK = "has_elementopedia";
@@ -60,6 +63,7 @@ public class ECNames {
 	public static final String PURE_ORE_RECIPE_INJECTOR = "pure_ore_recipe_injector";
 	public static final String QUALITY = "quality";
 	public static final String RANGE = "range";
+	public static final String RECEPTACLE = "recapture";
 	public static final String RECOVER_RATE = "recover_rate";
 	public static final String RESULT = "result";
 	public static final String RUNE = "rune";
@@ -81,10 +85,12 @@ public class ECNames {
 	public static final String TOOL_INFUSION = "tool_infusion";
 	public static final String TOOL_INFUSION_TYPE = "tool_infusion_type";
 	public static final String TRAITS = "traits";
+	public static final String TRAITS_HOLDER = "traits_holder";
 	public static final String TRANSFERER = "transferer";
 	public static final String TYPE = DPAnvilNames.TYPE;
 	public static final String USE_DURATION = "use_duration";
 	public static final String VALUE = DPAnvilNames.VALUE;
+	public static final String VALUES = DPAnvilNames.VALUES;
 	public static final String WEIGHT = "weight";
 	public static final String WORKING = "working";
 	public static final String XP = "experience";
@@ -94,6 +100,7 @@ public class ECNames {
 	public static final String LUCK = "luck";
 	public static final String STRENGTH = "strength";
     public static final String PROVIDER = "provider";
+    public static final String BREED_INDEX = "breed_index";
 
     private ECNames() {}
 }

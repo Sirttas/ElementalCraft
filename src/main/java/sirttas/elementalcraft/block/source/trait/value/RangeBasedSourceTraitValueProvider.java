@@ -11,6 +11,8 @@ import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
+import java.util.List;
+
 public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValueProvider {
 
 	public static final String NAME = "range_based";
@@ -20,12 +22,12 @@ public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValuePr
 	
 	private final float weight;
 	
-	public RangeBasedSourceTraitValueProvider(String translationKey, float end, float weight) {
-		this(translationKey, 0, end, weight);
+	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float end, float weight) {
+		this(translationKey, types, 0, end, weight);
 	}
 	
-	public RangeBasedSourceTraitValueProvider(String translationKey, float start, float end, float weight) {
-	    super(translationKey, start, end);
+	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float start, float end, float weight) {
+	    super(translationKey, types, start, end);
 	    this.weight = weight;
 	}
 	

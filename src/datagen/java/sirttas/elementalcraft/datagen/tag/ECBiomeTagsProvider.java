@@ -21,7 +21,7 @@ public class ECBiomeTagsProvider extends BiomeTagsProvider {
 		tag(ECTags.Biomes.HAS_SOURCE_ALTAR).addTags(BiomeTags.IS_HILL, BiomeTags.IS_FOREST, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_BADLANDS, BiomeTags.IS_TAIGA, BiomeTags.IS_JUNGLE)
 				.add(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.WINDSWEPT_SAVANNA, Biomes.ICE_SPIKES, Biomes.SNOWY_PLAINS, Biomes.DESERT, Biomes.MUSHROOM_FIELDS, Biomes.GROVE);
 
-		tag(ECTags.Biomes.HAS_INERT_CRYSTAL).addTags(Tags.Biomes.IS_OVERWORLD);
+		tag(ECTags.Biomes.HAS_INERT_CRYSTAL).addTags(BiomeTags.IS_OVERWORLD);
 		tag(ECTags.Biomes.HAS_SOURCE_ICY).addTags(Tags.Biomes.IS_COLD);
 		tag(ECTags.Biomes.HAS_SOURCE_JUNGLE).addTags(BiomeTags.IS_JUNGLE);
 		tag(ECTags.Biomes.HAS_SOURCE_MUSHROOM).addTags(Tags.Biomes.IS_MUSHROOM);

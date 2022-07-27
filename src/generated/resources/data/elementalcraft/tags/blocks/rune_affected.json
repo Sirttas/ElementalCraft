@@ -2,6 +2,8 @@
   "values": [
     "#elementalcraft:container_tools",
     "#elementalcraft:pedestals",
-    "elementalcraft:pureinfuser"
+    "elementalcraft:pureinfuser",
+    "elementalcraft:source_breeder",
+    "elementalcraft:source_breeder_pedestal"
   ]
 }

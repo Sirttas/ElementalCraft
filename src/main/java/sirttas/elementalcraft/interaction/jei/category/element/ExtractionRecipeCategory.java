@@ -2,12 +2,10 @@ package sirttas.elementalcraft.interaction.jei.category.element;
 
 import com.google.common.collect.Lists;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -16,9 +14,9 @@ import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
+import sirttas.elementalcraft.interaction.jei.ingredient.source.IngredientSource;
 
 import javax.annotation.Nonnull;
-import java.util.Collections;
 import java.util.List;
 
 public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementType> {
@@ -47,17 +45,10 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 		return ECJEIRecipeTypes.EXTRACTION;
 	}
 
-	@Nonnull
-    @Override
-	public List<Component> getTooltipStrings(@Nonnull ElementType recipe, @Nonnull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
-		if (mouseX > 0 && mouseX < 16 && mouseY > 0 && mouseY < 16) {
-			return Lists.newArrayList(Component.translatable("block.elementalcraft.source." + recipe.getSerializedName()));
-		}
-		return Collections.emptyList();
-	}
-
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementType type, @Nonnull IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
+				.addIngredient(ECIngredientTypes.SOURCE, new IngredientSource(type));
 		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 16)
 				.addItemStack(extractor);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 32)

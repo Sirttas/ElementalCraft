@@ -5,6 +5,8 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.property.ECProperties;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class ElementalItem extends ECItem implements IElementTypeProvider {
 
 	protected final ElementType elementType;

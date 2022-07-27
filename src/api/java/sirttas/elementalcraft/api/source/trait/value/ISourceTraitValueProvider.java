@@ -19,7 +19,10 @@ public interface ISourceTraitValueProvider {
 	
 	@Nullable
 	ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos);
-	
+
+	@Nullable
+	ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2);
+
 	ISourceTraitValue load(Tag tag);
 
 	Tag save(ISourceTraitValue value);

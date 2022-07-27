@@ -15,7 +15,7 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 
 	@Override
 	public void render(@Nonnull PoseStack matrixStack, @Nonnull IngredientElementType ingredient) {
-		int amount = ingredient.getAmount();
+		int amount = ingredient.amount();
 
 		GuiHelper.renderElementGauge(matrixStack, 0, 0, amount == -1 ? 4 : amount, 4, ingredient.getElementType(), false);
 
@@ -26,7 +26,7 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 	public List<Component> getTooltip(IngredientElementType ingredient, @Nonnull TooltipFlag tooltipFlag) {
 		List<Component> tooltips = Lists.newArrayList();
 
-		int amount = ingredient.getAmount();
+		int amount = ingredient.amount();
 
 		tooltips.add(ingredient.getDisplayName());
 		if (amount != -1) {

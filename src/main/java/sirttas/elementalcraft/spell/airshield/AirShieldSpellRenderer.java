@@ -8,15 +8,15 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.client.ForgeHooksClient;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.ISpellRenderer;
 
 public class AirShieldSpellRenderer implements ISpellRenderer {
 
-    public static final Material BACKGROUND = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/air_shield_background"));
-    public static final Material BLADE = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/air_shield_blade"));
+    public static final Material BACKGROUND = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/air_shield_background"));
+    public static final Material BLADE = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/air_shield_blade"));
 
     @Override
     public void render(Spell spell, Entity caster, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {

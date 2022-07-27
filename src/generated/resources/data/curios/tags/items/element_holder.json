@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "elementalcraft:element_holder_fire",
+    "elementalcraft:element_holder_water",
+    "elementalcraft:element_holder_earth",
+    "elementalcraft:element_holder_air",
+    "elementalcraft:pure_element_holder"
+  ]
+}

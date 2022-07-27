@@ -17,7 +17,7 @@ public class MoleJewelHandler {
 
     @SubscribeEvent
     public static void onLeftClickBlock(@Nonnull PlayerInteractEvent.LeftClickBlock event) {
-        var player = event.getPlayer();
+        var player = event.getEntity();
         var mole = Jewels.MOLE.get();
 
         if (JewelHelper.hasJewel(player, mole) &&ForgeHooks.isCorrectToolForDrops(player.level.getBlockState(event.getPos()), player)) {

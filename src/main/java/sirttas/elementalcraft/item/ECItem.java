@@ -20,6 +20,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map.Entry;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class ECItem extends Item {
 
 	private static boolean noJeiLogged = false;

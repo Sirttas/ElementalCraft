@@ -1,7 +1,7 @@
 {
   "effects": [
     {
-      "type": "dpanvil:attribute",
+      "type": "elementalcraft:attribute",
       "attribute": "minecraft:generic.attack_speed",
       "modifier": {
         "amount": 0.8,

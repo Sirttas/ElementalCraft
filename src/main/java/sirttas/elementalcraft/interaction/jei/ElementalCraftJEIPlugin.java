@@ -41,6 +41,10 @@ import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientHelper;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientRenderer;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
+import sirttas.elementalcraft.interaction.jei.ingredient.source.IngredientSource;
+import sirttas.elementalcraft.interaction.jei.ingredient.source.SourceIngredientHelper;
+import sirttas.elementalcraft.interaction.jei.ingredient.source.SourceIngredientRenderer;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
@@ -69,10 +73,11 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	@Override
 	public void registerIngredients(IModIngredientRegistration registration) {
 		registration.register(ECIngredientTypes.ELEMENT, IngredientElementType.all(), new ElementIngredientHelper(), new ElementIngredientRenderer());
+		registration.register(ECIngredientTypes.SOURCE, IngredientSource.all(), new SourceIngredientHelper(), new SourceIngredientRenderer());
 	}
 
 	@Override
-	public void registerItemSubtypes(ISubtypeRegistration registry) {
+	public void registerItemSubtypes(@Nonnull ISubtypeRegistration registry) {
 		useNbtForSubtypes(registry, ECItems.SCROLL);
 		useNbtForSubtypes(registry, ECItems.RECEPTACLE);
 		useNbtForSubtypes(registry, ECItems.PURE_ORE);
@@ -87,12 +92,14 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		}
 	}
 
+	@SafeVarargs
 	private void excludeSubtypes(ISubtypeRegistration registry, RegistryObject<? extends ItemLike>... items) {
 		for (var item : items) {
 			registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, item.get().asItem(), (i, c) -> IIngredientSubtypeInterpreter.NONE);
 		}
 	}
 
+	@SafeVarargs
 	private void useNbtForSubtypes(ISubtypeRegistration registry, RegistryObject<? extends ItemLike>... items) {
 		for (var item : items) {
 			registry.useNbtForSubtypes(item.get().asItem());
@@ -139,9 +146,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL.get()), ECJEIRecipeTypes.GRINDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPELL_DESK.get()), ECJEIRecipeTypes.SPELL_CRAFTING);
 		
-//		if (ECinteractions.isMekanismActive()) {
-//			MekanismInteraction.addAirMillToCrushing(registry);
-//		}
+		if (ECinteractions.isMekanismActive()) {
+			MekanismInteraction.addAirMillToCrushing(registry);
+		}
 	}
 
 	@SuppressWarnings({"resource", "ConstantConditions"})

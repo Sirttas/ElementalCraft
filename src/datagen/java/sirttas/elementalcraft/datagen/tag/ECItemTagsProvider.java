@@ -2,6 +2,7 @@ package sirttas.elementalcraft.datagen.tag;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
+import mekanism.tools.common.MekanismTools;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -38,7 +39,7 @@ import java.util.stream.Stream;
 public class ECItemTagsProvider extends ItemTagsProvider {
 
 	private static final String MINECRAFT = "minecraft";
-	private static final List<String> MOD_IDS = List.of(/* BotaniaAPI.MODID, */ /*MekanismTools.MODID *//*, SilentGear.MOD_ID */);
+	private static final List<String> MOD_IDS = List.of(/* BotaniaAPI.MODID, */ MekanismTools.MODID /*, SilentGear.MOD_ID */);
 
 	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, blockTagsProvider, ElementalCraftApi.MODID, existingFileHelper);
@@ -171,6 +172,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		addOptionals(jewelSocketables, getItems(MOD_IDS, Wearable.class));
 		addOptionals(jewelSocketables, getItems(MOD_IDS, TieredItem.class));
 		addOptionals(jewelSocketables, getItems(MOD_IDS, ProjectileWeaponItem.class));
+
+		tag(ECTags.Items.CURIOS_ELEMENT_HOLDER).add(ECItems.FIRE_HOLDER, ECItems.WATER_HOLDER, ECItems.EARTH_HOLDER, ECItems.AIR_HOLDER, ECItems.PURE_HOLDER);
 	}
 
 	public TagsProvider.TagAppender<Item> addOptionals(TagsProvider.TagAppender<Item> builder, Item[]... optionals) {

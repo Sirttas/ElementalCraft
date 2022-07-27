@@ -124,7 +124,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@SuppressWarnings("unchecked")
 	private BlockEntityType<T> getEntityType() {
 		if (entityType == null) {
-			entityType = (BlockEntityType<T>) ForgeRegistries.BLOCK_ENTITIES.getValue(ForgeRegistries.BLOCKS.getKey(this));
+			entityType = (BlockEntityType<T>) ForgeRegistries.BLOCK_ENTITY_TYPES.getValue(ForgeRegistries.BLOCKS.getKey(this));
 		}
 		return entityType;
 	}

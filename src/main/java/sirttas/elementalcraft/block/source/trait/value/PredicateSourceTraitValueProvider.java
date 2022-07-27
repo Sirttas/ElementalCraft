@@ -13,6 +13,8 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
+import javax.annotation.Nullable;
+
 public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvider {
 
 	public static final String NAME = "predicate";
@@ -36,7 +38,13 @@ public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvi
 		}
 		return null;
 	}
-	
+
+	@Nullable
+	@Override
+	public ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+		return provider.breed(trait, level, value1, value2);
+	}
+
 	@Override
 	public @NotNull SourceTraitValueProviderType<PredicateSourceTraitValueProvider> getType() {
 		return SourceTraitValueProviderTypes.PREDICATE.get();

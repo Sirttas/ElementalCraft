@@ -78,6 +78,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexS
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlock;
 import sirttas.elementalcraft.block.sorter.SorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
+import sirttas.elementalcraft.block.source.breeder.SourceBreederBlock;
+import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlock;
 import sirttas.elementalcraft.block.source.displacement.plate.BrokenSourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
@@ -160,11 +162,13 @@ public class ECBlocks {
 	public static final RegistryObject<SpringalineShrineUpgradeBlock> SPRINGALINE_SHRINE_UPGRADE = register(SpringalineShrineUpgradeBlock::new, SpringalineShrineUpgradeBlock.NAME);
 	public static final RegistryObject<CrystalHarvestShrineUpgradeBlock> CRYSTAL_HARVEST_SHRINE_UPGRADE = register(CrystalHarvestShrineUpgradeBlock::new, CrystalHarvestShrineUpgradeBlock.NAME);
 	public static final RegistryObject<SourceBlock> SOURCE = register(SourceBlock::new, SourceBlock.NAME);
-	public static final RegistryObject<Block> FIRE_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.FIRE), SourceDisplacementPlateBlock.NAME_FIRE);
-	public static final RegistryObject<Block> WATER_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.WATER), SourceDisplacementPlateBlock.NAME_WATER);
-	public static final RegistryObject<Block> EARTH_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.EARTH), SourceDisplacementPlateBlock.NAME_EARTH);
-	public static final RegistryObject<Block> AIR_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.AIR), SourceDisplacementPlateBlock.NAME_AIR);
-	public static final RegistryObject<Block> BROKEN_SOURCE_DISPLACEMENT_PLATE = register(BrokenSourceDisplacementPlateBlock::new, BrokenSourceDisplacementPlateBlock.NAME);
+	public static final RegistryObject<SourceDisplacementPlateBlock> FIRE_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.FIRE), SourceDisplacementPlateBlock.NAME_FIRE);
+	public static final RegistryObject<SourceDisplacementPlateBlock> WATER_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.WATER), SourceDisplacementPlateBlock.NAME_WATER);
+	public static final RegistryObject<SourceDisplacementPlateBlock> EARTH_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.EARTH), SourceDisplacementPlateBlock.NAME_EARTH);
+	public static final RegistryObject<SourceDisplacementPlateBlock> AIR_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.AIR), SourceDisplacementPlateBlock.NAME_AIR);
+	public static final RegistryObject<BrokenSourceDisplacementPlateBlock> BROKEN_SOURCE_DISPLACEMENT_PLATE = register(BrokenSourceDisplacementPlateBlock::new, BrokenSourceDisplacementPlateBlock.NAME);
+	public static final RegistryObject<SourceBreederBlock> SOURCE_BREEDER = register(SourceBreederBlock::new, SourceBreederBlock.NAME);
+	public static final RegistryObject<SourceBreederPedestalBlock> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlock::new, SourceBreederPedestalBlock.NAME);
 
 
 	public static final RegistryObject<DropExperienceBlock> CRYSTAL_ORE = register(() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "inert_crystal_ore");

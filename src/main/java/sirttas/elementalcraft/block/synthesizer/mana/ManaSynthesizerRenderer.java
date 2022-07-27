@@ -30,7 +30,7 @@ public class ManaSynthesizerRenderer extends SolarSynthesizerRenderer<ManaSynthe
 				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
 			}
 			matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
-			Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, getModelData(getLenseModel(), te));
+			Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, getModelData(getLenseModel(), te), RenderType.translucent());
 		}
 	}
 }

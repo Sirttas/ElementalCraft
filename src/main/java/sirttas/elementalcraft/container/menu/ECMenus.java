@@ -16,7 +16,7 @@ import sirttas.elementalcraft.item.spell.book.SpellBookMenu;
 
 public class ECMenus {
 
-	private static final DeferredRegister<MenuType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, ElementalCraftApi.MODID);
+	private static final DeferredRegister<MenuType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.MENU_TYPES, ElementalCraftApi.MODID);
 
 	public static final RegistryObject<MenuType<SpellBookMenu>> SPELL_BOOK = register(SpellBookMenu::new, SpellBookItem.NAME);
 	public static final RegistryObject<MenuType<SpellDeskMenu>> SPELL_DESK = register(SpellDeskMenu::new, SpellDeskBlock.NAME);

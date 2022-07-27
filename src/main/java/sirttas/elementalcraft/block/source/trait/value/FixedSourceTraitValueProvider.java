@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.source.trait.value;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
@@ -14,32 +14,31 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
-public class FixedSourceTraitValueProvider implements ISourceTraitValueProvider {
+import javax.annotation.Nullable;
+import java.util.Map;
+
+public record FixedSourceTraitValueProvider(
+		String translationKey,
+		Map<SourceTrait.Type, Float> values
+) implements ISourceTraitValueProvider {
 
 	public static final String NAME = "fixed";
 	public static final Codec<FixedSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			Codec.STRING.fieldOf(ECNames.NAME).forGetter(p -> p.translationKey),
-			Codec.FLOAT.fieldOf(ECNames.VALUE).forGetter(FixedSourceTraitValueProvider::getValue)
+			Codec.STRING.fieldOf(ECNames.NAME).forGetter(FixedSourceTraitValueProvider::translationKey),
+			SourceTrait.Type.VALUE_CODEC.fieldOf(ECNames.VALUES).forGetter(FixedSourceTraitValueProvider::values)
 	).apply(builder, FixedSourceTraitValueProvider::new));
-	
-	private final String translationKey;
-	private final float value;
-	
-	
-	public FixedSourceTraitValueProvider(String translationKey, float value) {
-		this.translationKey = translationKey;
-		this.value = value;
-	}
-	
-	public float getValue() {
-		return value;
-	}
+
 	
 	@Override
 	public ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos) {
-		return new SourceTraitValue(value);
+		return new SourceTraitValue();
 	}
-	
+
+	@Override
+	public ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+		return new SourceTraitValue();
+	}
+
 	@Override
 	public @NotNull SourceTraitValueProviderType<FixedSourceTraitValueProvider> getType() {
 		return SourceTraitValueProviderTypes.FIXED.get();
@@ -47,25 +46,19 @@ public class FixedSourceTraitValueProvider implements ISourceTraitValueProvider 
 	
 	@Override
 	public ISourceTraitValue load(Tag tag) {
-		return tag instanceof FloatTag floatTag ? new SourceTraitValue(floatTag.getAsFloat()) : null;
+		return new SourceTraitValue();
 	}
 
 	@Override
 	public Tag save(ISourceTraitValue value) {
-		return value instanceof SourceTraitValue sourceTraitValue ? FloatTag.valueOf(sourceTraitValue.value) : null;
+		return ByteTag.ONE;
 	}
 
 	private class SourceTraitValue implements ISourceTraitValue {
 		
-		private final float value;
-		
-		private SourceTraitValue(float value) {
-			this.value = value;
-		}
-		
 		@Override
-		public float getValue() {
-			return value;
+		public float getValue(SourceTrait.Type type) {
+			return values.getOrDefault(type, 1f);
 		}
 
 		@Override

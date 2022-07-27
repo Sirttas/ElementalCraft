@@ -48,7 +48,9 @@ public class SourceElementStorage extends StaticElementStorage {
 
 	@Override
 	public int transferTo(IElementStorage other, ElementType type, float count, float multiplier) {
-		return super.transferTo(other, type, count * source.getSpeedModifier(), multiplier * source.getPreservationModifier());
+		var traitHolder = source.getTraitHolder();
+
+		return super.transferTo(other, type, count * traitHolder.getSpeedModifier(), multiplier * traitHolder.getPreservationModifier());
 	}
 	
 	@Override

@@ -2,6 +2,9 @@
   "order": 1,
   "value": {
     "type": "elementalcraft:range_based",
+    "bonus_type": [
+      "recover_rate"
+    ],
     "end": 200.0,
     "name": "source_trait.elementalcraft.recover_rate",
     "start": 50.0,

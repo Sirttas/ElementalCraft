@@ -53,7 +53,7 @@ public class ECFeatures {
 		level.setBlock(newPos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
 		var blockEntity = level.getBlockEntity(newPos);
 		if (blockEntity instanceof SourceBlockEntity source) {
-			source.resetTraits(true);
+			source.resetTraits();
 		}
 	}
 

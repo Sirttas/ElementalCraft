@@ -14,6 +14,8 @@ import org.lwjgl.opengl.GL14;
 
 import java.util.function.Function;
 
+import net.minecraft.client.renderer.RenderType.CompositeState;
+
 public class ECRenderTypes extends RenderType {
 
 	private static final String GHOST_NAME = "elementalcraft:ghost";

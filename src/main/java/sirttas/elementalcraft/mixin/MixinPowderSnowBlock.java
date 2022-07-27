@@ -11,6 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 @Mixin(PowderSnowBlock.class)
 public abstract class MixinPowderSnowBlock extends Block implements BucketPickup  {
 

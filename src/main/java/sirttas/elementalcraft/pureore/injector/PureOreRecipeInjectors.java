@@ -21,6 +21,9 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
+import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 import java.util.function.Supplier;
@@ -48,9 +51,9 @@ public class PureOreRecipeInjectors {
 		register(registry, new PureOreCookingRecipeInjector<>(RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new));
 		register(registry, new PureOreGrindingRecipeInjector());
 
-//		if (ECinteractions.isMekanismActive()) {
-//			MekanismInteraction.registerPureOreRecipeInjectors(registry);
-//		}
+		if (ECinteractions.isMekanismActive()) {
+			MekanismInteraction.registerPureOreRecipeInjectors(registry);
+		}
 	}
 
 	public static <C extends Container, T extends Recipe<C>> void register(IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> registry, AbstractPureOreRecipeInjector<C, T> injector) {

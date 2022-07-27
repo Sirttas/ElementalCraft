@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.PotionEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -32,7 +32,7 @@ public class PurificationSpell extends Spell {
 					MobEffectInstance effect = itr.next();
 
 					if (!effect.getCurativeItems().isEmpty() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL
-							&& !MinecraftForge.EVENT_BUS.post(new PotionEvent.PotionRemoveEvent(livingTarget, effect))) {
+							&& !MinecraftForge.EVENT_BUS.post(new MobEffectEvent.Remove(livingTarget, effect))) {
 						livingTarget.onEffectRemoved(effect);
 						itr.remove();
 						livingTarget.updateEffectVisibility();

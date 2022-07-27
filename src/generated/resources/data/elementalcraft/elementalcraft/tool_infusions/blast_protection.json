@@ -1,7 +1,7 @@
 {
   "effects": [
     {
-      "type": "dpanvil:enchantment",
+      "type": "elementalcraft:enchantment",
       "enchantment": "minecraft:blast_protection"
     }
   ],

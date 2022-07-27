@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -47,6 +48,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	private static final String SIDE = "_side";
 	private static final String CORE = "_core";
 	private static final String TEXTURE = "texture";
+
+	private static final String TRANSLUCENT = "translucent";
 	
 	private final ExistingFileHelper existingFileHelper;
 	
@@ -191,11 +194,13 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(upper))
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(lower));
 		} else if (block instanceof SourceBlock) {
-			simpleBlock(block, air);
+			simpleBlock(block, models().withExistingParent(name, air.getLocation()).renderType(TRANSLUCENT));
 		} else if (block instanceof SourceDisplacementPlateBlock sourceDisplacementPlateBlock) {
 			simpleBlock(block, models().withExistingParent(name, prefix("template_source_displacement_plate")).texture(TEXTURE, prefix("source_displacement_plate_" + sourceDisplacementPlateBlock.getElementType().getSerializedName() + "_top")));
 		} else if (modelExists(key)) {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
+		} else if (block instanceof GlassBlock) {
+			simpleBlock(block, models().cubeAll(name, blockTexture(block)).renderType(TRANSLUCENT));
 		} else {
 			simpleBlock(block);
 		}
@@ -251,7 +256,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		String name = key.getPath();
 		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
 
-		paneBlock(block, sourceName, sourceName);
+		paneBlockWithRenderType(block, sourceName, sourceName, TRANSLUCENT);
 	}
 
 	public void fenceBlock(ResourceLocation key, FenceBlock block, ResourceLocation postTexture, ResourceLocation sideTexture) {
@@ -263,7 +268,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	public void springalineCluster(ResourceLocation key,Block block) {
 		String name = key.getPath();
 		
-		directionalBlock(block, models().withExistingParent(name, prefix("minecraft:cross")).texture("cross", prefix(name)));
+		directionalBlock(block, models().withExistingParent(name, prefix("minecraft:cross")).texture("cross", prefix(name)).renderType("cutout"));
 	}
 	
 	@Nonnull

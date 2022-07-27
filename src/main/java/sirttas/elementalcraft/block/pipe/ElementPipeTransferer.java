@@ -11,6 +11,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import sirttas.elementalcraft.api.element.transfer.IElementTransferer.ConnectionType;
+
 public class ElementPipeTransferer implements IElementTransferer {
 
     final BlockEntity pipe;

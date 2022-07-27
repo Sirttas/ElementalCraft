@@ -20,9 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.ModelDataManager;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.event.TickHandler;
 
@@ -42,13 +40,13 @@ public interface IECGenericRenderer {
         Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.GROUND, light, overlay, matrixStack, buffer, 0);
     }
 
-    default void renderBlock(BlockState state, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, IModelData data) {
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, matrixStack, buffer, light, overlay, data);
+    default void renderBlock(BlockState state, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, ModelData data) {
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, matrixStack, buffer, light, overlay, data, null);
     }
 
     default void renderBlock(BlockState state, PoseStack matrixStack, VertexConsumer builder, Level world, BlockPos pos) {
         matrixStack.pushPose();
-        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, world, matrixStack, builder, false, world.random, getModelData(world, pos));
+        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, world, matrixStack, builder, false, world.random, getModelData(world, pos), null);
         matrixStack.popPose();
     }
 
@@ -94,23 +92,24 @@ public interface IECGenericRenderer {
 
     @Deprecated
     default void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockState state, int light, int overlay) {
-        renderModel(model, matrixStack, buffer, state, light, overlay, EmptyModelData.INSTANCE);
+        renderModel(model, matrixStack, buffer, state, light, overlay, ModelData.EMPTY);
     }
 
-    default void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockState state, int light, int overlay, IModelData data) {
-        Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(state != null ? ItemBlockRenderTypes.getRenderType(state, false)  : Sheets.cutoutBlockSheet()), state, model, 1, 1, 1, light,
-                overlay, data);
+    default void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockState state, int light, int overlay, ModelData data) {
+        var renderType = state != null ? ItemBlockRenderTypes.getRenderType(state, false) : Sheets.cutoutBlockSheet();
+
+        Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(renderType), state, model, 1, 1, 1, light, overlay, data, renderType);
     }
 
     default float getClientTicks(float partialTicks) {
         return TickHandler.getTicksInGame() + partialTicks;
     }
 
-    default IModelData getModelData(Level level, BlockPos pos) {
-        var data = ModelDataManager.getModelData(level, pos);
+    default ModelData getModelData(Level level, BlockPos pos) {
+        var data = level.getModelDataManager().getAt(pos);
 
         if (data == null) {
-            return EmptyModelData.INSTANCE;
+            return ModelData.EMPTY;
         }
         return data;
     }

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "i": {
+      "item": "elementalcraft:fireite_ingot"
+    },
+    "p": {
+      "item": "elementalcraft:source_breeder_pedestal"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "wpw",
+    "ici",
+    "iwi"
+  ],
+  "result": {
+    "item": "elementalcraft:source_breeder"
+  }
+}

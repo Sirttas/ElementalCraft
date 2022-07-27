@@ -50,6 +50,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexS
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlockEntity;
 import sirttas.elementalcraft.block.sorter.SorterBlockEntity;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
+import sirttas.elementalcraft.block.source.breeder.SourceBreederBlockEntity;
+import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlockEntity;
@@ -60,7 +62,7 @@ import java.util.function.Supplier;
 
 public class ECBlockEntityTypes {
 
-    private static final DeferredRegister<BlockEntityType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ElementalCraftApi.MODID);
+    private static final DeferredRegister<BlockEntityType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ElementalCraftApi.MODID);
 
     public static final RegistryObject<BlockEntityType<SourceBlockEntity>> SOURCE = register(SourceBlockEntity::new, ECBlocks.SOURCE);
     public static final RegistryObject<BlockEntityType<ElementContainerBlockEntity>> CONTAINER = register(() -> builder(ElementContainerBlockEntity::new, ECBlocks.CONTAINER, ECBlocks.SMALL_CONTAINER), ElementContainerBlock.NAME);
@@ -101,6 +103,10 @@ public class ECBlockEntityTypes {
     public static final RegistryObject<BlockEntityType<VortexShrineUpgradeBlockEntity>> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlockEntity::new, ECBlocks.VORTEX_SHRINE_UPGRADE);
     public static final RegistryObject<BlockEntityType<SorterBlockEntity>> SORTER = register(SorterBlockEntity::new, ECBlocks.SORTER);
     public static final RegistryObject<BlockEntityType<SourceDisplacementPlateBlockEntity>> SOURCE_DISPLACEMENT_PLATE = register(() -> builder(SourceDisplacementPlateBlockEntity::new, ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE, ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE, ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE), SourceDisplacementPlateBlock.NAME);
+
+    public static final RegistryObject<BlockEntityType<SourceBreederBlockEntity>> SOURCE_BREEDER = register(SourceBreederBlockEntity::new, ECBlocks.SOURCE_BREEDER);
+    public static final RegistryObject<BlockEntityType<SourceBreederPedestalBlockEntity>> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlockEntity::new, ECBlocks.SOURCE_BREEDER_PEDESTAL);
+
 
     private ECBlockEntityTypes() {}
 

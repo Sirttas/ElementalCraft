@@ -6,7 +6,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,7 +17,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.particle.element.ElementCraftingParticle;
 import sirttas.elementalcraft.particle.element.ElementFlowParticle;
 import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
-import sirttas.elementalcraft.particle.element.source.SourceExhaustedParticle;
 import sirttas.elementalcraft.particle.element.source.SourceParticle;
 
 import java.util.function.Supplier;
@@ -28,18 +27,15 @@ public class ECParticles {
 	private static final DeferredRegister<ParticleType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, ElementalCraftApi.MODID);
 
 	public static final RegistryObject<ParticleType<ElementTypeParticleData>> SOURCE = register(() -> ElementTypeParticleData.createParticleType(true), "source");
-	public static final RegistryObject<ParticleType<ElementTypeParticleData>> SOURCE_EXHAUSTED = register(() -> ElementTypeParticleData.createParticleType(true),  "source_exhausted");
 	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_FLOW = register(() -> ElementTypeParticleData.createParticleType(false), "element_flow");
 	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_CRAFTING = register(() -> ElementTypeParticleData.createParticleType(false), "elementcrafting");
 
 	private ECParticles() {}
 
-
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
-	public static void registerFactories(ParticleFactoryRegisterEvent evt) {
+	public static void registerFactories(RegisterParticleProvidersEvent evt) {
 		registerFactory(SOURCE.get(), SourceParticle.FACTORY);
-		registerFactory(SOURCE_EXHAUSTED.get(), SourceExhaustedParticle.FACTORY);
 		registerFactory(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
 		registerFactory(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
 	}

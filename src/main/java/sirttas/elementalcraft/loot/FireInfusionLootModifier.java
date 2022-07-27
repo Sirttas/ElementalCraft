@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.loot;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
@@ -20,6 +20,8 @@ import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
 
 public class FireInfusionLootModifier extends LootModifier {
+
+	public static final Codec<FireInfusionLootModifier> DIRECT_CODEC = RecordCodecBuilder.create(i -> codecStart(i).apply(i, FireInfusionLootModifier::new));
 
 	private static final LootItemFunction FORTUNE = ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE).build();
 	
@@ -57,15 +59,8 @@ public class FireInfusionLootModifier extends LootModifier {
 		return generatedLoot;
 	}
 
-	public static class Serializer extends GlobalLootModifierSerializer<FireInfusionLootModifier> {
-		@Override
-		public FireInfusionLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] conditions) {
-			return new FireInfusionLootModifier(conditions);
-		}
-
-		@Override
-		public JsonObject write(FireInfusionLootModifier instance) {
-			return makeConditions(instance.conditions);
-		}
+	@Override
+	public Codec<? extends IGlobalLootModifier> codec() {
+		return DIRECT_CODEC;
 	}
 }

@@ -60,7 +60,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
 	private String formatMultiplier(Float multiplier) {
 		if (multiplier >= 10) {
-			return new DecimalFormat("�#.##").format(multiplier);
+			return new DecimalFormat("\u00D7#.##").format(multiplier);
 		}
 		return String.format("%+d%%", Math.round((multiplier - 1) * 100));
 	}

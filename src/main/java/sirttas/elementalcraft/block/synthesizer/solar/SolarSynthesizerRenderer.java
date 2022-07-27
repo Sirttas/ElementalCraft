@@ -11,17 +11,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.ForgeHooksClient;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
 public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> implements IECRenderer<T> {
 
-	public static final Material BEAM = ForgeHooksClient.getBlockMaterial(ElementalCraft.createRL("effect/solar_synthesizer_beam"));
+	public static final Material BEAM = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/solar_synthesizer_beam"));
 	public static final ResourceLocation LENSE_LOCATION = ElementalCraft.createRL("block/solar_synthesizer_lense");
 
 	private static BakedModel lenseModel;
@@ -47,8 +47,7 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 				matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90));
 			}
 			matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
-			minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g,
-					b, light, overlay, getModelData(getLenseModel(), te));
+			minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, getModelData(getLenseModel(), te), RenderType.translucent());
 			matrixStack.popPose();
 			if (isWorking) {
 				Vec3 beamVect = Vec3.atCenterOf(te.getBlockPos()).subtract(minecraft.getEntityRenderDispatcher().camera.getPosition()).multiply(1, 0, 1).normalize();

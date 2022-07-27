@@ -10,9 +10,14 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 
+import javax.annotation.Nonnull;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class SourceTraits {
@@ -26,9 +31,12 @@ public class SourceTraits {
 	public static final ResourceKey<SourceTrait> DIURNAL_NOCTURNAL = key("diurnal_nocturnal");
 	public static final ResourceKey<SourceTrait> GENEROSITY = key("generosity");
 	public static final ResourceKey<SourceTrait> THRIFTINESS = key("thriftiness");
-
 	public static final ResourceKey<SourceTrait> FLEETING = key("fleeting");
 
+	@Nonnull
+	public static SortedMap<ResourceKey<SourceTrait>, ISourceTraitValue> createTraitMap() {
+		return new TreeMap<>(Comparator.comparingInt(SourceTraits::getOrder));
+	}
 
 	public static int getOrder(ResourceKey<SourceTrait> trait) {
 		return SOURCE_TRAITS_ORDERS.getOrDefault(trait, Integer.MAX_VALUE);

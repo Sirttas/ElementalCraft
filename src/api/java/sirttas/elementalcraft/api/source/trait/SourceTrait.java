@@ -6,15 +6,18 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 
-public class SourceTrait implements Comparable<SourceTrait> {
+public class SourceTrait {
 	
 	public static final String NAME = "source_traits";
 	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
@@ -54,6 +57,11 @@ public class SourceTrait implements Comparable<SourceTrait> {
 	}
 
 	@Nullable
+	public ISourceTraitValue breed(Level level, ISourceTraitValue value1, ISourceTraitValue value2) {
+		return valueProvider.breed(this, level,  value1, value2);
+	}
+
+	@Nullable
 	public ISourceTraitValue load(Tag tag) {
 		return valueProvider.load(tag);
 	}
@@ -61,11 +69,6 @@ public class SourceTrait implements Comparable<SourceTrait> {
 	@Nullable
 	public Tag save(ISourceTraitValue value) {
 		return valueProvider.save(value);
-	}
-	
-	@Override
-	public int compareTo(SourceTrait other) {
-		return this.order - other.order;
 	}
 	
 	@Override
@@ -82,7 +85,43 @@ public class SourceTrait implements Comparable<SourceTrait> {
 	public int hashCode() {
 		return this.id != null ? this.id.hashCode() : 0;
 	}
-	
+
+	public enum Type implements StringRepresentable {
+		NONE(ECNames.NONE),
+		CAPACITY(ECNames.ELEMENT_CAPACITY),
+		RECOVER_RATE(ECNames.RECOVER_RATE),
+		EXTRACTION_SPEED(ECNames.EXTRACTION_SPEED),
+		PRESERVATION(ECNames.ELEMENT_PRESERVATION);
+
+		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
+		public static final Codec<Map<Type, Float>> VALUE_CODEC = valueCodec(Codec.FLOAT);
+
+		public static <T> Codec<Map<Type, T>> valueCodec(Codec<T> valueCodec) {
+			return Codec.unboundedMap(Type.CODEC, valueCodec);
+		}
+
+		private final String name;
+
+		Type(String name) {
+			this.name = name;
+		}
+
+		@Nonnull
+		@Override
+		public String getSerializedName() {
+			return this.name;
+		}
+
+		public static Type byName(String name) {
+			for (Type type : values()) {
+				if (type.name.equals(name)) {
+					return type;
+				}
+			}
+			return NONE;
+		}
+	}
+
 	public static class Builder {
 		
 		public static final Encoder<Builder> ENCODER = SourceTrait.CODEC.comap(builder -> new SourceTrait(builder.order, builder.valueProvider));

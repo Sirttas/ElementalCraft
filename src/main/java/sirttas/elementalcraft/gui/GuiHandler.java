@@ -9,7 +9,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -32,28 +34,31 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("resource")
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GuiHandler {
 
 	private GuiHandler() {}
-	
-	@SubscribeEvent
-	public static void onDrawScreenPost(RenderGameOverlayEvent.Post event) {
-		if (event.getType() == RenderGameOverlayEvent.ElementType.LAYER) {
-			PoseStack matrixStack = event.getPoseStack();
-			LocalPlayer player = Minecraft.getInstance().player;
-			Spell spell = getSpell();
-			int i = 0;
-	
-			for (var storage : getElementStorage(player)) {
-				ElementType type = storage.getElementType();
 
-				doRenderElementGauge(matrixStack, storage.getElementAmount(), storage.getElementCapacity(), type, i);
-				if (spell.isValid() && spell.getElementType() == type && i == 0) {
-					doRenderCanCast(matrixStack, spell.consume(player, true));
-				}
-				i++;
+	@SubscribeEvent
+	public static void onDrawScreenPost(RegisterGuiOverlaysEvent event) {
+		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "gauge", (g, p, t, w, h) -> drawGauge(g, p));
+	}
+
+	public static void drawGauge(ForgeGui gui, PoseStack poseStack) {
+		gui.setupOverlayRenderState(false, false);
+
+		LocalPlayer player = Minecraft.getInstance().player;
+		Spell spell = getSpell();
+		int i = 0;
+
+		for (var storage : getElementStorage(player)) {
+			ElementType type = storage.getElementType();
+
+			doRenderElementGauge(poseStack, storage.getElementAmount(), storage.getElementCapacity(), type, i);
+			if (spell.isValid() && spell.getElementType() == type && i == 0) {
+				doRenderCanCast(poseStack, spell.consume(player, true));
 			}
+			i++;
 		}
 	}
 

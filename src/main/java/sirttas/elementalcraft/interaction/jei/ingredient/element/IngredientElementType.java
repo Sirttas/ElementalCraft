@@ -7,35 +7,22 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class IngredientElementType implements IElementTypeProvider {
+public record IngredientElementType(
+		ElementType elementType,
+		int amount
+) implements IElementTypeProvider {
 
 	public static final IIngredientType<IngredientElementType> TYPE = () -> IngredientElementType.class;
-	
-	private final ElementType elementType;
-	private int amount;
 
-	public IngredientElementType(ElementType type) {
-		this(type, -1);
-	}
-
-	public IngredientElementType(ElementType type, int amount) {
-		this.elementType = type;
-		this.setAmount(amount);
+	public IngredientElementType(ElementType elementType, int amount) {
+		this.elementType = elementType;
+		this.amount = Mth.clamp(amount, -1, 4);
 	}
 
 	@Override
 	public ElementType getElementType() {
 		return elementType;
-	}
-
-	public int getAmount() {
-		return amount;
-	}
-
-	public void setAmount(int amount) {
-		this.amount = Mth.clamp(amount, -1, 4);
 	}
 
 	public Component getDisplayName() {
@@ -51,6 +38,8 @@ public class IngredientElementType implements IElementTypeProvider {
 	}
 
 	public static List<IngredientElementType> all(int amount) {
-		return ElementType.ALL_VALID.stream().map(type -> new IngredientElementType(type, amount)).collect(Collectors.toList());
+		return ElementType.ALL_VALID.stream()
+				.map(type -> new IngredientElementType(type, amount))
+				.toList();
 	}
 }

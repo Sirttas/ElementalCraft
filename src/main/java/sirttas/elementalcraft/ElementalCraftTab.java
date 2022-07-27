@@ -4,6 +4,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
@@ -96,12 +97,13 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.SPRINGALINE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, list);
 
-		addItem(ECBlocks.SOURCE, list);
 		addItem(ECBlocks.BROKEN_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE, list);
+		addItem(ECBlocks.SOURCE_BREEDER, list);
+		addItem(ECBlocks.SOURCE_BREEDER_PEDESTAL, list);
 		addItem(ECBlocks.CRYSTAL_ORE, list);
 		addItem(ECBlocks.DEEPSLATE_CRYSTAL_ORE, list);
 		addItem(ECBlocks.WHITE_ROCK, list);
@@ -205,6 +207,9 @@ public class ElementalCraftTab extends CreativeModeTab {
 	}
 
 	private <T extends ItemLike> void addItem(@Nonnull Supplier<T> item, @Nonnull NonNullList<ItemStack> list) {
+		if (item instanceof RegistryObject<T> registryObject && !registryObject.isPresent()) {
+			return;
+		}
 		addItem(item.get(), list);
 	}
 

@@ -3,14 +3,11 @@ package sirttas.elementalcraft.item.source.analysis;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -25,7 +22,6 @@ import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractable {
 
@@ -70,21 +66,10 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 				.map(source -> {
 					if (source.isAnalyzed() || consumeSpringaline(player)) {
 						source.setAnalyzed(true);
-						return open(level, player, source.getTraits());
+						return open(level, player, source.getTraitHolder().getTraits());
 					}
 					return InteractionResult.PASS;
 				}).orElse(InteractionResult.PASS);
-	}
-	
-	/**
-	 * Called when the equipped item is right clicked.
-	 */
-	@Nonnull
-    @Override
-	public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
-		ItemStack stack = player.getItemInHand(hand);
-
-		return new InteractionResultHolder<>(open(world, player, new TreeMap<>()), stack);
 	}
 	
 	public InteractionResult open(Level world, Player player, Map<ResourceKey<SourceTrait>, ISourceTraitValue> traitMap) {
@@ -104,8 +89,8 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		}
 		
 		@Override
-		public AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, Player player) {
-			return new SourceAnalysisGlassMenu(id, inventory, traits, ContainerLevelAccess.create(player.level, player.getOnPos()));
+		public AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, @Nonnull Player player) {
+			return new SourceAnalysisGlassMenu(id, inventory, traits);
 		}
 
 		@Nonnull

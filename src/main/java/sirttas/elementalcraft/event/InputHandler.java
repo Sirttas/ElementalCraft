@@ -20,7 +20,7 @@ public class InputHandler {
 	
 	@SuppressWarnings("resource")
 	@SubscribeEvent
-	public static void onMouseScroll(InputEvent.MouseScrollEvent event) {
+	public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		
 		if (player.isShiftKeyDown()) {

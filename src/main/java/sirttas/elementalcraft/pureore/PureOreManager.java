@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.common.util.Lazy;
 import sirttas.dpanvil.api.event.DataPackReloadCompleteEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -161,7 +161,7 @@ public class PureOreManager {
 		try {
 			T recipe = entry.getRecipe(recipeType);
 
-			return recipe != null ? injector.build(recipe, NBTIngredient.of(createPureOre(entry.getId()))) : null;
+			return recipe != null ? injector.build(recipe, StrictNBTIngredient.of(createPureOre(entry.getId()))) : null;
 		} catch (Exception e) {
 			ElementalCraftApi.LOGGER.error("Error in pure ore recipe injection", e);
 			return null;

@@ -1,7 +1,7 @@
 {
   "effects": [
     {
-      "type": "dpanvil:attribute",
+      "type": "elementalcraft:attribute",
       "attribute": "minecraft:generic.attack_speed",
       "modifier": {
         "amount": 0.8,
@@ -13,7 +13,7 @@
       ]
     },
     {
-      "type": "dpanvil:element_cost_reduction",
+      "type": "elementalcraft:element_cost_reduction",
       "element_type": "air",
       "value": 0.15
     }

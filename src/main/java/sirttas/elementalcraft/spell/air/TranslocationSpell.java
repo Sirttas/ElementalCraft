@@ -11,6 +11,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -23,34 +24,42 @@ public class TranslocationSpell extends Spell {
 		super(key);
 	}
 
-	private void teleport(Entity sender, Vec3 newPos) {
-		sender.setPos(newPos.x, newPos.y, newPos.z);
+	private void teleport(Entity caster, Vec3 newPos) {
+		caster.setPos(newPos.x, newPos.y, newPos.z);
 	}
 	
 	@Override
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level world = caster.getLevel();
+		Level level = caster.getLevel();
 		Vec3 look = caster.getLookAngle();
-		Vec3 tagetPos = caster.position().add(new Vec3(look.x(), 0, look.z()).normalize().scale(this.getRange(caster)));
-		Vec3 newPos = new Vec3(tagetPos.x(), getHeight(world, caster, tagetPos), tagetPos.z());
-		
-		if (world.getChunk(((int) Math.round(newPos.x)) >> 4, ((int) Math.round(newPos.z)) >> 4) == null) {
-			return InteractionResult.FAIL;
-		} else if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z))) {
-			return InteractionResult.SUCCESS;
-		} else if (caster instanceof LivingEntity livingSender) {
-			teleport(caster, newPos);
-			livingSender.getLevel().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT,
-					livingSender.getSoundSource(), 1.0F, 1.0F);
-			livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
-		} else {
-			teleport(caster, newPos);
+		Vec3 targetPos = caster.position().add(new Vec3(look.x(), 0, look.z()).normalize().scale(this.getRange(caster)));
+		Vec3 newPos = new Vec3(targetPos.x(), getHeight(level, caster, targetPos), targetPos.z());
+
+		if (newPos.y >= level.dimensionType().logicalHeight() || newPos.y < level.getSeaLevel()) {
+			return InteractionResult.PASS;
 		}
+
+		level.getChunk(((int) Math.round(newPos.x / 16)), ((int) Math.round(newPos.z / 16)));
+
+		if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z))) {
+			return InteractionResult.SUCCESS;
+		}
+		ParticleHelper.createEnderParticle(level, caster.position(), 3, level.random);
+		ParticleHelper.createEnderParticle(level, newPos, 3, level.random);
+		this.delay(caster, 10, () -> {
+			if (caster instanceof LivingEntity livingSender) {
+				teleport(caster, newPos);
+				level.playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
+				livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+			} else {
+				teleport(caster, newPos);
+			}
+		});
 		return InteractionResult.SUCCESS;
 	}
 
-	private double getHeight(Level world, Entity sender, Vec3 tagetPos) {
-		double height = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(tagetPos)).getY() + 1D;
+	private double getHeight(Level world, Entity sender, Vec3 targetPos) {
+		double height = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(targetPos)).getY() + 1D;
 		
 		if (!sender.isOnGround()) {
 			return Math.max(height, sender.getY());

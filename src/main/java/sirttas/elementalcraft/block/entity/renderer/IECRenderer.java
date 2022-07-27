@@ -7,8 +7,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import sirttas.elementalcraft.renderer.IECGenericRenderer;
 
 public interface IECRenderer<T extends BlockEntity> extends BlockEntityRenderer<T>, IECGenericRenderer {
@@ -17,12 +16,12 @@ public interface IECRenderer<T extends BlockEntity> extends BlockEntityRenderer<
 		renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
 	}
 
-	default IModelData getModelData(BakedModel model, T te) {
+	default ModelData getModelData(BakedModel model, T te) {
 		Level level = te.getLevel();
 		BlockPos pos = te.getBlockPos();
 
 		if (level == null) {
-			return EmptyModelData.INSTANCE;
+			return ModelData.EMPTY;
 		}
 		return model.getModelData(level, pos, te.getBlockState(), getModelData(level, pos));
 	}

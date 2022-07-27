@@ -3,6 +3,9 @@
   "value": {
     "type": "elementalcraft:fixed",
     "name": "source_trait.elementalcraft.fleeting",
-    "value": 5.0
+    "values": {
+      "element_capacity": 0.25,
+      "recover_rate": 0.0
+    }
   }
 }

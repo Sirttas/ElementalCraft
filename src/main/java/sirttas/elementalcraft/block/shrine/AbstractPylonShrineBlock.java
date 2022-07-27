@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -21,13 +20,12 @@ import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEntity>  extends AbstractShrineBlock<T> {
+public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEntity> extends AbstractShrineBlock<T> {
 
-	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 	protected AbstractPylonShrineBlock(ElementType elementType) {
 		super(elementType);
-		this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setValue(WATERLOGGED, false));
 	}
 
 	/**
@@ -36,7 +34,7 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	 */
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
+		worldIn.setBlock(pos.above(), state.setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
 	/**
@@ -50,11 +48,11 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	}
 
 	public static void doubleHalfHarvest(@Nonnull Block block, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		DoubleBlockHalf doubleblockhalf = state.getValue(HALF);
+		DoubleBlockHalf doubleblockhalf = state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF);
 		BlockPos blockpos = doubleblockhalf == DoubleBlockHalf.LOWER ? pos.above() : pos.below();
 		BlockState blockstate = level.getBlockState(blockpos);
 	
-		if (blockstate.getBlock() == block && blockstate.getValue(HALF) != doubleblockhalf) {
+		if (blockstate.getBlock() == block && blockstate.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) != doubleblockhalf) {
 			level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
 			level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
 		}
@@ -62,13 +60,13 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(WATERLOGGED, HALF);
+		builder.add(WATERLOGGED, BlockStateProperties.DOUBLE_BLOCK_HALF);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+		if (state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
 			BlockEntityHelper.getBlockEntityAs(level, pos.below(), AbstractShrineBlockEntity.class).filter(AbstractShrineBlockEntity::isRunning).ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
 		}
 	}
@@ -76,7 +74,7 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	@Override
 	@Deprecated
 	public boolean canSurvive(BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
-		return state.getValue(HALF) == DoubleBlockHalf.LOWER || level.getBlockState(pos.below()).is(this);
+		return state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER || level.getBlockState(pos.below()).is(this);
 	}
 	
 }

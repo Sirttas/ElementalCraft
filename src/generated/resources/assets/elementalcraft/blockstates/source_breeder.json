@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "elementalcraft:block/source_breeder_lower"
+    },
+    "half=upper": {
+      "model": "elementalcraft:block/source_breeder_upper"
+    }
+  }
+}

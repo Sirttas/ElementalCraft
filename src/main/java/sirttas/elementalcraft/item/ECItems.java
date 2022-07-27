@@ -9,8 +9,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelEvent.BakingCompleted;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -168,8 +168,8 @@ public class ECItems {
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
-	public static void replaceModels(ModelBakeEvent event) {
-		var modelRegistry = event.getModelRegistry();
+	public static void replaceModels(BakingCompleted event) {
+		var modelRegistry = event.getModels();
 
 		replaceModels(modelRegistry, RuneItem.NAME, RuneModel::new);
 		replaceModels(modelRegistry, JewelItem.NAME, JewelModel::new);
@@ -181,7 +181,7 @@ public class ECItems {
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
-	public static void registerItemColors(ColorHandlerEvent.Item event) {
+	public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), RECEPTACLE.get());
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), PURE_ORE.get());
 		event.getItemColors().register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), SCROLL.get());

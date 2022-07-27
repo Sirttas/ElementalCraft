@@ -1,7 +1,7 @@
 {
   "effects": [
     {
-      "type": "dpanvil:fastdraw",
+      "type": "elementalcraft:fastdraw",
       "value": 3
     }
   ],
