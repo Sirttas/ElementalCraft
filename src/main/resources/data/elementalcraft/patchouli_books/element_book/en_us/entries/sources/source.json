@@ -1,7 +1,7 @@
 {
   "name": "block.elementalcraft.source",
-  "category": "elementalcraft:basics",
-  "icon": "elementalcraft:receptacle_empty",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:source",
   "priority": true,
   "sortnum": 0,
   "pages": [

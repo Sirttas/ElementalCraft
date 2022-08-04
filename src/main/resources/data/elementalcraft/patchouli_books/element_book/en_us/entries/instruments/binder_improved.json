@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.binder_improved",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:binder_improved",
-  "advancement": "elementalcraft:pickup/container",
+  "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/binder_improved",
   "sortnum": 15,
   "pages": [

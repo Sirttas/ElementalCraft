@@ -1,10 +1,10 @@
 {
   "name": "item.elementalcraft.focus",
-  "category": "elementalcraft:basics",
+  "category": "elementalcraft:spells",
   "icon": "elementalcraft:focus",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/focus",
-  "sortnum": 9,
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

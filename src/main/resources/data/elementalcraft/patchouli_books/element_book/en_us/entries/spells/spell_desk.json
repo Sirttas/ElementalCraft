@@ -1,10 +1,10 @@
 {
   "name": "block.elementalcraft.spell_desk",
-  "category": "elementalcraft:basics",
+  "category": "elementalcraft:spells",
   "icon": "elementalcraft:spell_desk",
   "advancement": "elementalcraft:pickup/drenched_iron_ingot",
   "turnin": "elementalcraft:pickup/spell_desk",
-  "sortnum": 8,
+  "sortnum": 0,
   "pages": [
     {
       "type": "text",

@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.heal",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:heal'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 3,
+  "sortnum": 7,
   "pages": [
     {
       "type": "text",

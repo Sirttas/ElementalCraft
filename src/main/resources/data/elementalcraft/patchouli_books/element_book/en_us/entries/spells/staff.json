@@ -1,0 +1,18 @@
+{
+  "name": "item.elementalcraft.staff",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:staff",
+  "advancement": "elementalcraft:pickup/purecrystal",
+  "turnin": "elementalcraft:pickup/staff",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.staff0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:staff"
+    }
+  ]
+}

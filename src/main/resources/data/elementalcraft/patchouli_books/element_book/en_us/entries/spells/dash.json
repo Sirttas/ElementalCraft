@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.dash",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:dash'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 12,
+  "sortnum": 16,
   "pages": [
     {
       "type": "text",

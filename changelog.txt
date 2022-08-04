@@ -1,3 +1,10 @@
+1.18.2-4.4.17:
+
+- add a lot of new elementopedia entries
+- air mill can now grind blaze rods
+- fix source exhaustion threshold
+
+
 1.18.2-4.4.16:
 
 - add element holders to curios

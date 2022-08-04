@@ -1,0 +1,15 @@
+{
+  "name": "elementalcraft.entry.springaline",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:springaline_shard",
+  "advancement": "elementalcraft:pickup/binder",
+  "turnin": "elementalcraft:pickup/springaline_shard",
+  "priority": true,
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.springaline0"
+    }
+  ]
+}

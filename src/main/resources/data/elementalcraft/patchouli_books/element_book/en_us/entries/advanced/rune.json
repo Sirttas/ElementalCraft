@@ -4,7 +4,7 @@
   "icon": "elementalcraft:rune{elementalcraft:{rune:'elementalcraft:tano'}}",
   "advancement": "elementalcraft:pickup/inscriber",
   "turnin": "elementalcraft:pickup/rune",
-  "sortnum": 6,
+  "sortnum": 8,
   "pages": [
     {
       "type": "text",

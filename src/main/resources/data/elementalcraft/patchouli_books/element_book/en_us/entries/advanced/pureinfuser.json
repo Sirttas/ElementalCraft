@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.pureinfuser",
   "category": "elementalcraft:advanced",
   "icon": "elementalcraft:pureinfuser",
-  "advancement": "elementalcraft:pickup/binder",
+  "advancement": "elementalcraft:pickup/crystallizer",
   "turnin": "elementalcraft:pickup/pureinfuser",
   "priority": true,
   "sortnum": 0,
@@ -38,4 +38,3 @@
     }
   ]
 }
-

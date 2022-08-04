@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.crystallizer",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:crystallizer",
-  "advancement": "elementalcraft:pickup/container",
+  "advancement": "elementalcraft:pickup/binder",
   "turnin": "elementalcraft:pickup/crystallizer",
   "priority": true,
   "sortnum": 8,

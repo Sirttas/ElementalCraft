@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "tag": "forge:rods/blaze"
+  },
+  "luck_ration": 3,
+  "output": {
+    "item": "minecraft:blaze_powder",
+    "count": 3
+  }
+}

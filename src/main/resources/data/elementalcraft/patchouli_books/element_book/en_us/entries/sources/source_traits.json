@@ -1,0 +1,14 @@
+{
+  "name": "elementalcraft.entry.source_traits",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:springaline_shard",
+  "advancement": "elementalcraft:pickup/springaline_shard",
+  "priority": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_traits0"
+    }
+  ]
+}

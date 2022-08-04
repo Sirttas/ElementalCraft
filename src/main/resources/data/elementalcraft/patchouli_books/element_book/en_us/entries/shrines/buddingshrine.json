@@ -1,0 +1,14 @@
+{
+  "name": "block.elementalcraft.buddingshrine",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:buddingshrine",
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "turnin": "elementalcraft:pickup/buddingshrine",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.buddingshrine0"
+    }
+  ]
+}

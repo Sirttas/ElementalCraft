@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.inscriber",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:inscriber",
-  "advancement": "elementalcraft:pickup/container",
+  "advancement": "elementalcraft:pickup/crystallizer",
   "turnin": "elementalcraft:pickup/inscriber",
   "sortnum": 9,
   "pages": [

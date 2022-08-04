@@ -1,10 +1,10 @@
 {
   "name": "item.elementalcraft.receptacle_empty",
-  "category": "elementalcraft:advanced",
+  "category": "elementalcraft:sources",
   "icon": "elementalcraft:receptacle_empty",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/receptacle_empty",
-  "sortnum": 1,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",
@@ -17,4 +17,3 @@
     }
   ]
 }
-

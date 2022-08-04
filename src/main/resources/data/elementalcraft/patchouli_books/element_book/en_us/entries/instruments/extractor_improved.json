@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.extractor_improved",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:extractor_improved",
-  "advancement": "elementalcraft:pickup/container",
+  "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/extractor_improved",
   "sortnum": 12,
   "pages": [
