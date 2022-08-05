@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.OrePlacements;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -82,6 +83,18 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
             .put(ElementType.AIR, 1)
             .put(ElementType.FIRE, 1)
             .build());
+    public static final RandomElementTypeFeatureConfig LUSH_CAVE = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
+            .put(ElementType.WATER, 1)
+            .put(ElementType.EARTH, 5)
+            .build());
+    public static final RandomElementTypeFeatureConfig DRIPSTONE_CAVE = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
+            .put(ElementType.WATER, 1)
+            .put(ElementType.EARTH, 3)
+            .build());
+    public static final RandomElementTypeFeatureConfig DEEP_DARK = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
+            .put(ElementType.FIRE, 1)
+            .put(ElementType.EARTH, 3)
+            .build());
 
     public ECFeaturesProvider(DataGenerator dataGenerator, ExistingFileHelper existingFileHelper) {
         super(dataGenerator, existingFileHelper, Registry.PLACED_FEATURE_REGISTRY);
@@ -106,6 +119,13 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
         addSourceChanced(SourceFeature.NAME_PLAIN, PLAIN);
         addSourceChanced(SourceFeature.NAME_NETHER, NETHER, 30);
         addSourceChanced(SourceFeature.NAME_OCEAN, ElementTypeFeatureConfig.WATER, 400);
+        addSourceUnderground(SourceFeature.NAME_LUSH_CAVE, LUSH_CAVE);
+        addSourceUnderground(SourceFeature.NAME_DRIPSTONE_CAVE, DRIPSTONE_CAVE);
+        addSourceUnderground(SourceFeature.NAME_DEEP_DARK, DEEP_DARK);
+    }
+
+    private PlacedFeature addSourceUnderground(String nameLushCave, RandomElementTypeFeatureConfig lushCave) {
+        return addSourceChanced(nameLushCave, lushCave, sourcePlacementUnderground(RarityFilter.onAverageOnceEvery(10)));
     }
 
     private PlacedFeature addSourceChanced(String name, IElementTypeFeatureConfig config) {
@@ -123,10 +143,21 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
     private static List<PlacementModifier> sourcePlacement(PlacementModifier ... modifiers) {
         var list = Lists.newArrayList(SourcePlacement.INSTANCE, InSquarePlacement.spread(), BiomeFilter.biome());
 
+        addPlacement(list, modifiers);
+        return List.copyOf(list);
+    }
+
+    private static List<PlacementModifier> sourcePlacementUnderground(PlacementModifier ... modifiers) {
+        var list = Lists.newArrayList(InSquarePlacement.spread(), PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT, BiomeFilter.biome());
+
+        addPlacement(list, modifiers);
+        return List.copyOf(list);
+    }
+
+    private static void addPlacement(List<PlacementModifier> list, PlacementModifier ... modifiers) {
         if (modifiers != null && modifiers.length > 0) {
             list.addAll(Arrays.asList(modifiers));
         }
-        return List.copyOf(list);
     }
 
 }

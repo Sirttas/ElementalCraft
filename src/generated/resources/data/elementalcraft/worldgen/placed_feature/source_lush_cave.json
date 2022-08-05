@@ -1,0 +1,36 @@
+{
+  "feature": {
+    "type": "elementalcraft:source",
+    "config": {
+      "type": "random",
+      "element_type": {
+        "earth": 5,
+        "water": 1
+      }
+    }
+  },
+  "placement": [
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "absolute": 256
+        },
+        "min_inclusive": {
+          "above_bottom": 0
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 10
+    }
+  ]
+}

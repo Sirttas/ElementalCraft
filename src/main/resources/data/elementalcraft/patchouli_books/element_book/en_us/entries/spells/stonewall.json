@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.stonewall",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:stonewall'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 2,
+  "sortnum": 6,
   "pages": [
     {
       "type": "text",

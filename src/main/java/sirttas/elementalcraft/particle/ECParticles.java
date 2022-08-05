@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.particle;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,14 +33,9 @@ public class ECParticles {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerFactories(RegisterParticleProvidersEvent evt) {
-		registerFactory(SOURCE.get(), SourceParticle.FACTORY);
-		registerFactory(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
-		registerFactory(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
-	}
-
-	@SuppressWarnings("resource")
-	private static void registerFactory(ParticleType<ElementTypeParticleData> particleType, ParticleEngine.SpriteParticleRegistration<ElementTypeParticleData> factory) {
-		Minecraft.getInstance().particleEngine.register(particleType, factory);
+		evt.register(SOURCE.get(), SourceParticle.FACTORY);
+		evt.register(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
+		evt.register(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
 	}
 
 	private static <O extends ParticleOptions, T extends ParticleType<O>> RegistryObject<T> register(Supplier<T> type, String name) {

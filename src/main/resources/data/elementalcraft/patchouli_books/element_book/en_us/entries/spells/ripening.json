@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.ripening",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:ripening'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 9,
+  "sortnum": 13,
   "pages": [
     {
       "type": "text",

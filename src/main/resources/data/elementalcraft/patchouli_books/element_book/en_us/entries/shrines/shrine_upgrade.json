@@ -2,7 +2,7 @@
   "name": "item.elementalcraft.shrinebase",
   "category": "elementalcraft:shrines",
   "icon": "elementalcraft:shrine_upgrade_acceleration",
-  "advancement": "elementalcraft:pickup/shrine_upgrade_core",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/shrine_upgrade_core",
   "sortnum": 100,
   "pages": [

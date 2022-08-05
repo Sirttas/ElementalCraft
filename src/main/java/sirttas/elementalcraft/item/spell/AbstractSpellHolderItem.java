@@ -28,8 +28,6 @@ import sirttas.elementalcraft.spell.ToolActionSpell;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-import net.minecraft.world.item.Item.Properties;
-
 public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHolder {
 
 	protected AbstractSpellHolderItem(Properties properties) {

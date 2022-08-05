@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.util.Lazy;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -26,8 +27,8 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	private static final List<Block> AMETHYSTS = List.of(Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, Blocks.AMETHYST_CLUSTER);
-	private static final List<Block> SPRINGALINES = List.of(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get(), ECBlocks.SPRINGALINE_CLUSTER.get()); // FIXME
+	private static final Lazy<List<Block>> AMETHYSTS = Lazy.of(() -> List.of(Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, Blocks.AMETHYST_CLUSTER));
+	private static final Lazy<List<Block>> SPRINGALINES = Lazy.of(() -> List.of(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get(), ECBlocks.SPRINGALINE_CLUSTER.get()));
 
 	public BuddingShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.BREEDING_SHRINE, pos, state, PROPERTIES_KEY);
@@ -45,8 +46,8 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 	@Override
 	protected boolean doPeriod() {
 		return switch (this.getBlockState().getValue(BuddingShrineBlock.CRYSTAL_TYPE)) {
-			case SPRINGALINE -> grow(SPRINGALINES);
-			default -> grow(AMETHYSTS);
+			case SPRINGALINE -> grow(SPRINGALINES.get());
+			default -> grow(AMETHYSTS.get());
 		};
 	}
 

@@ -1,0 +1,14 @@
+{
+  "name": "elementalcraft.entry.reservoir",
+  "category": "elementalcraft:advanced",
+  "icon": "elementalcraft:fire_reservoir",
+  "advancement": "elementalcraft:pickup/crystallizer",
+  "turnin": "elementalcraft:pickup/crystallizer",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.reservoir0"
+    }
+  ]
+}

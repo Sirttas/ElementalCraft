@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.flame_cleave",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:flame_cleave'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 10,
+  "sortnum": 14,
   "pages": [
     {
       "type": "text",

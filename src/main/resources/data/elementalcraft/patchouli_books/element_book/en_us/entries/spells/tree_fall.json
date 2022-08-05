@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.tree_fall",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:tree_fall'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 8,
+  "sortnum": 12,
   "pages": [
     {
       "type": "text",

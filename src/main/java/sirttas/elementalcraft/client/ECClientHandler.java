@@ -28,7 +28,6 @@ import sirttas.elementalcraft.container.menu.screen.ECScreens;
 import sirttas.elementalcraft.gui.tooltip.ElementGaugeClientTooltip;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.curios.CuriosConstants;
-import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;

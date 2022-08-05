@@ -1,0 +1,14 @@
+{
+  "name": "item.elementalcraft.pure_element_holder",
+  "category": "elementalcraft:advanced",
+  "icon": "elementalcraft:pure_element_holder_air",
+  "advancement": "elementalcraft:pickup/drenched_iron_ingot",
+  "turnin": "elementalcraft:pickup/drenched_iron_ingot",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.pure_element_holder0"
+    }
+  ]
+}

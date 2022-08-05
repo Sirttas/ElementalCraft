@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.purifier",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:purifier",
-  "advancement": "elementalcraft:pickup/container",
+  "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/purifier",
   "sortnum": 13,
   "pages": [

@@ -34,6 +34,10 @@ public class ECBiomeTagsProvider extends BiomeTagsProvider {
 		tag(ECTags.Biomes.HAS_SOURCE_NETHER).addTags(BiomeTags.IS_NETHER);
 		tag(ECTags.Biomes.HAS_SOURCE_END).addTags(BiomeTags.IS_END);
 		tag(ECTags.Biomes.HAS_SOURCE_OCEAN).addTags(BiomeTags.IS_OCEAN);
+		tag(ECTags.Biomes.HAS_SOURCE_LUSH_CAVE).addTags(Tags.Biomes.IS_LUSH);
+		tag(ECTags.Biomes.HAS_SOURCE_DRIPSTONE_CAVE).add(Biomes.DRIPSTONE_CAVES);
+		tag(ECTags.Biomes.HAS_SOURCE_DEEP_DARK).add(Biomes.DEEP_DARK);
+
 		tag(ECTags.Biomes.HAS_SOURCE_ALL).addTags(ECTags.Biomes.HAS_SOURCE_ICY, ECTags.Biomes.HAS_SOURCE_JUNGLE, ECTags.Biomes.HAS_SOURCE_MUSHROOM, ECTags.Biomes.HAS_SOURCE_WET, ECTags.Biomes.HAS_SOURCE_DRY, ECTags.Biomes.HAS_SOURCE_FOREST, ECTags.Biomes.HAS_SOURCE_MOUNTAIN, ECTags.Biomes.HAS_SOURCE_HILL, ECTags.Biomes.HAS_SOURCE_PLAIN, ECTags.Biomes.HAS_SOURCE_NETHER, ECTags.Biomes.HAS_SOURCE_END, ECTags.Biomes.HAS_SOURCE_OCEAN);
 	}
 

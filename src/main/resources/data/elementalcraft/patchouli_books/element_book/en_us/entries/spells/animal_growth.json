@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.animal_growth",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:animal_growth'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 6,
+  "sortnum": 10,
   "pages": [
     {
       "type": "text",

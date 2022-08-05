@@ -81,9 +81,9 @@ public class SourceElementStorage extends StaticElementStorage {
 	}
 
 	private void checkExhausted() {
-		if (this.getElementAmount() <= 100) {
+		if (this.getElementAmount() <= 0) {
 			this.exhausted = true;
-		} else if (this.getElementAmount() >= this.elementCapacity - 100) {
+		} else if (this.getElementAmount() >= this.elementCapacity) {
 			this.exhausted = false;
 		}
 	}

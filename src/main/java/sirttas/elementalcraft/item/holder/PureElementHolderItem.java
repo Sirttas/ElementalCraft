@@ -50,13 +50,13 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 			ItemStack full = new ItemStack(this);
 			IElementStorage storage = getElementStorage(full);
 
-			ElementType.ALL_VALID.forEach(elementType -> storage.insertElement(this.getElementCapacity(elementType), elementType, false));
+			ElementType.ALL_VALID.forEach(elementType -> storage.insertElement(this.getElementCapacity(), elementType, false));
 			items.add(new ItemStack(this));
 			items.add(full);
 		}
 	}
 
-	public int getElementCapacity(ElementType type) {
+	public int getElementCapacity() {
 		return elementCapacity.getAsInt();
 	}
 
@@ -94,7 +94,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 
 		@Override
 		public int getElementCapacity(ElementType type) {
-			return PureElementHolderItem.this.getElementCapacity(type);
+			return PureElementHolderItem.this.getElementCapacity();
 		}
 
 		@Override

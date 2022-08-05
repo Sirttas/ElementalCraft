@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.gravelfall",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:gravelfall'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 1,
+  "sortnum": 5,
   "pages": [
     {
       "type": "text",

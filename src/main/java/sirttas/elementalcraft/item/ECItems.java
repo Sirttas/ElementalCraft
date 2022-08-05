@@ -182,10 +182,10 @@ public class ECItems {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-		event.getItemColors().register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), RECEPTACLE.get());
-		event.getItemColors().register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), PURE_ORE.get());
-		event.getItemColors().register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), SCROLL.get());
-		event.getItemColors().register((s, l) -> l == 0 ? -1 : ((ElementHolderItem) s.getItem()).getElementType().getColor(), FIRE_HOLDER.get(), WATER_HOLDER.get(), EARTH_HOLDER.get(), AIR_HOLDER.get());
+		event.register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), RECEPTACLE.get());
+		event.register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), PURE_ORE.get());
+		event.register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), SCROLL.get());
+		event.register((s, l) -> l == 0 ? -1 : ((ElementHolderItem) s.getItem()).getElementType().getColor(), FIRE_HOLDER.get(), WATER_HOLDER.get(), EARTH_HOLDER.get(), AIR_HOLDER.get());
 	}
 
 	private static <T extends Item>RegistryObject<T> register(Supplier<T> item, String name) {

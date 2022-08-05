@@ -214,9 +214,12 @@ public class ECTags {
 		public static final TagKey<Biome> HAS_SOURCE_HILL = createTag("has_sources/hill");
 		public static final TagKey<Biome> HAS_SOURCE_FOREST = createTag("has_sources/forest");
 		public static final TagKey<Biome> HAS_SOURCE_END = createTag("has_sources/end");
+        public static final TagKey<Biome> HAS_SOURCE_LUSH_CAVE = createTag("has_sources/lush_cave");
+        public static final TagKey<Biome> HAS_SOURCE_DRIPSTONE_CAVE = createTag("has_sources/dripstone_cave");
+		public static final TagKey<Biome> HAS_SOURCE_DEEP_DARK = createTag("has_sources/deep_dark");
 
 
-		private Biomes() {}
+        private Biomes() {}
 
 		private static TagKey<Biome> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);

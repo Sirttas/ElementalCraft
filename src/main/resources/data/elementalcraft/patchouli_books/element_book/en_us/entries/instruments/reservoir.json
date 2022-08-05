@@ -2,7 +2,7 @@
   "name": "elementalcraft.entry.reservoir",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:reservoir_fire",
-  "advancement": "elementalcraft:pickup/container",
+  "advancement": "elementalcraft:pickup/crystallizer",
   "turnin": "elementalcraft:pickup/container",
   "sortnum": 14,
   "pages": [

@@ -30,9 +30,6 @@ import sirttas.elementalcraft.block.ECBlocks;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-import net.minecraft.world.level.levelgen.structure.Structure.GenerationContext;
-import net.minecraft.world.level.levelgen.structure.Structure.GenerationStub;
-
 public class SourceAltarStructure extends Structure {
 
 	public static final String NAME = "source_altar";

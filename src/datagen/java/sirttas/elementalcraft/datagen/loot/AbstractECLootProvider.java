@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -15,8 +13,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public abstract class AbstractECLootProvider implements DataProvider {
-
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	protected final DataGenerator generator;
 

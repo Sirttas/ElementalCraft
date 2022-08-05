@@ -2,9 +2,9 @@
   "name": "spell.elementalcraft.ender_strike",
   "category": "elementalcraft:spells",
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:ender_strike'}}",
-  "advancement": "elementalcraft:pickup/scroll",
+  "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 4,
+  "sortnum": 8,
   "pages": [
     {
       "type": "text",

@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.api.pureore.injector;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -11,6 +10,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -60,7 +60,7 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 	@SuppressWarnings("unchecked")
 	public void init(RecipeManager recipeManager) {
 		this.recipeManager = recipeManager;
-		this.recipes = recipeManager.byType(recipeType.get()).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> (T) entry.getValue()));
+		this.recipes = recipeManager.byType(recipeType.get()).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
 	public boolean filter(T recipe, ItemStack stack) {
@@ -96,7 +96,7 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 	}
 
 	public ResourceLocation getRecipeTypeRegistryName() {
-		return Registry.RECIPE_TYPE.getKey(recipeType.get());
+		return ForgeRegistries.RECIPE_TYPES.getKey(recipeType.get());
 	}
 
 	@Override

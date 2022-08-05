@@ -4,9 +4,9 @@
 	"creative_tab": "elementalcraft",
 	"model": "elementalcraft:element_book",
 	"i18n": true, 
-	"version": 20,
+	"version": 21,
 	"macros": {
-		"$(ec:source)": "$(l:basics/source)",
+		"$(ec:source)": "$(l:sources/source)",
 		"$(ec:container)": "$(l:instruments/container)",
 		"$(ec:small_container)": "$(l:instruments/small_container)",
 		"$(ec:pipe)": "$(l:basics/elementpipe)",
