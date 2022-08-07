@@ -34,24 +34,42 @@ public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 	@Override
 	public void setChanged() {
 		if (this.hasLevel() && getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
-			level.getBlockEntity(worldPosition.below()).setChanged();
+			var lower = getLower();
+
+			if (lower != null) {
+				lower.setChanged();
+			}
 		}
 		super.setChanged();
 	}
-	
+
 	@Override
 	public ISingleElementStorage getElementStorage() {
 		if (getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
-			return ((ReservoirBlockEntity) level.getBlockEntity(worldPosition.below())).getElementStorage();
+			var lower = getLower();
+
+			if (lower != null) {
+				return lower.getElementStorage();
+			}
 		}
 		return elementStorage;
+	}
+
+	@Nullable
+	private ReservoirBlockEntity getLower() {
+		if (level == null) {
+			return null;
+		}
+		return (ReservoirBlockEntity) level.getBlockEntity(worldPosition.below());
 	}
 	
 	@Override
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY && this.getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
-			return this.hasLevel() ? level.getBlockEntity(worldPosition.below()).getCapability(cap, side) : LazyOptional.empty();
+			var lower = getLower();
+
+			return lower != null ? lower.getCapability(cap, side) : LazyOptional.empty();
 		}
 		return super.getCapability(cap, side);
 	}
