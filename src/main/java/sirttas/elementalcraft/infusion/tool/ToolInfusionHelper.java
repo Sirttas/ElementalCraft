@@ -1,20 +1,15 @@
 package sirttas.elementalcraft.infusion.tool;
 
-import java.util.Objects;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -28,11 +23,19 @@ import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
+import java.util.Objects;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 public class ToolInfusionHelper {
 
 	private ToolInfusionHelper() {}
 	
 	public static ToolInfusion getInfusion(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return null;
+		}
+
 		CompoundTag nbt = NBTHelper.getECTag(stack);
 
 		if (nbt != null && nbt.contains(ECNames.INFUSION, 8)) {
@@ -42,12 +45,20 @@ public class ToolInfusionHelper {
 	}
 	
 	public static void setInfusion(ItemStack stack, ToolInfusion infusion) {
+		if (stack.isEmpty()) {
+			return;
+		}
+
 		CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
 		
 		nbt.putString(ECNames.INFUSION, infusion.getId().toString());
 	}
 
 	public static void removeInfusion(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return;
+		}
+
 		CompoundTag nbt = NBTHelper.getECTag(stack);
 
 		if (!stack.isEmpty() && nbt != null && nbt.contains(ECNames.INFUSION)) {

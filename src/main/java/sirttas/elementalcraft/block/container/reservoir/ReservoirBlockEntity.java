@@ -33,7 +33,7 @@ public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 	
 	@Override
 	public void setChanged() {
-		if (this.hasLevel() && getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
+		if (isUpper()) {
 			var lower = getLower();
 
 			if (lower != null) {
@@ -45,7 +45,7 @@ public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 
 	@Override
 	public ISingleElementStorage getElementStorage() {
-		if (getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
+		if (isUpper()) {
 			var lower = getLower();
 
 			if (lower != null) {
@@ -53,6 +53,10 @@ public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 			}
 		}
 		return elementStorage;
+	}
+
+	private boolean isUpper() {
+		return getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER;
 	}
 
 	@Nullable
@@ -66,7 +70,7 @@ public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 	@Override
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY && this.getBlockState().getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
+		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY && isUpper()) {
 			var lower = getLower();
 
 			return lower != null ? lower.getCapability(cap, side) : LazyOptional.empty();

@@ -11,6 +11,7 @@ import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
 
 import javax.annotation.Nonnull;
 
@@ -38,7 +39,9 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 
 	@Override
 	protected void assemble() {
-		clearContent();
+		if (this.recipe instanceof BindingRecipe) {
+			clearContent();
+		}
 		super.assemble();
 	}
 	
