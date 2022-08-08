@@ -39,7 +39,7 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 		var target = getTargetPos();
 		TickingBlockEntity ticker = this.level.getChunkAt(target).tickersInLevel.get(target);
 		
-		if (ticker != null && !ticker.isRemoved()) {
+		if (ticker != null && !ticker.isRemoved() && !(this.level.getBlockEntity(target) instanceof AbstractShrineBlockEntity)) {
 			ticker.tick();
 			return true;
 		}

@@ -1,3 +1,10 @@
+1.18.2-4.4.20:
+
+- overload shrine can no longer accelerate shrines
+- fix shrine anchoring to upgrades of adjacent shrines (issue #101)
+- fix a potential crash with element holders
+
+
 1.18.2-4.4.19:
 
 - fix improve binder deleting tool with tool infusion (issue #100)

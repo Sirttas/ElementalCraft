@@ -96,33 +96,35 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	public void refresh() {
-		if (this.hasLevel()) {
-			elementStorage.refresh();
-
-			this.upgrades.clear();
-			this.upgradeMultipliers.clear();
-			getUpgradeDirections().forEach(direction -> {
-				BlockPos pos = getBlockPos().relative(direction);
-				BlockState state = this.getLevel().getBlockState(pos);
-				Block block = state.getBlock();
-	
-				if (block instanceof AbstractShrineUpgradeBlock shrineBlock) {
-					ShrineUpgrade upgrade = shrineBlock.getUpgrade();
-
-					if (upgrade != null) {
-						setUpgrade(direction, upgrade);
-					}
-				}
-			});
-			getUpgradeDirections().forEach(direction -> {
-				BlockPos pos = getBlockPos().relative(direction);
-				BlockState state = this.getLevel().getBlockState(pos);
-				
-				if (!state.canSurvive(this.level, pos)) {
-					this.level.destroyBlock(pos, true);
-				}
-			});
+		if (!this.hasLevel()) {
+			return;
 		}
+
+		elementStorage.refresh();
+
+		this.upgrades.clear();
+		this.upgradeMultipliers.clear();
+		getUpgradeDirections().forEach(direction -> {
+			BlockPos pos = getBlockPos().relative(direction);
+			BlockState state = this.getLevel().getBlockState(pos);
+			Block block = state.getBlock();
+
+			if (block instanceof AbstractShrineUpgradeBlock upgradeBlock && upgradeBlock.getFacing(state) == direction.getOpposite()) {
+				ShrineUpgrade upgrade = upgradeBlock.getUpgrade();
+
+				if (upgrade != null) {
+					setUpgrade(direction, upgrade);
+				}
+			}
+		});
+		getUpgradeDirections().forEach(direction -> {
+			BlockPos pos = getBlockPos().relative(direction);
+			BlockState state = this.getLevel().getBlockState(pos);
+
+			if (!state.canSurvive(this.level, pos)) {
+				this.level.destroyBlock(pos, true);
+			}
+		});
 	}
 
 	protected float getMultiplier(ShrineUpgrade.BonusType type) {
