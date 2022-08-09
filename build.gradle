@@ -321,7 +321,7 @@ if (use_modmaven || use_elemental_craft_repo) {
 def curseforge_key = System.getenv("CURSEFORGE_KEY") ?: project.findProperty("curseforge_key")
 def modrinth_token = System.getenv("MODRINTH_TOKEN") ?: project.findProperty("modrinth_token")
 def changeLog
-def releaseVersions = project.getProperty("release_versions").split(",")
+def releaseVersions = List.of(project.getProperty("release_versions").split(","))
 
 if (curseforge_key != null || modrinth_token != null) {
     def generatedChangelog = ""
@@ -364,7 +364,7 @@ if (curseforge_key != null) {
 	        		incompatible 'performant'
 				}
 			}
-            addGameVersion releaseVersions
+            releaseVersions.each { v -> addGameVersion(v) }
 		}
 	}
 }
