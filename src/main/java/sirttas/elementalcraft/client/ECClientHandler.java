@@ -16,7 +16,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
-import sirttas.elementalcraft.block.instrument.io.mill.AirMillRenderer;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeRenderer;
@@ -60,7 +60,7 @@ public class ECClientHandler {
 		event.register(ElementPipeRenderer.EXTRACT_LOCATION);
 		event.register(ElementPipeRenderer.PRIORITY_LOCATION);
 		event.register(SolarSynthesizerRenderer.LENSE_LOCATION);
-		event.register(AirMillRenderer.BLADES_LOCATION);
+		event.register(AirMillGrindstoneRenderer.BLADES_LOCATION);
 		event.register(DiffuserRenderer.CUBE_LOCATION);
 		event.register(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
 		event.register(VortexShrineUpgradeRenderer.RING_LOCATION);

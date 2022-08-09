@@ -32,6 +32,10 @@ public class ToolInfusionHelper {
 	private ToolInfusionHelper() {}
 	
 	public static ToolInfusion getInfusion(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return null;
+		}
+
 		CompoundTag nbt = NBTHelper.getECTag(stack);
 
 		if (nbt != null && nbt.contains(ECNames.INFUSION, 8)) {
@@ -41,12 +45,20 @@ public class ToolInfusionHelper {
 	}
 	
 	public static void setInfusion(ItemStack stack, ToolInfusion infusion) {
+		if (stack.isEmpty()) {
+			return;
+		}
+
 		CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
 		
 		nbt.putString(ECNames.INFUSION, infusion.getId().toString());
 	}
 
 	public static void removeInfusion(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return;
+		}
+
 		CompoundTag nbt = NBTHelper.getECTag(stack);
 
 		if (!stack.isEmpty() && nbt != null && nbt.contains(ECNames.INFUSION)) {

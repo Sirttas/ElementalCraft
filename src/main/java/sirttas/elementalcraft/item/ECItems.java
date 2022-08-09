@@ -90,6 +90,7 @@ public class ECItems {
 	public static final RegistryObject<ECItem> SWIFT_ALLOY_INGOT = register(ECItem::new, "swift_alloy_ingot");
 	public static final RegistryObject<ECItem> SWIFT_ALLOY_NUGGET = register(ECItem::new, "swift_alloy_nugget");
 	public static final RegistryObject<ECItem> HARDENED_HANDLE = register(ECItem::new, "hardened_handle");
+	public static final RegistryObject<ECItem> DRENCHED_SAW_BLADE = register(ECItem::new, "drenched_saw_blade");
 	public static final RegistryObject<ECItem> SHRINE_BASE = register(ECItem::new, "shrinebase");
 	public static final RegistryObject<ECItem> FIREITE_INGOT = register(ECItem::new, "fireite_ingot");
 	public static final RegistryObject<ECItem> FIREITE_NUGGET = register(ECItem::new, "fireite_nugget");

@@ -4,7 +4,7 @@
   "icon": "elementalcraft:spawningshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/spawningshrine",
-  "sortnum": 14,
+  "sortnum": 15,
   "pages": [
     {
       "type": "text",

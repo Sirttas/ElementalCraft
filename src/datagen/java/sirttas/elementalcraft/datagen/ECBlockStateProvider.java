@@ -27,7 +27,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
-import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlock;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
@@ -36,6 +36,7 @@ import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.vertical.AbstractVerticalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.block.sorter.SorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
@@ -130,7 +131,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			getMultipartBuilder(block).part().modelFile(base).addModel().end()
 				.part().modelFile(amethyst).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.AMETHYST).end()
 				.part().modelFile(springaline).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.SPRINGALINE).end();
-		} else if (block instanceof AirMillBlock) {
+		} else if (block instanceof AirMillGrindstoneBlock) {
 			getVariantBuilder(block)
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(air))
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(models().getExistingFile(prefix(name))));
@@ -184,6 +185,14 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			springalineCluster(key, block);
 		} else if (block.defaultBlockState().hasProperty(HorizontalDirectionalBlock.FACING)) {
 			horizontalBlock(block, models().getExistingFile(prefix(name)));
+		} else if (block.defaultBlockState().hasProperty(AbstractVerticalShrineUpgradeBlock.FACING)) {
+			var model = models().getExistingFile(prefix(name));
+
+			getVariantBuilder(block)
+					.forAllStates(state -> ConfiguredModel.builder()
+							.modelFile(model)
+							.rotationX(state.getValue(AbstractVerticalShrineUpgradeBlock.FACING) == Direction.DOWN ? 180 : 0)
+							.build());
 		} else if (block.defaultBlockState().hasProperty(DirectionalBlock.FACING)) {
 			directionalBlock(block, models().getExistingFile(prefix(name)));
 		} else if (block.defaultBlockState().hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {

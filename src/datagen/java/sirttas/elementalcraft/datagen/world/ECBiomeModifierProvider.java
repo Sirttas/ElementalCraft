@@ -40,6 +40,7 @@ public class ECBiomeModifierProvider extends AbstractECJsonCodecProvider<BiomeMo
         addSources(SourceFeature.NAME_LUSH_CAVE, ECTags.Biomes.HAS_SOURCE_LUSH_CAVE);
         addSources(SourceFeature.NAME_DRIPSTONE_CAVE, ECTags.Biomes.HAS_SOURCE_DRIPSTONE_CAVE);
         addSources(SourceFeature.NAME_DEEP_DARK, ECTags.Biomes.HAS_SOURCE_DEEP_DARK);
+        addSources(SourceFeature.NAME_UNDERGROUND, ECTags.Biomes.HAS_SOURCE_UNDERGROUND);
     }
 
     private BiomeModifier addSources(String feature, TagKey<Biome> biomes) {

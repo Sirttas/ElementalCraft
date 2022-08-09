@@ -37,6 +37,7 @@ import sirttas.elementalcraft.interaction.jei.category.instrument.InscriptionRec
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.GrindingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.InfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.PurificationRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.instrument.io.SawingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientHelper;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientRenderer;
@@ -119,6 +120,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new PureInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new PurificationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new GrindingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new SawingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SpellCraftRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
@@ -143,7 +145,8 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EARTH_PEDESTAL.get()), ECJEIRecipeTypes.PURE_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_PEDESTAL.get()), ECJEIRecipeTypes.PURE_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.PURIFIER.get()), ECJEIRecipeTypes.PURIFICATION);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL.get()), ECJEIRecipeTypes.GRINDING);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()), ECJEIRecipeTypes.GRINDING);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_MILL_WOOD_SAW.get()), ECJEIRecipeTypes.SAWING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPELL_DESK.get()), ECJEIRecipeTypes.SPELL_CRAFTING);
 		
 		if (ECinteractions.isMekanismActive()) {
@@ -166,6 +169,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.INSCRIPTION, recipeManager.getAllRecipesFor(ECRecipeTypes.INSCRIPTION.get()));
 		registry.addRecipes(ECJEIRecipeTypes.PURE_INFUSION, recipeManager.getAllRecipesFor(ECRecipeTypes.PURE_INFUSION.get()));
 		registry.addRecipes(ECJEIRecipeTypes.GRINDING, recipeManager.getAllRecipesFor(ECRecipeTypes.AIR_MILL_GRINDING.get()));
+		registry.addRecipes(ECJEIRecipeTypes.SAWING, recipeManager.getAllRecipesFor(ECRecipeTypes.SAWING.get()));
 		registry.addRecipes(ECJEIRecipeTypes.SPELL_CRAFTING, recipeManager.getAllRecipesFor(ECRecipeTypes.SPELL_CRAFT.get()));
 		registry.addRecipes(ECJEIRecipeTypes.PURIFICATION, ElementalCraft.PURE_ORE_MANAGER.getRecipes());
 		registry.addRecipes(RecipeTypes.ANVIL, createCastToolsAnvilRecipes(registry.getVanillaRecipeFactory()));

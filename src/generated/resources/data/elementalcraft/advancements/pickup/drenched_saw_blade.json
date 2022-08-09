@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_drenched_saw_blade": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:drenched_saw_blade"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_saw_blade"
+    ]
+  ]
+}

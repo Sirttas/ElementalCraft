@@ -1,0 +1,125 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"render_type": "minecraft:cutout",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "elementalcraft:block/air_mill_grindstone",
+		"1": "elementalcraft:block/iron",
+		"2": "elementalcraft:block/air_mill_grindstone_blades",
+		"particle": "elementalcraft:block/air_mill_grindstone_blades"
+	},
+	"elements": [
+		{
+			"from": [7, 12, 7],
+			"to": [9, 28, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 4, 15]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#1"},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#1"}
+			}
+		},
+		{
+			"from": [7, 0, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#1"},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#1"},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#1"}
+			}
+		},
+		{
+			"from": [4, 1, 4],
+			"to": [12, 4, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 9, 12]},
+			"faces": {
+				"north": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"east": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"south": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"west": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"up": {"uv": [0, 0, 8, 8], "texture": "#0"},
+				"down": {"uv": [0, 0, 8, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [9, 11, 8],
+			"to": [14, 27, 9],
+			"faces": {
+				"south": {"uv": [0, 0, 5, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [2, 11, 7],
+			"to": [7, 27, 8],
+			"faces": {
+				"north": {"uv": [0, 0, 5, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [7, 11, 9],
+			"to": [8, 27, 14],
+			"faces": {
+				"west": {"uv": [0, 0, 5, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [8, 11, 2],
+			"to": [9, 27, 7],
+			"faces": {
+				"east": {"uv": [0, 0, 5, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [9, 11, 9],
+			"to": [14, 27, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"faces": {
+				"north": {"uv": [11, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [2, 11, 6],
+			"to": [7, 27, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"faces": {
+				"south": {"uv": [11, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [6, 11, 9],
+			"to": [7, 27, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"faces": {
+				"east": {"uv": [11, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [9, 11, 2],
+			"to": [10, 27, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"faces": {
+				"west": {"uv": [11, 0, 16, 16], "texture": "#2"}
+			}
+		}
+	],
+	"groups": [0, 1, 2,
+		{
+			"name": "blades",
+			"origin": [15, 38, 14],
+			"children": [3, 4, 5, 6]
+		},
+		{
+			"name": "blades_revers",
+			"origin": [15, 38, 14],
+			"children": [7, 8, 9, 10]
+		}
+	]
+}

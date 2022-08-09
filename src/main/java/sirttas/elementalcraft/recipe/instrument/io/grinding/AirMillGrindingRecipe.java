@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 
@@ -59,7 +59,7 @@ public record AirMillGrindingRecipe(
 	}
 
 	@Override
-	public int getLuck(AirMillBlockEntity instrument) {
+	public int getLuck(AirMillGrindstoneBlockEntity instrument) {
 		return Math.round(instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK) * luckRation);
 	}
 
@@ -76,7 +76,7 @@ public record AirMillGrindingRecipe(
 			if (!output.isEmpty()) {
 				return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
 			}
-			throw new IllegalStateException("Binding recipe output is empty!");
+			throw new IllegalStateException("Grinding recipe output is empty!");
 		}
 
 		@Override

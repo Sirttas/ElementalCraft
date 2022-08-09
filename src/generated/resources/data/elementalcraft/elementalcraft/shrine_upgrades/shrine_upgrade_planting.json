@@ -4,7 +4,7 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:harvestshrine"
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:shrines/upgradables/planting"
   }
 }

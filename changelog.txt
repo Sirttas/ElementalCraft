@@ -1,3 +1,18 @@
+1.19.1-5.2.1:
+
+- new instrument: water mill wood saw
+- new shrine: lumber shrine
+- air mill can now grind dripstone blocks
+- use standard forge tool/armor tags
+- add any element source in underground biomes
+- fix underground source spawn
+- overload shrine can no longer accelerate shrines
+- fix a crash with reservoirs (issue #99)
+- fix improve binder deleting tool with tool infusion (issue #100)
+- fix shrine anchoring to upgrades of adjacent shrines (issue #101)
+- fix a potential crash with element holders
+
+
 1.19.1-5.2.0:
 
 - bump to 1.19.1
@@ -13,7 +28,7 @@
 - new block: source breeder pedestal
 - add sources in jei
 - port all changes from 1.18
-- fix elementopedai entry (PR #96)
+- fix elementopedia entry (PR #96)
 
 
 1.19-5.0.1:

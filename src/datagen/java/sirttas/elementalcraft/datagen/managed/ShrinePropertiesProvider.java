@@ -13,6 +13,7 @@ import sirttas.elementalcraft.block.shrine.grove.GroveShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.growth.GrowthShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlockEntity;
+import sirttas.elementalcraft.block.shrine.lumber.LumberShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -35,6 +36,7 @@ public class ShrinePropertiesProvider extends AbstractManagedDataBuilderProvider
 		builder(VacuumShrineBlockEntity.PROPERTIES_KEY, ElementType.AIR).consumption(5).range(10).strength(2);
 		builder(GrowthShrineBlockEntity.PROPERTIES_KEY, ElementType.WATER).period(20).consumption(50).range(4);
 		builder(HarvestShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH).period(20).consumption(100).range(4);
+		builder(LumberShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH).period(10).consumption(50).range(4);
 		builder(LavaShrineBlockEntity.PROPERTIES_KEY, ElementType.FIRE).period(1200).consumption(5000).range(1);
 		builder(OreShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH).period(200).consumption(2000).range(12);
 		builder(OverloadShrineBlockEntity.PROPERTIES_KEY, ElementType.AIR).period(3).consumption(10);

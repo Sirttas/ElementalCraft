@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_lumbershrine": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:lumbershrine"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_lumbershrine"
+    ]
+  ]
+}

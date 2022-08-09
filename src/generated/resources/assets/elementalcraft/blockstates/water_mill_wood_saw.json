@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,waterlogged=false": {
+      "model": "elementalcraft:block/water_mill_wood_saw",
+      "y": 90
+    },
+    "facing=east,waterlogged=true": {
+      "model": "elementalcraft:block/water_mill_wood_saw",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "elementalcraft:block/water_mill_wood_saw"
+    },
+    "facing=north,waterlogged=true": {
+      "model": "elementalcraft:block/water_mill_wood_saw"
+    },
+    "facing=south,waterlogged=false": {
+      "model": "elementalcraft:block/water_mill_wood_saw",
+      "y": 180
+    },
+    "facing=south,waterlogged=true": {
+      "model": "elementalcraft:block/water_mill_wood_saw",
+      "y": 180
+    },
+    "facing=west,waterlogged=false": {
+      "model": "elementalcraft:block/water_mill_wood_saw",
+      "y": 270
+    },
+    "facing=west,waterlogged=true": {
+      "model": "elementalcraft:block/water_mill_wood_saw",
+      "y": 270
+    }
+  }
+}

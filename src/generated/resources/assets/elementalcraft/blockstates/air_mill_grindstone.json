@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "elementalcraft:block/air_mill_grindstone"
+    },
+    "half=upper": {
+      "model": "minecraft:block/air"
+    }
+  }
+}

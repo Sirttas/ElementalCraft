@@ -36,7 +36,7 @@ public class MekanismInteraction {
 	}
 
 	public static void addAirMillToCrushing(IRecipeCatalystRegistration registry) {
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL.get()), MekanismJEI.recipeType(MekanismJEIRecipeType.CRUSHING));
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()), MekanismJEI.recipeType(MekanismJEIRecipeType.CRUSHING));
 	}
 
 	public static IGrindingRecipe lookupCrusherRecipe(Level world, Container inv) {

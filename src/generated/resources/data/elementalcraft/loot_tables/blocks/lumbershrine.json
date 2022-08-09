@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:lumbershrine"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "ops": [
+            {
+              "op": "replace",
+              "source": "element_storage",
+              "target": "BlockEntityTag.element_storage"
+            }
+          ],
+          "source": "block_entity"
+        }
+      ],
+      "name": "main",
+      "rolls": 1.0
+    }
+  ]
+}

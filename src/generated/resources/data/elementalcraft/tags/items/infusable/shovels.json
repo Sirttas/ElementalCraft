@@ -1,35 +1,5 @@
 {
   "values": [
-    "minecraft:diamond_shovel",
-    "minecraft:golden_shovel",
-    "minecraft:iron_shovel",
-    "minecraft:netherite_shovel",
-    "minecraft:stone_shovel",
-    "minecraft:wooden_shovel",
-    "#forge:shovels",
-    {
-      "id": "mekanismtools:bronze_shovel",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_shovel",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_shovel",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_shovel",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_shovel",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_shovel",
-      "required": false
-    }
+    "#forge:tools/shovels"
   ]
 }

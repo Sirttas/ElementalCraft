@@ -4,7 +4,7 @@
   "icon": "elementalcraft:buddingshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/buddingshrine",
-  "sortnum": 13,
+  "sortnum": 14,
   "pages": [
     {
       "type": "text",

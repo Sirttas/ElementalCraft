@@ -1,0 +1,28 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 5000,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    },
+    {
+      "tag": "elementalcraft:gems/crude_earth"
+    },
+    {
+      "item": "elementalcraft:drenched_saw_blade"
+    },
+    {
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "item": "minecraft:shears"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:lumbershrine"
+  }
+}

@@ -1,35 +1,5 @@
 {
   "values": [
-    "minecraft:diamond_pickaxe",
-    "minecraft:golden_pickaxe",
-    "minecraft:iron_pickaxe",
-    "minecraft:netherite_pickaxe",
-    "minecraft:stone_pickaxe",
-    "minecraft:wooden_pickaxe",
-    "#forge:pickaxes",
-    {
-      "id": "mekanismtools:bronze_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_pickaxe",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_pickaxe",
-      "required": false
-    }
+    "#forge:tools/pickaxes"
   ]
 }

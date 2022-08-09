@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_air_mill_grindstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:air_mill_grindstone"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_air_mill_grindstone"
+    ]
+  ]
+}

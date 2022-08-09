@@ -202,12 +202,11 @@ dependencies {
     datagenImplementation sourceSets.api.output
     datagenImplementation sourceSets.main.output
     datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
-    datagenImplementation fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")
  //   datagenImplementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
  //   datagenImplementation fg.deobf("vazkii.botania:Botania:${botania_version}")
  /*   datagenImplementation fg.deobf("net.silentchaos512:silent-gear:${silentgear_version}") {
         exclude module: 'forge'
-        exclude module: 'jei-1.18.2'
+        exclude module: 'jei-1.19.2'
         exclude module: 'silent-lib'
         exclude module: 'curios-forge'
     }
@@ -322,6 +321,7 @@ if (use_modmaven || use_elemental_craft_repo) {
 def curseforge_key = System.getenv("CURSEFORGE_KEY") ?: project.findProperty("curseforge_key")
 def modrinth_token = System.getenv("MODRINTH_TOKEN") ?: project.findProperty("modrinth_token")
 def changeLog
+def releaseVersions = project.getProperty("release_versions").split(",")
 
 if (curseforge_key != null || modrinth_token != null) {
     def generatedChangelog = ""
@@ -364,7 +364,7 @@ if (curseforge_key != null) {
 	        		incompatible 'performant'
 				}
 			}
-			addGameVersion "${minecraft_version}"
+            addGameVersion releaseVersions
 		}
 	}
 }
@@ -376,7 +376,7 @@ if (modrinth_token != null) {
         versionNumber = project.version
         versionType = "${release_type}"
         uploadFile = jar
-        gameVersions = ["${minecraft_version}"]
+        gameVersions = releaseVersions
         loaders = ["forge"]
         changelog = changeLog
         dependencies {

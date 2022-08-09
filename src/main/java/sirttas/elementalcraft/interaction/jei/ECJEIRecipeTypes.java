@@ -17,6 +17,7 @@ import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 
 public class ECJEIRecipeTypes {
 
@@ -33,6 +34,7 @@ public class ECJEIRecipeTypes {
     public static final RecipeType<PureInfusionRecipe> PURE_INFUSION = create(PureInfusionRecipe.NAME, PureInfusionRecipe.class);
     public static final RecipeType<IPurifierRecipe> PURIFICATION = create(PurificationRecipeCategory.NAME, IPurifierRecipe.class);
     public static final RecipeType<IGrindingRecipe> GRINDING = create(IGrindingRecipe.NAME, IGrindingRecipe.class);
+    public static final RecipeType<SawingRecipe> SAWING = create(SawingRecipe.NAME, SawingRecipe.class);
     public static final RecipeType<SpellCraftRecipe> SPELL_CRAFTING = create(SpellCraftRecipe.NAME, SpellCraftRecipe.class);
 
     private static <T> RecipeType<T> create(String path, Class<? extends T> recipeClass) {

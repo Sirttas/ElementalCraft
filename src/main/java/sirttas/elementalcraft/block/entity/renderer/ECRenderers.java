@@ -18,7 +18,8 @@ import sirttas.elementalcraft.block.instrument.binder.BinderRenderer;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerRenderer;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberRenderer;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceRenderer;
-import sirttas.elementalcraft.block.instrument.io.mill.AirMillRenderer;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneRenderer;
+import sirttas.elementalcraft.block.instrument.io.mill.saw.WaterMillWoodSawRenderer;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
@@ -53,7 +54,8 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.BINDER_IMPROVED, BinderRenderer::new);
 		register(ECBlockEntityTypes.CRYSTALLIZER, CrystallizerRenderer::new);
 		register(ECBlockEntityTypes.INSCRIBER, InscriberRenderer::new);
-		register(ECBlockEntityTypes.AIR_MILL, AirMillRenderer::new);
+		register(ECBlockEntityTypes.AIR_MILL_GRINDSTONE, AirMillGrindstoneRenderer::new);
+		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, WaterMillWoodSawRenderer::new);
 		register(ECBlockEntityTypes.PEDESTAL, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
 		register(ECBlockEntityTypes.PURE_INFUSER, PureInfuserRenderer::new);
 		register(ECBlockEntityTypes.FIRE_FURNACE, FireFurnaceRenderer::new);
@@ -75,6 +77,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.SWEET_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.GROWTH_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.HARVEST_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.LUMBER_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.ENDER_LOCK_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.SPRING_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.VACUUM_SHRINE, ShrineRenderer::new);

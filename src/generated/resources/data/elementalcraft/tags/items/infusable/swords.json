@@ -1,35 +1,5 @@
 {
   "values": [
-    "minecraft:diamond_sword",
-    "minecraft:golden_sword",
-    "minecraft:iron_sword",
-    "minecraft:netherite_sword",
-    "minecraft:stone_sword",
-    "minecraft:wooden_sword",
-    "#forge:swords",
-    {
-      "id": "mekanismtools:bronze_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:lapis_lazuli_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:osmium_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_glowstone_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:refined_obsidian_sword",
-      "required": false
-    },
-    {
-      "id": "mekanismtools:steel_sword",
-      "required": false
-    }
+    "#forge:tools/swords"
   ]
 }

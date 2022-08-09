@@ -4,7 +4,7 @@
   "icon": "elementalcraft:extractor_improved",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/extractor_improved",
-  "sortnum": 12,
+  "sortnum": 13,
   "pages": [
     {
       "type": "text",

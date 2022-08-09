@@ -92,7 +92,7 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
             .put(ElementType.EARTH, 3)
             .build());
     public static final RandomElementTypeFeatureConfig DEEP_DARK = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
-            .put(ElementType.FIRE, 1)
+            .put(ElementType.AIR, 1)
             .put(ElementType.EARTH, 3)
             .build());
 
@@ -122,10 +122,15 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
         addSourceUnderground(SourceFeature.NAME_LUSH_CAVE, LUSH_CAVE);
         addSourceUnderground(SourceFeature.NAME_DRIPSTONE_CAVE, DRIPSTONE_CAVE);
         addSourceUnderground(SourceFeature.NAME_DEEP_DARK, DEEP_DARK);
+        addSourceUnderground(SourceFeature.NAME_UNDERGROUND, ALL, 100);
     }
 
     private PlacedFeature addSourceUnderground(String nameLushCave, RandomElementTypeFeatureConfig lushCave) {
-        return addSourceChanced(nameLushCave, lushCave, sourcePlacementUnderground(RarityFilter.onAverageOnceEvery(10)));
+        return addSourceUnderground(nameLushCave, lushCave, 10);
+    }
+
+    private PlacedFeature addSourceUnderground(String nameLushCave, RandomElementTypeFeatureConfig lushCave, int chance) {
+        return addSourceChanced(nameLushCave, lushCave, sourcePlacementUnderground(RarityFilter.onAverageOnceEvery(chance)));
     }
 
     private PlacedFeature addSourceChanced(String name, IElementTypeFeatureConfig config) {

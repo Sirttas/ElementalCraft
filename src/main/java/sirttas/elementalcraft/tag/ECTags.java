@@ -94,21 +94,6 @@ public class ECTags {
 		public static final TagKey<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
 		public static final TagKey<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
 		public static final TagKey<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");
-		
-		public static final TagKey<Item> FORGE_SWORDS = createForgeTag("swords");
-		public static final TagKey<Item> FORGE_PICKAXES = createForgeTag("pickaxes");
-		public static final TagKey<Item> FORGE_AXES = createForgeTag("axes");
-		public static final TagKey<Item> FORGE_SHOVELS = createForgeTag("shovels");
-		public static final TagKey<Item> FORGE_HOES = createForgeTag("hoes");
-		public static final TagKey<Item> FORGE_SHILDS = createForgeTag("shields");
-		public static final TagKey<Item> FORGE_BOWS = createForgeTag("bows");
-		public static final TagKey<Item> FORGE_CROSSBOWS = createForgeTag("crossbows");
-		public static final TagKey<Item> FORGE_HELMETS = createForgeTag("helmets");
-		public static final TagKey<Item> FORGE_CHESTPLATES = createForgeTag("chestplates");
-		public static final TagKey<Item> FORGE_LEGGINGS = createForgeTag("leggings");
-		public static final TagKey<Item> FORGE_BOOTS = createForgeTag("boots");
-
-		public static final TagKey<Item> INGOTS_MANASTEEL = createTag(ECNames.FORGE, "ingots/manasteel");
 		public static final TagKey<Item> INGOTS_DRENCHED_IRON = createForgeTag("ingots/drenched_iron");
 		public static final TagKey<Item> INGOTS_SWIFT_ALLOY = createForgeTag("ingots/swift_alloy");
 		public static final TagKey<Item> INGOTS_FIREITE = createForgeTag("ingots/fireite");
@@ -122,7 +107,17 @@ public class ECTags {
 
 		public static final TagKey<Item> CURIOS_ELEMENT_HOLDER = createTag("curios", CuriosConstants.ELEMENT_HOLDER_SLOT);
 
-		private Items() {}
+		public static final TagKey<Item> STRIPPED_OAK = createTag("stripped_oak");
+		public static final TagKey<Item> STRIPPED_DARK_OAK = createTag("stripped_dark_oak");
+		public static final TagKey<Item> STRIPPED_BIRCH = createTag("stripped_birch");
+		public static final TagKey<Item> STRIPPED_ACACIA = createTag("stripped_acacia");
+		public static final TagKey<Item> STRIPPED_JUNGLE = createTag("stripped_jungle");
+		public static final TagKey<Item> STRIPPED_SPRUCE = createTag("stripped_spruce");
+		public static final TagKey<Item> STRIPPED_MANGROVE = createTag("stripped_mangrove");
+		public static final TagKey<Item> STRIPPED_CRIMSON = createTag("stripped_crimson");
+		public static final TagKey<Item> STRIPPED_WARPED = createTag("stripped_warped");
+
+        private Items() {}
 		
 		private static TagKey<Item> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);
@@ -174,6 +169,9 @@ public class ECTags {
 		public static final TagKey<Block> SHRINES_UPGRADABLES_RANGE = createTag("shrines/upgradables/range");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_STRENGTH = createTag("shrines/upgradables/strength");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_PROTECTION = createTag("shrines/upgradables/protection");
+		public static final TagKey<Block> SHRINES_UPGRADABLES_PLANTING = createTag("shrines/upgradables/planting");
+
+		public static final TagKey<Block> TREE_PARTS = createTag("tree_parts");
 
 		public static final TagKey<Block> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
 		public static final TagKey<Block> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
@@ -182,6 +180,17 @@ public class ECTags {
 		public static final TagKey<Block> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
 
 		public static final TagKey<Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
+
+
+		public static final TagKey<Block> STRIPPED_OAK = createTag("stripped_oak");
+		public static final TagKey<Block> STRIPPED_DARK_OAK = createTag("stripped_dark_oak");
+		public static final TagKey<Block> STRIPPED_BIRCH = createTag("stripped_birch");
+		public static final TagKey<Block> STRIPPED_ACACIA = createTag("stripped_acacia");
+		public static final TagKey<Block> STRIPPED_JUNGLE = createTag("stripped_jungle");
+		public static final TagKey<Block> STRIPPED_SPRUCE = createTag("stripped_spruce");
+		public static final TagKey<Block> STRIPPED_MANGROVE = createTag("stripped_mangrove");
+		public static final TagKey<Block> STRIPPED_CRIMSON = createTag("stripped_crimson");
+		public static final TagKey<Block> STRIPPED_WARPED = createTag("stripped_warped");
 
 		private Blocks() {}
 
@@ -217,6 +226,7 @@ public class ECTags {
         public static final TagKey<Biome> HAS_SOURCE_LUSH_CAVE = createTag("has_sources/lush_cave");
         public static final TagKey<Biome> HAS_SOURCE_DRIPSTONE_CAVE = createTag("has_sources/dripstone_cave");
 		public static final TagKey<Biome> HAS_SOURCE_DEEP_DARK = createTag("has_sources/deep_dark");
+		public static final TagKey<Biome> HAS_SOURCE_UNDERGROUND = createTag("has_sources/underground");
 
 
         private Biomes() {}

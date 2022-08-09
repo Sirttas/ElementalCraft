@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    },
+    "g": {
+      "item": "minecraft:grindstone"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    },
+    "p": {
+      "tag": "minecraft:wool_carpets"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "pip",
+    "igi",
+    "wcw"
+  ],
+  "result": {
+    "item": "elementalcraft:air_mill_grindstone"
+  }
+}

@@ -83,7 +83,8 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	@Override
 	public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
 		BlockPos pos = this.getSavedPos(stack);
-		double reach = player.getAttribute(ForgeMod.REACH_DISTANCE.get()).getValue();
+		var reachAttribute = player.getAttribute(ForgeMod.REACH_DISTANCE.get());
+		double reach = reachAttribute != null ? reachAttribute.getValue() : 5;
 		
 		if (player.blockPosition().distSqr(pos) + 1 > reach * reach || !this.tick(player.getLevel(), player, pos, stack).consumesAction()) {
 			player.releaseUsingItem();

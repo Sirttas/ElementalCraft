@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "elementalcraft:air_silk"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    },
+    "n": {
+      "tag": "forge:nuggets/drenched_iron"
+    }
+  },
+  "pattern": [
+    "nin",
+    "iai",
+    "nin"
+  ],
+  "result": {
+    "item": "elementalcraft:drenched_saw_blade"
+  }
+}

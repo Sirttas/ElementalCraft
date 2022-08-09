@@ -4,7 +4,7 @@
   "element_type": "earth",
   "ingredients": [
     {
-      "item": "elementalcraft:growthshrine"
+      "item": "elementalcraft:shrinebase"
     },
     {
       "item": "elementalcraft:earthcrystal"
@@ -14,9 +14,6 @@
     },
     {
       "item": "minecraft:diamond_hoe"
-    },
-    {
-      "item": "minecraft:diamond_axe"
     },
     {
       "item": "minecraft:shears"

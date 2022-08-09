@@ -4,7 +4,7 @@
   "icon": "elementalcraft:breedingshrine",
   "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:pickup/breedingshrine",
-  "sortnum": 10,
+  "sortnum": 11,
   "pages": [
     {
       "type": "text",

@@ -1,0 +1,11 @@
+{
+  "type": "elementalcraft:sawing",
+  "element_amount": 1000,
+  "input": {
+    "item": "minecraft:acacia_log"
+  },
+  "luck_ration": 0,
+  "output": {
+    "item": "minecraft:stripped_acacia_log"
+  }
+}

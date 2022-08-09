@@ -3,12 +3,12 @@ package sirttas.elementalcraft.spell.earth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayDeque;
@@ -24,7 +24,7 @@ public class TreeFallSpell extends Spell {
 	}
 
 	private boolean isValidBlock(BlockState state) {
-		return state.is(BlockTags.LOGS) ||state.is(BlockTags.LEAVES);
+		return state.is(ECTags.Blocks.TREE_PARTS);
 	}
 
 	private void cutTree(Entity sender, Level world, BlockPos target) {

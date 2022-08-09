@@ -1,6 +1,17 @@
 {
   "variants": {
-    "": {
+    "facing=down,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_planting",
+      "x": 180
+    },
+    "facing=down,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_planting",
+      "x": 180
+    },
+    "facing=up,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_planting"
+    },
+    "facing=up,waterlogged=true": {
       "model": "elementalcraft:block/shrine_upgrade_planting"
     }
   }

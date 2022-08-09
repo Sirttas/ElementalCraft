@@ -39,7 +39,8 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.BINDER_IMPROVED, list);
 		addItem(ECBlocks.CRYSTALLIZER, list);
 		addItem(ECBlocks.INSCRIBER, list);
-		addItem(ECBlocks.AIR_MILL, list);
+		addItem(ECBlocks.AIR_MILL_GRINDSTONE, list);
+		addItem(ECBlocks.WATER_MILL_WOOD_SAW, list);
 		addItem(ECBlocks.FIRE_PEDESTAL, list);
 		addItem(ECBlocks.WATER_PEDESTAL, list);
 		addItem(ECBlocks.EARTH_PEDESTAL, list);
@@ -67,6 +68,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.VACUUM_SHRINE, list);
 		addItem(ECBlocks.GROWTH_SHRINE, list);
 		addItem(ECBlocks.HARVEST_SHRINE, list);
+		addItem(ECBlocks.LUMBER_SHRINE, list);
 		addItem(ECBlocks.LAVA_SHRINE, list);
 		addItem(ECBlocks.ORE_SHRINE, list);
 		addItem(ECBlocks.OVERLOAD_SHRINE, list);
@@ -195,6 +197,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECItems.AIR_LENS, list);
 		addItem(ECItems.AIR_SILK, list);
 		addItem(ECItems.HARDENED_HANDLE, list);
+		addItem(ECItems.DRENCHED_SAW_BLADE, list);
 		addItem(ECItems.SCROLL_PAPER, list);
 		addItem(ECItems.SHRINE_BASE, list);
 		addItem(ECItems.SHRINE_UPGRADE_CORE, list);

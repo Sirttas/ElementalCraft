@@ -11,6 +11,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlock;
 import sirttas.elementalcraft.item.elemental.LensItem;
 
 import java.util.Map;
@@ -18,17 +19,18 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class MissingMappingsHandler {
 
-	private static final Map<String, String> NAME_REMAP = Map.of(
-			"tank", ElementContainerBlock.NAME,
-			"tank_small", SmallElementContainerBlock.NAME,
-			"tank_creative", CreativeElementContainerBlock.NAME,
-			"inertcrystal", "inert_crystal",
-			"crystalore", "inert_crystal_ore",
-			"containedcrystal", "contained_crystal",
-			"fire_lense", LensItem.NAME_FIRE,
-			"water_lense", LensItem.NAME_WATER,
-			"earth_lense", LensItem.NAME_EARTH,
-			"air_lense", LensItem.NAME_AIR);
+	private static final Map<String, String> NAME_REMAP = Map.ofEntries(
+			Map.entry("tank", ElementContainerBlock.NAME),
+			Map.entry("tank_small", SmallElementContainerBlock.NAME),
+			Map.entry("tank_creative", CreativeElementContainerBlock.NAME),
+			Map.entry("air_mill", AirMillGrindstoneBlock.NAME),
+			Map.entry("inertcrystal", "inert_crystal"),
+			Map.entry("crystalore", "inert_crystal_ore"),
+			Map.entry("containedcrystal", "contained_crystal"),
+			Map.entry("fire_lense", LensItem.NAME_FIRE),
+			Map.entry("water_lense", LensItem.NAME_WATER),
+			Map.entry("earth_lense", LensItem.NAME_EARTH),
+			Map.entry("air_lense", LensItem.NAME_AIR));
 
 	private MissingMappingsHandler() {}
 	@SubscribeEvent
