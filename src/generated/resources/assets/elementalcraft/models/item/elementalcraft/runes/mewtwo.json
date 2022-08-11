@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementalcraft:item/major_rune_slate",
+    "layer1": "elementalcraft:elementalcraft/runes/mewtwo"
+  }
+}

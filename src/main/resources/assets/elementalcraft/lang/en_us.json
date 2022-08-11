@@ -238,6 +238,9 @@
   "elementalcraft_rune.elementalcraft.manx": "Manx rune",
   "elementalcraft_rune.elementalcraft.jita": "Jita rune",
   "elementalcraft_rune.elementalcraft.tano": "Tano rune",
+  "elementalcraft_rune.elementalcraft.cognac": "Cognac rune",
+  "elementalcraft_rune.elementalcraft.kaworu": "Kaworu rune",
+  "elementalcraft_rune.elementalcraft.mewtwo": "Mewtwo rune",
   "elementalcraft_rune.elementalcraft.claptrap": "Claptrap's rune",
   "elementalcraft_rune.elementalcraft.bombadil": "Bombadil's rune",
   "elementalcraft_rune.elementalcraft.tzeentch": "Tzeentch's rune",
@@ -350,6 +353,8 @@
   "tooltip.elementalcraft.strider": "Allows you to walk on lava",
   "tooltip.elementalcraft.water_strider": "Allows you to walk on water",
   "tooltip.elementalcraft.basilisk": "Slow down the enemy you are looking at",
+  "elementalcraft_jewel.elementalcraft.strider.minecraft.lava": "Allows you to walt on lava",
+  "elementalcraft_jewel.elementalcraft.strider.minecraft.water": "Allows you to walk on water",
 
   "death.attack.elementalcraft.jewel.kirin": "%1$s was smited by %2$s",
   "death.attack.elementalcraft.jewel.kirin.item": "%1$s was smited by %2$s using %3$s",

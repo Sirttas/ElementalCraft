@@ -1,3 +1,11 @@
+1.19.2-5.3.0:
+
+- new runes: cognac, kaworu and mewtwo (optimization)
+- order sorter cnas now be upgraded with speed runes
+- add new recipes the air mill grindstone
+- add description to strider jewels
+
+
 1.19.1-5.2.1:
 
 - new instrument: water mill wood saw

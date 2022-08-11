@@ -10,23 +10,32 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class SorterBlockEntity extends AbstractECBlockEntity {
 	
 	private final List<ItemStack> stacks;
 	private int index;
-	private int tick;
+	private float tick;
 	private boolean alwaysInsert;
+
+	private final RuneHandler runeHandler;
 
 	public SorterBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.SORTER, pos, state);
@@ -34,15 +43,19 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		index = 0;
 		tick = 0;
 		alwaysInsert = false;
+		runeHandler = new RuneHandler(ECConfig.COMMON.sorterMaxRunes.get(), this::setChanged);
 	}
 	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SorterBlockEntity sorter) {
-		sorter.tick++;
-		if (sorter.tick > ECConfig.COMMON.sorterCooldown.get()) {
+		var speed = sorter.runeHandler.getBonus(Rune.BonusType.SPEED) + 1;
+		var cooldown = ECConfig.COMMON.sorterCooldown.get();
+
+		sorter.tick += Math.min(speed, cooldown * 64f); // capped at 1 stack a tick to prevent lag spikes
+		while (sorter.tick > cooldown) { // TODO improve performance
 			if (!sorter.isPowered()) {
 				sorter.transfer();
 			}
-			sorter.tick = 0;
+			sorter.tick -= cooldown;
 		}
 	}
 
@@ -65,6 +78,11 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 
 	public List<ItemStack> getStacks() {
 		return ImmutableList.copyOf(stacks);
+	}
+
+	@Nonnull
+	public IRuneHandler getRuneHandler() {
+		return runeHandler;
 	}
 
 	public int getIndex() {
@@ -119,6 +137,9 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 			index = 0;
 		}
 		alwaysInsert = compound.getBoolean(ECNames.ALWAYS_INSERT);
+		if (compound.contains(ECNames.RUNE_HANDLER)) {
+			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
+		}
 	}
 
 	private void readStacks(ListTag listNbt) {
@@ -139,6 +160,7 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		compound.put(ECNames.STACKS, this.writeStacks());
 		compound.putInt(ECNames.INDEX, index);
 		compound.putBoolean(ECNames.ALWAYS_INSERT, alwaysInsert);
+		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 	}
 
 	private ListTag writeStacks() {
@@ -150,5 +172,14 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 			}
 		}
 		return listTag;
+	}
+
+	@Override
+	@Nonnull
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
+		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
+			return LazyOptional.of(this::getRuneHandler).cast();
+		}
+		return super.getCapability(cap, side);
 	}
 }

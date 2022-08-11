@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "item": "minecraft:amethyst_cluster"
+  },
+  "luck_ration": 5,
+  "output": {
+    "count": 6,
+    "item": "minecraft:amethyst_shard"
+  }
+}

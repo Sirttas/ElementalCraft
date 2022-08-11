@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 10000,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "tag": "elementalcraft:gems/fine_earth"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:fus\"}}"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:jita\"}}"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:kaworu"
+      }
+    }
+  },
+  "slate": {
+    "item": "elementalcraft:rune_slate"
+  }
+}

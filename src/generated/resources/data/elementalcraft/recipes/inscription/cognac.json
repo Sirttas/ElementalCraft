@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 5000,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "tag": "elementalcraft:gems/crude_earth"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:wii\"}}"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:manx\"}}"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:cognac"
+      }
+    }
+  },
+  "slate": {
+    "item": "elementalcraft:minor_rune_slate"
+  }
+}

@@ -160,6 +160,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return (float) progress / recipe.getElementAmount();
 	}
 
+	@Nonnull
 	public RuneHandler getRuneHandler() {
 		return runeHandler;
 	}
@@ -168,7 +169,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
-			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
+			return LazyOptional.of(this::getRuneHandler).cast();
 		}
 		return super.getCapability(cap, side);
 	}

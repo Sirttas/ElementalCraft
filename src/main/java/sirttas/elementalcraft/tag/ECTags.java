@@ -163,6 +163,7 @@ public class ECTags {
 		public static final TagKey<Block> RUNE_AFFECTED = createTag("rune_affected");
 		public static final TagKey<Block> RUNE_AFFECTED_SPEED = createTag("rune_affected/speed");
 		public static final TagKey<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
+		public static final TagKey<Block> RUNE_AFFECTED_OPTIMIZATION = createTag("rune_affected/optimization");
 		public static final TagKey<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
 
 		public static final TagKey<Block> SHRINES_UPGRADABLES_ACCELERATION = createTag("shrines/upgradables/acceleration");

@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 20000,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "tag": "elementalcraft:gems/pristine_earth"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
+    },
+    {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:tano\"}}"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:rune",
+    "nbt": {
+      "elementalcraft": {
+        "rune": "elementalcraft:mewtwo"
+      }
+    }
+  },
+  "slate": {
+    "item": "elementalcraft:major_rune_slate"
+  }
+}

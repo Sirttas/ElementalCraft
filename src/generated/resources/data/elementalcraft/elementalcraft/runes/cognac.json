@@ -1,0 +1,38 @@
+{
+  "bonuses": {
+    "element_preservation": 0.03,
+    "speed": 0.05
+  },
+  "effect_sprite": "elementalcraft:elementalcraft/runes/cognac",
+  "max_amount": 1,
+  "model": "elementalcraft:elementalcraft/runes/cognac",
+  "predicate": {
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_rune",
+              "rune": "elementalcraft:cognac"
+            },
+            {
+              "type": "elementalcraft:has_rune",
+              "rune": "elementalcraft:kaworu"
+            },
+            {
+              "type": "elementalcraft:has_rune",
+              "rune": "elementalcraft:mewtwo"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dpanvil:tag",
+        "tag": "elementalcraft:rune_affected/optimization"
+      }
+    ]
+  }
+}

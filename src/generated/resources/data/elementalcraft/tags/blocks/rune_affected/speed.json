@@ -1,5 +1,6 @@
 {
   "values": [
-    "#elementalcraft:rune_affected"
+    "#elementalcraft:rune_affected",
+    "elementalcraft:sorter"
   ]
 }

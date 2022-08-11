@@ -8,6 +8,6 @@
   "model": "elementalcraft:elementalcraft/runes/creative",
   "predicate": {
     "type": "dpanvil:tag",
-    "tag": "elementalcraft:rune_affected"
+    "tag": "elementalcraft:rune_affected/speed"
   }
 }

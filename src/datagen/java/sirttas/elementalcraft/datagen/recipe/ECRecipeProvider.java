@@ -12,6 +12,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.ItemTags;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -96,6 +98,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		registerToolInfusions(consumer);
 		registerGrinding(consumer);
 		registerSawing(consumer);
+		registerRunes(consumer);
 
 		ShapedRecipeBuilder.shaped(ECItems.CONTAINED_CRYSTAL.get()).define('g', Tags.Items.NUGGETS_GOLD).define('c', ECItems.INERT_CRYSTAL.get()).pattern(" g ").pattern("gcg").pattern(" g ")
 				.unlockedBy(HAS_INERTCRYSTAL, has(ECItems.INERT_CRYSTAL)).save(consumer);
@@ -354,25 +357,6 @@ public class ECRecipeProvider extends RecipeProvider {
 				.setIngredient(ElementType.FIRE, ECItems.FIRE_HOLDER.get()).setIngredient(ElementType.EARTH, ECItems.EARTH_HOLDER.get()).setIngredient(ElementType.AIR, ECItems.AIR_HOLDER.get())
 				.withElementAmount(100000).build(consumer);
 
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("wii"), ElementType.AIR).withElementAmount(2000).setSlate(ECItems.MINOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.CRUDE_AIR_GEMS).addIngredient(Items.SUGAR).addIngredient(Items.SUGAR).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("fus"), ElementType.AIR).setSlate(ECItems.RUNE_SLATE.get()).addIngredient(ECTags.Items.FINE_AIR_GEMS)
-				.addIngredient(Tags.Items.STRING).addIngredient(Tags.Items.STRING).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("zod"), ElementType.AIR).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.PRISTINE_AIR_GEMS).addIngredient(ECItems.AIR_SILK.get()).addIngredient(ECItems.AIR_SILK.get()).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("manx"), ElementType.FIRE).withElementAmount(2000).setSlate(ECItems.MINOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.CRUDE_FIRE_GEMS).addIngredient(ItemTags.COALS).addIngredient(ItemTags.COALS).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("jita"), ElementType.FIRE).setSlate(ECItems.RUNE_SLATE.get()).addIngredient(ECTags.Items.FINE_FIRE_GEMS)
-				.addIngredient(Items.BLAZE_ROD).addIngredient(Items.BLAZE_ROD).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tano"), ElementType.FIRE).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("claptrap"), ElementType.WATER).withElementAmount(2000).setSlate(ECItems.MINOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.CRUDE_WATER_GEMS).addIngredient(Tags.Items.GEMS_LAPIS).addIngredient(Tags.Items.GEMS_LAPIS).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("bombadil"), ElementType.WATER).setSlate(ECItems.RUNE_SLATE.get()).addIngredient(ECTags.Items.FINE_WATER_GEMS)
-				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS).addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tzeentch"), ElementType.WATER).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.PRISTINE_WATER_GEMS).addIngredient(Tags.Items.GEMS_EMERALD).addIngredient(Tags.Items.GEMS_EMERALD).build(consumer);
-
 		ShapelessRecipeBuilder.shapeless(ECBlocks.SMALL_CONTAINER.get()).requires(ECBlocks.SMALL_CONTAINER.get()).unlockedBy("has_small_container", has(ECBlocks.SMALL_CONTAINER)).save(consumer,
 				"small_container_emptying");
 		ShapelessRecipeBuilder.shapeless(ECBlocks.CONTAINER.get()).requires(ECBlocks.CONTAINER.get()).unlockedBy("has_container", has(ECBlocks.CONTAINER)).save(consumer, "container_emptying");
@@ -385,7 +369,6 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapelessRecipeBuilder.shapeless(ECBlocks.AIR_RESERVOIR.get()).requires(ECBlocks.AIR_RESERVOIR.get()).unlockedBy("has_air_reservoir", has(ECBlocks.AIR_RESERVOIR)).save(consumer, "air_reservoir_emptying");
 		ShapelessRecipeBuilder.shapeless(ECBlocks.CREATIVE_CONTAINER.get()).requires(ECBlocks.CREATIVE_CONTAINER.get()).unlockedBy("has_creative_container", has(ECBlocks.CREATIVE_CONTAINER)).save(consumer,
 				"creative_container_emptying");
-
 	}
 
 	private void registerSlabsStairsWalls(Consumer<FinishedRecipe> consumer) {
@@ -603,6 +586,18 @@ public class ECRecipeProvider extends RecipeProvider {
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.BLAZE_POWDER).withCount(3).withIngredient(Tags.Items.RODS_BLAZE).withLuckRatio(3).build(consumer);
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.NETHERITE_SCRAP).withCount(2).withIngredient(Tags.Items.ORES_NETHERITE_SCRAP).withElementAmount(5000).withLuckRatio(1).build(consumer);
 		AirMillGrindingRecipeBuilder.grindingRecipe(Items.POINTED_DRIPSTONE).withCount(3).withIngredient(Items.DRIPSTONE_BLOCK).withLuckRatio(1).build(consumer);
+		AirMillGrindingRecipeBuilder.grindingRecipe(Items.AMETHYST_SHARD).withCount(6).withIngredient(Items.AMETHYST_CLUSTER).withLuckRatio(5).build(consumer);
+		AirMillGrindingRecipeBuilder.grindingRecipe(ECItems.SPRINGALINE_SHARD.get()).withCount(6).withIngredient(ECBlocks.SPRINGALINE_CLUSTER.get()).withLuckRatio(5).build(consumer);
+		AirMillGrindingRecipeBuilder.grindingRecipe(Items.BONE_MEAL).withCount(4).withIngredient(Tags.Items.BONES).withLuckRatio(3).build(consumer);
+
+		grindToDye(Items.GREEN_DYE, Items.CACTUS, consumer);
+		grindToDye(Items.WHITE_DYE, Items.BONE_MEAL, consumer);
+		grindToDye(Items.BLACK_DYE, Items.INK_SAC, consumer);
+		grindToDye(Items.BLUE_DYE, Items.LAPIS_LAZULI, consumer);
+	}
+
+	private void grindToDye(ItemLike dye, ItemLike from, Consumer<FinishedRecipe> consumer) {
+		AirMillGrindingRecipeBuilder.grindingRecipe(dye).withCount(2).withIngredient(from).withLuckRatio(2).build(consumer);
 	}
 
 	private void registerSawing(Consumer<FinishedRecipe> consumer) {
@@ -621,6 +616,42 @@ public class ECRecipeProvider extends RecipeProvider {
 		SawingRecipeBuilder.sawingRecipe(stripedLog).withIngredient(log).build(consumer);
 		SawingRecipeBuilder.sawingRecipe(stripedWood).withIngredient(wood).build(consumer);
 		SawingRecipeBuilder.sawingRecipe(planks).withCount(6).withIngredient(stripped).withLuckRatio(3).build(consumer);
+	}
+
+	private void registerRunes(Consumer<FinishedRecipe> consumer) {
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("wii"), ElementType.AIR).withElementAmount(2000).setSlate(ECItems.MINOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.CRUDE_AIR_GEMS).addIngredient(Items.SUGAR).addIngredient(Items.SUGAR).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("fus"), ElementType.AIR).setSlate(ECItems.RUNE_SLATE.get()).addIngredient(ECTags.Items.FINE_AIR_GEMS)
+				.addIngredient(Tags.Items.STRING).addIngredient(Tags.Items.STRING).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("zod"), ElementType.AIR).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.PRISTINE_AIR_GEMS).addIngredient(ECItems.AIR_SILK.get()).addIngredient(ECItems.AIR_SILK.get()).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("manx"), ElementType.FIRE).withElementAmount(2000).setSlate(ECItems.MINOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.CRUDE_FIRE_GEMS).addIngredient(ItemTags.COALS).addIngredient(ItemTags.COALS).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("jita"), ElementType.FIRE).setSlate(ECItems.RUNE_SLATE.get()).addIngredient(ECTags.Items.FINE_FIRE_GEMS)
+				.addIngredient(Items.BLAZE_ROD).addIngredient(Items.BLAZE_ROD).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tano"), ElementType.FIRE).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.PRISTINE_AIR_GEMS).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("cognac"), ElementType.EARTH).setSlate(ECItems.MINOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS).addIngredient(createRuneIngredient("wii")).addIngredient(createRuneIngredient("manx")).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("kaworu"), ElementType.EARTH).withElementAmount(10000).setSlate(ECItems.RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.FINE_EARTH_GEMS).addIngredient(createRuneIngredient("fus")).addIngredient(createRuneIngredient("jita")).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("mewtwo"), ElementType.EARTH).withElementAmount(20000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.PRISTINE_EARTH_GEMS).addIngredient(createRuneIngredient("zod")).addIngredient(createRuneIngredient("tano")).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("claptrap"), ElementType.WATER).withElementAmount(2000).setSlate(ECItems.MINOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.CRUDE_WATER_GEMS).addIngredient(Tags.Items.GEMS_LAPIS).addIngredient(Tags.Items.GEMS_LAPIS).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("bombadil"), ElementType.WATER).setSlate(ECItems.RUNE_SLATE.get()).addIngredient(ECTags.Items.FINE_WATER_GEMS)
+				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS).addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS).build(consumer);
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tzeentch"), ElementType.WATER).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
+				.addIngredient(ECTags.Items.PRISTINE_WATER_GEMS).addIngredient(Tags.Items.GEMS_EMERALD).addIngredient(Tags.Items.GEMS_EMERALD).build(consumer);
+	}
+
+	private Ingredient createRuneIngredient(String name) {
+		var tag = new CompoundTag();
+		var ecTag = new CompoundTag();
+
+		tag.put(ECNames.EC_NBT, ecTag);
+		ecTag.putString(ECNames.RUNE, ElementalCraft.createRL(name).toString());
+		return PartialNBTIngredient.of(ECItems.RUNE.get(), tag);
 	}
 
 	private boolean exists(Block block) {
