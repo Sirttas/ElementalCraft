@@ -36,6 +36,7 @@ import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.vertical.AbstractVerticalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.block.sorter.SorterBlock;
@@ -181,6 +182,19 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			} else {
 				pipeBlock(pipe, name, "iron");
 			}
+		} else if (block instanceof SilkTouchShrineUpgradeBlock) {
+			ModelFile core = models().getExistingFile(prefix(name));
+			ModelFile attach = models().getExistingFile(prefix(name + "_attach"));
+
+			getMultipartBuilder(block)
+					.part().modelFile(core).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.NORTH).end()
+					.part().modelFile(core).rotationY(90).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.EAST).end()
+					.part().modelFile(core).rotationY(180).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.SOUTH).end()
+					.part().modelFile(core).rotationY(270).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.WEST).end()
+					.part().modelFile(attach).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.NORTH).condition(BlockStateProperties.ATTACHED, true).end()
+					.part().modelFile(attach).rotationY(90).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.EAST).condition(BlockStateProperties.ATTACHED, true).end()
+					.part().modelFile(attach).rotationY(180).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.SOUTH).condition(BlockStateProperties.ATTACHED, true).end()
+					.part().modelFile(attach).rotationY(270).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.WEST).condition(BlockStateProperties.ATTACHED, true).end();
 		} else if (block instanceof AmethystClusterBlock) {
 			springalineCluster(key, block);
 		} else if (block.defaultBlockState().hasProperty(HorizontalDirectionalBlock.FACING)) {

@@ -18,7 +18,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.loot.LootHelper;
 
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -29,12 +28,9 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private Optional<BlockPos> findOre() {
-		int range = getIntegerRange();
-
-		return IntStream.range(-range, range + 1)
-				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, worldPosition.getY() + 1).mapToObj(y -> new BlockPos(worldPosition.getX() + x, y, worldPosition.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> level.getBlockState(p).is(Tags.Blocks.ORES)).findAny();
-
+		return getBlocksInRange()
+				.filter(p -> level.getBlockState(p).is(Tags.Blocks.ORES))
+				.findAny();
 	}
 
 	@Override

@@ -21,7 +21,6 @@ import sirttas.elementalcraft.loot.LootHelper;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -34,11 +33,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private Optional<BlockPos> findCrop() {
-		int range = getIntegerRange();
-
-		return IntStream.range(-range, range + 1)
-				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(-3, 1).mapToObj(y -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + y, worldPosition.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(p -> {
+		return getBlocksInRange().filter(p -> {
 					BlockState blockstate = level.getBlockState(p);
 					Block block = blockstate.getBlock();
 

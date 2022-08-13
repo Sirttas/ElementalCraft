@@ -13,7 +13,6 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -26,11 +25,8 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private Optional<BlockPos> findRock() {
-		int range = Math.round(this.getProperties().range());
-
-		return IntStream.range(-range, range + 1).mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + 1, worldPosition.getZ() + z))).flatMap(s -> s)
+		return getBlocksInRange()
 				.filter(p -> level.getBlockState(p).is(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES)).findAny();
-
 	}
 
 	@Override

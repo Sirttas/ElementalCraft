@@ -77,6 +77,10 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.SWEET_SHRINE.get(), ECBlocks.VACUUM_SHRINE.get(), ECBlocks.FIRE_PYLON.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_PROTECTION).add(ECBlocks.FIRE_PYLON.get(), ECBlocks.ENDER_LOCK_SHRINE.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_PLANTING).add(ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get());
+		tag(ECTags.Blocks.SHRINES_UPGRADABLES_FORTUNE).add(ECBlocks.ORE_SHRINE.get());
+		tag(ECTags.Blocks.SHRINES_UPGRADABLES_SILK_TOUCH).add(ECBlocks.ORE_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get());
+
+		tag(ECTags.Blocks.SILK_TOUCH_SHRINE_UPGRADE_ATTACHED).add(ECBlocks.ORE_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get());
 
 		tag(ECTags.Blocks.TREE_PARTS).addTags(BlockTags.LOGS, BlockTags.LEAVES);
 

@@ -31,7 +31,7 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 	private static final Lazy<List<Block>> SPRINGALINES = Lazy.of(() -> List.of(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get(), ECBlocks.SPRINGALINE_CLUSTER.get()));
 
 	public BuddingShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.BREEDING_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.BUDDING_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	@Override

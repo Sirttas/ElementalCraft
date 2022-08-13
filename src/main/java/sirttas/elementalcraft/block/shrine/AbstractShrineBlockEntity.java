@@ -35,6 +35,8 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider {
 
@@ -181,6 +183,21 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	public AABB getRangeBoundingBox() {
 		return new AABB(this.getBlockPos()).inflate(this.getRange());
+	}
+
+	public Stream<BlockPos> getBlocksInRange() {
+		var box = getRangeBoundingBox();
+
+		return getRange(box.minX, box.maxX)
+				.mapToObj(x -> getRange(box.minZ, box.maxZ)
+				.mapToObj(z -> getRange(box.minY, box.maxY)
+				.mapToObj(y -> new BlockPos(x, y, z))))
+				.mapMulti((s, downstream) -> s.forEach(s2 -> s2.forEach(downstream)));
+	}
+
+	@Nonnull
+	private IntStream getRange(double min, double max) {
+		return IntStream.range((int) Math.floor(min), (int) Math.ceil(max) + 1);
 	}
 
 	@Override

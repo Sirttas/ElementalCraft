@@ -23,7 +23,6 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -37,11 +36,11 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private Optional<BlockPos> findGrass() {
-		int range = getIntegerRange();
+		List<BlockPos> positions = getBlocksInRange()
+				.filter(this::canPlant)
+				.map(BlockPos::above)
+				.toList();
 
-		List<BlockPos> positions = IntStream.range(-range, range + 1)
-				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(-1, 3).mapToObj(y -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + y, worldPosition.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canPlant).map(BlockPos::above).toList();
 		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.random.nextInt(positions.size())));
 	}
 

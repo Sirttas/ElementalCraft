@@ -2,6 +2,8 @@ package sirttas.elementalcraft.datagen.managed;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.ElementalCraft;
@@ -15,9 +17,6 @@ import sirttas.elementalcraft.tag.ECTags;
 import javax.annotation.Nonnull;
 
 public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<ShrineUpgrade, ShrineUpgrade.Builder> {
-
-	private static final IBlockPosPredicate MINING_PREDICATE = IBlockPosPredicate.match(ECBlocks.ORE_SHRINE.get())
-			.or(IBlockPosPredicate.match(ECBlocks.BUDDING_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.CRYSTAL_HARVEST)));
 	private static final IBlockPosPredicate ACCELERATION_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION)
 			.or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.PICKUP)));
 	private static final IBlockPosPredicate PROTECTION_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_PROTECTION)
@@ -31,8 +30,8 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 
 	@Override
 	public void collectBuilders() {
-        builder(ShrineUpgrades.SILK_TOUCH).predicate(MINING_PREDICATE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2).incompatibleWith(ShrineUpgrades.FORTUNE);
-        builder(ShrineUpgrades.FORTUNE).predicate(MINING_PREDICATE).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F).incompatibleWith(ShrineUpgrades.SILK_TOUCH);
+        builder(ShrineUpgrades.SILK_TOUCH).predicate(miningPredicate(ECTags.Blocks.SHRINES_UPGRADABLES_SILK_TOUCH)).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2).incompatibleWith(ShrineUpgrades.FORTUNE);
+        builder(ShrineUpgrades.FORTUNE).predicate(miningPredicate(ECTags.Blocks.SHRINES_UPGRADABLES_FORTUNE)).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F).incompatibleWith(ShrineUpgrades.SILK_TOUCH);
         builder(ShrineUpgrades.PLANTING).match(ECTags.Blocks.SHRINES_UPGRADABLES_PLANTING).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F);
         builder(ShrineUpgrades.BONELESS_GROWTH).match(ECBlocks.GROWTH_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 4F).incompatibleWith(ShrineUpgrades.STEM_POLLINATION);
         builder(ShrineUpgrades.PICKUP).match(ECBlocks.VACUUM_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 500F).addBonus(BonusType.SPEED, 20F).addBonus(BonusType.RANGE, 0.5F).incompatibleWith(ShrineUpgrades.VORTEX);
@@ -52,7 +51,11 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 		builder(ShrineUpgrades.STRENGTH).predicate(STRENGTH_PREDICATE).addBonus(BonusType.STRENGTH, 2F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).incompatibleWith(ShrineUpgrades.NECTAR);
 		builder(ShrineUpgrades.OPTIMIZATION).match(ECTags.Blocks.SHRINES).max(2).addBonus(BonusType.CAPACITY, 1.25F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.75F).addBonus(BonusType.SPEED, 0.8F);
 	}
-	
+
+	private IBlockPosPredicate miningPredicate(TagKey<Block> tag) {
+		return IBlockPosPredicate.match(tag)
+				.or(IBlockPosPredicate.match(ECBlocks.BUDDING_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.CRYSTAL_HARVEST)));
+	}
 	
 	protected ShrineUpgrade.Builder builder(ResourceKey<ShrineUpgrade> key) {
 		var builder = ShrineUpgrade.Builder.create();

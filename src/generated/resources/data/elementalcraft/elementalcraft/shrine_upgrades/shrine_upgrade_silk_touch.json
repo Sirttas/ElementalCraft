@@ -30,8 +30,8 @@
             ]
           },
           {
-            "type": "dpanvil:block",
-            "block": "elementalcraft:oreshrine"
+            "type": "dpanvil:tag",
+            "tag": "elementalcraft:shrines/upgradables/silk_touch"
           }
         ]
       }

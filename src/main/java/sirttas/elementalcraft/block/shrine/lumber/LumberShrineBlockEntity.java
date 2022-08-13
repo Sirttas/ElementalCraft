@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,7 +21,6 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -30,16 +30,12 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 		super(ECBlockEntityTypes.LUMBER_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
-	private Optional<BlockPos> findCrop() {
+	private Optional<BlockPos> findTreeBlock() {
 		if (level == null) {
 			return Optional.empty();
 		}
 
-		int range = getIntegerRange();
-
-		return IntStream.range(-range, range + 1)
-				.mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, range + 1).mapToObj(y -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + y, worldPosition.getZ() + z))))
-				.flatMap(s -> s.flatMap(s2 -> s2))
+		return getBlocksInRange()
 				.filter(p -> level.getBlockState(p).is(ECTags.Blocks.TREE_PARTS))
 				.findAny();
 	}
@@ -75,14 +71,14 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 	public AABB getRangeBoundingBox() {
 		int range = getIntegerRange();
 
-		return new AABB(this.getBlockPos()).inflate(range, range, range);
+		return new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, range * 2, 0);
 	}
 
 	@Override
 	protected boolean doPeriod() {
 		if (level instanceof ServerLevel && !level.isClientSide) {
-			return findCrop().map(p -> {
-				List<ItemStack> loots = LootHelper.getDrops((ServerLevel) level, p);
+			return findTreeBlock().map(p -> {
+				List<ItemStack> loots = LootHelper.getDrops((ServerLevel) level, p, hasUpgrade(ShrineUpgrades.SILK_TOUCH) ? new ItemStack(Items.SHEARS) : ItemStack.EMPTY);
 
 				level.destroyBlock(p, false);
 				handlePlanting(p, loots);

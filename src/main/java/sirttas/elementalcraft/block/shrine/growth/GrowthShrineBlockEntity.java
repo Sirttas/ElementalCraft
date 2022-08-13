@@ -16,7 +16,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
@@ -26,11 +25,10 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private Optional<BlockPos> findGrowable() {
-		int range = getIntegerRange();
+		List<BlockPos> positions = getBlocksInRange()
+				.filter(this::canGrow)
+				.toList();
 
-		List<BlockPos> positions = IntStream.range(-range, range + 1)
-                .mapToObj(x -> IntStream.range(-range, range + 1).mapToObj(z -> IntStream.range(0, 4).mapToObj(y -> new BlockPos(worldPosition.getX() + x, worldPosition.getY() + y, worldPosition.getZ() + z))))
-                .flatMap(s -> s.flatMap(s2 -> s2)).filter(this::canGrow).toList();
 		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.random.nextInt(positions.size())));
 	}
 

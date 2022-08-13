@@ -1,3 +1,10 @@
+1.19.2-5.3.1:
+
+- increased the range upward of the lumber shrine (issue #102)
+- the lumber shrine is now compatible with the silk touch shrine upgrade (issue #102)
+- fix budding shrine beeing saved as a breeding shrine
+
+
 1.19.2-5.3.0:
 
 - new runes: cognac, kaworu and mewtwo (optimization)

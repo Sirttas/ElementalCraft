@@ -171,6 +171,10 @@ public class ECTags {
 		public static final TagKey<Block> SHRINES_UPGRADABLES_STRENGTH = createTag("shrines/upgradables/strength");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_PROTECTION = createTag("shrines/upgradables/protection");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_PLANTING = createTag("shrines/upgradables/planting");
+		public static final TagKey<Block> SHRINES_UPGRADABLES_FORTUNE = createTag("shrines/upgradables/fortune");
+		public static final TagKey<Block> SHRINES_UPGRADABLES_SILK_TOUCH = createTag("shrines/upgradables/silk_touch");
+		public static final TagKey<Block> SILK_TOUCH_SHRINE_UPGRADE_ATTACHED = createTag("silk_touch_shrine_upgrade_attached");
+
 
 		public static final TagKey<Block> TREE_PARTS = createTag("tree_parts");
 
