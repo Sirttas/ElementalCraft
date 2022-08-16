@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "tag": "forge:bones"
+  },
+  "luck_ration": 3,
+  "output": {
+    "item": "minecraft:bone_meal",
+    "count": 4
+  }
+}

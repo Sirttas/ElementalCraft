@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "item": "minecraft:dripstone_block"
+  },
+  "luck_ration": 1,
+  "output": {
+    "item": "minecraft:pointed_dripstone",
+    "count": 3
+  }
+}

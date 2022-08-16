@@ -1,3 +1,12 @@
+1.18.2-4.4.21:
+
+- add a blacklist tag for the growth shine
+- add grass and tall grass to the growth shrine blacklist
+- add new recipes the air mill grindstone
+- add description to strider jewels
+- fix a few recipes
+
+
 1.18.2-4.4.20:
 
 - overload shrine can no longer accelerate shrines

@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "item": "minecraft:cactus"
+  },
+  "luck_ration": 2,
+  "output": {
+    "item": "minecraft:green_dye",
+    "count": 2
+  }
+}
