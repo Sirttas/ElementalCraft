@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.IPlantable;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -69,9 +70,9 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public AABB getRangeBoundingBox() {
-		int range = getIntegerRange();
+		var range = getRange();
 
-		return new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, range * 2, 0);
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, range * 2, 0));
 	}
 
 	@Override

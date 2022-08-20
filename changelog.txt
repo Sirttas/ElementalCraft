@@ -1,3 +1,11 @@
+1.19.2-5.3.2:
+
+- improve jewel of the hawk precision
+- fix AABB range of shrines
+- fix strider jewels tooltips
+- fix a crash when joining a server
+
+
 1.19.2-5.3.1:
 
 - increased the range upward of the lumber shrine (issue #102)

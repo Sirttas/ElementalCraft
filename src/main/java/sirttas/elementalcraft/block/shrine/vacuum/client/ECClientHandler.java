@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.client;
+package sirttas.elementalcraft.block.shrine.vacuum.client;
 
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelResourceLocation;

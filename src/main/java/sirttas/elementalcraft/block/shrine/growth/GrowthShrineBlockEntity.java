@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -54,9 +55,9 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public AABB getRangeBoundingBox() {
-		int range = getIntegerRange();
+		var range = getRange();
 
-		return new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, 2, 0);
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, 2, 0));
 	}
 
 	@Override

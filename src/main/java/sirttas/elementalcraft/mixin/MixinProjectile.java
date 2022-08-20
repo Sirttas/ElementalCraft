@@ -68,7 +68,15 @@ public abstract class MixinProjectile extends Entity {
 
         var oldDelta = this.getDeltaMovement();
         var length = oldDelta.length();
+        var targetVector = hit.getLocation().subtract(this.position()).normalize();
+        var normalizedDelta = oldDelta.normalize();
 
-        this.setDeltaMovement(hit.getLocation().subtract(this.position()).normalize().add(oldDelta.normalize().scale(3)).normalize().scale(length));
+        if (Math.acos(normalizedDelta.dot(targetVector)) > Math.PI / 16) {
+            length *= 0.9;
+        } else {
+            length *= 1.1;
+        }
+
+        this.setDeltaMovement(targetVector.add(normalizedDelta).normalize().scale(length));
     }
 }

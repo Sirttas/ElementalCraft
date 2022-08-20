@@ -62,7 +62,7 @@ public record SawingRecipe(
 	@Nonnull
     @Override
 	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializers.AIR_MILL_GRINDING.get();
+		return ECRecipeSerializers.SAWING.get();
 	}
 
 	@Override
