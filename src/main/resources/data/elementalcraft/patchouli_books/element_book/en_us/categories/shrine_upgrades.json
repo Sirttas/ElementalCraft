@@ -1,0 +1,6 @@
+{
+	"name": "elementalcraft.category.shrine_upgrades",
+	"description": "elementalcraft.category.shrine_upgrades.desc",
+	"icon": "elementalcraft:shrine_upgrade_optimization",
+	"sortnum": 5
+}

@@ -3,8 +3,17 @@
     "values": [
       {
         "value": {
-          "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex",
-          "type": "elementalcraft:has_shrine_upgrade"
+          "values": [
+            {
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_strength",
+              "type": "elementalcraft:has_shrine_upgrade"
+            },
+            {
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex",
+              "type": "elementalcraft:has_shrine_upgrade"
+            }
+          ],
+          "type": "dpanvil:or"
         },
         "type": "dpanvil:not"
       },

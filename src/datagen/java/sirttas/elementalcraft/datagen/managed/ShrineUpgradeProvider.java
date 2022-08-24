@@ -35,7 +35,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
         builder(ShrineUpgrades.FORTUNE).predicate(MINING_PREDICATE).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F).incompatibleWith(ShrineUpgrades.SILK_TOUCH);
         builder(ShrineUpgrades.PLANTING).match(ECBlocks.HARVEST_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F);
         builder(ShrineUpgrades.BONELESS_GROWTH).match(ECBlocks.GROWTH_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 4F).incompatibleWith(ShrineUpgrades.STEM_POLLINATION);
-        builder(ShrineUpgrades.PICKUP).match(ECBlocks.VACUUM_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 500F).addBonus(BonusType.SPEED, 20F).addBonus(BonusType.RANGE, 0.5F).incompatibleWith(ShrineUpgrades.VORTEX);
+        builder(ShrineUpgrades.PICKUP).match(ECBlocks.VACUUM_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 500F).addBonus(BonusType.SPEED, 20F).addBonus(BonusType.RANGE, 0.5F).incompatibleWith(ShrineUpgrades.VORTEX, ShrineUpgrades.STRENGTH);
 		builder(ShrineUpgrades.VORTEX).match(ECBlocks.VACUUM_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2F).addBonus(BonusType.RANGE, 0.75F).incompatibleWith(ShrineUpgrades.PICKUP);
 		builder(ShrineUpgrades.NECTAR).match(ECBlocks.SWEET_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 2F).incompatibleWith(ShrineUpgrades.STRENGTH);
 		builder(ShrineUpgrades.MYSTICAL_GROVE).match(ECBlocks.GROVE_SHRINE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2F).addBonus(BonusType.SPEED, 2F);
@@ -49,7 +49,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 		builder(ShrineUpgrades.PROTECTION).predicate(PROTECTION_PREDICATE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F);
 		builder(ShrineUpgrades.CAPACITY).match(ECTags.Blocks.SHRINES).max(1).addBonus(BonusType.CAPACITY, 5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.1F).addBonus(BonusType.SPEED, 1.1F);
 		builder(ShrineUpgrades.EFFICIENCY).match(ECTags.Blocks.SHRINES).addBonus(BonusType.CAPACITY, 0.9F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.5F);
-		builder(ShrineUpgrades.STRENGTH).predicate(STRENGTH_PREDICATE).addBonus(BonusType.STRENGTH, 2F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).incompatibleWith(ShrineUpgrades.NECTAR);
+		builder(ShrineUpgrades.STRENGTH).predicate(STRENGTH_PREDICATE).addBonus(BonusType.STRENGTH, 2F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).incompatibleWith(ShrineUpgrades.NECTAR, ShrineUpgrades.PICKUP);
 		builder(ShrineUpgrades.OPTIMIZATION).match(ECTags.Blocks.SHRINES).max(2).addBonus(BonusType.CAPACITY, 1.25F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.75F).addBonus(BonusType.SPEED, 0.8F);
 	}
 	

@@ -1,3 +1,11 @@
+1.18.2-4.4.22:
+
+- add new elementopedia entries
+- fix typo (issue #103)
+- fix inert crystal and springaline cluster loot table
+- fix pickup/strength shrine upgrade not being tagged as incompatible with each other
+
+
 1.18.2-4.4.21:
 
 - add a blacklist tag for the growth shine

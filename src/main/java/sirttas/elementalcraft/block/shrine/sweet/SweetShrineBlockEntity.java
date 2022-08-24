@@ -44,10 +44,9 @@ public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 			});
 		} else {
 			getEntities(Player.class).forEach(e -> {
-
 				if (this.elementStorage.getElementAmount() >= consumeAmount) {
 					this.consumeElement(consumeAmount);
-					e.getFoodData().eat((int) Math.round( this.getStrength()), (float)  this.getStrength(1));
+					e.getFoodData().eat((int) Math.round(this.getStrength()), (float) this.getStrength(1));
 				}
 			});
 		}
