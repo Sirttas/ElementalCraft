@@ -1,3 +1,14 @@
+1.19.2-5.3.3:
+
+- add new elementopedia entries
+- fix typo (issue #103)
+- fix inert crystal and springaline cluster loot table
+- fix pickup/strength shrine upgrade not being tagged as incompatible with each other
+- add a blacklist tag for the growth shine
+- add grass and tall grass to the growth shrine blacklist
+- fix a few recipes
+
+
 1.19.2-5.3.2:
 
 - improve jewel of the hawk precision

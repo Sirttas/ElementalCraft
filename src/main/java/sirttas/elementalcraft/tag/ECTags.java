@@ -150,6 +150,7 @@ public class ECTags {
 
 	public static class Blocks {
 		public static final TagKey<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
+		public static final TagKey<Block> GROWTHSHRINE_BLACKLIST = createTag("growthshrine_blacklist");
 		public static final TagKey<Block> SMALL_CONTAINER_COMPATIBLES = createTag("small_container_compatibles");
 
 		public static final TagKey<Block> PUREROCKS = createTag("purerocks");

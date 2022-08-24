@@ -56,23 +56,33 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 		return false;
 	}
 
-	public boolean feed(Animal first, Animal second) {
-		List<ItemStack> foodList = getEntities(ItemEntity.class).stream().map(ItemEntity::getItem).filter(stack -> first.isFood(stack) && stack.getCount() > 0).toList();
+	public boolean consumeFood(Animal first) {
+		List<ItemStack> foodList = getEntities(ItemEntity.class).stream()
+				.map(ItemEntity::getItem)
+				.filter(stack -> first.isFood(stack) && stack.getCount() > 0)
+				.toList();
 
-		if (!foodList.isEmpty()) {
-			if (foodList.get(0).getCount() >= 2) {
-				foodList.get(0).shrink(2);
-			} else if (foodList.size() >= 2) {
-				foodList.get(0).shrink(1);
-				foodList.get(1).shrink(1);
-			} else {
-				return false;
-			}
-			first.setInLoveTime(600);
-			second.setInLoveTime(600);
-			return true;
+		if (foodList.isEmpty()) {
+			return false;
+		} else if (foodList.get(0).getCount() >= 2) {
+			foodList.get(0).shrink(2);
+		} else if (foodList.size() >= 2) {
+			foodList.get(0).shrink(1);
+			foodList.get(1).shrink(1);
+		} else {
+			return false;
 		}
-		return false;
+		return true;
+	}
+
+	public boolean feed(Animal first, Animal second) {
+		if (!consumeFood(first)) {
+			return false;
+		}
+
+		first.setInLoveTime(600);
+		second.setInLoveTime(600);
+		return true;
 	}
 
 	@Override

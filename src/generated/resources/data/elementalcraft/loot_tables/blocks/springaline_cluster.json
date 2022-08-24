@@ -30,6 +30,11 @@
               "type": "minecraft:item",
               "functions": [
                 {
+                  "add": false,
+                  "count": 4.0,
+                  "function": "minecraft:set_count"
+                },
+                {
                   "enchantment": "minecraft:fortune",
                   "formula": "minecraft:ore_drops",
                   "function": "minecraft:apply_bonus"
@@ -43,8 +48,7 @@
           ]
         }
       ],
-      "name": "main",
-      "rolls": 4.0
+      "rolls": 1.0
     }
   ]
 }

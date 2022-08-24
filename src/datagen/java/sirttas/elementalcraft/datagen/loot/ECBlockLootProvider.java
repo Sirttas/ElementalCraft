@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class ECBlockLootProvider extends AbstractECLootProvider {
-	private final Map<Block, Function<ItemLike, Builder>> functionTable = new HashMap<>();
+	private final Map<Block, Function<Block, Builder>> functionTable = new HashMap<>();
 
 	public ECBlockLootProvider(DataGenerator generator) {
 		super(generator);
@@ -69,20 +69,20 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 			}	
 		}
 
-		functionTable.put(ECBlocks.CRYSTAL_ORE.get(), i -> genOre(i, ECItems.INERT_CRYSTAL.get()));
-		functionTable.put(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), i -> genOre(i, ECItems.INERT_CRYSTAL.get()));
+		functionTable.put(ECBlocks.CRYSTAL_ORE.get(), b -> genOre(b, ECItems.INERT_CRYSTAL.get()));
+		functionTable.put(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), b -> genOre(b, ECItems.INERT_CRYSTAL.get()));
 		functionTable.put(ECBlocks.EVAPORATOR.get(), ECBlockLootProvider::genCopyElementStorage);
-		functionTable.put(ECBlocks.CONTAINER.get(), i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
-		functionTable.put(ECBlocks.SMALL_CONTAINER.get(), i -> genCopyNbt(i, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
+		functionTable.put(ECBlocks.CONTAINER.get(), b -> genCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
+		functionTable.put(ECBlocks.SMALL_CONTAINER.get(), b -> genCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		functionTable.put(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLootProvider::genCopyElementStorage);
-		functionTable.put(ECBlocks.BURNT_GLASS.get(), ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.BURNT_GLASS_PANE.get(), ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.SPRINGALINE_CLUSTER.get(), i -> genOre(i, ECItems.SPRINGALINE_SHARD.get(), 4));
-		functionTable.put(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.LARGE_SPRINGALINE_BUD.get(), ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.SPRINGALINE_GLASS.get(), ECBlockLootProvider::genOnlySilkTouch);
-		functionTable.put(ECBlocks.SPRINGALINE_GLASS_PANE.get(), ECBlockLootProvider::genOnlySilkTouch);
+		functionTable.put(ECBlocks.BURNT_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
+		functionTable.put(ECBlocks.BURNT_GLASS_PANE.get(), BlockLoot::createSilkTouchOnlyTable);
+		functionTable.put(ECBlocks.SPRINGALINE_CLUSTER.get(), b -> genOre(b, ECItems.SPRINGALINE_SHARD.get(), 4));
+		functionTable.put(ECBlocks.SMALL_SPRINGALINE_BUD.get(), BlockLoot::createSilkTouchOnlyTable);
+		functionTable.put(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), BlockLoot::createSilkTouchOnlyTable);
+		functionTable.put(ECBlocks.LARGE_SPRINGALINE_BUD.get(), BlockLoot::createSilkTouchOnlyTable);
+		functionTable.put(ECBlocks.SPRINGALINE_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
+		functionTable.put(ECBlocks.SPRINGALINE_GLASS_PANE.get(), BlockLoot::createSilkTouchOnlyTable);
 	}
 
 	@Override
@@ -111,24 +111,16 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 						LootItemBlockStatePropertyCondition.hasBlockStateProperties((Block) block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.FRAME)), 
 						LootItemBlockStatePropertyCondition.hasBlockStateProperties((Block) block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.FRAME)))));
 	}
-	
-	private static Builder genOnlySilkTouch(ItemLike item) {
-		return LootTable.lootTable()
-				.withPool(LootPool.lootPool().name("main")
-						.when(BlockLoot.HAS_SILK_TOUCH)
-						.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(item)));
-	}
 
-	private static Builder genOre(ItemLike ore, ItemLike item) {
+	private static Builder genOre(Block ore, ItemLike item) {
 		return genOre(ore, item, 1);
 	}
 		
-	private static Builder genOre(ItemLike ore, ItemLike item, int count) {
-		return LootTable.lootTable()
-				.withPool(LootPool.lootPool().name("main").setRolls(ConstantValue.exactly(count))
-						.add(LootItem.lootTableItem(ore)
-								.when(BlockLoot.HAS_SILK_TOUCH)
-								.otherwise(LootItem.lootTableItem(item).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)).apply(ApplyExplosionDecay.explosionDecay()))));
+	private static Builder genOre(Block ore, ItemLike item, int count) {
+		return BlockLoot.createSilkTouchDispatchTable(ore, LootItem.lootTableItem(item)
+				.apply(SetItemCountFunction.setCount(ConstantValue.exactly(count)))
+				.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+				.apply(ApplyExplosionDecay.explosionDecay()));
 	}
 
 	private static Builder genCopyNbt(ItemLike item, String... tags) {
@@ -158,7 +150,7 @@ public class ECBlockLootProvider extends AbstractECLootProvider {
 	}
 
 	private void save(CachedOutput cache, ResourceLocation key, Block block) throws IOException {
-		Function<ItemLike, Builder> func = functionTable.get(block);
+		Function<Block, Builder> func = functionTable.get(block);
 		Builder builder = func != null ? func.apply(block) : genRegular(block);
 
 		save(cache, builder.setParamSet(LootContextParamSets.BLOCK), getPath(key));
