@@ -46,7 +46,7 @@ public class FeatherSpikesSpell extends Spell {
         @Override
         public void tick() {
             if (this.remainingCasts <= 0) {
-                end();
+                stop();
             } else if (this.getTicks() % INTERVAL == 0) {
                 var level = livingEntity.level;
                 var spike = new FeatherSpike(level, livingEntity);

@@ -33,7 +33,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
         builder(ShrineUpgrades.SILK_TOUCH).predicate(miningPredicate(ECTags.Blocks.SHRINES_UPGRADABLES_SILK_TOUCH)).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2).incompatibleWith(ShrineUpgrades.FORTUNE);
         builder(ShrineUpgrades.FORTUNE).predicate(miningPredicate(ECTags.Blocks.SHRINES_UPGRADABLES_FORTUNE)).max(3).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.3F).incompatibleWith(ShrineUpgrades.SILK_TOUCH);
         builder(ShrineUpgrades.PLANTING).match(ECTags.Blocks.SHRINES_UPGRADABLES_PLANTING).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F);
-        builder(ShrineUpgrades.BONELESS_GROWTH).match(ECBlocks.GROWTH_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 4F).incompatibleWith(ShrineUpgrades.STEM_POLLINATION);
+        builder(ShrineUpgrades.BONELESS_GROWTH).match(ECBlocks.GROWTH_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.5F).addBonus(BonusType.SPEED, 10F).addBonus(BonusType.CAPACITY, 1.5F).incompatibleWith(ShrineUpgrades.STEM_POLLINATION);
         builder(ShrineUpgrades.PICKUP).match(ECBlocks.VACUUM_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 500F).addBonus(BonusType.SPEED, 20F).addBonus(BonusType.RANGE, 0.5F).incompatibleWith(ShrineUpgrades.VORTEX, ShrineUpgrades.STRENGTH);
 		builder(ShrineUpgrades.VORTEX).match(ECBlocks.VACUUM_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 2F).addBonus(BonusType.RANGE, 0.75F).incompatibleWith(ShrineUpgrades.PICKUP);
 		builder(ShrineUpgrades.NECTAR).match(ECBlocks.SWEET_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 5F).addBonus(BonusType.SPEED, 2F).incompatibleWith(ShrineUpgrades.STRENGTH);

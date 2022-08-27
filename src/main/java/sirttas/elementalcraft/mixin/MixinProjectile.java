@@ -6,6 +6,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,6 +22,8 @@ public abstract class MixinProjectile extends Entity {
 
     @Unique
     private boolean homing = false;
+    @Unique
+    private double maxReachedSpeed = -1;
 
     @Shadow
     private boolean hasBeenShot;
@@ -66,15 +69,20 @@ public abstract class MixinProjectile extends Entity {
             return;
         }
 
+        setHomingTo(hit.getLocation());
+    }
+
+    private void setHomingTo(Vec3 target) {
         var oldDelta = this.getDeltaMovement();
         var length = oldDelta.length();
-        var targetVector = hit.getLocation().subtract(this.position()).normalize();
+        var targetVector = target.subtract(this.position()).normalize();
         var normalizedDelta = oldDelta.normalize();
 
+        maxReachedSpeed = Math.max(maxReachedSpeed, length);
         if (Math.acos(normalizedDelta.dot(targetVector)) > Math.PI / 16) {
-            length *= 0.9;
+            length *= 0.995;
         } else {
-            length *= 1.1;
+            length = Math.min(length * 1.005, maxReachedSpeed);
         }
 
         this.setDeltaMovement(targetVector.add(normalizedDelta).normalize().scale(length));

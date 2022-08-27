@@ -79,7 +79,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		}
 		this.setChanged();
 		if (this.level != null) {
-			this.getBlockState().updateNeighbourShapes(this.level, this.getBlockPos(), 1);
+			this.getBlockState().updateNeighbourShapes(this.level, this.getBlockPos(), 3);
 		}
 	}
 	

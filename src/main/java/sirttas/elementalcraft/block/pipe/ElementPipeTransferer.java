@@ -30,6 +30,7 @@ public class ElementPipeTransferer implements IElementTransferer {
             case IMPAIRED -> ECConfig.COMMON.impairedPipeTransferAmount.get();
             case STANDARD -> ECConfig.COMMON.pipeTransferAmount.get();
             case IMPROVED -> ECConfig.COMMON.improvedPipeTransferAmount.get();
+            case CREATIVE -> Integer.MAX_VALUE;
         };
     }
 

@@ -59,6 +59,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.PIPE_IMPAIRED, list);
 		addItem(ECBlocks.PIPE, list);
 		addItem(ECBlocks.PIPE_IMPROVED, list);
+		addItem(ECBlocks.PIPE_CREATIVE, list);
 		addItem(ECItems.COVER_FRAME, list);
 		addItem(ECItems.PIPE_PRIORITY, list);
 		addItem(ECBlocks.RETRIEVER, list);

@@ -179,6 +179,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				pipeBlock(pipe, name, "brass");
 			} else if (block == ECBlocks.PIPE_IMPROVED.get()) {
 				pipeBlock(pipe, name, "pure_iron");
+			} else if (block == ECBlocks.PIPE_CREATIVE.get()) {
+				pipeBlock(pipe, name, "creative_iron");
 			} else {
 				pipeBlock(pipe, name, "iron");
 			}

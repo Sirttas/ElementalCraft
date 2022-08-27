@@ -51,6 +51,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	public static final String NAME = "elementpipe";
 	public static final String NAME_IMPAIRED = NAME + "_impaired";
 	public static final String NAME_IMPROVED = NAME + "_improved";
+	public static final String NAME_CREATIVE = NAME + "_creative";
 
 	private static final VoxelShape BASE_SHAPE = Block.box(6.5D, 6.5D, 6.5D, 9.5D, 9.5D, 9.5D);
 	private static final VoxelShape WEST_SHAPE = Block.box(0, 7D, 7D, 6.5D, 9D, 9D);
@@ -299,7 +300,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	public enum PipeType {
-		IMPAIRED, STANDARD, IMPROVED;
+		IMPAIRED, STANDARD, IMPROVED, CREATIVE;
 	}
 
 }

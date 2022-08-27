@@ -29,6 +29,7 @@ import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.StreamSupport;
 
 public class Spell implements IElementTypeProvider {
@@ -83,6 +84,10 @@ public class Spell implements IElementTypeProvider {
 
 	public void delay(Entity caster, int delay, Runnable cast) {
 		addSpellInstance(AbstractSpellInstance.delay(caster, this, delay, cast));
+	}
+
+	public void effect(Entity caster, int duration, Consumer<AbstractSpellInstance> tick) {
+		addSpellInstance(AbstractSpellInstance.effect(caster, this, duration, tick));
 	}
 
 	public boolean consume(Entity caster, boolean simulate) {

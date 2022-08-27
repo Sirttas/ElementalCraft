@@ -1,11 +1,23 @@
+1.19.2-5.3.4:
+
+- new block: creative element pipe
+- staff focus and elytras can now have jewels
+- smoothen jewel of the hawk movements
+- dash now behave like fireworks if used with elytras
+- the growth shrine with a boneless growth shrine upgrade now uses growth ticks
+- fix a bug where the growth shrine with a stem pollination shrine upgrade would try to grow a stem that cannot grow
+- fix container shape missing a small part of the west connector
+- fix container model not updating correctly when pipe connect/disconnect
+
+
 1.19.2-5.3.3:
 
 - add new elementopedia entries
+- add a blacklist tag for the growth shine
+- add grass and tall grass to the growth shrine blacklist
 - fix typo (issue #103)
 - fix inert crystal and springaline cluster loot table
 - fix pickup/strength shrine upgrade not being tagged as incompatible with each other
-- add a blacklist tag for the growth shine
-- add grass and tall grass to the growth shrine blacklist
 - fix a few recipes
 
 

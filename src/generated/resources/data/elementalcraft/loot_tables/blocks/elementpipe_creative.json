@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:elementpipe_creative"
+        }
+      ],
+      "name": "main",
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:alternative",
+          "terms": [
+            {
+              "block": "elementalcraft:elementpipe_creative",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "cover": "frame"
+              }
+            },
+            {
+              "block": "elementalcraft:elementpipe_creative",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "cover": "frame"
+              }
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:cover_frame"
+        }
+      ],
+      "name": "frame",
+      "rolls": 1.0
+    }
+  ]
+}

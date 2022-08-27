@@ -87,7 +87,7 @@ public class ECBlockEntityTypes {
     public static final RegistryObject<BlockEntityType<FireFurnaceBlockEntity>> FIRE_FURNACE = register(FireFurnaceBlockEntity::new, ECBlocks.FIRE_FURNACE);
     public static final RegistryObject<BlockEntityType<FireBlastFurnaceBlockEntity>> FIRE_BLAST_FURNACE = register(FireBlastFurnaceBlockEntity::new, ECBlocks.FIRE_BLAST_FURNACE);
     public static final RegistryObject<BlockEntityType<PurifierBlockEntity>> PURIFIER = register(PurifierBlockEntity::new, ECBlocks.PURIFIER);
-    public static final RegistryObject<BlockEntityType<ElementPipeBlockEntity>> PIPE = register(() -> builder(ElementPipeBlockEntity::new, ECBlocks.PIPE_IMPAIRED, ECBlocks.PIPE, ECBlocks.PIPE_IMPROVED), ElementPipeBlock.NAME);
+    public static final RegistryObject<BlockEntityType<ElementPipeBlockEntity>> PIPE = register(() -> builder(ElementPipeBlockEntity::new, ECBlocks.PIPE_IMPAIRED, ECBlocks.PIPE, ECBlocks.PIPE_IMPROVED, ECBlocks.PIPE_CREATIVE), ElementPipeBlock.NAME);
     public static final RegistryObject<BlockEntityType<FirePylonBlockEntity>> FIRE_PYLON = register(FirePylonBlockEntity::new, ECBlocks.FIRE_PYLON);
     public static final RegistryObject<BlockEntityType<VacuumShrineBlockEntity>> VACUUM_SHRINE = register(VacuumShrineBlockEntity::new, ECBlocks.VACUUM_SHRINE);
     public static final RegistryObject<BlockEntityType<GrowthShrineBlockEntity>> GROWTH_SHRINE = register(GrowthShrineBlockEntity::new, ECBlocks.GROWTH_SHRINE);

@@ -128,6 +128,7 @@ public class ECBlocks {
 	public static final RegistryObject<ElementPipeBlock> PIPE_IMPAIRED = register(() -> new ElementPipeBlock(ElementPipeBlock.PipeType.IMPAIRED), ElementPipeBlock.NAME_IMPAIRED);
 	public static final RegistryObject<ElementPipeBlock> PIPE = register(() -> new ElementPipeBlock(ElementPipeBlock.PipeType.STANDARD), ElementPipeBlock.NAME);
 	public static final RegistryObject<ElementPipeBlock> PIPE_IMPROVED = register(() -> new ElementPipeBlock(ElementPipeBlock.PipeType.IMPROVED), ElementPipeBlock.NAME_IMPROVED);
+	public static final RegistryObject<ElementPipeBlock> PIPE_CREATIVE = register(() -> new ElementPipeBlock(ElementPipeBlock.PipeType.CREATIVE), ElementPipeBlock.NAME_CREATIVE);
 	public static final RegistryObject<RetrieverBlock> RETRIEVER = register(RetrieverBlock::new, RetrieverBlock.NAME);
 	public static final RegistryObject<SorterBlock> SORTER = register(SorterBlock::new, SorterBlock.NAME);
 	public static final RegistryObject<SpellDeskBlock> SPELL_DESK = register(SpellDeskBlock::new, SpellDeskBlock.NAME);

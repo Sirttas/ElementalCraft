@@ -1,0 +1,18 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elementalcraft:block/elementpipe_creative_core"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/cover_frame",
+        "uvlock": true
+      },
+      "when": {
+        "cover": "frame"
+      }
+    }
+  ]
+}

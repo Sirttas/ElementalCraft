@@ -1,7 +1,8 @@
 {
   "bonuses": {
-    "element_consumption": 5.0,
-    "speed": 4.0
+    "element_capacity": 1.5,
+    "element_consumption": 1.5,
+    "speed": 10.0
   },
   "max_amount": 1,
   "predicate": {

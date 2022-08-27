@@ -2,6 +2,8 @@ package sirttas.elementalcraft.spell;
 
 import net.minecraft.world.entity.Entity;
 
+import java.util.function.Consumer;
+
 public abstract class AbstractSpellInstance {
 
 	private final Spell spell;
@@ -22,7 +24,7 @@ public abstract class AbstractSpellInstance {
 
 	public abstract void tick();
 
-	public void end() {
+	public void stop() {
 		this.remainingTicks = -1;
 	}
 
@@ -40,6 +42,10 @@ public abstract class AbstractSpellInstance {
 
 	public static AbstractSpellInstance delay(Entity sender, Spell spell, int delay, Runnable cast) {
 		return new Delay(sender, spell, delay, cast);
+	}
+
+	public static AbstractSpellInstance effect(Entity sender, Spell spell, int duration, Consumer<AbstractSpellInstance> tick) {
+		return new Effect(sender, spell, duration, tick);
 	}
 
 	public Spell getSpell() {
@@ -68,6 +74,20 @@ public abstract class AbstractSpellInstance {
 			if (getTicks() == getDuration()) {
 				cast.run();
 			}
+		}
+	}
+
+	private static class Effect extends AbstractSpellInstance {
+		private final Consumer<AbstractSpellInstance> ticker;
+
+		public Effect(Entity sender, Spell spell, int duration, Consumer<AbstractSpellInstance> ticker) {
+			super(sender, spell, duration);
+			this.ticker = ticker;
+		}
+
+		@Override
+		public void tick() {
+			ticker.accept(this);
 		}
 	}
 }

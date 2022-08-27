@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_elementpipe_creative": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:elementpipe_creative"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_elementpipe_creative"
+    ]
+  ]
+}
