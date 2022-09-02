@@ -2,10 +2,11 @@ package sirttas.elementalcraft.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.data.event.GatherDataEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.datagen.loot.ECBlockLootProvider;
 import sirttas.elementalcraft.datagen.loot.ECChestLootProvider;
 import sirttas.elementalcraft.datagen.loot.ECEntityLootProvider;
@@ -64,5 +65,14 @@ public class ECDataGenerators {
 //		if (ECinteractions.isSilentGearActive()) {
 //			generator.addProvider(includeServer, new ECSilentGearMaterialProvider(generator));
 //		}
+	}
+
+	public static String getPipeTexture(ElementPipeBlock.PipeType type) {
+		return switch (type) {
+			case IMPAIRED -> "iron";
+			case STANDARD -> "brass";
+			case IMPROVED -> "pure_iron";
+			case CREATIVE -> "creative_iron";
+		};
 	}
 }

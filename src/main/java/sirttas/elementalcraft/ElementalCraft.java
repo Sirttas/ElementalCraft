@@ -4,7 +4,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -14,13 +13,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
-import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -32,9 +27,9 @@ import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectTypes;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.loot.ECLootModifiers;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
@@ -99,7 +94,6 @@ public class ElementalCraft {
 		PureOreRecipeInjectors.register(modBus);
 
 		modBus.addListener(this::setup);
-		modBus.addListener(this::registerCapabilities);
 		modBus.addListener(this::enqueueIMC);
 		MinecraftForge.EVENT_BUS.addListener(PURE_ORE_MANAGER::reload);
 	}
@@ -126,13 +120,6 @@ public class ElementalCraft {
     private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECLootFunctions.setup();
-	}
-
-	private void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(IElementStorage.class);
-		event.register(IRuneHandler.class);
-		event.register(IElementTransferer.class);
-		event.register(ISourceTraitHolder.class);
 	}
 	
 	private void enqueueIMC(InterModEnqueueEvent event) {

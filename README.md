@@ -1,4 +1,5 @@
 [![](http://cf.way2muchnoise.eu/395158.svg)](https://www.curseforge.com/minecraft/mc-mods/elemental-craft)
+[![Modrinth](https://img.shields.io/modrinth/dt/o51LXm0t?label=modrinth)](https://modrinth.com/mod/elemental-craft)
 [![Discord](https://img.shields.io/discord/726853121816526878.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/BFfAmJP)
 [![build](https://github.com/Sirttas/ElementalCraft/actions/workflows/build.yml/badge.svg)](https://github.com/Sirttas/ElementalCraft/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sirttas_ElementalCraft&metric=alert_status)](https://sonarcloud.io/dashboard?id=Sirttas_ElementalCraft)

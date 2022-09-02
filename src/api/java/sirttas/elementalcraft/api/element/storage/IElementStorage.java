@@ -1,12 +1,14 @@
 package sirttas.elementalcraft.api.element.storage;
 
 import net.minecraft.core.Direction;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
 
 import javax.annotation.Nullable;
 
+@AutoRegisterCapability
 public interface IElementStorage {
 
 	int getElementAmount(ElementType type);

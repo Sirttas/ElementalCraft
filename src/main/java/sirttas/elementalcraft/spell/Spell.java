@@ -21,11 +21,13 @@ import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
+import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -79,7 +81,7 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	public void addSpellInstance(AbstractSpellInstance instance) {
-		SpellTickManager.getInstance(instance.getCaster().level).addSpellInstance(instance);
+		SpellTickHelper.get(instance.getCaster()).ifPresent(m -> m.addSpellInstance(instance));
 	}
 
 	public void delay(Entity caster, int delay, Runnable cast) {
@@ -94,7 +96,7 @@ public class Spell implements IElementTypeProvider {
 		if (!(caster instanceof Player) || !((Player) caster).isCreative()) {
 			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(caster));
 			
-			return CapabilityElementStorage.get(caster).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
+			return ElementStorageHelper.get(caster).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
 		}
 		return true;
 	}

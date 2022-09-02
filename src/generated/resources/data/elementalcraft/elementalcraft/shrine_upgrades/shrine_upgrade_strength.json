@@ -13,11 +13,11 @@
           "values": [
             {
               "type": "elementalcraft:has_shrine_upgrade",
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
             },
             {
               "type": "elementalcraft:has_shrine_upgrade",
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
             }
           ]
         }

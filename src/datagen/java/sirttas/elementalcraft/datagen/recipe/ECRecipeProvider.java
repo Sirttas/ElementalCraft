@@ -149,6 +149,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(ECBlocks.WHITE_ROCK_BRICK.get(), 4).define('#', ECBlocks.WHITE_ROCK.get()).pattern("##").pattern("##").unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get())).save(consumer);
 		SingleItemRecipeBuilder.stonecutting(Ingredient.of(ECBlocks.WHITE_ROCK.get()), ECBlocks.WHITE_ROCK_BRICK.get()).unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get())).save(consumer,
 				ElementalCraft.createRL("whiterock_brick_from_whiterock_stonecutting"));
+		ShapedRecipeBuilder.shaped(ECBlocks.MOSSY_WHITE_ROCK.get(), 8).define('#', ECBlocks.WHITE_ROCK.get()).define('$', Blocks.MOSS_BLOCK).pattern("###").pattern("#$#").pattern("###").unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get())).save(consumer);
+		ShapedRecipeBuilder.shaped(ECBlocks.BURNT_WHITE_ROCK.get(), 8).define('#', ECBlocks.WHITE_ROCK.get()).define('$', Blocks.MAGMA_BLOCK).pattern("###").pattern("#$#").pattern("###").unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get())).save(consumer);
 		ShapedRecipeBuilder.shaped(ECBlocks.SPRINGALINE_BLOCK.get()).define('#', ECItems.SPRINGALINE_SHARD.get()).pattern("##").pattern("##").unlockedBy(HAS_SPRINGALINE_SHARD, has(ECItems.SPRINGALINE_SHARD))
 				.save(consumer);
 		ShapedRecipeBuilder.shaped(ECBlocks.SPRINGALINE_GLASS.get(), 2).define('s', ECItems.SPRINGALINE_SHARD.get()).define('g', ECBlocks.BURNT_GLASS.get()).pattern(" s ").pattern("sgs").pattern(" s ")
@@ -489,7 +491,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		createJewelRecipe(Jewels.STRIDER, b -> b.pattern(" f ").pattern("bUb").pattern(" f ").define('f', ECTags.Items.FINE_FIRE_GEMS).define('b', Items.LAVA_BUCKET), consumer);
 		createJewelRecipe(Jewels.WATER_STRIDER, b -> b.pattern(" w ").pattern("bUb").pattern(" w ").define('w', ECTags.Items.FINE_WATER_GEMS).define('b', Items.WATER_BUCKET), consumer);
 		createJewelRecipe(Jewels.BASILISK, b -> b.pattern("fwf").pattern("cUc").pattern("sws").define('w', ECTags.Items.PRISTINE_WATER_GEMS).define('c', ECItems.PURE_CRYSTAL.get()).define('f', Items.FERMENTED_SPIDER_EYE).define('s', Items.SCUTE), consumer);
-
+		createJewelRecipe(Jewels.PIGLIN, b -> b.pattern("gfg").pattern("pUp").pattern("gcg").define('c', ECItems.FIRE_CRYSTAL.get()).define('f', ECTags.Items.CRUDE_FIRE_GEMS).define('g', Tags.Items.INGOTS_GOLD).define('p', Items.PORKCHOP), consumer);
 	}
 
 	private void registerSpells(Consumer<FinishedRecipe> consumer) {

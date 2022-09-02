@@ -5,7 +5,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import sirttas.elementalcraft.spell.Spell;
-import sirttas.elementalcraft.spell.SpellTickManager;
+import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 public class CastSpellGoal extends Goal {
 
@@ -28,7 +28,7 @@ public class CastSpellGoal extends Goal {
 			
 			this.spell.consume(caster, false);
 			if (!level.isClientSide) {
-				SpellTickManager.getInstance(caster.getLevel()).setCooldown(caster, spell);
+				SpellTickHelper.startCooldown(caster, spell);
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public class CastSpellGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		return caster.getTarget() != null && !SpellTickManager.getInstance(caster.level).hasCooldown(caster, spell);
+		return caster.getTarget() != null && SpellTickHelper.hasCooldown(caster, spell);
 	}
 
 }

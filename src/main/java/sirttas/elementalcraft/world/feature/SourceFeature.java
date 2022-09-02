@@ -26,6 +26,7 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 	public static final String NAME_DRIPSTONE_CAVE = NAME + "_dripstone_cave";
 	public static final String NAME_DEEP_DARK = NAME + "_deep_dark";
 	public static final String NAME_UNDERGROUND = NAME + "_underground";
+	public static final String NAME_SKY = NAME + "_sky";
 
 	public SourceFeature() {
 		super(IElementTypeFeatureConfig.CODEC);

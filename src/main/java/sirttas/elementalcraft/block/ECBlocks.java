@@ -182,11 +182,20 @@ public class ECBlocks {
 	public static final RegistryObject<SlabBlock> WHITE_ROCK_SLAB = registerSlab(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<StairBlock> WHITE_ROCK_STAIRS = registerStairs(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<WallBlock> WHITE_ROCK_WALL = registerWall(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
+
 	public static final RegistryObject<FenceBlock> WHITE_ROCK_FENCE = registerFence(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<Block> WHITE_ROCK_BRICK = registerSimple(ECProperties.Blocks.WHITEROCK, "whiterock_brick");
 	public static final RegistryObject<SlabBlock> WHITE_ROCK_BRICK_SLAB = registerSlab(WHITE_ROCK_BRICK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<StairBlock> WHITE_ROCK_BRICK_STAIRS = registerStairs(WHITE_ROCK_BRICK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<WallBlock> WHITE_ROCK_BRICK_WALL = registerWall(WHITE_ROCK_BRICK, ECProperties.Blocks.WHITEROCK);
+	public static final RegistryObject<Block> MOSSY_WHITE_ROCK = registerSimple(ECProperties.Blocks.WHITEROCK, "whiterock_mossy");
+	public static final RegistryObject<SlabBlock> MOSSY_WHITE_ROCK_SLAB = registerSlab(MOSSY_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
+	public static final RegistryObject<StairBlock> MOSSY_WHITE_ROCK_STAIRS = registerStairs(MOSSY_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
+	public static final RegistryObject<WallBlock> MOSSY_WHITE_ROCK_WALL = registerWall(MOSSY_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
+	public static final RegistryObject<Block> BURNT_WHITE_ROCK = registerSimple(ECProperties.Blocks.WHITEROCK, "whiterock_burnt");
+	public static final RegistryObject<SlabBlock> BURNT_WHITE_ROCK_SLAB = registerSlab(BURNT_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
+	public static final RegistryObject<StairBlock> BURNT_WHITE_ROCK_STAIRS = registerStairs(BURNT_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
+	public static final RegistryObject<WallBlock> BURNT_WHITE_ROCK_WALL = registerWall(BURNT_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<Block> PURE_ROCK = registerSimple(ECProperties.Blocks.PUREROCK, "purerock");
 	public static final RegistryObject<SlabBlock> PURE_ROCK_SLAB = registerSlab(PURE_ROCK, ECProperties.Blocks.PUREROCK);
 	public static final RegistryObject<StairBlock> PURE_ROCK_STAIRS = registerStairs(PURE_ROCK, ECProperties.Blocks.PUREROCK);

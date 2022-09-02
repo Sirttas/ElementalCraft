@@ -1,7 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "elementalcraft:item/template_elementpipe",
-	"textures": {
-		"texture": "elementalcraft:block/creative_iron"
-	}
-}

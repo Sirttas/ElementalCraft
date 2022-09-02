@@ -1,11 +1,13 @@
 package sirttas.elementalcraft.api.source.trait.holder;
 
 import net.minecraft.resources.ResourceKey;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 
 import java.util.Map;
 
+@AutoRegisterCapability
 public interface ISourceTraitHolder {
 
     Map<ResourceKey<SourceTrait>, ISourceTraitValue> getTraits();

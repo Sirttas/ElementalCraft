@@ -118,6 +118,14 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.WHITE_ROCK_BRICK_SLAB, list);
 		addItem(ECBlocks.WHITE_ROCK_BRICK_STAIRS, list);
 		addItem(ECBlocks.WHITE_ROCK_BRICK_WALL, list);
+		addItem(ECBlocks.MOSSY_WHITE_ROCK, list);
+		addItem(ECBlocks.MOSSY_WHITE_ROCK_SLAB, list);
+		addItem(ECBlocks.MOSSY_WHITE_ROCK_STAIRS, list);
+		addItem(ECBlocks.MOSSY_WHITE_ROCK_WALL, list);
+		addItem(ECBlocks.BURNT_WHITE_ROCK, list);
+		addItem(ECBlocks.BURNT_WHITE_ROCK_SLAB, list);
+		addItem(ECBlocks.BURNT_WHITE_ROCK_STAIRS, list);
+		addItem(ECBlocks.BURNT_WHITE_ROCK_WALL, list);
 		addItem(ECBlocks.BURNT_GLASS, list);
 		addItem(ECBlocks.BURNT_GLASS_PANE, list);
 		addItem(ECBlocks.PURE_ROCK, list);

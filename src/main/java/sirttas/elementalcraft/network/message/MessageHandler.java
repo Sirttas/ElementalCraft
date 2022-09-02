@@ -7,7 +7,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexP
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassMessage;
 import sirttas.elementalcraft.item.spell.book.SpellBookMessage;
 import sirttas.elementalcraft.jewel.handler.ActiveJewelsMessage;
-import sirttas.elementalcraft.spell.SpellTickCooldownMessage;
+import sirttas.elementalcraft.spell.tick.SpellTickCooldownMessage;
 
 public class MessageHandler {
 

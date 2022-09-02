@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "elementalcraft:block/whiterock_mossy_slab"
+    },
+    "type=double": {
+      "model": "elementalcraft:block/whiterock_mossy"
+    },
+    "type=top": {
+      "model": "elementalcraft:block/whiterock_mossy_slab_top"
+    }
+  }
+}

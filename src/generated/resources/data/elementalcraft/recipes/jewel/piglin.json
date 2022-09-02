@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "c": {
+      "item": "elementalcraft:firecrystal"
+    },
+    "f": {
+      "tag": "elementalcraft:gems/crude_fire"
+    },
+    "g": {
+      "tag": "forge:ingots/gold"
+    },
+    "p": {
+      "item": "minecraft:porkchop"
+    }
+  },
+  "pattern": [
+    "gfg",
+    "pUp",
+    "gcg"
+  ],
+  "result": {
+    "item": "elementalcraft:jewel",
+    "nbt": {
+      "elementalcraft": {
+        "jewel": "elementalcraft:piglin"
+      }
+    }
+  }
+}

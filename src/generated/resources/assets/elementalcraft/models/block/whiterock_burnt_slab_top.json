@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "elementalcraft:block/whiterock_burnt",
+    "side": "elementalcraft:block/whiterock_burnt",
+    "top": "elementalcraft:block/whiterock_burnt"
+  }
+}

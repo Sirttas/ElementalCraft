@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "elementalcraft:block/whiterock_mossy",
+    "side": "elementalcraft:block/whiterock_mossy",
+    "top": "elementalcraft:block/whiterock_mossy"
+  }
+}

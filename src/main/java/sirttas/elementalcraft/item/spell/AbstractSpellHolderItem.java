@@ -22,8 +22,8 @@ import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.spell.ToolActionSpell;
+import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -80,7 +80,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
     @Override
 	public ItemStack finishUsingItem(@Nonnull ItemStack stack, Level level, @Nonnull LivingEntity entityLiving) {
 		if (!level.isClientSide && !(entityLiving instanceof Player player && player.isCreative())) {
-			SpellTickManager.getInstance(level).setCooldown(entityLiving, SpellHelper.getSpell(stack));
+			SpellTickHelper.startCooldown(entityLiving, SpellHelper.getSpell(stack));
 		}
 		return stack;
 	}
@@ -99,7 +99,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 			}
 			if (result.shouldSwing() && !player.isCreative()) {
 				if (!level.isClientSide) {
-					SpellTickManager.getInstance(level).setCooldown(player, spell);
+					SpellTickHelper.startCooldown(player, spell);
 				}
 				player.releaseUsingItem();
 			} else if (doChannel && spell.isChannelable()) {
@@ -113,7 +113,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	}
 
 	private InteractionResult castSpell(Player player, Spell spell) {
-		if (SpellTickManager.getInstance(player.level).hasCooldown(player, spell)) {
+		if (SpellTickHelper.hasCooldown(player, spell)) {
 			return InteractionResult.PASS;
 		}
 		

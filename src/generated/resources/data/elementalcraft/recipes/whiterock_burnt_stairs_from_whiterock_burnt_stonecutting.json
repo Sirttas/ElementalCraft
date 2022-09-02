@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "elementalcraft:whiterock_burnt"
+  },
+  "result": "elementalcraft:whiterock_burnt_stairs"
+}

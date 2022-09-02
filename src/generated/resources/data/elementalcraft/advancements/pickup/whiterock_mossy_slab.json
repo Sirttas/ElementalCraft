@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_whiterock_mossy_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:whiterock_mossy_slab"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_whiterock_mossy_slab"
+    ]
+  ]
+}

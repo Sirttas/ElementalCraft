@@ -9,10 +9,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 
 import javax.annotation.Nonnull;
@@ -59,11 +58,11 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove) {
-			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
 				IElementStorage elementStorage = getElementStorage();
 				
 				return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
-			} else if (cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
+			} else if (cap == ElementalCraftCapabilities.RUNE_HANDLE) {
 				IRuneHandler runeHandler = getRuneHandler();
 				
 				return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();

@@ -4,7 +4,7 @@
     "config": {
       "type": "random",
       "element_type": {
-        "air": 1,
+        "air": 3,
         "earth": 2,
         "fire": 1,
         "water": 1

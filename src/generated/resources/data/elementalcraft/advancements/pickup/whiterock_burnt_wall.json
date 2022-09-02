@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_whiterock_burnt_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:whiterock_burnt_wall"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_whiterock_burnt_wall"
+    ]
+  ]
+}

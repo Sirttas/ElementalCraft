@@ -4,6 +4,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -14,6 +15,7 @@ import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AutoRegisterCapability
 public interface IRuneHandler {
 
 	void addRune(Rune rune);

@@ -233,6 +233,7 @@ public class ECTags {
         public static final TagKey<Biome> HAS_SOURCE_DRIPSTONE_CAVE = createTag("has_sources/dripstone_cave");
 		public static final TagKey<Biome> HAS_SOURCE_DEEP_DARK = createTag("has_sources/deep_dark");
 		public static final TagKey<Biome> HAS_SOURCE_UNDERGROUND = createTag("has_sources/underground");
+		public static final TagKey<Biome> HAS_SOURCE_SKY = createTag("has_sources/sky");
 
 
         private Biomes() {}

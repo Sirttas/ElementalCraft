@@ -6,7 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
@@ -56,7 +56,7 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 //			if (cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
 //				return LazyOptional.of(manaReceiver != null ? () -> manaReceiver : null).cast();
 //			} else
-			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
 				return getElementStorage(ECConfig.COMMON.manaSythesizerLenseElementMultiplier.get());
 			}
 		}

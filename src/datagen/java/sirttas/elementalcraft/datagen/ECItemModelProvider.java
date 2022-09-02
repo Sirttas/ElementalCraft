@@ -6,12 +6,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.AmethystClusterBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
@@ -20,6 +24,7 @@ import javax.annotation.Nonnull;
 
 public class ECItemModelProvider extends ItemModelProvider {
 
+	private static final String BLOCK_PREFIX = "block/";
 
 	public ECItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
 		super(generator, ElementalCraftApi.MODID, existingFileHelper);
@@ -39,8 +44,15 @@ public class ECItemModelProvider extends ItemModelProvider {
 					
 					if (block instanceof AmethystClusterBlock) {
 						singleTextureInBlock(name);
+					} else if (block instanceof WallBlock) {
+						wallInventory(name, ElementalCraft.createRL(BLOCK_PREFIX + StringUtils.removeEnd(name, "_wall")));
+					} else if (block instanceof IronBarsBlock) {
+						singleTexture(name, ElementalCraft.createRL(BLOCK_PREFIX + StringUtils.removeEnd(name, "_pane")))
+								.renderType("minecraft:translucent");
+					} else if (block instanceof ElementPipeBlock pipe) {
+						pipeInventory(pipe, name);
 					} else {
-						withExistingParent(name, ElementalCraft.createRL("block/" + name));
+						withExistingParent(name, ElementalCraft.createRL(BLOCK_PREFIX + name));
 					}
 				} else if (item instanceof ElementHolderItem) {
 					withExistingParent(name, ElementalCraft.createRL("item/template_element_holder"));
@@ -56,12 +68,17 @@ public class ECItemModelProvider extends ItemModelProvider {
 		}
 	}
 
+	private void pipeInventory(ElementPipeBlock pipe, String name) {
+		withExistingParent(name, ElementalCraft.createRL("item/template_elementpipe"))
+				.texture("texture", ElementalCraft.createRL(BLOCK_PREFIX + ECDataGenerators.getPipeTexture(pipe.getType())));
+	}
+
 	public ItemModelBuilder singleTexture(String name) {
 		return singleTexture(name, ElementalCraft.createRL("item/" + name));
 	}
 	
 	public ItemModelBuilder singleTextureInBlock(String name) {
-		return singleTexture(name, ElementalCraft.createRL("block/" + name));
+		return singleTexture(name, ElementalCraft.createRL(BLOCK_PREFIX + name));
 	}
 
 	public ItemModelBuilder singleTexture(String name, ResourceLocation texture) {

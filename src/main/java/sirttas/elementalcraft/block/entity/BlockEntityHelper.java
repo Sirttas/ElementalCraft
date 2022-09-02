@@ -6,12 +6,12 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.EmptyRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.block.container.IElementContainer;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -43,13 +43,13 @@ public class BlockEntityHelper {
 	}
 	
 	public static Optional<IElementStorage> getElementStorageAt(LevelReader world, BlockPos pos) {
-		return getBlockEntity(world, pos).flatMap(t -> CapabilityElementStorage.get(t).resolve());
+		return getBlockEntity(world, pos).flatMap(t -> ElementStorageHelper.get(t).resolve());
 	}
 	
 	@Nonnull
 	public static IRuneHandler getRuneHandlerAt(LevelReader world, BlockPos pos) {
 		return BlockEntityHelper.getBlockEntity(world, pos)
-				.map(CapabilityRuneHandler::get)
+				.map(RuneHandlerHelper::get)
 				.flatMap(LazyOptional::resolve)
 				.orElse(EmptyRuneHandler.INSTANCE);
 	}

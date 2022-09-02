@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.pureore.injector;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -18,7 +19,9 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -71,8 +74,8 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 		}
 	}
 
-	public void inject(Map<ResourceLocation, T> map) {
-		recipeManager.recipes.put(recipeType.get(), map.entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)));
+	public void inject(Collection<Recipe<?>> recipes, List<T> entries) {
+		recipes.addAll(entries);
 	}
 
 	public ItemStack getRecipeOutput(T recipe) {

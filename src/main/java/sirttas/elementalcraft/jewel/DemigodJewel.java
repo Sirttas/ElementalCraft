@@ -54,7 +54,7 @@ public class DemigodJewel extends Jewel {
 
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-        if (super.isActive(entity, elementStorage) && entity instanceof Player player) {
+        if (entity instanceof Player player && super.isActive(entity, elementStorage)) {
             Inventory inv = player.getInventory();
             return ECContainerHelper.getSlotFor(inv, new ItemStack(Items.TOTEM_OF_UNDYING)) >= 0;
         }

@@ -1,0 +1,35 @@
+{
+  "feature": {
+    "type": "elementalcraft:source",
+    "config": {
+      "type": "random",
+      "element_type": {
+        "air": 10,
+        "earth": 1,
+        "fire": 3,
+        "water": 1
+      }
+    }
+  },
+  "placement": [
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "absolute": 256
+        },
+        "min_inclusive": {
+          "absolute": 176
+        }
+      }
+    },
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 400
+    }
+  ]
+}

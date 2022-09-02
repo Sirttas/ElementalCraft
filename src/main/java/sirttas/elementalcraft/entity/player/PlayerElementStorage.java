@@ -6,8 +6,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
@@ -30,13 +31,13 @@ public class PlayerElementStorage implements IElementStorage {
 
 	@Nullable
 	public static ICapabilityProvider createProvider(Player player) {
-		return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY != null ? new ICapabilityProvider() {
+		return ElementalCraftCapabilities.ELEMENT_STORAGE != null ? new ICapabilityProvider() {
 			final PlayerElementStorage storage = new PlayerElementStorage(player);
 			
 			@Nonnull
 			@Override
 			public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-				return CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> storage));
+				return ElementalCraftCapabilities.ELEMENT_STORAGE.orEmpty(cap, LazyOptional.of(() -> storage));
 			}
 		} : null;
 	}
@@ -82,13 +83,13 @@ public class PlayerElementStorage implements IElementStorage {
 			Inventory inventory = player.getInventory();
 
 			for (int i = 0; i < inventory.getContainerSize(); i++) {
-				CapabilityElementStorage.get(inventory.getItem(i))
+				ElementStorageHelper.get(inventory.getItem(i))
 						.filter(IElementStorage::usableInInventory)
 						.ifPresent(storages::add);
 			}
 			if (ECinteractions.isCuriosActive()) {
 				CuriosInteractions.getHolders(player).stream()
-						.<IElementStorage>mapMulti((i, downstream) -> CapabilityElementStorage.get(i).ifPresent(downstream::accept))
+						.<IElementStorage>mapMulti((i, downstream) -> ElementStorageHelper.get(i).ifPresent(downstream::accept))
 						.filter(IElementStorage::usableInInventory)
 						.forEach(storages::add);
 			}

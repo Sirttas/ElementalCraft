@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
@@ -52,12 +52,12 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 		if (nbt != null && nbt.contains(ECNames.PARENT)) {
 			storage.deserializeNBT(nbt.getCompound(ECNames.PARENT));
 		}
-		return CapabilityElementStorage.createProvider(storage);
+		return ElementStorageHelper.createProvider(storage);
 	}
 
 	@Override
 	public ISingleElementStorage getElementStorage(ItemStack stack) {
-		return (ISingleElementStorage) CapabilityElementStorage.get(stack).orElse(new StaticElementStorage(elementType, 0));
+		return (ISingleElementStorage) ElementStorageHelper.get(stack).orElse(new StaticElementStorage(elementType, 0));
 	}
 
 	@Override

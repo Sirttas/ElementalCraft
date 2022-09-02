@@ -24,7 +24,6 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlock;
@@ -175,15 +174,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(target).rotationX(90).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.DOWN).end()
 				.part().modelFile(target).rotationX(270).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.UP).end();
 		} else if (block instanceof ElementPipeBlock pipe) {
-			if (block == ECBlocks.PIPE.get()) {
-				pipeBlock(pipe, name, "brass");
-			} else if (block == ECBlocks.PIPE_IMPROVED.get()) {
-				pipeBlock(pipe, name, "pure_iron");
-			} else if (block == ECBlocks.PIPE_CREATIVE.get()) {
-				pipeBlock(pipe, name, "creative_iron");
-			} else {
-				pipeBlock(pipe, name, "iron");
-			}
+			pipeBlock(pipe, name);
 		} else if (block instanceof SilkTouchShrineUpgradeBlock) {
 			ModelFile core = models().getExistingFile(prefix(name));
 			ModelFile attach = models().getExistingFile(prefix(name + "_attach"));
@@ -239,8 +230,8 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			.part().modelFile(connector).rotationY(270).addModel().condition(BlockStateProperties.WEST, true).end();
 	}
 
-	private void pipeBlock(ElementPipeBlock block, String name, String texture) {
-		ModelFile core = models().withExistingParent(name + CORE, prefix("template_elementpipe_core")).texture(TEXTURE, prefix(texture));
+	private void pipeBlock(ElementPipeBlock block, String name) {
+		ModelFile core = models().withExistingParent(name + CORE, prefix("template_elementpipe_core")).texture(TEXTURE, prefix(ECDataGenerators.getPipeTexture(block.getType())));
 		ModelFile frame = models().getExistingFile(prefix("cover_frame"));
 		
 		getMultipartBuilder(block).part().modelFile(core).addModel().end()

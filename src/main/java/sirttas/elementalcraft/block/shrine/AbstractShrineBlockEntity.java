@@ -18,9 +18,9 @@ import net.minecraftforge.registries.RegistryObject;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
@@ -263,7 +263,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	@Override
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+		if (!this.remove && cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
 			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
 		}
 		return super.getCapability(cap, side);

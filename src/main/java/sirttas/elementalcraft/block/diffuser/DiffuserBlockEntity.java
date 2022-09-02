@@ -8,10 +8,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
@@ -59,7 +59,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 		diffuser.hasDiffused = false;
 		if (tank != null && !tank.isEmpty()) {
 			diffuser.getLevel().getEntities(null, new AABB(diffuser.getBlockPos()).inflate(ECConfig.COMMON.diffuserRange.get())).stream()
-					.map(CapabilityElementStorage::get)
+					.map(ElementStorageHelper::get)
 					.map(LazyOptional::resolve)
 					.filter(Optional::isPresent)
 					.map(Optional::get)
@@ -83,7 +83,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 	@Override
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
+		if (!this.remove && cap == ElementalCraftCapabilities.RUNE_HANDLE) {
 			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 		}
 		return super.getCapability(cap, side);

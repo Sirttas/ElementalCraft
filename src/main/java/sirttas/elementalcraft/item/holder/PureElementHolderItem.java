@@ -9,7 +9,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
@@ -36,12 +36,12 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 		if (nbt != null && nbt.contains(ECNames.PARENT)) {
 			storage.deserializeNBT(nbt.getCompound(ECNames.PARENT));
 		}
-		return CapabilityElementStorage.createProvider(storage);
+		return ElementStorageHelper.createProvider(storage);
 	}
 
 	@Override
 	public IElementStorage getElementStorage(ItemStack stack) {
-		return CapabilityElementStorage.get(stack).orElse(new ElementStorage(stack));
+		return ElementStorageHelper.get(stack).orElse(new ElementStorage(stack));
 	}
 
 	@Override

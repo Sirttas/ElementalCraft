@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.pureore;
 
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -12,6 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.common.util.Lazy;
 import sirttas.dpanvil.api.event.DataPackReloadCompleteEvent;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
@@ -108,7 +108,7 @@ public class PureOreManager {
 
 	public void reload(DataPackReloadCompleteEvent event) {
 		var recipeManager = event.getRecipeManager();
-		Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors = getInjectors();
+		var injectors = getInjectors();
 
 		ElementalCraftApi.LOGGER.info("Pure ore generation started.\n\r\tRecipe Types: {}",
 				() -> injectors.stream()
@@ -123,11 +123,11 @@ public class PureOreManager {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection");
 			this.pureOres.values().removeIf(o -> !o.isProcessable());
 
-			List<Entry> entries = pureOres.values().stream().distinct().toList();
+			var entries = pureOres.values().stream().distinct().toList();
+			var recipes = new ArrayList<>(recipeManager.getRecipes());
 
-			recipeManager.recipes = recipeManager.recipes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-			injectors.forEach(injector -> inject(injector, entries));
-			recipeManager.recipes = recipeManager.recipes.entrySet().stream().collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
+			injectors.forEach(injector -> inject(injector, recipes, entries));
+			recipeManager.replaceRecipes(recipes);
 		}
 
 		ElementalCraftApi.LOGGER.info("Pure ore generation ended\r\n\tOres: {}", () -> pureOres.keySet().stream()
@@ -135,10 +135,8 @@ public class PureOreManager {
 				.collect(Collectors.joining(", ")));
 	}
 
-	private <C extends Container, T extends Recipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, List<Entry> entries) {
-		Map<ResourceLocation, T> map = injector.getRecipes();
-
-		map.putAll(entries.stream()
+	private <C extends Container, T extends Recipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, Collection<Recipe<?>> recipes, List<Entry> entries) {
+		injector.inject(recipes, entries.stream()
 				.distinct()
 				.<T>mapMulti((entry, downstream) -> {
 					if (entry.ore != null) {
@@ -149,11 +147,8 @@ public class PureOreManager {
 					}
 				})
 				.filter(Objects::nonNull)
-				.collect(Collectors.toMap(Recipe::getId, o -> o, (recipe1, recipe2) -> {
-					ElementalCraftApi.LOGGER.warn("Duplicated key for type {}: {}", injector.getRecipeType(), recipe1.getId());
-					return recipe1;
-				})));
-		injector.inject(map);
+				.filter(ElementalCraftUtils.distinctBy(Recipe::getId))
+				.toList());
 	}
 
 	private <C extends Container, T extends Recipe<C>> T injectEntry(AbstractPureOreRecipeInjector<C, T> injector, PureOre entry) {

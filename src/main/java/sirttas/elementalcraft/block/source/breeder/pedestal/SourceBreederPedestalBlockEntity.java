@@ -7,14 +7,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
-import sirttas.elementalcraft.api.source.trait.holder.CapabilitySourceTraitHolder;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
+import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
@@ -56,7 +57,7 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
 
     @Nullable
     public ISourceTraitHolder getTraitHolder() {
-        return CapabilitySourceTraitHolder.get(getReceptacle()).orElse(null);
+        return SourceTraitHolderHelper.get(getReceptacle()).orElse(null);
     }
 
     @Override
@@ -75,8 +76,8 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
     @Override
     @Nonnull
     public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-        if (!this.remove && cap == CapabilitySourceTraitHolder.SOURCE_TRAIT_HOLDER_CAPABILITY) {
-            return CapabilitySourceTraitHolder.get(getReceptacle()).cast();
+        if (!this.remove && cap == ElementalCraftCapabilities.SOURCE_TRAIT_HOLDER) {
+            return SourceTraitHolderHelper.get(getReceptacle()).cast();
         }
         return super.getCapability(cap, side);
     }

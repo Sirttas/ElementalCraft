@@ -20,11 +20,11 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.element.transfer.CapabilityElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer.ConnectionType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
 import sirttas.elementalcraft.api.element.transfer.path.SimpleElementTransferPathfinder;
@@ -100,7 +100,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 			if (tile instanceof ElementPipeBlockEntity) {
 				return ConnectionType.CONNECT;
 			}
-			return CapabilityElementStorage.get(tile, opposite).map(storage -> {
+			return ElementStorageHelper.get(tile, opposite).map(storage -> {
 				if (this.canInsertInStorage(storage, opposite)) {
 					return ConnectionType.INSERT;
 				} else if (this.canExtractFromStorage(storage, opposite)) {
@@ -144,7 +144,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
 				.sorted(pipe.transferer.comparator)
 				.map(Map.Entry::getKey)
-				.forEach(side -> pipe.getAdjacentTile(side).flatMap(tile -> CapabilityElementStorage.get(tile, side.getOpposite()).resolve()).ifPresent(sender -> {
+				.forEach(side -> pipe.getAdjacentTile(side).flatMap(tile -> ElementStorageHelper.get(tile, side.getOpposite()).resolve()).ifPresent(sender -> {
 					if (sender instanceof IElementTypeProvider provider) {
 						pipe.transferElement(sender, side, provider.getElementType());
 					}
@@ -192,7 +192,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 			switch (connection) {
 			case INSERT:
-				if (CapabilityElementStorage.get(tile, opposite).filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
+				if (ElementStorageHelper.get(tile, opposite).filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
 					this.setConnection(face, ConnectionType.EXTRACT);
 				} else {
 					this.setConnection(face, ConnectionType.DISCONNECT);
@@ -205,7 +205,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				}
 				return InteractionResult.SUCCESS;
 			case DISCONNECT:
-				LazyOptional<IElementStorage> cap = CapabilityElementStorage.get(tile, face.getOpposite());
+				LazyOptional<IElementStorage> cap = ElementStorageHelper.get(tile, face.getOpposite());
 
 				if (cap.filter(storage -> canInsertInStorage(storage, opposite)).isPresent()) {
 					this.setConnection(face, ConnectionType.INSERT);
@@ -286,7 +286,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	@Override
 	@Nonnull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-		if (!this.remove && cap == CapabilityElementTransferer.ELEMENT_TRANSFERER_CAPABILITY) {
+		if (!this.remove && cap == ElementalCraftCapabilities.ELEMENT_TRANSFERER) {
 			return LazyOptional.of(() -> (T) this.transferer);
 		}
 		return super.getCapability(cap, side);

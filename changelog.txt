@@ -1,3 +1,15 @@
+1.19.2-5.4.0:
+
+- new blocks: mossy white rock, burnt white rock and their variants
+- new jewel: jewel of the piglin
+- spell cooldowns are now saved between sessions
+- increased the probability of finding an air source
+- add sources in the sky (mainly air)
+- fix burnt glass pane and springaline glass pane not beeing translucent in inventory
+- fix pure ore injector interaction with FastSuite (issue #105)
+
+
+
 1.19.2-5.3.4:
 
 - new block: creative element pipe

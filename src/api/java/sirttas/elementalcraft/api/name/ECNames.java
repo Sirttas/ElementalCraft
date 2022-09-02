@@ -76,6 +76,7 @@ public class ECNames {
 	public static final String SOURCE_TRAIT_VALUE_PROVIDER_TYPE = "source_trait_value_provider_type";
 	public static final String SPELL = "spell";
 	public static final String SPELL_LIST = "spell_list";
+	public static final String SPELL_TICK_MANAGER = "spell_tick_manager";
 	public static final String SPELL_TYPE = "spell_type";
 	public static final String STABILIZED = "stabilized";
 	public static final String STACKS = "stacks";

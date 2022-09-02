@@ -9,6 +9,7 @@
     "MixinEntity",
     "MixinLivingEntity",
     "MixinMinecraftServer",
+    "MixinPiglinAi",
     "MixinPowderSnowBlock",
     "MixinProjectile",
     "MixinRepairContainer"

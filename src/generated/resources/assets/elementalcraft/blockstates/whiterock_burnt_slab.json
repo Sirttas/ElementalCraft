@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "elementalcraft:block/whiterock_burnt_slab"
+    },
+    "type=double": {
+      "model": "elementalcraft:block/whiterock_burnt"
+    },
+    "type=top": {
+      "model": "elementalcraft:block/whiterock_burnt_slab_top"
+    }
+  }
+}

@@ -7,7 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 import javax.annotation.Nonnull;
@@ -64,7 +64,7 @@ public class Jewel implements IElementTypeProvider {
 	}
 
 	public final void consume(@Nonnull Entity entity) {
-		this.consume(entity, CapabilityElementStorage.get(entity).orElse(null));
+		this.consume(entity, ElementStorageHelper.get(entity).orElse(null));
 	}
 
 	public void consume(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {

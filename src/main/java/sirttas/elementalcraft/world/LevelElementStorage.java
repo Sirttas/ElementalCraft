@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
@@ -28,7 +28,7 @@ public class LevelElementStorage implements IElementStorage, INBTSerializable<Co
 	}
 
 	public static ICapabilityProvider createProvider() {
-		return CapabilityElementStorage.createProvider(new LevelElementStorage());
+		return ElementStorageHelper.createProvider(new LevelElementStorage());
 	}
 
 	@Override

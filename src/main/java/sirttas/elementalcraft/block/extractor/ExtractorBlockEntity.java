@@ -7,10 +7,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.CapabilityRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -96,7 +96,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 	@Override
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == CapabilityRuneHandler.RUNE_HANDLE_CAPABILITY) {
+		if (!this.remove && cap == ElementalCraftCapabilities.RUNE_HANDLE) {
 			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 		}
 		return super.getCapability(cap, side);

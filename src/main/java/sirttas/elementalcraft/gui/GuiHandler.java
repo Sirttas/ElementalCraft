@@ -16,7 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
@@ -71,7 +71,7 @@ public class GuiHandler {
 			BlockEntity tile = pos != null ? minecraft.player.level.getBlockEntity(pos) : null;
 
 			if (tile != null) {
-				var storages = CapabilityElementStorage.get(tile)
+				var storages = ElementStorageHelper.get(tile)
 						.filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo())
 						.map(GuiHandler::splitStorage)
 						.orElse(Collections.emptyList());
@@ -83,7 +83,7 @@ public class GuiHandler {
 		}
 
 		var holder = EntityHelper.handStream(player)
-				.map(stack -> CapabilityElementStorage.get(stack).resolve())
+				.map(stack -> ElementStorageHelper.get(stack).resolve())
 				.<IElementStorage>mapMulti(Optional::ifPresent)
 				.findFirst();
 
@@ -91,7 +91,7 @@ public class GuiHandler {
 			return splitStorage(holder.get());
 		}
 
-		var playerStorage = CapabilityElementStorage.get(player).resolve();
+		var playerStorage = ElementStorageHelper.get(player).resolve();
 
 		if (playerStorage.isEmpty()) {
 			return Collections.emptyList();
@@ -108,7 +108,7 @@ public class GuiHandler {
 		if (spellElementType != ElementType.NONE) {
 			list.add(spellElementType);
 		}
-		player.getCapability(IJewelHandler.JEWEL_HANDLER_CAPABILITY).ifPresent(handler -> handler.getActiveJewels().stream()
+		player.getCapability(IJewelHandler.CAPABILITY).ifPresent(handler -> handler.getActiveJewels().stream()
 				.map(Jewel::getElementType)
 				.distinct()
 				.filter(type -> type != ElementType.NONE && type != spellElementType)

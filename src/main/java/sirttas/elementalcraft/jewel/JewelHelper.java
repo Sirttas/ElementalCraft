@@ -58,7 +58,7 @@ public class JewelHelper {
     }
 
     public static List<Jewel> getActiveJewels(Entity entity) {
-        return entity.getCapability(IJewelHandler.JEWEL_HANDLER_CAPABILITY)
+        return entity.getCapability(IJewelHandler.CAPABILITY)
                 .map(IJewelHandler::getActiveJewels)
                 .orElse(Collections.emptyList());
     }

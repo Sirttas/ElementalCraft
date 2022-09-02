@@ -34,6 +34,7 @@ import java.util.List;
 
 public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeature> {
 
+    public static final PlacementModifier IN_THE_SKY = HeightRangePlacement.uniform(VerticalAnchor.absolute(176), VerticalAnchor.absolute(256));
     public static final RandomElementTypeFeatureConfig ALL = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
             .put(ElementType.FIRE, 1)
             .put(ElementType.WATER, 1)
@@ -45,8 +46,9 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
             .put(ElementType.AIR, 1)
             .build());
     public static final RandomElementTypeFeatureConfig JUNGLE = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
-            .put(ElementType.FIRE, 1)
-            .put(ElementType.WATER, 1)
+            .put(ElementType.FIRE, 3)
+            .put(ElementType.WATER, 3)
+            .put(ElementType.AIR, 1)
             .build());
     public static final RandomElementTypeFeatureConfig NETHER = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
             .put(ElementType.FIRE, 5)
@@ -66,34 +68,41 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
             .put(ElementType.FIRE, 1)
             .build());
     public static final RandomElementTypeFeatureConfig FOREST = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
-            .put(ElementType.EARTH, 2)
-            .put(ElementType.WATER, 1)
+            .put(ElementType.EARTH, 4)
+            .put(ElementType.WATER, 2)
+            .put(ElementType.AIR, 1)
             .build());
     public static final RandomElementTypeFeatureConfig HILL = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
             .put(ElementType.EARTH, 4)
             .put(ElementType.AIR, 1)
             .build());
     public static final RandomElementTypeFeatureConfig MOUNTAIN = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
-            .put(ElementType.AIR, 2)
+            .put(ElementType.AIR, 3)
             .put(ElementType.EARTH, 1)
             .build());
     public static final RandomElementTypeFeatureConfig PLAIN = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
+            .put(ElementType.AIR, 3)
             .put(ElementType.EARTH, 2)
             .put(ElementType.WATER, 1)
-            .put(ElementType.AIR, 1)
             .put(ElementType.FIRE, 1)
             .build());
     public static final RandomElementTypeFeatureConfig LUSH_CAVE = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
-            .put(ElementType.WATER, 1)
             .put(ElementType.EARTH, 5)
+            .put(ElementType.WATER, 1)
             .build());
     public static final RandomElementTypeFeatureConfig DRIPSTONE_CAVE = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
-            .put(ElementType.WATER, 1)
             .put(ElementType.EARTH, 3)
+            .put(ElementType.WATER, 1)
             .build());
     public static final RandomElementTypeFeatureConfig DEEP_DARK = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
-            .put(ElementType.AIR, 1)
             .put(ElementType.EARTH, 3)
+            .put(ElementType.AIR, 1)
+            .build());
+    public static final RandomElementTypeFeatureConfig SKY = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
+            .put(ElementType.AIR, 10)
+            .put(ElementType.FIRE, 3)
+            .put(ElementType.WATER, 1)
+            .put(ElementType.EARTH, 1)
             .build());
 
     public ECFeaturesProvider(DataGenerator dataGenerator, ExistingFileHelper existingFileHelper) {
@@ -123,14 +132,15 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
         addSourceUnderground(SourceFeature.NAME_DRIPSTONE_CAVE, DRIPSTONE_CAVE);
         addSourceUnderground(SourceFeature.NAME_DEEP_DARK, DEEP_DARK);
         addSourceUnderground(SourceFeature.NAME_UNDERGROUND, ALL, 100);
+        addSource(SourceFeature.NAME_SKY, SKY, List.of(InSquarePlacement.spread(), IN_THE_SKY, RarityFilter.onAverageOnceEvery(400)));
     }
 
-    private PlacedFeature addSourceUnderground(String nameLushCave, RandomElementTypeFeatureConfig lushCave) {
-        return addSourceUnderground(nameLushCave, lushCave, 10);
+    private PlacedFeature addSourceUnderground(String name, RandomElementTypeFeatureConfig config) {
+        return addSourceUnderground(name, config, 10);
     }
 
-    private PlacedFeature addSourceUnderground(String nameLushCave, RandomElementTypeFeatureConfig lushCave, int chance) {
-        return addSourceChanced(nameLushCave, lushCave, sourcePlacementUnderground(RarityFilter.onAverageOnceEvery(chance)));
+    private PlacedFeature addSourceUnderground(String name, RandomElementTypeFeatureConfig config, int chance) {
+        return addSource(name, config, sourcePlacementUnderground(RarityFilter.onAverageOnceEvery(chance)));
     }
 
     private PlacedFeature addSourceChanced(String name, IElementTypeFeatureConfig config) {
@@ -138,10 +148,10 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
     }
 
     private PlacedFeature addSourceChanced(String name, IElementTypeFeatureConfig config, int oneEvery) {
-        return addSourceChanced(name, config, sourcePlacement(RarityFilter.onAverageOnceEvery(oneEvery)));
+        return addSource(name, config, sourcePlacement(RarityFilter.onAverageOnceEvery(oneEvery)));
     }
 
-    private PlacedFeature addSourceChanced(String name, IElementTypeFeatureConfig config, List<PlacementModifier> placement) {
+    private PlacedFeature addSource(String name, IElementTypeFeatureConfig config, List<PlacementModifier> placement) {
         return add(name, new PlacedFeature(Holder.direct(new ConfiguredFeature<>(ECFeatures.SOURCE.get(), config)), placement));
     }
 

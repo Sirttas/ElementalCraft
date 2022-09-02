@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
+import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
@@ -164,6 +164,6 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	@Nonnull
 	@Override
 	public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {
-		return CapabilityElementStorage.get(stack).map(ElementGaugeTooltip::new);
+		return ElementStorageHelper.get(stack).map(ElementGaugeTooltip::new);
 	}
 }

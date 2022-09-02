@@ -51,8 +51,7 @@ public class Jewels {
     public static final RegistryObject<DemigodJewel> DEMIGOD = register(DemigodJewel.NAME, DemigodJewel::new);
     public static final RegistryObject<StriderJewel> STRIDER = register("strider", () -> new StriderJewel(ElementType.FIRE, 10, FluidTags.LAVA));
     public static final RegistryObject<StriderJewel> WATER_STRIDER = register("water_strider", () -> new StriderJewel(ElementType.WATER, 10, FluidTags.WATER));
-
-
+    public static final RegistryObject<PiglinJewel> PIGLIN = register("piglin", PiglinJewel::new);
 
     private Jewels() {}
 

@@ -33,14 +33,14 @@ public class ClientJewelHandler implements IJewelHandler {
 
     @Nullable
     public static ICapabilityProvider createProvider() {
-        if (JEWEL_HANDLER_CAPABILITY != null) {
+        if (CAPABILITY != null) {
             var handler = new ClientJewelHandler();
 
             return new ICapabilityProvider() {
                 @Nonnull
                 @Override
                 public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-                    return JEWEL_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> handler));
+                    return CAPABILITY.orEmpty(cap, LazyOptional.of(() -> handler));
                 }
             };
         }

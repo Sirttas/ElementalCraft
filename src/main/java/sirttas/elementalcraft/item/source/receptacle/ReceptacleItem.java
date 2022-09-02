@@ -19,7 +19,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.source.trait.holder.CapabilitySourceTraitHolder;
+import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -58,7 +58,7 @@ public class ReceptacleItem extends ECItem {
 				}
 			}
 		}
-		return CapabilitySourceTraitHolder.createProvider(holder);
+		return SourceTraitHolderHelper.createProvider(holder);
 	}
 
 	@Nonnull
@@ -120,6 +120,6 @@ public class ReceptacleItem extends ECItem {
 
 	@Nonnull
 	private Collection<ISourceTraitValue> getSourceTraitValues(ItemStack stack) {
-		return CapabilitySourceTraitHolder.get(stack).map(h -> h.getTraits().values()).orElse(Collections.emptyList());
+		return SourceTraitHolderHelper.get(stack).map(h -> h.getTraits().values()).orElse(Collections.emptyList());
 	}
 }

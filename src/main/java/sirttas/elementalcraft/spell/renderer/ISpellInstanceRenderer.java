@@ -5,9 +5,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import sirttas.elementalcraft.spell.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.Spell;
-import sirttas.elementalcraft.spell.SpellTickManager;
+import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 public interface ISpellInstanceRenderer extends ISpellRenderer {
 
@@ -19,7 +19,7 @@ public interface ISpellInstanceRenderer extends ISpellRenderer {
 
     @Override
     default void render(Spell spell, Entity caster, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        var instance = SpellTickManager.getSpellInstance(caster, spell);
+        var instance = SpellTickHelper.getSpellInstance(caster, spell);
 
         if (instance != null) {
             this.render(instance, partialTicks, poseStack, buffer, packedLight);
@@ -28,7 +28,7 @@ public interface ISpellInstanceRenderer extends ISpellRenderer {
 
     @Override
     default void renderFirstPerson(Spell spell, LocalPlayer caster, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        var instance = SpellTickManager.getSpellInstance(caster, spell);
+        var instance = SpellTickHelper.getSpellInstance(caster, spell);
 
         if (instance != null) {
             this.renderFirstPerson(instance, caster, partialTicks, poseStack, buffer, packedLight);

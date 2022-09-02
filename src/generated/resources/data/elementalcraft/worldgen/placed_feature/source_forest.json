@@ -4,8 +4,9 @@
     "config": {
       "type": "random",
       "element_type": {
-        "earth": 2,
-        "water": 1
+        "air": 1,
+        "earth": 4,
+        "water": 2
       }
     }
   },

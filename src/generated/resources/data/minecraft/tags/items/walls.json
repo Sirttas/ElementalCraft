@@ -2,6 +2,8 @@
   "values": [
     "elementalcraft:purerock_wall",
     "elementalcraft:whiterock_brick_wall",
+    "elementalcraft:whiterock_burnt_wall",
+    "elementalcraft:whiterock_mossy_wall",
     "elementalcraft:whiterock_wall"
   ]
 }

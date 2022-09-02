@@ -5,10 +5,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.element.transfer.CapabilityElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 
 import java.util.ArrayDeque;
@@ -151,13 +150,13 @@ public class SimpleElementTransferPathfinder {
                 IElementTransferer.ConnectionType connection = entry.getValue();
 
                 if (connection == IElementTransferer.ConnectionType.INSERT) {
-                    getConnectedCapability(side, CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY).ifPresent(s -> {
+                    getConnectedCapability(side, ElementalCraftCapabilities.ELEMENT_STORAGE).ifPresent(s -> {
                         if (s.canPipeInsert(type, opposite) && s.insertElement(1, type, true) == 0) {
                             nodes.push(new InsertNode(this, pos.relative(side), s, opposite));
                         }
                     });
                 } else if (connection == IElementTransferer.ConnectionType.CONNECT) {
-                    getConnectedCapability(side, CapabilityElementTransferer.ELEMENT_TRANSFERER_CAPABILITY).ifPresent(t -> {
+                    getConnectedCapability(side, ElementalCraftCapabilities.ELEMENT_TRANSFERER).ifPresent(t -> {
                         if (!visited.contains(t) && t.isValid()) {
                             visited.add(t);
                             nodes.push(new ConnectNode(this, pos.relative(side), t, opposite));

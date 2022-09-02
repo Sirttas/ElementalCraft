@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "elementalcraft:whiterock_mossy"
+  },
+  "result": "elementalcraft:whiterock_mossy_stairs"
+}

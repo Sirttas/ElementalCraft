@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/sky",
+  "features": "elementalcraft:source_sky",
+  "step": "top_layer_modification"
+}

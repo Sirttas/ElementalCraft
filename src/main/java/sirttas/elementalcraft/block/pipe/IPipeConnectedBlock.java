@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import sirttas.elementalcraft.api.element.transfer.CapabilityElementTransferer;
+import sirttas.elementalcraft.api.element.transfer.ElementTransfererHelper;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
@@ -39,7 +39,7 @@ public interface IPipeConnectedBlock {
 	static boolean isConnectable(BlockGetter world, BlockPos from, Direction face) {
 		var opposite = face.getOpposite();
 		IElementTransferer transferer = BlockEntityHelper.getBlockEntity(world, from.relative(face))
-				.flatMap(b -> CapabilityElementTransferer.get(b, opposite).resolve())
+				.flatMap(b -> ElementTransfererHelper.get(b, opposite).resolve())
 				.orElse(null);
 		
 		if (transferer != null) {

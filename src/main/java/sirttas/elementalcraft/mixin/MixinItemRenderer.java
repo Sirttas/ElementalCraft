@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.spell.SpellTickManager;
+import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nullable;
 
@@ -35,7 +35,7 @@ public abstract class MixinItemRenderer implements ResourceManagerReloadListener
 	public float addSpellCooldown(float value) {
 		Minecraft minecraft = Minecraft.getInstance();
 
-		value = value > 0 ? value : SpellTickManager.getInstance(minecraft.level).getCooldown(minecraft.player, SpellHelper.getSpell(stack.get()), minecraft.getFrameTime());
+		value = value > 0 ? value : SpellTickHelper.getCooldown(minecraft.player, SpellHelper.getSpell(stack.get()), minecraft.getFrameTime());
 		stack.remove();
 		return value;
 	}

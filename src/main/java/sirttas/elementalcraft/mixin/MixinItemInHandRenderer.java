@@ -11,12 +11,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sirttas.elementalcraft.spell.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.spell.renderer.ISpellInstanceRenderer;
 import sirttas.elementalcraft.spell.renderer.SpellRenderers;
+import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nullable;
 
@@ -37,7 +37,7 @@ public abstract class MixinItemInHandRenderer {
                 renderSingleSpell(spell, null, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
             }
             if (hand == InteractionHand.MAIN_HAND) {
-                SpellTickManager.getSpellInstances(localPlayer).forEach(i -> renderSingleSpell(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, buffer, packedLight));
+                SpellTickHelper.getSpellInstances(localPlayer).forEach(i -> renderSingleSpell(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, buffer, packedLight));
             }
         }
     }

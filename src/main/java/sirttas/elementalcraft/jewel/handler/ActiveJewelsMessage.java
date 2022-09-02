@@ -33,7 +33,7 @@ public record ActiveJewelsMessage(List<ResourceLocation> jewels) {
                 var player = Minecraft.getInstance().player;
 
                 if (player != null) {
-                    player.getCapability(IJewelHandler.JEWEL_HANDLER_CAPABILITY)
+                    player.getCapability(IJewelHandler.CAPABILITY)
                             .filter(ClientJewelHandler.class::isInstance)
                             .map(ClientJewelHandler.class::cast)
                             .ifPresent(handler -> handler.setActiveJewels(jewels.stream()

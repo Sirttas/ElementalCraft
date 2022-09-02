@@ -2,10 +2,12 @@ package sirttas.elementalcraft.api.element.transfer;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
 import java.util.Map;
 import java.util.stream.Stream;
 
+@AutoRegisterCapability
 public interface IElementTransferer {
 
 	default ConnectionType getConnection(Direction face) {

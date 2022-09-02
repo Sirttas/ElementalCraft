@@ -5,8 +5,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import sirttas.elementalcraft.entity.projectile.FeatherSpike;
-import sirttas.elementalcraft.spell.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 
 import javax.annotation.Nonnull;
 

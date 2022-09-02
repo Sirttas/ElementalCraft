@@ -10,12 +10,12 @@ import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.spell.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.spell.SpellTickManager;
 import sirttas.elementalcraft.spell.renderer.ISpellInstanceRenderer;
 import sirttas.elementalcraft.spell.renderer.SpellRenderers;
+import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +34,7 @@ public class EntityClientHandler {
 		var packedLight = event.getPackedLight();
 
 		renderSingleSpell(spell, null, entity, partialTicks, poseStack, buffer, packedLight);
-		SpellTickManager.getSpellInstances(entity).forEach(i -> renderSingleSpell(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
+		SpellTickHelper.getSpellInstances(entity).forEach(i -> renderSingleSpell(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
 	}
 
 	private static void renderSingleSpell(Spell spell, @Nullable AbstractSpellInstance instance, LivingEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:jewel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_unset_jewel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:unset_jewel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_unset_jewel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:jewel"
+    ]
+  }
+}

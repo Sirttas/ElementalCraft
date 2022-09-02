@@ -53,14 +53,14 @@ public class JewelHandler implements IJewelHandler {
 
     @Nullable
     public static ICapabilityProvider createProvider(Entity entity, @Nullable IElementStorage elementStorage) {
-        if (JEWEL_HANDLER_CAPABILITY != null) {
+        if (CAPABILITY != null) {
             var handler = new JewelHandler(entity, elementStorage);
 
             return new ICapabilityProvider() {
                 @Nonnull
                 @Override
                 public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-                    return JEWEL_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> handler));
+                    return CAPABILITY.orEmpty(cap, LazyOptional.of(() -> handler));
                 }
             };
         }

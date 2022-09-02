@@ -9,12 +9,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.CapabilityElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.source.trait.holder.CapabilitySourceTraitHolder;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -151,9 +150,9 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove) {
-			if (cap == CapabilityElementStorage.ELEMENT_STORAGE_CAPABILITY) {
+			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
 				return LazyOptional.of(this::getElementStorage).cast();
-			} else if (cap == CapabilitySourceTraitHolder.SOURCE_TRAIT_HOLDER_CAPABILITY) {
+			} else if (cap == ElementalCraftCapabilities.SOURCE_TRAIT_HOLDER) {
 				return LazyOptional.of(this::getTraitHolder).cast();
 			}
 		}
