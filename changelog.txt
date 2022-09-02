@@ -1,3 +1,8 @@
+1.18.2-4.4.23:
+
+- fix pure ore injector interraction with FastSuite (issue #105)
+
+
 1.18.2-4.4.22:
 
 - add new elementopedia entries
