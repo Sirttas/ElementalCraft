@@ -2,16 +2,18 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:drenched_iron_nugget_from_drenched_iron_ingot"
+      "elementalcraft:container_emptying"
     ]
   },
   "criteria": {
-    "has_drenched_iron_ingot": {
+    "has_container": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/drenched_iron"
+            "items": [
+              "elementalcraft:container"
+            ]
           }
         ]
       }
@@ -19,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:drenched_iron_nugget_from_drenched_iron_ingot"
+        "recipe": "elementalcraft:container_emptying"
       }
     }
   },
   "requirements": [
     [
-      "has_drenched_iron_ingot",
+      "has_container",
       "has_the_recipe"
     ]
   ]

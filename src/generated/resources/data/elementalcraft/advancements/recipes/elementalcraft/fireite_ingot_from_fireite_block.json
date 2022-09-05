@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:drenched_iron_block_from_drenched_iron_ingot"
+      "elementalcraft:fireite_ingot_from_fireite_block"
     ]
   },
   "criteria": {
-    "has_drenched_iron_ingot": {
+    "has_fireite_block": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/drenched_iron"
+            "tag": "forge:storage_blocks/fireite"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:drenched_iron_block_from_drenched_iron_ingot"
+        "recipe": "elementalcraft:fireite_ingot_from_fireite_block"
       }
     }
   },
   "requirements": [
     [
-      "has_drenched_iron_ingot",
+      "has_fireite_block",
       "has_the_recipe"
     ]
   ]

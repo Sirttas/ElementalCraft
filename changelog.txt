@@ -1,6 +1,13 @@
+1.18.2-4.4.24:
+
+- fix pure ore injection duplicates recipes (issues #106 and #107)
+- fix an item dupe with the ordered sorter
+- fix some recipes being registered in the wrong namespace
+
+
 1.18.2-4.4.23:
 
-- fix pure ore injector interraction with FastSuite (issue #105)
+- fix pure ore injector interaction with FastSuite (issue #105)
 
 
 1.18.2-4.4.22:

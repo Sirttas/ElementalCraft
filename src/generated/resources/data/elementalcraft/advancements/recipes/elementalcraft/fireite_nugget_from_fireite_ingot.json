@@ -2,18 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:watercrystal_from_watercrystal_block"
+      "elementalcraft:fireite_nugget_from_fireite_ingot"
     ]
   },
   "criteria": {
-    "has_watercrystal_block": {
+    "has_fireite_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "elementalcraft:watercrystal_block"
-            ]
+            "tag": "forge:ingots/fireite"
           }
         ]
       }
@@ -21,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:watercrystal_from_watercrystal_block"
+        "recipe": "elementalcraft:fireite_nugget_from_fireite_ingot"
       }
     }
   },
   "requirements": [
     [
-      "has_watercrystal_block",
+      "has_fireite_ingot",
       "has_the_recipe"
     ]
   ]

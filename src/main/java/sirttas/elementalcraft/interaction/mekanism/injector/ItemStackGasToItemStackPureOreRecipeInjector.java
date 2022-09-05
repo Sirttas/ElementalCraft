@@ -10,7 +10,6 @@ import mekanism.common.registration.impl.RecipeTypeRegistryObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import sirttas.elementalcraft.ElementalCraft;
 
 public class ItemStackGasToItemStackPureOreRecipeInjector<T extends ItemStackGasToItemStackRecipe> extends AbstractMekanismPureOreRecipeInjector<T> {
 
@@ -23,7 +22,7 @@ public class ItemStackGasToItemStackPureOreRecipeInjector<T extends ItemStackGas
 
 	@Override
 	public T build(T recipe, Ingredient ingredient) {
-		return factory.create(ElementalCraft.createRL(buildRecipeId(recipe.getId())), getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getChemicalInput()), getRecipeOutput(recipe));
+		return factory.create(buildRecipeId(recipe.getId()), getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getChemicalInput()), getRecipeOutput(recipe));
 	}
 
 	@Override

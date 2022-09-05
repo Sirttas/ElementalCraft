@@ -98,6 +98,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		registerToolInfusions(consumer);
 		registerGrinding(consumer);
 		registerRunes(consumer);
+		registerEmptying(consumer);
 
 		ShapedRecipeBuilder.shaped(ECItems.CONTAINED_CRYSTAL).define('g', Tags.Items.NUGGETS_GOLD).define('c', ECItems.INERT_CRYSTAL).pattern(" g ").pattern("gcg").pattern(" g ")
 				.unlockedBy(HAS_INERTCRYSTAL, has(ECItems.INERT_CRYSTAL)).save(consumer);
@@ -354,20 +355,6 @@ public class ECRecipeProvider extends RecipeProvider {
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.PURE_HOLDER).setIngredient(ECItems.PURE_HOLDER_CORE).setIngredient(ElementType.WATER, ECItems.WATER_HOLDER)
 				.setIngredient(ElementType.FIRE, ECItems.FIRE_HOLDER).setIngredient(ElementType.EARTH, ECItems.EARTH_HOLDER).setIngredient(ElementType.AIR, ECItems.AIR_HOLDER)
 				.withElementAmount(100000).build(consumer);
-
-		ShapelessRecipeBuilder.shapeless(ECBlocks.SMALL_CONTAINER.get()).requires(ECBlocks.SMALL_CONTAINER.get()).unlockedBy("has_small_container", has(ECBlocks.SMALL_CONTAINER.get())).save(consumer,
-				"small_container_emptying");
-		ShapelessRecipeBuilder.shapeless(ECBlocks.CONTAINER.get()).requires(ECBlocks.CONTAINER.get()).unlockedBy("has_container", has(ECBlocks.CONTAINER.get())).save(consumer, "container_emptying");
-		ShapelessRecipeBuilder.shapeless(ECBlocks.FIRE_RESERVOIR).requires(ECBlocks.FIRE_RESERVOIR).unlockedBy("has_fire_reservoir", has(ECBlocks.FIRE_RESERVOIR)).save(consumer,
-				"fire_reservoir_emptying");
-		ShapelessRecipeBuilder.shapeless(ECBlocks.WATER_RESERVOIR).requires(ECBlocks.WATER_RESERVOIR).unlockedBy("has_water_reservoir", has(ECBlocks.WATER_RESERVOIR)).save(consumer,
-				"water_reservoir_emptying");
-		ShapelessRecipeBuilder.shapeless(ECBlocks.EARTH_RESERVOIR).requires(ECBlocks.EARTH_RESERVOIR).unlockedBy("has_earth_reservoir", has(ECBlocks.EARTH_RESERVOIR)).save(consumer,
-				"earth_reservoir_emptying");
-		ShapelessRecipeBuilder.shapeless(ECBlocks.AIR_RESERVOIR).requires(ECBlocks.AIR_RESERVOIR).unlockedBy("has_air_reservoir", has(ECBlocks.AIR_RESERVOIR)).save(consumer, "air_reservoir_emptying");
-		ShapelessRecipeBuilder.shapeless(ECBlocks.CREATIVE_CONTAINER).requires(ECBlocks.CREATIVE_CONTAINER).unlockedBy("has_creative_container", has(ECBlocks.CREATIVE_CONTAINER)).save(consumer,
-				"creative_container_emptying");
-
 	}
 
 	private void registerSlabsStairsWalls(Consumer<FinishedRecipe> consumer) {
@@ -608,21 +595,36 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECTags.Items.PRISTINE_WATER_GEMS).addIngredient(Tags.Items.GEMS_EMERALD).addIngredient(Tags.Items.GEMS_EMERALD).build(consumer);
 	}
 
+	private void registerEmptying(@Nonnull Consumer<FinishedRecipe> consumer) {
+		registerEmptying(ECBlocks.SMALL_CONTAINER.get(), consumer);
+		registerEmptying(ECBlocks.CONTAINER.get(), consumer);
+		registerEmptying(ECBlocks.FIRE_RESERVOIR, consumer);
+		registerEmptying(ECBlocks.WATER_RESERVOIR, consumer);
+		registerEmptying(ECBlocks.EARTH_RESERVOIR, consumer);
+		registerEmptying(ECBlocks.AIR_RESERVOIR, consumer);
+		registerEmptying(ECBlocks.CREATIVE_CONTAINER, consumer);
+	}
+
+
+	private void registerEmptying(ItemLike item, Consumer<FinishedRecipe> consumer) {
+		var name = item.asItem().getRegistryName().getPath();
+
+		ShapelessRecipeBuilder.shapeless(item).requires(item).unlockedBy("has_container", has(item)).save(consumer, ElementalCraft.createRL(name + "_emptying"));
+	}
+
 	private boolean exists(Block block) {
 		return existingFileHelper.exists(block.getRegistryName(), PackType.SERVER_DATA, ".json", "recipes");
 	}
 
 	private void createNuggetIngotBlock(ItemLike nugget, TagKey<Item> nuggetTag, ItemLike ingot, TagKey<Item> ingotTag, ItemLike block, TagKey<Item> blockTag, Consumer<FinishedRecipe> consumer) {
-		ShapedRecipeBuilder.shaped(ingot).define('#', nuggetTag).pattern("###").pattern("###").pattern("###").unlockedBy(buildHas(nugget), has(nuggetTag)).save(consumer,
-				ElementalCraft.createRL(from(nugget, ingot)));
+		ShapedRecipeBuilder.shaped(ingot).define('#', nuggetTag).pattern("###").pattern("###").pattern("###").unlockedBy(buildHas(nugget), has(nuggetTag)).save(consumer, from(nugget, ingot));
 		ShapelessRecipeBuilder.shapeless(nugget, 9).requires(ingotTag).unlockedBy(buildHas(ingot), has(ingotTag)).save(consumer, from(ingot, nugget));
 		ShapedRecipeBuilder.shaped(block).define('#', ingotTag).pattern("###").pattern("###").pattern("###").unlockedBy(buildHas(ingot), has(ingotTag)).save(consumer, from(ingot, block));
 		ShapelessRecipeBuilder.shapeless(ingot, 9).requires(blockTag).unlockedBy(buildHas(block), has(blockTag)).save(consumer, from(block, ingot));
 	}
 
 	private void createStorageBlock(ItemLike item, ItemLike block, Consumer<FinishedRecipe> consumer) {
-		ShapedRecipeBuilder.shaped(block).define('#', item).pattern("###").pattern("###").pattern("###").unlockedBy(buildHas(item), has(item)).save(consumer,
-				ElementalCraft.createRL(from(item, block)));
+		ShapedRecipeBuilder.shaped(block).define('#', item).pattern("###").pattern("###").pattern("###").unlockedBy(buildHas(item), has(item)).save(consumer, from(item, block));
 		ShapelessRecipeBuilder.shapeless(item, 9).requires(block).unlockedBy(buildHas(block), has(block)).save(consumer, from(block, item));
 	}
 
@@ -723,8 +725,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		}));
 	}
 
-	private String from(ItemLike from, ItemLike to) {
-		return to.asItem().getRegistryName().getPath() + "_from_" + from.asItem().getRegistryName().getPath();
+	private ResourceLocation from(ItemLike from, ItemLike to) {
+		return ElementalCraft.createRL(to.asItem().getRegistryName().getPath() + "_from_" + from.asItem().getRegistryName().getPath());
 	}
 
 	private String buildHas(ItemLike item) {

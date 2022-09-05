@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:small_container_emptying"
+      "elementalcraft:reservoir_water_emptying"
     ]
   },
   "criteria": {
-    "has_small_container": {
+    "has_container": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:small_container"
+              "elementalcraft:reservoir_water"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:small_container_emptying"
+        "recipe": "elementalcraft:reservoir_water_emptying"
       }
     }
   },
   "requirements": [
     [
-      "has_small_container",
+      "has_container",
       "has_the_recipe"
     ]
   ]

@@ -2,18 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:earth_reservoir_emptying"
+      "elementalcraft:swift_alloy_ingot_from_swift_alloy_block"
     ]
   },
   "criteria": {
-    "has_earth_reservoir": {
+    "has_swift_alloy_block": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "elementalcraft:reservoir_earth"
-            ]
+            "tag": "forge:storage_blocks/swift_alloy"
           }
         ]
       }
@@ -21,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:earth_reservoir_emptying"
+        "recipe": "elementalcraft:swift_alloy_ingot_from_swift_alloy_block"
       }
     }
   },
   "requirements": [
     [
-      "has_earth_reservoir",
+      "has_swift_alloy_block",
       "has_the_recipe"
     ]
   ]

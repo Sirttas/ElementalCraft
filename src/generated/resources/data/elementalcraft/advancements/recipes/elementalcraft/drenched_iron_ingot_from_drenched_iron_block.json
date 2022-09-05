@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:swift_alloy_ingot_from_swift_alloy_block"
+      "elementalcraft:drenched_iron_ingot_from_drenched_iron_block"
     ]
   },
   "criteria": {
-    "has_swift_alloy_block": {
+    "has_drenched_iron_block": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "forge:storage_blocks/swift_alloy"
+            "tag": "forge:storage_blocks/drenched_iron"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:swift_alloy_ingot_from_swift_alloy_block"
+        "recipe": "elementalcraft:drenched_iron_ingot_from_drenched_iron_block"
       }
     }
   },
   "requirements": [
     [
-      "has_swift_alloy_block",
+      "has_drenched_iron_block",
       "has_the_recipe"
     ]
   ]

@@ -2,16 +2,18 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:swift_alloy_nugget_from_swift_alloy_ingot"
+      "elementalcraft:small_container_emptying"
     ]
   },
   "criteria": {
-    "has_swift_alloy_ingot": {
+    "has_container": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/swift_alloy"
+            "items": [
+              "elementalcraft:small_container"
+            ]
           }
         ]
       }
@@ -19,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:swift_alloy_nugget_from_swift_alloy_ingot"
+        "recipe": "elementalcraft:small_container_emptying"
       }
     }
   },
   "requirements": [
     [
-      "has_swift_alloy_ingot",
+      "has_container",
       "has_the_recipe"
     ]
   ]

@@ -2,18 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:earthcrystal_from_earthcrystal_block"
+      "elementalcraft:drenched_iron_nugget_from_drenched_iron_ingot"
     ]
   },
   "criteria": {
-    "has_earthcrystal_block": {
+    "has_drenched_iron_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "elementalcraft:earthcrystal_block"
-            ]
+            "tag": "forge:ingots/drenched_iron"
           }
         ]
       }
@@ -21,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:earthcrystal_from_earthcrystal_block"
+        "recipe": "elementalcraft:drenched_iron_nugget_from_drenched_iron_ingot"
       }
     }
   },
   "requirements": [
     [
-      "has_earthcrystal_block",
+      "has_drenched_iron_ingot",
       "has_the_recipe"
     ]
   ]

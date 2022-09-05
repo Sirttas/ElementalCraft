@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:creative_container_emptying"
+      "elementalcraft:aircrystal_from_aircrystal_block"
     ]
   },
   "criteria": {
-    "has_creative_container": {
+    "has_aircrystal_block": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:creative_container"
+              "elementalcraft:aircrystal_block"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:creative_container_emptying"
+        "recipe": "elementalcraft:aircrystal_from_aircrystal_block"
       }
     }
   },
   "requirements": [
     [
-      "has_creative_container",
+      "has_aircrystal_block",
       "has_the_recipe"
     ]
   ]

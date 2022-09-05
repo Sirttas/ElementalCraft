@@ -87,8 +87,8 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 				ItemStack stack = sourceInv.getStackInSlot(i).copy();
 
 				stack.setCount(1);
-				if (!stack.isEmpty() && ItemHandlerHelper.insertItem(targetInv, stack, true).isEmpty()) {
-					doTransfer(sourceInv, targetInv, i, stack);
+				if (!stack.isEmpty() && doTransfer(sourceInv, targetInv, i, true).isEmpty()) {
+					doTransfer(sourceInv, targetInv, i, false);
 					return;
 				}
 			}
@@ -96,8 +96,8 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 			ItemStack stack = stacks.get(index).copy();
 
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				if (ItemHandlerHelper.canItemStacksStack(stack, sourceInv.getStackInSlot(i)) && ItemHandlerHelper.insertItem(targetInv, stack, true).isEmpty()) {
-					doTransfer(sourceInv, targetInv, i, stack);
+				if (ItemHandlerHelper.canItemStacksStack(stack, doTransfer(sourceInv, targetInv, i, true))) {
+					doTransfer(sourceInv, targetInv, i, false);
 					index++;
 					if (index >= stacks.size()) {
 						index = 0;
@@ -108,10 +108,12 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		}
 	}
 
-	private void doTransfer(IItemHandler sourceInv, IItemHandler targetInv, int i, ItemStack stack) {
-		sourceInv.extractItem(i, 1, false);
-		ItemHandlerHelper.insertItem(targetInv, stack, false);
-		this.setChanged();
+	private ItemStack doTransfer(IItemHandler sourceInv, IItemHandler targetInv, int i, boolean simulate) {
+		var stack = ItemHandlerHelper.insertItem(targetInv, sourceInv.extractItem(i, 1, simulate), simulate);
+		if (!simulate) {
+			this.setChanged();
+		}
+		return stack;
 	}
 
 	@Override

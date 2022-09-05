@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:air_reservoir_emptying"
+      "elementalcraft:firecrystal_from_firecrystal_block"
     ]
   },
   "criteria": {
-    "has_air_reservoir": {
+    "has_firecrystal_block": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:reservoir_air"
+              "elementalcraft:firecrystal_block"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:air_reservoir_emptying"
+        "recipe": "elementalcraft:firecrystal_from_firecrystal_block"
       }
     }
   },
   "requirements": [
     [
-      "has_air_reservoir",
+      "has_firecrystal_block",
       "has_the_recipe"
     ]
   ]
