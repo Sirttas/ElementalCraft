@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_swift_alloy_ingot": {
+    "has_fireite_ingot": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/swift_alloy"
+            "tag": "forge:ingots/fireite"
           }
         ]
       },
@@ -13,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:swift_alloy_block_from_swift_alloy_ingot"
+        "recipe": "elementalcraft:fireite_block_from_fireite_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_swift_alloy_ingot",
+      "has_fireite_ingot",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:swift_alloy_block_from_swift_alloy_ingot"
+      "elementalcraft:fireite_block_from_fireite_ingot"
     ]
   }
 }

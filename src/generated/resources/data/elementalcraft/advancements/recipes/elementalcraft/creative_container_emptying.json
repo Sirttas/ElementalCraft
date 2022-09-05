@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_container": {
+    "has_creative_container": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:container"
+              "elementalcraft:creative_container"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:container_emptying"
+        "recipe": "elementalcraft:creative_container_emptying"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_container",
+      "has_creative_container",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:container_emptying"
+      "elementalcraft:creative_container_emptying"
     ]
   }
 }

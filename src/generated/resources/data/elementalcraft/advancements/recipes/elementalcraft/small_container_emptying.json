@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_firecrystal_block": {
+    "has_small_container": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:firecrystal_block"
+              "elementalcraft:small_container"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:firecrystal_from_firecrystal_block"
+        "recipe": "elementalcraft:small_container_emptying"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_firecrystal_block",
+      "has_small_container",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:firecrystal_from_firecrystal_block"
+      "elementalcraft:small_container_emptying"
     ]
   }
 }

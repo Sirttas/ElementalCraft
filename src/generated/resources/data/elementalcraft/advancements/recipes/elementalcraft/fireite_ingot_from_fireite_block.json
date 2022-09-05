@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_inertcrystal_block": {
+    "has_fireite_block": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "elementalcraft:inertcrystal_block"
-            ]
+            "tag": "forge:storage_blocks/fireite"
           }
         ]
       },
@@ -15,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:inert_crystal_from_inertcrystal_block"
+        "recipe": "elementalcraft:fireite_ingot_from_fireite_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_inertcrystal_block",
+      "has_fireite_block",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:inert_crystal_from_inertcrystal_block"
+      "elementalcraft:fireite_ingot_from_fireite_block"
     ]
   }
 }

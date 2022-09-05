@@ -1,11 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_drenched_iron_ingot": {
+    "has_earthcrystal_block": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/drenched_iron"
+            "items": [
+              "elementalcraft:earthcrystal_block"
+            ]
           }
         ]
       },
@@ -13,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:drenched_iron_block_from_drenched_iron_ingot"
+        "recipe": "elementalcraft:earthcrystal_from_earthcrystal_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_drenched_iron_ingot",
+      "has_earthcrystal_block",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:drenched_iron_block_from_drenched_iron_ingot"
+      "elementalcraft:earthcrystal_from_earthcrystal_block"
     ]
   }
 }

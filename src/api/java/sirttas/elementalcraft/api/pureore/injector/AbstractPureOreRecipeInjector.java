@@ -19,9 +19,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -56,8 +54,8 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 		this.modProcessing = modProcessing;
 	}
 
-	public static String buildRecipeId(ResourceLocation source) {
-		return source.getNamespace() + "_pure_" + source.getPath().replace('/', '_');
+	public static ResourceLocation buildRecipeId(ResourceLocation source) {
+		return new ResourceLocation(ElementalCraftApi.MODID, "pure_ore/" + source.getNamespace() + "/" + source.getPath());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,10 +70,6 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 		} catch (Exception e) {
 			throw new PureOreException(MessageFormat.format("Error while reading ingredients for recipe {0}. Please setup a custom filter for {1}", recipe.getId(), this), e);
 		}
-	}
-
-	public void inject(Collection<Recipe<?>> recipes, List<T> entries) {
-		recipes.addAll(entries);
 	}
 
 	public ItemStack getRecipeOutput(T recipe) {

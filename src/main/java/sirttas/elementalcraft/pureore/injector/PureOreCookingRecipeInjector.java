@@ -6,7 +6,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -21,7 +20,7 @@ public class PureOreCookingRecipeInjector<T extends AbstractCookingRecipe> exten
 
 	@Override
 	public T build(T recipe, Ingredient ingredient) {
-		return factory.create(ElementalCraft.createRL(buildRecipeId(recipe.getId())), recipe.getGroup(), ingredient, getRecipeOutput(recipe), recipe.getExperience(), recipe.getCookingTime());
+		return factory.create(buildRecipeId(recipe.getId()), recipe.getGroup(), ingredient, getRecipeOutput(recipe), recipe.getExperience(), recipe.getCookingTime());
 	}
 
 	public interface Factory<T extends AbstractCookingRecipe> {

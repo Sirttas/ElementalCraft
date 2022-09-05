@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.pureore.injector;
 
 import net.minecraft.world.item.crafting.Ingredient;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
@@ -17,6 +16,6 @@ public class PureOreGrindingRecipeInjector extends AbstractPureOreRecipeInjector
 
     @Override
     public IGrindingRecipe build(IGrindingRecipe recipe, Ingredient ingredient) {
-        return new AirMillGrindingRecipe(ElementalCraft.createRL(buildRecipeId(recipe.getId())), ingredient, getRecipeOutput(recipe), recipe.getElementAmount(), recipe instanceof AirMillGrindingRecipe airMillGrindingRecipe ? airMillGrindingRecipe.luckRation() : 0);
+        return new AirMillGrindingRecipe(buildRecipeId(recipe.getId()), ingredient, getRecipeOutput(recipe), recipe.getElementAmount(), recipe instanceof AirMillGrindingRecipe airMillGrindingRecipe ? airMillGrindingRecipe.luckRation() : 0);
     }
 }

@@ -1,11 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_drenched_iron_block": {
+    "has_reservoir_fire": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:storage_blocks/drenched_iron"
+            "items": [
+              "elementalcraft:reservoir_fire"
+            ]
           }
         ]
       },
@@ -13,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:drenched_iron_ingot_from_drenched_iron_block"
+        "recipe": "elementalcraft:reservoir_fire_emptying"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_drenched_iron_block",
+      "has_reservoir_fire",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:drenched_iron_ingot_from_drenched_iron_block"
+      "elementalcraft:reservoir_fire_emptying"
     ]
   }
 }

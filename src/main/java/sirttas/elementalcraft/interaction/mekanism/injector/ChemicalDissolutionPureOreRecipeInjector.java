@@ -8,7 +8,6 @@ import mekanism.common.recipe.lookup.cache.InputRecipeCache;
 import mekanism.common.registration.impl.RecipeTypeRegistryObject;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import sirttas.elementalcraft.ElementalCraft;
 
 public class ChemicalDissolutionPureOreRecipeInjector extends AbstractMekanismPureOreRecipeInjector<ChemicalDissolutionRecipe> {
 
@@ -18,7 +17,7 @@ public class ChemicalDissolutionPureOreRecipeInjector extends AbstractMekanismPu
 
 	@Override
 	public ChemicalDissolutionRecipe build(ChemicalDissolutionRecipe recipe, Ingredient ingredient) {
-		return new ChemicalDissolutionIRecipe(ElementalCraft.createRL(buildRecipeId(recipe.getId())), getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getGasInput()),
+		return new ChemicalDissolutionIRecipe(buildRecipeId(recipe.getId()), getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getGasInput()),
 				tweakOutput(recipe.getOutput(ItemStack.EMPTY, GasStack.EMPTY).getChemicalStack()));
 	}
 

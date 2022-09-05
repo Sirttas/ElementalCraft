@@ -1,3 +1,11 @@
+1.19.2-5.4.1:
+
+- fix pure ore injection duplicates recipes (issues #106 and #107)
+- fix an item dupe with the ordered sorter
+- fix some recipes being registered in the wrong namespace
+- fix some worldgen steps
+
+
 1.19.2-5.4.0:
 
 - new blocks: mossy white rock, burnt white rock and their variants

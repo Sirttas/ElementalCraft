@@ -2,5 +2,5 @@
   "type": "forge:add_features",
   "biomes": "#elementalcraft:has_sources/nether",
   "features": "elementalcraft:source_nether",
-  "step": "top_layer_modification"
+  "step": "underground_decoration"
 }

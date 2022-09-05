@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:watercrystal_from_watercrystal_block"
+        "recipe": "elementalcraft:watercrystal_from_watercrystal_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:watercrystal_from_watercrystal_block"
+      "elementalcraft:watercrystal_from_watercrystal_block"
     ]
   }
 }

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_creative_container": {
+    "has_inertcrystal_block": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:creative_container"
+              "elementalcraft:inertcrystal_block"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:creative_container_emptying"
+        "recipe": "elementalcraft:inert_crystal_from_inertcrystal_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_creative_container",
+      "has_inertcrystal_block",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:creative_container_emptying"
+      "elementalcraft:inert_crystal_from_inertcrystal_block"
     ]
   }
 }

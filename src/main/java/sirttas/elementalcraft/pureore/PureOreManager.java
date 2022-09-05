@@ -22,6 +22,8 @@ import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -107,6 +109,7 @@ public class PureOreManager {
 	}
 
 	public void reload(DataPackReloadCompleteEvent event) {
+		var start = Instant.now();
 		var recipeManager = event.getRecipeManager();
 		var injectors = getInjectors();
 
@@ -120,23 +123,34 @@ public class PureOreManager {
 		RAW_MATERIALS_LOADER.get().generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).rawMaterial = e);
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
-			ElementalCraftApi.LOGGER.info("Pure ore recipe injection");
+			ElementalCraftApi.LOGGER.info("Pure ore recipe injection.");
 			this.pureOres.values().removeIf(o -> !o.isProcessable());
 
 			var entries = pureOres.values().stream().distinct().toList();
-			var recipes = new ArrayList<>(recipeManager.getRecipes());
+			var recipes = recipeManager.getRecipes().stream()
+					.filter(r -> !isPureOreRecipe(r))
+					.collect(Collectors.toList());
+			var size = recipes.size();
 
 			injectors.forEach(injector -> inject(injector, recipes, entries));
 			recipeManager.replaceRecipes(recipes);
+			ElementalCraftApi.LOGGER.info("Pure ore recipe injection finished. {} recipes added.", () -> recipeManager.getRecipes().size() - size);
 		}
 
-		ElementalCraftApi.LOGGER.info("Pure ore generation ended\r\n\tOres: {}", () -> pureOres.keySet().stream()
+		ElementalCraftApi.LOGGER.info("Pure ore generation ended\r\n\tOres: {} in {}.", () -> pureOres.keySet().stream()
 				.map(ResourceLocation::toString)
-				.collect(Collectors.joining(", ")));
+				.collect(Collectors.joining(", ")),
+				() -> Duration.between(start, Instant.now()));
+	}
+
+	private boolean isPureOreRecipe(Recipe<?> recipe) {
+		var id = recipe.getId();
+
+		return id.getNamespace().equals(ElementalCraftApi.MODID) && id.getPath().startsWith("pure_ore/");
 	}
 
 	private <C extends Container, T extends Recipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, Collection<Recipe<?>> recipes, List<Entry> entries) {
-		injector.inject(recipes, entries.stream()
+		entries.stream()
 				.distinct()
 				.<T>mapMulti((entry, downstream) -> {
 					if (entry.ore != null) {
@@ -148,7 +162,7 @@ public class PureOreManager {
 				})
 				.filter(Objects::nonNull)
 				.filter(ElementalCraftUtils.distinctBy(Recipe::getId))
-				.toList());
+				.forEach(recipes::add);
 	}
 
 	private <C extends Container, T extends Recipe<C>> T injectEntry(AbstractPureOreRecipeInjector<C, T> injector, PureOre entry) {

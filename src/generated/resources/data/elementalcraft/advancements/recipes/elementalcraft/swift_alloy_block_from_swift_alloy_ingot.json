@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_earthcrystal_block": {
+    "has_swift_alloy_ingot": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "elementalcraft:earthcrystal_block"
-            ]
+            "tag": "forge:ingots/swift_alloy"
           }
         ]
       },
@@ -15,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:earthcrystal_from_earthcrystal_block"
+        "recipe": "elementalcraft:swift_alloy_block_from_swift_alloy_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_earthcrystal_block",
+      "has_swift_alloy_ingot",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:earthcrystal_from_earthcrystal_block"
+      "elementalcraft:swift_alloy_block_from_swift_alloy_ingot"
     ]
   }
 }

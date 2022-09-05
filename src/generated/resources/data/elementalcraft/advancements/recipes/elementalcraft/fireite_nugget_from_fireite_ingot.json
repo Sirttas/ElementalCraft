@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_aircrystal_block": {
+    "has_fireite_ingot": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "elementalcraft:aircrystal_block"
-            ]
+            "tag": "forge:ingots/fireite"
           }
         ]
       },
@@ -15,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:aircrystal_from_aircrystal_block"
+        "recipe": "elementalcraft:fireite_nugget_from_fireite_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_aircrystal_block",
+      "has_fireite_ingot",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:aircrystal_from_aircrystal_block"
+      "elementalcraft:fireite_nugget_from_fireite_ingot"
     ]
   }
 }

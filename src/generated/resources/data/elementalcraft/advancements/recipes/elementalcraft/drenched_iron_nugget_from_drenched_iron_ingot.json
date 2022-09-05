@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_swift_alloy_ingot": {
+    "has_drenched_iron_ingot": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/swift_alloy"
+            "tag": "forge:ingots/drenched_iron"
           }
         ]
       },
@@ -13,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:swift_alloy_nugget_from_swift_alloy_ingot"
+        "recipe": "elementalcraft:drenched_iron_nugget_from_drenched_iron_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_swift_alloy_ingot",
+      "has_drenched_iron_ingot",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:swift_alloy_nugget_from_swift_alloy_ingot"
+      "elementalcraft:drenched_iron_nugget_from_drenched_iron_ingot"
     ]
   }
 }
