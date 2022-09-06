@@ -1,3 +1,8 @@
+1.18.2-4.4.26:
+
+- fix ordered sorter
+
+
 1.18.2-4.4.25:
 
 - order sorter cnas now be upgraded with speed runes
