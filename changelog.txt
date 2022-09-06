@@ -1,3 +1,9 @@
+1.18.2-4.4.25:
+
+- order sorter cnas now be upgraded with speed runes
+- fix ordered sorter destroying items
+
+
 1.18.2-4.4.24:
 
 - fix pure ore injection duplicates recipes (issues #106 and #107)

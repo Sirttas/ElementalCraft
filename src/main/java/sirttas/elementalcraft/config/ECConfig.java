@@ -82,6 +82,7 @@ public class ECConfig {
 		public final BooleanValue pipePathCache;
 		public final IntValue sorterCooldown;
 		public final IntValue sorterMaxItem;
+		public final IntValue sorterMaxRunes;
 
 		public final IntValue pureInfuserTransferSpeed;
 		public final IntValue pureInfuserMaxRunes;
@@ -208,6 +209,7 @@ public class ECConfig {
 			builder.pop().push("sorter");
 			sorterCooldown = builder.comment("The amount of tick between two ordered sorter item transfer.").defineInRange("sorterCooldown", 10, 0, 100);
 			sorterMaxItem = builder.comment("The max amount of items an order sorter can filter.").defineInRange("sorterMaxItem", 15, 0, 100);
+			sorterMaxRunes = builder.comment("The max amount of runes an order sorter can have.").defineInRange("sorterMaxRunes", 3, 0, 10);
 
 			builder.pop(2).comment("Pure Infuser and pedestals config").push("pureInfuser");
 			pureInfuserTransferSpeed = builder.comment("The max amount of element consumed by the pure infuser per tick.").defineInRange("pureInfuserTransferSpeed", 100, 0, 1000);
