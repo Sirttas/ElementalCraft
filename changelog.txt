@@ -1,3 +1,16 @@
+1.19.2-5.4.2:
+
+- the ore purifier is now compatible with geore shards
+- dispensers can now throw crystals
+- you can no longer cast dash while riding a mount
+- fix tag name
+- fix redstone signal from inventory blocks
+- fix scroll paper recipe
+- fix air mill grindstone break particles
+- fix source analysis glass, focus and chisel position in hand
+- fix translocation on server
+
+
 1.19.2-5.4.1:
 
 - fix pure ore injection duplicates recipes (issues #106 and #107)
@@ -15,7 +28,6 @@
 - add sources in the sky (mainly air)
 - fix burnt glass pane and springaline glass pane not beeing translucent in inventory
 - fix pure ore injector interaction with FastSuite (issue #105)
-
 
 
 1.19.2-5.3.4:

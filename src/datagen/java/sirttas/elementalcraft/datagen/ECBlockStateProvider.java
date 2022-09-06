@@ -133,7 +133,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				.part().modelFile(springaline).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.SPRINGALINE).end();
 		} else if (block instanceof AirMillGrindstoneBlock) {
 			getVariantBuilder(block)
-				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(air))
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(models().getBuilder("air_mill_grindstone_upper").parent(air).texture("particle", prefix("air_mill_grindstone_blades"))))
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(models().getExistingFile(prefix(name))));
 		} else if (block instanceof ReservoirBlock) {
 			ModelFile base = models().getExistingFile(prefix(name));

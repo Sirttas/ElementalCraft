@@ -115,7 +115,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("h  ").unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.SHRINE_UPGRADE_CORE.get()).define('c', ECItems.CONTAINED_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('r', Tags.Items.DUSTS_REDSTONE)
 				.pattern("rir").pattern("ici").pattern("rir").unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY)).save(consumer);
-		ShapelessRecipeBuilder.shapeless(ECItems.SCROLL_PAPER.get()).requires(ECItems.AIR_CRYSTAL.get()).requires(Items.PAPER).requires(Items.INK_SAC).unlockedBy("has_air_silk", has(ECItems.AIR_SILK))
+		ShapelessRecipeBuilder.shapeless(ECItems.SCROLL_PAPER.get()).requires(ECItems.AIR_SILK.get()).requires(Items.PAPER).requires(Items.INK_SAC).unlockedBy("has_air_silk", has(ECItems.AIR_SILK))
 				.save(consumer);
 		ShapedRecipeBuilder.shaped(ECItems.SOLAR_PRISM.get()).define('s', ECItems.SPRINGALINE_SHARD.get()).define('c', Tags.Items.INGOTS_COPPER).define('d', Tags.Items.GEMS_DIAMOND)
 				.pattern(" s ").pattern("cdc").pattern(" s ").unlockedBy(HAS_SPRINGALINE_SHARD, has(ECItems.SPRINGALINE_SHARD)).save(consumer);

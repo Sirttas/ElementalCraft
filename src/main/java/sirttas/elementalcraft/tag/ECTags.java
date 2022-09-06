@@ -86,7 +86,8 @@ public class ECTags {
 		public static final TagKey<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
 		
 		public static final TagKey<Item> PURE_ORES_ORE_SOURCE = createTag("pure_ores/ore_source");
-		public static final TagKey<Item> PURE_ORES_RAW_METAL_SOURCE = createTag("pure_ores/raw_metas_source");
+		public static final TagKey<Item> PURE_ORES_RAW_MATERIALS_SOURCE = createTag("pure_ores/raw_materials_source");
+		public static final TagKey<Item> PURE_ORES_GEORE_SHARDS_SOURCE = createTag("pure_ores/geore_shards_source");
 		public static final TagKey<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final TagKey<Item> JEWEL_SOCKETABLES = createTag("jewel_socketables");
@@ -104,6 +105,7 @@ public class ECTags {
 		public static final TagKey<Item> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
 		public static final TagKey<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 		public static final TagKey<Item> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
+		public static final TagKey<Item> GEORE_SHARDS = createForgeTag("geore_shards");
 
 		public static final TagKey<Item> CURIOS_ELEMENT_HOLDER = createTag("curios", CuriosConstants.ELEMENT_HOLDER_SLOT);
 

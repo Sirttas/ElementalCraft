@@ -129,9 +129,11 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.PIPE_COVER_HIDING).addTag(ECTags.Items.PIPES).add(ECItems.COVER_FRAME.get(), ECItems.PIPE_PRIORITY.get());
 		
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
-		
+
+		tag(ECTags.Items.GEORE_SHARDS);
 		tag(ECTags.Items.PURE_ORES_ORE_SOURCE).addTag(Tags.Items.ORES);
-		tag(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE).addTag(Tags.Items.RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_RAW_MATERIALS_SOURCE).addTag(Tags.Items.RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_GEORE_SHARDS_SOURCE).addTag(ECTags.Items.GEORE_SHARDS);
 		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 		
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);

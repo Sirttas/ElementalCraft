@@ -16,7 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
+import sirttas.elementalcraft.item.chisel.ChiselItem;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
+import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassItem;
+import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 
@@ -54,7 +57,9 @@ public class ECItemModelProvider extends ItemModelProvider {
 					} else {
 						withExistingParent(name, ElementalCraft.createRL(BLOCK_PREFIX + name));
 					}
-				} else if (item instanceof ElementHolderItem) {
+				} else if (item instanceof FocusItem || item instanceof SourceAnalysisGlassItem || item instanceof ChiselItem) {
+					withExistingParent(name, "item/handheld");
+				}else if (item instanceof ElementHolderItem) {
 					withExistingParent(name, ElementalCraft.createRL("item/template_element_holder"));
 				} else {
 					singleTexture(name);

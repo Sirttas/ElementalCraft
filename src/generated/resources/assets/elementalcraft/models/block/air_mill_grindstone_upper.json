@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/air",
+  "textures": {
+    "particle": "elementalcraft:block/air_mill_grindstone_blades"
+  }
+}

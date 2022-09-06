@@ -1,13 +1,17 @@
 package sirttas.elementalcraft.item.elemental;
 
+import net.minecraft.core.Position;
+import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.entity.projectile.ThrownElementCrystal;
 
@@ -17,6 +21,16 @@ public class CrystalItem extends ElementalItem {
 
     public CrystalItem(ElementType elementType) {
         super(elementType);
+        DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
+            @Override
+            @Nonnull
+            protected Projectile getProjectile(@Nonnull Level level, @Nonnull Position position, @Nonnull ItemStack stack) {
+                var crystal = new ThrownElementCrystal(level, position.x(), position.y(), position.z());
+
+                crystal.setItem(stack);
+                return crystal;
+            }
+        });
     }
 
     @Override

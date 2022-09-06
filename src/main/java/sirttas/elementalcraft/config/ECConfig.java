@@ -76,6 +76,9 @@ public class ECConfig {
 		public final IntValue pureOreRawMaterialsInput;
 		public final IntValue pureOreRawMaterialsOutput;
 		public final DoubleValue pureOreRawMaterialsLuckRatio;
+		public final IntValue pureOreGeoreShardsInput;
+		public final IntValue pureOreGeoreShardsOutput;
+		public final DoubleValue pureOreGeoreShardsLuckRatio;
 		public final IntValue impairedPipeTransferAmount;
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
@@ -179,11 +182,15 @@ public class ECConfig {
 			builder.push("ores");
 			pureOreOresInput = builder.comment("The number of input pure ores by a purifier. Using ore blocks.").defineInRange("pureOreOresInput", 1, 1, 20);
 			pureOreOresOutput = builder.comment("The number of output pure ores by a purifier. Using ore blocks.").defineInRange("pureOreOresOutput", 2, 1, 20);
-			pureOreOresLuckRatio = builder.comment("The ratio of each luck rune on a purifier.  Using ore blocks.").defineInRange("pureOreOresLuckRatio", 5D, 0D, 10D);
+			pureOreOresLuckRatio = builder.comment("The ratio of each luck rune on a purifier. Using ore blocks.").defineInRange("pureOreOresLuckRatio", 5D, 0D, 10D);
 			builder.pop().push("rawMaterials");
 			pureOreRawMaterialsInput = builder.comment("The number of input pure ores by a purifier. Using raw materials.").defineInRange("pureOreRawMaterialsInput", 3, 1, 20);
 			pureOreRawMaterialsOutput = builder.comment("The number of output pure ores by a purifier. Using raw materials.").defineInRange("pureOreRawMaterialsOutput", 4, 1, 20);
-			pureOreRawMaterialsLuckRatio = builder.comment("The ratio of each luck rune on a purifier.  Using raw materials.").defineInRange("pureOreRawMaterialsLuckRatio", 2D, 0D, 10D);
+			pureOreRawMaterialsLuckRatio = builder.comment("The ratio of each luck rune on a purifier. Using raw materials.").defineInRange("pureOreRawMaterialsLuckRatio", 2D, 0D, 10D);
+			builder.pop().push("georeShards");
+			pureOreGeoreShardsInput = builder.comment("The number of input pure ores by a purifier. Using geore shards.").defineInRange("pureOreGeoreShardsInput", 4, 1, 20);
+			pureOreGeoreShardsOutput = builder.comment("The number of output pure ores by a purifier. Using geore shards.").defineInRange("pureOreGeoreShardsOutput", 5, 1, 20);
+			pureOreGeoreShardsLuckRatio = builder.comment("The ratio of each luck rune on a purifier. Using geore shards.").defineInRange("pureOreGeoreShardsLuckRatio", 1D, 0D, 10D);
 			builder.pop(3).push("elementPipe");
 			impairedPipeTransferAmount = builder.comment("The amount of element transferred by impaired pipes.").defineInRange("impairedPipeTransferAmount", 5, 0, 10000);
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);

@@ -28,6 +28,10 @@ public class ThrownElementCrystal extends ThrowableItemProjectile {
         super(type, level);
     }
 
+    public ThrownElementCrystal(Level level, double x, double y, double z) {
+        super(ECEntities.THROWN_ELEMENT_CRYSTAL.get(), x, y, z, level);
+    }
+
     public ThrownElementCrystal(Level level, LivingEntity sender) {
         super(ECEntities.THROWN_ELEMENT_CRYSTAL.get(), sender, level);
     }

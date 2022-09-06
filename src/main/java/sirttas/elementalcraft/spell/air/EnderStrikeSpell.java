@@ -34,7 +34,8 @@ public class EnderStrikeSpell extends Spell {
 		if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y + 0.5F, newPos.z))) {
 			return InteractionResult.SUCCESS;
 		}
-		if (caster instanceof LivingEntity livingSender && livingSender.randomTeleport(newPos.x, newPos.y + 0.5F, newPos.z, true)) {
+		if (caster instanceof LivingEntity livingSender) {
+			livingSender.teleportTo(newPos.x, newPos.y + 0.5, newPos.z);
 			livingSender.lookAt(EntityAnchorArgument.Anchor.EYES, target.position());
 			livingSender.getLevel().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
 			livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
@@ -55,7 +56,10 @@ public class EnderStrikeSpell extends Spell {
 		Vec3 pos = caster.position();
 
 		return caster.getLevel().getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).stream()
-				.filter(Enemy.class::isInstance).min(Comparator.comparingDouble(e -> pos.distanceTo(e.position()))).map(e -> castOnEntity(caster, e)).orElse(InteractionResult.PASS);
+				.filter(Enemy.class::isInstance)
+				.min(Comparator.comparingDouble(e -> pos.distanceTo(e.position())))
+				.map(e -> castOnEntity(caster, e))
+				.orElse(InteractionResult.PASS);
 	}
 	
 	public static class Event extends EntityTeleportEvent {

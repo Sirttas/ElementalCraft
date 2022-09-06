@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
@@ -14,7 +13,6 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
-import sirttas.dpanvil.api.predicate.block.logical.OrBlockPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -22,13 +20,12 @@ import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredic
 
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
@@ -137,13 +134,13 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
 		private int maxAmount;
-		private final Set<ResourceKey<ShrineUpgrade>> incompatibilities;
+		private final List<ResourceKey<ShrineUpgrade>> incompatibilities;
 
 		private Builder() {
 			this.bonuses = new EnumMap<>(BonusType.class);
 			this.predicate = null;
 			this.maxAmount = 0;
-			this.incompatibilities = Sets.newHashSet();
+			this.incompatibilities = new ArrayList<>();
 		}
 
 		public static Builder create() {
@@ -181,14 +178,18 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
 		public JsonElement toJson() {
 			if (!incompatibilities.isEmpty()) {
-				predicate = predicate.and(getIncompatibilitiesPredicate());
+				predicate = predicate.and(getIncompatibilitiesPredicate()).simplify();
 			}
 			return CodecHelper.encode(ENCODER, this);
 		}
 
 		private IBlockPosPredicate getIncompatibilitiesPredicate() {
-			return (incompatibilities.size() == 1 ? new HasShrineUpgradePredicate(Iterables.getOnlyElement(incompatibilities))
-					: new OrBlockPredicate(incompatibilities.stream().map(HasShrineUpgradePredicate::new).collect(Collectors.toList()))).not();
+			return (incompatibilities.size() == 1
+					? new HasShrineUpgradePredicate(Iterables.getOnlyElement(incompatibilities))
+					: IBlockPosPredicate.createOr(incompatibilities.stream()
+							.map(HasShrineUpgradePredicate::new)
+							.toArray(HasShrineUpgradePredicate[]::new))
+			).not();
 		}
 	}
 }

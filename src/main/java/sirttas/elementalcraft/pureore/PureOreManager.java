@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.pureore;
 
+import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -34,18 +35,24 @@ import java.util.stream.Collectors;
 
 public class PureOreManager {
 
-	private static final Lazy<PureOreLoader> ORE_LOADER = Lazy.of(() -> PureOreLoader.create(ECTags.Items.PURE_ORES_ORE_SOURCE)
-			.pattern("_?ore$")
-			.tagFolder("ores")
-			.inputSize(ECConfig.COMMON.pureOreOresInput.get())
-			.outputSize(ECConfig.COMMON.pureOreOresOutput.get())
-			.luckRatio(ECConfig.COMMON.pureOreOresLuckRatio.get()));
-	private static final Lazy<PureOreLoader> RAW_MATERIALS_LOADER = Lazy.of(() -> PureOreLoader.create(ECTags.Items.PURE_ORES_RAW_METAL_SOURCE)
-			.pattern("^raw_?")
-			.tagFolder("raw_materials")
-			.inputSize(ECConfig.COMMON.pureOreRawMaterialsInput.get())
-			.outputSize(ECConfig.COMMON.pureOreRawMaterialsOutput.get())
-			.luckRatio(ECConfig.COMMON.pureOreRawMaterialsLuckRatio.get()));
+	private static final Lazy<List<PureOreLoader>> LOADERS = Lazy.of(() -> List.of(PureOreLoader.create(ECTags.Items.PURE_ORES_ORE_SOURCE)
+					.pattern("_?ore$")
+					.tagFolder("ores")
+					.inputSize(ECConfig.COMMON.pureOreOresInput.get())
+					.outputSize(ECConfig.COMMON.pureOreOresOutput.get())
+					.luckRatio(ECConfig.COMMON.pureOreOresLuckRatio.get()),
+			PureOreLoader.create(ECTags.Items.PURE_ORES_RAW_MATERIALS_SOURCE)
+					.pattern("^raw_?")
+					.tagFolder("raw_materials")
+					.inputSize(ECConfig.COMMON.pureOreRawMaterialsInput.get())
+					.outputSize(ECConfig.COMMON.pureOreRawMaterialsOutput.get())
+					.luckRatio(ECConfig.COMMON.pureOreRawMaterialsLuckRatio.get()),
+			PureOreLoader.create(ECTags.Items.PURE_ORES_GEORE_SHARDS_SOURCE)
+					.pattern("_?shard$")
+					.tagFolder("geore_shards")
+					.inputSize(ECConfig.COMMON.pureOreGeoreShardsInput.get())
+					.outputSize(ECConfig.COMMON.pureOreGeoreShardsOutput.get())
+					.luckRatio(ECConfig.COMMON.pureOreGeoreShardsLuckRatio.get())));
 
 	private final Map<ResourceLocation, Entry> pureOres = new HashMap<>();
 
@@ -119,8 +126,7 @@ public class PureOreManager {
 						.collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 		this.pureOres.clear();
-		ORE_LOADER.get().generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ore = e);
-		RAW_MATERIALS_LOADER.get().generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).rawMaterial = e);
+		LOADERS.get().forEach(l -> l.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ores.put(l, e)));
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection.");
@@ -152,14 +158,7 @@ public class PureOreManager {
 	private <C extends Container, T extends Recipe<C>> void inject(AbstractPureOreRecipeInjector<C, T> injector, Collection<Recipe<?>> recipes, List<Entry> entries) {
 		entries.stream()
 				.distinct()
-				.<T>mapMulti((entry, downstream) -> {
-					if (entry.ore != null) {
-						downstream.accept(this.injectEntry(injector, entry.ore));
-					}
-					if (entry.rawMaterial != null) {
-						downstream.accept(this.injectEntry(injector, entry.rawMaterial));
-					}
-				})
+				.<T>mapMulti((entry, downstream) -> entry.ores.values().forEach(v -> downstream.accept(this.injectEntry(injector, v))))
 				.filter(Objects::nonNull)
 				.filter(ElementalCraftUtils.distinctBy(Recipe::getId))
 				.forEach(recipes::add);
@@ -180,54 +179,40 @@ public class PureOreManager {
 	private static class Entry {
 
 		private int color = -1;
-		private PureOre ore;
-		private PureOre rawMaterial;
+		private final Map<PureOreLoader, PureOre> ores;
+
+		public Entry() {
+			ores = new Reference2ObjectArrayMap<>(LOADERS.get().size());
+		}
 
 		public Component getDescription() {
-			if (ore != null) {
-				return ore.getDescription();
-			} else if (rawMaterial != null) {
-				return rawMaterial.getDescription();
+			if (ores.isEmpty()) {
+				return null;
 			}
-			return null;
+			return ores.values().iterator().next().getDescription();
 		}
 
 		public boolean test(ItemStack ore) {
-			return (this.ore != null && this.ore.getIngredient().test(ore)) || (this.rawMaterial != null && this.rawMaterial.getIngredient().test(ore));
+			return !ores.isEmpty() && ores.values().stream().anyMatch(o -> o.getIngredient().test(ore));
 		}
 
 		public boolean isProcessable() {
-			return (ore != null && ore.isProcessable() || (rawMaterial != null && rawMaterial.isProcessable()));
+			return !ores.isEmpty() && ores.values().stream().anyMatch(PureOre::isProcessable);
 		}
 
 		public List<IPurifierRecipe> getRecipes() {
-			var list = new ArrayList<IPurifierRecipe>();
-
-			if (ore != null) {
-				var recipe = ore.getRecipe();
-
-				if (recipe != null) {
-					list.add(recipe);
-				}
-			}
-			if (rawMaterial != null) {
-				var recipe = rawMaterial.getRecipe();
-
-				if (recipe != null) {
-					list.add(recipe);
-				}
-			}
-			return list;
+			return ores.values().stream()
+					.map(PureOre::getRecipe)
+					.toList();
 		}
 
 		@OnlyIn(Dist.CLIENT)
 		private int getColor() {
 			if (color == -1) {
-				if (ore != null) {
-					color = ECItem.lookupColor(ore.getResultForColor());
-				} else if (rawMaterial != null) {
-					color = ECItem.lookupColor(rawMaterial.getResultForColor());
-				}
+				color = ores.values().stream()
+						.map(o -> ECItem.lookupColor(o.getResultForColor()))
+						.findFirst()
+						.orElse(-1);
 			}
 			return color;
 		}

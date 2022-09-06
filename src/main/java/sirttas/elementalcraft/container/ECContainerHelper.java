@@ -1,29 +1,32 @@
 package sirttas.elementalcraft.container;
 
-import java.util.stream.IntStream;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.stream.IntStream;
+
 public class ECContainerHelper {
 
 	private ECContainerHelper() {}
-	
+
+	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+		return getItemHandlerAt(world, pos, null);
+	}
+
 	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nullable Direction side) {
-		return BlockEntityHelper.getBlockEntity(world, pos).map(t -> t.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElseGet(() -> {
+		return BlockEntityHelper.getBlockEntity(world, pos).map(t -> t.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElseGet(() -> {
 			if (t instanceof WorldlyContainer && side != null) {
 				return new SidedInvWrapper((WorldlyContainer) t, side);
 			}

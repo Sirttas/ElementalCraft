@@ -25,7 +25,7 @@ public class TranslocationSpell extends Spell {
 	}
 
 	private void teleport(Entity caster, Vec3 newPos) {
-		caster.setPos(newPos.x, newPos.y, newPos.z);
+		caster.teleportTo(newPos.x, newPos.y, newPos.z);
 	}
 	
 	@Override
@@ -39,22 +39,24 @@ public class TranslocationSpell extends Spell {
 			return InteractionResult.PASS;
 		}
 
-		level.getChunk(((int) Math.round(newPos.x / 16)), ((int) Math.round(newPos.z / 16)));
+		if (!level.isClientSide) {
+			level.getChunk(((int) Math.round(newPos.x / 16)), ((int) Math.round(newPos.z / 16)));
 
-		if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z))) {
-			return InteractionResult.SUCCESS;
-		}
-		ParticleHelper.createEnderParticle(level, caster.position(), 3, level.random);
-		ParticleHelper.createEnderParticle(level, newPos, 3, level.random);
-		this.delay(caster, 10, () -> {
-			if (caster instanceof LivingEntity livingSender) {
-				teleport(caster, newPos);
-				level.playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
-				livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
-			} else {
-				teleport(caster, newPos);
+			if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z))) {
+				return InteractionResult.SUCCESS;
 			}
-		});
+			ParticleHelper.createEnderParticle(level, caster.position(), 3, level.random);
+			ParticleHelper.createEnderParticle(level, newPos, 3, level.random);
+			this.delay(caster, 10, () -> {
+				if (caster instanceof LivingEntity livingSender) {
+					teleport(caster, newPos);
+					level.playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
+					livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+				} else {
+					teleport(caster, newPos);
+				}
+			});
+		}
 		return InteractionResult.SUCCESS;
 	}
 

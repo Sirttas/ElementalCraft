@@ -23,6 +23,10 @@ public class DashSpell extends Spell {
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
 		var range = getRange(caster);
 
+		if (caster.isPassenger()) {
+			return InteractionResult.PASS;
+		}
+
 		if (caster instanceof LivingEntity livingEntity && isFlying(livingEntity)) {
 			this.effect(caster, livingEntity.getRandom().nextInt(10, 20) + (int) Math.ceil(range), instance -> {
 				if (isFlying(livingEntity)) {
