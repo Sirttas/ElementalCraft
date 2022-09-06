@@ -21,6 +21,7 @@ import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
@@ -106,11 +107,11 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 					return;
 				}
 			}
-		} else if (index > 0 || ECContainerHelper.isEmpty(targetInv) || alwaysInsert) {
+		} else if (alwaysInsert || index > 0 || !(targetInv instanceof InstrumentContainer) || ECContainerHelper.isEmpty(targetInv)) {
 			ItemStack stack = stacks.get(index).copy();
 
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				if (ItemHandlerHelper.canItemStacksStack(stack, targetInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, true)) {
+				if (ItemHandlerHelper.canItemStacksStack(stack, sourceInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, true)) {
 					doTransfer(sourceInv, targetInv, i, false);
 					index++;
 					if (index >= stacks.size()) {
