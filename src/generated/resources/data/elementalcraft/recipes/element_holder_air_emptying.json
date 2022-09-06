@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementalcraft:element_holder_air"
+    }
+  ],
+  "result": {
+    "item": "elementalcraft:element_holder_air"
+  }
+}

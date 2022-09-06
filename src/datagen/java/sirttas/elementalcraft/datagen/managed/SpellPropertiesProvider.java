@@ -41,7 +41,7 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 		builder(Spells.INFERNO, Spell.Type.COMBAT, ElementType.FIRE).color(255, 128, 48).consumeAmount(10).cooldown(120).weight(20).range(5).useDuration(200);
 		builder(Spells.DASH, Spell.Type.MIXED, ElementType.AIR).color(190, 206, 237).consumeAmount(400).cooldown(40).weight(5).range(6);
 		builder(Spells.SILK_VEIN, Spell.Type.UTILITY, ElementType.EARTH).color(4, 77, 60).consumeAmount(5000).cooldown(700).weight(2).range(15);
-		builder(Spells.TRANSLOCATION, Spell.Type.UTILITY, ElementType.AIR).color(218, 184, 255).consumeAmount(2000).cooldown(1200).weight(2).range(100);
+		builder(Spells.TRANSLOCATION, Spell.Type.UTILITY, ElementType.AIR).color(218, 184, 255).consumeAmount(500).cooldown(300).weight(2).range(100);
 		builder(Spells.FEATHER_SPIKES, Spell.Type.COMBAT, ElementType.AIR).color(180, 150, 71).consumeAmount(500).cooldown(200).weight(5);
 		builder(Spells.HEAL, Spell.Type.MIXED, ElementType.WATER).color(MobEffects.HEAL.getColor()).consumeAmount(1000).cooldown(600).weight(5);
 		builder(Spells.SPEED, Spell.Type.MIXED, ElementType.AIR).color(MobEffects.MOVEMENT_SPEED.getColor()).consumeAmount(4000).cooldown(2400).weight(2);

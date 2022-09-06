@@ -1,7 +1,7 @@
 {
   "color": "#DAB8FF",
-  "cooldown": 1200,
-  "element_consumption": 2000,
+  "cooldown": 300,
+  "element_consumption": 500,
   "element_type": "air",
   "range": 100.0,
   "spell_type": "utility",

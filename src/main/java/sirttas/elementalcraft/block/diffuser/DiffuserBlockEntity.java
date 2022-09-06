@@ -53,19 +53,20 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 
 	@SuppressWarnings("unused")
 	public static void serverTick(Level level, BlockPos pos, BlockState state, DiffuserBlockEntity diffuser) {
-		ISingleElementStorage tank = diffuser.getContainer();
+		ISingleElementStorage container = diffuser.getContainer();
 		AtomicInteger amount = new AtomicInteger(ECConfig.COMMON.diffuserDiffusionAmount.get());
 		
 		diffuser.hasDiffused = false;
-		if (tank != null && !tank.isEmpty()) {
+		if (container != null && !container.isEmpty()) {
 			diffuser.getLevel().getEntities(null, new AABB(diffuser.getBlockPos()).inflate(ECConfig.COMMON.diffuserRange.get())).stream()
 					.map(ElementStorageHelper::get)
 					.map(LazyOptional::resolve)
 					.filter(Optional::isPresent)
 					.map(Optional::get)
 					.forEach(storage -> {
-						if (!tank.isEmpty() && amount.get() > 0) {
-							amount.set(diffuser.runeHandler.handleElementTransfer(tank, storage, amount.get()));
+						if (!container.isEmpty() && amount.get() > 0) {
+
+							container.transferTo(storage, container.getElementType(), diffuser.runeHandler.getTransferSpeed(amount.get()), Math.min(1, diffuser.runeHandler.getElementPreservation()));
 							diffuser.hasDiffused = true;
 						}
 					});

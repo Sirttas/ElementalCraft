@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_element_holder_fire": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:element_holder_fire"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:element_holder_fire_emptying"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_element_holder_fire",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:element_holder_fire_emptying"
+    ]
+  }
+}

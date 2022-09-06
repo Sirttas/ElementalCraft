@@ -653,6 +653,11 @@ public class ECRecipeProvider extends RecipeProvider {
 		registerEmptying(ECBlocks.EARTH_RESERVOIR.get(), consumer);
 		registerEmptying(ECBlocks.AIR_RESERVOIR.get(), consumer);
 		registerEmptying(ECBlocks.CREATIVE_CONTAINER.get(), consumer);
+		registerEmptying(ECItems.FIRE_HOLDER.get(), consumer);
+		registerEmptying(ECItems.WATER_HOLDER.get(), consumer);
+		registerEmptying(ECItems.EARTH_HOLDER.get(), consumer);
+		registerEmptying(ECItems.AIR_HOLDER.get(), consumer);
+		registerEmptying(ECItems.PURE_HOLDER.get(), consumer);
 	}
 
 

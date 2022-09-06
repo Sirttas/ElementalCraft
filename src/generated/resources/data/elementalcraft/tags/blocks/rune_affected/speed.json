@@ -1,6 +1,16 @@
 {
   "values": [
-    "#elementalcraft:rune_affected",
+    "#elementalcraft:instruments",
+    "#elementalcraft:pedestals",
+    "elementalcraft:evaporator",
+    "elementalcraft:extractor",
+    "elementalcraft:extractor_improved",
+    "elementalcraft:solar_synthesizer",
+    "elementalcraft:mana_synthesizer",
+    "elementalcraft:pureinfuser",
+    "elementalcraft:source_breeder",
+    "elementalcraft:source_breeder_pedestal",
+    "elementalcraft:diffuser",
     "elementalcraft:sorter"
   ]
 }

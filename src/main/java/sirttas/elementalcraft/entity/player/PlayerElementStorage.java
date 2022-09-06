@@ -56,7 +56,11 @@ public class PlayerElementStorage implements IElementStorage {
 	public int insertElement(int count, ElementType type, boolean simulate) {
 		AtomicInteger remaining = new AtomicInteger(count);
 
-		getStorages().forEach(storage -> remaining.set(storage.insertElement(remaining.get(), type, simulate)));
+		getStorages().forEach(storage -> {
+			if (storage.getElementCapacity(type) > 0) {
+				remaining.set(storage.insertElement(remaining.get(), type, simulate));
+			}
+		});
 		return remaining.get();
 	}
 
@@ -65,9 +69,11 @@ public class PlayerElementStorage implements IElementStorage {
 		AtomicInteger extracted = new AtomicInteger(0);
 
 		getStorages().forEach(storage -> {
-			int e = extracted.get();
+			if (storage.getElementCapacity(type) > 0) {
+				int e = extracted.get();
 
-			extracted.set(e + storage.extractElement(count - e, type, simulate));
+				extracted.set(e + storage.extractElement(count - e, type, simulate));
+			}
 		});
 		return extracted.get();
 	}

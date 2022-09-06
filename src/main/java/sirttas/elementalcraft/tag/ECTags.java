@@ -163,7 +163,6 @@ public class ECTags {
 		public static final TagKey<Block> CONTAINER_TOOLS = createTag("container_tools");
 		public static final TagKey<Block> PEDESTALS = createTag("pedestals");
 
-		public static final TagKey<Block> RUNE_AFFECTED = createTag("rune_affected");
 		public static final TagKey<Block> RUNE_AFFECTED_SPEED = createTag("rune_affected/speed");
 		public static final TagKey<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
 		public static final TagKey<Block> RUNE_AFFECTED_OPTIMIZATION = createTag("rune_affected/optimization");

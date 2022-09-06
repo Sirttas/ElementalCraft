@@ -3,6 +3,7 @@ package sirttas.elementalcraft.datagen.tag;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceBlock;
@@ -66,10 +67,9 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 
 		tag(ECTags.Blocks.CONTAINER_TOOLS).addTag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.EVAPORATOR.get(), ECBlocks.EXTRACTOR.get(), ECBlocks.EXTRACTOR_IMPROVED.get(), ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlocks.MANA_SYNTHESIZER.get(), ECBlocks.DIFFUSER.get());
 
-		tag(ECTags.Blocks.RUNE_AFFECTED).addTags(ECTags.Blocks.CONTAINER_TOOLS, ECTags.Blocks.PEDESTALS).add(ECBlocks.PURE_INFUSER.get()).add(ECBlocks.SOURCE_BREEDER.get()).add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
-		tag(ECTags.Blocks.RUNE_AFFECTED_SPEED).addTags(ECTags.Blocks.RUNE_AFFECTED).add(ECBlocks.SORTER.get());
-		tag(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addTags(ECTags.Blocks.RUNE_AFFECTED);
-		tag(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION).addTags(ECTags.Blocks.RUNE_AFFECTED);
+		runeBase(ECTags.Blocks.RUNE_AFFECTED_SPEED).add(ECBlocks.DIFFUSER.get(), ECBlocks.SORTER.get());
+		runeBase(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION);
+		runeBase(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION);
 		tag(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER.get(), ECBlocks.PURIFIER.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get());
 
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.LAVA_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.OVERLOAD_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.SPRING_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get());
@@ -102,7 +102,12 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		
 		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).add(ECBlocks.SOURCE.get());
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	private TagAppender<Block> runeBase(TagKey<Block> tag) {
+		return tag(tag).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.EVAPORATOR.get(), ECBlocks.EXTRACTOR.get(), ECBlocks.EXTRACTOR_IMPROVED.get(), ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlocks.MANA_SYNTHESIZER.get(), ECBlocks.PURE_INFUSER.get(), ECBlocks.SOURCE_BREEDER.get(), ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
+	}
+
 	private void lootTags() {
 		var mineableWithPickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
 		

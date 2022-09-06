@@ -1,3 +1,12 @@
+1.19.2-5.4.5:
+
+- reduced cost and cooldown of translocation
+- diffuser can no longer receive preservation and optimization runes
+- add emptying recipes for holders
+- fix ordered sorter
+- fix diffuser destroying element in holders with other element
+
+
 1.19.2-5.4.4:
 
 - fix source analysis glass, focus and chisel position in hand
