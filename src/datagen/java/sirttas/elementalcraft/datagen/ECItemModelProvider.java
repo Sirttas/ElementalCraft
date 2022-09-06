@@ -27,6 +27,7 @@ import javax.annotation.Nonnull;
 
 public class ECItemModelProvider extends ItemModelProvider {
 
+	private static final String ITEM_PREFIX = "item/";
 	private static final String BLOCK_PREFIX = "block/";
 
 	public ECItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -58,9 +59,9 @@ public class ECItemModelProvider extends ItemModelProvider {
 						withExistingParent(name, ElementalCraft.createRL(BLOCK_PREFIX + name));
 					}
 				} else if (item instanceof FocusItem || item instanceof SourceAnalysisGlassItem || item instanceof ChiselItem) {
-					withExistingParent(name, "item/handheld");
+					singleTexture(name,  new ResourceLocation("minecraft", ITEM_PREFIX + "handheld"), "layer0", ElementalCraft.createRL(ITEM_PREFIX + name));
 				}else if (item instanceof ElementHolderItem) {
-					withExistingParent(name, ElementalCraft.createRL("item/template_element_holder"));
+					withExistingParent(name, ElementalCraft.createRL(ITEM_PREFIX + "template_element_holder"));
 				} else {
 					singleTexture(name);
 				}
@@ -74,12 +75,12 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	private void pipeInventory(ElementPipeBlock pipe, String name) {
-		withExistingParent(name, ElementalCraft.createRL("item/template_elementpipe"))
+		withExistingParent(name, ElementalCraft.createRL(ITEM_PREFIX + "template_elementpipe"))
 				.texture("texture", ElementalCraft.createRL(BLOCK_PREFIX + ECDataGenerators.getPipeTexture(pipe.getType())));
 	}
 
 	public ItemModelBuilder singleTexture(String name) {
-		return singleTexture(name, ElementalCraft.createRL("item/" + name));
+		return singleTexture(name, ElementalCraft.createRL(ITEM_PREFIX + name));
 	}
 	
 	public ItemModelBuilder singleTextureInBlock(String name) {
@@ -87,11 +88,11 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	public ItemModelBuilder singleTexture(String name, ResourceLocation texture) {
-		return singleTexture(name, new ResourceLocation("minecraft", "item/generated"), "layer0", texture);
+		return singleTexture(name, new ResourceLocation("minecraft", ITEM_PREFIX + "generated"), "layer0", texture);
 	}
 
 	public ItemModelBuilder singleJewelTexture(String name) {
-		return singleTexture("item/elementalcraft_jewels/" + name, ElementalCraft.createRL("elementalcraft/jewels/" + name));
+		return singleTexture(ITEM_PREFIX + "elementalcraft_jewels/" + name, ElementalCraft.createRL("elementalcraft/jewels/" + name));
 	}
 
 	public ItemModelBuilder runeTexture(String name, ResourceLocation slate, ResourceLocation rune) {

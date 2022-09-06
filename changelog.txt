@@ -1,3 +1,9 @@
+1.19.2-5.4.3:
+
+- fix source analysis glass, focus and chisel position in hand
+- fix ordered sorter destroying items
+
+
 1.19.2-5.4.2:
 
 - the ore purifier is now compatible with geore shards

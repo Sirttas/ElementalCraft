@@ -1,3 +1,6 @@
 {
-  "parent": "minecraft:item/handheld"
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "elementalcraft:item/focus"
+  }
 }
