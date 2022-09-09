@@ -9,9 +9,7 @@
     "gem": {
       "tag": "elementalcraft:gems/input_air"
     },
-    "shard": {
-      "tag": "elementalcraft:shards/air"
-    }
+    "shard": []
   },
   "outputs": [
     {

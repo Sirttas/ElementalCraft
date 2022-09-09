@@ -1,3 +1,16 @@
+1.19.2-5.4.6:
+
+- new block: translocation anchor
+- gem crystallizer recipes that guarantee a pristine gem no longer accept shards
+- fix tano rune recipe
+- fix ore shrine range
+- fix sweet shrine continuing to feed after saturation is full
+- fix diffuser always rendering particles
+- fix gem crystallize recipe chance being too high
+- fix lumber shrine planting
+- fix source breeder recipes
+
+
 1.19.2-5.4.5:
 
 - reduced cost and cooldown of translocation

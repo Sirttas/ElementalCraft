@@ -9,9 +9,7 @@
     "gem": {
       "tag": "elementalcraft:gems/input_earth"
     },
-    "shard": {
-      "tag": "elementalcraft:shards/earth"
-    }
+    "shard": []
   },
   "outputs": [
     {

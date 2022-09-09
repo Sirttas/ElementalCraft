@@ -5,7 +5,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "i": {
-      "item": "elementalcraft:fireite_ingot"
+      "tag": "forge:ingots/fireite"
     },
     "p": {
       "item": "elementalcraft:source_breeder_pedestal"

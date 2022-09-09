@@ -107,6 +107,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.SOURCE_BREEDER, list);
 		addItem(ECBlocks.SOURCE_BREEDER_PEDESTAL, list);
+		addItem(ECBlocks.TRANSLOCATION_ANCHOR, list);
 		addItem(ECBlocks.CRYSTAL_ORE, list);
 		addItem(ECBlocks.DEEPSLATE_CRYSTAL_ORE, list);
 		addItem(ECBlocks.WHITE_ROCK, list);

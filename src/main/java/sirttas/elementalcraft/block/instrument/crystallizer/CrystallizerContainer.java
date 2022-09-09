@@ -9,8 +9,11 @@ import javax.annotation.Nonnull;
 
 public class CrystallizerContainer extends InstrumentContainer {
 
-	public CrystallizerContainer(Runnable syncCallback) {
-		super(syncCallback, 12);
+	private final CrystallizerBlockEntity crystallizer;
+
+	public CrystallizerContainer(CrystallizerBlockEntity crystallizer) {
+		super(crystallizer::setChanged, 12);
+		this.crystallizer = crystallizer;
 	}
 
 	@Override
@@ -20,7 +23,7 @@ public class CrystallizerContainer extends InstrumentContainer {
 		} else if (slot == 1) {
 			return stack.is(ECTags.Items.ELEMENTAL_CRYSTALS) || stack.is(ECItems.PURE_CRYSTAL.get());
 		}
-		return stack.is(ECTags.Items.SHARDS);
+		return crystallizer.isValidShard(stack);
 	}
 
 }

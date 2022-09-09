@@ -41,6 +41,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 				.addIngredients(ingredients.get(0));
 		builder.addSlot(RecipeIngredientRole.INPUT, 42, 14)
 				.addIngredients(ingredients.get(1));
+
 		builder.addSlot(RecipeIngredientRole.INPUT, 6, 21)
 				.addIngredients(ingredients.get(2))
 				.addTooltipCallback((recipeSlotView, tooltip) -> tooltip.add(Component.translatable("tooltip.elementalcraft.optional")));

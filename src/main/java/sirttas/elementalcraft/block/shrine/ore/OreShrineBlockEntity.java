@@ -18,6 +18,7 @@ import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.loot.LootHelper;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
@@ -37,8 +38,12 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	@Override
 	public AABB getRangeBoundingBox() {
 		var range = getRange();
+		var height = this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST) ? range * 2 : Math.abs(level.getMinBuildHeight() - worldPosition.getY());
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).move(0, -1, 0).expandTowards(0, 1D - worldPosition.getY(), 0));
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos())
+				.inflate(range, 0, range)
+				.move(0, -1, 0)
+				.expandTowards(0, 1D - height, 0));
 	}
 
 
@@ -53,7 +58,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 		return false;
 	}
 
-	public static void harvest(ServerLevel level, BlockPos pos, AbstractShrineBlockEntity shrine, BlockState newBlock) {
+	public static void harvest(ServerLevel level, BlockPos pos, AbstractShrineBlockEntity shrine, @Nullable BlockState newBlock) {
 		int fortune = shrine.getUpgradeCount(ShrineUpgrades.FORTUNE);
 
 		if (fortune > 0) {

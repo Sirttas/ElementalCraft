@@ -3,6 +3,7 @@ package sirttas.elementalcraft.network.message;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorListMessage;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexPullPlayerMessage;
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassMessage;
 import sirttas.elementalcraft.item.spell.book.SpellBookMessage;
@@ -11,7 +12,7 @@ import sirttas.elementalcraft.spell.tick.SpellTickCooldownMessage;
 
 public class MessageHandler {
 
-	private static final String PROTOCOL_VERSION = "11";
+	private static final String PROTOCOL_VERSION = "12";
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(ElementalCraft.createRL("main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals,
 			PROTOCOL_VERSION::equals);
 
@@ -26,5 +27,6 @@ public class MessageHandler {
 		CHANNEL.registerMessage(id++, SourceAnalysisGlassMessage.class, SourceAnalysisGlassMessage::encode, SourceAnalysisGlassMessage::decode, SourceAnalysisGlassMessage::handle);
 		CHANNEL.registerMessage(id++, ActiveJewelsMessage.class, ActiveJewelsMessage::encode, ActiveJewelsMessage::decode, ActiveJewelsMessage::handle);
 		CHANNEL.registerMessage(id++, VortexPullPlayerMessage.class, VortexPullPlayerMessage::encode, VortexPullPlayerMessage::decode, VortexPullPlayerMessage::handle);
+		CHANNEL.registerMessage(id++, TranslocationAnchorListMessage.class, TranslocationAnchorListMessage::encode, TranslocationAnchorListMessage::decode, TranslocationAnchorListMessage::handle);
 	}
 }

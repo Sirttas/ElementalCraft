@@ -96,8 +96,9 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		int index = IntStream.range(0, outputs.size())
 				.filter(i -> ItemHandlerHelper.canItemStacksStack(outputs.get(i).result, gem))
 				.findFirst()
-				.orElse(-1);
-		var list = outputs.subList(index + 1, outputs.size());
+				.orElse(0);
+		var size = outputs.size();
+		var list = index >= 0 && index < size ? outputs.subList(index, size) : outputs;
 		int weight = getTotalWeight(list, luck);
 		
 		if (weight > 0) {
@@ -139,7 +140,11 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	public static ResultEntry createResult(ItemStack result, float weight, float quality) {
 		return new ResultEntry(result, weight, quality);
 	}
-	
+
+	public boolean isValidShard(ItemStack stack) {
+		return ingredients.get(2).test(stack);
+	}
+
 	public static class ResultEntry {
 		public static final Codec<ResultEntry> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 				ItemStack.CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result),
@@ -185,9 +190,9 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		public static NonNullList<Ingredient> readIngredients(JsonObject json) {
 			NonNullList<Ingredient> list = NonNullList.create();
 
-			list.add(RecipeHelper.deserializeIngredient(json, "gem"));
-			list.add(RecipeHelper.deserializeIngredient(json, "crystal"));
-			list.add(RecipeHelper.deserializeIngredient(json, "shard"));
+			list.add(RecipeHelper.deserializeIngredient(json, ECNames.GEM));
+			list.add(RecipeHelper.deserializeIngredient(json, ECNames.CRYSTAL));
+			list.add(RecipeHelper.deserializeIngredient(json, ECNames.SHARD));
 			return list;
 		}
 

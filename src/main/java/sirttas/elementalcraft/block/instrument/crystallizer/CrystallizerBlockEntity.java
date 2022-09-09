@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
@@ -23,7 +22,7 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 
 	public CrystallizerBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.CRYSTALLIZER, pos, state, ECRecipeTypes.CRYSTALLIZATION.get(), ECConfig.COMMON.crystallizerTransferSpeed.get(), ECConfig.COMMON.crystallizerMaxRunes.get());
-		inventory = new CrystallizerContainer(this::setChanged);
+		inventory = new CrystallizerContainer(this);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}
@@ -39,8 +38,8 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 		for (int i = 2; i < inventory.getContainerSize(); i++) {
 			ItemStack stack = inventory.getItem(i);
 			
-			if (EvaporatorBlock.getShardElementType(stack) == recipe.getElementType()) {
-				luck += ((ShardItem) stack.getItem()).getElementAmount();
+			if (isValidShard(stack) && stack.getItem() instanceof ShardItem shardItem) {
+				luck += shardItem.getElementAmount();
 			}
 		}
 		
@@ -48,6 +47,10 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 		
 		clearContent();
 		inventory.setItem(0, recipe.assemble(gem, this, luck));
+	}
+
+	public boolean isValidShard(ItemStack stack) {
+		return recipe != null && recipe.isValidShard(stack);
 	}
 
 	@Nonnull

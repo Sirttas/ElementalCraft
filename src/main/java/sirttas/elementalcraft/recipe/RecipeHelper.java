@@ -1,14 +1,10 @@
 package sirttas.elementalcraft.recipe;
 
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -19,13 +15,21 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
+import java.util.List;
+import java.util.Set;
+
 public class RecipeHelper {
 
 	private RecipeHelper() {}
 	
 	public static Ingredient deserializeIngredient(JsonObject json, String key) {
 		if (GsonHelper.isArrayNode(json, key)) {
-			return Ingredient.fromJson(GsonHelper.getAsJsonArray(json, key));
+			var array = GsonHelper.getAsJsonArray(json, key);
+
+			if (array.isEmpty()) {
+				return Ingredient.EMPTY;
+			}
+			return Ingredient.fromJson(array);
 		}
 		return Ingredient.fromJson(GsonHelper.getAsJsonObject(json, key));
 	}
@@ -47,17 +51,17 @@ public class RecipeHelper {
 	}
 
 	public static NonNullList<Ingredient> readIngredients(JsonArray json) {
-		NonNullList<Ingredient> nonnulllist = NonNullList.create();
+		NonNullList<Ingredient> list = NonNullList.create();
 
 		for (int i = 0; i < json.size(); ++i) {
 			Ingredient ingredient = Ingredient.fromJson(json.get(i));
 
 			if (!ingredient.isEmpty()) {
-				nonnulllist.add(ingredient);
+				list.add(ingredient);
 			}
 		}
 
-		return nonnulllist;
+		return list;
 	}
 
 	public static boolean matchesUnordered(Container inv, List<Ingredient> ingredients) {

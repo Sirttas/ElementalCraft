@@ -9,9 +9,7 @@
     "gem": {
       "tag": "elementalcraft:gems/input_water"
     },
-    "shard": {
-      "tag": "elementalcraft:shards/water"
-    }
+    "shard": []
   },
   "outputs": [
     {

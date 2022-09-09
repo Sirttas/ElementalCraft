@@ -9,9 +9,7 @@
     "gem": {
       "tag": "elementalcraft:gems/input_fire"
     },
-    "shard": {
-      "tag": "elementalcraft:shards/fire"
-    }
+    "shard": []
   },
   "outputs": [
     {

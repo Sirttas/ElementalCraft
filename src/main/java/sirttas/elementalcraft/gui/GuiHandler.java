@@ -1,13 +1,18 @@
 package sirttas.elementalcraft.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
@@ -19,14 +24,18 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorList;
+import sirttas.elementalcraft.client.LevelRenderHandler;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.spell.ISpellHolder;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
+import sirttas.elementalcraft.spell.air.TranslocationSpell;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,19 +46,27 @@ import java.util.Optional;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GuiHandler {
 
+	public static final Material TRANSLOCATION_ANCHOR_MARKER = ECRendererHelper.getBlockMaterial("gui/translocation_anchor_marker");
+
 	private GuiHandler() {}
 
 	@SubscribeEvent
 	public static void onDrawScreenPost(RegisterGuiOverlaysEvent event) {
 		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "gauge", (g, p, t, w, h) -> drawGauge(g, p));
+		event.registerBelow(VanillaGuiOverlay.PORTAL.id(), "translocation_anchor_marker", (g, p, t, w, h) -> drawAnchors(g, p, w, h));
 	}
 
 	public static void drawGauge(ForgeGui gui, PoseStack poseStack) {
+		var player = Minecraft.getInstance().player;
+
+		if (player == null) {
+			return;
+		}
+
 		gui.setupOverlayRenderState(false, false);
 
-		LocalPlayer player = Minecraft.getInstance().player;
-		Spell spell = getSpell();
-		int i = 0;
+		var spell = getSpell();
+		var i = 0;
 
 		for (var storage : getElementStorage(player)) {
 			ElementType type = storage.getElementType();
@@ -60,6 +77,58 @@ public class GuiHandler {
 			}
 			i++;
 		}
+	}
+
+	public static void drawAnchors(ForgeGui gui, PoseStack poseStack, int width, int height) {
+		var player = Minecraft.getInstance().player;
+		var worldMatrix = LevelRenderHandler.getWorldMatrix();
+
+		if (worldMatrix == null || player == null || !TranslocationSpell.holdsTranslocation(player) || TranslocationAnchorList.CLIENT_LIST.isEmpty()) {
+			return;
+		}
+
+		var targetAnchor = TranslocationSpell.getTargetAnchor(player, TranslocationAnchorList.CLIENT_LIST);
+
+		var range = Spells.TRANSLOCATION.get().getRange(player);
+		var rangeSq = range * range;
+		var falloffSq = (range / 2) * (range / 2);
+		var cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+		var playerPos = player.position();
+		var buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+
+		gui.setupOverlayRenderState(false, false);
+		for (var anchor : TranslocationAnchorList.CLIENT_LIST) {
+			var center = Vec3.atCenterOf(anchor);
+			var distanceSq = center.distanceToSqr(playerPos);
+
+			if (distanceSq <= rangeSq) {
+				var v = new Vector4f((float) (center.x - cameraPos.x), (float) (center.y - cameraPos.y), (float) (center.z - cameraPos.z), 1F);
+
+				v.transform(worldMatrix);
+				v.perspectiveDivide();
+
+				if (v.z() <= 0F || v.z() >= 1F) {
+					continue;
+				}
+
+				var isTarget = anchor.equals(targetAnchor);
+				var scale = isTarget ? 1.5f : Mth.clamp(1f - (float) distanceSq / falloffSq, 0.2f, 1f);
+				var w = width / 2F;
+				var h = height / 2F;
+
+				var x = Mth.clamp(w + v.x() * w, 16f, width - 16f);
+				var y = Mth.clamp(h - v.y() * h, 16f, height - 16f);
+
+				poseStack.pushPose();
+				poseStack.translate(x, y, 1F);
+				poseStack.scale(0.25F, 0.25F, 1F);
+				poseStack.scale(scale, scale, 1F);
+				poseStack.translate(-64, -64, 1F);
+				ECRendererHelper.renderIcon(poseStack, buffer, TRANSLOCATION_ANCHOR_MARKER, 128, 128);
+				poseStack.popPose();
+			}
+		}
+		buffer.endBatch();
 	}
 
 	private static List<ISingleElementStorage> getElementStorage(Player player) {

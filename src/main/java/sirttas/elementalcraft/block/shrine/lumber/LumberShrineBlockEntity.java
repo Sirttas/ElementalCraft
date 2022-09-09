@@ -56,7 +56,7 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 						do {
 							hasPlanted = blockItem.place(new DirectionalPlaceContext(this.level, mutablePos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
 							mutablePos.move(Direction.DOWN);
-						} while (!hasPlanted && mutablePos.getY() > y);
+						} while (!hasPlanted && mutablePos.getY() >= y);
 
 						if (hasPlanted) {
 							seeds.shrink(1);

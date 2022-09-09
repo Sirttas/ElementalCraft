@@ -5,7 +5,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "i": {
-      "item": "elementalcraft:fireite_ingot"
+      "tag": "forge:ingots/fireite"
     },
     "s": {
       "item": "elementalcraft:strongly_contained_crystal"

@@ -8,15 +8,14 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.ISpellRenderer;
 
 public class AirShieldSpellRenderer implements ISpellRenderer {
 
-    public static final Material BACKGROUND = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/air_shield_background"));
-    public static final Material BLADE = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/air_shield_blade"));
+    public static final Material BACKGROUND = ECRendererHelper.getBlockMaterial("effect/air_shield_background");
+    public static final Material BLADE = ECRendererHelper.getBlockMaterial("effect/air_shield_blade");
 
     @Override
     public void render(Spell spell, Entity caster, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
@@ -24,7 +23,7 @@ public class AirShieldSpellRenderer implements ISpellRenderer {
 
         poseStack.translate(-1, 0, -1);
         poseStack.scale(1/64f, 1/64f, 1/64f);
-        this.renderIcon(poseStack, buffer, BACKGROUND, 128, 128, packedLight, OverlayTexture.NO_OVERLAY);
+        ECRendererHelper.renderIcon(poseStack, buffer, BACKGROUND, 128, 128, packedLight, OverlayTexture.NO_OVERLAY);
         renderBlade(poseStack, buffer, packedLight, angle);
         renderBlade(poseStack, buffer, packedLight, angle);
     }
@@ -39,7 +38,7 @@ public class AirShieldSpellRenderer implements ISpellRenderer {
         poseStack.translate(64, 64, -0.01f);
         poseStack.mulPose(Vector3f.ZP.rotationDegrees(angle));
         poseStack.translate(-64, -64, 0);
-        this.renderIcon(poseStack, buffer, BLADE, 128, 128, packedLight, OverlayTexture.NO_OVERLAY);
+        ECRendererHelper.renderIcon(poseStack, buffer, BLADE, 128, 128, packedLight, OverlayTexture.NO_OVERLAY);
     }
 
 }

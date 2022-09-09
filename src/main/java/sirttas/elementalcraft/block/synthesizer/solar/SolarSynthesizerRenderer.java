@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 
 public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> implements IECRenderer<T> {
 
-	public static final Material BEAM = ECRendererHelper.getBlockMaterial(ElementalCraft.createRL("effect/solar_synthesizer_beam"));
+	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_synthesizer_beam");
 	public static final ResourceLocation LENSE_LOCATION = ElementalCraft.createRL("block/solar_synthesizer_lense");
 
 	private static BakedModel lenseModel;
@@ -56,7 +56,7 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 				matrixStack.translate(0.5, 0.5, 0.5);
 				matrixStack.mulPose(Vector3f.YP.rotation((float) Math.acos(beamVect.z * (beamVect.x > 0 ? 1 : -1))));
 				matrixStack.scale(0.006F, 0.006F, 0.006F);
-				this.renderIcon(matrixStack, buffer, -21, 38, BEAM, 42, -76, r, g, b, light, overlay);
+				ECRendererHelper.renderIcon(matrixStack, buffer, -21, 38, BEAM, 42, -76, r, g, b, light, overlay);
 				matrixStack.popPose();
 			}
 		}

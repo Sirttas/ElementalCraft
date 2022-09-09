@@ -33,8 +33,11 @@ public class EntityClientHandler {
 		var buffer = event.getMultiBufferSource();
 		var packedLight = event.getPackedLight();
 
+		poseStack.pushPose();
+		poseStack.mulPose(Vector3f.YP.rotationDegrees(180 - Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)));
 		renderSingleSpell(spell, null, entity, partialTicks, poseStack, buffer, packedLight);
 		SpellTickHelper.getSpellInstances(entity).forEach(i -> renderSingleSpell(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
+		poseStack.popPose();
 	}
 
 	private static void renderSingleSpell(Spell spell, @Nullable AbstractSpellInstance instance, LivingEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
@@ -48,7 +51,6 @@ public class EntityClientHandler {
 		}
 
 		poseStack.pushPose();
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(180 - Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)));
 		if (renderer instanceof ISpellInstanceRenderer spellInstanceRenderer && instance != null) {
 			spellInstanceRenderer.render(instance, partialTicks, poseStack, buffer, packedLight);
 		} else {

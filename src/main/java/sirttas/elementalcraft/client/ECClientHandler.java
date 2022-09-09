@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.vacuum.client;
+package sirttas.elementalcraft.client;
 
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -25,6 +25,7 @@ import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.container.menu.screen.ECScreens;
+import sirttas.elementalcraft.gui.GuiHandler;
 import sirttas.elementalcraft.gui.tooltip.ElementGaugeClientTooltip;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.curios.CuriosConstants;
@@ -85,6 +86,7 @@ public class ECClientHandler {
 		addSprite(event, SourceDisplacementPlateRenderer.CIRCLE);
 		addSprite(event, ISourceRenderer.OUTER);
 		addSprite(event, ISourceRenderer.MIDDLE);
+		addSprite(event, GuiHandler.TRANSLOCATION_ANCHOR_MARKER);
 		if (ECinteractions.isCuriosActive()) {
 			event.addSprite(CuriosConstants.EMPTY_ELEMENT_HOLDER_SLOT);
 		}

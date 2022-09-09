@@ -22,6 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
@@ -93,7 +94,7 @@ import java.util.function.Supplier;
 
 public class ECBlocks {
 
-	private static final DeferredRegister<Block> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, ElementalCraftApi.MODID);
+    private static final DeferredRegister<Block> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, ElementalCraftApi.MODID);
 
 	private ECBlocks() { }
 
@@ -174,6 +175,7 @@ public class ECBlocks {
 	public static final RegistryObject<BrokenSourceDisplacementPlateBlock> BROKEN_SOURCE_DISPLACEMENT_PLATE = register(BrokenSourceDisplacementPlateBlock::new, BrokenSourceDisplacementPlateBlock.NAME);
 	public static final RegistryObject<SourceBreederBlock> SOURCE_BREEDER = register(SourceBreederBlock::new, SourceBreederBlock.NAME);
 	public static final RegistryObject<SourceBreederPedestalBlock> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlock::new, SourceBreederPedestalBlock.NAME);
+	public static final RegistryObject<TranslocationAnchorBlock> TRANSLOCATION_ANCHOR = register(TranslocationAnchorBlock::new, TranslocationAnchorBlock.NAME);
 
 
 	public static final RegistryObject<DropExperienceBlock> CRYSTAL_ORE = register(() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "inert_crystal_ore");
