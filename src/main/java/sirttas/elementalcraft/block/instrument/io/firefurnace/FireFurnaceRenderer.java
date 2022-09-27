@@ -15,22 +15,22 @@ import javax.annotation.Nonnull;
 public class FireFurnaceRenderer implements IECRenderer<AbstractFireFurnaceBlockEntity<?>> {
 
 	@Override
-	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		Container inv = te.getInventory();
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);
-		matrixStack.translate(0.5F, 0.3F, 0.5F);
 		float tick = getAngle(partialTicks);
 		
-		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
+		renderRunes(poseStack, buffer, te.getRuneHandler(), tick, light, overlay);
+		poseStack.translate(0.5F, 0.3F, 0.5F);
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+			poseStack.mulPose(Vector3f.YP.rotationDegrees(tick));
 			if (!stack.isEmpty()) {
-				renderItem(stack, matrixStack, buffer, light, overlay);
+				renderItem(stack, poseStack, buffer, light, overlay);
 			}
 			if (!stack2.isEmpty()) {
-				matrixStack.translate(0, 0.5F, 0);
-				renderItem(stack2, matrixStack, buffer, light, overlay);
+				poseStack.translate(0, 0.5F, 0);
+				renderItem(stack2, poseStack, buffer, light, overlay);
 			}
 		}
 	}

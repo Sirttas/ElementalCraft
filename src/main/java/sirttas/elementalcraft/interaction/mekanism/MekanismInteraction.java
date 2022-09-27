@@ -1,16 +1,15 @@
 package sirttas.elementalcraft.interaction.mekanism;
 
-import mekanism.api.recipes.ItemStackToItemStackRecipe;
 import mekanism.common.recipe.MekanismRecipeType;
 import mekanism.common.recipe.impl.CrushingIRecipe;
 import mekanism.common.recipe.impl.EnrichingIRecipe;
 import mekanism.common.recipe.impl.InjectingIRecipe;
 import mekanism.common.recipe.impl.PurifyingIRecipe;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.IForgeRegistry;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
+import sirttas.elementalcraft.block.instrument.io.mill.AirMillBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.interaction.mekanism.injector.ChemicalDissolutionPureOreRecipeInjector;
 import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackGasToItemStackPureOreRecipeInjector;
@@ -40,10 +39,12 @@ public class MekanismInteraction {
 			PureOreRecipeInjectors.register(registry, new ItemStackToItemStackPureOreRecipeInjector<>(MekanismRecipeType.CRUSHING, CrushingIRecipe::new));
 		}
 	}
-	
-	public static IGrindingRecipe lookupCrusherRecipe(Level world, Container inv) {
-		ItemStackToItemStackRecipe crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(world, recipe -> recipe.test(inv.getItem(0)));
-		
-		return crusherRecipe != null ? new MekanismCrusherRecipeWrapper(crusherRecipe) : null;
+
+	public static IGrindingRecipe lookupCrusherRecipe(Level level, AirMillBlockEntity airMillGrindstone) {
+		var stack = airMillGrindstone.getInventory().getItem(0);
+		var crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(level, recipe -> recipe.test(stack));
+		var wrapper = crusherRecipe != null ? new MekanismCrusherRecipeWrapper(crusherRecipe) : null;
+
+		return wrapper != null && wrapper.matches(airMillGrindstone) ? wrapper : null;
 	}
 }

@@ -54,8 +54,11 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 	private static final VoxelShape PILLAR_2 = Block.box(13D, 0D, 1D, 15D, 10D, 3D);
 	private static final VoxelShape PILLAR_3 = Block.box(1D, 0D, 13D, 3D, 10D, 15D);
 	private static final VoxelShape PILLAR_4 = Block.box(13D, 0D, 13D, 15D, 10D, 15D);
+	private static final VoxelShape SHAFT = Block.box(7D, 4D, 7D, 9D, 16D, 9D);
 	private static final VoxelShape GRINDSTONE = Block.box(4D, 5D, 4D, 12D, 8D, 12D);
-	private static final VoxelShape SHAPE = Shapes.or(OVEN_SLAB, OVEN_SLAB_2, CONNECTION, PILLAR_1, PILLAR_2, PILLAR_3, PILLAR_4, GRINDSTONE);
+	private static final VoxelShape SHAPE_LOWER = Shapes.or(OVEN_SLAB, OVEN_SLAB_2, CONNECTION, PILLAR_1, PILLAR_2, PILLAR_3, PILLAR_4, SHAFT, GRINDSTONE);
+
+	private static final VoxelShape SHAPE_UPPER =  Block.box(7D, 0D, 7D, 9D, 16D, 9D);
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -121,7 +124,7 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
     @Override
 	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return isLower(state) ? SHAPE : Shapes.empty();
+		return isLower(state) ? SHAPE_LOWER : SHAPE_UPPER;
 	}
 
 	@Override

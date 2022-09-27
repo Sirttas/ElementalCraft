@@ -45,7 +45,7 @@ public class AirMillBlockEntity extends AbstractIOInstrumentBlockEntity<AirMillB
 		var recipe = super.lookupRecipe();
 		
 		if (recipe == null && ECinteractions.isMekanismActive()) {
-			return MekanismInteraction.lookupCrusherRecipe(level, inventory);
+			return MekanismInteraction.lookupCrusherRecipe(level, this);
 		}
 		return recipe;
 	}

@@ -1,3 +1,17 @@
+1.18.2-4.4.27:
+
+- fix air mill grindstone recipe priority
+- fix smooth basalt not being liquifiable by the lava shrine
+- fix a crash when a budding shrine gets broken while having a springaline shrine upgrade
+- fix a performance issue with zombie picking up shards (issue #109)
+- fix the air mill grindstone shape
+- fix covered pipe not dropping the frame when broken
+- fix double block duplication (issue #110)
+- fix a lot of loot tables
+- fix some typos
+- fix fire furnace and fire blast furnace rune rendering
+
+
 1.18.2-4.4.26:
 
 - fix ordered sorter

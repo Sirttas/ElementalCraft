@@ -11,7 +11,8 @@
     "MixinMinecraftServer",
     "MixinPowderSnowBlock",
     "MixinProjectile",
-    "MixinRepairContainer"
+    "MixinRepairContainer",
+    "MixinZombie"
   ],
   "client": [
     "MixinItemInHandRenderer",

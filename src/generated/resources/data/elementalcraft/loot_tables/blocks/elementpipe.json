@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "main",
       "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
@@ -18,7 +17,6 @@
       ]
     },
     {
-      "name": "frame",
       "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
@@ -42,7 +40,7 @@
               "condition": "minecraft:block_state_property",
               "block": "elementalcraft:elementpipe",
               "properties": {
-                "cover": "frame"
+                "cover": "covered"
               }
             }
           ]

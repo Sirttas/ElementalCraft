@@ -7,10 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.datagen.interaction.ECSilentGearMaterialProvider;
-import sirttas.elementalcraft.datagen.loot.ECBlockLootProvider;
-import sirttas.elementalcraft.datagen.loot.ECChestLootProvider;
-import sirttas.elementalcraft.datagen.loot.ECEntityLootProvider;
-import sirttas.elementalcraft.datagen.loot.ECInjectLootProvider;
+import sirttas.elementalcraft.datagen.loot.ECLootTableProvider;
 import sirttas.elementalcraft.datagen.managed.RunesProvider;
 import sirttas.elementalcraft.datagen.managed.ShrinePropertiesProvider;
 import sirttas.elementalcraft.datagen.managed.ShrineUpgradeProvider;
@@ -37,10 +34,7 @@ public class ECDataGenerators {
 			ECBlockTagsProvider blockTagsProvider = new ECBlockTagsProvider(generator, fileHelper);
 			ECItemModelProvider itemModelProvider = new ECItemModelProvider(generator, fileHelper);
 
-			generator.addProvider(new ECBlockLootProvider(generator));
-			generator.addProvider(new ECChestLootProvider(generator));
-			generator.addProvider(new ECInjectLootProvider(generator));
-			generator.addProvider(new ECEntityLootProvider(generator));
+			generator.addProvider(new ECLootTableProvider(generator));
 			generator.addProvider(new ECBlockStateProvider(generator, fileHelper));
 			generator.addProvider(new RunesProvider(generator, itemModelProvider));
 			generator.addProvider(itemModelProvider);

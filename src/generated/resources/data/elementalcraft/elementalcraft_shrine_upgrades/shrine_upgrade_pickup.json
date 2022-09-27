@@ -5,11 +5,11 @@
         "value": {
           "values": [
             {
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_strength",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex",
               "type": "elementalcraft:has_shrine_upgrade"
             },
             {
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_strength",
               "type": "elementalcraft:has_shrine_upgrade"
             }
           ],
