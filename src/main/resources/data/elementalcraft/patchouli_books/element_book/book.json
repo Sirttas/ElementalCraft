@@ -4,7 +4,7 @@
 	"creative_tab": "elementalcraft",
 	"model": "elementalcraft:element_book",
 	"i18n": true, 
-	"version": 22,
+	"version": 23,
 	"macros": {
 		"$(ec:source)": "$(l:sources/source)",
 		"$(ec:container)": "$(l:instruments/container)",
@@ -14,6 +14,6 @@
 		"$(ec:extractor)": "$(l:instruments/extractor)",
 		"$(ec:binder)": "$(l:instruments/binder)",
 		"$(ec:firefurnace)": "$(l:instruments/firefurnace)",
-		"$(ec:holder)": "$(l:basics/element_holder)"
+		"$(ec:holder)": "$(l:advanced/element_holder)"
 	}
 }

@@ -1,3 +1,17 @@
+1.18.2-4.4.28:
+
+- the warstaff can now be repaired using fireite
+- the warstaff can now be enchanted
+- the warstaff now has a bigger hitbox
+- add a lot of new elementopedia entries
+- fix spell indicator
+- fix element groimoire bar
+- fix some jewels conditions
+- fix some loot tables
+- fix some typos
+- fix some elementopedia entries
+
+
 1.18.2-4.4.27:
 
 - fix air mill grindstone recipe priority

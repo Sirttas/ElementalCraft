@@ -1,11 +1,11 @@
 {
   "name": "block.elementalcraft.pureinfuser",
-  "category": "elementalcraft:advanced",
+  "category": "elementalcraft:basics",
   "icon": "elementalcraft:pureinfuser",
   "advancement": "elementalcraft:pickup/crystallizer",
   "turnin": "elementalcraft:pickup/pureinfuser",
   "priority": true,
-  "sortnum": 0,
+  "sortnum": 9,
   "pages": [
     {
       "type": "text",

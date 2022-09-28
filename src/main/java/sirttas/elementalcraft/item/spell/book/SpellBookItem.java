@@ -1,10 +1,5 @@
 package sirttas.elementalcraft.item.spell.book;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -24,6 +19,10 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.spell.SpellHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class SpellBookItem extends ECItem {
 
@@ -64,24 +63,10 @@ public class SpellBookItem extends ECItem {
 		});
 	}
 
-	@Override
-	public int getDamage(ItemStack stack) {
-		return ECConfig.COMMON.spellBookMaxSpell.get() - SpellHelper.getSpellCount(stack);
-	}
 
 	@Override
-	public int getMaxDamage(ItemStack stack) {
-		return ECConfig.COMMON.spellBookMaxSpell.get();
-	}
-
-	@Override
-	public boolean canBeDepleted() {
-		return true;
-	}
-
-	@Override
-	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-		return false;
+	public int getBarWidth(@Nonnull ItemStack stack) {
+		return Math.round(ECConfig.COMMON.spellBookMaxSpell.get() - SpellHelper.getSpellCount(stack) * 13F / ECConfig.COMMON.spellBookMaxSpell.get());
 	}
 	
 	private static class ContainerProvider implements MenuProvider {

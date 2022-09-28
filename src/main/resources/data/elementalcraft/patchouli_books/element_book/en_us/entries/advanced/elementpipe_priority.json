@@ -1,10 +1,10 @@
 {
   "name": "item.elementalcraft.elementpipe_priority",
-  "category": "elementalcraft:basics",
+  "category": "elementalcraft:advanced",
   "icon": "elementalcraft:elementpipe",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/elementpipe_priority",
-  "sortnum": 8,
+  "sortnum": 5,
   "pages": [
     {
       "type": "text",

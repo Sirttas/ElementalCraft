@@ -1,0 +1,18 @@
+{
+  "name": "elementalcraft_jewel.elementalcraft.tortoise",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:jewel{elementalcraft:{jewel:'elementalcraft:tortoise'}}",
+  "advancement": "elementalcraft:pickup/swift_alloy_ingot",
+  "turnin": "elementalcraft:pickup/unset_jewel",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.tortoise0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:jewel/tortoise"
+    }
+  ]
+}

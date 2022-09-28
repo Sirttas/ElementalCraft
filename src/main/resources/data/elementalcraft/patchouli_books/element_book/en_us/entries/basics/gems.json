@@ -1,0 +1,15 @@
+{
+  "name": "block.elementalcraft.gems",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:gems",
+  "advancement": "elementalcraft:pickup/crystallizer",
+  "turnin": "elementalcraft:pickup/crystallizer",
+  "priority": true,
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.gems0"
+    }
+  ]
+}

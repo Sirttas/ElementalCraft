@@ -1,0 +1,18 @@
+{
+  "name": "elementalcraft_jewel.elementalcraft.mole",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:jewel{elementalcraft:{jewel:'elementalcraft:mole'}}",
+  "advancement": "elementalcraft:pickup/swift_alloy_ingot",
+  "turnin": "elementalcraft:pickup/unset_jewel",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.mole0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:jewel/mole"
+    }
+  ]
+}

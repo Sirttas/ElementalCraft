@@ -49,12 +49,19 @@ public class GuiHandler {
 				ElementType type = storage.getElementType();
 
 				doRenderElementGauge(matrixStack, storage.getElementAmount(), storage.getElementCapacity(), type, i);
-				if (spell.isValid() && spell.getElementType() == type && i == 0) {
+				if (spell.isValid() && spell.getElementType() == type && i == 0 && isPlayerOwned(player, storage)) {
 					doRenderCanCast(matrixStack, spell.consume(player, true));
 				}
 				i++;
 			}
 		}
+	}
+
+	private static boolean isPlayerOwned(Player player, ISingleElementStorage storage) {
+		return CapabilityElementStorage.get(player)
+				.map(s -> s.forElement(storage.getElementType()))
+				.map(s -> s.getElementAmount() == storage.getElementAmount() && s.getElementCapacity() == storage.getElementCapacity())
+				.orElse(false);
 	}
 
 	private static List<ISingleElementStorage> getElementStorage(Player player) {

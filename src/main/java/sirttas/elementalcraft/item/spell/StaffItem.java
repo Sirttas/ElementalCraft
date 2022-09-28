@@ -19,6 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,6 +33,7 @@ import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.util.Lazy;
 import sirttas.elementalcraft.ElementalCraftTab;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,7 +61,7 @@ public class StaffItem extends FocusItem {
 	}
 
 	@Override
-	public boolean canAttackBlock(@Nonnull BlockState state, @Nonnull Level worldIn, @Nonnull BlockPos pos, Player player) {
+	public boolean canAttackBlock(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, Player player) {
 		return !player.isCreative();
 	}
 
@@ -80,16 +83,16 @@ public class StaffItem extends FocusItem {
 	}
 
 	@Override
-	public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level worldIn, BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
-		if (state.getDestroySpeed(worldIn, pos) > 0.0F) {
-			stack.hurtAndBreak(2, entityLiving, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+	public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level level, BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entity) {
+		if (state.getDestroySpeed(level, pos) > 0.0F) {
+			stack.hurtAndBreak(2, entity, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		}
 		return true;
 	}
 
 	@Override
-	public boolean isCorrectToolForDrops(BlockState blockIn) {
-		return blockIn.is(Blocks.COBWEB);
+	public boolean isCorrectToolForDrops(BlockState state) {
+		return state.is(Blocks.COBWEB);
 	}
 
 	@Override
@@ -118,7 +121,33 @@ public class StaffItem extends FocusItem {
 	@Override
     @Nonnull
 	public AABB getSweepHitBox(@Nonnull ItemStack stack, @Nonnull Player player, @Nonnull Entity target) {
-		return  player.getBoundingBox().inflate(2, 0.25, 2);
+		var playerAABB = player.getBoundingBox().inflate(2, 0.25, 2);
+		var targetAABB = super.getSweepHitBox(stack, player, target);
+
+		return new AABB(
+				Math.min(playerAABB.minX, targetAABB.minX),
+				Math.min(playerAABB.minY, targetAABB.minY),
+				Math.min(playerAABB.minZ, targetAABB.minZ),
+				Math.max(playerAABB.maxX, targetAABB.maxX),
+				Math.max(playerAABB.maxY, targetAABB.maxY),
+				Math.max(playerAABB.maxZ, targetAABB.maxZ)
+		);
 	}
 
+	@Override
+	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
+		return repair.is(ECTags.Items.INGOTS_FIREITE);
+	}
+
+	@Override
+	@Deprecated
+	public int getEnchantmentValue() {
+		return 16;
+	}
+
+	@Override
+	@Deprecated
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return enchantment.category == EnchantmentCategory.WEAPON || super.canApplyAtEnchantingTable(stack, enchantment);
+	}
 }

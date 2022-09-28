@@ -4,7 +4,7 @@
   "icon": "elementalcraft:binder_improved",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/binder_improved",
-  "sortnum": 15,
+  "sortnum": 16,
   "pages": [
     {
       "type": "text",

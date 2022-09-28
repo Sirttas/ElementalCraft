@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/binder",
   "turnin": "elementalcraft:pickup/crystallizer",
   "priority": true,
-  "sortnum": 8,
+  "sortnum": 9,
   "pages": [
     {
       "type": "text",

@@ -1,10 +1,10 @@
 {
   "name": "item.elementalcraft.cover_frame",
-  "category": "elementalcraft:basics",
+  "category": "elementalcraft:advanced",
   "icon": "elementalcraft:cover_frame",
   "advancement": "elementalcraft:pickup/drenched_iron_ingot",
   "turnin": "elementalcraft:pickup/cover_frame",
-  "sortnum": 6,
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

@@ -56,9 +56,9 @@ public class ECBlockLoot extends BlockLoot {
 		add(ECBlocks.LARGE_SPRINGALINE_BUD, noDrop());
 
 		for (Block block : ForgeRegistries.BLOCKS) {
-			var key = block.getRegistryName();
+			var key = block.getLootTable();
 
-			if (!ElementalCraftApi.MODID.equals(key.getNamespace()) || map.containsKey(key) || BuiltInLootTables.EMPTY.equals(block.getLootTable())) {
+			if (!ElementalCraftApi.MODID.equals(block.getRegistryName().getNamespace()) || map.containsKey(key) || BuiltInLootTables.EMPTY.equals(key)) {
 				continue;
 			}
 			if (block instanceof SlabBlock) {

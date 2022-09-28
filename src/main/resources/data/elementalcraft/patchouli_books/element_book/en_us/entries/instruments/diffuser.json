@@ -1,24 +1,24 @@
 {
-  "name": "block.elementalcraft.firefurnace",
+  "name": "block.elementalcraft.diffuser",
   "category": "elementalcraft:instruments",
-  "icon": "elementalcraft:firefurnace",
+  "icon": "elementalcraft:diffuser",
   "advancement": "elementalcraft:pickup/container",
-  "turnin": "elementalcraft:pickup/firefurnace",
-  "sortnum": 11,
+  "turnin": "elementalcraft:pickup/diffuser",
+  "sortnum": 16,
   "pages": [
     {
       "type": "text",
-      "text": "elementalcraft.page.firefurnace0"
+      "text": "elementalcraft.page.diffuser0"
     },
     {
       "type": "crafting",
-      "recipe": "elementalcraft:firefurnace"
+      "recipe": "elementalcraft:diffuser"
     },
     {
       "type": "multiblock",
       "multiblock": {
         "mapping": {
-          "I": "elementalcraft:firefurnace",
+          "I": "elementalcraft:diffuser",
           "0": "elementalcraft:container"
         },
         "pattern": [
