@@ -8,7 +8,7 @@
       "tag": "forge:ingots/drenched_iron"
     },
     "h": {
-      "item": "elementalcraft:hardened_handle"
+      "tag": "forge:rods/hardened"
     },
     "i": {
       "tag": "forge:ingots/swift_alloy"

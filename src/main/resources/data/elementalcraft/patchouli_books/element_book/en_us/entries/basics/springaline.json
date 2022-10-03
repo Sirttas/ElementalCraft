@@ -5,7 +5,7 @@
   "advancement": "elementalcraft:pickup/binder",
   "turnin": "elementalcraft:pickup/springaline_shard",
   "priority": true,
-  "sortnum": 10,
+  "sortnum": 6,
   "pages": [
     {
       "type": "text",

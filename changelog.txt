@@ -1,3 +1,69 @@
+1.19.2-5.5.1:
+
+- new block: crystal growth shrine upgrade
+- new block: springaline lantern
+- added sources to mekanism cardboard blacklist
+- added compatibility with immersive engineering arc furnace and crusher for pure ore processing
+- added compatibility for the air mill grindstone with immersive engineering crusher recipes
+- added a lot of new dye recipes for the air mill grindstone
+- added back silent gear interaction
+- added back botania interaction
+- added a lot of new elementopedia entries
+- added source displacement to jei
+- added budding shrine to jei
+- added lava shrine to jei
+- added information message for non-analyzed sources (issue #112)
+- disable jewels for fake players, this should increase server performances a lot (issue #81)
+- the Instrument output retriever now requires drenched iron instead of swift alloy
+- the ore shrine can now receive a crystal harvest shrine upgrade to harvest clusters
+- the air mill grindstone can now grind inert crystal ore
+- the air mill grindstone can now grind wool
+- the warstaff can now be repaired using fireite
+- the warstaff can now be enchanted
+- the warstaff now has a bigger hitbox
+- the harvest shrine can now harvest tall plants
+- the harvest shrine can now harvest immersive engineering industrial hemp
+- the lumber shrine and the tree fall spell can now break vines
+- the fire pylone can mow receive acceleration shrine upgrades
+- the ore purifier can now process row ore blocks
+- the ore purifier can now process geore blocks
+- the ore purifier element consumption now varies with the source type
+- instruments can no longer be used from offhand (issue #113)
+- separated infusion and tool infusion in jei
+- reworked the air reservoir connector
+- you can no longer place a chisel in an inscriber
+- reduced by a lot the cost of the pickup shrine upgrade
+- reduced element cost of fire furnace and fire blast furnace
+- reduced the speed of the budding shrine
+- lens can now be infused with their respective element to increase their durability (+1 level of unbreaking)
+- fix a bug with translocation anchor not working bellow sea level
+- fix some typos
+- fix some jewels conditions
+- fix some elementopedia entries (issue #111)
+- fix air mill grindstone recipe priority
+- fix element transfer overflow and underflow
+- fix pure ore tag matching
+- fix tool infusion not applying enchantments on certain cases
+- fix a few recipes to use tags
+- fix a crash when a budding shrine gets broken while having a springaline shrine upgrade
+- fix fire furnace and fire blast furnace rune rendering
+- fix source spawn in nether and the end
+- fix smooth basalt not being liquifiable by the lava shrine
+- fix a performance issue with zombie picking up shards (issue #109)
+- fix the air mill grindstone shape
+- fix covered pipe not dropping the frame when broken
+- fix double block duplication (issue #110)
+- fix a lot of loot tables
+- fix spell indicator
+- fix element groimoire bar
+- fix protection shrine upgrade
+- fix protection shrine upgrade shape
+- fix fire pylon not setting mobs into fire
+- fix light occlusion with many blocks
+- fix pipe rendering
+- fix solar synthesizer animation not toggling off
+
+
 1.19.2-5.4.6:
 
 - new block: translocation anchor

@@ -36,7 +36,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 
 	private final SingleItemContainer inventory;
 	private final RuneHandler runeHandler;
-	private boolean working;
+	protected boolean working;
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
 		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, pos, state);
@@ -56,6 +56,8 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 			if (synthesized > 0) {
 				solarSynthesizer.breakLense(level, pos);
 			}
+		} else {
+			solarSynthesizer.working = false;
 		}
 	}
 

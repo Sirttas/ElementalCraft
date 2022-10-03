@@ -24,7 +24,7 @@ public class TranslocationAnchorBlock extends Block {
     private static final VoxelShape SHAPE = Shapes.or(ECShapes.SOURCE_DISPLACEMENT_PLATE_SHAPE, Block.box(3D, 3D, 3D, 13D, 4D, 13D));
 
     public TranslocationAnchorBlock() {
-        super(ECProperties.Blocks.BLOCK_NOT_SOLID);
+        super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
     }
 
     @Nonnull
@@ -72,5 +72,11 @@ public class TranslocationAnchorBlock extends Block {
 
     private void sendToPlayers(@Nonnull Level level) {
         MessageHandler.CHANNEL.send(PacketDistributor.DIMENSION.with(level::dimension), TranslocationAnchorListMessage.create(level));
+    }
+
+    @Override
+    @Deprecated
+    public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
+        return true;
     }
 }

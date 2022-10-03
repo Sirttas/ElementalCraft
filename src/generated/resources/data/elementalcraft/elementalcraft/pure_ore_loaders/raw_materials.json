@@ -1,0 +1,26 @@
+{
+  "element_consumption": 1667,
+  "input_size": 3,
+  "luck_ratio": 2.0,
+  "output_size": 4,
+  "patterns": [
+    "^raw_?",
+    "_?raw$"
+  ],
+  "source": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:or",
+        "values": [
+          "#elementalcraft:pure_ores/sources/raw_materials"
+        ]
+      },
+      {
+        "type": "forge:not",
+        "value": "#elementalcraft:pure_ores/specifics"
+      }
+    ]
+  },
+  "tag_pattern": "^raw_materials/"
+}

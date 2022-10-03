@@ -104,7 +104,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 
-		if (purifier != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (purifier != null && hand == InteractionHand.MAIN_HAND) {
 			if (!purifier.getInventory().getItem(1).isEmpty()) {
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
 			} else if (heldItem.isEmpty() || ElementalCraft.PURE_ORE_MANAGER.isValidOre(heldItem)) {

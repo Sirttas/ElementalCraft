@@ -3,6 +3,9 @@
     {
       "apply": {
         "model": "elementalcraft:block/elementpipe_creative_core"
+      },
+      "when": {
+        "cover": "none|frame"
       }
     },
     {

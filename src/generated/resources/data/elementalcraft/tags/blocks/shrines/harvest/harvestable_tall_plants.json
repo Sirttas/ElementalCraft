@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:sugar_cane",
+    "minecraft:bamboo",
+    "minecraft:kelp",
+    "minecraft:kelp_plant",
+    "minecraft:cactus",
+    {
+      "id": "immersiveengineering:hemp",
+      "required": false
+    }
+  ]
+}

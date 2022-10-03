@@ -18,6 +18,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUp
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.CrystalGrowthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
@@ -43,6 +44,7 @@ public class ShrineUpgrades {
 	public static final ResourceKey<ShrineUpgrade> PROTECTION = createKey(ProtectionShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> FILLING = createKey(FillingShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> CRYSTAL_HARVEST = createKey(CrystalHarvestShrineUpgradeBlock.NAME);
+	public static final ResourceKey<ShrineUpgrade> CRYSTAL_GROWTH = createKey(CrystalGrowthShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> STRENGTH = createKey(StrengthShrineUpgradeBlock.NAME);
     public static final ResourceKey<ShrineUpgrade> SPRINGALINE = createKey(SpringalineShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> CAPACITY = createKey(CapacityShrineUpgradeBlock.NAME);

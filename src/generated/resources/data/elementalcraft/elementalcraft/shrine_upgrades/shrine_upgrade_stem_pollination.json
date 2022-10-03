@@ -11,8 +11,17 @@
       {
         "type": "dpanvil:not",
         "value": {
-          "type": "elementalcraft:has_shrine_upgrade",
-          "shrine_upgrade": "elementalcraft:shrine_upgrade_boneless_growth"
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_boneless_growth"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_crystal_growth"
+            }
+          ]
         }
       },
       {

@@ -11,7 +11,7 @@
       "tag": "forge:ingots/swift_alloy"
     },
     "s": {
-      "item": "elementalcraft:hardened_handle"
+      "tag": "forge:rods/hardened"
     }
   },
   "pattern": [

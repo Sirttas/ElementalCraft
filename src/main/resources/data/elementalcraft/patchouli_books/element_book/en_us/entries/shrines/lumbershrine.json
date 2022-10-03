@@ -1,14 +1,14 @@
 {
-  "name": "block.elementalcraft.lumber",
+  "name": "block.elementalcraft.lumbershrine",
   "category": "elementalcraft:shrines",
-  "icon": "elementalcraft:lumber",
+  "icon": "elementalcraft:lumbershrine",
   "advancement": "elementalcraft:pickup/shrinebase",
-  "turnin": "elementalcraft:pickup/lumber",
+  "turnin": "elementalcraft:pickup/lumbershrine",
   "sortnum": 8,
   "pages": [
     {
       "type": "text",
-      "text": "elementalcraft.page.lumber0"
+      "text": "elementalcraft.page.lumbershrine0"
     }
   ]
 }

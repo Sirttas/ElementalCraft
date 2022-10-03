@@ -2,8 +2,8 @@ package sirttas.elementalcraft.recipe;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import sirttas.elementalcraft.container.IContainerBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
+import sirttas.elementalcraft.container.IContainerBlockEntity;
 
 import javax.annotation.Nonnull;
 
@@ -20,7 +20,7 @@ public interface IContainerBlockEntityRecipe<T extends IContainerBlockEntity> ex
 
 	@Nonnull
     @Override
-	default ItemStack assemble(ContainerBlockEntityWrapper<T> inv) {
+	default ItemStack assemble(@Nonnull ContainerBlockEntityWrapper<T> inv) {
 		return assemble(inv.getEntity());
 	}
 	

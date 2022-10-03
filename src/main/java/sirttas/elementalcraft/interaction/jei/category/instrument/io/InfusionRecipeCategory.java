@@ -22,7 +22,11 @@ import java.util.List;
 public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<IInfuser, IInfusionRecipe> {
 
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper, "elementalcraft.jei.infusion", ECBlocks.INFUSER.get());
+		this(guiHelper, "elementalcraft.jei.infusion");
+	}
+
+	protected InfusionRecipeCategory(IGuiHelper guiHelper, String translationKey) {
+		super(guiHelper, translationKey, ECBlocks.INFUSER.get());
 	}
 
 	@Nonnull

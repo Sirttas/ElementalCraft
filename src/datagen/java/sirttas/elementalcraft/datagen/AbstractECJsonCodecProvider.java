@@ -15,6 +15,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.TagKey;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.JsonCodecProvider;
+import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
@@ -26,7 +27,7 @@ import java.util.function.BiConsumer;
 public abstract class AbstractECJsonCodecProvider<T> extends JsonCodecProvider<T> {
 
     protected AbstractECJsonCodecProvider(DataGenerator dataGenerator, ExistingFileHelper existingFileHelper, ResourceKey<Registry<T>> registry) {
-        super(dataGenerator, existingFileHelper, ElementalCraftApi.MODID, RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.builtinCopy()), PackType.SERVER_DATA, getDirectory(registry), getCodec(registry), new HashMap<>());
+        super(dataGenerator, existingFileHelper, ElementalCraftApi.MODID, CodecHelper.getRegistryOps(JsonOps.INSTANCE), PackType.SERVER_DATA, getDirectory(registry), getCodec(registry), new HashMap<>());
     }
 
     public <U> HolderSet<U> createHolderSet(TagKey<U> tag) {

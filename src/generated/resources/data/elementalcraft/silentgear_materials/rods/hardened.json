@@ -1,0 +1,62 @@
+{
+  "type": "silentgear:standard",
+  "simple": true,
+  "availability": {
+    "tier": 2,
+    "categories": [
+      "rock",
+      "metal"
+    ],
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:rods/hardened"
+    }
+  },
+  "name": {
+    "translate": "material.elementalcraft.rods.hardened"
+  },
+  "stats": {
+    "rod": {
+      "durability": {
+        "mul2": 0.2
+      },
+      "harvest_speed": {
+        "add": 1.0
+      },
+      "melee_damage": {
+        "add": 0.5
+      },
+      "rarity": 20.0
+    }
+  },
+  "traits": {
+    "rod": [
+      {
+        "name": "silentgear:hard",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  },
+  "model": {
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#B1A69B"
+      }
+    ],
+    "rod/part": [
+      {
+        "texture": "silentgear:rod",
+        "color": "#B1A69B"
+      }
+    ]
+  }
+}

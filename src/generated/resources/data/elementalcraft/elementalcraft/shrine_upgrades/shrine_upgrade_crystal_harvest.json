@@ -1,10 +1,11 @@
 {
   "bonuses": {
-    "element_consumption": 1.5
+    "element_consumption": 1.5,
+    "range": 0.5
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:buddingshrine"
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:shrines/upgradables/crystal_harvest"
   }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "block.elementalcraft.lenses",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:lenses",
+  "advancement": "elementalcraft:pickup/swift_alloy_ingot",
+  "turnin": "elementalcraft:pickup/swift_alloy_ingot",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.lenses0"
+    }
+  ]
+}

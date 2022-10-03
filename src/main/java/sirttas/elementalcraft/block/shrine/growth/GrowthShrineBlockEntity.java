@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,12 +19,18 @@ import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(GrowthShrineBlock.NAME);
+	private static final int MAX_TRYS = 100;
+
+	private boolean hasStemPollination = false;
+
 	public GrowthShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.GROWTH_SHRINE, pos, state, PROPERTIES_KEY);
 	}
@@ -37,7 +44,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private boolean stemCanGrow(StemBlock stem, BlockPos pos) {
-		if (this.hasUpgrade(ShrineUpgrades.STEM_POLLINATION)) {
+		if (hasStemPollination) {
 			Block crop = stem.getFruit();
 			
 			return Direction.Plane.HORIZONTAL.stream()
@@ -63,7 +70,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private boolean isInBlacklist(BlockState state) {
-		return state.is(ECTags.Blocks.GROWTHSHRINE_BLACKLIST);
+		return state.is(ECTags.Blocks.SHRINES_GROWTH_BLACKLIST);
 	}
 
 	private void addGrowthParticles(BlockPos pos) {
@@ -72,6 +79,10 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public AABB getRangeBoundingBox() {
+		if (this.hasUpgrade(ShrineUpgrades.CRYSTAL_GROWTH)) {
+			return super.getRangeBoundingBox();
+		}
+
 		var range = getRange();
 
 		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, 2, 0));
@@ -114,10 +125,71 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		}).orElse(false);
 	}
 
+	private boolean canClusterGrowAtState(BlockState s) {
+		return BuddingAmethystBlock.canClusterGrowAtState(s) || s.is(ECTags.Blocks.BUDS);
+	}
+
+	private boolean canGrowCrystal(BlockPos pos) {
+		BlockState state = level.getBlockState(pos);
+
+		if (state.is(ECTags.Blocks.BUDDING) && state.isRandomlyTicking()) {
+			for (Direction direction : Direction.values()) {
+				var offset = pos.relative(direction);
+				var s = level.getBlockState(offset);
+
+				if (canClusterGrowAtState(s)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+	private boolean growCrystals() {
+		List<BlockPos> positions = getBlocksInRange()
+				.filter(this::canGrowCrystal)
+				.toList();
+
+		if (positions.isEmpty()) {
+			return false;
+		}
+
+		var pos = positions.get(this.level.random.nextInt(positions.size()));
+		var state = level.getBlockState(pos);
+		Map<Direction, BlockState> map = new EnumMap<>(Direction.class);
+
+		for (Direction direction : Direction.values()) {
+			var offset = pos.relative(direction);
+			var s = level.getBlockState(offset);
+
+			if (canClusterGrowAtState(s)) {
+				map.put(direction, s);
+			}
+		}
+
+		for (int tryCount = 0; tryCount < MAX_TRYS; tryCount++) {
+			state.randomTick((ServerLevel) level, pos, level.random);
+			for (var e : map.entrySet()) {
+				var offset = pos.relative(e.getKey());
+
+				if (level.getBlockState(offset) != e.getValue()) {
+					this.addGrowthParticles(offset);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	@Override
 	protected boolean doPeriod() {
 		if (level instanceof ServerLevel) {
-			if (this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH)) {
+			hasStemPollination = this.hasUpgrade(ShrineUpgrades.STEM_POLLINATION);
+
+			if (this.hasUpgrade(ShrineUpgrades.CRYSTAL_GROWTH)) {
+				return growCrystals();
+			} else if (this.hasUpgrade(ShrineUpgrades.BONELESS_GROWTH)) {
 				return growBoneless();
 			}
 			return growStandard();

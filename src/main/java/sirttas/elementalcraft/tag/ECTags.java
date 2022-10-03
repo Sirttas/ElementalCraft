@@ -84,10 +84,16 @@ public class ECTags {
 		public static final TagKey<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
 		
 		public static final TagKey<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
-		
-		public static final TagKey<Item> PURE_ORES_ORE_SOURCE = createTag("pure_ores/ore_source");
-		public static final TagKey<Item> PURE_ORES_RAW_MATERIALS_SOURCE = createTag("pure_ores/raw_materials_source");
-		public static final TagKey<Item> PURE_ORES_GEORE_SHARDS_SOURCE = createTag("pure_ores/geore_shards_source");
+		public static final TagKey<Item> PURE_SOURCE_ORES_ORES = createTag("pure_ores/sources/ores");
+		public static final TagKey<Item> PURE_ORES_SOURCE_RAW_MATERIALS = createTag("pure_ores/sources/raw_materials");
+		public static final TagKey<Item> PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS = createTag("pure_ores/sources/raw_material_blocks");
+		public static final TagKey<Item> PURE_ORES_SOURCE_GEORE_SHARDS = createTag("pure_ores/sources/geore_shards");
+		public static final TagKey<Item> PURE_ORES_SOURCE_GEORE_BLOCKS = createTag("pure_ores/sources/geore_blocks");
+		public static final TagKey<Item> PURE_ORES_SOURCE_RAW_URANINITE = createTag("pure_ores/sources/raw_uraninite");
+		public static final TagKey<Item> PURE_ORES_SOURCE_POOR_URANINITE = createTag("pure_ores/sources/poor_uraninite");
+		public static final TagKey<Item> PURE_ORES_SOURCE_URANINITE = createTag("pure_ores/sources/uraninite");
+		public static final TagKey<Item> PURE_ORES_SOURCE_DENSE_URANINITE = createTag("pure_ores/sources/dense_uraninite");
+		public static final TagKey<Item> PURE_ORES_SPECIFICS = createTag("pure_ores/specifics");
 		public static final TagKey<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final TagKey<Item> JEWEL_SOCKETABLES = createTag("jewel_socketables");
@@ -104,8 +110,9 @@ public class ECTags {
 		public static final TagKey<Item> STORAGE_BLOCKS_DRENCHED_IRON = createForgeTag("storage_blocks/drenched_iron");
 		public static final TagKey<Item> STORAGE_BLOCKS_SWIFT_ALLOY = createForgeTag("storage_blocks/swift_alloy");
 		public static final TagKey<Item> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
+		public static final TagKey<Item> STORAGE_BLOCKS_RAW_MATERIALS = createForgeTag("storage_blocks/raw_materials");
 		public static final TagKey<Item> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
-		public static final TagKey<Item> GEORE_SHARDS = createForgeTag("geore_shards");
+		public static final TagKey<Item> HARDENED_RODS = createForgeTag("rods/hardened");
 
 		public static final TagKey<Item> CURIOS_ELEMENT_HOLDER = createTag("curios", CuriosConstants.ELEMENT_HOLDER_SLOT);
 
@@ -119,7 +126,24 @@ public class ECTags {
 		public static final TagKey<Item> STRIPPED_CRIMSON = createTag("stripped_crimson");
 		public static final TagKey<Item> STRIPPED_WARPED = createTag("stripped_warped");
 
-        private Items() {}
+        public static final TagKey<Item> WHITE_FLOWERS = createForgeTag("flowers/white");
+        public static final TagKey<Item> ORANGE_FLOWERS = createForgeTag("flowers/orange");
+        public static final TagKey<Item> MAGENTA_FLOWERS = createForgeTag("flowers/magenta");
+        public static final TagKey<Item> LIGHT_BLUE_FLOWERS = createForgeTag("flowers/light_blue");
+		public static final TagKey<Item> YELLOW_FLOWERS = createForgeTag("flowers/yellow");
+        public static final TagKey<Item> LIME_FLOWERS = createForgeTag("flowers/lime");
+        public static final TagKey<Item> PINK_FLOWERS = createForgeTag("flowers/pink");
+        public static final TagKey<Item> GRAY_FLOWERS = createForgeTag("flowers/gray");
+        public static final TagKey<Item> LIGHT_GRAY_FLOWERS = createForgeTag("flowers/light_gray");
+		public static final TagKey<Item> CYAN_FLOWERS = createForgeTag("flowers/cyan");
+		public static final TagKey<Item> PURPLE_FLOWERS = createForgeTag("flowers/purple");
+		public static final TagKey<Item> BLUE_FLOWERS = createForgeTag("flowers/blue");
+		public static final TagKey<Item> BROWN_FLOWERS = createForgeTag("flowers/brown");
+		public static final TagKey<Item> GREEN_FLOWERS = createForgeTag("flowers/green");
+        public static final TagKey<Item> BLACK_FLOWERS = createForgeTag("flowers/black");
+        public static final TagKey<Item> RED_FLOWERS = createForgeTag("flowers/red");
+
+		private Items() {}
 		
 		private static TagKey<Item> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);
@@ -151,8 +175,6 @@ public class ECTags {
 	}
 
 	public static class Blocks {
-		public static final TagKey<Block> LAVASHRINE_LIQUIFIABLES = createTag("lavashrine_liquifiables");
-		public static final TagKey<Block> GROWTHSHRINE_BLACKLIST = createTag("growthshrine_blacklist");
 		public static final TagKey<Block> SMALL_CONTAINER_COMPATIBLES = createTag("small_container_compatibles");
 
 		public static final TagKey<Block> PUREROCKS = createTag("purerocks");
@@ -168,6 +190,11 @@ public class ECTags {
 		public static final TagKey<Block> RUNE_AFFECTED_OPTIMIZATION = createTag("rune_affected/optimization");
 		public static final TagKey<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
 
+		public static final TagKey<Block> SHRINES_LAVA_LIQUIFIABLES = createTag("shrines/lava/liquifiables");
+		public static final TagKey<Block> SHRINES_GROWTH_BLACKLIST = createTag("shrines/growth/blacklist");
+		public static final TagKey<Block> SHRINES_ORE_HARVESTABLE_CRYSTALS = createTag("shrines/ore/harvestable_crystals");
+		public static final TagKey<Block> SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS = createTag("shrines/harvest/harvestable_tall_plants");
+
 		public static final TagKey<Block> SHRINES_UPGRADABLES_ACCELERATION = createTag("shrines/upgradables/acceleration");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_RANGE = createTag("shrines/upgradables/range");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_STRENGTH = createTag("shrines/upgradables/strength");
@@ -175,8 +202,8 @@ public class ECTags {
 		public static final TagKey<Block> SHRINES_UPGRADABLES_PLANTING = createTag("shrines/upgradables/planting");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_FORTUNE = createTag("shrines/upgradables/fortune");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_SILK_TOUCH = createTag("shrines/upgradables/silk_touch");
-		public static final TagKey<Block> SILK_TOUCH_SHRINE_UPGRADE_ATTACHED = createTag("silk_touch_shrine_upgrade_attached");
-
+		public static final TagKey<Block> SHRINES_UPGRADABLES_CRYSTAL_HARVEST = createTag("shrines/upgradables/crystal_harvest");
+		public static final TagKey<Block> SHRINES_UPGRADABLES_SILK_TOUCH_ATTACHED = createTag("hrines/upgradables/silk_touch/attached");
 
 		public static final TagKey<Block> TREE_PARTS = createTag("tree_parts");
 
@@ -185,6 +212,9 @@ public class ECTags {
 		public static final TagKey<Block> STORAGE_BLOCKS_FIREITE = createForgeTag("storage_blocks/fireite");
 
 		public static final TagKey<Block> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
+		public static final TagKey<Block> BUDDING = createForgeTag("budding");
+		public static final TagKey<Block> BUDS = createForgeTag("buds");
+		public static final TagKey<Block> CLUSTERS = createForgeTag("clusters");
 
 		public static final TagKey<Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
 
@@ -212,6 +242,22 @@ public class ECTags {
 		private static TagKey<Block> createTag(String modId, String name) {
 			return BlockTags.create(new ResourceLocation(modId, name));
 		}
+
+		public static HolderSet.Named<Block> getTag(ResourceLocation loc) {
+			return getTag(t -> t.location().equals(loc));
+		}
+
+		public static HolderSet.Named<Block> getTag(TagKey<Block> key) {
+			return getTag(t -> t.equals(key));
+		}
+
+		public static HolderSet.Named<Block> getTag(Predicate<TagKey<Block>> predicate) {
+			return Registry.BLOCK.getTags()
+					.filter(p -> predicate.test(p.getFirst()))
+					.map(Pair::getSecond)
+					.findFirst()
+					.orElse(null);
+		}
 	}
 
 	public static class Biomes {
@@ -222,6 +268,8 @@ public class ECTags {
 		public static final TagKey<Biome> HAS_SOURCE_JUNGLE = createTag("has_sources/jungle");
 		public static final TagKey<Biome> HAS_SOURCE_MUSHROOM = createTag("has_sources/mushroom");
 		public static final TagKey<Biome> HAS_SOURCE_NETHER = createTag("has_sources/nether");
+		public static final TagKey<Biome> HAS_SOURCE_NETHER_ALL = createTag("has_sources/nether/all");
+		public static final TagKey<Biome> HAS_SOURCE_NETHER_FOREST = createTag("has_sources/nether/forest");
 		public static final TagKey<Biome> HAS_SOURCE_OCEAN = createTag("has_sources/ocean");
 		public static final TagKey<Biome> HAS_SOURCE_PLAIN = createTag("has_sources/plain");
 		public static final TagKey<Biome> HAS_SOURCE_WET = createTag("has_sources/wet");

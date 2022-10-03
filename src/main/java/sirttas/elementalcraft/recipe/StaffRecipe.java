@@ -23,7 +23,7 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingConta
 
 	@Nonnull
     @Override
-	public ItemStack assemble(CraftingContainer inv) {
+	public ItemStack assemble(@Nonnull CraftingContainer inv) {
 		ItemStack staff = this.getResultItem().copy();
 		
 		for (int i = 0; i < inv.getContainerSize(); i++) {

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "e": {
+      "tag": "elementalcraft:gems/pristine_earth"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_block"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "ses",
+    "wCw",
+    " c "
+  ],
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_crystal_growth"
+  }
+}

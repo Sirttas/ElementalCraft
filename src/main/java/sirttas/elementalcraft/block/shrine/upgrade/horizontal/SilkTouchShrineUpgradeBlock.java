@@ -104,7 +104,7 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 		var state = super.getStateForPlacement(context);
 		var facing = state.getValue(FACING);
 
-		return state.setValue(BlockStateProperties.ATTACHED, context.getLevel().getBlockState(context.getClickedPos().relative(facing)).is(ECTags.Blocks.SILK_TOUCH_SHRINE_UPGRADE_ATTACHED));
+		return state.setValue(BlockStateProperties.ATTACHED, context.getLevel().getBlockState(context.getClickedPos().relative(facing)).is(ECTags.Blocks.SHRINES_UPGRADABLES_SILK_TOUCH_ATTACHED));
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class ProtectionShrineUpgradeBlock extends AbstractHorizontalShrineUpgrad
 	private static final VoxelShape SHAPE_NORTH = Shapes.or(PIPE_NORTH, SHIELD_1_NORTH, SHIELD_2_NORTH);
 
 	private static final VoxelShape PIPE_SOUTH = Block.box(7D, 7D, 14D, 9D, 9D, 16D);
-	private static final VoxelShape SHIELD_1_SOUTH = Block.box(5D, 5D, 13D, 9D, 9D, 14D);
+	private static final VoxelShape SHIELD_1_SOUTH = Block.box(5D, 5D, 13D, 11D, 12D, 14D);
 	private static final VoxelShape SHIELD_2_SOUTH = Block.box(6D, 4D, 13D, 10D, 5D, 14D);
 	private static final VoxelShape SHAPE_SOUTH = Shapes.or(PIPE_SOUTH, SHIELD_1_SOUTH, SHIELD_2_SOUTH);
 
@@ -40,7 +40,7 @@ public class ProtectionShrineUpgradeBlock extends AbstractHorizontalShrineUpgrad
 	private static final VoxelShape SHAPE_WEST = Shapes.or( PIPE_WEST, SHIELD_1_WEST, SHIELD_2_WEST);
 
 	private static final VoxelShape PIPE_EAST = Block.box(14D, 7D, 7D, 16D, 9D, 9D);
-	private static final VoxelShape SHIELD_1_EAST = Block.box(13D, 5D, 5D, 14D, 9D, 9D);
+	private static final VoxelShape SHIELD_1_EAST = Block.box(13D, 5D, 5D, 14D, 12D, 11D);
 	private static final VoxelShape SHIELD_2_EAST = Block.box(13D, 4D, 6D, 14D, 5D, 10D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(PIPE_EAST, SHIELD_1_EAST, SHIELD_2_EAST);
 

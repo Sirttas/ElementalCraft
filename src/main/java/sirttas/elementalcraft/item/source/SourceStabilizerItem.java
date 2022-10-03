@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.item.source;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -32,9 +33,14 @@ public class SourceStabilizerItem extends ECItem implements ISourceInteractable 
 		
 		return BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class)
 				.map(source -> {
-					if (!source.isStabilized() && source.isAnalyzed() && !source.getTraitHolder().isFleeting()) {
+					if (player != null && !source.isStabilized() && !source.getTraitHolder().isFleeting()) {
+						if (!source.isAnalyzed()) {
+							player.displayClientMessage(Component.translatable("message.elementalcraft.missing_analysis"), true);
+							return InteractionResult.PASS;
+						}
+
 						source.setStabilized(true);
-						if (player != null && !player.isCreative()) {
+						if (!player.isCreative()) {
 							stack.shrink(1);
 							if (stack.isEmpty()) {
 								player.setItemInHand(context.getHand(), ItemStack.EMPTY);

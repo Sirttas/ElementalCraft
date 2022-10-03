@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -23,7 +24,9 @@ import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.nbt.NBTHelper;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -81,8 +84,7 @@ public class ToolInfusionHelper {
 	
 	public static double getDodge(Entity entity) {
 		return getInfusionEffects(entity)
-				.filter(DodgeToolInfusionEffect.class::isInstance)
-				.map(DodgeToolInfusionEffect.class::cast)
+				.mapMulti(ElementalCraftUtils.cast(DodgeToolInfusionEffect.class))
 				.mapToDouble(infusion -> 1D - infusion.value())
 				.reduce(1D, (a, b) -> a * b);
 	}
@@ -100,14 +102,19 @@ public class ToolInfusionHelper {
 	private static <T extends IToolInfusionEffect> Stream<T> getInfusionEffects(ItemStack stack, Class<T> type) {
 		ToolInfusion infusion = getInfusion(stack);
 		
-		return infusion != null ? infusion.getEffects().stream().filter(type::isInstance).map(type::cast) : Stream.empty();
+		return infusion != null ? infusion.getEffects().stream().mapMulti(ElementalCraftUtils.cast(type)) : Stream.empty();
 	}
 	
-	public static int getInfusionEnchantmentLevel(ItemStack stack, Enchantment ench) {
+	public static int getInfusionEnchantmentLevel(ItemStack stack, Enchantment enchantment) {
 		return getInfusionEffects(stack, EnchantmentToolInfusionEffect.class)
-				.filter(i -> i.getEnchantment() == ench)
+				.filter(i -> i.getEnchantment() == enchantment)
 				.mapToInt(EnchantmentToolInfusionEffect::getLevel)
 				.sum();
+	}
+
+	public static Map<Enchantment, Integer> getAllInfusionEnchantments(ItemStack stack) {
+		return getInfusionEffects(stack, EnchantmentToolInfusionEffect.class)
+				.collect(Collectors.toMap(EnchantmentToolInfusionEffect::getEnchantment, EnchantmentToolInfusionEffect::getLevel, Integer::sum));
 	}
 	
 	public static Multimap<Attribute, AttributeModifier> getInfusionAttribute(ItemStack stack, EquipmentSlot slot) {
@@ -121,8 +128,7 @@ public class ToolInfusionHelper {
 	
 	public static float getElementCostReduction(Entity entity) {
 		return (float) getInfusionEffects(entity)
-				.filter(ElementCostReductionToolInfusionEffect.class::isInstance)
-				.map(ElementCostReductionToolInfusionEffect.class::cast)
+				.mapMulti(ElementalCraftUtils.cast(ElementCostReductionToolInfusionEffect.class))
 				.mapToDouble(infusion -> 1D - infusion.value())
 				.reduce(1D, (a, b) -> a * b);
 	}

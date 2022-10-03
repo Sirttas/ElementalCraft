@@ -22,6 +22,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.ie.IEInteraction;
 import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
@@ -53,6 +54,9 @@ public class PureOreRecipeInjectors {
 		if (ECinteractions.isMekanismActive()) {
 			MekanismInteraction.registerPureOreRecipeInjectors(registry);
 		}
+		if (ECinteractions.isImmersiveEngineeringActive()) {
+			IEInteraction.registerPureOreRecipeInjectors(registry);
+		}
 	}
 
 	public static <C extends Container, T extends Recipe<C>> void register(IForgeRegistry<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> registry, AbstractPureOreRecipeInjector<C, T> injector) {
@@ -61,7 +65,7 @@ public class PureOreRecipeInjectors {
 		if (id == null) {
 			throw new PureOreException("Cannot register injector as its RecipeType is absent in registry.");
 		}
-		RegistryHelper.register(registry, injector, ElementalCraft.createRL(id.getNamespace() + '_' + id.getPath()));
+		RegistryHelper.register(registry, injector, ElementalCraft.createRL(id.getNamespace() + '/' + id.getPath()));
 	}
 
 	public static void register(IEventBus modBus) {

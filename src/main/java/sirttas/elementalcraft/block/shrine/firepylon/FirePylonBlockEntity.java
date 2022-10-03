@@ -34,12 +34,11 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 	@Override
 	protected boolean doPeriod() {
 		int consumeAmount = this.getConsumeAmount();
-		var strength = (float) this.getStrength();
 
 		getEntities().forEach(e -> {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {
-				e.hurt(DamageSource.IN_FIRE, strength);
-				e.setSecondsOnFire((int)(this.consumeElement(consumeAmount) * strength));
+				e.hurt(DamageSource.IN_FIRE, (float) this.getStrength());
+				e.setSecondsOnFire(Math.max(1, (int) (this.consumeElement(consumeAmount) * this.getStrength(1))));
 			}
 		});
 		return false;

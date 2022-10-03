@@ -35,6 +35,7 @@ import sirttas.elementalcraft.loot.ECLootModifiers;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.particle.ECParticles;
+import sirttas.elementalcraft.pureore.PureOreLoader;
 import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.pureore.injector.PureOreRecipeInjectors;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
@@ -66,6 +67,10 @@ public class ElementalCraft {
 	public static final ResourceKey<IDataManager<ShrineProperties>> SHRINE_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(ShrineProperties.NAME));
 	public static final IDataManager<ShrineProperties> SHRINE_PROPERTIES_MANAGER = IDataManager.builder(ShrineProperties.class, ShrineProperties.FOLDER)
 			.withDefault(ShrineProperties.DEFAULT)
+			.build();
+
+	public static final ResourceKey<IDataManager<PureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(createRL(PureOreLoader.NAME));
+	public static final IDataManager<PureOreLoader> PURE_ORE_LOADERS_MANAGER = IDataManager.builder(PureOreLoader.class, PureOreLoader.FOLDER)
 			.build();
 
 	public ElementalCraft() {
@@ -126,6 +131,7 @@ public class ElementalCraft {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SHRINE_UPGRADE_MANAGER_KEY, SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SHRINE_PROPERTIES_MANAGER_KEY, SHRINE_PROPERTIES_MANAGER).withCodec(ShrineProperties.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SPELL_PROPERTIES_MANAGER_KEY, SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(PURE_ORE_LOADERS_MANAGER_KEY, PURE_ORE_LOADERS_MANAGER).withCodec(PureOreLoader.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.RUNE_MANAGER_KEY, ElementalCraftApi.RUNE_MANAGER).withCodec(Rune.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, ElementalCraftApi.SOURCE_TRAIT_MANAGER).withCodec(SourceTrait.CODEC));

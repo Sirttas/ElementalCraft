@@ -5,15 +5,16 @@
   "package": "sirttas.elementalcraft.mixin",
   "refmap": "elementalcraft.refmap.json",
   "mixins": [
-    "MixinEnchantmentHelper",
     "MixinEntity",
+    "MixinItemStack",
     "MixinLivingEntity",
     "MixinMinecraftServer",
     "MixinPiglinAi",
     "MixinPlayer",
     "MixinPowderSnowBlock",
     "MixinProjectile",
-    "MixinRepairContainer"
+    "MixinRepairContainer",
+    "MixinZombie"
   ],
   "client": [
     "MixinItemInHandRenderer",

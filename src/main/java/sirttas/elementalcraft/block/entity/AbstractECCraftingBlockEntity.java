@@ -54,6 +54,6 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 	protected abstract void assemble();
 	
 	protected R lookupRecipe() {
-		return lookupRecipe(this.getLevel(), recipeType);
+		return level != null ? lookupRecipe(level, recipeType) : null;
 	}
 }

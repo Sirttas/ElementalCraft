@@ -18,7 +18,7 @@ public class BrokenSourceDisplacementPlateBlock extends Block {
     public static final String NAME = "broken_source_displacement_plate";
 
     public BrokenSourceDisplacementPlateBlock() {
-        super(ECProperties.Blocks.BLOCK_NOT_SOLID);
+        super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
     }
 
     @Nonnull
@@ -34,6 +34,12 @@ public class BrokenSourceDisplacementPlateBlock extends Block {
         var bellow = pos.below();
 
         return level.getBlockState(bellow).isFaceSturdy(level, bellow, Direction.UP) && super.canSurvive(state, level, pos);
+    }
+
+    @Override
+    @Deprecated
+    public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
+        return true;
     }
 
 }

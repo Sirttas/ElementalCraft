@@ -1,0 +1,182 @@
+{
+  "type": "silentgear:standard",
+  "simple": true,
+  "availability": {
+    "tier": 3,
+    "categories": [
+      "gem"
+    ],
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "item": "elementalcraft:springaline_shard"
+    }
+  },
+  "name": {
+    "translate": "material.elementalcraft.springaline_shard"
+  },
+  "stats": {
+    "main": {
+      "durability": 300.0,
+      "armor_durability": 14.0,
+      "enchantment_value": 15.0,
+      "rarity": 41.0,
+      "charging_value": 1.4,
+      "harvest_level": 3.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 2.0,
+      "magic_damage": 3.0,
+      "attack_speed": 0.1,
+      "armor": 16.0,
+      "armor/helmet": 3.0,
+      "armor/chestplate": 6.0,
+      "armor/leggings": 4.0,
+      "armor/boots": 3.0,
+      "magic_armor": 10.0,
+      "ranged_damage": 1.0,
+      "ranged_speed": 0.1,
+      "projectile_speed": 1.0,
+      "projectile_accuracy": 1.0
+    },
+    "tip": {
+      "durability": [
+        {
+          "mul2": -0.12
+        },
+        {
+          "add": 64.0
+        }
+      ],
+      "armor_durability": {
+        "add": 64.0
+      },
+      "harvest_level": {
+        "max": 2.0
+      },
+      "harvest_speed": {
+        "add": 2.0
+      },
+      "melee_damage": {
+        "add": 4.0
+      },
+      "ranged_damage": {
+        "add": 1.5
+      },
+      "rarity": {
+        "add": 20.0
+      }
+    },
+    "adornment": {}
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:crushing",
+        "level": 3
+      },
+      {
+        "name": "silentgear:jagged",
+        "level": 2
+      },
+      {
+        "name": "silentgear:renew",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:material_ratio",
+            "ratio": 0.7
+          }
+        ]
+      }
+    ],
+    "tip": [
+      {
+        "name": "silentgear:silky",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:material_ratio",
+            "ratio": 0.66
+          }
+        ]
+      },
+      {
+        "name": "silentgear:chipping",
+        "level": 1
+      },
+      {
+        "name": "silentgear:jagged",
+        "level": 3
+      }
+    ],
+    "adornment": [
+      {
+        "name": "silentgear:cursed",
+        "level": 4
+      },
+      {
+        "name": "silentgear:mighty",
+        "level": 2,
+        "conditions": [
+          {
+            "type": "silentgear:material_ratio",
+            "ratio": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  "model": {
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#9ACCFC"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/fragment": [
+      {
+        "texture": "silentgear:metal",
+        "color": "#9ACCFC"
+      }
+    ],
+    "tip/all": [
+      {
+        "texture": "silentgear:tip_sharp",
+        "color": "#9ACCFC"
+      }
+    ],
+    "tip/part": [
+      {
+        "texture": "silentgear:tip_base"
+      },
+      {
+        "texture": "silentgear:tip",
+        "color": "#9ACCFC"
+      },
+      {
+        "texture": "silentgear:tip_shine"
+      }
+    ],
+    "adornment/all": [
+      {
+        "texture": "silentgear:adornment_generic",
+        "color": "#9ACCFC"
+      }
+    ],
+    "adornment/part": [
+      {
+        "texture": "silentgear:adornment",
+        "color": "#9ACCFC"
+      },
+      {
+        "texture": "silentgear:adornment_highlight"
+      }
+    ]
+  }
+}

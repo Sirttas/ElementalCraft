@@ -72,11 +72,18 @@ public class GuiHandler {
 			ElementType type = storage.getElementType();
 
 			doRenderElementGauge(poseStack, storage.getElementAmount(), storage.getElementCapacity(), type, i);
-			if (spell.isValid() && spell.getElementType() == type && i == 0) {
+			if (spell.isValid() && spell.getElementType() == type && i == 0 && isPlayerOwned(player, storage)) {
 				doRenderCanCast(poseStack, spell.consume(player, true));
 			}
 			i++;
 		}
+	}
+
+	private static boolean isPlayerOwned(Player player, ISingleElementStorage storage) {
+		return ElementStorageHelper.get(player)
+				.map(s -> s.forElement(storage.getElementType()))
+				.map(s -> s.getElementAmount() == storage.getElementAmount() && s.getElementCapacity() == storage.getElementCapacity())
+				.orElse(false);
 	}
 
 	public static void drawAnchors(ForgeGui gui, PoseStack poseStack, int width, int height) {

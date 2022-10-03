@@ -14,6 +14,9 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 	public static final String NAME_JUNGLE = NAME + "_jungle";
 	public static final String NAME_MUSHROOM = NAME + "_mushroom";
 	public static final String NAME_NETHER = NAME + "_nether";
+	public static final String NAME_NETHER_ALL = NAME_NETHER + "_all";
+	public static final String NAME_NETHER_FOREST = NAME_NETHER + "_forest";
+
 	public static final String NAME_WET = NAME + "_wet";
 	public static final String NAME_DRY = NAME + "_dry";
 	public static final String NAME_END = NAME + "_end";

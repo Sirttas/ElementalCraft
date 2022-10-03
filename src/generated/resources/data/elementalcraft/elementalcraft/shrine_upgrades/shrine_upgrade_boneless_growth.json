@@ -11,8 +11,17 @@
       {
         "type": "dpanvil:not",
         "value": {
-          "type": "elementalcraft:has_shrine_upgrade",
-          "shrine_upgrade": "elementalcraft:shrine_upgrade_stem_pollination"
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_stem_pollination"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_crystal_growth"
+            }
+          ]
         }
       },
       {

@@ -62,24 +62,10 @@ public class SpellBookItem extends ECItem {
 		});
 	}
 
-	@Override
-	public int getDamage(ItemStack stack) {
-		return ECConfig.COMMON.spellBookMaxSpell.get() - SpellHelper.getSpellCount(stack);
-	}
 
 	@Override
-	public int getMaxDamage(ItemStack stack) {
-		return ECConfig.COMMON.spellBookMaxSpell.get();
-	}
-
-	@Override
-	public boolean canBeDepleted() {
-		return true;
-	}
-
-	@Override
-	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-		return false;
+	public int getBarWidth(@Nonnull ItemStack stack) {
+		return Math.round(ECConfig.COMMON.spellBookMaxSpell.get() - SpellHelper.getSpellCount(stack) * 13F / ECConfig.COMMON.spellBookMaxSpell.get());
 	}
 	
 	private static class ContainerProvider implements MenuProvider {

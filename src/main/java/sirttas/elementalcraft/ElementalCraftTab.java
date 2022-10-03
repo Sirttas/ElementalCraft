@@ -99,6 +99,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.FILLING_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.SPRINGALINE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE, list);
 
 		addItem(ECBlocks.BROKEN_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, list);
@@ -200,6 +201,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.SPRINGALINE_CLUSTER, list);
 		addItem(ECBlocks.SPRINGALINE_GLASS, list);
 		addItem(ECBlocks.SPRINGALINE_GLASS_PANE, list);
+		addItem(ECBlocks.SPRINGALINE_LANTERN, list);
 		addItem(ECItems.SOLAR_PRISM, list);
 		addItem(ECItems.FIRE_LENS, list);
 		addItem(ECItems.WATER_LENS, list);

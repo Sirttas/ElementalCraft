@@ -2,9 +2,10 @@
   "element_capacity": 10000,
   "element_consumption": 1,
   "element_type": "fire",
-  "periode": 1.0,
+  "periode": 20.0,
   "range": 10.0,
   "strength": [
-    0.1
+    1.0,
+    2.0
   ]
 }

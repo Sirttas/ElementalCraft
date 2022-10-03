@@ -1,16 +1,6 @@
 {
   "values": [
-    "#elementalcraft:has_sources/icy",
-    "#elementalcraft:has_sources/jungle",
-    "#elementalcraft:has_sources/mushroom",
-    "#elementalcraft:has_sources/wet",
-    "#elementalcraft:has_sources/dry",
-    "#elementalcraft:has_sources/forest",
-    "#elementalcraft:has_sources/mountain",
-    "#elementalcraft:has_sources/hill",
-    "#elementalcraft:has_sources/plain",
-    "#elementalcraft:has_sources/nether",
-    "#elementalcraft:has_sources/end",
-    "#elementalcraft:has_sources/ocean"
+    "#minecraft:is_overworld",
+    "#minecraft:is_end"
   ]
 }

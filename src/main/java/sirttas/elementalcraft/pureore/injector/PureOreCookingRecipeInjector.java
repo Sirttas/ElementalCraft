@@ -29,6 +29,6 @@ public class PureOreCookingRecipeInjector<T extends AbstractCookingRecipe> exten
 
 	@Override
 	public boolean filter(T recipe, ItemStack stack) {
-		return super.filter(recipe, stack) && stack.is(ECTags.Items.PURE_ORES_ORE_SOURCE);
+		return super.filter(recipe, stack) && (stack.is(ECTags.Items.PURE_SOURCE_ORES_ORES) || stack.is(ECTags.Items.PURE_ORES_SPECIFICS));
 	}
 }

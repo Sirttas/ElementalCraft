@@ -1,0 +1,41 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "botania"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "item": "elementalcraft:shrine_upgrade_core"
+          },
+          "c": {
+            "item": "elementalcraft:watercrystal"
+          },
+          "m": {
+            "tag": "botania:manasteel_ingots"
+          },
+          "p": {
+            "tag": "botania:petals"
+          },
+          "w": {
+            "item": "botania:livingrock"
+          }
+        },
+        "pattern": [
+          "pmp",
+          "wCw",
+          " c "
+        ],
+        "result": {
+          "item": "elementalcraft:shrine_upgrade_mystical_grove"
+        }
+      }
+    }
+  ]
+}

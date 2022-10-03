@@ -1,0 +1,93 @@
+{
+  "type": "silentgear:standard",
+  "simple": true,
+  "availability": {
+    "tier": 1,
+    "categories": [
+      "rock"
+    ],
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "name": {
+    "translate": "material.elementalcraft.whiterock"
+  },
+  "stats": {
+    "main": {
+      "durability": 151.0,
+      "armor_durability": 5.0,
+      "enchantment_value": 5.0,
+      "harvest_level": 1.0,
+      "harvest_speed": 4.0,
+      "melee_damage": 1.0,
+      "magic_damage": 0.0,
+      "attack_speed": 0.0,
+      "armor": 5.0,
+      "armor_toughness": 0.0,
+      "magic_armor": 0.0,
+      "ranged_damage": 0.0,
+      "ranged_speed": -0.2,
+      "rarity": 7.0,
+      "silentgems:chargeability": 0.5
+    },
+    "rod": {
+      "durability": {
+        "mul2": -0.1
+      },
+      "harvest_speed": {
+        "mul2": 0.2
+      },
+      "rarity": 4.0
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:ancient",
+        "level": 2
+      }
+    ],
+    "rod": [
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      },
+      {
+        "name": "silentgear:crushing",
+        "level": 2
+      }
+    ]
+  },
+  "model": {
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#B1A69B"
+      }
+    ],
+    "main/fragment": [
+      {
+        "texture": "silentgear:metal",
+        "color": "#B1A69B"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#B1A69B"
+      }
+    ],
+    "rod/part": [
+      {
+        "texture": "silentgear:rod",
+        "color": "#B1A69B"
+      }
+    ]
+  }
+}

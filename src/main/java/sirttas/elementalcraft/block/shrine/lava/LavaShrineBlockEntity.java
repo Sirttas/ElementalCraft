@@ -27,7 +27,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	private Optional<BlockPos> findRock() {
 		return getBlocksInRange()
-				.filter(p -> level.getBlockState(p).is(ECTags.Blocks.LAVASHRINE_LIQUIFIABLES)).findAny();
+				.filter(p -> level.getBlockState(p).is(ECTags.Blocks.SHRINES_LAVA_LIQUIFIABLES)).findAny();
 	}
 
 	@Override

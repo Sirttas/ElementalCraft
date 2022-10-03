@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "tag": "forge:flowers/pink"
+  },
+  "luck_ration": 2,
+  "output": {
+    "count": 2,
+    "item": "minecraft:pink_dye"
+  }
+}

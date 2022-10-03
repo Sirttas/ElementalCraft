@@ -35,7 +35,9 @@ public class ECBiomeModifierProvider extends AbstractECJsonCodecProvider<BiomeMo
         addSources(SourceFeature.NAME_MOUNTAIN, ECTags.Biomes.HAS_SOURCE_MOUNTAIN);
         addSources(SourceFeature.NAME_PLAIN, ECTags.Biomes.HAS_SOURCE_PLAIN);
         addSources(SourceFeature.NAME_END, ECTags.Biomes.HAS_SOURCE_END);
+        addSources(SourceFeature.NAME_NETHER_ALL, ECTags.Biomes.HAS_SOURCE_NETHER_ALL, GenerationStep.Decoration.UNDERGROUND_DECORATION);
         addSources(SourceFeature.NAME_NETHER, ECTags.Biomes.HAS_SOURCE_NETHER, GenerationStep.Decoration.UNDERGROUND_DECORATION);
+        addSources(SourceFeature.NAME_NETHER_FOREST, ECTags.Biomes.HAS_SOURCE_NETHER_FOREST, GenerationStep.Decoration.UNDERGROUND_DECORATION);
         addSources(SourceFeature.NAME_OCEAN, ECTags.Biomes.HAS_SOURCE_OCEAN);
         addSources(SourceFeature.NAME_LUSH_CAVE, ECTags.Biomes.HAS_SOURCE_LUSH_CAVE, GenerationStep.Decoration.UNDERGROUND_DECORATION);
         addSources(SourceFeature.NAME_DRIPSTONE_CAVE, ECTags.Biomes.HAS_SOURCE_DRIPSTONE_CAVE, GenerationStep.Decoration.UNDERGROUND_DECORATION);

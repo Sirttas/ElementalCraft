@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "tag": "forge:flowers/light_gray"
+  },
+  "luck_ration": 2,
+  "output": {
+    "count": 2,
+    "item": "minecraft:light_gray_dye"
+  }
+}

@@ -20,7 +20,7 @@ public class MoleJewelHandler {
         var player = event.getEntity();
         var mole = Jewels.MOLE.get();
 
-        if (JewelHelper.hasJewel(player, mole) &&ForgeHooks.isCorrectToolForDrops(player.level.getBlockState(event.getPos()), player)) {
+        if (JewelHelper.hasJewel(player, mole) && ForgeHooks.isCorrectToolForDrops(player.level.getBlockState(event.getPos()), player)) {
             mole.consume(player);
             mole.apply(player);
         }

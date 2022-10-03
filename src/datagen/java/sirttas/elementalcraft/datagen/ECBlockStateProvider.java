@@ -234,7 +234,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		ModelFile core = models().withExistingParent(name + CORE, prefix("template_elementpipe_core")).texture(TEXTURE, prefix(ECDataGenerators.getPipeTexture(block.getType())));
 		ModelFile frame = models().getExistingFile(prefix("cover_frame"));
 		
-		getMultipartBuilder(block).part().modelFile(core).addModel().end()
+		getMultipartBuilder(block).part().modelFile(core).addModel().condition(ElementPipeBlock.COVER, CoverType.NONE, CoverType.FRAME).end()
 			.part().modelFile(frame).uvLock(true).addModel().condition(ElementPipeBlock.COVER, CoverType.FRAME).end();
 	}
 

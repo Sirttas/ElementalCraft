@@ -1,0 +1,44 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "botania"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "a": {
+            "tag": "forge:ingots/swift_alloy"
+          },
+          "c": {
+            "item": "elementalcraft:contained_crystal"
+          },
+          "l": {
+            "item": "botania:livingrock"
+          },
+          "m": {
+            "item": "botania:mana_diamond"
+          },
+          "p": {
+            "item": "botania:mana_pool"
+          },
+          "s": {
+            "item": "elementalcraft:solar_synthesizer"
+          }
+        },
+        "pattern": [
+          "msm",
+          "apa",
+          "lcl"
+        ],
+        "result": {
+          "item": "elementalcraft:mana_synthesizer"
+        }
+      }
+    }
+  ]
+}

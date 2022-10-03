@@ -5,7 +5,7 @@
       "item": "elementalcraft:springaline_glass"
     },
     "h": {
-      "item": "elementalcraft:hardened_handle"
+      "tag": "forge:rods/hardened"
     },
     "i": {
       "tag": "forge:ingots/swift_alloy"

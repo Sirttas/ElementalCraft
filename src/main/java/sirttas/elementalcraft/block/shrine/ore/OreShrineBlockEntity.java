@@ -17,6 +17,7 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.loot.LootHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -25,20 +26,26 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(OreShrineBlock.NAME);
 
+	private boolean hasCrystalHarvest = false;
+
 	public OreShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.ORE_SHRINE, pos, state, PROPERTIES_KEY);
 	}
 
 	private Optional<BlockPos> findOre() {
 		return getBlocksInRange()
-				.filter(p -> level.getBlockState(p).is(Tags.Blocks.ORES))
+				.filter(p -> level.getBlockState(p).is(hasCrystalHarvest ? ECTags.Blocks.SHRINES_ORE_HARVESTABLE_CRYSTALS : Tags.Blocks.ORES))
 				.findAny();
 	}
 
 	@Override
 	public AABB getRangeBoundingBox() {
+		if (this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST)) {
+			return super.getRangeBoundingBox();
+		}
+
 		var range = getRange();
-		var height = this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST) ? range * 2 : Math.abs(level.getMinBuildHeight() - worldPosition.getY());
+		var height = Math.abs(level.getMinBuildHeight() - worldPosition.getY());
 
 		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos())
 				.inflate(range, 0, range)
@@ -50,15 +57,17 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	@Override
 	protected boolean doPeriod() {
 		if (level instanceof ServerLevel serverLevel) {
+			this.hasCrystalHarvest = this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST);
+
 			return findOre().map(p -> {
-				harvest(serverLevel, p, this, Blocks.STONE.defaultBlockState());
+				harvest(serverLevel, p, this, hasCrystalHarvest ? Blocks.AIR.defaultBlockState() : Blocks.STONE.defaultBlockState());
 				return true;
 			}).orElse(false);
 		}
 		return false;
 	}
 
-	public static void harvest(ServerLevel level, BlockPos pos, AbstractShrineBlockEntity shrine, @Nullable BlockState newBlock) {
+	public static void harvest(ServerLevel level, BlockPos pos, AbstractShrineBlockEntity shrine, @Nullable BlockState newState) {
 		int fortune = shrine.getUpgradeCount(ShrineUpgrades.FORTUNE);
 
 		if (fortune > 0) {
@@ -69,8 +78,10 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 		} else {
 			LootHelper.getDrops(level, pos, shrine.hasUpgrade(ShrineUpgrades.SILK_TOUCH)).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));
 		}
-		if (newBlock != null) {
-			level.setBlockAndUpdate(pos, newBlock);
+		if (newState != null && !newState.isAir()) {
+			level.setBlockAndUpdate(pos, newState);
+		} else {
+			level.destroyBlock(pos, false);
 		}
 	}
 }

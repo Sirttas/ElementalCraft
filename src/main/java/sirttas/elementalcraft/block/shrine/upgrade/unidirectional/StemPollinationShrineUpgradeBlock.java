@@ -14,6 +14,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
@@ -25,20 +26,13 @@ public class StemPollinationShrineUpgradeBlock extends AbstractShrineUpgradeBloc
 
 	public static final String NAME = "shrine_upgrade_stem_pollination";
 
-	private static final VoxelShape BASE_1 = Block.box(3D, 3D, 3D, 13D, 5D, 13D);
-	private static final VoxelShape BASE_2 = Block.box(5D, 5D, 5D, 11D, 8D, 11D);
-	private static final VoxelShape BASE_3 = Block.box(6D, 8D, 6D, 10D, 11D, 10D);
-	private static final VoxelShape PIPE_1 = Block.box(7D, 0D, 7D, 9D, 3D, 9D);
-	private static final VoxelShape PIPE_2 = Block.box(7D, -1D, 4D, 9D, 3D, 6D);
-	private static final VoxelShape PIPE_3 = Block.box(7D, -1D, 10D, 9D, 3D, 12D);
-	private static final VoxelShape PIPE_4 = Block.box(4D, -1D, 7D, 6D, 3D, 9D);
-	private static final VoxelShape PIPE_5 = Block.box(10D, -1D, 7D, 12D, 3D, 9D);
+	private static final VoxelShape TOP = Block.box(6D, 8D, 6D, 10D, 11D, 10D);
 	private static final VoxelShape PIPE_NORTH = Block.box(7D, 7D, 3D, 9D, 9D, 6D);
 	private static final VoxelShape PIPE_SOUTH = Block.box(7D, 7D, 10D, 9D, 9D, 13D);
 	private static final VoxelShape PIPE_WEST = Block.box(3D, 7D, 7D, 6D, 9D, 9D);
 	private static final VoxelShape PIPE_EAST = Block.box(10D, 7D, 7D, 13D, 9D, 9D);
 
-	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_5, PIPE_NORTH, PIPE_SOUTH, PIPE_WEST, PIPE_EAST);
+	private static final VoxelShape SHAPE = Shapes.or(ECShapes.BONELESS_GROWTH, TOP, PIPE_NORTH, PIPE_SOUTH, PIPE_WEST, PIPE_EAST);
 
 	public StemPollinationShrineUpgradeBlock() {
 		super(ShrineUpgrades.STEM_POLLINATION);

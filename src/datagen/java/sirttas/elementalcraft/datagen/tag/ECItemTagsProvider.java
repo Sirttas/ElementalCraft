@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
@@ -13,15 +14,19 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
+import vazkii.botania.api.BotaniaAPI;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class ECItemTagsProvider extends ItemTagsProvider {
+
+	private static final String POWAH = "powah";
 
 	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, blockTagsProvider, ElementalCraftApi.MODID, existingFileHelper);
@@ -124,27 +129,67 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.INPUT_GEMS).addTags(ECTags.Items.INPUT_FIRE_GEMS, ECTags.Items.INPUT_WATER_GEMS, ECTags.Items.INPUT_EARTH_GEMS, ECTags.Items.INPUT_AIR_GEMS);
 		tag(Tags.Items.GEMS).addTags(ECTags.Items.INPUT_GEMS);
 
+		tag(ECTags.Items.HARDENED_RODS).add(ECItems.HARDENED_HANDLE.get());
+		tag(Tags.Items.RODS).addTag(ECTags.Items.HARDENED_RODS);
+
+		tag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS).addTags(Tags.Items.STORAGE_BLOCKS_RAW_COPPER, Tags.Items.STORAGE_BLOCKS_RAW_IRON, Tags.Items.STORAGE_BLOCKS_RAW_GOLD)
+				.addOptionalTag(forge("storage_blocks/raw_silver"))
+				.addOptionalTag(forge("storage_blocks/raw_lead"))
+				.addOptionalTag(forge("storage_blocks/raw_tin"))
+				.addOptionalTag(forge("storage_blocks/raw_zinc"))
+				.addOptionalTag(forge("storage_blocks/raw_aluminum"))
+				.addOptionalTag(forge("storage_blocks/raw_nickel"))
+				.addOptionalTag(forge("storage_blocks/raw_uranium"))
+				.addOptionalTag(forge("storage_blocks/raw_osmium"));
+
 		tag(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE.get(), ECItems.RUNE_SLATE.get(), ECItems.MAJOR_RUNE_SLATE.get());
 		
 		tag(ECTags.Items.PIPE_COVER_HIDING).addTag(ECTags.Items.PIPES).add(ECItems.COVER_FRAME.get(), ECItems.PIPE_PRIORITY.get());
 		
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 
-		tag(ECTags.Items.GEORE_SHARDS);
-		tag(ECTags.Items.PURE_ORES_ORE_SOURCE).addTag(Tags.Items.ORES);
-		tag(ECTags.Items.PURE_ORES_RAW_MATERIALS_SOURCE).addTag(Tags.Items.RAW_MATERIALS);
-		tag(ECTags.Items.PURE_ORES_GEORE_SHARDS_SOURCE).addTag(ECTags.Items.GEORE_SHARDS);
+		tag(ECTags.Items.PURE_SOURCE_ORES_ORES).addTag(Tags.Items.ORES);
+		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).addOptionalTag(forge("geore_shards"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_BLOCKS).addOptionalTag(forge("geore_blocks"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_raw"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_ore_poor")).addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_poor"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_ore")).addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_ore_dense")).addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_dense"));
+		tag(ECTags.Items.PURE_ORES_SPECIFICS).addTags(ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE, ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE, ECTags.Items.PURE_ORES_SOURCE_URANINITE, ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE);
 		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 		
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
-		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST);
-		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS);
+		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
+		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
+
+		tag(ECTags.Items.WHITE_FLOWERS).add(Items.LILY_OF_THE_VALLEY);
+		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP);
+		tag(ECTags.Items.MAGENTA_FLOWERS).add(Items.LILAC);
+		tag(ECTags.Items.LIGHT_BLUE_FLOWERS).add(Items.BLUE_ORCHID);
+		tag(ECTags.Items.YELLOW_FLOWERS).add(Items.DANDELION, Items.SUNFLOWER);
+		tag(ECTags.Items.LIME_FLOWERS);
+		tag(ECTags.Items.PINK_FLOWERS).add(Items.PEONY, Items.PINK_TULIP);
+		tag(ECTags.Items.GRAY_FLOWERS);
+		tag(ECTags.Items.LIGHT_GRAY_FLOWERS).add(Items.AZURE_BLUET, Items.OXEYE_DAISY, Items.WHITE_TULIP);
+		tag(ECTags.Items.CYAN_FLOWERS);
+		tag(ECTags.Items.PURPLE_FLOWERS);
+		tag(ECTags.Items.BLUE_FLOWERS).add(Items.CORNFLOWER);
+		tag(ECTags.Items.BROWN_FLOWERS);
+		tag(ECTags.Items.GREEN_FLOWERS);
+		tag(ECTags.Items.BLACK_FLOWERS).add(Items.WITHER_ROSE);
+		tag(ECTags.Items.RED_FLOWERS).add(Items.POPPY, Items.ROSE_BUSH, Items.RED_TULIP);
 
 		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT.get(), ECItems.SWIFT_ALLOY_INGOT.get(), ECItems.FIREITE_INGOT.get());
 
 		tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(Tags.Items.TOOLS, Tags.Items.ARMORS, ECTags.Items.SPELL_CAST_TOOLS).add(Items.ELYTRA);
 
 		tag(ECTags.Items.CURIOS_ELEMENT_HOLDER).add(ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get(), ECItems.PURE_HOLDER.get());
+	}
+
+	private ResourceLocation forge(String name) {
+		return new ResourceLocation(ECNames.FORGE, name);
 	}
 
 	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {

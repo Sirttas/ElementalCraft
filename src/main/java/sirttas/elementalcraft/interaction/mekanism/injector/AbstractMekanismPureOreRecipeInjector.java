@@ -92,6 +92,6 @@ public abstract class AbstractMekanismPureOreRecipeInjector<T extends MekanismRe
 
 	@Override
 	public boolean filter(T recipe, ItemStack stack) {
-		return stack.is(ECTags.Items.PURE_ORES_ORE_SOURCE);
+		return stack.is(ECTags.Items.PURE_SOURCE_ORES_ORES);
 	}
 }

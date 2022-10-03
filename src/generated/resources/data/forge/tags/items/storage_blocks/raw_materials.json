@@ -1,0 +1,39 @@
+{
+  "values": [
+    "#forge:storage_blocks/raw_copper",
+    "#forge:storage_blocks/raw_iron",
+    "#forge:storage_blocks/raw_gold",
+    {
+      "id": "#forge:storage_blocks/raw_silver",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_lead",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_tin",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_zinc",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_aluminum",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_nickel",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_uranium",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_osmium",
+      "required": false
+    }
+  ]
+}

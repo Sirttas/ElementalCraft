@@ -43,6 +43,16 @@ public class ECShapes {
 	private static final VoxelShape SOURCE_DISPLACEMENT_PLATE_BASE_2 = Block.box(1D, 2D, 1D, 15D, 3D, 15D);
 	public static final VoxelShape SOURCE_DISPLACEMENT_PLATE_SHAPE = Shapes.or(SOURCE_DISPLACEMENT_PLATE_BASE_1, SOURCE_DISPLACEMENT_PLATE_BASE_2);
 
+	private static final VoxelShape BONELESS_GROWTH_BASE_1 = Block.box(3D, 3D, 3D, 13D, 5D, 13D);
+	private static final VoxelShape BONELESS_GROWTH_BASE_2 = Block.box(5D, 5D, 5D, 11D, 8D, 11D);
+	private static final VoxelShape BONELESS_GROWTH_PIPE_1 = Block.box(7D, 0D, 7D, 9D, 3D, 9D);
+	private static final VoxelShape BONELESS_GROWTH_PIPE_2 = Block.box(7D, -1D, 4D, 9D, 3D, 6D);
+	private static final VoxelShape BONELESS_GROWTH_PIPE_3 = Block.box(7D, -1D, 10D, 9D, 3D, 12D);
+	private static final VoxelShape BONELESS_GROWTH_PIPE_4 = Block.box(4D, -1D, 7D, 6D, 3D, 9D);
+	private static final VoxelShape BONELESS_GROWTH_PIPE_5 = Block.box(10D, -1D, 7D, 12D, 3D, 9D);
+	public static final VoxelShape BONELESS_GROWTH = Shapes.or(BONELESS_GROWTH_BASE_1, BONELESS_GROWTH_BASE_2, BONELESS_GROWTH_PIPE_1, BONELESS_GROWTH_PIPE_2, BONELESS_GROWTH_PIPE_3, BONELESS_GROWTH_PIPE_4, BONELESS_GROWTH_PIPE_5);
+
+
 	private ECShapes() {}
 	
 	public static VoxelShape sourceShape(Direction direction) {

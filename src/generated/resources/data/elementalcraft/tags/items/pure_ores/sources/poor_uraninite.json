@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "powah:uraninite_ore_poor",
+      "required": false
+    },
+    {
+      "id": "powah:deepslate_uraninite_ore_poor",
+      "required": false
+    }
+  ]
+}

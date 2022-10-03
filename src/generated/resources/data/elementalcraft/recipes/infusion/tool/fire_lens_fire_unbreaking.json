@@ -1,0 +1,8 @@
+{
+  "type": "elementalcraft:tool_infusion",
+  "element_amount": 2000,
+  "input": {
+    "item": "elementalcraft:fire_lens"
+  },
+  "tool_infusion": "elementalcraft:fire_unbreaking"
+}

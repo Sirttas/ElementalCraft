@@ -14,7 +14,6 @@
           "name": "elementalcraft:elementpipe_creative"
         }
       ],
-      "name": "main",
       "rolls": 1.0
     },
     {
@@ -34,7 +33,7 @@
               "block": "elementalcraft:elementpipe_creative",
               "condition": "minecraft:block_state_property",
               "properties": {
-                "cover": "frame"
+                "cover": "covered"
               }
             }
           ]
@@ -46,7 +45,6 @@
           "name": "elementalcraft:cover_frame"
         }
       ],
-      "name": "frame",
       "rolls": 1.0
     }
   ]

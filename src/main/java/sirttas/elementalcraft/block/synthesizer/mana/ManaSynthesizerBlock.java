@@ -20,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
 import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.botania.ManaSynthesizerBlockInteractions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,18 +47,18 @@ public class ManaSynthesizerBlock extends SolarSynthesizerBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-//		if (ECinteractions.isBotaniaActive()) {
-//			return ManaSynthesizerBlockInteractions.newBlockEntity(pos, state);
-//		}
+		if (ECinteractions.isBotaniaActive()) {
+			return ManaSynthesizerBlockInteractions.newBlockEntity(pos, state);
+		}
 		return null;
 	}
 	
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-//		if (ECinteractions.isBotaniaActive()) {
-//			return ManaSynthesizerBlockInteractions.getTicker(level, type);
-//		}
+		if (ECinteractions.isBotaniaActive()) {
+			return ManaSynthesizerBlockInteractions.getTicker(level, type);
+		}
 		return null;
 	}
 
@@ -71,9 +72,9 @@ public class ManaSynthesizerBlock extends SolarSynthesizerBlock {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-//		if (ECinteractions.isBotaniaActive()) {
-//			ManaSynthesizerBlockInteractions.animateTick(level, pos, rand);
-//		}
+		if (ECinteractions.isBotaniaActive()) {
+			ManaSynthesizerBlockInteractions.animateTick(level, pos, rand);
+		}
 	}
 
 	@Override

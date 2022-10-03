@@ -19,14 +19,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.ie.IEInteraction;
 import sirttas.elementalcraft.interaction.jei.category.PureInfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.SpellCraftRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.DisplacementRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ImprovedExtractionRecipeCategory;
@@ -38,6 +40,9 @@ import sirttas.elementalcraft.interaction.jei.category.instrument.io.GrindingRec
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.InfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.PurificationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.SawingRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.instrument.io.ToolInfusionRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.shrine.BuddingShrineRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.shrine.LavaShrineRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientHelper;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientRenderer;
@@ -50,6 +55,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
@@ -57,14 +63,21 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.function.Supplier;
 
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
-	private static final Lazy<HolderSet.Named<Item>> SPELL_CAST_TOOLS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.SPELL_CAST_TOOLS));
-	private static final Lazy<HolderSet.Named<Item>> JEWEL_SOCKETALBES = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.JEWEL_SOCKETABLES));
 	private static final ResourceLocation ID = ElementalCraft.createRL("main");
-	
+
+	private final Supplier<HolderSet.Named<Item>> spellCastTools;
+	private final Supplier<HolderSet.Named<Item>> jewelSocketalbes;
+
+	public ElementalCraftJEIPlugin() {
+		spellCastTools = () -> ECTags.Items.getTag(ECTags.Items.SPELL_CAST_TOOLS);
+		jewelSocketalbes = () -> ECTags.Items.getTag(ECTags.Items.JEWEL_SOCKETABLES);
+	}
+
 	@Nonnull
 	@Override
 	public ResourceLocation getPluginUid() {
@@ -114,6 +127,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new EvaporationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SolarSynthesisRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new InfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new ToolInfusionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BindingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new CrystallizationRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new InscriptionRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
@@ -122,6 +136,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new GrindingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SawingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SpellCraftRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new DisplacementRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new BuddingShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new LavaShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -132,10 +149,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EXTRACTOR_IMPROVED.get()), ECJEIRecipeTypes.EXTRACTION_IMPROVED);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EVAPORATOR.get()), ECJEIRecipeTypes.EVAPORATION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOLAR_SYNTHESIZER.get()), ECJEIRecipeTypes.SOLAR_SYNTHESIS);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.INFUSER.get()), ECJEIRecipeTypes.INFUSION);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BINDER_IMPROVED.get()), ECJEIRecipeTypes.INFUSION);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.INFUSER.get()), ECJEIRecipeTypes.INFUSION, ECJEIRecipeTypes.TOOL_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BINDER.get()), ECJEIRecipeTypes.BINDING);
-		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BINDER_IMPROVED.get()), ECJEIRecipeTypes.BINDING);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BINDER_IMPROVED.get()), ECJEIRecipeTypes.BINDING, ECJEIRecipeTypes.INFUSION, ECJEIRecipeTypes.TOOL_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.CRYSTALLIZER.get()), ECJEIRecipeTypes.CRYSTALLIZATION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.INSCRIBER.get()), ECJEIRecipeTypes.INSCRIPTION);
 		registry.addRecipeCatalyst(new ItemStack(ECItems.CHISEL.get()), ECJEIRecipeTypes.INSCRIPTION);
@@ -148,9 +164,18 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()), ECJEIRecipeTypes.GRINDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_MILL_WOOD_SAW.get()), ECJEIRecipeTypes.SAWING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPELL_DESK.get()), ECJEIRecipeTypes.SPELL_CRAFTING);
-		
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BUDDING_SHRINE.get()), ECJEIRecipeTypes.BUDDING_SHRINE);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.LAVA_SHRINE.get()), ECJEIRecipeTypes.LAVA_SHRINE);
+
 		if (ECinteractions.isMekanismActive()) {
 			MekanismInteraction.addAirMillToCrushing(registry);
+		}
+		if (ECinteractions.isImmersiveEngineeringActive()) {
+			IEInteraction.addAirMillToCrushing(registry);
 		}
 	}
 
@@ -163,7 +188,12 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION_IMPROVED, ElementType.ALL_VALID);
 		registry.addRecipes(ECJEIRecipeTypes.EVAPORATION, EvaporationRecipeCategory.getShards());
 		registry.addRecipes(ECJEIRecipeTypes.SOLAR_SYNTHESIS, SolarSynthesisRecipeCategory.getLenses());
-		registry.addRecipes(ECJEIRecipeTypes.INFUSION, recipeManager.getAllRecipesFor(ECRecipeTypes.INFUSION.get()));
+		registry.addRecipes(ECJEIRecipeTypes.INFUSION, recipeManager.getAllRecipesFor(ECRecipeTypes.INFUSION.get()).stream()
+				.filter(r -> !(r instanceof ToolInfusionRecipe))
+				.toList());
+		registry.addRecipes(ECJEIRecipeTypes.TOOL_INFUSION, recipeManager.getAllRecipesFor(ECRecipeTypes.INFUSION.get()).stream()
+				.filter(ToolInfusionRecipe.class::isInstance)
+				.toList());
 		registry.addRecipes(ECJEIRecipeTypes.BINDING, recipeManager.getAllRecipesFor(ECRecipeTypes.BINDING.get()));
 		registry.addRecipes(ECJEIRecipeTypes.CRYSTALLIZATION, recipeManager.getAllRecipesFor(ECRecipeTypes.CRYSTALLIZATION.get()));
 		registry.addRecipes(ECJEIRecipeTypes.INSCRIPTION, recipeManager.getAllRecipesFor(ECRecipeTypes.INSCRIPTION.get()));
@@ -174,12 +204,15 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.PURIFICATION, ElementalCraft.PURE_ORE_MANAGER.getRecipes());
 		registry.addRecipes(RecipeTypes.ANVIL, createCastToolsAnvilRecipes(registry.getVanillaRecipeFactory()));
 		registry.addRecipes(RecipeTypes.ANVIL, createJewelsAnvilRecipes(registry.getVanillaRecipeFactory()));
+		registry.addRecipes(ECJEIRecipeTypes.DISPLACEMENT, ElementType.ALL_VALID);
+		registry.addRecipes(ECJEIRecipeTypes.BUDDING_SHRINE, List.of(BuddingShrineBlock.CrystalType.values()));
+		registry.addRecipes(ECJEIRecipeTypes.LAVA_SHRINE, List.of(ECBlocks.LAVA_SHRINE.get()));
 	}
 
 	private List<IJeiAnvilRecipe> createCastToolsAnvilRecipes(IVanillaRecipeFactory factory) {
 		return Spells.REGISTRY.get().getValues().stream()
 				.filter(Spell::isVisible)
-				.<IJeiAnvilRecipe>mapMulti((spell, downstream) -> SPELL_CAST_TOOLS.get().forEach(item -> {
+				.<IJeiAnvilRecipe>mapMulti((spell, downstream) -> spellCastTools.get().forEach(item -> {
 					ItemStack scroll = new ItemStack(ECItems.SCROLL.get());
 					ItemStack stack = new ItemStack(item);
 
@@ -190,9 +223,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	}
 
 	private List<IJeiAnvilRecipe> createJewelsAnvilRecipes(IVanillaRecipeFactory factory) {
-
-
-		return Jewels.REGISTRY.get().getValues().stream().flatMap(jewel -> JEWEL_SOCKETALBES.get().stream().map(item -> {
+		return Jewels.REGISTRY.get().getValues().stream().flatMap(jewel -> jewelSocketalbes.get().stream().map(item -> {
 			ItemStack jewelItem = new ItemStack(ECItems.JEWEL.get());
 			ItemStack stack = new ItemStack(item);
 

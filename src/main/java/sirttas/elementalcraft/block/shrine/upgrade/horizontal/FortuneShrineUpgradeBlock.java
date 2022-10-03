@@ -71,7 +71,7 @@ public class FortuneShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBl
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(Component.translatable("enchantment.minecraft.fortune").append(Component.empty()).append(Component.translatable("enchantment.level.1"))
+		tooltip.add(Component.translatable("enchantment.minecraft.fortune").append(Component.literal(" ")).append(Component.translatable("enchantment.level.1"))
 				.withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flag);
 	}

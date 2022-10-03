@@ -66,8 +66,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	
 	private static final VoxelShape LOWER_PLATE = Block.box(0D, 0D, 0D, 16D, 2D, 16D);
 	
-	private static final VoxelShape LOWER_BASE = Shapes.or(LOWER_GLASS_1, LOWER_GLASS_2, LOWER_PIPE_1, LOWER_PIPE_2, LOWER_PIPE_3, LOWER_PIPE_4, LOWER_WALL_NORTH, LOWER_WALL_SOUTH,
-			LOWER_WALL_WEST, LOWER_WALL_EAST, LOWER_PLATE);
+	private static final VoxelShape LOWER_BASE = Shapes.or(LOWER_GLASS_1, LOWER_GLASS_2, LOWER_PIPE_1, LOWER_PIPE_2, LOWER_PIPE_3, LOWER_PIPE_4, LOWER_WALL_NORTH, LOWER_WALL_SOUTH, LOWER_WALL_WEST, LOWER_WALL_EAST, LOWER_PLATE);
 	
 	private static final VoxelShape EARTH_WALL_NORTH = Block.box(4D, 9D, 1D, 12D, 14D, 3D);
 	private static final VoxelShape EARTH_WALL_SOUTH = Block.box(4D, 9D, 13D, 12D, 14D, 15D);
@@ -85,7 +84,12 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	private static final VoxelShape AIR_PLATE_2 = Block.box(5D, 0D, 5D, 11D, 2D, 11D);
 	
 	private static final VoxelShape LOWER_AIR = Shapes.or(LOWER_GLASS_1, AIR_PIPE_1, AIR_PIPE_2, AIR_PIPE_3, AIR_PIPE_4, AIR_PLATE, AIR_PLATE_2);
-	
+
+	private static final VoxelShape AIR_CONNECTOR_NORTH = Shapes.or(Block.box(4D, 5D, 1D, 12D, 12D, 2D), Block.box(5D, 6D, 0D, 11D, 11D, 1D));
+	private static final VoxelShape AIR_CONNECTOR_SOUTH = Shapes.or(Block.box(4D, 5D, 14D, 12D, 12D, 15D), Block.box(5D, 6D, 15D, 11D, 11D, 16D));
+	private static final VoxelShape AIR_CONNECTOR_WEST = Shapes.or(Block.box(1D, 5D, 4D, 2D, 12D, 12D), Block.box(0D, 6D, 5D, 1D, 11D, 11D));
+	private static final VoxelShape AIR_CONNECTOR_EAST = Shapes.or(Block.box(14D, 5D, 4D, 15D, 12D, 12D), Block.box(15D, 6D, 5D, 16D, 11D, 11D));
+
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 	private final ElementType elementType;
@@ -133,11 +137,26 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
 			shape = UPPER_SHAPE;
 		} else {
-			shape = switch (this.getElementType()) {
+			shape = switch (elementType) {
 				case AIR -> LOWER_AIR;
 				case EARTH -> LOWER_EARTH;
 				default -> LOWER_BASE;
 			};
+			if (elementType == ElementType.AIR) {
+				if (Boolean.TRUE.equals(state.getValue(NORTH))) {
+					shape = Shapes.or(shape, AIR_CONNECTOR_NORTH);
+				}
+				if (Boolean.TRUE.equals(state.getValue(SOUTH))) {
+					shape = Shapes.or(shape, AIR_CONNECTOR_SOUTH);
+				}
+				if (Boolean.TRUE.equals(state.getValue(EAST))) {
+					shape = Shapes.or(shape, AIR_CONNECTOR_EAST);
+				}
+				if (Boolean.TRUE.equals(state.getValue(WEST))) {
+					shape = Shapes.or(shape, AIR_CONNECTOR_WEST);
+				}
+				return shape;
+			}
 		}
 		return Shapes.or(shape, super.getShape(state, level, pos, context));
 	}

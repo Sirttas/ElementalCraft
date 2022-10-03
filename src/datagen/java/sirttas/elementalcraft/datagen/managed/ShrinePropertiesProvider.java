@@ -32,7 +32,7 @@ public class ShrinePropertiesProvider extends AbstractManagedDataBuilderProvider
 
 	@Override
 	public void collectBuilders() {
-		builder(FirePylonBlockEntity.PROPERTIES_KEY, ElementType.FIRE).consumption(1).range(10).strength(0.1D);
+		builder(FirePylonBlockEntity.PROPERTIES_KEY, ElementType.FIRE).period(20).consumption(1).range(10).strength(1, 2);
 		builder(VacuumShrineBlockEntity.PROPERTIES_KEY, ElementType.AIR).consumption(5).range(10).strength(2);
 		builder(GrowthShrineBlockEntity.PROPERTIES_KEY, ElementType.WATER).period(20).consumption(50).range(4);
 		builder(HarvestShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH).period(20).consumption(100).range(4);
@@ -46,7 +46,7 @@ public class ShrinePropertiesProvider extends AbstractManagedDataBuilderProvider
 		builder(EnderLockShrineBlockEntity.PROPERTIES_KEY, ElementType.WATER).consumption(500).range(10);
 		builder(GroveShrineBlockEntity.PROPERTIES_KEY, ElementType.WATER).period(200).consumption(500).range(5);
 		builder(SpringShrineBlockEntity.PROPERTIES_KEY, ElementType.WATER).period(5).consumption(5).strength(100);
-		builder(BuddingShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH).period(600).consumption(2000).strength(100);
+		builder(BuddingShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH).period(1200).consumption(2000).strength(100);
 	}
 
 	protected ShrineProperties.Builder builder(ResourceKey<ShrineProperties> key, ElementType type) {

@@ -21,4 +21,8 @@ public class ECinteractions {
 	public static boolean isCuriosActive() {
 		return ModList.get().isLoaded("curios");
 	}
+	public static boolean isImmersiveEngineeringActive() {
+		return ModList.get().isLoaded("immersiveengineering");
+	}
+
 }

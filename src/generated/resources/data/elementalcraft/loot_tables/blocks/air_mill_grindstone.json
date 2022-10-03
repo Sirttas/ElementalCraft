@@ -11,10 +11,18 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "elementalcraft:air_mill_grindstone",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
           "name": "elementalcraft:air_mill_grindstone"
         }
       ],
-      "name": "main",
       "rolls": 1.0
     }
   ]

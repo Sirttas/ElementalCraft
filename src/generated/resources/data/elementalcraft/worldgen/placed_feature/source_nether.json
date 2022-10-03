@@ -4,6 +4,7 @@
     "config": {
       "type": "random",
       "element_type": {
+        "air": 1,
         "earth": 1,
         "fire": 5
       }
@@ -11,17 +12,26 @@
   },
   "placement": [
     {
-      "type": "elementalcraft:source"
+      "type": "minecraft:in_square"
     },
     {
-      "type": "minecraft:in_square"
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "below_top": 10
+        },
+        "min_inclusive": {
+          "above_bottom": 10
+        }
+      }
     },
     {
       "type": "minecraft:biome"
     },
     {
       "type": "minecraft:rarity_filter",
-      "chance": 30
+      "chance": 60
     }
   ]
 }

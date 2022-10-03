@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
@@ -57,7 +58,7 @@ public class EntityHelper {
 	}
 	
 	public static boolean isHostile(Entity entity) {
-		return entity instanceof Mob && ((Mob) entity).isAggressive();
+		return entity instanceof Enemy;
 	}
 
 	public static boolean spawnMob(ServerLevel level, BlockPos pos) {

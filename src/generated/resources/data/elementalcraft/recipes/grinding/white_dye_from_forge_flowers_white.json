@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "tag": "forge:flowers/white"
+  },
+  "luck_ration": 2,
+  "output": {
+    "count": 2,
+    "item": "minecraft:white_dye"
+  }
+}

@@ -4,7 +4,7 @@
   "icon": "elementalcraft:instrument_retriever",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/instrument_retriever",
-  "sortnum": 2,
+  "sortnum": 1,
   "pages": [
     {
       "type": "text",
@@ -16,4 +16,3 @@
     }
   ]
 }
-

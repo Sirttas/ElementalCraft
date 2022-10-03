@@ -48,7 +48,7 @@ public class ElementPipeRenderer implements IECRenderer<ElementPipeBlockEntity> 
 			priorityModel = modelManager.getModel(PRIORITY_LOCATION);
 		}
 		if (showCover && ElementPipeBlock.showCover(te.getBlockState(), player)) {
-			renderBlock(coverState, poseStack, buffer, light, overlay, getModelData(level, te.getBlockPos()));
+			renderBatched(coverState, poseStack, buffer, te.getLevel(), te.getBlockPos());
 		} else {
 			renderPipes(te, poseStack, buffer, light, overlay);
 			if (showCover) {

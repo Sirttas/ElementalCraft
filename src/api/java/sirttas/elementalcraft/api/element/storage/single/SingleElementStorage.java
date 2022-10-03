@@ -53,6 +53,11 @@ public class SingleElementStorage implements ISingleElementStorage, INBTSerializ
 			return count - this.extractElement(count, simulate);
 		} else {
 			int newCount = Math.min(elementAmount + count, elementCapacity);
+
+			if (newCount < elementAmount) { // overflow
+				newCount = elementCapacity;
+			}
+
 			int ret = count - newCount + elementAmount;
 
 			if (!simulate) {
@@ -74,6 +79,11 @@ public class SingleElementStorage implements ISingleElementStorage, INBTSerializ
 			return 0;
 		}
 		int newCount = Math.max(elementAmount - count, 0);
+
+		if (newCount > elementAmount) { // underflow
+			newCount = 0;
+		}
+
 		int ret = elementAmount - newCount;
 
 		if (!simulate) {

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#elementalcraft:has_sources/nether/all",
+  "features": "elementalcraft:source_nether_all",
+  "step": "underground_decoration"
+}

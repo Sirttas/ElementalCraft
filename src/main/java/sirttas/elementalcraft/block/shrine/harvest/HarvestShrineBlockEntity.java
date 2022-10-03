@@ -19,6 +19,7 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.loot.LootHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,12 +35,16 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private Optional<BlockPos> findCrop() {
-		return getBlocksInRange().filter(p -> {
-					BlockState blockstate = level.getBlockState(p);
-					Block block = blockstate.getBlock();
+		return getBlocksInRange()
+				.filter(this::canHarvest)
+				.findAny();
+	}
 
-					return block instanceof CropBlock && ((CropBlock) block).isMaxAge(blockstate);
-				}).findAny();
+	private boolean canHarvest(BlockPos pos) {
+		var state = level.getBlockState(pos);
+		Block block = state.getBlock();
+
+		return (block instanceof CropBlock cropBlock && cropBlock.isMaxAge(state)) || (state.is(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS) && level.getBlockState(pos.below()).is(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS));
 	}
 
 	private void handlePlanting(BlockPos pos, ItemLike provider, List<ItemStack> loots) {
@@ -47,7 +52,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
 		if (this.hasUpgrade(ShrineUpgrades.PLANTING)) {
 			loots.stream().filter(stack -> stack.getItem().equals(item)).findFirst().ifPresent(seeds -> {
-				if (item instanceof BlockItem && ((BlockItem) item).place(new DirectionalPlaceContext(this.level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction()) {
+				if (item instanceof BlockItem blockItem && blockItem.place(new DirectionalPlaceContext(this.level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction()) {
 					seeds.shrink(1);
 					if (seeds.isEmpty()) {
 						loots.remove(seeds);
@@ -66,9 +71,9 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	protected boolean doPeriod() {
-		if (level instanceof ServerLevel && !level.isClientSide) {
+		if (level instanceof ServerLevel serverLevel && !level.isClientSide) {
 			return findCrop().map(p -> {
-				List<ItemStack> loots = LootHelper.getDrops((ServerLevel) level, p);
+				List<ItemStack> loots = LootHelper.getDrops(serverLevel, p);
 				Block block = level.getBlockState(p).getBlock();
 
 				level.destroyBlock(p, false);

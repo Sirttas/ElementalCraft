@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.api.pureore.injector;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -33,7 +31,6 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 	private final boolean modProcessing;
 
 	private Map<ResourceLocation, T> recipes;
-	private RecipeManager recipeManager;
 	
 	protected AbstractPureOreRecipeInjector(RecipeType<T> recipeType) {
 		this(() -> recipeType, true);
@@ -50,7 +47,6 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 	protected AbstractPureOreRecipeInjector(Supplier<RecipeType<T>> recipeType, boolean modProcessing) {
 		this.recipeType = Lazy.of(recipeType);
 		this.recipes = null;
-		this.recipeManager = null;
 		this.modProcessing = modProcessing;
 	}
 
@@ -60,7 +56,6 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 
 	@SuppressWarnings("unchecked")
 	public void init(RecipeManager recipeManager) {
-		this.recipeManager = recipeManager;
 		this.recipes = recipeManager.byType(recipeType.get()).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 

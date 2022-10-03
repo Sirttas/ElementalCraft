@@ -1,0 +1,6 @@
+{
+	"name": "elementalcraft.category.jewels",
+	"description": "elementalcraft.category.jewels.desc",
+	"icon": "elementalcraft:jewel{elementalcraft:{jewel:'elementalcraft:phoenix'}}",
+	"sortnum": 7
+}

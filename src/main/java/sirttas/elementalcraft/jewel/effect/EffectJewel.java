@@ -5,8 +5,11 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.jewel.Jewel;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class EffectJewel extends Jewel {
@@ -27,5 +30,17 @@ public class EffectJewel extends Jewel {
                 livingEntity.addEffect(effect);
             }
         }
+    }
+
+    @Override
+    public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
+        if (entity instanceof LivingEntity livingEntity) {
+            var activeEffects = livingEntity.getActiveEffects();
+
+            if (effects.stream().allMatch(e -> activeEffects.stream().anyMatch(a -> a.getEffect().equals(e.getEffect()) && a.getAmplifier() >= e.getAmplifier() && a.getDuration() >= 2))) {
+                return false;
+            }
+        }
+        return super.isActive(entity, elementStorage);
     }
 }

@@ -80,7 +80,7 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 		ItemStack heldItem = player.getItemInHand(hand);
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
-		if (crystallizer != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (crystallizer != null && hand == InteractionHand.MAIN_HAND) {
 			if ((crystallizer.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !crystallizer.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);

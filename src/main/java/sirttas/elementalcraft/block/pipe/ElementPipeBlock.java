@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -96,16 +95,16 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	@Deprecated
-	public void onPlace(@NotNull BlockState state, Level worldIn, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
-		if (worldIn.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
+	public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
+		if (level.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
 			pipe.refresh();
 		}
 	}
 
 	@Override
 	@Deprecated
-	public void tick(@NotNull BlockState state, ServerLevel worldIn, @NotNull BlockPos pos, @NotNull RandomSource rand) {
-		if (worldIn.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
+	public void tick(@NotNull BlockState state, ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource rand) {
+		if (level.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
 			pipe.refresh();
 		}
 	}
@@ -166,23 +165,13 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		return result;
 	}
 
-	@Nonnull
 	@Override
 	@Deprecated
-	public RenderShape getRenderShape(@Nonnull BlockState state) {
-		if (isCovered(state)) {
-			return RenderShape.ENTITYBLOCK_ANIMATED;
-		}
-		return super.getRenderShape(state);
-	}
-
-	@Override
-	@Deprecated
-	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
 		Player player = getPlayer(context);
-		ElementPipeBlockEntity blockEntity = getBlockEntity(world, pos);
+		ElementPipeBlockEntity blockEntity = getBlockEntity(blockGetter, pos);
 
-		return world instanceof Level level && level.isClientSide ? getShape(state, pos, blockEntity, Minecraft.getInstance().hitResult, player)
+		return blockGetter instanceof Level level && level.isClientSide ? getShape(state, pos, blockEntity, Minecraft.getInstance().hitResult, player)
 				: getCurrentShape(state, blockEntity, player);
 	}
 

@@ -34,7 +34,7 @@ import java.util.List;
 
 public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeature> {
 
-    public static final PlacementModifier IN_THE_SKY = HeightRangePlacement.uniform(VerticalAnchor.absolute(176), VerticalAnchor.absolute(256));
+    public static final PlacementModifier IN_THE_SKY = HeightRangePlacement.uniform(VerticalAnchor.belowTop(50), VerticalAnchor.belowTop(10));
     public static final RandomElementTypeFeatureConfig ALL = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
             .put(ElementType.FIRE, 1)
             .put(ElementType.WATER, 1)
@@ -53,6 +53,21 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
     public static final RandomElementTypeFeatureConfig NETHER = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
             .put(ElementType.FIRE, 5)
             .put(ElementType.EARTH, 1)
+            .put(ElementType.AIR, 1)
+            .build());
+
+    public static final RandomElementTypeFeatureConfig NETHER_FORSET = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
+            .put(ElementType.FIRE, 5)
+            .put(ElementType.WATER, 2)
+            .put(ElementType.EARTH, 1)
+            .put(ElementType.AIR, 1)
+            .build());
+
+    public static final RandomElementTypeFeatureConfig NETHER_ALL = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
+            .put(ElementType.FIRE, 5)
+            .put(ElementType.EARTH, 3)
+            .put(ElementType.AIR, 1)
+            .put(ElementType.WATER, 1)
             .build());
     public static final RandomElementTypeFeatureConfig WET = new RandomElementTypeFeatureConfig(ImmutableMap.<ElementType, Integer>builder()
             .put(ElementType.WATER, 5)
@@ -126,13 +141,15 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
         addSourceChanced(SourceFeature.NAME_HILL, HILL);
         addSourceChanced(SourceFeature.NAME_MOUNTAIN, MOUNTAIN);
         addSourceChanced(SourceFeature.NAME_PLAIN, PLAIN);
-        addSourceChanced(SourceFeature.NAME_NETHER, NETHER, 30);
         addSourceChanced(SourceFeature.NAME_OCEAN, ElementTypeFeatureConfig.WATER, 400);
+        addSourceNether(SourceFeature.NAME_NETHER_ALL, NETHER_ALL,400);
+        addSourceNether(SourceFeature.NAME_NETHER, NETHER,60);
+        addSourceNether(SourceFeature.NAME_NETHER_FOREST, NETHER_FORSET,30);
         addSourceUnderground(SourceFeature.NAME_LUSH_CAVE, LUSH_CAVE);
         addSourceUnderground(SourceFeature.NAME_DRIPSTONE_CAVE, DRIPSTONE_CAVE);
         addSourceUnderground(SourceFeature.NAME_DEEP_DARK, DEEP_DARK);
         addSourceUnderground(SourceFeature.NAME_UNDERGROUND, ALL, 100);
-        addSource(SourceFeature.NAME_SKY, SKY, List.of(InSquarePlacement.spread(), IN_THE_SKY, RarityFilter.onAverageOnceEvery(400)));
+        addSource(SourceFeature.NAME_SKY, SKY, List.of(InSquarePlacement.spread(), IN_THE_SKY, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(400)));
     }
 
     private PlacedFeature addSourceUnderground(String name, RandomElementTypeFeatureConfig config) {
@@ -141,6 +158,10 @@ public class ECFeaturesProvider extends AbstractECJsonCodecProvider<PlacedFeatur
 
     private PlacedFeature addSourceUnderground(String name, RandomElementTypeFeatureConfig config, int chance) {
         return addSource(name, config, sourcePlacementUnderground(RarityFilter.onAverageOnceEvery(chance)));
+    }
+
+    private PlacedFeature addSourceNether(String name, RandomElementTypeFeatureConfig config, int chance) {
+        return addSource(name, config, List.of(InSquarePlacement.spread(), PlacementUtils.RANGE_10_10, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(chance)));
     }
 
     private PlacedFeature addSourceChanced(String name, IElementTypeFeatureConfig config) {

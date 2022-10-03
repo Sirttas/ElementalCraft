@@ -45,7 +45,7 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
                     if (state != null && state.canSurvive(level, instrumentPos)) {
                         poseStack.pushPose();
                         poseStack.translate(0, 1, 0);
-                        renderBlock(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, instrumentPos);
+                        renderBatched(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, instrumentPos);
                         poseStack.popPose();
                         wasRendered = true;
                     }

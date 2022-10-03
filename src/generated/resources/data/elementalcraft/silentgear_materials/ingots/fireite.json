@@ -1,0 +1,137 @@
+{
+  "type": "silentgear:standard",
+  "simple": true,
+  "availability": {
+    "tier": 4,
+    "categories": [
+      "metal"
+    ],
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:ingots/fireite"
+    }
+  },
+  "name": {
+    "translate": "material.elementalcraft.ingots.fireite"
+  },
+  "name_prefix": {
+    "translate": "material.elementalcraft.fireite"
+  },
+  "stats": {
+    "tip": {
+      "durability": {
+        "add": 350.0
+      },
+      "armor_durability": {
+        "add": 10.0
+      },
+      "harvest_level": {
+        "max": 3.0
+      },
+      "harvest_speed": {
+        "add": 3.0
+      },
+      "melee_damage": {
+        "add": 2.0
+      },
+      "magic_damage": {
+        "add": 2.0
+      },
+      "ranged_damage": {
+        "add": 0.5
+      },
+      "rarity": {
+        "add": 40.0
+      }
+    },
+    "coating": {
+      "durability": [
+        {
+          "mul2": 0.4
+        },
+        {
+          "add": 3.0
+        }
+      ],
+      "armor_durability": {
+        "mul2": 0.33333337
+      },
+      "harvest_speed": {
+        "mul2": 0.15
+      },
+      "harvest_level": {
+        "max": 4.0
+      },
+      "melee_damage": {
+        "mul2": 0.5
+      },
+      "magic_damage": {
+        "mul2": 0.5
+      },
+      "armor_toughness": {
+        "add": 4.0
+      },
+      "knockback_resistance": {
+        "add": 1.0
+      },
+      "enchantment_value": {
+        "add": 7.0
+      }
+    }
+  },
+  "traits": {
+    "tip": [
+      {
+        "name": "silentgear:malleable",
+        "level": 2
+      },
+      {
+        "name": "silentgear:fiery",
+        "level": 2
+      },
+      {
+        "name": "silentgear:jagged",
+        "level": 1
+      }
+    ]
+  },
+  "model": {
+    "tip/all": [
+      {
+        "texture": "silentgear:tip_sharp",
+        "color": "#5A383B"
+      }
+    ],
+    "tip/part": [
+      {
+        "texture": "silentgear:tip_base"
+      },
+      {
+        "texture": "silentgear:tip",
+        "color": "#5A383B"
+      },
+      {
+        "texture": "silentgear:tip_shine"
+      }
+    ],
+    "coating/all": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#5A383B"
+      }
+    ],
+    "coating/part": [
+      {
+        "texture": "silentgear:coating_material",
+        "color": "#5A383B"
+      },
+      {
+        "texture": "silentgear:coating_jar"
+      }
+    ]
+  }
+}

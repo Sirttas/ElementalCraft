@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_springaline_lantern": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:springaline_lantern"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_springaline_lantern"
+    ]
+  ]
+}

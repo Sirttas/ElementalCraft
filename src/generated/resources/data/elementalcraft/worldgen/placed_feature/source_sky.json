@@ -20,12 +20,15 @@
       "height": {
         "type": "minecraft:uniform",
         "max_inclusive": {
-          "absolute": 256
+          "below_top": 10
         },
         "min_inclusive": {
-          "absolute": 176
+          "below_top": 50
         }
       }
+    },
+    {
+      "type": "minecraft:biome"
     },
     {
       "type": "minecraft:rarity_filter",

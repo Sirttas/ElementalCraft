@@ -5,6 +5,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +18,7 @@ import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.Comparator;
@@ -56,16 +58,18 @@ public class PureOre {
 
     private ItemStack resultForColor;
     private Component description;
+    private final int elementConsumption;
 
     private final int inputSize;
     private final int outputSize;
     private final double luckRatio;
 
-    public PureOre(ResourceLocation id, int inputSize, int outputSize, double luckRatio) {
+    public PureOre(ResourceLocation id, int elementConsumption, int inputSize, int outputSize, double luckRatio) {
         this.id = id;
         this.ores = new HashSet<>();
         recipes = new HashMap<>();
         this.resultForColor = ItemStack.EMPTY;
+        this.elementConsumption = elementConsumption;
         this.inputSize = inputSize;
         this.outputSize = outputSize;
         this.luckRatio = luckRatio;
@@ -123,6 +127,10 @@ public class PureOre {
         }
     }
 
+    public void addTag(TagKey<Item> tag) {
+        addTag(ECTags.Items.getTag(tag));
+    }
+
     public void addTag(HolderSet.Named<Item> tag) {
         tag.stream()
                 .map(Holder::value)
@@ -149,6 +157,11 @@ public class PureOre {
     }
 
     private class Recipe implements IPurifierRecipe {
+
+        @Override
+        public int getElementAmount() {
+            return elementConsumption;
+        }
 
         @Nonnull
         @Override

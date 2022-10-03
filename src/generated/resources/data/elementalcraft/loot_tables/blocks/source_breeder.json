@@ -11,10 +11,18 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "elementalcraft:source_breeder",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
           "name": "elementalcraft:source_breeder"
         }
       ],
-      "name": "main",
       "rolls": 1.0
     }
   ]

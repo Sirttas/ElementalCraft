@@ -10,6 +10,7 @@ import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntit
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.IOContainer;
 import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.ie.IEInteraction;
 import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
@@ -42,7 +43,10 @@ public class AirMillGrindstoneBlockEntity extends AbstractIOInstrumentBlockEntit
 		var recipe = super.lookupRecipe();
 		
 		if (recipe == null && ECinteractions.isMekanismActive()) {
-			return MekanismInteraction.lookupCrusherRecipe(level, inventory);
+			recipe = MekanismInteraction.lookupCrusherRecipe(level, this);
+		}
+		if (recipe == null && ECinteractions.isImmersiveEngineeringActive()) {
+			recipe = IEInteraction.lookupCrusherRecipe(level, this);
 		}
 		return recipe;
 	}

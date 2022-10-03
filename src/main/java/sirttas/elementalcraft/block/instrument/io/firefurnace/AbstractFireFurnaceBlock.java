@@ -41,7 +41,7 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 	
-		if (furnace != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (furnace != null && hand == InteractionHand.MAIN_HAND) {
 			if (!inv.getStackInSlot(1).isEmpty()) {
 				furnace.dropExperience(player);
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);

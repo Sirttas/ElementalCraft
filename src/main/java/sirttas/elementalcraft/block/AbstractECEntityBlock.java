@@ -28,7 +28,7 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	}
 
 	protected AbstractECEntityBlock() {
-		this(ECProperties.Blocks.BLOCK_NOT_SOLID);
+		this(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
 	}
 
 	@Nonnull
@@ -94,5 +94,11 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 		if (blockEntity instanceof AbstractECBlockEntity ecBlockEntity) {
 			ecBlockEntity.sendUpdate();
 		}
+	}
+
+	@Override
+	@Deprecated
+	public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
+		return true;
 	}
 }

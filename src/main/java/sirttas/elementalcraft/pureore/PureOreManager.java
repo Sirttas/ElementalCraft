@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.pureore;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -10,8 +11,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
-import net.minecraftforge.common.util.Lazy;
 import sirttas.dpanvil.api.event.DataPackReloadCompleteEvent;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -21,7 +22,6 @@ import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
-import sirttas.elementalcraft.tag.ECTags;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -35,26 +35,9 @@ import java.util.stream.Collectors;
 
 public class PureOreManager {
 
-	private static final Lazy<List<PureOreLoader>> LOADERS = Lazy.of(() -> List.of(PureOreLoader.create(ECTags.Items.PURE_ORES_ORE_SOURCE)
-					.pattern("_?ore$")
-					.tagFolder("ores")
-					.inputSize(ECConfig.COMMON.pureOreOresInput.get())
-					.outputSize(ECConfig.COMMON.pureOreOresOutput.get())
-					.luckRatio(ECConfig.COMMON.pureOreOresLuckRatio.get()),
-			PureOreLoader.create(ECTags.Items.PURE_ORES_RAW_MATERIALS_SOURCE)
-					.pattern("^raw_?")
-					.tagFolder("raw_materials")
-					.inputSize(ECConfig.COMMON.pureOreRawMaterialsInput.get())
-					.outputSize(ECConfig.COMMON.pureOreRawMaterialsOutput.get())
-					.luckRatio(ECConfig.COMMON.pureOreRawMaterialsLuckRatio.get()),
-			PureOreLoader.create(ECTags.Items.PURE_ORES_GEORE_SHARDS_SOURCE)
-					.pattern("_?shard$")
-					.tagFolder("geore_shards")
-					.inputSize(ECConfig.COMMON.pureOreGeoreShardsInput.get())
-					.outputSize(ECConfig.COMMON.pureOreGeoreShardsOutput.get())
-					.luckRatio(ECConfig.COMMON.pureOreGeoreShardsLuckRatio.get())));
-
 	private final Map<ResourceLocation, Entry> pureOres = new HashMap<>();
+
+	private Language language;
 
 	public boolean isValidOre(ItemStack ore) {
 		return pureOres.values().stream().anyMatch(e -> e.test(ore));
@@ -83,7 +66,17 @@ public class PureOreManager {
 	}
 
 	public Component getPureOreName(ItemStack stack) {
-		var entry = pureOres.get(getPureOreId(stack));
+		var id = getPureOreId(stack);
+
+		if (language == null) {
+			language = Language.getInstance();
+		}
+
+		if (language.has("tooltip.elementalcraft.pure_ore." + id.getNamespace() + "." + id.getPath())) {
+			return Component.translatable("tooltip.elementalcraft.pure_ore." + id.getNamespace() + "." + id.getPath());
+		}
+
+		var entry = pureOres.get(id);
 		
 		return entry != null ? entry.getDescription() : null;
 	}
@@ -126,7 +119,7 @@ public class PureOreManager {
 						.collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 		this.pureOres.clear();
-		LOADERS.get().forEach(l -> l.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ores.put(l, e)));
+		ElementalCraft.PURE_ORE_LOADERS_MANAGER.getData().forEach((k, l) -> l.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ores.put(l, e)));
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection.");
@@ -143,10 +136,11 @@ public class PureOreManager {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection finished. {} recipes added.", () -> recipeManager.getRecipes().size() - size);
 		}
 
-		ElementalCraftApi.LOGGER.info("Pure ore generation ended\r\n\tOres: {} in {}.", () -> pureOres.keySet().stream()
-				.map(ResourceLocation::toString)
-				.collect(Collectors.joining(", ")),
-				() -> Duration.between(start, Instant.now()));
+		ElementalCraftApi.LOGGER.info("Pure ore generation ended in {}ms\r\n\tOres: {}.",
+				() -> Duration.between(start, Instant.now()).toMillis(),
+				() -> pureOres.keySet().stream()
+						.map(ResourceLocation::toString)
+						.collect(Collectors.joining(", ")));
 	}
 
 	private boolean isPureOreRecipe(Recipe<?> recipe) {
@@ -182,7 +176,7 @@ public class PureOreManager {
 		private final Map<PureOreLoader, PureOre> ores;
 
 		public Entry() {
-			ores = new Reference2ObjectArrayMap<>(LOADERS.get().size());
+			ores = new Reference2ObjectArrayMap<>(ElementalCraft.PURE_ORE_LOADERS_MANAGER.getData().size());
 		}
 
 		public Component getDescription() {

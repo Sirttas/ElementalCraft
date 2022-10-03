@@ -62,7 +62,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements IECR
 						if (state != null && state.canSurvive(level, upgradePos)) {
 							poseStack.pushPose();
 							poseStack.translate(direction.getStepX(), direction.getStepY(), direction.getStepZ());
-							renderBlock(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, upgradePos);
+							renderBatched(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, upgradePos);
 							poseStack.popPose();
 							wasRendered = true;
 						}

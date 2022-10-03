@@ -1,0 +1,24 @@
+{
+  "element_consumption": 6250,
+  "luck_ratio": 4.0,
+  "output_size": 5,
+  "patterns": [
+    "_?block$"
+  ],
+  "source": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:or",
+        "values": [
+          "#elementalcraft:pure_ores/sources/geore_blocks"
+        ]
+      },
+      {
+        "type": "forge:not",
+        "value": "#elementalcraft:pure_ores/specifics"
+      }
+    ]
+  },
+  "tag_pattern": "^geore_blocks/"
+}

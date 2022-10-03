@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": {
+    "tag": "forge:ores/inert_crystal"
+  },
+  "luck_ration": 5,
+  "output": {
+    "count": 2,
+    "item": "elementalcraft:inert_crystal"
+  }
+}

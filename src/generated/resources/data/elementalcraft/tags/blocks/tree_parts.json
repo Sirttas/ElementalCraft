@@ -1,6 +1,7 @@
 {
   "values": [
     "#minecraft:logs",
-    "#minecraft:leaves"
+    "#minecraft:leaves",
+    "minecraft:vine"
   ]
 }

@@ -15,6 +15,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -99,7 +100,11 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	}
 	
 	private void setShrineState(Level level, BlockPos pos, CrystalType type) {
-		level.setBlockAndUpdate(pos, level.getBlockState(pos).setValue(BuddingShrineBlock.CRYSTAL_TYPE, type));
+		var shrineState = level.getBlockState(pos);
+
+		if (shrineState.is(ECBlocks.BUDDING_SHRINE.get())) {
+			level.setBlockAndUpdate(pos, shrineState.setValue(BuddingShrineBlock.CRYSTAL_TYPE, type));
+		}
 	}
 	
 	@Override

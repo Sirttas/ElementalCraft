@@ -72,6 +72,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUp
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.CrystalGrowthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
@@ -167,6 +168,7 @@ public class ECBlocks {
 	public static final RegistryObject<FillingShrineUpgradeBlock> FILLING_SHRINE_UPGRADE = register(FillingShrineUpgradeBlock::new, FillingShrineUpgradeBlock.NAME);
 	public static final RegistryObject<SpringalineShrineUpgradeBlock> SPRINGALINE_SHRINE_UPGRADE = register(SpringalineShrineUpgradeBlock::new, SpringalineShrineUpgradeBlock.NAME);
 	public static final RegistryObject<CrystalHarvestShrineUpgradeBlock> CRYSTAL_HARVEST_SHRINE_UPGRADE = register(CrystalHarvestShrineUpgradeBlock::new, CrystalHarvestShrineUpgradeBlock.NAME);
+	public static final RegistryObject<CrystalGrowthShrineUpgradeBlock> CRYSTAL_GROWTH_SHRINE_UPGRADE = register(CrystalGrowthShrineUpgradeBlock::new, CrystalGrowthShrineUpgradeBlock.NAME);
 	public static final RegistryObject<SourceBlock> SOURCE = register(SourceBlock::new, SourceBlock.NAME);
 	public static final RegistryObject<SourceDisplacementPlateBlock> FIRE_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.FIRE), SourceDisplacementPlateBlock.NAME_FIRE);
 	public static final RegistryObject<SourceDisplacementPlateBlock> WATER_SOURCE_DISPLACEMENT_PLATE = register(() -> new SourceDisplacementPlateBlock(ElementType.WATER), SourceDisplacementPlateBlock.NAME_WATER);
@@ -219,6 +221,7 @@ public class ECBlocks {
 	public static final RegistryObject<AmethystClusterBlock> SMALL_SPRINGALINE_BUD = register(() -> new AmethystClusterBlock(3, 4, BlockBehaviour.Properties.copy(Blocks.AMETHYST_CLUSTER).sound(SoundType.SMALL_AMETHYST_BUD).lightLevel(s -> 1)), "small_springaline_bud");
 	public static final RegistryObject<GlassBlock> SPRINGALINE_GLASS = registerGlass("springaline_glass");
 	public static final RegistryObject<IronBarsBlock> SPRINGALINE_GLASS_PANE = registerGlassPane(SPRINGALINE_GLASS);
+	public static final RegistryObject<Block> SPRINGALINE_LANTERN = register(() -> new Block(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.QUARTZ).strength(0.3F).sound(SoundType.GLASS).lightLevel(s -> 15)), "springaline_lantern");
 
 	private static <T extends Block> RegistryObject<T> register(Supplier<T> block, String name) {
 		return DEFERRED_REGISTER.register(name, block);

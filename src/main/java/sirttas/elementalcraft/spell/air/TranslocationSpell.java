@@ -71,7 +71,7 @@ public class TranslocationSpell extends Spell {
 		Vec3 look = caster.getLookAngle();
 		Vec3 newPos = getNewPos(caster, level, look);
 
-		if (newPos.y >= level.dimensionType().logicalHeight() || newPos.y < level.getSeaLevel()) {
+		if (newPos == null) {
 			return InteractionResult.PASS;
 		}
 
@@ -85,8 +85,10 @@ public class TranslocationSpell extends Spell {
 			ParticleHelper.createEnderParticle(level, newPos, 3, level.random);
 			this.delay(caster, 10, () -> {
 				if (caster instanceof LivingEntity livingSender) {
+					var oldPos = caster.position();
+
 					teleport(caster, newPos);
-					level.playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
+					level.playSound(null, oldPos.x, oldPos.y, oldPos.z, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
 					livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
 				} else {
 					teleport(caster, newPos);
@@ -96,7 +98,6 @@ public class TranslocationSpell extends Spell {
 		return InteractionResult.SUCCESS;
 	}
 
-	@Nonnull
 	private Vec3 getNewPos(@Nonnull Entity caster, Level level, Vec3 look) {
 		var list = TranslocationAnchorList.get(level);
 
@@ -108,8 +109,13 @@ public class TranslocationSpell extends Spell {
 			}
 		}
 
-		Vec3 targetPos = caster.position().add(new Vec3(look.x(), 0, look.z()).normalize().scale(this.getRange(caster)));
-		return new Vec3(targetPos.x(), getHeight(level, caster, targetPos), targetPos.z());
+		var targetPos = caster.position().add(new Vec3(look.x(), 0, look.z()).normalize().scale(this.getRange(caster)));
+		var newPos = new Vec3(targetPos.x(), getHeight(level, caster, targetPos), targetPos.z());
+
+		if (newPos.y >= level.dimensionType().logicalHeight() || newPos.y < level.getSeaLevel()) {
+			return null;
+		}
+		return newPos;
 	}
 
 	private double getHeight(Level world, Entity sender, Vec3 targetPos) {

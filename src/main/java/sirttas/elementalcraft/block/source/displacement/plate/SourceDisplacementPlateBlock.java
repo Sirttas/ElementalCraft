@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.source.displacement.plate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -20,8 +21,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shape.ECShapes;
+import sirttas.elementalcraft.block.source.SourceBlockEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -66,9 +69,17 @@ public class SourceDisplacementPlateBlock extends AbstractECEntityBlock implemen
     @Override
     @Deprecated
     public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-        SourceDisplacementPlateBlockEntity sourceDisplacementPlate = (SourceDisplacementPlateBlockEntity) level.getBlockEntity(pos);
-
+        var sourceDisplacementPlate = (SourceDisplacementPlateBlockEntity) level.getBlockEntity(pos);
         if (sourceDisplacementPlate != null) {
+            var source = BlockEntityHelper.getBlockEntityAs(level, pos.above(), SourceBlockEntity.class).orElse(null);
+
+            if (source == null) {
+                return InteractionResult.PASS;
+            } else if (!source.isAnalyzed()) {
+                player.displayClientMessage(Component.translatable("message.elementalcraft.missing_analysis"), true);
+                return InteractionResult.PASS;
+            }
+
             if (!level.isClientSide) {
                 sourceDisplacementPlate.start();
             }

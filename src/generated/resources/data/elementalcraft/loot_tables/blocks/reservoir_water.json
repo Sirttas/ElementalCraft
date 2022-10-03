@@ -6,6 +6,13 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
+        },
+        {
+          "block": "elementalcraft:reservoir_water",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "half": "lower"
+          }
         }
       ],
       "entries": [
@@ -27,7 +34,6 @@
           "source": "block_entity"
         }
       ],
-      "name": "main",
       "rolls": 1.0
     }
   ]
