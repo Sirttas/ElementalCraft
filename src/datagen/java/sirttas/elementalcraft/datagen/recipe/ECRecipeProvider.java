@@ -84,6 +84,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	private static final String HAS_SWIFT_ALLOY_NUGGET = "has_swift_alloy_nugget";
 	private static final String HAS_SWIFT_ALLOY_INGOT = "has_swift_alloy_ingot";
 	private static final String HAS_FIREITE_INGOT = "has_fireite_ingot";
+	public static final String FROM = "_from_";
 
 	private final ExistingFileHelper existingFileHelper;
 
@@ -285,7 +286,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				}
 				shaped.unlockedBy("has_" + sourceName, has(source)).save(consumer);
 				SingleItemRecipeBuilder.stonecutting(Ingredient.of(source), block, block instanceof SlabBlock ? 2 : 1).unlockedBy("has_" + sourceName, has(source)).save(consumer,
-						ElementalCraft.createRL(name + "_from_" + sourceName + "_stonecutting"));
+						ElementalCraft.createRL(name + FROM + sourceName + "_stonecutting"));
 			}
 		});
 	}
@@ -643,7 +644,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withCount(2)
 				.withIngredient(from)
 				.withLuckRatio(2)
-				.build(consumer, ForgeRegistries.ITEMS.getKey(dye.asItem()).getPath() + "_from_" + ForgeRegistries.ITEMS.getKey(from.asItem()).getPath());
+				.build(consumer, ForgeRegistries.ITEMS.getKey(dye.asItem()).getPath() + FROM + ForgeRegistries.ITEMS.getKey(from.asItem()).getPath());
 	}
 
 	private void grindToDye(ItemLike dye, TagKey<Item> from, Consumer<FinishedRecipe> consumer) {
@@ -653,7 +654,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withCount(2)
 				.withIngredient(from)
 				.withLuckRatio(2)
-				.build(consumer, ForgeRegistries.ITEMS.getKey(dye.asItem()).getPath() + "_from_" + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_'));
+				.build(consumer, ForgeRegistries.ITEMS.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_'));
 	}
 
 	private void registerSawing(Consumer<FinishedRecipe> consumer) {
@@ -897,7 +898,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private ResourceLocation from(ItemLike from, ItemLike to) {
-		return  ElementalCraft.createRL(ForgeRegistries.ITEMS.getKey(to.asItem()).getPath() + "_from_" + ForgeRegistries.ITEMS.getKey(from.asItem()).getPath());
+		return  ElementalCraft.createRL(ForgeRegistries.ITEMS.getKey(to.asItem()).getPath() + FROM + ForgeRegistries.ITEMS.getKey(from.asItem()).getPath());
 	}
 
 	private String buildHas(ItemLike item) {

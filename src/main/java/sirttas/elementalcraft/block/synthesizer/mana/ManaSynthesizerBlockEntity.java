@@ -34,7 +34,7 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 
 			if (synthesized > 0) {
 				manaSynthesizer.manaReceiver.receiveMana(-(int) Math.round(synthesized / ratio));
-				manaSynthesizer.breakLense(level, pos);
+				manaSynthesizer.breakLens(level, pos);
 			}
 		} else {
 			manaSynthesizer.working = false;

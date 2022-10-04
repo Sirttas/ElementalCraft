@@ -1,3 +1,12 @@
+1.19.2-5.5.2:
+
+- fix a potential crash
+- fix ore purifier element consumption
+- fix pure ore tag matching
+- fix lens with unbereaking not working correctly
+- fix a few elementopedia entries (issue #116, thanks to uhloin)
+
+
 1.19.2-5.5.1:
 
 - new block: crystal growth shrine upgrade

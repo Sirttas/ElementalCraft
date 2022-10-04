@@ -72,7 +72,7 @@ public record PureOreLoader(
 		return List.copyOf(this.generatePureOres(injectors).values());
 	}
 
-	private Map<ResourceLocation, PureOre> generatePureOres(Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors) {;
+	private Map<ResourceLocation, PureOre> generatePureOres(Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors) {
 		var list = streamSourceTag().toList();
 
 		if (list.isEmpty()) {
@@ -131,7 +131,7 @@ public record PureOreLoader(
 					.filter(t -> {
 						var location = t.location();
 
-						return location.getNamespace().equals(ECNames.FORGE) && tagPattern.get().matcher(location.getPath()).matches();
+						return location.getNamespace().equals(ECNames.FORGE) && tagPattern.get().matcher(location.getPath()).find();
 					}).toList();
 
 			if (!tags.isEmpty()) {
@@ -207,11 +207,11 @@ public record PureOreLoader(
 			return this;
 		}
 
-		public Builder tagPattern(String tagFolder) {
+		public Builder tagPattern(String tagPattern) {
 			if (this.fixedName != null) {
 				throw new IllegalStateException("Cannot set tag pattern when fixed name is set");
 			}
-			this.tagPattern = tagFolder;
+			this.tagPattern = tagPattern;
 			return this;
 		}
 

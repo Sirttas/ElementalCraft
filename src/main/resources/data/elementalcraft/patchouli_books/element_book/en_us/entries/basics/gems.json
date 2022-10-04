@@ -1,5 +1,5 @@
 {
-  "name": "block.elementalcraft.gems",
+  "name": "elementalcraft.entry.gems",
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:gems",
   "advancement": "elementalcraft:pickup/crystallizer",

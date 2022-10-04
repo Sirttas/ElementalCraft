@@ -54,14 +54,14 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 			var synthesized = solarSynthesizer.handleSynthesis(ECConfig.COMMON.solarSythesizerLenseElementMultiplier.get());
 
 			if (synthesized > 0) {
-				solarSynthesizer.breakLense(level, pos);
+				solarSynthesizer.breakLens(level, pos);
 			}
 		} else {
 			solarSynthesizer.working = false;
 		}
 	}
 
-	protected void breakLense(Level level, BlockPos pos) {
+	protected void breakLens(Level level, BlockPos pos) {
 		ItemStack stack = inventory.getItem(0);
 
 		if (!stack.isEmpty() && stack.getDamageValue() >= stack.getMaxDamage()) {
@@ -129,8 +129,8 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	protected  <U> LazyOptional<U> getElementStorage(int multiplier) {
 		var item = getInventory().getItem(0);
 
-		if (item.getItem() instanceof LensItem lenseItem) {
-			return LazyOptional.of(() -> lenseItem.getStorage(item, multiplier)).cast();
+		if (item.getItem() instanceof LensItem lens) {
+			return LazyOptional.of(() -> lens.getStorage(item, multiplier)).cast();
 		}
 		return ElementStorageHelper.get(item).cast();
 	}

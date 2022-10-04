@@ -88,17 +88,17 @@ public class LensItem extends ElementalItem {
 			if (!stack.isDamageableItem()) {
 				return count;
 			}
-			var rand = RandomSource.create();
-			ItemStack target = simulate ? stack.copy() : stack;
-			int damage = target.getDamageValue();
 
-			var floor = randomFloor(rand, count);
+			var rand = RandomSource.create();
+			var target = simulate ? stack.copy() : stack;
+			var toExtract = Math.min(target.getDamageValue() * multiplier, count);
+			var floor = randomFloor(rand, toExtract);
 
 			if (floor == 0) {
-				return count;
+				return toExtract;
 			}
 			target.hurt(floor, rand, null);
-			return Math.min(count, (target.getDamageValue() - damage) * multiplier);
+			return Math.min(count, toExtract);
 		}
 
 		private int randomFloor(RandomSource rand, float count) {

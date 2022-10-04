@@ -1,5 +1,5 @@
 {
-  "name": "block.elementalcraft.lenses",
+  "name": "elementalcraft.entry.lenses",
   "category": "elementalcraft:basics",
   "icon": "elementalcraft:lenses",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",

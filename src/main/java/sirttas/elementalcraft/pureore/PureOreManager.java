@@ -72,7 +72,9 @@ public class PureOreManager {
 			language = Language.getInstance();
 		}
 
-		if (language.has("tooltip.elementalcraft.pure_ore." + id.getNamespace() + "." + id.getPath())) {
+		if (id == null) {
+			return null;
+		} else if (language.has("tooltip.elementalcraft.pure_ore." + id.getNamespace() + "." + id.getPath())) {
 			return Component.translatable("tooltip.elementalcraft.pure_ore." + id.getNamespace() + "." + id.getPath());
 		}
 

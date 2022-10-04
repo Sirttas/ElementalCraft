@@ -29,15 +29,15 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<Pu
     @Override
     public void collectBuilders() {
         standard("ores", ECTags.Items.PURE_SOURCE_ORES_ORES).pattern("_?ore$").luckRatio(5);
-        standard("raw_materials", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).patterns("^raw_?", "_?raw$").consumption(1667).inputSize(3).outputSize(4).luckRatio(2);
-        standard("raw_material_blocks", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).tagPattern("^storage_blocks/raw_?").patterns("^raw_?", "_?block$").consumption(15000).outputSize(12).luckRatio(18);
-        standard("geore_shards", ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).pattern("_?shard$").consumption(1562).inputSize(4).outputSize(5).luckRatio(1);
+        standard("raw_materials", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).patterns("^raw_?", "_?raw$").consumption(5000).inputSize(3).outputSize(4).luckRatio(2);
+        standard("raw_material_blocks", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).tagPattern("^storage_blocks/raw_?(?!_?materials)").patterns("^raw_?", "_?block$").consumption(15000).outputSize(12).luckRatio(18);
+        standard("geore_shards", ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).pattern("_?shard$").consumption(5000).inputSize(4).outputSize(5).luckRatio(1);
         standard("geore_blocks", ECTags.Items.PURE_ORES_SOURCE_GEORE_BLOCKS).pattern("_?block$").consumption(6250).outputSize(5).luckRatio(4);
 
         builder("raw_uraninite", ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE).fixedName(FIXED_URANINITE).luckRatio(2);
         builder("poor_uraninite", ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE).fixedName(FIXED_URANINITE).consumption(3750).outputSize(3).luckRatio(2);
-        builder("uraninite", ECTags.Items.PURE_ORES_SOURCE_URANINITE).fixedName(FIXED_URANINITE).consumption(6350).outputSize(5).luckRatio(2);
-        builder("dense_uraninite", ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE).fixedName(FIXED_URANINITE).consumption(12500).outputSize(10).luckRatio(2);
+        builder("uraninite", ECTags.Items.PURE_ORES_SOURCE_URANINITE).fixedName(FIXED_URANINITE).consumption(5000).outputSize(5).luckRatio(2);
+        builder("dense_uraninite", ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE).fixedName(FIXED_URANINITE).consumption(10000).outputSize(10).luckRatio(2);
     }
 
     protected PureOreLoader.Builder standard(String name, TagKey<Item> tag) {

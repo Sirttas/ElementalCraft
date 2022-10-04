@@ -1,24 +1,24 @@
 {
-  "name": "block.elementalcraft.solar_synthesizer",
+  "name": "block.elementalcraft.mana_synthesizer",
   "category": "elementalcraft:instruments",
-  "icon": "elementalcraft:solar_synthesizer",
+  "icon": "elementalcraft:mana_synthesizer",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
-  "turnin": "elementalcraft:pickup/solar_synthesizer",
+  "turnin": "elementalcraft:pickup/mana_synthesizer",
   "sortnum": 8,
   "pages": [
     {
       "type": "text",
-      "text": "elementalcraft.page.solar_synthesizer0"
+      "text": "elementalcraft.page.mana_synthesizer0"
     },
     {
       "type": "crafting",
-      "recipe": "elementalcraft:solar_synthesizer"
+      "recipe": "elementalcraft:mana_synthesizer"
     },
     {
       "type": "multiblock",
       "multiblock": {
         "mapping": {
-          "I": "elementalcraft:solar_synthesizer",
+          "I": "elementalcraft:mana_synthesizer",
           "0": "elementalcraft:container"
         },
         "pattern": [
