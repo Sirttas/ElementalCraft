@@ -45,6 +45,7 @@ import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleItem;
 import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.item.spell.ScrollItem;
+import sirttas.elementalcraft.item.spell.SpellEffectItem;
 import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.item.spell.book.SpellBookItem;
 import sirttas.elementalcraft.property.ECProperties;
@@ -132,6 +133,7 @@ public class ECItems {
 	public static final RegistryObject<ECItem> MAJOR_RUNE_SLATE = register(ECItem::new, "major_rune_slate");
 	public static final RegistryObject<ECItem> UNSET_JEWEL = register(ECItem::new, "unset_jewel");
 	public static final RegistryObject<JewelItem> JEWEL = register(JewelItem::new, JewelItem.NAME);
+	public static final RegistryObject<SpellEffectItem> REPAIR_HAMMER = register(SpellEffectItem::new, "repair_hammer");
 
 
 	private ECItems() {}

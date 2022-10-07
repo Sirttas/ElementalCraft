@@ -24,6 +24,7 @@ import sirttas.elementalcraft.spell.earth.TreeFallSpell;
 import sirttas.elementalcraft.spell.fire.FireBallSpell;
 import sirttas.elementalcraft.spell.fire.InfernoSpell;
 import sirttas.elementalcraft.spell.flamecleave.FlameCleaveSpell;
+import sirttas.elementalcraft.spell.repair.RepairSpell;
 import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
 import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
@@ -59,6 +60,7 @@ public class Spells {
 	public static final RegistryObject<EffectSpell> SPEED = register("speed", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2400, 1), new MobEffectInstance(MobEffects.DIG_SPEED, 2400)));
 	public static final RegistryObject<AoeSpell> SHOCKWAVE = register("shockwave", AoeSpell::new);
 	public static final RegistryObject<AirShieldSpell> AIR_SHIELD = register(AirShieldSpell.NAME, AirShieldSpell::new);
+	public static final RegistryObject<RepairSpell> REPAIR = register(RepairSpell.NAME, RepairSpell::new);
 
 	private Spells() {}
 

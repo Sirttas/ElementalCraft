@@ -2,10 +2,16 @@ package sirttas.elementalcraft.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,12 +41,12 @@ public class EntityClientHandler {
 
 		poseStack.pushPose();
 		poseStack.mulPose(Vector3f.YP.rotationDegrees(180 - Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)));
-		renderSingleSpell(spell, null, entity, partialTicks, poseStack, buffer, packedLight);
-		SpellTickHelper.getSpellInstances(entity).forEach(i -> renderSingleSpell(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
+		renderSingleSpellFirstPerson(spell, null, entity, partialTicks, poseStack, buffer, packedLight);
+		SpellTickHelper.getSpellInstances(entity).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
 		poseStack.popPose();
 	}
 
-	private static void renderSingleSpell(Spell spell, @Nullable AbstractSpellInstance instance, LivingEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+	private static void renderSingleSpellFirstPerson(Spell spell, @Nullable AbstractSpellInstance instance, LivingEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
 		if (!spell.isValid()) {
 			return;
 		}
@@ -59,4 +65,51 @@ public class EntityClientHandler {
 		poseStack.popPose();
 	}
 
+	@SubscribeEvent
+	public static void renderSpellEffects(final RenderHandEvent event) {
+		var player = Minecraft.getInstance().player;
+
+		if (player == null) {
+			return;
+		}
+
+		var inUseRenderer = SpellRenderers.get(SpellHelper.getSpellInUse(player));
+		var hand = event.getHand();
+
+		if (inUseRenderer != null && inUseRenderer.hideHand(hand)) {
+			event.setCanceled(true);
+		}
+		renderSpellEffectFirstPerson(player, event.getItemStack(), hand, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
+	}
+
+	private static void renderSpellEffectFirstPerson(AbstractClientPlayer player, ItemStack stack, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+		if (player instanceof LocalPlayer localPlayer && !localPlayer.isScoping()) {
+			var spell = SpellHelper.getSpell(stack);
+
+			if (localPlayer.isUsingItem() && localPlayer.getUsedItemHand() == hand && !stack.isEmpty()) {
+				renderSingleSpellFirstPerson(spell, null, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
+			}
+			if (hand == InteractionHand.MAIN_HAND) {
+				SpellTickHelper.getSpellInstances(localPlayer).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, buffer, packedLight));
+			}
+		}
+	}
+
+	private static void renderSingleSpellFirstPerson(Spell spell, @Nullable AbstractSpellInstance instance, LocalPlayer localPlayer, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+		if (!spell.isValid()) {
+			return;
+		}
+		var renderer = SpellRenderers.get(spell);
+
+		if (renderer == null) {
+			return;
+		}
+		poseStack.pushPose();
+		if (renderer instanceof ISpellInstanceRenderer spellInstanceRenderer && instance != null) {
+			spellInstanceRenderer.renderFirstPerson(instance, localPlayer, partialTicks, poseStack, buffer, packedLight);
+		} else {
+			renderer.renderFirstPerson(spell, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
+		}
+		poseStack.popPose();
+	}
 }

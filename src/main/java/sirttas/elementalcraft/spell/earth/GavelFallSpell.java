@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -47,7 +48,7 @@ public class GavelFallSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target) {
+	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		return spawnGravel(sender, target);
 	}
 

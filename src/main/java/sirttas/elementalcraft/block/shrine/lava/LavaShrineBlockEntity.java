@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import sirttas.elementalcraft.ElementalCraftUtils;
@@ -41,7 +42,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	protected boolean doPeriod() {
 		return findRock().map(p -> {
 			level.setBlockAndUpdate(p, Blocks.LAVA.defaultBlockState());
-			level.levelEvent(1501, p, 0);
+			level.levelEvent(LevelEvent.LAVA_FIZZ, p, 0);
 			return true;
 		}).orElse(false);
 	}

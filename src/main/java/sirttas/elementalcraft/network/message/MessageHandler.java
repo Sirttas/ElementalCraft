@@ -8,11 +8,12 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexP
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassMessage;
 import sirttas.elementalcraft.item.spell.book.SpellBookMessage;
 import sirttas.elementalcraft.jewel.handler.ActiveJewelsMessage;
+import sirttas.elementalcraft.spell.ChangeSpellMessage;
 import sirttas.elementalcraft.spell.tick.SpellTickCooldownMessage;
 
 public class MessageHandler {
 
-	private static final String PROTOCOL_VERSION = "12";
+	private static final String PROTOCOL_VERSION = "13";
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(ElementalCraft.createRL("main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals,
 			PROTOCOL_VERSION::equals);
 
@@ -21,7 +22,7 @@ public class MessageHandler {
 	public static void setup() {
 		int id = 0;
 
-		CHANNEL.registerMessage(id++, ECMessage.class, ECMessage::encode, ECMessage::decode, ECMessage::handle);
+		CHANNEL.registerMessage(id++, ChangeSpellMessage.class, ChangeSpellMessage::encode, ChangeSpellMessage::decode, ChangeSpellMessage::handle);
 		CHANNEL.registerMessage(id++, SpellBookMessage.class, SpellBookMessage::encode, SpellBookMessage::decode, SpellBookMessage::handle);
 		CHANNEL.registerMessage(id++, SpellTickCooldownMessage.class, SpellTickCooldownMessage::encode, SpellTickCooldownMessage::decode, SpellTickCooldownMessage::handle);
 		CHANNEL.registerMessage(id++, SourceAnalysisGlassMessage.class, SourceAnalysisGlassMessage::encode, SourceAnalysisGlassMessage::decode, SourceAnalysisGlassMessage::handle);

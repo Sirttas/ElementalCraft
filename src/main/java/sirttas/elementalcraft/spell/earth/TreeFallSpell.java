@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -46,7 +47,7 @@ public class TreeFallSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target) {
+	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		Level world = sender.getLevel();
 
 		if (!world.isClientSide && isValidBlock(world.getBlockState(target))) {
@@ -56,6 +57,4 @@ public class TreeFallSpell extends Spell {
 
 		return InteractionResult.PASS;
 	}
-
-
 }

@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.interaction.jei.category.shrine;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -28,7 +27,7 @@ public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<Bu
 
     public BuddingShrineRecipeCategory(IGuiHelper guiHelper) {
         super("elementalcraft.jei.buddingshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.BUDDING_SHRINE.get())), guiHelper.createBlankDrawable(110, 66));
-        timer = guiHelper.createTickTimer(100, 5, false);
+        timer = guiHelper.createTickTimer(100, 4, false);
         springalineShrineUpgrade = ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get().defaultBlockState().setValue(AbstractHorizontalShrineUpgradeBlock.FACING, Direction.SOUTH);
         setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
     }
@@ -63,9 +62,8 @@ public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<Bu
     @Override
     public void draw(@Nonnull BuddingShrineBlock.CrystalType crystalType, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
         render3D(poseStack, (p, b) -> {
-            p.translate(-1.5, -1.8, 0);
-            p.mulPose(Vector3f.XP.rotationDegrees(-30.0F));
-            p.mulPose(Vector3f.YP.rotationDegrees(40.0F));
+            p.translate(0, 0.5, 0);
+            setupPose(p);
             renderBlock(ECBlocks.BUDDING_SHRINE.get().defaultBlockState().setValue(BuddingShrineBlock.CRYSTAL_TYPE, crystalType), p, b);
             if (crystalType == BuddingShrineBlock.CrystalType.SPRINGALINE) {
                 p.pushPose();

@@ -121,11 +121,11 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 		HitResult ray = EntityHelper.rayTrace(player);
 		HitResult.Type rayType = ray.getType();
 		
-		if (rayType == HitResult.Type.ENTITY) {
-			result = spell.castOnEntity(player, ((EntityHitResult) ray).getEntity());
+		if (rayType == HitResult.Type.ENTITY && ray instanceof EntityHitResult entityRay) {
+			result = spell.castOnEntity(player, entityRay.getEntity());
 		}
-		if (rayType == HitResult.Type.BLOCK && !result.consumesAction()) {
-			result = spell.castOnBlock(player, ((BlockHitResult) ray).getBlockPos());
+		if (rayType == HitResult.Type.BLOCK && !result.consumesAction() && ray instanceof BlockHitResult blockRay) {
+			result = spell.castOnBlock(player, blockRay.getBlockPos(), blockRay);
 		}
 		if (!result.consumesAction()) {
 			result = spell.castOnSelf(player);

@@ -40,8 +40,8 @@ public interface IECGenericRenderer {
         };
     }
 
-    default void renderItem(ItemStack stack, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay) {
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.GROUND, light, overlay, matrixStack, buffer, 0);
+    default void renderItem(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay) {
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.GROUND, light, overlay, poseStack, buffer, 0);
     }
 
     default void renderBlock(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {

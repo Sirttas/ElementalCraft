@@ -43,6 +43,7 @@ import sirttas.elementalcraft.interaction.jei.category.instrument.io.SawingRecip
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.ToolInfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.shrine.BuddingShrineRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.shrine.LavaShrineRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.shrine.SpringShrineRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientHelper;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.ElementIngredientRenderer;
@@ -139,6 +140,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new DisplacementRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BuddingShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new LavaShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new SpringShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -170,6 +172,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BUDDING_SHRINE.get()), ECJEIRecipeTypes.BUDDING_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.LAVA_SHRINE.get()), ECJEIRecipeTypes.LAVA_SHRINE);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPRING_SHRINE.get()), ECJEIRecipeTypes.SPRING_SHRINE);
 
 		if (ECinteractions.isMekanismActive()) {
 			MekanismInteraction.addAirMillToCrushing(registry);
@@ -207,6 +210,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.DISPLACEMENT, ElementType.ALL_VALID);
 		registry.addRecipes(ECJEIRecipeTypes.BUDDING_SHRINE, List.of(BuddingShrineBlock.CrystalType.values()));
 		registry.addRecipes(ECJEIRecipeTypes.LAVA_SHRINE, List.of(ECBlocks.LAVA_SHRINE.get()));
+		registry.addRecipes(ECJEIRecipeTypes.SPRING_SHRINE, List.of(ECBlocks.SPRING_SHRINE.get()));
 	}
 
 	private List<IJeiAnvilRecipe> createCastToolsAnvilRecipes(IVanillaRecipeFactory factory) {

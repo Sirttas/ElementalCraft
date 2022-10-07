@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.Lazy;
@@ -64,7 +65,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 				BlockItem item = findFlower();
 				
 				item.place(new DirectionalPlaceContext(level, p, Direction.DOWN, new ItemStack(item), Direction.UP));
-				level.levelEvent(2005, p, 0);
+				level.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, p, 0);
 				return true;
 			}).orElse(false);
 		}

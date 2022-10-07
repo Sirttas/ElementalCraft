@@ -15,4 +15,8 @@ public interface ISpellRenderer extends IECGenericRenderer {
     default void renderFirstPerson(Spell spell, LocalPlayer caster, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         this.render(spell, caster, partialTicks, poseStack, buffer, packedLight);
     }
+
+    default boolean hideHand(InteractionHand hand) {
+        return false;
+    }
 }

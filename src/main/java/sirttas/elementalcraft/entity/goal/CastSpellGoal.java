@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.entity.goal;
 
 
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import sirttas.elementalcraft.spell.Spell;
@@ -18,7 +17,13 @@ public class CastSpellGoal extends Goal {
 	}
 
 	private void cast() {
-		InteractionResult result = this.spell.castOnEntity(caster, caster.getTarget());
+		var target = caster.getTarget();
+
+		if (target == null) {
+			return;
+		}
+
+		var result = this.spell.castOnEntity(caster, target);
 
 		if (!result.consumesAction()) {
 			result = this.spell.castOnSelf(caster);

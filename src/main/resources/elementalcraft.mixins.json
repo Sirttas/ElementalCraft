@@ -17,7 +17,6 @@
     "MixinZombie"
   ],
   "client": [
-    "MixinItemInHandRenderer",
     "MixinItemRenderer"
   ],
   "injectors": {

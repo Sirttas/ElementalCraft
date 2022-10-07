@@ -25,7 +25,7 @@ public class SpellTickHelper {
         get(provider).ifPresent(m -> m.startCooldown(spell));
     }
 
-    public static Boolean hasCooldown(ICapabilityProvider provider, Spell spell) {
+    public static boolean hasCooldown(ICapabilityProvider provider, Spell spell) {
         return get(provider)
                 .map(m -> m.hasCooldown(spell))
                 .orElse(false);

@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.interaction.jei.category.shrine;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -54,9 +53,7 @@ public class LavaShrineRecipeCategory extends AbstractShrineRecipeCategory<LavaS
     @Override
     public void draw(@Nonnull LavaShrineBlock recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
         render3D(poseStack, (p, b) -> {
-            p.translate(-1.5, -2.3, 0);
-            p.mulPose(Vector3f.XP.rotationDegrees(-30.0F));
-            p.mulPose(Vector3f.YP.rotationDegrees(40.0F));
+            setupPose(p);
             renderBlock(lavaShrine, p, b);
             p.translate(0, 1, 0);
 

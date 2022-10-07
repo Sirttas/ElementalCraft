@@ -45,4 +45,10 @@ public abstract class AbstractShrineRecipeCategory<T> extends AbstractECRecipeCa
         Lighting.setupFor3DItems();
     }
 
+    protected static void setupPose(PoseStack p) {
+        p.translate(-1.5, -2.3, 0);
+        p.mulPose(Vector3f.XP.rotationDegrees(-30.0F));
+        p.mulPose(Vector3f.YP.rotationDegrees(40.0F));
+    }
+
 }

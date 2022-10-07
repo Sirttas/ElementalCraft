@@ -139,20 +139,31 @@ public class SpellHelper {
 		}
 	}
 
-	public static void moveSelected(ItemStack stack, int i) {
+	public static int getSelected(ItemStack stack) {
 		ListTag list = getSpellList(stack);
 		Spell spell = getSpell(stack);
 
 		if (list != null && !list.isEmpty()) {
-			int selected = IntStream.range(0, list.size()).filter(j -> isSpellInTag(list.get(j), spell)).findFirst().orElse(0) + i;
-			
-			if (selected < 0) {
-				selected = list.size() - 1;
-			} else if (selected >= list.size()) {
-				selected = 0;
-			}
-			setSpell(stack, getSpellFromTag(list.get(selected)));
+			return IntStream.range(0, list.size()).filter(j -> isSpellInTag(list.get(j), spell)).findFirst().orElse(0);
 		}
+		return 0;
+	}
+
+	public static void setSelected(ItemStack stack, int i) {
+		ListTag list = getSpellList(stack);
+
+		if (list != null && !list.isEmpty()) {
+			if (i < 0) {
+				i = list.size() - 1;
+			} else if (i >= list.size()) {
+				i = 0;
+			}
+			setSpell(stack, getSpellFromTag(list.get(i)));
+		}
+	}
+
+	public static void moveSelected(ItemStack stack, int i) {
+		setSelected(stack, getSelected(stack) + i);
 	}
 	
 	@Nullable
@@ -202,7 +213,7 @@ public class SpellHelper {
 
     public static Spell getSpellInUse(Entity entity) {
 		// TODO spell casting monster
-		if (entity instanceof LivingEntity livingEntity) {
+		if (entity instanceof LivingEntity livingEntity && livingEntity.isUsingItem()) {
 			return getSpell(livingEntity.getUseItem());
 		}
 		return Spells.NONE.get();

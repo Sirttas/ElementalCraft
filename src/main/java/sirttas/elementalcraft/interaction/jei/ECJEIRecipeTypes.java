@@ -6,6 +6,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlock;
+import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
 import sirttas.elementalcraft.interaction.jei.category.element.DisplacementRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
@@ -44,6 +45,7 @@ public class ECJEIRecipeTypes {
     public static final RecipeType<ElementType> DISPLACEMENT = create(DisplacementRecipeCategory.NAME, ElementType.class);
     public static final RecipeType<BuddingShrineBlock.CrystalType> BUDDING_SHRINE = create(BuddingShrineBlock.NAME, BuddingShrineBlock.CrystalType.class);
     public static final RecipeType<LavaShrineBlock> LAVA_SHRINE = create(LavaShrineBlock.NAME, LavaShrineBlock.class);
+    public static final RecipeType<SpringShrineBlock> SPRING_SHRINE = create(SpringShrineBlock.NAME, SpringShrineBlock.class);
 
     private static <T> RecipeType<T> create(String path, Class<? extends T> recipeClass) {
         return RecipeType.create(ElementalCraftApi.MODID, path, recipeClass);

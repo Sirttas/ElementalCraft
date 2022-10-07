@@ -19,7 +19,6 @@ import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class SpellBookMenu extends AbstractECMenu {
@@ -161,7 +160,7 @@ public class SpellBookMenu extends AbstractECMenu {
 	}
 	
 	private void refresh() {
-		List<Pair<Spell, Integer>> spells = SpellHelper.getSpellsAsMap(book);
+		var spells = SpellHelper.getSpellsAsMap(book);
 
 		for (int i = 0; i < SLOT_COUNT; ++i) {
 			if (i < spells.size()) {

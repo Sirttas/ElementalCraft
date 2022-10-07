@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -71,7 +72,7 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	@Nonnull
-	public InteractionResult castOnBlock(@Nonnull Entity caster, @Nonnull BlockPos target) {
+	public InteractionResult castOnBlock(@Nonnull Entity caster, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		return InteractionResult.PASS;
 	}
 

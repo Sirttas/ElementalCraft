@@ -1,16 +1,16 @@
 {
   "type": "elementalcraft:spell_craft",
   "crystal": {
-    "item": "elementalcraft:earthcrystal"
+    "item": "elementalcraft:purecrystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/fine_air"
+    "tag": "elementalcraft:gems/pristine_fire"
   },
   "output": {
     "item": "elementalcraft:scroll",
     "nbt": {
       "elementalcraft": {
-        "spell": "elementalcraft:feather_spikes"
+        "spell": "elementalcraft:repair"
       }
     }
   }

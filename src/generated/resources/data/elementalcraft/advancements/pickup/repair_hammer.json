@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_repair_hammer": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:repair_hammer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_repair_hammer"
+    ]
+  ]
+}

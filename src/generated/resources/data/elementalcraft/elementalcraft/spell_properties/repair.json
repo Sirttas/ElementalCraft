@@ -1,0 +1,9 @@
+{
+  "color": "#332D1E",
+  "cooldown": 2400,
+  "element_consumption": 100,
+  "element_type": "fire",
+  "spell_type": "utility",
+  "use_duration": 401,
+  "weight": 2
+}

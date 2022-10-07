@@ -8,7 +8,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -23,7 +25,7 @@ public class RipeningSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target) {
+	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		Level world = sender.getLevel();
 		BlockState state = world.getBlockState(target);
 		Block block = state.getBlock();
@@ -34,7 +36,7 @@ public class RipeningSpell extends Spell {
 					growable.performBonemeal((ServerLevel) world, world.random, target, state);
 					state = world.getBlockState(target);
 				}
-				world.levelEvent(2005, target, 0);
+				world.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, target, 0);
 			}
 			return InteractionResult.SUCCESS;
 		}

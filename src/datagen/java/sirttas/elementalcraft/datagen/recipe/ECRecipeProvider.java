@@ -185,8 +185,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(consumer);
 		prepareInstrumentRecipe(ECBlocks.INFUSER).define('i', Tags.Items.INGOTS_IRON).define('n', Tags.Items.NUGGETS_IRON).pattern("n n").pattern("ici").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.BINDER.get()).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).pattern("i i").pattern("wcw").save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.BINDER_IMPROVED.get(), ECItems.PURE_CRYSTAL.get()).define('f', ECTags.Items.INGOTS_FIREITE).define('d', Tags.Items.GEMS_DIAMOND).define('b', ECBlocks.BINDER.get())
-				.define('i', ECBlocks.INFUSER.get()).pattern("did").pattern("fbf").pattern("wcw").save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.BINDER_IMPROVED.get(), ECItems.PURE_CRYSTAL.get()).define('s', ECTags.Items.INGOTS_SWIFT_ALLOY).define('d', Tags.Items.GEMS_DIAMOND).define('b', ECBlocks.BINDER.get())
+				.define('i', ECBlocks.INFUSER.get()).pattern("did").pattern("sbs").pattern("wcw").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.CRYSTALLIZER.get(), ECItems.STRONGLY_CONTAINED_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).pattern("iwi").pattern("i i").pattern("wcw").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_GRINDSTONE.get(), ECItems.AIR_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).define('p', ItemTags.WOOL_CARPETS).define('g', Items.GRINDSTONE)
 				.pattern("pip").pattern("igi").pattern("wcw").save(consumer);
@@ -365,7 +365,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("iii")
 				.unlockedBy(HAS_DRENCHED_IRON_INGOT, has(ECTags.Items.INGOTS_DRENCHED_IRON))
 				.save(consumer);
-		shaped(ECItems.PIPE_PRIORITY)
+		shaped(ECItems.PIPE_PRIORITY, 4)
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.define('f', ECItems.COVER_FRAME.get())
 				.pattern(" i ")
@@ -523,11 +523,12 @@ public class ECRecipeProvider extends RecipeProvider {
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.DASH).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL.get()).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SILK_VEIN).setGem(ECTags.Items.PRISTINE_EARTH_GEMS).setCrystal(ECItems.PURE_CRYSTAL.get()).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.TRANSLOCATION).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL.get()).build(consumer);
-		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FEATHER_SPIKES).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL.get()).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FEATHER_SPIKES).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.EARTH_CRYSTAL.get()).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.HEAL).setGem(ECTags.Items.PRISTINE_WATER_GEMS).setCrystal(ECItems.PURE_CRYSTAL.get()).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SPEED).setGem(ECTags.Items.PRISTINE_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL.get()).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SHOCKWAVE).setGem(ECTags.Items.CRUDE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL.get()).build(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.AIR_SHIELD).setGem(ECTags.Items.FINE_AIR_GEMS).setCrystal(ECItems.AIR_CRYSTAL.get()).build(consumer);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.REPAIR).setGem(ECTags.Items.PRISTINE_FIRE_GEMS).setCrystal(ECItems.PURE_CRYSTAL.get()).build(consumer);
 	}
 
 	private void registerToolInfusions(Consumer<FinishedRecipe> consumer) {

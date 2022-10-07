@@ -1,4 +1,16 @@
+1.19.2-5.5.3:
+
+- new spell: repair
+- added key bindings to quickly change spells
+- added spring shrine to jei
+- changed feather spikes recipe
+- increased the amount of pipe priority rings you can get from the recipe to 4 (from 1)
+- made the improved binder recipe less expensive
+- fix lens not working
+
+
 1.19.2-5.5.2:
+
 
 - fix a potential crash
 - fix ore purifier element consumption

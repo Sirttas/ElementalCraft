@@ -10,11 +10,11 @@
     "d": {
       "tag": "forge:gems/diamond"
     },
-    "f": {
-      "tag": "forge:ingots/fireite"
-    },
     "i": {
       "item": "elementalcraft:infuser"
+    },
+    "s": {
+      "tag": "forge:ingots/swift_alloy"
     },
     "w": {
       "item": "elementalcraft:whiterock"
@@ -22,7 +22,7 @@
   },
   "pattern": [
     "did",
-    "fbf",
+    "sbs",
     "wcw"
   ],
   "result": {

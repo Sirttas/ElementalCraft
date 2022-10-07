@@ -240,6 +240,7 @@
   "spell.elementalcraft.feather_spikes": "Feather Spikes",
   "spell.elementalcraft.shockwave": "Shockwave",
   "spell.elementalcraft.air_shield": "Air Shield",
+  "spell.elementalcraft.repair": "Repair",
 
   "spell.elementalcraft.heal": "Healing",
   "spell.elementalcraft.speed": "Speed",
@@ -312,6 +313,9 @@
   "elementalcraft.jei.displacement": "Source Displacement",
   "elementalcraft.jei.buddingshrine": "Budding Shrine",
   "elementalcraft.jei.lavashrine": "Lava Shrine",
+  "elementalcraft.jei.springshrine": "Spring Shrine",
+
+  "tooltip.elementalcraft.do_not_use": "Functional Item, DO NOT USE!!!",
 
   "tooltip.elementalcraft.infused.single": "%s infused (%s)",
   "tooltip.elementalcraft.infused": "%s infused",
@@ -395,6 +399,18 @@
   "tooltip.elementalcraft.strider.minecraft.lava": "Allows you to walk on lava",
   "tooltip.elementalcraft.strider.minecraft.water": "Allows you to walk on water",
   "tooltip.elementalcraft.piglin": "Count as if you were wearing gold armor for piglins",
+
+  "key.categories.elementalcraft": "Elemental Craft",
+  "key.elementalcraft.change_spell.1": "Spell 1",
+  "key.elementalcraft.change_spell.2": "Spell 2",
+  "key.elementalcraft.change_spell.3": "Spell 3",
+  "key.elementalcraft.change_spell.4": "Spell 4",
+  "key.elementalcraft.change_spell.5": "Spell 5",
+  "key.elementalcraft.change_spell.6": "Spell 6",
+  "key.elementalcraft.change_spell.7": "Spell 7",
+  "key.elementalcraft.change_spell.8": "Spell 8",
+  "key.elementalcraft.change_spell.9": "Spell 9",
+  "key.elementalcraft.change_spell.0": "Spell 0",
 
   "death.attack.elementalcraft.jewel.kirin": "%1$s was smited by %2$s",
   "death.attack.elementalcraft.jewel.kirin.item": "%1$s was smited by %2$s using %3$s",
