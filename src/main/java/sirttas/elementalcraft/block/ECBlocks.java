@@ -180,8 +180,8 @@ public class ECBlocks {
 	public static final RegistryObject<TranslocationAnchorBlock> TRANSLOCATION_ANCHOR = register(TranslocationAnchorBlock::new, TranslocationAnchorBlock.NAME);
 
 
-	public static final RegistryObject<DropExperienceBlock> CRYSTAL_ORE = register(() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "inert_crystal_ore");
-	public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CRYSTAL_ORE = register(() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).color(MaterialColor.DEEPSLATE).strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE), UniformInt.of(0, 2)), "deepslate_inert_crystal_ore");
+	public static final RegistryObject<DropExperienceBlock> CRYSTAL_ORE = register(() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "inert_crystal_ore");
+	public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CRYSTAL_ORE = register(() -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().color(MaterialColor.DEEPSLATE).strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE), UniformInt.of(0, 2)), "deepslate_inert_crystal_ore");
 	public static final RegistryObject<Block> WHITE_ROCK = registerSimple(ECProperties.Blocks.WHITEROCK, "whiterock");
 	public static final RegistryObject<SlabBlock> WHITE_ROCK_SLAB = registerSlab(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 	public static final RegistryObject<StairBlock> WHITE_ROCK_STAIRS = registerStairs(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);

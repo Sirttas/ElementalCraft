@@ -1,3 +1,10 @@
+1.19.2-5.5.4:
+
+- fix tool infusion not applying enchantments on certain cases
+- fix a crash while loading certain sources (issue #118)
+- fix inert crystal always beeing dropped when  mined (issue #119)
+
+
 1.19.2-5.5.3:
 
 - new spell: repair

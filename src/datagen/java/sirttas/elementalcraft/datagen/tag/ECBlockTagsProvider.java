@@ -43,8 +43,6 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags() {
-		lootTags();
-
 		tag(BlockTags.SLABS).add(getBlocksForClass(SlabBlock.class));
 		tag(BlockTags.STAIRS).add(getBlocksForClass(StairBlock.class));
 		tag(BlockTags.WALLS).add(getBlocksForClass(WallBlock.class));
@@ -111,6 +109,8 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		
 		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).add(ECBlocks.SOURCE.get());
 		tag(MekanismTags.Blocks.CARDBOARD_BLACKLIST).add(ECBlocks.SOURCE.get());
+
+		lootTags();
 	}
 
 	@SuppressWarnings("unchecked")

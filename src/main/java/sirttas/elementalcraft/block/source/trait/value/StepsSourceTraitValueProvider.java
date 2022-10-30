@@ -118,7 +118,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 
 	@Override
 	public ISourceTraitValue load(Tag tag) {
-		return tag instanceof IntTag intTag && intTag.getAsInt() < steps.size() ? steps.get(intTag.getAsInt()) : null;
+		return tag instanceof IntTag intTag && intTag.getAsInt() >= 0 && intTag.getAsInt() < steps.size() ? steps.get(intTag.getAsInt()) : null;
 	}
 
 	@Override

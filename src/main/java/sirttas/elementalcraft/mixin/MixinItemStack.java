@@ -26,11 +26,12 @@ public abstract class MixinItemStack extends CapabilityProvider<ItemStack> imple
     @Override
     public Map<Enchantment, Integer> getAllEnchantments() {
         var map = ToolInfusionHelper.getAllInfusionEnchantments((ItemStack) (Object) this);
+        var value = IForgeItemStack.super.getAllEnchantments();
 
         if (!map.isEmpty()) {
-            map.forEach(IForgeItemStack.super.getAllEnchantments()::put);
+            value.putAll(map);
         }
-        return IForgeItemStack.super.getAllEnchantments();
+        return value;
     }
 
 }
