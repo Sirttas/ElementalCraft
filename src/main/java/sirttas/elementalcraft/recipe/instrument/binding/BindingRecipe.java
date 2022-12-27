@@ -47,6 +47,9 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	private boolean matchesOrdered(IBinder binder) {
 		var inv = binder.getInventory();
 
+		if (inv.getContainerSize() != ingredients.size()) {
+			return false;
+		}
 		for (int i = 0; i < inv.getContainerSize(); i++) {
 			var s = inv.getItem(i);
 
