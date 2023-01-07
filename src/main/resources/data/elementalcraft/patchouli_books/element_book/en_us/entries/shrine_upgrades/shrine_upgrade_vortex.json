@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_vortex",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_vortex",
-  "advancement": "elementalcraft:vortex/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:vortex/shrine_upgrade_vortex",
   "sortnum": 11,
   "pages": [

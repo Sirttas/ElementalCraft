@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_stem_pollination",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_stem_pollination",
-  "advancement": "elementalcraft:stem_pollination/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:stem_pollination/shrine_upgrade_stem_pollination",
   "sortnum": 13,
   "pages": [

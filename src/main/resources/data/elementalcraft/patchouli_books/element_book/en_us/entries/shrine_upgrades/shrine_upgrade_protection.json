@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_protection",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_protection",
-  "advancement": "elementalcraft:protection/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:protection/shrine_upgrade_protection",
   "sortnum": 14,
   "pages": [

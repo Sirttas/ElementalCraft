@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_crystal_harvest",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_crystal_harvest",
-  "advancement": "elementalcraft:crystal_harvest/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:crystal_harvest/shrine_upgrade_crystal_harvest",
   "sortnum": 17,
   "pages": [

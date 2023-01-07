@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_mystical_grove",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_mystical_grove",
-  "advancement": "elementalcraft:mystical_grove/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:mystical_grove/shrine_upgrade_mystical_grove",
   "sortnum": 18,
   "pages": [

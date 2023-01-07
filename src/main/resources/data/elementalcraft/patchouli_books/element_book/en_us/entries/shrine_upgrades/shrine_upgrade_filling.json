@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_filling",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_filling",
-  "advancement": "elementalcraft:filling/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:filling/shrine_upgrade_filling",
   "sortnum": 15,
   "pages": [

@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_springaline",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_springaline",
-  "advancement": "elementalcraft:springaline/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:springaline/shrine_upgrade_springaline",
   "sortnum": 16,
   "pages": [

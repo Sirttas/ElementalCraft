@@ -1,3 +1,10 @@
+1.19.2-5.5.6:
+
+- bump forge version
+- fix opaque container rendering
+- fix shrine upgrade entries
+
+
 1.19.2-5.5.5:
 
 - update chinese translation (pr #122)

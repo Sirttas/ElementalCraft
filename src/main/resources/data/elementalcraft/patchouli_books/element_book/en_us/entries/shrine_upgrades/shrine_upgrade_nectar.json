@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.shrine_upgrade_nectar",
   "category": "elementalcraft:shrine_upgrades",
   "icon": "elementalcraft:shrine_upgrade_nectar",
-  "advancement": "elementalcraft:nectar/shrinebase",
+  "advancement": "elementalcraft:pickup/shrinebase",
   "turnin": "elementalcraft:nectar/shrine_upgrade_nectar",
   "sortnum": 12,
   "pages": [
