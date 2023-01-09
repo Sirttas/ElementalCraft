@@ -78,6 +78,17 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 		return ret;
 	}
 
+	public void sort() {
+		stacks.sort((o1, o2) -> {
+			if (o1.isEmpty()) {
+				return 1;
+			} else if (o2.isEmpty()) {
+				return -1;
+			}
+			return 0;
+		});
+	}
+
 	@Override
 	public CompoundTag serializeNBT() {
 		CompoundTag nbt = new CompoundTag();

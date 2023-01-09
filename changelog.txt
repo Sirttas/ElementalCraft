@@ -1,3 +1,8 @@
+1.19.2-5.5.7:
+
+- fix binder no longer working
+
+
 1.19.2-5.5.6:
 
 - bump forge version

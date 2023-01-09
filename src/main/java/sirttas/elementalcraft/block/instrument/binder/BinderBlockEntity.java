@@ -49,5 +49,11 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 	public Container getInventory() {
 		return inventory;
 	}
-	
+
+	@Override
+	protected AbstractBindingRecipe lookupRecipe() {
+		this.inventory.sort();
+		return super.lookupRecipe();
+	}
+
 }
