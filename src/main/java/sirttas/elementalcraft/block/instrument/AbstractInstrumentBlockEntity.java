@@ -88,9 +88,14 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		} else if (this.isRecipeAvailable() && container != null) {
 			float preservation = runeHandler.getElementPreservation();
 			int oldProgress = progress;
+			var transfer = Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation);
+			var max = container.getElementAmount();
 
-			progress += container.extractElement(Math.min(Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation), container.getElementAmount() - 1), getRecipeElementType(), false) * preservation;
-			if (level.isClientSide && progress > 0 &&  getProgressRounded(this.transferSpeed, progress) > getProgressRounded(this.transferSpeed, oldProgress)) {
+			if (transfer > max) {
+				transfer = max - 1; // -1 to avoid draining the container
+			}
+			progress += container.extractElement(transfer, getRecipeElementType(), false) * preservation;
+			if (level.isClientSide && progress > 0 && getProgressRounded(this.transferSpeed, progress) > getProgressRounded(this.transferSpeed, oldProgress)) {
 				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.random);
 				renderProgressParticles();
 			}

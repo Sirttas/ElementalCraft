@@ -47,12 +47,17 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	private boolean matchesOrdered(IBinder binder) {
 		var inv = binder.getInventory();
 
+		int ingredientIndex = 0;
+
 		for (int i = 0; i < inv.getContainerSize(); i++) {
 			var s = inv.getItem(i);
 
-			if (i >= ingredients.size() || (!s.isEmpty() && !ingredients.get(i).test(s))) {
+			if (s.isEmpty()) {
+				continue;
+			} else if (ingredientIndex >= ingredients.size() || !ingredients.get(i).test(s)) {
 				return false;
 			}
+			ingredientIndex++;
 		}
 		return true;
 	}

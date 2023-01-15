@@ -1,3 +1,9 @@
+1.19.2-5.5.8:
+
+- instruments will now empty a container if it allows them to finish a recipe (issue #104)
+- fix binder no longer working
+
+
 1.19.2-5.5.7:
 
 - fix binder no longer working
