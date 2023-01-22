@@ -1,3 +1,9 @@
+1.19.2-5.5.9:
+
+- fix tool infusion overriding enchantments (issue #124)
+- fix double block breaking not dropping (issue #128)
+
+
 1.19.2-5.5.8:
 
 - instruments will now empty a container if it allows them to finish a recipe (issue #104)

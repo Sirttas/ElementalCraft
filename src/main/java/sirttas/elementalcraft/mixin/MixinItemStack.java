@@ -29,7 +29,7 @@ public abstract class MixinItemStack extends CapabilityProvider<ItemStack> imple
         var value = IForgeItemStack.super.getAllEnchantments();
 
         if (!map.isEmpty()) {
-            value.putAll(map);
+            map.forEach((enchantment, integer) -> value.merge(enchantment, integer, Integer::sum));
         }
         return value;
     }

@@ -2,12 +2,14 @@ package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -32,6 +34,7 @@ import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
+import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
@@ -48,6 +51,7 @@ public class ECBlockLoot extends BlockLoot {
 		add(ECBlocks.CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
+		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);
 		add(ECBlocks.BURNT_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
 		add(ECBlocks.BURNT_GLASS_PANE.get(), BlockLoot::createSilkTouchOnlyTable);
 		add(ECBlocks.SPRINGALINE_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
@@ -84,10 +88,10 @@ public class ECBlockLoot extends BlockLoot {
 	private static Builder createPipe(Block block) {
 		return createSingleItemTable(block).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ECItems.COVER_FRAME.get()))
 				.when(AlternativeLootItemCondition.alternative(
-						LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.FRAME)),
-						LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ElementPipeBlock.COVER, CoverType.COVERED)))));
+						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.FRAME),
+						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.COVERED))));
 	}
-		
+
 	private static Builder createSpringaline(Block ore) {
 		return BlockLoot.createSilkTouchDispatchTable(ore, LootItem.lootTableItem(ECItems.SPRINGALINE_SHARD.get())
 				.apply(SetItemCountFunction.setCount(ConstantValue.exactly(4)))
@@ -106,7 +110,12 @@ public class ECBlockLoot extends BlockLoot {
 
 	private static Builder createReservoir(Block block) {
 		return LootTable.lootTable().withPool(createCopyNbtPool(LootItem.lootTableItem(block), ECNames.ELEMENT_STORAGE)
-				.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))));
+				.when(createHasStateCondition(block, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)));
+	}
+
+	private static Builder createBreedingShrine(Block block) {
+		return LootTable.lootTable().withPool(createCopyNbtPool(LootItem.lootTableItem(block), ECNames.ELEMENT_STORAGE)
+				.when(createHasStateCondition(block, BreedingShrineBlock.PART, BreedingShrineBlock.Part.CORE)));
 	}
 
 	private static Builder createCopyNbt(LootPoolEntryContainer.Builder<?> entry, String... tags) {
@@ -129,5 +138,10 @@ public class ECBlockLoot extends BlockLoot {
 				.filter(e -> ElementalCraftApi.MODID.equals(e.getKey().location().getNamespace()))
 				.map(Map.Entry::getValue)
 				.collect(Collectors.toSet());
+	}
+
+	@Nonnull
+	private static <T extends Comparable<T> & StringRepresentable> LootItemBlockStatePropertyCondition.Builder createHasStateCondition(Block block, Property<T> property, T value) {
+		return LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(property, value));
 	}
 }

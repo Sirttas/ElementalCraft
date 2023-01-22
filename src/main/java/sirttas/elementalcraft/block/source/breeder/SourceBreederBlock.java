@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.source.breeder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -89,8 +91,15 @@ public class SourceBreederBlock extends AbstractECEntityBlock implements SimpleW
 
     @Override
     public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-        AbstractPylonShrineBlock.doubleHalfHarvest(this, level, pos, state, player);
+        AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
         super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    @Nonnull
+    @Deprecated
+    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
+        return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> super.updateShape(state, facing, facingState, level, pos, facingPos));
     }
 
     @Override

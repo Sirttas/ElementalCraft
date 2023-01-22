@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -94,17 +95,33 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, @Nonnull Player player) {
-		Part part = state.getValue(PART);
-		BlockPos blockpos = pos.relative(part == Part.CORE ? state.getValue(FACING) : state.getValue(FACING).getOpposite());
-		BlockState blockstate = worldIn.getBlockState(blockpos);
+	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+		if (!level.isClientSide && player.isCreative()) {
+			Part part = state.getValue(PART);
+			BlockPos blockpos = pos.relative(getNeighbourDirection(part, state.getValue(FACING)));
+			BlockState blockstate = level.getBlockState(blockpos);
 
-		if (blockstate.getBlock() == this && blockstate.getValue(PART) != part) {
-			worldIn.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
-			worldIn.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
+			if (blockstate.getBlock() == this && blockstate.getValue(PART) != part) {
+				level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
+				level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
+			}
 		}
+		super.playerWillDestroy(level, pos, state, player);
+	}
 
-		super.playerWillDestroy(worldIn, pos, state, player);
+	@Override
+	@Nonnull
+	@Deprecated
+	public BlockState updateShape(BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+		if (facing == getNeighbourDirection(state.getValue(PART), state.getValue(FACING))) {
+			return facingState.is(this) && facingState.getValue(PART) != state.getValue(PART) ? state : Blocks.AIR.defaultBlockState();
+		} else {
+			return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+		}
+	}
+
+	private static Direction getNeighbourDirection(Part part, Direction direction) {
+		return part == Part.CORE ? direction : direction.getOpposite();
 	}
 
 	@Override

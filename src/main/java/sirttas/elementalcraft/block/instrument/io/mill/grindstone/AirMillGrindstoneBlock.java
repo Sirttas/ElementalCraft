@@ -116,9 +116,19 @@ public class AirMillGrindstoneBlock extends AbstractECContainerBlock implements 
 	 * the player's tool can actually collect this block
 	 */
 	@Override
-	public void playerWillDestroy(@Nonnull Level worldIn, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		AbstractPylonShrineBlock.doubleHalfHarvest(this, worldIn, pos, state, player);
-		super.playerWillDestroy(worldIn, pos, state, player);
+	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+		AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
+		super.playerWillDestroy(level, pos, state, player);
+	}
+
+	@Override
+	@Nonnull
+	@Deprecated
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
+		return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> {
+			WaterLoggingHelper.scheduleWaterTick(state, level, pos);
+			return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
+		});
 	}
 
 	@Nonnull
@@ -165,13 +175,5 @@ public class AirMillGrindstoneBlock extends AbstractECContainerBlock implements 
 	@Deprecated
 	public FluidState getFluidState(@Nonnull BlockState state) {
 		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-	}
-
-	@Nonnull
-    @Override
-	@Deprecated
-	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
-		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
-		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
 	}
 }

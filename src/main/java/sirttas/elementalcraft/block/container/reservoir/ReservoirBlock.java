@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.container.reservoir;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
@@ -10,6 +11,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -124,10 +127,23 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	 */
 	@Override
 	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		AbstractPylonShrineBlock.doubleHalfHarvest(this, level, pos, state, player);
+		AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
 		super.playerWillDestroy(level, pos, state, player);
 	}
-	
+
+	@Override
+	@Nonnull
+	@Deprecated
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
+		return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> super.updateShape(state, facing, facingState, level, pos, facingPos));
+	}
+
+	@Override
+	@Deprecated
+	public boolean canSurvive(BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
+		return state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER || level.getBlockState(pos.below()).is(this);
+	}
+
 	@Nonnull
 	@Override
 	@Deprecated
