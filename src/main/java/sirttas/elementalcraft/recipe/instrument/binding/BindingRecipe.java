@@ -54,7 +54,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
 			if (s.isEmpty()) {
 				continue;
-			} else if (ingredientIndex >= ingredients.size() || !ingredients.get(i).test(s)) {
+			} else if (ingredientIndex >= ingredients.size() || !ingredients.get(ingredientIndex).test(s)) {
 				return false;
 			}
 			ingredientIndex++;
