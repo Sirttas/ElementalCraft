@@ -200,7 +200,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 				if (isCovered(state)) {
 					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
 				}
-				pipe.removeAllUpgrades(); // TODO call remove on upgrades
+				pipe.removeAllUpgrades();
 			}
 			super.onRemove(state, level, pos, newState, isMoving);
 		}

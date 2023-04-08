@@ -282,7 +282,7 @@ sonarqube {
     	property "sonar.projectKey", "Sirttas_ElementalCraft"
     	property "sonar.organization", "sirttas"
     	property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.jacoco.reportPath", "${buildDir}/jacoco/*.exec"
+        property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/*.exec"
     	properties["sonar.sources"] += sourceSets.api.java.srcDirs
     	properties["sonar.sources"] += sourceSets.datagen.java.srcDirs
 	}
