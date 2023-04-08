@@ -2,5 +2,5 @@
 	"name": "elementalcraft.category.spells",
 	"description": "elementalcraft.category.spells.desc",
 	"icon": "elementalcraft:textures/gui/entries/spells.png",
-	"sortnum": 6
+	"sortnum": 7
 }

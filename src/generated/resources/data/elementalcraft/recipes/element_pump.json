@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "f": {
+      "item": "elementalcraft:cover_frame"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "n": {
+      "tag": "forge:nuggets/fireite"
+    }
+  },
+  "pattern": [
+    "in ",
+    "cfi",
+    "in "
+  ],
+  "result": {
+    "item": "elementalcraft:element_pump"
+  }
+}

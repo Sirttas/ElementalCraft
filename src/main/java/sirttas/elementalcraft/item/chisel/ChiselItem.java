@@ -42,7 +42,7 @@ public class ChiselItem extends ECItem {
 		IRuneHandler handler = BlockEntityHelper.getRuneHandlerAt(level, pos);
 		List<Rune> runes = handler.getRunes();
 		
-		if (!runes.isEmpty() && player != null) {
+		if (!runes.isEmpty() && player != null && player.isShiftKeyDown()) {
 			if (!level.isClientSide) {
 				for (Rune rune : runes) {
 					if (!stack.isEmpty()) {

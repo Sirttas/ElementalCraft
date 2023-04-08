@@ -22,9 +22,9 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 
 	protected final SingleElementStorage elementStorage;
 
-	protected AbstractElementContainerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, Function<Runnable, SingleElementStorage> elementStorage) {
+	protected AbstractElementContainerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, Function<AbstractElementContainerBlockEntity, SingleElementStorage> elementStorage) {
 		super(blockEntityType, pos, state);
-		this.elementStorage = elementStorage.apply(this::setChanged);
+		this.elementStorage = elementStorage.apply(this);
 	}
 
 	@Override

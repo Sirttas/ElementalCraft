@@ -55,7 +55,8 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 	@Override
 	@Deprecated
 	public int getAnalogOutputSignal(@Nonnull BlockState blockState, @Nonnull Level level, @Nonnull BlockPos pos) {
-		return getElementStorage(level, pos).map(storage -> storage.getElementAmount() * 15 / storage.getElementCapacity())
+		return getElementStorage(level, pos)
+				.map(storage -> storage.getElementAmount() * 15 / storage.getElementCapacity())
 				.orElse(0);
 	}
 

@@ -1,11 +1,7 @@
 package sirttas.elementalcraft.api.element.transfer.path;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
@@ -14,6 +10,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.Objects;
 
 public class SimpleElementTransferPathfinder {
 
@@ -32,7 +29,8 @@ public class SimpleElementTransferPathfinder {
         this.visited = new ArrayList<>();
     }
 
-    public IElementTransferPath findPath(ElementType type, IElementStorage source, IElementTransferer first, BlockPos start) {
+
+    public IElementTransferPath findPath(ElementType type, IElementTransferPathNode source, IElementTransferPathNode first) {
         if (type != ElementType.NONE) {
             var profiler = level.getProfiler();
 
@@ -42,13 +40,14 @@ public class SimpleElementTransferPathfinder {
             this.nodes.clear();
             this.path.clear();
             this.visited.clear();
-            nodes.push(new ConnectNode(null, start, first, null));
+            nodes.push(new ConnectNode(null, first.getPos(), first.getTransferer()));
             while (!nodes.isEmpty() && target == null) {
                 nodes.pop().run();
             }
             profiler.pop();
             if (target != null) {
-                return new Path(source, target, type, path);
+                path.add(0, ProcessedNode.wrap(source));
+                return new Path(source.getStorage(), target, type, path);
             }
         }
         return InvalidElementTransferPath.INSTANCE;
@@ -58,17 +57,19 @@ public class SimpleElementTransferPathfinder {
             IElementStorage source,
             IElementStorage target,
             ElementType type,
-            List<ProcessedNode> path
+            List<ProcessedNode> nodes
     ) implements IElementTransferPath {
 
         @Override
         public boolean isValid() {
-            return !this.path.isEmpty() && this.source != null && this.target != null && path.stream().allMatch(ProcessedNode::isValid);
+            return !this.nodes.isEmpty() && this.target != null && nodes.stream().allMatch(ProcessedNode::isValid);
         }
 
         private int getRemainingTransferAmount() {
-            return path.stream()
-                    .mapToInt(node -> node.transferer.getRemainingTransferAmount())
+            return nodes.stream()
+                    .map(IElementTransferPathNode::getTransferer)
+                    .filter(Objects::nonNull)
+                    .mapToInt(IElementTransferer::getRemainingTransferAmount)
                     .min()
                     .orElse(0);
         }
@@ -76,26 +77,55 @@ public class SimpleElementTransferPathfinder {
         @Override
         public void transfer() {
             if (isValid()) {
-                int amount = source.extractElement(getRemainingTransferAmount(), type, true);
+                int amount = source.transferTo(target, type, getRemainingTransferAmount());
 
                 if (amount > 0) {
-                    int remainingAmount = amount - source.transferTo(target, type, amount);
-
-                    if (remainingAmount > 0) {
-                        path.forEach(p -> p.transferer.transfer(remainingAmount));
-                    }
+                    nodes.forEach(p -> {
+                        if (p.transferer != null) {
+                            p.transferer.transfer(amount);
+                        }
+                    });
                 }
             }
+        }
+
+        @Override
+        public List<IElementTransferPathNode> getNodes() {
+            return List.copyOf(nodes);
+        }
+
+        @Override
+        public ElementType getElementType() {
+            return type;
         }
     }
 
     private record ProcessedNode(
             IElementTransferer transferer,
-            BlockPos pos,
-            Direction side
-    ) {
+            IElementStorage storage,
+            BlockPos pos
+    ) implements IElementTransferPathNode {
+
+        public static ProcessedNode wrap(IElementTransferPathNode node) {
+            return new ProcessedNode(node.getTransferer(), node.getStorage(), node.getPos());
+        }
         public boolean isValid() {
-            return transferer.isValid() && (side == null || transferer.getConnection(side).isConnected());
+            return transferer == null || transferer.isValid();
+        }
+
+        @Override
+        public BlockPos getPos() {
+            return pos;
+        }
+
+        @Override
+        public IElementTransferer getTransferer() {
+            return transferer;
+        }
+
+        @Override
+        public IElementStorage getStorage() {
+            return storage;
         }
     }
 
@@ -103,12 +133,10 @@ public class SimpleElementTransferPathfinder {
 
         protected final ConnectNode parent;
         protected final BlockPos pos;
-        protected final Direction side;
 
-        private AbstractNode(ConnectNode parent, BlockPos pos, Direction side) {
+        private AbstractNode(ConnectNode parent, BlockPos pos) {
             this.parent = parent;
             this.pos = pos;
-            this.side = side;
         }
     }
 
@@ -116,8 +144,8 @@ public class SimpleElementTransferPathfinder {
 
         private final IElementStorage storage;
 
-        private InsertNode(ConnectNode parent, BlockPos pos, IElementStorage storage, Direction side) {
-            super(parent, pos, side);
+        private InsertNode(ConnectNode parent, BlockPos pos, IElementStorage storage) {
+            super(parent, pos);
             this.storage = storage;
         }
 
@@ -127,7 +155,8 @@ public class SimpleElementTransferPathfinder {
 
             var p = parent;
             while (p != null) {
-                path.add(new ProcessedNode(p.transferer, p.pos, p.side));
+                path.add(new ProcessedNode(p.transferer, null, p.pos));
+                path.add(new ProcessedNode(null, storage, pos));
                 p = p.parent;
             }
         }
@@ -137,42 +166,28 @@ public class SimpleElementTransferPathfinder {
 
         private final IElementTransferer transferer;
 
-        private ConnectNode(ConnectNode parent, BlockPos pos, IElementTransferer transferer, Direction side) {
-            super(parent, pos, side);
+        private ConnectNode(ConnectNode parent, BlockPos pos, IElementTransferer transferer) {
+            super(parent, pos);
             this.transferer = transferer;
         }
 
         @Override
         public void run() {
-            transferer.getConnectionStream().forEach(entry -> {
-                Direction side = entry.getKey();
-                var opposite = side.getOpposite();
-                IElementTransferer.ConnectionType connection = entry.getValue();
+            transferer.getConnectedNodes(type).forEach(node -> {
+                var nodePos = node.getPos();
+                var nodeStorage = node.getStorage();
 
-                if (connection == IElementTransferer.ConnectionType.INSERT) {
-                    getConnectedCapability(side, ElementalCraftCapabilities.ELEMENT_STORAGE).ifPresent(s -> {
-                        if (s.canPipeInsert(type, opposite) && s.insertElement(1, type, true) == 0) {
-                            nodes.push(new InsertNode(this, pos.relative(side), s, opposite));
-                        }
-                    });
-                } else if (connection == IElementTransferer.ConnectionType.CONNECT) {
-                    getConnectedCapability(side, ElementalCraftCapabilities.ELEMENT_TRANSFERER).ifPresent(t -> {
-                        if (!visited.contains(t) && t.isValid()) {
-                            visited.add(t);
-                            nodes.push(new ConnectNode(this, pos.relative(side), t, opposite));
-                        }
-                    });
+                if (nodeStorage != null && nodeStorage.insertElement(1, type, true) == 0) {
+                    nodes.push(new InsertNode(this, nodePos, nodeStorage));
+                }
+
+                var nodeTransferer = node.getTransferer();
+
+                if (nodeTransferer != null && !visited.contains(nodeTransferer) && nodeTransferer.isValid()) {
+                    visited.add(nodeTransferer);
+                    nodes.push(new ConnectNode(this, nodePos, nodeTransferer));
                 }
             });
-        }
-
-        private <T> LazyOptional<T> getConnectedCapability(Direction face, Capability<T> cap) {
-            var be = level.getBlockEntity(pos.relative(face));
-
-            if (be != null) {
-                return be.getCapability(cap, face.getOpposite());
-            }
-            return LazyOptional.empty();
         }
 
     }

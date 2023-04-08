@@ -1,0 +1,30 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "elementalcraft:block/iron",
+		"particle": "elementalcraft:block/iron"
+	},
+	"elements": [
+		{
+			"name": "North",
+			"from": [7, 9.5, 7],
+			"to": [9, 14, 9],
+			"faces": {
+				"north": {"uv": [7, 9.5, 9, 14], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [9.5, 7, 14, 9], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [7, 2, 9, 6.5], "texture": "#1"},
+				"west": {"uv": [2, 7, 6.5, 9], "rotation": 90, "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "elementpipe_side",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0]
+		}
+	]
+}

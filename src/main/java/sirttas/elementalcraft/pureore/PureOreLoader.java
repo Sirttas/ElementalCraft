@@ -40,6 +40,7 @@ public record PureOreLoader(
 		Optional<ResourceLocation> fixedName,
 		Optional<Pattern> tagPattern,
 		List<Pattern> patterns,
+		String namespace,
 		int elementConsumption,
 		int inputSize,
 		int outputSize,
@@ -53,6 +54,7 @@ public record PureOreLoader(
 			ResourceLocation.CODEC.optionalFieldOf("fixed_name").forGetter(PureOreLoader::fixedName),
 			Codecs.PATTERN.optionalFieldOf("tag_pattern").forGetter(PureOreLoader::tagPattern),
 			Codecs.PATTERN.listOf().optionalFieldOf("patterns", Collections.emptyList()).forGetter(PureOreLoader::patterns),
+			Codec.STRING.optionalFieldOf("namespace", ECNames.FORGE).forGetter(PureOreLoader::namespace),
 			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 2500).forGetter(PureOreLoader::elementConsumption),
 			Codec.INT.optionalFieldOf("input_size", 1).forGetter(PureOreLoader::inputSize),
 			Codec.INT.optionalFieldOf("output_size", 2).forGetter(PureOreLoader::outputSize),
@@ -68,6 +70,7 @@ public record PureOreLoader(
 		}
 		patterns = List.copyOf(patterns);
 	}
+
 	public List<PureOre> generate(Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors) {
 		return List.copyOf(this.generatePureOres(injectors).values());
 	}
@@ -125,26 +128,30 @@ public record PureOreLoader(
 		if (fixedName.isPresent()) {
 			id = fixedName.get();
 			tags = Collections.emptyList();
-		} else {
+		} else if (tagPattern.isPresent()) {
+			var tp = tagPattern.get();
+
 			id = Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(ore));
 			tags = ore.builtInRegistryHolder().tags()
 					.filter(t -> {
 						var location = t.location();
 
-						return location.getNamespace().equals(ECNames.FORGE) && tagPattern.get().matcher(location.getPath()).find();
+						return location.getNamespace().equals(namespace) && tp.matcher(location.getPath()).find();
 					}).toList();
 
 			if (!tags.isEmpty()) {
 				if (tags.size() > 1) {
 					ElementalCraftApi.LOGGER.warn("Item {} has multiple tags matching {}:\r\n\t{}",
 							id::toString,
-							() -> tagPattern.map(Pattern::pattern).orElse(""),
+							tp::pattern,
 							() -> tags.stream().map(t -> t.location().toString()).collect(Collectors.joining(", ")));
 				}
-				id = new ResourceLocation(ECNames.FORGE, cleanPath(tagPattern.get().matcher(tags.get(0).location().getPath()).replaceAll("")));
+				id = new ResourceLocation(namespace, cleanPath(tp.matcher(tags.get(0).location().getPath()).replaceAll("")));
 			} else {
 				id = new ResourceLocation(id.getNamespace(), cleanPath(id.getPath()));
 			}
+		} else {
+			throw new IllegalStateException("Either fixed_name or tag_folder must be set");
 		}
 		
 		var entry = pureOres.computeIfAbsent(id, i -> new PureOre(i, elementConsumption, inputSize, outputSize, luckRatio));
@@ -174,6 +181,7 @@ public record PureOreLoader(
 				builder.patterns.stream()
 						.map(Pattern::compile)
 						.toList(),
+				builder.namespace,
 				builder.elementConsumption,
 				builder.inputSize,
 				builder.outputSize,
@@ -184,6 +192,7 @@ public record PureOreLoader(
 		private ResourceLocation fixedName;
 		private String tagPattern;
 		private final List<String> patterns;
+		private String namespace;
 		private int elementConsumption;
 		private int inputSize;
 		private int outputSize;
@@ -196,21 +205,19 @@ public record PureOreLoader(
 			this.outputSize = 2;
 			this.luckRatio = 0;
 			this.patterns = new ArrayList<>();
+			this.namespace = ECNames.FORGE;
 			this.tagPattern = "";
 		}
 
 		public Builder fixedName(ResourceLocation fixedName) {
-			if (StringUtils.isNotBlank(this.tagPattern)) {
-				throw new IllegalStateException("Cannot set fixed name when tag pattern is set");
-			}
+			this.tagPattern = "";
+			this.namespace = ECNames.FORGE;
 			this.fixedName = fixedName;
 			return this;
 		}
 
 		public Builder tagPattern(String tagPattern) {
-			if (this.fixedName != null) {
-				throw new IllegalStateException("Cannot set tag pattern when fixed name is set");
-			}
+			this.fixedName = null;
 			this.tagPattern = tagPattern;
 			return this;
 		}
@@ -222,6 +229,11 @@ public record PureOreLoader(
 
 		public Builder patterns(String... patterns) {
 			this.patterns.addAll(Arrays.asList(patterns));
+			return this;
+		}
+
+		public Builder namespace(String namespace) {
+			this.namespace = namespace;
 			return this;
 		}
 

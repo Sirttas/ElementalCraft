@@ -72,6 +72,9 @@ public class ECConfig {
 		public final IntValue pipeTransferAmount;
 		public final IntValue improvedPipeTransferAmount;
 		public final BooleanValue pipePathCache;
+		public final IntValue elementBeamRange;
+		public final DoubleValue elementPumpMultiplier;
+		public final DoubleValue elementPumpWaste;
 		public final IntValue sorterCooldown;
 		public final IntValue sorterMaxItem;
 		public final IntValue sorterMaxRunes;
@@ -171,7 +174,12 @@ public class ECConfig {
 			pipeTransferAmount = builder.comment("The amount of element transferred by pipes.").defineInRange("pipeTransferAmount", 25, 0, 10000);
 			improvedPipeTransferAmount = builder.comment("The amount of element transferred by improved pipes.").defineInRange("improvedPipeTransferAmount", 100, 0, 10000);
 			pipePathCache = builder.comment("Cache the last path used by the pipe to increase performances.").define("pipePathCache", true);
-			builder.pop().push("sorter");
+			builder.push("upgrade").push("elementBeam");
+			elementBeamRange = builder.comment("The range of the element beam.").defineInRange("elementBeamRange", 10, 0, 100);
+			builder.pop().push("elementPump");
+			elementPumpMultiplier = builder.comment("The amount of element pumped by the element pump.").defineInRange("elementPumpMultiplier", 5D, 0, 100);
+			elementPumpWaste = builder.comment("The amount of element wasted by the element pump.").defineInRange("elementPumpWaste", 0.1D, 0, 1);
+			builder.pop(3).push("sorter");
 			sorterCooldown = builder.comment("The amount of tick between two ordered sorter item transfer.").defineInRange("sorterCooldown", 10, 0, 100);
 			sorterMaxItem = builder.comment("The max amount of items an order sorter can filter.").defineInRange("sorterMaxItem", 15, 0, 100);
 			sorterMaxRunes = builder.comment("The max amount of runes an order sorter can have.").defineInRange("sorterMaxRunes", 3, 0, 10);

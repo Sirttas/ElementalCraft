@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 public class ReservoirBlockEntity extends AbstractElementContainerBlockEntity {
 	
 	public ReservoirBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.RESERVOIR, pos, state, r -> new ReservoirElementStorage(ElementType.getElementType(state), ECConfig.COMMON.reservoirCapacity.get(), r));
+		super(ECBlockEntityTypes.RESERVOIR, pos, state, self -> new ReservoirElementStorage(ElementType.getElementType(state), ECConfig.COMMON.reservoirCapacity.get(), self::setChanged));
 	}
 
 	@Override

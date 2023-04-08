@@ -16,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
 import vazkii.botania.api.BotaniaAPI;
@@ -24,15 +25,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
+@SuppressWarnings("unchecked")
 public class ECItemTagsProvider extends ItemTagsProvider {
 
-	private static final String POWAH = "powah";
+	public static final String POWAH = "powah";
+	public static final String BLUE_SKIES = "blue_skies";
 
 	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
 		super(generatorIn, blockTagsProvider, ElementalCraftApi.MODID, existingFileHelper);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags() {
 
@@ -55,7 +57,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
 		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
-		copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
 		copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
 		copy(ECTags.Blocks.SHRINE_UPGRADES, ECTags.Items.SHRINE_UPGRADES);
 		copy(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES, ECTags.Items.SMALL_CONTAINER_COMPATIBLES);
@@ -132,7 +133,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.HARDENED_RODS).add(ECItems.HARDENED_HANDLE.get());
 		tag(Tags.Items.RODS).addTag(ECTags.Items.HARDENED_RODS);
 
-		tag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS).addTags(Tags.Items.STORAGE_BLOCKS_RAW_COPPER, Tags.Items.STORAGE_BLOCKS_RAW_IRON, Tags.Items.STORAGE_BLOCKS_RAW_GOLD)
+		tag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS)
+				.addTags(Tags.Items.STORAGE_BLOCKS_RAW_COPPER, Tags.Items.STORAGE_BLOCKS_RAW_IRON, Tags.Items.STORAGE_BLOCKS_RAW_GOLD)
 				.addOptionalTag(forge("storage_blocks/raw_silver"))
 				.addOptionalTag(forge("storage_blocks/raw_lead"))
 				.addOptionalTag(forge("storage_blocks/raw_tin"))
@@ -140,26 +142,27 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				.addOptionalTag(forge("storage_blocks/raw_aluminum"))
 				.addOptionalTag(forge("storage_blocks/raw_nickel"))
 				.addOptionalTag(forge("storage_blocks/raw_uranium"))
-				.addOptionalTag(forge("storage_blocks/raw_osmium"));
+				.addOptionalTag(forge("storage_blocks/raw_osmium"))
+				.addOptionalTag(forge("storage_blocks/raw_desh"))
+				.addOptionalTag(forge("storage_blocks/raw_calorite"))
+				.addOptionalTag(forge("storage_blocks/raw_ostrum"))
+				.addOptionalTag(forge("storage_blocks/raw_platinum"))
+				.addOptionalTag(forge("storage_blocks/raw_iesnium"))
+				.addOptionalTag(forge("storage_blocks/raw_unobtainium"))
+				.addOptionalTag(forge("storage_blocks/raw_crimson_iron"))
+				.addOptionalTag(forge("storage_blocks/raw_allthemodium"))
+				.addOptionalTag(forge("storage_blocks/raw_vibranium"))
+				.addOptionalTag(forge("storage_blocks/raw_iridium"))
+				.addOptionalTag(forge("storage_blocks/raw_azure_silver"));
 
 		tag(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE.get(), ECItems.RUNE_SLATE.get(), ECItems.MAJOR_RUNE_SLATE.get());
-		
-		tag(ECTags.Items.PIPE_COVER_HIDING).addTag(ECTags.Items.PIPES).add(ECItems.COVER_FRAME.get(), ECItems.PIPE_PRIORITY.get());
-		
+
+		addPipeTags();
+
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 
-		tag(ECTags.Items.PURE_SOURCE_ORES_ORES).addTag(Tags.Items.ORES);
-		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
-		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
-		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).addOptionalTag(forge("geore_shards"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_BLOCKS).addOptionalTag(forge("geore_blocks"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_raw"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_ore_poor")).addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_poor"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_ore")).addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_ore_dense")).addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_dense"));
-		tag(ECTags.Items.PURE_ORES_SPECIFICS).addTags(ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE, ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE, ECTags.Items.PURE_ORES_SOURCE_URANINITE, ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE);
-		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
-		
+		addPureOreTags();
+
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
 		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
 		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
@@ -186,6 +189,44 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(Tags.Items.TOOLS, Tags.Items.ARMORS, ECTags.Items.SPELL_CAST_TOOLS).add(Items.ELYTRA);
 
 		tag(ECTags.Items.CURIOS_ELEMENT_HOLDER).add(ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get(), ECItems.PURE_HOLDER.get());
+	}
+
+	private void addPipeTags() {
+		copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
+		tag(ECTags.Items.PIPES_UPGRADES).add(getItems(PipeUpgradeItem.class));
+		tag(ECTags.Items.PIPE_COVER_HIDING)
+				.addTags(ECTags.Items.PIPES, ECTags.Items.PIPES_UPGRADES)
+				.add(ECItems.COVER_FRAME.get());
+	}
+
+	private void addPureOreTags() {
+		tag(ECTags.Items.PURE_SOURCE_ORES_ORES).addTag(Tags.Items.ORES);
+		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).addOptionalTag(forge("geore_shards"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_BLOCKS).addOptionalTag(forge("geore_blocks"));
+
+		tag(ECTags.Items.PURE_ORES_SOURCE_RESONANT_ORE).addOptionalTag(new ResourceLocation("deepresonance", "resonant_ore"));
+
+		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_raw"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE)
+				.addOptional(new ResourceLocation(POWAH, "uraninite_ore_poor"))
+				.addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_poor"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_URANINITE)
+				.addOptional(new ResourceLocation(POWAH, "uraninite_ore"))
+				.addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore"));
+		tag(ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE)
+				.addOptional(new ResourceLocation(POWAH, "uraninite_ore_dense"))
+				.addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_dense"));
+
+		tag(ECTags.Items.PURE_ORES_SPECIFICS).addTags(
+				ECTags.Items.PURE_ORES_SOURCE_RESONANT_ORE,
+				ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCE_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE
+		);
+		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 	}
 
 	private ResourceLocation forge(String name) {

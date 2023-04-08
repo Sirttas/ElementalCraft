@@ -1,13 +1,14 @@
+import net.minecraftforge.gradle.common.util.RunConfig
+
 buildscript {
     repositories {
 		mavenLocal()
     	mavenCentral()
+        gradlePluginPortal()
         maven { url = 'https://repo.elementalcraft.org/public' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
     }
 }
 
@@ -15,13 +16,14 @@ plugins {
     id 'java'
     id 'eclipse'
 	id 'maven-publish'
+    id 'jacoco'
 	id "org.sonarqube" version "${sonar_version}"
 	id "com.matthewprenger.cursegradle" version '1.4.+'
     id "com.modrinth.minotaur" version "2.+"
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
 mixin {
@@ -57,6 +59,10 @@ sourceSets {
             srcDir 'src/datagen/java'
         }
     }
+    test {
+        compileClasspath += api.output
+        runtimeClasspath += api.output
+    }
 }
 
 ext.updateSourceSetMapping = { sourceSet ->
@@ -77,6 +83,10 @@ configurations {
     datagenImplementation.extendsFrom(implementation)
     datagenCompileOnly.extendsFrom(compileOnly)
     datagenRuntimeOnly.extendsFrom(runtimeOnly)
+    testCompile.extendsFrom(compile)
+    testImplementation.extendsFrom(implementation)
+    testCompileOnly.extendsFrom(compileOnly)
+    testRuntimeOnly.extendsFrom(runtimeOnly)
 }
 
 minecraft {
@@ -85,76 +95,48 @@ minecraft {
     accessTransformer file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
-        client {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'fml.earlyprogresswindow', 'false'
-            property 'mixin.debug.verbose', 'true'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-
-            mods {
-                elementalcraft {
-                    source sourceSets.api
-                    source sourceSets.main
-                }
-                try {
-                    dpanvil {
-                        source project(":DPAnvil").sourceSets.api
-                        source project(":DPAnvil").sourceSets.main
-                    }
-                } catch (e) { }
-            }
-        }
-
-        server {
-            workingDirectory project.file('run-server')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.debug.verbose', 'true'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-
-            mods {
-                elementalcraft {
-                    source sourceSets.api
-                    source sourceSets.main
-                }
-                try {
-                    dpanvil {
-                        source project(":DPAnvil").sourceSets.api
-                        source project(":DPAnvil").sourceSets.main
-                    }
-                } catch (e) { }
-            }
-        }
-
+        client { setupRunConfig((RunConfig) it, 'run') }
+        server { setupRunConfig((RunConfig) it, 'run-server') }
+        gameTestServer { setupRunConfig((RunConfig) it, 'test-server') }
         data {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.console.level', 'debug'
-            property 'fml.earlyprogresswindow', 'false'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+            setupRunConfig((RunConfig) it, 'run', false)
 
             args '--mod', 'elementalcraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
-            mods {
-                elementalcraft {
-                    sources sourceSets.api
-                    source sourceSets.main
-                    source sourceSets.datagen
-                }
-                try {
-                    dpanvil {
-                        source project(":DPAnvil").sourceSets.api
-                        source project(":DPAnvil").sourceSets.main
-                    }
-                } catch (e) { }
+            mods.named('elementalcraft').configure {
+                source((SourceSet) sourceSets.datagen)
             }
+        }
+    }
+}
+
+def setupRunConfig(RunConfig runConfig, String directory, boolean supportsGameTests = true) {
+    runConfig.workingDirectory project.file(directory)
+
+    runConfig.property 'forge.logging.markers', 'REGISTRIES'
+    runConfig.property 'forge.logging.console.level', 'debug'
+    runConfig.property 'fml.earlyprogresswindow', 'false'
+    runConfig.property 'mixin.debug.verbose', 'true'
+    runConfig.property 'mixin.env.remapRefMap', 'true'
+    runConfig.property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+    runConfig.property 'forge.enableGameTest', "${supportsGameTests}"
+
+    runConfig.forceExit = false
+
+    runConfig.mods.register('elementalcraft').configure {
+        if (supportsGameTests) {
+            source((SourceSet) sourceSets.test)
+        }
+        source((SourceSet) sourceSets.main)
+        source((SourceSet) sourceSets.api)
+    }
+
+    def dpAnvil = findProject(':DPAnvil')
+
+    if (dpAnvil != null) {
+        runConfig.mods.register('dpanvil').configure {
+            source((SourceSet) dpAnvil.sourceSets.api)
+            source((SourceSet) dpAnvil.sourceSets.main)
         }
     }
 }
@@ -171,15 +153,16 @@ dependencies {
   	annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
     // mod dependencies
-    try {
-        apiCompileOnly project(":DPAnvil").sourceSets.api.output
-        compileOnly project(":DPAnvil").sourceSets.api.output
-        datagenCompileOnly project(":DPAnvil").sourceSets.api.output
-        runtimeOnly project(":DPAnvil").sourceSets.main.output
-        datagenRuntimeOnly project(":DPAnvil").sourceSets.main.output
-    } catch (e) {
+    def dpAnvil = findProject(':DPAnvil')
+
+    if (dpAnvil != null) {
+        apiCompileOnly dpAnvil.sourceSets.api.output
+        compileOnly dpAnvil.sourceSets.api.output
+        datagenCompileOnly dpAnvil.sourceSets.api.output
+        runtimeOnly dpAnvil.sourceSets.main.output
+        datagenRuntimeOnly dpAnvil.sourceSets.main.output
+    } else {
         logger.info("DPAnvil not found locally, looking in maven repo")
-        logger.debug("Exception: ", e)
         compileOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}:api")
         runtimeOnly fg.deobf("sirttas.dpanvil:DPAnvil:${dpanvil_version}")
     }
@@ -198,7 +181,14 @@ dependencies {
 
     compileOnly fg.deobf("vazkii.botania:Botania:${botania_version}:api")
     // runtimeOnly fg.deobf("vazkii.botania:Botania:${botania_version}")
-    
+
+    // test
+    testImplementation sourceSets.api.output
+    testImplementation sourceSets.main.output
+    minecraftLibrary "org.junit.jupiter:junit-jupiter-api:${junit_version}" // testImplementation
+    minecraftLibrary "org.junit.jupiter:junit-jupiter-engine:${junit_version}" //testRuntimeOnly
+    minecraftLibrary "org.assertj:assertj-core:${assertj_version}" // testImplementation
+
     // datagen
     datagenImplementation sourceSets.api.output
     datagenImplementation sourceSets.main.output
@@ -263,16 +253,41 @@ build.dependsOn tasks.datagenJar
 
 updateSourceSetMapping(sourceSets.api)
 updateSourceSetMapping(sourceSets.datagen)
+updateSourceSetMapping(sourceSets.test)
+
+test {
+    useJUnitPlatform()
+}
+jacoco {
+    toolVersion = "0.8.8"
+}
+jacocoTestReport {
+    dependsOn 'test'
+    dependsOn 'runGameTestServer'
+    reports {
+        xml.enabled true
+    }
+    getExecutionData().setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
+}
+tasks.configureEach {
+    if (it.name == 'runGameTestServer') {
+        JacocoPluginExtension jacoco = project.extensions.getByType(JacocoPluginExtension)
+
+        jacoco.applyTo(it)
+    }
+}
 
 sonarqube {
 	properties {
     	property "sonar.projectKey", "Sirttas_ElementalCraft"
     	property "sonar.organization", "sirttas"
     	property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.jacoco.reportPath", "${buildDir}/jacoco/*.exec"
     	properties["sonar.sources"] += sourceSets.api.java.srcDirs
     	properties["sonar.sources"] += sourceSets.datagen.java.srcDirs
 	}
 }
+project.tasks["sonarqube"].dependsOn "jacocoTestReport"
 
 def modmaven_user = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
 def modmaven_password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")

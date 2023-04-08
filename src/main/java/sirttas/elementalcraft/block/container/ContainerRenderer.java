@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
-import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;
@@ -45,7 +44,7 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
                     if (state != null && state.canSurvive(level, instrumentPos)) {
                         poseStack.pushPose();
                         poseStack.translate(0, 1, 0);
-                        renderBatched(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, instrumentPos);
+                        renderGhost(state, poseStack, bufferSource, level, instrumentPos);
                         poseStack.popPose();
                         wasRendered = true;
                     }

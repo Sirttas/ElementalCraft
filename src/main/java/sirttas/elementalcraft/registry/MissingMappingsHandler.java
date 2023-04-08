@@ -12,6 +12,7 @@ import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlock;
+import sirttas.elementalcraft.block.pipe.upgrade.priority.PipePriorityRingsPipeUpgrade;
 import sirttas.elementalcraft.item.elemental.LensItem;
 
 import java.util.Map;
@@ -30,7 +31,8 @@ public class MissingMappingsHandler {
 			Map.entry("fire_lense", LensItem.NAME_FIRE),
 			Map.entry("water_lense", LensItem.NAME_WATER),
 			Map.entry("earth_lense", LensItem.NAME_EARTH),
-			Map.entry("air_lense", LensItem.NAME_AIR));
+			Map.entry("air_lense", LensItem.NAME_AIR),
+			Map.entry("elementpipe_priority", PipePriorityRingsPipeUpgrade.NAME));
 
 	private MissingMappingsHandler() {}
 	@SubscribeEvent

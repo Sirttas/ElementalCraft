@@ -68,7 +68,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 			Vec3 position = Vec3.atCenterOf(pos).add(0, 6.5 / 16, 0);
 
 			inventory.setItem(0, ItemStack.EMPTY);
-			level.playLocalSound(position.x(), position.y(), position.z(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
+			level.playSound(null, position.x(), position.y(), position.z(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F + level.random.nextFloat() * 0.4F);
 			ParticleHelper.createItemBreakParticle(level, position, level.random, stack, 3);
 			setChanged();
 		}

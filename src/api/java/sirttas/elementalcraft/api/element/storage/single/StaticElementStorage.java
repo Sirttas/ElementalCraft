@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
+import net.minecraft.core.Direction;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 
@@ -38,5 +39,21 @@ public class StaticElementStorage extends SingleElementStorage {
 			return EmptyElementStorage.getSingle(type);
 		}
 		return this;
+	}
+
+	@Override
+	public boolean canPipeInsert(ElementType type, Direction side) {
+		return isValidType(type);
+	}
+
+	@Override
+	public boolean canPipeExtract(ElementType type, Direction side) {
+		return isValidType(type);
+	}
+
+	private boolean isValidType(ElementType type) {
+		ElementType localType = this.getElementType();
+
+		return type != ElementType.NONE && (localType == ElementType.NONE || type == localType);
 	}
 }

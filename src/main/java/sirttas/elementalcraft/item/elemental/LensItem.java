@@ -111,5 +111,14 @@ public class LensItem extends ElementalItem {
 			return floor;
 		}
 
+		@Override
+		public boolean canPipeInsert(ElementType type, @Nullable Direction side) {
+			return false;
+		}
+
+		@Override
+		public boolean canPipeExtract(ElementType type, @Nullable Direction side) {
+			return false;
+		}
 	}
 }

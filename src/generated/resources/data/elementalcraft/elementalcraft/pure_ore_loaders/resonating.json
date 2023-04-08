@@ -1,0 +1,8 @@
+{
+  "fixed_name": "elementalcraft:resonating",
+  "luck_ratio": 5.0,
+  "patterns": [
+    "_?ore$"
+  ],
+  "source": "#elementalcraft:pure_ores/sources/resonant_ore"
+}

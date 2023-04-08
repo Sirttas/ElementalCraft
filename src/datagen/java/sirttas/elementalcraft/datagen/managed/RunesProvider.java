@@ -64,9 +64,9 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	}
 
 	private Rune.Builder builder(String name, ResourceLocation slate) {
-		String path = Rune.FOLDER + '/' + name;
-		ResourceLocation runeTexture = ElementalCraft.createRL(path);
-		var builder = Rune.Builder.create().model(itemModelProvider.runeTexture("item/" + path, slate, runeTexture)).sprite(runeTexture);
+		var path = Rune.FOLDER + '/' + name;
+		var runeTexture = ElementalCraft.createRL(path);
+		var builder = Rune.Builder.create().model(itemModelProvider.runeTexture(path, slate, runeTexture)).sprite(runeTexture);
 
 		add(ElementalCraft.createRL(name), builder);
 		return builder;

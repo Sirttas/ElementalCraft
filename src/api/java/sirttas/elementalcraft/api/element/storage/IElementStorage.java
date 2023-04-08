@@ -32,15 +32,6 @@ public interface IElementStorage {
 		return amount;
 	}
 
-	@Deprecated
-	default boolean canPipeInsert(ElementType type) {
-		return canPipeInsert(type, null);
-	}
-	@Deprecated
-	default boolean canPipeExtract(ElementType type) {
-		return canPipeExtract(type, null);
-	}
-
 	default boolean canPipeInsert(ElementType type, @Nullable Direction side) {
 		return type != ElementType.NONE;
 	}

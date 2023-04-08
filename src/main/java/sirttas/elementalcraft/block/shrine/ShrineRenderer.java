@@ -10,7 +10,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.tag.ECTags;
@@ -62,7 +61,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements IECR
 						if (state != null && state.canSurvive(level, upgradePos)) {
 							poseStack.pushPose();
 							poseStack.translate(direction.getStepX(), direction.getStepY(), direction.getStepZ());
-							renderBatched(state, poseStack, bufferSource.getBuffer(ECRenderTypes.GHOST), level, upgradePos);
+							renderGhost(state, poseStack, bufferSource, level, upgradePos);
 							poseStack.popPose();
 							wasRendered = true;
 						}

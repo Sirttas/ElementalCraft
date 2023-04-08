@@ -26,7 +26,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 
 	protected BinderBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, int transferSpeed, int maxRunes) {
 		super(blockEntityType, pos, state, ECRecipeTypes.BINDING.get(), transferSpeed, maxRunes);
-		inventory = new InstrumentContainer(this::setChanged, 10);
+		inventory = new InstrumentContainer(this::setChanged, 20);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}

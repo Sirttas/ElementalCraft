@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.item;
 
 import com.google.common.collect.Multimap;
-import mezz.jei.common.color.ColorGetter;
+import mezz.jei.library.color.ColorGetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -17,10 +17,13 @@ import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 
 public class ECItem extends Item {
+
+	private static final Comparator<Integer> COLOR_BRIGHTNESS_COMPARATOR = Comparator.comparingInt(ECItem::getBrightness);
 
 	private static boolean noJeiLogged = false;
 
@@ -32,35 +35,38 @@ public class ECItem extends Item {
 		super(properties);
 	}
 
-	private boolean glint = false;
+	private boolean foil = false;
 
-	/**
-	 * Returns true if this item has an enchantment glint. By default, this returns
-	 * <code>stack.isItemEnchanted()</code>, but other items can override it (for
-	 * instance, written books always return true).
-	 * 
-	 * Note that if you override this method, you generally want to also call the
-	 * super version (on {@link Item}) to get the glint for enchanted items. Of
-	 * course, that is unnecessary if the overwritten version always returns true.
-	 */
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean isFoil(@Nonnull ItemStack stack) {
-		return glint || super.isFoil(stack);
+		return foil || super.isFoil(stack);
 	}
 
-	public ECItem setEffect(boolean glint) {
-		this.glint = glint;
+	public ECItem setFoil(boolean foil) {
+		this.foil = foil;
 		return this;
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static int lookupColor(ItemStack stack) {
+	public static int[] lookupColors(ItemStack stack) {
 		try {
-			List<Integer> colors = ColorGetter.getColors(stack, 2);
+			var colors = new ColorGetter().getColors(stack, 3); // FIXME extract ColorGetter from JEI
 	
 			if (colors != null && !colors.isEmpty()) {
-				return colors.get(0);
+				var array = colors.stream()
+						.map(color -> color == null ? -1 : color)
+						.sorted(COLOR_BRIGHTNESS_COMPARATOR.reversed())
+						.mapToInt(Integer::intValue)
+						.toArray();
+
+				if (array.length == 1) {
+					return new int[] { array[0], array[0], array[0] };
+				} else if (array.length == 2) {
+					return new int[] { array[0], array[0], array[1] };
+				} else {
+					return new int[] { array[0], array[1], array[2] };
+				}
 			}
 		} catch (NoClassDefFoundError e) {
 			if (!noJeiLogged) {
@@ -68,7 +74,12 @@ public class ECItem extends Item {
 				noJeiLogged = true;
 			}
 		}
-		return -1;
+		return new int[] { -1, -1, -1 };
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private static int getBrightness(int color) {
+		return ((color & 0xFF) + ((color >> 8) & 0xFF) + ((color >> 16) & 0xFF)) / 3;
 	}
 
 	@OnlyIn(Dist.CLIENT)

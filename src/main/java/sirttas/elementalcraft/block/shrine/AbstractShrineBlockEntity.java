@@ -197,7 +197,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	@Nonnull
 	private IntStream getRange(double min, double max) {
-		return IntStream.range((int) Math.floor(min), (int) Math.ceil(max) + 1);
+		return IntStream.range((int) Math.floor(min + 0.00001), (int) Math.ceil(max - 0.00001));
 	}
 
 	@Override

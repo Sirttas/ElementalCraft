@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import sirttas.dpanvil.api.codec.CodecHelper;
@@ -17,7 +18,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.gui.ECColorHelper;
 import sirttas.elementalcraft.spell.Spell;
 
 import java.util.Collections;
@@ -160,7 +160,11 @@ public record SpellProperties(
 		}
 		
 		public Builder color(int r, int g, int b) {
-			return color(ECColorHelper.packColor(r, g, b));
+			return color(Mth.color(r, g, b));
+		}
+
+		public Builder color(float r, float g, float b) {
+			return color(Mth.color(r, g, b));
 		}
 	}
 }

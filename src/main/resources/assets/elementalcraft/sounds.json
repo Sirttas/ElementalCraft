@@ -1,0 +1,10 @@
+{
+  "block.container.element_crackling": {
+    "sounds": [
+      "elementalcraft:element_crackling_1",
+      "elementalcraft:element_crackling_2",
+      "elementalcraft:element_crackling_3",
+      "elementalcraft:element_crackling_4"
+    ]
+  }
+}

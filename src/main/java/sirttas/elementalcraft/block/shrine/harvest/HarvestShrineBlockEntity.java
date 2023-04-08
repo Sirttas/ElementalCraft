@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.ItemLike;
@@ -48,25 +47,31 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private void handlePlanting(BlockPos pos, ItemLike provider, List<ItemStack> loots) {
-		Item item = provider.asItem();
-
-		if (this.hasUpgrade(ShrineUpgrades.PLANTING)) {
-			loots.stream().filter(stack -> stack.getItem().equals(item)).findFirst().ifPresent(seeds -> {
-				if (item instanceof BlockItem blockItem && blockItem.place(new DirectionalPlaceContext(this.level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction()) {
-					seeds.shrink(1);
-					if (seeds.isEmpty()) {
-						loots.remove(seeds);
-					}
-				}
-			});
+		if (!this.hasUpgrade(ShrineUpgrades.PLANTING) || !(provider.asItem() instanceof BlockItem blockItem)) {
+			return;
 		}
+
+		loots.stream()
+				.filter(stack -> stack.getItem().equals(blockItem))
+				.findFirst()
+				.ifPresent(seeds -> {
+					if (blockItem.place(new DirectionalPlaceContext(this.level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction()) {
+						seeds.shrink(1);
+						if (seeds.isEmpty()) {
+							loots.remove(seeds);
+						}
+					}
+				});
 	}
 
 	@Override
 	public AABB getRangeBoundingBox() {
 		var range = getRange();
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, -2, 0).move(0, -1, 0));
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos())
+				.inflate(range, 0, range)
+				.expandTowards(0, -2, 0)
+				.move(0, -1, 0));
 	}
 
 	@Override

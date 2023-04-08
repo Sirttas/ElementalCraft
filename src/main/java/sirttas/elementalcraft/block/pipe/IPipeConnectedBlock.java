@@ -42,10 +42,10 @@ public interface IPipeConnectedBlock {
 				.flatMap(b -> ElementTransfererHelper.get(b, opposite).resolve())
 				.orElse(null);
 		
-		if (transferer != null) {
-			IElementTransferer.ConnectionType connection = transferer.getConnection(opposite);
+		if (transferer instanceof ElementPipeTransferer elementPipeTransferer) {
+			ConnectionType connection = elementPipeTransferer.getConnection(opposite);
 			
-			return connection.isConnected() || connection == IElementTransferer.ConnectionType.NONE;
+			return connection.isConnected() || connection == ConnectionType.NONE;
 		}
 		return false;
 	}

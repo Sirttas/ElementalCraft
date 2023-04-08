@@ -1,25 +1,26 @@
   {
-  "required": true,
-  "minVersion": "0.8.5",
-  "compatibilityLevel": "JAVA_17",
-  "package": "sirttas.elementalcraft.mixin",
-  "refmap": "elementalcraft.refmap.json",
-  "mixins": [
-    "MixinEntity",
-    "MixinItemStack",
-    "MixinLivingEntity",
-    "MixinMinecraftServer",
-    "MixinPiglinAi",
-    "MixinPlayer",
-    "MixinPowderSnowBlock",
-    "MixinProjectile",
-    "MixinRepairContainer",
-    "MixinZombie"
-  ],
-  "client": [
-    "MixinItemRenderer"
-  ],
-  "injectors": {
-    "defaultRequire": 1
+    "required": true,
+    "minVersion": "0.8.5",
+    "compatibilityLevel": "JAVA_17",
+    "package": "sirttas.elementalcraft.mixin",
+    "refmap": "elementalcraft.refmap.json",
+    "mixins": [
+        "MixinEntity",
+        "MixinItemStack",
+        "MixinLivingEntity",
+        "MixinMinecraftServer",
+        "MixinPiglinAi",
+        "MixinPlayer",
+        "MixinPowderSnowBlock",
+        "MixinProjectile",
+        "MixinRecipeManager",
+        "MixinRepairContainer",
+        "MixinZombie"
+    ],
+    "client": [
+        "MixinItemRenderer"
+    ],
+    "injectors": {
+        "defaultRequire": 1
   }
 }

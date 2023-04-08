@@ -43,7 +43,7 @@ public class PureOreManager {
 		return pureOres.values().stream().anyMatch(e -> e.test(ore));
 	}
 	
-	private ResourceLocation getPureOreId(ItemStack stack) {
+	public ResourceLocation getPureOreId(ItemStack stack) {
 		var nbt = NBTHelper.getECTag(stack);
 
 		if (nbt != null) {
@@ -94,10 +94,10 @@ public class PureOreManager {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public int getColor(ItemStack stack) {
+	public int[] getColors(ItemStack stack) {
 		var entry = pureOres.get(getPureOreId(stack));
 
-		return entry != null ? entry.getColor() : -1;
+		return entry != null ? entry.getColors() : null;
 	}
 
 	public List<ResourceLocation> getOres() {
@@ -174,7 +174,7 @@ public class PureOreManager {
 
 	private static class Entry {
 
-		private int color = -1;
+		private int[] colors = null;
 		private final Map<PureOreLoader, PureOre> ores;
 
 		public Entry() {
@@ -203,14 +203,14 @@ public class PureOreManager {
 		}
 
 		@OnlyIn(Dist.CLIENT)
-		private int getColor() {
-			if (color == -1) {
-				color = ores.values().stream()
-						.map(o -> ECItem.lookupColor(o.getResultForColor()))
+		private int[] getColors() {
+			if (colors == null) {
+				colors = ores.values().stream()
+						.map(o -> ECItem.lookupColors(o.getResultForColor()))
 						.findFirst()
-						.orElse(-1);
+						.orElse(null);
 			}
-			return color;
+			return colors;
 		}
 
 	}

@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,15 +37,6 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 	@Override
 	public final ClientboundBlockEntityDataPacket getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
-	}
-
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
-		var tag = packet.getTag();
-
-		if (tag != null) {
-			load(tag);
-		}
 	}
 
 	@Nonnull

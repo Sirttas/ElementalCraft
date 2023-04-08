@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.world;
 
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -8,6 +9,8 @@ import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
+
+import javax.annotation.Nullable;
 
 public class LevelElementStorage implements IElementStorage, INBTSerializable<CompoundTag> {
 	
@@ -80,6 +83,16 @@ public class LevelElementStorage implements IElementStorage, INBTSerializable<Co
 		};
 	}
 
+	@Override
+	public boolean canPipeInsert(ElementType type, @Nullable Direction side) {
+		return false;
+	}
+
+	@Override
+	public boolean canPipeExtract(ElementType type, @Nullable Direction side) {
+		return false;
+	}
+
 	private static class SubStorage extends StaticElementStorage {
 		
 		public SubStorage(ElementType type, int elementAmount, int elementCapacity) {
@@ -89,6 +102,16 @@ public class LevelElementStorage implements IElementStorage, INBTSerializable<Co
 
 		public SubStorage(ElementType type) {
 			super(type, 1000000);
+		}
+
+		@Override
+		public boolean canPipeInsert(ElementType type, @Nullable Direction side) {
+			return false;
+		}
+
+		@Override
+		public boolean canPipeExtract(ElementType type, @Nullable Direction side) {
+			return false;
 		}
 	}
 }

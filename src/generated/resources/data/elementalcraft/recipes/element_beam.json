@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "f": {
+      "item": "elementalcraft:cover_frame"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    },
+    "n": {
+      "tag": "forge:nuggets/swift_alloy"
+    }
+  },
+  "pattern": [
+    "in ",
+    "fic",
+    "in "
+  ],
+  "result": {
+    "count": 2,
+    "item": "elementalcraft:element_beam"
+  }
+}

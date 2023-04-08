@@ -50,7 +50,7 @@ public class Jewel implements IElementTypeProvider {
 	public ResourceLocation getModelName() {
 		var id = this.getKey();
 
-		return new ResourceLocation(id.getNamespace(), "elementalcraft_jewels/" + id.getPath());
+		return new ResourceLocation(id.getNamespace(), "elementalcraft/jewels/" + id.getPath());
 	}
 
 	public Component getDisplayName() {

@@ -8,7 +8,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 public class CreativeElementContainerBlockEntity extends AbstractElementContainerBlockEntity {
 
 	public CreativeElementContainerBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.CREATIVE_CONTAINER, pos, state, CreativeElementStorage::new);
+		super(ECBlockEntityTypes.CREATIVE_CONTAINER, pos, state, self -> new CreativeElementStorage(self::setChanged));
 	}
 
 	@Override

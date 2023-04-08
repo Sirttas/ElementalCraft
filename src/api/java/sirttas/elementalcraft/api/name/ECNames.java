@@ -35,6 +35,8 @@ public class ECNames {
 	public static final String EXTRACTION_AMOUNT = "extraction_amount";
 	public static final String EXTRACTION_SPEED = "extraction_speed";
 	public static final String FORGE = "forge";
+	public static final String FORGE_CAPS = "ForgeCaps";
+
 	public static final String GEM = "gem";
 	public static final String HAS_BOOK = "has_elementopedia";
 	public static final String HAS_DIFFUSED = "has_diffused";
@@ -58,6 +60,8 @@ public class ECNames {
 	public static final String OUTPUTS = "outputs";
 	public static final String PARENT = "Parent";
 	public static final String PERIODE = "periode";
+	public static final String PIPE_UPGRADE_TAG = "pipe_upgrade_tag";
+	public static final String PIPE_UPGRADE_TYPE = "pipe_upgrade_type";
 	public static final String PREDICATE = "predicate";
 	public static final String PROGRESS = "progress";
 	public static final String PURE_ORE_RECIPE_INJECTOR = "pure_ore_recipe_injector";

@@ -1,7 +1,7 @@
 {
   "name": "elementalcraft.entry.lenses",
   "category": "elementalcraft:basics",
-  "icon": "elementalcraft:lenses",
+  "icon": "elementalcraft:fire_lens",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/swift_alloy_ingot",
   "sortnum": 7,

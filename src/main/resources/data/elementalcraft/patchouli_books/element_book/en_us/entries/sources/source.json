@@ -10,10 +10,14 @@
       "text": "elementalcraft.page.source0"
     },
     {
+      "type": "text",
+      "text": "elementalcraft.page.source1"
+    },
+    {
       "type": "image",
       "images": ["elementalcraft:textures/gui/entries/source0.png"],
       "border": true,
-      "text": "elementalcraft.page.source1"
+      "text": "elementalcraft.page.source2"
     }
   ]
 }

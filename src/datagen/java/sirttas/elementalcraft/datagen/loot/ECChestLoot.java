@@ -13,7 +13,6 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.loot.function.RandomSpell;
 
 import javax.annotation.Nonnull;
@@ -25,10 +24,6 @@ import java.util.function.BiConsumer;
  * 
  */
 public class ECChestLoot extends ChestLoot {
-
-	public ECChestLoot() {
-		ECLootFunctions.setup();
-	}
 
 	@Override
 	public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {

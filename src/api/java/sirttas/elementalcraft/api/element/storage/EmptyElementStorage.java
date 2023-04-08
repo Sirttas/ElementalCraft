@@ -1,8 +1,11 @@
 package sirttas.elementalcraft.api.element.storage;
 
+import net.minecraft.core.Direction;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
+
+import javax.annotation.Nullable;
 
 public class EmptyElementStorage implements IElementStorage {
 
@@ -40,4 +43,13 @@ public class EmptyElementStorage implements IElementStorage {
 		return getSingle(type);
 	}
 
+	@Override
+	public boolean canPipeInsert(ElementType type, @Nullable Direction side) {
+		return false;
+	}
+
+	@Override
+	public boolean canPipeExtract(ElementType type, @Nullable Direction side) {
+		return false;
+	}
 }

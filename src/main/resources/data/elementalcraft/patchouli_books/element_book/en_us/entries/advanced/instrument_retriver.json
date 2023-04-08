@@ -2,7 +2,7 @@
   "name": "block.elementalcraft.instrument_retriever",
   "category": "elementalcraft:advanced",
   "icon": "elementalcraft:instrument_retriever",
-  "advancement": "elementalcraft:pickup/swift_alloy_ingot",
+  "advancement": "elementalcraft:pickup/drenched_iron_ingot",
   "turnin": "elementalcraft:pickup/instrument_retriever",
   "sortnum": 1,
   "pages": [

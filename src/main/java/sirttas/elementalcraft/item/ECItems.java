@@ -26,6 +26,9 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.ITooltipImageBlock;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
+import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
+import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
+import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
 import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
@@ -36,6 +39,7 @@ import sirttas.elementalcraft.item.holder.PureElementHolderItem;
 import sirttas.elementalcraft.item.jewel.JewelItem;
 import sirttas.elementalcraft.item.jewel.JewelModel;
 import sirttas.elementalcraft.item.pipe.CoverFrameItem;
+import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 import sirttas.elementalcraft.item.pureore.PureOreItem;
 import sirttas.elementalcraft.item.rune.RuneItem;
 import sirttas.elementalcraft.item.rune.RuneModel;
@@ -78,14 +82,17 @@ public class ECItems {
 	public static final RegistryObject<RuneItem> RUNE = register(RuneItem::new, RuneItem.NAME);
 	public static final RegistryObject<ChiselItem> CHISEL = register(ChiselItem::new, ChiselItem.NAME);
 	public static final RegistryObject<CoverFrameItem> COVER_FRAME = register(CoverFrameItem::new, CoverFrameItem.NAME);
-	public static final RegistryObject<ECItem> PIPE_PRIORITY = register(ECItem::new, "elementpipe_priority");
+	public static final RegistryObject<PipeUpgradeItem> ELEMENT_PUMP = register(PipeUpgradeTypes.ELEMENT_PUMP);
+	public static final RegistryObject<PipeUpgradeItem> PIPE_PRIORITY_RINGS = register(PipeUpgradeTypes.PIPE_PRIORITY_RINGS);
+	public static final RegistryObject<PipeUpgradeItem> ELEMENT_VALVE = register(PipeUpgradeTypes.ELEMENT_VALVE);
+	public static final RegistryObject<PipeUpgradeItem> ELEMENT_BEAM = register(PipeUpgradeTypes.ELEMENT_BEAM);
 
 	public static final RegistryObject<Item> ELEMENTOPEDIA = RegistryObject.create(new ResourceLocation("patchouli", "guide_book"), ForgeRegistries.ITEMS);
 
 	public static final RegistryObject<ECItem> INERT_CRYSTAL = register(ECItem::new, "inert_crystal");
 	public static final RegistryObject<ECItem> CONTAINED_CRYSTAL = register(ECItem::new, "contained_crystal");
 	public static final RegistryObject<ECItem> STRONGLY_CONTAINED_CRYSTAL = register(ECItem::new, "strongly_contained_crystal");
-	public static final RegistryObject<ECItem> PURE_CRYSTAL = register(() -> new ECItem().setEffect(true), "purecrystal");
+	public static final RegistryObject<ECItem> PURE_CRYSTAL = register(() -> new ECItem().setFoil(true), "purecrystal");
 	public static final RegistryObject<ECItem> DRENCHED_IRON_INGOT = register(ECItem::new, "drenched_iron_ingot");
 	public static final RegistryObject<ECItem> DRENCHED_IRON_NUGGET = register(ECItem::new, "drenched_iron_nugget");
 	public static final RegistryObject<ECItem> SWIFT_ALLOY_INGOT = register(ECItem::new, "swift_alloy_ingot");
@@ -178,6 +185,7 @@ public class ECItems {
 		replaceModels(modelRegistry, JewelItem.NAME, JewelModel::new);
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	private static void replaceModels(Map<ResourceLocation, BakedModel> modelRegistry, String name, UnaryOperator<BakedModel> modelFactory) {
 		modelRegistry.computeIfPresent(new ModelResourceLocation(ElementalCraft.createRL(name), "inventory"), (k, v) -> modelFactory.apply(v));
 	}
@@ -186,12 +194,20 @@ public class ECItems {
 	@SubscribeEvent
 	public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
 		event.register((s, l) -> l == 0 ? -1 : ReceptacleHelper.getElementType(s).getColor(), RECEPTACLE.get());
-		event.register((s, l) -> l == 0 ? -1 : ElementalCraft.PURE_ORE_MANAGER.getColor(s), PURE_ORE.get());
+		event.register((s, l) -> {
+			var colors = ElementalCraft.PURE_ORE_MANAGER.getColors(s);
+
+			return colors != null && l < colors.length ? colors[l] : -1;
+		}, PURE_ORE.get());
 		event.register((s, l) -> l == 0 ? -1 : SpellHelper.getSpell(s).getColor(), SCROLL.get());
 		event.register((s, l) -> l == 0 ? -1 : ((ElementHolderItem) s.getItem()).getElementType().getColor(), FIRE_HOLDER.get(), WATER_HOLDER.get(), EARTH_HOLDER.get(), AIR_HOLDER.get());
 	}
 
-	private static <T extends Item>RegistryObject<T> register(Supplier<T> item, String name) {
+	private static <T extends PipeUpgrade> RegistryObject<PipeUpgradeItem> register(RegistryObject<PipeUpgradeType<T>> pipeUpgrade) {
+		return register(() -> new PipeUpgradeItem(pipeUpgrade::get, ECProperties.Items.DEFAULT_ITEM_PROPERTIES), pipeUpgrade.getId().getPath());
+	}
+
+	private static <T extends Item> RegistryObject<T> register(Supplier<T> item, String name) {
 		return DEFERRED_REGISTER.register(name, item);
 	}
 

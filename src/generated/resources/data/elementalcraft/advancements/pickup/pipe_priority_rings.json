@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_pipe_priority_rings": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:pipe_priority_rings"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_pipe_priority_rings"
+    ]
+  ]
+}

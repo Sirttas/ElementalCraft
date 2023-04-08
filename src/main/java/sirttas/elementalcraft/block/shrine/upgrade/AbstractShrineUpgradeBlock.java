@@ -71,9 +71,14 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	@Override
 	@Deprecated
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
-		Direction facing = getFacing(state);
+		var facing = getFacing(state);
+		var shrinePos = pos.relative(facing);
 
-		return upgrade.isBound() && BlockEntityHelper.getBlockEntityAs(level, pos.relative(facing), AbstractShrineBlockEntity.class)
+		if (!level.isAreaLoaded(shrinePos, 1)) { // don't remove the upgrade is the shrine is not in a loaded chunk
+			return true;
+		}
+
+		return upgrade.isBound() && BlockEntityHelper.getBlockEntityAs(level, shrinePos, AbstractShrineBlockEntity.class)
 				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this)))
 				.isPresent();
 	}

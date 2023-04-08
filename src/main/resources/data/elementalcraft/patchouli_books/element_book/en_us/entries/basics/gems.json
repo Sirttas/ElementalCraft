@@ -1,7 +1,7 @@
 {
   "name": "elementalcraft.entry.gems",
   "category": "elementalcraft:basics",
-  "icon": "elementalcraft:gems",
+  "icon": "elementalcraft:pristine_fire_gem",
   "advancement": "elementalcraft:pickup/crystallizer",
   "turnin": "elementalcraft:pickup/crystallizer",
   "priority": true,

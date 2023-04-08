@@ -20,9 +20,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
+import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.event.TickHandler;
 
@@ -53,6 +55,10 @@ public interface IECGenericRenderer {
             return;
         }
         Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, poseStack, buffer, light, overlay, data, null);
+    }
+
+    default void renderGhost(BlockState state, PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos) {
+        renderBatched(state, poseStack, buffer.getBuffer(ECRenderTypes.GHOST), level, pos);
     }
 
     default void renderBatched(BlockState state, PoseStack poseStack, VertexConsumer consumer, Level level, BlockPos pos) {
@@ -251,12 +257,32 @@ public interface IECGenericRenderer {
     }
 
     default ModelData getModelData(Level level, BlockPos pos) {
-        var data = level.getModelDataManager().getAt(pos);
+        var modelDataManager = level.getModelDataManager();
+
+        if (modelDataManager == null) {
+            return ModelData.EMPTY;
+        }
+
+        var data = modelDataManager.getAt(pos);
 
         if (data == null) {
             return ModelData.EMPTY;
         }
         return data;
+    }
+
+    default void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockEntity te, int light, int overlay) {
+        renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
+    }
+
+    default ModelData getModelData(BakedModel model, BlockEntity te) {
+        Level level = te.getLevel();
+        BlockPos pos = te.getBlockPos();
+
+        if (level == null) {
+            return ModelData.EMPTY;
+        }
+        return model.getModelData(level, pos, te.getBlockState(), getModelData(level, pos));
     }
 
 }

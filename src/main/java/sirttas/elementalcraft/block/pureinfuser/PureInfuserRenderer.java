@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemRenderer;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
@@ -42,7 +41,7 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 					if (pedestal != null) {
 						matrixStack.pushPose();
 						matrixStack.translate(direction.getStepX() * 3D, 0, direction.getStepZ() * 3D);
-						renderBatched(pedestal.defaultBlockState(), matrixStack, buffer.getBuffer(ECRenderTypes.GHOST), te.getLevel(), te.getBlockPos().relative(direction, 3));
+						renderGhost(pedestal.defaultBlockState(), matrixStack, buffer, te.getLevel(), te.getBlockPos().relative(direction, 3));
 						matrixStack.popPose();
 						remaining.remove(type);
 					}

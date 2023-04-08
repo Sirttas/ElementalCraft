@@ -34,6 +34,50 @@
     {
       "id": "#forge:storage_blocks/raw_osmium",
       "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_desh",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_calorite",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_ostrum",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_platinum",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_iesnium",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_unobtainium",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_crimson_iron",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_allthemodium",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_vibranium",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_iridium",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/raw_azure_silver",
+      "required": false
     }
   ]
 }

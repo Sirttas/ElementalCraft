@@ -18,6 +18,7 @@ import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -40,6 +41,7 @@ import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.pureore.injector.PureOreRecipeInjectors;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.sound.ECSounds;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 import sirttas.elementalcraft.world.feature.ECFeatures;
@@ -97,6 +99,8 @@ public class ElementalCraft {
 		ToolInfusionEffectTypes.register(modBus);
 		SourceTraitValueProviderTypes.register(modBus);
 		PureOreRecipeInjectors.register(modBus);
+		PipeUpgradeTypes.register(modBus);
+		ECSounds.register(modBus);
 
 		modBus.addListener(this::setup);
 		modBus.addListener(this::enqueueIMC);
@@ -125,6 +129,7 @@ public class ElementalCraft {
     private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
 		ECLootFunctions.setup();
+		PipeUpgradeTypes.setup();
 	}
 	
 	private void enqueueIMC(InterModEnqueueEvent event) {

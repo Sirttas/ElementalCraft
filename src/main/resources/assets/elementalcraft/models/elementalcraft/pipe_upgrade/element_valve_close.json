@@ -1,0 +1,86 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "elementalcraft:elementalcraft/pipe_upgrade/pipe_upgrade",
+	"textures": {
+		"1": "elementalcraft:block/iron",
+		"2": "elementalcraft:block/brass",
+		"3": "elementalcraft:block/iron_unpowered",
+		"particle": "elementalcraft:block/iron"
+	},
+	"elements": [
+		{
+			"from": [6.5, 12.5, 6.5],
+			"to": [9.5, 13, 9.5],
+			"faces": {
+				"north": {"uv": [6.5, 3, 9.5, 3.5], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [6.5, 3, 9.5, 3.5], "rotation": 270, "texture": "#2"},
+				"south": {"uv": [6.5, 3, 9.5, 3.5], "texture": "#2"},
+				"west": {"uv": [6.5, 3, 9.5, 3.5], "rotation": 90, "texture": "#2"},
+				"up": {"uv": [6.5, 6.5, 9.5, 9.5], "rotation": 180, "texture": "#2"},
+				"down": {"uv": [6.5, 6.5, 9.5, 9.5], "texture": "#2"}
+			}
+		},
+		{
+			"from": [6.5, 10, 6.5],
+			"to": [9.5, 10.5, 9.5],
+			"faces": {
+				"north": {"uv": [6.5, 5.5, 9.5, 6], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [6.5, 5.5, 9.5, 6], "rotation": 270, "texture": "#2"},
+				"south": {"uv": [6.5, 5.5, 9.5, 6], "texture": "#2"},
+				"west": {"uv": [6.5, 5.5, 9.5, 6], "rotation": 90, "texture": "#2"},
+				"up": {"uv": [6.5, 6.5, 9.5, 9.5], "rotation": 180, "texture": "#2"},
+				"down": {"uv": [6.5, 6.5, 9.5, 9.5], "texture": "#2"}
+			}
+		},
+		{
+			"from": [7.5, 10.5, 7.5],
+			"to": [8.5, 11, 8.5],
+			"faces": {
+				"north": {"uv": [7.5, 5, 8.5, 5.5], "rotation": 180, "texture": "#3"},
+				"east": {"uv": [7.5, 5, 8.5, 5.5], "rotation": 270, "texture": "#3"},
+				"south": {"uv": [7.5, 5, 8.5, 5.5], "texture": "#3"},
+				"west": {"uv": [7.5, 5, 8.5, 5.5], "rotation": 90, "texture": "#3"},
+				"up": {"uv": [7.5, 7.5, 8.5, 8.5], "rotation": 180, "texture": "#3"},
+				"down": {"uv": [7.5, 7.5, 8.5, 8.5], "texture": "#3"}
+			}
+		},
+		{
+			"from": [7.5, 12, 7.5],
+			"to": [8.5, 12.5, 8.5],
+			"faces": {
+				"north": {"uv": [7.5, 5, 8.5, 5.5], "rotation": 180, "texture": "#3"},
+				"east": {"uv": [7.5, 5, 8.5, 5.5], "rotation": 270, "texture": "#3"},
+				"south": {"uv": [7.5, 5, 8.5, 5.5], "texture": "#3"},
+				"west": {"uv": [7.5, 5, 8.5, 5.5], "rotation": 90, "texture": "#3"},
+				"up": {"uv": [7.5, 7.5, 8.5, 8.5], "rotation": 180, "texture": "#3"},
+				"down": {"uv": [7.5, 7.5, 8.5, 8.5], "texture": "#3"}
+			}
+		},
+		{
+			"name": "North",
+			"from": [7, 13, 7],
+			"to": [9, 16, 9],
+			"faces": {
+				"north": {"uv": [7, 13, 9, 16], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [13, 7, 16, 9], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [7, 0, 9, 3], "texture": "#1"},
+				"west": {"uv": [0, 7, 2.5, 9], "rotation": 90, "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
+			}
+		},
+		{
+			"name": "North",
+			"from": [7, 9.5, 7],
+			"to": [9, 10, 9],
+			"faces": {
+				"north": {"uv": [7, 15.5, 9, 16], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [15.5, 7, 16, 9], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [7, 0, 9, 0.5], "texture": "#1"},
+				"west": {"uv": [0, 7, 0.5, 9], "rotation": 90, "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
+			}
+		}
+	]
+}

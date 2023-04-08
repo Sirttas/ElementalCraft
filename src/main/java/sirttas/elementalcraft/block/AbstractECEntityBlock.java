@@ -48,19 +48,19 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 		}
 	}
 
-	private void dropItems(Level worldIn, BlockPos pos) {
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(worldIn, pos, null);
+	private void dropItems(Level level, BlockPos pos) {
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
 		if (inv != null) {
 			for (int i = 0; i < inv.getSlots(); i++) {
-				Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), inv.getStackInSlot(i));
+				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), inv.getStackInSlot(i));
 			}
-			worldIn.updateNeighbourForOutputSignal(pos, this);
+			level.updateNeighbourForOutputSignal(pos, this);
 		}
 	}
 
-	private void dropRunes(Level worldIn, BlockPos pos) {
-		BlockEntityHelper.getRuneHandlerAt(worldIn, pos).getRunes().forEach(rune -> Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), ECItems.RUNE.get().getRuneStack(rune)));
+	private void dropRunes(Level level, BlockPos pos) {
+		BlockEntityHelper.getRuneHandlerAt(level, pos).getRunes().forEach(rune -> Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), ECItems.RUNE.get().getRuneStack(rune)));
 	}
 	
 	@Override

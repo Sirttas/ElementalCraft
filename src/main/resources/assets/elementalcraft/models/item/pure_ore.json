@@ -1,7 +1,9 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "elementalcraft:item/pure_ore",
-        "layer1": "elementalcraft:item/pure_ore_crystals"
+        "layer0": "elementalcraft:item/pure_ore_0",
+        "layer1": "elementalcraft:item/pure_ore_1",
+        "layer2": "elementalcraft:item/pure_ore_2",
+        "layer3": "elementalcraft:item/pure_ore_3"
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 
 public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<PureOreLoader, PureOreLoader.Builder> {
 
+    private static final ResourceLocation FIXED_RESONATING = ElementalCraft.createRL("resonating");
     private static final ResourceLocation FIXED_URANINITE = ElementalCraft.createRL("uraninite");
 
     public PureOreLoaderProvider(DataGenerator generator) {
@@ -28,16 +29,66 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<Pu
 
     @Override
     public void collectBuilders() {
-        standard("ores", ECTags.Items.PURE_SOURCE_ORES_ORES).pattern("_?ore$").luckRatio(5);
-        standard("raw_materials", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).patterns("^raw_?", "_?raw$").consumption(5000).inputSize(3).outputSize(4).luckRatio(2);
-        standard("raw_material_blocks", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).tagPattern("^storage_blocks/raw_?(?!_?materials)").patterns("^raw_?", "_?block$").consumption(15000).outputSize(12).luckRatio(18);
-        standard("geore_shards", ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).pattern("_?shard$").consumption(5000).inputSize(4).outputSize(5).luckRatio(1);
-        standard("geore_blocks", ECTags.Items.PURE_ORES_SOURCE_GEORE_BLOCKS).pattern("_?block$").consumption(6250).outputSize(5).luckRatio(4);
+        ores(standard("ores", ECTags.Items.PURE_SOURCE_ORES_ORES));
+        rawMaterials(standard("raw_materials", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS));
+        rawMaterialsBlocks(standard("raw_material_blocks", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS));
 
-        builder("raw_uraninite", ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE).fixedName(FIXED_URANINITE).luckRatio(2);
-        builder("poor_uraninite", ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE).fixedName(FIXED_URANINITE).consumption(3750).outputSize(3).luckRatio(2);
-        builder("uraninite", ECTags.Items.PURE_ORES_SOURCE_URANINITE).fixedName(FIXED_URANINITE).consumption(5000).outputSize(5).luckRatio(2);
-        builder("dense_uraninite", ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE).fixedName(FIXED_URANINITE).consumption(10000).outputSize(10).luckRatio(2);
+        standard("geore_shards", ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS)
+                .pattern("_?shard$")
+                .consumption(5000)
+                .inputSize(4)
+                .outputSize(5)
+                .luckRatio(1);
+        standard("geore_blocks", ECTags.Items.PURE_ORES_SOURCE_GEORE_BLOCKS)
+                .pattern("_?block$")
+                .consumption(6250)
+                .outputSize(5)
+                .luckRatio(4);
+
+        ores(builder("resonating", ECTags.Items.PURE_ORES_SOURCE_RESONANT_ORE))
+                .fixedName(FIXED_RESONATING);
+
+        builder("raw_uraninite", ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE)
+                .fixedName(FIXED_URANINITE)
+                .luckRatio(2);
+        builder("poor_uraninite", ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE)
+                .fixedName(FIXED_URANINITE)
+                .consumption(3750)
+                .outputSize(3)
+                .luckRatio(2);
+        builder("uraninite", ECTags.Items.PURE_ORES_SOURCE_URANINITE)
+                .fixedName(FIXED_URANINITE)
+                .consumption(5000)
+                .outputSize(5)
+                .luckRatio(2);
+        builder("dense_uraninite", ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE)
+                .fixedName(FIXED_URANINITE)
+                .consumption(10000)
+                .outputSize(10)
+                .luckRatio(2);
+    }
+
+    protected PureOreLoader.Builder ores(PureOreLoader.Builder builder) {
+        return builder.tagPattern("^ores/")
+                .pattern("_?ore$")
+                .luckRatio(5);
+    }
+
+    protected PureOreLoader.Builder rawMaterials(PureOreLoader.Builder builder) {
+        return builder.tagPattern("^raw_materials/")
+                .patterns("^raw_?", "_?raw$")
+                .consumption(5000)
+                .inputSize(3)
+                .outputSize(4)
+                .luckRatio(2);
+    }
+
+    protected PureOreLoader.Builder rawMaterialsBlocks(PureOreLoader.Builder builder) {
+        return builder.tagPattern("^storage_blocks/raw_?(?!_?materials)")
+                .patterns("^raw_?", "_?block$")
+                .consumption(15000)
+                .outputSize(12)
+                .luckRatio(18);
     }
 
     protected PureOreLoader.Builder standard(String name, TagKey<Item> tag) {

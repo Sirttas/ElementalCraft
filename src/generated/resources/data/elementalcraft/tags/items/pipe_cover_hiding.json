@@ -1,7 +1,7 @@
 {
   "values": [
     "#elementalcraft:pipes",
-    "elementalcraft:cover_frame",
-    "elementalcraft:elementpipe_priority"
+    "#elementalcraft:pipes_upgrades",
+    "elementalcraft:cover_frame"
   ]
 }

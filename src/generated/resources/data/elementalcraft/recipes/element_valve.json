@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "f": {
+      "item": "elementalcraft:cover_frame"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "pattern": [
+    " r ",
+    "rfr",
+    " r "
+  ],
+  "result": {
+    "item": "elementalcraft:element_valve"
+  }
+}

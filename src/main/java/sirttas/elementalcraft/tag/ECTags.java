@@ -74,14 +74,14 @@ public class ECTags {
 		public static final TagKey<Item> RUNE_SLATES = createTag("rune_slates");
 		public static final TagKey<Item> PUREROCKS = createTag("purerocks");
 		public static final TagKey<Item> PIPES = createTag("pipes");
+		public static final TagKey<Item> PIPES_UPGRADES = createTag("pipes_upgrades");
+		public static final TagKey<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
 		public static final TagKey<Item> SHRINES = createTag("shrines");
 		public static final TagKey<Item> SHRINE_UPGRADES = createTag("shrine_upgrades");
 
 		public static final TagKey<Item> SMALL_CONTAINER_COMPATIBLES = createTag("small_container_compatibles");
 		public static final TagKey<Item> INSTRUMENTS = createTag("instruments");
 		public static final TagKey<Item> CONTAINER_TOOLS = createTag("container_tools");
-
-		public static final TagKey<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
 		
 		public static final TagKey<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
 		public static final TagKey<Item> PURE_SOURCE_ORES_ORES = createTag("pure_ores/sources/ores");
@@ -89,6 +89,7 @@ public class ECTags {
 		public static final TagKey<Item> PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS = createTag("pure_ores/sources/raw_material_blocks");
 		public static final TagKey<Item> PURE_ORES_SOURCE_GEORE_SHARDS = createTag("pure_ores/sources/geore_shards");
 		public static final TagKey<Item> PURE_ORES_SOURCE_GEORE_BLOCKS = createTag("pure_ores/sources/geore_blocks");
+		public static final TagKey<Item> PURE_ORES_SOURCE_RESONANT_ORE = createTag("pure_ores/sources/resonant_ore");
 		public static final TagKey<Item> PURE_ORES_SOURCE_RAW_URANINITE = createTag("pure_ores/sources/raw_uraninite");
 		public static final TagKey<Item> PURE_ORES_SOURCE_POOR_URANINITE = createTag("pure_ores/sources/poor_uraninite");
 		public static final TagKey<Item> PURE_ORES_SOURCE_URANINITE = createTag("pure_ores/sources/uraninite");

@@ -1,3 +1,27 @@
+1.19.2-5.6.0:
+
+- new item: Element Pump
+- new item: Element Valve
+- new item: Element Beam
+- add a sound effect when the wrong element is inserted in a container
+- improved pipes shapes
+- increased the element binder inventory size from 10 to 20
+- you now need to sneak to remove runes with a chisel (issue # 132)
+- improved a few elementopedia entries
+- add debug tooltip for pure ore
+- retextured pure ores
+- fix a typo in pure redstone ore (issue #131)
+- fix a bug where a container would not be filled with a different element that the one it already contains
+- fix crystallizer not accepting items from custom recipes
+- fix shrine reaching blocks outside their range
+- fix a bug where the ordered sorter would not transfer items
+- fix shrine upgrades being destroyed if the shrine is in an unloaded chunk
+- fix deep resonance pure ore
+- fix the text of a few pure ore (issue #132)
+- fix immersive engineering compatibility crashing on /reload (issue #133)
+- fix pure ore rendering (issue #134)
+
+
 1.19.2-5.5.10:
 
 - fix a crash with binder (issue #130)

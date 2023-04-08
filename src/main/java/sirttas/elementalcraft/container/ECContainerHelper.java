@@ -7,6 +7,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -26,15 +27,22 @@ public class ECContainerHelper {
 	}
 
 	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nullable Direction side) {
-		return BlockEntityHelper.getBlockEntity(world, pos).map(t -> t.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElseGet(() -> {
-			if (t instanceof WorldlyContainer && side != null) {
-				return new SidedInvWrapper((WorldlyContainer) t, side);
+		return BlockEntityHelper.getBlockEntity(world, pos)
+				.map(t -> getItemHandler(t, side))
+				.orElse(EmptyHandler.INSTANCE);
+	}
+
+	@Nonnull
+	public static IItemHandler getItemHandler(ICapabilityProvider provider, @Nullable Direction side) {
+		return provider.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElseGet(() -> {
+			if (provider instanceof WorldlyContainer && side != null) {
+				return new SidedInvWrapper((WorldlyContainer) provider, side);
 			}
-			if (t instanceof Container) {
-				return new InvWrapper((Container) t);
+			if (provider instanceof Container) {
+				return new InvWrapper((Container) provider);
 			}
 			return EmptyHandler.INSTANCE;
-		})).orElse(EmptyHandler.INSTANCE);
+		});
 	}
 
 	public static boolean stackEqualExact(ItemStack stack1, ItemStack stack2) {

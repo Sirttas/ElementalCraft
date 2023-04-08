@@ -235,7 +235,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		
 		BindingRecipeBuilder.bindingRecipe(ECItems.SPRINGALINE_SHARD.get(), ElementType.WATER).addIngredient(Items.AMETHYST_SHARD).addIngredient(Tags.Items.GEMS_QUARTZ).addIngredient(ECItems.WATER_CRYSTAL.get())
 				.build(consumer);
-		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPRINGALINE_CLUSTER.get(), ElementType.WATER).addIngredient(Items.AMETHYST_BLOCK).addIngredient(Tags.Items.STORAGE_BLOCKS_QUARTZ)
+		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPRINGALINE_CLUSTER.get(), ElementType.WATER).addIngredient(Items.AMETHYST_BLOCK).addIngredient(Tags.Items.STORAGE_BLOCKS_QUARTZ /* FIXME use all quartz blocks */)
 				.addIngredient(ECItems.SPRINGALINE_SHARD.get()).addIngredient(ECItems.WATER_CRYSTAL.get()).build(consumer);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIRE_LENS.get(), ElementType.FIRE).addIngredient(ECItems.SPRINGALINE_SHARD.get()).addIngredient(ECBlocks.SPRINGALINE_GLASS_PANE.get())
@@ -365,12 +365,41 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("iii")
 				.unlockedBy(HAS_DRENCHED_IRON_INGOT, has(ECTags.Items.INGOTS_DRENCHED_IRON))
 				.save(consumer);
-		shaped(ECItems.PIPE_PRIORITY, 4)
+
+		shaped(ECItems.PIPE_PRIORITY_RINGS, 4)
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.define('f', ECItems.COVER_FRAME.get())
 				.pattern(" i ")
 				.pattern("ifi")
 				.pattern(" i ")
+				.unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY))
+				.save(consumer);
+		shaped(ECItems.ELEMENT_PUMP)
+				.define('c', ECItems.PURE_CRYSTAL.get())
+				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.define('n', ECTags.Items.NUGGETS_FIREITE)
+				.define('f', ECItems.COVER_FRAME.get())
+				.pattern("in ")
+				.pattern("cfi")
+				.pattern("in ")
+				.unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.NUGGETS_FIREITE))
+				.save(consumer);
+		shaped(ECItems.ELEMENT_VALVE)
+				.define('r', Tags.Items.DUSTS_REDSTONE)
+				.define('f', ECItems.COVER_FRAME.get())
+				.pattern(" r ")
+				.pattern("rfr")
+				.pattern(" r ")
+				.unlockedBy("has_cover_frame", has(ECItems.COVER_FRAME.get()))
+				.save(consumer);
+		shaped(ECItems.ELEMENT_BEAM, 2)
+				.define('c', ECItems.CONTAINED_CRYSTAL.get())
+				.define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
+				.define('n', ECTags.Items.NUGGETS_SWIFT_ALLOY)
+				.define('f', ECItems.COVER_FRAME.get())
+				.pattern("in ")
+				.pattern("fic")
+				.pattern("in ")
 				.unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.save(consumer);
 	}

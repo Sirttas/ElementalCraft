@@ -23,6 +23,7 @@ import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,14 +48,15 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 	}
 	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SorterBlockEntity sorter) {
+		if (sorter.isPowered()) {
+			return;
+		}
 		var speed = sorter.runeHandler.getBonus(Rune.BonusType.SPEED) + 1;
 		var cooldown = ECConfig.COMMON.sorterCooldown.get();
 
 		sorter.tick += Math.min(speed, cooldown * 64f); // capped at 1 stack a tick to prevent lag spikes
 		while (sorter.tick > cooldown) { // TODO improve performance
-			if (!sorter.isPowered()) {
-				sorter.transfer();
-			}
+			sorter.transfer();
 			sorter.tick -= cooldown;
 		}
 	}
@@ -89,12 +91,13 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		return index;
 	}
 
-	private void transfer() {
+	void transfer() {
 		BlockState state = this.getBlockState();
 		Direction source = state.getValue(ISorterBlock.SOURCE);
 		Direction target = state.getValue(ISorterBlock.TARGET);
 		IItemHandler sourceInv = ECContainerHelper.getItemHandlerAt(level, worldPosition.relative(source), source.getOpposite());
 		IItemHandler targetInv = ECContainerHelper.getItemHandlerAt(level, worldPosition.relative(target), target.getOpposite());
+		var isTargetingInstrument = level.getBlockState(worldPosition.relative(target)).is(ECTags.Blocks.INSTRUMENTS); // FIXME use alwaysInsert instead
 
 		if (stacks.isEmpty()) {
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
@@ -106,7 +109,7 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 					return;
 				}
 			}
-		} else if (alwaysInsert || index > 0 || ECContainerHelper.isEmpty(targetInv)) {
+		} else if (alwaysInsert || !isTargetingInstrument || index > 0 || ECContainerHelper.isEmpty(targetInv)) {
 			ItemStack stack = stacks.get(index).copy();
 
 			for (int i = 0; i < sourceInv.getSlots(); i++) {

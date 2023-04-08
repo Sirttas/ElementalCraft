@@ -9,6 +9,14 @@
     {
       "type": "text",
       "text": "elementalcraft.page.source_traits0"
+    },
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_traits1"
+    },
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_traits2"
     }
   ]
 }

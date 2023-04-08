@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.block.container.creative;
 
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.container.ElementContainerElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 
-public class CreativeElementStorage extends ElementContainerElementStorage {
+public class CreativeElementStorage extends SingleElementStorage {
 
 	public CreativeElementStorage(Runnable syncCallback) {
 		super(1000000, syncCallback);
@@ -36,5 +36,10 @@ public class CreativeElementStorage extends ElementContainerElementStorage {
 	@Override
 	public int getElementCapacity() {
 		return elementCapacity;
+	}
+
+	@Override
+	public boolean doesRenderGauge() {
+		return true;
 	}
 }

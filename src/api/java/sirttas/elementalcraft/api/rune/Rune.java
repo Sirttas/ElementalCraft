@@ -190,7 +190,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		public Builder model(ItemModelBuilder model) {
 			ResourceLocation modelLoc = model.getLocation();
 			
-			this.model = new ResourceLocation(modelLoc.getNamespace(), modelLoc.getPath().substring(5));
+			this.model = new ResourceLocation(modelLoc.getNamespace(), modelLoc.getPath());
 			return this;
 		}
 

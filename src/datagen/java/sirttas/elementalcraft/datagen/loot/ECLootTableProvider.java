@@ -12,6 +12,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.loot.ECLootContextParamSets;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -62,7 +63,8 @@ public class ECLootTableProvider extends LootTableProvider {
         return List.of(
                 Pair.of(ECBlockLoot::new, LootContextParamSets.BLOCK),
                 Pair.of(ECChestLoot::new, LootContextParamSets.CHEST),
-                Pair.of(ECEntityLoot::new, LootContextParamSets.ENTITY)
+                Pair.of(ECEntityLoot::new, LootContextParamSets.ENTITY),
+                Pair.of(PipeUpgradeLoot::new, ECLootContextParamSets.PIPE_UPGRADE)
         );
     }
 

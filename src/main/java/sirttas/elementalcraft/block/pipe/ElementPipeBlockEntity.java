@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -16,7 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.element.transfer.IElementTransferer.ConnectionType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
 import sirttas.elementalcraft.api.element.transfer.path.SimpleElementTransferPathfinder;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -33,21 +32,20 @@ import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
-import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 	private final ElementPipeTransferer transferer;
 	private BlockState coverState;
-	private SimpleElementTransferPathfinder pathfinder;
 	private final Map<Direction, IElementTransferPath> pathMap;
-
 
 	public ElementPipeBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.PIPE, pos, state);
@@ -64,8 +62,38 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		return transferer.getConnection(face);
 	}
 
-	public boolean isPriority(Direction face) {
-		return transferer.isPriority(face);
+	public VoxelShape getShape(@Nullable Direction face) {
+		if (face == null) {
+			return ElementPipeShapes.BASE_SHAPE;
+		}
+
+		var connexion = transferer.getConnection(face);
+		var shape = Shapes.empty();
+		var upgrade = transferer.getUpgrade(face);
+
+		if (upgrade != null) {
+			shape = upgrade.getShape();
+		}
+		if (connexion.isConnected()) {
+			if (upgrade == null || !upgrade.replaceSection()) {
+				shape = Shapes.or(shape, ElementPipeShapes.SECTION_SHAPES.get(face));
+			}
+			if (connexion == ConnectionType.EXTRACT && (upgrade == null || !upgrade.replaceExtraction())) {
+				shape = Shapes.or(shape, ElementPipeShapes.EXTRACTION_SHAPES.get(face));
+			}
+		}
+		return shape;
+	}
+
+	public VoxelShape getShape() {
+		// TODO cache
+
+		var shape = ElementPipeShapes.BASE_SHAPE;
+
+		for (Direction face : Direction.values()) {
+			shape = Shapes.or(shape, getShape(face));
+		}
+		return shape;
 	}
 
 	private void setConnection(Direction face, ConnectionType type) {
@@ -73,29 +101,20 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 			return;
 		}
 		transferer.setConnection(face, type);
-		if (!type.isConnected() && isPriority(face)) {
-			this.setPriority(face, false);
-			dropPriorities(null, 1);
-		}
 		this.setChanged();
 		if (this.level != null) {
 			this.getBlockState().updateNeighbourShapes(this.level, this.getBlockPos(), 3);
 		}
 	}
-	
-	private void setPriority(Direction face, boolean value) {
-		transferer.setPriority(face, value);
-		this.setChanged();
-	}
 
 	private void refresh(Direction face) {
 		var opposite = face.getOpposite();
 
-		this.setConnection(face, getAdjacentTile(face).map(tile -> {
-			ConnectionType connection = this.getConnection(face);
+		var connection = getAdjacentTile(face).map(tile -> {
+			ConnectionType c = this.getConnection(face);
 
-			if (connection != ConnectionType.NONE) {
-				return connection;
+			if (c != ConnectionType.NONE) {
+				return c;
 			}
 			if (tile instanceof ElementPipeBlockEntity) {
 				return ConnectionType.CONNECT;
@@ -108,13 +127,21 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				}
 				return ConnectionType.NONE;
 			}).orElse(ConnectionType.NONE);
-		}).orElse(ConnectionType.NONE));
+		}).orElse(ConnectionType.NONE);
+		setConnection(face, connection);
+
+		var upgrade = transferer.getUpgrade(face);
+
+		if (upgrade != null && !upgrade.canPlace(connection)) {
+			this.removeUpgrade(face);
+		}
 	}
 
 	void refresh() {
 		for (Direction face : Direction.values()) {
 			refresh(face);
 		}
+		// TODO remove caches
 	}
 
 	Map<Direction, IElementTransferPath> getPathMap() {
@@ -122,10 +149,24 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	private void transferElement(IElementStorage sender, Direction side, ElementType type) {
-		if (type != ElementType.NONE && this.pathfinder != null) {
-			var path =  this.pathfinder.findPath(type, sender, transferer, this.getBlockPos());
+		var pos = this.getBlockPos();
+
+		if (type != ElementType.NONE && level != null) {
+			var upgrade = transferer.getUpgrade(side);
+
+			if ((upgrade != null && !upgrade.canTransfer(type, ConnectionType.EXTRACT)) || !canExtractFromStorage(sender, side.getOpposite())) {
+				return;
+			}
+
+			var pathfinder = new SimpleElementTransferPathfinder(level);
+			var path = pathfinder.findPath(type, new ElementPipeTransferer.Node(pos.relative(side), null, sender), new ElementPipeTransferer.Node(pos, transferer, null));
 
 			pathMap.put(side, path);
+
+
+			if (upgrade != null) {
+				path = upgrade.alterPath(path);
+			}
 			path.transfer();
 		}
 	}
@@ -137,9 +178,6 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ElementPipeBlockEntity pipe) {
 		commonTick(level, pos, state, pipe);
-		if (pipe.pathfinder == null) {
-			pipe.pathfinder = new SimpleElementTransferPathfinder(level);
-		}
 		pipe.transferer.getConnections().entrySet().stream()
 				.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
 				.sorted(pipe.transferer.comparator)
@@ -151,73 +189,80 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				}));
 	}
 
-	public InteractionResult activatePriority(Direction face, Player player, InteractionHand hand) {
-		boolean priority = isPriority(face);
-		
-		this.setPriority(face, !priority);
-		if (priority) {
-			dropPriorities(player, 1);
-		} else {
-			ItemStack stack = player.getItemInHand(hand);
-			
-			if (!player.isCreative()) {
-				stack.shrink(1);
-				if (stack.isEmpty()) {
-					player.setItemInHand(hand, ItemStack.EMPTY);
-				}
-			}
-		}
-		return InteractionResult.SUCCESS;
+	public PipeUpgrade getUpgrade(Direction face) {
+		return this.transferer.getUpgrade(face);
 	}
 
-	private void dropPriorities(@Nullable Player player, int size) {
-		Level world = this.getLevel();
-		
-		if (world != null && !world.isClientSide) {
-			Vec3 vect = player != null ? player.position().add(0, 0.25, 0) : Vec3.atCenterOf(this.getBlockPos());
-			
-			world.addFreshEntity(new ItemEntity(world, vect.x, vect.y, vect.z, new ItemStack(ECItems.PIPE_PRIORITY.get(), size)));
+	public void setUpgrade(Direction face, PipeUpgrade upgrade) {
+		this.transferer.setUpgrade(face, Objects.requireNonNull(upgrade));
+		upgrade.added();
+	}
+
+	private void removeUpgrade(Direction side) {
+		removeUpgrade(null, side);
+	}
+
+	private void removeUpgrade(@Nullable Player player, Direction side) {
+		var upgrade = getUpgrade(side);
+
+		if (upgrade == null) {
+			return;
+		}
+		upgrade.dropAll(player);
+		transferer.removeUpgrade(side);
+		upgrade.removed();
+	}
+	
+	void removeAllUpgrades() {
+		for (Direction side : Direction.values()) {
+			removeUpgrade(side);
 		}
 	}
 	
-	void dropAllPriorities() {
-		dropPriorities(null, (int) this.transferer.priorities.values().stream().filter(Boolean.TRUE::equals).count());
-	}
-	
-	public InteractionResult activatePipe(Direction face) {
+	public InteractionResult activatePipe(@Nullable Player player, Direction face) {
+		var upgrade = getUpgrade(face);
+
+		if (upgrade != null) {
+			removeUpgrade(player, face);
+			return InteractionResult.SUCCESS;
+		}
+
 		var opposite = face.getOpposite();
 
 		return getAdjacentTile(face).map(tile -> {
 			ConnectionType connection = this.getConnection(face);
 
 			switch (connection) {
-			case INSERT:
-				if (ElementStorageHelper.get(tile, opposite).filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
-					this.setConnection(face, ConnectionType.EXTRACT);
-				} else {
+				case INSERT -> {
+					if (ElementStorageHelper.get(tile, opposite).filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
+						this.setConnection(face, ConnectionType.EXTRACT);
+					} else {
+						this.setConnection(face, ConnectionType.DISCONNECT);
+					}
+					return InteractionResult.SUCCESS;
+				}
+				case EXTRACT, CONNECT -> {
 					this.setConnection(face, ConnectionType.DISCONNECT);
+					if (tile instanceof ElementPipeBlockEntity pipe) {
+						pipe.setConnection(face.getOpposite(), ConnectionType.DISCONNECT);
+					}
+					return InteractionResult.SUCCESS;
 				}
-				return InteractionResult.SUCCESS;
-			case EXTRACT, CONNECT:
-				this.setConnection(face, ConnectionType.DISCONNECT);
-				if (tile instanceof ElementPipeBlockEntity pipe) {
-					pipe.setConnection(face.getOpposite(), ConnectionType.DISCONNECT);
+				case DISCONNECT -> {
+					LazyOptional<IElementStorage> cap = ElementStorageHelper.get(tile, face.getOpposite());
+					if (cap.filter(storage -> canInsertInStorage(storage, opposite)).isPresent()) {
+						this.setConnection(face, ConnectionType.INSERT);
+					} else if (cap.filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
+						this.setConnection(face, ConnectionType.EXTRACT);
+					} else if (tile instanceof ElementPipeBlockEntity pipe) {
+						this.setConnection(face, ConnectionType.CONNECT);
+						pipe.setConnection(face.getOpposite(), ConnectionType.CONNECT);
+					}
+					return InteractionResult.SUCCESS;
 				}
-				return InteractionResult.SUCCESS;
-			case DISCONNECT:
-				LazyOptional<IElementStorage> cap = ElementStorageHelper.get(tile, face.getOpposite());
-
-				if (cap.filter(storage -> canInsertInStorage(storage, opposite)).isPresent()) {
-					this.setConnection(face, ConnectionType.INSERT);
-				} else if (cap.filter(storage -> canExtractFromStorage(storage, opposite)).isPresent()) {
-					this.setConnection(face, ConnectionType.EXTRACT);
-				} else if (tile instanceof ElementPipeBlockEntity pipe) {
-					this.setConnection(face, ConnectionType.CONNECT);
-					pipe.setConnection(face.getOpposite(), ConnectionType.CONNECT);
+				default -> {
+					return InteractionResult.PASS;
 				}
-				return InteractionResult.SUCCESS;
-			default:
-				return InteractionResult.PASS;
 			}
 		}).orElse(InteractionResult.PASS);
 	}

@@ -16,8 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
+import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
+import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassItem;
 import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.jewel.Jewel;
@@ -58,6 +60,8 @@ public class ECItemModelProvider extends ItemModelProvider {
 					} else {
 						withExistingParent(name, ElementalCraft.createRL(BLOCK_PREFIX + name));
 					}
+				} else if (item instanceof PipeUpgradeItem) {
+					withExistingParent(name, ElementalCraft.createRL(PipeUpgrade.FOLDER + name));
 				} else if (item instanceof FocusItem || item instanceof SourceAnalysisGlassItem || item instanceof ChiselItem) {
 					singleTexture(name,  new ResourceLocation("minecraft", ITEM_PREFIX + "handheld"), "layer0", ElementalCraft.createRL(ITEM_PREFIX + name));
 				}else if (item instanceof ElementHolderItem) {
@@ -92,7 +96,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	public ItemModelBuilder singleJewelTexture(String name) {
-		return singleTexture(ITEM_PREFIX + "elementalcraft_jewels/" + name, ElementalCraft.createRL("elementalcraft/jewels/" + name));
+		return singleTexture("elementalcraft/jewels/" + name, ElementalCraft.createRL("elementalcraft/jewels/" + name));
 	}
 
 	public ItemModelBuilder runeTexture(String name, ResourceLocation slate, ResourceLocation rune) {
@@ -104,7 +108,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	private boolean exists(Jewel jewel) {
-		return existingFileHelper.exists(jewel.getKey(), PackType.CLIENT_RESOURCES, ".json", "models/item/elementalcraft/jewels");
+		return existingFileHelper.exists(jewel.getKey(), PackType.CLIENT_RESOURCES, ".json", "models/elementalcraft/jewels");
 	}
 
 	@Nonnull

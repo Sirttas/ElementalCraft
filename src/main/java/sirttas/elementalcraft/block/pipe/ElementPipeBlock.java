@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.pipe;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -12,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,8 +28,6 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -38,12 +38,11 @@ import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class ElementPipeBlock extends AbstractECEntityBlock {
 
@@ -51,20 +50,6 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	public static final String NAME_IMPAIRED = NAME + "_impaired";
 	public static final String NAME_IMPROVED = NAME + "_improved";
 	public static final String NAME_CREATIVE = NAME + "_creative";
-
-	private static final VoxelShape BASE_SHAPE = Block.box(6.5D, 6.5D, 6.5D, 9.5D, 9.5D, 9.5D);
-	private static final VoxelShape WEST_SHAPE = Block.box(0, 7D, 7D, 6.5D, 9D, 9D);
-	private static final VoxelShape DOWN_SHAPE = Block.box(7D, 0, 7D, 9D, 6.5D, 9D);
-	private static final VoxelShape NORTH_SHAPE = Block.box(7D, 7D, 0, 9D, 9D, 6.5D);
-	private static final VoxelShape EAST_SHAPE = Block.box(9.5D, 7D, 7D, 16D, 9D, 9D);
-	private static final VoxelShape UP_SHAPE = Block.box(7D, 9.5D, 7D, 9D, 16D, 9D);
-	private static final VoxelShape SOUTH_SHAPE = Block.box(7D, 7D, 9.5D, 9D, 9D, 16D);
-
-	private static final VoxelShape FRAME_SHAPE = Shapes.join(Shapes.block(),
-			Shapes.or(Block.box(0D, 1D, 1D, 16D, 15D, 15D), Block.box(1D, 0D, 1D, 15D, 16D, 15D), Block.box(1D, 1D, 0D, 15D, 15D, 16D)),
-			BooleanOp.ONLY_FIRST);
-	
-	private static final List<VoxelShape> SHAPES = List.of(EAST_SHAPE, NORTH_SHAPE, WEST_SHAPE, SOUTH_SHAPE, UP_SHAPE, DOWN_SHAPE, BASE_SHAPE, FRAME_SHAPE);
 
 	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
 
@@ -109,29 +94,6 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 	}
 
-	private boolean compareShapes(VoxelShape shape1, VoxelShape shape2) {
-		return shape1.bounds().equals(shape2.bounds());
-	}
-
-	private Direction getFace(VoxelShape shape, BlockHitResult hit) {
-		if (compareShapes(shape, DOWN_SHAPE)) {
-			return Direction.DOWN;
-		} else if (compareShapes(shape, UP_SHAPE)) {
-			return Direction.UP;
-		} else if (compareShapes(shape, NORTH_SHAPE)) {
-			return Direction.NORTH;
-		} else if (compareShapes(shape, SOUTH_SHAPE)) {
-			return Direction.SOUTH;
-		} else if (compareShapes(shape, WEST_SHAPE)) {
-			return Direction.WEST;
-		} else if (compareShapes(shape, EAST_SHAPE)) {
-			return Direction.EAST;
-		} else if (shape == BASE_SHAPE) {
-			return hit.getDirection();
-		}
-		return null;
-	}
-
 	public static boolean showCover(BlockState state, Player player) {
 		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && stack.is(ECTags.Items.PIPE_COVER_HIDING)));
 	}
@@ -140,39 +102,22 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		return state.getValue(COVER) == CoverType.COVERED;
 	}
 
-	private boolean isRendered(VoxelShape shape, ElementPipeBlockEntity entity, BlockState state) {
-		return state.is(this) && entity != null && (compareShapes(shape, BASE_SHAPE)
-				|| (compareShapes(shape, DOWN_SHAPE) && entity.getConnection(Direction.DOWN).isConnected())
-				|| (compareShapes(shape, UP_SHAPE) && entity.getConnection(Direction.UP).isConnected())
-				|| (compareShapes(shape, NORTH_SHAPE) && entity.getConnection(Direction.NORTH).isConnected())
-				|| (compareShapes(shape, SOUTH_SHAPE) && entity.getConnection(Direction.SOUTH).isConnected())
-				|| (compareShapes(shape, WEST_SHAPE) && entity.getConnection(Direction.WEST).isConnected())
-				|| (compareShapes(shape, EAST_SHAPE) && entity.getConnection(Direction.EAST).isConnected())
-				|| (compareShapes(shape, FRAME_SHAPE) && state.getValue(COVER) == CoverType.FRAME));
-	}
-
 	private VoxelShape getCurrentShape(BlockState state, ElementPipeBlockEntity entity, Player player) {
-		VoxelShape result = Shapes.empty();
-
 		if (showCover(state, entity != null ? player : null)) {
 			return Shapes.block();
+		} else if (entity == null) {
+			return Shapes.empty();
 		}
-		for (final VoxelShape shape : SHAPES) {
-			if (isRendered(shape, entity, state)) {
-				result = Shapes.or(result, shape);
-			}
-		}
-		return result;
+		return entity.getShape();
 	}
 
 	@Override
 	@Deprecated
 	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-		Player player = getPlayer(context);
-		ElementPipeBlockEntity blockEntity = getBlockEntity(blockGetter, pos);
+		var player = getPlayer(context);
+		var blockEntity = getBlockEntity(blockGetter, pos);
 
-		return blockGetter instanceof Level level && level.isClientSide ? getShape(state, pos, blockEntity, Minecraft.getInstance().hitResult, player)
-				: getCurrentShape(state, blockEntity, player);
+		return blockGetter instanceof Level level && level.isClientSide ? getShapeAndFace(state, pos, blockEntity, Minecraft.getInstance().hitResult, player).getFirst() : getCurrentShape(state, blockEntity, player);
 	}
 
 	private Player getPlayer(CollisionContext context) {
@@ -182,17 +127,24 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		return null;
 	}
 
-	public VoxelShape getShape(BlockState state, BlockPos pos, ElementPipeBlockEntity blockEntity, HitResult result, Player player) {
-		if (!showCover(state, player) && result != null && result.getType() == HitResult.Type.BLOCK && ((BlockHitResult) result).getBlockPos().equals(pos)) {
-			final Vec3 hit = result.getLocation();
+	public Pair<VoxelShape, Direction> getShapeAndFace(BlockState state, BlockPos pos, ElementPipeBlockEntity pipe, HitResult result, Player player) {
+		if (!showCover(state, player) && result instanceof BlockHitResult blockHitResult && blockHitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals(pos)) {
+			var hit = blockHitResult.getLocation();
 
-			for (final VoxelShape shape : SHAPES) {
-				if (isRendered(shape, blockEntity, state) && ShapeHelper.vectorCollideWithShape(shape, pos, hit)) {
-					return shape;
+			for (Direction face : Direction.values()) {
+				var shape = pipe.getShape(face);
+
+				if (ShapeHelper.vectorCollideWithShape(shape, pos, hit)) {
+					return Pair.of(shape, face);
 				}
 			}
+			if (ShapeHelper.vectorCollideWithShape(ElementPipeShapes.BASE_SHAPE, pos, hit)) {
+				return Pair.of(ElementPipeShapes.BASE_SHAPE, blockHitResult.getDirection());
+			} else if (ShapeHelper.vectorCollideWithShape(ElementPipeShapes.FRAME_SHAPE, pos, hit)) {
+				return Pair.of(ElementPipeShapes.FRAME_SHAPE, null);
+			}
 		}
-		return getCurrentShape(state, blockEntity, player);
+		return Pair.of(getCurrentShape(state, pipe, player), null);
 	}
 
 	@Override
@@ -207,15 +159,16 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) level.getBlockEntity(pos);
 
 		if (pipe != null) {
-			final VoxelShape shape = getShape(state, pos, getBlockEntity(level, pos), hit, player);
+			var pair = getShapeAndFace(state, pos, getBlockEntity(level, pos), hit, player);
+			var shape = pair.getFirst();
 
-			if (compareShapes(shape, FRAME_SHAPE) || state.getValue(COVER) == CoverType.FRAME) {
+			if (shape == ElementPipeShapes.FRAME_SHAPE || state.getValue(COVER) == CoverType.FRAME) {
 				return pipe.setCover(player, hand);
 			} else {
-				Direction face = getFace(shape, hit);
-				InteractionResult value = onShapeActivated(face, pipe, player, hand);
+				var face = pair.getSecond();
+				var value = onShapeActivated(face, pipe, player, hand, hit);
 	
-				if (value != InteractionResult.PASS) {
+				if (!value.consumesAction()) {
 					player.displayClientMessage(pipe.getConnectionMessage(face), true);
 					level.updateNeighborsAt(pos, this);
 				}
@@ -225,14 +178,14 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		return InteractionResult.PASS;
 	}
 
-	private InteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand) {
+	private InteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (face != null) {
 			ItemStack stack = player.getItemInHand(hand);
 
-			if (!stack.isEmpty() && stack.getItem() == ECItems.PIPE_PRIORITY.get()) {
-				return pipe.activatePriority(face, player, hand);
+			if (!stack.isEmpty() && stack.getItem() instanceof PipeUpgradeItem upgrade) {
+				return upgrade.put(pipe, new UseOnContext(player, hand, new BlockHitResult(hit.getLocation(), face, hit.getBlockPos(), hit.isInside())));
 			}
-			return pipe.activatePipe(face);
+			return pipe.activatePipe(player, face);
 		}
 		return InteractionResult.PASS;
 	}
@@ -243,11 +196,11 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		if (state.getBlock() != newState.getBlock()) {
 			var te = level.getBlockEntity(pos);
 
-			if (te  instanceof ElementPipeBlockEntity pipe) {
+			if (te instanceof ElementPipeBlockEntity pipe) {
 				if (isCovered(state)) {
 					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
 				}
-				pipe.dropAllPriorities();
+				pipe.removeAllUpgrades(); // TODO call remove on upgrades
 			}
 			super.onRemove(state, level, pos, newState, isMoving);
 		}

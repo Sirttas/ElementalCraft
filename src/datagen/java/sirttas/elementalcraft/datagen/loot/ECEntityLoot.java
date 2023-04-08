@@ -17,7 +17,6 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.loot.LootHandler;
-import sirttas.elementalcraft.loot.function.ECLootFunctions;
 
 import javax.annotation.Nonnull;
 import java.text.MessageFormat;
@@ -35,10 +34,6 @@ public class ECEntityLoot extends EntityLoot {
 	private static final LootPool.Builder EARTH = createShardPool(ElementType.EARTH);
 	private static final LootPool.Builder WATER = createShardPool(ElementType.WATER);
 	private static final LootPool.Builder AIR = createShardPool(ElementType.AIR);
-
-	public ECEntityLoot() {
-		ECLootFunctions.setup();
-	}
 
 	@Override
 	protected void addTables() {

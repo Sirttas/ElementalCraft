@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_element_pump": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:element_pump"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_element_pump"
+    ]
+  ]
+}
