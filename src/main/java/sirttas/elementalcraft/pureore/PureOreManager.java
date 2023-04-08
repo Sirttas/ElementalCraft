@@ -17,8 +17,8 @@ import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
+import sirttas.elementalcraft.color.ECColorHelper;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
@@ -206,7 +206,7 @@ public class PureOreManager {
 		private int[] getColors() {
 			if (colors == null) {
 				colors = ores.values().stream()
-						.map(o -> ECItem.lookupColors(o.getResultForColor()))
+						.map(o -> ECColorHelper.lookupColors(o.getResultForColor()))
 						.findFirst()
 						.orElse(null);
 			}

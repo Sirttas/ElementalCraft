@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.item;
 
 import com.google.common.collect.Multimap;
-import mezz.jei.library.color.ColorGetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -12,20 +11,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 
 public class ECItem extends Item {
-
-	private static final Comparator<Integer> COLOR_BRIGHTNESS_COMPARATOR = Comparator.comparingInt(ECItem::getBrightness);
-
-	private static boolean noJeiLogged = false;
 
 	public ECItem() {
 		this(ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
@@ -46,40 +39,6 @@ public class ECItem extends Item {
 	public ECItem setFoil(boolean foil) {
 		this.foil = foil;
 		return this;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static int[] lookupColors(ItemStack stack) {
-		try {
-			var colors = new ColorGetter().getColors(stack, 3); // FIXME extract ColorGetter from JEI
-	
-			if (colors != null && !colors.isEmpty()) {
-				var array = colors.stream()
-						.map(color -> color == null ? -1 : color)
-						.sorted(COLOR_BRIGHTNESS_COMPARATOR.reversed())
-						.mapToInt(Integer::intValue)
-						.toArray();
-
-				if (array.length == 1) {
-					return new int[] { array[0], array[0], array[0] };
-				} else if (array.length == 2) {
-					return new int[] { array[0], array[0], array[1] };
-				} else {
-					return new int[] { array[0], array[1], array[2] };
-				}
-			}
-		} catch (NoClassDefFoundError e) {
-			if (!noJeiLogged) {
-				ElementalCraftApi.LOGGER.warn("JEI not present, can't lookup item colors", e);
-				noJeiLogged = true;
-			}
-		}
-		return new int[] { -1, -1, -1 };
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	private static int getBrightness(int color) {
-		return ((color & 0xFF) + ((color >> 8) & 0xFF) + ((color >> 16) & 0xFF)) / 3;
 	}
 
 	@OnlyIn(Dist.CLIENT)
