@@ -7,7 +7,7 @@ import sirttas.elementalcraft.item.ECItems;
 
 public class ElementalItemHelper {
 
-    private static final String ERROR_MESSAGE = "Element Type must not be NONE";
+    public static final String ERROR_MESSAGE = "Element Type must not be NONE";
 
     private ElementalItemHelper() {}
 

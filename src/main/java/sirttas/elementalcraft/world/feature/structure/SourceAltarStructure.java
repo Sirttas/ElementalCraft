@@ -117,7 +117,7 @@ public class SourceAltarStructure extends Structure {
 				level.blockUpdated(pos, Blocks.CHEST);
 			} else if (name.startsWith("source")) {
 				level.setBlock(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType), 3);
-				BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(s -> s.resetTraits(getSourceLuck(name)));
+				BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(s -> s.resetTraits(level, getSourceLuck(name)));
 				level.blockUpdated(pos, ECBlocks.SOURCE.get());
 			}
 		}

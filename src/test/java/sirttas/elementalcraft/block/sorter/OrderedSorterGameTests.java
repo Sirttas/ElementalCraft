@@ -26,7 +26,7 @@ public class OrderedSorterGameTests {
 
         assertThat(sourceChest).isNotEmpty();
         assertThat(targetChest).isEmpty();
-        helper.pullLever(new BlockPos(0, 2, 1));
+        helper.pullLever(0, 2, 1);
         sorter.transfer();
         sorter.transfer();
         sorter.transfer();

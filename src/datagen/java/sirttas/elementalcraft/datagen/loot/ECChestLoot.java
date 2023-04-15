@@ -140,7 +140,7 @@ public class ECChestLoot extends ChestLoot {
 			case EARTH -> "soaryn";
 			case FIRE -> "manx";
 			case WATER -> "claptrap";
-			default -> throw new IllegalArgumentException("Unknown element type: " + type);
+			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
 
@@ -150,7 +150,7 @@ public class ECChestLoot extends ChestLoot {
 			case EARTH -> "kaworu";
 			case FIRE -> "jita";
 			case WATER -> "bombadil";
-			default -> throw new IllegalArgumentException("Unknown element type: " + type);
+			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
 
@@ -160,7 +160,7 @@ public class ECChestLoot extends ChestLoot {
 			case EARTH -> "mewtwo";
 			case FIRE -> "tano";
 			case WATER -> "tzeentch";
-			default -> throw new IllegalArgumentException("Unknown element type: " + type);
+			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
 }

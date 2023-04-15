@@ -4,6 +4,7 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraftforge.gametest.GameTestHolder;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
+import org.assertj.core.data.Offset;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.stream.IntStream;
@@ -43,14 +44,27 @@ public class SourceTraitHelperGameTests {
 
     // elementalcraft:empty
     @GameTest(template = "empty", required = false)
-    public void breed_should_addFertilityInAboutOneQuarter(GameTestHelper helper) {
+    public void breed_should_addFertilityInAboutOneQuarter_with_luck0(GameTestHelper helper) {
         var fertileCount = IntStream.range(0, 1000)
                 .mapToObj(i -> SourceTraitHelper.breed(helper.getLevel().random, 0, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits()))
                 .filter(traits -> traits.containsKey(SourceTraits.FERTILITY))
                 .count();
 
         ElementalCraftApi.LOGGER.info("Fertile count: {}", fertileCount);
-        assertThat(fertileCount).isBetween(200L, 300L);
+        assertThat(fertileCount).isCloseTo(250L, Offset.offset(50L));
+        helper.succeed();
+    }
+
+    // elementalcraft:empty
+    @GameTest(template = "empty", required = false)
+    public void breed_should_addFertilityInAboutFiveEighth_with_luck3(GameTestHelper helper) {
+        var fertileCount = IntStream.range(0, 1000)
+                .mapToObj(i -> SourceTraitHelper.breed(helper.getLevel().random, 3, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits()))
+                .filter(traits -> traits.containsKey(SourceTraits.FERTILITY))
+                .count();
+
+        ElementalCraftApi.LOGGER.info("Fertile count: {}", fertileCount);
+        assertThat(fertileCount).isCloseTo(625L, Offset.offset(100L));
         helper.succeed();
     }
 }

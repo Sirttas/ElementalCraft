@@ -32,9 +32,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
 @GameTestHolder(ElementalCraftApi.MODID)
-public class ChiselItemGameTests {
+public class ChiselGameTests {
 
-    // elementalcraft:chiselitemgametests.inscriber
+    // elementalcraft:chiselgametests.inscriber
     @GameTest(template = "inscriber")
     public static void should_craftRune(GameTestHelper helper) {
         var pos = helper.absolutePos(new BlockPos(0, 2, 0));

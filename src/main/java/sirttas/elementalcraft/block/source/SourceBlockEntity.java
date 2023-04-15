@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -47,7 +48,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
 		if (source.traitHolder.isEmpty()) {
-			source.initTraits(0);
+			source.initTraits(level, 0);
 		}
         if (source.elementStorage.isExhausted()) {
 			if (source.traitHolder.isArtificial()) {
@@ -58,18 +59,18 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
         }
     }
 
-    private void initTraits(int luck) {
+    private void initTraits(@Nonnull Level level, int luck) {
         if (elementStorage.getElementType() == ElementType.NONE) {
             elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
 			this.setChanged();
         }
-		traitHolder.initTraits(this.getLevel(), this.worldPosition, luck);
+		traitHolder.initTraits(level, this.worldPosition, luck);
 		this.refreshCapacity();
     }
 
-	public void resetTraits(int luck) {
+	public void resetTraits(@Nonnull ServerLevelAccessor level, int luck) {
 		traitHolder.clear();
-		this.initTraits(luck);
+		this.initTraits(level.getLevel(), luck);
 	}
 
 	public boolean isExhausted() {

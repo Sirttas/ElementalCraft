@@ -1,7 +1,12 @@
+1.19.2-5.7.3:
+
+- fix a crash during worldgen (issue #138)
+
+
 1.19.2-5.7.2:
 
-- fix element valve and element beam loot tables
 - add large runes to source altar loot table
+- fix element valve and element beam loot tables
 
 
 1.19.2-5.7.1:
