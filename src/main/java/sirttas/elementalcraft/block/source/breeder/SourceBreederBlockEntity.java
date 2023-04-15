@@ -122,7 +122,7 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
         if (transferAmount > 0) {
             float preservation = runeHandler.getBonus(Rune.BonusType.ELEMENT_PRESERVATION) + wrapper.pedestal.getRuneHandler().getBonus(Rune.BonusType.ELEMENT_PRESERVATION) + 1;
 
-            wrapper.progress = Math.round(wrapper.progress + wrapper.pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false) * preservation);
+            wrapper.progress = Math.round(wrapper.progress + Math.max(1, wrapper.pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false)) * preservation);
         }
 
         if (level != null && level.isClientSide && wrapper.progress > oldProgress && level.random.nextDouble() < 0.2) {

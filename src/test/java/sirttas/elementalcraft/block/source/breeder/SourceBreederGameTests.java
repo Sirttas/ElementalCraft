@@ -81,7 +81,7 @@ public class SourceBreederGameTests {
         }).thenExecuteAfter(1, () -> assertThat(breederItemHandler)
                         .isNotEmpty()
                         .satisfies(0, s -> {
-                            assertThat(s).is(ECItems.RECEPTACLE);
+                            assertThat(s).isNotEmpty().is(ECItems.RECEPTACLE);
                             assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type);
                             assertThat(SourceTraitHolderHelper.get(s).resolve())
                                     .isNotEmpty()
