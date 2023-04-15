@@ -5,11 +5,11 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class SourceBreederPedestalElementContainer extends StaticElementStorage {
+public class SourceBreederPedestalElementStorage extends StaticElementStorage {
 
     private final SourceBreederPedestalBlockEntity blockEntity;
 
-    public SourceBreederPedestalElementContainer(SourceBreederPedestalBlockEntity blockEntity) {
+    public SourceBreederPedestalElementStorage(SourceBreederPedestalBlockEntity blockEntity) {
         super(ElementType.NONE, ECConfig.COMMON.sourceBreederPedestalCapacity.get(), blockEntity::setChanged);
         this.blockEntity = blockEntity;
     }

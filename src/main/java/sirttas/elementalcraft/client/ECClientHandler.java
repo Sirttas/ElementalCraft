@@ -10,7 +10,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
-import sirttas.elementalcraft.block.source.ISourceRenderer;
+import sirttas.elementalcraft.block.source.SourceRendererHelper;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.container.menu.screen.ECScreens;
@@ -43,8 +43,8 @@ public class ECClientHandler {
 		addSprite(event, AirShieldSpellRenderer.BLADE);
 		addSprite(event, SourceDisplacementPlateRenderer.SOURCE_DISPLACEMENT);
 		addSprite(event, SourceDisplacementPlateRenderer.CIRCLE);
-		addSprite(event, ISourceRenderer.OUTER);
-		addSprite(event, ISourceRenderer.MIDDLE);
+		addSprite(event, SourceRendererHelper.OUTER);
+		addSprite(event, SourceRendererHelper.MIDDLE);
 		addSprite(event, GuiHandler.TRANSLOCATION_ANCHOR_MARKER);
 		if (ECinteractions.isCuriosActive()) {
 			event.addSprite(CuriosConstants.EMPTY_ELEMENT_HOLDER_SLOT);

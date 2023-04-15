@@ -16,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.loot.LootHandler;
 
 import javax.annotation.Nonnull;
@@ -23,11 +24,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * greatly inspired by Botania
- *
- * 
- */
 public class ECEntityLoot extends EntityLoot {
 
 	private static final LootPool.Builder FIRE = createShardPool(ElementType.FIRE);
@@ -79,19 +75,19 @@ public class ECEntityLoot extends EntityLoot {
 	}
 
 	private void addThrownElementCrystal(ElementType type) {
-		var crystalLocation = ForgeRegistries.ITEMS.getKey(ECLootTableProvider.getCrystalForType(type));
+		var crystalLocation = ForgeRegistries.ITEMS.getKey(ElementalItemHelper.getCrystalForType(type));
 
 		add(new ResourceLocation(crystalLocation.getNamespace(), "entities/thrown_element_crystal/" + crystalLocation.getPath()), LootTable.lootTable().withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
-						.add(LootItem.lootTableItem(ECLootTableProvider.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(5, 7))).setWeight(10))
-						.add(LootItem.lootTableItem(ECLootTableProvider.getPowerfulShardForType(type))))
+						.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(5, 7))).setWeight(10))
+						.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type))))
 				.setParamSet(LootContextParamSets.SELECTOR));
 	}
 
 	private static LootPool.Builder createShardPool(ElementType type) {
 		return LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(ECLootTableProvider.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECLootTableProvider.getPowerfulShardForType(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type)).when(LootItemKilledByPlayerCondition.killedByPlayer()))
 				.when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.25F, 0.03F));
 	}
 

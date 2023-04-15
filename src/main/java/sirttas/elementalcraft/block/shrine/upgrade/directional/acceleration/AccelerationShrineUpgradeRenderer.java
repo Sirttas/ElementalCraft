@@ -5,17 +5,18 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class AccelerationShrineUpgradeRenderer implements IECRenderer<AccelerationShrineUpgradeBlockEntity> {
+public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<AccelerationShrineUpgradeBlockEntity> {
 
 	private static final Vector3f POSITION = new Vector3f(0, 2F / 16, 0);
 
@@ -34,11 +35,11 @@ public class AccelerationShrineUpgradeRenderer implements IECRenderer<Accelerati
 			clockModel = Minecraft.getInstance().getModelManager().getModel(CLOCK_LOCATION);
 		}
 		matrixStack.translate(0.5, 0.5, 0.5);
-		matrixStack.mulPose(facing.step().rotation((float) Math.toRadians(getClientTicks(partialTicks))));
+		matrixStack.mulPose(facing.step().rotation((float) Math.toRadians(ECRendererHelper.getClientTicks(partialTicks))));
 		newPos.transform(rotation);
 		matrixStack.translate(newPos.x(), newPos.y(), newPos.z());
 		matrixStack.mulPose(rotation);
-		this.renderModel(clockModel, matrixStack, buffer, te, light, overlay);
+		ECRendererHelper.renderModel(clockModel, matrixStack, buffer, te, light, overlay);
 	}
 	
 }

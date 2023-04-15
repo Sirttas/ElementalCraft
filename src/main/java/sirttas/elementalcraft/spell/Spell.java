@@ -95,7 +95,7 @@ public class Spell implements IElementTypeProvider {
 
 	public boolean consume(Entity caster, boolean simulate) {
 		if (!(caster instanceof Player) || !((Player) caster).isCreative()) {
-			int consumeAmount = Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(caster));
+			int consumeAmount = Math.max(1, Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(caster)));
 			
 			return ElementStorageHelper.get(caster).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
 		}

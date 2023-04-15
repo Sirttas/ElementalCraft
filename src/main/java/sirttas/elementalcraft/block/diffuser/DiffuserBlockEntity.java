@@ -29,6 +29,8 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 	private boolean hasDiffused;
 	private final RuneHandler runeHandler;
 
+	private ISingleElementStorage containerCache;
+
 	public DiffuserBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.DIFFUSER, pos, state);
 		runeHandler = new RuneHandler(ECConfig.COMMON.diffuserMaxRunes.get(), this::setChanged);
@@ -77,6 +79,14 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 	
 	public RuneHandler getRuneHandler() {
 		return runeHandler;
+	}
+
+	@Override
+	public ISingleElementStorage getContainer() {
+		if (containerCache == null) {
+			containerCache = IContainerTopBlockEntity.super.getContainer();
+		}
+		return containerCache;
 	}
 
 	@Override

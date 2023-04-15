@@ -4,7 +4,7 @@
   "input": {
     "item": "minecraft:jungle_log"
   },
-  "luck_ration": 0,
+  "luck_ratio": 0,
   "output": {
     "item": "minecraft:stripped_jungle_log"
   }

@@ -14,6 +14,33 @@
           "name": "elementalcraft:solar_synthesizer"
         }
       ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "ops": [
+            {
+              "op": "replace",
+              "source": "element_storage",
+              "target": "BlockEntityTag.element_storage"
+            }
+          ],
+          "source": "block_entity"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "elementalcraft:runes"
+        }
+      ],
       "rolls": 1.0
     }
   ]

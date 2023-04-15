@@ -4,7 +4,7 @@
   "input": {
     "tag": "elementalcraft:stripped_crimson"
   },
-  "luck_ration": 3,
+  "luck_ratio": 3,
   "output": {
     "count": 6,
     "item": "minecraft:crimson_planks"

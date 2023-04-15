@@ -1,28 +1,29 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.data.loot.ChestLoot;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.loot.function.RandomSpell;
+import sirttas.elementalcraft.nbt.NBTHelper;
 
 import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
 
-/**
- * greatly inspired by Botania
- *
- * 
- */
 public class ECChestLoot extends ChestLoot {
 
 	@Override
@@ -62,11 +63,11 @@ public class ECChestLoot extends ChestLoot {
 	}
 
 	private static LootTable.Builder createSmallAltar(ElementType type) {
-		return createWithType(UniformGenerator.between(2, 4), type);
+		return createWithType(UniformGenerator.between(2, 5), type);
 	}
 
 	private static LootTable.Builder createMediumAltar(ElementType type) {
-		return addAdvanced(createWithType(UniformGenerator.between(3, 6), type), UniformGenerator.between(1, 3), type);
+		return createWithType(UniformGenerator.between(3, 7), type).withPool(createAdvancedPool(type));
 	}
 
 	private static LootPool.Builder createBase(NumberProvider range) {
@@ -77,26 +78,29 @@ public class ECChestLoot extends ChestLoot {
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))).setWeight(7))
 				.add(LootItem.lootTableItem(ECItems.SCROLL_PAPER.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))).setWeight(8));
 	}
-	
+
 	private static LootTable.Builder createWithType(NumberProvider range, ElementType type) {
 		return addVanilla(LootTable.lootTable().withPool(createBase(range)
 				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ECLootTableProvider.getCrystalForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
-				.add(LootItem.lootTableItem(ECLootTableProvider.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
-				.add(LootItem.lootTableItem(ECLootTableProvider.getPowerfulShardForType(type)).setWeight(5))
-				.add(LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder(type)).setWeight(15))));
+				.add(LootItem.lootTableItem(ElementalItemHelper.getCrystalForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type)).setWeight(5))
+				.add(randomSpell(type).setWeight(15))
+				.add(rune(getSmallRuneName(type)).setWeight(10))
+				.add(rune(getMediumRuneName(type)).setWeight(5))));
 	}
-	
-	private static LootTable.Builder addAdvanced(LootTable.Builder builder, NumberProvider range, ElementType type) {
-		return builder.withPool(LootPool.lootPool().name("advanced").setRolls(range)
+
+	@Nonnull
+	private static LootPool.Builder createAdvancedPool(ElementType type) {
+		return LootPool.lootPool().name("advanced").setRolls(UniformGenerator.between(1, 3))
 				.add(LootItem.lootTableItem(Items.GOLD_INGOT).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 4.0F))).setWeight(15))
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5))).setWeight(15))
-				.add(LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder(type)).setWeight(15))
-				.add(LootItem.lootTableItem(ECItems.PURE_CRYSTAL.get()).setWeight(5)));
-		
+				.add(randomSpell(type).setWeight(15))
+				.add(rune(getMediumRuneName(type)).setWeight(10))
+				.add(LootItem.lootTableItem(ECItems.PURE_CRYSTAL.get()).setWeight(2));
 	}
-	
+
 	private static LootTable.Builder addVanilla(LootTable.Builder builder) {
 		return builder.withPool(LootPool.lootPool().setRolls(UniformGenerator.between(1.0F, 3.0F)).name("vanilla_1")
 				.add(LootItem.lootTableItem(Items.IRON_INGOT).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 4.0F))))
@@ -115,5 +119,37 @@ public class ECChestLoot extends ChestLoot {
 				.add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 8.0F))))
 				.add(LootItem.lootTableItem(Items.STRING).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 8.0F))))
 				.add(LootItem.lootTableItem(Items.ENDER_PEARL).setWeight(2)));
+	}
+
+	@Nonnull
+	private static LootPoolSingletonContainer.Builder<?> randomSpell(ElementType type) {
+		return LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder(type));
+	}
+
+	private static LootPoolSingletonContainer.Builder<?> rune(String runeName) {
+		var tag = new CompoundTag();
+
+		NBTHelper.getOrCreate(tag, ECNames.EC_NBT).putString(ECNames.RUNE, ElementalCraft.createRL(runeName).toString());
+		return LootItem.lootTableItem(ECItems.RUNE.get()).apply(SetNbtFunction.setTag(tag));
+	}
+
+	private static String getSmallRuneName(ElementType type) {
+		return switch (type) {
+			case AIR -> "wii";
+			case EARTH -> "soaryn";
+			case FIRE -> "manx";
+			case WATER -> "claptrap";
+			default -> throw new IllegalArgumentException("Unknown element type: " + type);
+		};
+	}
+
+	private static String getMediumRuneName(ElementType type) {
+		return switch (type) {
+			case AIR -> "fus";
+			case EARTH -> "kaworu";
+			case FIRE -> "jita";
+			case WATER -> "bombadil";
+			default -> throw new IllegalArgumentException("Unknown element type: " + type);
+		};
 	}
 }

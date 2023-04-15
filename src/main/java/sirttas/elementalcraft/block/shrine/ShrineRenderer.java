@@ -5,20 +5,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements IECRenderer<T> {
+public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements BlockEntityRenderer<T> {
 
 
 	@Override
@@ -61,7 +62,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements IECR
 						if (state != null && state.canSurvive(level, upgradePos)) {
 							poseStack.pushPose();
 							poseStack.translate(direction.getStepX(), direction.getStepY(), direction.getStepZ());
-							renderGhost(state, poseStack, bufferSource, level, upgradePos);
+							ECRendererHelper.renderGhost(state, poseStack, bufferSource, level, upgradePos);
 							poseStack.popPose();
 							wasRendered = true;
 						}

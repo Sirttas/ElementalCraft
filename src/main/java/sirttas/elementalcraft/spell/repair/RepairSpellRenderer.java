@@ -20,6 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.ISpellRenderer;
 
@@ -50,7 +51,7 @@ public class RepairSpellRenderer implements ISpellRenderer {
                 newStack.mulPose(Vector3f.XP.rotationDegrees(camera.getXRot()));
                 newStack.mulPose(Vector3f.YP.rotationDegrees(camera.getYRot() + 180.0F));
                 newStack.translate(anvilPos.getX() - cameraPos.x(), anvilPos.getY() - cameraPos.y(), anvilPos.getZ() - cameraPos.z());
-                renderBatched(anvilState, newStack, buffer, caster.getLevel(), anvilPos);
+                ECRendererHelper.renderBatched(anvilState, newStack, buffer, caster.getLevel(), anvilPos);
                 newStack.translate(0.5, 1, 0.5);
                 newStack.mulPose(anvilState.getValue(AnvilBlock.FACING).getRotation());
                 if (itemToRepair.is(ECItems.STAFF.get())) {
@@ -58,7 +59,7 @@ public class RepairSpellRenderer implements ISpellRenderer {
                     newStack.translate(0, -0.3, 0);
                     newStack.mulPose(Vector3f.YP.rotationDegrees(15.0F));
                 }
-                renderItem(itemToRepair, newStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+                ECRendererHelper.renderItem(itemToRepair, newStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
             }
         }
     }

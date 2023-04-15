@@ -19,7 +19,7 @@ public class AirShieldSpellRenderer implements ISpellRenderer {
 
     @Override
     public void render(Spell spell, Entity caster, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        var angle = getClientTicks(partialTicks) * 10;
+        var angle = ECRendererHelper.getClientTicks(partialTicks) * 10;
 
         poseStack.translate(-1, 0, -1);
         poseStack.scale(1/64f, 1/64f, 1/64f);

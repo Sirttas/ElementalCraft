@@ -31,7 +31,8 @@ public class SourceTraits {
 	public static final ResourceKey<SourceTrait> DIURNAL_NOCTURNAL = key("diurnal_nocturnal");
 	public static final ResourceKey<SourceTrait> GENEROSITY = key("generosity");
 	public static final ResourceKey<SourceTrait> THRIFTINESS = key("thriftiness");
-	public static final ResourceKey<SourceTrait> FLEETING = key("fleeting");
+	public static final ResourceKey<SourceTrait> FERTILITY = key("fertility");
+	public static final ResourceKey<SourceTrait> ARTIFICIAL = key("artificial");
 
 	@Nonnull
 	public static SortedMap<ResourceKey<SourceTrait>, ISourceTraitValue> createTraitMap() {

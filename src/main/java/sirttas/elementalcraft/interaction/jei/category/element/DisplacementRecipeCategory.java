@@ -13,6 +13,7 @@ import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.source.IngredientSource;
+import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 
 import javax.annotation.Nonnull;
@@ -36,13 +37,7 @@ public class DisplacementRecipeCategory extends AbstractECRecipeCategory<Element
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementType type, @Nonnull IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0).addIngredient(ECIngredientTypes.SOURCE, new IngredientSource(type));
-		builder.addSlot(RecipeIngredientRole.INPUT, 0, 16).addItemStack(switch (type) {
-			case AIR -> new ItemStack(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE.get());
-			case EARTH -> new ItemStack(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE.get());
-			case FIRE -> new ItemStack(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE.get());
-			case WATER -> new ItemStack(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE.get());
-			default -> ItemStack.EMPTY;
-		});
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 16).addItemStack(new ItemStack(ElementalItemHelper.getDisplacementPlate(type)));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 0).addItemStack(ReceptacleHelper.create(type));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 16).addItemStack(new ItemStack(ECBlocks.BROKEN_SOURCE_DISPLACEMENT_PLATE.get()));
 	}

@@ -7,10 +7,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
@@ -40,40 +42,29 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	}
 	
 	@Override
-	public ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos) {
-		return roll(level, steps.stream()
+	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
+		return roll(context.random(), context.luck(), steps.stream()
 				.filter(s -> s.predicate().test(level, pos))
 				.toList());
 	}
 
 	@Nullable
-	private Step roll(Level level, List<Step> list) {
-		int roll = level.random.nextInt(list.stream().mapToInt(Step::weight).sum());
-
-
-		for (var step : list) {
-			roll -= step.weight();
-			if (roll < 0) {
-				return step;
-			}
-		}
-		return null;
-	}
-
-	@Nullable
 	@Override
-	public ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+	public ISourceTraitValue breed(SourceTraitRollContext context, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+		var random = context.random();
+		var luck = context.luck();
+
 		if (value1 instanceof Step step1 && value2 instanceof Step step2) {
 			var b1 = step1.breedIndex();
 			var b2 = step2.breedIndex();
 
-			return createStep(level, getMin(b1, b2), getMax(b1, b2));
+			return createStep(random, luck, getMin(b1, b2), getMax(b1, b2));
 		} else if (value1 instanceof Step step) {
-			return createStep(level, step);
+			return createStep(random, luck, step);
 		} else if (value2 instanceof Step step) {
-			return createStep(level, step);
+			return createStep(random, luck, step);
 		}
-		return roll(level, steps);
+		return createStep(random, luck, -1, 1);
 	}
 
 	private int getMin(int b1, int b2) {
@@ -97,17 +88,36 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	}
 
 	@Nullable
-	private Step createStep(Level level, Step step) {
+	private Step createStep(RandomSource random, float luck, Step step) {
 		var index = step.breedIndex();
 
-		return createStep(level, index - 1, index + 1);
+		return createStep(random, luck, index - 1, index + 1);
 	}
 
 	@Nullable
-	private Step createStep(Level level, int min, int max) {
-		return roll(level, steps.stream()
+	private Step createStep(RandomSource random, float luck, int min, int max) {
+		return roll(random, luck, steps.stream()
 				.filter(s -> s.breedIndex() >= min && s.breedIndex() <= max)
 				.toList());
+	}
+
+	@Nullable
+	private Step roll(RandomSource random, float luck, List<Step> list) {
+		int roll = random.nextInt(list.stream()
+				.mapToInt(s -> s.weight(luck))
+				.sum());
+
+		if (roll <= 0) {
+			return null;
+		}
+
+		for (var step : list) {
+			roll -= step.weight(luck);
+			if (roll < 0) {
+				return step;
+			}
+		}
+		return null;
 	}
 
 	@Nonnull
@@ -137,9 +147,17 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		public Builder step(String translationKey, int weight, Map<SourceTrait.Type, Float> values, int breedIndex) {
 			return step(translationKey, weight, values, breedIndex, IBlockPosPredicate.any());
 		}
-		
+
+		public Builder step(String translationKey, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex) {
+			return step(translationKey, weight, luckRatio, values, breedIndex, IBlockPosPredicate.any());
+		}
+
 		public Builder step(String translationKey, int weight, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
-			steps.add(new Step(translationKey, weight, values, breedIndex, predicate));
+			return step(translationKey, weight, 1, values, breedIndex, predicate);
+		}
+
+		public Builder step(String translationKey, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
+			steps.add(new Step(translationKey, weight, luckRatio, values, breedIndex, predicate));
 			return this;
 		}
 		
@@ -152,6 +170,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	private record Step(
 			String translationKey,
 			int weight,
+			float luckRatio,
 			Map<SourceTrait.Type, Float> values,
 			int breedIndex,
 			IBlockPosPredicate predicate
@@ -160,6 +179,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		public static final Codec<Step> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 				Codec.STRING.fieldOf(ECNames.NAME).forGetter(Step::translationKey),
 				Codec.INT.fieldOf(ECNames.WEIGHT).forGetter(Step::weight),
+				Codec.FLOAT.optionalFieldOf(ECNames.LUCK_RATIO, 1f).forGetter(Step::luckRatio),
 				SourceTrait.Type.VALUE_CODEC.fieldOf(ECNames.VALUES).forGetter(Step::values),
 				Codec.INT.fieldOf(ECNames.BREED_INDEX).forGetter(Step::breedIndex),
 				IBlockPosPredicate.CODEC.optionalFieldOf(ECNames.PREDICATE, IBlockPosPredicate.any()).forGetter(Step::predicate)
@@ -173,6 +193,10 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		@Override
 		public Component getDescription() {
 			return Component.translatable(translationKey);
+		}
+
+		public int weight(float luck) {
+			return Math.max(0, Math.round(weight * (luckRatio * luck)));
 		}
 	}
 }

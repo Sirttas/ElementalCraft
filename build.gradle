@@ -257,12 +257,16 @@ updateSourceSetMapping(sourceSets.test)
 
 test {
     useJUnitPlatform()
+    jacoco {
+        includeNoLocationClasses = true
+        includes = ["sirttas.elementalcraft.*"]
+    }
 }
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.9"
 }
 jacocoTestReport {
-    dependsOn 'test'
+    // dependsOn 'test'
     dependsOn 'runGameTestServer'
     reports {
         xml.enabled true
@@ -274,6 +278,10 @@ tasks.configureEach {
         JacocoPluginExtension jacoco = project.extensions.getByType(JacocoPluginExtension)
 
         jacoco.applyTo(it)
+        it.extensions.configure(JacocoTaskExtension) { extension ->
+            extension.includeNoLocationClasses = true
+            extension.includes = ["sirttas.elementalcraft.*"]
+        }
     }
 }
 
@@ -283,6 +291,7 @@ sonarqube {
     	property "sonar.organization", "sirttas"
     	property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/*.exec"
+        property "sonar.coverage.exclusions", "src/datagen/**"
     	properties["sonar.sources"] += sourceSets.api.java.srcDirs
     	properties["sonar.sources"] += sourceSets.datagen.java.srcDirs
 	}

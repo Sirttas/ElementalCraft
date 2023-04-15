@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 
 import javax.annotation.Nullable;
 
@@ -18,10 +18,10 @@ public interface ISourceTraitValueProvider {
 	@NotNull SourceTraitValueProviderType<?> getType();
 	
 	@Nullable
-	ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos);
+	ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos);
 
 	@Nullable
-	ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2);
+	ISourceTraitValue breed(SourceTraitRollContext context, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2);
 
 	ISourceTraitValue load(Tag tag);
 

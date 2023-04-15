@@ -4,10 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
@@ -27,6 +28,7 @@ public class ChanceSourceTraitValueProvider implements ISourceTraitValueProvider
 	private final float chance;
 	private final float chanceOnBred;
 
+
 	public ChanceSourceTraitValueProvider(ISourceTraitValueProvider provider, float chance, float chanceOnBred) {
 		this.provider = provider;
 		this.chance = chance;
@@ -34,26 +36,34 @@ public class ChanceSourceTraitValueProvider implements ISourceTraitValueProvider
 	}
 	
 	@Override
-	public ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos) {
-		if (level.random.nextDouble() < chance) {
-			return provider.roll(trait, level, pos);
+	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
+		var random = context.random();
+
+		if (random.nextFloat() < chance + getLuckRoll(random, context.luck())) {
+			return provider.roll(context, level, pos);
 		}
 		return null;
 	}
+
 
 	@Nullable
 	@Override
-	public ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+	public ISourceTraitValue breed(SourceTraitRollContext context, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+		var random = context.random();
 		var count = (value1 != null ? 1 : 0) + (value2 != null ? 1 : 0);
 
-		if (count > 1 || level.random.nextDouble() < getBreedChance(count)) {
-			return provider.breed(trait, level, value1, value2);
+		if (count >= 2 || random.nextFloat() < getBreedChance(count) + getLuckRoll(random, context.luck())) {
+			return provider.breed(context, value1, value2);
 		}
 		return null;
 	}
 
-	private double getBreedChance(int count) {
-		return (chanceOnBred >= 0 ? chanceOnBred : chance) + (count * 0.5);
+	private float getLuckRoll(RandomSource random, float luck) {
+		return luck > 0 ? (random.nextFloat() * luck) / 4 : 0;
+	}
+
+	private float getBreedChance(int count) {
+		return (chanceOnBred >= 0 ? chanceOnBred : chance) + (count * 0.5f);
 	}
 
 	@Override

@@ -13,8 +13,6 @@ import java.util.List;
 @GameTestHolder(ElementalCraftApi.MODID)
 public class OreShrineGameTests {
 
-    private OreShrineGameTests() {}
-
     private static final List<BlockPos> IN_RANGE = List.of(
             new BlockPos(12, 1, 12),
             new BlockPos(-12, 1, 12),

@@ -72,21 +72,23 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 		return this.moveIO(state, world, pos, hit);
 	}
 
-	public static void sendOutputToRetriever(Level world, BlockPos pos, Container inventory, int slot) {
-		ItemStack stack = inventory.getItem(slot);
+	public static void sendOutputToRetriever(Level level, BlockPos pos, Container inventory, int slot) {
+		var stack = inventory.getItem(slot);
 
-		if (!world.hasNeighborSignal(pos) && !stack.isEmpty()) {
-			for (Direction direction : Direction.values()) {
-				BlockPos retrieverPos = pos.relative(direction);
-				BlockState blockState = world.getBlockState(retrieverPos);
+		if (level.hasNeighborSignal(pos) || stack.isEmpty()) {
+			return;
+		}
 
-				if (blockState.getBlock() instanceof RetrieverBlock && blockState.getValue(SOURCE) == direction.getOpposite()) {
-					stack = retrieve(blockState, world, retrieverPos, stack);
+		for (Direction direction : Direction.values()) {
+			BlockPos retrieverPos = pos.relative(direction);
+			BlockState blockState = level.getBlockState(retrieverPos);
 
-					inventory.setItem(slot, stack);
-					if (stack.isEmpty()) {
-						return;
-					}
+			if (blockState.getBlock() instanceof RetrieverBlock && blockState.getValue(SOURCE) == direction.getOpposite()) {
+				stack = retrieve(blockState, level, retrieverPos, stack);
+
+				inventory.setItem(slot, stack);
+				if (stack.isEmpty()) {
+					return;
 				}
 			}
 		}

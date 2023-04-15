@@ -28,11 +28,13 @@ import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.ie.IEInteraction;
 import sirttas.elementalcraft.interaction.jei.category.PureInfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.SpellCraftRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.CrystalThrowingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.DisplacementRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.EvaporationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.ImprovedExtractionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.element.SolarSynthesisRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.element.SourceBreedingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.BindingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.CrystallizationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.InscriptionRecipeCategory;
@@ -141,6 +143,8 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCategories(new BuddingShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new LavaShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SpringShrineRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new CrystalThrowingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new SourceBreedingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -173,6 +177,8 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BUDDING_SHRINE.get()), ECJEIRecipeTypes.BUDDING_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.LAVA_SHRINE.get()), ECJEIRecipeTypes.LAVA_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPRING_SHRINE.get()), ECJEIRecipeTypes.SPRING_SHRINE);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER_PEDESTAL.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
 
 		if (ECinteractions.isMekanismActive()) {
 			MekanismInteraction.addAirMillToCrushing(registry);
@@ -211,6 +217,17 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.BUDDING_SHRINE, List.of(BuddingShrineBlock.CrystalType.values()));
 		registry.addRecipes(ECJEIRecipeTypes.LAVA_SHRINE, List.of(ECBlocks.LAVA_SHRINE.get()));
 		registry.addRecipes(ECJEIRecipeTypes.SPRING_SHRINE, List.of(ECBlocks.SPRING_SHRINE.get()));
+		registry.addRecipes(ECJEIRecipeTypes.CRYSTAL_THROWING, ElementType.ALL_VALID);
+		registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, List.of(
+				ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get(),
+				ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get(),
+				ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get(),
+				ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get(),
+				ECItems.NATURAL_FIRE_SOURCE_SEED.get(),
+				ECItems.NATURAL_WATER_SOURCE_SEED.get(),
+				ECItems.NATURAL_EARTH_SOURCE_SEED.get(),
+				ECItems.NATURAL_AIR_SOURCE_SEED.get())
+		);
 	}
 
 	private List<IJeiAnvilRecipe> createCastToolsAnvilRecipes(IVanillaRecipeFactory factory) {

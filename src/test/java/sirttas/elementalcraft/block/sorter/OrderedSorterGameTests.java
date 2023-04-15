@@ -17,8 +17,6 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 @GameTestHolder(ElementalCraftApi.MODID)
 public class OrderedSorterGameTests {
 
-    private OrderedSorterGameTests() {}
-
     // elementalcraft:orderedsortergametests.should_transferitems
     @GameTest
     public static void should_transferItems(GameTestHelper helper) {

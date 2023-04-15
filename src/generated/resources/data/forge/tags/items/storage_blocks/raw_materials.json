@@ -78,6 +78,26 @@
     {
       "id": "#forge:storage_blocks/raw_azure_silver",
       "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_aquite",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_charoite",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_falsite",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_ventium",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_horizonite",
+      "required": false
     }
   ]
 }

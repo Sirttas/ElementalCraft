@@ -108,7 +108,7 @@ public class AirMillGrindingRecipeBuilder {
 		public void serializeRecipeData(JsonObject json) {
 			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
 			json.add(ECNames.INPUT, ingredient.toJson());
-			json.addProperty(ECNames.LUCK_RATION, luckRatio);
+			json.addProperty(ECNames.LUCK_RATIO, luckRatio);
 			JsonObject outputJson = new JsonObject();
 
 			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());

@@ -22,6 +22,8 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<Pu
     private static final ResourceLocation FIXED_RESONATING = ElementalCraft.createRL("resonating");
     private static final ResourceLocation FIXED_URANINITE = ElementalCraft.createRL("uraninite");
 
+    private static final String NAMESPACE_PATTERN = "^(forge|blue_skies)$";
+
     public PureOreLoaderProvider(DataGenerator generator) {
         super(generator, ElementalCraft.PURE_ORE_LOADERS_MANAGER,  PureOreLoader.Builder.ENCODER);
     }
@@ -29,9 +31,12 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<Pu
 
     @Override
     public void collectBuilders() {
-        ores(standard("ores", ECTags.Items.PURE_SOURCE_ORES_ORES));
-        rawMaterials(standard("raw_materials", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS));
-        rawMaterialsBlocks(standard("raw_material_blocks", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS));
+        ores(standard("ores", ECTags.Items.PURE_SOURCE_ORES_ORES))
+                .namespacePattern(NAMESPACE_PATTERN);
+        rawMaterials(standard("raw_materials", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS))
+                .namespacePattern(NAMESPACE_PATTERN);
+        rawMaterialsBlocks(standard("raw_material_blocks", ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS))
+                .namespacePattern(NAMESPACE_PATTERN);
 
         standard("geore_shards", ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS)
                 .pattern("_?shard$")

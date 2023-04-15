@@ -29,6 +29,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	private int progress = 0;
 	private final RuneHandler runeHandler;
+	private ISingleElementStorage containerCache;
 	protected boolean lockable = false;
 	private boolean locked = false;
 	protected Vec3 particleOffset;
@@ -79,7 +80,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	protected boolean makeProgress() {
-		ISingleElementStorage container = getContainer();
+		var container = getContainer();
 
 		if (recipe != null && progress >= recipe.getElementAmount()) {
 			process();
@@ -88,12 +89,8 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		} else if (this.isRecipeAvailable() && container != null) {
 			float preservation = runeHandler.getElementPreservation();
 			int oldProgress = progress;
-			var transfer = Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation);
-			var max = container.getElementAmount();
+			var transfer = ceilTransfer(container, Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation));
 
-			if (transfer > max) {
-				transfer = max - 1; // -1 to avoid draining the container
-			}
 			progress += container.extractElement(transfer, getRecipeElementType(), false) * preservation;
 			if (level.isClientSide && progress > 0 && getProgressRounded(this.transferSpeed, progress) > getProgressRounded(this.transferSpeed, oldProgress)) {
 				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.random);
@@ -104,6 +101,19 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 			progress = 0;
 		}
 		return false;
+	}
+
+	private int ceilTransfer(ISingleElementStorage container, int transfer) {
+		var max = container.getElementAmount();
+
+		if (transfer >= max) {
+			if (progress + max < recipe.getElementAmount()) {
+				transfer = max - 1; // -1 to avoid draining the container
+			} else {
+				transfer = max; // we have enough element to finish the recipe so we dont care if we drain the container
+			}
+		}
+		return transfer;
 	}
 
 	protected void renderProgressParticles() {}
@@ -168,6 +178,22 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	@Nonnull
 	public RuneHandler getRuneHandler() {
 		return runeHandler;
+	}
+
+	@Override
+	public ISingleElementStorage getContainer() {
+		if (containerCache == null) {
+			containerCache = IInstrument.super.getContainer();
+		}
+		return containerCache;
+	}
+
+	@Override
+	protected R lookupRecipe() {
+		if (getContainerElementType() == ElementType.NONE) {
+			return null;
+		}
+		return super.lookupRecipe();
 	}
 
 	@Override

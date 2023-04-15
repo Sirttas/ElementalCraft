@@ -47,10 +47,10 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
 		if (source.traitHolder.isEmpty()) {
-			source.initTraits();
+			source.initTraits(0);
 		}
         if (source.elementStorage.isExhausted()) {
-			if (source.traitHolder.isFleeting()) {
+			if (source.traitHolder.isArtificial()) {
 				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 			} else {
 				source.elementStorage.insertElement(source.traitHolder.getRecoverRate(), false);
@@ -58,18 +58,18 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
         }
     }
 
-    private void initTraits() {
+    private void initTraits(int luck) {
         if (elementStorage.getElementType() == ElementType.NONE) {
             elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
 			this.setChanged();
         }
-		traitHolder.initTraits(this.getLevel(), this.worldPosition);
+		traitHolder.initTraits(this.getLevel(), this.worldPosition, luck);
 		this.refreshCapacity();
     }
 
-	public void resetTraits() {
+	public void resetTraits(int luck) {
 		traitHolder.clear();
-		this.initTraits();
+		this.initTraits(luck);
 	}
 
 	public boolean isExhausted() {
@@ -77,7 +77,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
 	public void exhaust() {
-		if (!traitHolder.isFleeting()) {
+		if (!traitHolder.isArtificial()) {
 			elementStorage.setElementAmount(0);
 		}
 	}

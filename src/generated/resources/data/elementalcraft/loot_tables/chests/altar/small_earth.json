@@ -147,12 +147,34 @@
           ],
           "name": "elementalcraft:scroll",
           "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{elementalcraft:{rune:\"elementalcraft:soaryn\"}}"
+            }
+          ],
+          "name": "elementalcraft:rune",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{elementalcraft:{rune:\"elementalcraft:kaworu\"}}"
+            }
+          ],
+          "name": "elementalcraft:rune",
+          "weight": 5
         }
       ],
       "name": "main",
       "rolls": {
         "type": "minecraft:uniform",
-        "max": 4.0,
+        "max": 5.0,
         "min": 2.0
       }
     },

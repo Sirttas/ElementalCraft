@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
@@ -21,22 +22,27 @@ public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValuePr
 	        .apply(builder, RangeBasedSourceTraitValueProvider::new));
 	
 	private final float weight;
-	
+
 	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float end, float weight) {
 		this(translationKey, types, 0, end, weight);
 	}
-	
+
 	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float start, float end, float weight) {
-	    super(translationKey, types, start, end);
+		this(translationKey, types, start, end, weight, 1);
+	}
+
+	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float start, float end, float weight, float luckRatio) {
+	    super(translationKey, types, start, end, luckRatio);
 	    this.weight = weight;
 	}
 	
 	@Override
-	public ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos) {
+	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
 	    BlockPos spawn = level instanceof ServerLevel serverLevel ? serverLevel.getSharedSpawnPos() : BlockPos.ZERO;
         var rangeSq = new BlockPos(spawn.getX(), 0, spawn.getZ()).distSqr(new BlockPos(pos.getX(), 0, pos.getZ()));
-        
-		return createValue(start + (float) (rangeSq / (rangeSq + (level.random.nextFloat() * weight * weight))) * (end - start));
+        var newStart = start + (context.luck() * luckRatio);
+
+		return createValue(newStart + (float) (rangeSq / (rangeSq + (context.random().nextFloat() * weight * weight))) * (end - newStart));
 	}
 	
 	@Override

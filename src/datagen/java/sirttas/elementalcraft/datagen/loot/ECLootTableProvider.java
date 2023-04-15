@@ -9,9 +9,6 @@ import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.item.ECItem;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.ECLootContextParamSets;
 
 import javax.annotation.Nonnull;
@@ -25,36 +22,6 @@ public class ECLootTableProvider extends LootTableProvider {
 
     public ECLootTableProvider(DataGenerator pGenerator) {
         super(pGenerator);
-    }
-
-    public static ECItem getCrystalForType(ElementType type) {
-        return switch (type) {
-            case AIR -> ECItems.AIR_CRYSTAL.get();
-            case EARTH -> ECItems.EARTH_CRYSTAL.get();
-            case FIRE -> ECItems.FIRE_CRYSTAL.get();
-            case WATER -> ECItems.WATER_CRYSTAL.get();
-            default -> ECItems.INERT_CRYSTAL.get();
-        };
-    }
-
-    public static ECItem getShardForType(ElementType type) {
-        return switch (type) {
-            case AIR -> ECItems.AIR_SHARD.get();
-            case EARTH -> ECItems.EARTH_SHARD.get();
-            case FIRE -> ECItems.FIRE_SHARD.get();
-            case WATER -> ECItems.WATER_SHARD.get();
-            default -> throw new IllegalArgumentException("Element Type must not be NONE");
-        };
-    }
-
-    public static ECItem getPowerfulShardForType(ElementType type) {
-        return switch (type) {
-            case AIR -> ECItems.POWERFUL_AIR_SHARD.get();
-            case EARTH -> ECItems.POWERFUL_EARTH_SHARD.get();
-            case FIRE -> ECItems.POWERFUL_FIRE_SHARD.get();
-            case WATER -> ECItems.POWERFUL_WATER_SHARD.get();
-            default -> throw new IllegalArgumentException("Element Type must not be NONE");
-        };
     }
 
     @Nonnull

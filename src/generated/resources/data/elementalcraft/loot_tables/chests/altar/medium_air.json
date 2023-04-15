@@ -147,12 +147,34 @@
           ],
           "name": "elementalcraft:scroll",
           "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{elementalcraft:{rune:\"elementalcraft:wii\"}}"
+            }
+          ],
+          "name": "elementalcraft:rune",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{elementalcraft:{rune:\"elementalcraft:fus\"}}"
+            }
+          ],
+          "name": "elementalcraft:rune",
+          "weight": 5
         }
       ],
       "name": "main",
       "rolls": {
         "type": "minecraft:uniform",
-        "max": 6.0,
+        "max": 7.0,
         "min": 3.0
       }
     },
@@ -445,8 +467,19 @@
         },
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{elementalcraft:{rune:\"elementalcraft:fus\"}}"
+            }
+          ],
+          "name": "elementalcraft:rune",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
           "name": "elementalcraft:purecrystal",
-          "weight": 5
+          "weight": 2
         }
       ],
       "name": "advanced",

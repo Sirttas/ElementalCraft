@@ -5,10 +5,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import sirttas.elementalcraft.renderer.IECGenericRenderer;
 import sirttas.elementalcraft.spell.Spell;
 
-public interface ISpellRenderer extends IECGenericRenderer {
+public interface ISpellRenderer {
 
     void render(Spell spell, Entity caster, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight);
 

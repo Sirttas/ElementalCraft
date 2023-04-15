@@ -4,7 +4,7 @@
   "input": {
     "tag": "forge:bones"
   },
-  "luck_ration": 3,
+  "luck_ratio": 3,
   "output": {
     "count": 4,
     "item": "minecraft:bone_meal"

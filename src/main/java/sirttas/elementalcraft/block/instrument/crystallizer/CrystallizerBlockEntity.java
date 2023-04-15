@@ -33,7 +33,7 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 	
 	@Override
 	public void assemble() {
-		int luck = (int) Math.round(getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get());
+		var luck = getRuneHandler().getBonus(BonusType.LUCK) * ECConfig.COMMON.crystallizerLuckRatio.get();
 		
 		for (int i = 2; i < inventory.getContainerSize(); i++) {
 			ItemStack stack = inventory.getItem(i);
@@ -46,7 +46,7 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 		ItemStack gem = inventory.getItem(0);
 		
 		clearContent();
-		inventory.setItem(0, recipe.assemble(gem, this, luck));
+		inventory.setItem(0, recipe.assemble(gem, this, (float) luck));
 	}
 
 	public boolean isValidShard(ItemStack stack) {

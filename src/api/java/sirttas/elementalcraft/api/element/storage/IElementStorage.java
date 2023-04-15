@@ -24,7 +24,11 @@ public interface IElementStorage {
 	}
 
 	default int transferTo(IElementStorage other, ElementType type, float count, float multiplier) {
-		int amount = Math.round(extractElement(Math.round(count / multiplier), type, true) * multiplier);
+		if (count <= 0) {
+			return 0;
+		}
+
+		int amount = Math.round(extractElement(Math.max(1, Math.round(count / multiplier)), type, true) * multiplier);
 		
 		amount = amount - other.insertElement(amount, type, true);
 		extractElement(Math.round(amount / multiplier), type, false);

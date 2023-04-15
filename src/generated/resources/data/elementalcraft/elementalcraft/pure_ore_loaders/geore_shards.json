@@ -2,6 +2,7 @@
   "element_consumption": 5000,
   "input_size": 4,
   "luck_ratio": 1.0,
+  "order": 3,
   "output_size": 5,
   "patterns": [
     "_?shard$"

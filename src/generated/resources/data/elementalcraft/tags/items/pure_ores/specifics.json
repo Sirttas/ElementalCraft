@@ -4,6 +4,10 @@
     "#elementalcraft:pure_ores/sources/raw_uraninite",
     "#elementalcraft:pure_ores/sources/poor_uraninite",
     "#elementalcraft:pure_ores/sources/uraninite",
-    "#elementalcraft:pure_ores/sources/dense_uraninite"
+    "#elementalcraft:pure_ores/sources/dense_uraninite",
+    {
+      "id": "#forge:ores/pendorite",
+      "required": false
+    }
   ]
 }

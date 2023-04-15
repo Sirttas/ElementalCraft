@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -41,10 +42,12 @@ public record PureOreLoader(
 		Optional<Pattern> tagPattern,
 		List<Pattern> patterns,
 		String namespace,
+		Optional<Pattern> namespacePattern,
 		int elementConsumption,
 		int inputSize,
 		int outputSize,
-		double luckRatio
+		double luckRatio,
+		int order
 ) {
 	public static final String NAME = "pure_ore_loaders";
 	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
@@ -55,10 +58,12 @@ public record PureOreLoader(
 			Codecs.PATTERN.optionalFieldOf("tag_pattern").forGetter(PureOreLoader::tagPattern),
 			Codecs.PATTERN.listOf().optionalFieldOf("patterns", Collections.emptyList()).forGetter(PureOreLoader::patterns),
 			Codec.STRING.optionalFieldOf("namespace", ECNames.FORGE).forGetter(PureOreLoader::namespace),
+			Codecs.PATTERN.optionalFieldOf("namespace_pattern").forGetter(PureOreLoader::namespacePattern),
 			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 2500).forGetter(PureOreLoader::elementConsumption),
 			Codec.INT.optionalFieldOf("input_size", 1).forGetter(PureOreLoader::inputSize),
 			Codec.INT.optionalFieldOf("output_size", 2).forGetter(PureOreLoader::outputSize),
-			Codec.DOUBLE.optionalFieldOf("luck_ratio", 0D).forGetter(PureOreLoader::luckRatio)
+			Codec.DOUBLE.optionalFieldOf("luck_ratio", 0D).forGetter(PureOreLoader::luckRatio),
+			Codec.INT.optionalFieldOf("order", 1000).forGetter(PureOreLoader::order)
 	).apply(builder, PureOreLoader::new));
 
 	private static final Pattern DEEPSLATE_PATTERN = Pattern.compile("^deepslate_");
@@ -130,19 +135,21 @@ public record PureOreLoader(
 			tags = Collections.emptyList();
 		} else if (tagPattern.isPresent()) {
 			var tp = tagPattern.get();
+			var np = namespacePattern.orElseGet(() -> Pattern.compile("^" + namespace + "$"));
 
 			id = Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(ore));
 			tags = ore.builtInRegistryHolder().tags()
 					.filter(t -> {
 						var location = t.location();
 
-						return location.getNamespace().equals(namespace) && tp.matcher(location.getPath()).find();
+						return np.matcher(location.getNamespace()).find() && tp.matcher(location.getPath()).find();
 					}).toList();
 
 			if (!tags.isEmpty()) {
 				if (tags.size() > 1) {
-					ElementalCraftApi.LOGGER.warn("Item {} has multiple tags matching {}:\r\n\t{}",
+					ElementalCraftApi.LOGGER.warn("Item {} has multiple tags matching \"{}:{}\":\r\n\t{}",
 							id::toString,
+							np::pattern,
 							tp::pattern,
 							() -> tags.stream().map(t -> t.location().toString()).collect(Collectors.joining(", ")));
 				}
@@ -174,6 +181,8 @@ public record PureOreLoader(
 	}
 	public static class Builder {
 
+		private static final AtomicInteger ORDER_INCREMENT = new AtomicInteger(0);
+
 		public static final Encoder<Builder> ENCODER = PureOreLoader.CODEC.comap(builder -> new PureOreLoader(
 				builder.source,
 				Optional.ofNullable(builder.fixedName),
@@ -182,10 +191,12 @@ public record PureOreLoader(
 						.map(Pattern::compile)
 						.toList(),
 				builder.namespace,
+				StringUtils.isNotBlank(builder.namespacePattern) ? Optional.of(Pattern.compile(builder.namespacePattern)) : Optional.empty(),
 				builder.elementConsumption,
 				builder.inputSize,
 				builder.outputSize,
-				builder.luckRatio)
+				builder.luckRatio,
+				builder.order)
 		);
 
 		private final HolderSet<Item> source;
@@ -193,10 +204,12 @@ public record PureOreLoader(
 		private String tagPattern;
 		private final List<String> patterns;
 		private String namespace;
+		private String namespacePattern;
 		private int elementConsumption;
 		private int inputSize;
 		private int outputSize;
 		private double luckRatio;
+		private int order;
 
 		private Builder(HolderSet<Item> source) {
 			this.source = source;
@@ -206,7 +219,9 @@ public record PureOreLoader(
 			this.luckRatio = 0;
 			this.patterns = new ArrayList<>();
 			this.namespace = ECNames.FORGE;
+			this.namespacePattern = "";
 			this.tagPattern = "";
+			this.order = ORDER_INCREMENT.getAndIncrement();
 		}
 
 		public Builder fixedName(ResourceLocation fixedName) {
@@ -237,6 +252,11 @@ public record PureOreLoader(
 			return this;
 		}
 
+		public Builder namespacePattern(String namespacePattern) {
+			this.namespacePattern = namespacePattern;
+			return this;
+		}
+
 		public Builder consumption(int elementConsumption) {
 			this.elementConsumption = elementConsumption;
 			return this;
@@ -254,6 +274,14 @@ public record PureOreLoader(
 
 		public Builder luckRatio(double luckRatio) {
 			this.luckRatio = luckRatio;
+			return this;
+		}
+
+		public Builder order(int order) {
+			this.order = order;
+			if (order >= ORDER_INCREMENT.get()) {
+				ORDER_INCREMENT.set(order + 1);
+			}
 			return this;
 		}
 	}

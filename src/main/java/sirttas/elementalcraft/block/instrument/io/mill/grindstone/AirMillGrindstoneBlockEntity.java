@@ -5,6 +5,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
@@ -40,6 +41,10 @@ public class AirMillGrindstoneBlockEntity extends AbstractIOInstrumentBlockEntit
 	
 	@Override
 	protected IGrindingRecipe lookupRecipe() {
+		if (getContainerElementType() == ElementType.NONE) {
+			return null;
+		}
+
 		var recipe = super.lookupRecipe();
 		
 		if (recipe == null && ECinteractions.isMekanismActive()) {

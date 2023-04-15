@@ -4,14 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.phys.Vec3;
-import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class SourceDisplacementPlateRenderer implements IECRenderer<SourceDisplacementPlateBlockEntity> {
+public class SourceDisplacementPlateRenderer implements BlockEntityRenderer<SourceDisplacementPlateBlockEntity> {
 
     public static final Material SOURCE_DISPLACEMENT = ECRendererHelper.getBlockMaterial("effect/source_displacement");
     public static final Material CIRCLE = ECRendererHelper.getBlockMaterial("effect/source_displacement_circle");
@@ -36,7 +36,7 @@ public class SourceDisplacementPlateRenderer implements IECRenderer<SourceDispla
         ECRendererHelper.renderIcon(poseStack, bufferSource, 0, 0, SOURCE_DISPLACEMENT, 64, 64, type.getRed(), type.getGreen(), type.getBlue(), packedLight, packedOverlay);
         poseStack.popPose();
         poseStack.translate(0.5, 0, 0.5);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(getClientTicks(partialTick)));
+        poseStack.mulPose(Vector3f.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTick)));
         poseStack.translate(progressScaleTranslate, 0.5 + (0.3 * progress), progressScaleTranslate);
         poseStack.scale(progressScale, 0, progressScale);
         poseStack.mulPose(Vector3f.XP.rotationDegrees(90));

@@ -71,12 +71,12 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 		super(ShrineUpgrades.SILK_TOUCH);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.ATTACHED, true).setValue(WATERLOGGED, false));
 	}
-	
+
 	@Nonnull
     @Override
 	@Deprecated
 	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		if (state.getValue(BlockStateProperties.ATTACHED)) {
+		if (Boolean.TRUE.equals(state.getValue(BlockStateProperties.ATTACHED))) {
 			return switch (state.getValue(FACING)) {
 				case SOUTH -> SHAPE_SOUTH_ATTACHED;
 				case WEST -> SHAPE_WEST_ATTACHED;

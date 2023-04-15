@@ -4,15 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemRenderer;
-import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.event.TickHandler;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 import java.util.EnumMap;
@@ -29,6 +28,11 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 
 	@Override
 	public void render(@Nonnull PureInfuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+		renderPedestalShadow(te, partialTicks, matrixStack, buffer);
+		super.render(te, partialTicks, matrixStack, buffer, light, overlay);
+	}
+
+	private void renderPedestalShadow(@Nonnull PureInfuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer) {
 		if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get()) && !te.isRunning()) {
 			Map<Direction, ElementType> map = getDirectionMap(te);
 			List<ElementType> remaining = getRemainingElements(map);
@@ -41,14 +45,13 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 					if (pedestal != null) {
 						matrixStack.pushPose();
 						matrixStack.translate(direction.getStepX() * 3D, 0, direction.getStepZ() * 3D);
-						renderGhost(pedestal.defaultBlockState(), matrixStack, buffer, te.getLevel(), te.getBlockPos().relative(direction, 3));
+						ECRendererHelper.renderGhost(pedestal.defaultBlockState(), matrixStack, buffer, te.getLevel(), te.getBlockPos().relative(direction, 3));
 						matrixStack.popPose();
 						remaining.remove(type);
 					}
 				});
 			}
 		}
-		super.render(te, partialTicks, matrixStack, buffer, light, overlay);
 	}
 
 	private List<ElementType> getRemainingElements(Map<Direction, ElementType> map) {
@@ -60,18 +63,11 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 	private Map<Direction, ElementType> getDirectionMap(PureInfuserBlockEntity te) {
 		Map<Direction, ElementType> map = new EnumMap<>(Direction.class);
 		
-		map.put(Direction.NORTH, getPedestal(te, Direction.NORTH));
-		map.put(Direction.SOUTH, getPedestal(te, Direction.SOUTH));
-		map.put(Direction.WEST, getPedestal(te, Direction.WEST));
-		map.put(Direction.EAST, getPedestal(te, Direction.EAST));
+		map.put(Direction.NORTH, te.getPedestalElementType(Direction.NORTH));
+		map.put(Direction.SOUTH, te.getPedestalElementType(Direction.SOUTH));
+		map.put(Direction.WEST, te.getPedestalElementType(Direction.WEST));
+		map.put(Direction.EAST, te.getPedestalElementType(Direction.EAST));
 		return map;
-	}
-
-	private ElementType getPedestal(PureInfuserBlockEntity te, Direction direction) {
-		BlockState state = te.getLevel().getBlockState(te.getBlockPos().relative(direction, 3));
-		Block block = state.getBlock();
-
-		return block instanceof PedestalBlock ? ((PedestalBlock) block).getElementType() : ElementType.NONE;
 	}
 
 	private Block getPedestalForType(ElementType type) {

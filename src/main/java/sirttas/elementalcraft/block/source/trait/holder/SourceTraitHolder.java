@@ -35,19 +35,19 @@ public class SourceTraitHolder implements ISourceTraitHolder, INBTSerializable<C
     }
 
     @Override
-    public boolean isFleeting() {
-        return traits.containsKey(SourceTraits.FLEETING);
+    public boolean isArtificial() {
+        return traits.containsKey(SourceTraits.ARTIFICIAL);
     }
 
-    public void initTraits(Level level, BlockPos pos) {
+    public void initTraits(Level level, BlockPos pos, int luck) {
         if (traits.isEmpty()) {
             for (var entry : ElementalCraftApi.SOURCE_TRAIT_MANAGER.getData().entrySet()) {
                 var key = SourceTraits.key(entry.getKey());
 
-                if (key.equals(SourceTraits.FLEETING)) {
+                if (key.equals(SourceTraits.ARTIFICIAL)) {
                     continue;
                 }
-                var value = entry.getValue().roll(level, pos);
+                var value = entry.getValue().roll(level, pos, luck);
 
                 if (value != null) {
                     traits.put(key, value);

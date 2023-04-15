@@ -4,7 +4,7 @@
   "input": {
     "tag": "forge:ores/inert_crystal"
   },
-  "luck_ration": 5,
+  "luck_ratio": 5,
   "output": {
     "count": 2,
     "item": "elementalcraft:inert_crystal"

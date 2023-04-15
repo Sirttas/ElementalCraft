@@ -2,6 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "elementalcraft:item/minor_rune_slate",
-    "layer1": "elementalcraft:elementalcraft/runes/cognac"
+    "layer1": "elementalcraft:elementalcraft/runes/soaryn"
   }
 }

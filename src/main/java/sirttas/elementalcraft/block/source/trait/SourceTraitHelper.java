@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.source.trait;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
+import net.minecraft.util.RandomSource;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -59,13 +59,17 @@ public class SourceTraitHelper {
 		return traitTag;
 	}
 
-	public static Map<ResourceKey<SourceTrait>, ISourceTraitValue> breed(@Nonnull Level level, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map1, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map2) {
+	public static Map<ResourceKey<SourceTrait>, ISourceTraitValue> breed(@Nonnull RandomSource random, float luck, boolean natural, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map1, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map2) {
 		Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits = SourceTraits.createTraitMap();
 
 		for (var entry : ElementalCraftApi.SOURCE_TRAIT_MANAGER.getData().entrySet()) {
 			var key = SourceTraits.key(entry.getKey());
 
-			var value = entry.getValue().breed(level, map1.get(key), map2.get(key));
+			if (natural && key.equals(SourceTraits.ARTIFICIAL)) {
+				continue;
+			}
+
+			var value = entry.getValue().breed(random, luck, map1.get(key), map2.get(key));
 
 			if (value != null) {
 				traits.put(key, value);

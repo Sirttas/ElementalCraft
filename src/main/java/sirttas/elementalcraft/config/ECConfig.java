@@ -85,6 +85,7 @@ public class ECConfig {
 		public final IntValue pedestalMaxRunes;
 		public final IntValue sourceBreederTransferSpeed;
 		public final IntValue sourceBreederMaxRunes;
+		public final IntValue sourceBreedingBaseCost;
 		public final IntValue sourceBreederPedestalCapacity;
 		public final IntValue sourceBreederPedestalMaxRunes;
 		public final IntValue elementHolderCapacity;
@@ -193,6 +194,7 @@ public class ECConfig {
 			builder.pop(2).comment("Source Breeder and pedestals config").push("sourceBreeder");
 			sourceBreederTransferSpeed = builder.comment("The max amount of element consumed by the source breeder per tick.").defineInRange("sourceBreederTransferSpeed", 500, 0, 1000);
 			sourceBreederMaxRunes = builder.comment("The max amount of runes on a source breeder.").defineInRange("sourceBreederMaxRunes", 3, 0, 10);
+			sourceBreedingBaseCost = builder.comment("The base cost of breeding sources.").defineInRange("sourceBreedingBaseCost", 500000, 0, 100000000);
 			builder.push("pedestals");
 			sourceBreederPedestalMaxRunes = builder.comment("The max amount of runes on a source breeder pedestal.").defineInRange("sourceBreederPedestalMaxRunes", 1, 0, 10);
 			sourceBreederPedestalCapacity = builder.comment("The element capacity of a source breeder pedestal.").defineInRange("sourceBreederPedestalCapacity", 100000, 0, 100000000);

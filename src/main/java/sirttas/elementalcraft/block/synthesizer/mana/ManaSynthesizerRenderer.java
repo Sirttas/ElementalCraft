@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
@@ -14,8 +15,8 @@ public class ManaSynthesizerRenderer extends SolarSynthesizerRenderer<ManaSynthe
 
 	@Override
 	public void render(ManaSynthesizerBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float tick = getClientTicks(partialTicks);
-		renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
+		float tick = ECRendererHelper.getClientTicks(partialTicks);
+		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 
 		var elementType = getElementType(te);
 
@@ -30,7 +31,7 @@ public class ManaSynthesizerRenderer extends SolarSynthesizerRenderer<ManaSynthe
 				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
 			}
 			matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
-			Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, getModelData(getLenseModel(), te), RenderType.translucent());
+			Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, ECRendererHelper.getModelData(getLenseModel(), te), RenderType.translucent());
 		}
 	}
 }

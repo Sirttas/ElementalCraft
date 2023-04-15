@@ -4,7 +4,7 @@
   "input": {
     "item": "elementalcraft:springaline_cluster"
   },
-  "luck_ration": 5,
+  "luck_ratio": 5,
   "output": {
     "count": 6,
     "item": "elementalcraft:springaline_shard"

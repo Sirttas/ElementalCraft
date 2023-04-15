@@ -25,6 +25,8 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 	private final SingleElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
+	private ISingleElementStorage containerCache;
+
 	public EvaporatorBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.EVAPORATOR, pos, state);
 		inventory = new SingleStackContainer(this::setChanged);
@@ -74,5 +76,13 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 	@Override
 	public RuneHandler getRuneHandler() {
 		return runeHandler;
+	}
+
+	@Override
+	public ISingleElementStorage getContainer() {
+		if (containerCache == null) {
+			containerCache = IContainerTopBlockEntity.super.getContainer();
+		}
+		return containerCache;
 	}
 }

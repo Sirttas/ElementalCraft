@@ -17,6 +17,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.AbstractHorizontalShrineUpgradeBlock;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
@@ -64,15 +65,15 @@ public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<Bu
         render3D(poseStack, (p, b) -> {
             p.translate(0, 0.5, 0);
             setupPose(p);
-            renderBlock(ECBlocks.BUDDING_SHRINE.get().defaultBlockState().setValue(BuddingShrineBlock.CRYSTAL_TYPE, crystalType), p, b);
+            ECRendererHelper.renderBlock(ECBlocks.BUDDING_SHRINE.get().defaultBlockState().setValue(BuddingShrineBlock.CRYSTAL_TYPE, crystalType), p, b);
             if (crystalType == BuddingShrineBlock.CrystalType.SPRINGALINE) {
                 p.pushPose();
                 p.translate(0, 0, -1);
-                renderBlock(springalineShrineUpgrade, p, b);
+                ECRendererHelper.renderBlock(springalineShrineUpgrade, p, b);
                 p.popPose();
             }
             p.translate(0, 1, 0);
-            renderBlock(getGrowthCrystal(crystalType), p, b);
+            ECRendererHelper.renderBlock(getGrowthCrystal(crystalType), p, b);
         });
         super.draw(crystalType, recipeSlotsView, poseStack, mouseX, mouseY);
     }

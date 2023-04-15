@@ -15,6 +15,7 @@ import java.util.List;
 
 public class TranslocationAnchorList extends SavedData {
 
+    // "client" as in "client side"
     public static final List<BlockPos> CLIENT_LIST = new ArrayList<>();
 
     private final List<BlockPos> list;

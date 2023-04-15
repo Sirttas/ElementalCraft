@@ -98,7 +98,10 @@ public class ECTags {
 		public static final TagKey<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final TagKey<Item> JEWEL_SOCKETABLES = createTag("jewel_socketables");
-		
+		public static final TagKey<Item> SOURCE_SEEDS = createTag("source_seeds");
+		public static final TagKey<Item> NATURAL_SOURCE_SEEDS = createTag("source_seeds/natural");
+		public static final TagKey<Item> ARTIFICIAL_SOURCE_SEEDS = createTag("source_seeds/artificial");
+
 		public static final TagKey<Item> GROVE_SHRINE_FLOWERS = createTag("grove_shrine_flowers");
 		public static final TagKey<Item> GROVE_SHRINE_BLACKLIST = createTag("grove_shrine_blacklist");
 		public static final TagKey<Item> MYSTICAL_GROVE_FLOWERS = createTag("mystical_grove_flowers");
@@ -144,7 +147,7 @@ public class ECTags {
         public static final TagKey<Item> BLACK_FLOWERS = createForgeTag("flowers/black");
         public static final TagKey<Item> RED_FLOWERS = createForgeTag("flowers/red");
 
-		private Items() {}
+        private Items() {}
 		
 		private static TagKey<Item> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);

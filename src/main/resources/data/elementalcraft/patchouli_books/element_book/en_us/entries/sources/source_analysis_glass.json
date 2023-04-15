@@ -3,6 +3,7 @@
   "category": "elementalcraft:sources",
   "icon": "elementalcraft:source_analysis_glass",
   "advancement": "elementalcraft:pickup/springaline_shard",
+  "turnin": "elementalcraft:pickup/source_analysis_glass",
   "priority": true,
   "sortnum": 2,
   "pages": [

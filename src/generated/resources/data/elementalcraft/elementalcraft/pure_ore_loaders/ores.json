@@ -1,5 +1,7 @@
 {
   "luck_ratio": 5.0,
+  "namespace_pattern": "^(forge|blue_skies)$",
+  "order": 0,
   "patterns": [
     "_?ore$"
   ],

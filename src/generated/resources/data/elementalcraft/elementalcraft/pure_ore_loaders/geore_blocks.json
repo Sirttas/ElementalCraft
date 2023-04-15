@@ -1,6 +1,7 @@
 {
   "element_consumption": 6250,
   "luck_ratio": 4.0,
+  "order": 4,
   "output_size": 5,
   "patterns": [
     "_?block$"

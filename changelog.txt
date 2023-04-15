@@ -1,3 +1,26 @@
+1.19.2-5.7.0:
+
+- new items: source seeds
+- new source traits: fertile/barren
+- added crystal throwing to JEI
+- added new elementopedia entries
+- added particle effects to the element beam
+- added runes to source altar chests loot pool
+- creative players can now displace sources that are not analyzed
+- rename fleeting source trait to artificial
+- improved overall performances of instruments
+- renamed cognac rune to soaryn
+- updated source altar structures
+- updated source altar loot tables
+- fully implemented source breeder
+- fix blue skies pure ore
+- fix shrine upgrades disappearing
+- fix incompatibility with a future version of fast suits
+- fix creative rune breaking some instruments
+- fix some particle effects not rendering
+- fix a typo in datapack key (luck_ration -> luck_ratio)
+
+
 1.19.2-5.6.1:
 
 - fix server side crash

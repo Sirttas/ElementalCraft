@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -16,6 +17,7 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SourceTrait {
 	
@@ -52,13 +54,13 @@ public class SourceTrait {
 	}
 	
 	@Nullable
-	public ISourceTraitValue roll(Level level, BlockPos pos) {
-		return valueProvider.roll(this, level, pos);
+	public ISourceTraitValue roll(Level level, BlockPos pos, float luck) {
+		return valueProvider.roll(new SourceTraitRollContext(this, level.random, luck), level, pos);
 	}
 
 	@Nullable
-	public ISourceTraitValue breed(Level level, ISourceTraitValue value1, ISourceTraitValue value2) {
-		return valueProvider.breed(this, level,  value1, value2);
+	public ISourceTraitValue breed(RandomSource random, float luck, ISourceTraitValue value1, ISourceTraitValue value2) {
+		return valueProvider.breed(new SourceTraitRollContext(this, random, luck),  value1, value2);
 	}
 
 	@Nullable
@@ -91,7 +93,8 @@ public class SourceTrait {
 		CAPACITY(ECNames.ELEMENT_CAPACITY),
 		RECOVER_RATE(ECNames.RECOVER_RATE),
 		EXTRACTION_SPEED(ECNames.EXTRACTION_SPEED),
-		PRESERVATION(ECNames.ELEMENT_PRESERVATION);
+		PRESERVATION(ECNames.ELEMENT_PRESERVATION),
+		BREEDING_COST(ECNames.BREEDING_COST);
 
 		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
 		public static final Codec<Map<Type, Float>> VALUE_CODEC = valueCodec(Codec.FLOAT);
@@ -123,18 +126,23 @@ public class SourceTrait {
 	}
 
 	public static class Builder {
-		
+
+		private static final AtomicInteger ORDER_INCREMENT = new AtomicInteger(0);
+
 		public static final Encoder<Builder> ENCODER = SourceTrait.CODEC.comap(builder -> new SourceTrait(builder.order, builder.valueProvider));
 
 		private int order;
 		private ISourceTraitValueProvider valueProvider;
 		
 		private Builder() {
-			order = 0;
+			order = ORDER_INCREMENT.getAndIncrement();
 		}
 		
 		public Builder order(int order) {
 			this.order = order;
+			if (order >= ORDER_INCREMENT.get()) {
+				ORDER_INCREMENT.set(order + 1);
+			}
 			return this;
 		}
 		

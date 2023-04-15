@@ -71,7 +71,7 @@ public record AirMillGrindingRecipe(
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient ingredient = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
-			int luckRation = GsonHelper.getAsInt(json, ECNames.LUCK_RATION);
+			int luckRation = GsonHelper.getAsInt(json, ECNames.LUCK_RATIO);
 
 			if (!output.isEmpty()) {
 				return new AirMillGrindingRecipe(recipeId, ingredient, output, elementAmount, luckRation);

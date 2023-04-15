@@ -10,6 +10,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
@@ -26,7 +27,7 @@ public class ElementPumpPipeUpgradeRenderer implements IPipeUpgradeRenderer<Elem
             pumpModel = modelManager.getModel(PUMP_LOCATION);
         }
 
-        var tick = getClientTicks(partialTicks) % 30;
+        var tick = ECRendererHelper.getClientTicks(partialTicks) % 30;
 
         poseStack.pushPose();
         if (tick < 10 && tick >= 0) {
@@ -36,7 +37,7 @@ public class ElementPumpPipeUpgradeRenderer implements IPipeUpgradeRenderer<Elem
         } else if (tick >= 15 && tick < 25) {
             poseStack.translate(0, -10 / 50F + (tick - 15) / 50F, 0);
         }
-        renderModel(pumpModel, poseStack, buffer, pipe, light, overlay);
+        ECRendererHelper.renderModel(pumpModel, poseStack, buffer, pipe, light, overlay);
         poseStack.popPose();
     }
 }

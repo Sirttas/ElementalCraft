@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import sirttas.elementalcraft.block.entity.renderer.IRuneRenderer;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -18,9 +19,9 @@ public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void render(SorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	public void render(@Nonnull SorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		HitResult mouseOver = Minecraft.getInstance().hitResult;
-		boolean sneeking =  Minecraft.getInstance().player.isShiftKeyDown();
+		boolean shiftKeyDown =  Minecraft.getInstance().player.isShiftKeyDown();
 		List<ItemStack> stacks = sorter.getStacks();
 
 		if (mouseOver != null && mouseOver.getType() == HitResult.Type.BLOCK && !stacks.isEmpty()) {
@@ -39,29 +40,29 @@ public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
 				poseStack.mulPose(rotation);
 				poseStack.mulPose(Vector3f.XP.rotationDegrees(-90F));
 				poseStack.scale(0.5F, 0.5F, 0.5F);
-				this.renderItem(stacks.get(index), poseStack, buffer, light, overlay);
+				ECRendererHelper.renderItem(stacks.get(index), poseStack, buffer, light, overlay);
 				poseStack.scale(0.5F, 0.5F, 0.5F);
 				poseStack.pushPose();
-				translate(poseStack, 0.5, sneeking);
+				translate(poseStack, 0.5, shiftKeyDown);
 				for (int i = index - 1; i >= 0; i--) {
-					translate(poseStack, 0.5, sneeking);
-					this.renderItem(stacks.get(i), poseStack, buffer, light, overlay);
+					translate(poseStack, 0.5, shiftKeyDown);
+					ECRendererHelper.renderItem(stacks.get(i), poseStack, buffer, light, overlay);
 				}
 				poseStack.popPose();
 				poseStack.pushPose();
-				translate(poseStack, -0.5, sneeking);
+				translate(poseStack, -0.5, shiftKeyDown);
 				for (int i = index + 1; i < stacks.size(); i++) {
-					translate(poseStack, -0.5, sneeking);
-					this.renderItem(stacks.get(i), poseStack, buffer, light, overlay);
+					translate(poseStack, -0.5, shiftKeyDown);
+					ECRendererHelper.renderItem(stacks.get(i), poseStack, buffer, light, overlay);
 				}
 				poseStack.popPose();
 			}
 			poseStack.popPose();
 		}
-		rendereRunes(sorter, partialTicks, poseStack, buffer, light, overlay);
+		renderRunes(sorter, partialTicks, poseStack, buffer, light, overlay);
 	}
 
-	private void rendereRunes(SorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	private void renderRunes(SorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		poseStack.translate(0.5F, 0.5F, 0.5F);
 
 		var state = sorter.getBlockState();
@@ -73,7 +74,7 @@ public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
 		poseStack.mulPose(rotation);
 
 		poseStack.translate(-0.5F, -0.75F, -0.5F);
-		renderRunes(poseStack, buffer, sorter.getRuneHandler(), getClientTicks(partialTicks), light, overlay);
+		ECRendererHelper.renderRunes(poseStack, buffer, sorter.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
 	}
 
 	private void translate(PoseStack matrixStack, double value, boolean sneeking) {

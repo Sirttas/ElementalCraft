@@ -1,0 +1,33 @@
+{
+  "name": "block.elementalcraft.source_breeder",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:source_breeder",
+  "advancement": "elementalcraft:pickup/fireite_ingot",
+  "turnin": "elementalcraft:pickup/source_breeder",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_breeder0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:source_breeder",
+      "recipe2": "elementalcraft:source_breeder_pedestal"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "p": "elementalcraft:source_breeder_pedestal",
+          "0": "elementalcraft:source_breeder[half=upper]",
+          "1": "elementalcraft:source_breeder[half=lower]"
+        },
+        "pattern": [
+          ["  0  "],
+          ["p 1 p"]
+        ]
+      }
+    }
+  ]
+}

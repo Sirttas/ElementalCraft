@@ -3,9 +3,9 @@
     "element_preservation": 0.03,
     "speed": 0.05
   },
-  "effect_sprite": "elementalcraft:elementalcraft/runes/cognac",
+  "effect_sprite": "elementalcraft:elementalcraft/runes/soaryn",
   "max_amount": 1,
-  "model": "elementalcraft:elementalcraft/runes/cognac",
+  "model": "elementalcraft:elementalcraft/runes/soaryn",
   "predicate": {
     "type": "dpanvil:and",
     "values": [
@@ -16,7 +16,7 @@
           "values": [
             {
               "type": "elementalcraft:has_rune",
-              "rune": "elementalcraft:cognac"
+              "rune": "elementalcraft:soaryn"
             },
             {
               "type": "elementalcraft:has_rune",

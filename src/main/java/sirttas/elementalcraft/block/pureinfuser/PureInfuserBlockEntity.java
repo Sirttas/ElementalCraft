@@ -6,13 +6,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -31,22 +31,22 @@ import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfuserBlockEntity, PureInfusionRecipe> {
 
 	private final SingleItemContainer inventory;
-	private final Map<Direction, Integer> progress = new EnumMap<>(Direction.class);
+	private final Map<Direction, PedestalWrapper> pedestalWrappers;
 	private final RuneHandler runeHandler;
 
 	public PureInfuserBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.PURE_INFUSER, pos, state, ECRecipeTypes.PURE_INFUSION.get(), ECConfig.COMMON.pureInfuserTransferSpeed.get());
 		inventory = new SingleItemContainer(this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get(), this::setChanged);
-		progress.put(Direction.NORTH, 0);
-		progress.put(Direction.SOUTH, 0);
-		progress.put(Direction.WEST, 0);
-		progress.put(Direction.EAST, 0);
+		pedestalWrappers = new EnumMap<>(Direction.class);
+		pedestalWrappers.put(Direction.NORTH, new PedestalWrapper());
+		pedestalWrappers.put(Direction.SOUTH, new PedestalWrapper());
+		pedestalWrappers.put(Direction.WEST, new PedestalWrapper());
+		pedestalWrappers.put(Direction.EAST, new PedestalWrapper());
 	}
 
 	@Override
@@ -58,24 +58,43 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	public static void tick(Level level, BlockPos pos, BlockState state, PureInfuserBlockEntity pureInfuser) {
+		pureInfuser.refreshPedestals();
+
 		if (!pureInfuser.isPowered()) {
 			pureInfuser.makeProgress();
 		}
 	}
 
+	private void refreshPedestals() {
+		pedestalWrappers.forEach((d, w) -> {
+			if (w.isRemoved()) {
+				w.lookupPedestal(d);
+			}
+		});
+	}
+
 	protected void makeProgress() {
-		if (recipe != null && getProgress(Direction.NORTH) >= recipe.getElementAmount() && getProgress(Direction.SOUTH) >= recipe.getElementAmount()
-				&& getProgress(Direction.WEST) >= recipe.getElementAmount() && getProgress(Direction.EAST) >= recipe.getElementAmount()) {
+		if (recipe != null && pedestalWrappers.values().stream().allMatch(w -> !w.isRemoved() && w.progress >= recipe.getElementAmount())) {
 			process();
-			progress.clear();
+			resetProgress();
 		} else if (this.isRecipeAvailable()) {
-			makeProgress(Direction.NORTH);
-			makeProgress(Direction.SOUTH);
-			makeProgress(Direction.WEST);
-			makeProgress(Direction.EAST);
+			pedestalWrappers.forEach(this::makeProgress);
 		} else if (recipe == null) {
-			progress.clear();
+			resetProgress();
 		}
+	}
+
+	@Override
+	public boolean isRecipeAvailable() {
+		if (pedestalWrappers.values().stream().anyMatch(w -> w.getElementType() == ElementType.NONE)) {
+			return false;
+		}
+
+		return super.isRecipeAvailable();
+	}
+
+	private void resetProgress() {
+		pedestalWrappers.values().forEach(w -> w.progress = 0);
 	}
 
 	public ItemStack getStackInPedestal(ElementType type) {
@@ -85,60 +104,53 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	public PedestalBlockEntity getPedestal(ElementType type) {
-		PedestalBlockEntity pedestal = getPedestal(Direction.NORTH);
+		if (type == ElementType.NONE) {
+			return null;
+		}
 
-		if (pedestal == null || pedestal.getElementType() != type) {
-			pedestal = getPedestal(Direction.SOUTH);
-		}
-		if (pedestal == null || pedestal.getElementType() != type) {
-			pedestal = getPedestal(Direction.WEST);
-		}
-		if (pedestal == null || pedestal.getElementType() != type) {
-			pedestal = getPedestal(Direction.EAST);
-		}
-		return pedestal != null && pedestal.getElementType() == type ? pedestal : null;
+		return pedestalWrappers.values().stream()
+				.filter(w -> w.getElementType() == type)
+				.map(w -> w.pedestal)
+				.findFirst()
+				.orElse(null);
+	}
+
+	public ElementType getPedestalElementType(Direction direction) {
+		return pedestalWrappers.get(direction).getElementType();
 	}
 
 	public void emptyPedestals() {
-		setPedestalInventory(Direction.NORTH, ItemStack.EMPTY);
-		setPedestalInventory(Direction.SOUTH, ItemStack.EMPTY);
-		setPedestalInventory(Direction.WEST, ItemStack.EMPTY);
-		setPedestalInventory(Direction.EAST, ItemStack.EMPTY);
+		pedestalWrappers.values().forEach(w -> w.setPedestalInventory(ItemStack.EMPTY));
 	}
 
-	private void setPedestalInventory(Direction direction, ItemStack stack) {
-		PedestalBlockEntity pedestal = getPedestal(direction);
-
-		if (pedestal != null) {
-			pedestal.getInventory().setItem(0, stack);
-			pedestal.setChanged();
+	private void makeProgress(Direction direction, PedestalWrapper wrapper) {
+		if (wrapper.isRemoved()) {
+			return;
 		}
-	}
 
-	private PedestalBlockEntity getPedestal(Direction direction) {
-		BlockEntity te = this.level != null ? this.level.getBlockEntity(worldPosition.relative(direction, 3)) : null;
-		return te instanceof PedestalBlockEntity pedestalBlockEntity ? pedestalBlockEntity : null;
-	}
+		var type = wrapper.getElementType();
 
-	private void makeProgress(Direction direction) {
-		PedestalBlockEntity pedestal = getPedestal(direction);
-		Direction offset = direction.getOpposite();
-		int oldProgress = getProgress(direction);
+		if (type == ElementType.NONE) {
+			return;
+		}
 
-		if (pedestal != null) {
-			float transferAmount = Math.min(getTransferSpeed(pedestal), (float) recipe.getElementAmount() - oldProgress);
+		var pedestal = wrapper.pedestal;
+		var offset = direction.getOpposite();
+		var oldProgress = wrapper.progress;
+		var transferAmount = Math.min(getTransferSpeed(pedestal), (float) recipe.getElementAmount() - oldProgress);
 
-			if (transferAmount > 0) {
-				float preservation = runeHandler.getBonus(BonusType.ELEMENT_PRESERVATION) + pedestal.getRuneHandler().getBonus(BonusType.ELEMENT_PRESERVATION) + 1;
-				float newProgress = oldProgress + pedestal.getElementStorage().extractElement(Math.round(transferAmount / preservation), false) * preservation;
+		if (transferAmount <= 0) {
+			return;
+		}
 
-				progress.put(direction, Math.round(newProgress));
-				if (level != null && level.isClientSide && newProgress > 0 && getProgressRounded(transferAmount, newProgress) > getProgressRounded(transferAmount, oldProgress)) {
-					ParticleHelper.createElementFlowParticle(pedestal.getElementType(), level, Vec3.atCenterOf(worldPosition).add(0, 0.7, 0), offset, 2.5f, level.random);
-				} else if (level != null && !level.isClientSide) {
-					this.setChanged();
-				}
-			}
+		var preservation = runeHandler.getBonus(BonusType.ELEMENT_PRESERVATION) + pedestal.getRuneHandler().getBonus(BonusType.ELEMENT_PRESERVATION) + 1;
+		var newProgress = oldProgress + pedestal.getElementStorage().extractElement(Math.max(1, Math.round(transferAmount / preservation)), false) * preservation;
+
+		wrapper.progress = Math.round(newProgress);
+		if (level != null && level.isClientSide && newProgress > 0 && getProgressRounded(transferAmount, newProgress) > getProgressRounded(transferAmount, oldProgress)) {
+			ParticleHelper.createElementFlowParticle(type, level, Vec3.atCenterOf(worldPosition).add(0, 0.7, 0), offset, 2.5f, level.random);
+		} else if (level != null && !level.isClientSide) {
+			this.setChanged();
 		}
 	}
 
@@ -147,13 +159,9 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		inventory.setItem(0, recipe.assemble(this));
 		emptyPedestals();
 	}
-	
+
 	private float getTransferSpeed(PedestalBlockEntity pedestal) {
 		return this.transferSpeed * (runeHandler.getBonus(BonusType.SPEED) + pedestal.getRuneHandler().getBonus(BonusType.SPEED) + 1);
-	}
-
-	public int getProgress(Direction direction) {
-		return progress.getOrDefault(direction, 0);
 	}
 
 	@Nonnull
@@ -172,7 +180,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 	@Override
 	public boolean isRunning() {
-		return progress.values().stream().anyMatch(i -> i > 0);
+		return pedestalWrappers.values().stream().anyMatch(w -> !w.isRemoved() && w.progress > 0);
 	}
 
 	@Override
@@ -184,9 +192,11 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		int[] progressArray = compound.getIntArray(ECNames.PROGRESS);
-		
+
 		for (int i = 0; i < progressArray.length; i++) {
-			this.progress.put(Direction.from2DDataValue(i), progressArray[i]);
+			var direction = Direction.from2DDataValue(i);
+
+			pedestalWrappers.get(direction).progress = progressArray[i];
 		}
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
 			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
@@ -197,7 +207,10 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 
-		compound.putIntArray(ECNames.PROGRESS, progress.entrySet().stream().sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue())).mapToInt(Entry::getValue).toArray());
+		compound.putIntArray(ECNames.PROGRESS, pedestalWrappers.entrySet().stream()
+				.sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue()))
+				.mapToInt(e -> e.getValue().progress)
+				.toArray());
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 	}
 
@@ -210,4 +223,38 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		return super.getCapability(cap, side);
 	}
 
+	private class PedestalWrapper implements IElementTypeProvider {
+
+		private PedestalBlockEntity pedestal;
+		private int progress;
+
+		public PedestalWrapper() {
+			this.pedestal = null;
+			this.progress = 0;
+		}
+
+		public boolean isRemoved() {
+			return pedestal == null || pedestal.isRemoved();
+		}
+
+		@Override
+		public ElementType getElementType() {
+			return isRemoved() ? ElementType.NONE : pedestal.getElementType();
+		}
+
+		public void lookupPedestal(Direction direction) {
+			var te = level != null ? level.getBlockEntity(worldPosition.relative(direction, 3)) : null;
+
+			pedestal = te instanceof PedestalBlockEntity p ? p : null;
+		}
+
+		public void setPedestalInventory(ItemStack stack) {
+			if (isRemoved()) {
+				return;
+			}
+
+			pedestal.getInventory().setItem(0, stack);
+			pedestal.setChanged();
+		}
+	}
 }

@@ -111,6 +111,14 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.SOURCE_BREEDER, list);
 		addItem(ECBlocks.SOURCE_BREEDER_PEDESTAL, list);
+		addItem(ECItems.ARTIFICIAL_FIRE_SOURCE_SEED, list);
+		addItem(ECItems.ARTIFICIAL_WATER_SOURCE_SEED, list);
+		addItem(ECItems.ARTIFICIAL_EARTH_SOURCE_SEED, list);
+		addItem(ECItems.ARTIFICIAL_AIR_SOURCE_SEED, list);
+		addItem(ECItems.NATURAL_FIRE_SOURCE_SEED, list);
+		addItem(ECItems.NATURAL_WATER_SOURCE_SEED, list);
+		addItem(ECItems.NATURAL_EARTH_SOURCE_SEED, list);
+		addItem(ECItems.NATURAL_AIR_SOURCE_SEED, list);
 		addItem(ECBlocks.TRANSLOCATION_ANCHOR, list);
 		addItem(ECBlocks.CRYSTAL_ORE, list);
 		addItem(ECBlocks.DEEPSLATE_CRYSTAL_ORE, list);

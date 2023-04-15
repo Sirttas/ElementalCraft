@@ -76,7 +76,6 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 		return this.getResultItem().copy();
 	}
 
-	@Override
 	public int getElementAmount() {
 		return elementAmount;
 	}

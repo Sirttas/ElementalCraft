@@ -1,9 +1,10 @@
 {
-  "order": 5,
+  "order": 6,
   "value": {
     "type": "elementalcraft:fixed",
-    "name": "source_trait.elementalcraft.fleeting",
+    "name": "source_trait.elementalcraft.artificial",
     "values": {
+      "breeding_cost": 0.5,
       "element_capacity": 0.25,
       "recover_rate": 0.0
     }

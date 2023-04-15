@@ -11,6 +11,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
@@ -32,10 +33,10 @@ public class ElementValvePipeUpgradeRenderer implements IPipeUpgradeRenderer<Ele
         }
 
         if (upgrade.isOpen()) {
-            renderModel(openModel, poseStack, buffer, pipe, light, overlay);
+            ECRendererHelper.renderModel(openModel, poseStack, buffer, pipe, light, overlay);
             renderParticles(upgrade, pipe);
         } else {
-            renderModel(closeModel, poseStack, buffer, pipe, light, overlay);
+            ECRendererHelper.renderModel(closeModel, poseStack, buffer, pipe, light, overlay);
         }
     }
 

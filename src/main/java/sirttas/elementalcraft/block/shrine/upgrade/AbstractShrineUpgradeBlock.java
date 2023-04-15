@@ -71,6 +71,10 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	@Override
 	@Deprecated
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
+		if (level.isClientSide() || !upgrade.isBound()) { // we only remove upgrades on the server and is fully loaded
+			return true;
+		}
+
 		var facing = getFacing(state);
 		var shrinePos = pos.relative(facing);
 
@@ -78,7 +82,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 			return true;
 		}
 
-		return upgrade.isBound() && BlockEntityHelper.getBlockEntityAs(level, shrinePos, AbstractShrineBlockEntity.class)
+		return BlockEntityHelper.getBlockEntityAs(level, shrinePos, AbstractShrineBlockEntity.class)
 				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this)))
 				.isPresent();
 	}

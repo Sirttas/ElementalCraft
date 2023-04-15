@@ -33,6 +33,7 @@ import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.loot.ECLootModifiers;
+import sirttas.elementalcraft.loot.entry.ECLootPoolEntries;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.particle.ECParticles;
@@ -94,6 +95,8 @@ public class ElementalCraft {
 		ECFeatures.register(modBus);
 		ECStructureTypes.register(modBus);
 		ECPlacements.register(modBus);
+		ECLootPoolEntries.register(modBus);
+		ECLootFunctions.register(modBus);
 		ECLootModifiers.register(modBus);
 		ECBlockPosPredicateTypes.register(modBus);
 		ToolInfusionEffectTypes.register(modBus);
@@ -128,7 +131,6 @@ public class ElementalCraft {
 
     private void setup(FMLCommonSetupEvent event) {
 		MessageHandler.setup();
-		ECLootFunctions.setup();
 		PipeUpgradeTypes.setup();
 	}
 	

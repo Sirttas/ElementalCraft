@@ -26,6 +26,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.source.SourceBlockEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -109,19 +111,31 @@ public class SourceAltarStructure extends Structure {
 		}
 
 		@Override
-		protected void handleDataMarker(String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor worldIn, @Nonnull RandomSource rand, @Nonnull BoundingBox sbb) {
-			if (function.endsWith("chest")) {
-				this.createChest(worldIn, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(function) + '_' + elementType.getSerializedName()), null);
-				worldIn.blockUpdated(pos, Blocks.CHEST);
-			} else if ("source".equals(function)) {
-				worldIn.setBlock(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType), 3);
+		protected void handleDataMarker(String name, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull RandomSource rand, @Nonnull BoundingBox sbb) {
+			if (name.endsWith("chest")) {
+				this.createChest(level, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName()), null);
+				level.blockUpdated(pos, Blocks.CHEST);
+			} else if (name.startsWith("source")) {
+				level.setBlock(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType), 3);
+				BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(s -> s.resetTraits(getSourceLuck(name)));
+				level.blockUpdated(pos, ECBlocks.SOURCE.get());
 			}
 		}
 
-		private String getChestType(String function) {
-			String[] split = function.split("_");
+		private String getChestType(String name) {
+			String[] split = name.split("_");
 
 			return (split.length > 1 ? split[0] : "small");
+		}
+
+		private int getSourceLuck(String name) {
+			String[] split = name.split("_");
+
+			try {
+				return (split.length > 1 ? Integer.parseInt(split[1]) : 0);
+			} catch (NumberFormatException e) {
+				return 0;
+			}
 		}
 	}
 }

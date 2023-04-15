@@ -4,7 +4,7 @@
   "input": {
     "tag": "forge:gems/lapis"
   },
-  "luck_ration": 2,
+  "luck_ratio": 2,
   "output": {
     "count": 2,
     "item": "minecraft:blue_dye"

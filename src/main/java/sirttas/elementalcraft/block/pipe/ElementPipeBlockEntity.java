@@ -195,7 +195,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 	public void setUpgrade(Direction face, PipeUpgrade upgrade) {
 		this.transferer.setUpgrade(face, Objects.requireNonNull(upgrade));
-		upgrade.added();
+		upgrade.onAdded();
 	}
 
 	private void removeUpgrade(Direction side) {
@@ -210,7 +210,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		}
 		upgrade.dropAll(player);
 		transferer.removeUpgrade(side);
-		upgrade.removed();
+		upgrade.onRemoved();
 	}
 	
 	void removeAllUpgrades() {
@@ -282,7 +282,15 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	public BlockState getCoverState() {
 		return coverState;
 	}
-	
+
+	public boolean isCovered() {
+		return coverState != null;
+	}
+
+	public int getMaxTransferAmount() {
+		return transferer.maxTransferAmount;
+	}
+
 	public InteractionResult setCover(Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		Item item = stack.getItem();

@@ -19,6 +19,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlock;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -54,15 +55,15 @@ public class LavaShrineRecipeCategory extends AbstractShrineRecipeCategory<LavaS
     public void draw(@Nonnull LavaShrineBlock recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
         render3D(poseStack, (p, b) -> {
             setupPose(p);
-            renderBlock(lavaShrine, p, b);
+            ECRendererHelper.renderBlock(lavaShrine, p, b);
             p.translate(0, 1, 0);
 
             var t = timer.getValue();
 
             if (t >= liquifiables.length) {
-                renderFluid(lava, p, b);
+                ECRendererHelper.renderFluid(lava, p, b);
             } else {
-                renderBlock(liquifiables[t].defaultBlockState(), p, b);
+                ECRendererHelper.renderBlock(liquifiables[t].defaultBlockState(), p, b);
             }
         });
         super.draw(recipe, recipeSlotsView, poseStack, mouseX, mouseY);

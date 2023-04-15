@@ -1,0 +1,14 @@
+{
+  "name": "spell.elementalcraft.repair",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:repair'}}",
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "turnin": "elementalcraft:pickup/scroll",
+  "sortnum": 24,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.repair0"
+    }
+  ]
+}

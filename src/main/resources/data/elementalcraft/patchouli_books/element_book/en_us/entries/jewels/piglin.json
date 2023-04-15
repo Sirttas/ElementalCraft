@@ -1,0 +1,18 @@
+{
+  "name": "elementalcraft_jewel.elementalcraft.piglin",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:jewel{elementalcraft:{jewel:'elementalcraft:piglin'}}",
+  "advancement": "elementalcraft:pickup/swift_alloy_ingot",
+  "turnin": "elementalcraft:pickup/unset_jewel",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.piglin0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:jewel/piglin"
+    }
+  ]
+}

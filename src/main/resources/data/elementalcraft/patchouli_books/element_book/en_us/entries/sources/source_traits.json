@@ -17,6 +17,10 @@
     {
       "type": "text",
       "text": "elementalcraft.page.source_traits2"
+    },
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_traits3"
     }
   ]
 }

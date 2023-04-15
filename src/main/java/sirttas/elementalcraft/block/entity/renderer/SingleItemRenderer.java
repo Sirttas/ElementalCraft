@@ -9,6 +9,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
@@ -34,9 +35,9 @@ public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> i
 		IRuneRenderer.super.render(te, partialTicks, matrixStack, buffer, light, overlay);
 		if (!stack.isEmpty()) {
 			matrixStack.translate(position.x, position.y, position.z);
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(getClientTicks(partialTicks)));
+			matrixStack.mulPose(Vector3f.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTicks)));
 			matrixStack.scale(size, size, size);
-			renderItem(stack, matrixStack, buffer, light, overlay);
+			ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 		}
 	}
 }

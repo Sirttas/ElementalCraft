@@ -10,7 +10,7 @@ import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 @Mixin(PiglinAi.class)
-public class MixinPiglinAi {
+public abstract class MixinPiglinAi {
 
     @Inject(at = @At("RETURN"),
             method = "isWearingGold(Lnet/minecraft/world/entity/LivingEntity;)Z",

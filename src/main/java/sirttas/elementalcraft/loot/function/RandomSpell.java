@@ -29,8 +29,6 @@ public class RandomSpell extends LootItemConditionalFunction {
 
 	private ElementType elementType;
 	private final List<Spell> spellList;
-
-	static LootItemFunctionType type;
 	
 	private RandomSpell(LootItemCondition[] condition, Collection<Spell> spellList) {
 		super(condition);
@@ -118,6 +116,6 @@ public class RandomSpell extends LootItemConditionalFunction {
 	@Nonnull
     @Override
 	public LootItemFunctionType getType() {
-		return type;
+		return ECLootFunctions.RANDOM_SPELL.get();
 	}
 }

@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
@@ -32,17 +32,17 @@ public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvi
 	}
 	
 	@Override
-	public ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos) {
+	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
 		if (predicate.test(level, pos)) {
-			return provider.roll(trait, level, pos);
+			return provider.roll(context, level, pos);
 		}
 		return null;
 	}
 
 	@Nullable
 	@Override
-	public ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
-		return provider.breed(trait, level, value1, value2);
+	public ISourceTraitValue breed(SourceTraitRollContext context, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+		return provider.breed(context, value1, value2);
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.source.trait.holder.SourceTraitHolder;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
@@ -33,7 +34,7 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
 
     public SourceBreederPedestalBlockEntity(BlockPos pos, BlockState state) {
         super(ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL, pos, state);
-        elementStorage = new SourceBreederPedestalElementContainer(this);
+        elementStorage = new SourceBreederPedestalElementStorage(this);
         inventory = new SourceBreederPedestalItemContainer(this::setChanged);
         runeHandler = new RuneHandler(ECConfig.COMMON.sourceBreederPedestalMaxRunes.get(), this::setChanged);
     }
@@ -57,7 +58,7 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
 
     @Nullable
     public ISourceTraitHolder getTraitHolder() {
-        return SourceTraitHolderHelper.get(getReceptacle()).orElse(null);
+        return SourceTraitHolderHelper.get(getReceptacle()).orElseGet(SourceTraitHolder::new);
     }
 
     @Override

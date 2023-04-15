@@ -1,13 +1,19 @@
 package sirttas.elementalcraft.recipe;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.item.source.receptacle.NaturalSourceIngredient;
 import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
@@ -22,6 +28,7 @@ import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 
 import java.util.function.Supplier;
 
+@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECRecipeSerializers {
 
 	private static final DeferredRegister<RecipeSerializer<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, ElementalCraftApi.MODID);
@@ -46,5 +53,12 @@ public class ECRecipeSerializers {
 
 	public static void register(IEventBus bus) {
 		DEFERRED_REGISTER.register(bus);
+	}
+
+	@SubscribeEvent
+	public static void registerRecipeSerializers(RegisterEvent event) {
+		if (event.getRegistryKey().equals(ForgeRegistries.Keys.RECIPE_SERIALIZERS)) {
+			CraftingHelper.register(new ResourceLocation("elementalcraft", "natural_source"), NaturalSourceIngredient.Serializer.INSTANCE);
+		}
 	}
 }

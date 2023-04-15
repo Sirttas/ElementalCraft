@@ -5,6 +5,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
@@ -14,12 +15,11 @@ import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> implements IECRenderer<T> {
+public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> implements BlockEntityRenderer<T> {
 
 	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_synthesizer_beam");
 	public static final ResourceLocation LENSE_LOCATION = ElementalCraft.createRL("block/solar_synthesizer_lense");
@@ -28,7 +28,7 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 
 	@Override
 	public void render(T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		renderRunes(matrixStack, buffer, te.getRuneHandler(), getClientTicks(partialTicks), light, overlay);
+		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
 
 		var elementType = getElementType(te);
 
@@ -47,7 +47,7 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 				matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90));
 			}
 			matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
-			minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, getModelData(getLenseModel(), te), RenderType.translucent());
+			minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, ECRendererHelper.getModelData(getLenseModel(), te), RenderType.translucent());
 			matrixStack.popPose();
 			if (isWorking) {
 				Vec3 beamVect = Vec3.atCenterOf(te.getBlockPos()).subtract(minecraft.getEntityRenderDispatcher().camera.getPosition()).multiply(1, 0, 1).normalize();

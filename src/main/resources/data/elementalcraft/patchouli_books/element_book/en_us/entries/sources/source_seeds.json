@@ -1,0 +1,33 @@
+{
+  "name": "elementalcraft.entry.source_seeds",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:artificial_fire_source_seed",
+  "advancement": "elementalcraft:pickup/fireite_ingot",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_seeds0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:artificial_fire_source_seed",
+      "recipe2": "elementalcraft:natural_fire_source_seed"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:artificial_water_source_seed",
+      "recipe2": "elementalcraft:natural_water_source_seed"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:artificial_earth_source_seed",
+      "recipe2": "elementalcraft:natural_earth_source_seed"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:artificial_air_source_seed",
+      "recipe2": "elementalcraft:natural_air_source_seed"
+    }
+  ]
+}

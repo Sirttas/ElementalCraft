@@ -27,6 +27,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,7 +122,9 @@ public class PureOreManager {
 						.collect(Collectors.joining(", ")));
 		injectors.forEach(injector -> injector.init(recipeManager));
 		this.pureOres.clear();
-		ElementalCraft.PURE_ORE_LOADERS_MANAGER.getData().forEach((k, l) -> l.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ores.put(l, e)));
+		ElementalCraft.PURE_ORE_LOADERS_MANAGER.getData().values().stream()
+				.sorted(Comparator.comparingInt(PureOreLoader::order))
+				.forEach(l -> l.generate(injectors).forEach(e -> this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ores.put(l, e)));
 
 		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Pure ore recipe injection.");

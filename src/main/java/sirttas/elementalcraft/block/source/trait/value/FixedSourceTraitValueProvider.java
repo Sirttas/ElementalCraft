@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
@@ -30,12 +31,12 @@ public record FixedSourceTraitValueProvider(
 
 	
 	@Override
-	public ISourceTraitValue roll(SourceTrait trait, Level level, BlockPos pos) {
+	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
 		return new SourceTraitValue();
 	}
 
 	@Override
-	public ISourceTraitValue breed(SourceTrait trait, Level level, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
+	public ISourceTraitValue breed(SourceTraitRollContext context, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2) {
 		return new SourceTraitValue();
 	}
 

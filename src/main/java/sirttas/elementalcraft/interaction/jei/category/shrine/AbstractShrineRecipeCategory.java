@@ -8,12 +8,11 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
-import sirttas.elementalcraft.renderer.IECGenericRenderer;
 
 import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
 
-public abstract class AbstractShrineRecipeCategory<T> extends AbstractECRecipeCategory<T> implements IECGenericRenderer {
+public abstract class AbstractShrineRecipeCategory<T> extends AbstractECRecipeCategory<T> {
 
     protected AbstractShrineRecipeCategory(String translationKey, IDrawable icon, IDrawable background) {
         super(translationKey, icon, background);

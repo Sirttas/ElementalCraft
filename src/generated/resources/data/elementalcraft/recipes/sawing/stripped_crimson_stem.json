@@ -4,7 +4,7 @@
   "input": {
     "item": "minecraft:crimson_stem"
   },
-  "luck_ration": 0,
+  "luck_ratio": 0,
   "output": {
     "item": "minecraft:stripped_crimson_stem"
   }

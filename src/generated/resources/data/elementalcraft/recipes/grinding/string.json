@@ -4,7 +4,7 @@
   "input": {
     "tag": "minecraft:wool"
   },
-  "luck_ration": 0,
+  "luck_ratio": 0,
   "output": {
     "count": 4,
     "item": "minecraft:string"

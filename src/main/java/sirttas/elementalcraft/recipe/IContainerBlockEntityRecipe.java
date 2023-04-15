@@ -9,12 +9,10 @@ import javax.annotation.Nonnull;
 
 public interface IContainerBlockEntityRecipe<T extends IContainerBlockEntity> extends IECRecipe<ContainerBlockEntityWrapper<T>> {
 
-	int getElementAmount();
-
 	boolean matches(T inv);
 
 	@Override
-	default boolean matches(ContainerBlockEntityWrapper<T> inv, @Nonnull Level worldIn) {
+	default boolean matches(ContainerBlockEntityWrapper<T> inv, @Nonnull Level level) {
 		return matches(inv.getEntity());
 	}
 
@@ -22,11 +20,6 @@ public interface IContainerBlockEntityRecipe<T extends IContainerBlockEntity> ex
     @Override
 	default ItemStack assemble(@Nonnull ContainerBlockEntityWrapper<T> inv) {
 		return assemble(inv.getEntity());
-	}
-	
-	@Override
-	default boolean canCraftInDimensions(int width, int height) {
-		return true;
 	}
 
 	default ItemStack assemble(T instrument) {

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.instrument.binder.improved;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlockEntity;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
@@ -17,6 +18,10 @@ public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInf
 
 	@Override
 	protected AbstractBindingRecipe lookupRecipe() {
+		if (getContainerElementType() == ElementType.NONE) {
+			return null;
+		}
+
 		var bindingRecipe = super.lookupRecipe();
 
 		if (bindingRecipe == null) {

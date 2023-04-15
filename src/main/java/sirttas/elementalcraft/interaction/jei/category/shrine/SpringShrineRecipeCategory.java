@@ -16,6 +16,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
@@ -44,13 +45,13 @@ public class SpringShrineRecipeCategory extends AbstractShrineRecipeCategory<Spr
     public void draw(@Nonnull SpringShrineBlock recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
         render3D(poseStack, (p, b) -> {
             setupPose(p);
-            renderBlock(springShrine, p, b);
+            ECRendererHelper.renderBlock(springShrine, p, b);
             p.translate(0, 1, 0);
 
             var t = timer.getValue();
 
             if (t == 0) {
-                renderFluid(water, p, b);
+                ECRendererHelper.renderFluid(water, p, b);
             }
         });
         super.draw(recipe, recipeSlotsView, poseStack, mouseX, mouseY);

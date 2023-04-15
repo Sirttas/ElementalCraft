@@ -27,16 +27,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
-import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SourceBreederBlock extends AbstractECEntityBlock implements SimpleWaterloggedBlock {
+public class SourceBreederBlock extends AbstractECContainerBlock implements SimpleWaterloggedBlock {
 
     public static final String NAME = "source_breeder";
 
@@ -136,20 +135,10 @@ public class SourceBreederBlock extends AbstractECEntityBlock implements SimpleW
     @Nonnull
     @Override
     @Deprecated
-    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-        var breeder = (SourceBreederBlockEntity) level.getBlockEntity(pos);
-        var heldItem = player.getItemInHand(hand);
-
-        if (breeder != null && breeder.getProgress() < 0 && heldItem.is(ECItems.PURE_CRYSTAL.get())) {
-            breeder.start();
-            if (!player.isCreative()) {
-                heldItem.shrink(1);
-                if (heldItem.isEmpty()) {
-                    player.setItemInHand(hand, ItemStack.EMPTY);
-                }
-            }
-            return InteractionResult.SUCCESS;
+    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+        if (state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
+            pos = pos.below();
         }
-        return InteractionResult.PASS;
+        return onSingleSlotActivated(world, pos, player, hand);
     }
 }

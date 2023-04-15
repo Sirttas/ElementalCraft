@@ -56,6 +56,7 @@ import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.source.receptacle.NaturalSourceIngredient;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
@@ -112,6 +113,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		registerEmptying(consumer);
 		registerCrystallizations(consumer);
 		registerDecorative(consumer);
+		registerSourceSeeds(consumer);
 
 		ShapedRecipeBuilder.shaped(ECItems.CONTAINED_CRYSTAL.get()).define('g', Tags.Items.NUGGETS_GOLD).define('c', ECItems.INERT_CRYSTAL.get()).pattern(" g ").pattern("gcg").pattern(" g ")
 				.unlockedBy(HAS_INERTCRYSTAL, has(ECItems.INERT_CRYSTAL)).save(consumer);
@@ -718,7 +720,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.BLAZE_ROD).addIngredient(Items.BLAZE_ROD).build(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tano"), ElementType.FIRE).withElementAmount(10000).setSlate(ECItems.MAJOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).addIngredient(Tags.Items.STORAGE_BLOCKS_COAL).build(consumer);
-		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("cognac"), ElementType.EARTH).setSlate(ECItems.MINOR_RUNE_SLATE.get())
+		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("soaryn"), ElementType.EARTH).setSlate(ECItems.MINOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS).addIngredient(createRuneIngredient("wii")).addIngredient(createRuneIngredient("manx")).build(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("kaworu"), ElementType.EARTH).withElementAmount(10000).setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.FINE_EARTH_GEMS).addIngredient(createRuneIngredient("fus")).addIngredient(createRuneIngredient("jita")).build(consumer);
@@ -791,6 +793,18 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(ECBlocks.SPRINGALINE_GLASS.get(), 2).define('s', ECItems.SPRINGALINE_SHARD.get()).define('g', ECBlocks.BURNT_GLASS.get()).pattern(" s ").pattern("sgs").pattern(" s ").unlockedBy(HAS_SPRINGALINE_SHARD, has(ECItems.SPRINGALINE_SHARD)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECBlocks.SPRINGALINE_GLASS_PANE.get(), 16).define('#', ECBlocks.SPRINGALINE_GLASS.get()).pattern("###").pattern("###").unlockedBy("has_springaline_glass", has(ECBlocks.SPRINGALINE_GLASS)).save(consumer);
 		ShapedRecipeBuilder.shaped(ECBlocks.SPRINGALINE_LANTERN.get()).define('s', ECItems.SPRINGALINE_SHARD.get()).define('g', Items.GLOWSTONE).define('p', Tags.Items.GEMS_PRISMARINE).pattern("psp").pattern("sgs").pattern("psp").unlockedBy(HAS_SPRINGALINE_SHARD, has(ECItems.SPRINGALINE_SHARD)).save(consumer);
+	}
+
+	private void registerSourceSeeds(@Nonnull Consumer<FinishedRecipe> consumer) {
+		ShapedRecipeBuilder.shaped(ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get(), 8).define('f', ECTags.Items.NUGGETS_FIREITE).define('s', ECItems.SPRINGALINE_SHARD.get()).define('g', ECTags.Items.PRISTINE_FIRE_GEMS).pattern("fsf").pattern("sgs").pattern("fsf").unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE)).save(consumer);
+		ShapedRecipeBuilder.shaped(ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get(), 8).define('f', ECTags.Items.NUGGETS_FIREITE).define('s', ECItems.SPRINGALINE_SHARD.get()).define('g', ECTags.Items.PRISTINE_WATER_GEMS).pattern("fsf").pattern("sgs").pattern("fsf").unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE)).save(consumer);
+		ShapedRecipeBuilder.shaped(ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get(), 8).define('f', ECTags.Items.NUGGETS_FIREITE).define('s', ECItems.SPRINGALINE_SHARD.get()).define('g', ECTags.Items.PRISTINE_EARTH_GEMS).pattern("fsf").pattern("sgs").pattern("fsf").unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE)).save(consumer);
+		ShapedRecipeBuilder.shaped(ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get(), 8).define('f', ECTags.Items.NUGGETS_FIREITE).define('s', ECItems.SPRINGALINE_SHARD.get()).define('g', ECTags.Items.PRISTINE_AIR_GEMS).pattern("fsf").pattern("sgs").pattern("fsf").unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE)).save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(ECItems.NATURAL_FIRE_SOURCE_SEED.get()).requires(ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get()).requires(new NaturalSourceIngredient(ElementType.FIRE)).unlockedBy("has_artificial_fire_source_seed", has(ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get())).save(consumer);
+		ShapelessRecipeBuilder.shapeless(ECItems.NATURAL_WATER_SOURCE_SEED.get()).requires(ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get()).requires(new NaturalSourceIngredient(ElementType.WATER)).unlockedBy("has_artificial_water_source_seed", has(ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get())).save(consumer);
+		ShapelessRecipeBuilder.shapeless(ECItems.NATURAL_EARTH_SOURCE_SEED.get()).requires(ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get()).requires(new NaturalSourceIngredient(ElementType.EARTH)).unlockedBy("has_artificial_earth_source_seed", has(ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get())).save(consumer);
+		ShapelessRecipeBuilder.shapeless(ECItems.NATURAL_AIR_SOURCE_SEED.get()).requires(ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get()).requires(new NaturalSourceIngredient(ElementType.AIR)).unlockedBy("has_artificial_air_source_seed", has(ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get())).save(consumer);
 	}
 
 	private boolean exists(Block block) {

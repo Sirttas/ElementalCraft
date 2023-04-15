@@ -11,6 +11,8 @@ import java.util.List;
 
 public class SpellTickHelper {
 
+    private SpellTickHelper() {}
+
     @Nonnull
     public static LazyOptional<ISpellTickManager> get(ICapabilityProvider provider) {
         return ISpellTickManager.CAPABILITY != null && provider != null ? provider.getCapability(ISpellTickManager.CAPABILITY, null) : LazyOptional.empty();

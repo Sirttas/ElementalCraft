@@ -33,7 +33,7 @@ public class SourceStabilizerItem extends ECItem implements ISourceInteractable 
 		
 		return BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class)
 				.map(source -> {
-					if (player != null && !source.isStabilized() && !source.getTraitHolder().isFleeting()) {
+					if (player != null && !source.isStabilized() && !source.getTraitHolder().isArtificial()) {
 						if (!source.isAnalyzed()) {
 							player.displayClientMessage(Component.translatable("message.elementalcraft.missing_analysis"), true);
 							return InteractionResult.PASS;

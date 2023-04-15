@@ -62,7 +62,6 @@ import java.util.function.UnaryOperator;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECItems {
-
 	private static final DeferredRegister<Item> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, ElementalCraftApi.MODID);
 
 	public static final RegistryObject<FocusItem> FOCUS = register(FocusItem::new, FocusItem.NAME);
@@ -140,6 +139,14 @@ public class ECItems {
 	public static final RegistryObject<ECItem> MAJOR_RUNE_SLATE = register(ECItem::new, "major_rune_slate");
 	public static final RegistryObject<ECItem> UNSET_JEWEL = register(ECItem::new, "unset_jewel");
 	public static final RegistryObject<JewelItem> JEWEL = register(JewelItem::new, JewelItem.NAME);
+	public static final RegistryObject<ElementalItem> ARTIFICIAL_FIRE_SOURCE_SEED = register(() -> new ElementalItem(ElementType.FIRE), "artificial_fire_source_seed");
+	public static final RegistryObject<ElementalItem> ARTIFICIAL_WATER_SOURCE_SEED = register(() -> new ElementalItem(ElementType.WATER), "artificial_water_source_seed");
+	public static final RegistryObject<ElementalItem> ARTIFICIAL_EARTH_SOURCE_SEED = register(() -> new ElementalItem(ElementType.EARTH), "artificial_earth_source_seed");
+	public static final RegistryObject<ElementalItem> ARTIFICIAL_AIR_SOURCE_SEED = register(() -> new ElementalItem(ElementType.AIR), "artificial_air_source_seed");
+	public static final RegistryObject<ElementalItem> NATURAL_FIRE_SOURCE_SEED = register(() -> new ElementalItem(ElementType.FIRE), "natural_fire_source_seed");
+	public static final RegistryObject<ElementalItem> NATURAL_WATER_SOURCE_SEED = register(() -> new ElementalItem(ElementType.WATER), "natural_water_source_seed");
+	public static final RegistryObject<ElementalItem> NATURAL_EARTH_SOURCE_SEED = register(() -> new ElementalItem(ElementType.EARTH), "natural_earth_source_seed");
+	public static final RegistryObject<ElementalItem> NATURAL_AIR_SOURCE_SEED = register(() -> new ElementalItem(ElementType.AIR), "natural_air_source_seed");
 	public static final RegistryObject<SpellEffectItem> REPAIR_HAMMER = register(SpellEffectItem::new, "repair_hammer");
 
 

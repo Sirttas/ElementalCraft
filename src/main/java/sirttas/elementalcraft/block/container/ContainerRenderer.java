@@ -3,17 +3,18 @@ package sirttas.elementalcraft.block.container;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
-import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> implements IECRenderer<T> {
+public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> implements BlockEntityRenderer<T> {
     @Override
     public void render(@Nonnull T container, float pPartialTick, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         if (Boolean.FALSE.equals(ECConfig.CLIENT.renderInstrumentShadow.get())) {
@@ -44,7 +45,7 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
                     if (state != null && state.canSurvive(level, instrumentPos)) {
                         poseStack.pushPose();
                         poseStack.translate(0, 1, 0);
-                        renderGhost(state, poseStack, bufferSource, level, instrumentPos);
+                        ECRendererHelper.renderGhost(state, poseStack, bufferSource, level, instrumentPos);
                         poseStack.popPose();
                         wasRendered = true;
                     }

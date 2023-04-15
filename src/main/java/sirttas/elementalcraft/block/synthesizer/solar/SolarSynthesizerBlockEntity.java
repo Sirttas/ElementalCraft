@@ -37,6 +37,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	private final SingleItemContainer inventory;
 	private final RuneHandler runeHandler;
 	protected boolean working;
+	private ISingleElementStorage containerCache;
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
 		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, pos, state);
@@ -139,6 +140,14 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
     @Override
 	public Container getInventory() {
 		return inventory;
+	}
+
+	@Override
+	public ISingleElementStorage getContainer() {
+		if (containerCache == null) {
+			containerCache = IContainerTopBlockEntity.super.getContainer();
+		}
+		return containerCache;
 	}
 
 	public Optional<ISingleElementStorage> getElementStorage() {

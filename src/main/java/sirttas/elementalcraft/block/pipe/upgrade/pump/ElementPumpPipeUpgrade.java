@@ -85,26 +85,21 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
 
         @Override
         public void transfer() {
-            if (isValid()) {
-                var multiplier = ECConfig.COMMON.elementPumpMultiplier.get();
-                var waste = ECConfig.COMMON.elementPumpWaste.get();
-                var source = nodes.get(0).getStorage();
-                var target = nodes.get(nodes.size() - 1).getStorage();
-
-                if (source == null || target == null) {
-                    return;
-                }
-
-                int amount = (int) Math.round(source.transferTo(target, parent.getElementType(), (float) (getRemainingTransferAmount() * multiplier), (float) (1F - waste)) / multiplier);
-
-                if (amount > 0) {
-                    nodes.forEach(p -> {
-                        if (p.getTransferer() != null) {
-                            p.getTransferer().transfer(amount);
-                        }
-                    });
-                }
+            if (!isValid()) {
+                return;
             }
+
+            var type = parent.getElementType();
+            var multiplier = ECConfig.COMMON.elementPumpMultiplier.get();
+            var waste = ECConfig.COMMON.elementPumpWaste.get();
+            var source = nodes.get(0).getStorage();
+            var target = nodes.get(nodes.size() - 1).getStorage();
+
+            if (source == null || target == null) {
+                return;
+            }
+
+            IElementTransferPath.transfer(type, (int) Math.round(source.transferTo(target, type, (float) (getRemainingTransferAmount() * multiplier), (float) (1F - waste)) / multiplier), nodes);
         }
 
         @Override

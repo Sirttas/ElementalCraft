@@ -29,6 +29,8 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 	private int extractionAmount;
 	private final RuneHandler runeHandler;
 
+	private ISingleElementStorage containerCache;
+
 	public ExtractorBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.EXTRACTOR, pos, state);
 		if (state.is(ECBlocks.EXTRACTOR_IMPROVED.get())) {
@@ -91,6 +93,14 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 
 	public RuneHandler getRuneHandler() {
 		return runeHandler;
+	}
+
+	@Override
+	public ISingleElementStorage getContainer() {
+		if (containerCache == null) {
+			containerCache = IContainerTopBlockEntity.super.getContainer();
+		}
+		return containerCache;
 	}
 
 	@Override

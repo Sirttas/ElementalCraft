@@ -4,7 +4,7 @@
   "input": {
     "item": "minecraft:amethyst_cluster"
   },
-  "luck_ration": 5,
+  "luck_ratio": 5,
   "output": {
     "count": 6,
     "item": "minecraft:amethyst_shard"

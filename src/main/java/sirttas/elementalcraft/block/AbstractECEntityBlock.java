@@ -13,9 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
@@ -43,7 +41,6 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			dropItems(level, pos);
-			dropRunes(level, pos);
 			super.onRemove(state, level, pos, newState, isMoving);
 		}
 	}
@@ -57,10 +54,6 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 			}
 			level.updateNeighbourForOutputSignal(pos, this);
 		}
-	}
-
-	private void dropRunes(Level level, BlockPos pos) {
-		BlockEntityHelper.getRuneHandlerAt(level, pos).getRunes().forEach(rune -> Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), ECItems.RUNE.get().getRuneStack(rune)));
 	}
 	
 	@Override

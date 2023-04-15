@@ -16,6 +16,7 @@ import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeHelper;
 import sirttas.elementalcraft.block.pipe.upgrade.priority.PipePriorityRingsPipeUpgrade;
 import sirttas.elementalcraft.config.ECConfig;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -142,7 +143,17 @@ public class ElementPipeTransferer implements IElementTransferer {
     }
 
     @Override
-    public void transfer(int amount) {
+    public void transfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
+        if (to != null) {
+            this.connections.forEach((side, connection) -> {
+                var upgrade = this.getUpgrade(side);
+
+                if (upgrade == null || !upgrade.getConnections(type, connection).contains(to)) {
+                    return;
+                }
+                upgrade.onTransfer(type, amount, from, to);
+            });
+        }
         this.transferedAmount += amount;
     }
 

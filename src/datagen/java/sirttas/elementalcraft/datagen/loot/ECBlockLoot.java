@@ -30,12 +30,15 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
+import sirttas.elementalcraft.block.extractor.ExtractorBlock;
+import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.loot.entry.LootRunes;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -47,10 +50,17 @@ public class ECBlockLoot extends BlockLoot {
 	protected void addTables() {
 		add(ECBlocks.CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
 		add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
-		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createCopyElementStorage);
+		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createIER);
 		add(ECBlocks.CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
+		add(ECBlocks.DIFFUSER.get(), ECBlockLoot::createRunnable);
+		add(ECBlocks.SORTER.get(), ECBlockLoot::createRunnable);
+		add(ECBlocks.PURE_INFUSER.get(), ECBlockLoot::createRunnable);
+		add(ECBlocks.SOURCE_BREEDER.get(), ECBlockLoot::createRunnable);
+		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECBlockLoot::createIER);
+		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
+		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(createDropRunesPool()));
 		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);
 		add(ECBlocks.BURNT_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
 		add(ECBlocks.BURNT_GLASS_PANE.get(), BlockLoot::createSilkTouchOnlyTable);
@@ -72,7 +82,11 @@ public class ECBlockLoot extends BlockLoot {
 			} else if (block instanceof AbstractShrineBlock) {
 				add(block, ECBlockLoot::createCopyElementStorage);
 			} else if (block instanceof PedestalBlock) {
-				add(block, ECBlockLoot::createCopyElementStorage);
+				add(block, ECBlockLoot::createIER);
+			} else if (block instanceof IInstrumentBlock) {
+				add(block, ECBlockLoot::createRunnable);
+			} else if (block instanceof ExtractorBlock) {
+				add(block, ECBlockLoot::createRunnable);
 			} else if (block instanceof ElementPipeBlock) {
 				add(block, ECBlockLoot::createPipe);
 			} else if (block instanceof ReservoirBlock) {
@@ -107,6 +121,13 @@ public class ECBlockLoot extends BlockLoot {
 		return createCopyNbt(item, ECNames.ELEMENT_STORAGE);
 	}
 
+	private static Builder createRunnable(Block item) {
+		return createSingleItemTable(item).withPool(createDropRunesPool());
+	}
+
+	private static Builder createIER(Block item) {
+		return createCopyElementStorage(item).withPool(createDropRunesPool());
+	}
 
 	private static Builder createReservoir(Block block) {
 		return LootTable.lootTable().withPool(createCopyNbtPool(LootItem.lootTableItem(block), ECNames.ELEMENT_STORAGE)
@@ -120,6 +141,10 @@ public class ECBlockLoot extends BlockLoot {
 
 	private static Builder createCopyNbt(LootPoolEntryContainer.Builder<?> entry, String... tags) {
 		return LootTable.lootTable().withPool(createCopyNbtPool(entry, tags));
+	}
+
+	private static LootPool.Builder createDropRunesPool() {
+		return LootPool.lootPool().add(LootRunes.builder()).when(ExplosionCondition.survivesExplosion());
 	}
 
 	private static LootPool.Builder createCopyNbtPool(LootPoolEntryContainer.Builder<?> entry, String... tags) {

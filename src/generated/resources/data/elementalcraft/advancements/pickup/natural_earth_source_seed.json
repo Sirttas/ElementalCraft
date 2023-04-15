@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_natural_earth_source_seed": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:natural_earth_source_seed"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_natural_earth_source_seed"
+    ]
+  ]
+}

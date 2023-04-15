@@ -4,7 +4,7 @@
   "input": {
     "item": "minecraft:acacia_wood"
   },
-  "luck_ration": 0,
+  "luck_ratio": 0,
   "output": {
     "item": "minecraft:stripped_acacia_wood"
   }

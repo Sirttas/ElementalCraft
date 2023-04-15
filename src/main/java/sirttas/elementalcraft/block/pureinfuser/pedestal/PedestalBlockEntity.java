@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,12 +11,10 @@ import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 
 import javax.annotation.Nonnull;
-import java.util.stream.Stream;
 
 public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElementTypeProvider {
 	private final SingleItemContainer inventory;
@@ -29,12 +26,6 @@ public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElem
 		inventory = new SingleItemContainer(this::setChanged);
 		elementStorage = new PedestalElementStorage(ElementType.getElementType(state), this::setChanged);
 		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get(), this::setChanged);
-	}
-
-	public Direction getPureInfuserDirection() {
-		return Stream.of(Direction.values()).filter(d -> d.getAxis().getPlane() == Direction.Plane.HORIZONTAL)
-				.filter(d -> this.getLevel().getBlockEntity(worldPosition.relative(d, 3)) instanceof PureInfuserBlockEntity)
-				.findAny().orElse(Direction.UP);
 	}
 
 	@Override

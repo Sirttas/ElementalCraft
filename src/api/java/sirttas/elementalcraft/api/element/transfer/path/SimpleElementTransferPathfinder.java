@@ -60,6 +60,10 @@ public class SimpleElementTransferPathfinder {
             List<ProcessedNode> nodes
     ) implements IElementTransferPath {
 
+        public Path {
+            nodes = List.copyOf(nodes);
+        }
+
         @Override
         public boolean isValid() {
             return !this.nodes.isEmpty() && this.target != null && nodes.stream().allMatch(ProcessedNode::isValid);
@@ -76,17 +80,11 @@ public class SimpleElementTransferPathfinder {
 
         @Override
         public void transfer() {
-            if (isValid()) {
-                int amount = source.transferTo(target, type, getRemainingTransferAmount());
-
-                if (amount > 0) {
-                    nodes.forEach(p -> {
-                        if (p.transferer != null) {
-                            p.transferer.transfer(amount);
-                        }
-                    });
-                }
+            if (!isValid()) {
+                return;
             }
+
+            IElementTransferPath.transfer(type, source.transferTo(target, type, getRemainingTransferAmount()), getNodes());
         }
 
         @Override
@@ -156,9 +154,9 @@ public class SimpleElementTransferPathfinder {
             var p = parent;
             while (p != null) {
                 path.add(new ProcessedNode(p.transferer, null, p.pos));
-                path.add(new ProcessedNode(null, storage, pos));
                 p = p.parent;
             }
+            path.add(new ProcessedNode(null, storage, pos));
         }
     }
 

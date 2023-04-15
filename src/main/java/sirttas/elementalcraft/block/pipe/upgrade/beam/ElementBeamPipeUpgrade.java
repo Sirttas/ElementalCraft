@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.pipe.upgrade.beam;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.ElementTransfererHelper;
@@ -14,7 +15,9 @@ import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.particle.ParticleHelper;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +32,12 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     private ElementBeamPipeUpgrade other;
     private boolean linked;
 
+    private int transfered;
+
     public ElementBeamPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
         super(PipeUpgradeTypes.ELEMENT_BEAM.get(), pipe, direction);
         this.linked = false;
+        transfered = 0;
     }
 
     @Override
@@ -70,7 +76,7 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    public void added() {
+    public void onAdded() {
         tryLink();
     }
 
@@ -90,7 +96,7 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    public void removed() {
+    public void onRemoved() {
         if (this.other != null) {
             this.other.linked = false;
             this.linked = false;
@@ -99,14 +105,41 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
         }
     }
 
+    @Override
+    public void onTransfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
+        var pipe = this.getPipe();
+        var level = pipe.getLevel();
+        var otherPipe = this.other != null ? this.other.getPipe() : null;
+
+        if (level == null || otherPipe == null || !otherPipe.getBlockPos().equals(to) || pipe.isCovered() || otherPipe.isCovered()) {
+            return;
+        }
+
+        var max = pipe.getMaxTransferAmount();
+
+        transfered += amount;
+        if (transfered < max) {
+            return;
+        }
+        transfered -= max;
+
+        if (level.random.nextDouble() < 0.2) {
+            var direction = this.getDirection();
+            var opposite = direction.getOpposite();
+
+            ParticleHelper.createElementFlowParticle(type, level, Vec3.atCenterOf(to).relative(opposite, 0.5), Vec3.atCenterOf(pipe.getBlockPos()).relative(direction, 0.5), level.random);
+        }
+    }
+
     private Optional<ElementBeamPipeUpgrade> findOther() {
-        var level = this.getPipe().getLevel();
+        var pipe = this.getPipe();
+        var level = pipe.getLevel();
 
         if (level == null) {
             return Optional.empty();
         }
 
-        var pos = this.getPipe().getBlockPos().mutable();
+        var pos = pipe.getBlockPos().mutable();
         var direction = this.getDirection();
         var opposite = direction.getOpposite();
         var range = ECConfig.COMMON.elementBeamRange.get();

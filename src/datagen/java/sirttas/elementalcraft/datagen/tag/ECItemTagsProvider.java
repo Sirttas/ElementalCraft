@@ -153,7 +153,12 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				.addOptionalTag(forge("storage_blocks/raw_allthemodium"))
 				.addOptionalTag(forge("storage_blocks/raw_vibranium"))
 				.addOptionalTag(forge("storage_blocks/raw_iridium"))
-				.addOptionalTag(forge("storage_blocks/raw_azure_silver"));
+				.addOptionalTag(forge("storage_blocks/raw_azure_silver"))
+				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_aquite"))
+				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_charoite"))
+				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_falsite"))
+				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_ventium"))
+				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_horizonite"));
 
 		tag(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE.get(), ECItems.RUNE_SLATE.get(), ECItems.MAJOR_RUNE_SLATE.get());
 
@@ -187,6 +192,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT.get(), ECItems.SWIFT_ALLOY_INGOT.get(), ECItems.FIREITE_INGOT.get());
 
 		tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(Tags.Items.TOOLS, Tags.Items.ARMORS, ECTags.Items.SPELL_CAST_TOOLS).add(Items.ELYTRA);
+
+		tag(ECTags.Items.ARTIFICIAL_SOURCE_SEEDS).add(ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get(), ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get(), ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get(), ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get());
+		tag(ECTags.Items.NATURAL_SOURCE_SEEDS).add(ECItems.NATURAL_FIRE_SOURCE_SEED.get(), ECItems.NATURAL_WATER_SOURCE_SEED.get(), ECItems.NATURAL_EARTH_SOURCE_SEED.get(), ECItems.NATURAL_AIR_SOURCE_SEED.get());
+		tag(ECTags.Items.SOURCE_SEEDS).addTags(ECTags.Items.ARTIFICIAL_SOURCE_SEEDS, ECTags.Items.NATURAL_SOURCE_SEEDS);
 
 		tag(ECTags.Items.CURIOS_ELEMENT_HOLDER).add(ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get(), ECItems.PURE_HOLDER.get());
 	}
@@ -225,7 +234,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE,
 				ECTags.Items.PURE_ORES_SOURCE_URANINITE,
 				ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE
-		);
+		)
+				.addOptionalTag(forge("ores/pendorite"));
+
 		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
 	}
 

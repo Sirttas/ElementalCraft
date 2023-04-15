@@ -5,14 +5,16 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class SourceRenderer implements ISourceRenderer<SourceBlockEntity> {
+public class SourceRenderer implements BlockEntityRenderer<SourceBlockEntity> {
 
 	public static final ResourceLocation STABILIZER_LOCATION = ElementalCraft.createRL("block/source_stabilizer");
 	
@@ -31,13 +33,13 @@ public class SourceRenderer implements ISourceRenderer<SourceBlockEntity> {
 			stabilizerModel = minecraft.getModelManager().getModel(STABILIZER_LOCATION);
 		}
 
-		renderSource(poseStack, buffer, partialTicks, light, overlay, elementType, source.isExhausted(), source.getRemainingRatio());
+		SourceRendererHelper.renderSource(poseStack, buffer, partialTicks, light, overlay, elementType, source.isExhausted(), source.getRemainingRatio());
 		if (source.isStabilized()) {
 			poseStack.translate(0.5, 0, 0.5);
-			poseStack.mulPose(Vector3f.YP.rotation(getClientTicks(partialTicks) / 20F));
+			poseStack.mulPose(Vector3f.YP.rotation(ECRendererHelper.getClientTicks(partialTicks) / 20F));
 			poseStack.translate(-0.5, 0, -0.5);
 			poseStack.translate(0, -1 / 4D, 0);
-			minecraft.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), buffer.getBuffer(RenderType.translucent()), source.getBlockState(), stabilizerModel, r, g, b, light, overlay, getModelData(stabilizerModel, source), RenderType.translucent());
+			minecraft.getBlockRenderer().getModelRenderer().renderModel(poseStack.last(), buffer.getBuffer(RenderType.translucent()), source.getBlockState(), stabilizerModel, r, g, b, light, overlay, ECRendererHelper.getModelData(stabilizerModel, source), RenderType.translucent());
 		}
 	}
 

@@ -5,23 +5,24 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.renderer.ECRenderTypes;
-import sirttas.elementalcraft.block.entity.renderer.IECRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public interface ISourceRenderer<T extends BlockEntity> extends IECRenderer<T> {
-    Material OUTER = ECRendererHelper.getBlockMaterial("effect/source_outer");
-    Material MIDDLE = ECRendererHelper.getBlockMaterial("effect/source_middle");
+public class SourceRendererHelper {
 
-    default void renderSource(@Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, float partialTicks, int light, int overlay, ElementType elementType, boolean exhausted, float ratio) {
+    public static final Material OUTER = ECRendererHelper.getBlockMaterial("effect/source_outer");
+    public static final Material MIDDLE = ECRendererHelper.getBlockMaterial("effect/source_middle");
+
+    private SourceRendererHelper() {}
+
+    public static void renderSource(@Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, float partialTicks, int light, int overlay, ElementType elementType, boolean exhausted, float ratio) {
         float r = elementType.getRed();
         float g = elementType.getGreen();
         float b = elementType.getBlue();
-        var angle = -(getClientTicks(partialTicks) % 360);
+        var angle = -(ECRendererHelper.getClientTicks(partialTicks) % 360);
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.3, 0.5);
@@ -40,4 +41,5 @@ public interface ISourceRenderer<T extends BlockEntity> extends IECRenderer<T> {
         }
         poseStack.popPose();
     }
+
 }

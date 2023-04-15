@@ -6,6 +6,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
+import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.renderer.ISpellInstanceRenderer;
 import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 
@@ -22,7 +23,7 @@ public class FlameCleaveSpellRenderer implements ISpellInstanceRenderer {
             poseStack.translate(0, 0, 1);
             poseStack.mulPose(Vector3f.XP.rotationDegrees(90));
             poseStack.mulPose(Vector3f.ZP.rotationDegrees(45));
-            this.renderItem(weapon, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+            ECRendererHelper.renderItem(weapon, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         }
     }
 

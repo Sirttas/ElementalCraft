@@ -21,7 +21,7 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	private final ECItemModelProvider itemModelProvider;
 
 	private static final IBlockPosPredicate OPTIMIZATION_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION).and(IBlockPosPredicate.createOr(
-			new HasRunePredicate(ElementalCraft.createRL("cognac")),
+			new HasRunePredicate(ElementalCraft.createRL("soaryn")),
 			new HasRunePredicate(ElementalCraft.createRL("kaworu")),
 			new HasRunePredicate(ElementalCraft.createRL("mewtwo"))).not());
 	private static final IBlockPosPredicate LUCK_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(IBlockPosPredicate.createOr(
@@ -47,7 +47,7 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 		builder("manx", MINOR_SLATE).match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F).addBonus(BonusType.SPEED, -0.1F);
 		builder("jita", SLATE).match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F).addBonus(BonusType.SPEED, -0.1F);
 		builder("tano", MAJOR_SLATE).match(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).addBonus(BonusType.ELEMENT_PRESERVATION, 0.15F).addBonus(BonusType.SPEED, -0.1F);
-		builder("cognac", MINOR_SLATE).predicate(OPTIMIZATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.03F).addBonus(BonusType.SPEED, 0.05F).max(1);
+		builder("soaryn", MINOR_SLATE).predicate(OPTIMIZATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.03F).addBonus(BonusType.SPEED, 0.05F).max(1);
 		builder("kaworu", SLATE).predicate(OPTIMIZATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F).addBonus(BonusType.SPEED, 0.1F).max(1);
 		builder("mewtwo", MAJOR_SLATE).predicate(OPTIMIZATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F).addBonus(BonusType.SPEED, 0.3F).max(1);
 		builder("claptrap", MINOR_SLATE).predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 1).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1);

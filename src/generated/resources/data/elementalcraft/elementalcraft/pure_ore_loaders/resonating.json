@@ -1,6 +1,7 @@
 {
   "fixed_name": "elementalcraft:resonating",
   "luck_ratio": 5.0,
+  "order": 5,
   "patterns": [
     "_?ore$"
   ],

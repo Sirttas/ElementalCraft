@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.RegistryObject;
@@ -176,7 +174,6 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		return this.rangeRenderTimer > 0;
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public void startShowingRange() {
 		this.rangeRenderTimer = 600;
 	}

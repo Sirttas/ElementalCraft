@@ -100,11 +100,15 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
         return pipe;
     }
 
-    public void added() {
+    public void onAdded() {
         // NOOP
     }
 
-    public void removed() {
+    public void onRemoved() {
+        // NOOP
+    }
+
+    public void onTransfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
         // NOOP
     }
 
