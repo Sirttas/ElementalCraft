@@ -68,7 +68,7 @@ public class SourceBreederGameTests {
             pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
             pedestal1ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
             pedestal2ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
-
+        }).thenExecuteFor(1, () -> {
             assertThat(breeder).isNotNull().satisfies(b -> {
                 assertThat(b.getElementType()).isEqualTo(type);
                 assertThat(b.getPedestalsDirections()).hasSize(2);
@@ -78,15 +78,17 @@ public class SourceBreederGameTests {
             pedestal2ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
 
             assertThat(breederItemHandler).isNotEmpty();
-        }).thenExecuteAfter(1, () -> assertThat(breederItemHandler)
-                        .isNotEmpty()
-                        .satisfies(0, s -> {
-                            assertThat(s).isNotEmpty().is(ECItems.RECEPTACLE);
-                            assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type);
-                            assertThat(SourceTraitHolderHelper.get(s).resolve())
-                                    .isNotEmpty()
-                                    .hasValueSatisfying(assertions);
-                        }))
+        }).thenExecuteAfter(1, () -> {
+            assertThat(breederItemHandler)
+                    .isNotEmpty()
+                    .satisfies(0, s -> {
+                        assertThat(s).isNotEmpty().is(ECItems.RECEPTACLE);
+                        assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type);
+                        assertThat(SourceTraitHolderHelper.get(s).resolve())
+                                .isNotEmpty()
+                                .hasValueSatisfying(assertions);
+                    });
+                })
                 .thenSucceed();
     }
 }
