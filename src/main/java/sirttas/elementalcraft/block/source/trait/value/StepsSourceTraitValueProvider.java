@@ -103,9 +103,15 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 
 	@Nullable
 	private Step roll(RandomSource random, float luck, List<Step> list) {
-		int roll = random.nextInt(list.stream()
+		var bound = list.stream()
 				.mapToInt(s -> s.weight(luck))
-				.sum());
+				.sum();
+
+		if (bound <= 0) {
+			return null;
+		}
+
+		var roll = random.nextInt(bound);
 
 		if (roll <= 0) {
 			return null;
@@ -196,7 +202,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		}
 
 		public int weight(float luck) {
-			return Math.max(0, Math.round(weight * (luckRatio * luck)));
+			return Math.max(0, Math.round(weight + (luckRatio * luck)));
 		}
 	}
 }
