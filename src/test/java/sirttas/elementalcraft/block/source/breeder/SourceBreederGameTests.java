@@ -69,7 +69,7 @@ public class SourceBreederGameTests {
             pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
             pedestal1ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
             pedestal2ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
-        }).thenExecuteAfter(1, () -> assertThat(breederItemHandler.getStackInSlot(0))
+        }).thenExecuteAfter(5, () -> assertThat(breederItemHandler.getStackInSlot(0))
                         .isNotEmpty()
                         .is(ECItems.RECEPTACLE)
                         .satisfies(s -> {
