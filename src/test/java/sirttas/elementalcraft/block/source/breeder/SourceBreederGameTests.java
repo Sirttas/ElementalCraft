@@ -12,7 +12,6 @@ import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
-import sirttas.elementalcraft.container.ContainerGameTestHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
@@ -53,26 +52,36 @@ public class SourceBreederGameTests {
     private static void setupBreedingTest(GameTestHelper helper, Item seed, Consumer<ISourceTraitHolder> assertions) {
         assertThat(seed).isInstanceOf(IElementTypeProvider.class);
 
+        var breeder = (SourceBreederBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 2));
         var type = ((IElementTypeProvider) seed).getElementType();
-        var breederItemHandler = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(0, 1, 2));
+        var breederItemHandler = ECContainerHelper.getItemHandler(breeder, null);
+        var pedestal1 = helper.getBlockEntity(new BlockPos(0, 1, 0));
+        var pedestal2 = helper.getBlockEntity(new BlockPos(0, 1, 4));
+        var pedestal1ItemHandler = ECContainerHelper.getItemHandler(pedestal1, null);
+        var pedestal2ItemHandler = ECContainerHelper.getItemHandler(pedestal2, null);
+        var pedestal1ElementStorage = ElementStorageHelper.get(pedestal1);
+        var pedestal2ElementStorage = ElementStorageHelper.get(pedestal2);
 
         helper.startSequence().thenExecute(() -> {
-            var pedestal1 = helper.getBlockEntity(new BlockPos(0, 1, 0));
-            var pedestal2 = helper.getBlockEntity(new BlockPos(0, 1, 4));
-            var pedestal1ItemHandler = ECContainerHelper.getItemHandler(pedestal1, null);
-            var pedestal2ItemHandler = ECContainerHelper.getItemHandler(pedestal2, null);
-            var pedestal1ElementStorage = ElementStorageHelper.get(pedestal1);
-            var pedestal2ElementStorage = ElementStorageHelper.get(pedestal2);
-
             breederItemHandler.insertItem(0, new ItemStack(seed), false);
             pedestal1ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
             pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
             pedestal1ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
             pedestal2ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
-        }).thenExecuteAfter(5, () -> assertThat(breederItemHandler.getStackInSlot(0))
+
+            assertThat(breeder).isNotNull().satisfies(b -> {
+                assertThat(b.getElementType()).isEqualTo(type);
+                assertThat(b.getPedestalsDirections()).hasSize(2);
+            });
+        }).thenExecuteFor(10, () -> {
+            pedestal1ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
+            pedestal2ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
+
+            assertThat(breederItemHandler).isNotEmpty();
+        }).thenExecuteAfter(1, () -> assertThat(breederItemHandler)
                         .isNotEmpty()
-                        .is(ECItems.RECEPTACLE)
-                        .satisfies(s -> {
+                        .satisfies(0, s -> {
+                            assertThat(s).is(ECItems.RECEPTACLE);
                             assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type);
                             assertThat(SourceTraitHolderHelper.get(s).resolve())
                                     .isNotEmpty()
