@@ -98,6 +98,7 @@ public class ECChestLoot extends ChestLoot {
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5))).setWeight(15))
 				.add(randomSpell(type).setWeight(15))
 				.add(rune(getMediumRuneName(type)).setWeight(10))
+				.add(rune(getLargeRuneName(type)).setWeight(5))
 				.add(LootItem.lootTableItem(ECItems.PURE_CRYSTAL.get()).setWeight(2));
 	}
 
@@ -149,6 +150,16 @@ public class ECChestLoot extends ChestLoot {
 			case EARTH -> "kaworu";
 			case FIRE -> "jita";
 			case WATER -> "bombadil";
+			default -> throw new IllegalArgumentException("Unknown element type: " + type);
+		};
+	}
+
+	private static String getLargeRuneName(ElementType type) {
+		return switch (type) {
+			case AIR -> "zod";
+			case EARTH -> "mewtwo";
+			case FIRE -> "tano";
+			case WATER -> "tzeentch";
 			default -> throw new IllegalArgumentException("Unknown element type: " + type);
 		};
 	}
