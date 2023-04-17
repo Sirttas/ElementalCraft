@@ -60,7 +60,7 @@ public class Jewel implements IElementTypeProvider {
 	}
 
 	public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-		return (entity instanceof Player player && player.isCreative()) || (elementStorage != null && elementStorage.extractElement(consumption, elementType, true) == consumption);
+		return (entity instanceof Player player && player.getAbilities().instabuild) || (elementStorage != null && elementStorage.extractElement(consumption, elementType, true) == consumption);
 	}
 
 	public final void consume(@Nonnull Entity entity) {

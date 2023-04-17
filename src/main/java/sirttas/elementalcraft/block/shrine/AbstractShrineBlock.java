@@ -8,7 +8,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -107,7 +106,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@OnlyIn(Dist.CLIENT)
 	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
-		BoneMealItem.addGrowthParticles(world, pos, 1);
+		// NO-OP
 	}
 
 	@Override

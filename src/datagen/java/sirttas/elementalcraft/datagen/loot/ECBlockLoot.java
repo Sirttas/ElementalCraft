@@ -57,8 +57,8 @@ public class ECBlockLoot extends BlockLoot {
 		add(ECBlocks.DIFFUSER.get(), ECBlockLoot::createRunnable);
 		add(ECBlocks.SORTER.get(), ECBlockLoot::createRunnable);
 		add(ECBlocks.PURE_INFUSER.get(), ECBlockLoot::createRunnable);
-		add(ECBlocks.SOURCE_BREEDER.get(), ECBlockLoot::createRunnable);
-		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECBlockLoot::createIER);
+		add(ECBlocks.SOURCE_BREEDER.get(), b -> createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).withPool(createDropRunesPool()));
+		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECBlockLoot::createRunnable);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
 		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(createDropRunesPool()));
 		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);

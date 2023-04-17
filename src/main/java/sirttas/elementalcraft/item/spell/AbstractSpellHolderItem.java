@@ -79,7 +79,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	@Nonnull
     @Override
 	public ItemStack finishUsingItem(@Nonnull ItemStack stack, Level level, @Nonnull LivingEntity entityLiving) {
-		if (!level.isClientSide && !(entityLiving instanceof Player player && player.isCreative())) {
+		if (!level.isClientSide && !(entityLiving instanceof Player player && player.getAbilities().instabuild)) {
 			SpellTickHelper.startCooldown(entityLiving, SpellHelper.getSpell(stack));
 		}
 		return stack;
@@ -97,7 +97,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 			if (doConsume(player, hand, stack, spell)) {
 				result = InteractionResult.SUCCESS;
 			}
-			if (result.shouldSwing() && !player.isCreative()) {
+			if (result.shouldSwing() && !player.getAbilities().instabuild) {
 				if (!level.isClientSide) {
 					SpellTickHelper.startCooldown(player, spell);
 				}
@@ -134,7 +134,7 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	}
 	
 	private boolean doConsume(Player player, InteractionHand hand, ItemStack stack, Spell spell) {
-		if (!player.isCreative() && !spell.consume(player, false)) {
+		if (!player.getAbilities().instabuild && !spell.consume(player, false)) {
 			consume(stack);
 			player.broadcastBreakEvent(hand);
 			return true;

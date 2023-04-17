@@ -9,7 +9,8 @@
 /src/generated/resources/.cache
 /.idea/
 /run-server/
-/test-server/
+/test-server/*
+!/test-server/server.properties
 /logs/
 /.factorypath
 /Users/

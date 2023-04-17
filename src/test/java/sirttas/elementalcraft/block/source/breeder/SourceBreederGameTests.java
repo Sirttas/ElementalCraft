@@ -3,6 +3,8 @@ package sirttas.elementalcraft.block.source.breeder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.gametest.GameTestHolder;
@@ -11,11 +13,13 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
+import sirttas.elementalcraft.rune.RuneGameTestHelper;
 
 import java.util.function.Consumer;
 
@@ -47,6 +51,28 @@ public class SourceBreederGameTests {
                     .containsKeys(SourceTraits.ELEMENT_CAPACITY, SourceTraits.RECOVER_RATE)
                     .doesNotContainKey(SourceTraits.ARTIFICIAL);
         });
+    }
+
+    // elementalcraft:sourcebreedergametests.source_breeder
+    @GameTest(template = "source_breeder")
+    public static void should_dropOnePedestalAndRune(GameTestHelper helper) {
+        var pos = new BlockPos(0, 1, 2);
+
+        helper.getLevel().destroyBlock(helper.absolutePos(pos), true, null);
+
+        var items = helper.getEntities(EntityType.ITEM, pos, 1);
+
+        assertThat(items).hasSize(2)
+                        .allSatisfy(e -> {
+                            var stack = e.getItem();
+
+                            assertThat(stack).isNotNull().hasCount(1).satisfiesAnyOf(
+                                    s -> assertThat(s).is(ECBlocks.SOURCE_BREEDER),
+                                    s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> RuneGameTestHelper.assertRuneIs(s2, "creative"))
+                            );
+                        });
+        items.forEach(Entity::discard);
+        helper.succeed();
     }
 
     private static void setupBreedingTest(GameTestHelper helper, Item seed, Consumer<ISourceTraitHolder> assertions) {

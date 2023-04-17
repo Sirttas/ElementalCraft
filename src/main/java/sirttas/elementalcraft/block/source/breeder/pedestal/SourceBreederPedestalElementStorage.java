@@ -16,14 +16,24 @@ public class SourceBreederPedestalElementStorage extends StaticElementStorage {
 
     @Override
     public int insertElement(int count, ElementType type, boolean simulate) {
-        this.elementType = blockEntity.getElementType();
+        refreshElement();
         return super.insertElement(count, type, simulate);
     }
 
     @Override
     public int extractElement(int count, ElementType type, boolean simulate) {
-        this.elementType = blockEntity.getElementType();
+        refreshElement();
         return super.extractElement(count, type, simulate);
+    }
+
+    void refreshElement() {
+        var oldType = this.elementType;
+        this.elementType = blockEntity.getElementType();
+
+        if (oldType != this.elementType) {
+            this.elementAmount = 0;
+            blockEntity.setChanged();
+        }
     }
 
     @Override

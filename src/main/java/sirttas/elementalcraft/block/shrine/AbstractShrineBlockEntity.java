@@ -67,15 +67,14 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	protected abstract boolean doPeriod();
 
-	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		if (shrine.isDirty()) {
 			shrine.refresh();
 		}
+
 		double period = shrine.getPeriod();
 		int consumeAmount = shrine.getConsumeAmount();
 
-		shrine.running = false;
 		if (!shrine.isPowered()) {
 			shrine.tick++;
 			if (period <= 0) {
@@ -83,13 +82,21 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 				period = 1;
 			}
 			while (shrine.tick >= period) {
-				if (shrine.elementStorage.getElementAmount() >= consumeAmount && shrine.doPeriod()) {
-					shrine.consumeElement(consumeAmount);
+				if (shrine.elementStorage.getElementAmount() >= consumeAmount) {
+					shrine.running = true;
+					if (shrine.doPeriod()) {
+						shrine.consumeElement(consumeAmount);
+					}
+				} else {
+					shrine.running = false;
 				}
 				shrine.tick -= period;
 			}
+		} else {
+			shrine.running = false;
 		}
 	}
+
 	public static void clientTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		if (shrine.rangeRenderTimer > 0) {
 			shrine.rangeRenderTimer--;
@@ -97,6 +104,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	public void refresh() {
+		var blockPos = getBlockPos();
+
 		if (!this.hasLevel()) {
 			return;
 		}
@@ -106,8 +115,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		this.upgrades.clear();
 		this.upgradeMultipliers.clear();
 		getUpgradeDirections().forEach(direction -> {
-			BlockPos pos = getBlockPos().relative(direction);
-			BlockState state = this.getLevel().getBlockState(pos);
+			BlockPos pos = blockPos.relative(direction);
+			BlockState state = this.level.getBlockState(pos);
 			Block block = state.getBlock();
 
 			if (block instanceof AbstractShrineUpgradeBlock upgradeBlock && upgradeBlock.getFacing(state) == direction.getOpposite()) {
@@ -119,8 +128,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 			}
 		});
 		getUpgradeDirections().forEach(direction -> {
-			BlockPos pos = getBlockPos().relative(direction);
-			BlockState state = this.getLevel().getBlockState(pos);
+			BlockPos pos = blockPos.relative(direction);
+			BlockState state = this.level.getBlockState(pos);
 
 			if (!state.canSurvive(this.level, pos)) {
 				this.level.destroyBlock(pos, true);

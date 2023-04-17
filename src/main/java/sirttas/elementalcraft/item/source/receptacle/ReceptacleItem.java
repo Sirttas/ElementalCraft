@@ -1,12 +1,9 @@
 package sirttas.elementalcraft.item.source.receptacle;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -64,19 +61,19 @@ public class ReceptacleItem extends ECItem {
 	@Nonnull
     @Override
 	public InteractionResult useOn(UseOnContext context) {
-		Level world = context.getLevel();
-		ItemStack sourceReceptacle = context.getItemInHand();
-		ElementType elementType = ReceptacleHelper.getElementType(sourceReceptacle);
-		Player player = context.getPlayer();
-		InteractionHand hand = context.getHand();
-		BlockPlaceContext newContext = new BlockPlaceContext(context);
-		BlockPos pos = newContext.getClickedPos();
+		var level = context.getLevel();
+		var sourceReceptacle = context.getItemInHand();
+		var elementType = ReceptacleHelper.getElementType(sourceReceptacle);
+		var player = context.getPlayer();
+		var hand = context.getHand();
+		var newContext = new BlockPlaceContext(context);
+		var pos = newContext.getClickedPos();
 
 		if (newContext.canPlace()) {
-			world.setBlockAndUpdate(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType));
-			BlockItem.updateCustomBlockEntityTag(world, player, pos, sourceReceptacle);
+			level.setBlockAndUpdate(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType));
+			BlockItem.updateCustomBlockEntityTag(level, player, pos, sourceReceptacle);
 			if (player != null && !player.getAbilities().instabuild) {
-				BlockEntityHelper.getBlockEntityAs(world, pos, SourceBlockEntity.class).ifPresent(SourceBlockEntity::exhaust);
+				BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(SourceBlockEntity::exhaust);
 				player.setItemInHand(hand, ItemStack.EMPTY);
 			}
 			return InteractionResult.SUCCESS;

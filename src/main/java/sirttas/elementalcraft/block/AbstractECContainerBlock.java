@@ -48,7 +48,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 			stack = heldItem.copy();
 			stack.setCount(size);
-			if (!player.isCreative()) {
+			if (!player.getAbilities().instabuild) {
 				heldItem.shrink(size);
 			}
 			inventory.insertItem(slot, stack, false);
@@ -56,7 +56,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
 
-			if (!player.isCreative()) {
+			if (!player.getAbilities().instabuild) {
 				heldItem.shrink(size);
 			}
 			stack.grow(size);

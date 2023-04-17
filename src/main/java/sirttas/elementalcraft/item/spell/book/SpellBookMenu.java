@@ -101,7 +101,7 @@ public class SpellBookMenu extends AbstractECMenu {
 		if (slot == null || !slot.getItem().is(ECItems.SPELL_BOOK.get())) {
 			if (slotId < 0 || slotId >= SLOT_COUNT || clickTypeIn == ClickType.THROW || clickTypeIn == ClickType.QUICK_MOVE || clickTypeIn == ClickType.PICKUP_ALL) {
 				super.clicked(slotId, dragType, clickTypeIn, player);
-			} else if (clickTypeIn == ClickType.CLONE && player.isCreative() && getCarried().isEmpty()) {
+			} else if (clickTypeIn == ClickType.CLONE && player.getAbilities().instabuild && getCarried().isEmpty()) {
 				if (slot != null && slot.hasItem()) {
 					ItemStack scroll = slot.getItem().copy();
 

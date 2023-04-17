@@ -94,7 +94,7 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	public boolean consume(Entity caster, boolean simulate) {
-		if (!(caster instanceof Player) || !((Player) caster).isCreative()) {
+		if (!(caster instanceof Player player) || !player.getAbilities().instabuild) {
 			int consumeAmount = Math.max(1, Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(caster)));
 			
 			return ElementStorageHelper.get(caster).map(holder -> holder.extractElement(consumeAmount, this.getElementType(), simulate) >= consumeAmount).orElse(false);
@@ -103,7 +103,7 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	protected boolean consume(Entity caster, ItemLike item, int count, boolean simulate) {
-		if (caster instanceof Player player && !player.isCreative()) {
+		if (caster instanceof Player player && !player.getAbilities().instabuild) {
 			Inventory inv = player.getInventory();
 			int slot = ECContainerHelper.getSlotFor(inv, new ItemStack(item));
 

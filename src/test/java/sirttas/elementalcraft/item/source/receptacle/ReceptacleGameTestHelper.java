@@ -8,10 +8,6 @@ public class ReceptacleGameTestHelper {
 
     private ReceptacleGameTestHelper() {}
 
-    public static ItemStack createSimpleReceptacle() {
-        return createSimpleReceptacle(ElementType.AIR);
-    }
-
     public static ItemStack createSimpleReceptacle(ElementType type) {
         return ReceptacleHelper.create(type, SourceTraitGameTestHelper.getDefaultTraits());
     }

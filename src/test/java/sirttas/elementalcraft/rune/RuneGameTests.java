@@ -9,7 +9,6 @@ import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.rune.RuneItem;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,7 +39,7 @@ public class RuneGameTests {
         assertThat(items).hasSizeGreaterThanOrEqualTo(runes.size())
                 .anySatisfy(item -> assertThat(item.getItem()) // we must use anySatisfy because we also have other items
                         .is(ECItems.RUNE)
-                        .satisfies(stack -> assertThat(runes).anySatisfy(rune -> RuneGameTestHelper.assertRuneIs(RuneItem.getRune(stack), rune))));
+                        .satisfies(stack -> assertThat(runes).anySatisfy(rune -> RuneGameTestHelper.assertRuneIs(stack, rune))));
         items.forEach(Entity::discard);
         helper.succeed();
     }

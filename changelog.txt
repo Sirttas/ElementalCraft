@@ -1,3 +1,15 @@
+1.19.2-5.7.4:
+
+- update crystal harvest shrine upgrade textures
+- fix shrine particles not rendering
+- fix a few elementopedia entries
+- fix source breeder dropping twice when broken
+- fix source breeder pedestals not emptying when element type is changed
+- fix source seeds images
+- fix source breeding roll range
+- fix source placed from a receptacle having a wrong capacity
+
+
 1.19.2-5.7.3:
 
 - fix a crash during worldgen (issue #138)

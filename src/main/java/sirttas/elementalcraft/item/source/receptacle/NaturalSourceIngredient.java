@@ -52,7 +52,7 @@ public class NaturalSourceIngredient extends Ingredient implements IElementTypeP
 
         return SourceTraitHolderHelper.get(stack)
                 .map(t -> !t.getTraits().containsKey(SourceTraits.ARTIFICIAL))
-                .orElse(false);
+                .orElse(true);
     }
 
     @Nonnull

@@ -21,7 +21,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.rune.RuneItem;
 import sirttas.elementalcraft.rune.RuneGameTestHelper;
 import sirttas.elementalcraft.rune.RuneTestHolder;
 
@@ -54,7 +53,7 @@ public class ChiselGameTests {
         var stack = itemHandler.getStackInSlot(0);
 
         assertThat(stack).is(ECItems.RUNE);
-        RuneGameTestHelper.assertRuneIs(RuneItem.getRune(stack), "tano");
+        RuneGameTestHelper.assertRuneIs(stack, "tano");
         helper.succeed();
     }
 
@@ -85,7 +84,7 @@ public class ChiselGameTests {
         assertThat(items).hasSize(runes.size())
                 .allSatisfy(item -> assertThat(item.getItem())
                         .is(ECItems.RUNE)
-                        .satisfies(stack -> RuneGameTestHelper.assertRuneIs(RuneItem.getRune(stack), runes.get(items.indexOf(item)))));
+                        .satisfies(stack -> RuneGameTestHelper.assertRuneIs(stack, runes.get(items.indexOf(item)))));
         items.forEach(Entity::discard);
         helper.succeed();
     }

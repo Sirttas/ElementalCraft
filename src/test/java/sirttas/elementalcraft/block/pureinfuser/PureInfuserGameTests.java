@@ -1,4 +1,4 @@
-package sirttas.elementalcraftt.block.pureinfuser;
+package sirttas.elementalcraft.block.pureinfuser;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
@@ -13,7 +13,6 @@ import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
-import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -72,13 +71,13 @@ public class PureInfuserGameTests {
             earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
             airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
 
-            assertThat(pureInfuser.isRecipeAvailable()).isTrue();
-        }).thenExecuteFor(10, () -> {
             firePedestalElementStorage.insertElement(1000000, ElementType.FIRE, false);
             waterPedestalElementStorage.insertElement(1000000, ElementType.WATER, false);
             earthPedestalElementStorage.insertElement(1000000, ElementType.EARTH, false);
             airPedestalElementStorage.insertElement(1000000, ElementType.AIR, false);
-        }).thenExecuteAfter(1, () -> {
+
+            assertThat(pureInfuser.isRecipeAvailable()).isTrue();
+        }).thenExecuteAfter(2, () -> {
             assertThat(pureInfuserItemHandler).contains(0, ECItems.PURE_CRYSTAL);
             assertThat(firePedestalItemHandler).isEmpty();
             assertThat(waterPedestalItemHandler).isEmpty();
@@ -142,16 +141,18 @@ public class PureInfuserGameTests {
             earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
             airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
 
-            assertThat(pureInfuser.isRecipeAvailable()).isTrue();
-        }).thenExecuteFor(2, () -> {
             firePedestalElementStorage.insertElement(1000000, ElementType.FIRE, false);
             waterPedestalElementStorage.insertElement(1000000, ElementType.WATER, false);
             earthPedestalElementStorage.insertElement(1000000, ElementType.EARTH, false);
             airPedestalElementStorage.insertElement(1000000, ElementType.AIR, false);
-        }).thenExecuteAfter(1, () -> {
-            helper.setBlock(0, 1, 3, Blocks.AIR);
+
+            assertThat(pureInfuser.isRecipeAvailable()).isTrue();
+
+            helper.setBlock(pos, Blocks.AIR);
 
             assertThat(pureInfuser.isRecipeAvailable()).isFalse();
+        }).thenExecuteAfter(2, () -> {
+            assertThat(pureInfuserItemHandler).contains(0, Items.DIAMOND);
         }).thenSucceed();
     }
 }

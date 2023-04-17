@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -11,7 +12,6 @@ import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 
 public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity implements IElementTypeProvider {
 
-    private final SingleElementStorage elementStorage;
+    private final SourceBreederPedestalElementStorage elementStorage;
     private final SingleItemContainer inventory;
     private final RuneHandler runeHandler;
 
@@ -37,6 +37,10 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
         elementStorage = new SourceBreederPedestalElementStorage(this);
         inventory = new SourceBreederPedestalItemContainer(this::setChanged);
         runeHandler = new RuneHandler(ECConfig.COMMON.sourceBreederPedestalMaxRunes.get(), this::setChanged);
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, SourceBreederPedestalBlockEntity pedestal) {
+        pedestal.elementStorage.refreshElement();
     }
 
     @Override

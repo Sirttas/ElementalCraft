@@ -40,7 +40,7 @@ public class SourceStabilizerItem extends ECItem implements ISourceInteractable 
 						}
 
 						source.setStabilized(true);
-						if (!player.isCreative()) {
+						if (!player.getAbilities().instabuild) {
 							stack.shrink(1);
 							if (stack.isEmpty()) {
 								player.setItemInHand(context.getHand(), ItemStack.EMPTY);

@@ -305,7 +305,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				coverState = state;
 				this.getLevel().setBlockAndUpdate(getBlockPos(), this.getLevel().getBlockState(worldPosition).setValue(ElementPipeBlock.COVER, CoverType.COVERED));
 
-				if (!player.isCreative()) {
+				if (!player.getAbilities().instabuild) {
 					stack.shrink(1);
 					if (stack.isEmpty()) {
 						player.setItemInHand(hand, ItemStack.EMPTY);

@@ -37,7 +37,7 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 			var protection = this.hasUpgrade(ShrineUpgrades.PROTECTION);
 
 			return this.getLevel().getEntitiesOfClass(LivingEntity.class, getRangeBoundingBox()).stream()
-						.filter(e -> !(e instanceof Player player && player.isCreative()) && (!protection || EntityHelper.isHostile(e)))
+						.filter(e -> !(e instanceof Player player && player.getAbilities().instabuild) && (!protection || EntityHelper.isHostile(e)))
 						.toList();
 		}
 		return this.getLevel().getEntitiesOfClass(ItemEntity.class, getRangeBoundingBox());

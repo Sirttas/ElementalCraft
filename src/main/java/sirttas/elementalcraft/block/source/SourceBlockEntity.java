@@ -116,10 +116,14 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
 	private void refreshCapacity() {
+		var oldCapacity = elementStorage.getElementCapacity();
 		var capacity = traitHolder.getCapacity();
+		var amount = elementStorage.getElementAmount();
 
 		elementStorage.setElementCapacity(capacity);
-		elementStorage.setElementAmount(capacity);
+		if (amount <= 0 || amount >= oldCapacity || amount >= capacity) {
+			elementStorage.setElementAmount(capacity);
+		}
 		this.setChanged();
 	}
 
@@ -135,6 +139,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		}
 		stabilized = compound.getBoolean(ECNames.STABILIZED);
 		elementStorage.setExhausted(compound.getBoolean(ECNames.EXHAUSTED));
+		refreshCapacity();
 	}
 
 	@Override

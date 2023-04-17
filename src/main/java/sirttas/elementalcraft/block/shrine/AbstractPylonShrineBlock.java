@@ -52,7 +52,7 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	}
 
 	public static void doubleHalfHarvest(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		if (!level.isClientSide && player.isCreative()) {
+		if (!level.isClientSide && player.getAbilities().instabuild) {
 			DoublePlantBlock.preventCreativeDropFromBottomPart(level, pos, state, player);
 		}
 	}

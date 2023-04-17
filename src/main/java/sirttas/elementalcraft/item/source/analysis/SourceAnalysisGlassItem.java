@@ -33,7 +33,7 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 	}
 	
 	public static boolean consumeSpringaline(Player player) {
-		if (player == null || player.isCreative()) {
+		if (player == null || player.getAbilities().instabuild) {
 			return true;
 		}
 

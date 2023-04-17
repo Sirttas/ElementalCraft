@@ -84,23 +84,37 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 		var luck = context.luck();
 
 		if (value1 instanceof SourceTraitValue v1 && value2 instanceof SourceTraitValue v2) {
-			return createValue(v1.value, v2.value, random, luck);
+			return createValue(getBreedingStart(Math.min(v1.value, v2.value)), getBreedingEnd(Math.max(v1.value, v2.value)), random, luck);
 		} else if (value1 instanceof SourceTraitValue v1) {
-			return createValue(v1.value, roll(start, end, random, luck), random, luck);
+			return createValue(v1.value, random, luck);
 		} else if (value2 instanceof SourceTraitValue v2) {
-			return createValue(v2.value, roll(start, end, random, luck), random, luck);
+			return createValue(v2.value, random, luck);
 		}
 		return createValue(start, end, random, luck);
 	}
 
+
+	private ISourceTraitValue createValue(float value, RandomSource random, float luck) {
+		return createValue(roll(getBreedingStart(start), value, random, luck), roll(value, getBreedingStart(end), random, luck), random, luck);
+	}
+
+	private float getBreedingStart(float value) {
+		return Math.max(start * 0.8f, value * 0.8f);
+	}
+
+	private float getBreedingEnd(float value) {
+		return Math.min(end * 1.2f, value * 1.2f);
+	}
+
 	private float roll(float s, float e, RandomSource rand, float luck) {
+		return roll(Math.min(s + (luck * luckRatio), e), e, rand);
+	}
+
+	private float roll(float s, float e, RandomSource rand) {
 		if (s > e) {
-			return roll(e, s, rand, luck);
+			return roll(e, s, rand);
 		}
-
-		var newStart = s + (luck * luckRatio);
-
-		return newStart + rand.nextFloat() * (e - newStart);
+		return s + rand.nextFloat() * (e - s);
 	}
 
 	private ISourceTraitValue createValue(float s, float e, RandomSource rand, float luck) {

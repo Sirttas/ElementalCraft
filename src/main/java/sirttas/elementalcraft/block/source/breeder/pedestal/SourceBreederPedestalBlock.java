@@ -10,6 +10,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -21,6 +23,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
+import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
@@ -45,6 +48,12 @@ public class SourceBreederPedestalBlock extends AbstractECContainerBlock impleme
     public SourceBreederPedestalBlock() {
         super(ECProperties.Blocks.BLOCK_NOT_SOLID);
         this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, false));
+    }
+
+    @Override
+    @Nullable
+    public <U extends BlockEntity> BlockEntityTicker<U> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<U> type) {
+        return createECTicker(level, type, ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL, SourceBreederPedestalBlockEntity::tick);
     }
 
     @Nonnull

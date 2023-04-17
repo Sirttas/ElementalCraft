@@ -22,7 +22,6 @@ public class PipeUpgradeLoot implements Consumer<BiConsumer<ResourceLocation, Bu
 		dropSelf(PipeUpgradeTypes.ELEMENT_VALVE.get());
 		dropSelf(PipeUpgradeTypes.ELEMENT_BEAM.get());
 	}
-
 	protected void dropSelf(PipeUpgradeType<?> type) {
 		add(PipeUpgradeTypes.REGISTRY.get().getKey(type), BlockLoot.createSingleItemTable(type));
 	}

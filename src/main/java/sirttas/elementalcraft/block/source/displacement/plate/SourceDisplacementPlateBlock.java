@@ -75,7 +75,7 @@ public class SourceDisplacementPlateBlock extends AbstractECEntityBlock implemen
 
             if (source == null) {
                 return InteractionResult.PASS;
-            } else if (player.isCreative()) {
+            } else if (player.getAbilities().instabuild) {
                 source.setAnalyzed(true);
             } else if (!source.isAnalyzed()) {
                 player.displayClientMessage(Component.translatable("message.elementalcraft.missing_analysis"), true);

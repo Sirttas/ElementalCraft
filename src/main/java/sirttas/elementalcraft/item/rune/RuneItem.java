@@ -51,7 +51,7 @@ public class RuneItem extends ECItem {
 
 		if (rune != null && rune.canUpgrade(level, pos, handler)) {
 			handler.addRune(rune);
-			if (player != null && !player.isCreative()) {
+			if (player != null && !player.getAbilities().instabuild) {
 				stack.shrink(1);
 				if (stack.isEmpty()) {
 					player.setItemInHand(context.getHand(), ItemStack.EMPTY);
