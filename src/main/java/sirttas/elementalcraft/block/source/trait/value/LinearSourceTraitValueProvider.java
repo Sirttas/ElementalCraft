@@ -57,7 +57,7 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 				SourceTrait.Type.CODEC.listOf().fieldOf(ECNames.BONUS_TYPE).forGetter(LinearSourceTraitValueProvider::getTypes),
                 Codec.FLOAT.optionalFieldOf(ECNames.START, 0F).forGetter(LinearSourceTraitValueProvider::getStart),
                 Codec.FLOAT.fieldOf(ECNames.END).forGetter(LinearSourceTraitValueProvider::getEnd),
-                Codec.FLOAT.fieldOf(ECNames.LUCK_RATIO).forGetter(LinearSourceTraitValueProvider::getEnd)
+                Codec.FLOAT.fieldOf(ECNames.LUCK_RATIO).forGetter(LinearSourceTraitValueProvider::getLuckRatio)
         );
     }
 
@@ -66,6 +66,10 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	}
 	public float getEnd() {
 		return end;
+	}
+
+	private float getLuckRatio(){
+		return luckRatio;
 	}
 
 	private List<SourceTrait.Type> getTypes() {

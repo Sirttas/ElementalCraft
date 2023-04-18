@@ -6,7 +6,7 @@
       "recover_rate"
     ],
     "end": 200.0,
-    "luck_ratio": 200.0,
+    "luck_ratio": 0.1,
     "name": "source_trait.elementalcraft.recover_rate",
     "start": 50.0,
     "weight": 10000.0

@@ -6,7 +6,7 @@
       "element_capacity"
     ],
     "end": 1000000.0,
-    "luck_ratio": 1000000.0,
+    "luck_ratio": 10000.0,
     "name": "source_trait.elementalcraft.element_capacity",
     "start": 500000.0,
     "weight": 10000.0

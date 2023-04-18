@@ -1,3 +1,10 @@
+1.19.2-5.7.5:
+
+- fix source breeder luck ratios
+- fix ghost upgrade effect always rendering
+- fix source capacity and recovery always rolling at 100%
+
+
 1.19.2-5.7.4:
 
 - update crystal harvest shrine upgrade textures

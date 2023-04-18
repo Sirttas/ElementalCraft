@@ -71,7 +71,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	@Override
 	@Deprecated
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
-		if (level.isClientSide() || !upgrade.isBound()) { // we only remove upgrades on the server and is fully loaded
+		if (!upgrade.isBound()) { // we only remove upgrades if it is fully loaded
 			return true;
 		}
 

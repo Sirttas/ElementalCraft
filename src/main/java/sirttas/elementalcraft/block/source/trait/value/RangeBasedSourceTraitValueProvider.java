@@ -28,10 +28,10 @@ public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValuePr
 	}
 
 	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float start, float end, float weight) {
-		this(translationKey, types, start, end, weight, 1);
+		this(translationKey, types, start, end, 1, weight);
 	}
 
-	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float start, float end, float weight, float luckRatio) {
+	public RangeBasedSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float start, float end, float luckRatio, float weight) {
 	    super(translationKey, types, start, end, luckRatio);
 	    this.weight = weight;
 	}
@@ -40,7 +40,7 @@ public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValuePr
 	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
 	    BlockPos spawn = level instanceof ServerLevel serverLevel ? serverLevel.getSharedSpawnPos() : BlockPos.ZERO;
         var rangeSq = new BlockPos(spawn.getX(), 0, spawn.getZ()).distSqr(new BlockPos(pos.getX(), 0, pos.getZ()));
-        var newStart = Math.max(start + (context.luck() * luckRatio), end);
+        var newStart = Math.min(start + (context.luck() * luckRatio), end);
 
 		return createValue(newStart + (float) (rangeSq / (rangeSq + (context.random().nextFloat() * weight * weight))) * (end - newStart));
 	}

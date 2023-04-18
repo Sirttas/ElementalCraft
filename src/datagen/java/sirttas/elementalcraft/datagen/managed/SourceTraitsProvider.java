@@ -25,8 +25,8 @@ public class SourceTraitsProvider extends AbstractManagedDataBuilderProvider<Sou
 
 	@Override
 	public void collectBuilders() {
-		builder(SourceTraits.ELEMENT_CAPACITY).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.element_capacity", List.of(SourceTrait.Type.CAPACITY), 500000, 1000000, 10000, 1000));
-		builder(SourceTraits.RECOVER_RATE).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.recover_rate", List.of(SourceTrait.Type.RECOVER_RATE), 50, 200, 10000, 0.5f));
+		builder(SourceTraits.ELEMENT_CAPACITY).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.element_capacity", List.of(SourceTrait.Type.CAPACITY), 500000, 1000000, 10000, 10000));
+		builder(SourceTraits.RECOVER_RATE).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.recover_rate", List.of(SourceTrait.Type.RECOVER_RATE), 50, 200, 0.1f, 10000));
 		builder(SourceTraits.DIURNAL_NOCTURNAL).value(StepsSourceTraitValueProvider.builder()
 				.step("source_trait.elementalcraft.nocturnal.5", 1, 2, Map.of(SourceTrait.Type.RECOVER_RATE, 1/2F, SourceTrait.Type.BREEDING_COST, 1.5F), -5, IBlockPosPredicate.none())
 				.step("source_trait.elementalcraft.nocturnal.4", 3, Map.of(SourceTrait.Type.RECOVER_RATE, 1/1.75F, SourceTrait.Type.BREEDING_COST, 1.4F), -4, IBlockPosPredicate.none())
