@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -72,7 +73,7 @@ public class EntityHandler {
 	public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		Entity entity = event.getObject();
 
-		if (entity instanceof Player player) {
+		if (entity instanceof Player player && !(entity instanceof FakePlayer)) {
 			var provider = PlayerElementStorage.createProvider(player);
 
 			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), provider);

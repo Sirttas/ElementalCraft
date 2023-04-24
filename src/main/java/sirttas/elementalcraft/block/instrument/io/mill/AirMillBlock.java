@@ -91,7 +91,7 @@ public class AirMillBlock extends AbstractECContainerBlock implements IInstrumen
 			IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 			ItemStack heldItem = player.getItemInHand(hand);
 	
-			if (airMill != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
+			if (airMill != null && hand == InteractionHand.MAIN_HAND) {
 				if (!airMill.getInventory().getItem(1).isEmpty()) {
 					return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
 				}

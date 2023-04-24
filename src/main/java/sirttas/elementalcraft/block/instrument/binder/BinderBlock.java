@@ -71,7 +71,7 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 		ItemStack heldItem = player.getItemInHand(hand);
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
-		if (binder != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (binder != null && hand == InteractionHand.MAIN_HAND) {
 			if ((binder.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !binder.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);

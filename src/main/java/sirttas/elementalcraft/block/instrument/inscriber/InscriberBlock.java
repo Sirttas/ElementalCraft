@@ -135,7 +135,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 		ItemStack heldItem = player.getItemInHand(hand);
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 
-		if (inscriber != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (inscriber != null && hand == InteractionHand.MAIN_HAND) {
 			if (heldItem.getItem() == ECItems.CHISEL && !inscriber.isLocked()) {
 				return makeProgress(player, hand, inscriber, heldItem);
 			} else if ((inscriber.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !inscriber.getInventory().isEmpty()) {

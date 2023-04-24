@@ -70,7 +70,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 		final IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 
-		if (inv != null && (hand == InteractionHand.MAIN_HAND || !heldItem.isEmpty())) {
+		if (inv != null && hand == InteractionHand.MAIN_HAND) {
 			return this.onSlotActivated(inv, player, heldItem, 0);
 		}
 		return InteractionResult.PASS;

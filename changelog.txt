@@ -1,3 +1,9 @@
+1.18.2-4.4.29:
+
+- instruments can no longer be used from offhand
+- disable jewels for fake players, this should increase server performances a lot (issue #81)
+
+
 1.18.2-4.4.28:
 
 - the warstaff can now be repaired using fireite
@@ -33,7 +39,7 @@
 
 1.18.2-4.4.25:
 
-- order sorter cnas now be upgraded with speed runes
+- order sorter can now be upgraded with speed runes
 - fix ordered sorter destroying items
 
 
