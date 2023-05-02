@@ -48,7 +48,7 @@ public class ElementPipeTransferer implements IElementTransferer {
 
     ElementPipeTransferer(ElementPipeBlockEntity pipe) {
         this.pipe = pipe;
-        this.initialized = !pipe.getBlockState().is(ECBlocks.PIPE_CREATIVE.get());
+        this.initialized = pipe.getBlockState().is(ECBlocks.PIPE_CREATIVE.get());
         this.connections = new EnumMap<>(Direction.class);
 
         for (var direction : Direction.values()) {

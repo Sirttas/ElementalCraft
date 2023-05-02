@@ -4,5 +4,5 @@
   "input": {
     "tag": "elementalcraft:infusable/bows"
   },
-  "tool_infusion": "elementalcraft:efficiency"
+  "tool_infusion": "elementalcraft:unbreaking"
 }

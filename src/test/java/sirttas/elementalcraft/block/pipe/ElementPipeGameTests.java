@@ -18,7 +18,7 @@ public class ElementPipeGameTests {
     public static void shouldNot_transferAboveMax(GameTestHelper helper) {
         var targetStorage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(1, 2, 0))).getElementStorage();
 
-        helper.startSequence().thenExecute(() -> helper.pullLever(0, 2, 1))
+        helper.startSequence().thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
                 .thenExecuteAfter(1, () -> assertThat(targetStorage.getElementAmount()).isEqualTo(100))
                 .thenExecuteAfter(1, () -> assertThat(targetStorage.getElementAmount()).isEqualTo(200))
                 .thenExecuteAfter(1, () -> assertThat(targetStorage.getElementAmount()).isEqualTo(300))

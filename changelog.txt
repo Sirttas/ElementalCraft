@@ -25,6 +25,7 @@
 - fix element pipe transfer rate limit
 - fix double half blocks replacing upper block when placed
 - fix source breeder recipe being vertically inverted
+- fix bow earth tool infusion
 
 
 1.19.2-5.7.5:
