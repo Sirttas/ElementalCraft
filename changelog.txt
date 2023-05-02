@@ -1,3 +1,8 @@
+1.18.2-4.4.30:
+
+- fix bow earth tool infusion
+
+
 1.18.2-4.4.29:
 
 - instruments can no longer be used from offhand
