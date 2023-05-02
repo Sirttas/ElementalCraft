@@ -69,7 +69,10 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 
 	public SilkTouchShrineUpgradeBlock() {
 		super(ShrineUpgrades.SILK_TOUCH);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.ATTACHED, true).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(BlockStateProperties.ATTACHED, true)
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Nonnull
@@ -99,9 +102,15 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 		super.appendHoverText(stack, worldIn, tooltip, flag);
 	}
 
+	@Nullable
 	@Override
 	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
 		var state = super.getStateForPlacement(context);
+
+		if (state == null) {
+			return null;
+		}
+
 		var facing = state.getValue(FACING);
 
 		return state.setValue(BlockStateProperties.ATTACHED, context.getLevel().getBlockState(context.getClickedPos().relative(facing)).is(ECTags.Blocks.SHRINES_UPGRADABLES_SILK_TOUCH_ATTACHED));

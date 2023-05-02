@@ -47,7 +47,8 @@ public class InfuserBlock extends AbstractECContainerBlock implements IInstrumen
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
 	public InfuserBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(WATERLOGGED, false));
 	}
 	
 	@Override

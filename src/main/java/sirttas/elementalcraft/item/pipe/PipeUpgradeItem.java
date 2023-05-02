@@ -11,7 +11,7 @@ import sirttas.elementalcraft.item.ECItem;
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public class PipeUpgradeItem extends ECItem {
+public class PipeUpgradeItem extends ECItem implements IPipeInteractingItem {
 
     private final Supplier<PipeUpgradeType<?>> supplier;
     private PipeUpgradeType<?> pipeUpgradeType;
@@ -28,7 +28,9 @@ public class PipeUpgradeItem extends ECItem {
         return pipeUpgradeType;
     }
 
-    public InteractionResult put(ElementPipeBlockEntity pipe, UseOnContext context) {
+    @Nonnull
+    @Override
+    public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
         var stack = context.getItemInHand();
         var face = context.getClickedFace();
         var player = context.getPlayer();

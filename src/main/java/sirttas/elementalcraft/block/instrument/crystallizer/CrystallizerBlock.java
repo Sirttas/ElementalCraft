@@ -58,7 +58,8 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, CONNECTION, BASE_PIPE_1, BASE_PIPE_2, BASE_PIPE_3, BASE_PIPE_4, TOP);
 
 	public CrystallizerBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(WATERLOGGED, false));
 	}
 	
 	@Override

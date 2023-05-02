@@ -29,13 +29,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class JewelHandler implements IJewelHandler {
 
-    private static final List<JewelHandler> FUTURE_HANDLERS = new ArrayList<>();
-    private static final List<JewelHandler> HANDLERS = new ArrayList<>();
+    private static final Set<JewelHandler> FUTURE_HANDLERS = new HashSet<>();
+    private static final Set<JewelHandler> HANDLERS = new HashSet<>();
 
     private final Entity entity;
     private final IElementStorage elementStorage;

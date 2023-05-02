@@ -61,6 +61,7 @@ public class ECNames {
 	public static final String OUTPUTS = "outputs";
 	public static final String PARENT = "Parent";
 	public static final String PERIODE = "periode";
+	public static final String PIPE_UPGRADE = "pipe_upgrade";
 	public static final String PIPE_UPGRADE_TAG = "pipe_upgrade_tag";
 	public static final String PIPE_UPGRADE_TYPE = "pipe_upgrade_type";
 	public static final String PREDICATE = "predicate";
@@ -108,6 +109,7 @@ public class ECNames {
     public static final String PROVIDER = "provider";
     public static final String BREED_INDEX = "breed_index";
     public static final String BREEDING_COST = "breeding_cost";
+    public static final String TARGET = "target";
 
     private ECNames() {}
 }

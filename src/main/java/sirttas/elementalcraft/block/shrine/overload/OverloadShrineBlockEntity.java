@@ -17,6 +17,8 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(OverloadShrineBlock.NAME);
 
+	private TickingBlockEntity ticker;
+
 	public OverloadShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.OVERLOAD_SHRINE, pos, state, PROPERTIES_KEY);
 	}
@@ -26,20 +28,32 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 		return new AABB(getTargetPos());
 	}
 
-	private BlockPos getTargetPos() {
+	@Override
+	public BlockPos getTargetPos() {
 		return worldPosition.relative(this.getBlockState().getValue(OverloadShrineBlock.FACING));
 	}
 
 	@Override
 	protected boolean doPeriod() {
-		var target = getTargetPos();
-		TickingBlockEntity ticker = this.level.getChunkAt(target).tickersInLevel.get(target);
+		var t = getTicker();
 		
-		if (ticker != null && !ticker.isRemoved() && !(this.level.getBlockEntity(target) instanceof AbstractShrineBlockEntity)) {
+		if (t != null) {
 			ticker.tick();
 			return true;
 		}
 		return false;
+	}
+
+	private TickingBlockEntity getTicker() {
+		if (ticker == null) {
+			var target = getTargetPos();
+
+			ticker = this.level.getChunkAt(target).tickersInLevel.get(target);
+		}
+		if (ticker != null && !ticker.isRemoved() && !(this.level.getBlockEntity(ticker.getPos()) instanceof AbstractShrineBlockEntity)) {
+			ticker = null;
+		}
+		return ticker;
 	}
 
 	@Override

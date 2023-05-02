@@ -30,7 +30,8 @@ import javax.annotation.Nullable;
 public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
 	protected AbstractFireFurnaceBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Nonnull

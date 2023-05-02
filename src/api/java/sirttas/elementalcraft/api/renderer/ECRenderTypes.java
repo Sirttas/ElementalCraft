@@ -27,7 +27,7 @@ public class ECRenderTypes extends RenderType {
 					.setTransparencyState(new RenderStateShard.TransparencyStateShard(GHOST_NAME,
 						() -> {
 							RenderSystem.enableBlend();
-							RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA.value);
+							RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
 							GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.5F);
 						},
 						() -> {
@@ -42,7 +42,7 @@ public class ECRenderTypes extends RenderType {
 				RenderSystem.enableDepthTest();
 				RenderSystem.depthMask(false);
 				RenderSystem.enableBlend();
-				RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 			}, () -> {
 				RenderSystem.disableBlend();
 				RenderSystem.defaultBlendFunc();

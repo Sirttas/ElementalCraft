@@ -68,7 +68,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 	public AABB getRangeBoundingBox() {
 		var range = getRange();
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos())
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos())
 				.inflate(range, 0, range)
 				.expandTowards(0, -2, 0)
 				.move(0, -1, 0));

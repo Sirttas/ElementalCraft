@@ -4,7 +4,7 @@
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:shockwave'}}",
   "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 23,
+  "sortnum": 24,
   "pages": [
     {
       "type": "text",

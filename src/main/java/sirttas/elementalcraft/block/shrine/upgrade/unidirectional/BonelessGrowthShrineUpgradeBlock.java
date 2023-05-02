@@ -29,8 +29,9 @@ public class BonelessGrowthShrineUpgradeBlock extends AbstractShrineUpgradeBlock
 		super(ShrineUpgrades.BONELESS_GROWTH);
 	}
 	
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return Direction.DOWN;
 	}
 

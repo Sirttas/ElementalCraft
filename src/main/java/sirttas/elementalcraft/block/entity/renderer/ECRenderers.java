@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.entity.renderer;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,8 +25,10 @@ import sirttas.elementalcraft.block.instrument.io.purifier.PurifierRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.acceleration.AccelerationShrineUpgradeRenderer;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
 import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederRenderer;
@@ -63,6 +66,8 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.PURIFIER, PurifierRenderer::new);
 		register(ECBlockEntityTypes.ACCELERATION_SHRINE_UPGRADE, AccelerationShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.VORTEX_SHRINE_UPGRADE, VortexShrineUpgradeRenderer::new);
+		register(ECBlockEntityTypes.TRANSLOCATION_SHRINE_UPGRADE, TranslocationShrineUpgradeRenderer::new);
+		register(ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, OverclockedAccelerationShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.SORTER, SorterRenderer::new);
 		register(ECBlockEntityTypes.SOURCE, SourceRenderer::new);
 
@@ -93,6 +98,10 @@ public final class ECRenderers {
 
 	public static <T extends BlockEntity> void register(RegistryObject<BlockEntityType<T>> type, Supplier<BlockEntityRenderer<? super T>> renderProvider) {
 		register(type.get(), renderProvider);
+	}
+
+	public static <T extends BlockEntity> void register(RegistryObject<BlockEntityType<T>> type, BlockEntityRendererProvider<T> renderProvider) {
+		BlockEntityRenderers.register(type.get(), renderProvider);
 	}
 
 	public static <T extends BlockEntity> void register(BlockEntityType<T> type, Supplier<BlockEntityRenderer<? super T>> renderProvider) {

@@ -110,6 +110,10 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 		return Math.min(end * 1.2f, value * 1.2f);
 	}
 
+	private ISourceTraitValue createValue(float s, float e, RandomSource rand, float luck) {
+		return createValue(roll(s, e, rand, luck));
+	}
+
 	private float roll(float s, float e, RandomSource rand, float luck) {
 		return roll(Math.min(s + (luck * luckRatio), e), e, rand);
 	}
@@ -119,10 +123,6 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 			return roll(e, s, rand);
 		}
 		return s + rand.nextFloat() * (e - s);
-	}
-
-	private ISourceTraitValue createValue(float s, float e, RandomSource rand, float luck) {
-		return createValue(roll(s, e, rand, luck));
 	}
 
 	@Override

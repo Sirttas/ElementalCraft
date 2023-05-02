@@ -7,32 +7,44 @@
   "max_amount": 1,
   "model": "elementalcraft:elementalcraft/runes/kaworu",
   "predicate": {
-    "type": "dpanvil:and",
-    "values": [
-      {
-        "type": "dpanvil:not",
-        "value": {
+    "type": "dpanvil:cache",
+    "value": {
+      "type": "dpanvil:and",
+      "values": [
+        {
+          "type": "dpanvil:not",
+          "value": {
+            "type": "dpanvil:or",
+            "values": [
+              {
+                "type": "elementalcraft:has_rune",
+                "rune": "elementalcraft:soaryn"
+              },
+              {
+                "type": "elementalcraft:has_rune",
+                "rune": "elementalcraft:kaworu"
+              },
+              {
+                "type": "elementalcraft:has_rune",
+                "rune": "elementalcraft:mewtwo"
+              }
+            ]
+          }
+        },
+        {
           "type": "dpanvil:or",
           "values": [
             {
-              "type": "elementalcraft:has_rune",
-              "rune": "elementalcraft:soaryn"
+              "type": "elementalcraft:has_pipe_upgrade",
+              "pipe_upgrade": "elementalcraft:element_pump"
             },
             {
-              "type": "elementalcraft:has_rune",
-              "rune": "elementalcraft:kaworu"
-            },
-            {
-              "type": "elementalcraft:has_rune",
-              "rune": "elementalcraft:mewtwo"
+              "type": "dpanvil:tag",
+              "tag": "elementalcraft:rune_affected/optimization"
             }
           ]
         }
-      },
-      {
-        "type": "dpanvil:tag",
-        "tag": "elementalcraft:rune_affected/optimization"
-      }
-    ]
+      ]
+    }
   }
 }

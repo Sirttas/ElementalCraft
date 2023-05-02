@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -34,6 +35,7 @@ import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class ReservoirBlock extends AbstractConnectedElementContainerBlock implements IElementTypeProvider {
 
@@ -99,7 +101,12 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	
 	public ReservoirBlock(ElementType elementType) {
 		this.elementType = elementType;
-		this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER).setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(HALF, DoubleBlockHalf.LOWER)
+				.setValue(NORTH, false)
+				.setValue(EAST, false)
+				.setValue(SOUTH, false)
+				.setValue(WEST, false));
 	}
 	
 	@Override
@@ -117,8 +124,8 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	 * logic
 	 */
 	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-		worldIn.setBlock(pos.above(), this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3);
+	public void setPlacedBy(Level level, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+		level.setBlock(pos.above(), this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
 	/**
@@ -129,6 +136,15 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
 		super.playerWillDestroy(level, pos, state, player);
+	}
+
+	@Nullable
+	@Override
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
+		if (!AbstractPylonShrineBlock.canReplaceAboveBlock(context)) {
+			return null;
+		}
+		return super.getStateForPlacement(context);
 	}
 
 	@Override

@@ -77,11 +77,11 @@ public class ShapeHelper {
 				default -> shape;
 			};
 			case NORTH -> switch (to) {
-				case UP -> Shapes.box(minX, minZ, minY, maxX, maxZ, maxY);
-				case DOWN -> Shapes.box(minX, minZ, 1 - maxY, maxX, maxZ, 1 - minY);
-				case SOUTH -> Shapes.box(minX, 1 - maxY, minZ, maxX, 1 - minY, maxZ);
-				case WEST -> Shapes.box(1 - maxY, minX, minZ, 1 - minY, maxX, maxZ);
-				case EAST -> Shapes.box(minY, minX, minZ, maxY, maxX, maxZ);
+				case UP -> Shapes.box(minX, 1 - maxZ, minY, maxX, 1 - minZ, maxY);
+				case DOWN -> Shapes.box(minX, minZ, minY, maxX, maxZ, maxY);
+				case SOUTH -> Shapes.box(minX, minY, 1 - maxZ, maxX, maxY, 1 - minZ);
+				case WEST -> Shapes.box(minZ, minY, minX, maxZ, maxY, maxX);
+				case EAST -> Shapes.box(1 - maxZ, minY,  minX, 1 - minZ, maxY, maxX);
 				default -> shape;
 			};
 			case SOUTH -> switch (to) {

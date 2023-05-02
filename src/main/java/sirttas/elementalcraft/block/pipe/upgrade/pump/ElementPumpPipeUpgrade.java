@@ -1,13 +1,20 @@
 package sirttas.elementalcraft.block.pipe.upgrade.pump;
 
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
+import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
@@ -18,6 +25,7 @@ import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -35,8 +43,11 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
             ElementPipeShapes.EXTRACTION_SHAPES.get(Direction.UP)
     ));
 
+    private final RuneHandler runeHandler;
+
     public ElementPumpPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
         super(PipeUpgradeTypes.ELEMENT_PUMP.get(), pipe, direction);
+        runeHandler = new RuneHandler(ECConfig.COMMON.elementPumpMaxRunes.get(), pipe::setChanged);
     }
 
     @Override
@@ -59,7 +70,35 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
         return super.canPlace(connectionType) && connectionType == ConnectionType.EXTRACT && this.getPipe().getBlockState().is(ECBlocks.PIPE_IMPROVED.get());
     }
 
-    private static class Path implements IElementTransferPath {
+    public RuneHandler getRuneHandler() {
+        return runeHandler;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void load(@Nonnull CompoundTag compound) {
+        super.load(compound);
+        if (compound.contains(ECNames.RUNE_HANDLER)) {
+            IRuneHandler.readNBT(getRuneHandler(), compound.getList(ECNames.RUNE_HANDLER, 8));
+        }
+    }
+
+    @Override
+    public void saveAdditional(@Nonnull CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
+    }
+
+    @Override
+    @Nonnull
+    public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
+        if (cap == ElementalCraftCapabilities.RUNE_HANDLE) {
+            return LazyOptional.of(() -> runeHandler).cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    private class Path implements IElementTransferPath {
 
         private final IElementTransferPath parent;
         private final List<IElementTransferPathNode> nodes;
@@ -90,8 +129,8 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
             }
 
             var type = parent.getElementType();
-            var multiplier = ECConfig.COMMON.elementPumpMultiplier.get();
-            var waste = ECConfig.COMMON.elementPumpWaste.get();
+            var multiplier = runeHandler.getTransferSpeed(ECConfig.COMMON.elementPumpMultiplier.get().floatValue());
+            var waste = Math.max(0, ECConfig.COMMON.elementPumpWaste.get().floatValue() / runeHandler.getElementPreservation());
             var source = nodes.get(0).getStorage();
             var target = nodes.get(nodes.size() - 1).getStorage();
 
@@ -99,7 +138,7 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
                 return;
             }
 
-            IElementTransferPath.transfer(type, (int) Math.round(source.transferTo(target, type, (float) (getRemainingTransferAmount() * multiplier), (float) (1F - waste)) / multiplier), nodes);
+            IElementTransferPath.transfer(type, Math.round(source.transferTo(target, type, (getRemainingTransferAmount() * multiplier), 1F - waste) / multiplier), nodes);
         }
 
         @Override

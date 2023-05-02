@@ -18,11 +18,14 @@ import javax.annotation.Nonnull;
 
 public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<ShrineUpgrade, ShrineUpgrade.Builder> {
 	private static final IBlockPosPredicate ACCELERATION_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION)
-			.or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.PICKUP)));
+			.or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.PICKUP)))
+			.cache();
 	private static final IBlockPosPredicate PROTECTION_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_PROTECTION)
-			.or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.VORTEX)));
+			.or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.VORTEX)))
+			.cache();
 	private static final IBlockPosPredicate STRENGTH_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH)
-			.or(IBlockPosPredicate.match(ECBlocks.SPRING_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.FILLING)));
+			.or(IBlockPosPredicate.match(ECBlocks.SPRING_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.FILLING)))
+			.cache();
 	
 	public ShrineUpgradeProvider(DataGenerator generator) {
 		super(generator, ElementalCraft.SHRINE_UPGRADE_MANAGER, ShrineUpgrade.Builder::toJson);
@@ -45,21 +48,24 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 		builder(ShrineUpgrades.CRYSTAL_GROWTH).match(ECBlocks.GROWTH_SHRINE.get()).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 50F).addBonus(BonusType.SPEED, 30F).incompatibleWith(ShrineUpgrades.BONELESS_GROWTH, ShrineUpgrades.STEM_POLLINATION);
 
 		builder(ShrineUpgrades.ACCELERATION).predicate(ACCELERATION_PREDICATE).addBonus(BonusType.SPEED, 0.5F);
+		builder(ShrineUpgrades.OVERCLOCKED_ACCELERATION).predicate(ACCELERATION_PREDICATE).max(1).addBonus(BonusType.SPEED, 0.25F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.5F);
 		builder(ShrineUpgrades.RANGE).match(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).addBonus(BonusType.RANGE, 1.5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).addBonus(BonusType.SPEED, 1.2F);
 		builder(ShrineUpgrades.PROTECTION).predicate(PROTECTION_PREDICATE).max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 3F);
 		builder(ShrineUpgrades.CAPACITY).match(ECTags.Blocks.SHRINES).max(1).addBonus(BonusType.CAPACITY, 5F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.1F).addBonus(BonusType.SPEED, 1.1F);
 		builder(ShrineUpgrades.EFFICIENCY).match(ECTags.Blocks.SHRINES).addBonus(BonusType.CAPACITY, 0.9F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.5F);
 		builder(ShrineUpgrades.STRENGTH).predicate(STRENGTH_PREDICATE).addBonus(BonusType.STRENGTH, 2F).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.2F).incompatibleWith(ShrineUpgrades.NECTAR, ShrineUpgrades.PICKUP);
 		builder(ShrineUpgrades.OPTIMIZATION).match(ECTags.Blocks.SHRINES).max(2).addBonus(BonusType.CAPACITY, 1.25F).addBonus(BonusType.ELEMENT_CONSUMPTION, 0.75F).addBonus(BonusType.SPEED, 0.8F);
+		builder(ShrineUpgrades.TRANSLOCATION).match(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).max(1).addBonus(BonusType.RANGE, 0.75F).addBonus(BonusType.CAPACITY, 1.20F).addBonus(BonusType.ELEMENT_CONSUMPTION, 2F);
 	}
 
 	private IBlockPosPredicate miningPredicate(TagKey<Block> tag) {
 		return IBlockPosPredicate.match(tag)
-				.or(IBlockPosPredicate.match(ECBlocks.BUDDING_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.CRYSTAL_HARVEST)));
+				.or(IBlockPosPredicate.match(ECBlocks.BUDDING_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.CRYSTAL_HARVEST)))
+				.cache();
 	}
 	
 	protected ShrineUpgrade.Builder builder(ResourceKey<ShrineUpgrade> key) {
-		var builder = ShrineUpgrade.Builder.create();
+		var builder = ShrineUpgrade.builder();
 		
 		add(key, builder);
 		return builder;

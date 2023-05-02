@@ -4,7 +4,7 @@
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:silk_vein'}}",
   "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 17,
+  "sortnum": 18,
   "pages": [
     {
       "type": "text",

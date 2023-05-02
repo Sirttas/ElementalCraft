@@ -28,7 +28,7 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	public AABB getRangeBoundingBox() {
-		return new AABB(this.worldPosition.above());
+		return new AABB(this.getTargetPos().above());
 	}
 
 	@Override

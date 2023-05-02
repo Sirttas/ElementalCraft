@@ -5,18 +5,27 @@ import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
 @AutoRegisterCapability
 public interface IElementTransferer {
 
-	List<IElementTransferPathNode> getConnectedNodes(ElementType type);
+	List<IElementTransferPathNode> getConnectedNodes(@Nonnull ElementType type);
 
-	int getRemainingTransferAmount();
+	default int getRemainingTransferAmount() {
+		return Integer.MAX_VALUE;
+	}
 
-	void transfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to);
+	default void onTransfer(@Nonnull ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) { }
 
-	boolean isValid();
+	default boolean canConnectTo(@Nonnull BlockPos to) {
+		return true;
+	}
+
+	default boolean isValid() {
+		return true;
+	}
 
 }

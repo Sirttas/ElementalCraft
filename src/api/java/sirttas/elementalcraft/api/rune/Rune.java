@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +25,7 @@ import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +54,8 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		this.fxSpriteName = fxSpriteName;
 	}
 
-	public boolean canUpgrade(LevelReader world, BlockPos pos, IRuneHandler handler) {
-		return handler.getRuneCount() < handler.getMaxRunes() && canUpgrade(world, pos, handler.getRuneCount(this));
+	public boolean canUpgrade(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction, IRuneHandler handler) {
+		return handler.getRuneCount() < handler.getMaxRunes() && canUpgrade(level, pos, direction, handler.getRuneCount(this));
 	}
 
 	public void addInformation(List<Component> tooltip) {

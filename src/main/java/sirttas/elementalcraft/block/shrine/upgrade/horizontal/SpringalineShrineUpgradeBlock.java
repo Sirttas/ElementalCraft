@@ -89,8 +89,6 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 		super.setPlacedBy(level, pos, state, placer, stack);
 		setShrineState(level, pos.relative(getFacing(state)), CrystalType.SPRINGALINE);
 	}
-
-
 	
 	@Override
 	@Deprecated

@@ -41,7 +41,7 @@ public class SourceBreedingRecipeCategory extends AbstractECRecipeCategory<Eleme
 
 	@Nonnull
 	private static Map<ResourceKey<SourceTrait>, ISourceTraitValue> getArtificialTraitsMap() {
-		var artificial = ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(SourceTraits.ARTIFICIAL.location());
+		var artificial = ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(SourceTraits.ARTIFICIAL);
 
 		if (artificial != null) {
 			var value = artificial.load(new CompoundTag());

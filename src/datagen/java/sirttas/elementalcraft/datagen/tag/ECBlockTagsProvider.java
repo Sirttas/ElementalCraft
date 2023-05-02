@@ -97,7 +97,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.CLUSTERS).add(Blocks.AMETHYST_CLUSTER, ECBlocks.SPRINGALINE_CLUSTER.get());
 
 		tag(ECTags.Blocks.PUREROCKS).add(ECBlocks.PURE_ROCK.get(), ECBlocks.PURE_ROCK_SLAB.get(), ECBlocks.PURE_ROCK_STAIRS.get(), ECBlocks.PURE_ROCK_WALL.get());
-		tag(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES).add(ECBlocks.EXTRACTOR.get(), ECBlocks.INFUSER.get(), ECBlocks.EVAPORATOR.get());
+		tag(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES).add(ECBlocks.EXTRACTOR.get(), ECBlocks.INFUSER.get(), ECBlocks.EVAPORATOR.get(), ECBlocks.FIRE_FURNACE.get());
 		tag(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);
 
 		tag(BlockTags.BEACON_BASE_BLOCKS).add(ECBlocks.DRENCHED_IRON_BLOCK.get(), ECBlocks.SWIFT_ALLOY_BLOCK.get(), ECBlocks.FIREITE_BLOCK.get());

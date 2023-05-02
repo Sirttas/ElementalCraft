@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex;
+package sirttas.elementalcraft.block.shrine.upgrade.vortex;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

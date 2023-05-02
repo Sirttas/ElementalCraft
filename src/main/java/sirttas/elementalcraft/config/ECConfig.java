@@ -37,8 +37,8 @@ public class ECConfig {
 		public final IntValue improvedExtractorMaxRunes;
 		public final IntValue evaporatorExtractionAmount;
 		public final IntValue evaporatorMaxRunes;
-		public final IntValue solarSythesizerMaxRunes;
-		public final IntValue solarSythesizerLenseElementMultiplier;
+		public final IntValue solarSynthesizerMaxRunes;
+		public final IntValue solarSynthesizerLensElementMultiplier;
 		public final IntValue diffuserDiffusionAmount;
 		public final IntValue diffuserMaxRunes;
 		public final IntValue diffuserRange;
@@ -75,6 +75,7 @@ public class ECConfig {
 		public final IntValue elementBeamRange;
 		public final DoubleValue elementPumpMultiplier;
 		public final DoubleValue elementPumpWaste;
+		public final IntValue elementPumpMaxRunes;
 		public final IntValue sorterCooldown;
 		public final IntValue sorterMaxItem;
 		public final IntValue sorterMaxRunes;
@@ -104,10 +105,10 @@ public class ECConfig {
 
 		public final BooleanValue disableSourceExhaustion;
 
-		public final IntValue manaSythesizerMaxRunes;
-		public final IntValue manaSythesizerManaCapacity;
+		public final IntValue manaSynthesizerMaxRunes;
+		public final IntValue manaSynthesizerManaCapacity;
 		public final DoubleValue manaElementRatio;
-		public final IntValue manaSythesizerLenseElementMultiplier;
+		public final IntValue manaSynthesizerLensElementMultiplier;
 
 		public final IntValue mekanismPureOreInputMultiplier;
 		public final IntValue mekanismPureOreOutputMultiplier;
@@ -127,20 +128,20 @@ public class ECConfig {
 			builder.pop().push("evaporator");
 			evaporatorExtractionAmount = builder.comment("The amount of element extracted by an evaporator.").defineInRange("evaporatorExtractionAmount", 1, 0, 100);
 			evaporatorMaxRunes = builder.comment("The max amount of runes on an evaporator.").defineInRange("evaporatorMaxRunes", 1, 0, 10);
-			builder.pop().push("solarSythesizer");
-			solarSythesizerMaxRunes = builder.comment("The max amount of runes on a Solar Sythesizer.").defineInRange("solarSythesizerMaxRunes", 2, 0, 10);
-			solarSythesizerLenseElementMultiplier = builder.comment("the multiplier of lense in the Solar Sythesizer (based on 1500)").defineInRange("solarSythesizerLenseElementMultiplier", 10, 0, 100);
+			builder.pop().push("solarSynthesizer");
+			solarSynthesizerMaxRunes = builder.comment("The max amount of runes on a Solar Synthesizer.").defineInRange("solarSynthesizerMaxRunes", 2, 0, 10);
+			solarSynthesizerLensElementMultiplier = builder.comment("the multiplier of lens in the Solar Synthesizer (based on 1500)").defineInRange("solarSynthesizerLensElementMultiplier", 10, 0, 100);
 			builder.pop().push("diffuser");
 			diffuserDiffusionAmount = builder.comment("The amount of element transfered by a diffuser.").defineInRange("diffuserDiffusionAmount", 5, 0, 100);
 			diffuserMaxRunes = builder.comment("The max amount of runes on a diffuser.").defineInRange("diffuserMaxRunes", 3, 0, 10);
 			diffuserRange = builder.comment("The range of a diffuser.").defineInRange("diffuserRange", 10, 0, 100);
 			builder.pop().push("fireFurnace");
 			fireFurnaceTransferSpeed = builder.comment("The max amount of element consumed by the fire furnace per tick.").defineInRange("fireFurnaceTransferSpeed", 10, 0, 1000);
-			fireFurnaceMaxRunes = builder.comment("The max amount of runes on a fire furnace.").defineInRange("fireFurnaceMaxRunes", 1, 0, 10);
+			fireFurnaceMaxRunes = builder.comment("The max amount of runes on a fire furnace.").defineInRange("fireFurnaceMaxRunes", 2, 0, 10);
 			fireFurnaceElementAmount = builder.comment("The amount multiplied by the cooking time of the furnace recipe.").defineInRange("fireFurnaceElementAmount", 5, 0, 1000);
 			builder.push("fireBlastFurnace");
 			fireBlastFurnaceTransferSpeed = builder.comment("The max amount of element consumed by the fire blast furnace per tick.").defineInRange("fireBlastFurnaceTransferSpeed", 20, 0, 1000);
-			fireBlastFurnaceMaxRunes = builder.comment("The max amount of runes on a fire blast furnace.").defineInRange("fireBlastFurnaceMaxRunes", 2, 0, 10);
+			fireBlastFurnaceMaxRunes = builder.comment("The max amount of runes on a fire blast furnace.").defineInRange("fireBlastFurnaceMaxRunes", 3, 0, 10);
 			fireBlastFurnaceElementAmount = builder.comment("The amount multiplied by the cooking time of the blast furnace recipe.").defineInRange("fireBlastFurnaceElementAmount", 10, 0, 1000);
 			builder.pop(2).push("infuser");
 			infuserTransferSpeed = builder.comment("The max amount of element consumed by the infuser per tick.").defineInRange("infuserTransferSpeed", 10, 0, 1000);
@@ -180,6 +181,7 @@ public class ECConfig {
 			builder.pop().push("elementPump");
 			elementPumpMultiplier = builder.comment("The amount of element pumped by the element pump.").defineInRange("elementPumpMultiplier", 5D, 0, 100);
 			elementPumpWaste = builder.comment("The amount of element wasted by the element pump.").defineInRange("elementPumpWaste", 0.1D, 0, 1);
+			elementPumpMaxRunes = builder.comment("The max amount of runes an element pump can have.").defineInRange("elementPumpMaxRunes", 3, 0, 10);
 			builder.pop(3).push("sorter");
 			sorterCooldown = builder.comment("The amount of tick between two ordered sorter item transfer.").defineInRange("sorterCooldown", 10, 0, 100);
 			sorterMaxItem = builder.comment("The max amount of items an order sorter can filter.").defineInRange("sorterMaxItem", 15, 0, 100);
@@ -223,10 +225,10 @@ public class ECConfig {
 			sourceSpawnCount = builder.comment("number of sources at spawn per element type.").defineInRange("sourceSpawnCount", 2, 1, 20);
 
 			builder.pop(2).comment("mod interaction config").push("interaction");
-			builder.push("botania").push("manaSythesizer");
-			manaSythesizerMaxRunes = builder.comment("The max amount of runes on a Mana Sythesizer.").defineInRange("manaSythesizerMaxRunes", 2, 0, 10);
-			manaSythesizerManaCapacity = builder.comment("The mana capacity of the Mana Sythesizer.").defineInRange("manaSythesizerManaCapacity", 10000, 0, 1000000);
-			manaSythesizerLenseElementMultiplier = builder.comment("the multiplier of lense in the Mana Sythesizer (based on 1500)").defineInRange("manaSythesizerLenseElementMultiplier", 50, 0, 100);
+			builder.push("botania").push("manaSynthesizer");
+			manaSynthesizerMaxRunes = builder.comment("The max amount of runes on a Mana Synthesizer.").defineInRange("manaSynthesizerMaxRunes", 2, 0, 10);
+			manaSynthesizerManaCapacity = builder.comment("The mana capacity of the Mana Synthesizer.").defineInRange("manaSynthesizerManaCapacity", 10000, 0, 1000000);
+			manaSynthesizerLensElementMultiplier = builder.comment("the multiplier of lens in the Mana Synthesizer (based on 1500)").defineInRange("manaSynthesizerLensElementMultiplier", 50, 0, 100);
 			manaElementRatio = builder.comment("The amount of element 1 mana is worth.").defineInRange("manaElementRatio", 0.1, 0, 100);
 			builder.pop(2).push("mekanism");
 			mekanismPureOreInputMultiplier = builder.comment("The amount multiplier when using pure ore in mekanism.").defineInRange("mekanismPureOreInputMultiplier",5, 0, 20);

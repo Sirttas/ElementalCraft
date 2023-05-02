@@ -4,7 +4,7 @@
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:inferno'}}",
   "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 15,
+  "sortnum": 16,
   "pages": [
     {
       "type": "text",

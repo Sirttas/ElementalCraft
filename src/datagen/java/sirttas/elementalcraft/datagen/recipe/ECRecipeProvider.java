@@ -60,6 +60,7 @@ import sirttas.elementalcraft.item.source.receptacle.NaturalSourceIngredient;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.tag.ECTags;
 import vazkii.botania.api.BotaniaAPI;
@@ -196,11 +197,10 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareWhiterockInstrumentRecipe(ECBlocks.INSCRIBER.get(), ECItems.STRONGLY_CONTAINED_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('d', Tags.Items.GEMS_DIAMOND).pattern(" wi").pattern("wdi").pattern("wcw")
 				.save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.PURE_INFUSER.get(), ECItems.STRONGLY_CONTAINED_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('n', ECBlocks.INFUSER.get()).pattern("wnw").pattern("ici").pattern("www").save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECItems.PURE_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_FIREITE).define('s', ECItems.STRONGLY_CONTAINED_CRYSTAL.get()).pattern("wsw").pattern("ici").pattern("www").save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.SOURCE_BREEDER.get(), ECItems.PURE_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_FIREITE).define('p', ECBlocks.SOURCE_BREEDER_PEDESTAL.get()).pattern("wpw").pattern("ici").pattern("iwi").save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECItems.PURE_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('s', ECItems.STRONGLY_CONTAINED_CRYSTAL.get()).pattern("wsw").pattern("ici").pattern("www").save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.SOURCE_BREEDER.get(), ECItems.PURE_CRYSTAL.get()).define('f', ECTags.Items.INGOTS_FIREITE).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('p', ECBlocks.SOURCE_BREEDER_PEDESTAL.get()).pattern("iwi").pattern("fcf").pattern("wpw").save(consumer);
 		ShapedRecipeBuilder.shaped(ECBlocks.TRANSLOCATION_ANCHOR.get()).define('w', ECBlocks.WHITE_ROCK.get()).define('g', ECTags.Items.PRISTINE_AIR_GEMS).define('f', ECTags.Items.NUGGETS_FIREITE).define('e', Items.ENDER_EYE).pattern(" e ").pattern("fgf").pattern("www").unlockedBy("has_fireite_nugget", has(ECTags.Items.NUGGETS_FIREITE)).save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.FIRE_FURNACE.get(), ECItems.FIRE_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_DRENCHED_IRON).define('f', Blocks.FURNACE).pattern("www").pattern("wfw")
-				.pattern("ici").save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.FIRE_FURNACE.get(), ECItems.FIRE_CRYSTAL.get()).define('f', Blocks.FURNACE).pattern("www").pattern("wfw").pattern("wcw").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.FIRE_BLAST_FURNACE.get(), ECItems.FIRE_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('F', Blocks.BLAST_FURNACE)
 				.define('g', ECBlocks.BURNT_GLASS.get()).pattern("www").pattern("gFg").pattern("ici").save(consumer);
 		prepareWhiterockInstrumentRecipe(ECBlocks.PURIFIER.get(), ECItems.PURE_CRYSTAL.get()).define('i', ECTags.Items.INGOTS_SWIFT_ALLOY).define('e', ECTags.Items.FINE_EARTH_GEMS)
@@ -234,7 +234,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECItems.SPRINGALINE_SHARD.get()).addIngredient(ECItems.PURE_CRYSTAL.get()).withElementAmount(30000).build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.HARDENED_HANDLE.get(), ElementType.EARTH).addIngredient(Tags.Items.RODS_WOODEN).addIngredient(ECBlocks.WHITE_ROCK.get()).addIngredient(ECItems.AIR_SILK.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get()).withElementAmount(1250).build(consumer);
-		
+
 		BindingRecipeBuilder.bindingRecipe(ECItems.SPRINGALINE_SHARD.get(), ElementType.WATER).addIngredient(Items.AMETHYST_SHARD).addIngredient(Tags.Items.GEMS_QUARTZ).addIngredient(ECItems.WATER_CRYSTAL.get())
 				.build(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPRINGALINE_CLUSTER.get(), ElementType.WATER).addIngredient(Items.AMETHYST_BLOCK).addIngredient(Tags.Items.STORAGE_BLOCKS_QUARTZ /* FIXME use all quartz blocks */)
@@ -452,7 +452,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(Items.ROTTEN_FLESH).addIngredient(Items.SPIDER_EYE).addIngredient(Items.ENDER_EYE).addIngredient(Items.DIAMOND).build(consumer);
 	}
 
-	private static void registerShrineUpgrades(@Nonnull Consumer<FinishedRecipe> consumer) {
+	private void registerShrineUpgrades(@Nonnull Consumer<FinishedRecipe> consumer) {
 		ShapedRecipeBuilder.shaped(ECBlocks.ACCELERATION_SHRINE_UPGRADE.get()).define('C', ECItems.SHRINE_UPGRADE_CORE.get()).define('i', Items.CLOCK).define('w', ECBlocks.WHITE_ROCK.get())
 				.define('c', ECItems.PURE_CRYSTAL.get()).define('r', Tags.Items.DUSTS_REDSTONE).pattern("rir").pattern("wCw").pattern(" c ")
 				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE)).save(consumer);
@@ -507,6 +507,11 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE.get()).define('C', ECItems.SHRINE_UPGRADE_CORE.get()).define('s', ECBlocks.SPRINGALINE_BLOCK.get()).define('e', ECTags.Items.PRISTINE_EARTH_GEMS)
 				.define('w', ECBlocks.WHITE_ROCK.get()).define('c', ECItems.WATER_CRYSTAL.get()).pattern("ses").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
 				.save(consumer);
+		ShapedRecipeBuilder.shaped(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get()).define('C', ECItems.SHRINE_UPGRADE_CORE.get()).define('f', ECTags.Items.NUGGETS_FIREITE).define('t', createScrollIngredient(Spells.TRANSLOCATION))
+				.define('w', ECBlocks.WHITE_ROCK.get()).define('c', ECItems.PURE_CRYSTAL.get()).pattern("ftf").pattern("wCw").pattern(" c ").unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
+				.save(consumer);
+		ShapedRecipeBuilder.shaped(ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get()).define('C', ECItems.SHRINE_UPGRADE_CORE.get()).define('i', Items.CLOCK).define('p', ECBlocks.PIPE_IMPROVED.get())
+				.define('c', ECItems.PURE_CRYSTAL.get()).define('z', createRuneIngredient("zod")).pattern("ziz").pattern("pCp").pattern(" c ");
 	}
 
 	private void registerSourceDisplacementPlates(Consumer<FinishedRecipe> consumer) {
@@ -583,6 +588,10 @@ public class ECRecipeProvider extends RecipeProvider {
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.FIRE_ASPECT).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.SHARPNESS /* TODO cleaving ? */).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.BLOCK_EFFICIENCY).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.BLOCK_FORTUNE).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, ElementalCraft.createRL(AutoSmeltToolInfusionEffect.NAME)).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.BLOCK_EFFICIENCY).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.PUNCH_ARROWS).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.FLAMING_ARROWS).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraft.createRL(FastDrawToolInfusionEffect.NAME)).build(consumer);
@@ -750,6 +759,14 @@ public class ECRecipeProvider extends RecipeProvider {
 		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.AIR).setGem(ECTags.Items.INPUT_AIR_GEMS).setCrystal(ECItems.PURE_CRYSTAL.get()).addOutput(ECItems.PRISTINE_AIR_GEM.get(), 1).build(consumer, "pristine_air_gem");
 	}
 
+	private Ingredient createScrollIngredient(RegistryObject<? extends Spell> spell) {
+		var tag = new CompoundTag();
+		var ecTag = new CompoundTag();
+
+		tag.put(ECNames.EC_NBT, ecTag);
+		ecTag.putString(ECNames.SPELL, spell.getKey().location().toString());
+		return PartialNBTIngredient.of(ECItems.SCROLL.get(), tag);
+	}
 
 	private Ingredient createRuneIngredient(String name) {
 		var tag = new CompoundTag();

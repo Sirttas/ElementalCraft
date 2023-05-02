@@ -46,13 +46,13 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	protected SolarSynthesizerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.solarSythesizerMaxRunes.get(), this::setChanged);
+		runeHandler = new RuneHandler(ECConfig.COMMON.solarSynthesizerMaxRunes.get(), this::setChanged);
 		working = false;
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SolarSynthesizerBlockEntity solarSynthesizer) {
 		if (level.dimensionType().hasSkyLight() && level.canSeeSky(pos) && level.isDay()) {
-			var synthesized = solarSynthesizer.handleSynthesis(ECConfig.COMMON.solarSythesizerLenseElementMultiplier.get());
+			var synthesized = solarSynthesizer.handleSynthesis(ECConfig.COMMON.solarSynthesizerLensElementMultiplier.get());
 
 			if (synthesized > 0) {
 				solarSynthesizer.breakLens(level, pos);
@@ -118,7 +118,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove) {
 			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
-				return getElementStorage(ECConfig.COMMON.solarSythesizerLenseElementMultiplier.get());
+				return getElementStorage(ECConfig.COMMON.solarSynthesizerLensElementMultiplier.get());
 			} else if (cap == ElementalCraftCapabilities.RUNE_HANDLE) {
 				return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
 			}

@@ -40,4 +40,9 @@ public class SourceBreederPedestalElementStorage extends StaticElementStorage {
     public boolean canPipeExtract(ElementType elementType, Direction side) {
         return false;
     }
+
+    @Override
+    public boolean doesRenderGauge() {
+        return true;
+    }
 }

@@ -1,3 +1,32 @@
+1.19.2-5.8.0:
+
+- new shrine upgrade: translocation
+- new shrine upgrade: overclocked acceleration
+- the element pump can now have runes
+- improved overall performances of shrine upgrades and runes
+- improved source breeder luck ratios
+- improved overload shrine performances
+- improved a few elementopedia entries
+- increased the spawn frequency of source altars
+- pipes can no longer be tick accelerated
+- reworked fire furnace model
+- the fire furnace can now go on top of a small element container
+- the fire furnace is now cheaper
+- the fire furnace can now have 2 runes (up from 1)
+- the fire blast furnace can now have 3 runes (up from 2)
+- the source breeder and its pedestals are now cheaper
+- add a gauge for shrines and pedestals
+- add a check for shrine running status
+- add tonn infusion for aiots/paxels
+- fix material names in Silent Gear
+- fix config typos
+- fix inscriber east shape
+- fix element crackling playing when it shouldn't
+- fix element pipe transfer rate limit
+- fix double half blocks replacing upper block when placed
+- fix source breeder recipe being vertically inverted
+
+
 1.19.2-5.7.5:
 
 - fix source breeder luck ratios
@@ -10,7 +39,7 @@
 - update crystal harvest shrine upgrade textures
 - fix shrine particles not rendering
 - fix a few elementopedia entries
-- fix source breeder dropping twice when broken
+- fix source breeder dropping twice when broken<
 - fix source breeder pedestals not emptying when element type is changed
 - fix source seeds images
 - fix source breeding roll range

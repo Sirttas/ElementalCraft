@@ -78,7 +78,10 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 	public BreedingShrineBlock() {
 		super(ElementType.EARTH);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(PART, Part.CORE).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(PART, Part.CORE)
+				.setValue(WATERLOGGED, false));
 	}
 
 	/**
@@ -126,7 +129,12 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 	@Override
 	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+		var facing = context.getHorizontalDirection();
+
+		if (!context.getLevel().getBlockState(context.getClickedPos().relative(facing)).canBeReplaced(context)) {
+			return null;
+		}
+		return this.defaultBlockState().setValue(FACING, facing);
 	}
 
 	@Override

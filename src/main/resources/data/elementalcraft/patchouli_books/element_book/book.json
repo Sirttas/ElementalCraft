@@ -9,11 +9,13 @@
 		"$(ec:source)": "$(l:sources/source)",
 		"$(ec:container)": "$(l:instruments/container)",
 		"$(ec:small_container)": "$(l:instruments/small_container)",
-		"$(ec:pipe)": "$(l:basics/elementpipe)",
+		"$(ec:pipe)": "$(l:pipes/elementpipe)",
 		"$(ec:infuser)": "$(l:instruments/infuser)",
 		"$(ec:extractor)": "$(l:instruments/extractor)",
 		"$(ec:binder)": "$(l:instruments/binder)",
 		"$(ec:firefurnace)": "$(l:instruments/firefurnace)",
-		"$(ec:holder)": "$(l:advanced/element_holder)"
+		"$(ec:holder)": "$(l:advanced/element_holder)",
+		"$(ec:source_traits)": "$(l:source/source_traits)",
+		"$(ec:rune)": "$(l:advanced/rune)"
 	}
 }

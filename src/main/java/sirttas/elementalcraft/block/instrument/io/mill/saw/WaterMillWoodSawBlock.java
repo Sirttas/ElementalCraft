@@ -56,7 +56,9 @@ public class WaterMillWoodSawBlock extends AbstractECContainerBlock implements I
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
 	public WaterMillWoodSawBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(WATERLOGGED, false));
 	}
 
 

@@ -38,8 +38,9 @@ public class CrystalGrowthShrineUpgradeBlock extends AbstractShrineUpgradeBlock 
 		super(ShrineUpgrades.CRYSTAL_GROWTH);
 	}
 	
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return Direction.DOWN;
 	}
 

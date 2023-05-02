@@ -38,7 +38,7 @@ import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
+import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -182,8 +182,8 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		if (face != null) {
 			ItemStack stack = player.getItemInHand(hand);
 
-			if (!stack.isEmpty() && stack.getItem() instanceof PipeUpgradeItem upgrade) {
-				return upgrade.put(pipe, new UseOnContext(player, hand, new BlockHitResult(hit.getLocation(), face, hit.getBlockPos(), hit.isInside())));
+			if (!stack.isEmpty() && stack.getItem() instanceof IPipeInteractingItem item) {
+				return item.useOnPipe(pipe, new UseOnContext(player, hand, new BlockHitResult(hit.getLocation(), face, hit.getBlockPos(), hit.isInside())));
 			}
 			return pipe.activatePipe(player, face);
 		}

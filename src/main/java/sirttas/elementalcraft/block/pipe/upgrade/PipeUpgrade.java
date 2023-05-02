@@ -28,7 +28,8 @@ import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeTransferer;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
-import sirttas.elementalcraft.loot.ECLootContextParamSets;
+import sirttas.elementalcraft.loot.parameter.ECLootContextParamSets;
+import sirttas.elementalcraft.loot.parameter.ECLootContextParams;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -161,6 +162,7 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
                 .withRandom(serverLevel.random)
                 .withParameter(LootContextParams.BLOCK_STATE, pipe.getBlockState())
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pipe.getBlockPos()))
+                .withParameter(ECLootContextParams.DIRECTION, direction)
                 .withOptionalParameter(LootContextParams.THIS_ENTITY, player)
                 .withOptionalParameter(LootContextParams.BLOCK_ENTITY, pipe)
                 .create(ECLootContextParamSets.PIPE_UPGRADE);

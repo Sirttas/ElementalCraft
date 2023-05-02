@@ -38,8 +38,9 @@ public class StemPollinationShrineUpgradeBlock extends AbstractShrineUpgradeBloc
 		super(ShrineUpgrades.STEM_POLLINATION);
 	}
 	
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return Direction.DOWN;
 	}
 

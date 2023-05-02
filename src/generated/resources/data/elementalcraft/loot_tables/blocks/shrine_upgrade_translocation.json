@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:shrine_upgrade_translocation"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "ops": [
+            {
+              "op": "replace",
+              "source": "target",
+              "target": "BlockEntityTag.target"
+            }
+          ],
+          "source": "block_entity"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

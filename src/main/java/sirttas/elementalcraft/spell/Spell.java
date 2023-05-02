@@ -31,6 +31,7 @@ import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.StreamSupport;
@@ -152,10 +153,10 @@ public class Spell implements IElementTypeProvider {
 		return getProperties().weight();
 	}
 	
-	public float getRange(Entity caster) {
+	public float getRange(@Nullable Entity caster) {
 		int bonus = 0;
 		
-		if (StreamSupport.stream(caster.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.is(ECItems.STAFF.get()))) {
+		if (caster != null && StreamSupport.stream(caster.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.is(ECItems.STAFF.get()))) {
 			bonus++;
 		}
 		return getProperties().range() + bonus;

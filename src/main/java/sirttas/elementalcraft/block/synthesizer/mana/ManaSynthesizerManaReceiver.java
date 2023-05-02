@@ -36,12 +36,12 @@ public class ManaSynthesizerManaReceiver implements ManaReceiver {
 
     @Override
     public boolean isFull() {
-        return this.mana >= ECConfig.COMMON.manaSythesizerManaCapacity.get();
+        return this.mana >= ECConfig.COMMON.manaSynthesizerManaCapacity.get();
     }
 
     @Override
     public void receiveMana(int mana) {
-        this.mana = Math.max(0, Math.min(getCurrentMana() + mana, ECConfig.COMMON.manaSythesizerManaCapacity.get()));
+        this.mana = Math.max(0, Math.min(getCurrentMana() + mana, ECConfig.COMMON.manaSynthesizerManaCapacity.get()));
     }
 
     @Override

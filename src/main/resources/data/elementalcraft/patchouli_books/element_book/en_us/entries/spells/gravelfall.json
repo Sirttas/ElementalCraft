@@ -4,7 +4,7 @@
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:gravelfall'}}",
   "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 5,
+  "sortnum": 7,
   "pages": [
     {
       "type": "text",

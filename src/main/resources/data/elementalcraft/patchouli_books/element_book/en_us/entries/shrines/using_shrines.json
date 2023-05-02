@@ -1,0 +1,23 @@
+{
+  "name": "elementalcraft.entry.using_shrines",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:shrinebase",
+  "advancement": "elementalcraft:pickup/binder",
+  "turnin": "elementalcraft:pickup/shrinebase",
+  "sortnum": 0,
+  "priority": true,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.using_shrines0"
+    }
+  ,
+    {
+      "type": "elementalcraft:check",
+      "header": "elementalcraft.page.using_shrines1",
+      "valid": "elementalcraft.page.using_shrines2",
+      "paused": "elementalcraft.page.using_shrines3",
+      "invalid": "elementalcraft.page.using_shrines4"
+    }
+  ]
+}

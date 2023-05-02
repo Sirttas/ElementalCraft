@@ -4,7 +4,7 @@
   "icon": "elementalcraft:scroll{elementalcraft:{spell:'elementalcraft:item_pull'}}",
   "advancement": "elementalcraft:pickup/spell_desk",
   "turnin": "elementalcraft:pickup/scroll",
-  "sortnum": 9,
+  "sortnum": 10,
   "pages": [
     {
       "type": "text",

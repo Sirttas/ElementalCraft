@@ -1,0 +1,22 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_shrine_upgrade_overclocked_acceleration": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:shrine_upgrade_overclocked_acceleration"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_shrine_upgrade_overclocked_acceleration"
+    ]
+  ]
+}

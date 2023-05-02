@@ -16,4 +16,9 @@ public class PedestalElementStorage extends StaticElementStorage {
 		return false;
 	}
 
+	@Override
+	public boolean doesRenderGauge() {
+		return true;
+	}
+
 }

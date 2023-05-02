@@ -69,7 +69,7 @@ public class ChiselGameTests {
     private static void should_removeRunes(GameTestHelper helper, RuneTestHolder holder) {
         var pos = holder.pos();
         var runes = holder.runes();
-        var runeHandler = RuneHandlerHelper.get(helper.getBlockEntity(pos), holder.side()).resolve().orElseThrow();
+        var runeHandler = RuneHandlerHelper.get(helper.getBlockEntity(pos), holder.side());
         var player = mockChiselPlayer(helper, pos);
 
         player.setShiftKeyDown(true);
@@ -100,7 +100,7 @@ public class ChiselGameTests {
 
     private static void shouldNot_removeRunes(GameTestHelper helper, RuneTestHolder holder) {
         var pos = holder.pos();
-        var runeHandler = RuneHandlerHelper.get(helper.getBlockEntity(pos), holder.side()).resolve().orElseThrow();
+        var runeHandler = RuneHandlerHelper.get(helper.getBlockEntity(pos), holder.side());
         var player = mockChiselPlayer(helper, pos);
 
         useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);

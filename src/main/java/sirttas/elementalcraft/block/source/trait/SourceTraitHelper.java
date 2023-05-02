@@ -47,7 +47,7 @@ public class SourceTraitHelper {
 		var traitTag = new CompoundTag();
 
 		traits.forEach((key, value) -> {
-			var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(key.location());
+			var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(key);
 			if (trait != null) {
 				var tag = trait.save(value);
 

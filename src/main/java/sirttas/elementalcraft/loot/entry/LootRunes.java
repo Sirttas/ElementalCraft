@@ -11,6 +11,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.loot.parameter.ECLootContextParams;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -27,7 +28,7 @@ public class LootRunes extends LootPoolSingletonContainer {
         if (be == null) {
             return;
         }
-        RuneHandlerHelper.get(be).ifPresent(handler -> handler.getRunes().forEach(rune -> output.accept(ECItems.RUNE.get().getRuneStack(rune))));
+        RuneHandlerHelper.get(be, context.getParamOrNull(ECLootContextParams.DIRECTION)).getRunes().forEach(rune -> output.accept(ECItems.RUNE.get().getRuneStack(rune)));
     }
 
     public static LootPoolSingletonContainer.Builder<?> builder() {

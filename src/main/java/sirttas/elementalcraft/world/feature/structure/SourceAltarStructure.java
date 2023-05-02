@@ -25,9 +25,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.source.SourceBlockEntity;
+import sirttas.elementalcraft.world.feature.SourceFeature;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -116,9 +114,7 @@ public class SourceAltarStructure extends Structure {
 				this.createChest(level, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName()), null);
 				level.blockUpdated(pos, Blocks.CHEST);
 			} else if (name.startsWith("source")) {
-				level.setBlock(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, elementType), 3);
-				BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(s -> s.resetTraits(level, getSourceLuck(name)));
-				level.blockUpdated(pos, ECBlocks.SOURCE.get());
+				SourceFeature.placeSource(level.getLevel(), pos, elementType, getSourceLuck(name));
 			}
 		}
 

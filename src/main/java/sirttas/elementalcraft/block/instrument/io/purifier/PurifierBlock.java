@@ -82,7 +82,9 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
 	public PurifierBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Override

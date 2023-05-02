@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "f": {
+      "tag": "forge:nuggets/fireite"
+    },
+    "t": {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:scroll",
+      "nbt": "{elementalcraft:{spell:\"elementalcraft:translocation\"}}"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "ftf",
+    "wCw",
+    " c "
+  ],
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_translocation"
+  }
+}

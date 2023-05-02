@@ -4,7 +4,7 @@
   "icon": "elementalcraft:staff",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/staff",
-  "sortnum": 4,
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",

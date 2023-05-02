@@ -65,7 +65,10 @@ public class AirMillGrindstoneBlock extends AbstractECContainerBlock implements 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 	public AirMillGrindstoneBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(HALF, DoubleBlockHalf.LOWER)
+				.setValue(WATERLOGGED, false));
 	}
 
 	private boolean isLower(BlockState state) {
@@ -139,7 +142,10 @@ public class AirMillGrindstoneBlock extends AbstractECContainerBlock implements 
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
+	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
+		if (!AbstractPylonShrineBlock.canReplaceAboveBlock(context)) {
+			return null;
+		}
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
 	}
 

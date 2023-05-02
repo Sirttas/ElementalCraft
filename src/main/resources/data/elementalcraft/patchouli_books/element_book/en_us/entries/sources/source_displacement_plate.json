@@ -1,10 +1,10 @@
 {
   "name": "elementalcraft.entry.source_displacement_plates",
-  "category": "elementalcraft:advanced",
+  "category": "elementalcraft:sources",
   "icon": "elementalcraft:source_displacement_plate_fire",
   "advancement": "elementalcraft:pickup/purecrystal",
   "turnin": "elementalcraft:pickup/source_displacement_plates",
-  "sortnum": 1,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",

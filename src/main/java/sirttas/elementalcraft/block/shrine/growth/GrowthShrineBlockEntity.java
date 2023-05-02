@@ -85,7 +85,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 		var range = getRange();
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, 2, 0));
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos()).inflate(range, 0, range).expandTowards(0, 2, 0));
 	}
 
 	private boolean growBoneless() {

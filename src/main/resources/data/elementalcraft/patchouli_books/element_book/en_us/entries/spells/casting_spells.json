@@ -1,0 +1,22 @@
+{
+  "name": "elementalcraft.entry.casting_spells",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:textures/gui/entries/spells.png",
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "turnin": "elementalcraft:pickup/spell_desk",
+  "priority": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.casting_spells0"
+    },
+    {
+      "type": "elementalcraft:check",
+      "header": "elementalcraft.page.casting_spells1",
+      "valid": "elementalcraft.page.casting_spells2",
+      "paused": "elementalcraft.page.casting_spells3",
+      "invalid": "elementalcraft.page.casting_spells4"
+    }
+  ]
+}

@@ -44,8 +44,9 @@ public class FillingShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 		super(ShrineUpgrades.FILLING);
 	}
 	
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return Direction.DOWN;
 	}
 

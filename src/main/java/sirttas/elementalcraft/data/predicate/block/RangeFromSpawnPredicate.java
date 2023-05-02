@@ -3,11 +3,15 @@ package sirttas.elementalcraft.data.predicate.block;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class RangeFromSpawnPredicate implements IBlockPosPredicate {
 
@@ -30,8 +34,8 @@ public class RangeFromSpawnPredicate implements IBlockPosPredicate {
 	}
 
 	@Override
-	public boolean test(LevelReader level, BlockPos pos) {
-		BlockPos spawn = level instanceof ServerLevel serverLevel ? serverLevel.getSharedSpawnPos() : BlockPos.ZERO;
+	public boolean test(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction) {
+		BlockPos spawn = level instanceof ServerLevelAccessor accessor ? accessor.getLevel().getSharedSpawnPos() : BlockPos.ZERO;
 		
 		return new BlockPos(spawn.getX(), 0, spawn.getZ()).distSqr(new BlockPos(pos.getX(), 0, pos.getZ())) > rangeSq;
 	}

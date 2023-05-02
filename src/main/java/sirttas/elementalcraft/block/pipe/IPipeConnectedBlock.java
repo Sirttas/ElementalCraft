@@ -18,27 +18,27 @@ public interface IPipeConnectedBlock {
 	BooleanProperty SOUTH = BlockStateProperties.SOUTH;
 	BooleanProperty WEST = BlockStateProperties.WEST;
 
-	default BlockState doGetStateForPlacement(BlockGetter world, BlockPos pos) {
+	default BlockState doGetStateForPlacement(BlockGetter level, BlockPos pos) {
 		return ((Block) this).defaultBlockState()
-				.setValue(NORTH, isConnectable(world, pos, Direction.NORTH))
-				.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH))
-				.setValue(EAST, isConnectable(world, pos, Direction.EAST))
-				.setValue(WEST, isConnectable(world, pos, Direction.WEST));
+				.setValue(NORTH, isConnectable(level, pos, Direction.NORTH))
+				.setValue(SOUTH, isConnectable(level, pos, Direction.SOUTH))
+				.setValue(EAST, isConnectable(level, pos, Direction.EAST))
+				.setValue(WEST, isConnectable(level, pos, Direction.WEST));
 	}
 
-	default BlockState doUpdateShape(BlockState state, BlockGetter world, BlockPos pos, Direction facing) {
+	default BlockState doUpdateShape(BlockState state, BlockGetter level, BlockPos pos, Direction facing) {
 		return switch (facing) {
-			case NORTH -> state.setValue(NORTH, isConnectable(world, pos, Direction.NORTH));
-			case SOUTH -> state.setValue(SOUTH, isConnectable(world, pos, Direction.SOUTH));
-			case EAST -> state.setValue(EAST, isConnectable(world, pos, Direction.EAST));
-			case WEST -> state.setValue(WEST, isConnectable(world, pos, Direction.WEST));
+			case NORTH -> state.setValue(NORTH, isConnectable(level, pos, Direction.NORTH));
+			case SOUTH -> state.setValue(SOUTH, isConnectable(level, pos, Direction.SOUTH));
+			case EAST -> state.setValue(EAST, isConnectable(level, pos, Direction.EAST));
+			case WEST -> state.setValue(WEST, isConnectable(level, pos, Direction.WEST));
 			default -> state;
 		};
 	}
 	
-	static boolean isConnectable(BlockGetter world, BlockPos from, Direction face) {
+	static boolean isConnectable(BlockGetter level, BlockPos from, Direction face) {
 		var opposite = face.getOpposite();
-		IElementTransferer transferer = BlockEntityHelper.getBlockEntity(world, from.relative(face))
+		IElementTransferer transferer = BlockEntityHelper.getBlockEntity(level, from.relative(face))
 				.flatMap(b -> ElementTransfererHelper.get(b, opposite).resolve())
 				.orElse(null);
 		

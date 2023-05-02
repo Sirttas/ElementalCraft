@@ -13,6 +13,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
+import sirttas.dpanvil.api.predicate.block.world.CacheBlockPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -43,7 +44,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		if (update && count > 0) {
 			count--;
 		}
-		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), count);
+		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), null, count);
 	}
 
 	public void addInformation(List<Component> tooltip) {
@@ -127,6 +128,10 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		}
 	}
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public static class Builder {
 
 		public static final Encoder<Builder> ENCODER = ShrineUpgrade.CODEC.comap(builder -> new ShrineUpgrade(builder.predicate, builder.bonuses, builder.maxAmount));
@@ -141,10 +146,6 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 			this.predicate = null;
 			this.maxAmount = 0;
 			this.incompatibilities = new ArrayList<>();
-		}
-
-		public static Builder create() {
-			return new Builder();
 		}
 
 		public Builder match(Block... block) {
@@ -178,7 +179,7 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
 		public JsonElement toJson() {
 			if (!incompatibilities.isEmpty()) {
-				predicate = predicate.and(getIncompatibilitiesPredicate()).simplify();
+				predicate = (predicate instanceof CacheBlockPredicate cacheBlockPredicate ? cacheBlockPredicate.predicate().and(getIncompatibilitiesPredicate()).cache() : predicate.and(getIncompatibilitiesPredicate())).simplify();
 			}
 			return CodecHelper.encode(ENCODER, this);
 		}

@@ -9,7 +9,7 @@ import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import sirttas.elementalcraft.loot.ECLootContextParamSets;
+import sirttas.elementalcraft.loot.parameter.ECLootContextParamSets;
 
 import javax.annotation.Nonnull;
 import java.util.List;

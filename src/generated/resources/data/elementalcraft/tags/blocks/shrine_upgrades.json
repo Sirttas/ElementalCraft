@@ -11,6 +11,7 @@
     "elementalcraft:shrine_upgrade_mystical_grove",
     "elementalcraft:shrine_upgrade_nectar",
     "elementalcraft:shrine_upgrade_optimization",
+    "elementalcraft:shrine_upgrade_overclocked_acceleration",
     "elementalcraft:shrine_upgrade_pickup",
     "elementalcraft:shrine_upgrade_planting",
     "elementalcraft:shrine_upgrade_protection",
@@ -19,6 +20,7 @@
     "elementalcraft:shrine_upgrade_springaline",
     "elementalcraft:shrine_upgrade_stem_pollination",
     "elementalcraft:shrine_upgrade_strength",
+    "elementalcraft:shrine_upgrade_translocation",
     "elementalcraft:shrine_upgrade_vortex"
   ]
 }

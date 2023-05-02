@@ -16,7 +16,7 @@ public class ElementContainerElementStorage extends SingleElementStorage {
 	public int insertElement(int count, ElementType type, boolean simulate) {
 		var value = super.insertElement(count, type, simulate);
 
-		if (type != this.elementType && value < count) {
+		if (!simulate && type != this.elementType && this.elementType != ElementType.NONE && value < count) {
 			container.onWrongElementInserted();
 		}
 		return value;

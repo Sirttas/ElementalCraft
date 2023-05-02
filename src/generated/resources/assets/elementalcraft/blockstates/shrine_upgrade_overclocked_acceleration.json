@@ -1,0 +1,137 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_lower",
+        "uvlock": true
+      },
+      "when": {
+        "facing": "north",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_lower",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_lower",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_lower",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_upper",
+        "uvlock": true
+      },
+      "when": {
+        "facing": "north",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_upper",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_upper",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_upper",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_connector",
+        "uvlock": true
+      },
+      "when": {
+        "connected": "true",
+        "facing": "north",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_connector",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "connected": "true",
+        "facing": "east",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_connector",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "connected": "true",
+        "facing": "south",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/shrine_upgrade_overclocked_acceleration_connector",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "connected": "true",
+        "facing": "west",
+        "half": "lower"
+      }
+    }
+  ]
+}

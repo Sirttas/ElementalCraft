@@ -47,7 +47,8 @@ public class SourceBreederPedestalBlock extends AbstractECContainerBlock impleme
 
     public SourceBreederPedestalBlock() {
         super(ECProperties.Blocks.BLOCK_NOT_SOLID);
-        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Override

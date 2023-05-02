@@ -30,7 +30,7 @@ public interface IElementTransferPath extends IElementTypeProvider {
             var from = i >= 1 ? nodes.get(i - 1).getPos() : null;
             var to = i < size - 1 ? nodes.get(i + 1).getPos() : null;
 
-            transferer.transfer(type, amount, from, to);
+            transferer.onTransfer(type, amount, from, to);
         }
     }
 }

@@ -6,7 +6,19 @@
   "effect_sprite": "elementalcraft:elementalcraft/runes/manx",
   "model": "elementalcraft:elementalcraft/runes/manx",
   "predicate": {
-    "type": "dpanvil:tag",
-    "tag": "elementalcraft:rune_affected/preservation"
+    "type": "dpanvil:cache",
+    "value": {
+      "type": "dpanvil:or",
+      "values": [
+        {
+          "type": "elementalcraft:has_pipe_upgrade",
+          "pipe_upgrade": "elementalcraft:element_pump"
+        },
+        {
+          "type": "dpanvil:tag",
+          "tag": "elementalcraft:rune_affected/preservation"
+        }
+      ]
+    }
   }
 }

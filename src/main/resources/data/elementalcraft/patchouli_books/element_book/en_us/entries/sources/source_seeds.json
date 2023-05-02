@@ -3,7 +3,7 @@
   "category": "elementalcraft:sources",
   "icon": "elementalcraft:artificial_fire_source_seed",
   "advancement": "elementalcraft:pickup/fireite_ingot",
-  "sortnum": 5,
+  "sortnum": 6,
   "pages": [
     {
       "type": "text",

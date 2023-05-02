@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.item.chisel;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -11,15 +10,18 @@ import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ChiselItem extends ECItem {
+public class ChiselItem extends ECItem implements IPipeInteractingItem {
 
 	public static final String NAME = "chisel";
 
@@ -31,17 +33,26 @@ public class ChiselItem extends ECItem {
 	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
 		return repair.is(ECTags.Items.INGOTS_SWIFT_ALLOY);
 	}
-	
+
 	@Nonnull
     @Override
 	public InteractionResult useOn(UseOnContext context) {
+		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos()), context);
+	}
+
+	@Nonnull
+	@Override
+	public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
+		return doUse(RuneHandlerHelper.get(pipe, context.getClickedFace()), context);
+	}
+
+	@Nonnull
+	public InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
 		Level level = context.getLevel();
 		Player player = context.getPlayer();
-		BlockPos pos = context.getClickedPos();
 		ItemStack stack = context.getItemInHand();
-		IRuneHandler handler = BlockEntityHelper.getRuneHandlerAt(level, pos);
 		List<Rune> runes = handler.getRunes();
-		
+
 		if (!runes.isEmpty() && player != null && player.isShiftKeyDown()) {
 			if (!level.isClientSide) {
 				for (Rune rune : runes) {

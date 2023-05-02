@@ -30,6 +30,7 @@ public class ECTags {
 		public static final TagKey<Item> INFUSABLE_AXES = createTag("infusable/axes");
 		public static final TagKey<Item> INFUSABLE_SHOVELS = createTag("infusable/shovels");
 		public static final TagKey<Item> INFUSABLE_HOES = createTag("infusable/hoes");
+		public static final TagKey<Item> INFUSABLE_PAXELS = createTag("infusable/paxels");
 		public static final TagKey<Item> INFUSABLE_SHILDS = createTag("infusable/shields");
 		public static final TagKey<Item> INFUSABLE_BOWS = createTag("infusable/bows");
 		public static final TagKey<Item> INFUSABLE_CROSSBOWS = createTag("infusable/crossbows");
@@ -117,6 +118,8 @@ public class ECTags {
 		public static final TagKey<Item> STORAGE_BLOCKS_RAW_MATERIALS = createForgeTag("storage_blocks/raw_materials");
 		public static final TagKey<Item> ORES_INERT_CRYSTAL = createForgeTag("ores/inert_crystal");
 		public static final TagKey<Item> HARDENED_RODS = createForgeTag("rods/hardened");
+		public static final TagKey<Item> TOOLS_PAXELS = createForgeTag("tools/paxels");
+		public static final TagKey<Item> TOOLS_AIOTS = createForgeTag("tools/aiots");
 
 		public static final TagKey<Item> CURIOS_ELEMENT_HOLDER = createTag("curios", CuriosConstants.ELEMENT_HOLDER_SLOT);
 

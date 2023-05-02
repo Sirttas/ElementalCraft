@@ -60,7 +60,8 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
 	public SpellDeskBlock() {
 		super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH));
 	}
 	
 	@Override

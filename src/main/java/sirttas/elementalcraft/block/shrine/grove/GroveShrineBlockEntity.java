@@ -55,7 +55,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 	public AABB getRangeBoundingBox() {
 		var range = getRange();
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, -1, 0).expandTowards(0, 1, 0));
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos()).inflate(range, 0, range).expandTowards(0, -1, 0).expandTowards(0, 1, 0));
 	}
 
 	@Override

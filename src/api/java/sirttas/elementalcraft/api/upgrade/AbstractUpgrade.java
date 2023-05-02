@@ -1,18 +1,20 @@
 package sirttas.elementalcraft.api.upgrade;
 
-import java.util.Map;
-
 import com.mojang.datafixers.Products.P3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.LevelReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public abstract class AbstractUpgrade<T> {
 
@@ -37,8 +39,8 @@ public abstract class AbstractUpgrade<T> {
 	}
 
 	
-	protected boolean canUpgrade(LevelReader world, BlockPos pos, int amount) {
-		return (maxAmount == 0 || amount < maxAmount) && predicate.test(world, pos);
+	protected boolean canUpgrade(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction, int amount) {
+		return (maxAmount == 0 || amount < maxAmount) && predicate.test(level, pos, direction);
 	}
 
 	protected void merge(AbstractUpgrade<T> other) {

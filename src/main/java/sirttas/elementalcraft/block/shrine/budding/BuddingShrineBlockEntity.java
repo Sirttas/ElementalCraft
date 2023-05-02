@@ -40,7 +40,7 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private BlockPos above() {
-		return this.worldPosition.above();
+		return this.getTargetPos().above();
 	}
 
 	@Override

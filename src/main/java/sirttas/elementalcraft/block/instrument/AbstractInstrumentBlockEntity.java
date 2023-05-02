@@ -110,7 +110,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 			if (progress + max < recipe.getElementAmount()) {
 				transfer = max - 1; // -1 to avoid draining the container
 			} else {
-				transfer = max; // we have enough element to finish the recipe so we dont care if we drain the container
+				transfer = max; // we have enough element to finish the recipe, so we don't care if we drain the container
 			}
 		}
 		return transfer;

@@ -59,7 +59,7 @@ public class ChanceSourceTraitValueProvider implements ISourceTraitValueProvider
 	}
 
 	private float getLuckRoll(RandomSource random, float luck) {
-		return luck > 0 ? (random.nextFloat() * luck) / 4 : 0;
+		return luck > 0 ? (random.nextFloat() * luck) / 4 : 0; // TODO luck ratio
 	}
 
 	private float getBreedChance(int count) {

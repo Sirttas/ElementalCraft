@@ -4,46 +4,49 @@
     "strength": 2.0
   },
   "predicate": {
-    "type": "dpanvil:and",
-    "values": [
-      {
-        "type": "dpanvil:not",
-        "value": {
-          "type": "dpanvil:or",
-          "values": [
-            {
-              "type": "elementalcraft:has_shrine_upgrade",
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
-            },
-            {
-              "type": "elementalcraft:has_shrine_upgrade",
-              "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
-            }
-          ]
-        }
-      },
-      {
-        "type": "dpanvil:or",
-        "values": [
-          {
-            "type": "dpanvil:and",
+    "type": "dpanvil:cache",
+    "value": {
+      "type": "dpanvil:and",
+      "values": [
+        {
+          "type": "dpanvil:not",
+          "value": {
+            "type": "dpanvil:or",
             "values": [
               {
                 "type": "elementalcraft:has_shrine_upgrade",
-                "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
               },
               {
-                "type": "dpanvil:block",
-                "block": "elementalcraft:springshrine"
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
               }
             ]
-          },
-          {
-            "type": "dpanvil:tag",
-            "tag": "elementalcraft:shrines/upgradables/strength"
           }
-        ]
-      }
-    ]
+        },
+        {
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "dpanvil:and",
+              "values": [
+                {
+                  "type": "elementalcraft:has_shrine_upgrade",
+                  "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
+                },
+                {
+                  "type": "dpanvil:block",
+                  "block": "elementalcraft:springshrine"
+                }
+              ]
+            },
+            {
+              "type": "dpanvil:tag",
+              "tag": "elementalcraft:shrines/upgradables/strength"
+            }
+          ]
+        }
+      ]
+    }
   }
 }

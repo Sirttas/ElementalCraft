@@ -27,7 +27,7 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ManaSynthesizerBlockEntity manaSynthesizer) {
 		var ratio = ECConfig.COMMON.manaElementRatio.get();
-		var mana = Math.min(ECConfig.COMMON.manaSythesizerManaCapacity.get() / 20, manaSynthesizer.manaReceiver.getCurrentMana());
+		var mana = Math.min(ECConfig.COMMON.manaSynthesizerManaCapacity.get() / 20, manaSynthesizer.manaReceiver.getCurrentMana());
 
 		if (mana > 0) {
 			var synthesized = manaSynthesizer.handleSynthesis((float) (mana * ratio));
@@ -61,7 +61,7 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 				return LazyOptional.of(manaReceiver != null ? () -> manaReceiver : null).cast();
 			} else
 			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
-				return getElementStorage(ECConfig.COMMON.manaSythesizerLenseElementMultiplier.get());
+				return getElementStorage(ECConfig.COMMON.manaSynthesizerLensElementMultiplier.get());
 			}
 		}
 		return super.getCapability(cap, side);

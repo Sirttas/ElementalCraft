@@ -39,5 +39,8 @@ public class ElementPumpPipeUpgradeRenderer implements IPipeUpgradeRenderer<Elem
         }
         ECRendererHelper.renderModel(pumpModel, poseStack, buffer, pipe, light, overlay);
         poseStack.popPose();
+        poseStack.translate(0.25, 0.5, 0.25);
+        poseStack.scale(0.5F, 0.5F, 0.5F);
+        ECRendererHelper.renderRunes(poseStack, buffer, upgrade, partialTicks, light, overlay);
     }
 }

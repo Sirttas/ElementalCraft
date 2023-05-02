@@ -35,6 +35,7 @@ import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.vertical.AbstractVerticalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
@@ -188,6 +189,24 @@ public class ECBlockStateProvider extends BlockStateProvider {
 					.part().modelFile(attach).rotationY(90).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.EAST).condition(BlockStateProperties.ATTACHED, true).end()
 					.part().modelFile(attach).rotationY(180).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.SOUTH).condition(BlockStateProperties.ATTACHED, true).end()
 					.part().modelFile(attach).rotationY(270).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.WEST).condition(BlockStateProperties.ATTACHED, true).end();
+		} else if (block instanceof OverclockedAccelerationShrineUpgradeBlock) {
+			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
+			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
+			ModelFile connector = models().getExistingFile(prefix(name + "_connector"));
+
+			getMultipartBuilder(block)
+					.part().modelFile(lower).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.NORTH).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
+					.part().modelFile(lower).rotationY(90).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.EAST).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
+					.part().modelFile(lower).rotationY(180).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.SOUTH).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
+					.part().modelFile(lower).rotationY(270).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.WEST).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).end()
+					.part().modelFile(upper).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.NORTH).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
+					.part().modelFile(upper).rotationY(90).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.EAST).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
+					.part().modelFile(upper).rotationY(180).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.SOUTH).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
+					.part().modelFile(upper).rotationY(270).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.WEST).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).end()
+					.part().modelFile(connector).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.NORTH).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(OverclockedAccelerationShrineUpgradeBlock.CONNECTED, true).end()
+					.part().modelFile(connector).rotationY(90).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.EAST).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(OverclockedAccelerationShrineUpgradeBlock.CONNECTED, true).end()
+					.part().modelFile(connector).rotationY(180).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.SOUTH).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(OverclockedAccelerationShrineUpgradeBlock.CONNECTED, true).end()
+					.part().modelFile(connector).rotationY(270).uvLock(true).addModel().condition(HorizontalDirectionalBlock.FACING, Direction.WEST).condition(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).condition(OverclockedAccelerationShrineUpgradeBlock.CONNECTED, true).end();
 		} else if (block instanceof AmethystClusterBlock) {
 			springalineCluster(key, block);
 		} else if (block.defaultBlockState().hasProperty(HorizontalDirectionalBlock.FACING)) {

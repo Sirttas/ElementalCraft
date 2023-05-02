@@ -44,10 +44,11 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 			return super.getRangeBoundingBox();
 		}
 
+		var targetPos = this.getTargetPos();
 		var range = getRange();
-		var height = Math.abs(level.getMinBuildHeight() - worldPosition.getY());
+		var height = Math.abs(level.getMinBuildHeight() - targetPos.getY());
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos())
+		return ElementalCraftUtils.stitchAABB(new AABB(targetPos)
 				.inflate(range, 0, range)
 				.move(0, -1, 0)
 				.expandTowards(0, 1D - height, 0));

@@ -46,7 +46,8 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key) {
 		super(ECProperties.Blocks.BLOCK_NOT_SOLID);
 		upgrade = ElementalCraft.SHRINE_UPGRADE_MANAGER.getOrCreateHolder(key);
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Nonnull
@@ -57,15 +58,15 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	}
 
 	@Override
-	public void setPlacedBy(@Nonnull Level world, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-		BlockEntityHelper.getBlockEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
+	public void setPlacedBy(@Nonnull Level level, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+		BlockEntityHelper.getBlockEntityAs(level, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
 	}
 
 	@Override
 	@Deprecated
-	public void onRemove(@Nonnull BlockState state, @Nonnull Level world, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-		BlockEntityHelper.getBlockEntityAs(world, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
-		super.onRemove(state, world, pos, newState, isMoving);
+	public void onRemove(@Nonnull BlockState state, @Nonnull Level level, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+		BlockEntityHelper.getBlockEntityAs(level, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
+		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override
@@ -86,9 +87,9 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this)))
 				.isPresent();
 	}
-	
-	@Override
+
 	@Nullable
+	@Override
 	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
 	}
@@ -115,15 +116,16 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	
 	@Override
 	@Deprecated
-	public void tick(BlockState state, @Nonnull ServerLevel worldIn, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-		if (!state.canSurvive(worldIn, pos)) {
-			worldIn.destroyBlock(pos, true);
+	public void tick(BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+		if (!state.canSurvive(level, pos)) {
+			level.destroyBlock(pos, true);
 		} else {
-			super.tick(state, worldIn, pos, rand);
+			super.tick(state, level, pos, rand);
 		}
 	}
-	
-	public abstract Direction getFacing(BlockState state);
+
+	@Nonnull
+	public abstract Direction getFacing(@Nonnull BlockState state);
 
 	@Override
 	@OnlyIn(Dist.CLIENT)

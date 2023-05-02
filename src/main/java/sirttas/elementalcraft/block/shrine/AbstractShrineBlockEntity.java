@@ -21,11 +21,16 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorList;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockEntity;
+import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,11 +54,13 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	private boolean running = false;
 	private double tick = 0;
 	private int rangeRenderTimer = 0;
+	private BlockPos targetPos;
 
 	protected AbstractShrineBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> upgradeKey) {
 		super(blockEntityType, pos, state);
 		elementStorage = new ShrineElementStorage(this);
 		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(upgradeKey);
+		targetPos = pos;
 	}
 
 	@Nonnull
@@ -62,18 +69,25 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	protected int consumeElement(int i) {
+		this.running = true;
 		return elementStorage.extractElement(i, false);
 	}
 
 	protected abstract boolean doPeriod();
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
+		if (!shrine.isTargetPosValid(shrine.targetPos)) {
+			shrine.targetPos = shrine.getBlockPos();
+			shrine.setChanged();
+		}
+
 		if (shrine.isDirty()) {
 			shrine.refresh();
 		}
 
-		double period = shrine.getPeriod();
-		int consumeAmount = shrine.getConsumeAmount();
+		var period = shrine.getPeriod();
+		var consumeAmount = shrine.getConsumeAmount();
+		var running = shrine.running;
 
 		if (!shrine.isPowered()) {
 			shrine.tick++;
@@ -82,18 +96,18 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 				period = 1;
 			}
 			while (shrine.tick >= period) {
-				if (shrine.elementStorage.getElementAmount() >= consumeAmount) {
-					shrine.running = true;
-					if (shrine.doPeriod()) {
-						shrine.consumeElement(consumeAmount);
-					}
-				} else {
-					shrine.running = false;
+				shrine.running = false;
+				if (shrine.elementStorage.getElementAmount() >= consumeAmount && shrine.doPeriod()) {
+					shrine.consumeElement(consumeAmount);
 				}
 				shrine.tick -= period;
 			}
 		} else {
 			shrine.running = false;
+		}
+
+		if (running != shrine.running) {
+			shrine.setChanged();
 		}
 	}
 
@@ -107,6 +121,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		var blockPos = getBlockPos();
 
 		if (!this.hasLevel()) {
+			targetPos = blockPos;
 			return;
 		}
 
@@ -135,6 +150,37 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 				this.level.destroyBlock(pos, true);
 			}
 		});
+		targetPos = upgrades.entrySet().stream()
+				.filter(e -> e.getValue().is(ShrineUpgrades.TRANSLOCATION))
+				.findFirst()
+				.flatMap(e -> BlockEntityHelper.getBlockEntityAs(this.level, blockPos.relative(e.getKey()), TranslocationShrineUpgradeBlockEntity.class))
+				.map(TranslocationShrineUpgradeBlockEntity::getTarget)
+				.filter(this::isTargetPosValid)
+				.orElse(blockPos);
+	}
+
+	private boolean isTargetPosValid(BlockPos p) {
+		var blockPos = this.getBlockPos();
+
+		if (blockPos.equals(p)) {
+			return true;
+		} else if (p == null || this.level == null) {
+			return false;
+		} else if (this.level.isClientSide) {
+			return true;
+		}
+
+		var maxRange = Spells.TRANSLOCATION.get().getRange(null);
+		var maxRangeSq = maxRange * maxRange;
+		var rangeSq = p.distSqr(blockPos);
+
+		if (rangeSq > maxRangeSq) {
+			return false;
+		}
+
+		var list = TranslocationAnchorList.get(this.level);
+
+		return list != null && list.getAnchors().contains(p);
 	}
 
 	protected float getMultiplier(ShrineUpgrade.BonusType type) {
@@ -187,8 +233,12 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		this.rangeRenderTimer = 600;
 	}
 
+	public BlockPos getTargetPos() {
+		return targetPos;
+	}
+
 	public AABB getRangeBoundingBox() {
-		return new AABB(this.getBlockPos()).inflate(this.getRange());
+		return new AABB(this.getTargetPos()).inflate(this.getRange());
 	}
 
 	public Stream<BlockPos> getBlocksInRange() {
@@ -196,8 +246,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 		return getRange(box.minX, box.maxX)
 				.mapToObj(x -> getRange(box.minZ, box.maxZ)
-				.mapToObj(z -> getRange(box.minY, box.maxY)
-				.mapToObj(y -> new BlockPos(x, y, z))))
+						.mapToObj(z -> getRange(box.minY, box.maxY)
+								.mapToObj(y -> new BlockPos(x, y, z))))
 				.mapMulti((s, downstream) -> s.forEach(s2 -> s2.forEach(downstream)));
 	}
 

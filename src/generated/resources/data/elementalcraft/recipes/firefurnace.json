@@ -7,9 +7,6 @@
     "f": {
       "item": "minecraft:furnace"
     },
-    "i": {
-      "tag": "forge:ingots/drenched_iron"
-    },
     "w": {
       "item": "elementalcraft:whiterock"
     }
@@ -17,7 +14,7 @@
   "pattern": [
     "www",
     "wfw",
-    "ici"
+    "wcw"
   ],
   "result": {
     "item": "elementalcraft:firefurnace"

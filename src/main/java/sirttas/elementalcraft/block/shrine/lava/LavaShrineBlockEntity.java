@@ -35,7 +35,7 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 	public AABB getRangeBoundingBox() {
 		int range = Math.round(this.getProperties().range());
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).move(0, 1, 0));
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos()).inflate(range, 0, range).move(0, 1, 0));
 	}
 
 	@Override

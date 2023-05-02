@@ -44,7 +44,7 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 		return false;
 	}
 
-	public boolean useChisle() {
+	public boolean useChisel() {
 		return makeProgress();
 	}
 }

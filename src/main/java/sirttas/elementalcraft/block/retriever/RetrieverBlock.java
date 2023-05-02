@@ -32,7 +32,9 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 
 	public RetrieverBlock() {
 		super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
-		this.registerDefaultState(this.stateDefinition.any().setValue(SOURCE, Direction.SOUTH).setValue(TARGET, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(SOURCE, Direction.SOUTH)
+				.setValue(TARGET, Direction.NORTH));
 	}
 
 	@Override

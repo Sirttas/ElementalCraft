@@ -65,7 +65,9 @@ public class SourceBreederBlock extends AbstractECContainerBlock implements Simp
 
 
     public SourceBreederBlock() {
-        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setValue(BlockStateProperties.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
+                .setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Nullable
@@ -115,6 +117,9 @@ public class SourceBreederBlock extends AbstractECContainerBlock implements Simp
     @Override
     @Nullable
     public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
+        if (!AbstractPylonShrineBlock.canReplaceAboveBlock(context)) {
+            return null;
+        }
         return this.defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
     }
 

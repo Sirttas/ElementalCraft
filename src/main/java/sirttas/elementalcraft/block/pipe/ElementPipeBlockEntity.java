@@ -25,6 +25,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.transfer.ElementTransfererHelper;
+import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
 import sirttas.elementalcraft.api.element.transfer.path.SimpleElementTransferPathfinder;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -110,16 +112,16 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	private void refresh(Direction face) {
 		var opposite = face.getOpposite();
 
-		var connection = getAdjacentTile(face).map(tile -> {
+		var connection = getAdjacentTile(face).map(be -> {
 			ConnectionType c = this.getConnection(face);
 
 			if (c != ConnectionType.NONE) {
 				return c;
 			}
-			if (tile instanceof ElementPipeBlockEntity) {
+			if (ElementTransfererHelper.get(be, opposite).filter(t -> t.canConnectTo(this.getBlockPos())).isPresent()) {
 				return ConnectionType.CONNECT;
 			}
-			return ElementStorageHelper.get(tile, opposite).map(storage -> {
+			return ElementStorageHelper.get(be, opposite).map(storage -> {
 				if (this.canInsertInStorage(storage, opposite)) {
 					return ConnectionType.INSERT;
 				} else if (this.canExtractFromStorage(storage, opposite)) {
@@ -173,10 +175,10 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 	public static void commonTick(Level level, BlockPos pos, BlockState state, ElementPipeBlockEntity pipe) {
 		pipe.refresh();
-		pipe.transferer.resetTransferedAmount();
 	}
 	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ElementPipeBlockEntity pipe) {
+		pipe.transferer.init();
 		commonTick(level, pos, state, pipe);
 		pipe.transferer.getConnections().entrySet().stream()
 				.filter(entry -> entry.getValue() == ConnectionType.EXTRACT)
@@ -187,6 +189,14 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 						pipe.transferElement(sender, side, provider.getElementType());
 					}
 				}));
+	}
+
+	public IElementTransferer getTransferer() {
+		return transferer;
+	}
+
+	public Map<Direction, PipeUpgrade> getUpgrades() {
+		return transferer.getUpgrades();
 	}
 
 	public PipeUpgrade getUpgrade(Direction face) {
@@ -335,12 +345,21 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Nonnull
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-		if (!this.remove && cap == ElementalCraftCapabilities.ELEMENT_TRANSFERER) {
-			return LazyOptional.of(() -> (T) this.transferer);
+		if (!this.remove) {
+			if (cap == ElementalCraftCapabilities.ELEMENT_TRANSFERER) {
+				return LazyOptional.of(this::getTransferer).cast();
+			}
+
+			if (side != null) {
+				var upgrade = getUpgrade(side);
+
+				if (upgrade != null) {
+					return upgrade.getCapability(cap, side);
+				}
+			}
 		}
 		return super.getCapability(cap, side);
 	}

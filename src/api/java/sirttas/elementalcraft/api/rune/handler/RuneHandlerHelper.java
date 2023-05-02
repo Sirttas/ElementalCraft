@@ -12,12 +12,17 @@ public class RuneHandlerHelper {
 	private RuneHandlerHelper() {}
 
 	@Nonnull
-	public static LazyOptional<IRuneHandler> get(ICapabilityProvider provider) {
+	public static IRuneHandler get(ICapabilityProvider provider) {
 		return get(provider, null);
 	}
 	
 	@Nonnull
-	public static LazyOptional<IRuneHandler> get(ICapabilityProvider provider, Direction side) {
+	public static IRuneHandler get(ICapabilityProvider provider, Direction side) {
+		return getOpt(provider, side).orElse(EmptyRuneHandler.INSTANCE);
+	}
+
+	@Nonnull
+	private static LazyOptional<IRuneHandler> getOpt(ICapabilityProvider provider, Direction side) {
 		return ElementalCraftCapabilities.RUNE_HANDLE != null ? provider.getCapability(ElementalCraftCapabilities.RUNE_HANDLE, side) : LazyOptional.empty();
 	}
 }

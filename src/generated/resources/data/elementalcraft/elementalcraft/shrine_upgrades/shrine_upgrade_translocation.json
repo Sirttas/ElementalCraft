@@ -1,0 +1,12 @@
+{
+  "bonuses": {
+    "element_capacity": 1.2,
+    "element_consumption": 2.0,
+    "range": 0.75
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:tag",
+    "tag": "elementalcraft:shrines/upgradables/range"
+  }
+}

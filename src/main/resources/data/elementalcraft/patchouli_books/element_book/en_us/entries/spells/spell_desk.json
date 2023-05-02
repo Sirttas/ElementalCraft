@@ -4,6 +4,7 @@
   "icon": "elementalcraft:spell_desk",
   "advancement": "elementalcraft:pickup/drenched_iron_ingot",
   "turnin": "elementalcraft:pickup/spell_desk",
+  "priority": true,
   "sortnum": 0,
   "pages": [
     {

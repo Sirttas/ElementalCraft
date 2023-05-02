@@ -15,8 +15,8 @@ public class SourceTraitGameTestHelper {
     public static Map<ResourceKey<SourceTrait>, ISourceTraitValue> getDefaultTraits() {
         var map = SourceTraits.createTraitMap();
 
-        map.put(SourceTraits.ELEMENT_CAPACITY, ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(SourceTraits.ELEMENT_CAPACITY.location()).load(FloatTag.valueOf(500000)));
-        map.put(SourceTraits.RECOVER_RATE, ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(SourceTraits.RECOVER_RATE.location()).load(FloatTag.valueOf(50)));
+        map.put(SourceTraits.ELEMENT_CAPACITY, ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(SourceTraits.ELEMENT_CAPACITY).load(FloatTag.valueOf(500000)));
+        map.put(SourceTraits.RECOVER_RATE, ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(SourceTraits.RECOVER_RATE).load(FloatTag.valueOf(50)));
         return map;
     }
 

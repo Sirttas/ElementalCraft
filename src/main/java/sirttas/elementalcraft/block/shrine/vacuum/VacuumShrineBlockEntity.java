@@ -17,7 +17,7 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex.VortexPullPlayerMessage;
+import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexPullPlayerMessage;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.network.message.MessageHelper;
@@ -60,7 +60,7 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 	private boolean pull(IItemHandler inv) {
 		int consumeAmount = this.getConsumeAmount();
 		double pullSpeed = this.getStrength();
-		Vec3 pos3d = Vec3.atCenterOf(this.getBlockPos());
+		Vec3 pos3d = Vec3.atCenterOf(this.getTargetPos());
 
 		getEntities().forEach(entity -> {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {
@@ -80,8 +80,6 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	private void doPickup(IItemHandler inv, ItemEntity entity) {
 		entity.setItem(ItemHandlerHelper.insertItem(inv, entity.getItem(), false));
-		if (level.isClientSide) {
-			ParticleHelper.createEnderParticle(level, entity.position(), 3, level.random);
-		}
+		ParticleHelper.createEnderParticle(level, entity.position(), 3, level.random);
 	}
 }

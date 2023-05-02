@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex;
+package sirttas.elementalcraft.block.shrine.upgrade.vortex;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;

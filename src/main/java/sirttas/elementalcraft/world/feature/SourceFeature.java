@@ -1,10 +1,13 @@
 package sirttas.elementalcraft.world.feature;
 
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 
 public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
@@ -44,9 +47,13 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 		if (!level.isEmptyBlock(pos) || type == ElementType.NONE) {
 			return false;
 		}
-		BlockState source = ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type);
-
-		level.setBlock(pos, source, 3);
+		placeSource(level, pos, type, 0);
 		return true;
+	}
+
+	public static void placeSource(WorldGenLevel level, BlockPos pos, ElementType type, int luck) {
+		level.setBlock(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
+		BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(s -> s.resetTraits(level, luck));
+		level.blockUpdated(pos, ECBlocks.SOURCE.get());
 	}
 }

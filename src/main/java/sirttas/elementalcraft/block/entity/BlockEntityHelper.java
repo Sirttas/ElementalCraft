@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.LazyOptional;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
@@ -16,6 +16,7 @@ import sirttas.elementalcraft.block.container.IElementContainer;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class BlockEntityHelper {
@@ -47,10 +48,14 @@ public class BlockEntityHelper {
 	}
 	
 	@Nonnull
-	public static IRuneHandler getRuneHandlerAt(LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.getBlockEntity(world, pos)
-				.map(RuneHandlerHelper::get)
-				.flatMap(LazyOptional::resolve)
+	public static IRuneHandler getRuneHandlerAt(LevelReader level, BlockPos pos) {
+		return getRuneHandlerAt(level, pos, null);
+	}
+
+	@Nonnull
+	public static IRuneHandler getRuneHandlerAt(LevelReader level, BlockPos pos, @Nullable Direction direction) {
+		return BlockEntityHelper.getBlockEntity(level, pos)
+				.map(b -> RuneHandlerHelper.get(b, direction))
 				.orElse(EmptyRuneHandler.INSTANCE);
 	}
 }

@@ -37,7 +37,8 @@ public class SourceBlock extends AbstractECEntityBlock {
 
 	public SourceBlock() {
 		super(BlockBehaviour.Properties.of(ECMaterials.SOURCE).strength(-1.0F, 3600000.0F).lightLevel(s -> 7).noOcclusion().noLootTable());
-		this.registerDefaultState(this.stateDefinition.any().setValue(ElementType.STATE_PROPERTY, ElementType.NONE));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(ElementType.STATE_PROPERTY, ElementType.NONE));
 	}
 
 	@Override

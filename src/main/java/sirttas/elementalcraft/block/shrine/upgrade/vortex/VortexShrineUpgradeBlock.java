@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade.unidirectional.vortex;
+package sirttas.elementalcraft.block.shrine.upgrade.vortex;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -37,8 +37,9 @@ public class VortexShrineUpgradeBlock extends AbstractShrineUpgradeBlock impleme
 		return new VortexShrineUpgradeBlockEntity(pos, state);
 	}
 	
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return Direction.DOWN;
 	}
 

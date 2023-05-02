@@ -18,8 +18,11 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.item.ECItem;
+import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.property.ECProperties;
 
@@ -27,7 +30,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class RuneItem extends ECItem {
+public class RuneItem extends ECItem implements IPipeInteractingItem {
 
 	public static final String NAME = ECNames.RUNE;
 
@@ -36,20 +39,26 @@ public class RuneItem extends ECItem {
 	}
 
 	@Nonnull
-    @Override
-	public InteractionResult useOn(UseOnContext context) {
-		Level level = context.getLevel();
+	@Override
+	public InteractionResult useOn(@Nonnull UseOnContext context) {
+		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos()), context);
+	}
 
-		if (level.isClientSide) {
-			return InteractionResult.PASS;
-		}
+	@Nonnull
+	@Override
+	public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
+		return doUse(RuneHandlerHelper.get(pipe, context.getClickedFace()), context);
+	}
+
+	@Nonnull
+	public InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
+		Level level = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		ItemStack stack = context.getItemInHand();
 		Player player = context.getPlayer();
-		IRuneHandler handler = BlockEntityHelper.getRuneHandlerAt(level, pos);
 		Rune rune = getRune(stack);
 
-		if (rune != null && rune.canUpgrade(level, pos, handler)) {
+		if (rune != null && rune.canUpgrade(level, pos, context.getClickedFace(), handler)) {
 			handler.addRune(rune);
 			if (player != null && !player.getAbilities().instabuild) {
 				stack.shrink(1);

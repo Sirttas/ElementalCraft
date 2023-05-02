@@ -23,7 +23,7 @@ public class SpawningShrineBlockEntity extends AbstractShrineBlockEntity {
 	public AABB getRangeBoundingBox() {
 		int range = getIntegerRange();
 
-		return new AABB(this.getBlockPos()).inflate(range, 0, range);
+		return new AABB(this.getTargetPos()).inflate(range, 0, range);
 	}
 
 	@Override

@@ -41,8 +41,9 @@ public class MysticalGroveShrineUpgradeBlock extends AbstractShrineUpgradeBlock 
 		super(ShrineUpgrades.MYSTICAL_GROVE);
 	}
 	
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return Direction.DOWN;
 	}
 

@@ -37,7 +37,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 	@Override
 	protected void addTags() {
-
 		copy(ECTags.Blocks.STRIPPED_OAK, ECTags.Items.STRIPPED_OAK);
 		copy(ECTags.Blocks.STRIPPED_DARK_OAK, ECTags.Items.STRIPPED_DARK_OAK);
 		copy(ECTags.Blocks.STRIPPED_BIRCH, ECTags.Items.STRIPPED_BIRCH);
@@ -69,7 +68,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
 
 		tag(ECTags.Items.SPELL_CAST_TOOLS).add(ECItems.FOCUS.get(), ECItems.STAFF.get());
-		
+
+
 		tag(ECTags.Items.INFUSABLE_FOCUS).add(ECItems.FOCUS.get());
 		tag(ECTags.Items.INFUSABLE_STAVES).add(ECItems.STAFF.get());
 		tag(ECTags.Items.INFUSABLE_SWORDS).addTag(Tags.Items.TOOLS_SWORDS);
@@ -77,6 +77,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.INFUSABLE_SHOVELS).addTag(Tags.Items.TOOLS_SHOVELS);
 		tag(ECTags.Items.INFUSABLE_HOES).addTag(Tags.Items.TOOLS_HOES);
 		tag(ECTags.Items.INFUSABLE_AXES).addTag(Tags.Items.TOOLS_AXES);
+		tag(ECTags.Items.TOOLS_PAXELS);
+		tag(ECTags.Items.TOOLS_AIOTS);
+		tag(ECTags.Items.INFUSABLE_PAXELS).addTags(ECTags.Items.TOOLS_PAXELS, ECTags.Items.TOOLS_AIOTS);
 		tag(ECTags.Items.INFUSABLE_SHILDS).addTags(Tags.Items.TOOLS_SHIELDS);
 		tag(ECTags.Items.INFUSABLE_BOWS).addTag(Tags.Items.TOOLS_BOWS);
 		tag(ECTags.Items.INFUSABLE_CROSSBOWS).addTag(Tags.Items.TOOLS_CROSSBOWS);

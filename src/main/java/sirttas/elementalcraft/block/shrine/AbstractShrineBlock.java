@@ -50,7 +50,8 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	protected AbstractShrineBlock(ElementType elementType) {
 		this.elementType = elementType;
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 				BlockState upgradeState = level.getBlockState(newPos);
 				Block block = upgradeState.getBlock();
 
-				if (block instanceof AbstractShrineUpgradeBlock && ((AbstractShrineUpgradeBlock) block).getFacing(upgradeState) == direction.getOpposite()) {
+				if (block instanceof AbstractShrineUpgradeBlock upgrade && upgrade.getFacing(upgradeState) == direction.getOpposite()) {
 					level.destroyBlock(newPos, true);
 				}
 			}));

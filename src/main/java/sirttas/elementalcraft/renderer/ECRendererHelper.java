@@ -269,7 +269,7 @@ public class ECRendererHelper {
     }
 
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, ICapabilityProvider cap, float tick, int light, int overlay) {
-        RuneHandlerHelper.get(cap).ifPresent(handler -> ECRendererHelper.renderRunes(poseStack, buffer, handler, ECRendererHelper.getClientTicks(tick), light, overlay));
+        ECRendererHelper.renderRunes(poseStack, buffer, RuneHandlerHelper.get(cap), ECRendererHelper.getClientTicks(tick), light, overlay);
     }
 
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, IRuneHandler handler, float tick, int light, int overlay) {

@@ -1,0 +1,59 @@
+{
+    "components": [
+        {
+            "type": "patchouli:text",
+            "text": "#header"
+        },
+        {
+            "type": "patchouli:image",
+            "image": "elementalcraft:textures/gui/entries/check_valid.png",
+            "x": 0,
+            "y": 50,
+            "texture_width": 17,
+            "texture_height": 17,
+            "width": 17,
+            "height": 17
+        },
+        {
+            "type": "patchouli:text",
+            "text": "#valid",
+            "x": 20,
+            "y": 50,
+            "max_width": 96
+        },
+        {
+            "type": "patchouli:image",
+            "image": "elementalcraft:textures/gui/entries/check_paused.png",
+            "x": 0,
+            "y": 80,
+            "texture_width": 17,
+            "texture_height": 17,
+            "width": 17,
+            "height": 17
+        },
+        {
+            "type": "patchouli:text",
+            "text": "#paused",
+            "x": 20,
+            "y": 80,
+            "max_width": 96
+        },
+        {
+            "type": "patchouli:image",
+            "image": "elementalcraft:textures/gui/entries/check_invalid.png",
+            "x": 0,
+            "y": 110,
+            "texture_width": 17,
+            "texture_height": 17,
+            "width": 17,
+            "height": 17
+        },
+        {
+            "type": "patchouli:text",
+            "text": "#invalid",
+            "x": 20,
+            "y": 110,
+            "max_width": 96
+        }
+    ]
+}

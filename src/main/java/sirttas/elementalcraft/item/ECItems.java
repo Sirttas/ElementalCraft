@@ -29,6 +29,7 @@ import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
+import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockItem;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
 import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
@@ -164,6 +165,7 @@ public class ECItems {
 			return;
 		}
 		RegistryHelper.register(registry, new BlockItem(ECBlocks.FIREITE_BLOCK.get(), ECProperties.Items.FIREITE), ECBlocks.FIREITE_BLOCK);
+		RegistryHelper.register(registry, new TranslocationShrineUpgradeBlockItem(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), ECProperties.Items.DEFAULT_ITEM_PROPERTIES), ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
 		for (Block block : ForgeRegistries.BLOCKS) {
 			var registryName = ForgeRegistries.BLOCKS.getKey(block);
 

@@ -11,8 +11,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.world.feature.config.IElementTypeFeatureConfig;
 import sirttas.elementalcraft.world.feature.placement.SourcePlacement;
@@ -50,11 +48,7 @@ public class ECFeatures {
 		ServerChunkCache chunkProvider = level.getChunkSource();
 
 		chunkProvider.getChunk(chunkPos.x, chunkPos.z, true);
-		level.setBlock(newPos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
-		var blockEntity = level.getBlockEntity(newPos);
-		if (blockEntity instanceof SourceBlockEntity source) {
-			source.resetTraits(level, 0);
-		}
+		SourceFeature.placeSource(level, newPos, type, 0);
 	}
 
 	public static void register(IEventBus bus) {

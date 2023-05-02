@@ -28,7 +28,7 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 	public AABB getRangeBoundingBox() {
 		var range = this.getRange();
 
-		return new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, 2, 0);
+		return new AABB(this.getTargetPos()).inflate(range, 0, range).expandTowards(0, 2, 0);
 	}
 
 	@Override

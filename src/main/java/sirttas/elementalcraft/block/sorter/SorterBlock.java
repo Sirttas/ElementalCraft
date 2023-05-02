@@ -38,7 +38,9 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 
 
 	public SorterBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(SOURCE, Direction.SOUTH).setValue(TARGET, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(SOURCE, Direction.SOUTH)
+				.setValue(TARGET, Direction.NORTH));
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvi
 	
 	@Override
 	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
-		if (predicate.test(level, pos)) {
+		if (predicate.test(level, pos, null)) {
 			return provider.roll(context, level, pos);
 		}
 		return null;

@@ -48,7 +48,11 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 
 	public PedestalBlock(ElementType type) {
 		elementType = type;
-		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(NORTH, false)
+				.setValue(EAST, false)
+				.setValue(SOUTH, false)
+				.setValue(WEST, false));
 	}
 
 	@Override

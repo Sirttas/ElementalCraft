@@ -4,7 +4,7 @@
   "icon": "elementalcraft:source_breeder",
   "advancement": "elementalcraft:pickup/fireite_ingot",
   "turnin": "elementalcraft:pickup/source_breeder",
-  "sortnum": 4,
+  "sortnum": 5,
   "pages": [
     {
       "type": "text",

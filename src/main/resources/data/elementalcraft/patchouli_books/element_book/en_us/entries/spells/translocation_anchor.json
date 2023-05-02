@@ -4,7 +4,7 @@
   "icon": "elementalcraft:translocation_anchor",
   "advancement": "elementalcraft:pickup/fireite_ingot",
   "turnin": "elementalcraft:pickup/translocation_anchor",
-  "sortnum": 20,
+  "sortnum": 21,
   "pages": [
     {
       "type": "text",

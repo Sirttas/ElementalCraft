@@ -101,7 +101,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 
 	private static final VoxelShape PLATE_1_EAST = Block.box(5D, 2D, 1D, 8D, 5D, 15D);
 	private static final VoxelShape PLATE_2_EAST = Block.box(4D, 5D, 1D, 7D, 8D, 15D);
-	private static final VoxelShape PLATE_3_EAST = Block.box(3D, 6D, 1D, 6D, 8D, 15D);
+	private static final VoxelShape PLATE_3_EAST = Block.box(3D, 8D, 1D, 6D, 11D, 15D);
 	private static final VoxelShape PLATE_4_EAST = Block.box(2D, 11D, 1D, 5D, 14D, 15D);
 	private static final VoxelShape PLATE_5_EAST = Block.box(1D, 14D, 1D, 4D, 17D, 15D);
 	private static final VoxelShape PLATE_EAST = Shapes.or(PLATE_1_EAST, PLATE_2_EAST, PLATE_3_EAST, PLATE_4_EAST, PLATE_5_EAST);
@@ -114,7 +114,9 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
 	public InscriberBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH)
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Override
@@ -157,7 +159,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	}
 
 	private InteractionResult makeProgress(Player player, InteractionHand hand, InscriberBlockEntity inscriber, ItemStack heldItem) {
-		if (inscriber.useChisle()) {
+		if (inscriber.useChisel()) {
 			if (heldItem.isDamageableItem() && !player.getAbilities().instabuild) {
 				heldItem.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
 			}

@@ -37,8 +37,9 @@ public class PickupShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 		super(ShrineUpgrades.PICKUP);
 	}
 	
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return Direction.DOWN;
 	}
 

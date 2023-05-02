@@ -19,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -179,6 +180,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPRING_SHRINE.get()), ECJEIRecipeTypes.SPRING_SHRINE);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER_PEDESTAL.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
+		registry.addRecipeCatalyst(new ItemStack(Blocks.DISPENSER), ECJEIRecipeTypes.CRYSTAL_THROWING);
 
 		if (ECinteractions.isMekanismActive()) {
 			MekanismInteraction.addAirMillToCrushing(registry);

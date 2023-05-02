@@ -14,6 +14,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class AbstractVerticalShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
@@ -21,10 +22,13 @@ public abstract class AbstractVerticalShrineUpgradeBlock extends AbstractShrineU
 
 	protected AbstractVerticalShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key) {
 		super(key);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.UP)
+				.setValue(WATERLOGGED, false));
 	}
 
-	@Override
+	@Nullable
+    @Override
 	public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
 		var direction = Direction.UP;
 
@@ -55,8 +59,9 @@ public abstract class AbstractVerticalShrineUpgradeBlock extends AbstractShrineU
 		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}
 
+	@Nonnull
 	@Override
-	public Direction getFacing(BlockState state) {
+	public Direction getFacing(@Nonnull BlockState state) {
 		return state.getValue(FACING);
 	}
 

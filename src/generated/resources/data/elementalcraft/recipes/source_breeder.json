@@ -4,8 +4,11 @@
     "c": {
       "item": "elementalcraft:purecrystal"
     },
-    "i": {
+    "f": {
       "tag": "forge:ingots/fireite"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
     },
     "p": {
       "item": "elementalcraft:source_breeder_pedestal"
@@ -15,9 +18,9 @@
     }
   },
   "pattern": [
-    "wpw",
-    "ici",
-    "iwi"
+    "iwi",
+    "fcf",
+    "wpw"
   ],
   "result": {
     "item": "elementalcraft:source_breeder"

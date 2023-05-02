@@ -7,6 +7,7 @@ import net.minecraftforge.registries.RegistryObject;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.data.predicate.block.pipe.HasPipeUpgrade;
 import sirttas.elementalcraft.data.predicate.block.rune.HasRunePredicate;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 
@@ -15,6 +16,7 @@ public class ECBlockPosPredicateTypes {
 	private static final DeferredRegister<BlockPosPredicateType<?>> DEFERRED_REGISTRY = DeferredRegister.create(BlockPosPredicateType.REGISTRY_KEY, ElementalCraftApi.MODID);
 
 	public static final RegistryObject<BlockPosPredicateType<HasShrineUpgradePredicate>> HAS_SHRINE_UPGRADE = register(HasShrineUpgradePredicate.CODEC, HasShrineUpgradePredicate.NAME);
+	public static final RegistryObject<BlockPosPredicateType<HasPipeUpgrade>> HAS_PIPE_UPGRADE = register(HasPipeUpgrade.CODEC, HasPipeUpgrade.NAME);
 	public static final RegistryObject<BlockPosPredicateType<HasRunePredicate>> HAS_RUNE = register(HasRunePredicate.CODEC, HasRunePredicate.NAME);
 	public static final RegistryObject<BlockPosPredicateType<RangeFromSpawnPredicate>> RANGE_FROM_SPAWN = register(RangeFromSpawnPredicate.CODEC, RangeFromSpawnPredicate.NAME);
 

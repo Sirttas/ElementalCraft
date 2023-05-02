@@ -7,6 +7,12 @@ import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 public interface IElementTransferPathNode {
 
     BlockPos getPos();
-    IElementTransferer getTransferer();
-    IElementStorage getStorage();
+
+    default IElementTransferer getTransferer() {
+        return null;
+    }
+
+    default IElementStorage getStorage() {
+        return null;
+    }
 }

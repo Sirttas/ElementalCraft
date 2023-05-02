@@ -52,9 +52,9 @@ public class GuiHelper {
 		}
 	}
 
-	public static void renderCanCast(PoseStack poseStack, int x, int y, boolean canCast) {
+	public static void renderCheck(PoseStack poseStack, Check check, int x, int y) {
 		RenderSystem.setShaderTexture(0, GAUGE);
-		blit(poseStack, x, y, canCast ? 0 : 6, 16, 6, 6);
+		blit(poseStack, x, y, 0, 16 + check.offset, 6, 6);
 	}
 
 
@@ -63,4 +63,21 @@ public class GuiHelper {
 
 		return minecraft.player.isCreative() && minecraft.options.advancedItemTooltips;
 	}
+
+	public enum Check {
+		VALID(0),
+		PAUSED(6),
+		INVALID(12);
+
+		private final int offset;
+
+		Check(int offset) {
+			this.offset = offset;
+		}
+
+		public int getOffset() {
+			return offset;
+		}
+	}
+
 }

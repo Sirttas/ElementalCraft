@@ -20,7 +20,7 @@ public class ECStructureSetsProvider extends AbstractECJsonCodecProvider<Structu
 
     @Override
     protected void gather() {
-        addSingle(SourceAltarStructure.NAME, new RandomSpreadStructurePlacement(64, 8, RandomSpreadType.LINEAR, 4847339));
+        addSingle(SourceAltarStructure.NAME, new RandomSpreadStructurePlacement(20, 8, RandomSpreadType.LINEAR, 4847339));
     }
 
     private StructureSet addSingle(String name, StructurePlacement placement) {

@@ -72,7 +72,7 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 	public AABB getRangeBoundingBox() {
 		var range = getRange();
 
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getBlockPos()).inflate(range, 0, range).expandTowards(0, range * 2, 0));
+		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos()).inflate(range, 0, range).expandTowards(0, range * 2, 0));
 	}
 
 	@Override

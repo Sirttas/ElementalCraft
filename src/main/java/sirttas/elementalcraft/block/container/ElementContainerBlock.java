@@ -29,7 +29,11 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 	private static final VoxelShape SHAPE = Shapes.or(BASE, GLASS, PIPE_1, PIPE_2, PIPE_3, PIPE_4, CONNECTOR);
 
 	public ElementContainerBlock() {
-		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(NORTH, false)
+				.setValue(EAST, false)
+				.setValue(SOUTH, false)
+				.setValue(WEST, false));
 	}
 
 	@Nonnull

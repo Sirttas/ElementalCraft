@@ -6,7 +6,19 @@
   "effect_sprite": "elementalcraft:elementalcraft/runes/wii",
   "model": "elementalcraft:elementalcraft/runes/wii",
   "predicate": {
-    "type": "dpanvil:tag",
-    "tag": "elementalcraft:rune_affected/speed"
+    "type": "dpanvil:cache",
+    "value": {
+      "type": "dpanvil:or",
+      "values": [
+        {
+          "type": "elementalcraft:has_pipe_upgrade",
+          "pipe_upgrade": "elementalcraft:element_pump"
+        },
+        {
+          "type": "dpanvil:tag",
+          "tag": "elementalcraft:rune_affected/speed"
+        }
+      ]
+    }
   }
 }

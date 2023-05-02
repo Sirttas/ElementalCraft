@@ -4,6 +4,7 @@ import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -53,14 +54,15 @@ public class ECBlockLoot extends BlockLoot {
 		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createIER);
 		add(ECBlocks.CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
+		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyNbt(b, ECNames.TARGET));
 		add(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
 		add(ECBlocks.DIFFUSER.get(), ECBlockLoot::createRunnable);
 		add(ECBlocks.SORTER.get(), ECBlockLoot::createRunnable);
 		add(ECBlocks.PURE_INFUSER.get(), ECBlockLoot::createRunnable);
-		add(ECBlocks.SOURCE_BREEDER.get(), b -> createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).withPool(createDropRunesPool()));
+		add(ECBlocks.SOURCE_BREEDER.get(), b -> createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).withPool(dropRunes()));
 		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECBlockLoot::createRunnable);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
-		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(createDropRunesPool()));
+		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(dropRunes()));
 		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);
 		add(ECBlocks.BURNT_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
 		add(ECBlocks.BURNT_GLASS_PANE.get(), BlockLoot::createSilkTouchOnlyTable);
@@ -121,12 +123,12 @@ public class ECBlockLoot extends BlockLoot {
 		return createCopyNbt(item, ECNames.ELEMENT_STORAGE);
 	}
 
-	private static Builder createRunnable(Block item) {
-		return createSingleItemTable(item).withPool(createDropRunesPool());
+	public static Builder createRunnable(ItemLike item) {
+		return createSingleItemTable(item).withPool(dropRunes());
 	}
 
 	private static Builder createIER(Block item) {
-		return createCopyElementStorage(item).withPool(createDropRunesPool());
+		return createCopyElementStorage(item).withPool(dropRunes());
 	}
 
 	private static Builder createReservoir(Block block) {
@@ -143,7 +145,7 @@ public class ECBlockLoot extends BlockLoot {
 		return LootTable.lootTable().withPool(createCopyNbtPool(entry, tags));
 	}
 
-	private static LootPool.Builder createDropRunesPool() {
+	public static LootPool.Builder dropRunes() {
 		return LootPool.lootPool().add(LootRunes.builder()).when(ExplosionCondition.survivesExplosion());
 	}
 

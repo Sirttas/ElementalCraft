@@ -84,6 +84,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.BUDDING_SHRINE, list);
 		addItem(ECBlocks.SPAWNING_SHRINE, list);
 		addItem(ECBlocks.ACCELERATION_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.RANGE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CAPACITY_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.EFFICIENCY_SHRINE_UPGRADE, list);
@@ -103,6 +104,7 @@ public class ElementalCraftTab extends CreativeModeTab {
 		addItem(ECBlocks.SPRINGALINE_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, list);
 		addItem(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE, list);
+		addItem(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE, list);
 
 		addItem(ECBlocks.BROKEN_SOURCE_DISPLACEMENT_PLATE, list);
 		addItem(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, list);

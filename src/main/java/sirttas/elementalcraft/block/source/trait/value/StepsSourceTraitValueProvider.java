@@ -44,7 +44,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	@Override
 	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
 		return roll(context.random(), context.luck(), steps.stream()
-				.filter(s -> s.predicate().test(level, pos))
+				.filter(s -> s.predicate().test(level, pos, null))
 				.toList());
 	}
 

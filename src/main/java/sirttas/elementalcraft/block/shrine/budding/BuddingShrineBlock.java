@@ -30,7 +30,9 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 
 	public BuddingShrineBlock() {
 		super(ElementType.EARTH);
-		this.registerDefaultState(this.defaultBlockState().setValue(CRYSTAL_TYPE, CrystalType.AMETHYST).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState()
+				.setValue(CRYSTAL_TYPE, CrystalType.AMETHYST)
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Nonnull

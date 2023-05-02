@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.data.predicate.block.rune;
 
-import java.util.function.Predicate;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelReader;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 
 public interface IRunePredicate extends IBlockPosPredicate {
@@ -18,8 +21,8 @@ public interface IRunePredicate extends IBlockPosPredicate {
 	}
 
 	@Override
-	default boolean test(LevelReader world, BlockPos pos) {
-		return test(BlockEntityHelper.getRuneHandlerAt(world, pos));
+	default boolean test(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction) {
+		return test(BlockEntityHelper.getRuneHandlerAt(level, pos, direction));
 	}
 
 }

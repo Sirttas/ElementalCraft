@@ -2,6 +2,7 @@
   "values": [
     "elementalcraft:extractor",
     "elementalcraft:infuser",
-    "elementalcraft:evaporator"
+    "elementalcraft:evaporator",
+    "elementalcraft:firefurnace"
   ]
 }

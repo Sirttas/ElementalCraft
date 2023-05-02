@@ -33,7 +33,9 @@ public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlock
 
 	public OverloadShrineBlock() {
 		super(ElementType.AIR);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.UP)
+				.setValue(WATERLOGGED, false));
 	}
 
 	@Nonnull
