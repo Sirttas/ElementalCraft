@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.world.feature;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -51,8 +51,8 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 		return true;
 	}
 
-	public static void placeSource(WorldGenLevel level, BlockPos pos, ElementType type, int luck) {
-		level.setBlock(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 3);
+	public static void placeSource(ServerLevelAccessor level, BlockPos pos, ElementType type, int luck) {
+		level.setBlock(pos, ECBlocks.SOURCE.get().defaultBlockState().setValue(ElementType.STATE_PROPERTY, type), 2);
 		BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(s -> s.resetTraits(level, luck));
 		level.blockUpdated(pos, ECBlocks.SOURCE.get());
 	}

@@ -8,15 +8,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlockEntity;
@@ -27,21 +22,25 @@ import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Map;
 
 public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfuserBlockEntity, PureInfusionRecipe> {
 
+	private static final Config<PureInfuserBlockEntity, PureInfusionRecipe> CONFIG = new Config<>(
+			ECBlockEntityTypes.PURE_INFUSER,
+			ECRecipeTypes.PURE_INFUSION,
+			ECConfig.COMMON.pureInfuserTransferSpeed,
+			ECConfig.COMMON.pureInfuserMaxRunes
+	);
+
 	private final SingleItemContainer inventory;
 	private final Map<Direction, PedestalWrapper> pedestalWrappers;
-	private final RuneHandler runeHandler;
 
 	public PureInfuserBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.PURE_INFUSER, pos, state, ECRecipeTypes.PURE_INFUSION.get(), ECConfig.COMMON.pureInfuserTransferSpeed.get());
+		super(CONFIG, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.pureInfuserMaxRunes.get(), this::setChanged);
 		pedestalWrappers = new EnumMap<>(Direction.class);
 		pedestalWrappers.put(Direction.NORTH, new PedestalWrapper());
 		pedestalWrappers.put(Direction.SOUTH, new PedestalWrapper());
@@ -174,10 +173,6 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		return inventory.getItem(0);
 	}
 
-	public RuneHandler getRuneHandler() {
-		return runeHandler;
-	}
-
 	@Override
 	public boolean isRunning() {
 		return pedestalWrappers.values().stream().anyMatch(w -> !w.isRemoved() && w.progress > 0);
@@ -198,9 +193,6 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 			pedestalWrappers.get(direction).progress = progressArray[i];
 		}
-		if (compound.contains(ECNames.RUNE_HANDLER)) {
-			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
-		}
 	}
 
 	@Override
@@ -211,16 +203,6 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 				.sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue()))
 				.mapToInt(e -> e.getValue().progress)
 				.toArray());
-		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-	}
-
-	@Override
-	@Nonnull
-	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == ElementalCraftCapabilities.RUNE_HANDLE) {
-			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
-		}
-		return super.getCapability(cap, side);
 	}
 
 	private class PedestalWrapper implements IElementTypeProvider {

@@ -114,7 +114,7 @@ public class SourceAltarStructure extends Structure {
 				this.createChest(level, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName()), null);
 				level.blockUpdated(pos, Blocks.CHEST);
 			} else if (name.startsWith("source")) {
-				SourceFeature.placeSource(level.getLevel(), pos, elementType, getSourceLuck(name));
+				SourceFeature.placeSource(level, pos, elementType, getSourceLuck(name));
 			}
 		}
 

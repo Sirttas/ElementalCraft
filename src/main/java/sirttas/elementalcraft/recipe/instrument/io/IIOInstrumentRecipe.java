@@ -31,7 +31,7 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 		return instrument.getItemHandler().map(inv -> {
 			ItemStack output = inv.getStackInSlot(1);
 
-			return instrument.getContainerElementType() == this.getElementType() && matches(inv.getStackInSlot(0))
+			return this.getValidElementTypes().contains(instrument.getContainerElementType()) && matches(inv.getStackInSlot(0))
 					&& (output.isEmpty() || (ItemHandlerHelper.canItemStacksStack(output, craftingResult) && output.getCount() + craftingResult.getCount() <= inv.getSlotLimit(1)));
 		}).orElse(false);
 	}

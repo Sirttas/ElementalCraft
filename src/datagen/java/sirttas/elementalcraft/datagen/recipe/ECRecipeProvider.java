@@ -45,9 +45,9 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
 import sirttas.elementalcraft.datagen.recipe.builder.PureInfusionRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.SpellCraftRecipeBuilder;
-import sirttas.elementalcraft.datagen.recipe.builder.instrument.AirMillGrindingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.BindingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.CrystallizationRecipeBuilder;
+import sirttas.elementalcraft.datagen.recipe.builder.instrument.GrindingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.InscriptionRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.SawingRecipeBuilder;
 import sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion.InfusionRecipeBuilder;
@@ -594,8 +594,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.BLOCK_EFFICIENCY).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.PUNCH_ARROWS).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.FLAMING_ARROWS).build(consumer);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraft.createRL(FastDrawToolInfusionEffect.NAME)).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.UNBREAKING).build(consumer);
+		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraft.createRL(FastDrawToolInfusionEffect.NAME)).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.MULTISHOT).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.PIERCING).build(consumer);
 		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.UNBREAKING).build(consumer);
@@ -642,17 +642,17 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void registerGrinding(Consumer<FinishedRecipe> consumer) {
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.COBBLESTONE).withIngredient(Tags.Items.STONE).withLuckRatio(1).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.GRAVEL).withIngredient(Tags.Items.COBBLESTONE).withLuckRatio(2).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.SAND).withIngredient(Tags.Items.GRAVEL).withLuckRatio(5).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.BLAZE_POWDER).withCount(3).withIngredient(Tags.Items.RODS_BLAZE).withLuckRatio(3).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.NETHERITE_SCRAP).withCount(2).withIngredient(Tags.Items.ORES_NETHERITE_SCRAP).withElementAmount(5000).withLuckRatio(1).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(ECItems.INERT_CRYSTAL.get()).withCount(2).withIngredient(ECTags.Items.ORES_INERT_CRYSTAL).withLuckRatio(5).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.POINTED_DRIPSTONE).withCount(3).withIngredient(Items.DRIPSTONE_BLOCK).withLuckRatio(1).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.AMETHYST_SHARD).withCount(6).withIngredient(Items.AMETHYST_CLUSTER).withLuckRatio(5).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(ECItems.SPRINGALINE_SHARD.get()).withCount(6).withIngredient(ECBlocks.SPRINGALINE_CLUSTER.get()).withLuckRatio(5).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.BONE_MEAL).withCount(4).withIngredient(Tags.Items.BONES).withLuckRatio(3).build(consumer);
-		AirMillGrindingRecipeBuilder.grindingRecipe(Items.STRING).withCount(4).withIngredient(ItemTags.WOOL).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.COBBLESTONE).withIngredient(Tags.Items.STONE).withLuckRatio(1).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.GRAVEL).withIngredient(Tags.Items.COBBLESTONE).withLuckRatio(2).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.SAND).withIngredient(Tags.Items.GRAVEL).withLuckRatio(5).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.BLAZE_POWDER).withCount(3).withIngredient(Tags.Items.RODS_BLAZE).withLuckRatio(3).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.NETHERITE_SCRAP).withCount(2).withIngredient(Tags.Items.ORES_NETHERITE_SCRAP).withElementAmount(5000).withLuckRatio(1).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(ECItems.INERT_CRYSTAL.get()).withCount(2).withIngredient(ECTags.Items.ORES_INERT_CRYSTAL).withLuckRatio(5).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.POINTED_DRIPSTONE).withCount(3).withIngredient(Items.DRIPSTONE_BLOCK).withLuckRatio(1).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.AMETHYST_SHARD).withCount(6).withIngredient(Items.AMETHYST_CLUSTER).withLuckRatio(5).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(ECItems.SPRINGALINE_SHARD.get()).withCount(6).withIngredient(ECBlocks.SPRINGALINE_CLUSTER.get()).withLuckRatio(5).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.BONE_MEAL).withCount(4).withIngredient(Tags.Items.BONES).withLuckRatio(3).build(consumer);
+		GrindingRecipeBuilder.grindingRecipe(Items.STRING).withCount(4).withIngredient(ItemTags.WOOL).build(consumer);
 
 		grindToDye(Items.GREEN_DYE, Items.CACTUS, consumer);
 		grindToDye(Items.WHITE_DYE, Items.BONE_MEAL, consumer);
@@ -681,7 +681,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void grindToDye(ItemLike dye, ItemLike from, Consumer<FinishedRecipe> consumer) {
-		AirMillGrindingRecipeBuilder.grindingRecipe(dye)
+		GrindingRecipeBuilder.grindingRecipe(dye)
 				.withCount(2)
 				.withIngredient(from)
 				.withLuckRatio(2)
@@ -691,7 +691,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	private void grindToDye(ItemLike dye, TagKey<Item> from, Consumer<FinishedRecipe> consumer) {
 		var tagName = from.location();
 
-		AirMillGrindingRecipeBuilder.grindingRecipe(dye)
+		GrindingRecipeBuilder.grindingRecipe(dye)
 				.withCount(2)
 				.withIngredient(from)
 				.withLuckRatio(2)

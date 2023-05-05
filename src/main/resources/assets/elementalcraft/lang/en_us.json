@@ -689,7 +689,7 @@
   "elementalcraft.page.feather_spikes0": "Throw three feather projectiles in front of you in a quick succession.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().",
   "elementalcraft.page.air_shield0": "Channel air in front of you to block projectiles and hits (like a shield does). $(br)This spell is channeled, you must hold right click to cast it.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().",
   "elementalcraft.page.shockwave0": "Knock back and damage mobs around you.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().",
-  "elementalcraft.page.repair0": "Repair the item in your other hand, you need to target a block so the anvil can spawn on top of it.$(br)This spell is channeled, you must hold right click to cast it$(br)Consumes $(thing)fire() from an $(ec:holder)element holder$().",
+  "elementalcraft.page.repair0": "Repair the item in your other hand, you need to target a block so the anvil can spawn on top of it.$(br)This spell is channeled, you must hold right click to cast it$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().",
 
   "elementalcraft.page.salmon0": "The $(item)jewel of the salmon$() allows you to breathe under water.$(br)Consumes $(thing)water$() from an $(ec:holder)element holder$().",
   "elementalcraft.page.phoenix0": "The $(item)jewel of the phoenix$() makes you invulnerable to fire and makes it heal you.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().",

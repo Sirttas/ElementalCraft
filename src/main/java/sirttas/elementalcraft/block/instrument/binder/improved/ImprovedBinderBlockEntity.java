@@ -5,15 +5,25 @@ import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlockEntity;
+import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.BinderInfusionRecipeWrapper;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInfuser {
+
+	private static final Config<IBinder, AbstractBindingRecipe> CONFIG = new Config<>(
+			ECBlockEntityTypes.BINDER_IMPROVED,
+			ECRecipeTypes.BINDING,
+			ECConfig.COMMON.improvedBinderTransferSpeed,
+			ECConfig.COMMON.improvedBinderMaxRunes
+	);
+
 	public ImprovedBinderBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.BINDER_IMPROVED, pos, state, ECConfig.COMMON.improvedBinderTransferSpeed.get(), ECConfig.COMMON.improvedBinderMaxRunes.get());
+		super(CONFIG, pos, state);
 	}
 
 	@Override
