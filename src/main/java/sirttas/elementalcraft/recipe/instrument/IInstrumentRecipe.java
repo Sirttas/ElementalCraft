@@ -1,10 +1,14 @@
 package sirttas.elementalcraft.recipe.instrument;
 
-import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.IContainerBlockEntityRecipe;
 
-public interface IInstrumentRecipe<T extends IInstrument> extends IContainerBlockEntityRecipe<T>, IElementTypeProvider {
+import java.util.List;
+
+public interface IInstrumentRecipe<T extends IInstrument> extends IContainerBlockEntityRecipe<T> {
+
+    List<ElementType> getValidElementTypes();
 
     int getElementAmount();
 

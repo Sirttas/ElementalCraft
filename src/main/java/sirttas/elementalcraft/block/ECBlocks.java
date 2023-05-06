@@ -39,7 +39,7 @@ import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlock;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceBlock;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.blast.FireBlastFurnaceBlock;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlock;
-import sirttas.elementalcraft.block.instrument.io.mill.saw.WaterMillWoodSawBlock;
+import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.WaterMillWoodSawBlock;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlock;

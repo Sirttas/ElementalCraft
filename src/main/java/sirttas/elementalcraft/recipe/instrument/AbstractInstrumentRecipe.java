@@ -6,7 +6,7 @@ import sirttas.elementalcraft.block.instrument.IInstrument;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements IInstrumentRecipe<T> {
+public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements ISingleElementInstrumentRecipe<T> {
 
 	protected final ElementType elementType;
 	protected final ResourceLocation id;

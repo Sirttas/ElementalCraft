@@ -8,7 +8,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -54,8 +54,8 @@ public class SourceTrait {
 	}
 	
 	@Nullable
-	public ISourceTraitValue roll(Level level, BlockPos pos, float luck) {
-		return valueProvider.roll(new SourceTraitRollContext(this, level.random, luck), level, pos);
+	public ISourceTraitValue roll(ServerLevelAccessor level, BlockPos pos, float luck) {
+		return valueProvider.roll(new SourceTraitRollContext(this, level.getRandom(), luck), level.getLevel(), pos);
 	}
 
 	@Nullable

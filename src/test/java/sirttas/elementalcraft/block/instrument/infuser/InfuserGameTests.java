@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.instrument.infuser;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
@@ -9,7 +8,7 @@ import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
+import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 
@@ -32,21 +31,10 @@ public class InfuserGameTests {
     }
 
     public static void should_craftCrystal(GameTestHelper helper, ElementType elementType) {
-        var infuser = (InfuserBlockEntity) helper.getBlockEntity(new BlockPos(0, 2, 0));
-        var container = ElementStorageHelper.get(helper.getBlockEntity(new BlockPos(0, 1, 0))).orElse(null);
-
-        assertThat(infuser).isNotNull();
-        assertThat(container).isNotNull();
-
-        helper.startSequence().thenExecute(() -> {
-            infuser.getInventory().setItem(0, new ItemStack(ECItems.INERT_CRYSTAL.get()));
-            container.insertElement(1000000, elementType, false);
-
-            assertThat(infuser.isRecipeAvailable()).isTrue();
-        }).thenExecuteAfter(2, () -> {
+        InstrumentGameTestHelper.<InfuserBlockEntity>runInstrument(helper, new ItemStack(ECItems.INERT_CRYSTAL.get()), elementType, infuser -> {
             assertThat(infuser.getItem())
                     .is(ElementalItemHelper.getCrystalForType(elementType))
                     .hasCount(1);
-        }).thenSucceed();
+        });
     }
 }

@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.instrument.io.mill.saw;
+package sirttas.elementalcraft.block.instrument.io.mill.woodsaw;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;

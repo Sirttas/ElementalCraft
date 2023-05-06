@@ -49,7 +49,7 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 				.addItemStack(container);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 23, 76)
-				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
+				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 34)
 				.addItemStack(recipe.getResultItem());

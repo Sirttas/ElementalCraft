@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.instrument.io.mill.saw;
+package sirttas.elementalcraft.block.instrument.io.mill.woodsaw;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

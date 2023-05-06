@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.source;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -47,8 +48,8 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
-		if (source.traitHolder.isEmpty()) {
-			source.initTraits(level, 0);
+		if (source.traitHolder.isEmpty() && level instanceof ServerLevel serverLevel) {
+			source.initTraits(serverLevel, 0);
 		}
         if (source.elementStorage.isExhausted()) {
 			if (source.traitHolder.isArtificial()) {
@@ -59,7 +60,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
         }
     }
 
-    private void initTraits(@Nonnull Level level, int luck) {
+    private void initTraits(@Nonnull ServerLevelAccessor level, int luck) {
         if (elementStorage.getElementType() == ElementType.NONE) {
             elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
 			this.setChanged();
@@ -70,7 +71,7 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 
 	public void resetTraits(@Nonnull ServerLevelAccessor level, int luck) {
 		traitHolder.clear();
-		this.initTraits(level.getLevel(), luck);
+		this.initTraits(level, luck);
 	}
 
 	public boolean isExhausted() {

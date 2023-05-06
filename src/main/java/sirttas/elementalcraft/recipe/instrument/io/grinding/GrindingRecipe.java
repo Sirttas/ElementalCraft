@@ -1,36 +1,28 @@
-package sirttas.elementalcraft.recipe.instrument.io.sawing;
+package sirttas.elementalcraft.recipe.instrument.io.grinding;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.WaterMillWoodSawBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.RecipeHelper;
-import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
-public record SawingRecipe(
+public record GrindingRecipe(
 		ResourceLocation id,
 		Ingredient ingredient,
 		ItemStack output,
 		int elementAmount,
 		int luckRation
-) implements IIOInstrumentRecipe<WaterMillWoodSawBlockEntity> {
-
-	public static final String NAME = "sawing";
+) implements IGrindingRecipe {
 
 	@Override
 	public int getElementAmount() {
@@ -45,7 +37,7 @@ public record SawingRecipe(
 
 	@Override
 	public boolean matches(ItemStack stack) {
-		return ingredient.test(stack) && IIOInstrumentRecipe.super.matches(stack);
+		return ingredient.test(stack) && IGrindingRecipe.super.matches(stack);
 	}
 
 	@Nonnull
@@ -63,58 +55,42 @@ public record SawingRecipe(
 	@Nonnull
     @Override
 	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializers.SAWING.get();
+		return ECRecipeSerializers.GRINDING.get();
 	}
 
 	@Override
-	public int getLuck(WaterMillWoodSawBlockEntity instrument) {
+	public int getLuck(AirMillGrindstoneBlockEntity instrument) {
 		return Math.round(instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK) * luckRation);
 	}
 
-	@Override
-	public List<ElementType> getValidElementTypes() {
-		return List.of(ElementType.WATER);
-	}
-
-	@Nonnull
-	@Override
-	public RecipeType<?> getType() {
-		return ECRecipeTypes.SAWING.get();
-	}
-
-	@Override
-	public RandomSource getRand(WaterMillWoodSawBlockEntity instrument) {
-		return instrument.getLevel().getRandom();
-	}
-
-	public static class Serializer implements RecipeSerializer<SawingRecipe> {
+	public static class Serializer implements RecipeSerializer<GrindingRecipe> {
 
 		@Nonnull
         @Override
-		public SawingRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+		public GrindingRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
 			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
 			Ingredient ingredient = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
 			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
 			int luckRation = GsonHelper.getAsInt(json, ECNames.LUCK_RATIO);
 
 			if (!output.isEmpty()) {
-				return new SawingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
+				return new GrindingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
 			}
-			throw new IllegalStateException("Sawing recipe output is empty!");
+			throw new IllegalStateException("Grinding recipe output is empty!");
 		}
 
 		@Override
-		public SawingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public GrindingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			int elementAmount = buffer.readInt();
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();
 			int luckRation = buffer.readInt();
 
-			return new SawingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
+			return new GrindingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
 		}
 
 		@Override
-		public void toNetwork(FriendlyByteBuf buffer, SawingRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buffer, GrindingRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
 			recipe.getIngredients().get(0).toNetwork(buffer);
 			buffer.writeItem(recipe.getResultItem());

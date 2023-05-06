@@ -22,7 +22,7 @@ import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.AirMillGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 
@@ -38,7 +38,7 @@ public class ECRecipeSerializers {
 	public static final RegistryObject<BindingRecipe.Serializer> BINDING = register(BindingRecipe.Serializer::new, AbstractBindingRecipe.NAME);
 	public static final RegistryObject<CrystallizationRecipe.Serializer> CRYSTALLIZATION = register(CrystallizationRecipe.Serializer::new, CrystallizationRecipe.NAME);
 	public static final RegistryObject<InscriptionRecipe.Serializer> INSCRIPTION = register(InscriptionRecipe.Serializer::new, InscriptionRecipe.NAME);
-	public static final RegistryObject<AirMillGrindingRecipe.Serializer> AIR_MILL_GRINDING = register(AirMillGrindingRecipe.Serializer::new, IGrindingRecipe.NAME);
+	public static final RegistryObject<GrindingRecipe.Serializer> GRINDING = register(GrindingRecipe.Serializer::new, IGrindingRecipe.NAME);
 	public static final RegistryObject<SawingRecipe.Serializer> SAWING = register(SawingRecipe.Serializer::new, SawingRecipe.NAME);
 	public static final RegistryObject<PureInfusionRecipe.Serializer> PURE_INFUSION = register(PureInfusionRecipe.Serializer::new, PureInfusionRecipe.NAME);
 	public static final RegistryObject<SpellCraftRecipe.Serializer> SPELL_CRAFT = register(SpellCraftRecipe.Serializer::new, SpellCraftRecipe.NAME);

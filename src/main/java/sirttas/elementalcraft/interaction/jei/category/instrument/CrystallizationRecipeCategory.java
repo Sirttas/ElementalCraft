@@ -52,7 +52,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 				.addItemStack(container);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 42, 86)
-				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
+				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 42)
 				.addItemStacks(recipe.getOutputs().stream().map(ResultEntry::getResult).toList())

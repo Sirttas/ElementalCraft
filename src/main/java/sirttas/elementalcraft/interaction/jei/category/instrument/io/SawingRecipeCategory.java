@@ -3,7 +3,7 @@ package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.io.mill.saw.WaterMillWoodSawBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.WaterMillWoodSawBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 

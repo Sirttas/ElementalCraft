@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -59,7 +60,7 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	public boolean consumeFood(Animal first) {
 		List<ItemStack> foodList = getEntities(ItemEntity.class).stream()
 				.map(ItemEntity::getItem)
-				.filter(stack -> first.isFood(stack) && stack.getCount() > 0)
+				.filter(stack -> first.isFood(stack) && !stack.isEmpty())
 				.toList();
 
 		if (foodList.isEmpty()) {
@@ -80,9 +81,14 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 			return false;
 		}
 
-		first.setInLoveTime(600);
-		second.setInLoveTime(600);
+		setInLove(first);
+		setInLove(second);
 		return true;
+	}
+
+	private void setInLove(Animal first) {
+		first.setInLoveTime(600);
+		this.level.broadcastEntityEvent(first, EntityEvent.IN_LOVE_HEARTS);
 	}
 
 	@Override

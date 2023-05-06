@@ -17,10 +17,18 @@ import javax.annotation.Nonnull;
 
 public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<PurifierBlockEntity, IPurifierRecipe> {
 
+	private static final Config<PurifierBlockEntity, IPurifierRecipe> CONFIG = new Config<>(
+			ECBlockEntityTypes.PURIFIER,
+			null,
+			ECConfig.COMMON.purifierTransferSpeed,
+			ECConfig.COMMON.purifierMaxRunes
+	);
+
+
 	private final PurifierContainer inventory;
 
 	public PurifierBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.PURIFIER, pos, state, null, ECConfig.COMMON.purifierTransferSpeed.get(), ECConfig.COMMON.purifierMaxRunes.get());
+		super(CONFIG, pos, state);
 		inventory = new PurifierContainer(this::setChanged);
 	}
 
