@@ -5,13 +5,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValueProvider {
@@ -46,7 +46,8 @@ public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValuePr
 	}
 	
 	@Override
-	public @NotNull SourceTraitValueProviderType<RangeBasedSourceTraitValueProvider> getType() {
+	@Nonnull
+	public SourceTraitValueProviderType<RangeBasedSourceTraitValueProvider> getType() {
 		return SourceTraitValueProviderTypes.RANGE_BASED.get();
 	}
 }

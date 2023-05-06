@@ -8,11 +8,10 @@ import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
-public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>>, ISingleElementInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>> {
+public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>> {
 
 	private final T recipe;
 

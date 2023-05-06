@@ -20,7 +20,7 @@ import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerRenderer
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberRenderer;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceRenderer;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneRenderer;
-import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.WaterMillWoodSawRenderer;
+import sirttas.elementalcraft.block.instrument.io.mill.saw.WaterMillWoodSawRenderer;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;

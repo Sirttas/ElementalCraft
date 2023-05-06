@@ -1,3 +1,8 @@
+1.19.2-5.8.2:
+
+- fix the air mill grindstone and the wart mill wood saw
+
+
 1.19.2-5.8.1:
 
 - fix a few elementopedia entries

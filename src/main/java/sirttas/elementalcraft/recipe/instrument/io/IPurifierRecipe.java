@@ -7,11 +7,10 @@ import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
-import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
-public interface IPurifierRecipe extends IIOInstrumentRecipe<PurifierBlockEntity>, ISingleElementInstrumentRecipe<PurifierBlockEntity> {
+public interface IPurifierRecipe extends IIOInstrumentRecipe<PurifierBlockEntity> {
 
 	double getLuckRatio();
 

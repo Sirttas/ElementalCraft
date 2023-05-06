@@ -12,7 +12,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
@@ -20,6 +19,7 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
 import sirttas.elementalcraft.api.source.trait.value.SourceTraitValueProviderType;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -126,7 +126,8 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	}
 
 	@Override
-	public @NotNull SourceTraitValueProviderType<? extends LinearSourceTraitValueProvider> getType() {
+	@Nonnull
+	public SourceTraitValueProviderType<? extends LinearSourceTraitValueProvider> getType() {
 		return SourceTraitValueProviderTypes.LINEAR.get();
 	}
 	

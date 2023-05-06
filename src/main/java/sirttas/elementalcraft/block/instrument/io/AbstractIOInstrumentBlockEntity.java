@@ -3,15 +3,18 @@ package sirttas.elementalcraft.block.instrument.io;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 
 public abstract class AbstractIOInstrumentBlockEntity<T extends IInstrument, R extends IIOInstrumentRecipe<T>> extends AbstractInstrumentBlockEntity<T, R> {
 
-	protected AbstractIOInstrumentBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
-		super(config, pos, state);
+	protected AbstractIOInstrumentBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed, int maxRunes) {
+		super(blockEntityType, pos, state, recipeType, transferSpeed, maxRunes);
 		outputSlot = 1;
 	}
 

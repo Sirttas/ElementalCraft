@@ -72,7 +72,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 30, 40)
 				.addItemStacks(getTanks());
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 58)
-				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
+				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
 
 		var outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 59, 0)
 				.addItemStacks(output);

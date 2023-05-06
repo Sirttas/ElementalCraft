@@ -8,10 +8,12 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
@@ -26,8 +28,8 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 	private final RecipeType<T> furnaceRecipeType;
 	private final IOContainer inventory;
 
-	protected AbstractFireFurnaceBlockEntity(Config<AbstractFireFurnaceBlockEntity<T>, FurnaceRecipeWrapper<T>> config, RecipeType<T> recipeType, BlockPos pos, BlockState state) {
-		super(config, pos, state);
+	protected AbstractFireFurnaceBlockEntity(RegistryObject<? extends BlockEntityType<? extends AbstractFireFurnaceBlockEntity<T>>> blockEntityType, BlockPos pos, BlockState state, RecipeType<T> recipeType, int transferSpeed, int maxRunes) {
+		super(blockEntityType, pos, state, null, transferSpeed, maxRunes);
 		this.furnaceRecipeType = recipeType;
 		exp = 0;
 		inventory = new IOContainer(this::setChanged);

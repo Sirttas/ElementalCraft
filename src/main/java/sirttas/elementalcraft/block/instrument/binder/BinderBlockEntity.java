@@ -2,8 +2,10 @@ package sirttas.elementalcraft.block.instrument.binder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
@@ -16,21 +18,14 @@ import javax.annotation.Nonnull;
 
 public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, AbstractBindingRecipe> implements IBinder {
 
-	private static final Config<IBinder, AbstractBindingRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.BINDER,
-			ECRecipeTypes.BINDING,
-			ECConfig.COMMON.binderTransferSpeed,
-			ECConfig.COMMON.binderMaxRunes
-	);
-
 	private final InstrumentContainer inventory;
 
 	public BinderBlockEntity(BlockPos pos, BlockState state) {
-		this(CONFIG, pos, state);
+		this(ECBlockEntityTypes.BINDER, pos, state, ECConfig.COMMON.binderTransferSpeed.get(), ECConfig.COMMON.binderMaxRunes.get());
 	}
 
-	protected BinderBlockEntity(Config<IBinder, AbstractBindingRecipe> config, BlockPos pos, BlockState state) {
-		super(config, pos, state);
+	protected BinderBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, int transferSpeed, int maxRunes) {
+		super(blockEntityType, pos, state, ECRecipeTypes.BINDING.get(), transferSpeed, maxRunes);
 		inventory = new InstrumentContainer(this::setChanged, 20);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);

@@ -6,11 +6,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
-public interface IInfusionRecipe extends ISingleElementInstrumentRecipe<IInfuser> {
+public interface IInfusionRecipe extends IInstrumentRecipe<IInfuser> {
 
 	String NAME = "infusion";
 

@@ -13,14 +13,13 @@ import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.WaterMillWoodSawBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.saw.WaterMillWoodSawBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public record SawingRecipe(
 		ResourceLocation id,
@@ -72,8 +71,8 @@ public record SawingRecipe(
 	}
 
 	@Override
-	public List<ElementType> getValidElementTypes() {
-		return List.of(ElementType.AIR);
+	public ElementType getElementType() {
+		return ElementType.WATER;
 	}
 
 	@Nonnull

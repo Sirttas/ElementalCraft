@@ -51,7 +51,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 				.addItemStacks(getTanks());
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 58)
-				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
+				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 59, 0)
 				.addItemStacks(getOutputs(recipe));

@@ -14,17 +14,10 @@ import javax.annotation.Nonnull;
 
 public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, IInfusionRecipe> implements IInfuser {
 
-	private static final Config<IInfuser, IInfusionRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.INFUSER,
-			ECRecipeTypes.INFUSION,
-			ECConfig.COMMON.infuserTransferSpeed,
-			ECConfig.COMMON.infuserMaxRunes
-	);
-
 	private final SingleItemContainer inventory;
 
 	public InfuserBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, pos, state);
+		super(ECBlockEntityTypes.INFUSER, pos, state, ECRecipeTypes.INFUSION.get(), ECConfig.COMMON.infuserTransferSpeed.get(), ECConfig.COMMON.infuserMaxRunes.get());
 		inventory = new SingleItemContainer(this::setChanged);
 		lockable = true;
 	}

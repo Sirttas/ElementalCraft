@@ -8,22 +8,20 @@ import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public interface IGrindingRecipe extends IIOInstrumentRecipe<AirMillGrindstoneBlockEntity> {
 
 	String NAME = "grinding";
 	
-
 	@Override
-	default List<ElementType> getValidElementTypes() {
-		return List.of(ElementType.AIR);
+	default ElementType getElementType() {
+		return ElementType.AIR;
 	}
 	
 	@Nonnull
 	@Override
 	default RecipeType<?> getType() {
-		return ECRecipeTypes.GRINDING.get();
+		return ECRecipeTypes.AIR_MILL_GRINDING.get();
 	}
 	
 	@Override

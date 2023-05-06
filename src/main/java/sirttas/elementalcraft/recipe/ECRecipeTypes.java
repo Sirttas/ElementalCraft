@@ -21,7 +21,7 @@ public class ECRecipeTypes {
 	public static final RegistryObject<RecipeType<AbstractBindingRecipe>> BINDING = register(AbstractBindingRecipe.NAME);
 	public static final RegistryObject<RecipeType<CrystallizationRecipe>> CRYSTALLIZATION = register(CrystallizationRecipe.NAME);
 	public static final RegistryObject<RecipeType<InscriptionRecipe>> INSCRIPTION = register(InscriptionRecipe.NAME);
-	public static final RegistryObject<RecipeType<IGrindingRecipe>> GRINDING = register(IGrindingRecipe.NAME);
+	public static final RegistryObject<RecipeType<IGrindingRecipe>> AIR_MILL_GRINDING = register(IGrindingRecipe.NAME);
 	public static final RegistryObject<RecipeType<SawingRecipe>> SAWING = register(SawingRecipe.NAME);
 	public static final RegistryObject<RecipeType<PureInfusionRecipe>> PURE_INFUSION = register(PureInfusionRecipe.NAME);
 	public static final RegistryObject<RecipeType<SpellCraftRecipe>> SPELL_CRAFT = register(SpellCraftRecipe.NAME);

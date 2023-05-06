@@ -7,18 +7,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.instrument.io.FurnaceRecipeWrapper;
 
 public class FireBlastFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<BlastingRecipe> {
 
-	private static final Config<AbstractFireFurnaceBlockEntity<BlastingRecipe>, FurnaceRecipeWrapper<BlastingRecipe>> CONFIG = new Config<>(
-			ECBlockEntityTypes.FIRE_BLAST_FURNACE,
-			null,
-			ECConfig.COMMON.fireBlastFurnaceTransferSpeed,
-			ECConfig.COMMON.fireBlastFurnaceMaxRunes
-	);
 
 	public FireBlastFurnaceBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, RecipeType.BLASTING, pos, state);
+		super(ECBlockEntityTypes.FIRE_BLAST_FURNACE, pos, state, RecipeType.BLASTING, ECConfig.COMMON.fireBlastFurnaceTransferSpeed.get(), ECConfig.COMMON.fireBlastFurnaceMaxRunes.get());
 	}
 }

@@ -17,10 +17,6 @@ public interface ICraftingBlockEntity extends IContainerBlockEntity {
 	void process();
 
 	default <C extends ICraftingBlockEntity, U extends IContainerBlockEntityRecipe<C>> U lookupRecipe(Level level, RecipeType<U> recipeType) {
-		if (recipeType == null) {
-			return null;
-		}
-
 		return level.getRecipeManager().getRecipeFor(recipeType, ContainerBlockEntityWrapper.from(cast()), level).orElse(null);
 	}
 

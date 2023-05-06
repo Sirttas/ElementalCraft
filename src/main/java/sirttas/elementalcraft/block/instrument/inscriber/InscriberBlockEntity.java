@@ -14,18 +14,10 @@ import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import javax.annotation.Nonnull;
 
 public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<InscriberBlockEntity, InscriptionRecipe> {
-
-	private static final Config<InscriberBlockEntity, InscriptionRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.INSCRIBER,
-			ECRecipeTypes.INSCRIPTION,
-			ECConfig.COMMON.inscriberTransferSpeed,
-			ECConfig.COMMON.inscriberMaxRunes
-	);
-
 	private final InstrumentContainer inventory;
 
 	public InscriberBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, pos, state);
+		super(ECBlockEntityTypes.INSCRIBER, pos, state, ECRecipeTypes.INSCRIPTION.get(), ECConfig.COMMON.inscriberTransferSpeed.get(), ECConfig.COMMON.inscriberMaxRunes.get());
 		inventory = new InscriberContainer(this::setChanged);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);

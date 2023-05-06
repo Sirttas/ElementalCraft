@@ -3,30 +3,40 @@ package sirttas.elementalcraft.block.instrument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.registries.RegistryObject;
+import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R extends IInstrumentRecipe<T>> extends AbstractECCraftingBlockEntity<T, R> implements IInstrument {
 
 	private int progress = 0;
+	private final RuneHandler runeHandler;
 	private ISingleElementStorage containerCache;
 	protected boolean lockable = false;
 	private boolean locked = false;
 	protected Vec3 particleOffset;
 
-	protected AbstractInstrumentBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
-		super(config, pos, state);
+	protected AbstractInstrumentBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, RecipeType<R> recipeType, int transferSpeed, int maxRunes) {
+		super(blockEntityType, pos, state, recipeType, transferSpeed);
+		runeHandler = maxRunes > 0 ? new RuneHandler(maxRunes, this::setChanged) : null;
 		particleOffset = Vec3.ZERO;
 	}
 
@@ -108,9 +118,9 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	protected void renderProgressParticles() {}
 	
-	protected ElementType getRecipeElementType() {
-		if (recipe instanceof IElementTypeProvider provider) {
-			return provider.getElementType();
+	private ElementType getRecipeElementType() {
+		if (recipe != null) {
+			return recipe.getElementType();
 		}
 		return ElementType.NONE;
 	}
@@ -138,12 +148,16 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.putInt(ECNames.PROGRESS, progress);
+		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 	}
 
 	@Override
 	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
 		progress = compound.getInt(ECNames.PROGRESS);
+		if (compound.contains(ECNames.RUNE_HANDLER)) {
+			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
+		}
 	}
 
 	@Override
@@ -161,6 +175,11 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return (float) progress / recipe.getElementAmount();
 	}
 
+	@Nonnull
+	public RuneHandler getRuneHandler() {
+		return runeHandler;
+	}
+
 	@Override
 	public ISingleElementStorage getContainer() {
 		if (containerCache == null) {
@@ -175,5 +194,14 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 			return null;
 		}
 		return super.lookupRecipe();
+	}
+
+	@Override
+	@Nonnull
+	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
+		if (!this.remove && cap == ElementalCraftCapabilities.RUNE_HANDLE) {
+			return LazyOptional.of(this::getRuneHandler).cast();
+		}
+		return super.getCapability(cap, side);
 	}
 }

@@ -7,7 +7,6 @@ import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientEleme
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractBlockEntityRecipeCategory<K, T> {
 
@@ -16,10 +15,8 @@ public abstract class AbstractInstrumentRecipeCategory<K extends IInstrument, T 
 	}
 
 	@Nonnull
-	protected List<IngredientElementType> getElementTypeIngredients(@Nonnull T recipe) {
-		return recipe.getValidElementTypes().stream()
-				.map(t -> new IngredientElementType(t, getGaugeValue(recipe.getElementAmount())))
-				.toList();
+	protected IngredientElementType getElementTypeIngredient(@Nonnull T recipe) {
+		return new IngredientElementType(recipe.getElementType(), getGaugeValue(recipe.getElementAmount()));
 	}
 
 }

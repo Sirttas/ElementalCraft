@@ -16,6 +16,8 @@ public record RuneTestHolder(
             of("elementalcraft:chiselgametests.inscriber", "mewtwo"),
             of("elementalcraft:extractor_with_runes", "mewtwo", "tano", "tano"),
             of("elementalcraft:infusergametests.infuser", "creative"),
+            of("elementalcraft:airmillgrindstonegametests.air_mill_grindstone", "creative"),
+            of("elementalcraft:watermillwoodsawgametests.water_mill_wood_saw", "creative"),
             of("elementalcraft:chiselgametests.sorter_with_rune", new BlockPos(0, 1, 0), "zod"),
             of("elementalcraft:sourcebreedergametests.source_breeder", new BlockPos(0, 1, 2), "creative"),
             of("elementalcraft:pureinfusergametests.pure_infuser", new BlockPos(3, 1, 3), "creative")

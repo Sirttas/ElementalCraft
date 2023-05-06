@@ -209,7 +209,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(ECJEIRecipeTypes.CRYSTALLIZATION, recipeManager.getAllRecipesFor(ECRecipeTypes.CRYSTALLIZATION.get()));
 		registry.addRecipes(ECJEIRecipeTypes.INSCRIPTION, recipeManager.getAllRecipesFor(ECRecipeTypes.INSCRIPTION.get()));
 		registry.addRecipes(ECJEIRecipeTypes.PURE_INFUSION, recipeManager.getAllRecipesFor(ECRecipeTypes.PURE_INFUSION.get()));
-		registry.addRecipes(ECJEIRecipeTypes.GRINDING, recipeManager.getAllRecipesFor(ECRecipeTypes.GRINDING.get()));
+		registry.addRecipes(ECJEIRecipeTypes.GRINDING, recipeManager.getAllRecipesFor(ECRecipeTypes.AIR_MILL_GRINDING.get()));
 		registry.addRecipes(ECJEIRecipeTypes.SAWING, recipeManager.getAllRecipesFor(ECRecipeTypes.SAWING.get()));
 		registry.addRecipes(ECJEIRecipeTypes.SPELL_CRAFTING, recipeManager.getAllRecipesFor(ECRecipeTypes.SPELL_CRAFT.get()));
 		registry.addRecipes(ECJEIRecipeTypes.PURIFICATION, ElementalCraft.PURE_ORE_MANAGER.getRecipes());

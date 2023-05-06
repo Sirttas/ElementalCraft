@@ -18,17 +18,10 @@ import javax.annotation.Nonnull;
 
 public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<CrystallizerBlockEntity, CrystallizationRecipe> {
 
-	private static final Config<CrystallizerBlockEntity, CrystallizationRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.CRYSTALLIZER,
-			ECRecipeTypes.CRYSTALLIZATION,
-			ECConfig.COMMON.crystallizerTransferSpeed,
-			ECConfig.COMMON.crystallizerMaxRunes
-	);
-
 	private final InstrumentContainer inventory;
 
 	public CrystallizerBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, pos, state);
+		super(ECBlockEntityTypes.CRYSTALLIZER, pos, state, ECRecipeTypes.CRYSTALLIZATION.get(), ECConfig.COMMON.crystallizerTransferSpeed.get(), ECConfig.COMMON.crystallizerMaxRunes.get());
 		inventory = new CrystallizerContainer(this);
 		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);

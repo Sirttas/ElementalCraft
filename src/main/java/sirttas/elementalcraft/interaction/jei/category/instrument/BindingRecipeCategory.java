@@ -50,7 +50,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 				.addItemStack(container);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, RADIUS, RADIUS + 18)
-				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
+				.addIngredient(ECIngredientTypes.ELEMENT, getElementTypeIngredient(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, RADIUS * 2 + 32, RADIUS)
 				.addItemStack(recipe.getResultItem());

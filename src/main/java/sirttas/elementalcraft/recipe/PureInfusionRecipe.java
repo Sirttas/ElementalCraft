@@ -73,7 +73,7 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 
 	@Override
 	public ItemStack assemble(PureInfuserBlockEntity inv) {
-		return this.getResultItem().copy(); // TODO get element from ingredients
+		return this.getResultItem().copy();
 	}
 
 	public int getElementAmount() {
