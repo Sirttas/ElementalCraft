@@ -1,3 +1,10 @@
+1.19.2-5.8.4:
+
+- reduced the element cost of stripping logs with a wood saw
+- fix overclocked acceleration shrine upgrade not having a recipe
+- fix empty grinding recipes showing in jei
+
+
 1.19.2-5.8.3:
 
 - updated source altar structures

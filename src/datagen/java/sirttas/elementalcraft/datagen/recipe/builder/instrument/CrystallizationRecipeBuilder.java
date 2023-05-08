@@ -30,8 +30,8 @@ public class CrystallizationRecipeBuilder {
 	private int elementAmount;
 	private final RecipeSerializer<?> serializer;
 
-	public CrystallizationRecipeBuilder(RecipeSerializer<?> serializerIn, ElementType elementType) {
-		this.serializer = serializerIn;
+	public CrystallizationRecipeBuilder(RecipeSerializer<?> serializer, ElementType elementType) {
+		this.serializer = serializer;
 		this.elementType = elementType;
 		elementAmount = 5000;
 		outputs = Lists.newArrayList();
@@ -50,48 +50,48 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(0, tag);
 	}
 
-	public CrystallizationRecipeBuilder setGem(ItemLike itemIn) {
-		return this.setIngredient(0, itemIn);
+	public CrystallizationRecipeBuilder setGem(ItemLike item) {
+		return this.setIngredient(0, item);
 	}
 
-	public CrystallizationRecipeBuilder setGem(Ingredient ingredientIn) {
-		return this.setIngredient(0, ingredientIn);
+	public CrystallizationRecipeBuilder setGem(Ingredient ingredient) {
+		return this.setIngredient(0, ingredient);
 	}
 
-	public CrystallizationRecipeBuilder setCrystal(TagKey<Item> tagIn) {
-		return this.setIngredient(1, tagIn);
+	public CrystallizationRecipeBuilder setCrystal(TagKey<Item> tag) {
+		return this.setIngredient(1, tag);
 	}
 
-	public CrystallizationRecipeBuilder setCrystal(ItemLike itemIn) {
-		return this.setIngredient(1, itemIn);
+	public CrystallizationRecipeBuilder setCrystal(ItemLike item) {
+		return this.setIngredient(1, item);
 	}
 
-	public CrystallizationRecipeBuilder setCrystal(Ingredient ingredientIn) {
-		return this.setIngredient(1, ingredientIn);
+	public CrystallizationRecipeBuilder setCrystal(Ingredient ingredient) {
+		return this.setIngredient(1, ingredient);
 	}
 
 	public CrystallizationRecipeBuilder setShard(TagKey<Item> tag) {
 		return this.setIngredient(2, tag);
 	}
 
-	public CrystallizationRecipeBuilder setShard(ItemLike itemIn) {
-		return this.setIngredient(2, itemIn);
+	public CrystallizationRecipeBuilder setShard(ItemLike item) {
+		return this.setIngredient(2, item);
 	}
 
-	public CrystallizationRecipeBuilder setShard(Ingredient ingredientIn) {
-		return this.setIngredient(2, ingredientIn);
+	public CrystallizationRecipeBuilder setShard(Ingredient ingredient) {
+		return this.setIngredient(2, ingredient);
 	}
 
 	private CrystallizationRecipeBuilder setIngredient(int index, TagKey<Item> tag) {
 		return this.setIngredient(index, Ingredient.of(tag));
 	}
 
-	private CrystallizationRecipeBuilder setIngredient(int index, ItemLike itemIn) {
-		return this.setIngredient(index, Ingredient.of(itemIn));
+	private CrystallizationRecipeBuilder setIngredient(int index, ItemLike item) {
+		return this.setIngredient(index, Ingredient.of(item));
 	}
 
-	private CrystallizationRecipeBuilder setIngredient(int index, Ingredient ingredientIn) {
-		this.ingredients.set(index, ingredientIn);
+	private CrystallizationRecipeBuilder setIngredient(int index, Ingredient ingredient) {
+		this.ingredients.set(index, ingredient);
 		return this;
 	}
 
@@ -104,12 +104,12 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
-		this.build(consumerIn, ElementalCraft.createRL(CrystallizationRecipe.NAME + '/' + save));
+	public void save(Consumer<FinishedRecipe> consumer, String save) {
+		this.save(consumer, ElementalCraft.createRL(CrystallizationRecipe.NAME + '/' + save));
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.serializer, this.ingredients, this.outputs, elementType, elementAmount));
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+		consumer.accept(new Result(id, this.serializer, this.ingredients, this.outputs, elementType, elementAmount));
 	}
 
 	public static class Result extends AbstractFinishedRecipe {

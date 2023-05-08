@@ -72,7 +72,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	}
 	
 	@Override
-	public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
 		consumer.accept(new Result(id, this.serializer, this.ingredient, this.infusion, elementAmount));
 	}
 

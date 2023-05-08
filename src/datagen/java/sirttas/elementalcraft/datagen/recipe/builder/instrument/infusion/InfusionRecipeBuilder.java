@@ -35,8 +35,8 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	}
 	
 	@Override
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.serializer, this.ingredient, this.result, elementType, elementAmount));
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+		consumer.accept(new Result(id, this.serializer, this.ingredient, this.result, elementType, elementAmount));
 	}
 
 	public static class Result extends AbstractResult {

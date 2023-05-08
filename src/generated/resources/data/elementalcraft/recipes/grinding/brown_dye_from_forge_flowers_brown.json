@@ -1,12 +1,28 @@
 {
-  "type": "elementalcraft:grinding",
-  "element_amount": 1000,
-  "input": {
-    "tag": "forge:flowers/brown"
-  },
-  "luck_ratio": 2,
-  "output": {
-    "count": 2,
-    "item": "minecraft:brown_dye"
-  }
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:tag_empty",
+            "tag": "forge:flowers/brown"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "elementalcraft:grinding",
+        "element_amount": 1000,
+        "input": {
+          "tag": "forge:flowers/brown"
+        },
+        "luck_ratio": 2,
+        "output": {
+          "count": 2,
+          "item": "minecraft:brown_dye"
+        }
+      }
+    }
+  ]
 }

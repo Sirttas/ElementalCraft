@@ -54,9 +54,8 @@ public class ShrineRangeGameTests {
     }
 
     private static void should_haveRange(GameTestHelper helper, AbstractShrineBlockEntity shrine, AABB range) {
-        helper.startSequence().thenExecuteAfter(1, () -> {
-            assertThat(shrine).isNotNull();
-            assertThat(shrine.getRangeBoundingBox()).isEqualTo(range.move(helper.absolutePos(BlockPos.ZERO)));
-        }).thenSucceed();
+        assertThat(shrine).isNotNull();
+        assertThat(shrine.getRangeBoundingBox()).isEqualTo(range.move(helper.absolutePos(BlockPos.ZERO)));
+        helper.succeed();
     }
 }

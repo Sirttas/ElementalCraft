@@ -28,15 +28,15 @@ public class BindingRecipeBuilder {
 	private int elementAmount;
 	private final RecipeSerializer<?> serializer;
 
-	public BindingRecipeBuilder(RecipeSerializer<?> serializerIn, ItemLike resultProviderIn, ElementType elementType) {
-		this.serializer = serializerIn;
-		this.result = resultProviderIn.asItem();
+	public BindingRecipeBuilder(RecipeSerializer<?> serializer, ItemLike result, ElementType elementType) {
+		this.serializer = serializer;
+		this.result = result.asItem();
 		this.elementType = elementType;
 		elementAmount = 2500;
 	}
 
-	public static BindingRecipeBuilder bindingRecipe(ItemLike resultIn, ElementType elementType) {
-		return new BindingRecipeBuilder(ECRecipeSerializers.BINDING.get(), resultIn, elementType);
+	public static BindingRecipeBuilder bindingRecipe(ItemLike result, ElementType elementType) {
+		return new BindingRecipeBuilder(ECRecipeSerializers.BINDING.get(), result, elementType);
 	}
 
 	public BindingRecipeBuilder withElementAmount(int elementAmount) {
@@ -48,33 +48,33 @@ public class BindingRecipeBuilder {
 		return this.addIngredient(Ingredient.of(tag));
 	}
 
-	public BindingRecipeBuilder addIngredient(ItemLike itemIn) {
-		return this.addIngredient(Ingredient.of(itemIn));
+	public BindingRecipeBuilder addIngredient(ItemLike item) {
+		return this.addIngredient(Ingredient.of(item));
 	}
 
-	public BindingRecipeBuilder addIngredient(Ingredient ingredientIn) {
-		this.ingredients.add(ingredientIn);
+	public BindingRecipeBuilder addIngredient(Ingredient ingredient) {
+		this.ingredients.add(ingredient);
 		return this;
 	}
 
 
-	public void build(Consumer<FinishedRecipe> consumerIn) {
+	public void save(Consumer<FinishedRecipe> consumer) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, new ResourceLocation(id.getNamespace(), AbstractBindingRecipe.NAME + '/' + id.getPath()));
+		this.save(consumer, new ResourceLocation(id.getNamespace(), AbstractBindingRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
+	public void save(Consumer<FinishedRecipe> consumer, String save) {
 		ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(AbstractBindingRecipe.NAME + '/' + save));
+			this.save(consumer, ElementalCraft.createRL(AbstractBindingRecipe.NAME + '/' + save));
 		}
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.serializer, this.ingredients, this.result, elementType, elementAmount));
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+		consumer.accept(new Result(id, this.serializer, this.ingredients, this.result, elementType, elementAmount));
 	}
 
 
@@ -84,10 +84,10 @@ public class BindingRecipeBuilder {
 		private final ElementType elementType;
 		private final int elementAmount;
 
-		public Result(ResourceLocation id, RecipeSerializer<?> serializer, List<Ingredient> ingredients, Item resultIn, ElementType elementType, int elementAmount) {
+		public Result(ResourceLocation id, RecipeSerializer<?> serializer, List<Ingredient> ingredients, Item result, ElementType elementType, int elementAmount) {
 			super(id, serializer);
 			this.ingredients = ingredients;
-			this.output = resultIn;
+			this.output = result;
 			this.elementType = elementType;
 			this.elementAmount = elementAmount;
 		}

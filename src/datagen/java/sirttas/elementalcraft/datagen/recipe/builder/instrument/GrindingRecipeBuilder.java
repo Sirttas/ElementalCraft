@@ -25,15 +25,15 @@ public class GrindingRecipeBuilder {
 	private int luckRatio;
 	private int count;
 
-	public GrindingRecipeBuilder(ItemLike resultProviderIn) {
-		this.result = resultProviderIn.asItem();
+	public GrindingRecipeBuilder(ItemLike result) {
+		this.result = result.asItem();
 		elementAmount = 1000;
 		luckRatio = 0;
 		count = 1;
 	}
 
-	public static GrindingRecipeBuilder grindingRecipe(ItemLike resultIn) {
-		return new GrindingRecipeBuilder(resultIn);
+	public static GrindingRecipeBuilder grindingRecipe(ItemLike result) {
+		return new GrindingRecipeBuilder(result);
 	}
 	
 	public GrindingRecipeBuilder withElementAmount(int elementAmount) {
@@ -45,16 +45,16 @@ public class GrindingRecipeBuilder {
 		return this.withIngredient(Ingredient.of(tag));
 	}
 
-	public GrindingRecipeBuilder withIngredient(ItemLike itemIn) {
-		return this.withIngredient(Ingredient.of(itemIn));
+	public GrindingRecipeBuilder withIngredient(ItemLike item) {
+		return this.withIngredient(Ingredient.of(item));
 	}
 
 	public GrindingRecipeBuilder withIngredient(ItemStack stack) {
 		return this.withIngredient(Ingredient.of(stack));
 	}
 	
-	public GrindingRecipeBuilder withIngredient(Ingredient ingredientIn) {
-		this.ingredient = ingredientIn;
+	public GrindingRecipeBuilder withIngredient(Ingredient ingredient) {
+		this.ingredient = ingredient;
 		return this;
 	}
 
@@ -68,23 +68,23 @@ public class GrindingRecipeBuilder {
 		return this;
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn) {
+	public void save(Consumer<FinishedRecipe> consumer) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
+		this.save(consumer, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
+	public void save(Consumer<FinishedRecipe> consumer, String save) {
 		ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Grinding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + save));
+			this.save(consumer, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + save));
 		}
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.ingredient, this.result, elementAmount, luckRatio, count));
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+		consumer.accept(new Result(id, this.ingredient, this.result, elementAmount, luckRatio, count));
 	}
 
 	public static class Result extends AbstractFinishedRecipe {
@@ -95,10 +95,10 @@ public class GrindingRecipeBuilder {
 		private final int luckRatio;
 		private final int count;
 
-		public Result(ResourceLocation id, Ingredient ingredient, Item resultIn, int elementAmount, int luckRatio, int count) {
+		public Result(ResourceLocation id, Ingredient ingredient, Item result, int elementAmount, int luckRatio, int count) {
 			super(id, ECRecipeSerializers.GRINDING.get());
 			this.ingredient = ingredient;
-			this.output = resultIn;
+			this.output = result;
 			this.elementAmount = elementAmount;
 			this.luckRatio = luckRatio;
 			this.count = count;

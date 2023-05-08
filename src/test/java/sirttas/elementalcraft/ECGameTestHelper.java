@@ -1,5 +1,6 @@
 package sirttas.elementalcraft;
 
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestBatch;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
@@ -20,7 +21,27 @@ public class ECGameTestHelper {
     }
 
     public static TestFunction createTestFunction(String batchName, String name, String template, Rotation rotation, Consumer<GameTestHelper> function) {
-        return new TestFunction(batchName, name, template, rotation, 100, 0, true, function);
+        return new TestFunction(batchName, name, template, rotation, 100, 0, true, fixAssertions(function));
+    }
+
+    public static Consumer<GameTestHelper> fixAssertions(Consumer<GameTestHelper> function) {
+        return helper -> {
+            try {
+                function.accept(helper);
+            } catch (AssertionError e) {
+                helper.fail(e.getMessage());
+            }
+        };
+    }
+
+    public static Runnable fixAssertions(Runnable function) {
+        return () -> {
+            try {
+                function.run();
+            } catch (AssertionError e) {
+                throw new GameTestAssertException(e.getMessage());
+            }
+        };
     }
 
 }

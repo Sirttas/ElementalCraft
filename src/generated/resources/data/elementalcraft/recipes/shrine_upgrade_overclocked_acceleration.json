@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "i": {
+      "item": "minecraft:clock"
+    },
+    "p": {
+      "item": "elementalcraft:elementpipe_improved"
+    },
+    "z": {
+      "type": "forge:partial_nbt",
+      "item": "elementalcraft:rune",
+      "nbt": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
+    }
+  },
+  "pattern": [
+    "ziz",
+    "pCp",
+    " c "
+  ],
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_overclocked_acceleration"
+  }
+}

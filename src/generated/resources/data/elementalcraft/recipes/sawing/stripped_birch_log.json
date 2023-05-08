@@ -1,6 +1,6 @@
 {
   "type": "elementalcraft:sawing",
-  "element_amount": 1000,
+  "element_amount": 250,
   "input": {
     "item": "minecraft:birch_log"
   },

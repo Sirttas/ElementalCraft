@@ -27,14 +27,14 @@ public class PureInfusionRecipeBuilder {
 	private int elementAmount;
 	private final RecipeSerializer<?> serializer;
 
-	public PureInfusionRecipeBuilder(RecipeSerializer<?> serializerIn, ItemLike resultProviderIn) {
-		this.serializer = serializerIn;
-		this.result = resultProviderIn.asItem();
+	public PureInfusionRecipeBuilder(RecipeSerializer<?> serializer, ItemLike result) {
+		this.serializer = serializer;
+		this.result = result.asItem();
 		elementAmount = 60000;
 	}
 
-	public static PureInfusionRecipeBuilder pureInfusionRecipe(ItemLike resultIn) {
-		return new PureInfusionRecipeBuilder(ECRecipeSerializers.PURE_INFUSION.get(), resultIn);
+	public static PureInfusionRecipeBuilder pureInfusionRecipe(ItemLike result) {
+		return new PureInfusionRecipeBuilder(ECRecipeSerializers.PURE_INFUSION.get(), result);
 	}
 
 	public PureInfusionRecipeBuilder withElementAmount(int elementAmount) {
@@ -42,24 +42,24 @@ public class PureInfusionRecipeBuilder {
 		return this;
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(TagKey<Item> tagIn) {
-		return this.setIngredient(ElementType.NONE, Ingredient.of(tagIn));
+	public PureInfusionRecipeBuilder setIngredient(TagKey<Item> tag) {
+		return this.setIngredient(ElementType.NONE, Ingredient.of(tag));
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(ItemLike itemIn) {
-		return this.setIngredient(ElementType.NONE, Ingredient.of(itemIn));
+	public PureInfusionRecipeBuilder setIngredient(ItemLike item) {
+		return this.setIngredient(ElementType.NONE, Ingredient.of(item));
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(Ingredient ingredientIn) {
-		return this.setIngredient(ElementType.NONE, ingredientIn);
+	public PureInfusionRecipeBuilder setIngredient(Ingredient ingredient) {
+		return this.setIngredient(ElementType.NONE, ingredient);
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(ElementType type, TagKey<Item> tagIn) {
-		return this.setIngredient(type, Ingredient.of(tagIn));
+	public PureInfusionRecipeBuilder setIngredient(ElementType type, TagKey<Item> tag) {
+		return this.setIngredient(type, Ingredient.of(tag));
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(ElementType type, ItemLike itemIn) {
-		return this.setIngredient(type, Ingredient.of(itemIn));
+	public PureInfusionRecipeBuilder setIngredient(ElementType type, ItemLike item) {
+		return this.setIngredient(type, Ingredient.of(item));
 	}
 
 	
@@ -79,23 +79,23 @@ public class PureInfusionRecipeBuilder {
 		};
 	}
 	
-	public void build(Consumer<FinishedRecipe> consumerIn) {
+	public void save(Consumer<FinishedRecipe> consumer) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, new ResourceLocation(id.getNamespace(), PureInfusionRecipe.NAME + '/' + id.getPath()));
+		this.save(consumer, new ResourceLocation(id.getNamespace(), PureInfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
+	public void save(Consumer<FinishedRecipe> consumer, String save) {
 		ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(AbstractBindingRecipe.NAME + '/' + save));
+			this.save(consumer, ElementalCraft.createRL(AbstractBindingRecipe.NAME + '/' + save));
 		}
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.serializer, this.ingredients, this.result, elementAmount));
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+		consumer.accept(new Result(id, this.serializer, this.ingredients, this.result, elementAmount));
 	}
 
 
@@ -105,10 +105,10 @@ public class PureInfusionRecipeBuilder {
 		private final Item output;
 		private final int elementAmount;
 
-		public Result(ResourceLocation id, RecipeSerializer<?> serializer, List<Ingredient> ingredients, Item resultIn, int elementAmount) {
+		public Result(ResourceLocation id, RecipeSerializer<?> serializer, List<Ingredient> ingredients, Item result, int elementAmount) {
 			super(id, serializer);
 			this.ingredients = ingredients;
-			this.output = resultIn;
+			this.output = result;
 			this.elementAmount = elementAmount;
 		}
 
