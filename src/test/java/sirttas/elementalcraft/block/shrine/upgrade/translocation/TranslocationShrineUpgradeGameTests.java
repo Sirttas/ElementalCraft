@@ -41,7 +41,7 @@ public class TranslocationShrineUpgradeGameTests {
     );
 
     // elementalcraft:translocationshrineupgradegametests.should_growcropsaroundanchor
-    @GameTest
+    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
     public static void should_growCropsAroundAnchor(GameTestHelper helper) {
         var upgrade = (TranslocationShrineUpgradeBlockEntity) BlockEntityGameTestHelper.getBlockEntity(helper, new BlockPos(5, 2, 4));
         var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 2, 4));

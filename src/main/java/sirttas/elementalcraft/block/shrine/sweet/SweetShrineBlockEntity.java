@@ -26,7 +26,6 @@ public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRangeBoundingBox(), e -> !e.isSpectator()));
 	}
 
-
 	@Override
 	protected boolean doPeriod() {
 		int consumeAmount = this.getConsumeAmount();

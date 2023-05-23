@@ -5,6 +5,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.RegistryObject;
 import org.assertj.core.api.AbstractAssert;
+import sirttas.elementalcraft.item.ItemStackAssert;
 
 import java.util.function.Consumer;
 
@@ -31,6 +32,18 @@ public class ItemHandlerAssert extends AbstractAssert<ItemHandlerAssert, IItemHa
         if (checkEmpty()) {
             failWithMessage("Expected item handler to not be empty");
         }
+        return this;
+    }
+
+    public ItemHandlerAssert isEmpty(int slot) {
+        isNotNull();
+        ItemStackAssert.assertThat(actual.getStackInSlot(slot)).isEmpty();
+        return this;
+    }
+
+    public ItemHandlerAssert isNotEmpty(int slot) {
+        isNotNull();
+        ItemStackAssert.assertThat(actual.getStackInSlot(slot)).isNotEmpty();
         return this;
     }
 

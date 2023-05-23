@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -17,6 +16,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.block.shrine.upgrade.vertical.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -49,12 +49,11 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 					.filter(stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof IPlantable)
 					.findFirst()
 					.ifPresent(seeds -> {
-						var blockItem = (BlockItem) seeds.getItem();
 						var mutablePos = new BlockPos.MutableBlockPos(pos.getX(), pos.getY(), pos.getZ());
 						var hasPlanted = false;
 
 						do {
-							hasPlanted = blockItem.place(new DirectionalPlaceContext(this.level, mutablePos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
+							hasPlanted = PlantingShrineUpgradeBlock.plant(seeds, level, mutablePos);
 							mutablePos.move(Direction.DOWN);
 						} while (!hasPlanted && mutablePos.getY() >= y);
 

@@ -40,7 +40,7 @@ public class OreShrineGameTests {
     );
 
     // elementalcraft:oreshrinegametests.should_mineinrange
-    @GameTest
+    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
     public static void should_mineInRange(GameTestHelper helper) {
         ShrineGameTestHelper.forcePeriods(helper, new BlockPos(13, 2, 13), IN_RANGE.size() + OUTSIDE_RANGE.size());
         helper.succeedIf(() -> {

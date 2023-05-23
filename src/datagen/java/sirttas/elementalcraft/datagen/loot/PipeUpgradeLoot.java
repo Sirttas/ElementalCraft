@@ -19,7 +19,7 @@ public class PipeUpgradeLoot implements Consumer<BiConsumer<ResourceLocation, Bu
 	private final Map<ResourceLocation, Builder> map = Maps.newHashMap();
 
 	protected void addTables() {
-		add(getKey(PipeUpgradeTypes.ELEMENT_PUMP), ECBlockLoot.createRunnable(PipeUpgradeTypes.ELEMENT_PUMP.get()));
+		add(getKey(PipeUpgradeTypes.ELEMENT_PUMP), ECBlockLoot.createRuneable(PipeUpgradeTypes.ELEMENT_PUMP.get()));
 		dropSelf(PipeUpgradeTypes.PIPE_PRIORITY_RINGS.get());
 		dropSelf(PipeUpgradeTypes.ELEMENT_VALVE.get());
 		dropSelf(PipeUpgradeTypes.ELEMENT_BEAM.get());

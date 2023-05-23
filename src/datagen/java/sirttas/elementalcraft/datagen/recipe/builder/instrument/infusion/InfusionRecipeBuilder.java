@@ -19,14 +19,14 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	private final Item result;
 	protected final ElementType elementType;
 	
-	public InfusionRecipeBuilder(RecipeSerializer<?> serializerIn, Ingredient ingredientIn, ItemLike resultProviderIn, ElementType elementType) {
-		super(serializerIn, ingredientIn);
-		this.result = resultProviderIn.asItem();
+	public InfusionRecipeBuilder(RecipeSerializer<?> serializer, Ingredient ingredient, ItemLike result, ElementType elementType) {
+		super(serializer, ingredient);
+		this.result = result.asItem();
 		this.elementType = elementType;
 	}
 
-	public static InfusionRecipeBuilder infusionRecipe(Ingredient ingredientIn, ItemLike resultIn, ElementType elementType) {
-		return new InfusionRecipeBuilder(ECRecipeSerializers.INFUSION.get(), ingredientIn, resultIn, elementType);
+	public static InfusionRecipeBuilder infusionRecipe(Ingredient ingredient, ItemLike result, ElementType elementType) {
+		return new InfusionRecipeBuilder(ECRecipeSerializers.INFUSION.get(), ingredient, result, elementType);
 	}
 
 	@Override
@@ -44,9 +44,9 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 		private final Item output;
 		protected final ElementType elementType;
 
-		public Result(ResourceLocation idIn, RecipeSerializer<?> serializerIn, Ingredient ingredientIn, Item resultIn, ElementType elementType, int elementAmount) {
-			super(idIn, serializerIn, ingredientIn, elementAmount);
-			this.output = resultIn;
+		public Result(ResourceLocation id, RecipeSerializer<?> serializer, Ingredient ingredientIn, Item result, ElementType elementType, int elementAmount) {
+			super(id, serializer, ingredientIn, elementAmount);
+			this.output = result;
 			this.elementType = elementType;
 		}
 

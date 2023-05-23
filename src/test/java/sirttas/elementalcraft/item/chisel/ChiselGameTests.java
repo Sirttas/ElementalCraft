@@ -16,7 +16,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -62,7 +61,7 @@ public class ChiselGameTests {
         var index = new AtomicInteger(0);
 
         return RuneTestHolder.HOLDERS.stream()
-                .map(t -> ECGameTestHelper.createTestFunction("should_removeRunes#" + index.getAndIncrement() + ":" + t.template(), t.template(), h -> should_removeRunes(h, t)))
+                .map(t -> t.createTestFunction("should_removeRunes#" + index.getAndIncrement(), ChiselGameTests::should_removeRunes))
                 .toList();
     }
 
@@ -94,7 +93,7 @@ public class ChiselGameTests {
         var index = new AtomicInteger(0);
 
         return RuneTestHolder.HOLDERS.stream()
-                .map(t -> ECGameTestHelper.createTestFunction("shouldNot_removeRunes#" + index.getAndIncrement() + ":" + t.template(), t.template(), h -> shouldNot_removeRunes(h, t)))
+                .map(t -> t.createTestFunction("shouldNot_removeRunes#" + index.getAndIncrement(), ChiselGameTests::shouldNot_removeRunes))
                 .toList();
     }
 

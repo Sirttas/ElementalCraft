@@ -40,7 +40,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -196,8 +195,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.addIngredient(ECItems.SPRINGALINE_SHARD.get())
 				.addIngredient(ECItems.PURE_CRYSTAL.get())
-				.withElementAmount(30000
-				).save(consumer);
+				.withElementAmount(30000)
+				.save(consumer);
 		BindingRecipeBuilder.bindingRecipe(ECItems.HARDENED_HANDLE.get(), ElementType.EARTH)
 				.addIngredient(Tags.Items.RODS_WOODEN)
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
@@ -648,7 +647,7 @@ public class ECRecipeProvider extends RecipeProvider {
 			var block = e.getValue();
 			var key = e.getKey().location();
 
-			if (ElementalCraftApi.MODID.equals(key.getNamespace()) && !exists(block) && (block instanceof SlabBlock || block instanceof StairBlock || block instanceof WallBlock)) {
+			if (ElementalCraft.owns(key) && !exists(block) && (block instanceof SlabBlock || block instanceof StairBlock || block instanceof WallBlock)) {
 				String name = key.getPath();
 				String sourceName = name.substring(0, name.length() - (block instanceof StairBlock ? 7 : 5));
 				ItemLike source = ForgeRegistries.ITEMS.getValue(ElementalCraft.createRL(sourceName));
@@ -1368,83 +1367,83 @@ public class ECRecipeProvider extends RecipeProvider {
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.GRAVEL_FALL)
 				.setGem(ECTags.Items.INPUT_EARTH_GEMS)
 				.setCrystal(ECItems.EARTH_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.STONE_WALL)
 				.setGem(ECTags.Items.INPUT_EARTH_GEMS)
 				.setCrystal(ECItems.EARTH_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FIRE_BALL)
 				.setGem(ECTags.Items.INPUT_FIRE_GEMS)
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ITEM_PULL)
 				.setGem(ECTags.Items.FINE_AIR_GEMS)
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ENDER_STRIKE)
 				.setGem(ECTags.Items.CRUDE_AIR_GEMS)
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ANIMAL_GROWTH)
 				.setGem(ECTags.Items.CRUDE_WATER_GEMS)
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.TREE_FALL)
 				.setGem(ECTags.Items.FINE_EARTH_GEMS)
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.PURIFICATION)
 				.setGem(ECTags.Items.CRUDE_WATER_GEMS)
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.RIPENING)
 				.setGem(ECTags.Items.INPUT_WATER_GEMS)
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FLAME_CLEAVE)
 				.setGem(ECTags.Items.CRUDE_FIRE_GEMS)
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.INFERNO)
 				.setGem(ECTags.Items.INPUT_FIRE_GEMS)
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.DASH)
 				.setGem(ECTags.Items.FINE_AIR_GEMS)
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SILK_VEIN)
 				.setGem(ECTags.Items.PRISTINE_EARTH_GEMS)
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.TRANSLOCATION)
 				.setGem(ECTags.Items.PRISTINE_AIR_GEMS)
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FEATHER_SPIKES)
 				.setGem(ECTags.Items.FINE_AIR_GEMS)
 				.setCrystal(ECItems.EARTH_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.HEAL)
 				.setGem(ECTags.Items.PRISTINE_WATER_GEMS)
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SPEED)
 				.setGem(ECTags.Items.PRISTINE_AIR_GEMS)
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SHOCKWAVE)
 				.setGem(ECTags.Items.CRUDE_AIR_GEMS)
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.AIR_SHIELD)
 				.setGem(ECTags.Items.FINE_AIR_GEMS)
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.REPAIR)
 				.setGem(ECTags.Items.PRISTINE_FIRE_GEMS)
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.build(consumer);
+				.save(consumer);
 	}
 
 	private void registerToolInfusions(Consumer<FinishedRecipe> consumer) {
@@ -1637,16 +1636,16 @@ public class ECRecipeProvider extends RecipeProvider {
 		SawingRecipeBuilder.sawingRecipe(stripedLog)
 				.withIngredient(log)
 				.withElementAmount(250)
-				.build(consumer);
+				.save(consumer);
 		SawingRecipeBuilder.sawingRecipe(stripedWood)
 				.withIngredient(wood)
 				.withElementAmount(250)
-				.build(consumer);
+				.save(consumer);
 		SawingRecipeBuilder.sawingRecipe(planks)
 				.withCount(6)
 				.withIngredient(stripped)
 				.withLuckRatio(3)
-				.build(consumer);
+				.save(consumer);
 	}
 
 	private void registerRunes(Consumer<FinishedRecipe> consumer) {
@@ -1681,80 +1680,80 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECTags.Items.CRUDE_AIR_GEMS)
 				.addIngredient(Items.SUGAR)
 				.addIngredient(Items.SUGAR)
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("fus"), ElementType.AIR)
 				.setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.FINE_AIR_GEMS)
 				.addIngredient(Tags.Items.STRING)
 				.addIngredient(Tags.Items.STRING)
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("zod"), ElementType.AIR)
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.PRISTINE_AIR_GEMS)
 				.addIngredient(ECItems.AIR_SILK.get())
 				.addIngredient(ECItems.AIR_SILK.get())
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("manx"), ElementType.FIRE)
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.CRUDE_FIRE_GEMS)
 				.addIngredient(ItemTags.COALS)
 				.addIngredient(ItemTags.COALS)
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("jita"), ElementType.FIRE)
 				.setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.FINE_FIRE_GEMS)
 				.addIngredient(Items.BLAZE_ROD)
 				.addIngredient(Items.BLAZE_ROD)
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tano"), ElementType.FIRE)
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS)
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("soaryn"), ElementType.EARTH)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
 				.addIngredient(createRuneIngredient("wii"))
 				.addIngredient(createRuneIngredient("manx"))
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("kaworu"), ElementType.EARTH)
 				.withElementAmount(10000)
 				.setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.FINE_EARTH_GEMS)
 				.addIngredient(createRuneIngredient("fus"))
 				.addIngredient(createRuneIngredient("jita"))
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("mewtwo"), ElementType.EARTH)
 				.withElementAmount(20000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.PRISTINE_EARTH_GEMS)
 				.addIngredient(createRuneIngredient("zod"))
 				.addIngredient(createRuneIngredient("tano"))
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("claptrap"), ElementType.WATER)
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.CRUDE_WATER_GEMS)
 				.addIngredient(Tags.Items.GEMS_LAPIS)
 				.addIngredient(Tags.Items.GEMS_LAPIS)
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("bombadil"), ElementType.WATER)
 				.setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.FINE_WATER_GEMS)
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS)
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS)
-				.build(consumer);
+				.save(consumer);
 		InscriptionRecipeBuilder.inscriptionRecipe(ElementalCraft.createRL("tzeentch"), ElementType.WATER)
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
 				.addIngredient(ECTags.Items.PRISTINE_WATER_GEMS)
 				.addIngredient(Tags.Items.GEMS_EMERALD)
 				.addIngredient(Tags.Items.GEMS_EMERALD)
-				.build(consumer);
+				.save(consumer);
 	}
 
 	private void registerCrystallizations(@Nonnull Consumer<FinishedRecipe> consumer) {

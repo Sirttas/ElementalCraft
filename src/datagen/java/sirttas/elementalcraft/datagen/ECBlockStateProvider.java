@@ -72,7 +72,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			var block = entry.getValue();
 			var key = entry.getKey().location();
 
-			if (ElementalCraftApi.MODID.equals(key.getNamespace()) && !exists(key)) {
+			if (ElementalCraft.owns(key) && !exists(key)) {
 				save(key, block);
 			}
 		}

@@ -30,6 +30,13 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
+        },
+        {
+          "block": "elementalcraft:source_breeder",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "half": "lower"
+          }
         }
       ],
       "entries": [
@@ -37,6 +44,7 @@
           "type": "elementalcraft:runes"
         }
       ],
+      "name": "elementalcraft:runes",
       "rolls": 1.0
     }
   ]

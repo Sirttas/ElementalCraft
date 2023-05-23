@@ -28,6 +28,7 @@
           "type": "elementalcraft:runes"
         }
       ],
+      "name": "elementalcraft:runes",
       "rolls": 1.0
     }
   ]

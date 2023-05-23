@@ -1,3 +1,8 @@
+- improved some elementopedia entries
+- fix overload shrine not working (issue #144)
+- fix double half blocks loot tables (issue #145)
+
+
 1.19.2-5.8.4:
 
 - reduced the element cost of stripping logs with a wood saw

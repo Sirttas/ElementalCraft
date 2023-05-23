@@ -11,6 +11,7 @@ import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -92,16 +93,16 @@ public class SourceBreederGameTests {
             breederItemHandler.insertItem(0, new ItemStack(seed), false);
             pedestal1ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
             pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
-            pedestal1ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
-            pedestal2ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
+            pedestal1ElementStorage.ifPresent(IElementStorage::fill);
+            pedestal2ElementStorage.ifPresent(IElementStorage::fill);
         }).thenExecuteFor(1, () -> {
             assertThat(breeder).isNotNull().satisfies(b -> {
                 assertThat(b.getElementType()).isEqualTo(type);
                 assertThat(b.getPedestalsDirections()).hasSize(2);
             });
         }).thenExecuteFor(10, () -> {
-            pedestal1ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
-            pedestal2ElementStorage.ifPresent(s -> s.insertElement(1000000, type, false));
+            pedestal1ElementStorage.ifPresent(IElementStorage::fill);
+            pedestal2ElementStorage.ifPresent(IElementStorage::fill);
 
             assertThat(breederItemHandler).isNotEmpty();
         }).thenExecuteAfter(1, () -> {

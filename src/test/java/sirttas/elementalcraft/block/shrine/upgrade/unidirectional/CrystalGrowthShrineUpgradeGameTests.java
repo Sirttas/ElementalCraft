@@ -12,7 +12,7 @@ import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 public class CrystalGrowthShrineUpgradeGameTests {
 
     // elementalcraft:crystalgrowthshrineupgradegametests.should_growamethyst
-    @GameTest
+    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
     public static void should_growAmethyst(GameTestHelper helper) {
 
 

@@ -21,6 +21,13 @@ public class ECGameTestHelper {
     }
 
     public static TestFunction createTestFunction(String batchName, String name, String template, Rotation rotation, Consumer<GameTestHelper> function) {
+        if (!template.startsWith("elementalcraft:")) {
+            template = "elementalcraft:" + template;
+        }
+        if (!name.endsWith(":" + template)) {
+            name += ":" + template;
+        }
+
         return new TestFunction(batchName, name, template, rotation, 100, 0, true, fixAssertions(function));
     }
 

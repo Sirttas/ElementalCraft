@@ -14,7 +14,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.loot.LootHandler;
@@ -107,7 +106,7 @@ public class ECEntityLoot extends EntityLoot {
 	@Override
 	protected Iterable<EntityType<?>> getKnownEntities() {
 		return ForgeRegistries.ENTITY_TYPES.getEntries().stream()
-				.filter(e -> ElementalCraftApi.MODID.equals(e.getKey().location().getNamespace()))
+				.filter(ElementalCraft::owns)
 				.map(Map.Entry::getValue)
 				.collect(Collectors.toSet());
 	}

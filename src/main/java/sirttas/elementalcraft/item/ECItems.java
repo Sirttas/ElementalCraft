@@ -169,7 +169,7 @@ public class ECItems {
 		for (Block block : ForgeRegistries.BLOCKS) {
 			var registryName = ForgeRegistries.BLOCKS.getKey(block);
 
-			if (registryName != null && ElementalCraftApi.MODID.equals(registryName.getNamespace()) && !registry.containsKey(registryName)) {
+			if (registryName != null && ElementalCraft.owns(registryName) && !registry.containsKey(registryName)) {
 				BlockItem blockItem;
 
 				if (block instanceof AbstractElementContainerBlock containerBlock) {

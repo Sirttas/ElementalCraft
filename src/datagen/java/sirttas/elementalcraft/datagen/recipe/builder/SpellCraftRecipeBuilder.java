@@ -35,42 +35,42 @@ public class SpellCraftRecipeBuilder {
 		return new SpellCraftRecipeBuilder(ECRecipeSerializers.SPELL_CRAFT.get(), output.getId());
 	}
 	
-	public SpellCraftRecipeBuilder setGem(TagKey<Item> tagIn) {
-		return this.setGem(Ingredient.of(tagIn));
+	public SpellCraftRecipeBuilder setGem(TagKey<Item> tag) {
+		return this.setGem(Ingredient.of(tag));
 	}
 
-	public SpellCraftRecipeBuilder setGem(ItemLike itemIn) {
-		return this.setGem(Ingredient.of(itemIn));
+	public SpellCraftRecipeBuilder setGem(ItemLike item) {
+		return this.setGem(Ingredient.of(item));
 	}
 
-	public SpellCraftRecipeBuilder setGem(Ingredient ingredientIn) {
-		gem = ingredientIn;
+	public SpellCraftRecipeBuilder setGem(Ingredient ingredient) {
+		gem = ingredient;
 		return this;
 	}
 
-	public SpellCraftRecipeBuilder setCrystal(TagKey<Item> tagIn) {
-		return this.setCrystal(Ingredient.of(tagIn));
+	public SpellCraftRecipeBuilder setCrystal(TagKey<Item> tag) {
+		return this.setCrystal(Ingredient.of(tag));
 	}
 
-	public SpellCraftRecipeBuilder setCrystal(ItemLike itemIn) {
-		return this.setCrystal(Ingredient.of(itemIn));
+	public SpellCraftRecipeBuilder setCrystal(ItemLike item) {
+		return this.setCrystal(Ingredient.of(item));
 	}
 
-	public SpellCraftRecipeBuilder setCrystal(Ingredient ingredientIn) {
-		crystal = ingredientIn;
+	public SpellCraftRecipeBuilder setCrystal(Ingredient ingredient) {
+		crystal = ingredient;
 		return this;
 	}
 	
-	public void build(Consumer<FinishedRecipe> consumerIn) {
-		this.build(consumerIn, output.getPath());
+	public void save(Consumer<FinishedRecipe> consumer) {
+		this.save(consumer, output.getPath());
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
-		this.build(consumerIn, ElementalCraft.createRL(SpellCraftRecipe.NAME + '/' + save));
+	public void save(Consumer<FinishedRecipe> consumer, String save) {
+		this.save(consumer, ElementalCraft.createRL(SpellCraftRecipe.NAME + '/' + save));
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.serializer, this.gem, this.crystal, this.output));
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+		consumer.accept(new Result(id, this.serializer, this.gem, this.crystal, this.output));
 	}
 	
 	public static class Result extends AbstractFinishedRecipe {

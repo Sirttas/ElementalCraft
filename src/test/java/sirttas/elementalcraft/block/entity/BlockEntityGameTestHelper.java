@@ -13,8 +13,11 @@ public class BlockEntityGameTestHelper {
 
     @Nonnull
     public static BlockEntity getBlockEntity(GameTestHelper helper, BlockPos pos) {
-        var sorter = helper.getBlockEntity(pos);
+        var be = helper.getBlockEntity(pos);
 
-        return Objects.requireNonNull(sorter);
+        if (be == null) {
+            helper.fail("No block entity fond for block: " + helper.getBlockState(pos), pos);
+        }
+        return Objects.requireNonNull(be);
     }
 }

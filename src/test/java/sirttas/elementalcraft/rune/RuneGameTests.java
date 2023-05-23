@@ -6,7 +6,6 @@ import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -24,7 +23,7 @@ public class RuneGameTests {
         var index = new AtomicInteger(0);
 
         return RuneTestHolder.HOLDERS.stream()
-                .map(t -> ECGameTestHelper.createTestFunction("should_dropRunes#" + index.getAndIncrement() + ":" + t.template(), t.template(), h -> should_dropRunes(h, t)))
+                .map(t -> t.createTestFunction("should_dropRunes#" + index.getAndIncrement(), RuneGameTests::should_dropRunes))
                 .toList();
     }
 

@@ -25,15 +25,15 @@ public class SawingRecipeBuilder {
 	private int luckRatio;
 	private int count;
 
-	public SawingRecipeBuilder(ItemLike resultProviderIn) {
-		this.result = resultProviderIn.asItem();
+	public SawingRecipeBuilder(ItemLike result) {
+		this.result = result.asItem();
 		elementAmount = 1000;
 		luckRatio = 0;
 		count = 1;
 	}
 
-	public static SawingRecipeBuilder sawingRecipe(ItemLike resultIn) {
-		return new SawingRecipeBuilder(resultIn);
+	public static SawingRecipeBuilder sawingRecipe(ItemLike result) {
+		return new SawingRecipeBuilder(result);
 	}
 	
 	public SawingRecipeBuilder withElementAmount(int elementAmount) {
@@ -45,16 +45,16 @@ public class SawingRecipeBuilder {
 		return this.withIngredient(Ingredient.of(tag));
 	}
 
-	public SawingRecipeBuilder withIngredient(ItemLike itemIn) {
-		return this.withIngredient(Ingredient.of(itemIn));
+	public SawingRecipeBuilder withIngredient(ItemLike item) {
+		return this.withIngredient(Ingredient.of(item));
 	}
 
 	public SawingRecipeBuilder withIngredient(ItemStack stack) {
 		return this.withIngredient(Ingredient.of(stack));
 	}
 	
-	public SawingRecipeBuilder withIngredient(Ingredient ingredientIn) {
-		this.ingredient = ingredientIn;
+	public SawingRecipeBuilder withIngredient(Ingredient ingredient) {
+		this.ingredient = ingredient;
 		return this;
 	}
 
@@ -68,22 +68,22 @@ public class SawingRecipeBuilder {
 		return this;
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn) {
+	public void save(Consumer<FinishedRecipe> consumer) {
 		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
 
-		this.build(consumerIn, ElementalCraft.createRL(SawingRecipe.NAME + '/' + id.getPath()));
+		this.save(consumer, ElementalCraft.createRL(SawingRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
+	public void save(Consumer<FinishedRecipe> consumer, String save) {
 		ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Sawing Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.build(consumerIn, ElementalCraft.createRL(SawingRecipe.NAME + '/' + save));
+			this.save(consumer, ElementalCraft.createRL(SawingRecipe.NAME + '/' + save));
 		}
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
+	public void save(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
 		consumerIn.accept(new Result(id, this.ingredient, this.result, elementAmount, luckRatio, count));
 	}
 

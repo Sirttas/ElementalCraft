@@ -7,6 +7,7 @@ import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
+import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
@@ -14,7 +15,7 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class OverclockedAccelerationShrineUpgradeGameTests {
 
     // elementalcraft:overclockedaccelerationshrineupgradegametests.should_allowselementtransfer
-    @GameTest
+    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
     public static void should_allowsElementTransfer(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             helper.pullLever(0, 2, 2);

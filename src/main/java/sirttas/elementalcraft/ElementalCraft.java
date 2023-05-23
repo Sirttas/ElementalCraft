@@ -121,12 +121,16 @@ public class ElementalCraft {
 		return ResourceKey.createRegistryKey(createRL(name));
 	}
 
-    public static boolean owns(ResourceKey<?> key) {
-		return ElementalCraftApi.MODID.equals(key.location().getNamespace());
-    }
-
 	public static <T> boolean owns(Map.Entry<ResourceKey<T>, T> entry) {
 		return owns(entry.getKey());
+	}
+
+	public static boolean owns(ResourceKey<?> key) {
+		return owns(key.location());
+	}
+
+	public static boolean owns(ResourceLocation location) {
+		return ElementalCraftApi.MODID.equals(location.getNamespace());
 	}
 
     private void setup(FMLCommonSetupEvent event) {

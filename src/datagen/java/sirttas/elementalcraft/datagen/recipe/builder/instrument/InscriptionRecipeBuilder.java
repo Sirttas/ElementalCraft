@@ -31,8 +31,8 @@ public class InscriptionRecipeBuilder {
 	private final RecipeSerializer<?> serializer;
 	private Ingredient slate;
 
-	public InscriptionRecipeBuilder(RecipeSerializer<?> serializerIn, ResourceLocation output, ElementType elementType) {
-		this.serializer = serializerIn;
+	public InscriptionRecipeBuilder(RecipeSerializer<?> serializer, ResourceLocation output, ElementType elementType) {
+		this.serializer = serializer;
 		this.elementType = elementType;
 		elementAmount = 5000;
 		this.output = output;
@@ -47,42 +47,42 @@ public class InscriptionRecipeBuilder {
 		return this;
 	}
 
-	public InscriptionRecipeBuilder setSlate(TagKey<Item> tagIn) {
-		return this.setSlate(Ingredient.of(tagIn));
+	public InscriptionRecipeBuilder setSlate(TagKey<Item> tag) {
+		return this.setSlate(Ingredient.of(tag));
 	}
 
-	public InscriptionRecipeBuilder setSlate(ItemLike itemIn) {
-		return this.setSlate(Ingredient.of(itemIn));
+	public InscriptionRecipeBuilder setSlate(ItemLike item) {
+		return this.setSlate(Ingredient.of(item));
 	}
 
-	public InscriptionRecipeBuilder setSlate(Ingredient ingredientIn) {
-		slate = ingredientIn;
+	public InscriptionRecipeBuilder setSlate(Ingredient ingredient) {
+		slate = ingredient;
 		return this;
 	}
 
-	public InscriptionRecipeBuilder addIngredient(TagKey<Item> tagIn) {
-		return this.addIngredient(Ingredient.of(tagIn));
+	public InscriptionRecipeBuilder addIngredient(TagKey<Item> tag) {
+		return this.addIngredient(Ingredient.of(tag));
 	}
 
-	public InscriptionRecipeBuilder addIngredient(ItemLike itemIn) {
-		return this.addIngredient(Ingredient.of(itemIn));
+	public InscriptionRecipeBuilder addIngredient(ItemLike item) {
+		return this.addIngredient(Ingredient.of(item));
 	}
 
-	public InscriptionRecipeBuilder addIngredient(Ingredient ingredientIn) {
-		this.ingredients.add(ingredientIn);
+	public InscriptionRecipeBuilder addIngredient(Ingredient ingredient) {
+		this.ingredients.add(ingredient);
 		return this;
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn) {
-		this.build(consumerIn, output.getPath());
+	public void save(Consumer<FinishedRecipe> consumer) {
+		this.save(consumer, output.getPath());
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, String save) {
-		this.build(consumerIn, ElementalCraft.createRL(InscriptionRecipe.NAME + '/' + save));
+	public void save(Consumer<FinishedRecipe> consumer, String save) {
+		this.save(consumer, ElementalCraft.createRL(InscriptionRecipe.NAME + '/' + save));
 	}
 
-	public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
-		consumerIn.accept(new Result(id, this.serializer, this.slate, this.ingredients, this.output, elementType, elementAmount));
+	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
+		consumer.accept(new Result(id, this.serializer, this.slate, this.ingredients, this.output, elementType, elementAmount));
 	}
 
 	public static class Result extends AbstractFinishedRecipe {

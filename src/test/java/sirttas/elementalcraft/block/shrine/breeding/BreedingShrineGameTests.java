@@ -14,7 +14,7 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class BreedingShrineGameTests {
 
     // elementalcraft:breedingshrinegametests.should_breedcows
-    @GameTest
+    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
     public static void should_breedCows(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 2, 3));

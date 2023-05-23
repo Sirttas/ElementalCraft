@@ -27,7 +27,7 @@ public class InstrumentGameTestHelper {
 
         helper.startSequence().thenExecute(() -> {
                     instrument.getInventory().setItem(0, input);
-                    container.insertElement(1000000, elementType, false);
+                    container.fill(elementType);
 
                     assertThat(instrument.isRecipeAvailable()).isEqualTo(recipeAvailable);
                 }).thenExecuteAfter(2, () -> consumer.accept(instrument))

@@ -14,7 +14,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class ECAdvancementProvider implements DataProvider {
 			var item = entry.getValue();
 			var key = entry.getKey().location();
 
-			if (ElementalCraftApi.MODID.equals(key.getNamespace())) {
+			if (ElementalCraft.owns(key)) {
 				DataProvider.saveStable(cache, itemPickup(item, key).serializeToJson(), getPath(path, key));
 			}
 		}

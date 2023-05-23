@@ -71,10 +71,10 @@ public class PureInfuserGameTests {
             earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
             airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
 
-            firePedestalElementStorage.insertElement(1000000, ElementType.FIRE, false);
-            waterPedestalElementStorage.insertElement(1000000, ElementType.WATER, false);
-            earthPedestalElementStorage.insertElement(1000000, ElementType.EARTH, false);
-            airPedestalElementStorage.insertElement(1000000, ElementType.AIR, false);
+            firePedestalElementStorage.fill();
+            waterPedestalElementStorage.fill();
+            earthPedestalElementStorage.fill();
+            airPedestalElementStorage.fill();
 
             assertThat(pureInfuser.isRecipeAvailable()).isTrue();
         }).thenExecuteAfter(2, () -> {
@@ -141,10 +141,10 @@ public class PureInfuserGameTests {
             earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
             airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
 
-            firePedestalElementStorage.insertElement(1000000, ElementType.FIRE, false);
-            waterPedestalElementStorage.insertElement(1000000, ElementType.WATER, false);
-            earthPedestalElementStorage.insertElement(1000000, ElementType.EARTH, false);
-            airPedestalElementStorage.insertElement(1000000, ElementType.AIR, false);
+            firePedestalElementStorage.fill();
+            waterPedestalElementStorage.fill();
+            earthPedestalElementStorage.fill();
+            airPedestalElementStorage.fill();
 
             assertThat(pureInfuser.isRecipeAvailable()).isTrue();
 

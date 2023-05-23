@@ -11,6 +11,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "elementalcraft:air_mill_grindstone",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
           "name": "elementalcraft:air_mill_grindstone"
         }
       ],
@@ -21,6 +30,13 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
+        },
+        {
+          "block": "elementalcraft:air_mill_grindstone",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "half": "lower"
+          }
         }
       ],
       "entries": [
@@ -28,6 +44,7 @@
           "type": "elementalcraft:runes"
         }
       ],
+      "name": "elementalcraft:runes",
       "rolls": 1.0
     }
   ]

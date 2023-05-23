@@ -8,6 +8,8 @@ import javax.annotation.Nonnull;
 
 public class ShrineGameTestHelper {
 
+    public static final String BATCH_NAME = "shrine";
+
     private ShrineGameTestHelper() {}
 
     public static void forcePeriod(GameTestHelper helper, BlockPos pos) {
@@ -24,11 +26,9 @@ public class ShrineGameTestHelper {
 
     public static void forcePeriods(AbstractShrineBlockEntity shrine, int periods) {
         var storage = shrine.getElementStorage();
-        var consumeAmount = shrine.getConsumeAmount();
-        var type = shrine.getElementType();
 
         for (int i = 0; i < periods; i++) {
-            storage.insertElement(consumeAmount, type, false);
+            storage.fill();
             shrine.doPeriod();
         }
     }

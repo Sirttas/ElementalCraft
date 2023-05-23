@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
@@ -17,6 +16,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.block.shrine.upgrade.vertical.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -55,7 +55,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 				.filter(stack -> stack.getItem().equals(blockItem))
 				.findFirst()
 				.ifPresent(seeds -> {
-					if (blockItem.place(new DirectionalPlaceContext(this.level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction()) {
+					if (PlantingShrineUpgradeBlock.plant(seeds, level, pos)) {
 						seeds.shrink(1);
 						if (seeds.isEmpty()) {
 							loots.remove(seeds);

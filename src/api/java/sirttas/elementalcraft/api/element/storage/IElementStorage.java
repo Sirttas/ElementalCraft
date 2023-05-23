@@ -55,7 +55,18 @@ public interface IElementStorage {
 	default boolean isEmpty() {
 		return ElementType.ALL_VALID.stream().mapToInt(this::getElementAmount).allMatch(i -> i <= 0);
 	}
-	
+
+	default void fill() {
+		ElementType.ALL_VALID.forEach(this::fill);
+	}
+
+	default void fill(ElementType type) {
+		if (type == ElementType.NONE) {
+			return;
+		}
+		insertElement(getElementCapacity(type), type, false);
+	}
+
 	default ISingleElementStorage forElement(ElementType type) {
 		if (type == ElementType.NONE) {
 			return EmptyElementStorage.getSingle(type);

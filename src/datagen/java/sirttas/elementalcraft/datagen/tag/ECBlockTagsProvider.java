@@ -37,7 +37,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	}
 
 	private Block[] getBlocksForClass(Class<?> clazz) {
-		return registry.stream().filter(b -> ElementalCraftApi.MODID.equals(ForgeRegistries.BLOCKS.getKey(b).getNamespace()) && clazz.isInstance(b)).sorted(Comparator.comparing(ForgeRegistries.BLOCKS::getKey)).toArray(Block[]::new);
+		return registry.stream().filter(b -> ElementalCraft.owns(ForgeRegistries.BLOCKS.getKey(b)) && clazz.isInstance(b)).sorted(Comparator.comparing(ForgeRegistries.BLOCKS::getKey)).toArray(Block[]::new);
 	}
 
 	@SuppressWarnings("unchecked")

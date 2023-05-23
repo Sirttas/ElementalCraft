@@ -52,4 +52,14 @@ public class EmptyElementStorage implements IElementStorage {
 	public boolean canPipeExtract(ElementType type, @Nullable Direction side) {
 		return false;
 	}
+
+	@Override
+	public void fill() {
+		// Do nothing
+	}
+
+	@Override
+	public void fill(ElementType type) {
+		// Do nothing
+	}
 }

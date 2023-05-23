@@ -6,7 +6,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -49,14 +51,18 @@ public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlo
 	@Nonnull
     @Override
 	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return state.getValue(FACING) == Direction.UP ? SHAPE_UP : SHAPE_DOWN;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(Component.translatable("tooltip.elementalcraft.planting").withStyle(ChatFormatting.BLUE));
-		super.appendHoverText(stack, worldIn, tooltip, flag);
+		super.appendHoverText(stack, level, tooltip, flag);
+	}
+
+	public static boolean plant(@Nonnull ItemStack seeds, @Nonnull Level level, @Nonnull BlockPos pos) {
+		return seeds.useOn(new DirectionalPlaceContext(level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
 	}
 }

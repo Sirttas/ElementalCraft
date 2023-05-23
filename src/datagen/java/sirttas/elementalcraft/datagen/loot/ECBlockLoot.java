@@ -27,7 +27,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
@@ -36,6 +36,7 @@ import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
+import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.item.ECItems;
@@ -56,11 +57,12 @@ public class ECBlockLoot extends BlockLoot {
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyNbt(b, ECNames.TARGET));
 		add(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
-		add(ECBlocks.DIFFUSER.get(), ECBlockLoot::createRunnable);
-		add(ECBlocks.SORTER.get(), ECBlockLoot::createRunnable);
-		add(ECBlocks.PURE_INFUSER.get(), ECBlockLoot::createRunnable);
-		add(ECBlocks.SOURCE_BREEDER.get(), b -> createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).withPool(dropRunes()));
-		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECBlockLoot::createRunnable);
+		add(ECBlocks.DIFFUSER.get(), ECBlockLoot::createRuneable);
+		add(ECBlocks.SORTER.get(), ECBlockLoot::createRuneable);
+		add(ECBlocks.PURE_INFUSER.get(), ECBlockLoot::createRuneable);
+		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlockLoot::createDoubleHalfRuneable);
+		add(ECBlocks.SOURCE_BREEDER.get(), ECBlockLoot::createDoubleHalfRuneable);
+		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECBlockLoot::createRuneable);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
 		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(dropRunes()));
 		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);
@@ -76,23 +78,25 @@ public class ECBlockLoot extends BlockLoot {
 		for (Block block : ForgeRegistries.BLOCKS) {
 			var key = block.getLootTable();
 
-			if (!ElementalCraftApi.MODID.equals(ForgeRegistries.BLOCKS.getKey(block).getNamespace()) || map.containsKey(key) || BuiltInLootTables.EMPTY.equals(key)) {
+			if (!ElementalCraft.owns(ForgeRegistries.BLOCKS.getKey(block)) || map.containsKey(key) || BuiltInLootTables.EMPTY.equals(key)) {
 				continue;
 			}
 			if (block instanceof SlabBlock) {
 				add(block, BlockLoot::createSlabItemTable);
-			} else if (block instanceof AbstractShrineBlock) {
+			} else if (block instanceof AbstractPylonShrineBlock<?>) {
+				add(block, ECBlockLoot::createDoubleHalfElementStorage);
+			}else if (block instanceof AbstractShrineBlock) {
 				add(block, ECBlockLoot::createCopyElementStorage);
 			} else if (block instanceof PedestalBlock) {
 				add(block, ECBlockLoot::createIER);
 			} else if (block instanceof IInstrumentBlock) {
-				add(block, ECBlockLoot::createRunnable);
+				add(block, ECBlockLoot::createRuneable);
 			} else if (block instanceof ExtractorBlock) {
-				add(block, ECBlockLoot::createRunnable);
+				add(block, ECBlockLoot::createRuneable);
 			} else if (block instanceof ElementPipeBlock) {
 				add(block, ECBlockLoot::createPipe);
 			} else if (block instanceof ReservoirBlock) {
-				add(block, ECBlockLoot::createReservoir);
+				add(block, ECBlockLoot::createDoubleHalfElementStorage);
 			} else if (block.defaultBlockState().hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
 				add(block, b -> createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
 			} else {
@@ -101,8 +105,17 @@ public class ECBlockLoot extends BlockLoot {
 		}
 	}
 
+	@Nonnull
+	private static Builder createDoubleHalfRuneable(Block b) {
+		return createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
+				.withPool(dropRunes()
+						.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))));
+	}
+
 	private static Builder createPipe(Block block) {
-		return createSingleItemTable(block).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ECItems.COVER_FRAME.get()))
+		return createSingleItemTable(block).withPool(LootPool.lootPool()
+				.setRolls(ConstantValue.exactly(1))
+				.add(LootItem.lootTableItem(ECItems.COVER_FRAME.get()))
 				.when(AlternativeLootItemCondition.alternative(
 						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.FRAME),
 						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.COVERED))));
@@ -123,7 +136,7 @@ public class ECBlockLoot extends BlockLoot {
 		return createCopyNbt(item, ECNames.ELEMENT_STORAGE);
 	}
 
-	public static Builder createRunnable(ItemLike item) {
+	public static Builder createRuneable(ItemLike item) {
 		return createSingleItemTable(item).withPool(dropRunes());
 	}
 
@@ -131,7 +144,7 @@ public class ECBlockLoot extends BlockLoot {
 		return createCopyElementStorage(item).withPool(dropRunes());
 	}
 
-	private static Builder createReservoir(Block block) {
+	private static Builder createDoubleHalfElementStorage(Block block) {
 		return LootTable.lootTable().withPool(createCopyNbtPool(LootItem.lootTableItem(block), ECNames.ELEMENT_STORAGE)
 				.when(createHasStateCondition(block, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)));
 	}
@@ -146,7 +159,10 @@ public class ECBlockLoot extends BlockLoot {
 	}
 
 	public static LootPool.Builder dropRunes() {
-		return LootPool.lootPool().add(LootRunes.builder()).when(ExplosionCondition.survivesExplosion());
+		return LootPool.lootPool()
+				.name("elementalcraft:runes")
+				.add(LootRunes.builder())
+				.when(ExplosionCondition.survivesExplosion());
 	}
 
 	private static LootPool.Builder createCopyNbtPool(LootPoolEntryContainer.Builder<?> entry, String... tags) {
@@ -162,7 +178,7 @@ public class ECBlockLoot extends BlockLoot {
 	@Override
 	protected Iterable<Block> getKnownBlocks() {
 		return ForgeRegistries.BLOCKS.getEntries().stream()
-				.filter(e -> ElementalCraftApi.MODID.equals(e.getKey().location().getNamespace()))
+				.filter(ElementalCraft::owns)
 				.map(Map.Entry::getValue)
 				.collect(Collectors.toSet());
 	}

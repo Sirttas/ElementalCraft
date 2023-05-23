@@ -38,7 +38,7 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 		var t = getTicker();
 		
 		if (t != null) {
-			ticker.tick();
+			t.tick();
 			return true;
 		}
 		return false;
@@ -50,7 +50,7 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 
 			ticker = this.level.getChunkAt(target).tickersInLevel.get(target);
 		}
-		if (ticker != null && !ticker.isRemoved() && !(this.level.getBlockEntity(ticker.getPos()) instanceof AbstractShrineBlockEntity)) {
+		if (ticker == null || ticker.isRemoved() || this.level.getBlockEntity(ticker.getPos()) instanceof AbstractShrineBlockEntity) {
 			ticker = null;
 		}
 		return ticker;

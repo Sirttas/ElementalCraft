@@ -42,7 +42,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 			var item = entry.getValue();
 			var key = entry.getKey().location();
 
-			if (ElementalCraftApi.MODID.equals(key.getNamespace()) && !exists(key)) {
+			if (ElementalCraft.owns(key) && !exists(key)) {
 				String name = key.getPath();
 
 				if (item instanceof BlockItem blockItem) {
@@ -72,8 +72,10 @@ public class ECItemModelProvider extends ItemModelProvider {
 			}
 		}
 		for (Jewel jewel : Jewels.REGISTRY.get()) {
-			if (ElementalCraftApi.MODID.equals(jewel.getKey().getNamespace()) && !exists(jewel)) {
-				singleJewelTexture(jewel.getKey().getPath());
+			var key = jewel.getKey();
+
+			if (ElementalCraft.owns(key) && !exists(jewel)) {
+				singleJewelTexture(key.getPath());
 			}
 		}
 	}
