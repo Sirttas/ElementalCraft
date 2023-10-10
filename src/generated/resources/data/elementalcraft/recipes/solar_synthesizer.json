@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
@@ -27,5 +28,6 @@
   ],
   "result": {
     "item": "elementalcraft:solar_synthesizer"
-  }
+  },
+  "show_notification": true
 }

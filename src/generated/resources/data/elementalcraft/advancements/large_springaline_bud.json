@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_large_springaline_bud": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:large_springaline_bud"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_large_springaline_bud"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

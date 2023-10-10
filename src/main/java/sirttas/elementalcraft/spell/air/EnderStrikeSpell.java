@@ -37,7 +37,7 @@ public class EnderStrikeSpell extends Spell {
 		if (caster instanceof LivingEntity livingSender) {
 			livingSender.teleportTo(newPos.x, newPos.y + 0.5, newPos.z);
 			livingSender.lookAt(EntityAnchorArgument.Anchor.EYES, target.position());
-			livingSender.getLevel().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
+			livingSender.level().playSound(null, livingSender.xo, livingSender.yo, livingSender.zo, SoundEvents.ENDERMAN_TELEPORT, livingSender.getSoundSource(), 1.0F, 1.0F);
 			livingSender.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
 			livingSender.swing(InteractionHand.MAIN_HAND);
 			if (livingSender instanceof Player playerSender) {
@@ -55,7 +55,7 @@ public class EnderStrikeSpell extends Spell {
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
 		Vec3 pos = caster.position();
 
-		return caster.getLevel().getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).stream()
+		return caster.level().getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).stream()
 				.filter(Enemy.class::isInstance)
 				.min(Comparator.comparingDouble(e -> pos.distanceTo(e.position())))
 				.map(e -> castOnEntity(caster, e))

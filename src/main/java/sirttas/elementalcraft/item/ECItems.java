@@ -2,14 +2,13 @@ package sirttas.elementalcraft.item;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ModelEvent.BakingCompleted;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -155,7 +154,7 @@ public class ECItems {
 
 	@SubscribeEvent
 	public static void registerBlockItems(RegisterEvent event) {
-		if (!event.getRegistryKey().equals(Registry.ITEM_REGISTRY)) {
+		if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
 			return;
 		}
 
@@ -187,7 +186,7 @@ public class ECItems {
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
-	public static void replaceModels(BakingCompleted event) {
+	public static void replaceModels(ModelEvent.ModifyBakingResult event) {
 		var modelRegistry = event.getModels();
 
 		replaceModels(modelRegistry, RuneItem.NAME, RuneModel::new);

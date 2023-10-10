@@ -19,7 +19,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
@@ -33,9 +32,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
-
-	public static final String NAME = "runes";
-	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
 	
 	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).and(builder.group(
 			ResourceLocation.CODEC.fieldOf(ECNames.MODEL).forGetter(Rune::getModelName),

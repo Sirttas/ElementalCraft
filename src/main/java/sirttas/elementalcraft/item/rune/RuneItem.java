@@ -1,13 +1,11 @@
 package sirttas.elementalcraft.item.rune;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
@@ -89,7 +87,7 @@ public class RuneItem extends ECItem implements IPipeInteractingItem {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		Rune rune = getRune(stack);
 
 		if (rune != null) {
@@ -106,12 +104,5 @@ public class RuneItem extends ECItem implements IPipeInteractingItem {
 			return rune.getDisplayName();
 		}
 		return super.getName(stack);
-	}
-
-	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowedIn(group)) {
-			ElementalCraftApi.RUNE_MANAGER.getData().forEach((id, rune) -> items.add(getRuneStack(rune)));
-		}
 	}
 }

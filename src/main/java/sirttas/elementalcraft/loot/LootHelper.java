@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
@@ -33,7 +33,8 @@ public class LootHelper {
 	public static List<ItemStack> getDrops(ServerLevel level, BlockPos pos, ItemStack stack) {
 		var state = level.getBlockState(pos);
 
-		return state.getDrops(new LootContext.Builder(level).withRandom(level.random).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
+		return state.getDrops(new LootParams.Builder(level)
+				.withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
 				.withParameter(LootContextParams.TOOL, stack));
 	}
 }

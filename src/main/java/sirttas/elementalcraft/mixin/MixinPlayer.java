@@ -24,10 +24,10 @@ public abstract class MixinPlayer extends LivingEntity implements IForgePlayer {
     }
 
     @Inject(method = "tick()V",
-            at = @At(value = "INVOKE", target="net.minecraft.world.item.ItemStack.isSameIgnoreDurability(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
-    private void tick$invoke$isSameIgnoreDurability(CallbackInfo ci) {
+            at = @At(value = "INVOKE", target="net.minecraft.world.item.ItemStack.isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
+    private void tick$invoke$isSameItem(CallbackInfo ci) {
         if (self() instanceof ServerPlayer serverPlayer && shouldSendAnchors(serverPlayer)) {
-            MessageHelper.sendToPlayer(serverPlayer, TranslocationAnchorListMessage.create(serverPlayer.level));
+            MessageHelper.sendToPlayer(serverPlayer, TranslocationAnchorListMessage.create(serverPlayer.level()));
         }
     }
 

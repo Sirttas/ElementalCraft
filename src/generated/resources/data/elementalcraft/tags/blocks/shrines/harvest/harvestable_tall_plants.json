@@ -4,10 +4,6 @@
     "minecraft:bamboo",
     "minecraft:kelp",
     "minecraft:kelp_plant",
-    "minecraft:cactus",
-    {
-      "id": "immersiveengineering:hemp",
-      "required": false
-    }
+    "minecraft:cactus"
   ]
 }

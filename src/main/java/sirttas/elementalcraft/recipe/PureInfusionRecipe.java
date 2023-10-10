@@ -2,6 +2,7 @@ package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -9,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
@@ -34,12 +37,12 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 
 	@Nonnull
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return output;
 	}
 
 	@Override
-	public boolean matches(PureInfuserBlockEntity inv) {
+	public boolean matches(@Nonnull PureInfuserBlockEntity inv, @Nonnull Level level) {
 		return ingredients.get(0).test(inv.getItem()) 
 				&& ingredients.get(1).test(inv.getStackInPedestal(ElementType.WATER)) 
 				&& ingredients.get(2).test(inv.getStackInPedestal(ElementType.FIRE))
@@ -72,8 +75,8 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 	}
 
 	@Override
-	public ItemStack assemble(PureInfuserBlockEntity inv) {
-		return this.getResultItem().copy(); // TODO get element from ingredients
+	public @NotNull ItemStack assemble(@Nonnull PureInfuserBlockEntity inv, @Nonnull RegistryAccess registry) {
+		return this.getResultItem(registry).copy(); // TODO get element from ingredients
 	}
 
 	public int getElementAmount() {
@@ -94,22 +97,19 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 
 		@Override
 		public PureInfusionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			int elementAmount = buffer.readInt();
-			ItemStack output = buffer.readItem();
-			int i = buffer.readVarInt();
-			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
+			var elementAmount = buffer.readInt();
+			var output = buffer.readItem();
+			var i = buffer.readVarInt();
+			var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
-			for (int j = 0; j < ingredients.size(); ++j) {
-				ingredients.set(j, Ingredient.fromNetwork(buffer));
-			}
-
+			ingredients.replaceAll(ignored -> Ingredient.fromNetwork(buffer));
 			return new PureInfusionRecipe(recipeId, elementAmount, output, ingredients);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, PureInfusionRecipe recipe) {
 			buffer.writeInt(recipe.elementAmount);
-			buffer.writeItem(recipe.getResultItem());
+			buffer.writeItem(recipe.output);
 			buffer.writeVarInt(recipe.getIngredients().size());
 
 			for (Ingredient ingredient : recipe.getIngredients()) {

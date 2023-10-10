@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.pureore.injector;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -16,6 +17,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 
+import javax.annotation.Nonnull;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.Map;
@@ -32,30 +34,30 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 
 	private Map<ResourceLocation, T> recipes;
 	
-	protected AbstractPureOreRecipeInjector(RecipeType<T> recipeType) {
+	protected AbstractPureOreRecipeInjector(@Nonnull RecipeType<T> recipeType) {
 		this(() -> recipeType, true);
 	}
 	
-	protected AbstractPureOreRecipeInjector(RecipeType<T> recipeType, boolean modProcessing) {
+	protected AbstractPureOreRecipeInjector(@Nonnull RecipeType<T> recipeType, boolean modProcessing) {
 		this(() -> recipeType, modProcessing);
 	}
 
-	protected AbstractPureOreRecipeInjector(Supplier<RecipeType<T>> recipeType) {
+	protected AbstractPureOreRecipeInjector(@Nonnull Supplier<RecipeType<T>> recipeType) {
 		this(recipeType, true);
 	}
 
-	protected AbstractPureOreRecipeInjector(Supplier<RecipeType<T>> recipeType, boolean modProcessing) {
+	protected AbstractPureOreRecipeInjector(@Nonnull Supplier<RecipeType<T>> recipeType, boolean modProcessing) {
 		this.recipeType = Lazy.of(recipeType);
 		this.recipes = null;
 		this.modProcessing = modProcessing;
 	}
 
-	public static ResourceLocation buildRecipeId(ResourceLocation source) {
+	public static ResourceLocation buildRecipeId(@Nonnull ResourceLocation source) {
 		return new ResourceLocation(ElementalCraftApi.MODID, "pure_ore/" + source.getNamespace() + "/" + source.getPath());
 	}
 
 	@SuppressWarnings("unchecked")
-	public void init(RecipeManager recipeManager) {
+	public void init(@Nonnull RecipeManager recipeManager) {
 		this.recipes = recipeManager.byType(recipeType.get()).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
@@ -67,17 +69,17 @@ public abstract class AbstractPureOreRecipeInjector<C extends Container, T exten
 		}
 	}
 
-	public ItemStack getRecipeOutput(T recipe) {
-		return recipe.getResultItem();
+	public ItemStack getRecipeOutput(@Nonnull RegistryAccess registry, @Nonnull T recipe) {
+		return recipe.getResultItem(registry);
 	}
 	
-	public abstract T build(T recipe, Ingredient ingredient);
+	public abstract T build(@Nonnull RegistryAccess registry, @Nonnull T recipe, @Nonnull Ingredient ingredient);
 
 	public Map<ResourceLocation, T> getRecipes() {
 		return recipes;
 	}
 
-	public Optional<T> getRecipe(Item ore) {
+	public Optional<T> getRecipe(@Nonnull Item ore) {
 		return getRecipes().values().stream()
 				.filter(recipe -> filter(recipe, new ItemStack(ore)))
 				.min(Comparator.comparing(Recipe::getId));

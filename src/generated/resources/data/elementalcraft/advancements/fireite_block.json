@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_fireite_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:fireite_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_fireite_block"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

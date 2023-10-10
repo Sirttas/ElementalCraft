@@ -2,12 +2,14 @@ package sirttas.elementalcraft.recipe.instrument.binding;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
@@ -37,7 +39,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public boolean matches(IBinder binder) {
+	public boolean matches(IBinder binder, @Nonnull Level level) {
 		if (binder.getContainerElementType() != getElementType() || binder.getItemCount() != ingredients.size()) {
 			return false;
 		}
@@ -70,7 +72,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
 	@Nonnull
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return output;
 	}
 
@@ -98,16 +100,13 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
 		@Override
 		public BindingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			ElementType type = ElementType.byName(buffer.readUtf());
-			int elementAmount = buffer.readInt();
-			ItemStack output = buffer.readItem();
-			int i = buffer.readVarInt();
-			NonNullList<Ingredient> ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
+			var type = ElementType.byName(buffer.readUtf());
+			var elementAmount = buffer.readInt();
+			var output = buffer.readItem();
+			var i = buffer.readVarInt();
+			var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
-			for (int j = 0; j < ingredients.size(); ++j) {
-				ingredients.set(j, Ingredient.fromNetwork(buffer));
-			}
-
+			ingredients.replaceAll(ignored -> Ingredient.fromNetwork(buffer));
 			return new BindingRecipe(recipeId, type, elementAmount, output, ingredients);
 		}
 
@@ -115,7 +114,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		public void toNetwork(FriendlyByteBuf buffer, BindingRecipe recipe) {
 			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeItem(recipe.getResultItem());
+			buffer.writeItem(recipe.output);
 			buffer.writeVarInt(recipe.getIngredients().size());
 
 			for (Ingredient ingredient : recipe.getIngredients()) {

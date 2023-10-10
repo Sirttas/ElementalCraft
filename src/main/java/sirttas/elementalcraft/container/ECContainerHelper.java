@@ -35,29 +35,21 @@ public class ECContainerHelper {
 	@Nonnull
 	public static IItemHandler getItemHandler(ICapabilityProvider provider, @Nullable Direction side) {
 		return provider.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElseGet(() -> {
-			if (provider instanceof WorldlyContainer && side != null) {
-				return new SidedInvWrapper((WorldlyContainer) provider, side);
+			if (provider instanceof WorldlyContainer worldlyContainer && side != null) {
+				return new SidedInvWrapper(worldlyContainer, side);
 			}
-			if (provider instanceof Container) {
-				return new InvWrapper((Container) provider);
+			if (provider instanceof Container container) {
+				return new InvWrapper(container);
 			}
 			return EmptyHandler.INSTANCE;
 		});
-	}
-
-	public static boolean stackEqualExact(ItemStack stack1, ItemStack stack2) {
-		return ItemStack.isSame(stack1, stack2) && ItemStack.tagMatches(stack1, stack2);
-	}
-
-	public static boolean stackEqualCount(ItemStack stack1, ItemStack stack2) {
-		return ItemStack.isSame(stack1, stack2) && stack1.getCount() == stack2.getCount();
 	}
 
 	public static int getSlotFor(Container inv, ItemStack stack) {
 		for (int i = 0; i < inv.getContainerSize(); ++i) {
 			ItemStack current = inv.getItem(i);
 
-			if (!current.isEmpty() && stackEqualExact(stack, current)) {
+			if (!current.isEmpty() && ItemStack.isSameItem(stack, current)) {
 				return i;
 			}
 		}

@@ -23,7 +23,6 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,7 +30,6 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.util.Lazy;
-import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -50,13 +48,13 @@ public class StaffItem extends FocusItem {
 
 		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 8, AttributeModifier.Operation.ADDITION));
 		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -2.2, AttributeModifier.Operation.ADDITION));
-		builder.put(ForgeMod.ATTACK_RANGE.get(), new AttributeModifier(BASE_ATTACK_RANGE_UUID, "Attack range", 1, AttributeModifier.Operation.ADDITION));
+		builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_RANGE_UUID, "Attack range", 1, AttributeModifier.Operation.ADDITION));
 		return builder.build();
 	});
 
 
 	public StaffItem() {
-		super(new Item.Properties().tab(ElementalCraftTab.TAB).durability(2252).fireResistant());
+		super(new Item.Properties().durability(2252).fireResistant());
 	}
 
 	@Override
@@ -68,11 +66,8 @@ public class StaffItem extends FocusItem {
 	public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
 		if (state.is(Blocks.COBWEB)) {
 			return 15.0F;
-		} else {
-			Material material = state.getMaterial();
-
-			return material != Material.PLANT && material != Material.REPLACEABLE_PLANT && !state.is(BlockTags.LEAVES) && material != Material.VEGETABLE ? 1.0F : 1.5F;
 		}
+		return state.is(BlockTags.SWORD_EFFICIENT) ? 1.5F : 1.0F;
 	}
 
 	@Override

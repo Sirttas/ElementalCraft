@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.mixin;
 
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -26,7 +27,7 @@ public abstract class MixinLivingEntity extends Entity {
             at = @At("RETURN"),
             cancellable = true)
     private void checkTotemDeathProtection$return(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
-        if (damageSource.isBypassInvul() || cir.getReturnValueZ()) {
+        if (damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY) || cir.getReturnValueZ()) {
             return;
         }
         if (DemigodJewel.trigger((LivingEntity) (Object) this)) {

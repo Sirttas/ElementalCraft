@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "g": {
       "item": "minecraft:glowstone"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:springaline_lantern"
-  }
+  },
+  "show_notification": true
 }

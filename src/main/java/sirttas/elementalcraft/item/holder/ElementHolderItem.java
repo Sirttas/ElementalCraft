@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.item.holder;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -66,26 +64,13 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	}
 
 	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowedIn(group)) {
-			ItemStack full = new ItemStack(this);
-			ISingleElementStorage storage = getElementStorage(full);
-
-			storage.insertElement(elementCapacity.getAsInt(), false);
-			items.add(new ItemStack(this));
-			items.add(full);
-		}
-	}
-
-
-	@Override
 	public int getBarColor(@Nonnull ItemStack stack) {
 		return elementType.getColor();
 	}
 
 	@Override
 	public int getBarWidth(@Nonnull ItemStack stack) {
-		return Math.round(getElementStorage(stack).getElementAmount() * 13F / elementCapacity.getAsInt());
+		return Math.round(getElementStorage(stack).getElementAmount() * 13F / getElementCapacity());
 	}
 
 	@Override
@@ -103,7 +88,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 		private final ItemStack stack;
 		
 		public ElementStorage(ItemStack stack) {
-			super(ElementHolderItem.this.elementType, ElementHolderItem.this.elementCapacity.getAsInt());
+			super(ElementHolderItem.this.elementType, ElementHolderItem.this.getElementCapacity());
 			this.stack = stack;
 		}
 

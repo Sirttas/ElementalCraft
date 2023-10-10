@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_pureinfuser": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:pureinfuser"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_pureinfuser"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

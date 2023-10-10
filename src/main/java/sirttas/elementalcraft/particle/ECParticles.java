@@ -33,9 +33,9 @@ public class ECParticles {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerFactories(RegisterParticleProvidersEvent evt) {
-		evt.register(SOURCE.get(), SourceParticle.FACTORY);
-		evt.register(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
-		evt.register(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
+		evt.registerSpriteSet(SOURCE.get(), SourceParticle.FACTORY);
+		evt.registerSpriteSet(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
+		evt.registerSpriteSet(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
 	}
 
 	private static <O extends ParticleOptions, T extends ParticleType<O>> RegistryObject<T> register(Supplier<T> type, String name) {

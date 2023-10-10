@@ -37,8 +37,10 @@ public class ShrineRangeGameTests {
                 createTestFunction(index.getAndIncrement(), "lavashrinegametests.should_meltbasaltintolava", h -> should_haveRange(h, new BlockPos(2, 1, 2), new AABB(1, 2, 1, 4, 3, 4))),
                 createTestFunction(index.getAndIncrement(), "lumbershrinegametests.should_cutoakblocks", h -> should_haveRange(h, new BlockPos(3, 2, 3), new AABB(-1, 2, -1, 8, 11, 8))),
                 createTestFunction(index.getAndIncrement(), "harvestshrinegametests.should_harvestwheat", h -> should_haveRange(h, new BlockPos(3, 4, 3), new AABB(-1, 1, -1, 8, 4, 8))),
+                createTestFunction(index.getAndIncrement(), "groveshrinegametests.should_generateflowers", h -> should_haveRange(h, new BlockPos(3, 2, 3), new AABB(-2, 1, -2, 9, 4, 9))),
                 createTestFunction(index.getAndIncrement(), "sweetshrinegametests.should_feedplayer", h -> should_haveRange(h, new BlockPos(0, 1, 0), new AABB(-10, -9, -10, 11, 12, 11))),
                 createTestFunction(index.getAndIncrement(), "overloadshrinegametests.should_speedupfurnace", h -> should_haveRange(h, new BlockPos(0, 1, 0), new AABB(0, 2, 0, 1, 3, 1))),
+                createTestFunction(index.getAndIncrement(), "spawningshrinegametests.should_spawnmobs", h -> should_haveRange(h, new BlockPos(5, 2, 5), new AABB(1, 2, 1, 10, 3, 10))),
                 createTestFunction(index.getAndIncrement(), "enderlockshrinegametests.should_preventendermanfromteleporting", h -> should_haveRange(h, new BlockPos(0, 1, 0), new AABB(-10, 1, -10, 11, 4, 11))),
                 createTestFunction(index.getAndIncrement(), "breedingshrinegametests.should_breedcows", h -> should_haveRange(h, new BlockPos(0, 2, 3), new AABB(0, -8, -7, 21, 13, 14))),
                 createTestFunction(index.getAndIncrement(), "breedingshrinegametests.should_breedcows", Rotation.CLOCKWISE_90, h -> should_haveRange(h, new BlockPos(0, 2, 3), new AABB(- 13, -8, 0, 8, 13, 21))),
@@ -64,7 +66,7 @@ public class ShrineRangeGameTests {
 
     private static void should_haveRange(GameTestHelper helper, AbstractShrineBlockEntity shrine, AABB range) {
         assertThat(shrine).isNotNull();
-        assertThat(shrine.getRangeBoundingBox()).isEqualTo(range.move(helper.absolutePos(BlockPos.ZERO)));
+        assertThat(shrine.getRange()).isEqualTo(range.move(helper.absolutePos(BlockPos.ZERO)));
         helper.succeed();
     }
 

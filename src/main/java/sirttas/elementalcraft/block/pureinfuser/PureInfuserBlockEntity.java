@@ -155,7 +155,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 	@Override
 	public void assemble() {
-		inventory.setItem(0, recipe.assemble(this));
+		inventory.setItem(0, recipe.assemble(this, level.registryAccess()));
 		emptyPedestals();
 	}
 

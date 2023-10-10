@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_source_stabilizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:source_stabilizer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_stabilizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

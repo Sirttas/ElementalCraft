@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.item.jewel;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -12,7 +10,6 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
-import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
@@ -47,13 +44,6 @@ public class JewelItem extends ECItem {
             return jewel.getDisplayName();
         }
         return super.getName(stack);
-    }
-
-    @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (this.allowedIn(group)) {
-            Jewels.REGISTRY.get().forEach(j -> items.add(getJewelStack(j)));
-        }
     }
 
     @Override

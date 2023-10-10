@@ -11,6 +11,7 @@ import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.interaction.ECinteractions;
 import vazkii.botania.api.BotaniaForgeCapabilities;
 
 import javax.annotation.Nonnull;
@@ -57,10 +58,9 @@ public class ManaSynthesizerBlockEntity extends SolarSynthesizerBlockEntity {
 	@Nonnull
 	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
 		if (!this.remove) {
-			if (cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
+			if (ECinteractions.isBotaniaActive() && cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
 				return LazyOptional.of(manaReceiver != null ? () -> manaReceiver : null).cast();
-			} else
-			if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
+			} else if (cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
 				return getElementStorage(ECConfig.COMMON.manaSynthesizerLensElementMultiplier.get());
 			}
 		}

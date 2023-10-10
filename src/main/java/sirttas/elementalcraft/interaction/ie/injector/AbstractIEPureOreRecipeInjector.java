@@ -2,10 +2,12 @@ package sirttas.elementalcraft.interaction.ie.injector;
 
 import blusunrize.immersiveengineering.api.crafting.IESerializableRecipe;
 import blusunrize.immersiveengineering.common.crafting.GeneratedListRecipe;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.tag.ECTags;
@@ -24,12 +26,12 @@ public abstract class AbstractIEPureOreRecipeInjector<T extends IESerializableRe
     }
 
     @Override
-    public final IESerializableRecipe build(IESerializableRecipe recipe, Ingredient ingredient) {
+    public final IESerializableRecipe build(@NotNull RegistryAccess registry, @NotNull IESerializableRecipe recipe, @NotNull Ingredient ingredient) {
         if (recipeClass.isInstance(recipe)) {
             return buildIERecipe(recipeClass.cast(recipe), ingredient);
         } else if (recipe instanceof GeneratedListRecipe<?, ?> generatedListRecipe) {
             return generatedListRecipe.getSubRecipes().stream()
-                    .map(r -> this.build(r, ingredient))
+                    .map(r -> this.build(registry, r, ingredient))
                     .filter(Objects::nonNull)
                     .findFirst()
                     .orElse(null);

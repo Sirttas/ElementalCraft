@@ -10,6 +10,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
+        "category": "misc",
         "key": {
           "a": {
             "tag": "forge:ingots/swift_alloy"
@@ -37,7 +38,8 @@
         ],
         "result": {
           "item": "elementalcraft:mana_synthesizer"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

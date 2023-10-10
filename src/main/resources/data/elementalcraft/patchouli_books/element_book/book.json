@@ -3,7 +3,8 @@
 	"landing_text": "elementalcraft.landing",
 	"creative_tab": "elementalcraft",
 	"model": "elementalcraft:element_book",
-	"i18n": true, 
+	"i18n": true,
+	"use_resource_pack": true,
 	"version": 23,
 	"macros": {
 		"$(ec:source)": "$(l:sources/source)",

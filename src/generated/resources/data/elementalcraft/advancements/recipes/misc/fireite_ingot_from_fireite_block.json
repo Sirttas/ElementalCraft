@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fireite_block": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:storage_blocks/fireite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:fireite_ingot_from_fireite_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_fireite_block",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:fireite_ingot_from_fireite_block"
+    ]
+  },
+  "sends_telemetry_event": false
+}

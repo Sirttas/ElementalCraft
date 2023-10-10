@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -23,7 +24,6 @@ import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.material.ECMaterials;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +36,13 @@ public class SourceBlock extends AbstractECEntityBlock {
 	public static final String NAME = "source";
 
 	public SourceBlock() {
-		super(BlockBehaviour.Properties.of(ECMaterials.SOURCE).strength(-1.0F, 3600000.0F).lightLevel(s -> 7).noOcclusion().noLootTable());
+		super(BlockBehaviour.Properties.of()
+				.replaceable()
+				.pushReaction(PushReaction.DESTROY)
+				.strength(-1.0F, 3600000.0F)
+				.lightLevel(s -> 7)
+				.noOcclusion()
+				.noLootTable());
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(ElementType.STATE_PROPERTY, ElementType.NONE));
 	}

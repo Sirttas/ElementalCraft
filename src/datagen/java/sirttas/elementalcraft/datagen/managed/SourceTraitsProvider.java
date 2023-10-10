@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.datagen.managed;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
@@ -15,16 +16,17 @@ import sirttas.elementalcraft.data.predicate.block.RangeFromSpawnPredicate;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class SourceTraitsProvider extends AbstractManagedDataBuilderProvider<SourceTrait, SourceTrait.Builder> {
 
 
-	public SourceTraitsProvider(DataGenerator generator) {
-		super(generator, ElementalCraftApi.SOURCE_TRAIT_MANAGER, SourceTrait.Builder.ENCODER);
+	public SourceTraitsProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
+		super(packOutput, registries, ElementalCraftApi.SOURCE_TRAIT_MANAGER, SourceTrait.Builder.ENCODER);
 	}
 
 	@Override
-	public void collectBuilders() {
+	protected void collectBuilders(HolderLookup.Provider registries) {
 		builder(SourceTraits.ELEMENT_CAPACITY).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.element_capacity", List.of(SourceTrait.Type.CAPACITY), 500000, 1000000, 25000, 10000));
 		builder(SourceTraits.RECOVER_RATE).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.recover_rate", List.of(SourceTrait.Type.RECOVER_RATE), 50, 200, 7.5f, 10000));
 		builder(SourceTraits.DIURNAL_NOCTURNAL).value(StepsSourceTraitValueProvider.builder()
@@ -97,8 +99,8 @@ public class SourceTraitsProvider extends AbstractManagedDataBuilderProvider<Sou
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public String getName() {
-		return "ElementalCraft Spell Properties";
+		return "ElementalCraft Source Traits";
 	}
 }

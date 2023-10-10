@@ -37,7 +37,7 @@ public class EntityHelper {
 		double range = 5;
 
 		if (entity instanceof LivingEntity livingEntity) {
-			var reach = livingEntity.getAttribute(ForgeMod.REACH_DISTANCE.get());
+			var reach = livingEntity.getAttribute(ForgeMod.ENTITY_REACH.get());
 
 			if (reach != null) {
 				range = reach.getValue();
@@ -50,8 +50,8 @@ public class EntityHelper {
 		Vec3 eyePos = entity.getEyePosition(1);
 		Vec3 look = entity.getViewVector(1);
 		Vec3 rayVector = eyePos.add(look.x * range, look.y * range, look.z * range);
-		BlockHitResult blockResult = entity.level.clip(new ClipContext(eyePos, rayVector, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, entity));
-		EntityHitResult entityResult = ProjectileUtil.getEntityHitResult(entity.getLevel(), entity, eyePos, rayVector,
+		BlockHitResult blockResult = entity.level().clip(new ClipContext(eyePos, rayVector, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, entity));
+		EntityHitResult entityResult = ProjectileUtil.getEntityHitResult(entity.level(), entity, eyePos, rayVector,
 				entity.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0D, 1.0D, 1.0D), e -> !e.isSpectator() && e.isPickable());
 
 		return entityResult != null && entityResult.getLocation().subtract(eyePos).length() <= blockResult.getLocation().subtract(eyePos).length() ? entityResult : blockResult;
@@ -76,12 +76,13 @@ public class EntityHelper {
 
 		if (entity instanceof Mob mob) {
 			mob.moveTo(pos.getX(), pos.getY(), pos.getZ(), level.random.nextFloat() * 360.0F, 0.0F);
-			if (!ForgeEventFactory.doSpecialSpawn(mob, level, (float)entity.getX(), (float)entity.getY(), (float)entity.getZ(), null, MobSpawnType.SPAWNER)) {
-				mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.SPAWNER, null, null);
-			}
+
+			ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
 			level.addFreshEntityWithPassengers(mob);
-			mob.spawnAnim();
-			return true;
+			if (mob.isAddedToWorld()) {
+				mob.spawnAnim();
+				return true;
+			}
 		}
 		return false;
 	}

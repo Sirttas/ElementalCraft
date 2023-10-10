@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.client;
 
-import com.mojang.math.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Matrix4f;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
@@ -17,8 +17,8 @@ public class LevelRenderHandler {
     @SubscribeEvent
     public static void onLevelRender(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
-            worldMatrix = event.getProjectionMatrix().copy();
-            worldMatrix.multiply(event.getPoseStack().last().pose());
+            worldMatrix = new Matrix4f(event.getProjectionMatrix());
+            worldMatrix.mul(event.getPoseStack().last().pose());
         }
     }
 

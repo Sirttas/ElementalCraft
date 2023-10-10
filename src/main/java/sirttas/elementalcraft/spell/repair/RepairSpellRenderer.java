@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.repair;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
@@ -48,16 +48,16 @@ public class RepairSpellRenderer implements ISpellRenderer {
                     return;
                 }
 
-                newStack.mulPose(Vector3f.XP.rotationDegrees(camera.getXRot()));
-                newStack.mulPose(Vector3f.YP.rotationDegrees(camera.getYRot() + 180.0F));
+                newStack.mulPose(Axis.XP.rotationDegrees(camera.getXRot()));
+                newStack.mulPose(Axis.YP.rotationDegrees(camera.getYRot() + 180.0F));
                 newStack.translate(anvilPos.getX() - cameraPos.x(), anvilPos.getY() - cameraPos.y(), anvilPos.getZ() - cameraPos.z());
-                ECRendererHelper.renderBatched(anvilState, newStack, buffer, caster.getLevel(), anvilPos);
+                ECRendererHelper.renderBatched(anvilState, newStack, buffer, caster.level(), anvilPos);
                 newStack.translate(0.5, 1, 0.5);
                 newStack.mulPose(anvilState.getValue(AnvilBlock.FACING).getRotation());
                 if (itemToRepair.is(ECItems.STAFF.get())) {
-                    newStack.mulPose(Vector3f.XP.rotationDegrees(-45.0F));
+                    newStack.mulPose(Axis.XP.rotationDegrees(-45.0F));
                     newStack.translate(0, -0.3, 0);
-                    newStack.mulPose(Vector3f.YP.rotationDegrees(15.0F));
+                    newStack.mulPose(Axis.YP.rotationDegrees(15.0F));
                 }
                 ECRendererHelper.renderItem(itemToRepair, newStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
             }

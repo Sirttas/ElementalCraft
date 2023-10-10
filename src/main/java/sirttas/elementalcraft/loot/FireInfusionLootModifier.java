@@ -30,12 +30,13 @@ public class FireInfusionLootModifier extends LootModifier {
 	}
 
 	private ItemStack applyAutoSmelt(ItemStack stack, LootContext context) {
-		var recipe = context.getLevel().getRecipeManager().byType(RecipeType.SMELTING).values().stream()
+		var level = context.getLevel();
+		var recipe = level.getRecipeManager().byType(RecipeType.SMELTING).values().stream()
 				.filter(r -> r.getIngredients().get(0).test(stack))
 				.findFirst();
 
 		if (recipe.isPresent()) {
-			ItemStack ret = recipe.get().getResultItem().copy();
+			ItemStack ret = recipe.get().getResultItem(level.registryAccess()).copy();
 
 			ret.setCount(ret.getCount() * stack.getCount());
 			if (stack.is(Tags.Items.ORES)) {
@@ -49,7 +50,7 @@ public class FireInfusionLootModifier extends LootModifier {
 	@Nonnull
 	@Override
 	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
+		var tool = context.getParamOrNull(LootContextParams.TOOL);
 
 		if (tool != null && !tool.isEmpty() && ToolInfusionHelper.hasAutoSmelt(tool)) {
 			return generatedLoot.stream()

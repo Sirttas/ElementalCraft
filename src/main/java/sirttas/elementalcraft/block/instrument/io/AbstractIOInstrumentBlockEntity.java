@@ -22,7 +22,7 @@ public abstract class AbstractIOInstrumentBlockEntity<T extends IInstrument, R e
 		Container inv = getInventory();
 		ItemStack in = inv.getItem(0);
 		ItemStack result = inv.getItem(1);
-		ItemStack craftingResult = recipe.assemble(self);
+		ItemStack craftingResult = recipe.assemble(self, level.registryAccess());
 		int inputSize = recipe.getInputSize();
 		int luck = recipe.getLuck(self);
 
@@ -32,7 +32,7 @@ public abstract class AbstractIOInstrumentBlockEntity<T extends IInstrument, R e
 
 		var count = craftingResult.getCount();
 
-		if (craftingResult.sameItem(result) && result.getCount() + count <= result.getMaxStackSize()) {
+		if (ItemStack.isSameItem(craftingResult, result) && result.getCount() + count <= result.getMaxStackSize()) {
 			in.shrink(inputSize);
 			result.grow(count);
 		} else if (result.isEmpty()) {

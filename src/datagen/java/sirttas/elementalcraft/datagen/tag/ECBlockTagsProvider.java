@@ -1,9 +1,8 @@
 package sirttas.elementalcraft.datagen.tag;
 
-import blusunrize.immersiveengineering.common.register.IEBlocks;
 import mekanism.common.tags.MekanismTags;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -14,8 +13,10 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -25,24 +26,29 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class ECBlockTagsProvider extends BlockTagsProvider {
 
 	private static final List<Block> LOOT_BLACKLIST = List.of(ECBlocks.SOURCE.get(), ECBlocks.BURNT_GLASS.get(), ECBlocks.BURNT_GLASS_PANE.get(), ECBlocks.SPRINGALINE_GLASS.get(), ECBlocks.SPRINGALINE_GLASS_PANE.get());
 	
-	public ECBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-		super(generatorIn, ElementalCraftApi.MODID, existingFileHelper);
+	public ECBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+		super(output, lookupProvider, ElementalCraftApi.MODID, existingFileHelper);
 	}
 
 	private Block[] getBlocksForClass(Class<?> clazz) {
-		return registry.stream().filter(b -> ElementalCraft.owns(ForgeRegistries.BLOCKS.getKey(b)) && clazz.isInstance(b)).sorted(Comparator.comparing(ForgeRegistries.BLOCKS::getKey)).toArray(Block[]::new);
+		return ForgeRegistries.BLOCKS.getValues().stream()
+				.filter(b -> ElementalCraft.owns(ForgeRegistries.BLOCKS.getKey(b)) && clazz.isInstance(b))
+				.sorted(Comparator.comparing(ForgeRegistries.BLOCKS::getKey))
+				.toArray(Block[]::new);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void addTags() {
+	protected void addTags(@Nonnull HolderLookup.Provider provider) {
 		tag(BlockTags.SLABS).add(getBlocksForClass(SlabBlock.class));
 		tag(BlockTags.STAIRS).add(getBlocksForClass(StairBlock.class));
 		tag(BlockTags.WALLS).add(getBlocksForClass(WallBlock.class));
@@ -62,6 +68,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.STRIPPED_MANGROVE).add(Blocks.STRIPPED_MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_WOOD);
 		tag(ECTags.Blocks.STRIPPED_CRIMSON).add(Blocks.STRIPPED_CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_STEM);
 		tag(ECTags.Blocks.STRIPPED_WARPED).add(Blocks.STRIPPED_WARPED_HYPHAE, Blocks.STRIPPED_WARPED_STEM);
+		tag(ECTags.Blocks.STRIPPED_CHERRY).add(Blocks.STRIPPED_CHERRY_LOG, Blocks.STRIPPED_CHERRY_WOOD);
 
 		tag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.INFUSER.get(), ECBlocks.BINDER.get(), ECBlocks.CRYSTALLIZER.get(), ECBlocks.INSCRIBER.get(), ECBlocks.FIRE_FURNACE.get(), ECBlocks.FIRE_BLAST_FURNACE.get(), ECBlocks.PURIFIER.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.BINDER_IMPROVED.get());
 
@@ -72,7 +79,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		runeBase(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION);
 		tag(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER.get(), ECBlocks.PURIFIER.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.SOURCE_BREEDER.get());
 
-		tag(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS).addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
+		tag(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS); // .addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
 		tag(ECTags.Blocks.SHRINES_LAVA_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT, Blocks.SMOOTH_BASALT);
 		tag(ECTags.Blocks.SHRINES_GROWTH_BLACKLIST).add(Blocks.GRASS, Blocks.GRASS_BLOCK, Blocks.TALL_GRASS);
 		tag(ECTags.Blocks.SHRINES_ORE_HARVESTABLE_CRYSTALS).addTag(ECTags.Blocks.CLUSTERS);
@@ -114,7 +121,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	}
 
 	@SuppressWarnings("unchecked")
-	private TagAppender<Block> runeBase(TagKey<Block> tag) {
+	private IntrinsicTagAppender<Block> runeBase(TagKey<Block> tag) {
 		return tag(tag).addTags(ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS).add(ECBlocks.EVAPORATOR.get(), ECBlocks.EXTRACTOR.get(), ECBlocks.EXTRACTOR_IMPROVED.get(), ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlocks.MANA_SYNTHESIZER.get(), ECBlocks.PURE_INFUSER.get(), ECBlocks.SOURCE_BREEDER.get(), ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
 	}
 

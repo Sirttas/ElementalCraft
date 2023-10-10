@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block.instrument.io.mill.grindstone;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -39,7 +39,7 @@ public class AirMillGrindstoneRenderer implements BlockEntityRenderer<AirMillGri
 		matrixStack.translate(0, 1 / 4D, 0);
 		if (te.isRunning()) {
 			matrixStack.translate(0.5, 0, 0.5);
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(-5 * tick));
+			matrixStack.mulPose(Axis.YP.rotationDegrees(-5 * tick));
 			matrixStack.translate(-0.5, 0, -0.5);
 		}
 		ECRendererHelper.renderModel(bladesModel, matrixStack, buffer, te, light, overlay);
@@ -50,13 +50,13 @@ public class AirMillGrindstoneRenderer implements BlockEntityRenderer<AirMillGri
 			matrixStack.translate(0, 0, -3 / 8D);
 			if (!stack.isEmpty()) {
 				matrixStack.pushPose();
-				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+				matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 				ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 				matrixStack.popPose();
 			}
 			if (!stack2.isEmpty()) {
 				matrixStack.translate(0, 0, 3 / 4D);
-				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+				matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 				ECRendererHelper.renderItem(stack2, matrixStack, buffer, light, overlay);
 			}
 		}

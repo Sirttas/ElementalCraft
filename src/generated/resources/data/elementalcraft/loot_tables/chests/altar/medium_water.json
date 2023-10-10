@@ -500,5 +500,6 @@
         "min": 1.0
       }
     }
-  ]
+  ],
+  "random_sequence": "elementalcraft:chests/altar/medium_water"
 }

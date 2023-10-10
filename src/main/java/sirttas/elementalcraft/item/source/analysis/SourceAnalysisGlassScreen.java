@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.item.source.analysis;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -34,19 +34,18 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 		this.traitsList = new TraitsList(this.minecraft);
 		this.addRenderableWidget(this.traitsList);
 	}
-	
+
 	@Override
-	public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(matrixStack);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.renderTooltip(matrixStack, mouseX, mouseY);
+	public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(guiGraphics);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
+		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(@Nonnull GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE);
-		this.blit(matrixStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+		guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
 
 	@Override
@@ -83,13 +82,15 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 		}
 
 		@Override
-		protected void renderDecorations(@Nonnull PoseStack poseStack, int x, int y) {
+		protected void renderDecorations(@Nonnull GuiGraphics guiGraphics, int x, int y) {
+			var poseStack = guiGraphics.pose();
+
 			poseStack.pushPose();
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderSystem.setShaderTexture(0, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE);
-			this.blit(poseStack, this.x0, this.y0 - 11, 0, imageHeight, WIDTH, 11);
-			poseStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-			this.blit(poseStack, -this.x1, -this.y1 -11, 0, imageHeight, WIDTH, 11);
+			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.x0, this.y0 - 11, 0, imageHeight, WIDTH, 11);
+			poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, -this.x1, -this.y1 -11, 0, imageHeight, WIDTH, 11);
 			poseStack.popPose();
 		}
 
@@ -113,8 +114,8 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 			}
 
 			@Override
-			public void render(@Nonnull PoseStack poseStack, int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float partialTick) {
-				font.draw(poseStack, getNarration(), left, top, -1);
+			public void render(@Nonnull GuiGraphics guiGraphics, int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float partialTick) {
+				guiGraphics.drawString(font, getNarration(), left, top, -1);
 			}
 		}
 	}

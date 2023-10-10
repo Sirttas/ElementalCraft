@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.source.displacement.plate;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -31,15 +31,15 @@ public class SourceDisplacementPlateRenderer implements BlockEntityRenderer<Sour
         poseStack.pushPose();
         poseStack.translate(0.5, 0.8, 0.5);
         poseStack.scale(1/64f, 1/64f, 1/64f);
-        poseStack.mulPose(Vector3f.YP.rotation((float) Math.acos(vector.z * (vector.x > 0 ? 1 : -1))));
+        poseStack.mulPose(Axis.YP.rotation((float) Math.acos(vector.z * (vector.x > 0 ? 1 : -1))));
         poseStack.translate(-32, 0, vector.x > 0 ? -10 : 10);
         ECRendererHelper.renderIcon(poseStack, bufferSource, 0, 0, SOURCE_DISPLACEMENT, 64, 64, type.getRed(), type.getGreen(), type.getBlue(), packedLight, packedOverlay);
         poseStack.popPose();
         poseStack.translate(0.5, 0, 0.5);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTick)));
+        poseStack.mulPose(Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTick)));
         poseStack.translate(progressScaleTranslate, 0.5 + (0.3 * progress), progressScaleTranslate);
         poseStack.scale(progressScale, 0, progressScale);
-        poseStack.mulPose(Vector3f.XP.rotationDegrees(90));
+        poseStack.mulPose(Axis.XP.rotationDegrees(90));
         poseStack.scale(1/64f, 1/64f, 1/64f);
         ECRendererHelper.renderIcon(poseStack, bufferSource, 0, 0, CIRCLE, 64, 64, type.getRed(), type.getGreen(), type.getBlue(), packedLight, packedOverlay);
     }

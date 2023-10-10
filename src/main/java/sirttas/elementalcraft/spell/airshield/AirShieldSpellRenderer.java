@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.airshield;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -36,7 +36,7 @@ public class AirShieldSpellRenderer implements ISpellRenderer {
 
     private void renderBlade(PoseStack poseStack, MultiBufferSource buffer, int packedLight, float angle) {
         poseStack.translate(64, 64, -0.01f);
-        poseStack.mulPose(Vector3f.ZP.rotationDegrees(angle));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(angle));
         poseStack.translate(-64, -64, 0);
         ECRendererHelper.renderIcon(poseStack, buffer, BLADE, 128, 128, packedLight, OverlayTexture.NO_OVERLAY);
     }

@@ -17,7 +17,7 @@ public class CreativeElementContainerBlock extends ElementContainerBlock {
 	}
 	
 	@Override
-	protected int getDefaultCapacity() {
+	public int getDefaultCapacity() {
 		return 1000000;
 	}
 }

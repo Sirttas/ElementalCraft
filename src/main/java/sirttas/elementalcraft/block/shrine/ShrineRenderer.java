@@ -27,7 +27,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements Bloc
 		if (shrine.showsRange()) {
 			BlockPos pos = shrine.getBlockPos();
 			
-			LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), shrine.getRangeBoundingBox().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
+			LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), shrine.getRange().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
 		}
 
 		if (Boolean.TRUE.equals(ECConfig.CLIENT.renderShrineUpgradeShadow.get())) {

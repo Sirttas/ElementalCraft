@@ -1,9 +1,8 @@
 package sirttas.elementalcraft.gui.tooltip;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -36,7 +35,7 @@ public record ElementGaugeClientTooltip(
     }
 
     @Override
-    public void renderImage(@Nonnull Font font, int x, int y, @Nonnull PoseStack poseStack, @Nonnull ItemRenderer itemRenderer, int blitOffset) {
+    public void renderImage(@Nonnull Font font, int x, int y, @Nonnull GuiGraphics guiGraphics) {
         if (!isValid()) {
             return;
         }
@@ -48,7 +47,7 @@ public record ElementGaugeClientTooltip(
             var elementAmount = storage.getElementAmount(elementType);
 
             if (elementCapacity > 0) {
-                GuiHelper.renderElementGauge(poseStack, x + (i++ * 18), y, elementAmount, elementCapacity, elementType, false);
+                GuiHelper.renderElementGauge(guiGraphics, font, x + (i++ * 18), y, elementAmount, elementCapacity, elementType, false);
             }
         }
     }

@@ -27,7 +27,7 @@ public class RepairSpell extends Spell {
     public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
         var offset = target.relative(hitResult.getDirection());
 
-        if (!sender.level.getBlockState(offset).isAir() || FallingBlock.isFree(sender.level.getBlockState(offset.below()))) {
+        if (!sender.level().getBlockState(offset).isAir() || FallingBlock.isFree(sender.level().getBlockState(offset.below()))) {
             return InteractionResult.PASS;
         }
 
@@ -65,7 +65,7 @@ public class RepairSpell extends Spell {
         var useTicks = player.getUseItemRemainingTicks();
 
         if (useTicks > 0 && useTicks % 40 == 0) {
-            player.level.levelEvent(player, LevelEvent.SOUND_ANVIL_USED, offset, 0);
+            player.level().levelEvent(player, LevelEvent.SOUND_ANVIL_USED, offset, 0);
         }
     }
 }

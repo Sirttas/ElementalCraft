@@ -7,9 +7,11 @@ import mekanism.api.recipes.ingredients.ChemicalStackIngredient;
 import mekanism.api.recipes.ingredients.ItemStackIngredient;
 import mekanism.common.recipe.lookup.cache.InputRecipeCache;
 import mekanism.common.registration.impl.RecipeTypeRegistryObject;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemStackGasToItemStackPureOreRecipeInjector<T extends ItemStackGasToItemStackRecipe> extends AbstractMekanismPureOreRecipeInjector<T> {
 
@@ -21,12 +23,12 @@ public class ItemStackGasToItemStackPureOreRecipeInjector<T extends ItemStackGas
 	}
 
 	@Override
-	public T build(T recipe, Ingredient ingredient) {
-		return factory.create(buildRecipeId(recipe.getId()), getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getChemicalInput()), getRecipeOutput(recipe));
+	public T build(@NotNull RegistryAccess registry, T recipe, @NotNull Ingredient ingredient) {
+		return factory.create(buildRecipeId(recipe.getId()), getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getChemicalInput()), getRecipeOutput(registry, recipe));
 	}
 
 	@Override
-	public ItemStack getRecipeOutput(T recipe) {
+	public ItemStack getRecipeOutput(@NotNull RegistryAccess registry, T recipe) {
 		return tweakOutput(recipe.getOutput(ItemStack.EMPTY, GasStack.EMPTY));
 	}
 

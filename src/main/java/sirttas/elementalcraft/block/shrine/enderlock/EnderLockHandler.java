@@ -26,7 +26,7 @@ public class EnderLockHandler {
 			return;
 		}
 		
-		var shrines = ENDER_LOCK_SHRINES.get(entity.level);
+		var shrines = ENDER_LOCK_SHRINES.get(entity.level());
 		
 		shrines.removeIf(BlockEntity::isRemoved);
 		event.setCanceled(shrines.stream().anyMatch(shrine -> shrine.doLock(entity)));

@@ -6,8 +6,10 @@ import mekanism.api.recipes.ChemicalDissolutionRecipe;
 import mekanism.common.recipe.impl.ChemicalDissolutionIRecipe;
 import mekanism.common.recipe.lookup.cache.InputRecipeCache;
 import mekanism.common.registration.impl.RecipeTypeRegistryObject;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public class ChemicalDissolutionPureOreRecipeInjector extends AbstractMekanismPureOreRecipeInjector<ChemicalDissolutionRecipe> {
 
@@ -16,7 +18,7 @@ public class ChemicalDissolutionPureOreRecipeInjector extends AbstractMekanismPu
 	}
 
 	@Override
-	public ChemicalDissolutionRecipe build(ChemicalDissolutionRecipe recipe, Ingredient ingredient) {
+	public ChemicalDissolutionRecipe build(@NotNull RegistryAccess registry, ChemicalDissolutionRecipe recipe, @NotNull Ingredient ingredient) {
 		return new ChemicalDissolutionIRecipe(buildRecipeId(recipe.getId()), getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getGasInput()),
 				tweakOutput(recipe.getOutput(ItemStack.EMPTY, GasStack.EMPTY).getChemicalStack()));
 	}
@@ -25,5 +27,6 @@ public class ChemicalDissolutionPureOreRecipeInjector extends AbstractMekanismPu
 	public boolean filter(ChemicalDissolutionRecipe recipe, ItemStack stack) {
 		return recipe.getItemInput().test(stack) && super.filter(recipe, stack);
 	}
+
 
 }

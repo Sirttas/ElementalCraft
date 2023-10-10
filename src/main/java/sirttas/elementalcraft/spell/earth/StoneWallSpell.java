@@ -25,28 +25,24 @@ public class StoneWallSpell extends Spell {
 		super(key);
 	}
 
-	private void spawn(Level world, BlockPos pos) {
-		world.setBlockAndUpdate(pos, Blocks.STONE.defaultBlockState());
-	}
-
-	private void checkAndSpawn(Level world, BlockPos pos) {
-		if (world.getBlockState(pos).getMaterial().isReplaceable()) {
-			spawn(world, pos);
+	private void checkAndPlace(Level level, BlockPos pos) {
+		if (level.getBlockState(pos).canBeReplaced()) {
+			level.setBlockAndUpdate(pos, Blocks.STONE.defaultBlockState());
 		}
 	}
 
 	public InteractionResult cast(Entity sender, BlockPos pos, Direction direction) {
-		Level world = sender.getLevel();
+		Level world = sender.level();
 
-		checkAndSpawn(world, pos);
-		checkAndSpawn(world, pos.relative(direction.getClockWise()));
-		checkAndSpawn(world, pos.relative(direction.getCounterClockWise()));
-		checkAndSpawn(world, pos.above(1));
-		checkAndSpawn(world, pos.above(2));
-		checkAndSpawn(world, pos.relative(direction.getClockWise()).above(1));
-		checkAndSpawn(world, pos.relative(direction.getClockWise()).above(2));
-		checkAndSpawn(world, pos.relative(direction.getCounterClockWise()).above(1));
-		checkAndSpawn(world, pos.relative(direction.getCounterClockWise()).above(2));
+		checkAndPlace(world, pos);
+		checkAndPlace(world, pos.relative(direction.getClockWise()));
+		checkAndPlace(world, pos.relative(direction.getCounterClockWise()));
+		checkAndPlace(world, pos.above(1));
+		checkAndPlace(world, pos.above(2));
+		checkAndPlace(world, pos.relative(direction.getClockWise()).above(1));
+		checkAndPlace(world, pos.relative(direction.getClockWise()).above(2));
+		checkAndPlace(world, pos.relative(direction.getCounterClockWise()).above(1));
+		checkAndPlace(world, pos.relative(direction.getCounterClockWise()).above(2));
 		return InteractionResult.SUCCESS;
 	}
 
@@ -57,7 +53,7 @@ public class StoneWallSpell extends Spell {
 		if (!opt.isPresent()) {
 			return InteractionResult.PASS;
 		}
-		return cast(caster, new BlockPos(caster.position()).relative(opt.get(), 3), opt.get());
+		return cast(caster, BlockPos.containing(caster.position()).relative(opt.get(), 3), opt.get());
 	}
 
 	@Override

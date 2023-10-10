@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -25,7 +25,7 @@ public class OverclockedAccelerationShrineUpgradeRenderer implements BlockEntity
             clockModel = Minecraft.getInstance().getModelManager().getModel(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
         }
         poseStack.translate(0.5 + (facing.getStepX() * 2D / 16), 22D / 16, 0.5 + (facing.getStepZ() * 2D / 16));
-        poseStack.mulPose(Vector3f.YN.rotation((float) Math.toRadians(ECRendererHelper.getClientTicks(partialTicks) * 2)));
+        poseStack.mulPose(Axis.YN.rotation((float) Math.toRadians(ECRendererHelper.getClientTicks(partialTicks) * 2)));
         ECRendererHelper.renderModel(clockModel, poseStack, buffer, te, light, overlay);
     }
 }

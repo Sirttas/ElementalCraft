@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_hardened_handle": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:hardened_handle"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_hardened_handle"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

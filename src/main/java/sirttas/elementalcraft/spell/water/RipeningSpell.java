@@ -26,7 +26,7 @@ public class RipeningSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		Level world = sender.getLevel();
+		Level world = sender.level();
 		BlockState state = world.getBlockState(target);
 		Block block = state.getBlock();
 

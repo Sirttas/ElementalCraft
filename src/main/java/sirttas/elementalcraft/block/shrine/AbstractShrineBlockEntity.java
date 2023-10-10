@@ -12,9 +12,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -171,6 +173,11 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		}
 
 		var maxRange = Spells.TRANSLOCATION.get().getRange(null);
+
+		if (maxRange <= 0) {
+			throw new IllegalStateException("Translocation spell range should not be 0");
+		}
+
 		var maxRangeSq = maxRange * maxRange;
 		var rangeSq = p.distSqr(blockPos);
 
@@ -237,17 +244,13 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		return targetPos;
 	}
 
-	public AABB getRangeBoundingBox() {
-		return new AABB(this.getTargetPos()).inflate(this.getRange());
-	}
-
 	public Stream<BlockPos> getBlocksInRange() {
-		var box = getRangeBoundingBox();
+		var box = getRange();
 
 		return getRange(box.minX, box.maxX)
 				.mapToObj(x -> getRange(box.minZ, box.maxZ)
-						.mapToObj(z -> getRange(box.minY, box.maxY)
-								.mapToObj(y -> new BlockPos(x, y, z))))
+				.mapToObj(z -> getRange(box.minY, box.maxY)
+				.mapToObj(y -> new BlockPos(x, y, z))))
 				.mapMulti((s, downstream) -> s.forEach(s2 -> s2.forEach(downstream)));
 	}
 
@@ -261,12 +264,24 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		return getProperties().getElementType();
 	}
 
-	public float getRange() {
-		return getProperties().range() * getMultiplier(BonusType.RANGE);
+	public AABB getRange() {
+		var range = getProperties().range();
+
+		return getRange(range.box(), range.stitch(), range.fixedHeight());
 	}
 
-	public int getIntegerRange() {
-		return Math.round(getRange());
+	protected AABB getRange(AABB box, boolean stitch, boolean fixedHeight) {
+		var multiplier = getMultiplier(BonusType.RANGE);
+
+		if (fixedHeight) {
+			box = new AABB(box.minX * multiplier, box.minY, box.minZ * multiplier, box.maxX * multiplier, box.maxY, box.maxZ * multiplier);
+		} else {
+			box = new AABB(box.minX * multiplier, box.minY * multiplier, box.minZ * multiplier, box.maxX * multiplier, box.maxY * multiplier, box.maxZ * multiplier);
+		}
+		if (stitch) {
+			box = ElementalCraftUtils.stitchAABB(box);
+		}
+		return box.move(this.getTargetPos());
 	}
 
 	public int getConsumeAmount() {
@@ -294,6 +309,14 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	public double getStrength(int index) {
+		var strength = getProperties().strength();
+
+		if (strength.size() <= index) {
+			ElementalCraftApi.LOGGER.warn("Shrine strength index out of bounds: {} for shrine {}",
+					() -> index,
+					() -> ForgeRegistries.BLOCKS.getKey(this.getBlockState().getBlock()));
+			return 1;
+		}
 		var value = getProperties().strength().get(index);
 
 		return (value != null ? value : 1) * getMultiplier(BonusType.STRENGTH);

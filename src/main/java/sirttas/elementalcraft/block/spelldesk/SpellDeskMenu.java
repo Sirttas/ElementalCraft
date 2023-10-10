@@ -4,9 +4,9 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
@@ -34,8 +34,8 @@ public class SpellDeskMenu extends AbstractECMenu {
 
 	public SpellDeskMenu(int id, Inventory player) {
 		super(ECMenus.SPELL_DESK, id);
-		this.level = player.player.getLevel();
-		input = new CraftingContainer(this, 3, 1);
+		this.level = player.player.level();
+		input = new TransientCraftingContainer(this, 3, 1);
 		output = new SimpleContainer(6);
 		stacks = Collections.emptyList();
 		
@@ -88,7 +88,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 	
 	private void updateRecipeList(Level level) {
 		stacks = level.getRecipeManager().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), input, level).stream()
-                .map(r -> r.assemble(input))
+                .map(r -> r.assemble(input, level.registryAccess()))
 				.toList();
 
 		this.page.set(0);
@@ -154,7 +154,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 			for (int i = 0; i < input.getContainerSize(); i++) {
 				input.removeItem(i, 1);
 			}
-			updateRecipeList(player.level);
+			updateRecipeList(player.level());
 		}
 	}
 	

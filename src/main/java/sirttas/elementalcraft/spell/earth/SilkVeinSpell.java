@@ -31,7 +31,7 @@ public class SilkVeinSpell extends Spell {
 		return state.is(Tags.Blocks.ORES);
 	}
 
-	private void mineVein(Entity sender, Level world, BlockPos target) {
+	private void mineVein(Entity sender, Level level, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
 		float rangeSq = getRange(sender);
 
@@ -39,13 +39,13 @@ public class SilkVeinSpell extends Spell {
 		queue.offer(target);
 		while (!queue.isEmpty()) {
 			BlockPos pos = queue.poll();
-			var state = world.getBlockState(pos);
+			var state = level.getBlockState(pos);
 			
 			if (isValidBlock(state) && pos.distSqr(target) <= rangeSq) {
-				if (world instanceof ServerLevel) {
-					LootHelper.getDrops((ServerLevel) world, pos, true).forEach(stack -> Block.popResource(world, pos, stack));
+				if (level instanceof ServerLevel serverLevel) {
+					LootHelper.getDrops(serverLevel, pos, true).forEach(stack -> Block.popResource(level, pos, stack));
 				}
-				world.destroyBlock(pos, false);
+				level.destroyBlock(pos, false);
 				Stream.of(Direction.values()).forEach(d -> queue.offer(pos.relative(d)));
 			}
 		}
@@ -54,7 +54,7 @@ public class SilkVeinSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		Level world = sender.getLevel();
+		Level world = sender.level();
 
 		if (!world.isClientSide && isValidBlock(world.getBlockState(target))) {
 			mineVein(sender, world, target);

@@ -1,11 +1,9 @@
 package sirttas.elementalcraft.item.source.receptacle;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -85,17 +83,6 @@ public class ReceptacleItem extends ECItem {
     @Override
 	public String getDescriptionId(@Nonnull ItemStack stack) {
 		return this.getDescriptionId() + '.' + ReceptacleHelper.getElementType(stack).getSerializedName();
-	}
-
-	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowedIn(group)) {
-			for (ElementType elementType : ElementType.values()) {
-				if (elementType != ElementType.NONE) {
-					items.add(ReceptacleHelper.create(elementType));
-				}
-			}
-		}
 	}
 	
 	@Override

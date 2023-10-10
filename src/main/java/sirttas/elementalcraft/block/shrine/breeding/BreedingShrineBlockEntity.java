@@ -11,7 +11,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -29,12 +28,15 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
-		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRangeBoundingBox(), e -> !e.isSpectator()));
+		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRange(), e -> !e.isSpectator()));
 	}
 
 	@Override
-	public AABB getRangeBoundingBox() {
-		return super.getRangeBoundingBox().move(Vec3.atLowerCornerOf(this.getBlockState().getValue(BreedingShrineBlock.FACING).getNormal()).scale(getRange()));
+	public AABB getRange() {
+		var facing = this.getBlockState().getValue(BreedingShrineBlock.FACING);
+		var box = super.getRange();
+
+		return box.move(facing.getStepX() * (box.getXsize() - 1) * 0.5, 0, facing.getStepZ() * (box.getZsize() - 1) * 0.5);
 	}
 
 	@Override

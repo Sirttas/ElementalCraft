@@ -1,15 +1,12 @@
 package sirttas.elementalcraft.block.container;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -17,13 +14,11 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.ITooltipImageBlock;
@@ -38,7 +33,11 @@ import java.util.Optional;
 public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock implements ITooltipImageBlock {
 
 	protected AbstractElementContainerBlock() {
-		super(BlockBehaviour.Properties.of(Material.GLASS).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion());
+		super(BlockBehaviour.Properties.of()
+				.strength(2)
+				.sound(SoundType.METAL)
+				.requiresCorrectToolForDrops()
+				.noOcclusion());
 	}
 
 	@Override
@@ -122,21 +121,8 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 		}
 		super.onRemove(state, level, pos, newState, isMoving);
 	}
-	
-	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, NonNullList<ItemStack> items) {
-		items.add(new ItemStack(this.asItem()));
-		
-		for (ElementType type : ElementType.ALL_VALID) {
-			ItemStack stack = new ItemStack(this.asItem());
-			CompoundTag tag = stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG);
-			
-			tag.put(ECNames.ELEMENT_STORAGE, new SingleElementStorage(type, this.getDefaultCapacity(), this.getDefaultCapacity()).serializeNBT());
-			items.add(stack);
-		}
-	}
 
-	protected abstract int getDefaultCapacity();
+	public abstract int getDefaultCapacity();
 
 	public record Tooltip(
 			ElementType elementType,
@@ -165,8 +151,8 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 		}
 
 		@Override
-		public void renderImage(@Nonnull Font font, int x, int y, @Nonnull PoseStack poseStack, @Nonnull ItemRenderer itemRenderer, int blitOffset) {
-			GuiHelper.renderElementGauge(poseStack, x, y, amount, capacity, elementType, false);
+		public void renderImage(@Nonnull Font font, int x, int y, @Nonnull GuiGraphics guiGraphics) {
+			GuiHelper.renderElementGauge(guiGraphics, font, x, y, amount, capacity, elementType, false);
 		}
 	}
 

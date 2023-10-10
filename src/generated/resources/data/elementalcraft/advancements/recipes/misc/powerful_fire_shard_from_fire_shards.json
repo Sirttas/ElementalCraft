@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fire_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:fire_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:powerful_fire_shard_from_fire_shards"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_fire_shard",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:powerful_fire_shard_from_fire_shards"
+    ]
+  },
+  "sends_telemetry_event": false
+}

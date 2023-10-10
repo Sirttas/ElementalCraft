@@ -31,5 +31,6 @@
       "name": "elementalcraft:runes",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "elementalcraft:blocks/pureinfuser"
 }

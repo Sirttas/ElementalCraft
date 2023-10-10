@@ -10,6 +10,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
+        "category": "misc",
         "key": {
           "C": {
             "item": "elementalcraft:shrine_upgrade_core"
@@ -34,7 +35,8 @@
         ],
         "result": {
           "item": "elementalcraft:shrine_upgrade_mystical_grove"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

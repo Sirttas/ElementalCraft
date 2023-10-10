@@ -24,7 +24,7 @@ public class PurificationSpell extends Spell {
 	@SuppressWarnings("resource")
 	private InteractionResult cureEffects(Entity target) {
 		if (target instanceof LivingEntity) {
-			if (!target.getLevel().isClientSide) {
+			if (!target.level().isClientSide) {
 				LivingEntity livingTarget = (LivingEntity) target;
 				Iterator<MobEffectInstance> itr = livingTarget.getActiveEffects().iterator();
 

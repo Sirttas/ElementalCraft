@@ -1,0 +1,46 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:directory",
+      "prefix": "elementalcraft/jewels/",
+      "source": "elementalcraft/jewels"
+    },
+    {
+      "type": "minecraft:directory",
+      "prefix": "elementalcraft/rune/",
+      "source": "elementalcraft/rune"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:effect/solar_synthesizer_beam"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:effect/air_shield_background"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:effect/air_shield_blade"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:effect/source_displacement"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:effect/source_displacement_circle"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:effect/source_outer"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:effect/source_middle"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "elementalcraft:gui/translocation_anchor_marker"
+    }
+  ]
+}

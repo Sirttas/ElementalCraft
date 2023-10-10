@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.datagen.managed;
 
 import com.google.common.collect.Lists;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -22,14 +22,17 @@ import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfus
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
+import javax.annotation.Nonnull;
+import java.util.concurrent.CompletableFuture;
+
 public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<ToolInfusion, ToolInfusion> {
 
-	public ToolInfusionProvider(DataGenerator generator) {
-		super(generator, ElementalCraftApi.TOOL_INFUSION_MANAGER, ToolInfusion.CODEC);
+	public ToolInfusionProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
+		super(packOutput, registries, ElementalCraftApi.TOOL_INFUSION_MANAGER, ToolInfusion.CODEC);
 	}
 
 	@Override
-	public void collectBuilders() {
+	protected void collectBuilders(HolderLookup.Provider registries) {
 		addEnchantment(ElementType.FIRE, Enchantments.FIRE_ASPECT);
 		addEnchantment(ElementType.FIRE, Enchantments.FLAMING_ARROWS);
 		addEnchantment(ElementType.FIRE, Enchantments.FIRE_PROTECTION);
@@ -104,8 +107,9 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 		return new ToolInfusion(type, Lists.newArrayList(infusion));
 	}
 
+	@Nonnull
 	@Override
-	public @NotNull String getName() {
-		return "ElementalCraft Tool infusion";
+	public String getName() {
+		return "ElementalCraft Tool Infusions";
 	}
 }

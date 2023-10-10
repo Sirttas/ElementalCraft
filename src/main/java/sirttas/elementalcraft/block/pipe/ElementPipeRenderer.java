@@ -39,7 +39,7 @@ public class ElementPipeRenderer implements BlockEntityRenderer<ElementPipeBlock
 		var player = minecraft.player;
 		var level = Objects.requireNonNull(te.getLevel());
 		BlockState coverState = te.getCoverState();
-		boolean showCover = coverState != null && !coverState.isAir();
+		boolean showCover = !coverState.isAir();
 
 		if (sideModel == null || extractModel == null ) {
 			ModelManager modelManager = minecraft.getModelManager();

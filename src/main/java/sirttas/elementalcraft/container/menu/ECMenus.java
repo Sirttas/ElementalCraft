@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.container.menu;
 
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,7 +26,7 @@ public class ECMenus {
 	private ECMenus() {}
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(MenuType.MenuSupplier<T> menu, String name) {
-		return DEFERRED_REGISTER.register(name, () -> new MenuType<>(menu));
+		return DEFERRED_REGISTER.register(name, () -> new MenuType<>(menu, FeatureFlags.DEFAULT_FLAGS));
 	}
 
 	public static void register(IEventBus bus) {

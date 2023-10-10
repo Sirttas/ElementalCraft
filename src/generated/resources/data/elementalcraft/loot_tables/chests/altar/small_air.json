@@ -403,5 +403,6 @@
       "name": "vanilla_2",
       "rolls": 2.0
     }
-  ]
+  ],
+  "random_sequence": "elementalcraft:chests/altar/small_air"
 }

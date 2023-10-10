@@ -2,9 +2,12 @@ package sirttas.elementalcraft.recipe.instrument.io;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+
+import javax.annotation.Nonnull;
 
 public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentRecipe<T> {
 
@@ -20,18 +23,18 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 		return 1;
 	}
 
-	default boolean matches(ItemStack input) {
+	default boolean matches(ItemStack input, @Nonnull Level level) {
 		return input.getCount() >= getInputSize();
 	}
 	
 	@Override
-	default boolean matches(T instrument) {
-		ItemStack craftingResult = assemble(instrument);
+	default boolean matches(@Nonnull T instrument, @Nonnull Level level) {
+		ItemStack craftingResult = assemble(instrument, level.registryAccess());
 
 		return instrument.getItemHandler().map(inv -> {
 			ItemStack output = inv.getStackInSlot(1);
 
-			return this.getValidElementTypes().contains(instrument.getContainerElementType()) && matches(inv.getStackInSlot(0))
+			return this.getValidElementTypes().contains(instrument.getContainerElementType()) && matches(inv.getStackInSlot(0), level)
 					&& (output.isEmpty() || (ItemHandlerHelper.canItemStacksStack(output, craftingResult) && output.getCount() + craftingResult.getCount() <= inv.getSlotLimit(1)));
 		}).orElse(false);
 	}

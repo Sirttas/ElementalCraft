@@ -2,7 +2,8 @@ package sirttas.elementalcraft.tag;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -85,7 +86,8 @@ public class ECTags {
 		public static final TagKey<Item> CONTAINER_TOOLS = createTag("container_tools");
 		
 		public static final TagKey<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
-		public static final TagKey<Item> PURE_SOURCE_ORES_ORES = createTag("pure_ores/sources/ores");
+
+		public static final TagKey<Item> PURE_ORES_SOURCE_ORES = createTag("pure_ores/sources/ores");
 		public static final TagKey<Item> PURE_ORES_SOURCE_RAW_MATERIALS = createTag("pure_ores/sources/raw_materials");
 		public static final TagKey<Item> PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS = createTag("pure_ores/sources/raw_material_blocks");
 		public static final TagKey<Item> PURE_ORES_SOURCE_GEORE_SHARDS = createTag("pure_ores/sources/geore_shards");
@@ -132,6 +134,7 @@ public class ECTags {
 		public static final TagKey<Item> STRIPPED_MANGROVE = createTag("stripped_mangrove");
 		public static final TagKey<Item> STRIPPED_CRIMSON = createTag("stripped_crimson");
 		public static final TagKey<Item> STRIPPED_WARPED = createTag("stripped_warped");
+		public static final TagKey<Item> STRIPPED_CHERRY = createTag("stripped_cherry");
 
         public static final TagKey<Item> WHITE_FLOWERS = createForgeTag("flowers/white");
         public static final TagKey<Item> ORANGE_FLOWERS = createForgeTag("flowers/orange");
@@ -173,7 +176,7 @@ public class ECTags {
 		}
 
 		public static HolderSet.Named<Item> getTag(Predicate<TagKey<Item>> predicate) {
-			return Registry.ITEM.getTags()
+			return BuiltInRegistries.ITEM.getTags()
 					.filter(p -> predicate.test(p.getFirst()))
 					.map(Pair::getSecond)
 					.findFirst()
@@ -210,7 +213,7 @@ public class ECTags {
 		public static final TagKey<Block> SHRINES_UPGRADABLES_FORTUNE = createTag("shrines/upgradables/fortune");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_SILK_TOUCH = createTag("shrines/upgradables/silk_touch");
 		public static final TagKey<Block> SHRINES_UPGRADABLES_CRYSTAL_HARVEST = createTag("shrines/upgradables/crystal_harvest");
-		public static final TagKey<Block> SHRINES_UPGRADABLES_SILK_TOUCH_ATTACHED = createTag("hrines/upgradables/silk_touch/attached");
+		public static final TagKey<Block> SHRINES_UPGRADABLES_SILK_TOUCH_ATTACHED = createTag("shrines/upgradables/silk_touch/attached");
 
 		public static final TagKey<Block> TREE_PARTS = createTag("tree_parts");
 
@@ -235,6 +238,7 @@ public class ECTags {
 		public static final TagKey<Block> STRIPPED_MANGROVE = createTag("stripped_mangrove");
 		public static final TagKey<Block> STRIPPED_CRIMSON = createTag("stripped_crimson");
 		public static final TagKey<Block> STRIPPED_WARPED = createTag("stripped_warped");
+		public static final TagKey<Block> STRIPPED_CHERRY = createTag("stripped_cherry");
 
 		private Blocks() {}
 
@@ -259,7 +263,7 @@ public class ECTags {
 		}
 
 		public static HolderSet.Named<Block> getTag(Predicate<TagKey<Block>> predicate) {
-			return Registry.BLOCK.getTags()
+			return BuiltInRegistries.BLOCK.getTags()
 					.filter(p -> predicate.test(p.getFirst()))
 					.map(Pair::getSecond)
 					.findFirst()
@@ -303,7 +307,7 @@ public class ECTags {
 		}
 
 		private static TagKey<Biome> createTag(String modId, String name) {
-			return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(modId, name));
+			return TagKey.create(Registries.BIOME, new ResourceLocation(modId, name));
 		}
 	}
 

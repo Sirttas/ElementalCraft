@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.shrine.properties;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -18,20 +17,18 @@ public record ShrineProperties(
         double period,
         int consumption,
         int capacity,
-        float range,
+        ShrineRange range,
         List<Double> strength
 ) implements IElementTypeProvider {
 
-    public static final String NAME = "shrine_properties";
-    public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
-    public static final ShrineProperties DEFAULT = new ShrineProperties(ElementType.NONE, 1.0, 0, 1000000, 1, Collections.emptyList());
+    public static final ShrineProperties DEFAULT = new ShrineProperties(ElementType.NONE, 1.0, 0, 1000000, ShrineRange.DEFAULT, Collections.emptyList());
 
     public static final Codec<ShrineProperties> CODEC = RecordCodecBuilder.create(builder -> builder.group(
             ElementType.forGetter(ShrineProperties::getElementType),
             Codec.DOUBLE.optionalFieldOf(ECNames.PERIODE, 0D).forGetter(ShrineProperties::period),
             Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(ShrineProperties::consumption),
             Codec.INT.optionalFieldOf(ECNames.ELEMENT_CAPACITY, 0).forGetter(ShrineProperties::capacity),
-            Codec.FLOAT.optionalFieldOf(ECNames.RANGE, 0F).forGetter(ShrineProperties::range),
+            ShrineRange.CODEC.optionalFieldOf(ECNames.RANGE, ShrineRange.DEFAULT).forGetter(ShrineProperties::range),
             Codec.DOUBLE.listOf().optionalFieldOf(ECNames.STRENGTH, Collections.emptyList()).forGetter(ShrineProperties::strength)
     ).apply(builder, ShrineProperties::new));
 
@@ -56,7 +53,7 @@ public record ShrineProperties(
         private double period;
         private int consumption;
         private int capacity;
-        private float range;
+        private ShrineRange range;
 
         private List<Double> strength;
         private final ElementType elementType;
@@ -65,7 +62,7 @@ public record ShrineProperties(
             this.elementType = elementType;
             consumption = 0;
             period = 1;
-            range = 1;
+            range = ShrineRange.DEFAULT;
             capacity = 10000;
             strength = Collections.emptyList();
         }
@@ -88,7 +85,11 @@ public record ShrineProperties(
             return this;
         }
 
-        public ShrineProperties.Builder range(float range) {
+        public ShrineProperties.Builder range(ShrineRange.Builder builder) {
+            return range(builder.build());
+        }
+
+        public ShrineProperties.Builder range(ShrineRange range) {
             this.range = range;
             return this;
         }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "U": {
       "item": "elementalcraft:unset_jewel"
@@ -23,5 +24,6 @@
         "jewel": "elementalcraft:strider"
       }
     }
-  }
+  },
+  "show_notification": true
 }

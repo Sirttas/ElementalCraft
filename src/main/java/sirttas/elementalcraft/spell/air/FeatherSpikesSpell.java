@@ -48,7 +48,7 @@ public class FeatherSpikesSpell extends Spell {
             if (this.remainingCasts <= 0) {
                 stop();
             } else if (this.getTicks() % INTERVAL == 0) {
-                var level = livingEntity.level;
+                var level = livingEntity.level();
                 var spike = new FeatherSpike(level, livingEntity);
 
                 spike.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot(), 0.0F, 4.0F, 1.0F);

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -13,7 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -47,7 +50,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	}
 
 	@Override
-	public boolean matches(CrystallizerBlockEntity crystallizer) {
+	public boolean matches(@Nonnull CrystallizerBlockEntity crystallizer, @Nonnull Level level) {
 		if (crystallizer.getContainerElementType() == getElementType() && crystallizer.getItemCount() >= 2) {
 			for (int i = 0; i < 2; i++) {
 				if (!ingredients.get(i).test(crystallizer.getInventory().getItem(i))) {
@@ -67,7 +70,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 
 	@Nonnull
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return ItemStack.EMPTY;
 	}
 
@@ -87,7 +90,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	}
 
 	@Override
-	public ItemStack assemble(CrystallizerBlockEntity instrument) {
+	public @NotNull ItemStack assemble(@Nonnull CrystallizerBlockEntity instrument, @Nonnull RegistryAccess registry) {
 		return assemble(instrument.getInventory().getItem(0), instrument, 0);
 	}
 

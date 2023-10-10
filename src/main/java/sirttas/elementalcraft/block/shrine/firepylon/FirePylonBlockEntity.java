@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.shrine.firepylon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,7 +26,7 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private List<LivingEntity> getEntities() {
-		return this.getLevel().getEntitiesOfClass(LivingEntity.class, getRangeBoundingBox(), e -> !e.isSpectator() && !e.hasEffect(MobEffects.FIRE_RESISTANCE) && !e.isOnFire()
+		return this.getLevel().getEntitiesOfClass(LivingEntity.class, getRange(), e -> !e.isSpectator() && !e.hasEffect(MobEffects.FIRE_RESISTANCE) && !e.isOnFire()
 				&& !ToolInfusionHelper.hasFireInfusion(e) && (!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(e)));
 	}
 	
@@ -37,7 +36,7 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 
 		getEntities().forEach(e -> {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {
-				e.hurt(DamageSource.IN_FIRE, (float) this.getStrength());
+				e.hurt(level.damageSources().inFire(), (float) this.getStrength());
 				e.setSecondsOnFire(Math.max(1, (int) (this.consumeElement(consumeAmount) * this.getStrength(1))));
 			}
 		});

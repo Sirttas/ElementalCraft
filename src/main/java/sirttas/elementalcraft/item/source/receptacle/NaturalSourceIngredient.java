@@ -12,7 +12,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
-import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
@@ -51,7 +50,7 @@ public class NaturalSourceIngredient extends Ingredient implements IElementTypeP
         }
 
         return SourceTraitHolderHelper.get(stack)
-                .map(t -> !t.getTraits().containsKey(SourceTraits.ARTIFICIAL))
+                .map(t -> !t.isArtificial())
                 .orElse(true);
     }
 

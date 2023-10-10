@@ -25,7 +25,7 @@ public class FlameCleaveSpell extends AoeSpell {
 				var value = super.castOnSelf(caster);
 
 				if (value == InteractionResult.SUCCESS) {
-					caster.level.levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, caster.blockPosition(), 0);
+					caster.level().levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, caster.blockPosition(), 0);
 				}
 			});
 			return InteractionResult.SUCCESS;

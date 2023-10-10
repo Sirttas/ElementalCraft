@@ -21,18 +21,18 @@ public class ElementalCraftApi {
 	public static final ResourceKey<Registry<SourceTraitValueProviderType<?>>> SOURCE_TRAIT_VALUE_PROVIDER_TYPE_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(MODID, ECNames.SOURCE_TRAIT_VALUE_PROVIDER_TYPE));
 	public static final ResourceKey<Registry<ToolInfusionEffectType<?>>> TOOL_INFUSION_EFFECT_TYPE_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(MODID, ECNames.TOOL_INFUSION_TYPE));
 
-	public static final ResourceKey<IDataManager<Rune>> RUNE_MANAGER_KEY = IDataManager.createManagerKey(new ResourceLocation(MODID, Rune.NAME));
-	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, Rune.FOLDER)
+	public static final ResourceKey<IDataManager<Rune>> RUNE_MANAGER_KEY = IDataManager.createManagerKey(new ResourceLocation(MODID, ECNames.RUNE));
+	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, RUNE_MANAGER_KEY)
 			.withIdSetter(Rune::setId)
 			.merged(Rune::merge)
 			.build();
-	public static final ResourceKey<IDataManager<ToolInfusion>> TOOL_INFUSION_MANAGER_KEY = IDataManager.createManagerKey(new ResourceLocation(MODID, ToolInfusion.NAME));
-	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, ToolInfusion.FOLDER)
+	public static final ResourceKey<IDataManager<ToolInfusion>> TOOL_INFUSION_MANAGER_KEY = IDataManager.createManagerKey(new ResourceLocation(MODID, ECNames.TOOL_INFUSION));
+	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, TOOL_INFUSION_MANAGER_KEY)
 			.withDefault(ToolInfusion.NONE)
 			.withIdSetter(ToolInfusion::setId)
 			.build();
-	public static final ResourceKey<IDataManager<SourceTrait>> SOURCE_TRAIT_MANAGER_KEY = IDataManager.createManagerKey(new ResourceLocation(MODID, SourceTrait.NAME));
-	public static final IDataManager<SourceTrait> SOURCE_TRAIT_MANAGER = IDataManager.builder(SourceTrait.class, SourceTrait.FOLDER)
+	public static final ResourceKey<IDataManager<SourceTrait>> SOURCE_TRAIT_MANAGER_KEY = IDataManager.createManagerKey(new ResourceLocation(MODID, ECNames.SOURCE_TRAIT));
+	public static final IDataManager<SourceTrait> SOURCE_TRAIT_MANAGER = IDataManager.builder(SourceTrait.class, SOURCE_TRAIT_MANAGER_KEY)
 			.withIdSetter(SourceTrait::setId)
 			.build();
 

@@ -1,7 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
@@ -23,22 +26,22 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public boolean matches(IBinder inv) {
-		return inv instanceof IInfuser && recipe.matches((IInfuser) inv);
+	public boolean matches(IBinder inv, @NotNull Level level) {
+		return inv instanceof IInfuser infuser && recipe.matches(infuser, level);
 	}
 	
 	@Override
-	public ItemStack assemble(IBinder instrument) {
-		if (instrument instanceof IInfuser) {
-			return recipe.assemble((IInfuser) instrument);
+	public ItemStack assemble(@NotNull IBinder instrument, @Nonnull RegistryAccess registry) {
+		if (instrument instanceof IInfuser infuser) {
+			return recipe.assemble(infuser, registry);
 		}
-		return super.assemble(instrument);
+		return super.assemble(instrument, registry);
 	}
 
 	@Nonnull
 	@Override
-	public ItemStack getResultItem() {
-		return recipe.getResultItem();
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
+		return recipe.getResultItem(registry);
 	}
 
 	@Nonnull

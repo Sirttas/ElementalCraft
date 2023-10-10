@@ -3,5 +3,16 @@
   "element_consumption": 5000,
   "element_type": "fire",
   "periode": 1200.0,
-  "range": 1.0
+  "range": {
+    "box": [
+      -1.0,
+      1.0,
+      -1.0,
+      2.0,
+      2.0,
+      2.0
+    ],
+    "fixed_height": true,
+    "stitch": true
+  }
 }

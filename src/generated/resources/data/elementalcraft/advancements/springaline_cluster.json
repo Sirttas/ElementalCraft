@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_springaline_cluster": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:springaline_cluster"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_springaline_cluster"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

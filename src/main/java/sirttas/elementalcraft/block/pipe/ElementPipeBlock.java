@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -56,7 +56,13 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	private final PipeType type;
 
 	public ElementPipeBlock(PipeType type) {
-		super(BlockBehaviour.Properties.of(Material.METAL).strength(2).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion().randomTicks());
+		super(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.METAL)
+				.strength(2)
+				.sound(SoundType.METAL)
+				.requiresCorrectToolForDrops()
+				.noOcclusion()
+				.randomTicks());
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(COVER, CoverType.NONE));
 		this.type = type;

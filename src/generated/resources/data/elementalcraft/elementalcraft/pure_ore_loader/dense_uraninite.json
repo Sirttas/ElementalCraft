@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:fixed_name",
+  "element_consumption": 10000,
+  "fixed_name": "elementalcraft:uraninite",
+  "luck_ratio": 2.0,
+  "order": 9,
+  "output_size": 10,
+  "source": "#elementalcraft:pure_ores/sources/dense_uraninite"
+}

@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_aircrystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:aircrystal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_aircrystal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

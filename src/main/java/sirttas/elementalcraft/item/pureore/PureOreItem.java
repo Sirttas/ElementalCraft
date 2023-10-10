@@ -1,9 +1,7 @@
 package sirttas.elementalcraft.item.pureore;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -29,13 +27,6 @@ public class PureOreItem extends ECItem {
 			return Component.translatable("tooltip.elementalcraft.pure_ore", name);
 		}
 		return super.getName(stack);
-	}
-
-	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowedIn(group)) {
-			ElementalCraft.PURE_ORE_MANAGER.getOres().forEach(id -> items.add(ElementalCraft.PURE_ORE_MANAGER.createPureOre(id)));
-		}
 	}
 
 	@Override

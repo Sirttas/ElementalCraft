@@ -5,6 +5,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -52,6 +53,6 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 34)
-				.addItemStack(recipe.getResultItem());
+				.addItemStack(RecipeUtil.getResultItem(recipe));
 	}
 }

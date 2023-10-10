@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "item": "elementalcraft:aircrystal"
@@ -24,5 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:air_mill_grindstone"
-  }
+  },
+  "show_notification": true
 }

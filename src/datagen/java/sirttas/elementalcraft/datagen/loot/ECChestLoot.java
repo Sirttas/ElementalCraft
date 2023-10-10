@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import net.minecraft.data.loot.ChestLoot;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -24,10 +24,10 @@ import sirttas.elementalcraft.nbt.NBTHelper;
 import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
 
-public class ECChestLoot extends ChestLoot {
+public class ECChestLoot implements LootTableSubProvider {
 
 	@Override
-	public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+	public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
 		consumer.accept(createPath("inject"), createInject());
 		consumer.accept(createPath("altar/small_fire"), createSmallAltar(ElementType.FIRE));
 		consumer.accept(createPath("altar/medium_fire"), createMediumAltar(ElementType.FIRE));

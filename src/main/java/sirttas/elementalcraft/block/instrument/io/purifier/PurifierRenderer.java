@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block.instrument.io.purifier;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.Container;
@@ -33,14 +33,14 @@ public class PurifierRenderer implements BlockEntityRenderer<PurifierBlockEntity
 				if (!(stack.getItem() instanceof BlockItem)) {
 					matrixStack.translate(0, 2D / 16, 0);
 					matrixStack.scale(0.5F, 0.5F, 0.5F);
-					matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+					matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 				}
 				ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 				matrixStack.popPose();
 			}
 			if (!stack2.isEmpty()) {
 				matrixStack.translate(0, 4.6 / 16, 0);
-				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+				matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 				ECRendererHelper.renderItem(stack2, matrixStack, buffer, light, overlay);
 			}
 		}

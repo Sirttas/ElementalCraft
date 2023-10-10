@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_spell_desk": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:spell_desk"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_spell_desk"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

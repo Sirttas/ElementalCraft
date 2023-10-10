@@ -5,6 +5,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -53,6 +54,6 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, RADIUS * 2 + 32, RADIUS)
-				.addItemStack(recipe.getResultItem());
+				.addItemStack(RecipeUtil.getResultItem(recipe));
 	}
 }

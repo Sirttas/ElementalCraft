@@ -1,0 +1,12 @@
+{
+  "bonuses": {
+    "element_consumption": 100.0,
+    "range": 0.5,
+    "speed": 20.0
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:block",
+    "block": "elementalcraft:vacuumshrine"
+  }
+}

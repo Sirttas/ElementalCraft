@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
@@ -14,5 +15,6 @@
   "result": {
     "count": 4,
     "item": "elementalcraft:elementpipe_improved"
-  }
+  },
+  "show_notification": true
 }

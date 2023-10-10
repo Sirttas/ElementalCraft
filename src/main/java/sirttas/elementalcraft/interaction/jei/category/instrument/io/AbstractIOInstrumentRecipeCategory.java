@@ -4,6 +4,7 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.ElementalCraft;
@@ -35,7 +36,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 
 	@Nonnull
 	protected List<ItemStack> getOutputs(@Nonnull T recipe) {
-		return List.of(recipe.getResultItem());
+		return List.of(RecipeUtil.getResultItem(recipe));
 	}
 
 	@Override

@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.item.holder;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -15,7 +13,6 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.config.ECConfig;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
@@ -45,28 +42,12 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	}
 
 	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (this.allowedIn(group)) {
-			ItemStack full = new ItemStack(this);
-			IElementStorage storage = getElementStorage(full);
-
-			ElementType.ALL_VALID.forEach(elementType -> storage.insertElement(this.getElementCapacity(), elementType, false));
-			items.add(new ItemStack(this));
-			items.add(full);
-		}
-	}
-
-	public int getElementCapacity() {
-		return elementCapacity.getAsInt();
-	}
-
-	@Override
 	protected ElementType getElementType(IElementStorage target, BlockState blockstate) {
 		if (blockstate.hasProperty(ElementType.STATE_PROPERTY)) {
 			return ElementType.getElementType(blockstate);
 		}
-		if (target instanceof IElementTypeProvider) {
-			return ((IElementTypeProvider) target).getElementType();
+		if (target instanceof IElementTypeProvider provider) {
+			return provider.getElementType();
 		}
 		return ElementType.NONE;
 	}
@@ -151,6 +132,18 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 				}
 				return 0;
 			});
+		}
+
+		@Override
+		public void fill() {
+			amounts.replaceAll((elementType, amount) -> getElementCapacity(elementType));
+			updateAmount();
+		}
+
+		@Override
+		public void fill(ElementType type) {
+			amounts.put(type, getElementCapacity(type));
+			updateAmount();
 		}
 	}
 }

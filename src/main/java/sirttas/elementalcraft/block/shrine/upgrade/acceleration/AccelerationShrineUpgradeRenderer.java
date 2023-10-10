@@ -1,15 +1,13 @@
 package sirttas.elementalcraft.block.shrine.upgrade.acceleration;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Vector3f;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
@@ -26,17 +24,17 @@ public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<Ac
 
 	@Override
 	public void render(AccelerationShrineUpgradeBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		BlockState state = te.getBlockState();
-		Direction facing = state.getValue(AbstractDirectionalShrineUpgradeBlock.FACING);
-		Quaternion rotation = facing.getRotation();
-		Vector3f newPos = POSITION.copy();
+		var state = te.getBlockState();
+		var facing = state.getValue(AbstractDirectionalShrineUpgradeBlock.FACING);
+		var rotation = facing.getRotation();
+		var newPos = new Vector3f(POSITION);
 
 		if (clockModel == null) {
 			clockModel = Minecraft.getInstance().getModelManager().getModel(CLOCK_LOCATION);
 		}
 		matrixStack.translate(0.5, 0.5, 0.5);
-		matrixStack.mulPose(facing.step().rotation((float) Math.toRadians(ECRendererHelper.getClientTicks(partialTicks))));
-		newPos.transform(rotation);
+		matrixStack.mulPose(Axis.of(facing.step()).rotation((float) Math.toRadians(ECRendererHelper.getClientTicks(partialTicks))));
+		rotation.transform(newPos);
 		matrixStack.translate(newPos.x(), newPos.y(), newPos.z());
 		matrixStack.mulPose(rotation);
 		ECRendererHelper.renderModel(clockModel, matrixStack, buffer, te, light, overlay);

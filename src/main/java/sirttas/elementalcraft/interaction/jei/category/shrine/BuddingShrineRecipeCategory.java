@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.interaction.jei.category.shrine;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -8,6 +7,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -61,8 +61,8 @@ public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<Bu
     }
 
     @Override
-    public void draw(@Nonnull BuddingShrineBlock.CrystalType crystalType, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
-        render3D(poseStack, (p, b) -> {
+    public void draw(@Nonnull BuddingShrineBlock.CrystalType crystalType, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        render3D(guiGraphics, (p, b) -> {
             p.translate(0, 0.5, 0);
             setupPose(p);
             ECRendererHelper.renderBlock(ECBlocks.BUDDING_SHRINE.get().defaultBlockState().setValue(BuddingShrineBlock.CRYSTAL_TYPE, crystalType), p, b);
@@ -75,7 +75,7 @@ public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<Bu
             p.translate(0, 1, 0);
             ECRendererHelper.renderBlock(getGrowthCrystal(crystalType), p, b);
         });
-        super.draw(crystalType, recipeSlotsView, poseStack, mouseX, mouseY);
+        super.draw(crystalType, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 
     @Override

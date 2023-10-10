@@ -3,7 +3,6 @@ package sirttas.elementalcraft.spell.fire;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -24,22 +23,24 @@ public class InfernoSpell extends Spell {
 
 	@Override
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level world = caster.getLevel();
+		Level world = caster.level();
 		float range = getRange(caster);
 		Vec3 look = caster.getLookAngle().normalize();
 
 		if (caster instanceof LivingEntity livingSender) {
 			for (LivingEntity target : world.getEntitiesOfClass(LivingEntity.class, caster.getBoundingBox().expandTowards(look.scale(range + 1)).inflate(1.0D, 0.25D, 1.0D))) {
-				if (target != caster && !caster.isAlliedTo(target) && (!(target instanceof ArmorStand) || !((ArmorStand) target).isMarker())
+				if (target != caster && !caster.isAlliedTo(target) && (!(target instanceof ArmorStand stand) || !stand.isMarker())
 						&& caster.distanceToSqr(target) < range * range && getAngle(caster, target) <= 30) {
-					target.hurt((caster instanceof Player ? DamageSource.playerAttack((Player) caster) : DamageSource.mobAttack(livingSender)).setIsFire(), 2);
+					var sources = caster.level().damageSources();
+
+					target.hurt(caster instanceof Player player ? sources.playerAttack(player) : sources.mobAttack(livingSender), 2);
 					target.setSecondsOnFire(1);
 				}
 			}
 			for (int i = 0; i < range; i += 1) {
 				Vec3 scaledLook = look.scale(i);
 				
-				world.levelEvent(null, 2004, livingSender.blockPosition().offset(new Vec3i(scaledLook.x, scaledLook.y, scaledLook.z)), 0);
+				world.levelEvent(null, 2004, livingSender.blockPosition().offset(new Vec3i((int) Math.round(scaledLook.x), (int) Math.round(scaledLook.y), (int) Math.round(scaledLook.z))), 0);
 			}
 			return InteractionResult.CONSUME;
 		}

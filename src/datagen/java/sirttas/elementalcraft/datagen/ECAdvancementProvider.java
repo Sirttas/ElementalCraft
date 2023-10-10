@@ -1,84 +1,52 @@
 package sirttas.elementalcraft.datagen;
 
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeAdvancementProvider;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.function.Consumer;
 
-public class ECAdvancementProvider implements DataProvider {
-	private final DataGenerator generator;
+public class ECAdvancementProvider implements ForgeAdvancementProvider.AdvancementGenerator {
 
-	public ECAdvancementProvider(DataGenerator generatorIn) {
-		this.generator = generatorIn;
-	}
+	private ExistingFileHelper existingFileHelper;
 
 	@Override
-	public void run(@Nonnull CachedOutput cache) throws IOException {
-		Path path = this.generator.getOutputFolder();
+	public void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<Advancement> saver, @NotNull ExistingFileHelper existingFileHelper) {
+		this.existingFileHelper = existingFileHelper;
 
 		for (var entry : ForgeRegistries.ITEMS.getEntries()) {
 			var item = entry.getValue();
 			var key = entry.getKey().location();
 
 			if (ElementalCraft.owns(key)) {
-				DataProvider.saveStable(cache, itemPickup(item, key).serializeToJson(), getPath(path, key));
+				itemPickup(item, key, saver);
 			}
 		}
 	}
 
-	private static Path getPath(Path path, ResourceLocation name) {
-		return path.resolve("data/" + name.getNamespace() + "/advancements/pickup/" + name.getPath() + ".json");
+	private Advancement itemPickup(ItemLike item, ResourceLocation name, @NotNull Consumer<Advancement> saver) {
+		return Advancement.Builder.advancement()
+				.parent(ElementalCraft.createRL("main/root"))
+				.addCriterion("has_" + name.getPath(), hasItem(item))
+				.save(saver, name, existingFileHelper);
 	}
 
-	/**
-	 * Gets a name for this provider, to use in logging.
-	 */
-	@Nonnull
-    @Override
-	public String getName() {
-		return "ElementalCraft Advancements";
-	}
-
-	private Advancement.Builder itemPickup(ItemLike item, ResourceLocation name) {
-		return Advancement.Builder.advancement().parent(ElementalCraft.createRL("main/root")).addCriterion("has_" + name.getPath(), hasItem(item));
-	}
-
-	/**
-	 * Creates a new {@link InventoryChangeTrigger} that checks for a player having
-	 * a certain item.
-	 */
 	protected static InventoryChangeTrigger.TriggerInstance hasItem(ItemLike item) {
 		return hasItem(ItemPredicate.Builder.item().of(item).build());
 	}
 
-	/**
-	 * Creates a new {@link InventoryChangeTrigger} that checks for a player having
-	 * an item within the given tag.
-	 */
-	protected static InventoryChangeTrigger.TriggerInstance hasItem(TagKey<Item> tag) {
-		return hasItem(ItemPredicate.Builder.item().of(tag).build());
-	}
-
-	/**
-	 * Creates a new {@link InventoryChangeTrigger} that checks for a player having
-	 * a certain item.
-	 */
 	protected static InventoryChangeTrigger.TriggerInstance hasItem(ItemPredicate... predicate) {
-		return new InventoryChangeTrigger.TriggerInstance(EntityPredicate.Composite.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY,
+		return new InventoryChangeTrigger.TriggerInstance(ContextAwarePredicate.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY,
 				predicate);
 	}
 

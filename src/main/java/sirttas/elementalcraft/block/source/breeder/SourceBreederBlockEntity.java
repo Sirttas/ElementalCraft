@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.source.breeder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -153,18 +152,6 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     @Override
     public void load(@Nonnull CompoundTag compound) {
         super.load(compound);
-        if (compound.contains(ECNames.RUNE_HANDLER)) {
-            IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
-        }
-        if (compound.contains(ECNames.PROGRESS, Tag.TAG_INT_ARRAY)) { // TODO 1.20 remove
-            int[] progressArray = compound.getIntArray(ECNames.PROGRESS);
-
-            for (int i = 0; i < progressArray.length; i++) {
-                var direction = Direction.from2DDataValue(i);
-
-                pedestalWrappers.get(direction).progress = progressArray[i];
-            }
-        }
         if (compound.contains(ECNames.RUNE_HANDLER)) {
             IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
         }

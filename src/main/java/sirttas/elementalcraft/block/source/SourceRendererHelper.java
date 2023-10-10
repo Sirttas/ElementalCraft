@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.source;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
@@ -28,16 +28,16 @@ public class SourceRendererHelper {
         poseStack.translate(0.5, 0.3, 0.5);
         poseStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().camera.rotation());
         poseStack.scale(0.016F, 0.016F, 0.016F);
-        poseStack.mulPose(Vector3f.ZP.rotationDegrees(angle));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(angle));
         poseStack.translate(-16, -16, 0);
         if (exhausted) {
             ECRendererHelper.renderIcon(poseStack, buffer, 0, 0, OUTER, 32, 32, r * 0.5f, g * 0.5f, b * 0.5f, light, overlay);
         } else {
             ECRendererHelper.renderIcon(poseStack, buffer, 0, 0, OUTER, 32, 32, r, g, b, light, overlay);
             poseStack.translate(16, 16, 0);
-            poseStack.mulPose(Vector3f.ZP.rotationDegrees(angle * 5f * ratio));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(angle * 5f * ratio));
             poseStack.translate(-16, -16, -0.01);
-            ECRendererHelper.renderIcon(poseStack, MIDDLE.buffer(buffer, ECRenderTypes::source), 0, 0, MIDDLE, 32, 32, r, g, b, light, overlay);
+            ECRendererHelper.renderIcon(poseStack, MIDDLE.buffer(buffer, ECRenderTypes::source), 0, 0, 32, 32, r, g, b, light, overlay);
         }
         poseStack.popPose();
     }

@@ -20,7 +20,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "condition": "minecraft:alternative",
+          "condition": "minecraft:any_of",
           "terms": [
             {
               "block": "elementalcraft:elementpipe_improved",
@@ -47,5 +47,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "elementalcraft:blocks/elementpipe_improved"
 }

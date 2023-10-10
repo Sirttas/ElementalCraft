@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.interaction.jei.category.shrine;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -8,6 +7,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -52,8 +52,8 @@ public class LavaShrineRecipeCategory extends AbstractShrineRecipeCategory<LavaS
     }
 
     @Override
-    public void draw(@Nonnull LavaShrineBlock recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
-        render3D(poseStack, (p, b) -> {
+    public void draw(@Nonnull LavaShrineBlock recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        render3D(guiGraphics, (p, b) -> {
             setupPose(p);
             ECRendererHelper.renderBlock(lavaShrine, p, b);
             p.translate(0, 1, 0);
@@ -66,7 +66,7 @@ public class LavaShrineRecipeCategory extends AbstractShrineRecipeCategory<LavaS
                 ECRendererHelper.renderBlock(liquifiables[t].defaultBlockState(), p, b);
             }
         });
-        super.draw(recipe, recipeSlotsView, poseStack, mouseX, mouseY);
+        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 
     @Override

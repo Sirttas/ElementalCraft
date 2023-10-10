@@ -13,6 +13,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
+import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
 import sirttas.elementalcraft.recipe.IContainerBlockEntityRecipe;
 
 import javax.annotation.Nonnull;
@@ -37,7 +38,7 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 
 	@Override
 	public boolean isRecipeAvailable() {
-		if (recipe != null && recipe.matches(cast())) {
+		if (recipe != null && recipe.matches(ContainerBlockEntityWrapper.from(cast()), level)) {
 			return true;
 		}
 		if (!this.getInventory().isEmpty()) {

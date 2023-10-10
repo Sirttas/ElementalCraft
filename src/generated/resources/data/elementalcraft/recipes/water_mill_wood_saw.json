@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "item": "elementalcraft:watercrystal"
@@ -21,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:water_mill_wood_saw"
-  }
+  },
+  "show_notification": true
 }

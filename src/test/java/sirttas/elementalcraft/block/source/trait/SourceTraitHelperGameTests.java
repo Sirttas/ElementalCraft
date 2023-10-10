@@ -5,6 +5,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraftforge.gametest.GameTestHolder;
 import net.minecraftforge.gametest.PrefixGameTestTemplate;
 import org.assertj.core.data.Offset;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.stream.IntStream;
@@ -15,8 +16,7 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 @PrefixGameTestTemplate(false)
 public class SourceTraitHelperGameTests {
 
-    // elementalcraft:empty
-    @GameTest(template = "empty")
+    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE)
     public void breed_should_createArtificialTraitMap(GameTestHelper helper) {
         var traits = SourceTraitHelper.breed(helper.getLevel().random, 0, false, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits());
 
@@ -28,8 +28,7 @@ public class SourceTraitHelperGameTests {
         helper.succeed();
     }
 
-    // elementalcraft:empty
-    @GameTest(template = "empty")
+    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE)
     public void breed_should_createNaturalTraitMap(GameTestHelper helper) {
         var traits = SourceTraitHelper.breed(helper.getLevel().random, 0, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits());
 
@@ -42,8 +41,7 @@ public class SourceTraitHelperGameTests {
         helper.succeed();
     }
 
-    // elementalcraft:empty
-    @GameTest(template = "empty", required = false)
+    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE, required = false)
     public void breed_should_addFertilityInAboutOneQuarter_with_luck0(GameTestHelper helper) {
         var fertileCount = IntStream.range(0, 1000)
                 .mapToObj(i -> SourceTraitHelper.breed(helper.getLevel().random, 0, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits()))
@@ -55,8 +53,7 @@ public class SourceTraitHelperGameTests {
         helper.succeed();
     }
 
-    // elementalcraft:empty
-    @GameTest(template = "empty", required = false)
+    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE, required = false)
     public void breed_should_addFertilityInAboutFiveEighth_with_luck3(GameTestHelper helper) {
         var fertileCount = IntStream.range(0, 1000)
                 .mapToObj(i -> SourceTraitHelper.breed(helper.getLevel().random, 3, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits()))

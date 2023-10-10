@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.ServerLevelAccessor;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValueProvider;
@@ -20,9 +19,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SourceTrait {
-	
-	public static final String NAME = "source_traits";
-	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
+
 	public static final Codec<SourceTrait> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Codec.INT.fieldOf(ECNames.ORDER).forGetter(SourceTrait::getOrder),
 			ISourceTraitValueProvider.CODEC.fieldOf(ECNames.VALUE).forGetter(t -> t.valueProvider)

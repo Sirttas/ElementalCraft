@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "tag": "forge:ingots/copper"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:solar_prism"
-  }
+  },
+  "show_notification": true
 }

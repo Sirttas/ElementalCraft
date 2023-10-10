@@ -29,7 +29,7 @@ public class CastSpellGoal extends Goal {
 			result = this.spell.castOnSelf(caster);
 		}
 		if (result.consumesAction()) {
-			var level = caster.getLevel();
+			var level = caster.level();
 			
 			this.spell.consume(caster, false);
 			if (!level.isClientSide) {

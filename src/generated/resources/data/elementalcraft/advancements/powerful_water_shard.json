@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_powerful_water_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:powerful_water_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_powerful_water_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

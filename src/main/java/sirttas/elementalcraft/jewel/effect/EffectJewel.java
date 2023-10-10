@@ -26,7 +26,6 @@ public class EffectJewel extends Jewel {
             for (MobEffectInstance e : effects) {
                 var effect = new MobEffectInstance(e);
 
-                effect.setNoCounter(true);
                 livingEntity.addEffect(effect);
             }
         }

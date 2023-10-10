@@ -1,10 +1,13 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.io.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
@@ -21,8 +24,8 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public ItemStack assemble(AbstractFireFurnaceBlockEntity<T> inv) {
-		return recipe.assemble(inv.getInventory());
+	public @NotNull ItemStack assemble(@NotNull AbstractFireFurnaceBlockEntity<T> inv, @Nonnull RegistryAccess registry) {
+		return recipe.assemble(inv.getInventory(), registry);
 	}
 
 	@Override
@@ -32,8 +35,8 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Nonnull
     @Override
-	public ItemStack getResultItem() {
-		return recipe.getResultItem();
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
+		return recipe.getResultItem(registry);
 	}
 
 	@Nonnull
@@ -73,7 +76,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public boolean matches(AbstractFireFurnaceBlockEntity<T> instrument) {
-		return instrument.getContainerElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), instrument.getLevel());
+	public boolean matches(@Nonnull AbstractFireFurnaceBlockEntity<T> instrument, @Nonnull Level level) {
+		return instrument.getContainerElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), level);
 	}
 }

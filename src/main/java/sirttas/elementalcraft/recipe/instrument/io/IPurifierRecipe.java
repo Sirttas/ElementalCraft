@@ -4,6 +4,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
@@ -16,8 +17,8 @@ public interface IPurifierRecipe extends IIOInstrumentRecipe<PurifierBlockEntity
 	double getLuckRatio();
 
 	@Override
-	default boolean matches(ItemStack stack) {
-		return getIngredients().stream().allMatch(i -> i.test(stack)) && !this.getResultItem().isEmpty() && IIOInstrumentRecipe.super.matches(stack);
+	default boolean matches(ItemStack stack, @Nonnull Level level) {
+		return getIngredients().stream().allMatch(i -> i.test(stack)) && !this.getResultItem(level.registryAccess()).isEmpty() && IIOInstrumentRecipe.super.matches(stack, level);
 	}
 
 	@Nonnull

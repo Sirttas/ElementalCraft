@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.datagen.tag;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
@@ -9,15 +10,18 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.tag.ECTags;
 
+import javax.annotation.Nonnull;
+import java.util.concurrent.CompletableFuture;
+
 public class ECBiomeTagsProvider extends BiomeTagsProvider {
 
-	public ECBiomeTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-		super(generatorIn, ElementalCraftApi.MODID, existingFileHelper);
+	public ECBiomeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, ExistingFileHelper existingFileHelper) {
+		super(output, provider, ElementalCraftApi.MODID, existingFileHelper);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void addTags() {
+	protected void addTags(@Nonnull HolderLookup.Provider provider) {
 		tag(ECTags.Biomes.HAS_SOURCE_ALTAR).addTags(BiomeTags.IS_HILL, BiomeTags.IS_FOREST, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_BADLANDS, BiomeTags.IS_TAIGA, BiomeTags.IS_JUNGLE)
 				.add(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.WINDSWEPT_SAVANNA, Biomes.ICE_SPIKES, Biomes.SNOWY_PLAINS, Biomes.DESERT, Biomes.MUSHROOM_FIELDS, Biomes.GROVE);
 

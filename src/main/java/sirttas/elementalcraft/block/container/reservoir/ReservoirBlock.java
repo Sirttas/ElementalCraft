@@ -2,12 +2,9 @@ package sirttas.elementalcraft.block.container.reservoir;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -28,8 +25,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.container.AbstractConnectedElementContainerBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.config.ECConfig;
@@ -199,18 +194,8 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	}
 
 	@Override
-	protected int getDefaultCapacity() {
+	public int getDefaultCapacity() {
 		return ECConfig.COMMON.reservoirCapacity.get();
-	}
-	
-	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, NonNullList<ItemStack> items) {
-		ItemStack stack = new ItemStack(this.asItem());
-		CompoundTag tag = stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG);
-
-		tag.put(ECNames.ELEMENT_STORAGE, new SingleElementStorage(this.getElementType(), this.getDefaultCapacity(), this.getDefaultCapacity()).serializeNBT());
-		items.add(new ItemStack(this.asItem()));
-		items.add(stack);
 	}
 	
 	@Override

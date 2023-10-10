@@ -1,0 +1,308 @@
+
+#ElementalCraft config
+[elementalcraft]
+
+	#Instruments config
+	[elementalcraft.instruments]
+
+		[elementalcraft.instruments.tank]
+			#The element capacity of a small element container.
+			#Range: 0 ~ 100000000
+			tankSmallCapacity = 1000
+			#The element capacity of a element container.
+			#Range: 0 ~ 100000000
+			tankCapacity = 100000
+			#The element capacity of a element reservoir.
+			#Range: 0 ~ 100000000
+			reservoirCapacity = 5000000
+
+		[elementalcraft.instruments.extractor]
+			#The amount of element extracted by an extractor.
+			#Range: 0 ~ 100
+			extractorExtractionAmount = 5
+			#The max amount ofrunes on an extractor.
+			#Range: 0 ~ 10
+			extractorMaxRunes = 1
+			#The amount of element extracted by an improved extractor.
+			#Range: 0 ~ 500
+			improvedExtractorExtractionAmount = 25
+			#The max amount of runes on an improved extracto.
+			#Range: 0 ~ 10
+			improvedExtractoMaxRunes = 3
+
+		[elementalcraft.instruments.evaporator]
+			#The amount of element extracted by an evaporator.
+			#Range: 0 ~ 100
+			evaporatorExtractionAmount = 1
+			#The max amount of runes on an evaporator.
+			#Range: 0 ~ 10
+			evaporatorMaxRunes = 1
+
+		[elementalcraft.instruments.diffuser]
+			#The amount of element transfered by a diffuser.
+			#Range: 0 ~ 100
+			diffuserDiffusionAmount = 5
+			#The max amount of runes on a diffuser.
+			#Range: 0 ~ 10
+			diffuserMaxRunes = 3
+			#The range of a diffuser.
+			#Range: 0 ~ 100
+			diffuserRange = 2
+
+		[elementalcraft.instruments.fireFurnace]
+			#The max amount of element consumed by the fire furnace per tick.
+			#Range: 0 ~ 1000
+			fireFurnaceTransferSpeed = 10
+			#The max amount of runes on a fire furnace.
+			#Range: 0 ~ 10
+			fireFurnaceMaxRunes = 1
+			#The amount multiplied by the cooking time of the furnace recipe.
+			#Range: 0 ~ 1000
+			fireFurnaceElementAmount = 5
+
+			[elementalcraft.instruments.fireFurnace.fireBlastFurnace]
+				#The max amount of element consumed by the fire blast furnace per tick.
+				#Range: 0 ~ 1000
+				fireBlastFurnaceTransferSpeed = 20
+				#The max amount of runes on a fire blast furnace.
+				#Range: 0 ~ 10
+				fireBlastFurnaceMaxRunes = 2
+				#The amount multiplied by the cooking time of the blast furnace recipe.
+				#Range: 0 ~ 1000
+				fireBlastFurnaceElementAmount = 10
+
+		[elementalcraft.instruments.infuser]
+			#The max amount of element consumed by the infuser per tick.
+			#Range: 0 ~ 1000
+			infuserTransferSpeed = 10
+			#The max amount of runes on an infuser.
+			#Range: 0 ~ 10
+			infuserMaxRunes = 1
+
+		[elementalcraft.instruments.binder]
+			#The max amount of element consumed by the binder per tick.
+			#Range: 0 ~ 1000
+			binderTransferSpeed = 25
+			#The max amount of runes on an binder.
+			#Range: 0 ~ 10
+			binderMaxRunes = 2
+			#Define if or not binder recip require to be ordered.
+			binderRecipeMatchOrder = true
+
+			[elementalcraft.instruments.binder.improved]
+				#The max amount of element consumed by the improved binder per tick.
+				#Range: 0 ~ 1000
+				improvedBinderTransferSpeed = 50
+				#The max amount of runes on an improved binder.
+				#Range: 0 ~ 10
+				improvedBinderMaxRunes = 3
+
+		[elementalcraft.instruments.crystallizer]
+			#The max amount of element consumed by the gem crystallizer per tick.
+			#Range: 0 ~ 1000
+			crystallizerTransferSpeed = 25
+			#The max amount of runes on an crystallizer.
+			#Range: 0 ~ 10
+			crystallizerMaxRunes = 3
+			#The ratio of each luck rune on a crystallizer.
+			#Range: 0.0 ~ 10.0
+			crystallizerLuckRatio = 3.0
+
+		[elementalcraft.instruments.inscriber]
+			#The max amount of element consumed by the gem inscriber per tick.
+			#Range: 0 ~ 10000
+			inscriberTransferSpeed = 1000
+			#The max amount of runes on an inscriber.
+			#Range: 0 ~ 10
+			inscriberMaxRunes = 3
+
+		[elementalcraft.instruments.airMillGrindstone]
+			#The max amount of element consumed by the Air Mill Grindstone per tick.
+			#Range: 0 ~ 1000
+			airMillGrindstoneTransferSpeed = 10
+			#The max amount of runes on an Air Mill Grindstone.
+			#Range: 0 ~ 10
+			airMillGrindstoneMaxRunes = 3
+
+		[elementalcraft.instruments.waterMillWoodSaw]
+			#The max amount of element consumed by the Water Mill Wood Saw per tick.
+			#Range: 0 ~ 1000
+			waterMillWoodSawTransferSpeed = 10
+			#The max amount of runes on an Water Mill Wood Saw.
+			#Range: 0 ~ 10
+			waterMillWoodSawMaxRunes = 3
+
+		[elementalcraft.instruments.purifier]
+			#The max amount of element consumed by the Ore Purifier per tick.
+			#Range: 0 ~ 1000
+			purifierTransferSpeed = 25
+			#The max amount of runes on an purifier.
+			#Range: 0 ~ 10
+			purifierMaxRunes = 3
+
+			[elementalcraft.instruments.purifier.pureOre]
+				#Set to false if you want to manually manage processing of pure ore.
+				pureOreRecipeInjection = true
+
+		[elementalcraft.instruments.elementPipe]
+			#The amount of element transferred by impaired pipes.
+			#Range: 0 ~ 10000
+			impairedPipeTransferAmount = 5
+			#The amount of element transferred by pipes.
+			#Range: 0 ~ 10000
+			pipeTransferAmount = 25
+			#The amount of element transferred by improved pipes.
+			#Range: 0 ~ 10000
+			improvedPipeTransferAmount = 100
+			#Cache the last path used by the pipe to increase performances.
+			pipePathCache = true
+
+			[elementalcraft.instruments.elementPipe.upgrade]
+
+				[elementalcraft.instruments.elementPipe.upgrade.elementBeam]
+					#The range of the element beam.
+					#Range: 0 ~ 100
+					elementBeamRange = 10
+
+				[elementalcraft.instruments.elementPipe.upgrade.elementPump]
+					#The amount of element pumped by the element pump.
+					#Range: 0.0 ~ 100.0
+					elementPumpMultiplier = 5.0
+					#The amount of element wasted by the element pump.
+					#Range: 0.0 ~ 1.0
+					elementPumpWaste = 0.1
+					#The max amount of runes an element pump can have.
+					#Range: 0 ~ 10
+					elementPumpMaxRunes = 3
+
+		[elementalcraft.instruments.sorter]
+			#The amount of tick between two ordered sorter item transfer.
+			#Range: 0 ~ 100
+			sorterCooldown = 10
+			#The max amount of items an order sorter can filter.
+			#Range: 0 ~ 100
+			sorterMaxItem = 15
+			#The max amount of runes an order sorter can have.
+			#Range: 0 ~ 10
+			sorterMaxRunes = 3
+
+		[elementalcraft.instruments.solarSynthesizer]
+			#The max amount of runes on a Solar Synthesizer.
+			#Range: 0 ~ 10
+			solarSynthesizerMaxRunes = 2
+			#the multiplier of lens in the Solar Synthesizer (based on 1500)
+			#Range: 0 ~ 100
+			solarSynthesizerLensElementMultiplier = 10
+
+	#Pure Infuser and pedestals config
+	[elementalcraft.pureInfuser]
+		#The max amount of element consumed by the pure infuser per tick.
+		#Range: 0 ~ 1000
+		pureInfuserTransferSpeed = 100
+		#The max amount of runes on a pure infuser.
+		#Range: 0 ~ 10
+		pureInfuserMaxRunes = 3
+
+		[elementalcraft.pureInfuser.pedestals]
+			#The max amount of runes on a pedestal.
+			#Range: 0 ~ 10
+			pedestalMaxRunes = 1
+			#The element capacity of a pedestal.
+			#Range: 0 ~ 100000000
+			pedestalCapacity = 10000
+
+	#Source Breeder and pedestals config
+	[elementalcraft.sourceBreeder]
+		#The max amount of element consumed by the source breeder per tick.
+		#Range: 0 ~ 1000
+		sourceBreederTransferSpeed = 500
+		#The max amount of runes on a source breeder.
+		#Range: 0 ~ 10
+		sourceBreederMaxRunes = 3
+		#The base cost of breeding sources.
+		#Range: 0 ~ 100000000
+		sourceBreedingBaseCost = 500000
+
+		[elementalcraft.sourceBreeder.pedestals]
+			#The max amount of runes on a source breeder pedestal.
+			#Range: 0 ~ 10
+			sourceBreederPedestalMaxRunes = 1
+			#The element capacity of a source breeder pedestal.
+			#Range: 0 ~ 100000000
+			sourceBreederPedestalCapacity = 100000
+
+	#Items config
+	[elementalcraft.items]
+		#The max number of spells on a focus.
+		#Range: 1 ~ 20
+		focusMaxSpell = 10
+		#The max number of spells on an elementalist grimoire.
+		#Range: 1 ~ 1000
+		spellBookMaxSpell = 100
+		#Players start the game with an elementopedia in their inventory.
+		playersSpawnWithBook = false
+		#The amount of element contained in a single shard.
+		#Range: 0 ~ 1000
+		shardElementAmount = 250
+
+		[elementalcraft.items.elementHolder]
+			#The element capacity of an element holder.
+			#Range: 0 ~ 100000000
+			elementHolderCapacity = 10000
+			#The amount of element transferred by an element holder.
+			#Range: 0 ~ 1000
+			elementHolderTransferAmount = 25
+
+			[elementalcraft.items.elementHolder.pure]
+				#The element capacity of a pure element holder.
+				#Range: 0 ~ 100000000
+				pureElementHolderCapacity = 100000
+				#The amount of element transferred by a pure element holder.
+				#Range: 0 ~ 1000
+				pureElementHolderTransferAmount = 100
+
+	#Spell config
+	[elementalcraft.spell]
+		#Define if a spell will be cast (and destroyed) or not if you dont have enought element.
+		spellConsumeOnFail = false
+
+	#Source config
+	[elementalcraft.source]
+		#set to true to make sources infinite.
+		disableSourceExhaustion = false
+
+	#Config of sources around
+	[elementalcraft.spawn]
+		#Disable creation of sources.
+		disableSourceSpawn = false
+		#number of sources at spawn per element type.
+		#Range: 1 ~ 20
+		sourceSpawnCount = 2
+
+#mod interaction config
+[interaction]
+
+	[interaction.botania]
+
+		[interaction.botania.manaSynthesizer]
+			#The max amount of runes on a Mana Synthesizer.
+			#Range: 0 ~ 10
+			manaSynthesizerMaxRunes = 2
+			#The mana capacity of the Mana Synthesizer.
+			#Range: 0 ~ 1000000
+			manaSynthesizerManaCapacity = 10000
+			#the multiplier of lens in the Mana Synthesizer (based on 1500)
+			#Range: 0 ~ 100
+			manaSynthesizerLensElementMultiplier = 50
+			#The amount of element 1 mana is worth.
+			#Range: 0.0 ~ 100.0
+			manaElementRatio = 0.1
+
+	[interaction.mekanism]
+		#The amount multiplier when using pure ore in mekanism.
+		#Range: 0 ~ 20
+		mekanismPureOreInputMultiplier = 5
+		#The amount multiplier when using pure ore in mekanism.
+		#Range: 0 ~ 20
+		mekanismPureOreOutputMultiplier = 3
+

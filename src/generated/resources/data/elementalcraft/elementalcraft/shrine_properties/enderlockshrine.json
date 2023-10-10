@@ -3,5 +3,15 @@
   "element_consumption": 500,
   "element_type": "water",
   "periode": 1.0,
-  "range": 10.0
+  "range": {
+    "box": [
+      -10.0,
+      0.0,
+      -10.0,
+      11.0,
+      3.0,
+      11.0
+    ],
+    "stitch": true
+  }
 }

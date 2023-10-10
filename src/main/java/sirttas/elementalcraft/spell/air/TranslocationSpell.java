@@ -67,7 +67,7 @@ public class TranslocationSpell extends Spell {
 	
 	@Override
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level level = caster.getLevel();
+		Level level = caster.level();
 		Vec3 look = caster.getLookAngle();
 		Vec3 newPos = getNewPos(caster, level, look);
 
@@ -119,9 +119,9 @@ public class TranslocationSpell extends Spell {
 	}
 
 	private double getHeight(Level world, Entity sender, Vec3 targetPos) {
-		double height = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(targetPos)).getY() + 1D;
+		double height = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlockPos.containing(targetPos)).getY() + 1D;
 		
-		if (!sender.isOnGround()) {
+		if (!sender.onGround()) {
 			return Math.max(height, sender.getY());
 		}
 		return height;

@@ -2,9 +2,9 @@ package sirttas.elementalcraft.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
@@ -17,10 +17,13 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -33,6 +36,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationSh
 import sirttas.elementalcraft.client.LevelRenderHandler;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.ISpellHolder;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
@@ -41,6 +45,7 @@ import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.air.TranslocationSpell;
+import sirttas.elementalcraft.spell.tick.SpellCooldownItemDecorator;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nonnull;
@@ -58,13 +63,23 @@ public class GuiHandler {
 	private GuiHandler() {}
 
 	@SubscribeEvent
-	public static void onDrawScreenPost(RegisterGuiOverlaysEvent event) {
-		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "gauge", (g, p, t, w, h) -> drawGauge(g, p));
-		event.registerBelow(VanillaGuiOverlay.PORTAL.id(), "translocation_anchor_marker", (g, p, t, w, h) -> drawAnchors(g, p, w, h));
-		event.registerBelow(ElementalCraft.createRL("translocation_anchor_marker"), "single_translocation_anchor_marker", (g, p, t, w, h) -> drawAnchor(g, p, w, h));
+	public static void registerItemDecorators(RegisterItemDecorationsEvent event) {
+		var spellCooldown = new SpellCooldownItemDecorator();
+
+		event.register(ECItems.SCROLL.get(), spellCooldown);
+		event.register(ECItems.FOCUS.get(), spellCooldown);
+		event.register(ECItems.STAFF.get(), spellCooldown);
 	}
 
-	public static void drawGauge(ForgeGui gui, PoseStack poseStack) {
+	@SubscribeEvent
+	public static void onDrawScreenPost(RegisterGuiOverlaysEvent event) {
+		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "gauge", (f, g, t, w, h) -> drawGauge(f, g));
+		event.registerBelow(VanillaGuiOverlay.PORTAL.id(), "translocation_anchor_marker", (f, g, t, w, h) -> drawAnchors(f, g, w, h));
+		event.registerBelow(ElementalCraft.createRL("translocation_anchor_marker"), "single_translocation_anchor_marker", (f, g, t, w, h) -> drawAnchor(f, g, w, h));
+	}
+
+	public static void drawGauge(ForgeGui gui, GuiGraphics guiGraphics) {
+		var font = gui.getFont();
 		var player = Minecraft.getInstance().player;
 
 		if (player == null) {
@@ -79,12 +94,12 @@ public class GuiHandler {
 		for (var storage : getElementStorage(player)) {
 			ElementType type = storage.getElementType();
 
-			renderElementGauge(poseStack, storage.getElementAmount(), storage.getElementCapacity(), type, i);
+			renderElementGauge(guiGraphics, font, storage.getElementAmount(), storage.getElementCapacity(), type, i);
 			gui.setupOverlayRenderState(true, false);
 			if (storage instanceof ShrineElementStorage shrineStorage) {
-				renderShrineCheck(poseStack, storage, shrineStorage);
+				renderShrineCheck(guiGraphics, storage, shrineStorage);
 			} else if (spell.isValid() && spell.getElementType() == type && i == 0 && isPlayerOwned(player, storage)) {
-				renderSpellCheck(poseStack, player, spell);
+				renderSpellCheck(guiGraphics, player, spell);
 			}
 			i++;
 		}
@@ -97,7 +112,7 @@ public class GuiHandler {
 				.orElse(false);
 	}
 
-	public static void drawAnchors(ForgeGui gui, PoseStack poseStack, int width, int height) {
+	public static void drawAnchors(ForgeGui gui, GuiGraphics guiGraphics, int width, int height) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
@@ -125,13 +140,13 @@ public class GuiHandler {
 				if (v.z() <= 0F || v.z() >= 1F) {
 					continue;
 				}
-				drawAnchor(poseStack, width, height, anchor.equals(targetAnchor) ? 1.5f : getAnchorScale(falloffSq, (float) distanceSq), buffer, v);
+				drawAnchor(guiGraphics.pose(), width, height, anchor.equals(targetAnchor) ? 1.5f : getAnchorScale(falloffSq, (float) distanceSq), buffer, v);
 			}
 		}
 		buffer.endBatch();
 	}
 
-	public static void drawAnchor(ForgeGui gui, PoseStack poseStack, int width, int height) {
+	public static void drawAnchor(ForgeGui gui, GuiGraphics guiGraphics, int width, int height) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
@@ -163,7 +178,7 @@ public class GuiHandler {
 		var buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
 
 		gui.setupOverlayRenderState(true, false);
-		drawAnchor(poseStack, width, height, 1.5f, buffer, v);
+		drawAnchor(guiGraphics.pose(), width, height, 1.5f, buffer, v);
 		buffer.endBatch();
 	}
 
@@ -193,8 +208,8 @@ public class GuiHandler {
 	private static Vector4f getPositionInScreen(Matrix4f worldMatrix, Vec3 cameraPos, Vec3 center) {
 		var v = new Vector4f((float) (center.x - cameraPos.x), (float) (center.y - cameraPos.y), (float) (center.z - cameraPos.z), 1F);
 
-		v.transform(worldMatrix);
-		v.perspectiveDivide();
+		worldMatrix.transform(v);
+		v.div(v);
 		return v;
 	}
 
@@ -204,7 +219,7 @@ public class GuiHandler {
 
 		if (result != null && minecraft.options.getCameraType().isFirstPerson()) {
 			BlockPos pos = result.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) result).getBlockPos() : null;
-			BlockEntity tile = pos != null ? minecraft.player.level.getBlockEntity(pos) : null;
+			BlockEntity tile = pos != null ? minecraft.player.level().getBlockEntity(pos) : null;
 
 			if (tile != null) {
 				var storages = ElementStorageHelper.get(tile)
@@ -277,8 +292,8 @@ public class GuiHandler {
 		}).filter(Spell::isValid).findFirst().orElseGet(Spells.NONE);
 	}
 
-	private static void renderElementGauge(PoseStack matrixStack, int element, int max, ElementType type, int index) {
-		GuiHelper.renderElementGauge(matrixStack, getXOffset() - 32 - (20 * index), getYOffset() - 8, element, max, type);
+	private static void renderElementGauge(GuiGraphics guiGraphics, Font font, int element, int max, ElementType type, int index) {
+		GuiHelper.renderElementGauge(guiGraphics, font, getXOffset() - 32 - (20 * index), getYOffset() - 8, element, max, type);
 	}
 
 	public static int getYOffset() {
@@ -289,32 +304,32 @@ public class GuiHandler {
 		return Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2 + ECConfig.CLIENT.gaugeOffsetY.get();
 	}
 
-	private static void renderShrineCheck(PoseStack poseStack, ISingleElementStorage storage, ShrineElementStorage shrineStorage) {
+	private static void renderShrineCheck(GuiGraphics guiGraphics, ISingleElementStorage storage, ShrineElementStorage shrineStorage) {
 		var shrine = shrineStorage.getShrine();
 
 		if (shrine.isRunning()) {
-			renderCheck(poseStack, GuiHelper.Check.VALID);
+			renderCheck(guiGraphics, GuiHelper.Check.VALID);
 		} else if (storage.getElementAmount() >= shrine.getConsumeAmount()) {
-			renderCheck(poseStack, GuiHelper.Check.PAUSED);
+			renderCheck(guiGraphics, GuiHelper.Check.PAUSED);
 		} else {
-			renderCheck(poseStack, GuiHelper.Check.INVALID);
+			renderCheck(guiGraphics, GuiHelper.Check.INVALID);
 		}
 	}
 
-	private static void renderSpellCheck(PoseStack poseStack, LocalPlayer player, Spell spell) {
+	private static void renderSpellCheck(GuiGraphics guiGraphics, LocalPlayer player, Spell spell) {
 		var canCast = spell.consume(player, true);
 		var isInCooldown = SpellTickHelper.hasCooldown(player, spell);
 
 		if (canCast && !isInCooldown) {
-			renderCheck(poseStack, GuiHelper.Check.VALID);
+			renderCheck(guiGraphics, GuiHelper.Check.VALID);
 		} else if (isInCooldown) {
-			renderCheck(poseStack, GuiHelper.Check.PAUSED);
+			renderCheck(guiGraphics, GuiHelper.Check.PAUSED);
 		} else {
-			renderCheck(poseStack, GuiHelper.Check.INVALID);
+			renderCheck(guiGraphics, GuiHelper.Check.INVALID);
 		}
 	}
 
-	private static void renderCheck(PoseStack poseStack, GuiHelper.Check valid) {
-		GuiHelper.renderCheck(poseStack, valid, getXOffset() - 21, getYOffset() + 3);
+	private static void renderCheck(GuiGraphics guiGraphics, GuiHelper.Check valid) {
+		GuiHelper.renderCheck(guiGraphics, valid, getXOffset() - 21, getYOffset() + 3);
 	}
 }

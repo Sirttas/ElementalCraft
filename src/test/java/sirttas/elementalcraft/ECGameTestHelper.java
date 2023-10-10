@@ -1,14 +1,24 @@
 package sirttas.elementalcraft;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestBatch;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Consumer;
 
 public class ECGameTestHelper {
+
+    public static final String EMPTY_TEMPLATE = "empty";
+    public static final String EMPTY_CONTAINER_TEMPLATE = "empty_container";
 
     private ECGameTestHelper() {}
 
@@ -51,4 +61,12 @@ public class ECGameTestHelper {
         };
     }
 
+    public static void useItemOn(GameTestHelper helper, Player player, InteractionHand hand, BlockPos pos) {
+        var absolutePos = helper.absolutePos(pos);
+        var result = new BlockHitResult(Vec3.atCenterOf(absolutePos), Direction.NORTH, absolutePos, true);
+        var stack = player.getItemInHand(hand);
+        var useOnContext = new UseOnContext(player, hand, result);
+
+        stack.useOn(useOnContext);
+    }
 }

@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.synthesizer.solar;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -42,9 +42,9 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 			matrixStack.pushPose();
 			matrixStack.translate(0.5, 14.5 / 16, 0.5);
 			if (isWorking) {
-				matrixStack.mulPose(Vector3f.ZP.rotation(te.getLevel().getSunAngle(partialTicks)));
+				matrixStack.mulPose(Axis.ZP.rotation(te.getLevel().getSunAngle(partialTicks)));
 			} else {
-				matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90));
+				matrixStack.mulPose(Axis.ZP.rotationDegrees(90));
 			}
 			matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
 			minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, ECRendererHelper.getModelData(getLenseModel(), te), RenderType.translucent());
@@ -54,7 +54,7 @@ public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> imp
 
 				matrixStack.pushPose();
 				matrixStack.translate(0.5, 0.5, 0.5);
-				matrixStack.mulPose(Vector3f.YP.rotation((float) Math.acos(beamVect.z * (beamVect.x > 0 ? 1 : -1))));
+				matrixStack.mulPose(Axis.YP.rotation((float) Math.acos(beamVect.z * (beamVect.x > 0 ? 1 : -1))));
 				matrixStack.scale(0.006F, 0.006F, 0.006F);
 				ECRendererHelper.renderIcon(matrixStack, buffer, -21, 38, BEAM, 42, -76, r, g, b, light, overlay);
 				matrixStack.popPose();

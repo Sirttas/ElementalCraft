@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
@@ -33,8 +32,8 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	
 	private static final String SAVED_POS = "saved_pos";
 
-	protected final IntSupplier elementCapacity;
-	protected final IntSupplier transferAmount;
+	private final IntSupplier elementCapacity;
+	private final IntSupplier transferAmount;
 	
 	protected AbstractElementHolderItem(IntSupplier elementCapacity, IntSupplier transferAmount) {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
@@ -46,9 +45,17 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 
 	@Override
 	public int getUseDuration(@Nonnull ItemStack stack) {
-		return elementCapacity.getAsInt() / transferAmount.getAsInt();
+		return getElementCapacity() / getTransferAmount();
 	}
-	
+
+	public int getElementCapacity() {
+		return elementCapacity.getAsInt();
+	}
+
+	public int getTransferAmount() {
+		return transferAmount.getAsInt();
+	}
+
 	@Nonnull
     @Override
 	public UseAnim getUseAnimation(@Nonnull ItemStack stack) {
@@ -67,11 +74,11 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	@Nonnull
     @Override
 	public InteractionResult useOn(UseOnContext context) {
-		BlockPos pos = context.getClickedPos();
-		Level world = context.getLevel();
-		ItemStack stack = context.getItemInHand();
-		Player player = context.getPlayer();
-		InteractionResult result = tick(world, player, pos, stack);
+		var pos = context.getClickedPos();
+		var level = context.getLevel();
+		var stack = context.getItemInHand();
+		var player = context.getPlayer();
+		var result = tick(level, player, pos, stack);
 
 		if (result.consumesAction()) {
 			this.setSavedPos(stack, pos);
@@ -81,18 +88,18 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
-		BlockPos pos = this.getSavedPos(stack);
-		var reachAttribute = player.getAttribute(ForgeMod.REACH_DISTANCE.get());
-		double reach = reachAttribute != null ? reachAttribute.getValue() : 5;
+	public void onUseTick(@Nonnull Level level, @Nonnull LivingEntity player, @Nonnull ItemStack stack, int count) {
+		var pos = this.getSavedPos(stack);
+		var reachAttribute = player.getAttribute(ForgeMod.ENTITY_REACH.get());
+		var reach = reachAttribute != null ? reachAttribute.getValue() : 5;
 		
-		if (player.blockPosition().distSqr(pos) + 1 > reach * reach || !this.tick(player.getLevel(), player, pos, stack).consumesAction()) {
+		if (player.blockPosition().distSqr(pos) + 1 > reach * reach || !this.tick(player.level(), player, pos, stack).consumesAction()) {
 			player.releaseUsingItem();
 		}
 	}
 
 	@Override
-	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level worldIn, @Nonnull LivingEntity entityLiving, int timeLeft) {
+	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
 		this.removeSavedPos(stack);
 	}
 
@@ -100,7 +107,8 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	
 	private InteractionResult tick(Level level, LivingEntity entity, BlockPos pos, ItemStack stack) {
 		var amount = this.transferAmount.getAsInt();
-		BlockState blockstate = level.getBlockState(pos);
+		var blockstate = level.getBlockState(pos);
+
 		return BlockEntityHelper.getElementStorageAt(level, pos).map(storage -> {
 			IElementStorage holder = getElementStorage(stack);
 			boolean isSource = isValidSource(blockstate);

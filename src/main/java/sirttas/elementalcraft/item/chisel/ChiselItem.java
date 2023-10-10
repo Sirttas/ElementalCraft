@@ -7,7 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import sirttas.elementalcraft.ElementalCraftTab;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
@@ -26,7 +25,7 @@ public class ChiselItem extends ECItem implements IPipeInteractingItem {
 	public static final String NAME = "chisel";
 
 	public ChiselItem() {
-		super(new Item.Properties().tab(ElementalCraftTab.TAB).stacksTo(1).durability(250));
+		super(new Item.Properties().stacksTo(1).durability(250));
 	}
 
 	@Override

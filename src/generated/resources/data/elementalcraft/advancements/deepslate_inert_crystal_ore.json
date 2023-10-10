@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_deepslate_inert_crystal_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:deepslate_inert_crystal_ore"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_deepslate_inert_crystal_ore"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

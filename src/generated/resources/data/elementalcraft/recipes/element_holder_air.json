@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "key": {
     "c": {
       "item": "elementalcraft:aircrystal"
@@ -24,5 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:element_holder_air"
-  }
+  },
+  "show_notification": true
 }

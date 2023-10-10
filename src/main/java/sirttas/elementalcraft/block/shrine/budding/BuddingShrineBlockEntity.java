@@ -35,7 +35,7 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AABB getRangeBoundingBox() {
+	public AABB getRange() {
 		return new AABB(above());
 	}
 

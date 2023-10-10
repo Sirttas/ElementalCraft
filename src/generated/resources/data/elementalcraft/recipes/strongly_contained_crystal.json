@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:strongly_contained_crystal"
-  }
+  },
+  "show_notification": true
 }

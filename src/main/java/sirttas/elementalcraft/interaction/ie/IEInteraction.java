@@ -32,7 +32,7 @@ public class IEInteraction {
     public static IGrindingRecipe lookupCrusherRecipe(Level level, AirMillGrindstoneBlockEntity airMillGrindstone) {
         return level.getRecipeManager().getRecipeFor(IERecipeTypes.CRUSHER.get(), airMillGrindstone.getInventory(), level)
                 .map(IECrusherRecipeWrapper::new)
-                .filter(r -> r.matches(airMillGrindstone))
+                .filter(r -> r.matches(airMillGrindstone, level))
                 .orElse(null);
     }
 

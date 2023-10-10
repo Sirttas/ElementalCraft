@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "a": {
       "item": "elementalcraft:air_silk"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:drenched_saw_blade"
-  }
+  },
+  "show_notification": true
 }

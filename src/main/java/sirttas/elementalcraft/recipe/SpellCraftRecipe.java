@@ -2,6 +2,7 @@ package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -34,13 +35,13 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 	}
 	
 	@Override
-	public boolean matches(Container inv, @Nonnull Level worldIn) {
+	public boolean matches(Container inv, @Nonnull Level level) {
 		return SCROLL_PAPER.test(inv.getItem(0)) && gem.test(inv.getItem(1)) && crystal.test(inv.getItem(2));
 	}
 
 	@Nonnull
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return output;
 	}
 	
@@ -93,7 +94,7 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 		public void toNetwork(@Nonnull FriendlyByteBuf buffer, SpellCraftRecipe recipe) {
 			recipe.gem.toNetwork(buffer);
 			recipe.crystal.toNetwork(buffer);
-			buffer.writeItem(recipe.getResultItem());
+			buffer.writeItem(recipe.output);
 		}
 	}
 

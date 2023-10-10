@@ -2,14 +2,16 @@ package sirttas.elementalcraft.datagen.tag;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -21,8 +23,11 @@ import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
 import vazkii.botania.api.BotaniaAPI;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
@@ -31,12 +36,12 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	public static final String POWAH = "powah";
 	public static final String BLUE_SKIES = "blue_skies";
 
-	public ECItemTagsProvider(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
-		super(generatorIn, blockTagsProvider, ElementalCraftApi.MODID, existingFileHelper);
+	public ECItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, CompletableFuture<TagsProvider.TagLookup<Block>> blockTags, @Nullable ExistingFileHelper existingFileHelper) {
+		super(output, registries, blockTags, ElementalCraftApi.MODID, existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
+	protected void addTags(@Nonnull HolderLookup.Provider provider) {
 		copy(ECTags.Blocks.STRIPPED_OAK, ECTags.Items.STRIPPED_OAK);
 		copy(ECTags.Blocks.STRIPPED_DARK_OAK, ECTags.Items.STRIPPED_DARK_OAK);
 		copy(ECTags.Blocks.STRIPPED_BIRCH, ECTags.Items.STRIPPED_BIRCH);
@@ -46,6 +51,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(ECTags.Blocks.STRIPPED_MANGROVE, ECTags.Items.STRIPPED_MANGROVE);
 		copy(ECTags.Blocks.STRIPPED_CRIMSON, ECTags.Items.STRIPPED_CRIMSON);
 		copy(ECTags.Blocks.STRIPPED_WARPED, ECTags.Items.STRIPPED_WARPED);
+		copy(ECTags.Blocks.STRIPPED_CHERRY, ECTags.Items.STRIPPED_CHERRY);
 
 		copy(BlockTags.SLABS, ItemTags.SLABS);
 		copy(BlockTags.STAIRS, ItemTags.STAIRS);
@@ -69,14 +75,13 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 		tag(ECTags.Items.SPELL_CAST_TOOLS).add(ECItems.FOCUS.get(), ECItems.STAFF.get());
 
-
 		tag(ECTags.Items.INFUSABLE_FOCUS).add(ECItems.FOCUS.get());
 		tag(ECTags.Items.INFUSABLE_STAVES).add(ECItems.STAFF.get());
-		tag(ECTags.Items.INFUSABLE_SWORDS).addTag(Tags.Items.TOOLS_SWORDS);
-		tag(ECTags.Items.INFUSABLE_PICKAXES).addTag(Tags.Items.TOOLS_PICKAXES);
-		tag(ECTags.Items.INFUSABLE_SHOVELS).addTag(Tags.Items.TOOLS_SHOVELS);
-		tag(ECTags.Items.INFUSABLE_HOES).addTag(Tags.Items.TOOLS_HOES);
-		tag(ECTags.Items.INFUSABLE_AXES).addTag(Tags.Items.TOOLS_AXES);
+		tag(ECTags.Items.INFUSABLE_SWORDS).addTag(ItemTags.SWORDS);
+		tag(ECTags.Items.INFUSABLE_PICKAXES).addTag(ItemTags.PICKAXES);
+		tag(ECTags.Items.INFUSABLE_SHOVELS).addTag(ItemTags.SHOVELS);
+		tag(ECTags.Items.INFUSABLE_HOES).addTag(ItemTags.HOES);
+		tag(ECTags.Items.INFUSABLE_AXES).addTag(ItemTags.AXES);
 		tag(ECTags.Items.TOOLS_PAXELS);
 		tag(ECTags.Items.TOOLS_AIOTS);
 		tag(ECTags.Items.INFUSABLE_PAXELS).addTags(ECTags.Items.TOOLS_PAXELS, ECTags.Items.TOOLS_AIOTS);
@@ -176,15 +181,15 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
 
 		tag(ECTags.Items.WHITE_FLOWERS).add(Items.LILY_OF_THE_VALLEY);
-		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP);
+		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP, Items.TORCHFLOWER);
 		tag(ECTags.Items.MAGENTA_FLOWERS).add(Items.LILAC);
 		tag(ECTags.Items.LIGHT_BLUE_FLOWERS).add(Items.BLUE_ORCHID);
 		tag(ECTags.Items.YELLOW_FLOWERS).add(Items.DANDELION, Items.SUNFLOWER);
 		tag(ECTags.Items.LIME_FLOWERS);
-		tag(ECTags.Items.PINK_FLOWERS).add(Items.PEONY, Items.PINK_TULIP);
+		tag(ECTags.Items.PINK_FLOWERS).add(Items.PEONY, Items.PINK_TULIP, Items.PINK_PETALS);
 		tag(ECTags.Items.GRAY_FLOWERS);
 		tag(ECTags.Items.LIGHT_GRAY_FLOWERS).add(Items.AZURE_BLUET, Items.OXEYE_DAISY, Items.WHITE_TULIP);
-		tag(ECTags.Items.CYAN_FLOWERS);
+		tag(ECTags.Items.CYAN_FLOWERS).add(Items.PITCHER_PLANT);
 		tag(ECTags.Items.PURPLE_FLOWERS);
 		tag(ECTags.Items.BLUE_FLOWERS).add(Items.CORNFLOWER);
 		tag(ECTags.Items.BROWN_FLOWERS);
@@ -201,6 +206,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.SOURCE_SEEDS).addTags(ECTags.Items.ARTIFICIAL_SOURCE_SEEDS, ECTags.Items.NATURAL_SOURCE_SEEDS);
 
 		tag(ECTags.Items.CURIOS_ELEMENT_HOLDER).add(ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get(), ECItems.PURE_HOLDER.get());
+
+		tag(ItemTags.TRIM_MATERIALS).add(ECItems.DRENCHED_IRON_INGOT.get(), ECItems.SWIFT_ALLOY_INGOT.get(), ECItems.FIREITE_INGOT.get(), ECItems.SPRINGALINE_SHARD.get());
 	}
 
 	private void addPipeTags() {
@@ -212,7 +219,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	}
 
 	private void addPureOreTags() {
-		tag(ECTags.Items.PURE_SOURCE_ORES_ORES).addTag(Tags.Items.ORES);
+		tag(ECTags.Items.PURE_ORES_SOURCE_ORES).addTag(Tags.Items.ORES);
 		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
 		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
 		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).addOptionalTag(forge("geore_shards"));
@@ -248,7 +255,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	}
 
 	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {
-		return registry.stream()
+		return ForgeRegistries.ITEMS.getValues().stream()
 				.filter(i -> modIds.contains(ForgeRegistries.ITEMS.getKey(i).getNamespace()) && clazz.isInstance(i))
 				.map(clazz::cast)
 				.filter(filter)

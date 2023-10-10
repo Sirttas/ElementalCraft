@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "elementalcraft:air_shard"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "elementalcraft:powerful_air_shard"
-  }
+  },
+  "show_notification": true
 }

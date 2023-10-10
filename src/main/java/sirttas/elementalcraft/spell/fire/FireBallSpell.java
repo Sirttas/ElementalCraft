@@ -21,10 +21,10 @@ public class FireBallSpell extends Spell {
 	@Override
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
 		Vec3 vec3d = caster.getLookAngle();
-		LargeFireball fireballentity = new LargeFireball(caster.level, (LivingEntity) caster, vec3d.x * 100, vec3d.y * 100, vec3d.z * 100, 1); // TODO config
+		LargeFireball fireballentity = new LargeFireball(caster.level(), (LivingEntity) caster, vec3d.x * 100, vec3d.y * 100, vec3d.z * 100, 1); // TODO config
 
 		fireballentity.setPos(caster.getX() + vec3d.x * 4.0D, caster.getY(0.5D) + 0.5D, fireballentity.getZ() + vec3d.z * 4.0D);
-		caster.level.addFreshEntity(fireballentity);
+		caster.level().addFreshEntity(fireballentity);
 
 		return InteractionResult.SUCCESS;
 	}

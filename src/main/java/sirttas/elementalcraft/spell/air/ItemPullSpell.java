@@ -23,7 +23,7 @@ public class ItemPullSpell extends Spell {
 	@Override
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
 		Vec3 pos = caster.position();
-		Level world = caster.getLevel();
+		Level world = caster.level();
 
 		world.getEntitiesOfClass(ItemEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).forEach(i -> {
 			if (world.isClientSide) {

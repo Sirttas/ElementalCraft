@@ -2,14 +2,12 @@ package sirttas.elementalcraft.entity.projectile;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.EntityHitResult;
@@ -45,13 +43,13 @@ public class ThrownElementCrystal extends ThrowableItemProjectile {
     @Override
     protected void onHitEntity(@Nonnull EntityHitResult result) {
         super.onHitEntity(result);
-        result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+        result.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0);
     }
 
     @Override
     protected void onHit(@Nonnull HitResult result) {
         super.onHit(result);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             dropFromLootTable();
             this.discard();
         }
@@ -59,14 +57,13 @@ public class ThrownElementCrystal extends ThrowableItemProjectile {
     }
 
     protected void dropFromLootTable() {
-        ResourceLocation itemLocation = ForgeRegistries.ITEMS.getKey(this.getItem().getItem());
-        LootTable lootTable = this.level.getServer().getLootTables().get(new ResourceLocation(itemLocation.getNamespace(), "entities/thrown_element_crystal/" + itemLocation.getPath()));
-        LootContext ctx = new LootContext.Builder((ServerLevel)this.level)
-                .withRandom(this.random)
+        var itemLocation = ForgeRegistries.ITEMS.getKey(this.getItem().getItem());
+        var lootTable = this.level().getServer().getLootData().getLootTable(new ResourceLocation(itemLocation.getNamespace(), "entities/thrown_element_crystal/" + itemLocation.getPath()));
+        var params = new LootParams.Builder((ServerLevel)this.level())
                 .withParameter(LootContextParams.THIS_ENTITY, this)
                 .withParameter(LootContextParams.ORIGIN, this.position())
                 .create(LootContextParamSets.SELECTOR);
 
-        lootTable.getRandomItems(ctx).forEach(this::spawnAtLocation);
+        lootTable.getRandomItems(params).forEach(this::spawnAtLocation);
     }
 }

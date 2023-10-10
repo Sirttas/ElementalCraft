@@ -82,7 +82,17 @@ public class PlayerElementStorage implements IElementStorage {
 	public boolean usableInInventory() {
 		return true;
 	}
-	
+
+	@Override
+	public void fill() {
+		getStorages().forEach(IElementStorage::fill);
+	}
+
+	@Override
+	public void fill(ElementType type) {
+		getStorages().forEach(storage -> storage.fill(type));
+	}
+
 	private List<IElementStorage> getStorages() {
 		if (tickCount != player.tickCount) {
 			storages.clear();

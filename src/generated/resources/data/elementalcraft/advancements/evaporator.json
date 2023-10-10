@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_evaporator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:evaporator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_evaporator"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

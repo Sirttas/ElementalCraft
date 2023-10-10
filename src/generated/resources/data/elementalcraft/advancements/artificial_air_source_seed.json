@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_artificial_air_source_seed": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:artificial_air_source_seed"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_artificial_air_source_seed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

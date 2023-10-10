@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
@@ -21,9 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ToolInfusion implements IElementTypeProvider {
-	
-	public static final String NAME = "tool_infusions";
-	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
+
 	public static final ToolInfusion NONE = new ToolInfusion(ElementType.NONE, Collections.emptyList());
 	public static final Codec<ToolInfusion> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			ElementType.forGetter(ToolInfusion::getElementType),

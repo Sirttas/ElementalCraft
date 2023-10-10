@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.instrument.inscriber;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +33,7 @@ public class InscriberRenderer implements BlockEntityRenderer<InscriberBlockEnti
 		if (!stack.isEmpty()) {
 			matrixStack.pushPose();
 			matrixStack.translate(0F, 0F, 0.0625F);
-			matrixStack.mulPose(Vector3f.XP.rotationDegrees(22.5F));
+			matrixStack.mulPose(Axis.XP.rotationDegrees(22.5F));
 			ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 			matrixStack.popPose();
 		}
@@ -46,7 +46,7 @@ public class InscriberRenderer implements BlockEntityRenderer<InscriberBlockEnti
 
 			if (!stack.isEmpty()) {
 				matrixStack.pushPose();
-				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+				matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 				matrixStack.scale(0.5F, 0.5F, 0.5F);
 				ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 				matrixStack.popPose();

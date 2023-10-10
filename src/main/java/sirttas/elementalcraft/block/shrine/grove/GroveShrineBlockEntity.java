@@ -13,7 +13,6 @@ import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.Lazy;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -49,13 +48,6 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 		BlockPos up = pos.above();
 
 		return level.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK && level.getBlockState(up).isAir();
-	}
-
-	@Override
-	public AABB getRangeBoundingBox() {
-		var range = getRange();
-
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos()).inflate(range, 0, range).expandTowards(0, -1, 0).expandTowards(0, 1, 0));
 	}
 
 	@Override

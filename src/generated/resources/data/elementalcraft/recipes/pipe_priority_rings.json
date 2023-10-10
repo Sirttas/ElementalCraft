@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "f": {
       "item": "elementalcraft:cover_frame"
@@ -16,5 +17,6 @@
   "result": {
     "count": 4,
     "item": "elementalcraft:pipe_priority_rings"
-  }
+  },
+  "show_notification": true
 }

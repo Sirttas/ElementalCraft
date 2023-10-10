@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_inscriber": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:inscriber"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_inscriber"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

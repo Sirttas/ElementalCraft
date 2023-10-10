@@ -119,7 +119,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void assemble() {
-		getInventory().setItem(0, recipe.assemble((T) this));
+		getInventory().setItem(0, recipe.assemble((T) this, level.registryAccess()));
 	}
 
 	@Override

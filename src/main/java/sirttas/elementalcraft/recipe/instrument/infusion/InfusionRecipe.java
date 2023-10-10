@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -41,7 +42,7 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 
 	@Nonnull
     @Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return output;
 	}
 
@@ -79,7 +80,7 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<IInfuser> implement
 			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
 			recipe.getInput().toNetwork(buffer);
-			buffer.writeItem(recipe.getResultItem());
+			buffer.writeItem(recipe.output);
 		}
 	}
 }

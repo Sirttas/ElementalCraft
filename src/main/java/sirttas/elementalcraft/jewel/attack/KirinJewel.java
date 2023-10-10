@@ -3,7 +3,6 @@ package sirttas.elementalcraft.jewel.attack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
@@ -20,7 +19,7 @@ public class KirinJewel extends AbstractAttackJewel {
     }
 
     public static DamageSource holyFire(Entity source) {
-        return new EntityDamageSource("elementalcraft.jewel.kirin", source).bypassArmor();
+        return null; // TODO new DamageSource("elementalcraft.jewel.kirin", source).bypassArmor();
     }
 
     @Override

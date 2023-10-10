@@ -11,7 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -158,8 +158,7 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
             return;
         }
 
-        var lootcontext = new LootContext.Builder(serverLevel)
-                .withRandom(serverLevel.random)
+        var lootParams = new LootParams.Builder(serverLevel)
                 .withParameter(LootContextParams.BLOCK_STATE, pipe.getBlockState())
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pipe.getBlockPos()))
                 .withParameter(ECLootContextParams.DIRECTION, direction)
@@ -167,7 +166,7 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
                 .withOptionalParameter(LootContextParams.BLOCK_ENTITY, pipe)
                 .create(ECLootContextParamSets.PIPE_UPGRADE);
 
-        lootcontext.getLevel().getServer().getLootTables().get(tableLocation).getRandomItems(lootcontext).forEach(player != null ? player::spawnAtLocation : stack -> Containers.dropItemStack(serverLevel, pipe.getBlockPos().getX(), pipe.getBlockPos().getY(), pipe.getBlockPos().getZ(), stack));
+        serverLevel.getServer().getLootData().getLootTable(tableLocation).getRandomItems(lootParams).forEach(player != null ? player::spawnAtLocation : stack -> Containers.dropItemStack(serverLevel, pipe.getBlockPos().getX(), pipe.getBlockPos().getY(), pipe.getBlockPos().getZ(), stack));
     }
 
     @Nonnull

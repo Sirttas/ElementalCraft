@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_purifier": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:purifier"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_purifier"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

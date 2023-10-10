@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.synthesizer.mana;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -28,7 +28,7 @@ public class ManaSynthesizerRenderer extends SolarSynthesizerRenderer<ManaSynthe
 			matrixStack.translate(0.5, 0.5, 0.5);
 			if (te.isWorking()) {
 				matrixStack.translate(0, 3D / 16, 0);
-				matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+				matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 			}
 			matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
 			Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, ECRendererHelper.getModelData(getLenseModel(), te), RenderType.translucent());

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "item": "elementalcraft:inert_crystal"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:shrinebase"
-  }
+  },
+  "show_notification": true
 }

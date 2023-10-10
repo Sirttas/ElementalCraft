@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.datagen;
 
 import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
@@ -26,14 +26,15 @@ import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.CompletableFuture;
 
 public class ECItemModelProvider extends ItemModelProvider {
 
 	private static final String ITEM_PREFIX = "item/";
 	private static final String BLOCK_PREFIX = "block/";
 
-	public ECItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, ElementalCraftApi.MODID, existingFileHelper);
+	public ECItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+		super(output, ElementalCraftApi.MODID, existingFileHelper);
 	}
 
 	@Override
@@ -121,11 +122,11 @@ public class ECItemModelProvider extends ItemModelProvider {
 
 	@Override
 	public void clear() {
-		super.clear();
+		// we don't clean it to keep the runes models
 	}
 
 	@Override
-	public void generateAll(CachedOutput cache) {
-		super.generateAll(cache);
+	public CompletableFuture<?> generateAll(CachedOutput cache) {
+		return super.generateAll(cache);
 	}
 }

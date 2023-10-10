@@ -311,6 +311,11 @@
   "rune_bonus.elementalcraft.element_preservation": "Element Preservation: %s",
   "rune_bonus.elementalcraft.luck": "Luck: %s",
 
+  "trim_material.elementalcraft.drenched_iron": "Drenched Iron Material",
+  "trim_material.elementalcraft.swift_alloy": "Swift Alloy Material",
+  "trim_material.elementalcraft.fireite": "Fireite Material",
+  "trim_material.elementalcraft.springaline": "Springaline Material",
+
   "elementalcraft.jei.extraction": "Element Extraction",
   "elementalcraft.jei.extraction_improved": "Improved Element Extraction",
   "elementalcraft.jei.evaporation": "Element Evaporation",

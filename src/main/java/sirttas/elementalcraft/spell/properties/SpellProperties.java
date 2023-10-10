@@ -14,7 +14,6 @@ import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -34,10 +33,6 @@ public record SpellProperties(
 		boolean hidden,
 		Multimap<Attribute, AttributeModifier> attributes
 ) implements IElementTypeProvider {
-
-	public static final String NAME = "spell_properties";
-	public static final String FOLDER = ElementalCraftApi.MODID + '/' + NAME;
-
 	public static final SpellProperties NONE = new SpellProperties();
 	public static final Codec<SpellProperties> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 			Spell.Type.CODEC.fieldOf(ECNames.SPELL_TYPE).forGetter(SpellProperties::spellType),
@@ -160,7 +155,7 @@ public record SpellProperties(
 		}
 		
 		public Builder color(int r, int g, int b) {
-			return color(Mth.color(r, g, b));
+			return color(r / 255F, g / 255F, b / 255F);
 		}
 
 		public Builder color(float r, float g, float b) {

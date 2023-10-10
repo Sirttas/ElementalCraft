@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.instrument.io.firefurnace;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.Container;
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 public class FireFurnaceRenderer implements BlockEntityRenderer<AbstractFireFurnaceBlockEntity<?>> {
 
 	@Override
-	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		Container inv = te.getInventory();
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);
@@ -25,7 +25,7 @@ public class FireFurnaceRenderer implements BlockEntityRenderer<AbstractFireFurn
 		ECRendererHelper.renderRunes(poseStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		poseStack.translate(0.5F, 0.3F, 0.5F);
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
-			poseStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+			poseStack.mulPose(Axis.YP.rotationDegrees(tick));
 			if (!stack.isEmpty()) {
 				ECRendererHelper.renderItem(stack, poseStack, buffer, light, overlay);
 			}

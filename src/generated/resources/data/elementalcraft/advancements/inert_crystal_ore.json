@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_inert_crystal_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:inert_crystal_ore"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_inert_crystal_ore"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

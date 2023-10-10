@@ -48,7 +48,7 @@ public class TreeFallSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		Level world = sender.getLevel();
+		Level world = sender.level();
 
 		if (!world.isClientSide && isValidBlock(world.getBlockState(target))) {
 			cutTree(sender, world, target);

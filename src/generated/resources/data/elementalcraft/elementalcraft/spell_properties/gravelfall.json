@@ -1,6 +1,6 @@
 {
   "attributes": {
-    "forge:reach_distance": [
+    "forge:entity_reach": [
       {
         "amount": 5.0,
         "name": "Reach distance modifier",

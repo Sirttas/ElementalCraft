@@ -23,7 +23,7 @@ public class PiglinJewel extends Jewel {
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
         if (entity instanceof LivingEntity livingEntity && super.isActive(entity, elementStorage)) {
-            return livingEntity.level.getEntitiesOfClass(Piglin.class, livingEntity.getBoundingBox().inflate(24)).stream()
+            return livingEntity.level().getEntitiesOfClass(Piglin.class, livingEntity.getBoundingBox().inflate(24)).stream()
                     .anyMatch(p -> p.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).orElse(NearestVisibleLivingEntities.empty()).contains(livingEntity));
         }
         return false;

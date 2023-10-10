@@ -49,7 +49,7 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 	}
 
 	@Override
-	protected int getDefaultCapacity() {
+	public int getDefaultCapacity() {
 		return ECConfig.COMMON.tankCapacity.get();
 	}
 }

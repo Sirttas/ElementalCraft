@@ -65,8 +65,8 @@ public abstract class AbstractSpellHolderItem extends ECItem implements ISpellHo
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, LivingEntity entity, int count) {
-		if (!(entity instanceof Player player) || tick(entity.getLevel(), player, entity.getUsedItemHand(), stack, false) != InteractionResult.CONSUME) {
+	public void onUseTick(@Nonnull Level level, @Nonnull LivingEntity entity, @Nonnull ItemStack stack, int count) {
+		if (!(entity instanceof Player player) || tick(entity.level(), player, entity.getUsedItemHand(), stack, false) != InteractionResult.CONSUME) {
 			entity.releaseUsingItem();
 		}
 	}

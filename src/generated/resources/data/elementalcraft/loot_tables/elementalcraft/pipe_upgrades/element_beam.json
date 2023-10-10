@@ -1,0 +1,21 @@
+{
+  "type": "elementalcraft:pipe_upgrade",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:element_beam"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "elementalcraft:elementalcraft/pipe_upgrades/element_beam"
+}

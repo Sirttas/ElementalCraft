@@ -36,5 +36,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "elementalcraft:blocks/reservoir_earth"
 }

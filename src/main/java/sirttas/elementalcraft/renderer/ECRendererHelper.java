@@ -2,17 +2,13 @@ package sirttas.elementalcraft.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -23,6 +19,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
@@ -31,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import org.joml.Quaternionf;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.renderer.ECRenderTypes;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -52,43 +50,42 @@ public class ECRendererHelper {
     }
 
     public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, Material renderMaterial, int width, int height) {
-        renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), 0, 0, renderMaterial, width, height, 1F, 1F, 1F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), 0, 0, width, height, 1F, 1F, 1F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
     }
 
     public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, Material renderMaterial, int width, int height, int light, int overlay) {
-        renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), 0, 0, renderMaterial, width, height, 1F, 1F, 1F, light, overlay);
+        renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), 0, 0, width, height, 1F, 1F, 1F, light, overlay);
     }
 
-    public static void renderIcon(PoseStack poseStack, VertexConsumer builder, Material renderMaterial, int width, int height, int light, int overlay) {
-        renderIcon(poseStack, builder, 0, 0, renderMaterial, width, height, 1F, 1F, 1F, light, overlay);
+    public static void renderIcon(PoseStack poseStack, VertexConsumer builder, int width, int height, int light, int overlay) {
+        renderIcon(poseStack, builder, 0, 0, width, height, 1F, 1F, 1F, light, overlay);
     }
 
     public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light, int overlay) {
-        renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), x, y, renderMaterial, width, height, r, g, b, light, overlay);
+        renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), x, y, width, height, r, g, b, light, overlay);
     }
 
-    public static void renderIcon(PoseStack poseStack, VertexConsumer builder, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light, int overlay) {
-        Matrix4f matrix = poseStack.last().pose();
-        Matrix3f normal = poseStack.last().normal();
-        TextureAtlasSprite sprite = renderMaterial.sprite();
+    public static void renderIcon(PoseStack poseStack, VertexConsumer builder, float x, float y, int width, int height, float r, float g, float b, int light, int overlay) {
+        var matrix = poseStack.last().pose();
+        var normal = poseStack.last().normal();
 
-        builder.vertex(matrix, x, y, 0).color(r, g, b, 1F).uv(sprite.getU0(), sprite.getV0()).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-        builder.vertex(matrix, x + width, y, 0).color(r, g, b, 1F).uv(sprite.getU1(), sprite.getV0()).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-        builder.vertex(matrix, x + width, y + height, 0).color(r, g, b, 1F).uv(sprite.getU1(), sprite.getV1()).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-        builder.vertex(matrix, x, y + height, 0).color(r, g, b, 1F).uv(sprite.getU0(), sprite.getV1()).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
+        builder.vertex(matrix, x, y, 0).color(r, g, b, 1F).uv(0, 0).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
+        builder.vertex(matrix, x + width, y, 0).color(r, g, b, 1F).uv(1, 0).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
+        builder.vertex(matrix, x + width, y + height, 0).color(r, g, b, 1F).uv(1, 1).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
+        builder.vertex(matrix, x, y + height, 0).color(r, g, b, 1F).uv(0, 1).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
     }
 
-    public static Quaternion getRotation(Direction direction) {
+    public static Quaternionf getRotation(Direction direction) {
         return switch (direction) {
-            case SOUTH -> Vector3f.YP.rotationDegrees(180.0F);
-            case WEST -> Vector3f.YP.rotationDegrees(90.0F);
-            case EAST -> Vector3f.YP.rotationDegrees(-90.0F);
-            default -> Quaternion.ONE.copy();
+            case SOUTH -> Axis.YP.rotationDegrees(180.0F);
+            case WEST -> Axis.YP.rotationDegrees(90.0F);
+            case EAST -> Axis.YP.rotationDegrees(-90.0F);
+            default -> new Quaternionf();
         };
     }
 
     public static void renderItem(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay) {
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.GROUND, light, overlay, poseStack, buffer, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.GROUND, light, overlay, poseStack, buffer, null, 0);
     }
 
     public static void renderBlock(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {
@@ -171,17 +168,15 @@ public class ECRendererHelper {
 
         float f49 = (f18 + f19 + f20 + f21) / 4.0F;
         float f50 = (f22 + f23 + f24 + f25) / 4.0F;
-        float f51 = sprite1.getWidth() / (sprite1.getU1() - sprite1.getU0());
-        float f52 = sprite1.getHeight() / (sprite1.getV1() - sprite1.getV0());
-        float f53 = 4.0F / Math.max(f52, f51);
-        f18 = Mth.lerp(f53, f18, f49);
-        f19 = Mth.lerp(f53, f19, f49);
-        f20 = Mth.lerp(f53, f20, f49);
-        f21 = Mth.lerp(f53, f21, f49);
-        f22 = Mth.lerp(f53, f22, f50);
-        f23 = Mth.lerp(f53, f23, f50);
-        f24 = Mth.lerp(f53, f24, f50);
-        f25 = Mth.lerp(f53, f25, f50);
+        float f51 = sprite1.uvShrinkRatio();
+        f18 = Mth.lerp(f51, f18, f49);
+        f19 = Mth.lerp(f51, f19, f49);
+        f20 = Mth.lerp(f51, f20, f49);
+        f21 = Mth.lerp(f51, f21, f49);
+        f22 = Mth.lerp(f51, f22, f50);
+        f23 = Mth.lerp(f51, f23, f50);
+        f24 = Mth.lerp(f51, f24, f50);
+        f25 = Mth.lerp(f51, f25, f50);
 
         fluidVertex(poseStack, consumer, 0.0F, 1.0F - SPACING, 0.0F, r, g, b, alpha, f18, f22);
         fluidVertex(poseStack, consumer, 0.0F, 1.0F - SPACING, 1.0F, r, g, b, alpha, f19, f23);
@@ -277,12 +272,12 @@ public class ECRendererHelper {
 
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.75F, 0.5F);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(tick / 2));
+        poseStack.mulPose(Axis.YP.rotationDegrees(tick / 2));
         handler.getRunes().forEach(rune -> {
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(90F / runeCount));
+            poseStack.mulPose(Axis.YP.rotationDegrees(90F / runeCount));
             poseStack.pushPose();
             poseStack.translate(0.75F, 0F, 0F);
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(90));
+            poseStack.mulPose(Axis.YP.rotationDegrees(90));
             poseStack.scale(1F / 64F, 1F / 64F, 1F / 64F);
             ECRendererHelper.renderIcon(poseStack, buffer, rune.getSprite(), 16, -16, light, overlay);
             poseStack.popPose();

@@ -2,12 +2,14 @@ package sirttas.elementalcraft.recipe.instrument.io.grinding;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlockEntity;
@@ -36,8 +38,8 @@ public record GrindingRecipe(
 	}
 
 	@Override
-	public boolean matches(ItemStack stack) {
-		return ingredient.test(stack) && IGrindingRecipe.super.matches(stack);
+	public boolean matches(ItemStack stack, @Nonnull Level level) {
+		return ingredient.test(stack) && IGrindingRecipe.super.matches(stack, level);
 	}
 
 	@Nonnull
@@ -48,7 +50,7 @@ public record GrindingRecipe(
 
 	@Nonnull
     @Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return output;
 	}
 
@@ -93,7 +95,7 @@ public record GrindingRecipe(
 		public void toNetwork(FriendlyByteBuf buffer, GrindingRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
 			recipe.getIngredients().get(0).toNetwork(buffer);
-			buffer.writeItem(recipe.getResultItem());
+			buffer.writeItem(recipe.output);
 			buffer.writeInt(recipe.luckRation());
 		}
 

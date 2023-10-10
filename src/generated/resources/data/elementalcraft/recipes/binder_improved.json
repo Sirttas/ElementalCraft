@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "b": {
       "item": "elementalcraft:binder"
@@ -27,5 +28,6 @@
   ],
   "result": {
     "item": "elementalcraft:binder_improved"
-  }
+  },
+  "show_notification": true
 }

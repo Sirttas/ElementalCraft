@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "key": {
     "c": {
       "item": "elementalcraft:contained_crystal"
@@ -21,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:focus"
-  }
+  },
+  "show_notification": true
 }

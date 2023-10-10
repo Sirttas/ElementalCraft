@@ -1,16 +1,5 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import net.minecraftforge.gradle.common.util.RunConfig
-
-buildscript {
-    repositories {
-		mavenLocal()
-    	mavenCentral()
-        gradlePluginPortal()
-        maven { url = 'https://repo.elementalcraft.org/public' }
-    }
-    dependencies {
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
-    }
-}
 
 plugins {
     id 'java'
@@ -18,13 +7,12 @@ plugins {
 	id 'maven-publish'
     id 'jacoco'
 	id "org.sonarqube" version "${sonar_version}"
-	id "com.matthewprenger.cursegradle" version '1.4.+'
+    id 'net.darkhax.curseforgegradle' version '1.1.16'
     id "com.modrinth.minotaur" version "2.+"
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.neoforged.gradle' version '6.0.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
-
-apply plugin: 'org.spongepowered.mixin'
 
 mixin {
 	disableEclipseAddon
@@ -121,8 +109,6 @@ def setupRunConfig(RunConfig runConfig, String directory, boolean supportsGameTe
     runConfig.property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
     runConfig.property 'forge.enableGameTest', "${supportsGameTests}"
 
-    runConfig.forceExit = false
-
     runConfig.mods.register('elementalcraft').configure {
         if (supportsGameTests) {
             source((SourceSet) sourceSets.test)
@@ -148,7 +134,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${forge_version}"
+    minecraft "net.neoforged:forge:${forge_version}"
     
   	annotationProcessor "org.spongepowered:mixin:${mixins_version}:processor"
     
@@ -269,7 +255,7 @@ jacocoTestReport {
     // dependsOn 'test'
     dependsOn 'runGameTestServer'
     reports {
-        xml.enabled true
+        xml.required.set(true)
     }
     getExecutionData().setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
 }
@@ -376,24 +362,20 @@ if (curseforge_key != null || modrinth_token != null) {
 }
 
 if (curseforge_key != null) {
-	curseforge {
-		apiKey = curseforge_key
+    tasks.register("curseforge", TaskPublishCurseForge, { task ->
+        apiToken = curseforge_key
 
-		project {
-			id = '395158'
-			changelog = changeLog
-			releaseType = "${release_type}"
-			mainArtifact(jar) {
-				relations {
-					requiredDependency 'datapack-anvil'
-                    requiredDependency 'patchouli'
-                    optionalDependency  'jei'
-	        		incompatible 'performant'
-				}
-			}
+        task.upload(395158, jar) { main ->
+            releaseType = "${release_type}"
+            changelog = changeLog
             releaseVersions.each { v -> addGameVersion(v) }
-		}
-	}
+            addRequirement('datapack-anvil')
+            addRequirement('patchouli')
+            addOptional('jei')
+            addOptional('curios')
+            addIncompatible('performant')
+        }
+	})
 }
 
 if (modrinth_token != null) {
@@ -404,7 +386,7 @@ if (modrinth_token != null) {
         versionType = "${release_type}"
         uploadFile = jar
         gameVersions = releaseVersions
-        loaders = ["forge"]
+        loaders.addAll("neoforge", "forge")
         changelog = changeLog
         dependencies {
             required.project "dpanvil"

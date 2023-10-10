@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_shrine_upgrade_optimization": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:shrine_upgrade_optimization"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_shrine_upgrade_optimization"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

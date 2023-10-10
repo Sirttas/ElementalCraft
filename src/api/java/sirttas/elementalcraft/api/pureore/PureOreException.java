@@ -1,7 +1,10 @@
 package sirttas.elementalcraft.api.pureore;
 
+import java.io.Serial;
+
 public class PureOreException extends RuntimeException {
 
+	@Serial
 	private static final long serialVersionUID = 2140385988053398117L;
 
 	public PureOreException() {}

@@ -17,9 +17,6 @@
         "MixinRepairContainer",
         "MixinZombie"
     ],
-    "client": [
-        "MixinItemRenderer"
-    ],
     "injectors": {
         "defaultRequire": 1
   }

@@ -1,8 +1,10 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.Util;
+import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -13,25 +15,38 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWit
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.loot.LootHandler;
 
-import javax.annotation.Nonnull;
 import java.text.MessageFormat;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ECEntityLoot extends EntityLoot {
+public class ECEntityLoot extends EntityLootSubProvider {
 
 	private static final LootPool.Builder FIRE = createShardPool(ElementType.FIRE);
 	private static final LootPool.Builder EARTH = createShardPool(ElementType.EARTH);
 	private static final LootPool.Builder WATER = createShardPool(ElementType.WATER);
 	private static final LootPool.Builder AIR = createShardPool(ElementType.AIR);
 
+	private static final List<EntityType<?>> ENTITIES = Util.make(() -> {
+		var list = new ArrayList<EntityType<?>>(LootHandler.INJECT_LIST.size() + 1);
+
+		list.add(ECEntities.THROWN_ELEMENT_CRYSTAL.get());
+		list.addAll(LootHandler.INJECT_LIST);
+		return List.copyOf(list);
+	});
+
+	protected ECEntityLoot() {
+		super(FeatureFlags.REGISTRY.allFlags(), FeatureFlags.REGISTRY.subset());
+	}
+
 	@Override
-	protected void addTables() {
+	public void generate() {
 		addThrownElementCrystal(ElementType.FIRE);
 		addThrownElementCrystal(ElementType.WATER);
 		addThrownElementCrystal(ElementType.EARTH);
@@ -76,7 +91,7 @@ public class ECEntityLoot extends EntityLoot {
 	private void addThrownElementCrystal(ElementType type) {
 		var crystalLocation = ForgeRegistries.ITEMS.getKey(ElementalItemHelper.getCrystalForType(type));
 
-		add(new ResourceLocation(crystalLocation.getNamespace(), "entities/thrown_element_crystal/" + crystalLocation.getPath()), LootTable.lootTable().withPool(LootPool.lootPool()
+		add(ECEntities.THROWN_ELEMENT_CRYSTAL.get(), new ResourceLocation(crystalLocation.getNamespace(), "entities/thrown_element_crystal/" + crystalLocation.getPath()), LootTable.lootTable().withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
 						.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(5, 7))).setWeight(10))
 						.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type))))
@@ -90,25 +105,19 @@ public class ECEntityLoot extends EntityLoot {
 				.when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.25F, 0.03F));
 	}
 
-
 	private void addInject(LootPool.Builder pool, EntityType<?> entityType) {
-		addInject(LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
+		addInject(entityType, LootTable.lootTable().withPool(pool).setParamSet(LootContextParamSets.ENTITY), ElementalCraft.createRL(entityType.getDefaultLootTable().getPath()));
 	}
 
-	private void addInject(LootTable.Builder builder, ResourceLocation location) {
-		if (!LootHandler.INJECT_LIST.contains(location.getPath())) {
+	private void addInject(EntityType<?> entityType, LootTable.Builder builder, ResourceLocation location) {
+		if (!LootHandler.INJECT_LIST.contains(entityType)) {
 			throw new IllegalStateException(MessageFormat.format("{} is not present in LootHandler.INJECT_LIST and will not be injected at runtime!", location));
 		}
-		add(new ResourceLocation(location.getNamespace(), "inject/" + location.getPath()), builder);
+		add(entityType, new ResourceLocation(location.getNamespace(), "inject/" + location.getPath()), builder);
 	}
 
-	@Nonnull
 	@Override
-	protected Iterable<EntityType<?>> getKnownEntities() {
-		return ForgeRegistries.ENTITY_TYPES.getEntries().stream()
-				.filter(ElementalCraft::owns)
-				.map(Map.Entry::getValue)
-				.collect(Collectors.toSet());
+	protected boolean canHaveLootTable(@NotNull EntityType<?> entityType) {
+		return ENTITIES.contains(entityType);
 	}
-
 }

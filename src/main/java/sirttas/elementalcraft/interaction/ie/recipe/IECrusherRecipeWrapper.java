@@ -2,10 +2,14 @@ package sirttas.elementalcraft.interaction.ie.recipe;
 
 import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
@@ -33,8 +37,8 @@ public class IECrusherRecipeWrapper implements IGrindingRecipe {
 
     @Nonnull
     @Override
-    public ItemStack getResultItem() {
-        return crushingRecipe.getResultItem();
+    public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
+        return crushingRecipe.getResultItem(registryAccess);
     }
 
     @Nonnull
@@ -50,15 +54,15 @@ public class IECrusherRecipeWrapper implements IGrindingRecipe {
     }
 
     @Override
-    public boolean matches(ItemStack stack) {
-        return crushingRecipe.input.test(stack) && IGrindingRecipe.super.matches(stack);
+    public boolean matches(ItemStack stack, @NotNull Level level) {
+        return crushingRecipe.input.test(stack) && IGrindingRecipe.super.matches(stack, level);
     }
 
     @Nonnull
     @Override
-    public ItemStack assemble(@Nonnull AirMillGrindstoneBlockEntity instrument) {
+    public ItemStack assemble(@Nonnull AirMillGrindstoneBlockEntity instrument, @NotNull RegistryAccess registryAccess) {
         var luck = instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK);
-        var result = IGrindingRecipe.super.assemble(instrument);
+        var result = IGrindingRecipe.super.assemble(instrument, registryAccess);
         var level = instrument.getLevel();
 
         if (level == null) {
@@ -70,7 +74,7 @@ public class IECrusherRecipeWrapper implements IGrindingRecipe {
         crushingRecipe.secondaryOutputs.forEach(output -> {
             var stack = output.stack().get();
 
-            if (ItemStack.isSame(stack, result) && rand.nextFloat() < output.chance() * luck) {
+            if (ItemHandlerHelper.canItemStacksStack(stack, result) && rand.nextFloat() < output.chance() * luck) {
                 result.grow(stack.getCount());
             }
         });

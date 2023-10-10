@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.Container;
@@ -23,7 +23,7 @@ public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityR
 		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 		matrixStack.translate(0.5F, 0.4F, 0.5F);
 		if (te.getItemCount() == 1) {
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+			matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 			ECRendererHelper.renderItem(inv.getItem(0), matrixStack, buffer, light, overlay);
 		} else {
 			matrixStack.scale(0.5F, 0.5F, 0.5F);
@@ -31,10 +31,10 @@ public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityR
 				ItemStack stack = inv.getItem(i);
 
 				if (!stack.isEmpty()) {
-					matrixStack.mulPose(Vector3f.YP.rotationDegrees(360F / te.getItemCount()));
+					matrixStack.mulPose(Axis.YP.rotationDegrees(360F / te.getItemCount()));
 					matrixStack.pushPose();
 					matrixStack.translate(0.7F, 0F, 0F);
-					matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+					matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 					ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 					matrixStack.popPose();
 				}

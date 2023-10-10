@@ -16,5 +16,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "elementalcraft:blocks/broken_source_displacement_plate"
 }

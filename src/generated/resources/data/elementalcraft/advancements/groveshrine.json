@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_groveshrine": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:groveshrine"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_groveshrine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -45,7 +45,7 @@ public abstract class MixinRepairContainer extends ItemCombinerMenu {
 		return this.resultSlots.getItem(0);
 	}
 	
-	@Inject(method = "createResult()V", 
+	@Inject(method = "createResult()V",
 			at = @At("RETURN"))
 	public void updateRepairOutputReturn(CallbackInfo ci) {
 		ToolInfusion left = ToolInfusionHelper.getInfusion(getLeft());

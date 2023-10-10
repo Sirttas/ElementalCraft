@@ -12,10 +12,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.gametest.GameTestHolder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -73,7 +73,7 @@ public class ChiselGameTests {
 
         player.setShiftKeyDown(true);
 
-        useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);
+        ECGameTestHelper.useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);
 
         assertThat(runeHandler.getRunes()).isEmpty();
         player.discard();
@@ -102,7 +102,7 @@ public class ChiselGameTests {
         var runeHandler = RuneHandlerHelper.get(helper.getBlockEntity(pos), holder.side());
         var player = mockChiselPlayer(helper, pos);
 
-        useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);
+        ECGameTestHelper.useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);
 
         assertThat(runeHandler.getRunes()).hasSize(holder.runes().size())
                 .allSatisfy(rune -> RuneGameTestHelper.assertRuneIs(rune, holder.runes().get(runeHandler.getRunes().indexOf(rune))));
@@ -116,14 +116,5 @@ public class ChiselGameTests {
         player.moveTo(helper.absoluteVec(Vec3.atCenterOf(pos)));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.CHISEL.get()));
         return player;
-    }
-
-    public static void useItemOn(GameTestHelper helper, Player player, InteractionHand hand, BlockPos pos) {
-        var absolutePos = helper.absolutePos(pos);
-        var result = new BlockHitResult(Vec3.atCenterOf(absolutePos), Direction.NORTH, absolutePos, true);
-        var stack = player.getItemInHand(hand);
-        var useOnContext = new UseOnContext(player, hand, result);
-
-        stack.useOn(useOnContext);
     }
 }

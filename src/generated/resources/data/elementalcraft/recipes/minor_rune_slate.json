@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "i": {
       "tag": "forge:ingots/drenched_iron"
@@ -16,5 +17,6 @@
   "result": {
     "count": 4,
     "item": "elementalcraft:minor_rune_slate"
-  }
+  },
+  "show_notification": true
 }

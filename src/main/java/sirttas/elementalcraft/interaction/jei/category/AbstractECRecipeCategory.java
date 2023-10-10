@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.interaction.jei.category;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -57,10 +57,10 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 	}
 
 	@Override
-	public void draw(@Nonnull T recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack matrixStack, double mouseX, double mouseY) {
+	public void draw(@Nonnull T recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
 		if (overlay != null) {
 			RenderSystem.enableBlend();
-			overlay.draw(matrixStack, overlayX, overlayY);
+			overlay.draw(guiGraphics, overlayX, overlayY);
 			RenderSystem.disableBlend();
 		}
 	}

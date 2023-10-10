@@ -3,6 +3,7 @@ package sirttas.elementalcraft.pureore;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -10,6 +11,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
@@ -54,7 +56,7 @@ public class PureOre {
 
     private final ResourceLocation id;
     private final Set<Item> ores;
-    private final Map<RecipeType<?>, net.minecraft.world.item.crafting.Recipe<?>> recipes;
+    private final Map<RecipeType<?>, Recipe<?>> recipes;
 
     private ItemStack resultForColor;
     private Component description;
@@ -108,22 +110,22 @@ public class PureOre {
     }
 
     @SuppressWarnings("unchecked")
-    public <C extends Container, T extends net.minecraft.world.item.crafting.Recipe<C>> T getRecipe(RecipeType<T> recipeType) {
+    public <C extends Container, T extends Recipe<C>> T getRecipe(RecipeType<T> recipeType) {
         return (T) recipes.get(recipeType);
     }
 
     @SuppressWarnings("unchecked")
-    public <C extends Container, T extends net.minecraft.world.item.crafting.Recipe<C>> void addRecipe(T recipe) {
+    public <C extends Container, T extends Recipe<C>> void addRecipe(@Nonnull RegistryAccess access, T recipe) {
         RecipeType<?> recipeType = recipe.getType();
 
         recipes.put(recipe.getType(), recipe);
         if (resultForColor.isEmpty()) {
             this.resultForColor = PureOreManager.getInjectors().stream()
                     .filter(injector -> injector.getRecipeType().equals(recipeType))
-                    .map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(recipe))
+                    .map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(access, recipe))
                     .filter(stack -> !stack.isEmpty())
                     .findAny()
-                    .orElse(recipe.getResultItem());
+                    .orElse(recipe.getResultItem(access));
         }
     }
 
@@ -142,7 +144,7 @@ public class PureOre {
     }
 
     public IPurifierRecipe getRecipe() {
-        return new Recipe();
+        return new PurifierRecipeImpl();
     }
 
     public ItemStack getResultForColor() {
@@ -156,7 +158,7 @@ public class PureOre {
         return stack;
     }
 
-    private class Recipe implements IPurifierRecipe {
+    private class PurifierRecipeImpl implements IPurifierRecipe {
 
         @Override
         public int getElementAmount() {
@@ -171,7 +173,7 @@ public class PureOre {
 
         @Nonnull
         @Override
-        public ItemStack getResultItem() {
+        public ItemStack getResultItem(@Nonnull RegistryAccess access) {
             var result =  createPureOre();
 
             result.setCount(outputSize);

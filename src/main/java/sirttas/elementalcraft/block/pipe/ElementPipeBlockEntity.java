@@ -2,6 +2,8 @@ package sirttas.elementalcraft.block.pipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
@@ -13,6 +15,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -53,6 +56,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		super(ECBlockEntityTypes.PIPE, pos, state);
 		transferer = new ElementPipeTransferer(this);
 		pathMap = new EnumMap<>(Direction.class);
+		coverState = Blocks.AIR.defaultBlockState();
 	}
 
 
@@ -294,7 +298,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public boolean isCovered() {
-		return coverState != null;
+		return !coverState.isAir();
 	}
 
 	public int getMaxTransferAmount() {
@@ -309,7 +313,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 			BlockState state = blockItem.getBlock().defaultBlockState();
 
 			if (state != coverState) {
-				if (coverState != null) {
+				if (!coverState.isAir()) {
 					Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), new ItemStack(coverState.getBlock()));
 				}
 				coverState = state;
@@ -331,14 +335,17 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	public void load(@NotNull CompoundTag compound) {
 		super.load(compound);
 		transferer.load(compound.getCompound(ECNames.TRANSFERER));
-		coverState = compound.contains(ECNames.COVER) ? NbtUtils.readBlockState(compound.getCompound(ECNames.COVER)) : null;
+
+		var blockGetter = this.level != null ? this.level.holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
+
+		coverState = compound.contains(ECNames.COVER) ? NbtUtils.readBlockState(blockGetter, compound.getCompound(ECNames.COVER)) : Blocks.AIR.defaultBlockState();
 	}
 
 	@Override
 	public void saveAdditional(@NotNull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.put(ECNames.TRANSFERER, transferer.save(new CompoundTag()));
-		if (coverState != null) {
+		if (!coverState.isAir()) {
 			compound.put(ECNames.COVER, NbtUtils.writeBlockState(coverState));
 		} else if (compound.contains(ECNames.COVER)) {
 			compound.remove(ECNames.COVER);

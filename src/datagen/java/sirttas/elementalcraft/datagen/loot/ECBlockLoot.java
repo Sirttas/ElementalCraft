@@ -1,8 +1,9 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -21,7 +22,7 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.predicates.AlternativeLootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
@@ -44,12 +45,22 @@ import sirttas.elementalcraft.loot.entry.LootRunes;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ECBlockLoot extends BlockLoot {
+public class ECBlockLoot extends BlockLootSubProvider {
+
+	protected ECBlockLoot() {
+		super(Set.of(
+				ECBlocks.PURE_ROCK.get().asItem(),
+				ECBlocks.PURE_ROCK_SLAB.get().asItem(),
+				ECBlocks.PURE_ROCK_STAIRS.get().asItem(),
+				ECBlocks.PURE_ROCK_WALL.get().asItem()
+		), FeatureFlags.REGISTRY.allFlags());
+	}
 
 	@Override
-	protected void addTables() {
+	protected void generate() {
 		add(ECBlocks.CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
 		add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
 		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createIER);
@@ -57,19 +68,19 @@ public class ECBlockLoot extends BlockLoot {
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyNbt(b, ECNames.TARGET));
 		add(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
-		add(ECBlocks.DIFFUSER.get(), ECBlockLoot::createRuneable);
-		add(ECBlocks.SORTER.get(), ECBlockLoot::createRuneable);
-		add(ECBlocks.PURE_INFUSER.get(), ECBlockLoot::createRuneable);
-		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlockLoot::createDoubleHalfRuneable);
-		add(ECBlocks.SOURCE_BREEDER.get(), ECBlockLoot::createDoubleHalfRuneable);
-		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), ECBlockLoot::createRuneable);
+		add(ECBlocks.DIFFUSER.get(), this::createRuneable);
+		add(ECBlocks.SORTER.get(), this::createRuneable);
+		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
+		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createDoubleHalfRuneable);
+		add(ECBlocks.SOURCE_BREEDER.get(), this::createDoubleHalfRuneable);
+		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), this::createRuneable);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
 		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(dropRunes()));
 		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);
-		add(ECBlocks.BURNT_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
-		add(ECBlocks.BURNT_GLASS_PANE.get(), BlockLoot::createSilkTouchOnlyTable);
-		add(ECBlocks.SPRINGALINE_GLASS.get(), BlockLoot::createSilkTouchOnlyTable);
-		add(ECBlocks.SPRINGALINE_GLASS_PANE.get(), BlockLoot::createSilkTouchOnlyTable);
+		add(ECBlocks.BURNT_GLASS.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
+		add(ECBlocks.BURNT_GLASS_PANE.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
+		add(ECBlocks.SPRINGALINE_GLASS.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
+		add(ECBlocks.SPRINGALINE_GLASS_PANE.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
 		add(ECBlocks.SPRINGALINE_CLUSTER.get(), ECBlockLoot::createSpringaline);
 		add(ECBlocks.SMALL_SPRINGALINE_BUD.get(), noDrop());
 		add(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), noDrop());
@@ -82,7 +93,7 @@ public class ECBlockLoot extends BlockLoot {
 				continue;
 			}
 			if (block instanceof SlabBlock) {
-				add(block, BlockLoot::createSlabItemTable);
+				add(block, this::createSlabItemTable);
 			} else if (block instanceof AbstractPylonShrineBlock<?>) {
 				add(block, ECBlockLoot::createDoubleHalfElementStorage);
 			}else if (block instanceof AbstractShrineBlock) {
@@ -90,11 +101,11 @@ public class ECBlockLoot extends BlockLoot {
 			} else if (block instanceof PedestalBlock) {
 				add(block, ECBlockLoot::createIER);
 			} else if (block instanceof IInstrumentBlock) {
-				add(block, ECBlockLoot::createRuneable);
+				add(block, this::createRuneable);
 			} else if (block instanceof ExtractorBlock) {
-				add(block, ECBlockLoot::createRuneable);
+				add(block, this::createRuneable);
 			} else if (block instanceof ElementPipeBlock) {
-				add(block, ECBlockLoot::createPipe);
+				add(block, this::createPipe);
 			} else if (block instanceof ReservoirBlock) {
 				add(block, ECBlockLoot::createDoubleHalfElementStorage);
 			} else if (block.defaultBlockState().hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
@@ -106,23 +117,23 @@ public class ECBlockLoot extends BlockLoot {
 	}
 
 	@Nonnull
-	private static Builder createDoubleHalfRuneable(Block b) {
+	private Builder createDoubleHalfRuneable(Block b) {
 		return createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
 				.withPool(dropRunes()
 						.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))));
 	}
 
-	private static Builder createPipe(Block block) {
+	private Builder createPipe(Block block) {
 		return createSingleItemTable(block).withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(ECItems.COVER_FRAME.get()))
-				.when(AlternativeLootItemCondition.alternative(
+				.when(AnyOfCondition.anyOf(
 						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.FRAME),
 						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.COVERED))));
 	}
 
 	private static Builder createSpringaline(Block ore) {
-		return BlockLoot.createSilkTouchDispatchTable(ore, LootItem.lootTableItem(ECItems.SPRINGALINE_SHARD.get())
+		return BlockLootSubProvider.createSilkTouchDispatchTable(ore, LootItem.lootTableItem(ECItems.SPRINGALINE_SHARD.get())
 				.apply(SetItemCountFunction.setCount(ConstantValue.exactly(4)))
 				.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
 				.apply(ApplyExplosionDecay.explosionDecay()));
@@ -136,7 +147,7 @@ public class ECBlockLoot extends BlockLoot {
 		return createCopyNbt(item, ECNames.ELEMENT_STORAGE);
 	}
 
-	public static Builder createRuneable(ItemLike item) {
+	public Builder createRuneable(ItemLike item) {
 		return createSingleItemTable(item).withPool(dropRunes());
 	}
 

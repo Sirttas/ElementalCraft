@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,7 +24,7 @@ public class AoeSpell extends Spell {
 
 	@Override
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level level = caster.getLevel();
+		Level level = caster.level();
 		float range = getRange(caster);
 
 		if (caster instanceof LivingEntity livingSender) {
@@ -50,14 +49,16 @@ public class AoeSpell extends Spell {
 
 
 	private void hitTarget(LivingEntity sender, LivingEntity target, float damageBase, float damageMultiplier) {
-		float range = getRange(sender);
+		var range = getRange(sender);
 
-		if (target != sender && !sender.isAlliedTo(target) && (!(target instanceof ArmorStand) || !((ArmorStand) target).isMarker()) && sender.distanceToSqr(target) < range * range) {
-			float damage = damageMultiplier * (damageBase + EnchantmentHelper.getDamageBonus(sender.getMainHandItem(), target.getMobType()));
+		if (target != sender && !sender.isAlliedTo(target) && (!(target instanceof ArmorStand stand) || !stand.isMarker()) && sender.distanceToSqr(target) < range * range) {
+			var damage = damageMultiplier * (damageBase + EnchantmentHelper.getDamageBonus(sender.getMainHandItem(), target.getMobType()));
 
 			if (damage > 0) {
+				var sources = sender.level().damageSources();
+
 				target.knockback(0.4F, sender.getX() - target.getX(), sender.getZ() - target.getZ());
-				target.hurt(sender instanceof Player ? DamageSource.playerAttack((Player) sender) : DamageSource.mobAttack(sender), damage);
+				target.hurt(sender instanceof Player player ? sources.playerAttack(player) : sources.mobAttack(sender), damage);
 				onHit(sender, target, damage);
 
 				EnchantmentHelper.doPostHurtEffects(target, sender);

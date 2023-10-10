@@ -23,7 +23,7 @@ public class SweetShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
-		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRangeBoundingBox(), e -> !e.isSpectator()));
+		return new ArrayList<>(this.getLevel().getEntitiesOfClass(clazz, getRange(), e -> !e.isSpectator()));
 	}
 
 	@Override

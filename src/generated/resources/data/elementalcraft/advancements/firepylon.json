@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_firepylon": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:firepylon"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_firepylon"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

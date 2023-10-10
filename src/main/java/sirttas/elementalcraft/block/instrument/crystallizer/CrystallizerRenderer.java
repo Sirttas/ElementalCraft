@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.instrument.crystallizer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +33,7 @@ public class CrystallizerRenderer implements BlockEntityRenderer<CrystallizerBlo
 		if (!stack.isEmpty()) {
 			matrixStack.pushPose();
 			matrixStack.translate(0F, -0.15F, 0F);
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick));
+			matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
 			ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 			matrixStack.popPose();
 		}
@@ -43,19 +43,19 @@ public class CrystallizerRenderer implements BlockEntityRenderer<CrystallizerBlo
 		if (!stack.isEmpty()) {
 			matrixStack.pushPose();
 			matrixStack.translate(0F, 0.9F, 0F);
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(-tick));
+			matrixStack.mulPose(Axis.YP.rotationDegrees(-tick));
 			ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 			matrixStack.popPose();
 		}
 	}
 
 	private void renderShards(PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, float tick, InstrumentContainer inv) {
-		matrixStack.mulPose(Vector3f.YP.rotationDegrees(tick * 2));
+		matrixStack.mulPose(Axis.YP.rotationDegrees(tick * 2));
 		for (int i = 2; i < inv.getItemCount(); i++) {
 			ItemStack stack = inv.getItem(i);
 
 			if (!stack.isEmpty()) {
-				matrixStack.mulPose(Vector3f.YP.rotationDegrees(360F / (inv.getItemCount() - 2)));
+				matrixStack.mulPose(Axis.YP.rotationDegrees(360F / (inv.getItemCount() - 2)));
 				matrixStack.pushPose();
 				matrixStack.translate(1F, 0F, 0F);
 				ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);

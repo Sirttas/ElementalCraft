@@ -66,6 +66,8 @@ public class ECNames {
 	public static final String PIPE_UPGRADE_TYPE = "pipe_upgrade_type";
 	public static final String PREDICATE = "predicate";
 	public static final String PROGRESS = "progress";
+	public static final String PURE_ORE_LOADER = "pure_ore_loader";
+	public static final String PURE_ORE_LOADER_SERIALIZER = "pure_ore_loader_serializer";
 	public static final String PURE_ORE_RECIPE_INJECTOR = "pure_ore_recipe_injector";
 	public static final String QUALITY = "quality";
 	public static final String RANGE = "range";
@@ -79,6 +81,7 @@ public class ECNames {
 	public static final String SHRINE_UPGRADE = "shrine_upgrade";
 	public static final String SLOT = "slot";
 	public static final String SMALL = "small";
+	public static final String SOURCE_TRAIT = "source_trait";
 	public static final String SOURCE_TRAIT_VALUE_PROVIDER_TYPE = "source_trait_value_provider_type";
 	public static final String SPELL = "spell";
 	public static final String SPELL_LIST = "spell_list";
@@ -110,6 +113,8 @@ public class ECNames {
     public static final String BREED_INDEX = "breed_index";
     public static final String BREEDING_COST = "breeding_cost";
     public static final String TARGET = "target";
+	public static final String SHRINE_PROPERTIES = "shrine_properties";
+	public static final String SPELL_PROPERTIES = "spell_properties";
 
-    private ECNames() {}
+	private ECNames() {}
 }

@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_crystallizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:crystallizer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_crystallizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

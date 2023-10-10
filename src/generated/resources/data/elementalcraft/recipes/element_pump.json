@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "c": {
       "item": "elementalcraft:purecrystal"
@@ -21,5 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:element_pump"
-  }
+  },
+  "show_notification": true
 }

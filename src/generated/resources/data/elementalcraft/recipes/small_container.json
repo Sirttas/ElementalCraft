@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "g": {
       "tag": "forge:glass"
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "elementalcraft:small_container"
-  }
+  },
+  "show_notification": true
 }

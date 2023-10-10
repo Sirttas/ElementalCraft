@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.spelldesk;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -26,17 +26,23 @@ public class SpellDeskScreen extends AbstractContainerScreen<SpellDeskMenu> impl
 	@Override
 	protected void init() {
 		super.init();
-		previous = new Button(leftPos + 107, topPos + 13, 10, 20, Component.literal("<"), b -> menu.previousPage());
-		next = new Button(leftPos + 151, topPos + 13, 10, 20, Component.literal(">"), b -> menu.nextPage());
+		previous = Button.builder(Component.literal("<"), b -> menu.previousPage())
+				.pos(leftPos + 107, topPos + 13)
+				.size(10, 20)
+				.build();
+		next = Button.builder(Component.literal(">"), b -> menu.nextPage())
+				.pos(leftPos + 151, topPos + 13)
+				.size(10, 20)
+				.build();
 		addRenderableOnly(previous);
 		addRenderableOnly(next);
 	}
 	
 	@Override
-	public void render(@Nonnull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(poseStack);
-		super.render(poseStack, mouseX, mouseY, partialTicks);
-		this.renderTooltip(poseStack, mouseX, mouseY);
+	public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(guiGraphics);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
+		this.renderTooltip(guiGraphics, mouseX, mouseY);
 
 		var page = menu.getPage();
 		var pageCount = menu.getPageCount();
@@ -45,13 +51,12 @@ public class SpellDeskScreen extends AbstractContainerScreen<SpellDeskMenu> impl
 		next.active = page < pageCount - 1;
 		Component pages = Component.literal(String.format("%d / %d", page + 1, pageCount));
 
-		font.draw(poseStack, pages.getVisualOrderText(), leftPos + 136 - (font.width(pages) / 2F), topPos + 23 - (font.lineHeight / 2F), 4210752);
+		guiGraphics.drawString(font, pages.getVisualOrderText(), leftPos + 136 - (font.width(pages) / 2F), topPos + 23 - (font.lineHeight / 2F), 4210752, false);
 	}
 
 	@Override
-	protected void renderBg(@Nonnull PoseStack poseStack, float partialTicks, int x, int y) {
+	protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int x, int y) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, SPELL_DESK_GUI_TEXTURE);
-		this.blit(poseStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+		guiGraphics.blit(SPELL_DESK_GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
 }

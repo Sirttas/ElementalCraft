@@ -2,10 +2,13 @@ package sirttas.elementalcraft.interaction.mekanism.recipe;
 
 import mekanism.api.recipes.ItemStackToItemStackRecipe;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 import javax.annotation.Nonnull;
@@ -24,10 +27,10 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 	}
 
 	@Override
-	public boolean matches(ItemStack stack) {
-		return crushingRecipe.getInput().test(stack) && IGrindingRecipe.super.matches(stack);
+	public boolean matches(ItemStack stack, @NotNull Level level) {
+		return crushingRecipe.getInput().test(stack) && IGrindingRecipe.super.matches(stack, level);
 	}
-	
+
 	@Nonnull
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
@@ -36,7 +39,7 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 	
 	@Nonnull
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
 		return crushingRecipe.getOutput(ItemStack.EMPTY);
 	}
 

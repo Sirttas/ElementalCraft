@@ -3,9 +3,10 @@ package sirttas.elementalcraft.interaction.jei.category.shrine;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 
@@ -19,7 +20,8 @@ public abstract class AbstractShrineRecipeCategory<T> extends AbstractECRecipeCa
     }
 
 
-    public static void render3D(@Nonnull PoseStack poseStack, BiConsumer<PoseStack, MultiBufferSource> render) {
+    public static void render3D(@Nonnull GuiGraphics guiGraphics, BiConsumer<PoseStack, MultiBufferSource> render) {
+        var poseStack = guiGraphics.pose();
         var modelViewStack = RenderSystem.getModelViewStack();
 
         modelViewStack.pushPose();
@@ -31,7 +33,7 @@ public abstract class AbstractShrineRecipeCategory<T> extends AbstractECRecipeCa
         var stack = new PoseStack();
 
         stack.translate(0, 0, 1000);
-        stack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+        stack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         stack.scale(30,30, 30);
         Lighting.setupForEntityInInventory();
 
@@ -46,8 +48,8 @@ public abstract class AbstractShrineRecipeCategory<T> extends AbstractECRecipeCa
 
     protected static void setupPose(PoseStack p) {
         p.translate(-1.5, -2.3, 0);
-        p.mulPose(Vector3f.XP.rotationDegrees(-30.0F));
-        p.mulPose(Vector3f.YP.rotationDegrees(40.0F));
+        p.mulPose(Axis.XP.rotationDegrees(-30.0F));
+        p.mulPose(Axis.YP.rotationDegrees(40.0F));
     }
 
 }

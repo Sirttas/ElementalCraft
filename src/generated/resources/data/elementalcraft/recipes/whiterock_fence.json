@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "elementalcraft:whiterock"
@@ -15,5 +16,6 @@
   "result": {
     "count": 16,
     "item": "elementalcraft:whiterock_fence"
-  }
+  },
+  "show_notification": true
 }

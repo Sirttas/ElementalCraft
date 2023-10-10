@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,7 +35,7 @@ public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> i
 		IRuneRenderer.super.render(te, partialTicks, matrixStack, buffer, light, overlay);
 		if (!stack.isEmpty()) {
 			matrixStack.translate(position.x, position.y, position.z);
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTicks)));
+			matrixStack.mulPose(Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTicks)));
 			matrixStack.scale(size, size, size);
 			ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
 		}

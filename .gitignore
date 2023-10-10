@@ -11,6 +11,7 @@
 /run-server/
 /test-server/*
 !/test-server/server.properties
+!/test-server/config/elementalcraft-common.toml
 /logs/
 /.factorypath
 /Users/

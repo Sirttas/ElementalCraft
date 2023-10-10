@@ -1,7 +1,8 @@
 package sirttas.elementalcraft.datagen.managed;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -18,7 +19,7 @@ import sirttas.elementalcraft.datagen.ECItemModelProvider;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune.Builder> {
 
@@ -39,14 +40,13 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	public static final ResourceLocation SLATE = ElementalCraft.createRL("item/rune_slate");
 	public static final ResourceLocation MAJOR_SLATE = ElementalCraft.createRL("item/major_rune_slate");
 
-	public RunesProvider(DataGenerator generator, ECItemModelProvider itemModelProvider) {
-		super(generator, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
+	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ECItemModelProvider itemModelProvider) {
+		super(packOutput, registries, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
 		this.itemModelProvider = itemModelProvider;
 	}
 
 	@Override
-	public void collectBuilders() {
-		itemModelProvider.clear();
+	protected void collectBuilders(HolderLookup.Provider registries) {
 		builder("wii", MINOR_SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 0.1F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
 		builder("fus", SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 0.3F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
 		builder("zod", MAJOR_SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 0.5F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
@@ -63,14 +63,15 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 		builder("creative", MAJOR_SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 1000000F).addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F).max(1);
 	}
 
+	@Nonnull
 	@Override
-	public void run(@Nonnull CachedOutput cache) throws IOException {
-		super.run(cache);
-		itemModelProvider.generateAll(cache);
+	public CompletableFuture<?> run(@Nonnull CachedOutput cache) {
+		itemModelProvider.clear();
+		return super.run(cache).thenCompose(v -> itemModelProvider.generateAll(cache));
 	}
 
 	private Rune.Builder builder(String name, ResourceLocation slate) {
-		var path = Rune.FOLDER + '/' + name;
+		var path = ElementalCraftApi.RUNE_MANAGER.getFolder() + '/' + name;
 		var runeTexture = ElementalCraft.createRL(path);
 		var builder = Rune.Builder.create().model(itemModelProvider.runeTexture(path, slate, runeTexture)).sprite(runeTexture);
 
@@ -83,8 +84,8 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public String getName() {
-		return "ElementalCraft Spell Properties";
+		return "ElementalCraft Runes";
 	}
 }

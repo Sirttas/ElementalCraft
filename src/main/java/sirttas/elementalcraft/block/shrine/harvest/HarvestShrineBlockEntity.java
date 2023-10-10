@@ -10,8 +10,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -62,16 +60,6 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 						}
 					}
 				});
-	}
-
-	@Override
-	public AABB getRangeBoundingBox() {
-		var range = getRange();
-
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos())
-				.inflate(range, 0, range)
-				.expandTowards(0, -2, 0)
-				.move(0, -1, 0));
 	}
 
 	@Override

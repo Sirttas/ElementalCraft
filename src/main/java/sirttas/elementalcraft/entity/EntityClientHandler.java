@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
@@ -40,7 +40,7 @@ public class EntityClientHandler {
 		var packedLight = event.getPackedLight();
 
 		poseStack.pushPose();
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(180 - Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)));
+		poseStack.mulPose(Axis.YP.rotationDegrees(180 - Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)));
 		renderSingleSpellFirstPerson(spell, null, entity, partialTicks, poseStack, buffer, packedLight);
 		SpellTickHelper.getSpellInstances(entity).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
 		poseStack.popPose();

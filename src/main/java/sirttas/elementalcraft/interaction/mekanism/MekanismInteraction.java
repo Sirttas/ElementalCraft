@@ -43,6 +43,6 @@ public class MekanismInteraction {
 		var crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(level, recipe -> recipe.test(stack));
 		var wrapper = crusherRecipe != null ? new MekanismCrusherRecipeWrapper(crusherRecipe) : null;
 
-		return wrapper != null && wrapper.matches(airMillGrindstone) ? wrapper : null;
+		return wrapper != null && wrapper.matches(airMillGrindstone, level) ? wrapper : null;
 	}
 }

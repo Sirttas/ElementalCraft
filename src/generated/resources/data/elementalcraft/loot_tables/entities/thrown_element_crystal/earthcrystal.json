@@ -27,5 +27,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "elementalcraft:entities/thrown_element_crystal/earthcrystal"
 }

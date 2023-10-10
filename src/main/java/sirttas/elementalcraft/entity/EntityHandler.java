@@ -2,10 +2,8 @@ package sirttas.elementalcraft.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -47,8 +45,8 @@ public class EntityHandler {
 	
 	@SubscribeEvent
 	public static void onEntityLivingAttack(LivingAttackEvent event) {
-		LivingEntity entity = event.getEntity();
-		Level world = entity.level;
+		var entity = event.getEntity();
+		var world = entity.level();
 
 		if (!world.isClientSide && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
 			event.setCanceled(true);
@@ -57,9 +55,9 @@ public class EntityHandler {
 
 	@SubscribeEvent
 	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		Player player = event.getEntity();
+		var player = event.getEntity();
 		
-		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntity().getLevel().isClientSide) {
+		if (Boolean.TRUE.equals(ECConfig.COMMON.playersSpawnWithBook.get()) && !event.getEntity().level().isClientSide) {
 			CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
 
 			if (!tag.getBoolean(ECNames.HAS_BOOK)) {
@@ -82,7 +80,7 @@ public class EntityHandler {
 
 			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), provider);
 			event.addCapability(ElementalCraft.createRL(ECNames.SPELL_TICK_MANAGER), PlayerSpellTickManager.createProvider(player));
-			if (entity.level.isClientSide) {
+			if (entity.level().isClientSide) {
 				event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), ClientJewelHandler.createProvider());
 			} else {
 				event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), JewelHandler.createProvider(entity, ElementStorageHelper.get(provider).orElse(null)));

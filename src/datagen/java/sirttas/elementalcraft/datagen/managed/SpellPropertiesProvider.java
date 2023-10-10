@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.datagen.managed;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -14,24 +15,24 @@ import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.CompletableFuture;
 
 public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<SpellProperties, SpellProperties.Builder> {
 
-	public SpellPropertiesProvider(DataGenerator generator) {
-		super(generator, ElementalCraft.SPELL_PROPERTIES_MANAGER, SpellProperties.Builder.ENCODER);
+	public SpellPropertiesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
+		super(packOutput, registries, ElementalCraft.SPELL_PROPERTIES_MANAGER, SpellProperties.Builder.ENCODER);
 	}
 
 	@Override
-	public void collectBuilders() {
-		
+	protected void collectBuilders(HolderLookup.Provider registries) {
 		builder(Spells.GRAVEL_FALL, Spell.Type.COMBAT, ElementType.EARTH).color(175, 179, 179).consumeAmount(250).cooldown(40).weight(20)
-				.addAttribute(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier("Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
+				.addAttribute(ForgeMod.ENTITY_REACH.get(), new AttributeModifier("Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
 		builder(Spells.STONE_WALL, Spell.Type.COMBAT, ElementType.EARTH).color(207, 212, 212).consumeAmount(500).cooldown(100).weight(20);
 		builder(Spells.FIRE_BALL, Spell.Type.COMBAT, ElementType.FIRE).color(245, 174, 22).consumeAmount(500).cooldown(100).weight(30);
 		builder(Spells.ITEM_PULL, Spell.Type.UTILITY, ElementType.AIR).color(250, 252, 222).consumeAmount(1000).cooldown(200).weight(5).range(10);
 		builder(Spells.ENDER_STRIKE, Spell.Type.COMBAT, ElementType.AIR).color(103, 15, 105).consumeAmount(1000).cooldown(60).weight(15).range(20)
 				.addAttribute(Attributes.ATTACK_DAMAGE, new AttributeModifier("Weapon modifier", 1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL))
-				.addAttribute(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier("Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
+				.addAttribute(ForgeMod.ENTITY_REACH.get(), new AttributeModifier("Reach distance modifier", 5.0D, AttributeModifier.Operation.ADDITION));
 		builder(Spells.ANIMAL_GROWTH, Spell.Type.UTILITY, ElementType.WATER).color(0, 134, 161).consumeAmount(2000).cooldown(200).weight(10);
 		builder(Spells.TREE_FALL, Spell.Type.UTILITY, ElementType.EARTH).color(0, 128, 34).consumeAmount(3000).cooldown(600).weight(5).range(15);
 		builder(Spells.PURIFICATION, Spell.Type.MIXED, ElementType.WATER).color(5, 207, 247).consumeAmount(1000).cooldown(200).weight(10);
@@ -59,7 +60,7 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 	}
 
 	@Nonnull
-    @Override
+	@Override
 	public String getName() {
 		return "ElementalCraft Spell Properties";
 	}

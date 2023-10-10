@@ -1,0 +1,29 @@
+{
+  "type": "elementalcraft:pattern",
+  "element_consumption": 15000,
+  "luck_ratio": 18.0,
+  "namespace_pattern": "^(forge|blue_skies)$",
+  "order": 2,
+  "output_size": 12,
+  "patterns": [
+    "^deepslate_",
+    "^raw_?",
+    "_?block$"
+  ],
+  "source": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:or",
+        "values": [
+          "#elementalcraft:pure_ores/sources/raw_material_blocks"
+        ]
+      },
+      {
+        "type": "forge:not",
+        "value": "#elementalcraft:pure_ores/specifics"
+      }
+    ]
+  },
+  "tag_pattern": "^storage_blocks/raw_?(?!_?materials)"
+}

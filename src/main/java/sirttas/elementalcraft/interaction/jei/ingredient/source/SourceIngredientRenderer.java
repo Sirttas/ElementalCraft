@@ -2,15 +2,13 @@ package sirttas.elementalcraft.interaction.jei.ingredient.source;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import mezz.jei.api.ingredients.IIngredientRenderer;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.event.TickHandler;
 
 import javax.annotation.Nonnull;
@@ -22,8 +20,9 @@ public class SourceIngredientRenderer implements IIngredientRenderer<IngredientS
 	private static final ResourceLocation MIDDLE = ElementalCraft.createRL("textures/effect/source_middle.png");
 
 	@Override
-	public void render(@Nonnull PoseStack matrixStack, @Nonnull IngredientSource source) {
-		ElementType elementType = source.getElementType();
+	public void render(@Nonnull GuiGraphics guiGraphics, @Nonnull IngredientSource source) {
+		var elementType = source.getElementType();
+		var poseStack = guiGraphics.pose();
 		var angle = -(TickHandler.getTicksInGame() % 360);
 
 
@@ -33,21 +32,20 @@ public class SourceIngredientRenderer implements IIngredientRenderer<IngredientS
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
 		RenderSystem.setShaderColor(elementType.getRed(), elementType.getGreen(), elementType.getBlue(), 1.0F);
-		matrixStack.scale(0.5f, 0.5f, 0.5f);
-		matrixStack.translate(16, 16, 0);
-		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(angle));
-		matrixStack.translate(-16, -16, 0);
-		RenderSystem.setShaderTexture(0, OUTER);
-		GuiComponent.blit(matrixStack, 0,0,0,0, 32, 32, 32, 32);
-		matrixStack.translate(16, 16, 0);
-		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(angle * 5f));
-		matrixStack.translate(-16, -16, -0.01);
+		poseStack.scale(0.5f, 0.5f, 0.5f);
+		poseStack.translate(16, 16, 0);
+		poseStack.mulPose(Axis.ZP.rotationDegrees(angle));
+		poseStack.translate(-16, -16, 0);
+		guiGraphics.blit(OUTER, 0, 0, 0, 0, 32, 32, 32, 32);
+		poseStack.translate(16, 16, 0);
+		poseStack.mulPose(Axis.ZP.rotationDegrees(angle * 5f));
+		poseStack.translate(-16, -16, -0.01);
 
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
-		RenderSystem.setShaderTexture(0, MIDDLE);
-		GuiComponent.blit(matrixStack, 0,0,0,0, 32, 32, 32, 32);
+		guiGraphics.blit(MIDDLE, 0,0,0,0, 32, 32, 32, 32);
 
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.disableDepthTest();

@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_air_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:air_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_air_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

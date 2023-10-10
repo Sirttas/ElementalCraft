@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "elementalcraft:earth_shard"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "elementalcraft:powerful_earth_shard"
-  }
+  },
+  "show_notification": true
 }

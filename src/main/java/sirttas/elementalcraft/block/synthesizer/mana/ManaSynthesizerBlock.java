@@ -1,10 +1,7 @@
 package sirttas.elementalcraft.block.synthesizer.mana;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -74,13 +71,6 @@ public class ManaSynthesizerBlock extends SolarSynthesizerBlock {
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		if (ECinteractions.isBotaniaActive()) {
 			ManaSynthesizerBlockInteractions.animateTick(level, pos, rand);
-		}
-	}
-
-	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (ECinteractions.isBotaniaActive()) {
-			super.fillItemCategory(group, items);
 		}
 	}
 }

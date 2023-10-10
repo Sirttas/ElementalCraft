@@ -2,6 +2,7 @@ package sirttas.elementalcraft.recipe.instrument;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
@@ -40,7 +42,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 	}
 
 	@Override
-	public boolean matches(InscriberBlockEntity inscriber) {
+	public boolean matches(@Nonnull InscriberBlockEntity inscriber, @Nonnull Level level) {
 		if (inscriber.getContainerElementType() == getElementType()) {
 			return RecipeHelper.matchesUnordered(inscriber.getInventory(), ingredients);
 		}
@@ -55,7 +57,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 
 	@Nonnull
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return output;
 	}
 
@@ -105,7 +107,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<InscriberBlockEn
 		public void toNetwork(FriendlyByteBuf buffer, InscriptionRecipe recipe) {
 			buffer.writeUtf(recipe.getElementType().getSerializedName());
 			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeItem(recipe.getResultItem());
+			buffer.writeItem(recipe.output);
 			buffer.writeInt(recipe.getIngredients().size());
 			recipe.getIngredients().forEach(ingredient -> ingredient.toNetwork(buffer));
 		}

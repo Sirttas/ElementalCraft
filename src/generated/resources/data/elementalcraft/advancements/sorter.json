@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_sorter": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:sorter"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_sorter"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "i": {
       "tag": "forge:ingots/drenched_iron"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:spell_desk"
-  }
+  },
+  "show_notification": true
 }

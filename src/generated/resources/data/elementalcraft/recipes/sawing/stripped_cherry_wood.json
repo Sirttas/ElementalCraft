@@ -1,0 +1,11 @@
+{
+  "type": "elementalcraft:sawing",
+  "element_amount": 250,
+  "input": {
+    "item": "minecraft:cherry_wood"
+  },
+  "luck_ratio": 0,
+  "output": {
+    "item": "minecraft:stripped_cherry_wood"
+  }
+}

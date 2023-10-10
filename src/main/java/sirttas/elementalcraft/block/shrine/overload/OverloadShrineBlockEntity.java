@@ -24,7 +24,7 @@ public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AABB getRangeBoundingBox() {
+	public AABB getRange() {
 		return new AABB(getTargetPos());
 	}
 

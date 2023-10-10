@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "U": {
       "item": "elementalcraft:unset_jewel"
@@ -26,5 +27,6 @@
         "jewel": "elementalcraft:hawk"
       }
     }
-  }
+  },
+  "show_notification": true
 }

@@ -1,0 +1,11 @@
+{
+  "bonuses": {
+    "element_consumption": 50.0,
+    "speed": 30.0
+  },
+  "max_amount": 1,
+  "predicate": {
+    "type": "dpanvil:block",
+    "block": "elementalcraft:growthshrine"
+  }
+}

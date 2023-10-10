@@ -25,7 +25,7 @@ public class StriderJewel extends Jewel {
 
     private boolean isOnFluid(Entity entity) {
         BlockPos blockpos = entity.getOnPos();
-        BlockState blockstate = entity.level.getBlockState(blockpos);
+        BlockState blockstate = entity.level().getBlockState(blockpos);
 
         return blockstate.getFluidState().is(tag);
     }

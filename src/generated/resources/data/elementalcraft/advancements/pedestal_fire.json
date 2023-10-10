@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_pedestal_fire": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:pedestal_fire"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_pedestal_fire"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

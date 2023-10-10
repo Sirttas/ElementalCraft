@@ -14,6 +14,7 @@ import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -21,15 +22,13 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.block.source.trait.value.SourceTraitValueProviderTypes;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectTypes;
-import sirttas.elementalcraft.interaction.ECinteractions;
-import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
+import sirttas.elementalcraft.item.ECCreativeModeTabs;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.loot.ECLootModifiers;
@@ -37,9 +36,10 @@ import sirttas.elementalcraft.loot.entry.ECLootPoolEntries;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
 import sirttas.elementalcraft.network.message.MessageHandler;
 import sirttas.elementalcraft.particle.ECParticles;
-import sirttas.elementalcraft.pureore.PureOreLoader;
 import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.pureore.injector.PureOreRecipeInjectors;
+import sirttas.elementalcraft.pureore.loader.IPureOreLoader;
+import sirttas.elementalcraft.pureore.loader.PureOreLoaderTypes;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.sound.ECSounds;
@@ -56,24 +56,24 @@ public class ElementalCraft {
 	
 	public static final PureOreManager PURE_ORE_MANAGER = new PureOreManager();
 
-	public static final ResourceKey<IDataManager<ShrineUpgrade>> SHRINE_UPGRADE_MANAGER_KEY = IDataManager.createManagerKey(createRL(ShrineUpgrades.NAME));
-	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, ShrineUpgrades.FOLDER)
+	public static final ResourceKey<IDataManager<ShrineUpgrade>> SHRINE_UPGRADE_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.SHRINE_UPGRADE));
+	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, SHRINE_UPGRADE_MANAGER_KEY)
 			.withIdSetter(ShrineUpgrade::setId)
 			.merged(ShrineUpgrade::merge)
 			.build();
 
-	public static final ResourceKey<IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(SpellProperties.NAME));
-	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SpellProperties.FOLDER)
+	public static final ResourceKey<IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.SPELL_PROPERTIES));
+	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SPELL_PROPERTIES_MANAGER_KEY)
 			.withDefault(SpellProperties.NONE)
 			.build();
 
-	public static final ResourceKey<IDataManager<ShrineProperties>> SHRINE_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(ShrineProperties.NAME));
-	public static final IDataManager<ShrineProperties> SHRINE_PROPERTIES_MANAGER = IDataManager.builder(ShrineProperties.class, ShrineProperties.FOLDER)
+	public static final ResourceKey<IDataManager<ShrineProperties>> SHRINE_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.SHRINE_PROPERTIES));
+	public static final IDataManager<ShrineProperties> SHRINE_PROPERTIES_MANAGER = IDataManager.builder(ShrineProperties.class, SHRINE_PROPERTIES_MANAGER_KEY)
 			.withDefault(ShrineProperties.DEFAULT)
 			.build();
 
-	public static final ResourceKey<IDataManager<PureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(createRL(PureOreLoader.NAME));
-	public static final IDataManager<PureOreLoader> PURE_ORE_LOADERS_MANAGER = IDataManager.builder(PureOreLoader.class, PureOreLoader.FOLDER)
+	public static final ResourceKey<IDataManager<IPureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.PURE_ORE_LOADER));
+	public static final IDataManager<IPureOreLoader> PURE_ORE_LOADERS_MANAGER = IDataManager.builder(IPureOreLoader.class, PURE_ORE_LOADERS_MANAGER_KEY)
 			.build();
 
 	public ElementalCraft() {
@@ -104,6 +104,8 @@ public class ElementalCraft {
 		PureOreRecipeInjectors.register(modBus);
 		PipeUpgradeTypes.register(modBus);
 		ECSounds.register(modBus);
+		ECCreativeModeTabs.register(modBus);
+		PureOreLoaderTypes.register(modBus);
 
 		modBus.addListener(this::setup);
 		modBus.addListener(this::enqueueIMC);
@@ -142,12 +144,9 @@ public class ElementalCraft {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SHRINE_UPGRADE_MANAGER_KEY, SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SHRINE_PROPERTIES_MANAGER_KEY, SHRINE_PROPERTIES_MANAGER).withCodec(ShrineProperties.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SPELL_PROPERTIES_MANAGER_KEY, SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));
-		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(PURE_ORE_LOADERS_MANAGER_KEY, PURE_ORE_LOADERS_MANAGER).withCodec(PureOreLoader.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(PURE_ORE_LOADERS_MANAGER_KEY, PURE_ORE_LOADERS_MANAGER).withCodec(IPureOreLoader.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.RUNE_MANAGER_KEY, ElementalCraftApi.RUNE_MANAGER).withCodec(Rune.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, ElementalCraftApi.SOURCE_TRAIT_MANAGER).withCodec(SourceTrait.CODEC));
-		if (ECinteractions.isCuriosActive()) {
-			CuriosInteractions.registerSlots();
-		}
 	}
 }

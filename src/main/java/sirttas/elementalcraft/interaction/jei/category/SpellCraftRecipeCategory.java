@@ -5,6 +5,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.ElementalCraft;
@@ -39,6 +40,6 @@ public class SpellCraftRecipeCategory extends AbstractInventoryRecipeCategory<Co
 				.addIngredients(ingredients.get(2));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 20)
-				.addItemStack(recipe.getResultItem());
+				.addItemStack(RecipeUtil.getResultItem(recipe));
 	}
 }

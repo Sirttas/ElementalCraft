@@ -43,7 +43,7 @@ public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 	}
 	
 	@Override
-	protected int getDefaultCapacity() {
+	public int getDefaultCapacity() {
 		return ECConfig.COMMON.tankSmallCapacity.get();
 	}
 }

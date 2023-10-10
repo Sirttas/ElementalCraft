@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.recipe;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.spell.SpellHelper;
 
@@ -18,13 +20,13 @@ import javax.annotation.Nonnull;
 public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingContainer> {
 	
 	private StaffRecipe(ShapedRecipe parent) {
-		super(parent.getId(), parent.getGroup(), parent.getWidth(), parent.getHeight(), parent.getIngredients(), parent.getResultItem());
+		super(parent.getId(), parent.getGroup(), parent.category(), parent.getWidth(), parent.getHeight(), parent.getIngredients(), new ItemStack(ECItems.STAFF.get()));
 	}
 
 	@Nonnull
     @Override
-	public ItemStack assemble(@Nonnull CraftingContainer inv) {
-		ItemStack staff = this.getResultItem().copy();
+	public ItemStack assemble(@Nonnull CraftingContainer inv, @Nonnull RegistryAccess registry) {
+		ItemStack staff = this.getResultItem(registry).copy();
 		
 		for (int i = 0; i < inv.getContainerSize(); i++) {
 			ItemStack stack = inv.getItem(i);

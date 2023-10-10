@@ -1,31 +1,47 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import com.google.common.collect.Maps;
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.predicates.ConditionUserBuilder;
+import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-public class PipeUpgradeLoot implements Consumer<BiConsumer<ResourceLocation, Builder>> {
+public class PipeUpgradeLoot implements LootTableSubProvider {
 
 	private final Map<ResourceLocation, Builder> map = Maps.newHashMap();
 
-	protected void addTables() {
-		add(getKey(PipeUpgradeTypes.ELEMENT_PUMP), ECBlockLoot.createRuneable(PipeUpgradeTypes.ELEMENT_PUMP.get()));
+	protected void generate() {
+		add(getKey(PipeUpgradeTypes.ELEMENT_PUMP), createRuneable(PipeUpgradeTypes.ELEMENT_PUMP.get()));
 		dropSelf(PipeUpgradeTypes.PIPE_PRIORITY_RINGS.get());
 		dropSelf(PipeUpgradeTypes.ELEMENT_VALVE.get());
 		dropSelf(PipeUpgradeTypes.ELEMENT_BEAM.get());
 	}
+
+	@Override
+	public void generate(@NotNull BiConsumer<ResourceLocation, Builder> consumer) {
+		map.clear();
+		generate();
+		map.forEach(consumer);
+	}
+
+
 	protected void dropSelf(PipeUpgradeType<?> type) {
-		add(getKey(type), BlockLoot.createSingleItemTable(type));
+		add(getKey(type), createSingleItemTable(type));
 	}
 
 	private ResourceLocation getKey(RegistryObject<? extends PipeUpgradeType<?>> type) {
@@ -34,17 +50,24 @@ public class PipeUpgradeLoot implements Consumer<BiConsumer<ResourceLocation, Bu
 
 	@Nullable
 	private static ResourceLocation getKey(PipeUpgradeType<?> type) {
-		return PipeUpgradeTypes.REGISTRY.get().getKey(type);
+		var key = PipeUpgradeTypes.REGISTRY.get().getKey(type);
+
+		return key != null ? key.withPrefix(ElementalCraftApi.MODID + "/pipe_upgrades/") : null;
 	}
 
 	protected void add(ResourceLocation name, Builder builder) {
 		map.put(name, builder);
 	}
 
-	@Override
-	public void accept(BiConsumer<ResourceLocation, Builder> consumer) {
-		map.clear();
-		addTables();
-		map.forEach((k, v) -> consumer.accept(new ResourceLocation(k.getNamespace(), PipeUpgrade.FOLDER + k.getPath()), v));
+	protected <T extends ConditionUserBuilder<T>> T applyExplosionCondition(ConditionUserBuilder<T> conditionBuilder) {
+		return conditionBuilder.when(ExplosionCondition.survivesExplosion());
+	}
+
+	public LootTable.Builder createSingleItemTable(ItemLike item) {
+		return LootTable.lootTable().withPool(this.applyExplosionCondition(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(item))));
+	}
+
+	public Builder createRuneable(ItemLike item) {
+		return createSingleItemTable(item).withPool(ECBlockLoot.dropRunes());
 	}
 }

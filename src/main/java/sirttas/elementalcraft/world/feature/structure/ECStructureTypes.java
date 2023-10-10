@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.world.feature.structure;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
@@ -12,8 +12,8 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECStructureTypes {
 
-	private static final DeferredRegister<StructureType<?>> STRUCTURE_TYPE_DEFERRED_REGISTER = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, ElementalCraftApi.MODID);
-	private static final DeferredRegister<StructurePieceType> PIECE_TYPE_DEFERRED_REGISTER = DeferredRegister.create(Registry.STRUCTURE_PIECE_REGISTRY, ElementalCraftApi.MODID);
+	private static final DeferredRegister<StructureType<?>> STRUCTURE_TYPE_DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.STRUCTURE_TYPE.key(), ElementalCraftApi.MODID);
+	private static final DeferredRegister<StructurePieceType> PIECE_TYPE_DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.STRUCTURE_PIECE.key(), ElementalCraftApi.MODID);
 
 
 

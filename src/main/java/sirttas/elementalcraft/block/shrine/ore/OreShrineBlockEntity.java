@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.Tags;
-import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -39,19 +38,17 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AABB getRangeBoundingBox() {
+	public AABB getRange() {
+		var box = super.getRange();
+
 		if (this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST)) {
-			return super.getRangeBoundingBox();
+			return box;
 		}
 
-		var targetPos = this.getTargetPos();
-		var range = getRange();
-		var height = Math.abs(level.getMinBuildHeight() - targetPos.getY());
+		var minY = level.getMinBuildHeight();
+		var maxY = this.getTargetPos().getY();
 
-		return ElementalCraftUtils.stitchAABB(new AABB(targetPos)
-				.inflate(range, 0, range)
-				.move(0, -1, 0)
-				.expandTowards(0, 1D - height, 0));
+		return new AABB(box.minX, minY, box.minZ, box.maxX, maxY, box.maxZ);
 	}
 
 

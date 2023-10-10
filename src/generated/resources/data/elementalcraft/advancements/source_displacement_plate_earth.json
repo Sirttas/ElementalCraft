@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_source_displacement_plate_earth": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:source_displacement_plate_earth"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_displacement_plate_earth"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

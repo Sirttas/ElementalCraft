@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_shrine_upgrade_silk_touch": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:shrine_upgrade_silk_touch"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_shrine_upgrade_silk_touch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.flamecleave;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -19,10 +19,10 @@ public class FlameCleaveSpellRenderer implements ISpellInstanceRenderer {
             var angle = ((spell.getTicks() + partialTicks) / spell.getDuration()) * 360;
 
             poseStack.translate(0, 1, 0);
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(-angle));
+            poseStack.mulPose(Axis.YP.rotationDegrees(-angle));
             poseStack.translate(0, 0, 1);
-            poseStack.mulPose(Vector3f.XP.rotationDegrees(90));
-            poseStack.mulPose(Vector3f.ZP.rotationDegrees(45));
+            poseStack.mulPose(Axis.XP.rotationDegrees(90));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(45));
             ECRendererHelper.renderItem(weapon, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         }
     }

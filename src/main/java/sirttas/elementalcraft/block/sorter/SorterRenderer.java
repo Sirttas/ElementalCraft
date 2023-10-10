@@ -1,18 +1,17 @@
 package sirttas.elementalcraft.block.sorter;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import sirttas.elementalcraft.block.entity.renderer.IRuneRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
 
@@ -20,9 +19,9 @@ public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
 	@SuppressWarnings("resource")
 	@Override
 	public void render(@Nonnull SorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		HitResult mouseOver = Minecraft.getInstance().hitResult;
-		boolean shiftKeyDown =  Minecraft.getInstance().player.isShiftKeyDown();
-		List<ItemStack> stacks = sorter.getStacks();
+		var mouseOver = Minecraft.getInstance().hitResult;
+		var shiftKeyDown =  Minecraft.getInstance().player.isShiftKeyDown();
+		var stacks = sorter.getStacks();
 
 		if (mouseOver != null && mouseOver.getType() == HitResult.Type.BLOCK && !stacks.isEmpty()) {
 			poseStack.pushPose();
@@ -30,15 +29,15 @@ public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
 			BlockHitResult result = (BlockHitResult) mouseOver;
 			
 			if (sorter.getBlockPos().equals(result.getBlockPos())) {
-				int index = sorter.getIndex();
-				Quaternion rotation = result.getDirection().getRotation();
-				Vector3f newPos = new Vector3f(0, 2F / 16, 1F / 16);
+				var index = sorter.getIndex();
+				var rotation = result.getDirection().getRotation();
+				var newPos = new Vector3f(0, 2F / 16, 1F / 16);
 
 				poseStack.translate(0.5, 0.5, 0.5);
-				newPos.transform(rotation);
+				rotation.transform(newPos);
 				poseStack.translate(newPos.x(), newPos.y(), newPos.z());
 				poseStack.mulPose(rotation);
-				poseStack.mulPose(Vector3f.XP.rotationDegrees(-90F));
+				poseStack.mulPose(Axis.XP.rotationDegrees(-90F));
 				poseStack.scale(0.5F, 0.5F, 0.5F);
 				ECRendererHelper.renderItem(stacks.get(index), poseStack, buffer, light, overlay);
 				poseStack.scale(0.5F, 0.5F, 0.5F);
@@ -68,7 +67,7 @@ public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
 		var state = sorter.getBlockState();
 		var rotation1 = state.getValue(ISorterBlock.SOURCE).getOpposite().getRotation();
 		var rotation2 = state.getValue(ISorterBlock.TARGET).getRotation();
-		var rotation = new Quaternion(rotation1.i() + rotation2.i(), rotation1.j() + rotation2.j(), rotation1.k() + rotation2.k(), rotation1.r() + rotation2.r());
+		var rotation = new Quaternionf(rotation1.x() + rotation2.x(), rotation1.y() + rotation2.y(), rotation1.z() + rotation2.z(), rotation1.w() + rotation2.w());
 
 		rotation.normalize();
 		poseStack.mulPose(rotation);

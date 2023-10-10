@@ -3,9 +3,7 @@ package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -18,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.interaction.ECinteractions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,12 +56,5 @@ public class MysticalGroveShrineUpgradeBlock extends AbstractShrineUpgradeBlock 
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(Component.translatable("tooltip.elementalcraft.mystical_grove").withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, worldIn, tooltip, flag);
-	}
-
-	@Override
-	public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-		if (ECinteractions.isBotaniaActive()) {
-			super.fillItemCategory(group, items);
-		}
 	}
 }

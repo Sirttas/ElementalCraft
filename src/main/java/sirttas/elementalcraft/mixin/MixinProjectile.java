@@ -55,7 +55,7 @@ public abstract class MixinProjectile extends Entity {
 
         if (!hasBeenShot && JewelHelper.hasJewel(owner, hawk)) {
             homing = true;
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 hawk.consume(owner);
             }
             return;

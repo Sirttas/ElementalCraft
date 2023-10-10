@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.loot.entry;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.storage.loot.Serializer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
@@ -11,7 +11,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECLootPoolEntries {
 
-    private static final DeferredRegister<LootPoolEntryType> DEFERRED_REGISTER = DeferredRegister.create(Registry.LOOT_ENTRY_REGISTRY, ElementalCraftApi.MODID);
+    private static final DeferredRegister<LootPoolEntryType> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.LOOT_POOL_ENTRY_TYPE.key(), ElementalCraftApi.MODID);
 
     public static final RegistryObject<LootPoolEntryType> RUNES = register("runes", new LootRunes.Serializer());
 

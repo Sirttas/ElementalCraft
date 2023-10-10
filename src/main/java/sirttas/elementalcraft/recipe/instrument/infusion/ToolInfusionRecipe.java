@@ -2,12 +2,14 @@ package sirttas.elementalcraft.recipe.instrument.infusion;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -37,8 +39,8 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	}
 	
 	@Override
-	public boolean matches(IInfuser instrument) {
-		return IInfusionRecipe.super.matches(instrument) && !getToolInfusion().equals(ToolInfusionHelper.getInfusion(instrument.getItem()));
+	public boolean matches(IInfuser instrument, @Nonnull Level level) {
+		return IInfusionRecipe.super.matches(instrument, level) && !getToolInfusion().equals(ToolInfusionHelper.getInfusion(instrument.getItem()));
 	}
 
 	@Override
@@ -52,7 +54,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	}
 	
 	@Override
-	public ItemStack assemble(IInfuser instrument) {
+	public ItemStack assemble(IInfuser instrument, @Nonnull RegistryAccess registry) {
 		ItemStack stack = instrument.getItem().copy();
 
 		ToolInfusionHelper.setInfusion(stack, getToolInfusion());
@@ -61,7 +63,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 
 	@Nonnull
     @Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return ItemStack.EMPTY;
 	}
 

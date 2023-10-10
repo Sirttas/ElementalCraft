@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.IPlantable;
-import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -78,14 +77,14 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AABB getRangeBoundingBox() {
+	public AABB getRange() {
 		if (this.hasUpgrade(ShrineUpgrades.CRYSTAL_GROWTH)) {
-			return super.getRangeBoundingBox();
+			var range = getProperties().range();
+			var box = range.box();
+
+			return getRange(box.expandTowards(0, -2, 0).inflate(0, box.maxX - (box.maxY), 0), true, false);
 		}
-
-		var range = getRange();
-
-		return ElementalCraftUtils.stitchAABB(new AABB(this.getTargetPos()).inflate(range, 0, range).expandTowards(0, 2, 0));
+		return super.getRange();
 	}
 
 	private boolean growBoneless() {

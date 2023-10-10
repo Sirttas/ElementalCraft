@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "elementalcraft:springaline_shard"
@@ -11,5 +12,6 @@
   ],
   "result": {
     "item": "elementalcraft:springaline_block"
-  }
+  },
+  "show_notification": true
 }

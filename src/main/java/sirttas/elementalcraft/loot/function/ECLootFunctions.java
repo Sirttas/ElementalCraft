@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.loot.function;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.storage.loot.Serializer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
@@ -11,7 +11,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECLootFunctions {
 
-	private static final DeferredRegister<LootItemFunctionType> DEFERRED_REGISTER = DeferredRegister.create(Registry.LOOT_FUNCTION_REGISTRY, ElementalCraftApi.MODID);
+	private static final DeferredRegister<LootItemFunctionType> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.LOOT_FUNCTION_TYPE.key(), ElementalCraftApi.MODID);
 
 	public static final RegistryObject<LootItemFunctionType> RANDOM_SPELL = register("random_spell", new RandomSpell.Serializer());
 

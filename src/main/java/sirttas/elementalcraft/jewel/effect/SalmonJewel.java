@@ -25,7 +25,7 @@ public class SalmonJewel extends EffectJewel {
 
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-        return entity.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) && !entity.level.getBlockState(new BlockPos(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN) && super.isActive(entity, elementStorage);
+        return entity.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) && !entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN) && super.isActive(entity, elementStorage);
     }
 
     @Override

@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_instrument_retriever": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:instrument_retriever"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_instrument_retriever"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

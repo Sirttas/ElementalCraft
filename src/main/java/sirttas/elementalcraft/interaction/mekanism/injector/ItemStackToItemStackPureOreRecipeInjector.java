@@ -4,9 +4,11 @@ import mekanism.api.recipes.ItemStackToItemStackRecipe;
 import mekanism.api.recipes.ingredients.ItemStackIngredient;
 import mekanism.common.recipe.lookup.cache.InputRecipeCache;
 import mekanism.common.registration.impl.RecipeTypeRegistryObject;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemStackToItemStackPureOreRecipeInjector<T extends ItemStackToItemStackRecipe> extends AbstractMekanismPureOreRecipeInjector<T> {
 
@@ -18,12 +20,12 @@ public class ItemStackToItemStackPureOreRecipeInjector<T extends ItemStackToItem
 	}
 
 	@Override
-	public T build(T recipe, Ingredient ingredient) {
-		return factory.create(buildRecipeId(recipe.getId()), getInput(ingredient, recipe.getInput()), getRecipeOutput(recipe));
+	public T build(@NotNull RegistryAccess registry, T recipe, Ingredient ingredient) {
+		return factory.create(buildRecipeId(recipe.getId()), getInput(ingredient, recipe.getInput()), getRecipeOutput(registry, recipe));
 	}
 
 	@Override
-	public ItemStack getRecipeOutput(T recipe) {
+	public ItemStack getRecipeOutput(@NotNull RegistryAccess registry, T recipe) {
 		return tweakOutput(recipe.getOutput(ItemStack.EMPTY));
 	}
 

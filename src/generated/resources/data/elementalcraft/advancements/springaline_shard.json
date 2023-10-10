@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_springaline_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:springaline_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_springaline_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

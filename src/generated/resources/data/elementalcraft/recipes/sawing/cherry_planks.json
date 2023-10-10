@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:sawing",
+  "element_amount": 1000,
+  "input": {
+    "tag": "elementalcraft:stripped_cherry"
+  },
+  "luck_ratio": 3,
+  "output": {
+    "count": 6,
+    "item": "minecraft:cherry_planks"
+  }
+}
