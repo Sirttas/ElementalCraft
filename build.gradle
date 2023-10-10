@@ -85,7 +85,17 @@ minecraft {
     runs {
         client { setupRunConfig((RunConfig) it, 'run') }
         server { setupRunConfig((RunConfig) it, 'run-server') }
-        gameTestServer { setupRunConfig((RunConfig) it, 'test-server') }
+        gameTestServer {
+            setupRunConfig((RunConfig) it, 'test-server')
+
+            // Force evaluation token before groovy tries to serialize the task
+            project.afterEvaluate {
+                def minecraft_classpath = getLazyTokens().get("minecraft_classpath").get().toString()
+
+                token("minecraft_classpath", minecraft_classpath)
+                lazyTokens.remove("minecraft_classpath")
+            }
+        }
         data {
             setupRunConfig((RunConfig) it, 'run', false)
 
@@ -99,7 +109,7 @@ minecraft {
 }
 
 def setupRunConfig(RunConfig runConfig, String directory, boolean supportsGameTests = true) {
-    runConfig.workingDirectory project.file(directory)
+    runConfig.workingDirectory(file(directory))
 
     runConfig.property 'forge.logging.markers', 'REGISTRIES'
     runConfig.property 'forge.logging.console.level', 'debug'
@@ -113,16 +123,14 @@ def setupRunConfig(RunConfig runConfig, String directory, boolean supportsGameTe
         if (supportsGameTests) {
             source((SourceSet) sourceSets.test)
         }
-        source((SourceSet) sourceSets.main)
-        source((SourceSet) sourceSets.api)
+        sources((SourceSet[]) [sourceSets.api, sourceSets.main])
     }
 
     def dpAnvil = findProject(':DPAnvil')
 
     if (dpAnvil != null) {
         runConfig.mods.register('dpanvil').configure {
-            source((SourceSet) dpAnvil.sourceSets.api)
-            source((SourceSet) dpAnvil.sourceSets.main)
+            sources((SourceSet[]) [dpAnvil.sourceSets.api, dpAnvil.sourceSets.main])
         }
     }
 }
@@ -373,7 +381,7 @@ if (curseforge_key != null) {
             addRequirement('patchouli')
             addOptional('jei')
             addOptional('curios')
-            addIncompatible('performant')
+            addIncompatibility('performant')
         }
 	})
 }
