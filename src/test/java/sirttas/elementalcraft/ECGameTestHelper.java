@@ -7,9 +7,12 @@ import net.minecraft.gametest.framework.GameTestBatch;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -68,5 +71,9 @@ public class ECGameTestHelper {
         var useOnContext = new UseOnContext(player, hand, result);
 
         stack.useOn(useOnContext);
+    }
+
+    public static void discardItems(GameTestHelper helper, BlockPos pos, int expansionAmount) {
+        helper.getLevel().getEntities(EntityType.ITEM, new AABB(helper.absolutePos(pos)).inflate(expansionAmount), Entity::isAlive).forEach(e -> e.remove(Entity.RemovalReason.DISCARDED));
     }
 }

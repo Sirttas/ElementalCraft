@@ -4,7 +4,7 @@
   "icon": "elementalcraft:air_mill_grindstone",
   "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/air_mill_grindstone",
-  "sortnum": 5,
+  "sortnum": 13,
   "pages": [
     {
       "type": "text",

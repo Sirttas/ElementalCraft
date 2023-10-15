@@ -2,9 +2,9 @@
   "name": "block.elementalcraft.firefurnace",
   "category": "elementalcraft:instruments",
   "icon": "elementalcraft:firefurnace",
-  "advancement": "elementalcraft:pickup/container",
+  "advancement": "elementalcraft:pickup/whiterock",
   "turnin": "elementalcraft:pickup/firefurnace",
-  "sortnum": 11,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",

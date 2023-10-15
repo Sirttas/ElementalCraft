@@ -1,42 +1,17 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
-	"render_type": "minecraft:cutout",
 	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "elementalcraft:block/air_mill_grindstone",
+		"0": "elementalcraft:block/mill_grindstone",
 		"1": "elementalcraft:block/iron",
-		"2": "elementalcraft:block/air_mill_grindstone_blades",
-		"particle": "elementalcraft:block/air_mill_grindstone_blades"
+		"2": "elementalcraft:block/air_mill_blades",
+		"particle": "elementalcraft:block/air_mill_blades"
 	},
 	"elements": [
 		{
-			"from": [7, 12, 7],
-			"to": [9, 28, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [15, 4, 15]},
-			"faces": {
-				"north": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"east": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"south": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"west": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"up": {"uv": [0, 0, 2, 2], "texture": "#1"},
-				"down": {"uv": [0, 0, 2, 2], "texture": "#1"}
-			}
-		},
-		{
-			"from": [7, 0, 7],
-			"to": [9, 16, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
-			"faces": {
-				"north": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"east": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"south": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"west": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"up": {"uv": [0, 0, 2, 2], "texture": "#1"},
-				"down": {"uv": [0, 0, 2, 2], "texture": "#1"}
-			}
-		},
-		{
+			"name": "grindstone",
 			"from": [4, 1, 4],
 			"to": [12, 4, 12],
 			"rotation": {"angle": 0, "axis": "y", "origin": [12, 9, 12]},
@@ -108,18 +83,53 @@
 			"faces": {
 				"west": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
+		},
+		{
+			"from": [7, 0, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"faces": {
+				"north": {"uv": [5, 0, 7, 16], "texture": "#1"},
+				"east": {"uv": [7, 0, 9, 16], "texture": "#1"},
+				"south": {"uv": [9, 0, 11, 16], "texture": "#1"},
+				"west": {"uv": [11, 0, 13, 16], "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
+			}
+		},
+		{
+			"from": [7, 16, 7],
+			"to": [9, 28, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"faces": {
+				"north": {"uv": [5, 4, 7, 16], "texture": "#1"},
+				"east": {"uv": [7, 4, 9, 16], "texture": "#1"},
+				"south": {"uv": [9, 4, 11, 16], "texture": "#1"},
+				"west": {"uv": [11, 4, 13, 16], "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
+			}
 		}
 	],
-	"groups": [0, 1, 2,
+	"groups": [
+		0,
 		{
 			"name": "blades",
 			"origin": [15, 38, 14],
-			"children": [3, 4, 5, 6]
+			"color": 0,
+			"children": [1, 2, 3, 4]
 		},
 		{
 			"name": "blades_revers",
 			"origin": [15, 38, 14],
-			"children": [7, 8, 9, 10]
+			"color": 0,
+			"children": [5, 6, 7, 8]
+		},
+		{
+			"name": "shaft",
+			"origin": [15, -8, 15],
+			"color": 0,
+			"children": [9, 10]
 		}
 	]
 }

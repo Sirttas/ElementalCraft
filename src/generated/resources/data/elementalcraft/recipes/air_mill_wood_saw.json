@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    },
+    "h": {
+      "tag": "forge:rods/hardened"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "p": {
+      "tag": "minecraft:wool_carpets"
+    },
+    "s": {
+      "item": "minecraft:grindstone"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "php",
+    "isi",
+    "wcw"
+  ],
+  "result": {
+    "item": "elementalcraft:air_mill_wood_saw"
+  },
+  "show_notification": true
+}

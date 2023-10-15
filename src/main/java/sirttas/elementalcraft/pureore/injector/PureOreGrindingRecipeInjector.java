@@ -4,7 +4,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
-import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
@@ -12,7 +12,7 @@ import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 import javax.annotation.Nonnull;
 
-public class PureOreGrindingRecipeInjector extends AbstractPureOreRecipeInjector<ContainerBlockEntityWrapper<AirMillGrindstoneBlockEntity>, IGrindingRecipe> {
+public class PureOreGrindingRecipeInjector extends AbstractPureOreRecipeInjector<ContainerBlockEntityWrapper<AbstractMillGrindstoneBlockEntity>, IGrindingRecipe> {
 
     protected PureOreGrindingRecipeInjector() {
         super(ECRecipeTypes.GRINDING.get(), true);

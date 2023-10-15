@@ -18,7 +18,7 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class PurifierGameTests {
 
     // elementalcraft:purifiergametests.ore_purifier
-    @GameTest(template = "ore_purifier")
+    @GameTest(template = "ore_purifier", batch = InstrumentGameTestHelper.BATCH_NAME)
     public static void should_purify(GameTestHelper helper) {
         InstrumentGameTestHelper.<PurifierBlockEntity>runInstrument(helper, new ItemStack(Items.IRON_ORE), ElementType.EARTH, purifier -> {
             assertThat(purifier.getInventory().getItem(0)).isEmpty();
@@ -30,7 +30,7 @@ public class PurifierGameTests {
     }
 
     // elementalcraft:purifiergametests.ore_purifier
-    @GameTest(template = "ore_purifier")
+    @GameTest(template = "ore_purifier", batch = InstrumentGameTestHelper.BATCH_NAME)
     public static void shouldNot_purify_with_wrongElement(GameTestHelper helper) {
         InstrumentGameTestHelper.<PurifierBlockEntity>runInstrument(helper, new ItemStack(Items.IRON_ORE), ElementType.WATER, false, purifier -> {
             assertThat(purifier.getInventory().getItem(0))

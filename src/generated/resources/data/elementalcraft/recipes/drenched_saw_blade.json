@@ -2,19 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "elementalcraft:air_silk"
-    },
     "i": {
       "tag": "forge:ingots/drenched_iron"
     },
     "n": {
       "tag": "forge:nuggets/drenched_iron"
+    },
+    "r": {
+      "tag": "forge:ingots/iron"
     }
   },
   "pattern": [
     "nin",
-    "iai",
+    "iri",
     "nin"
   ],
   "result": {

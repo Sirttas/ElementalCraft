@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "g": {
+      "item": "minecraft:grindstone"
+    },
+    "i": {
+      "tag": "forge:ingots/drenched_iron"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "www",
+    "igi",
+    "wcw"
+  ],
+  "result": {
+    "item": "elementalcraft:water_mill_grindstone"
+  },
+  "show_notification": true
+}

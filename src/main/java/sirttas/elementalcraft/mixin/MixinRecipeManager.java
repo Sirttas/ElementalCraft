@@ -9,6 +9,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -33,6 +34,7 @@ public abstract class MixinRecipeManager extends SimpleJsonResourceReloadListene
         reloadCrystallizerRecipes();
     }
 
+    @Unique
     private void reloadCrystallizerRecipes() {
         CrystallizerContainer.reload((RecipeManager) (Object) this);
     }

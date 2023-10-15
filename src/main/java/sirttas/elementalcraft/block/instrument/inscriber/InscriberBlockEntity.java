@@ -19,7 +19,9 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 			ECBlockEntityTypes.INSCRIBER,
 			ECRecipeTypes.INSCRIPTION,
 			ECConfig.COMMON.inscriberTransferSpeed,
-			ECConfig.COMMON.inscriberMaxRunes
+			ECConfig.COMMON.inscriberMaxRunes,
+			0,
+			true
 	);
 
 	private final InstrumentContainer inventory;
@@ -33,12 +35,6 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 
 	public int getItemCount() {
 		return inventory.getItemCount();
-	}
-
-	@Override
-	protected void assemble() {
-		clearContent();
-		super.assemble();
 	}
 	
 	@Nonnull

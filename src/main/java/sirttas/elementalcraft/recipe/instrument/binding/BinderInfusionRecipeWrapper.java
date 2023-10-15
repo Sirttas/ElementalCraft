@@ -31,7 +31,7 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	}
 	
 	@Override
-	public ItemStack assemble(@NotNull IBinder instrument, @Nonnull RegistryAccess registry) {
+	public @NotNull ItemStack assemble(@NotNull IBinder instrument, @Nonnull RegistryAccess registry) {
 		if (instrument instanceof IInfuser infuser) {
 			return recipe.assemble(infuser, registry);
 		}

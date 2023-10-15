@@ -22,7 +22,9 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 			ECBlockEntityTypes.CRYSTALLIZER,
 			ECRecipeTypes.CRYSTALLIZATION,
 			ECConfig.COMMON.crystallizerTransferSpeed,
-			ECConfig.COMMON.crystallizerMaxRunes
+			ECConfig.COMMON.crystallizerMaxRunes,
+			0,
+			true
 	);
 
 	private final InstrumentContainer inventory;

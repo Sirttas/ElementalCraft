@@ -8,8 +8,11 @@
     "g": {
       "item": "minecraft:grindstone"
     },
+    "h": {
+      "tag": "forge:rods/hardened"
+    },
     "i": {
-      "tag": "forge:ingots/drenched_iron"
+      "tag": "forge:ingots/swift_alloy"
     },
     "p": {
       "tag": "minecraft:wool_carpets"
@@ -19,7 +22,7 @@
     }
   },
   "pattern": [
-    "pip",
+    "php",
     "igi",
     "wcw"
   ],

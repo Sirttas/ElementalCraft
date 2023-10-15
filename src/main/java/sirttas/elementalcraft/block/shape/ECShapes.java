@@ -52,7 +52,6 @@ public class ECShapes {
 	private static final VoxelShape BONELESS_GROWTH_PIPE_5 = Block.box(10D, -1D, 7D, 12D, 3D, 9D);
 	public static final VoxelShape BONELESS_GROWTH = Shapes.or(BONELESS_GROWTH_BASE_1, BONELESS_GROWTH_BASE_2, BONELESS_GROWTH_PIPE_1, BONELESS_GROWTH_PIPE_2, BONELESS_GROWTH_PIPE_3, BONELESS_GROWTH_PIPE_4, BONELESS_GROWTH_PIPE_5);
 
-
 	private ECShapes() {}
 	
 	public static VoxelShape sourceShape(Direction direction) {

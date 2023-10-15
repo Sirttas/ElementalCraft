@@ -18,7 +18,9 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 			ECBlockEntityTypes.INFUSER,
 			ECRecipeTypes.INFUSION,
 			ECConfig.COMMON.infuserTransferSpeed,
-			ECConfig.COMMON.infuserMaxRunes
+			ECConfig.COMMON.infuserMaxRunes,
+			0,
+			true
 	);
 
 	private final SingleItemContainer inventory;

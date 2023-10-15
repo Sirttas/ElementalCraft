@@ -1,0 +1,52 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"1": "elementalcraft:block/iron",
+		"2": "elementalcraft:block/drenched_saw_blade",
+		"particle": "elementalcraft:block/drenched_saw_blade"
+	},
+	"elements": [
+		{
+			"name": "blade",
+			"from": [0, 2, 0],
+			"to": [16, 3, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "blade",
+			"from": [0, 3, 0],
+			"to": [16, 4, 16],
+			"faces": {
+				"down": {"uv": [0, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "shaft",
+			"from": [7, 0, 7],
+			"to": [9, 6, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"faces": {
+				"north": {"uv": [5, 10, 7, 16], "texture": "#1"},
+				"east": {"uv": [7, 10, 9, 16], "texture": "#1"},
+				"south": {"uv": [9, 10, 11, 16], "texture": "#1"},
+				"west": {"uv": [11, 10, 13, 16], "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "blade",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1]
+		},
+		2
+	]
+}

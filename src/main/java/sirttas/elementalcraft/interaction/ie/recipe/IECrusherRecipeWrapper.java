@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 import javax.annotation.Nonnull;
@@ -60,7 +60,7 @@ public class IECrusherRecipeWrapper implements IGrindingRecipe {
 
     @Nonnull
     @Override
-    public ItemStack assemble(@Nonnull AirMillGrindstoneBlockEntity instrument, @NotNull RegistryAccess registryAccess) {
+    public @NotNull ItemStack assemble(@Nonnull AbstractMillGrindstoneBlockEntity instrument, @NotNull RegistryAccess registryAccess) {
         var luck = instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK);
         var result = IGrindingRecipe.super.assemble(instrument, registryAccess);
         var level = instrument.getLevel();

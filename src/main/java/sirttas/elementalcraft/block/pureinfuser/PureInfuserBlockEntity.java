@@ -32,7 +32,9 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 			ECBlockEntityTypes.PURE_INFUSER,
 			ECRecipeTypes.PURE_INFUSION,
 			ECConfig.COMMON.pureInfuserTransferSpeed,
-			ECConfig.COMMON.pureInfuserMaxRunes
+			ECConfig.COMMON.pureInfuserMaxRunes,
+			0,
+			true
 	);
 
 	private final SingleItemContainer inventory;
@@ -118,10 +120,6 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		return pedestalWrappers.get(direction).getElementType();
 	}
 
-	public void emptyPedestals() {
-		pedestalWrappers.values().forEach(w -> w.setPedestalInventory(ItemStack.EMPTY));
-	}
-
 	private void makeProgress(Direction direction, PedestalWrapper wrapper) {
 		if (wrapper.isRemoved()) {
 			return;
@@ -156,7 +154,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	@Override
 	public void assemble() {
 		inventory.setItem(0, recipe.assemble(this, level.registryAccess()));
-		emptyPedestals();
+		pedestalWrappers.values().forEach(w -> w.setPedestalInventory(w.pedestal.getItem().getCraftingRemainingItem()));
 	}
 
 	private float getTransferSpeed(PedestalBlockEntity pedestal) {

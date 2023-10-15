@@ -1,23 +1,42 @@
-package sirttas.elementalcraft.block.instrument.io.mill.woodsaw;
+package sirttas.elementalcraft.block.instrument.io.mill;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class WaterMillWoodSawRenderer implements BlockEntityRenderer<WaterMillWoodSawBlockEntity> {
+public class MillRenderer<T extends AbstractMillBlockEntity<?, ?>> implements BlockEntityRenderer<T> {
+
+	public static final ResourceLocation WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraft.createRL("block/water_mill_grindstone_shaft");
+	public static final ResourceLocation AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraft.createRL("block/air_mill_grindstone_shaft");
+	public static final ResourceLocation WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraft.createRL("block/water_mill_wood_saw_shaft");
+	public static final ResourceLocation AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraft.createRL("block/air_mill_wood_saw_shaft");
+
+	private final ResourceLocation modelLocation;
+	private BakedModel model;
+
+	public MillRenderer(ResourceLocation modelLocation) {
+		this.modelLocation = modelLocation;
+	}
 
 	@Override
-	public void render(@Nonnull WaterMillWoodSawBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	public void render(@Nonnull T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+		if (model == null && modelLocation != null) {
+			model = Minecraft.getInstance().getModelManager().getModel(modelLocation);
+		}
 		Container inv = te.getInventory();
 		ItemStack stack = inv.getItem(0);
 		ItemStack stack2 = inv.getItem(1);
@@ -31,10 +50,11 @@ public class WaterMillWoodSawRenderer implements BlockEntityRenderer<WaterMillWo
 			matrixStack.mulPose(Axis.YP.rotationDegrees(-5 * tick));
 			matrixStack.translate(-0.5, 0, -0.5);
 		}
+		ECRendererHelper.renderModel(model, matrixStack, buffer, te, light, overlay);
 		matrixStack.popPose();
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
 			matrixStack.translate(0.5, 0.3, 0.5);
-			matrixStack.mulPose(ECRendererHelper.getRotation(te.getBlockState().getValue(WaterMillWoodSawBlock.FACING)));
+			matrixStack.mulPose(ECRendererHelper.getRotation(te.getBlockState().getValue(AbstractMillBlock.FACING)));
 			matrixStack.translate(0, 0, -3 / 8D);
 			if (!stack.isEmpty()) {
 				matrixStack.pushPose();

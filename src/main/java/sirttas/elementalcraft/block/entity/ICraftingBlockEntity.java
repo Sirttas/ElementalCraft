@@ -21,11 +21,11 @@ public interface ICraftingBlockEntity extends IContainerBlockEntity {
 			return null;
 		}
 
-		return level.getRecipeManager().getRecipeFor(recipeType, ContainerBlockEntityWrapper.from(cast()), level).orElse(null);
+		return level.getRecipeManager().getRecipeFor(recipeType, getContainerWrapper(), level).orElse(null);
 	}
 
 	@SuppressWarnings("unchecked")
-	default <C extends ICraftingBlockEntity> C cast() {
-		return (C) this;
+	default <C extends ICraftingBlockEntity> ContainerBlockEntityWrapper<C> getContainerWrapper() {
+		return ContainerBlockEntityWrapper.from((C) this);
 	}
 }

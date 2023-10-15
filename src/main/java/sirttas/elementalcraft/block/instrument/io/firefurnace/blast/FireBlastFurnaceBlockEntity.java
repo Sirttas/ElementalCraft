@@ -15,7 +15,9 @@ public class FireBlastFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<
 			ECBlockEntityTypes.FIRE_BLAST_FURNACE,
 			null,
 			ECConfig.COMMON.fireBlastFurnaceTransferSpeed,
-			ECConfig.COMMON.fireBlastFurnaceMaxRunes
+			ECConfig.COMMON.fireBlastFurnaceMaxRunes,
+			1,
+			false
 	);
 
 	public FireBlastFurnaceBlockEntity(BlockPos pos, BlockState state) {

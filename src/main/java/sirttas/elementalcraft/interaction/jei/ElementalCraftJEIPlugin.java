@@ -168,8 +168,10 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.EARTH_PEDESTAL.get()), ECJEIRecipeTypes.PURE_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_PEDESTAL.get()), ECJEIRecipeTypes.PURE_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.PURIFIER.get()), ECJEIRecipeTypes.PURIFICATION);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_MILL_GRINDSTONE.get()), ECJEIRecipeTypes.GRINDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()), ECJEIRecipeTypes.GRINDING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_MILL_WOOD_SAW.get()), ECJEIRecipeTypes.SAWING);
+		registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_WOOD_SAW.get()), ECJEIRecipeTypes.SAWING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SPELL_DESK.get()), ECJEIRecipeTypes.SPELL_CRAFTING);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE.get()), ECJEIRecipeTypes.DISPLACEMENT);

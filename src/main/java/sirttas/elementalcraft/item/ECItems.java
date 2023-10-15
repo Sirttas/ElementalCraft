@@ -32,6 +32,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationSh
 import sirttas.elementalcraft.item.chisel.ChiselItem;
 import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
+import sirttas.elementalcraft.item.elemental.FireFuelItem;
 import sirttas.elementalcraft.item.elemental.LensItem;
 import sirttas.elementalcraft.item.elemental.ShardItem;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
@@ -80,6 +81,7 @@ public class ECItems {
 	public static final RegistryObject<PureOreItem> PURE_ORE = register(PureOreItem::new, PureOreItem.NAME);
 	public static final RegistryObject<RuneItem> RUNE = register(RuneItem::new, RuneItem.NAME);
 	public static final RegistryObject<ChiselItem> CHISEL = register(ChiselItem::new, ChiselItem.NAME);
+	public static final RegistryObject<FireFuelItem> ELEMENTAL_FIREFUEL = register(FireFuelItem::new, FireFuelItem.NAME);
 	public static final RegistryObject<CoverFrameItem> COVER_FRAME = register(CoverFrameItem::new, CoverFrameItem.NAME);
 	public static final RegistryObject<PipeUpgradeItem> ELEMENT_PUMP = register(PipeUpgradeTypes.ELEMENT_PUMP);
 	public static final RegistryObject<PipeUpgradeItem> PIPE_PRIORITY_RINGS = register(PipeUpgradeTypes.PIPE_PRIORITY_RINGS);

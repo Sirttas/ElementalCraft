@@ -176,9 +176,9 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECItems.DRENCHED_SAW_BLADE.get())
 				.define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
 				.define('n', ECTags.Items.NUGGETS_DRENCHED_IRON)
-				.define('a', ECItems.AIR_SILK.get())
+				.define('r', Tags.Items.INGOTS_IRON)
 				.pattern("nin")
-				.pattern("iai")
+				.pattern("iri")
 				.pattern("nin")
 				.unlockedBy(HAS_DRENCHED_IRON_INGOT, has(ECTags.Items.INGOTS_DRENCHED_IRON))
 				.save(consumer);
@@ -321,6 +321,14 @@ public class ECRecipeProvider extends RecipeProvider {
 				.setIngredient(ElementType.EARTH, ECBlocks.WHITE_ROCK.get())
 				.setIngredient(ElementType.AIR, Items.PURPUR_BLOCK)
 				.save(consumer);
+
+		BindingRecipeBuilder.bindingRecipe(ECItems.ELEMENTAL_FIREFUEL.get(), ElementType.FIRE)
+				.addIngredient(ECItems.FIRE_CRYSTAL.get())
+				.addIngredient(ItemTags.COALS)
+				.addIngredient(Tags.Items.RODS_BLAZE)
+				.addIngredient(Items.LAVA_BUCKET)
+				.withElementAmount(20000)
+				.save(consumer);
 	}
 
 	private void registerInstruments(@Nonnull Consumer<FinishedRecipe> consumer) {
@@ -397,11 +405,19 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("i i")
 				.pattern("wcw")
 				.save(consumer);
-		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_GRINDSTONE.get(), ECItems.AIR_CRYSTAL.get())
+		prepareWhiterockInstrumentRecipe(ECBlocks.WATER_MILL_GRINDSTONE.get(), ECItems.WATER_CRYSTAL.get())
 				.define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
+				.define('g', Items.GRINDSTONE)
+				.pattern("www")
+				.pattern("igi")
+				.pattern("wcw")
+				.save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_GRINDSTONE.get(), ECItems.AIR_CRYSTAL.get())
+				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.define('h', ECTags.Items.HARDENED_RODS)
 				.define('p', ItemTags.WOOL_CARPETS)
 				.define('g', Items.GRINDSTONE)
-				.pattern("pip")
+				.pattern("php")
 				.pattern("igi")
 				.pattern("wcw")
 				.save(consumer);
@@ -409,6 +425,15 @@ public class ECRecipeProvider extends RecipeProvider {
 				.define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
 				.define('s', ECItems.DRENCHED_SAW_BLADE.get())
 				.pattern("www")
+				.pattern("isi")
+				.pattern("wcw")
+				.save(consumer);
+		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_WOOD_SAW.get(), ECItems.AIR_CRYSTAL.get())
+				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.define('h', ECTags.Items.HARDENED_RODS)
+				.define('p', ItemTags.WOOL_CARPETS)
+				.define('s', Items.GRINDSTONE)
+				.pattern("php")
 				.pattern("isi")
 				.pattern("wcw")
 				.save(consumer);
@@ -2153,7 +2178,7 @@ public class ECRecipeProvider extends RecipeProvider {
 			public ResourceLocation getId() {
 				var oldId = recipe.getId();
 
-				return new ResourceLocation(oldId.getNamespace(), oldId.getPath()+ nameSuffix);
+				return new ResourceLocation(oldId.getNamespace(), oldId.getPath() + nameSuffix);
 			}
 
 			@Nonnull

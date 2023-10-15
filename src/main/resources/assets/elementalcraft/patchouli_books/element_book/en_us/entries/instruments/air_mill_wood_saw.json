@@ -1,0 +1,31 @@
+{
+  "name": "block.elementalcraft.air_mill_wood_saw",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:air_mill_wood_saw",
+  "advancement": "elementalcraft:pickup/container",
+  "turnin": "elementalcraft:pickup/air_mill_wood_saw",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.air_mill_wood_saw0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:air_mill_wood_saw"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "I": "elementalcraft:air_mill_wood_saw",
+          "0": "elementalcraft:container"
+        },
+        "pattern": [
+          ["I"],
+          ["0"]
+        ]
+      }
+    }
+  ]
+}

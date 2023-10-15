@@ -12,7 +12,6 @@ public abstract class AbstractIOInstrumentBlockEntity<T extends IInstrument, R e
 
 	protected AbstractIOInstrumentBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
 		super(config, pos, state);
-		outputSlot = 1;
 	}
 
 	@SuppressWarnings("unchecked")

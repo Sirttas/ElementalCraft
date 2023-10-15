@@ -5,6 +5,7 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.gametest.GameTestHolder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
@@ -49,6 +50,7 @@ public class LumberShrineGameTests {
         }).thenExecuteAfter(1, () -> {
             POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.AIR), () -> "Block has not been cut"));
             helper.assertItemEntityCountIs(Blocks.OAK_LOG.asItem(), new BlockPos(3, 2, 3), 3, POSES.size());
-        }).thenSucceed();
+        }).thenExecute(() -> ECGameTestHelper.discardItems(helper, new BlockPos(3, 2, 3), 3))
+        .thenSucceed();
     }
 }

@@ -3,6 +3,7 @@ package sirttas.elementalcraft.item.elemental;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -13,7 +14,6 @@ import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,7 +28,9 @@ public class LensItem extends ElementalItem {
 	public static final String NAME_AIR = "air_" + NAME;
 
 	public LensItem(ElementType elementType) {
-		super(ECProperties.Items.LENSE, elementType);
+		super(new Item.Properties()
+				.stacksTo(1)
+				.durability(1500), elementType);
 	}
 	
 	@Override

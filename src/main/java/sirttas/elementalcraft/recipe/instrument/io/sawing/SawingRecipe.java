@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.WaterMillWoodSawBlockEntity;
+import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.AbstractMillWoodSawBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.RecipeHelper;
@@ -30,7 +30,7 @@ public record SawingRecipe(
 		ItemStack output,
 		int elementAmount,
 		int luckRation
-) implements IIOInstrumentRecipe<WaterMillWoodSawBlockEntity> {
+) implements IIOInstrumentRecipe<AbstractMillWoodSawBlockEntity> {
 
 	public static final String NAME = "sawing";
 
@@ -69,13 +69,13 @@ public record SawingRecipe(
 	}
 
 	@Override
-	public int getLuck(WaterMillWoodSawBlockEntity instrument) {
+	public int getLuck(AbstractMillWoodSawBlockEntity instrument) {
 		return Math.round(instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK) * luckRation);
 	}
 
 	@Override
 	public List<ElementType> getValidElementTypes() {
-		return List.of(ElementType.WATER);
+		return List.of(ElementType.WATER, ElementType.AIR);
 	}
 
 	@Nonnull
@@ -85,7 +85,7 @@ public record SawingRecipe(
 	}
 
 	@Override
-	public RandomSource getRand(WaterMillWoodSawBlockEntity instrument) {
+	public RandomSource getRand(AbstractMillWoodSawBlockEntity instrument) {
 		return instrument.getLevel().getRandom();
 	}
 

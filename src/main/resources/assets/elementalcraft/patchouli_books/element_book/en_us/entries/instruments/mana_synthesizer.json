@@ -4,7 +4,7 @@
   "icon": "elementalcraft:mana_synthesizer",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/mana_synthesizer",
-  "sortnum": 8,
+  "sortnum": 11,
   "pages": [
     {
       "type": "text",

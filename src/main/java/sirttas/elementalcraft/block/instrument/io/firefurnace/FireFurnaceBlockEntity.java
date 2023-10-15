@@ -14,7 +14,9 @@ public class FireFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<Smelt
 			ECBlockEntityTypes.FIRE_FURNACE,
 			null,
 			ECConfig.COMMON.fireFurnaceTransferSpeed,
-			ECConfig.COMMON.fireFurnaceMaxRunes
+			ECConfig.COMMON.fireFurnaceMaxRunes,
+			1,
+			false
 	);
 
 	public FireFurnaceBlockEntity(BlockPos pos, BlockState state) {

@@ -1,0 +1,22 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 20000,
+  "element_type": "fire",
+  "ingredients": [
+    {
+      "item": "elementalcraft:firecrystal"
+    },
+    {
+      "tag": "minecraft:coals"
+    },
+    {
+      "tag": "forge:rods/blaze"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    }
+  ],
+  "output": {
+    "item": "elementalcraft:elemental_firefuel"
+  }
+}

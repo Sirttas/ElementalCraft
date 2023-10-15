@@ -2,8 +2,10 @@
   "values": [
     "elementalcraft:crystallizer",
     "elementalcraft:purifier",
+    "elementalcraft:water_mill_grindstone",
     "elementalcraft:air_mill_grindstone",
     "elementalcraft:water_mill_wood_saw",
+    "elementalcraft:air_mill_wood_saw",
     "elementalcraft:source_breeder"
   ]
 }

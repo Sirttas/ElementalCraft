@@ -5,7 +5,6 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
@@ -23,10 +22,10 @@ public class InfuserGameTests {
     @GameTestGenerator
     public static Collection<TestFunction> should_craftCrystal() {
         return List.of(
-                ECGameTestHelper.createTestFunction("should_craftFireCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.FIRE)),
-                ECGameTestHelper.createTestFunction("should_craftWaterCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.WATER)),
-                ECGameTestHelper.createTestFunction("should_craftEarthCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.EARTH)),
-                ECGameTestHelper.createTestFunction("should_craftAirCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.AIR))
+                InstrumentGameTestHelper.createTestFunction("should_craftFireCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.FIRE)),
+                InstrumentGameTestHelper.createTestFunction("should_craftWaterCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.WATER)),
+                InstrumentGameTestHelper.createTestFunction("should_craftEarthCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.EARTH)),
+                InstrumentGameTestHelper.createTestFunction("should_craftAirCrystal", "elementalcraft:infusergametests.infuser", h -> should_craftCrystal(h, ElementType.AIR))
         );
     }
 

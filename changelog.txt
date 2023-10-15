@@ -1,3 +1,14 @@
+1.20.1-6.0.1:
+
+- new item: elemental firefuel
+- new instrument: water mill grindstone
+- new instrument: air mill wood saw
+- made the drenched saw blade easier to craft
+- instrument crafting now kep remaining items like buckets
+- fix IE hemp not working correctly with harvest shrine
+- fix elementopedia in creative tab and JEI
+
+
 1.20.1-6.0.0:
 
 - initial port to 1.20.1

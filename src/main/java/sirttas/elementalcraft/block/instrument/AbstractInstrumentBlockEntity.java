@@ -11,7 +11,6 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
-import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
@@ -44,7 +43,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 			instrument.makeProgress();
 		}
 		if (instrument.shouldRetrieverExtractOutput()) {
-			RetrieverBlock.sendOutputToRetriever(level, instrument.worldPosition, instrument.getInventory(), instrument.outputSlot);
+			instrument.retrieve();
 		}
 		if (instrument.locked) {
 			instrument.updateLock();
@@ -115,11 +114,17 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return ElementType.NONE;
 	}
 
-	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void assemble() {
-		getInventory().setItem(0, recipe.assemble((T) this, level.registryAccess()));
+		var inv = getInventory();
+		var remainingItems = recipe.getRemainingItems(getContainerWrapper());
+
+		inv.setItem(outputSlot, recipe.assemble(getContainerWrapper(), level.registryAccess()));
+		for (int i = 0; i < inv.getContainerSize(); i++) {
+			if (i != outputSlot) {
+				inv.setItem(i, remainingItems.get(i));
+			}
+		}
 	}
 
 	@Override

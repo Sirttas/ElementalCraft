@@ -4,7 +4,7 @@
   "icon": "elementalcraft:inscriber",
   "advancement": "elementalcraft:pickup/crystallizer",
   "turnin": "elementalcraft:pickup/inscriber",
-  "sortnum": 10,
+  "sortnum": 16,
   "pages": [
     {
       "type": "text",

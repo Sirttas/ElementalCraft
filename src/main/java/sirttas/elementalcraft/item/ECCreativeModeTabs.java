@@ -52,8 +52,10 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.BINDER_IMPROVED.get());
                 o.accept(ECBlocks.CRYSTALLIZER.get());
                 o.accept(ECBlocks.INSCRIBER.get());
+                o.accept(ECBlocks.WATER_MILL_GRINDSTONE.get());
                 o.accept(ECBlocks.AIR_MILL_GRINDSTONE.get());
                 o.accept(ECBlocks.WATER_MILL_WOOD_SAW.get());
+                o.accept(ECBlocks.AIR_MILL_WOOD_SAW.get());
                 o.accept(ECBlocks.FIRE_PEDESTAL.get());
                 o.accept(ECBlocks.WATER_PEDESTAL.get());
                 o.accept(ECBlocks.EARTH_PEDESTAL.get());
@@ -163,7 +165,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.PURE_ROCK_STAIRS.get());
                 o.accept(ECBlocks.PURE_ROCK_WALL.get());
 
-                o.accept(ECItems.ELEMENTOPEDIA.get());
+                generateElementopedia(o);
                 o.accept(ECItems.FOCUS.get());
                 o.accept(ECItems.STAFF.get());
                 generateSpells(o);
@@ -178,6 +180,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.PURE_HOLDER_CORE.get());
                 generatePureElementHolder(o);
                 o.accept(ECItems.CHISEL.get());
+                o.accept(ECItems.ELEMENTAL_FIREFUEL.get());
                 generatePureOres(o);
                 o.accept(ECItems.INERT_CRYSTAL.get());
                 o.accept(ECBlocks.INERT_CRYSTAL_BLOCK.get());
@@ -248,6 +251,13 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.UNSET_JEWEL.get());
                 generateJewels(o);
             }).build());
+
+    private static void generateElementopedia(@Nonnull CreativeModeTab.Output output) {
+        var book = new ItemStack(ECItems.ELEMENTOPEDIA.get());
+
+        book.getOrCreateTag().putString("patchouli:book", "elementalcraft:element_book");
+        output.accept(book);
+    }
 
     private static void generateElementContainer(@Nonnull CreativeModeTab.Output output, @Nonnull Supplier<? extends AbstractElementContainerBlock> supplier) {
         var block = supplier.get();

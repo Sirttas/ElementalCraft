@@ -26,7 +26,8 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
-import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AirMillGrindstoneBlock;
+import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
+import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
@@ -132,10 +133,12 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			getMultipartBuilder(block).part().modelFile(base).addModel().end()
 				.part().modelFile(amethyst).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.AMETHYST).end()
 				.part().modelFile(springaline).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.SPRINGALINE).end();
-		} else if (block instanceof AirMillGrindstoneBlock) {
+		} else if (block instanceof AbstractAirMillBlock) {
 			getVariantBuilder(block)
-				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(models().getBuilder("air_mill_grindstone_upper").parent(air).texture("particle", prefix("air_mill_grindstone_blades"))))
-				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(models().getExistingFile(prefix(name))));
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(models().getBuilder("air_mill_grindstone_upper").parent(air).texture("particle", prefix("air_mill_blades"))))
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(models().getExistingFile(prefix("air_mill"))));
+		} else if (block instanceof AbstractMillBlock) {
+			horizontalBlock(block, models().getExistingFile(prefix("water_mill")));
 		} else if (block instanceof ReservoirBlock) {
 			ModelFile base = models().getExistingFile(prefix(name));
 			ModelFile top = models().getExistingFile(prefix("reservoir_top"));

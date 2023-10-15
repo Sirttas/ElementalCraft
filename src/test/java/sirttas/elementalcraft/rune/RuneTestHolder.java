@@ -6,9 +6,11 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.level.block.Rotation;
 import sirttas.elementalcraft.ECGameTestHelper;
+import sirttas.elementalcraft.block.instrument.io.mill.MillTestHolder;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 public record RuneTestHolder(
         String template,
@@ -17,17 +19,19 @@ public record RuneTestHolder(
         List<String> runes
 ) {
 
-    public static final List<RuneTestHolder> HOLDERS = List.of(
-            of("chiselgametests.inscriber", "mewtwo"),
-            of("extractor_with_runes", "mewtwo", "tano", "tano"),
-            of("infusergametests.infuser", "creative"),
-            of("airmillgrindstonegametests.air_mill_grindstone", "creative"),
-            of("watermillwoodsawgametests.water_mill_wood_saw", "creative"),
-            of("purifiergametests.ore_purifier", "creative"),
-            of("chiselgametests.sorter_with_rune", new BlockPos(0, 1, 0), "zod"),
-            of("sourcebreedergametests.source_breeder", new BlockPos(0, 1, 2), "creative"),
-            of("pureinfusergametests.pure_infuser", new BlockPos(3, 1, 3), "creative")
-    );
+    public static final List<RuneTestHolder> HOLDERS = Stream.concat(Stream.of(
+                of("chiselgametests.inscriber", "mewtwo"),
+                of("extractor_with_runes", "mewtwo", "tano", "tano"),
+                of("infusergametests.infuser", "creative"),
+                of("purifiergametests.ore_purifier", "creative"),
+                of("chiselgametests.sorter_with_rune", new BlockPos(0, 1, 0), "zod"),
+                of("sourcebreedergametests.source_breeder", new BlockPos(0, 1, 2), "creative"),
+                of("pureinfusergametests.pure_infuser", new BlockPos(3, 1, 3), "creative")
+        ), MillTestHolder.HOLDERS.stream()
+            .map(MillTestHolder::template)
+            .distinct()
+            .map(t -> of(t, "creative"))
+    ).toList();
 
     public static final String BATCH_NAME = "rune";
 

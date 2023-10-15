@@ -40,6 +40,7 @@ public abstract class MixinProjectile extends Entity {
         this.handleHoming();
     }
 
+    @Unique
     private void handleHoming() {
         //noinspection ConstantConditions
         if ((Entity) this instanceof AbstractArrow arrow && arrow.inGround) {
@@ -72,6 +73,7 @@ public abstract class MixinProjectile extends Entity {
         setHomingTo(hit.getLocation());
     }
 
+    @Unique
     private void setHomingTo(Vec3 target) {
         var oldDelta = this.getDeltaMovement();
         var length = oldDelta.length();

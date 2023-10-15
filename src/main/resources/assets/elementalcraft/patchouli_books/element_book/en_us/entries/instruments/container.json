@@ -4,7 +4,8 @@
   "icon": "elementalcraft:container",
   "advancement": "elementalcraft:pickup/whiterock",
   "turnin": "elementalcraft:pickup/container",
-  "sortnum": 4,
+  "priority": true,
+  "sortnum": 7,
   "pages": [
     {
       "type": "text",

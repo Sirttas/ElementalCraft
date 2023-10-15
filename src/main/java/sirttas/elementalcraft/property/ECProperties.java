@@ -57,7 +57,6 @@ public class ECProperties {
 		public static final Item.Properties DEFAULT_ITEM_PROPERTIES = new Item.Properties();
 		public static final Item.Properties ITEM_UNSTACKABLE = new Item.Properties().stacksTo(1);
 		public static final Item.Properties FIREITE = new Item.Properties().fireResistant();
-		public static final Item.Properties LENSE = new Item.Properties().durability(1500);
 		
 		private Items() {}
 	}

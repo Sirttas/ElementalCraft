@@ -21,7 +21,9 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 			ECBlockEntityTypes.PURIFIER,
 			null,
 			ECConfig.COMMON.purifierTransferSpeed,
-			ECConfig.COMMON.purifierMaxRunes
+			ECConfig.COMMON.purifierMaxRunes,
+			1,
+			false
 	);
 
 

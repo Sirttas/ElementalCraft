@@ -13,7 +13,6 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
-import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
 import sirttas.elementalcraft.recipe.IContainerBlockEntityRecipe;
 
 import javax.annotation.Nonnull;
@@ -25,20 +24,23 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 	protected final RecipeType<R> recipeType;
 	protected final int transferSpeed;
 	protected final RuneHandler runeHandler;
+	protected final int outputSlot;
+	protected final boolean retrieveAll;
 
 	protected R recipe;
-	protected int outputSlot = 0;
 	
 	protected AbstractECCraftingBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
 		super(config.blockEntityType(), pos, state);
 		this.recipeType = config.recipeType() != null ? config.recipeType().get() : null;
 		this.transferSpeed = config.transferSpeed().get();
 		this.runeHandler = new RuneHandler(config.maxRunes().get(), this::setChanged);
+		this.outputSlot = config.outputSlot();
+		this.retrieveAll = config.retrieveAll();
 	}
 
 	@Override
 	public boolean isRecipeAvailable() {
-		if (recipe != null && recipe.matches(ContainerBlockEntityWrapper.from(cast()), level)) {
+		if (recipe != null && recipe.matches(getContainerWrapper(), level)) {
 			return true;
 		}
 		if (!this.getInventory().isEmpty()) {
@@ -55,10 +57,20 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 	public void process() {
 		if (!level.isClientSide) {
 			assemble();
-			RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), outputSlot);
+			retrieve();
 		}
 		recipe = null;
 		this.setChanged();
+	}
+
+	protected void retrieve() {
+		if (retrieveAll) {
+			for (int i = 0; i < getInventory().getContainerSize(); i++) {
+				RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), i);
+			}
+		} else {
+			RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), outputSlot);
+		}
 	}
 
 	protected int getProgressRounded(float transferAmount, float progress) {
@@ -103,7 +115,9 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 			Supplier<? extends BlockEntityType<?>> blockEntityType,
 			Supplier<? extends RecipeType<R>> recipeType,
 			Supplier<Integer> transferSpeed,
-			Supplier<Integer> maxRunes
+			Supplier<Integer> maxRunes,
+			int outputSlot,
+			boolean retrieveAll
 	) {}
 
 }

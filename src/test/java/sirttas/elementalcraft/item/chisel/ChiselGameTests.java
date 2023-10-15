@@ -18,6 +18,7 @@ import net.minecraftforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
+import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.RuneGameTestHelper;
@@ -33,7 +34,7 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class ChiselGameTests {
 
     // elementalcraft:chiselgametests.inscriber
-    @GameTest(template = "inscriber")
+    @GameTest(template = "inscriber", batch = InstrumentGameTestHelper.BATCH_NAME)
     public static void should_craftRune(GameTestHelper helper) {
         var pos = helper.absolutePos(new BlockPos(0, 2, 0));
         var itemHandler = ECContainerHelper.getItemHandlerAt(helper.getLevel(), pos);

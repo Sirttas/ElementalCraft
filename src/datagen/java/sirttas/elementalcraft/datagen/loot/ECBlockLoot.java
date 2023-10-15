@@ -72,6 +72,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.SORTER.get(), this::createRuneable);
 		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
 		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createDoubleHalfRuneable);
+		add(ECBlocks.AIR_MILL_WOOD_SAW.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), this::createRuneable);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
@@ -96,7 +97,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 				add(block, this::createSlabItemTable);
 			} else if (block instanceof AbstractPylonShrineBlock<?>) {
 				add(block, ECBlockLoot::createDoubleHalfElementStorage);
-			}else if (block instanceof AbstractShrineBlock) {
+			} else if (block instanceof AbstractShrineBlock) {
 				add(block, ECBlockLoot::createCopyElementStorage);
 			} else if (block instanceof PedestalBlock) {
 				add(block, ECBlockLoot::createIER);

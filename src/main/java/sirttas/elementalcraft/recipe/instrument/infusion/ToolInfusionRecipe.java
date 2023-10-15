@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -54,7 +55,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	}
 	
 	@Override
-	public ItemStack assemble(IInfuser instrument, @Nonnull RegistryAccess registry) {
+	public @NotNull ItemStack assemble(@NotNull IInfuser instrument, @Nonnull RegistryAccess registry) {
 		ItemStack stack = instrument.getItem().copy();
 
 		ToolInfusionHelper.setInfusion(stack, getToolInfusion());

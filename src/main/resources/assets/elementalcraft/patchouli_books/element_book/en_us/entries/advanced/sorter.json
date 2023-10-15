@@ -4,7 +4,7 @@
   "icon": "elementalcraft:sorter",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/sorter",
-  "sortnum": 4,
+  "sortnum": 5,
   "pages": [
     {
       "type": "text",

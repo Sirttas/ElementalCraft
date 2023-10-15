@@ -1,14 +1,14 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
-	"render_type": "minecraft:cutout",
 	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
 	"textures": {
-		"0": "elementalcraft:block/whiterock",
+		"0": "elementalcraft:block/mill_grindstone",
 		"1": "elementalcraft:block/iron",
-		"2": "elementalcraft:block/air_mill_grindstone_blades",
-		"particle": "elementalcraft:block/air_mill_grindstone_blades",
-		"2_0": "elementalcraft:block/air_mill_grindstone"
+		"2": "elementalcraft:block/air_mill_blades",
+		"3": "elementalcraft:block/whiterock",
+		"particle": "elementalcraft:block/whiterock"
 	},
 	"elements": [
 		{
@@ -82,12 +82,12 @@
 			"to": [16, 4, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13, 8]},
 			"faces": {
-				"north": {"uv": [0, 8, 16, 10], "texture": "#0"},
-				"east": {"uv": [0, 8, 16, 10], "texture": "#0"},
-				"south": {"uv": [0, 8, 16, 10], "texture": "#0"},
-				"west": {"uv": [0, 8, 16, 10], "texture": "#0"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#0"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+				"north": {"uv": [0, 8, 16, 10], "texture": "#3"},
+				"east": {"uv": [0, 8, 16, 10], "texture": "#3"},
+				"south": {"uv": [0, 8, 16, 10], "texture": "#3"},
+				"west": {"uv": [0, 8, 16, 10], "texture": "#3"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#3"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#3"}
 			}
 		},
 		{
@@ -96,57 +96,31 @@
 			"to": [16, 12, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 17, 8]},
 			"faces": {
-				"north": {"uv": [0, 4, 16, 6], "texture": "#0"},
-				"east": {"uv": [0, 4, 16, 6], "texture": "#0"},
-				"south": {"uv": [0, 4, 16, 6], "texture": "#0"},
-				"west": {"uv": [0, 4, 16, 6], "texture": "#0"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#0"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+				"north": {"uv": [0, 4, 16, 6], "texture": "#3"},
+				"east": {"uv": [0, 4, 16, 6], "texture": "#3"},
+				"south": {"uv": [0, 4, 16, 6], "texture": "#3"},
+				"west": {"uv": [0, 4, 16, 6], "texture": "#3"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#3"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#3"}
 			}
 		},
 		{
-			"from": [7, 16, 7],
-			"to": [9, 32, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [15, 8, 15]},
-			"faces": {
-				"north": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"east": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"south": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"west": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"up": {"uv": [0, 0, 2, 2], "texture": "#1"},
-				"down": {"uv": [0, 0, 2, 2], "texture": "#1"}
-			}
-		},
-		{
-			"from": [7, 4, 7],
-			"to": [9, 20, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [15, -4, 15]},
-			"faces": {
-				"north": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"east": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"south": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"west": {"uv": [0, 0, 2, 16], "texture": "#1"},
-				"up": {"uv": [0, 0, 2, 2], "texture": "#1"},
-				"down": {"uv": [0, 0, 2, 2], "texture": "#1"}
-			}
-		},
-		{
+			"name": "grindstone",
 			"from": [4, 5, 4],
 			"to": [12, 8, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [12, 13, 12]},
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 9, 12]},
 			"faces": {
-				"north": {"uv": [8, 0, 16, 3], "texture": "#2_0"},
-				"east": {"uv": [8, 0, 16, 3], "texture": "#2_0"},
-				"south": {"uv": [8, 0, 16, 3], "texture": "#2_0"},
-				"west": {"uv": [8, 0, 16, 3], "texture": "#2_0"},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#2_0"},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#2_0"}
+				"north": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"east": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"south": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"west": {"uv": [8, 0, 16, 3], "texture": "#0"},
+				"up": {"uv": [0, 0, 8, 8], "texture": "#0"},
+				"down": {"uv": [0, 0, 8, 8], "texture": "#0"}
 			}
 		},
 		{
 			"from": [9, 15, 8],
 			"to": [14, 31, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 12, 8]},
 			"faces": {
 				"south": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
@@ -154,7 +128,6 @@
 		{
 			"from": [2, 15, 7],
 			"to": [7, 31, 8],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 12, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
@@ -162,7 +135,6 @@
 		{
 			"from": [7, 15, 9],
 			"to": [8, 31, 14],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 12, 8]},
 			"faces": {
 				"west": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
@@ -170,7 +142,6 @@
 		{
 			"from": [8, 15, 2],
 			"to": [9, 31, 7],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 12, 8]},
 			"faces": {
 				"east": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
@@ -178,6 +149,7 @@
 		{
 			"from": [9, 15, 9],
 			"to": [14, 31, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
 			"faces": {
 				"north": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
@@ -185,6 +157,7 @@
 		{
 			"from": [2, 15, 6],
 			"to": [7, 31, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
 			"faces": {
 				"south": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
@@ -192,6 +165,7 @@
 		{
 			"from": [6, 15, 9],
 			"to": [7, 31, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
 			"faces": {
 				"east": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
@@ -199,8 +173,35 @@
 		{
 			"from": [9, 15, 2],
 			"to": [10, 31, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
 			"faces": {
 				"west": {"uv": [11, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [7, 4, 7],
+			"to": [9, 20, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"faces": {
+				"north": {"uv": [5, 0, 7, 16], "texture": "#1"},
+				"east": {"uv": [7, 0, 9, 16], "texture": "#1"},
+				"south": {"uv": [9, 0, 11, 16], "texture": "#1"},
+				"west": {"uv": [11, 0, 13, 16], "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
+			}
+		},
+		{
+			"from": [7, 20, 7],
+			"to": [9, 32, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"faces": {
+				"north": {"uv": [5.1, 4, 7.1, 16], "texture": "#1"},
+				"east": {"uv": [7.1, 4, 9.1, 16], "texture": "#1"},
+				"south": {"uv": [9, 4, 11, 16], "texture": "#1"},
+				"west": {"uv": [11, 4, 13, 16], "texture": "#1"},
+				"up": {"uv": [7, 7, 9, 9], "texture": "#1"},
+				"down": {"uv": [7, 7, 9, 9], "texture": "#1"}
 			}
 		}
 	],
@@ -208,26 +209,41 @@
 		{
 			"name": "air_mill",
 			"origin": [8, 8, 8],
+			"color": 0,
 			"children": [
 				{
 					"name": "pilars",
 					"origin": [9, 8, 9],
+					"color": 0,
 					"children": [0, 1, 2, 3, 4]
-				}, 5, 6]
+				},
+				5,
+				6
+			]
 		},
 		{
-			"name": "air_mill_blades",
+			"name": "air_mill_grindstone_shaft",
 			"origin": [8, 8, 8],
-			"children": [7, 8, 9,
+			"color": 0,
+			"children": [
+				7,
 				{
 					"name": "blades",
 					"origin": [15, 38, 14],
-					"children": [10, 11, 12, 13]
+					"color": 0,
+					"children": [8, 9, 10, 11]
 				},
 				{
 					"name": "blades_revers",
 					"origin": [15, 38, 14],
-					"children": [14, 15, 16, 17]
+					"color": 0,
+					"children": [12, 13, 14, 15]
+				},
+				{
+					"name": "shaft",
+					"origin": [15, -8, 15],
+					"color": 0,
+					"children": [16, 17]
 				}
 			]
 		}

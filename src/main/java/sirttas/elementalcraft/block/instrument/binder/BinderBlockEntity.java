@@ -10,7 +10,6 @@ import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
-import sirttas.elementalcraft.recipe.instrument.binding.BindingRecipe;
 
 import javax.annotation.Nonnull;
 
@@ -20,7 +19,9 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 			ECBlockEntityTypes.BINDER,
 			ECRecipeTypes.BINDING,
 			ECConfig.COMMON.binderTransferSpeed,
-			ECConfig.COMMON.binderMaxRunes
+			ECConfig.COMMON.binderMaxRunes,
+			0,
+			true
 	);
 
 	private final InstrumentContainer inventory;
@@ -40,18 +41,25 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 	public int getItemCount() {
 		return inventory.getItemCount();
 	}
-
-	@Override
-	protected void assemble() {
-		if (this.recipe instanceof BindingRecipe) {
-			clearContent();
-		}
-		super.assemble();
-	}
 	
 	@Nonnull
 	@Override
 	public Container getInventory() {
 		return inventory;
+	}
+
+	@Override
+	protected void assemble() {
+		var remainingItem = recipe.getRemainingItems(getContainerWrapper()).get(0);
+
+		super.assemble();
+		if (!remainingItem.isEmpty()) {
+			for (int i = 0; i < inventory.getContainerSize(); i++) {
+				if (inventory.getItem(i).isEmpty()) {
+					inventory.setItem(i, remainingItem);
+					break;
+				}
+			}
+		}
 	}
 }

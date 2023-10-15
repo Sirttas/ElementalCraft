@@ -60,11 +60,10 @@ public class ECConfig {
 		public final DoubleValue crystallizerLuckRatio;
 		public final IntValue inscriberTransferSpeed;
 		public final IntValue inscriberMaxRunes;
-		public final IntValue airMillGrindstoneTransferSpeed;
-		public final IntValue airMillGrindstoneMaxRunes;
-
-		public final IntValue waterMillWoodSawTransferSpeed;
-		public final IntValue waterMillWoodSawMaxRunes;
+		public final IntValue waterMillsTransferSpeed;
+		public final IntValue waterMillsMaxRunes;
+		public final IntValue airMillsTransferSpeed;
+		public final IntValue airMillsMaxRunes;
 		public final IntValue purifierTransferSpeed;
 		public final IntValue purifierMaxRunes;
 		public final BooleanValue pureOreRecipeInjection;
@@ -160,12 +159,12 @@ public class ECConfig {
 			builder.pop().push("inscriber");
 			inscriberTransferSpeed = builder.comment("The max amount of element consumed by the gem inscriber per tick.").defineInRange("inscriberTransferSpeed", 1000, 0, 10000);
 			inscriberMaxRunes = builder.comment("The max amount of runes on an inscriber.").defineInRange("inscriberMaxRunes", 3, 0, 10);
-			builder.pop().push("airMillGrindstone");
-			airMillGrindstoneTransferSpeed = builder.comment("The max amount of element consumed by the Air Mill Grindstone per tick.").defineInRange("airMillGrindstoneTransferSpeed", 10, 0, 1000);
-			airMillGrindstoneMaxRunes = builder.comment("The max amount of runes on an Air Mill Grindstone.").defineInRange("airMillGrindstoneMaxRunes", 3, 0, 10);
-			builder.pop().push("waterMillWoodSaw");
-			waterMillWoodSawTransferSpeed = builder.comment("The max amount of element consumed by the Water Mill Wood Saw per tick.").defineInRange("waterMillWoodSawTransferSpeed", 10, 0, 1000);
-			waterMillWoodSawMaxRunes = builder.comment("The max amount of runes on an Water Mill Wood Saw.").defineInRange("waterMillWoodSawMaxRunes", 3, 0, 10);
+			builder.pop().push("waterMills");
+			waterMillsTransferSpeed = builder.comment("The max amount of element consumed by the Water Mills per tick.").defineInRange("waterMillsTransferSpeed", 5, 0, 1000);
+			waterMillsMaxRunes = builder.comment("The max amount of runes on Water Mills.").defineInRange("waterMillMaxRunes", 2, 0, 10);
+			builder.pop().push("airMills");
+			airMillsTransferSpeed = builder.comment("The max amount of element consumed by the Air Mills per tick.").defineInRange("airMillsTransferSpeed", 25, 0, 1000);
+			airMillsMaxRunes = builder.comment("The max amount of runes on Air Mills.").defineInRange("airMillMaxRunes", 3, 0, 10);
 			builder.pop().push("purifier");
 			purifierTransferSpeed = builder.comment("The max amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierTransferSpeed", 25, 0, 1000);
 			purifierMaxRunes = builder.comment("The max amount of runes on an purifier.").defineInRange("purifierMaxRunes", 3, 0, 10);

@@ -3,6 +3,8 @@
     "elementalcraft:extractor",
     "elementalcraft:infuser",
     "elementalcraft:evaporator",
-    "elementalcraft:firefurnace"
+    "elementalcraft:firefurnace",
+    "elementalcraft:water_mill_grindstone",
+    "elementalcraft:water_mill_wood_saw"
   ]
 }

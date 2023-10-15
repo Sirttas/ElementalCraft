@@ -4,7 +4,7 @@
   "icon": "elementalcraft:solar_synthesizer",
   "advancement": "elementalcraft:pickup/swift_alloy_ingot",
   "turnin": "elementalcraft:pickup/solar_synthesizer",
-  "sortnum": 8,
+  "sortnum": 10,
   "pages": [
     {
       "type": "text",
