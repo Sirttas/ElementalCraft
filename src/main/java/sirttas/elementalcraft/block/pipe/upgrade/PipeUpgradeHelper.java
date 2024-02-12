@@ -15,7 +15,7 @@ public class PipeUpgradeHelper {
             return null;
         }
 
-        var type = PipeUpgradeTypes.REGISTRY.get().getValue(new ResourceLocation(tag.getString("id")));
+        var type = PipeUpgradeTypes.REGISTRY.get(new ResourceLocation(tag.getString("id")));
 
         if (type != null) {
             var upgrade = type.create(pipe, direction);

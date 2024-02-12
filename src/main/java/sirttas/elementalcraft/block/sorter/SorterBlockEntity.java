@@ -10,11 +10,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -26,7 +23,6 @@ import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class SorterBlockEntity extends AbstractECBlockEntity {
@@ -184,14 +180,5 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 			}
 		}
 		return listTag;
-	}
-
-	@Override
-	@Nonnull
-	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == ElementalCraftCapabilities.RUNE_HANDLE) {
-			return LazyOptional.of(this::getRuneHandler).cast();
-		}
-		return super.getCapability(cap, side);
 	}
 }

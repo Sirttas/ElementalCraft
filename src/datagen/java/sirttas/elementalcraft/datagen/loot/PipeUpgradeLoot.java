@@ -11,7 +11,6 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.ConditionUserBuilder;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
@@ -20,6 +19,7 @@ import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public class PipeUpgradeLoot implements LootTableSubProvider {
 
@@ -44,13 +44,13 @@ public class PipeUpgradeLoot implements LootTableSubProvider {
 		add(getKey(type), createSingleItemTable(type));
 	}
 
-	private ResourceLocation getKey(RegistryObject<? extends PipeUpgradeType<?>> type) {
+	private ResourceLocation getKey(Supplier<? extends PipeUpgradeType<?>> type) {
 		return getKey(type.get());
 	}
 
 	@Nullable
 	private static ResourceLocation getKey(PipeUpgradeType<?> type) {
-		var key = PipeUpgradeTypes.REGISTRY.get().getKey(type);
+		var key = PipeUpgradeTypes.REGISTRY.getKey(type);
 
 		return key != null ? key.withPrefix(ElementalCraftApi.MODID + "/pipe_upgrades/") : null;
 	}

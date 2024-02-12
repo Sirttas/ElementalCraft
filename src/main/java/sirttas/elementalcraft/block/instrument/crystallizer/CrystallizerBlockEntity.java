@@ -24,6 +24,7 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 			ECConfig.COMMON.crystallizerTransferSpeed,
 			ECConfig.COMMON.crystallizerMaxRunes,
 			0,
+			true,
 			true
 	);
 
@@ -32,7 +33,6 @@ public class CrystallizerBlockEntity extends AbstractInstrumentBlockEntity<Cryst
 	public CrystallizerBlockEntity(BlockPos pos, BlockState state) {
 		super(CONFIG, pos, state);
 		inventory = new CrystallizerContainer(this);
-		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}
 

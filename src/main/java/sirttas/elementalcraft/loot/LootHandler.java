@@ -5,9 +5,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -30,12 +30,12 @@ public final class LootHandler {
 	@SubscribeEvent
 	public static void lootLoad(LootTableLoadEvent evt) {
 		ResourceLocation name = evt.getName();
-		ResourceLocation injectName = ElementalCraft.createRL("inject/" + name.getPath());
+		ResourceLocation injectName = ElementalCraftApi.createRL("inject/" + name.getPath());
 
 		if (INJECT_LIST.stream().anyMatch(t -> StringUtils.equals(t.getDefaultLootTable().getPath(), name.getPath()))) {
 			evt.getTable().addPool(getInjectPool(injectName));
 		} else if (name.toString().startsWith("minecraft:chests/") && BLACKLIST.stream().anyMatch(name.toString()::contains)) {
-			evt.getTable().addPool(getInjectPool(ElementalCraft.createRL("chests/inject")));
+			evt.getTable().addPool(getInjectPool(ElementalCraftApi.createRL("chests/inject")));
 		}
 	}
 

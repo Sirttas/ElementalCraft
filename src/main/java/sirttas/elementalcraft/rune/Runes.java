@@ -2,8 +2,8 @@ package sirttas.elementalcraft.rune;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.function.Consumer;

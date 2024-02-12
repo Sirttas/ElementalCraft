@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -11,9 +12,9 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 
 import javax.annotation.Nonnull;
@@ -32,6 +33,7 @@ public class FireInfusionLootModifier extends LootModifier {
 	private ItemStack applyAutoSmelt(ItemStack stack, LootContext context) {
 		var level = context.getLevel();
 		var recipe = level.getRecipeManager().byType(RecipeType.SMELTING).values().stream()
+				.map(RecipeHolder::value)
 				.filter(r -> r.getIngredients().get(0).test(stack))
 				.findFirst();
 

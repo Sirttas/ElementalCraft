@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_whiterock_brick",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_whiterock_brick"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:whiterock_brick_wall_from_whiterock_brick_stonecutting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

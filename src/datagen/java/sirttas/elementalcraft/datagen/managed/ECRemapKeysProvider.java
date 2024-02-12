@@ -18,8 +18,8 @@ public class ECRemapKeysProvider extends AbstractRemapKeysProvider {
 
     @Override
     protected void collectBuilders(HolderLookup.Provider registries) {
-        remap(ElementalCraftApi.RUNE_MANAGER_KEY).add(ElementalCraft.createRL("cognac"), ElementalCraft.createRL("soaryn"));
-        remap(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY).add(ElementalCraft.createRL("fleeting"), SourceTraits.ARTIFICIAL);
+        remap(ElementalCraftApi.RUNE_MANAGER_KEY).add(ElementalCraftApi.createRL("cognac"), ElementalCraftApi.createRL("soaryn"));
+        remap(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY).add(ElementalCraftApi.createRL("fleeting"), SourceTraits.ARTIFICIAL);
     }
 
     @Nonnull

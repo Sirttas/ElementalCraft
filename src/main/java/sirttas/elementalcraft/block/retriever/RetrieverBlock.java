@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.retriever;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,29 +13,37 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
-import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 
 public class RetrieverBlock extends Block implements ISorterBlock {
 
 	public static final String NAME = "instrument_retriever";
+	public static final MapCodec<RetrieverBlock> CODEC = simpleCodec(RetrieverBlock::new);
 
 	private static final VoxelShape CORE = Block.box(5D, 5D, 5D, 11D, 11D, 11D);
 
-	public RetrieverBlock() {
-		super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
+	public RetrieverBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(SOURCE, Direction.SOUTH)
 				.setValue(TARGET, Direction.NORTH));
+	}
+
+	@Override
+	protected @NotNull MapCodec<RetrieverBlock> codec() {
+		return CODEC;
 	}
 
 	@Override
@@ -56,8 +65,8 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 	@Nonnull
     @Override
 	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return worldIn instanceof Level && ((Level) worldIn).isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurentShape(state);
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+		return blockGetter instanceof Level level && level.isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurentShape(state);
 	}
 
 	@Nonnull
@@ -82,10 +91,10 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 		}
 
 		for (Direction direction : Direction.values()) {
-			BlockPos retrieverPos = pos.relative(direction);
-			BlockState blockState = level.getBlockState(retrieverPos);
+			var retrieverPos = pos.relative(direction);
+			var blockState = level.getBlockState(retrieverPos);
 
-			if (blockState.getBlock() instanceof RetrieverBlock && blockState.getValue(SOURCE) == direction.getOpposite()) {
+			if (blockState.is(ECBlocks.RETRIEVER.get()) && blockState.getValue(SOURCE) == direction.getOpposite() && !level.hasNeighborSignal(retrieverPos)) {
 				stack = retrieve(blockState, level, retrieverPos, stack);
 
 				inventory.setItem(slot, stack);

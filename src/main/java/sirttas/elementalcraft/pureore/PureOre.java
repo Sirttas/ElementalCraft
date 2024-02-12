@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -13,10 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.nbt.NBTHelper;
 import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
@@ -52,7 +50,7 @@ public class PureOre {
         return 0;
     };
 
-    private static final Comparator<Item> DESCRIPTION_COMPARATOR = Comparator.comparing(ForgeRegistries.ITEMS::getKey, MINECRAFT_NAMESPACE_COMPARATOR.thenComparing(DEEPSLATE_COMPARATOR).thenComparing(ResourceLocation::compareTo));
+    private static final Comparator<Item> DESCRIPTION_COMPARATOR = Comparator.comparing(BuiltInRegistries.ITEM::getKey, MINECRAFT_NAMESPACE_COMPARATOR.thenComparing(DEEPSLATE_COMPARATOR).thenComparing(ResourceLocation::compareTo));
 
     private final ResourceLocation id;
     private final Set<Item> ores;
@@ -114,19 +112,13 @@ public class PureOre {
         return (T) recipes.get(recipeType);
     }
 
-    @SuppressWarnings("unchecked")
-    public <C extends Container, T extends Recipe<C>> void addRecipe(@Nonnull RegistryAccess access, T recipe) {
-        RecipeType<?> recipeType = recipe.getType();
-
-        recipes.put(recipe.getType(), recipe);
-        if (resultForColor.isEmpty()) {
-            this.resultForColor = PureOreManager.getInjectors().stream()
-                    .filter(injector -> injector.getRecipeType().equals(recipeType))
-                    .map(injector -> ((AbstractPureOreRecipeInjector<C, T>) injector).getRecipeOutput(access, recipe))
-                    .filter(stack -> !stack.isEmpty())
-                    .findAny()
-                    .orElse(recipe.getResultItem(access));
-        }
+    public <C extends Container, T extends Recipe<C>> void addRecipe(@Nonnull T recipe, ItemStack output) {
+        recipes.computeIfAbsent(recipe.getType(), t -> {
+            if (resultForColor.isEmpty()) {
+                this.resultForColor = output;
+            }
+            return recipe;
+        });
     }
 
     public void addTag(TagKey<Item> tag) {
@@ -178,14 +170,6 @@ public class PureOre {
 
             result.setCount(outputSize);
             return result;
-        }
-
-        @Nonnull
-        @Override
-        public ResourceLocation getId() {
-            var resourceLocation = PureOre.this.getId();
-
-            return ElementalCraft.createRL(resourceLocation.getNamespace() + '_' + resourceLocation.getPath() + "_to_pure_ore");
         }
 
         @Override

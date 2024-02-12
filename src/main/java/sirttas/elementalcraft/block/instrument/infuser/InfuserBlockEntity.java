@@ -20,6 +20,7 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 			ECConfig.COMMON.infuserTransferSpeed,
 			ECConfig.COMMON.infuserMaxRunes,
 			0,
+			true,
 			true
 	);
 
@@ -28,7 +29,6 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 	public InfuserBlockEntity(BlockPos pos, BlockState state) {
 		super(CONFIG, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
-		lockable = true;
 	}
 
 	@Override

@@ -28,17 +28,17 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	private static final IBlockPosPredicate SPEED_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_SPEED).cache();
 	private static final IBlockPosPredicate PRESERVATION_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).cache();
 	private static final IBlockPosPredicate OPTIMIZATION_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION).and(IBlockPosPredicate.createOr(
-			new HasRunePredicate(ElementalCraft.createRL("soaryn")),
-			new HasRunePredicate(ElementalCraft.createRL("kaworu")),
-			new HasRunePredicate(ElementalCraft.createRL("mewtwo"))).not()).cache();
+			new HasRunePredicate(ElementalCraftApi.createRL("soaryn")),
+			new HasRunePredicate(ElementalCraftApi.createRL("kaworu")),
+			new HasRunePredicate(ElementalCraftApi.createRL("mewtwo"))).not()).cache();
 	private static final IBlockPosPredicate LUCK_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_LUCK).and(IBlockPosPredicate.createOr(
-			new HasRunePredicate(ElementalCraft.createRL("claptrap")),
-			new HasRunePredicate(ElementalCraft.createRL("bombadil")),
-			new HasRunePredicate(ElementalCraft.createRL("tzeentch"))).not()).cache();
+			new HasRunePredicate(ElementalCraftApi.createRL("claptrap")),
+			new HasRunePredicate(ElementalCraftApi.createRL("bombadil")),
+			new HasRunePredicate(ElementalCraftApi.createRL("tzeentch"))).not()).cache();
 
-	public static final ResourceLocation MINOR_SLATE = ElementalCraft.createRL("item/minor_rune_slate");
-	public static final ResourceLocation SLATE = ElementalCraft.createRL("item/rune_slate");
-	public static final ResourceLocation MAJOR_SLATE = ElementalCraft.createRL("item/major_rune_slate");
+	public static final ResourceLocation MINOR_SLATE = ElementalCraftApi.createRL("item/minor_rune_slate");
+	public static final ResourceLocation SLATE = ElementalCraftApi.createRL("item/rune_slate");
+	public static final ResourceLocation MAJOR_SLATE = ElementalCraftApi.createRL("item/major_rune_slate");
 
 	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ECItemModelProvider itemModelProvider) {
 		super(packOutput, registries, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
@@ -72,10 +72,10 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 
 	private Rune.Builder builder(String name, ResourceLocation slate) {
 		var path = ElementalCraftApi.RUNE_MANAGER.getFolder() + '/' + name;
-		var runeTexture = ElementalCraft.createRL(path);
+		var runeTexture = ElementalCraftApi.createRL(path);
 		var builder = Rune.Builder.create().model(itemModelProvider.runeTexture(path, slate, runeTexture)).sprite(runeTexture);
 
-		add(ElementalCraft.createRL(name), builder);
+		add(ElementalCraftApi.createRL(name), builder);
 		return builder;
 	}
 

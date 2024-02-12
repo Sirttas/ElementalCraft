@@ -3,7 +3,7 @@ package sirttas.elementalcraft.spell.airshield;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ToolActions;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.ToolActionSpell;
 

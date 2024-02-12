@@ -2,9 +2,15 @@
   "attributes": {
     "minecraft:generic.attack_damage": [
       {
-        "amount": 0.5,
-        "name": "Weapon modifier",
-        "operation": "multiply_total"
+        "Amount": 0.5,
+        "Name": "Weapon modifier",
+        "Operation": "multiply_total",
+        "UUID": [
+          1924578585,
+          2000506621,
+          -1544142702,
+          -1975528936
+        ]
       }
     ]
   },

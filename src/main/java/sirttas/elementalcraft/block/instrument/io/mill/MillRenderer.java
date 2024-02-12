@@ -10,9 +10,9 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementalCraft;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
@@ -20,10 +20,10 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class MillRenderer<T extends AbstractMillBlockEntity<?, ?>> implements BlockEntityRenderer<T> {
 
-	public static final ResourceLocation WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraft.createRL("block/water_mill_grindstone_shaft");
-	public static final ResourceLocation AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraft.createRL("block/air_mill_grindstone_shaft");
-	public static final ResourceLocation WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraft.createRL("block/water_mill_wood_saw_shaft");
-	public static final ResourceLocation AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraft.createRL("block/air_mill_wood_saw_shaft");
+	public static final ResourceLocation WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraftApi.createRL("block/water_mill_grindstone_shaft");
+	public static final ResourceLocation AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraftApi.createRL("block/air_mill_grindstone_shaft");
+	public static final ResourceLocation WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraftApi.createRL("block/water_mill_wood_saw_shaft");
+	public static final ResourceLocation AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraftApi.createRL("block/air_mill_wood_saw_shaft");
 
 	private final ResourceLocation modelLocation;
 	private BakedModel model;

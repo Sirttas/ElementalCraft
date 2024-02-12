@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.block.pipe.upgrade.type;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import org.apache.commons.lang3.function.Consumers;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -20,20 +20,19 @@ import sirttas.elementalcraft.block.pipe.upgrade.valve.ElementValvePipeUpgrade;
 import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class PipeUpgradeTypes {
 
     private static final Map<PipeUpgradeType<?>, Item> UPGRADE_ITEM_MAP = new Object2ObjectOpenHashMap<>();
 
-    private static final DeferredRegister<PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
+    private static final DeferredRegister<PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
 
-    public static final Supplier<IForgeRegistry<PipeUpgradeType<?>>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryBuilder::new);
+    public static final Registry<PipeUpgradeType<?>> REGISTRY = DEFERRED_REGISTER.makeRegistry(Consumers.nop());
 
-    public static final RegistryObject<PipeUpgradeType<ElementPumpPipeUpgrade>> ELEMENT_PUMP = register(ElementPumpPipeUpgrade.NAME, ElementPumpPipeUpgrade::new);
-    public static final RegistryObject<PipeUpgradeType<PipePriorityRingsPipeUpgrade>> PIPE_PRIORITY_RINGS = register(PipePriorityRingsPipeUpgrade.NAME, PipePriorityRingsPipeUpgrade::new);
-    public static final RegistryObject<PipeUpgradeType<ElementValvePipeUpgrade>> ELEMENT_VALVE = register(ElementValvePipeUpgrade.NAME, ElementValvePipeUpgrade::new);
-    public static final RegistryObject<PipeUpgradeType<ElementBeamPipeUpgrade>> ELEMENT_BEAM = register(ElementBeamPipeUpgrade.NAME, ElementBeamPipeUpgrade::new);
+    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<ElementPumpPipeUpgrade>> ELEMENT_PUMP = register(ElementPumpPipeUpgrade.NAME, ElementPumpPipeUpgrade::new);
+    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<PipePriorityRingsPipeUpgrade>> PIPE_PRIORITY_RINGS = register(PipePriorityRingsPipeUpgrade.NAME, PipePriorityRingsPipeUpgrade::new);
+    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<ElementValvePipeUpgrade>> ELEMENT_VALVE = register(ElementValvePipeUpgrade.NAME, ElementValvePipeUpgrade::new);
+    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<ElementBeamPipeUpgrade>> ELEMENT_BEAM = register(ElementBeamPipeUpgrade.NAME, ElementBeamPipeUpgrade::new);
 
     private PipeUpgradeTypes() { }
 
@@ -41,7 +40,7 @@ public class PipeUpgradeTypes {
         return UPGRADE_ITEM_MAP.get(type);
     }
 
-    public static <T extends PipeUpgrade> RegistryObject<PipeUpgradeType<T>> register(String name, PipeUpgradeType.Factory<T> factory) {
+    public static <T extends PipeUpgrade> DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<T>> register(String name, PipeUpgradeType.Factory<T> factory) {
         return DEFERRED_REGISTER.register(name, () -> new PipeUpgradeType<>(factory));
     }
 
@@ -51,7 +50,7 @@ public class PipeUpgradeTypes {
 
     public static void setup() {
         UPGRADE_ITEM_MAP.clear();
-        ForgeRegistries.ITEMS.getValues().stream()
+        BuiltInRegistries.ITEM.stream()
                 .mapMulti(ElementalCraftUtils.cast(PipeUpgradeItem.class))
                 .forEach(i -> UPGRADE_ITEM_MAP.put(i.getPipeUpgradeType(), i));
     }

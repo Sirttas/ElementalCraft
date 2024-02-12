@@ -1,12 +1,12 @@
 {
   "type": "elementalcraft:grinding",
   "element_amount": 1000,
-  "input": {
+  "ingredient": {
     "item": "minecraft:bone_meal"
   },
   "luck_ratio": 2,
   "output": {
-    "count": 2,
-    "item": "minecraft:white_dye"
+    "Count": 2,
+    "id": "minecraft:white_dye"
   }
 }

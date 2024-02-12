@@ -23,7 +23,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilde
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.world.feature.SourceFeature;
 
@@ -50,11 +50,11 @@ public class SourceAltarStructure extends Structure {
 		int roll = random.nextInt(20);
 
 		if (roll == 0) {
-			return ElementalCraft.createRL("altar/chapel");
+			return ElementalCraftApi.createRL("altar/chapel");
 		} else if (roll <= 3) {
-			return ElementalCraft.createRL("altar/medium");
+			return ElementalCraftApi.createRL("altar/medium");
 		}
-		return ElementalCraft.createRL("altar/small");
+		return ElementalCraftApi.createRL("altar/small");
 	}
 
 	@Nonnull
@@ -111,7 +111,7 @@ public class SourceAltarStructure extends Structure {
 		@Override
 		protected void handleDataMarker(String name, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull RandomSource rand, @Nonnull BoundingBox sbb) {
 			if (name.endsWith("chest")) {
-				this.createChest(level, sbb, rand, pos, ElementalCraft.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName()), null);
+				this.createChest(level, sbb, rand, pos, ElementalCraftApi.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName()), null);
 				level.blockUpdated(pos, Blocks.CHEST);
 			} else if (name.startsWith("source")) {
 				SourceFeature.placeSource(level, pos, elementType, getSourceLuck(name));

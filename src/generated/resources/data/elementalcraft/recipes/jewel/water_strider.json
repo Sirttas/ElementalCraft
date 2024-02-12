@@ -19,11 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "nbt": {
-      "elementalcraft": {
-        "jewel": "elementalcraft:water_strider"
-      }
-    }
-  },
-  "show_notification": true
+    "nbt": "{elementalcraft:{jewel:\"elementalcraft:water_strider\"}}"
+  }
 }

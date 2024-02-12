@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_artificial_water_source_seed",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_artificial_water_source_seed"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:natural_water_source_seed"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

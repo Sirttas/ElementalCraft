@@ -5,10 +5,10 @@ import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.InteractionHand;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
 
 import java.util.Collection;
@@ -34,8 +34,10 @@ public class ElementHolderGameTests {
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
         var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
-        var playerStorage = ElementStorageHelper.get(player).resolve().orElseThrow();
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
 
+        assertThat(storage).isNotNull();
+        assertThat(playerStorage).isNotNull();
         helper.startSequence()
                 .thenExecute(() -> storage.fill(elementType))
                 .thenExecuteAfter(1, () -> {
@@ -61,8 +63,10 @@ public class ElementHolderGameTests {
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
         var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
-        var playerStorage = ElementStorageHelper.get(player).resolve().orElseThrow();
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
 
+        assertThat(storage).isNotNull();
+        assertThat(playerStorage).isNotNull();
         helper.startSequence()
                 .thenExecute(() -> {
                     playerStorage.fill(elementType);

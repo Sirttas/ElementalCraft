@@ -13,14 +13,14 @@ public interface IContainerBlockEntityRecipe<T extends IContainerBlockEntity> ex
 	boolean matches(T inv, @Nonnull Level level);
 
 	@Override
-	default boolean matches(ContainerBlockEntityWrapper<T> inv, @Nonnull Level level) {
-		return matches(inv.getEntity(), level);
+	default boolean matches(ContainerBlockEntityWrapper<T> wrapper, @Nonnull Level level) {
+		return matches(wrapper.getEntity(), level);
 	}
 
 	@Nonnull
     @Override
-	default ItemStack assemble(@Nonnull ContainerBlockEntityWrapper<T> inv, @Nonnull RegistryAccess registry) {
-		return assemble(inv.getEntity(), registry);
+	default ItemStack assemble(@Nonnull ContainerBlockEntityWrapper<T> wrapper, @Nonnull RegistryAccess registry) {
+		return assemble(wrapper.getEntity(), registry);
 	}
 
 	@Nonnull

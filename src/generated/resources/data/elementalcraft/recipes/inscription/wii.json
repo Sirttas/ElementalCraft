@@ -4,6 +4,9 @@
   "element_type": "air",
   "ingredients": [
     {
+      "item": "elementalcraft:minor_rune_slate"
+    },
+    {
       "tag": "elementalcraft:gems/crude_air"
     },
     {
@@ -14,14 +17,12 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:rune",
-    "nbt": {
+    "Count": 1,
+    "id": "elementalcraft:rune",
+    "tag": {
       "elementalcraft": {
         "rune": "elementalcraft:wii"
       }
     }
-  },
-  "slate": {
-    "item": "elementalcraft:minor_rune_slate"
   }
 }

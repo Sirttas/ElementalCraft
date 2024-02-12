@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -7,12 +8,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -22,6 +25,7 @@ import java.util.List;
 public class FortuneShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_fortune";
+	public static final MapCodec<FortuneShrineUpgradeBlock> CODEC = simpleCodec(FortuneShrineUpgradeBlock::new);
 
 	private static final VoxelShape CORE_NORTH = Block.box(6D, 6D, 4D, 10D, 10D, 8D);
 	private static final VoxelShape PILAR_NORTH = Block.box(7D, 2D, 5D, 9D, 6D, 7D);
@@ -52,10 +56,15 @@ public class FortuneShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBl
 	private static final VoxelShape SHAPE_WEST = Shapes.or(CORE_WEST, PILAR_WEST, BASE_1_WEST, BASE_2_WEST, PIPE_WEST);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_EAST, PILAR_EAST, BASE_1_EAST, BASE_2_EAST, PIPE_EAST);
 
-	public FortuneShrineUpgradeBlock() {
-		super(ShrineUpgrades.FORTUNE);
+	public FortuneShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.FORTUNE, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<FortuneShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
     @Override
 	@Deprecated

@@ -5,11 +5,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LevelEvent;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -26,17 +23,17 @@ public class RipeningSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		Level world = sender.level();
-		BlockState state = world.getBlockState(target);
-		Block block = state.getBlock();
+		var level = sender.level();
+		var state = level.getBlockState(target);
+		var block = state.getBlock();
 
-		if (block instanceof BonemealableBlock growable && growable.isBonemealSuccess(world, world.random, target, state)) {
-			if (world instanceof ServerLevel) {
-				for (int i = 0; i < 10 && growable.isValidBonemealTarget(world, target, state, world.isClientSide); i++) {
-					growable.performBonemeal((ServerLevel) world, world.random, target, state);
-					state = world.getBlockState(target);
+		if (block instanceof BonemealableBlock growable && growable.isBonemealSuccess(level, level.random, target, state)) {
+			if (level instanceof ServerLevel serverLevel) {
+				for (int i = 0; i < 10 && growable.isValidBonemealTarget(level, target, state); i++) {
+					growable.performBonemeal(serverLevel, level.random, target, state);
+					state = level.getBlockState(target);
 				}
-				world.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, target, 0);
+				level.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, target, 0);
 			}
 			return InteractionResult.SUCCESS;
 		}

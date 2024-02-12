@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_crystal_ore",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_crystal_ore"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:inert_crystal"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

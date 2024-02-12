@@ -20,6 +20,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:overloadshrine"
+    "Count": 1,
+    "id": "elementalcraft:overloadshrine"
   }
 }

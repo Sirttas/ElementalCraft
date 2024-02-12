@@ -1,16 +1,19 @@
 package sirttas.elementalcraft.block.shrine.overload;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -20,6 +23,7 @@ import javax.annotation.Nonnull;
 public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlockEntity> {
 
 	public static final String NAME = "overloadshrine";
+	public static final MapCodec<OverloadShrineBlock> CODEC = simpleCodec(OverloadShrineBlock::new);
 
 	private static final VoxelShape BASE = Shapes.or(ECShapes.SHRINE_SHAPE, Block.box(5D, 12D, 5D, 11D, 13D, 11D));
 
@@ -31,11 +35,16 @@ public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlock
 
 	public static final DirectionProperty FACING = DirectionProperty.create("facing", d -> d != Direction.DOWN);
 
-	public OverloadShrineBlock() {
-		super(ElementType.AIR);
+	public OverloadShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.AIR, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.UP)
 				.setValue(WATERLOGGED, false));
+	}
+
+	@Override
+	protected @NotNull MapCodec<OverloadShrineBlock> codec() {
+		return CODEC;
 	}
 
 	@Nonnull

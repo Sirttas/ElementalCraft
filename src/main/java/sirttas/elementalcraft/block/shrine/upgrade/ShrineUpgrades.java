@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraftforge.fml.common.Mod;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -28,7 +27,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinatio
 import sirttas.elementalcraft.block.shrine.upgrade.vertical.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeBlock;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class ShrineUpgrades {
 
 	public static final String NAME = "shrine_upgrades";
@@ -60,7 +58,7 @@ public class ShrineUpgrades {
 	private ShrineUpgrades() {}
 
 	private static ResourceKey<ShrineUpgrade> createKey(String name) {
-		return IDataManager.createKey(ElementalCraft.SHRINE_UPGRADE_MANAGER_KEY, ElementalCraft.createRL(name));
+		return IDataManager.createKey(ElementalCraft.SHRINE_UPGRADE_MANAGER_KEY, ElementalCraftApi.createRL(name));
 	}
 
 }

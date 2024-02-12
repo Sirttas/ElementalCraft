@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.event.TickHandler;
 
 import javax.annotation.Nonnull;
@@ -16,8 +16,8 @@ import java.util.List;
 
 public class SourceIngredientRenderer implements IIngredientRenderer<IngredientSource> {
 
-	private static final ResourceLocation OUTER = ElementalCraft.createRL("textures/effect/source_outer.png");
-	private static final ResourceLocation MIDDLE = ElementalCraft.createRL("textures/effect/source_middle.png");
+	private static final ResourceLocation OUTER = ElementalCraftApi.createRL("textures/effect/source_outer.png");
+	private static final ResourceLocation MIDDLE = ElementalCraftApi.createRL("textures/effect/source_middle.png");
 
 	@Override
 	public void render(@Nonnull GuiGraphics guiGraphics, @Nonnull IngredientSource source) {

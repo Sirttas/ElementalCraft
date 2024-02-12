@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.source;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,11 +15,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
@@ -34,17 +35,17 @@ public class SourceBlock extends AbstractECEntityBlock {
 	private static final VoxelShape SHAPE = Block.box(4D, 0D, 4D, 12D, 8D, 12D);
 
 	public static final String NAME = "source";
+	public static final MapCodec<SourceBlock> CODEC = simpleCodec(SourceBlock::new);
 
-	public SourceBlock() {
-		super(BlockBehaviour.Properties.of()
-				.replaceable()
-				.pushReaction(PushReaction.DESTROY)
-				.strength(-1.0F, 3600000.0F)
-				.lightLevel(s -> 7)
-				.noOcclusion()
-				.noLootTable());
+	public SourceBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(ElementType.STATE_PROPERTY, ElementType.NONE));
+	}
+
+	@Override
+	protected @NotNull MapCodec<SourceBlock> codec() {
+		return CODEC;
 	}
 
 	@Override

@@ -13,12 +13,13 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
@@ -26,37 +27,31 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEntity> extends AbstractShrineBlock<T> {
-
-
-	protected AbstractPylonShrineBlock(ElementType elementType) {
-		super(elementType);
+	protected AbstractPylonShrineBlock(ElementType elementType, BlockBehaviour.Properties properties) {
+		super(elementType, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
 				.setValue(WATERLOGGED, false));
 	}
 
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place
-	 * logic
-	 */
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		worldIn.setBlock(pos.above(), state.setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER), 3);
 	}
 
-	/**
-	 * Called before the Block is set to air in the world. Called regardless of if
-	 * the player's tool can actually collect this block
-	 */
 	@Override
-	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+	public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		doubleHalfHarvest(level, pos, state, player);
-		super.playerWillDestroy(level, pos, state, player);
+		return super.playerWillDestroy(level, pos, state, player);
 	}
 
 	public static void doubleHalfHarvest(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		if (!level.isClientSide && player.getAbilities().instabuild) {
-			DoublePlantBlock.preventCreativeDropFromBottomPart(level, pos, state, player);
+		if (!level.isClientSide) {
+			if (player.isCreative()) {
+				DoublePlantBlock.preventDropFromBottomPart(level, pos, state, player);
+			} else {
+				dropResources(state, level, pos, null, player, player.getMainHandItem());
+			}
 		}
 	}
 

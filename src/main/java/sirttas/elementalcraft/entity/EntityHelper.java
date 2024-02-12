@@ -20,8 +20,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.stream.Stream;
 
@@ -37,7 +37,7 @@ public class EntityHelper {
 		double range = 5;
 
 		if (entity instanceof LivingEntity livingEntity) {
-			var reach = livingEntity.getAttribute(ForgeMod.ENTITY_REACH.get());
+			var reach = livingEntity.getAttribute(NeoForgeMod.ENTITY_REACH.value());
 
 			if (reach != null) {
 				range = reach.getValue();
@@ -77,7 +77,7 @@ public class EntityHelper {
 		if (entity instanceof Mob mob) {
 			mob.moveTo(pos.getX(), pos.getY(), pos.getZ(), level.random.nextFloat() * 360.0F, 0.0F);
 
-			ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
+			EventHooks.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
 			level.addFreshEntityWithPassengers(mob);
 			if (mob.isAddedToWorld()) {
 				mob.spawnAnim();

@@ -7,16 +7,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
-import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
@@ -80,29 +80,30 @@ public class SourceBreederGameTests {
         assertThat(seed).isInstanceOf(IElementTypeProvider.class);
 
         var breeder = (SourceBreederBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 2));
+
         var type = ((IElementTypeProvider) seed).getElementType();
         var breederItemHandler = ECContainerHelper.getItemHandler(breeder, null);
         var pedestal1 = helper.getBlockEntity(new BlockPos(0, 1, 0));
         var pedestal2 = helper.getBlockEntity(new BlockPos(0, 1, 4));
         var pedestal1ItemHandler = ECContainerHelper.getItemHandler(pedestal1, null);
         var pedestal2ItemHandler = ECContainerHelper.getItemHandler(pedestal2, null);
-        var pedestal1ElementStorage = ElementStorageHelper.get(pedestal1);
-        var pedestal2ElementStorage = ElementStorageHelper.get(pedestal2);
+        var pedestal1ElementStorage = ElementStorageGameTestHelper.get(pedestal1);
+        var pedestal2ElementStorage = ElementStorageGameTestHelper.get(pedestal2);
 
         helper.startSequence().thenExecute(() -> {
             breederItemHandler.insertItem(0, new ItemStack(seed), false);
-            pedestal1ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
-            pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
-            pedestal1ElementStorage.ifPresent(IElementStorage::fill);
-            pedestal2ElementStorage.ifPresent(IElementStorage::fill);
-        }).thenExecuteFor(1, () -> {
+        }).thenExecuteAfter(1, ECGameTestHelper.fixAssertions(() -> {
             assertThat(breeder).isNotNull().satisfies(b -> {
                 assertThat(b.getElementType()).isEqualTo(type);
                 assertThat(b.getPedestalsDirections()).hasSize(2);
             });
-        }).thenExecuteFor(10, () -> {
-            pedestal1ElementStorage.ifPresent(IElementStorage::fill);
-            pedestal2ElementStorage.ifPresent(IElementStorage::fill);
+            pedestal1ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
+            pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
+            pedestal1ElementStorage.fill();
+            pedestal2ElementStorage.fill();
+        })).thenExecuteFor(10, () -> {
+            pedestal1ElementStorage.fill();
+            pedestal2ElementStorage.fill();
 
             assertThat(breederItemHandler).isNotEmpty();
         }).thenExecuteAfter(1, () -> {
@@ -111,9 +112,9 @@ public class SourceBreederGameTests {
                     .satisfies(0, s -> {
                         assertThat(s).isNotEmpty().is(ECItems.RECEPTACLE);
                         assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type);
-                        assertThat(SourceTraitHolderHelper.get(s).resolve())
-                                .isNotEmpty()
-                                .hasValueSatisfying(assertions);
+                        assertThat(s.getCapability(ElementalCraftCapabilities.SourceTrait.ITEM))
+                                .isNotNull()
+                                .satisfies(assertions);
                     });
                 })
                 .thenSucceed();

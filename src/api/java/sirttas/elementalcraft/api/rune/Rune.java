@@ -14,10 +14,10 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -78,7 +78,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	@OnlyIn(Dist.CLIENT)
 	public Material getSprite() {
 		if (sprite == null) {
-			sprite = ForgeHooksClient.getBlockMaterial(fxSpriteName);
+			sprite = ClientHooks.getBlockMaterial(fxSpriteName);
 		}
 		return sprite;
 	}

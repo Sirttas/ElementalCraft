@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -22,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
@@ -35,6 +38,7 @@ import java.util.Map;
 public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock implements EntityBlock {
 
     public static final String NAME = "shrine_upgrade_overclocked_acceleration";
+    public static final MapCodec<OverclockedAccelerationShrineUpgradeBlock> CODEC = simpleCodec(OverclockedAccelerationShrineUpgradeBlock::new);
 
     private static final VoxelShape CORE_1 = Block.box(5D, 5D, 3D, 11D, 11D, 9D);
     private static final VoxelShape CORE_2 = Block.box(6D, 11D, 4D, 10D, 16D, 8D);
@@ -53,13 +57,18 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty CONNECTED = BooleanProperty.create("connected");
 
-    public OverclockedAccelerationShrineUpgradeBlock() {
-        super(ShrineUpgrades.OVERCLOCKED_ACCELERATION);
+    public OverclockedAccelerationShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+        super(ShrineUpgrades.OVERCLOCKED_ACCELERATION, properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HALF, DoubleBlockHalf.LOWER)
                 .setValue(CONNECTED, false)
                 .setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected @NotNull MapCodec<OverclockedAccelerationShrineUpgradeBlock> codec() {
+        return CODEC;
     }
 
     @Nonnull
@@ -109,9 +118,9 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     }
 
     @Override
-    public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+    public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
         AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
-        super.playerWillDestroy(level, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Nullable

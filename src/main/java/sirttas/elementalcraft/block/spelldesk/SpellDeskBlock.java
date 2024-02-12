@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.spelldesk;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -21,13 +23,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import sirttas.elementalcraft.property.ECProperties;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
 public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
 	public static final String NAME = "spell_desk";
+	public static final MapCodec<SpellDeskBlock> CODEC = simpleCodec(SpellDeskBlock::new);
 
 	private static final VoxelShape BASE_1 = Block.box(4D, 0D, 4D, 12D, 2D, 12D);
 	private static final VoxelShape BASE_2 = Block.box(5D, 2D, 5D, 11D, 3D, 11D);
@@ -58,12 +61,17 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public SpellDeskBlock() {
-		super(ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES);
+	public SpellDeskBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH));
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<SpellDeskBlock> codec() {
+		return CODEC;
+	}
+
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());

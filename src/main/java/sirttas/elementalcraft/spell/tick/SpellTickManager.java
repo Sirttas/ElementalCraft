@@ -1,8 +1,9 @@
 package sirttas.elementalcraft.spell.tick;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
-import sirttas.elementalcraft.ElementalCraft;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
 
@@ -67,7 +68,7 @@ public class SpellTickManager implements ISpellTickManager, INBTSerializable<Com
     }
 
     @Override
-    public CompoundTag serializeNBT() {
+    public @NotNull CompoundTag serializeNBT() {
         var tag = new CompoundTag();
 
         spellCooldowns.forEach((spell, cooldown) -> tag.putLong(spell.getKey().toString(), cooldown.expireTicks() - tick));
@@ -77,6 +78,6 @@ public class SpellTickManager implements ISpellTickManager, INBTSerializable<Com
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         spellCooldowns.clear();
-        nbt.getAllKeys().forEach(key -> spellCooldowns.put(Spells.REGISTRY.get().getValue(ElementalCraft.createRL(key)), new SpellCooldown(tick, tick + nbt.getLong(key))));
+        nbt.getAllKeys().forEach(key -> spellCooldowns.put(Spells.REGISTRY.get(ElementalCraftApi.createRL(key)), new SpellCooldown(tick, tick + nbt.getLong(key))));
     }
 }

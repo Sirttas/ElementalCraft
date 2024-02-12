@@ -20,6 +20,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:pedestal_air"
+    "Count": 1,
+    "id": "elementalcraft:pedestal_air"
   }
 }

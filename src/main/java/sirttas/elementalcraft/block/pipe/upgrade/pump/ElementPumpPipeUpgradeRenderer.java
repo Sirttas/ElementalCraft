@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 
 public class ElementPumpPipeUpgradeRenderer implements IPipeUpgradeRenderer<ElementPumpPipeUpgrade> {
 
-    public static final ResourceLocation PUMP_LOCATION = ElementalCraft.createRL(PipeUpgrade.FOLDER + "element_pump_pump");
+    public static final ResourceLocation PUMP_LOCATION = ElementalCraftApi.createRL(PipeUpgrade.FOLDER + "element_pump_pump");
     private BakedModel pumpModel;
 
     @Override

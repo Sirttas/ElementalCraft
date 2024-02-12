@@ -2,7 +2,7 @@ package sirttas.elementalcraft.loot.parameter;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECLootContextParams {
 
@@ -11,6 +11,6 @@ public class ECLootContextParams {
     private ECLootContextParams() {}
 
     private static <T> LootContextParam<T> create(String name) {
-        return new LootContextParam<>(ElementalCraft.createRL(name));
+        return new LootContextParam<>(ElementalCraftApi.createRL(name));
     }
 }

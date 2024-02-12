@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.shrine.grove;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -16,6 +19,7 @@ import javax.annotation.Nonnull;
 public class GroveShrineBlock extends AbstractShrineBlock<GroveShrineBlockEntity> {
 
 	public static final String NAME = "groveshrine";
+	public static final MapCodec<GroveShrineBlock> CODEC = simpleCodec(GroveShrineBlock::new);
 
 	private static final VoxelShape BASE = Block.box(5D, 12D, 5D, 11D, 14D, 11D);
 
@@ -29,8 +33,13 @@ public class GroveShrineBlock extends AbstractShrineBlock<GroveShrineBlockEntity
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_CENTER, PLATE);
 
-	public GroveShrineBlock() {
-		super(ElementType.WATER);
+	public GroveShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.WATER, properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<GroveShrineBlock> codec() {
+		return CODEC;
 	}
 	
 	@Nonnull

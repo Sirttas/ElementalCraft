@@ -1,23 +1,16 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.ILuckRecipe;
 
 import javax.annotation.Nonnull;
 
-public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentRecipe<T> {
+public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentRecipe<T>, ILuckRecipe<T> {
 
-	default RandomSource getRand(T instrument) {
-		return RandomSource.create();
-	}
-	
-	default int getLuck(T instrument) {
-		return 0;
-	}
 
 	default int getInputSize() {
 		return 1;
@@ -29,13 +22,11 @@ public interface IIOInstrumentRecipe<T extends IInstrument> extends IInstrumentR
 	
 	@Override
 	default boolean matches(@Nonnull T instrument, @Nonnull Level level) {
-		ItemStack craftingResult = assemble(instrument, level.registryAccess());
+		var inv = instrument.getItemHandler(null);
+		var craftingResult = assemble(instrument, level.registryAccess());
+		var output = inv.getStackInSlot(1);
 
-		return instrument.getItemHandler().map(inv -> {
-			ItemStack output = inv.getStackInSlot(1);
-
-			return this.getValidElementTypes().contains(instrument.getContainerElementType()) && matches(inv.getStackInSlot(0), level)
-					&& (output.isEmpty() || (ItemHandlerHelper.canItemStacksStack(output, craftingResult) && output.getCount() + craftingResult.getCount() <= inv.getSlotLimit(1)));
-		}).orElse(false);
+		return this.getValidElementTypes().contains(instrument.getContainerElementType()) && matches(inv.getStackInSlot(0), level)
+				&& (output.isEmpty() || (ItemHandlerHelper.canItemStacksStack(output, craftingResult) && output.getCount() + craftingResult.getCount() <= inv.getSlotLimit(1)));
 	}
 }

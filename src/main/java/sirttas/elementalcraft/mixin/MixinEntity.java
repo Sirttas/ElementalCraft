@@ -1,10 +1,7 @@
 package sirttas.elementalcraft.mixin;
 
-import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.entity.EntityAccess;
-import net.minecraftforge.common.capabilities.CapabilityProvider;
-import net.minecraftforge.common.extensions.IForgeEntity;
+import net.neoforged.neoforge.attachment.AttachmentHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,11 +10,7 @@ import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 @Mixin(Entity.class)
-public abstract class MixinEntity extends CapabilityProvider<Entity> implements Nameable, EntityAccess, IForgeEntity {
-
-    protected MixinEntity(Class<Entity> baseClass) {
-        super(baseClass);
-    }
+public abstract class MixinEntity extends AttachmentHolder {
 
     @Inject(method = "canFreeze()Z",
             at = @At("RETURN"),
@@ -27,5 +20,4 @@ public abstract class MixinEntity extends CapabilityProvider<Entity> implements 
             cir.setReturnValue(true);
         }
     }
-
 }

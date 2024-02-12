@@ -1,17 +1,15 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -19,28 +17,31 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
-import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
 
 public class ToolInfusionRecipe implements IInfusionRecipe {
 
 	public static final String NAME = "tool_" + IInfusionRecipe.NAME;
-	
+
+	public static final Codec<ToolInfusionRecipe> CODEC =  RecordCodecBuilder.create(builder -> builder.group(
+			ElementalCraftApi.TOOL_INFUSION_MANAGER.holderCodec().fieldOf(ECNames.TOOL_INFUSION).forGetter(r -> r.toolInfusion),
+			Ingredient.CODEC.fieldOf(ECNames.INPUT).forGetter(ToolInfusionRecipe::getInput),
+			Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(ToolInfusionRecipe::getElementAmount)
+	).apply(builder, ToolInfusionRecipe::new));
+
 	private final Ingredient input;
 	private final int elementAmount;
 	private final Holder<ToolInfusion> toolInfusion;
-	protected final ResourceLocation id;
 	
-	public ToolInfusionRecipe(ResourceLocation id, ResourceLocation toolInfusion, Ingredient input, int elementAmount) {
-		this.id = id;
-		this.toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(IDataManager.createKey(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, toolInfusion));
+	public ToolInfusionRecipe(Holder<ToolInfusion> toolInfusion, Ingredient input, int elementAmount) {
+		this.toolInfusion = toolInfusion;
 		this.input = input;
 		this.elementAmount = elementAmount;
 	}
 	
 	@Override
-	public boolean matches(IInfuser instrument, @Nonnull Level level) {
+	public boolean matches(@NotNull IInfuser instrument, @Nonnull Level level) {
 		return IInfusionRecipe.super.matches(instrument, level) && !getToolInfusion().equals(ToolInfusionHelper.getInfusion(instrument.getItem()));
 	}
 
@@ -72,12 +73,6 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	public boolean isSpecial() {
 		return true;
 	}
-	
-	@Nonnull
-    @Override
-	public ResourceLocation getId() {
-		return id;
-	}
 
 	@Override
 	public ElementType getElementType() {
@@ -85,7 +80,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	}
 
 	public ToolInfusion getToolInfusion() {
-		return  toolInfusion.get();
+		return  toolInfusion.value();
 	}
 	
 	@Nonnull
@@ -96,23 +91,19 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 
 	public static class Serializer implements RecipeSerializer<ToolInfusionRecipe> {
 
-		@Nonnull
-        @Override
-		public ToolInfusionRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
-			Ingredient input = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
-			ResourceLocation toolInfusion = new ResourceLocation(GsonHelper.getAsString(json, ECNames.TOOL_INFUSION));
-
-			return new ToolInfusionRecipe(recipeId, toolInfusion, input, elementAmount);
+		@Override
+	 	@Nonnull
+		public Codec<ToolInfusionRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public ToolInfusionRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			int elementAmount = buffer.readInt();
-			Ingredient input = Ingredient.fromNetwork(buffer);
-			ResourceLocation toolInfusion = buffer.readResourceLocation();
+		public ToolInfusionRecipe fromNetwork(FriendlyByteBuf buffer) {
+			var elementAmount = buffer.readInt();
+			var input = Ingredient.fromNetwork(buffer);
+			var toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(buffer.readResourceLocation());
 
-			return new ToolInfusionRecipe(recipeId, toolInfusion, input, elementAmount);
+			return new ToolInfusionRecipe(toolInfusion, input, elementAmount);
 		}
 
 		@Override

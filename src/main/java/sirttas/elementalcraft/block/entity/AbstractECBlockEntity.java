@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -55,7 +55,7 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 	
 	private void sendUpdatePacket() {
 		if (level instanceof ServerLevel serverLevel) {
-			PacketDistributor.TRACKING_CHUNK.with(() -> serverLevel.getChunkAt(worldPosition)).send(getUpdatePacket());
+			PacketDistributor.TRACKING_CHUNK.with(serverLevel.getChunkAt(worldPosition)).send(getUpdatePacket());
 		}
 	}
 }

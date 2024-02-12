@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.source.breeder.pedestal;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -21,10 +23,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,6 +34,7 @@ import javax.annotation.Nullable;
 public class SourceBreederPedestalBlock extends AbstractECContainerBlock implements SimpleWaterloggedBlock {
 
     public static final String NAME = "source_breeder_pedestal";
+    public static final MapCodec<SourceBreederPedestalBlock> CODEC = simpleCodec(SourceBreederPedestalBlock::new);
 
     private static final VoxelShape BASE_1 = Block.box(0D, 0D, 0D, 16D, 2D, 16D);
     private static final VoxelShape BASE_2 = Block.box(2D, 2D, 2D, 14D, 7D, 14D);
@@ -45,10 +48,15 @@ public class SourceBreederPedestalBlock extends AbstractECContainerBlock impleme
 
     private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, BASE_4, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
-    public SourceBreederPedestalBlock() {
-        super(ECProperties.Blocks.BLOCK_NOT_SOLID);
+    public SourceBreederPedestalBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(BlockStateProperties.WATERLOGGED, false));
+    }
+
+    @Override
+    protected @NotNull MapCodec<SourceBreederPedestalBlock> codec() {
+        return CODEC;
     }
 
     @Override

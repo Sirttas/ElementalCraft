@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -20,8 +21,8 @@ public abstract class AbstractHorizontalShrineUpgradeBlock extends AbstractShrin
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	protected AbstractHorizontalShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key) {
-		super(key);
+	protected AbstractHorizontalShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
+		super(key, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(WATERLOGGED, false));

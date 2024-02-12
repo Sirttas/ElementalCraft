@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.datagen;
 
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -8,20 +9,19 @@ import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.ModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
@@ -68,15 +68,15 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	protected void registerStatesAndModels() {
 		air = models().getExistingFile(new ResourceLocation("block/air"));
 		containerConnector = models().getExistingFile(prefix("container_connector"));
-		
-		for (var entry : ForgeRegistries.BLOCKS.getEntries()) {
-			var block = entry.getValue();
-			var key = entry.getKey().location();
+
+		BuiltInRegistries.BLOCK.holders().forEach(h -> {
+			var block = h.value();
+			var key = h.key().location();
 
 			if (ElementalCraft.owns(key) && !exists(key)) {
 				save(key, block);
 			}
-		}
+		});
 	}
 
 	private boolean exists(ResourceLocation name) {
@@ -88,7 +88,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 
 	private ResourceLocation prefix(String name) {
-		return prefix(ElementalCraft.createRL(name));
+		return prefix(ElementalCraftApi.createRL(name));
 	}
 	
 	private ResourceLocation prefix(ResourceLocation name) {
@@ -237,7 +237,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			simpleBlock(block, models().withExistingParent(name, prefix("template_source_displacement_plate")).texture(TEXTURE, prefix("source_displacement_plate_" + sourceDisplacementPlateBlock.getElementType().getSerializedName() + "_top")));
 		} else if (modelExists(key)) {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
-		} else if (block instanceof GlassBlock) {
+		} else if (block instanceof TransparentBlock) {
 			simpleBlock(block, models().cubeAll(name, blockTexture(block)).renderType(TRANSLUCENT));
 		} else {
 			simpleBlock(block);

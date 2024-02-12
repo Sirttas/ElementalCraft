@@ -25,6 +25,8 @@ public record RuneTestHolder(
                 of("infusergametests.infuser", "creative"),
                 of("purifiergametests.ore_purifier", "creative"),
                 of("chiselgametests.sorter_with_rune", new BlockPos(0, 1, 0), "zod"),
+                of("enchantmentliquefiergametests.should_transferenchantment", "creative"),
+                of("enchantmentliquefiergametests.should_transferenchantment", new BlockPos(0, 3, 0), "creative"),
                 of("sourcebreedergametests.source_breeder", new BlockPos(0, 1, 2), "creative"),
                 of("pureinfusergametests.pure_infuser", new BlockPos(3, 1, 3), "creative")
         ), MillTestHolder.HOLDERS.stream()

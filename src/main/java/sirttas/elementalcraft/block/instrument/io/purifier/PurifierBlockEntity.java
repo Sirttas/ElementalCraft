@@ -1,11 +1,12 @@
 package sirttas.elementalcraft.block.instrument.io.purifier;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -14,6 +15,7 @@ import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<PurifierBlockEntity, IPurifierRecipe> {
 
@@ -23,6 +25,7 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 			ECConfig.COMMON.purifierTransferSpeed,
 			ECConfig.COMMON.purifierMaxRunes,
 			1,
+			false,
 			false
 	);
 
@@ -36,8 +39,8 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 
 	@Nonnull
     @Override
-	protected @NotNull IItemHandler createHandler() {
-		return new SidedInvWrapper(inventory, null);
+	public IItemHandler getItemHandler(@Nullable Direction direction) {
+		return new SidedInvWrapper(inventory, direction);
 	}
 
 	@Override

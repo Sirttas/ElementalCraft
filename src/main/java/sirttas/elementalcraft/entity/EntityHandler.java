@@ -1,32 +1,22 @@
 package sirttas.elementalcraft.entity;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.ItemHandlerHelper;
-import sirttas.elementalcraft.ElementalCraft;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.IMenuOpenListener;
-import sirttas.elementalcraft.entity.player.PlayerElementStorage;
-import sirttas.elementalcraft.entity.player.PlayerSpellTickManager;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.jewel.handler.ClientJewelHandler;
-import sirttas.elementalcraft.jewel.handler.JewelHandler;
-import sirttas.elementalcraft.spell.tick.ISpellTickManager;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
@@ -70,23 +60,6 @@ public class EntityHandler {
 			}
 		}
 	}
-	
-	@SubscribeEvent
-	public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
-		Entity entity = event.getObject();
-
-		if (entity instanceof Player player && !(entity instanceof FakePlayer)) {
-			var provider = PlayerElementStorage.createProvider(player);
-
-			event.addCapability(ElementalCraft.createRL(ECNames.ELEMENT_STORAGE), provider);
-			event.addCapability(ElementalCraft.createRL(ECNames.SPELL_TICK_MANAGER), PlayerSpellTickManager.createProvider(player));
-			if (entity.level().isClientSide) {
-				event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), ClientJewelHandler.createProvider());
-			} else {
-				event.addCapability(ElementalCraft.createRL(ECNames.JEWEL), JewelHandler.createProvider(entity, ElementStorageHelper.get(provider).orElse(null)));
-			}
-		}
-	}
 
 	@SubscribeEvent
 	public static void onContainerOpen(PlayerContainerEvent.Open event) {
@@ -98,7 +71,11 @@ public class EntityHandler {
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) {
-			SpellTickHelper.get(event.player).ifPresent(ISpellTickManager::tick);
+			var manager = SpellTickHelper.get(event.player);
+
+			if (manager != null) {
+				manager.tick();
+			}
 		}
 	}
 }

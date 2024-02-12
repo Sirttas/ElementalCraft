@@ -1,28 +1,23 @@
 package sirttas.elementalcraft.block.container;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public abstract class AbstractElementContainerBlockEntity extends AbstractECBlockEntity implements IElementContainer {
 
 	protected final SingleElementStorage elementStorage;
 
-	protected AbstractElementContainerBlockEntity(RegistryObject<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, Function<AbstractElementContainerBlockEntity, SingleElementStorage> elementStorage) {
+	protected AbstractElementContainerBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, Function<AbstractElementContainerBlockEntity, SingleElementStorage> elementStorage) {
 		super(blockEntityType, pos, state);
 		this.elementStorage = elementStorage.apply(this);
 	}
@@ -39,15 +34,6 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 	public void saveAdditional(@Nonnull CompoundTag compound) {
 		super.saveAdditional(compound);
 		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
-	}
-
-	@Override
-	@Nonnull
-	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == ElementalCraftCapabilities.ELEMENT_STORAGE) {
-			return LazyOptional.of(elementStorage != null ? () -> elementStorage : null).cast();
-		}
-		return super.getCapability(cap, side);
 	}
 
 	@Override

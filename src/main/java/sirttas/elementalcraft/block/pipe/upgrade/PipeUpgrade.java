@@ -16,17 +16,16 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.attachment.AttachmentHolder;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeTransferer;
+import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapability;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.loot.parameter.ECLootContextParamSets;
 import sirttas.elementalcraft.loot.parameter.ECLootContextParams;
@@ -35,9 +34,11 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
-public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements ItemLike {
+public class PipeUpgrade extends AttachmentHolder implements ItemLike {
 
     public static final String FOLDER = "elementalcraft/pipe_upgrade/";
+    public static final String ATTACHMENTS = "neoforge:attachments";
+
 
     private final PipeUpgradeType<?> type;
 
@@ -46,16 +47,21 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
     private Item item;
 
     protected PipeUpgrade(PipeUpgradeType<?> type, ElementPipeBlockEntity pipe, Direction direction) {
-        super(PipeUpgrade.class);
         this.type = type;
         this.pipe = pipe;
         this.direction = direction;
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public <T> LazyOptional<T> getCapability(@NotNull final Capability<T> cap, @Nullable final Direction side) {
-        return side == null || side == direction ? super.getCapability(cap, side) : LazyOptional.empty();
+    public final <T> T setData(@NotNull AttachmentType<T> type, @NotNull T data) {
+        this.pipe.setChanged();
+        return super.setData(type, data);
+    }
+
+    @Nullable
+    public <T, C> T getCapability(@NotNull final PipeUpgradeCapability<T, C> cap, C context) {
+        return cap.getCapability(this, context);
     }
 
     public ResourceLocation getKey() {
@@ -63,9 +69,10 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
     }
 
     public void load(CompoundTag tag) {
-        if (getCapabilities() != null && tag.contains(ECNames.FORGE_CAPS)) {
-            deserializeCaps(tag.getCompound(ECNames.FORGE_CAPS));
+        if (tag.contains(ATTACHMENTS, 10)) {
+            this.deserializeAttachments(tag.getCompound(ATTACHMENTS));
         }
+
     }
 
     public CompoundTag save() {
@@ -77,12 +84,9 @@ public class PipeUpgrade extends CapabilityProvider<PipeUpgrade> implements Item
     }
 
     protected void saveAdditional(CompoundTag tag) {
-        if (getCapabilities() != null) {
-            var caps = serializeCaps();
-
-            if (caps != null) {
-                tag.put(ECNames.FORGE_CAPS, caps);
-            }
+        CompoundTag attachments = this.serializeAttachments();
+        if (attachments != null) {
+            tag.put(ATTACHMENTS, attachments);
         }
     }
 

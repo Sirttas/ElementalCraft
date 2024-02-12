@@ -1,24 +1,25 @@
 package sirttas.elementalcraft.loot.function;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.storage.loot.Serializer;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECLootFunctions {
 
-	private static final DeferredRegister<LootItemFunctionType> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.LOOT_FUNCTION_TYPE.key(), ElementalCraftApi.MODID);
+	private static final DeferredRegister<LootItemFunctionType> DEFERRED_REGISTER = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, ElementalCraftApi.MODID);
 
-	public static final RegistryObject<LootItemFunctionType> RANDOM_SPELL = register("random_spell", new RandomSpell.Serializer());
+	public static final DeferredHolder<LootItemFunctionType, LootItemFunctionType> RANDOM_SPELL = register("random_spell", RandomSpell.CODEC);
+	public static final DeferredHolder<LootItemFunctionType, LootItemFunctionType> RANDOM_SPELL_LIST = register("random_spell_list", RandomSpellList.CODEC);
 
 	private ECLootFunctions() {}
 
-	public static RegistryObject<LootItemFunctionType> register(String name, Serializer<? extends LootItemFunction> serializer) {
-		return DEFERRED_REGISTER.register(name, () -> new LootItemFunctionType(serializer));
+	public static DeferredHolder<LootItemFunctionType, LootItemFunctionType> register(String name, Codec<? extends LootItemFunction> codec) {
+		return DEFERRED_REGISTER.register(name, () -> new LootItemFunctionType(codec));
 	}
 
 	public static void register(IEventBus modBus) {

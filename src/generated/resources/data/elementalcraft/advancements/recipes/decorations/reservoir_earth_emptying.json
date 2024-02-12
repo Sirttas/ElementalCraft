@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_reservoir_earth",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_reservoir_earth"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:reservoir_earth_emptying"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

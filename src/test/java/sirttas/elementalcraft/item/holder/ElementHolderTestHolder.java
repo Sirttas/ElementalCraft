@@ -7,17 +7,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.RegistryObject;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItems;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public record ElementHolderTestHolder(
         ElementType type,
-        RegistryObject< ? extends AbstractElementHolderItem> item
+        Supplier<? extends AbstractElementHolderItem> item
 ) {
 
     public static final List<ElementHolderTestHolder> HOLDERS = List.of(
@@ -33,7 +33,7 @@ public record ElementHolderTestHolder(
 
     public static final String BATCH_NAME = "element_holder";
 
-    public static ElementHolderTestHolder of(ElementType type, RegistryObject< ? extends AbstractElementHolderItem> item) {
+    public static ElementHolderTestHolder of(ElementType type, Supplier< ? extends AbstractElementHolderItem> item) {
         return new ElementHolderTestHolder(type, item);
     }
 

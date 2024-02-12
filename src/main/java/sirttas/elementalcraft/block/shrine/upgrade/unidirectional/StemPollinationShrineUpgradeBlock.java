@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,12 +9,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -25,6 +28,7 @@ import java.util.List;
 public class StemPollinationShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_stem_pollination";
+	public static final MapCodec<StemPollinationShrineUpgradeBlock> CODEC = simpleCodec(StemPollinationShrineUpgradeBlock::new);
 
 	private static final VoxelShape TOP = Block.box(6D, 8D, 6D, 10D, 11D, 10D);
 	private static final VoxelShape PIPE_NORTH = Block.box(7D, 7D, 3D, 9D, 9D, 6D);
@@ -34,10 +38,15 @@ public class StemPollinationShrineUpgradeBlock extends AbstractShrineUpgradeBloc
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.BONELESS_GROWTH, TOP, PIPE_NORTH, PIPE_SOUTH, PIPE_WEST, PIPE_EAST);
 
-	public StemPollinationShrineUpgradeBlock() {
-		super(ShrineUpgrades.STEM_POLLINATION);
+	public StemPollinationShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.STEM_POLLINATION, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<StemPollinationShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
 	@Override
 	public Direction getFacing(@Nonnull BlockState state) {

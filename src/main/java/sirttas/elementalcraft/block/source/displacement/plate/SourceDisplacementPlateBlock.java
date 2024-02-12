@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.block.source.displacement.plate;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -13,13 +15,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -36,12 +41,24 @@ public class SourceDisplacementPlateBlock extends AbstractECEntityBlock implemen
     public static final String NAME_WATER = NAME + "_water";
     public static final String NAME_EARTH = NAME + "_earth";
     public static final String NAME_AIR = NAME + "_air";
+
+    public static final MapCodec<SourceDisplacementPlateBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(SourceDisplacementPlateBlock::getElementType),
+            propertiesCodec()
+    ).apply(instance, SourceDisplacementPlateBlock::new));
+
     private static final VoxelShape SHAPE = Shapes.or(ECShapes.SOURCE_DISPLACEMENT_PLATE_SHAPE, Block.box(5D, 3D, 5D, 11D, 4D, 11D));
 
     private final ElementType elementType;
 
-    public SourceDisplacementPlateBlock(ElementType elementType) {
+    public SourceDisplacementPlateBlock(ElementType elementType, BlockBehaviour.Properties properties) {
+        super(properties);
         this.elementType = elementType;
+    }
+
+    @Override
+    protected @NotNull MapCodec<SourceDisplacementPlateBlock> codec() {
+        return CODEC;
     }
 
     @Nullable

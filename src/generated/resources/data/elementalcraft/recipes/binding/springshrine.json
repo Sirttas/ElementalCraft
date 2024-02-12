@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:springshrine"
+    "Count": 1,
+    "id": "elementalcraft:springshrine"
   }
 }

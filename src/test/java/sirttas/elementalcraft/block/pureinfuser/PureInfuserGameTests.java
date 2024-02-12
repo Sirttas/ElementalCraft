@@ -8,12 +8,12 @@ import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 
 import java.util.Collection;
@@ -32,6 +32,8 @@ public class PureInfuserGameTests {
 
         assertThat(pureInfuser).isNotNull();
 
+        pureInfuser.refreshPedestals();
+
         var firePedestal = pureInfuser.getPedestal(ElementType.FIRE);
         var waterPedestal = pureInfuser.getPedestal(ElementType.WATER);
         var earthPedestal = pureInfuser.getPedestal(ElementType.EARTH);
@@ -49,10 +51,10 @@ public class PureInfuserGameTests {
         var earthPedestalItemHandler = ECContainerHelper.getItemHandler(earthPedestal, null);
         var airPedestalItemHandler = ECContainerHelper.getItemHandler(airPedestal, null);
 
-        var firePedestalElementStorage = ElementStorageHelper.get(firePedestal).orElse(null);
-        var waterPedestalElementStorage = ElementStorageHelper.get(waterPedestal).orElse(null);
-        var earthPedestalElementStorage = ElementStorageHelper.get(earthPedestal).orElse(null);
-        var airPedestalElementStorage = ElementStorageHelper.get(airPedestal).orElse(null);
+        var firePedestalElementStorage = ElementStorageGameTestHelper.get(firePedestal);
+        var waterPedestalElementStorage = ElementStorageGameTestHelper.get(waterPedestal);
+        var earthPedestalElementStorage = ElementStorageGameTestHelper.get(earthPedestal);
+        var airPedestalElementStorage = ElementStorageGameTestHelper.get(airPedestal);
 
         assertThat(pureInfuserItemHandler).isNotNull();
         assertThat(firePedestalItemHandler).isNotNull();
@@ -102,6 +104,8 @@ public class PureInfuserGameTests {
 
         assertThat(pureInfuser).isNotNull();
 
+        pureInfuser.refreshPedestals();
+
         var firePedestal = pureInfuser.getPedestal(ElementType.FIRE);
         var waterPedestal = pureInfuser.getPedestal(ElementType.WATER);
         var earthPedestal = pureInfuser.getPedestal(ElementType.EARTH);
@@ -119,10 +123,10 @@ public class PureInfuserGameTests {
         var earthPedestalItemHandler = ECContainerHelper.getItemHandler(earthPedestal, null);
         var airPedestalItemHandler = ECContainerHelper.getItemHandler(airPedestal, null);
 
-        var firePedestalElementStorage = ElementStorageHelper.get(firePedestal).orElse(null);
-        var waterPedestalElementStorage = ElementStorageHelper.get(waterPedestal).orElse(null);
-        var earthPedestalElementStorage = ElementStorageHelper.get(earthPedestal).orElse(null);
-        var airPedestalElementStorage = ElementStorageHelper.get(airPedestal).orElse(null);
+        var firePedestalElementStorage = ElementStorageGameTestHelper.get(firePedestal);
+        var waterPedestalElementStorage = ElementStorageGameTestHelper.get(waterPedestal);
+        var earthPedestalElementStorage = ElementStorageGameTestHelper.get(earthPedestal);
+        var airPedestalElementStorage = ElementStorageGameTestHelper.get(airPedestal);
 
         assertThat(pureInfuserItemHandler).isNotNull();
         assertThat(firePedestalItemHandler).isNotNull();

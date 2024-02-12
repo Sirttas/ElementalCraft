@@ -6,6 +6,7 @@
     "tag": "forge:ingots/iron"
   },
   "output": {
-    "item": "elementalcraft:drenched_iron_ingot"
+    "Count": 1,
+    "id": "elementalcraft:drenched_iron_ingot"
   }
 }

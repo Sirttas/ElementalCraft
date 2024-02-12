@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,14 +10,16 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -27,6 +30,7 @@ import java.util.List;
 public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_silk_touch";
+	public static final MapCodec<SilkTouchShrineUpgradeBlock> CODEC = simpleCodec(SilkTouchShrineUpgradeBlock::new);
 
 	private static final VoxelShape CORE_NORTH = Block.box(6D, 6D, 4D, 10D, 16D, 8D);
 	private static final VoxelShape PILAR_NORTH = Block.box(7D, 2D, 5D, 9D, 6D, 7D);
@@ -67,12 +71,17 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 	private static final VoxelShape SHAPE_EAST_ATTACHED = Shapes.or(SHAPE_EAST, ATTACH_EAST);
 
 
-	public SilkTouchShrineUpgradeBlock() {
-		super(ShrineUpgrades.SILK_TOUCH);
+	public SilkTouchShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.SILK_TOUCH, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(BlockStateProperties.ATTACHED, true)
 				.setValue(WATERLOGGED, false));
+	}
+
+	@Override
+	protected @NotNull MapCodec<SilkTouchShrineUpgradeBlock> codec() {
+		return CODEC;
 	}
 
 	@Nonnull

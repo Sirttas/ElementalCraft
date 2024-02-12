@@ -2,7 +2,7 @@ package sirttas.elementalcraft.container;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityGameTestHelper;
 
 import javax.annotation.Nonnull;

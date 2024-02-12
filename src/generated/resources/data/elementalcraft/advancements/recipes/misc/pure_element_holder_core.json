@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_fireite_ingot",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_fireite_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:pure_element_holder_core"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

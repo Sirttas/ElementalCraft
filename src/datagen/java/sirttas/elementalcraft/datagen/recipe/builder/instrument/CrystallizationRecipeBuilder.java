@@ -1,26 +1,19 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import sirttas.dpanvil.api.codec.CodecHelper;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
-import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class CrystallizationRecipeBuilder {
 
@@ -28,17 +21,15 @@ public class CrystallizationRecipeBuilder {
 	private final List<Ingredient> ingredients = Lists.newArrayList(Ingredient.EMPTY, Ingredient.EMPTY, Ingredient.EMPTY);
 	private final ElementType elementType;
 	private int elementAmount;
-	private final RecipeSerializer<?> serializer;
 
-	public CrystallizationRecipeBuilder(RecipeSerializer<?> serializer, ElementType elementType) {
-		this.serializer = serializer;
+	public CrystallizationRecipeBuilder(ElementType elementType) {
 		this.elementType = elementType;
 		elementAmount = 5000;
 		outputs = Lists.newArrayList();
 	}
 
 	public static CrystallizationRecipeBuilder crystallizationRecipe(ElementType elementType) {
-		return new CrystallizationRecipeBuilder(ECRecipeSerializers.CRYSTALLIZATION.get(), elementType);
+		return new CrystallizationRecipeBuilder(elementType);
 	}
 
 	public CrystallizationRecipeBuilder withElementAmount(int elementAmount) {
@@ -104,40 +95,11 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public void save(Consumer<FinishedRecipe> consumer, String save) {
-		this.save(consumer, ElementalCraft.createRL(CrystallizationRecipe.NAME + '/' + save));
+	public void save(RecipeOutput recipeOutput, String save) {
+		this.save(recipeOutput, ElementalCraftApi.createRL(CrystallizationRecipe.NAME + '/' + save));
 	}
 
-	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, this.serializer, this.ingredients, this.outputs, elementType, elementAmount));
-	}
-
-	public static class Result extends AbstractFinishedRecipe {
-		private final List<Ingredient> ingredients;
-		private final List<ResultEntry> outputs;
-		private final ElementType elementType;
-		private final int elementAmount;
-
-		public Result(ResourceLocation id, RecipeSerializer<?> serializer, List<Ingredient> ingredients, List<ResultEntry> outputs, ElementType elementType, int elementAmount) {
-			super(id, serializer);
-			this.ingredients = ingredients;
-			this.outputs = outputs;
-			this.elementType = elementType;
-			this.elementAmount = elementAmount;
-		}
-
-		@Override
-		public void serializeRecipeData(JsonObject json) {
-			json.addProperty(ECNames.ELEMENT_TYPE, this.elementType.getSerializedName());
-			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
-			JsonObject ingredientsJson = new JsonObject();
-
-			ingredientsJson.add(ECNames.GEM, this.ingredients.get(0).toJson());
-			ingredientsJson.add(ECNames.CRYSTAL, this.ingredients.get(1).toJson());
-			ingredientsJson.add(ECNames.SHARD, this.ingredients.get(2).toJson());
-
-			json.add(ECNames.INGREDIENTS, ingredientsJson);
-			json.add(ECNames.OUTPUTS, CodecHelper.encode(ResultEntry.LIST_CODEC, outputs));
-		}
+	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+		recipeOutput.accept(id, new CrystallizationRecipe(elementType, elementAmount, this.ingredients, this.outputs), null);
 	}
 }

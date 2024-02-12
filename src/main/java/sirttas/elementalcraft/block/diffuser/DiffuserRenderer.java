@@ -7,10 +7,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class DiffuserRenderer implements BlockEntityRenderer<DiffuserBlockEntity> {
 	
-	public static final ResourceLocation CUBE_LOCATION = ElementalCraft.createRL("block/diffuser_cube");
+	public static final ResourceLocation CUBE_LOCATION = ElementalCraftApi.createRL("block/diffuser_cube");
 	
 	private static final Quaternionf ROTATION = Axis.XP.rotationDegrees(45);
 	static {

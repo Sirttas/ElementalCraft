@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -7,12 +8,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -22,6 +25,7 @@ import java.util.List;
 public class CrystalHarvestShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_crystal_harvest";
+	public static final MapCodec<CrystalHarvestShrineUpgradeBlock> CODEC = simpleCodec(CrystalHarvestShrineUpgradeBlock::new);
 
 	private static final VoxelShape CORE_1_NORTH = Block.box(5D, 5D, 4D, 11D, 16D, 7D);
 	private static final VoxelShape CORE_2_NORTH = Block.box(6D, 6D, 7D, 10D, 10D, 9D);
@@ -47,10 +51,15 @@ public class CrystalHarvestShrineUpgradeBlock extends AbstractHorizontalShrineUp
 	private static final VoxelShape PIPE_2_EAST = Block.box(12D, 13D, 7D, 18D, 15D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_1_EAST, CORE_2_EAST, PIPE_1_EAST, PIPE_2_EAST);
 
-	public CrystalHarvestShrineUpgradeBlock() {
-		super(ShrineUpgrades.CRYSTAL_HARVEST);
+	public CrystalHarvestShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.CRYSTAL_HARVEST, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<CrystalHarvestShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
     @Override
 	@Deprecated

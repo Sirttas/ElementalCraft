@@ -34,15 +34,14 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_strongly_contained_crystal",
-      "has_whiterock",
-      "has_the_recipe"
+      "has_whiterock"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:crystallizer"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

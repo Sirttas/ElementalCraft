@@ -6,6 +6,7 @@
     "tag": "forge:string"
   },
   "output": {
-    "item": "elementalcraft:air_silk"
+    "Count": 1,
+    "id": "elementalcraft:air_silk"
   }
 }

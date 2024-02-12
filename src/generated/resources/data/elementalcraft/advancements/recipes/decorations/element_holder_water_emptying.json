@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_element_holder_water",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_element_holder_water"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:element_holder_water_emptying"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

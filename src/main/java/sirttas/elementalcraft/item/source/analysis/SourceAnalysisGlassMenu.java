@@ -10,7 +10,7 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
-import sirttas.elementalcraft.network.message.MessageHelper;
+import sirttas.elementalcraft.network.payload.PayloadHelper;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class SourceAnalysisGlassMenu extends AbstractECMenu {
 
 	private void sendTraits() {
 		if (player instanceof ServerPlayer serverPlayer) {
-			MessageHelper.sendToPlayer(serverPlayer, new SourceAnalysisGlassMessage(traits));
+			PayloadHelper.sendToPlayer(serverPlayer, new SourceAnalysisGlassPayload(traits));
 		}
 	}
 

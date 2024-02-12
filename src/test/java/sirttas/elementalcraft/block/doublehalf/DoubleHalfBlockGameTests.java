@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.doublehalf;
 import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 

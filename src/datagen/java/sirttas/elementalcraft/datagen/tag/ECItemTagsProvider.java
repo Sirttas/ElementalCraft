@@ -3,6 +3,7 @@ package sirttas.elementalcraft.datagen.tag;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
@@ -12,9 +13,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
@@ -25,8 +25,8 @@ import vazkii.botania.api.BotaniaAPI;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
@@ -172,13 +172,14 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 		addPipeTags();
 
+		tag(ECTags.Items.ENCHANTMENT_HOLDER).add(Items.BOOK, Items.ENCHANTED_BOOK);
 		tag(ECTags.Items.STAFF_CRAFT_SWORD).add(Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
 
 		addPureOreTags();
 
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
-		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
 		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
+		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).add(Items.CHORUS_FLOWER, Items.WITHER_ROSE, Items.SPORE_BLOSSOM).addTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
 
 		tag(ECTags.Items.WHITE_FLOWERS).add(Items.LILY_OF_THE_VALLEY);
 		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP, Items.TORCHFLOWER);
@@ -244,10 +245,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE,
 				ECTags.Items.PURE_ORES_SOURCE_URANINITE,
 				ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE
-		)
-				.addOptionalTag(forge("ores/pendorite"));
-
-		tag(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
+		).addOptionalTag(forge("ores/pendorite"));
 	}
 
 	private ResourceLocation forge(String name) {
@@ -255,12 +253,12 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	}
 
 	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {
-		return ForgeRegistries.ITEMS.getValues().stream()
-				.filter(i -> modIds.contains(ForgeRegistries.ITEMS.getKey(i).getNamespace()) && clazz.isInstance(i))
-				.map(clazz::cast)
+		return BuiltInRegistries.ITEM.entrySet().stream()
+				.filter(e -> modIds.contains(e.getKey().location().getNamespace()) && clazz.isInstance(e.getValue()))
+				.sorted(Map.Entry.comparingByKey())
+				.map(e -> clazz.cast(e.getValue()))
 				.filter(filter)
 				.map(Item.class::cast)
-				.sorted(Comparator.comparing(ForgeRegistries.ITEMS::getKey))
 				.toArray(Item[]::new);
 	}
 

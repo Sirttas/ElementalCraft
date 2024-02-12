@@ -2,16 +2,16 @@ package sirttas.elementalcraft.block.shrine.spring;
 
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -34,10 +34,9 @@ public class SpringShrineBlockEntity extends AbstractShrineBlockEntity {
 	@Override
 	protected boolean doPeriod() {
 		if (this.hasUpgrade(ShrineUpgrades.FILLING)) {
-			return BlockEntityHelper.getBlockEntity(level, worldPosition.above(2))
-					.flatMap(entity -> entity.getCapability(ForgeCapabilities.FLUID_HANDLER).resolve())
-					.map(fluid -> fluid.fill(new FluidStack(Fluids.WATER, (int) Math.round(this.getStrength())), FluidAction.EXECUTE) > 0)
-					.orElse(false);
+			var fluid = level.getCapability(Capabilities.FluidHandler.BLOCK, worldPosition.above(2), Direction.DOWN);
+
+			return fluid != null && fluid.fill(new FluidStack(Fluids.WATER, (int) Math.round(this.getStrength())), FluidAction.EXECUTE) > 0;
 		}
 		return ((BucketItem) Items.WATER_BUCKET).emptyContents(null, level, worldPosition.above(), null);
 	}

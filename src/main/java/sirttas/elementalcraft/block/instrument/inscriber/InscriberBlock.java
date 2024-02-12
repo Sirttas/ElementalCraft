@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.instrument.inscriber;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -28,7 +30,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -43,6 +46,7 @@ import javax.annotation.Nullable;
 public class InscriberBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
 	public static final String NAME = "inscriber";
+	public static final MapCodec<InscriberBlock> CODEC = simpleCodec(InscriberBlock::new);
 
 	private static final VoxelShape BASE_1 = Block.box(0D, 1D, 0D, 16D, 2D, 16D);
 
@@ -113,11 +117,18 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public InscriberBlock() {
+	public InscriberBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(WATERLOGGED, false));
 	}
+
+	@Override
+	protected @NotNull MapCodec<InscriberBlock> codec() {
+		return CODEC;
+	}
+
 
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {

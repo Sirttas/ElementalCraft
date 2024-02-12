@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.shrine.growth;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -16,6 +19,7 @@ import javax.annotation.Nonnull;
 public class GrowthShrineBlock extends AbstractShrineBlock<GrowthShrineBlockEntity> {
 
 	public static final String NAME = "growthshrine";
+	public static final MapCodec<GrowthShrineBlock> CODEC = simpleCodec(GrowthShrineBlock::new);
 
 	private static final VoxelShape PIPE_UP_N = Block.box(7D, 12D, 4D, 9D, 15D, 6D);
 	private static final VoxelShape PIPE_UP_S = Block.box(7D, 12D, 10D, 9D, 15D, 12D);
@@ -25,10 +29,15 @@ public class GrowthShrineBlock extends AbstractShrineBlock<GrowthShrineBlockEnti
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, PIPE_UP_N, PIPE_UP_S, PIPE_UP_E, PIPE_UP_W);
 
-	public GrowthShrineBlock() {
-		super(ElementType.WATER);
+	public GrowthShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.WATER, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<GrowthShrineBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
     @Override
 	@Deprecated

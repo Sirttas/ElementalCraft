@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
@@ -22,8 +22,8 @@ public class BreedingShrineGameTests {
             var entities = helper.getEntities(EntityType.COW, new BlockPos(3, 2, 3), 3);
 
             assertThat(entities).hasSize(2).allSatisfy(c -> {
-                assertThat(c.isAlive()).isTrue();
-                assertThat(c.isInLove()).isTrue();
+                assertThat(c.isAlive()).withFailMessage("Cow is dead").isTrue();
+                assertThat(c.isInLove()).withFailMessage("Cow is not in love").isTrue();
             });
         }).thenSucceed();
     }

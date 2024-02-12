@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:reservoir_air"
+    "Count": 1,
+    "id": "elementalcraft:reservoir_air"
   }
 }

@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_reservoir_air",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_reservoir_air"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:reservoir_air_emptying"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

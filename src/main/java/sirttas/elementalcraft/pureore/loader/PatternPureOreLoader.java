@@ -4,9 +4,9 @@ import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -54,7 +54,7 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
     @Override
     protected GeneratedPureOre load(Map<ResourceLocation, PureOre> pureOres, Item ore) {
         var np = namespacePattern.orElseGet(() -> Pattern.compile("^" + namespace + "$"));
-        var id = Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(ore));
+        var id = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(ore));
         var tags = ore.builtInRegistryHolder().tags()
                 .filter(t -> {
                     var location = t.location();

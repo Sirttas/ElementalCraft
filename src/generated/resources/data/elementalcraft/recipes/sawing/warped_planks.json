@@ -1,12 +1,12 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 1000,
-  "input": {
+  "ingredient": {
     "tag": "elementalcraft:stripped_warped"
   },
   "luck_ratio": 3,
   "output": {
-    "count": 6,
-    "item": "minecraft:warped_planks"
+    "Count": 6,
+    "id": "minecraft:warped_planks"
   }
 }

@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
@@ -15,7 +15,7 @@ public class SpawningShrineGameTests {
     @GameTest(batch = ShrineGameTestHelper.BATCH_NAME, required = false)
     public static void should_spawnMobs(GameTestHelper helper) {
         helper.startSequence()
-                .thenExecute(() -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 2, 5), 20))
+                .thenExecuteAfter(1, () -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 2, 5), 20))
                 .thenExecuteAfter(1, () -> helper.assertEntityPresent(EntityType.ZOMBIE))
                 .thenSucceed();
     }

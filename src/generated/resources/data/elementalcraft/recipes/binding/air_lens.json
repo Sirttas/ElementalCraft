@@ -17,6 +17,10 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:air_lens"
+    "Count": 1,
+    "id": "elementalcraft:air_lens",
+    "tag": {
+      "Damage": 0
+    }
   }
 }

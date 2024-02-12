@@ -7,10 +7,10 @@ import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.source.trait.value.FixedSourceTraitValueProvider;
+import sirttas.elementalcraft.api.source.trait.value.RangeBasedSourceTraitValueProvider;
+import sirttas.elementalcraft.api.source.trait.value.StepsSourceTraitValueProvider;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
-import sirttas.elementalcraft.block.source.trait.value.FixedSourceTraitValueProvider;
-import sirttas.elementalcraft.block.source.trait.value.RangeBasedSourceTraitValueProvider;
-import sirttas.elementalcraft.block.source.trait.value.StepsSourceTraitValueProvider;
 import sirttas.elementalcraft.data.predicate.block.RangeFromSpawnPredicate;
 
 import javax.annotation.Nonnull;

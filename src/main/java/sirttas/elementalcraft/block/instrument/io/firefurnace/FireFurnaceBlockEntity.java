@@ -16,6 +16,7 @@ public class FireFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<Smelt
 			ECConfig.COMMON.fireFurnaceTransferSpeed,
 			ECConfig.COMMON.fireFurnaceMaxRunes,
 			1,
+			false,
 			false
 	);
 

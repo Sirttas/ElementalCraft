@@ -2,14 +2,15 @@ package sirttas.elementalcraft.event;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.JewelHelper;
+import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -39,7 +40,7 @@ public class EnchantmentHandler {
 			SpellHelper.addSpell(result, SpellHelper.getSpell(right));
 			event.setCost(n);
 			event.setOutput(result);
-		} else if (left.is(ECTags.Items.JEWEL_SOCKETABLES) && right.is(ECItems.JEWEL.get()) && JewelHelper.getJewel(left) == null) {
+		} else if (left.is(ECTags.Items.JEWEL_SOCKETABLES) && right.is(ECItems.JEWEL.get()) && JewelHelper.getJewel(left) == Jewels.NONE.get()) {
 			ItemStack result = left.copy();
 
 			JewelHelper.setJewel(result, JewelHelper.getJewel(right));

@@ -5,24 +5,20 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.item.ECItem;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class EffectSpell extends Spell {
 
@@ -59,26 +55,26 @@ public class EffectSpell extends Spell {
 
 		if (!effects.isEmpty()) {
 			for (MobEffectInstance effectInstance : effects) {
-				MutableComponent mutableComponent = Component.translatable(effectInstance.getDescriptionId());
-				MobEffect effect = effectInstance.getEffect();
+				var mutableComponent = Component.translatable(effectInstance.getDescriptionId());
+				var effect = effectInstance.getEffect();
+				var amplifier = effectInstance.getAmplifier();
 
-				Map<Attribute, AttributeModifier> map = effect.getAttributeModifiers();
+				var map = effect.getAttributeModifiers();
 				if (!map.isEmpty()) {
-					for (Entry<Attribute, AttributeModifier> entry : map.entrySet()) {
-						AttributeModifier attributemodifier = entry.getValue();
-						AttributeModifier attributeModifier1 = new AttributeModifier(attributemodifier.getName(), effect.getAttributeModifierValue(effectInstance.getAmplifier(), attributemodifier),
-								attributemodifier.getOperation());
+					for (var entry : map.entrySet()) {
+						var attributemodifier = entry.getValue();
+						var attributeModifier1 =  entry.getValue().create(amplifier);
+
 						multiMap.put(entry.getKey(), attributeModifier1);
 					}
 				}
 
-				if (effectInstance.getAmplifier() > 0) {
-					mutableComponent = Component.translatable("potion.withAmplifier", mutableComponent,
-							Component.translatable("potion.potency." + effectInstance.getAmplifier()));
+				if (amplifier > 0) {
+					mutableComponent = Component.translatable("potion.withAmplifier", mutableComponent, Component.translatable("potion.potency." + amplifier));
 				}
 
 				if (effectInstance.getDuration() > 20) {
-					mutableComponent = Component.translatable("potion.withDuration", mutableComponent, MobEffectUtil.formatDuration(effectInstance, 1));
+					mutableComponent = Component.translatable("potion.withDuration", mutableComponent, MobEffectUtil.formatDuration(effectInstance, 1, 20));
 				}
 
 				tooltip.add(mutableComponent.withStyle(effect.getCategory().getTooltipFormatting()));

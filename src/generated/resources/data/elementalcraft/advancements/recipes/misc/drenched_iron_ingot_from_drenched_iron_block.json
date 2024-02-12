@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_drenched_iron_block",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_drenched_iron_block"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:drenched_iron_ingot_from_drenched_iron_block"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

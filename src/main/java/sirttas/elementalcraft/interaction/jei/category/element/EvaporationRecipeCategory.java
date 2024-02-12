@@ -8,7 +8,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
@@ -26,7 +26,7 @@ public class EvaporationRecipeCategory extends AbstractElementFromItemRecipeCate
 
 	public EvaporationRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.evaporation", createDrawableStack(guiHelper, EVAPORATOR), guiHelper.createBlankDrawable(99, 59));
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/evaporation.png"), 0, 0, 64, 29), 8, 20);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/evaporation.png"), 0, 0, 64, 29), 8, 20);
 	}
 
 	@Nonnull

@@ -6,7 +6,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.entity.BlockEntityGameTestHelper;
@@ -46,6 +46,7 @@ public class ShrineRangeGameTests {
                 createTestFunction(index.getAndIncrement(), "breedingshrinegametests.should_breedcows", Rotation.CLOCKWISE_90, h -> should_haveRange(h, new BlockPos(0, 2, 3), new AABB(- 13, -8, 0, 8, 13, 21))),
                 createTestFunction(index.getAndIncrement(), "breedingshrinegametests.should_breedcows", Rotation.CLOCKWISE_180, h -> should_haveRange(h, new BlockPos(0, 2, 3), new AABB(-20, -8, -13, 1, 13, 8))),
                 createTestFunction(index.getAndIncrement(), "breedingshrinegametests.should_breedcows", Rotation.COUNTERCLOCKWISE_90, h -> should_haveRange(h, new BlockPos(0, 2, 3), new AABB(-7, -8, -20, 14, 13, 1))),
+                createTestFunction(index.getAndIncrement(), "growthshrinegametests.should_growcrops", h -> should_haveRange(h, new BlockPos(5, 2, 5), new AABB(1, 2, 1, 10, 5, 10))),
                 createTestFunction(index.getAndIncrement(), "translocationshrineupgradegametests.should_growcropsaroundanchor", h -> should_haveRange(h, new BlockPos(4, 2, 4), new AABB(1, 2, 1, 8, 5, 8))),
                 createTestFunction(index.getAndIncrement(), "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> {
                     var upgrade = (TranslocationShrineUpgradeBlockEntity) BlockEntityGameTestHelper.getBlockEntity(helper, new BlockPos(5, 2, 4));
@@ -53,8 +54,6 @@ public class ShrineRangeGameTests {
                     var targetPos = helper.absolutePos(new BlockPos(9, 2, 4));
 
                     upgrade.setTarget(targetPos);
-                    shrine.refresh();
-
                     should_haveRange(helper, shrine, new AABB(6, 2, 1, 13, 5, 8));
                 })
         );
@@ -66,6 +65,9 @@ public class ShrineRangeGameTests {
 
     private static void should_haveRange(GameTestHelper helper, AbstractShrineBlockEntity shrine, AABB range) {
         assertThat(shrine).isNotNull();
+
+        shrine.refresh();
+
         assertThat(shrine.getRange()).isEqualTo(range.move(helper.absolutePos(BlockPos.ZERO)));
         helper.succeed();
     }

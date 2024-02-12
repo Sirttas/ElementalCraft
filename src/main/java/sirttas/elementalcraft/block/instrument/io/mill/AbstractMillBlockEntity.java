@@ -3,8 +3,6 @@ package sirttas.elementalcraft.block.instrument.io.mill;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
@@ -22,12 +20,6 @@ public abstract class AbstractMillBlockEntity<T extends IInstrument, R extends I
         super(config, pos, state);
         this.inventory = new IOContainer(this::setChanged);
         this.elementType = elementType;
-    }
-
-    @Nonnull
-    @Override
-    protected IItemHandler createHandler() {
-        return new SidedInvWrapper(inventory, null);
     }
 
     @Nonnull

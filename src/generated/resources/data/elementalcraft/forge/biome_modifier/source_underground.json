@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#elementalcraft:has_sources/underground",
-  "features": "elementalcraft:source_underground",
-  "step": "underground_decoration"
-}

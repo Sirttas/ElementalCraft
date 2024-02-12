@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_earthcrystal",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_earthcrystal"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:earthcrystal_block_from_earthcrystal"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

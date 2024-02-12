@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#elementalcraft:has_sources/dripstone_cave",
+  "features": "elementalcraft:source_dripstone_cave",
+  "step": "underground_decoration"
+}

@@ -4,9 +4,15 @@
       "type": "elementalcraft:attribute",
       "attribute": "minecraft:generic.attack_speed",
       "modifier": {
-        "amount": 0.8,
-        "name": "Attack Speed Infusion",
-        "operation": "addition"
+        "Amount": 0.8,
+        "Name": "Attack Speed Infusion",
+        "Operation": "addition",
+        "UUID": [
+          511010944,
+          195839472,
+          -1347360119,
+          1398673813
+        ]
       },
       "slot": [
         "mainhand"

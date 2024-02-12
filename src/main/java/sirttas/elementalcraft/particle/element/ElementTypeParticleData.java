@@ -5,9 +5,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 
@@ -60,7 +60,7 @@ public class ElementTypeParticleData implements ParticleOptions, IElementTypePro
 
 	private ResourceLocation getKey() {
 		if (key == null) {
-			key = ForgeRegistries.PARTICLE_TYPES.getKey(getType());
+			key = BuiltInRegistries.PARTICLE_TYPE.getKey(getType());
 		}
 		return key;
 	}

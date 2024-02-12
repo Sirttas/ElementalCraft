@@ -4,9 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.ElementalCraft;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 
@@ -14,7 +14,7 @@ import sirttas.elementalcraft.config.ECConfig;
 @SuppressWarnings("resource")
 public class GuiHelper {
 
-	private static final ResourceLocation GAUGE = ElementalCraft.createRL("textures/gui/element_gauge.png");
+	private static final ResourceLocation GAUGE = ElementalCraftApi.createRL("textures/gui/element_gauge.png");
 
 	private GuiHelper() {}
 

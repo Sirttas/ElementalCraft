@@ -84,7 +84,8 @@ public class ECTags {
 		public static final TagKey<Item> SMALL_CONTAINER_COMPATIBLES = createTag("small_container_compatibles");
 		public static final TagKey<Item> INSTRUMENTS = createTag("instruments");
 		public static final TagKey<Item> CONTAINER_TOOLS = createTag("container_tools");
-		
+		public static final TagKey<Item> ENCHANTMENT_HOLDER = createTag("enchantment_holder");
+
 		public static final TagKey<Item> STAFF_CRAFT_SWORD = createTag("staff_craft_sword");
 
 		public static final TagKey<Item> PURE_ORES_SOURCE_ORES = createTag("pure_ores/sources/ores");
@@ -98,7 +99,6 @@ public class ECTags {
 		public static final TagKey<Item> PURE_ORES_SOURCE_URANINITE = createTag("pure_ores/sources/uraninite");
 		public static final TagKey<Item> PURE_ORES_SOURCE_DENSE_URANINITE = createTag("pure_ores/sources/dense_uraninite");
 		public static final TagKey<Item> PURE_ORES_SPECIFICS = createTag("pure_ores/specifics");
-		public static final TagKey<Item> PURE_ORES_MOD_PROCESSING_BLACKLIST = createTag("pure_ores/mod_processing_blacklist");
 
 		public static final TagKey<Item> JEWEL_SOCKETABLES = createTag("jewel_socketables");
 		public static final TagKey<Item> SOURCE_SEEDS = createTag("source_seeds");
@@ -152,6 +152,7 @@ public class ECTags {
 		public static final TagKey<Item> GREEN_FLOWERS = createForgeTag("flowers/green");
         public static final TagKey<Item> BLACK_FLOWERS = createForgeTag("flowers/black");
         public static final TagKey<Item> RED_FLOWERS = createForgeTag("flowers/red");
+
 
         private Items() {}
 		

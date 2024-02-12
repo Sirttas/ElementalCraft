@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -7,11 +8,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -23,10 +26,16 @@ import java.util.List;
 public class BonelessGrowthShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_boneless_growth";
+	public static final MapCodec<BonelessGrowthShrineUpgradeBlock> CODEC = simpleCodec(BonelessGrowthShrineUpgradeBlock::new);
 
 
-	public BonelessGrowthShrineUpgradeBlock() {
-		super(ShrineUpgrades.BONELESS_GROWTH);
+	public BonelessGrowthShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.BONELESS_GROWTH, properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<BonelessGrowthShrineUpgradeBlock> codec() {
+		return CODEC;
 	}
 	
 	@Nonnull

@@ -1,22 +1,22 @@
 package sirttas.elementalcraft.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.DoubleValue;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ECConfig {
 
 	public static final Common COMMON;
-	public static final ForgeConfigSpec COMMON_SPEC;
+	public static final ModConfigSpec COMMON_SPEC;
 
 	public static final Client CLIENT;
-	public static final ForgeConfigSpec CLIENT_SPEC;
+	public static final ModConfigSpec CLIENT_SPEC;
 
 	static {
-		Pair<Common, ForgeConfigSpec> serverPair = new ForgeConfigSpec.Builder().configure(Common::new);
-		Pair<Client, ForgeConfigSpec> clientPair = new ForgeConfigSpec.Builder().configure(Client::new);
+		Pair<Common, ModConfigSpec> serverPair = new ModConfigSpec.Builder().configure(Common::new);
+		Pair<Client, ModConfigSpec> clientPair = new ModConfigSpec.Builder().configure(Client::new);
 
 		COMMON_SPEC = serverPair.getRight();
 		COMMON = serverPair.getLeft();
@@ -64,6 +64,16 @@ public class ECConfig {
 		public final IntValue waterMillsMaxRunes;
 		public final IntValue airMillsTransferSpeed;
 		public final IntValue airMillsMaxRunes;
+		public final IntValue enchantmentLiquefierTransferSpeed;
+		public final IntValue enchantmentLiquefierMaxRunes;
+		public final IntValue enchantmentLiquefierElementAmountCommon;
+		public final IntValue enchantmentLiquefierElementAmountUncommon;
+		public final IntValue enchantmentLiquefierElementAmountRare;
+		public final IntValue enchantmentLiquefierElementAmountVeryRare;
+		public final IntValue enchantmentLiquefierBreakChanceCommon;
+		public final IntValue enchantmentLiquefierBreakChanceUncommon;
+		public final IntValue enchantmentLiquefierBreakChanceRare;
+		public final IntValue enchantmentLiquefierBreakChanceVeryRare;
 		public final IntValue purifierTransferSpeed;
 		public final IntValue purifierMaxRunes;
 		public final BooleanValue pureOreRecipeInjection;
@@ -112,7 +122,7 @@ public class ECConfig {
 		public final IntValue mekanismPureOreInputMultiplier;
 		public final IntValue mekanismPureOreOutputMultiplier;
 
-		public Common(ForgeConfigSpec.Builder builder) {
+		public Common(ModConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft config").push("elementalcraft");
 
 			builder.comment("Instruments config").push("instruments").push("tank");
@@ -165,7 +175,20 @@ public class ECConfig {
 			builder.pop().push("airMills");
 			airMillsTransferSpeed = builder.comment("The max amount of element consumed by the Air Mills per tick.").defineInRange("airMillsTransferSpeed", 25, 0, 1000);
 			airMillsMaxRunes = builder.comment("The max amount of runes on Air Mills.").defineInRange("airMillMaxRunes", 3, 0, 10);
-			builder.pop().push("purifier");
+			builder.pop().push("enchantmentLiquefier");
+			enchantmentLiquefierTransferSpeed = builder.comment("The max amount of element consumed by the Enchantment Liquefier per tick.").defineInRange("enchantmentLiquefierTransferSpeed", 25, 0, 1000);
+			enchantmentLiquefierMaxRunes = builder.comment("The max amount of runes on an Enchantment Liquefier.").defineInRange("enchantmentLiquefierMaxRunes", 3, 0, 10);
+			builder.push("elementAmount");
+			enchantmentLiquefierElementAmountCommon = builder.comment("The cost of liquefying common echantments.").defineInRange("enchantmentLiquefierElementAmountCommon", 5000, 0, 100000000);
+			enchantmentLiquefierElementAmountUncommon = builder.comment("The cost of liquefying uncommon echantments.").defineInRange("enchantmentLiquefierElementAmountUncommon", 10000, 0, 100000000);
+			enchantmentLiquefierElementAmountRare = builder.comment("The cost of liquefying rare echantments.").defineInRange("enchantmentLiquefierElementAmountRare", 20000, 0, 100000000);
+			enchantmentLiquefierElementAmountVeryRare = builder.comment("The cost of liquefying very rare echantments.").defineInRange("enchantmentLiquefierElementAmountVeryRare", 50000, 0, 100000000);
+			builder.pop().push("breakChance");
+			enchantmentLiquefierBreakChanceCommon = builder.comment("The chance of breaking common echantments.").defineInRange("enchantmentLiquefierBreakChanceCommon", 5, 0, 100);
+			enchantmentLiquefierBreakChanceUncommon = builder.comment("The chance of breaking uncommon echantments.").defineInRange("enchantmentLiquefierBreakChanceUncommon", 10, 0, 100);
+			enchantmentLiquefierBreakChanceRare = builder.comment("The chance of breaking rare echantments.").defineInRange("enchantmentLiquefierBreakChanceRare", 20, 0, 100);
+			enchantmentLiquefierBreakChanceVeryRare = builder.comment("The chance of breaking very rare echantments.").defineInRange("enchantmentLiquefierBreakChanceVeryRare", 25, 0, 100);
+			builder.pop(2).push("purifier");
 			purifierTransferSpeed = builder.comment("The max amount of element consumed by the Ore Purifier per tick.").defineInRange("purifierTransferSpeed", 25, 0, 1000);
 			purifierMaxRunes = builder.comment("The max amount of runes on an purifier.").defineInRange("purifierMaxRunes", 3, 0, 10);
 			builder.push("pureOre");
@@ -249,7 +272,7 @@ public class ECConfig {
 		public final IntValue gaugeOffsetX;
 		public final IntValue gaugeOffsetY;
 
-		public Client(ForgeConfigSpec.Builder builder) {
+		public Client(ModConfigSpec.Builder builder) {
 			builder.comment("ElementalCraft client config").push("elementalcraft-client");
 
 			shrineRangeDisplayDuration = builder.comment("The duration of shrine range display.").defineInRange("shrineRangeDisplayDuration", 600, 0, 10000);

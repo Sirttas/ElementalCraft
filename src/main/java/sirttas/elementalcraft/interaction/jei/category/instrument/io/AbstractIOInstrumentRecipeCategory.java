@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.interaction.jei.category.instrument.AbstractInstrumentRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
@@ -27,7 +27,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack instrument) {
 		super(translationKey, createDrawableStack(guiHelper, instrument), guiHelper.createBlankDrawable(75, 75));
 		this.instrument = instrument;
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
 	}
 
 	protected List<ItemStack> getTanks() {

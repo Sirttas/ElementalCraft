@@ -1,21 +1,19 @@
 package sirttas.elementalcraft.recipe.instrument;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -23,7 +21,6 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.RecipeHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -32,13 +29,26 @@ import java.util.stream.IntStream;
 public class CrystallizationRecipe extends AbstractInstrumentRecipe<CrystallizerBlockEntity> {
 
 	public static final String NAME = "crystallization";
+
+	private static final Codec<List<Ingredient>> INGREDIENTS_CODEC = RecordCodecBuilder.create(builder -> builder.group(
+			Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(i -> i.get(0)),
+			Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(i -> i.get(1)),
+			Ingredient.CODEC.fieldOf(ECNames.SHARD).forGetter(i -> i.get(2))
+	).apply(builder, List::of));
+
+	public static final Codec<CrystallizationRecipe> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+			ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(CrystallizationRecipe::getElementType),
+			Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(CrystallizationRecipe::getElementAmount),
+			INGREDIENTS_CODEC.fieldOf(ECNames.INGREDIENTS).forGetter(CrystallizationRecipe::getIngredients),
+			ResultEntry.FIELD_CODEC.forGetter(CrystallizationRecipe::getOutputs)
+	).apply(builder, CrystallizationRecipe::new));
 	
 	private final NonNullList<Ingredient> ingredients;
 	private final List<ResultEntry> outputs;
 	private final int elementAmount;
 
-	public CrystallizationRecipe(ResourceLocation id, ElementType type, int elementAmount, List<ResultEntry> outputs, List<Ingredient> ingredients) {
-		super(id, type);
+	public CrystallizationRecipe(ElementType type, int elementAmount, List<Ingredient> ingredients, List<ResultEntry> outputs) {
+		super(type);
 		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
 		this.outputs = ImmutableList.copyOf(outputs);
 		this.elementAmount = elementAmount;
@@ -111,7 +121,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 			for (ResultEntry entry : list) {
 				roll -= entry.getEffectiveWeight(luck);
 				if (roll < 0) {
-					return entry.getResult();
+					return entry.result();
 				}
 			}
 		}
@@ -148,25 +158,28 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 		return ingredients.get(2).test(stack);
 	}
 
-	public static class ResultEntry {
+	public record ResultEntry(
+			ItemStack result,
+			float weight,
+			float quality
+	) {
+
 		public static final Codec<ResultEntry> CODEC = RecordCodecBuilder.create(builder -> builder.group(
 				ItemStack.CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result),
 				Codec.FLOAT.fieldOf(ECNames.WEIGHT).forGetter(r -> r.weight),
 				Codec.FLOAT.optionalFieldOf(ECNames.QUALITY, 1F).forGetter(r -> r.quality)
 		).apply(builder, ResultEntry::new));
 		public static final Codec<List<ResultEntry>> LIST_CODEC = CODEC.listOf();
-		
-		private final float weight;
-		private final float quality;
-		private final ItemStack result;
-		
-		private ResultEntry(ItemStack result, float weight, float quality) {
-			this.result = result;
+		public static final MapCodec<List<ResultEntry>> FIELD_CODEC = LIST_CODEC.fieldOf(ECNames.OUTPUTS);
+
+		public ResultEntry(ItemStack result, float weight, float quality) {
+			this.result = result.copy();
 			this.weight = weight;
 			this.quality = quality;
 		}
 
-		public ItemStack getResult() {
+		@Override
+		public ItemStack result() {
 			return result.copy();
 		}
 		
@@ -177,30 +190,16 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 	
 	public static class Serializer implements RecipeSerializer<CrystallizationRecipe> {
 
-		private static final Codec<List<ResultEntry>> OUTPUT_CODEC = ResultEntry.LIST_CODEC.fieldOf(ECNames.OUTPUTS).codec();
+		private static final Codec<List<ResultEntry>> OUTPUT_CODEC = ResultEntry.FIELD_CODEC.codec();
 
+		@Override
 		@Nonnull
-		@Override
-		public CrystallizationRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-			ElementType type = ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE));
-			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
-			NonNullList<Ingredient> ingredients = readIngredients(GsonHelper.getAsJsonObject(json, ECNames.INGREDIENTS));
-			List<ResultEntry> outputs = CodecHelper.decode(ResultEntry.LIST_CODEC, json.get(ECNames.OUTPUTS));
-			
-			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
-		}
-
-		public static NonNullList<Ingredient> readIngredients(JsonObject json) {
-			NonNullList<Ingredient> list = NonNullList.create();
-
-			list.add(RecipeHelper.deserializeIngredient(json, ECNames.GEM));
-			list.add(RecipeHelper.deserializeIngredient(json, ECNames.CRYSTAL));
-			list.add(RecipeHelper.deserializeIngredient(json, ECNames.SHARD));
-			return list;
+		public Codec<CrystallizationRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public CrystallizationRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public CrystallizationRecipe fromNetwork(FriendlyByteBuf buffer) {
 			ElementType type = ElementType.byName(buffer.readUtf());
 			int elementAmount = buffer.readInt();
 			List<ResultEntry> outputs = CodecHelper.decode(OUTPUT_CODEC, buffer);
@@ -212,7 +211,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<Crystallizer
 				ingredients.set(j, Ingredient.fromNetwork(buffer));
 			}
 
-			return new CrystallizationRecipe(recipeId, type, elementAmount, outputs, ingredients);
+			return new CrystallizationRecipe(type, elementAmount, ingredients, outputs);
 		}
 
 		@Override

@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.IPlantable;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -44,11 +44,11 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	private boolean stemCanGrow(StemBlock stem, BlockPos pos) {
 		if (hasStemPollination) {
-			Block crop = stem.getFruit();
+			var fruit = stem.fruit;
 			
 			return Direction.Plane.HORIZONTAL.stream()
 					.map(d -> level.getBlockState(pos.relative(d)))
-					.noneMatch(state -> state.is(crop));
+					.noneMatch(state -> state.is(fruit));
 		}
 		return false;
 	}
@@ -63,7 +63,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		Block block = state.getBlock();
 
 		if (block instanceof BonemealableBlock growable) {
-			return (growable.isValidBonemealTarget(level, pos, state, level.isClientSide) && growable.isBonemealSuccess(level, level.random, pos, state)) || (block instanceof StemBlock stem && stemCanGrow(stem, pos));
+			return (growable.isValidBonemealTarget(level, pos, state) && growable.isBonemealSuccess(level, level.random, pos, state)) || (block instanceof StemBlock stem && stemCanGrow(stem, pos));
 		}
 		return false;
 	}

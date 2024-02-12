@@ -8,21 +8,17 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.pureore.injector.AbstractPureOreRecipeInjector;
 import sirttas.elementalcraft.pureore.PureOre;
-import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +45,7 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 
 	protected static <U extends AbstractPureOreLoader> P6<Mu<U>, HolderSet<Item>, Integer, Integer, Integer, Double, Integer> codec(RecordCodecBuilder.Instance<U> builder) {
 		return builder.group(
-				RegistryCodecs.homogeneousList(ForgeRegistries.Keys.ITEMS).fieldOf("source").forGetter(l -> l.source),
+				RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("source").forGetter(l -> l.source),
 				Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 2500).forGetter(l -> l.elementConsumption),
 				Codec.INT.optionalFieldOf("input_size", 1).forGetter(l -> l.inputSize),
 				Codec.INT.optionalFieldOf("output_size", 2).forGetter(l -> l.outputSize),
@@ -64,11 +60,11 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 	}
 
 	@Override
-	public List<PureOre> generate(RegistryAccess registry, Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors) {
-		return List.copyOf(this.generatePureOres(registry, injectors).values());
+	public List<PureOre> generate(RegistryAccess registry) {
+		return List.copyOf(this.generatePureOres(registry).values());
 	}
 
-	private Map<ResourceLocation, PureOre> generatePureOres(RegistryAccess registry, Collection<AbstractPureOreRecipeInjector<?, ? extends Recipe<?>>> injectors) {
+	private Map<ResourceLocation, PureOre> generatePureOres(RegistryAccess registry) {
 		var list = streamSource().toList();
 		var id = this.getId();
 
@@ -80,7 +76,7 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 		Map<ResourceLocation, PureOre> pureOres = new HashMap<>();
 		ElementalCraftApi.LOGGER.info("Loading pure ores: {}.\r\n\tSource ores: {}",
 				() -> id,
-				() -> streamSource()
+				() -> list.stream()
 						.mapMulti(ElementalCraftUtils.cast(Holder.Reference.class))
 						.map(r -> r.key().location().toString())
 						.collect(Collectors.joining(", ")));
@@ -88,13 +84,6 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 		list.forEach(holder -> {
 			var ore = holder.value();
 			var entry = findOrCreateEntry(pureOres, ore);
-			var isInBlacklist = holder.is(ECTags.Items.PURE_ORES_MOD_PROCESSING_BLACKLIST);
-
-			injectors.forEach(injector -> {
-				if (!injector.isModProcessing() || !isInBlacklist) {
-					injector.getRecipe(ore).ifPresent(i -> entry.addRecipe(registry, i));
-				}
-			});
 		});
 		return pureOres;
 	}

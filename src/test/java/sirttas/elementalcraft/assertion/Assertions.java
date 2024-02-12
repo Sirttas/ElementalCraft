@@ -2,7 +2,7 @@ package sirttas.elementalcraft.assertion;
 
 import net.minecraft.gametest.framework.GlobalTestReporter;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import sirttas.elementalcraft.container.ItemHandlerAssert;
 import sirttas.elementalcraft.item.ItemStackAssert;
 

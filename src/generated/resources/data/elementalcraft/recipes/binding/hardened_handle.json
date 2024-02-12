@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:hardened_handle"
+    "Count": 1,
+    "id": "elementalcraft:hardened_handle"
   }
 }

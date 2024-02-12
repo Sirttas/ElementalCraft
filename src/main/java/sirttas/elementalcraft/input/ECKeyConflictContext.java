@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.input;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.settings.IKeyConflictContext;
-import net.minecraftforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.client.settings.IKeyConflictContext;
+import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.tag.ECTags;
 

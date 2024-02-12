@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
@@ -88,7 +88,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 	
 	private void updateRecipeList(Level level) {
 		stacks = level.getRecipeManager().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), input, level).stream()
-                .map(r -> r.assemble(input, level.registryAccess()))
+                .map(h -> h.value().assemble(input, level.registryAccess()))
 				.toList();
 
 		this.page.set(0);

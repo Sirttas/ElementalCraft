@@ -20,8 +20,6 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	private int progress = 0;
 	private ISingleElementStorage containerCache;
-	protected boolean lockable = false;
-	private boolean locked = false;
 	protected Vec3 particleOffset;
 
 	protected AbstractInstrumentBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
@@ -32,7 +30,6 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	@Override
 	public void process() {
 		super.process();
-		updateLock();
 		if (this.level.isClientSide) {
 			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), level.random);
 		}
@@ -42,26 +39,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		if (!instrument.isPowered() && instrument.progressOnTick()) {
 			instrument.makeProgress();
 		}
-		if (instrument.shouldRetrieverExtractOutput()) {
-			instrument.retrieve();
-		}
-		if (instrument.locked) {
-			instrument.updateLock();
-		}
-	}
-	
-	protected boolean shouldRetrieverExtractOutput() {
-		return !lockable || locked;
-	}
-	
-	private void updateLock() {
-		if (lockable) {
-			locked = !getInventory().getItem(outputSlot).isEmpty();
-		}
-	}
-
-	public boolean isLocked() {
-		return lockable && locked;
+		AbstractECCraftingBlockEntity.tick(instrument);
 	}
 	
 	protected boolean progressOnTick() {
@@ -71,7 +49,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	protected boolean makeProgress() {
 		var container = getContainer();
 
-		if (recipe != null && progress >= recipe.getElementAmount()) {
+		if (recipe != null && progress >= getElementAmount()) {
 			process();
 			progress = 0;
 			return true;
@@ -80,7 +58,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 			int oldProgress = progress;
 			var transfer = ceilTransfer(container, Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation));
 
-			progress += container.extractElement(transfer, getRecipeElementType(), false) * preservation;
+			progress += Math.round(container.extractElement(transfer, getRecipeElementType(), false) * preservation);
 			if (level.isClientSide && progress > 0 && getProgressRounded(this.transferSpeed, progress) > getProgressRounded(this.transferSpeed, oldProgress)) {
 				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.random);
 				renderProgressParticles();
@@ -96,13 +74,18 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		var max = container.getElementAmount();
 
 		if (transfer >= max) {
-			if (progress + max < recipe.getElementAmount()) {
+			if (progress + max < getElementAmount()) {
 				transfer = max - 1; // -1 to avoid draining the container
 			} else {
 				transfer = max; // we have enough element to finish the recipe, so we don't care if we drain the container
 			}
 		}
 		return transfer;
+	}
+
+	@SuppressWarnings("unchecked")
+	private int getElementAmount() {
+		return recipe == null ? 0 : recipe.getElementAmount((T) this);
 	}
 
 	protected void renderProgressParticles() {}
@@ -163,7 +146,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	public float getProgressRatio() {
-		return (float) progress / recipe.getElementAmount();
+		return (float) progress / getElementAmount();
 	}
 
 	@Override

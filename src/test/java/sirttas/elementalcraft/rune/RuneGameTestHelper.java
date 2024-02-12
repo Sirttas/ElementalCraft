@@ -13,7 +13,7 @@ public class RuneGameTestHelper {
     private RuneGameTestHelper() {}
 
     public static void assertRuneIs(Rune rune, String name) {
-        if (!rune.is(IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, ElementalCraft.createRL(name)))) {
+        if (!rune.is(IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, ElementalCraftApi.createRL(name)))) {
             throw new GameTestAssertException("Expected rune " + name + " but got " + rune);
         }
     }

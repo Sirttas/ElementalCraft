@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.pipe.upgrade.renderer;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.beam.ElementBeamPipeUpgradeRenderer;
 import sirttas.elementalcraft.block.pipe.upgrade.pump.ElementPumpPipeUpgradeRenderer;
@@ -34,7 +34,7 @@ public class PipeUpgradeRenderers {
         return (IPipeUpgradeRenderer<T>) RENDERERS.get(type.getKey());
     }
 
-    public static <T extends PipeUpgrade> void register(RegistryObject<? extends PipeUpgradeType<T>> type, IPipeUpgradeRenderer<T> renderer) {
+    public static <T extends PipeUpgrade> void register(DeferredHolder<PipeUpgradeType<?>, ? extends PipeUpgradeType<T>> type, IPipeUpgradeRenderer<T> renderer) {
         RENDERERS.put(type.getId(), renderer);
     }
 }

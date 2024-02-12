@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:springaline_cluster"
+    "Count": 1,
+    "id": "elementalcraft:springaline_cluster"
   }
 }

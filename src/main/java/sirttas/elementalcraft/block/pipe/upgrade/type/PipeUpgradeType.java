@@ -5,8 +5,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeModelShaper;
@@ -44,7 +44,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     @Nonnull
     public ResourceLocation getKey() {
         if (key == null) {
-            key = PipeUpgradeTypes.REGISTRY.get().getKey(this);
+            key = PipeUpgradeTypes.REGISTRY.getKey(this);
         }
 
         if (key == null) {
@@ -73,7 +73,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     }
 
     @FunctionalInterface
-    interface Factory<T extends PipeUpgrade> {
+    public interface Factory<T extends PipeUpgrade> {
         T create(ElementPipeBlockEntity pipe, Direction direction);
     }
 }

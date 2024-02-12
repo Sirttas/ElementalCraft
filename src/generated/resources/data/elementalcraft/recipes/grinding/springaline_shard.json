@@ -1,12 +1,12 @@
 {
   "type": "elementalcraft:grinding",
   "element_amount": 1000,
-  "input": {
+  "ingredient": {
     "item": "elementalcraft:springaline_cluster"
   },
   "luck_ratio": 5,
   "output": {
-    "count": 6,
-    "item": "elementalcraft:springaline_shard"
+    "Count": 6,
+    "id": "elementalcraft:springaline_shard"
   }
 }

@@ -6,13 +6,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import javax.annotation.Nonnull;
 
 public abstract class AbstractECMenu extends AbstractContainerMenu implements IMenuOpenListener {
 
-	protected AbstractECMenu(RegistryObject<? extends MenuType<?>> type, int id) {
+	protected AbstractECMenu(DeferredHolder<MenuType<?>, ? extends MenuType<?>> type, int id) {
 		super(type.get(), id);
 	}
 

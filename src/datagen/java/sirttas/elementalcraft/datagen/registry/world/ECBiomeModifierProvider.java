@@ -7,9 +7,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import sirttas.elementalcraft.datagen.registry.AbstractECRegistryBootstrap;
 import sirttas.elementalcraft.tag.ECTags;
 import sirttas.elementalcraft.world.feature.SourceFeature;
@@ -17,12 +17,12 @@ import sirttas.elementalcraft.world.feature.SourceFeature;
 public class ECBiomeModifierProvider extends AbstractECRegistryBootstrap<BiomeModifier> {
 
     public ECBiomeModifierProvider() {
-        super(ForgeRegistries.Keys.BIOME_MODIFIERS);
+        super(NeoForgeRegistries.Keys.BIOME_MODIFIERS);
     }
 
     @Override
     protected void gather() {
-        add("inert_crystal_ore", new ForgeBiomeModifiers.AddFeaturesBiomeModifier(createHolderSet(ECTags.Biomes.HAS_INERT_CRYSTAL), createPlacedFeatureHolderSet("inert_crystal_ore_middle"), GenerationStep.Decoration.UNDERGROUND_ORES));
+        add("inert_crystal_ore", new BiomeModifiers.AddFeaturesBiomeModifier(createHolderSet(ECTags.Biomes.HAS_INERT_CRYSTAL), createPlacedFeatureHolderSet("inert_crystal_ore_middle"), GenerationStep.Decoration.UNDERGROUND_ORES));
 
         addSources(SourceFeature.NAME, ECTags.Biomes.HAS_SOURCE_ALL);
         addSources(SourceFeature.NAME_ICY, ECTags.Biomes.HAS_SOURCE_ICY);
@@ -51,7 +51,7 @@ public class ECBiomeModifierProvider extends AbstractECRegistryBootstrap<BiomeMo
     }
 
     private Holder.Reference<BiomeModifier> addSources(String feature, TagKey<Biome> biomes, GenerationStep.Decoration step) {
-        return add(feature, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(createHolderSet(biomes), createPlacedFeatureHolderSet(feature), step));
+        return add(feature, new BiomeModifiers.AddFeaturesBiomeModifier(createHolderSet(biomes), createPlacedFeatureHolderSet(feature), step));
     }
 
     private HolderSet<PlacedFeature> createPlacedFeatureHolderSet(String feature) {

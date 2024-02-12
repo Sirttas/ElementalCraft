@@ -21,6 +21,7 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 			ECConfig.COMMON.inscriberTransferSpeed,
 			ECConfig.COMMON.inscriberMaxRunes,
 			0,
+			true,
 			true
 	);
 
@@ -29,7 +30,6 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 	public InscriberBlockEntity(BlockPos pos, BlockState state) {
 		super(CONFIG, pos, state);
 		inventory = new InscriberContainer(this::setChanged);
-		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}
 

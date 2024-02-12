@@ -1,15 +1,13 @@
 package sirttas.elementalcraft.jewel;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -31,31 +29,32 @@ import java.util.function.Supplier;
 
 public class Jewels {
 
-    private static final DeferredRegister<Jewel> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.JEWEL), ElementalCraftApi.MODID);
+    private static final DeferredRegister<Jewel> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.JEWEL), ElementalCraftApi.MODID);
 
-    public static final Supplier<IForgeRegistry<Jewel>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryBuilder::new);
+    public static final Registry<Jewel> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.defaultKey(ElementalCraftApi.createRL(ECNames.NONE)));
 
-    public static final RegistryObject<SalmonJewel> SALMON = register(SalmonJewel.NAME, SalmonJewel::new);
-    public static final RegistryObject<PhoenixJewel> PHOENIX = register(PhoenixJewel.NAME, PhoenixJewel::new);
-    public static final RegistryObject<BasiliskJewel> BASILISK = register(BasiliskJewel.NAME, BasiliskJewel::new);
-    public static final RegistryObject<BearJewel> BEAR = register(BearJewel.NAME, BearJewel::new);
-    public static final RegistryObject<TigerJewel> TIGER = register(TigerJewel.NAME, TigerJewel::new);
-    public static final RegistryObject<LeopardJewel> LEOPARD = register(LeopardJewel.NAME, LeopardJewel::new);
-    public static final RegistryObject<DolphinJewel> DOLPHIN = register(DolphinJewel.NAME, DolphinJewel::new);
-    public static final RegistryObject<KirinJewel> KIRIN = register(KirinJewel.NAME, KirinJewel::new);
-    public static final RegistryObject<ViperJewel> VIPER = register(ViperJewel.NAME, ViperJewel::new);
-    public static final RegistryObject<TortoiseJewel> TORTOISE = register(TortoiseJewel.NAME, TortoiseJewel::new);
-    public static final RegistryObject<ArcticHaresJewel> ARCTIC_HARES = register(ArcticHaresJewel.NAME, ArcticHaresJewel::new);
-    public static final RegistryObject<MoleJewel> MOLE = register(MoleJewel.NAME, MoleJewel::new);
-    public static final RegistryObject<HawkJewel> HAWK = register(HawkJewel.NAME, HawkJewel::new);
-    public static final RegistryObject<DemigodJewel> DEMIGOD = register(DemigodJewel.NAME, DemigodJewel::new);
-    public static final RegistryObject<StriderJewel> STRIDER = register("strider", () -> new StriderJewel(ElementType.FIRE, 10, FluidTags.LAVA));
-    public static final RegistryObject<StriderJewel> WATER_STRIDER = register("water_strider", () -> new StriderJewel(ElementType.WATER, 10, FluidTags.WATER));
-    public static final RegistryObject<PiglinJewel> PIGLIN = register("piglin", PiglinJewel::new);
+    public static final DeferredHolder<Jewel, Jewel> NONE = register(ECNames.NONE, () -> new Jewel(ElementType.NONE, 0));
+    public static final DeferredHolder<Jewel, SalmonJewel> SALMON = register(SalmonJewel.NAME, SalmonJewel::new);
+    public static final DeferredHolder<Jewel, PhoenixJewel> PHOENIX = register(PhoenixJewel.NAME, PhoenixJewel::new);
+    public static final DeferredHolder<Jewel, BasiliskJewel> BASILISK = register(BasiliskJewel.NAME, BasiliskJewel::new);
+    public static final DeferredHolder<Jewel, BearJewel> BEAR = register(BearJewel.NAME, BearJewel::new);
+    public static final DeferredHolder<Jewel, TigerJewel> TIGER = register(TigerJewel.NAME, TigerJewel::new);
+    public static final DeferredHolder<Jewel, LeopardJewel> LEOPARD = register(LeopardJewel.NAME, LeopardJewel::new);
+    public static final DeferredHolder<Jewel, DolphinJewel> DOLPHIN = register(DolphinJewel.NAME, DolphinJewel::new);
+    public static final DeferredHolder<Jewel, KirinJewel> KIRIN = register(KirinJewel.NAME, KirinJewel::new);
+    public static final DeferredHolder<Jewel, ViperJewel> VIPER = register(ViperJewel.NAME, ViperJewel::new);
+    public static final DeferredHolder<Jewel, TortoiseJewel> TORTOISE = register(TortoiseJewel.NAME, TortoiseJewel::new);
+    public static final DeferredHolder<Jewel, ArcticHaresJewel> ARCTIC_HARES = register(ArcticHaresJewel.NAME, ArcticHaresJewel::new);
+    public static final DeferredHolder<Jewel, MoleJewel> MOLE = register(MoleJewel.NAME, MoleJewel::new);
+    public static final DeferredHolder<Jewel, HawkJewel> HAWK = register(HawkJewel.NAME, HawkJewel::new);
+    public static final DeferredHolder<Jewel, DemigodJewel> DEMIGOD = register(DemigodJewel.NAME, DemigodJewel::new);
+    public static final DeferredHolder<Jewel, StriderJewel> STRIDER = register("strider", () -> new StriderJewel(ElementType.FIRE, 10, FluidTags.LAVA));
+    public static final DeferredHolder<Jewel, StriderJewel> WATER_STRIDER = register("water_strider", () -> new StriderJewel(ElementType.WATER, 10, FluidTags.WATER));
+    public static final DeferredHolder<Jewel, PiglinJewel> PIGLIN = register("piglin", PiglinJewel::new);
 
     private Jewels() {}
 
-    private static <T extends Jewel> RegistryObject<T> register(String name, Supplier<? extends T> builder) {
+    private static <T extends Jewel> DeferredHolder<Jewel, T> register(String name, Supplier<? extends T> builder) {
         return DEFERRED_REGISTER.register(name, builder);
     }
 
@@ -65,6 +64,10 @@ public class Jewels {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerModels(Consumer<ResourceLocation> addModel) {
-        REGISTRY.get().getValues().forEach(jewel -> addModel.accept(jewel.getModelName()));
+        REGISTRY.holders().forEach(h -> {
+            if (h.value() != NONE.value()) {
+                addModel.accept(h.value().getModelName());
+            }
+        });
     }
 }

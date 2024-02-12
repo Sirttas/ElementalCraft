@@ -20,6 +20,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:swift_alloy_ingot"
+    "Count": 1,
+    "id": "elementalcraft:swift_alloy_ingot"
   }
 }

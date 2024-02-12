@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,12 +9,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class FillingShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_filling";
+	public static final MapCodec<FillingShrineUpgradeBlock> CODEC = simpleCodec(FillingShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE = Block.box(3D, 4D, 3D, 13D, 8D, 13D);
 	private static final VoxelShape PIPE_UP = Block.box(7D, 8D, 7D, 9D, 16D, 9D);
@@ -40,10 +44,15 @@ public class FillingShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE, PIPE_UP, PIPE_NORTH, PIPE_SOUTH, PIPE_WEST, PIPE_EAST, PIPE_NORTH_WEST, PIPE_NORTH_EAST, PIPE_SOUTH_WEST, PIPE_SOUTH_EAST);
 
-	public FillingShrineUpgradeBlock() {
-		super(ShrineUpgrades.FILLING);
+	public FillingShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.FILLING, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<FillingShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
 	@Override
 	public Direction getFacing(@Nonnull BlockState state) {

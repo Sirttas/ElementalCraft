@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_element_holder_earth",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_element_holder_earth"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:element_holder_earth_emptying"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

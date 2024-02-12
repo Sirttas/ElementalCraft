@@ -2,17 +2,15 @@ package sirttas.elementalcraft.jewel;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
-import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 import sirttas.elementalcraft.jewel.attribute.AttributeJewel;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
-import sirttas.elementalcraft.nbt.NBTHelper;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,27 +19,19 @@ public class JewelHelper {
 
     private JewelHelper() {}
 
-    public static Jewel getJewel(ItemStack stack) {
-        if (stack.isEmpty()) {
-            return null;
+    @Nonnull
+    public static Jewel getJewel(@Nonnull ItemStack stack) {
+        if (stack.isEmpty() || !stack.hasData(ECDataAttachments.JEWEL)) {
+            return Jewels.NONE.get();
         }
-
-        CompoundTag nbt = NBTHelper.getECTag(stack);
-
-        if (nbt != null && nbt.contains(ECNames.JEWEL, 8)) {
-            return Jewels.REGISTRY.get().getValue(new ResourceLocation(nbt.getString(ECNames.JEWEL)));
-        }
-        return null;
+        return stack.getData(ECDataAttachments.JEWEL);
     }
 
-    public static void setJewel(ItemStack stack, Jewel jewel) {
+    public static void setJewel(@Nonnull ItemStack stack, @Nonnull Jewel jewel) {
         if (stack.isEmpty()) {
             return;
         }
-
-        CompoundTag nbt = NBTHelper.getOrCreateECTag(stack);
-
-        nbt.putString(ECNames.JEWEL, jewel.getKey().toString());
+        stack.setData(ECDataAttachments.JEWEL, jewel);
     }
 
     public static List<Jewel> getAllJewels(Entity entity) {
@@ -50,7 +40,7 @@ public class JewelHelper {
         for (var item: entity.getAllSlots()) {
             var jewel = getJewel(item);
 
-            if (jewel != null) {
+            if (jewel != Jewels.NONE.get()) {
                 list.add(jewel);
             }
         }
@@ -58,9 +48,12 @@ public class JewelHelper {
     }
 
     public static List<Jewel> getActiveJewels(Entity entity) {
-        return entity.getCapability(IJewelHandler.CAPABILITY)
-                .map(IJewelHandler::getActiveJewels)
-                .orElse(Collections.emptyList());
+        var handler = entity.getCapability(IJewelHandler.CAPABILITY);
+
+        if (handler != null) {
+            return handler.getActiveJewels();
+        }
+        return Collections.emptyList();
     }
 
     public static boolean hasJewel(Entity entity, Jewel jewel) {

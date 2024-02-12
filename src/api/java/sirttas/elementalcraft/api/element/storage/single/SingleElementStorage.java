@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 

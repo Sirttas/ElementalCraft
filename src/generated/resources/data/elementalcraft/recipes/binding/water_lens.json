@@ -17,6 +17,10 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:water_lens"
+    "Count": 1,
+    "id": "elementalcraft:water_lens",
+    "tag": {
+      "Damage": 0
+    }
   }
 }

@@ -1,15 +1,11 @@
 package sirttas.elementalcraft.block.diffuser;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -20,8 +16,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiffuserBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
@@ -61,10 +56,8 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 		diffuser.hasDiffused = false;
 		if (container != null && !container.isEmpty()) {
 			diffuser.getLevel().getEntities(null, new AABB(diffuser.getBlockPos()).inflate(ECConfig.COMMON.diffuserRange.get())).stream()
-					.map(ElementStorageHelper::get)
-					.map(LazyOptional::resolve)
-					.filter(Optional::isPresent)
-					.map(Optional::get)
+					.map(e -> e.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY, null))
+					.filter(Objects::nonNull)
 					.forEach(storage -> {
 						if (!container.isEmpty() && amount.get() > 0 && container.transferTo(storage, container.getElementType(), diffuser.runeHandler.getTransferSpeed(amount.get()), Math.min(1, diffuser.runeHandler.getElementPreservation())) > 0) {
 							diffuser.hasDiffused = true;
@@ -87,14 +80,5 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 			containerCache = IContainerTopBlockEntity.super.getContainer();
 		}
 		return containerCache;
-	}
-
-	@Override
-	@Nonnull
-	public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-		if (!this.remove && cap == ElementalCraftCapabilities.RUNE_HANDLE) {
-			return LazyOptional.of(runeHandler != null ? () -> runeHandler : null).cast();
-		}
-		return super.getCapability(cap, side);
 	}
 }

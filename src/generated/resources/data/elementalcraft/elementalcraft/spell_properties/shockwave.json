@@ -2,9 +2,15 @@
   "attributes": {
     "minecraft:generic.attack_knockback": [
       {
-        "amount": 1.0,
-        "name": "Knockback modifier",
-        "operation": "addition"
+        "Amount": 1.0,
+        "Name": "Knockback modifier",
+        "Operation": "addition",
+        "UUID": [
+          2138040497,
+          1812809716,
+          -2120205627,
+          -629570771
+        ]
       }
     ]
   },

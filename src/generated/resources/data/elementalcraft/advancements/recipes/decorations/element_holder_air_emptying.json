@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_element_holder_air",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_element_holder_air"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:element_holder_air_emptying"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

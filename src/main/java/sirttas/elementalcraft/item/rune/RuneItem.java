@@ -10,13 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.item.ECItem;
@@ -45,11 +45,15 @@ public class RuneItem extends ECItem implements IPipeInteractingItem {
 	@Nonnull
 	@Override
 	public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
-		return doUse(RuneHandlerHelper.get(pipe, context.getClickedFace()), context);
+		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, pipe, context.getClickedFace()), context);
 	}
 
 	@Nonnull
 	public InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
+		if (handler == null) {
+			return InteractionResult.PASS;
+		}
+
 		Level level = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		ItemStack stack = context.getItemInHand();
@@ -79,9 +83,13 @@ public class RuneItem extends ECItem implements IPipeInteractingItem {
 	}
 
 	public ItemStack getRuneStack(Rune rune) {
+		return getRuneStack(rune.getId());
+	}
+
+	public ItemStack getRuneStack(ResourceLocation rune) {
 		ItemStack stack = new ItemStack(this);
 
-		NBTHelper.getOrCreateECTag(stack).putString(ECNames.RUNE, rune.getId().toString());
+		NBTHelper.getOrCreateECTag(stack).putString(ECNames.RUNE, rune.toString());
 		return stack;
 	}
 

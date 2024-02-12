@@ -1,12 +1,12 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 1000,
-  "input": {
+  "ingredient": {
     "tag": "elementalcraft:stripped_dark_oak"
   },
   "luck_ratio": 3,
   "output": {
-    "count": 6,
-    "item": "minecraft:dark_oak_planks"
+    "Count": 6,
+    "id": "minecraft:dark_oak_planks"
   }
 }

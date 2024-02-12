@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
@@ -13,8 +12,8 @@ public abstract class AbstractBindingRecipe extends AbstractInstrumentRecipe<IBi
 
 	public static final String NAME = "binding";
 	
-	protected AbstractBindingRecipe(ResourceLocation id, ElementType type) {
-		super(id, type);
+	protected AbstractBindingRecipe(ElementType type) {
+		super(type);
 	}
 
 	@Nonnull

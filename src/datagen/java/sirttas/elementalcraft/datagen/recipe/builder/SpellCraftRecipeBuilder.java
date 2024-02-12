@@ -1,38 +1,32 @@
 package sirttas.elementalcraft.datagen.recipe.builder;
 
-import com.google.gson.JsonObject;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.name.ECNames;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.spell.Spell;
-
-import java.util.function.Consumer;
+import sirttas.elementalcraft.spell.SpellHelper;
+import sirttas.elementalcraft.spell.Spells;
 
 public class SpellCraftRecipeBuilder {
 
 	private Ingredient gem;
 	private Ingredient crystal;
 	private final ResourceLocation output;
-	private final RecipeSerializer<?> serializer;
 
-	private SpellCraftRecipeBuilder(RecipeSerializer<?> serializer, ResourceLocation output) {
-		this.serializer = serializer;
+	private SpellCraftRecipeBuilder(ResourceLocation output) {
 		this.output = output;
 	}
 	
-	public static SpellCraftRecipeBuilder spellCraftRecipe(RegistryObject<? extends Spell> output) {
-		return new SpellCraftRecipeBuilder(ECRecipeSerializers.SPELL_CRAFT.get(), output.getId());
+	public static SpellCraftRecipeBuilder spellCraftRecipe(DeferredHolder<Spell, ? extends Spell> output) {
+		return new SpellCraftRecipeBuilder(output.getId());
 	}
 	
 	public SpellCraftRecipeBuilder setGem(TagKey<Item> tag) {
@@ -61,48 +55,19 @@ public class SpellCraftRecipeBuilder {
 		return this;
 	}
 	
-	public void save(Consumer<FinishedRecipe> consumer) {
-		this.save(consumer, output.getPath());
+	public void save(RecipeOutput recipeOutput) {
+		this.save(recipeOutput, output.getPath());
 	}
 
-	public void save(Consumer<FinishedRecipe> consumer, String save) {
-		this.save(consumer, ElementalCraft.createRL(SpellCraftRecipe.NAME + '/' + save));
+	public void save(RecipeOutput recipeOutput, String save) {
+		this.save(recipeOutput, ElementalCraftApi.createRL(SpellCraftRecipe.NAME + '/' + save));
 	}
 
-	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, this.serializer, this.gem, this.crystal, this.output));
-	}
-	
-	public static class Result extends AbstractFinishedRecipe {
+	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+		var spell = Spells.REGISTRY.get(output);
+		var stack = new ItemStack(ECItems.SCROLL.get());
 
-		private final Ingredient gem;
-		private final Ingredient crystal;
-		private final ResourceLocation output;
-		
-		public Result(ResourceLocation id, RecipeSerializer<?> serializer, Ingredient gem, Ingredient crystal, ResourceLocation output) {
-			super(id, serializer);
-			this.gem = gem;
-			this.crystal = crystal;
-			this.output = output;
-		}
-		
-		@Override
-		public void serializeRecipeData(JsonObject json) {
-			json.add(ECNames.GEM, gem.toJson());
-			json.add(ECNames.CRYSTAL, crystal.toJson());
-			json.add(ECNames.OUTPUT, getJsonOutput());
-		}
-
-		private JsonObject getJsonOutput() {
-			JsonObject json = new JsonObject();
-			JsonObject tagJson = new JsonObject();
-			JsonObject ecNbtJson = new JsonObject();
-			
-			json.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(ECItems.SCROLL.get()).toString());
-			ecNbtJson.addProperty(ECNames.SPELL, this.output.toString());
-			tagJson.add(ECNames.EC_NBT, ecNbtJson);
-			json.add(ECNames.NBT, tagJson);
-			return json;
-		}
+		SpellHelper.setSpell(stack, spell);
+		recipeOutput.accept(id, new SpellCraftRecipe(this.gem, this.crystal, stack), null);
 	}
 }

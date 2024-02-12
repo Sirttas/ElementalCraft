@@ -15,9 +15,9 @@
       "item": "elementalcraft:elementpipe_improved"
     },
     "z": {
-      "type": "forge:partial_nbt",
+      "type": "neoforge:nbt",
       "item": "elementalcraft:rune",
-      "nbt": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
+      "tag": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
     }
   },
   "pattern": [
@@ -27,6 +27,5 @@
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_overclocked_acceleration"
-  },
-  "show_notification": true
+  }
 }

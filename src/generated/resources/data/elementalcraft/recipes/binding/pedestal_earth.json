@@ -20,6 +20,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:pedestal_earth"
+    "Count": 1,
+    "id": "elementalcraft:pedestal_earth"
   }
 }

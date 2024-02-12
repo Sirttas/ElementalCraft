@@ -7,7 +7,7 @@
     },
     {
       "type": "elementalcraft:natural_source",
-      "element_type": "air"
+      "value": "air"
     }
   ],
   "result": {

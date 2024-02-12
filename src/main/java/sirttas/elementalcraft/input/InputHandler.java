@@ -3,15 +3,16 @@ package sirttas.elementalcraft.input;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.event.TickEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.spell.ChangeSpellMessage;
+import sirttas.elementalcraft.network.payload.PayloadHelper;
+import sirttas.elementalcraft.spell.ChangeSpellPayload;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -23,8 +24,7 @@ import java.util.stream.Stream;
 public class InputHandler {
 
 	private InputHandler() {}
-	
-	@SuppressWarnings("resource")
+
 	@SubscribeEvent
 	public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
 		LocalPlayer player = Minecraft.getInstance().player;
@@ -33,10 +33,10 @@ public class InputHandler {
 			getFirstSpellCastTool(EntityHelper.handStream(player)).ifPresent(stack -> {
 				var index = SpellHelper.getSelected(stack);
 
-				if (event.getScrollDelta() > 0) {
+				if (event.getScrollDeltaY() > 0) {
 					setSelectedSpell(player, stack, index - 1);
 					event.setCanceled(true);
-				} else if (event.getScrollDelta() < 0) {
+				} else if (event.getScrollDeltaY() < 0) {
 					setSelectedSpell(player, stack, index + 1);
 					event.setCanceled(true);
 				}
@@ -54,7 +54,7 @@ public class InputHandler {
 	private static void setSelectedSpell(LocalPlayer player, ItemStack stack, int i) {
 		SpellHelper.setSelected(stack, i);
 		player.displayClientMessage(SpellHelper.getSpell(stack).getDisplayName(), true);
-		new ChangeSpellMessage(i).send();
+		PayloadHelper.sendToServer(new ChangeSpellPayload(i));
 	}
 
 

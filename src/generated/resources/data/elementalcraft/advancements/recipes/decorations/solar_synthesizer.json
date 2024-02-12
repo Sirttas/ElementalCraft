@@ -34,15 +34,14 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_contained_crystal",
-      "has_whiterock",
-      "has_the_recipe"
+      "has_whiterock"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:solar_synthesizer"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

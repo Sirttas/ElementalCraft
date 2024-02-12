@@ -1,15 +1,18 @@
 package sirttas.elementalcraft.block.shrine.budding;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -19,6 +22,7 @@ import javax.annotation.Nonnull;
 public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEntity> {
 
 	public static final String NAME = "buddingshrine";
+	public static final MapCodec<BuddingShrineBlock> CODEC = simpleCodec(BuddingShrineBlock::new);
 
 	public static final EnumProperty<CrystalType> CRYSTAL_TYPE = EnumProperty.create("crystal_type", CrystalType.class);
 	
@@ -28,11 +32,16 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 
 	private static final VoxelShape SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE_1, BASE_2, PLATE);
 
-	public BuddingShrineBlock() {
-		super(ElementType.EARTH);
+	public BuddingShrineBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.EARTH, properties);
 		this.registerDefaultState(this.defaultBlockState()
 				.setValue(CRYSTAL_TYPE, CrystalType.AMETHYST)
 				.setValue(WATERLOGGED, false));
+	}
+
+	@Override
+	protected @NotNull MapCodec<BuddingShrineBlock> codec() {
+		return CODEC;
 	}
 
 	@Nonnull

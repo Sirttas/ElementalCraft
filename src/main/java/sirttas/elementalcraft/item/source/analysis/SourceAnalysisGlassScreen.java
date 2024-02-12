@@ -10,7 +10,7 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.container.menu.screen.IRefreshedScreen;
 
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 
 public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAnalysisGlassMenu> implements MenuAccess<SourceAnalysisGlassMenu>, IRefreshedScreen {
 	
-	private static final ResourceLocation SOURCE_ANALYSIS_GLASS_GUI_TEXTURE = ElementalCraft.createRL("textures/gui/container/source_analysis_glass.png");
+	private static final ResourceLocation SOURCE_ANALYSIS_GLASS_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/source_analysis_glass.png");
 
 	private TraitsList traitsList;
 
@@ -37,7 +37,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 
 	@Override
 	public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(guiGraphics);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
@@ -59,11 +59,10 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 		private static final int HEIGHT = 62;
 
 		public TraitsList(Minecraft minecraft) {
-			super(minecraft, WIDTH, HEIGHT, topPos + titleLabelY + 13, topPos + titleLabelY + 13 + HEIGHT, 11);
+			super(minecraft, WIDTH, HEIGHT, topPos + titleLabelY + 13, 11);
 
-			this.setLeftPos(leftPos + titleLabelX + 2);
+			this.setX(leftPos + titleLabelX + 2);
 			this.setRenderBackground(false);
-			this.setRenderTopAndBottom(false);
 		}
 
 		@Override
@@ -73,7 +72,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 
 		@Override
 		protected int getScrollbarPosition() {
-			return x1 - 7;
+			return this.getRight() - 7;
 		}
 
 		@Override
@@ -88,9 +87,9 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 			poseStack.pushPose();
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderSystem.setShaderTexture(0, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE);
-			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.x0, this.y0 - 11, 0, imageHeight, WIDTH, 11);
+			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.getX(), this.getY() - 11, 0, imageHeight, WIDTH, 11);
 			poseStack.mulPose(Axis.ZP.rotationDegrees(180));
-			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, -this.x1, -this.y1 -11, 0, imageHeight, WIDTH, 11);
+			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, -this.getRight(), -this.getBottom() -11, 0, imageHeight, WIDTH, 11);
 			poseStack.popPose();
 		}
 

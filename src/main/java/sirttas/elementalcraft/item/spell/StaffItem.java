@@ -24,12 +24,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.common.util.Lazy;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.ToolAction;
+import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.common.util.Lazy;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -48,7 +48,7 @@ public class StaffItem extends FocusItem {
 
 		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 8, AttributeModifier.Operation.ADDITION));
 		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -2.2, AttributeModifier.Operation.ADDITION));
-		builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_RANGE_UUID, "Attack range", 1, AttributeModifier.Operation.ADDITION));
+		builder.put(NeoForgeMod.ENTITY_REACH.value(), new AttributeModifier(BASE_ATTACK_RANGE_UUID, "Attack range", 1, AttributeModifier.Operation.ADDITION));
 		return builder.build();
 	});
 

@@ -1,19 +1,16 @@
 package sirttas.elementalcraft.spell.tick;
 
-import net.minecraftforge.common.capabilities.AutoRegisterCapability;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.neoforged.neoforge.capabilities.EntityCapability;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@AutoRegisterCapability
 public interface ISpellTickManager {
 
-    Capability<ISpellTickManager> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
+    EntityCapability<ISpellTickManager, Void> CAPABILITY = EntityCapability.createVoid(ElementalCraftApi.createRL("spell_tick_manager"), ISpellTickManager.class);
 
     @Nullable
     default AbstractSpellInstance getSpellInstance(Spell spell) {

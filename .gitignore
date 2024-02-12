@@ -10,8 +10,8 @@
 /.idea/
 /run-server/
 /test-server/*
-!/test-server/server.properties
-!/test-server/config/elementalcraft-common.toml
+!/runs/gameTestServer/server.properties
+!/runs/gameTestServer/config/elementalcraft-common.toml
 /logs/
 /.factorypath
 /Users/
@@ -19,3 +19,4 @@
 /libs/
 /sonar.bat
 /.apt_generated/
+/runs/

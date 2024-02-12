@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.ForgeMod;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
@@ -25,7 +25,7 @@ public class SalmonJewel extends EffectJewel {
 
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-        return entity.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) && !entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN) && super.isActive(entity, elementStorage);
+        return entity.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value()) && !entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN) && super.isActive(entity, elementStorage);
     }
 
     @Override

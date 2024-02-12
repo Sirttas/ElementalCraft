@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_cover_frame",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_cover_frame"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:element_valve"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -3,8 +3,9 @@ package sirttas.elementalcraft.item;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.RegistryObject;
 import org.assertj.core.api.AbstractAssert;
+
+import java.util.function.Supplier;
 
 public class ItemStackAssert extends AbstractAssert<ItemStackAssert, ItemStack> {
     private ItemStackAssert(ItemStack itemStack) {
@@ -51,7 +52,7 @@ public class ItemStackAssert extends AbstractAssert<ItemStackAssert, ItemStack> 
         return is(item.asItem());
     }
 
-    public ItemStackAssert is(RegistryObject<? extends ItemLike> item) {
+    public ItemStackAssert is(Supplier<? extends ItemLike> item) {
         return is(item.get());
     }
 }

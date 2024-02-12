@@ -35,7 +35,7 @@ public class TranslocationAnchorList extends SavedData {
 
     @Nullable
     public static TranslocationAnchorList get(@Nonnull Level level) {
-        return level instanceof ServerLevel serverLevel ? serverLevel.getDataStorage().computeIfAbsent(TranslocationAnchorList::new, TranslocationAnchorList::new, "elementalcraft_translocation_anchors") : null;
+        return level instanceof ServerLevel serverLevel ? serverLevel.getDataStorage().computeIfAbsent(new Factory<>(TranslocationAnchorList::new, TranslocationAnchorList::new, null), "elementalcraft_translocation_anchors") : null;
     }
 
     @Nonnull

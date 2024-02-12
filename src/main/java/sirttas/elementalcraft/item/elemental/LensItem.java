@@ -1,18 +1,12 @@
 package sirttas.elementalcraft.item.elemental;
 
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 
 import javax.annotation.Nonnull;
@@ -32,21 +26,9 @@ public class LensItem extends ElementalItem {
 				.stacksTo(1)
 				.durability(1500), elementType);
 	}
-	
-	@Override
-	@Nullable
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-		return new ICapabilityProvider() {
-			@Nonnull
-			@Override
-			public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-				return ElementalCraftCapabilities.ELEMENT_STORAGE.orEmpty(cap, LazyOptional.of(() -> getStorage(stack, 1)));
-			}
-		};
-	}
 
 	@Nonnull
-	public IElementStorage getStorage(ItemStack stack, int multiplier) {
+	public ISingleElementStorage getStorage(ItemStack stack, int multiplier) {
 		return new Storage(stack, multiplier);
 	}
 

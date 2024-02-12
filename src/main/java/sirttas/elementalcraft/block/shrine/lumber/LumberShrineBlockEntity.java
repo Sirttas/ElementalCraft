@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.IPlantable;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;

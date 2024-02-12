@@ -10,13 +10,12 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -32,12 +31,8 @@ import java.util.Optional;
 
 public abstract class AbstractElementContainerBlock extends AbstractECEntityBlock implements ITooltipImageBlock {
 
-	protected AbstractElementContainerBlock() {
-		super(BlockBehaviour.Properties.of()
-				.strength(2)
-				.sound(SoundType.METAL)
-				.requiresCorrectToolForDrops()
-				.noOcclusion());
+	protected AbstractElementContainerBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	@Override

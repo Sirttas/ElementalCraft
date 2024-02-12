@@ -11,8 +11,8 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -31,7 +31,7 @@ public class EnderStrikeSpell extends Spell {
 	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
 		Vec3 newPos = target.position().add(target.getLookAngle().reverse().normalize());
 
-		if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y + 0.5F, newPos.z))) {
+		if (NeoForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y + 0.5F, newPos.z)).isCanceled()) {
 			return InteractionResult.SUCCESS;
 		}
 		if (caster instanceof LivingEntity livingSender) {

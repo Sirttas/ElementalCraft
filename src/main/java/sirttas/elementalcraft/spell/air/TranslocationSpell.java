@@ -11,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorList;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
@@ -78,7 +78,7 @@ public class TranslocationSpell extends Spell {
 		if (!level.isClientSide) {
 			level.getChunk(((int) Math.round(newPos.x / 16)), ((int) Math.round(newPos.z / 16)));
 
-			if (MinecraftForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z))) {
+			if (NeoForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z)).isCanceled()) {
 				return InteractionResult.SUCCESS;
 			}
 			ParticleHelper.createEnderParticle(level, caster.position(), 3, level.random);

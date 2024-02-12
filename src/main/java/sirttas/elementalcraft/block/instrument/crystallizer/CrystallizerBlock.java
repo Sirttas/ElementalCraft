@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.instrument.crystallizer;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
@@ -25,7 +27,8 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -39,6 +42,7 @@ import javax.annotation.Nullable;
 public class CrystallizerBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
 	public static final String NAME = "crystallizer";
+	public static final MapCodec<CrystallizerBlock> CODEC = simpleCodec(CrystallizerBlock::new);
 
 	private static final VoxelShape BASE_1 = Block.box(0D, 1D, 0D, 16D, 3D, 16D);
 
@@ -57,9 +61,15 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, CONNECTION, BASE_PIPE_1, BASE_PIPE_2, BASE_PIPE_3, BASE_PIPE_4, TOP);
 
-	public CrystallizerBlock() {
+	public CrystallizerBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));
+	}
+
+	@Override
+	protected @NotNull MapCodec<CrystallizerBlock> codec() {
+		return CODEC;
 	}
 	
 	@Override

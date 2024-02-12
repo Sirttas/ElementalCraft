@@ -19,11 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "nbt": {
-      "elementalcraft": {
-        "jewel": "elementalcraft:dolphin"
-      }
-    }
-  },
-  "show_notification": true
+    "nbt": "{elementalcraft:{jewel:\"elementalcraft:dolphin\"}}"
+  }
 }

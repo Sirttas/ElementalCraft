@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.extractor.improved;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.extractor.ExtractorBlock;
 import sirttas.elementalcraft.block.extractor.ExtractorBlockEntity;
 
@@ -15,6 +18,7 @@ import javax.annotation.Nonnull;
 public class ImprovedExtractorBlock extends ExtractorBlock {
 
 	public static final String NAME = "extractor_improved";
+	public static final MapCodec<ImprovedExtractorBlock> CODEC = simpleCodec(ImprovedExtractorBlock::new);
 
 	private static final VoxelShape BASE_1 = Block.box(6D, 0D, 6D, 10D, 4D, 10D);
 	private static final VoxelShape BASE_2 = Block.box(0D, 1D, 0D, 16D, 3D, 16D);
@@ -27,6 +31,15 @@ public class ImprovedExtractorBlock extends ExtractorBlock {
 	private static final VoxelShape SIDE_PILLAR_4 = SIDE_PILLAR_1.move(12D / 16, 0D, 12D / 16);
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PILLAR, TOP, SIDE_PILLAR_1, SIDE_PILLAR_2, SIDE_PILLAR_3, SIDE_PILLAR_4);
+
+	public ImprovedExtractorBlock(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<ImprovedExtractorBlock> codec() {
+		return CODEC;
+	}
 
 	@Override
 	public ExtractorBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {

@@ -22,11 +22,6 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "nbt": {
-      "elementalcraft": {
-        "jewel": "elementalcraft:arctic_hares"
-      }
-    }
-  },
-  "show_notification": true
+    "nbt": "{elementalcraft:{jewel:\"elementalcraft:arctic_hares\"}}"
+  }
 }

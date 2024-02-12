@@ -1,5 +1,7 @@
 package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -10,14 +12,17 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 
@@ -44,15 +49,26 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
 
+	public static final MapCodec<PedestalBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+			ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(PedestalBlock::getElementType),
+			propertiesCodec()
+	).apply(instance, PedestalBlock::new));
+
 	private final ElementType elementType;
 
-	public PedestalBlock(ElementType type) {
-		elementType = type;
+	public PedestalBlock(ElementType elementType, BlockBehaviour.Properties properties) {
+		super(properties);
+		this.elementType = elementType;
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(NORTH, false)
 				.setValue(EAST, false)
 				.setValue(SOUTH, false)
 				.setValue(WEST, false));
+	}
+
+	@Override
+	protected @NotNull MapCodec<PedestalBlock> codec() {
+		return CODEC;
 	}
 
 	@Override

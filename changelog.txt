@@ -1,3 +1,12 @@
+1.20.4-6.1.0:
+
+- update to 1.20.4
+- new instrument: water enchantment liquefier
+- instrument output retrievers can now be turned off using a redstone signal
+- fix air mill wood saw behavior
+- fix a few bugs with elementopedia (issues #155 and #156)
+
+
 1.20.1-6.0.1:
 
 - new item: elemental firefuel

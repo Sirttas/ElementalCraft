@@ -17,6 +17,7 @@ public class FireBlastFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<
 			ECConfig.COMMON.fireBlastFurnaceTransferSpeed,
 			ECConfig.COMMON.fireBlastFurnaceMaxRunes,
 			1,
+			false,
 			false
 	);
 

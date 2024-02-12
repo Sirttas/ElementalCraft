@@ -1,20 +1,13 @@
 package sirttas.elementalcraft.entity.player;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,21 +18,8 @@ public class PlayerElementStorage implements IElementStorage {
 	private final Player player;
 	private final List<IElementStorage> storages = new ArrayList<>();
 
-	private PlayerElementStorage(Player player) {
+	public PlayerElementStorage(Player player) {
 		this.player = player;
-	}
-
-	@Nullable
-	public static ICapabilityProvider createProvider(Player player) {
-		return ElementalCraftCapabilities.ELEMENT_STORAGE != null ? new ICapabilityProvider() {
-			final PlayerElementStorage storage = new PlayerElementStorage(player);
-			
-			@Nonnull
-			@Override
-			public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-				return ElementalCraftCapabilities.ELEMENT_STORAGE.orEmpty(cap, LazyOptional.of(() -> storage));
-			}
-		} : null;
 	}
 	
 	@Override
@@ -99,15 +79,20 @@ public class PlayerElementStorage implements IElementStorage {
 			Inventory inventory = player.getInventory();
 
 			for (int i = 0; i < inventory.getContainerSize(); i++) {
-				ElementStorageHelper.get(inventory.getItem(i))
-						.filter(IElementStorage::usableInInventory)
-						.ifPresent(storages::add);
+				var storage = inventory.getItem(i).getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+
+				if (storage != null && storage.usableInInventory()) {
+					storages.add(storage);
+				}
 			}
 			if (ECinteractions.isCuriosActive()) {
-				CuriosInteractions.getHolders(player).stream()
-						.<IElementStorage>mapMulti((i, downstream) -> ElementStorageHelper.get(i).ifPresent(downstream::accept))
-						.filter(IElementStorage::usableInInventory)
-						.forEach(storages::add);
+				CuriosInteractions.getHolders(player).forEach(i -> {
+					var storage = i.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+
+					if (storage != null && storage.usableInInventory()) {
+						storages.add(storage);
+					}
+				});
 			}
 			tickCount = player.tickCount;
 		}

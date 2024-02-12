@@ -1,32 +1,25 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "exnihilosequentia"
-        }
-      ],
-      "recipe": {
-        "type": "exnihilosequentia:sieve",
-        "rolls": [
-          {
-            "chance": 0.015,
-            "mesh": "iron"
-          },
-          {
-            "chance": 0.015,
-            "mesh": "diamond"
-          }
-        ],
-        "input": {
-          "item": "minecraft:gravel"
-        },
-        "result": {
-          "item": "elementalcraft:inert_crystal"
-        }
-      }
+      "type": "neoforge:mod_loaded",
+      "modid": "exnihilosequentia"
     }
-  ]
+  ],
+  "type": "exnihilosequentia:sieve",
+  "rolls": [
+    {
+      "chance": 0.015,
+      "mesh": "iron"
+    },
+    {
+      "chance": 0.015,
+      "mesh": "diamond"
+    }
+  ],
+  "input": {
+    "item": "minecraft:gravel"
+  },
+  "result": {
+    "item": "elementalcraft:inert_crystal"
+  }
 }

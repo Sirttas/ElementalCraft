@@ -6,12 +6,13 @@ import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.EmptyHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.EmptyHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 import javax.annotation.Nonnull;
@@ -26,23 +27,31 @@ public class ECContainerHelper {
 		return getItemHandlerAt(world, pos, null);
 	}
 
-	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nullable Direction side) {
-		return BlockEntityHelper.getBlockEntity(world, pos)
+	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nullable Direction side) {
+		if (level instanceof Level l) {
+			var handler = l.getCapability(Capabilities.ItemHandler.BLOCK, pos, side);
+
+			if (handler != null) {
+				return handler;
+			}
+		}
+		return BlockEntityHelper.getBlockEntity(level, pos)
 				.map(t -> getItemHandler(t, side))
 				.orElse(EmptyHandler.INSTANCE);
 	}
 
 	@Nonnull
-	public static IItemHandler getItemHandler(ICapabilityProvider provider, @Nullable Direction side) {
-		return provider.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElseGet(() -> {
-			if (provider instanceof WorldlyContainer worldlyContainer && side != null) {
-				return new SidedInvWrapper(worldlyContainer, side);
-			}
-			if (provider instanceof Container container) {
-				return new InvWrapper(container);
-			}
-			return EmptyHandler.INSTANCE;
-		});
+	public static IItemHandler getItemHandler(BlockEntity entity, @Nullable Direction side) {
+		var handler = BlockEntityHelper.getCapability(Capabilities.ItemHandler.BLOCK, entity, side);
+
+		if (handler != null) {
+			return handler;
+		} else if (entity instanceof WorldlyContainer worldlyContainer && side != null) {
+			return new SidedInvWrapper(worldlyContainer, side);
+		} else if (entity instanceof Container container) {
+			return new InvWrapper(container);
+		}
+		return EmptyHandler.INSTANCE;
 	}
 
 	public static int getSlotFor(Container inv, ItemStack stack) {

@@ -2,8 +2,8 @@ package sirttas.elementalcraft.block.source.trait;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.event.DataManagerReloadEvent;
 import sirttas.elementalcraft.ElementalCraft;
@@ -44,7 +44,7 @@ public class SourceTraits {
 	}
 
 	public static ResourceKey<SourceTrait> key(String name) {
-		return key(ElementalCraft.createRL(name));
+		return key(ElementalCraftApi.createRL(name));
 	}
 
 	public static ResourceKey<SourceTrait> key(ResourceLocation name) {

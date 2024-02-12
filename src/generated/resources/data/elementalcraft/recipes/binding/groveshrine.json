@@ -23,6 +23,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:groveshrine"
+    "Count": 1,
+    "id": "elementalcraft:groveshrine"
   }
 }

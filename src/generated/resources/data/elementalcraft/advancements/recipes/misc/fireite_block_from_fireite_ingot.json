@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_fireite_ingot",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_fireite_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:fireite_block_from_fireite_ingot"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

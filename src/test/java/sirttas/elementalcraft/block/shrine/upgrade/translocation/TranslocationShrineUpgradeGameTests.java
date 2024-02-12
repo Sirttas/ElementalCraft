@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.CropBlock;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.entity.BlockEntityGameTestHelper;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
@@ -54,7 +54,7 @@ public class TranslocationShrineUpgradeGameTests {
         assertThat(shrine.getTargetPos()).isEqualTo(targetPos);
         assertThat(shrine.getUpgradeCount(ShrineUpgrades.TRANSLOCATION)).isEqualTo(1);
 
-        ShrineGameTestHelper.forcePeriods(shrine, 100);
+        ShrineGameTestHelper.forcePeriods(shrine, CROPS.size() * 7);
         helper.succeedIf(() -> CROPS.forEach(pos -> helper.assertBlockState(pos, b -> b.getValue(CropBlock.AGE) == 7, () -> "Crop has not been grown")));
     }
 }

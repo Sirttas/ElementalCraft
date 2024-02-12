@@ -2,6 +2,8 @@ package sirttas.elementalcraft.block.pipe;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,7 +19,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -25,7 +26,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -33,6 +33,7 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -51,22 +52,27 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	public static final String NAME_IMPROVED = NAME + "_improved";
 	public static final String NAME_CREATIVE = NAME + "_creative";
 
+	public static final MapCodec<ElementPipeBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+			PipeType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(p -> p.type),
+			propertiesCodec()
+	).apply(instance, ElementPipeBlock::new));
+
 	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
 
 	private final PipeType type;
 
-	public ElementPipeBlock(PipeType type) {
-		super(BlockBehaviour.Properties.of()
-				.mapColor(MapColor.METAL)
-				.strength(2)
-				.sound(SoundType.METAL)
-				.requiresCorrectToolForDrops()
-				.noOcclusion()
-				.randomTicks());
+	public ElementPipeBlock(PipeType type, BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(COVER, CoverType.NONE));
 		this.type = type;
 	}
+
+	@Override
+	protected @NotNull MapCodec<ElementPipeBlock> codec() {
+		return CODEC;
+	}
+
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
@@ -221,7 +227,9 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	public enum CoverType implements StringRepresentable {
-		NONE("none"), FRAME("frame"), COVERED("covered");
+		NONE("none"),
+		FRAME("frame"),
+		COVERED("covered");
 
 		public static final Codec<CoverType> CODEC = StringRepresentable.fromEnum(CoverType::values);
 
@@ -247,8 +255,24 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 	}
 
-	public enum PipeType {
-		IMPAIRED, STANDARD, IMPROVED, CREATIVE;
+	public enum PipeType implements StringRepresentable {
+		IMPAIRED("impaired"),
+		STANDARD("standard"),
+		IMPROVED("improved"),
+		CREATIVE("creative");
+
+		private static final Codec<PipeType> CODEC = StringRepresentable.fromEnum(PipeType::values);
+
+		private final String name;
+
+		PipeType(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String getSerializedName() {
+			return name;
+		}
 	}
 
 }

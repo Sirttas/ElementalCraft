@@ -2,12 +2,12 @@ package sirttas.elementalcraft.container;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.assertj.core.api.AbstractAssert;
 import sirttas.elementalcraft.item.ItemStackAssert;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class ItemHandlerAssert extends AbstractAssert<ItemHandlerAssert, IItemHandler> {
 
@@ -68,7 +68,7 @@ public class ItemHandlerAssert extends AbstractAssert<ItemHandlerAssert, IItemHa
         return this;
     }
 
-    public ItemHandlerAssert contains(int slot, RegistryObject<? extends ItemLike> item) {
+    public ItemHandlerAssert contains(int slot, Supplier<? extends ItemLike> item) {
         return contains(slot, item.get());
     }
 

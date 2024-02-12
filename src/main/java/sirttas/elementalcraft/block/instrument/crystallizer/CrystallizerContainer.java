@@ -38,7 +38,8 @@ public class CrystallizerContainer extends InstrumentContainer {
 
 		FIRST_SLOT_ITEMS.clear();
 		SECOND_SLOT_ITEMS.clear();
-		for (var recipe : recipes) {
+		for (var holder : recipes) {
+			var recipe = holder.value();
 			var ingredients = recipe.getIngredients();
 
 			if (!ingredients.isEmpty()) {

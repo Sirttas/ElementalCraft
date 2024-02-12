@@ -21,7 +21,8 @@ public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInf
 			ECConfig.COMMON.improvedBinderTransferSpeed,
 			ECConfig.COMMON.improvedBinderMaxRunes,
 			0,
-			true
+			true,
+			false
 	);
 
 	public ImprovedBinderBlockEntity(BlockPos pos, BlockState state) {

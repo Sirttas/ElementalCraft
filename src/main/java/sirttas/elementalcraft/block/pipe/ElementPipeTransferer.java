@@ -5,18 +5,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.TickEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.element.transfer.ElementTransfererHelper;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeHelper;
 import sirttas.elementalcraft.block.pipe.upgrade.priority.PipePriorityRingsPipeUpgrade;
@@ -30,8 +28,6 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class ElementPipeTransferer implements IElementTransferer {
@@ -101,14 +97,7 @@ public class ElementPipeTransferer implements IElementTransferer {
 
         var opposite = face.getOpposite();
 
-        return BlockEntityHelper.getBlockEntity(level, this.pipe.getBlockPos().relative(face))
-                .flatMap(p -> ElementTransfererHelper.get(p, opposite).resolve())
-                .filter(ElementPipeTransferer.class::isInstance)
-                .map(ElementPipeTransferer.class::cast)
-                .map(t -> t.getUpgrade(opposite))
-                .filter(PipePriorityRingsPipeUpgrade.class::isInstance)
-                .isPresent();
-
+        return level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pipe.getBlockPos().relative(face), opposite) instanceof ElementPipeTransferer elementPipeTransferer && elementPipeTransferer.getUpgrade(opposite) instanceof PipePriorityRingsPipeUpgrade;
     }
 
     public ConnectionType getConnection(Direction face) {
@@ -135,42 +124,48 @@ public class ElementPipeTransferer implements IElementTransferer {
 
     @Override
     public List<IElementTransferPathNode> getConnectedNodes(@Nonnull ElementType type) {
-        var pipePos = pipe.getBlockPos();
         var level = pipe.getLevel();
+
+        if (level == null) {
+            return Collections.emptyList();
+        }
+
+        var pipePos = pipe.getBlockPos();
 
         return this.connections.entrySet().stream()
                 .sorted(this.comparator)
                 .<IElementTransferPathNode>mapMulti((entry, downstream) -> {
                     var side = entry.getKey();
+                    var opposite = side.getOpposite();
                     var connection = entry.getValue();
                     var upgrade = this.getUpgrade(side);
+                    var foundConnections = upgrade != null ? upgrade.getConnections(type, connection) : getDefaultPos(pipePos, side, connection);
 
-                    addNodes(level, upgrade != null ? upgrade.getConnections(type, connection) : getDefaultPos(pipePos, side, connection), type, side.getOpposite(), connection, downstream);
+                    if (foundConnections.isEmpty()) {
+                        return;
+                    }
+                    foundConnections.forEach(p -> downstream.accept(createNode(level, p,  type, opposite, connection)));
                 }).toList();
     }
 
-    private void addNodes(Level level, List<BlockPos> pos, ElementType type, Direction side, ConnectionType connection, Consumer<IElementTransferPathNode> downstream) {
-        pos.forEach(p -> createNode(level, p,  type, side, connection).ifPresent(downstream));
-    }
 
-    public Optional<IElementTransferPathNode> createNode(Level level, BlockPos pos, ElementType type, Direction side, ConnectionType connection) {
-        return BlockEntityHelper.getBlockEntity(level, pos).map(be -> {
-            var transferer = ElementTransfererHelper.get(be, side)
-                    .filter(t -> {
-                        if (t instanceof ElementPipeTransferer elementPipeTransferer) {
-                            var upgrade = elementPipeTransferer.getUpgrade(side);
+    public IElementTransferPathNode createNode(Level level, BlockPos pos, ElementType type, Direction side, ConnectionType connection) {
+        var transferer = level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pos, side);
 
-                            return upgrade == null || upgrade.canTransfer(type, connection);
-                        }
-                        return true;
-                    })
-                    .orElse(null);
-            var storage = ElementStorageHelper.get(be, side)
-                    .filter(s -> s.canPipeInsert(type, side))
-                    .orElse(null);
+        if (transferer instanceof ElementPipeTransferer elementPipeTransferer) {
+            var upgrade = elementPipeTransferer.getUpgrade(side);
 
-            return new Node(pos, transferer, storage);
-        });
+            if (upgrade != null && !upgrade.canTransfer(type, connection)) {
+                transferer = null;
+            }
+        }
+
+        var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, side);
+
+        if (storage != null && !storage.canPipeInsert(type, side)) {
+            storage = null;
+        }
+        return new Node(pos, transferer, storage);
     }
 
     public static List<BlockPos> getDefaultPos(BlockPos pos, Direction face, ConnectionType connection) {

@@ -7,8 +7,8 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
@@ -34,7 +34,7 @@ public class EnderLockShrineGameTests {
             enderman.moveTo(vec);
         }).thenExecuteAfter(1, () -> {
             try {
-                ObfuscationReflectionHelper.findMethod(EnderMan.class, "m_32543_" /* teleport */, double.class, double.class, double.class).invoke(enderman, 0, 0, 0);
+                ObfuscationReflectionHelper.findMethod(EnderMan.class, "teleport", double.class, double.class, double.class).invoke(enderman, 0, 0, 0);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new GameTestAssertException(e.getMessage());
             }

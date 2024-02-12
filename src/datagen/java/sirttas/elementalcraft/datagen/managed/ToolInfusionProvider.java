@@ -2,15 +2,14 @@ package sirttas.elementalcraft.datagen.managed;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -23,9 +22,13 @@ import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
 import javax.annotation.Nonnull;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<ToolInfusion, ToolInfusion> {
+
+	private static final UUID ATTACK_SEED_MODIFIER = UUID.fromString("1e756880-0bac-45f0-afb0-ea89535e1195");
+	private static final UUID MOVEMENT_SPEED_MODIFIER = UUID.fromString("d48fcc67-67dd-46e2-9677-aa09d009005f");
 
 	public ToolInfusionProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraftApi.TOOL_INFUSION_MANAGER, ToolInfusion.CODEC);
@@ -66,8 +69,8 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 		add(ElementType.AIR, new DodgeToolInfusionEffect(0.1D), DodgeToolInfusionEffect.NAME);
 		add(ElementType.AIR, new FastDrawToolInfusionEffect(3), FastDrawToolInfusionEffect.NAME);
 
-		add(ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.MAINHAND), Attributes.ATTACK_SPEED, new AttributeModifier("Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), "attack_speed");
-		add(ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.LEGS), Attributes.MOVEMENT_SPEED, new AttributeModifier("Movement Speed Infusion", 0.01D, AttributeModifier.Operation.ADDITION)), "movement_speed");
+		add(ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.MAINHAND), Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SEED_MODIFIER, "Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), "attack_speed");
+		add(ElementType.AIR, new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.LEGS), Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_MODIFIER, "Movement Speed Infusion", 0.01D, AttributeModifier.Operation.ADDITION)), "movement_speed");
 		
 		add(new ElementCostReductionToolInfusionEffect(ElementType.FIRE, 0.1F), "fire_reduction");
 		add(new ElementCostReductionToolInfusionEffect(ElementType.WATER, 0.1F), "water_reduction");
@@ -77,12 +80,12 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 		add(new ToolInfusion(ElementType.FIRE, Lists.newArrayList(new EnchantmentToolInfusionEffect(Enchantments.FIRE_ASPECT), new ElementCostReductionToolInfusionEffect(ElementType.FIRE, 0.15F))), "fire_staff");
 		add(new ToolInfusion(ElementType.WATER, Lists.newArrayList(new EnchantmentToolInfusionEffect(Enchantments.MOB_LOOTING), new ElementCostReductionToolInfusionEffect(ElementType.WATER, 0.15F))), "water_staff");
 		add(new ToolInfusion(ElementType.EARTH, Lists.newArrayList(new EnchantmentToolInfusionEffect(Enchantments.SHARPNESS), new ElementCostReductionToolInfusionEffect(ElementType.EARTH, 0.15F))), "earth_staff");
-		add(new ToolInfusion(ElementType.AIR, Lists.newArrayList(new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.MAINHAND), Attributes.ATTACK_SPEED, new AttributeModifier("Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), new ElementCostReductionToolInfusionEffect(ElementType.AIR, 0.15F))), "air_staff");
+		add(new ToolInfusion(ElementType.AIR, Lists.newArrayList(new AttributeToolInfusionEffect(Lists.newArrayList(EquipmentSlot.MAINHAND), Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SEED_MODIFIER, "Attack Speed Infusion", 0.8D, AttributeModifier.Operation.ADDITION)), new ElementCostReductionToolInfusionEffect(ElementType.AIR, 0.15F))), "air_staff");
 		
 	}
 
 	private void addEnchantment(ElementType type, Enchantment enchantment) {
-		addEnchantment(type, enchantment, ForgeRegistries.ENCHANTMENTS.getKey(enchantment).getPath());
+		addEnchantment(type, enchantment, BuiltInRegistries.ENCHANTMENT.getKey(enchantment).getPath());
 	}
 
 	private void addEnchantment(ElementType type, Enchantment enchantment, String name) {
@@ -100,7 +103,7 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 	}
 
 	protected void add(ToolInfusion infusion, String name) {
-		add(ElementalCraft.createRL(name), infusion);
+		add(ElementalCraftApi.createRL(name), infusion);
 	}
 
 	private ToolInfusion createToolInfusion(ElementType type, IToolInfusionEffect infusion) {

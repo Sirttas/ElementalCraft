@@ -5,9 +5,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 import javax.annotation.Nonnull;
@@ -42,7 +42,7 @@ public class Jewel implements IElementTypeProvider {
 
 	public ResourceLocation getKey() {
 		if (key == null) {
-			key = Jewels.REGISTRY.get().getKey(this);
+			key = Jewels.REGISTRY.getKey(this);
 		}
 		return key;
 	}
@@ -64,7 +64,7 @@ public class Jewel implements IElementTypeProvider {
 	}
 
 	public final void consume(@Nonnull Entity entity) {
-		this.consume(entity, ElementStorageHelper.get(entity).orElse(null));
+		this.consume(entity, entity.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY, null));
 	}
 
 	public void consume(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {

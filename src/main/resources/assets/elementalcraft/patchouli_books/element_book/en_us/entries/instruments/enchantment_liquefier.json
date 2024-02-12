@@ -1,0 +1,33 @@
+{
+  "name": "block.elementalcraft.enchantment_liquefier",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:enchantment_liquefier",
+  "advancement": "elementalcraft:pickup/purecrystal",
+  "turnin": "elementalcraft:pickup/enchantment_liquefier",
+  "sortnum": 21,
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.enchantment_liquefier0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:enchantment_liquefier"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "T": "elementalcraft:enchantment_liquefier[half=upper]",
+          "B": "elementalcraft:enchantment_liquefier[half=lower]",
+          "0": "elementalcraft:container"
+        },
+        "pattern": [
+          ["T"],
+          ["B"],
+          ["0"]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#elementalcraft:has_sources/lush_cave",
+  "features": "elementalcraft:source_lush_cave",
+  "step": "underground_decoration"
+}

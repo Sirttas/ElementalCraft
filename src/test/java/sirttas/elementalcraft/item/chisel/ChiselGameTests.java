@@ -14,10 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -69,7 +69,9 @@ public class ChiselGameTests {
     private static void should_removeRunes(GameTestHelper helper, RuneTestHolder holder) {
         var pos = holder.pos();
         var runes = holder.runes();
-        var runeHandler = RuneHandlerHelper.get(helper.getBlockEntity(pos), holder.side());
+        var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), holder.side());
+
+        assertThat(runeHandler).isNotNull();
         var player = mockChiselPlayer(helper, pos);
 
         player.setShiftKeyDown(true);
@@ -100,7 +102,10 @@ public class ChiselGameTests {
 
     private static void shouldNot_removeRunes(GameTestHelper helper, RuneTestHolder holder) {
         var pos = holder.pos();
-        var runeHandler = RuneHandlerHelper.get(helper.getBlockEntity(pos), holder.side());
+        var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), holder.side());
+
+        assertThat(runeHandler).isNotNull();
+
         var player = mockChiselPlayer(helper, pos);
 
         ECGameTestHelper.useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);

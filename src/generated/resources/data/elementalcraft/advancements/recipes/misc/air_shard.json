@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_powerful_air_shard",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_powerful_air_shard"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:air_shard"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

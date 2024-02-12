@@ -26,6 +26,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:spawningshrine"
+    "Count": 1,
+    "id": "elementalcraft:spawningshrine"
   }
 }

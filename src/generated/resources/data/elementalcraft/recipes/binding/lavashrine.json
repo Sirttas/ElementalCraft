@@ -23,6 +23,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:lavashrine"
+    "Count": 1,
+    "id": "elementalcraft:lavashrine"
   }
 }

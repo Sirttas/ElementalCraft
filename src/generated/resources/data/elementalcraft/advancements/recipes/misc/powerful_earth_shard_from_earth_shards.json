@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_earth_shard",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_earth_shard"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:powerful_earth_shard_from_earth_shards"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

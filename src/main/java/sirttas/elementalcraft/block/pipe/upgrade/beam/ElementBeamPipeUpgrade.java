@@ -5,9 +5,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.transfer.ElementTransfererHelper;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeTransferer;
@@ -142,21 +141,13 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
         var pos = pipe.getBlockPos().mutable();
         var direction = this.getDirection();
         var opposite = direction.getOpposite();
-        var range = ECConfig.COMMON.elementBeamRange.get();
+        int range = ECConfig.COMMON.elementBeamRange.get();
 
         for (int i = 0; i < range; i++) {
-            pos.move(direction);
+            var transferer = level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pos.move(direction), opposite);
 
-            var opt = BlockEntityHelper.getBlockEntity(level, pos)
-                    .flatMap(b -> ElementTransfererHelper.get(b, opposite).resolve())
-                    .filter(ElementPipeTransferer.class::isInstance)
-                    .map(ElementPipeTransferer.class::cast)
-                    .map(t -> t.getUpgrade(opposite))
-                    .filter(ElementBeamPipeUpgrade.class::isInstance)
-                    .map(ElementBeamPipeUpgrade.class::cast);
-
-            if (opt.isPresent()) {
-                return opt;
+            if (transferer instanceof ElementPipeTransferer elementPipeTransferer && elementPipeTransferer.getUpgrade(opposite) instanceof ElementBeamPipeUpgrade elementBeamPipeUpgrade) {
+                return Optional.of(elementBeamPipeUpgrade);
             }
         }
         return Optional.empty();

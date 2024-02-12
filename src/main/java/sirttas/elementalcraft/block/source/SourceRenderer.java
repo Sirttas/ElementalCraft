@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 
 public class SourceRenderer implements BlockEntityRenderer<SourceBlockEntity> {
 
-	public static final ResourceLocation STABILIZER_LOCATION = ElementalCraft.createRL("block/source_stabilizer");
+	public static final ResourceLocation STABILIZER_LOCATION = ElementalCraftApi.createRL("block/source_stabilizer");
 	
 	private BakedModel stabilizerModel;
 

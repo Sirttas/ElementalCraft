@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -22,7 +22,7 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 
 	public InscriptionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.inscription", createDrawableStack(guiHelper, INSCRIBER), guiHelper.createBlankDrawable(100, 100));
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
 	}
 
 	@Nonnull

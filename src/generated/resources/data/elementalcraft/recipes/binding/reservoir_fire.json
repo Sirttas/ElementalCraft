@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:reservoir_fire"
+    "Count": 1,
+    "id": "elementalcraft:reservoir_fire"
   }
 }

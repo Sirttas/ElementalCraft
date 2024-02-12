@@ -6,6 +6,7 @@
     "item": "minecraft:stone"
   },
   "output": {
-    "item": "elementalcraft:whiterock"
+    "Count": 1,
+    "id": "elementalcraft:whiterock"
   }
 }

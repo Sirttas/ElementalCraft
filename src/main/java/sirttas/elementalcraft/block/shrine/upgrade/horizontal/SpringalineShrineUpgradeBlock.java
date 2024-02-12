@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -9,12 +10,14 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
@@ -27,6 +30,7 @@ import java.util.List;
 public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_springaline";
+	public static final MapCodec<SpringalineShrineUpgradeBlock> CODEC = simpleCodec(SpringalineShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE_NORTH = Block.box(5D, 5D, 4D, 11D, 11D, 10D);
 	private static final VoxelShape PLATE_SOUTH_NORTH = Block.box(6D, 6D, 10D, 10D, 10D, 11D);
@@ -64,10 +68,15 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	private static final VoxelShape PIPE_EAST = Block.box(12D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST,PLATE_WEST_EAST, PLATE_UP_EAST, PLATE_DOWN_EAST, PLATE_NORTH_EAST, PLATE_SOUTH_EAST);
 
-	public SpringalineShrineUpgradeBlock() {
-		super(ShrineUpgrades.SPRINGALINE);
+	public SpringalineShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.SPRINGALINE, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<SpringalineShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	public static VoxelShape getShape(BlockState state) {
 		return switch (state.getValue(FACING)) {
 			case EAST -> SHAPE_EAST;

@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_contained_crystal",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_contained_crystal"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:elementpipe"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

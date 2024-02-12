@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "elementalcraft:block/enchantment_liquefier_lower"
+    },
+    "half=upper": {
+      "model": "elementalcraft:block/enchantment_liquefier_upper"
+    }
+  }
+}

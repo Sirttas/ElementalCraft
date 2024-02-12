@@ -13,7 +13,7 @@ import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
@@ -41,7 +41,7 @@ public class ECChestLoot implements LootTableSubProvider {
 
 	@Nonnull
 	private static ResourceLocation createPath(String inject) {
-		return ElementalCraft.createRL("chests/" + inject);
+		return ElementalCraftApi.createRL("chests/" + inject);
 	}
 
 	private static LootTable.Builder createInject() {
@@ -130,7 +130,7 @@ public class ECChestLoot implements LootTableSubProvider {
 	private static LootPoolSingletonContainer.Builder<?> rune(String runeName) {
 		var tag = new CompoundTag();
 
-		NBTHelper.getOrCreate(tag, ECNames.EC_NBT).putString(ECNames.RUNE, ElementalCraft.createRL(runeName).toString());
+		NBTHelper.getOrCreate(tag, ECNames.EC_NBT).putString(ECNames.RUNE, ElementalCraftApi.createRL(runeName).toString());
 		return LootItem.lootTableItem(ECItems.RUNE.get()).apply(SetNbtFunction.setTag(tag));
 	}
 

@@ -7,7 +7,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.resources.ResourceLocation;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
@@ -17,8 +17,8 @@ import javax.annotation.Nonnull;
 
 public class ElementValvePipeUpgradeRenderer implements IPipeUpgradeRenderer<ElementValvePipeUpgrade> {
 
-    public static final ResourceLocation OPEN_LOCATION = ElementalCraft.createRL(PipeUpgrade.FOLDER + "element_valve_open");
-    public static final ResourceLocation CLOSE_LOCATION = ElementalCraft.createRL(PipeUpgrade.FOLDER + "element_valve_close");
+    public static final ResourceLocation OPEN_LOCATION = ElementalCraftApi.createRL(PipeUpgrade.FOLDER + "element_valve_open");
+    public static final ResourceLocation CLOSE_LOCATION = ElementalCraftApi.createRL(PipeUpgrade.FOLDER + "element_valve_close");
 
     private BakedModel openModel;
     private BakedModel closeModel;

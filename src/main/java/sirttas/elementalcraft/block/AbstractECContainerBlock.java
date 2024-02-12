@@ -9,17 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
 import javax.annotation.Nonnull;
 
 public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
-
-	protected AbstractECContainerBlock() {
-		super();
-	}
 
 	protected AbstractECContainerBlock(BlockBehaviour.Properties properties) {
 		super(properties);

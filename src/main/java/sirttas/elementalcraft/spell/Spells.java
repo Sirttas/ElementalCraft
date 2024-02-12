@@ -1,16 +1,14 @@
 package sirttas.elementalcraft.spell;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryObject;
-import sirttas.elementalcraft.ElementalCraft;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.registry.RegistryHelper;
 import sirttas.elementalcraft.spell.air.DashSpell;
 import sirttas.elementalcraft.spell.air.EnderStrikeSpell;
 import sirttas.elementalcraft.spell.air.FeatherSpikesSpell;
@@ -30,42 +28,42 @@ import sirttas.elementalcraft.spell.water.PurificationSpell;
 import sirttas.elementalcraft.spell.water.RipeningSpell;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class Spells {
 
-	private static final DeferredRegister<Spell> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraft.createRL(ECNames.SPELL), ElementalCraftApi.MODID);
+	public static final ResourceKey<Registry<Spell>> KEY = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.SPELL));
+	private static final DeferredRegister<Spell> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.SPELL), ElementalCraftApi.MODID);
 
-	public static final Supplier<IForgeRegistry<Spell>> REGISTRY = DEFERRED_REGISTER.makeRegistry(RegistryHelper.builder(b -> b.setDefaultKey(ElementalCraft.createRL("none"))));
+	public static final Registry<Spell> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.defaultKey(ElementalCraftApi.createRL("none")));
 
 
-	public static final RegistryObject<Spell> NONE = register("none", Spell::new);
+	public static final DeferredHolder<Spell, Spell> NONE = register("none", Spell::new);
 
-	public static final RegistryObject<GavelFallSpell> GRAVEL_FALL = register(GavelFallSpell.NAME, GavelFallSpell::new);
-	public static final RegistryObject<StoneWallSpell> STONE_WALL = register(StoneWallSpell.NAME, StoneWallSpell::new);
-	public static final RegistryObject<FireBallSpell> FIRE_BALL = register(FireBallSpell.NAME, FireBallSpell::new);
-	public static final RegistryObject<ItemPullSpell> ITEM_PULL = register(ItemPullSpell.NAME, ItemPullSpell::new);
-	public static final RegistryObject<EnderStrikeSpell> ENDER_STRIKE = register(EnderStrikeSpell.NAME, EnderStrikeSpell::new);
-	public static final RegistryObject<FlameCleaveSpell> FLAME_CLEAVE = register(FlameCleaveSpell.NAME, FlameCleaveSpell::new);
-	public static final RegistryObject<TranslocationSpell> TRANSLOCATION = register(TranslocationSpell.NAME, TranslocationSpell::new);
-	public static final RegistryObject<DashSpell> DASH = register(DashSpell.NAME, DashSpell::new);
-	public static final RegistryObject<SilkVeinSpell> SILK_VEIN = register(SilkVeinSpell.NAME, SilkVeinSpell::new);
-	public static final RegistryObject<AnimalGrowthSpell> ANIMAL_GROWTH = register(AnimalGrowthSpell.NAME, AnimalGrowthSpell::new);
-	public static final RegistryObject<RipeningSpell> RIPENING = register(RipeningSpell.NAME, RipeningSpell::new);
-	public static final RegistryObject<PurificationSpell> PURIFICATION = register(PurificationSpell.NAME, PurificationSpell::new);
-	public static final RegistryObject<FeatherSpikesSpell> FEATHER_SPIKES = register(FeatherSpikesSpell.NAME, k -> new FeatherSpikesSpell(k, 3));
-	public static final RegistryObject<TreeFallSpell> TREE_FALL = register(TreeFallSpell.NAME, TreeFallSpell::new);
-	public static final RegistryObject<InfernoSpell> INFERNO = register(InfernoSpell.NAME, InfernoSpell::new);
-	public static final RegistryObject<EffectSpell> HEAL = register("heal", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.HEAL, 1, 1)));
-	public static final RegistryObject<EffectSpell> SPEED = register("speed", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2400, 1), new MobEffectInstance(MobEffects.DIG_SPEED, 2400)));
-	public static final RegistryObject<AoeSpell> SHOCKWAVE = register("shockwave", AoeSpell::new);
-	public static final RegistryObject<AirShieldSpell> AIR_SHIELD = register(AirShieldSpell.NAME, AirShieldSpell::new);
-	public static final RegistryObject<RepairSpell> REPAIR = register(RepairSpell.NAME, RepairSpell::new);
+	public static final DeferredHolder<Spell, GavelFallSpell> GRAVEL_FALL = register(GavelFallSpell.NAME, GavelFallSpell::new);
+	public static final DeferredHolder<Spell, StoneWallSpell> STONE_WALL = register(StoneWallSpell.NAME, StoneWallSpell::new);
+	public static final DeferredHolder<Spell, FireBallSpell> FIRE_BALL = register(FireBallSpell.NAME, FireBallSpell::new);
+	public static final DeferredHolder<Spell, ItemPullSpell> ITEM_PULL = register(ItemPullSpell.NAME, ItemPullSpell::new);
+	public static final DeferredHolder<Spell, EnderStrikeSpell> ENDER_STRIKE = register(EnderStrikeSpell.NAME, EnderStrikeSpell::new);
+	public static final DeferredHolder<Spell, FlameCleaveSpell> FLAME_CLEAVE = register(FlameCleaveSpell.NAME, FlameCleaveSpell::new);
+	public static final DeferredHolder<Spell, TranslocationSpell> TRANSLOCATION = register(TranslocationSpell.NAME, TranslocationSpell::new);
+	public static final DeferredHolder<Spell, DashSpell> DASH = register(DashSpell.NAME, DashSpell::new);
+	public static final DeferredHolder<Spell, SilkVeinSpell> SILK_VEIN = register(SilkVeinSpell.NAME, SilkVeinSpell::new);
+	public static final DeferredHolder<Spell, AnimalGrowthSpell> ANIMAL_GROWTH = register(AnimalGrowthSpell.NAME, AnimalGrowthSpell::new);
+	public static final DeferredHolder<Spell, RipeningSpell> RIPENING = register(RipeningSpell.NAME, RipeningSpell::new);
+	public static final DeferredHolder<Spell, PurificationSpell> PURIFICATION = register(PurificationSpell.NAME, PurificationSpell::new);
+	public static final DeferredHolder<Spell, FeatherSpikesSpell> FEATHER_SPIKES = register(FeatherSpikesSpell.NAME, k -> new FeatherSpikesSpell(k, 3));
+	public static final DeferredHolder<Spell, TreeFallSpell> TREE_FALL = register(TreeFallSpell.NAME, TreeFallSpell::new);
+	public static final DeferredHolder<Spell, InfernoSpell> INFERNO = register(InfernoSpell.NAME, InfernoSpell::new);
+	public static final DeferredHolder<Spell, EffectSpell> HEAL = register("heal", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.HEAL, 1, 1)));
+	public static final DeferredHolder<Spell, EffectSpell> SPEED = register("speed", k -> new  EffectSpell(k, new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2400, 1), new MobEffectInstance(MobEffects.DIG_SPEED, 2400)));
+	public static final DeferredHolder<Spell, AoeSpell> SHOCKWAVE = register("shockwave", AoeSpell::new);
+	public static final DeferredHolder<Spell, AirShieldSpell> AIR_SHIELD = register(AirShieldSpell.NAME, AirShieldSpell::new);
+	public static final DeferredHolder<Spell, RepairSpell> REPAIR = register(RepairSpell.NAME, RepairSpell::new);
 
 	private Spells() {}
 
-	private static <T extends Spell> RegistryObject<T> register(String name, Function<ResourceKey<Spell>, ? extends T> builder) {
-		return DEFERRED_REGISTER.register(name, () -> builder.apply(ResourceKey.create(REGISTRY.get().getRegistryKey(), ElementalCraft.createRL(name))));
+	private static <T extends Spell> DeferredHolder<Spell, T> register(String name, Function<ResourceKey<Spell>, ? extends T> builder) {
+		return DEFERRED_REGISTER.register(name, () -> builder.apply(ResourceKey.create(KEY, ElementalCraftApi.createRL(name))));
 	}
 
 	public static void register(IEventBus modBus) {

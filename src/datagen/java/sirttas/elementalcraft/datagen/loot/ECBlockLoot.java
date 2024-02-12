@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.flag.FeatureFlags;
@@ -27,7 +28,6 @@ import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.registries.ForgeRegistries;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -73,6 +73,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
 		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.AIR_MILL_WOOD_SAW.get(), this::createDoubleHalfRuneable);
+		add(ECBlocks.ENCHANTMENT_LIQUEFIER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), this::createRuneable);
 		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
@@ -87,10 +88,11 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), noDrop());
 		add(ECBlocks.LARGE_SPRINGALINE_BUD.get(), noDrop());
 
-		for (Block block : ForgeRegistries.BLOCKS) {
+		for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
+			var block = entry.getValue();
 			var key = block.getLootTable();
 
-			if (!ElementalCraft.owns(ForgeRegistries.BLOCKS.getKey(block)) || map.containsKey(key) || BuiltInLootTables.EMPTY.equals(key)) {
+			if (!ElementalCraft.owns(entry) || map.containsKey(key) || BuiltInLootTables.EMPTY.equals(key)) {
 				continue;
 			}
 			if (block instanceof SlabBlock) {
@@ -189,7 +191,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 	@Nonnull
 	@Override
 	protected Iterable<Block> getKnownBlocks() {
-		return ForgeRegistries.BLOCKS.getEntries().stream()
+		return BuiltInRegistries.BLOCK.entrySet().stream()
 				.filter(ElementalCraft::owns)
 				.map(Map.Entry::getValue)
 				.collect(Collectors.toSet());

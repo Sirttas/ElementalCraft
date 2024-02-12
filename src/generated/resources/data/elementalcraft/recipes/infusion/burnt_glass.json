@@ -6,6 +6,7 @@
     "tag": "forge:glass"
   },
   "output": {
-    "item": "elementalcraft:burnt_glass"
+    "Count": 1,
+    "id": "elementalcraft:burnt_glass"
   }
 }

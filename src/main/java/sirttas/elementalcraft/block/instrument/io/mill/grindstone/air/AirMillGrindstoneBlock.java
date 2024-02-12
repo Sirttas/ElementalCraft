@@ -1,18 +1,19 @@
 package sirttas.elementalcraft.block.instrument.io.mill.grindstone.air;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
 
@@ -22,16 +23,18 @@ import javax.annotation.Nullable;
 public class AirMillGrindstoneBlock extends AbstractAirMillBlock {
 
 	public static final String NAME = "air_mill_grindstone";
+	public static final MapCodec<AirMillGrindstoneBlock> CODEC = simpleCodec(AirMillGrindstoneBlock::new);
 
 	private static final VoxelShape SHAPE_LOWER = Shapes.or(AbstractAirMillBlock.SHAPE_LOWER, Block.box(4D, 5D, 4D, 12D, 8D, 12D));
 
-	public AirMillGrindstoneBlock() {
-		this.registerDefaultState(this.stateDefinition.any()
-				.setValue(FACING, Direction.NORTH)
-				.setValue(HALF, DoubleBlockHalf.LOWER)
-				.setValue(WATERLOGGED, false));
+	public AirMillGrindstoneBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
+	@Override
+	protected @NotNull MapCodec<AirMillGrindstoneBlock> codec() {
+		return CODEC;
+	}
 
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {

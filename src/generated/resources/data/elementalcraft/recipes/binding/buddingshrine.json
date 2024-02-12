@@ -23,6 +23,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:buddingshrine"
+    "Count": 1,
+    "id": "elementalcraft:buddingshrine"
   }
 }

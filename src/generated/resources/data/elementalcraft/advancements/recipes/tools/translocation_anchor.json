@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_fireite_nugget",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_fireite_nugget"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:translocation_anchor"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

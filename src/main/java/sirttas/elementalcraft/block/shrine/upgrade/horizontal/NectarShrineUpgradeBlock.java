@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -7,12 +8,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -22,6 +25,7 @@ import java.util.List;
 public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_nectar";
+	public static final MapCodec<NectarShrineUpgradeBlock> CODEC = simpleCodec(NectarShrineUpgradeBlock::new);
 
 	private static final VoxelShape CORE_1_NORTH = Block.box(3D, 6D, 2D, 13D, 12D, 4D);
 	private static final VoxelShape CORE_2_NORTH = Block.box(5D, 7D, 4D, 11D, 11D, 5D);
@@ -51,10 +55,15 @@ public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlo
 	private static final VoxelShape PIPE_3_EAST = Block.box(14D, 9D, 10D, 17D, 11D, 12D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_1_EAST, CORE_2_EAST, PIPE_1_EAST, PIPE_2_EAST, PIPE_3_EAST);
 
-	public NectarShrineUpgradeBlock() {
-		super(ShrineUpgrades.NECTAR);
+	public NectarShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.NECTAR, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<NectarShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
     @Override
 	@Deprecated

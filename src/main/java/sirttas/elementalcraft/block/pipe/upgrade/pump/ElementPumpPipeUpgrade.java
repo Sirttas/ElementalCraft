@@ -5,9 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import sirttas.elementalcraft.api.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
@@ -25,7 +22,6 @@ import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -74,7 +70,6 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
         return runeHandler;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void load(@Nonnull CompoundTag compound) {
         super.load(compound);
@@ -87,15 +82,6 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
     public void saveAdditional(@Nonnull CompoundTag compound) {
         super.saveAdditional(compound);
         compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
-    }
-
-    @Override
-    @Nonnull
-    public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
-        if (cap == ElementalCraftCapabilities.RUNE_HANDLE) {
-            return LazyOptional.of(() -> runeHandler).cast();
-        }
-        return super.getCapability(cap, side);
     }
 
     private class Path implements IElementTransferPath {

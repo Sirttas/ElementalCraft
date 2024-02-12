@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 public class SolarSynthesizerRenderer<T extends SolarSynthesizerBlockEntity> implements BlockEntityRenderer<T> {
 
 	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_synthesizer_beam");
-	public static final ResourceLocation LENSE_LOCATION = ElementalCraft.createRL("block/solar_synthesizer_lense");
+	public static final ResourceLocation LENSE_LOCATION = ElementalCraftApi.createRL("block/solar_synthesizer_lense");
 
 	private static BakedModel lenseModel;
 

@@ -1,15 +1,15 @@
 package sirttas.elementalcraft.block.shrine.firepylon;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -17,8 +17,9 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
@@ -29,6 +30,7 @@ import javax.annotation.Nonnull;
 public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntity> {
 
 	public static final String NAME = "firepylon";
+	public static final MapCodec<FirePylonBlock> CODEC = simpleCodec(FirePylonBlock::new);
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
@@ -45,8 +47,13 @@ public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntit
 	private static final VoxelShape LOWER_SHAPE = Shapes.or(ECShapes.SHRINE_SHAPE, BASE, IRON_NORTH, IRON_SOUTH, IRON_EAST, IRON_WEST);
 	private static final VoxelShape UPPER_SHAPE = Shapes.or(UPPER_BASE, UPPER_TOP);
 
-	public FirePylonBlock() {
-		super(ElementType.FIRE);
+	public FirePylonBlock(BlockBehaviour.Properties properties) {
+		super(ElementType.FIRE, properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<FirePylonBlock> codec() {
+		return CODEC;
 	}
 
 	@Override
@@ -58,19 +65,6 @@ public class FirePylonBlock extends AbstractPylonShrineBlock<FirePylonBlockEntit
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
 		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
-	}
-
-	/**
-	 * Called before the Block is set to air in the world. Called regardless of if
-	 * the player's tool can actually collect this block
-	 */
-	@Override
-	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		if (!level.isClientSide && player.isCreative()) {
-			DoublePlantBlock.preventCreativeDropFromBottomPart(level, pos, state, player);
-		}
-
-		super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Nonnull

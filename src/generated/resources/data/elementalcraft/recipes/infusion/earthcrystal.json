@@ -6,6 +6,7 @@
     "item": "elementalcraft:inert_crystal"
   },
   "output": {
-    "item": "elementalcraft:earthcrystal"
+    "Count": 1,
+    "id": "elementalcraft:earthcrystal"
   }
 }

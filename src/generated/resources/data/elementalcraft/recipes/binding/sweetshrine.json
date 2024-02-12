@@ -23,6 +23,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:sweetshrine"
+    "Count": 1,
+    "id": "elementalcraft:sweetshrine"
   }
 }

@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,12 +9,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class MysticalGroveShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_mystical_grove";
+	public static final MapCodec<MysticalGroveShrineUpgradeBlock> CODEC = simpleCodec(MysticalGroveShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE = Block.box(3D, 2D, 3D, 13D, 7D, 3D);
 	private static final VoxelShape CONNECTOR = Block.box(7D, 0D, 7D, 9D, 2D, 9D);
@@ -34,10 +38,15 @@ public class MysticalGroveShrineUpgradeBlock extends AbstractShrineUpgradeBlock 
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE, CONNECTOR, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
 
-	public MysticalGroveShrineUpgradeBlock() {
-		super(ShrineUpgrades.MYSTICAL_GROVE);
+	public MysticalGroveShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.MYSTICAL_GROVE, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<MysticalGroveShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
 	@Override
 	public Direction getFacing(@Nonnull BlockState state) {

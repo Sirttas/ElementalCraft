@@ -1,29 +1,27 @@
 package sirttas.elementalcraft.jewel.handler;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.InfiniteElementStorage;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.attack.AbstractAttackJewel;
 import sirttas.elementalcraft.jewel.defence.DefenceJewel;
 import sirttas.elementalcraft.jewel.effect.EffectJewel;
-import sirttas.elementalcraft.network.message.MessageHelper;
+import sirttas.elementalcraft.network.payload.PayloadHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,33 +38,21 @@ public class JewelHandler implements IJewelHandler {
     private static final Set<JewelHandler> HANDLERS = new HashSet<>();
 
     private final Entity entity;
-    private final IElementStorage elementStorage;
+    private IElementStorage elementStorage;
     private List<Jewel> activeJewels;
     private Multimap<Attribute, AttributeModifier> oldAttributes;
 
-    private JewelHandler(Entity entity, @Nullable IElementStorage elementStorage) {
+    public JewelHandler(Entity entity) {
+        this(entity, InfiniteElementStorage.INSTANCE);
+    }
+
+    public JewelHandler(Entity entity, @Nullable IElementStorage elementStorage) {
         this.entity = entity;
         this.elementStorage = elementStorage;
         activeJewels = new ArrayList<>();
         synchronized (FUTURE_HANDLERS) {
             FUTURE_HANDLERS.add(this);
         }
-    }
-
-    @Nullable
-    public static ICapabilityProvider createProvider(Entity entity, @Nullable IElementStorage elementStorage) {
-        if (CAPABILITY != null) {
-            var handler = new JewelHandler(entity, elementStorage);
-
-            return new ICapabilityProvider() {
-                @Nonnull
-                @Override
-                public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-                    return CAPABILITY.orEmpty(cap, LazyOptional.of(() -> handler));
-                }
-            };
-        }
-        return null;
     }
 
     @Nonnull
@@ -76,6 +62,10 @@ public class JewelHandler implements IJewelHandler {
     }
 
     private void tick() {
+        if (elementStorage == null) {
+            elementStorage = entity.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+        }
+
         List<Jewel> jewels = new ArrayList<>();
 
         for (Jewel jewel : JewelHelper.getAllJewels(entity)) {
@@ -101,7 +91,7 @@ public class JewelHandler implements IJewelHandler {
     private void onActiveJewelsChanged() {
         this.reloadAttributes();
         if (this.entity instanceof ServerPlayer player) {
-            MessageHelper.sendToPlayer(player, ActiveJewelsMessage.create(this));
+            PayloadHelper.sendToPlayer(player, new ActiveJewelsPayload(this));
         }
     }
 

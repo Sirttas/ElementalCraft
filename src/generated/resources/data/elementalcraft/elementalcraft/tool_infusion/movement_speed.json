@@ -4,9 +4,15 @@
       "type": "elementalcraft:attribute",
       "attribute": "minecraft:generic.movement_speed",
       "modifier": {
-        "amount": 0.01,
-        "name": "Movement Speed Infusion",
-        "operation": "addition"
+        "Amount": 0.01,
+        "Name": "Movement Speed Infusion",
+        "Operation": "addition",
+        "UUID": [
+          -728773529,
+          1742554850,
+          -1770542583,
+          -804716449
+        ]
       },
       "slot": [
         "legs"

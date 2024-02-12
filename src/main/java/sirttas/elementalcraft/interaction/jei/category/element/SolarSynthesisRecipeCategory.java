@@ -8,7 +8,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
@@ -27,7 +27,7 @@ public class SolarSynthesisRecipeCategory extends AbstractElementFromItemRecipeC
 
 	public SolarSynthesisRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.solar_synthesis", createDrawableStack(guiHelper, SOLAR_SYNTHESIZER), guiHelper.createBlankDrawable(84, 66));
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/solar_synthesis.png"), 0, 0, 49, 54), 8, 4);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/solar_synthesis.png"), 0, 0, 49, 54), 8, 4);
 	}
 
 	@Nonnull

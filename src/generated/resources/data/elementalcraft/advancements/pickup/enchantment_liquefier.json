@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_enchantment_liquefier": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:enchantment_liquefier"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_enchantment_liquefier"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

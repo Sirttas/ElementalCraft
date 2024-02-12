@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.source.breeder;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -27,6 +29,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -38,6 +41,7 @@ import javax.annotation.Nullable;
 public class SourceBreederBlock extends AbstractECContainerBlock implements SimpleWaterloggedBlock {
 
     public static final String NAME = "source_breeder";
+    public static final MapCodec<SourceBreederBlock> CODEC = simpleCodec(SourceBreederBlock::new);
 
     private static final VoxelShape BASE_LOWER_1 = Block.box(0D, 0D, 0D, 16D, 3D, 16D);
     private static final VoxelShape BASE_LOWER_2 = Block.box(2D, 3D, 2D, 14D, 8D, 14D);
@@ -64,19 +68,22 @@ public class SourceBreederBlock extends AbstractECContainerBlock implements Simp
     private static final VoxelShape SHAPE_UPPER = Shapes.or(BASE_UPPER_1, BASE_UPPER_2, PIPE_UPPER_1, PIPE_UPPER_2, PIPE_UPPER_3, PIPE_UPPER_4);
 
 
-    public SourceBreederBlock() {
+    public SourceBreederBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
                 .setValue(BlockStateProperties.WATERLOGGED, false));
     }
 
+    @Override
+    protected @NotNull MapCodec<SourceBreederBlock> codec() {
+        return CODEC;
+    }
+
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        if (state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER) {
-            return new SourceBreederBlockEntity(pos, state);
-        }
-        return null;
+        return state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? new SourceBreederBlockEntity(pos, state) : null;
     }
 
     @Override
@@ -91,9 +98,9 @@ public class SourceBreederBlock extends AbstractECContainerBlock implements Simp
     }
 
     @Override
-    public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+    public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
         AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
-        super.playerWillDestroy(level, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override

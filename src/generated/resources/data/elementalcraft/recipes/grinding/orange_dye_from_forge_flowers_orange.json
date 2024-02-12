@@ -1,28 +1,21 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:flowers/orange"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "elementalcraft:grinding",
-        "element_amount": 1000,
-        "input": {
-          "tag": "forge:flowers/orange"
-        },
-        "luck_ratio": 2,
-        "output": {
-          "count": 2,
-          "item": "minecraft:orange_dye"
-        }
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:flowers/orange"
       }
     }
-  ]
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "forge:flowers/orange"
+  },
+  "luck_ratio": 2,
+  "output": {
+    "Count": 2,
+    "id": "minecraft:orange_dye"
+  }
 }

@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:firepylon"
+    "Count": 1,
+    "id": "elementalcraft:firepylon"
   }
 }

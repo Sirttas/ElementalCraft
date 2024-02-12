@@ -1,11 +1,12 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 250,
-  "input": {
+  "ingredient": {
     "item": "minecraft:spruce_log"
   },
   "luck_ratio": 0,
   "output": {
-    "item": "minecraft:stripped_spruce_log"
+    "Count": 1,
+    "id": "minecraft:stripped_spruce_log"
   }
 }

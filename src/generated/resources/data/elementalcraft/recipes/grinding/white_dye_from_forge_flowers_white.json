@@ -1,28 +1,21 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:flowers/white"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "elementalcraft:grinding",
-        "element_amount": 1000,
-        "input": {
-          "tag": "forge:flowers/white"
-        },
-        "luck_ratio": 2,
-        "output": {
-          "count": 2,
-          "item": "minecraft:white_dye"
-        }
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:flowers/white"
       }
     }
-  ]
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "forge:flowers/white"
+  },
+  "luck_ratio": 2,
+  "output": {
+    "Count": 2,
+    "id": "minecraft:white_dye"
+  }
 }

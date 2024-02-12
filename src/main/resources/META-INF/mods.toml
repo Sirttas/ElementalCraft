@@ -1,52 +1,61 @@
 modLoader="javafml"
-loaderVersion="[47,)"
+loaderVersion="${loader_version_range}"
 license="LGPL 2.1"
 authors="Sirttas"
 
 [[mods]] 
 modId="elementalcraft"
-version="${file.jarVersion}"
+version="${elementalcraft_version}"
 displayName="ElementalCraft"
 description='''ElementalCraft is a magic mod based around the 4 elements: fire, water, earth and air.'''
 
+[[mixins]]
+    config = "elementalcraft.mixins.json"
 [[dependencies.elementalcraft]]
-    modId="forge"
-    mandatory=true
-    versionRange="[47.1.1,)"
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.elementalcraft]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="dpanvil"
-    mandatory=true
-    versionRange="[1.20.1-5.0.1,1.20.1-5.1.0)"
+    type="required"
+    versionRange="[1.20.4-5.1.0,1.20.4-5.2.0)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="jei"
-    mandatory=false
+    type="optional"
     versionRange="[15.2.0.27,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="patchouli"
-    mandatory=false
+    type="optional"
     versionRange="[1.20.1-81,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="mekanism"
-    mandatory=false
+    type="optional"
     versionRange="[1.20.1-10.4.0.14,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.elementalcraft]]
     modId="curios"
-    mandatory=false
+    type="optional"
     versionRange="[5.3.5+1.20.1,)"
     ordering="AFTER"
     side="BOTH"

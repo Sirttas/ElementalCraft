@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_fireite_ingot",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_fireite_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:artificial_water_source_seed"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

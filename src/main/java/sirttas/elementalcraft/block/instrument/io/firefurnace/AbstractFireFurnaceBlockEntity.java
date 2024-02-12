@@ -10,8 +10,6 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
@@ -33,12 +31,6 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 		inventory = new IOContainer(this::setChanged);
 	}
 
-	@Nonnull
-    @Override
-	protected IItemHandler createHandler() {
-		return new SidedInvWrapper(inventory, null);
-	}
-
 	@Override
 	public void load(@Nonnull CompoundTag compound) {
 		super.load(compound);
@@ -54,7 +46,9 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 
 	@Override
 	protected FurnaceRecipeWrapper<T> lookupRecipe() {
-		return this.getLevel().getRecipeManager().getRecipeFor(furnaceRecipeType, ContainerBlockEntityWrapper.from(this), this.getLevel()).map(FurnaceRecipeWrapper::new).orElse(null);
+		return this.getLevel().getRecipeManager().getRecipeFor(furnaceRecipeType, ContainerBlockEntityWrapper.from(this), this.getLevel())
+				.map(h -> new FurnaceRecipeWrapper<>(h.value()))
+				.orElse(null);
 	}
 
 	@Override

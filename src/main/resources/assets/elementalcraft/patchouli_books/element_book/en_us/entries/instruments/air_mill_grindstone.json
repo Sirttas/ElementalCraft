@@ -18,11 +18,13 @@
       "type": "multiblock",
       "multiblock": {
         "mapping": {
-          "I": "elementalcraft:air_mill_grindstone",
+          "T": "elementalcraft:air_mill_grindstone[half=upper]",
+          "B": "elementalcraft:air_mill_grindstone[half=lower]",
           "0": "elementalcraft:container"
         },
         "pattern": [
-          ["I"],
+          ["T"],
+          ["B"],
           ["0"]
         ]
       }

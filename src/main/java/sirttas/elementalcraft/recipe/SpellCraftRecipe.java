@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -19,16 +19,20 @@ import javax.annotation.Nonnull;
 public class SpellCraftRecipe implements IECRecipe<Container> {
 
 	public static final String NAME = "spell_craft";
-	
+
+	public static final Codec<SpellCraftRecipe> CODEC =  RecordCodecBuilder.create(builder -> builder.group(
+			Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(r -> r.gem),
+			Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(r -> r.crystal),
+			ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+	).apply(builder, SpellCraftRecipe::new));
+
 	private static final Ingredient SCROLL_PAPER = Ingredient.of(ECItems.SCROLL_PAPER.get());
 	
 	private final Ingredient gem;
 	private final Ingredient crystal;
 	private final ItemStack output;
-	private final ResourceLocation id;
 	
-	public SpellCraftRecipe(ResourceLocation id, ItemStack output, Ingredient gem, Ingredient crystal) {
-		this.id = id;
+	public SpellCraftRecipe(Ingredient gem, Ingredient crystal, ItemStack output) {
 		this.output = output;
 		this.gem = gem;
 		this.crystal = crystal;
@@ -53,12 +57,6 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 
 	@Nonnull
 	@Override
-	public ResourceLocation getId() {
-		return id;
-	}
-
-	@Nonnull
-	@Override
 	public RecipeSerializer<SpellCraftRecipe> getSerializer() {
 		return ECRecipeSerializers.SPELL_CRAFT.get();
 	}
@@ -71,23 +69,19 @@ public class SpellCraftRecipe implements IECRecipe<Container> {
 	
 	public static class Serializer implements RecipeSerializer<SpellCraftRecipe> {
 
-		@Nonnull
 		@Override
-		public SpellCraftRecipe fromJson(@Nonnull ResourceLocation recipeId, JsonObject json) {
-			Ingredient gem = Ingredient.fromJson(json.get(ECNames.GEM));
-			Ingredient crystal = Ingredient.fromJson(json.get(ECNames.CRYSTAL));
-			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
-
-			return new SpellCraftRecipe(recipeId, output, gem, crystal);
+		@Nonnull
+		public Codec<SpellCraftRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public SpellCraftRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
+		public SpellCraftRecipe fromNetwork(@Nonnull FriendlyByteBuf buffer) {
 			Ingredient gem = Ingredient.fromNetwork(buffer);
 			Ingredient crystal = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();
 
-			return new SpellCraftRecipe(recipeId, output, gem, crystal);
+			return new SpellCraftRecipe(gem, crystal, output);
 		}
 
 		@Override

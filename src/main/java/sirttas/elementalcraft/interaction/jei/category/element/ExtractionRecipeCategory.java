@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -36,7 +36,7 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 		this.extractor = extractor;
 		this.tanks = tanks;
 		this.amount = amount;
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 21, 35);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 21, 35);
 	}
 
 	@Nonnull

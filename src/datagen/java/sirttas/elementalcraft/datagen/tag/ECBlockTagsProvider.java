@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.datagen.tag;
 
 import blusunrize.immersiveengineering.common.register.IEBlocks;
-import mekanism.common.tags.MekanismTags;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -13,10 +13,9 @@ import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -28,8 +27,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class ECBlockTagsProvider extends BlockTagsProvider {
@@ -41,9 +40,10 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	}
 
 	private Block[] getBlocksForClass(Class<?> clazz) {
-		return ForgeRegistries.BLOCKS.getValues().stream()
-				.filter(b -> ElementalCraft.owns(ForgeRegistries.BLOCKS.getKey(b)) && clazz.isInstance(b))
-				.sorted(Comparator.comparing(ForgeRegistries.BLOCKS::getKey))
+		return BuiltInRegistries.BLOCK.entrySet().stream()
+				.filter(e -> ElementalCraft.owns(e) && clazz.isInstance(e.getValue()))
+				.sorted(Map.Entry.comparingByKey())
+				.map(Map.Entry::getValue)
 				.toArray(Block[]::new);
 	}
 
@@ -71,18 +71,18 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.STRIPPED_WARPED).add(Blocks.STRIPPED_WARPED_HYPHAE, Blocks.STRIPPED_WARPED_STEM);
 		tag(ECTags.Blocks.STRIPPED_CHERRY).add(Blocks.STRIPPED_CHERRY_LOG, Blocks.STRIPPED_CHERRY_WOOD);
 
-		tag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.INFUSER.get(), ECBlocks.BINDER.get(), ECBlocks.CRYSTALLIZER.get(), ECBlocks.INSCRIBER.get(), ECBlocks.FIRE_FURNACE.get(), ECBlocks.FIRE_BLAST_FURNACE.get(), ECBlocks.PURIFIER.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.BINDER_IMPROVED.get());
+		tag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.INFUSER.get(), ECBlocks.BINDER.get(), ECBlocks.CRYSTALLIZER.get(), ECBlocks.INSCRIBER.get(), ECBlocks.FIRE_FURNACE.get(), ECBlocks.FIRE_BLAST_FURNACE.get(), ECBlocks.PURIFIER.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.BINDER_IMPROVED.get());
 
 		tag(ECTags.Blocks.CONTAINER_TOOLS).addTag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.EVAPORATOR.get(), ECBlocks.EXTRACTOR.get(), ECBlocks.EXTRACTOR_IMPROVED.get(), ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlocks.MANA_SYNTHESIZER.get(), ECBlocks.DIFFUSER.get());
 
 		runeBase(ECTags.Blocks.RUNE_AFFECTED_SPEED).add(ECBlocks.DIFFUSER.get(), ECBlocks.SORTER.get());
 		runeBase(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION);
 		runeBase(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION);
-		tag(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER.get(), ECBlocks.PURIFIER.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.SOURCE_BREEDER.get());
+		tag(ECTags.Blocks.RUNE_AFFECTED_LUCK).add(ECBlocks.CRYSTALLIZER.get(), ECBlocks.PURIFIER.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.SOURCE_BREEDER.get());
 
 		tag(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS).addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
 		tag(ECTags.Blocks.SHRINES_LAVA_LIQUIFIABLES).add(Blocks.BASALT, Blocks.POLISHED_BASALT, Blocks.SMOOTH_BASALT);
-		tag(ECTags.Blocks.SHRINES_GROWTH_BLACKLIST).add(Blocks.GRASS, Blocks.GRASS_BLOCK, Blocks.TALL_GRASS);
+		tag(ECTags.Blocks.SHRINES_GROWTH_BLACKLIST).add(Blocks.SHORT_GRASS, Blocks.GRASS_BLOCK, Blocks.TALL_GRASS);
 		tag(ECTags.Blocks.SHRINES_ORE_HARVESTABLE_CRYSTALS).addTag(ECTags.Blocks.CLUSTERS);
 
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.LAVA_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.OVERLOAD_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.SPRING_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get(),  ECBlocks.FIRE_PYLON.get());
@@ -116,7 +116,6 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(Tags.Blocks.STORAGE_BLOCKS).addTags(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Blocks.STORAGE_BLOCKS_FIREITE);
 		
 		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).add(ECBlocks.SOURCE.get());
-		tag(MekanismTags.Blocks.CARDBOARD_BLACKLIST).add(ECBlocks.SOURCE.get());
 
 		lootTags();
 	}
@@ -129,7 +128,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	private void lootTags() {
 		var mineableWithPickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
 		
-		for (var entry : ForgeRegistries.BLOCKS.getEntries()) {
+		for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
 			var block = entry.getValue();
 
 			if (ElementalCraft.owns(entry)) {

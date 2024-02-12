@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_firecrystal",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_firecrystal"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:element_holder_fire"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

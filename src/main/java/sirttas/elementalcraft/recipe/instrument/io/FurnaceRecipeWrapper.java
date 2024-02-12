@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -37,12 +36,6 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
     @Override
 	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
 		return recipe.getResultItem(registry);
-	}
-
-	@Nonnull
-    @Override
-	public ResourceLocation getId() {
-		return recipe.getId();
 	}
 
 	@Nonnull

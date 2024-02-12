@@ -17,6 +17,7 @@ public class AirMillWoodSawBlockEntity extends AbstractMillWoodSawBlockEntity {
 			ECConfig.COMMON.airMillsTransferSpeed,
 			ECConfig.COMMON.airMillsMaxRunes,
 			1,
+			false,
 			false
 	);
 

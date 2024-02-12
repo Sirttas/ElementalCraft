@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraftforge.common.ForgeMod;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
@@ -22,7 +22,7 @@ public class DolphinJewel extends AttributeJewel {
         super(ElementType.WATER, 50, () -> {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 
-            builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(UUID.fromString("a1cedb96-34ca-42ef-a9ea-c45868b2c790"), "Swim speed modifier", 0.05, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            builder.put(NeoForgeMod.SWIM_SPEED.value(), new AttributeModifier(UUID.fromString("a1cedb96-34ca-42ef-a9ea-c45868b2c790"), "Swim speed modifier", 0.05, AttributeModifier.Operation.MULTIPLY_TOTAL));
             return builder.build();
         });
     }

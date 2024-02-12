@@ -7,8 +7,9 @@
     "tag": "elementalcraft:gems/input_fire"
   },
   "output": {
-    "item": "elementalcraft:scroll",
-    "nbt": {
+    "Count": 1,
+    "id": "elementalcraft:scroll",
+    "tag": {
       "elementalcraft": {
         "spell": "elementalcraft:fireball"
       }

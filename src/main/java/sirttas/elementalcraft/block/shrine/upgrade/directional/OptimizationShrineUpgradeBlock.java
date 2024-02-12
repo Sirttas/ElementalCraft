@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.shrine.upgrade.directional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -14,6 +17,7 @@ import javax.annotation.Nonnull;
 public class OptimizationShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_optimization";
+	public static final MapCodec<OptimizationShrineUpgradeBlock> CODEC = simpleCodec(OptimizationShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE_1_UP = Block.box(6D, 10D, 6D, 10D, 12D, 10D);
 	private static final VoxelShape BASE_2_UP = Block.box(5D, 4D, 5D, 11D, 10D, 11D);
@@ -57,10 +61,14 @@ public class OptimizationShrineUpgradeBlock extends AbstractDirectionalShrineUpg
 	private static final VoxelShape PLATE_EAST = Block.box(0D, 4D, 4D, 2D, 12D, 12D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_1_EAST, BASE_2_EAST, PIPE_1_EAST, PIPE_2_EAST, PLATE_EAST);
 
-	public OptimizationShrineUpgradeBlock() {
-		super(ShrineUpgrades.OPTIMIZATION);
+	public OptimizationShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.OPTIMIZATION, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<OptimizationShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
 	@Nonnull
     @Override
 	@Deprecated

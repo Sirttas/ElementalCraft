@@ -34,15 +34,14 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_purecrystal",
-      "has_whiterock",
-      "has_the_recipe"
+      "has_whiterock"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:extractor_improved"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

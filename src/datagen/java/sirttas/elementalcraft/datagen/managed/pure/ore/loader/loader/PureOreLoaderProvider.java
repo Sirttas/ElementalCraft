@@ -8,10 +8,11 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.holdersets.AndHolderSet;
-import net.minecraftforge.registries.holdersets.NotHolderSet;
+import net.neoforged.neoforge.registries.holdersets.AndHolderSet;
+import net.neoforged.neoforge.registries.holdersets.NotHolderSet;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.pureore.loader.IPureOreLoader;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -21,8 +22,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IPureOreLoader, IPureOreLoaderBuilder> {
 
-    private static final ResourceLocation FIXED_RESONATING = ElementalCraft.createRL("resonating");
-    private static final ResourceLocation FIXED_URANINITE = ElementalCraft.createRL("uraninite");
+    private static final ResourceLocation FIXED_RESONATING = ElementalCraftApi.createRL("resonating");
+    private static final ResourceLocation FIXED_URANINITE = ElementalCraftApi.createRL("uraninite");
 
     private static final String NAMESPACE_PATTERN = "^(forge|blue_skies)$";
 
@@ -100,7 +101,7 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
     }
 
     protected FixedNamePureOreLoaderBuilder fixedName(String name, TagKey<Item> tag, ResourceLocation fixedName) {
-        return (FixedNamePureOreLoaderBuilder) add(ElementalCraft.createRL(name), new FixedNamePureOreLoaderBuilder(createHolderSet(tag), fixedName));
+        return (FixedNamePureOreLoaderBuilder) add(ElementalCraftApi.createRL(name), new FixedNamePureOreLoaderBuilder(createHolderSet(tag), fixedName));
     }
 
     protected PatternPureOreLoaderBuilder pattern(String name, TagKey<Item> tag, String pattern) {
@@ -108,7 +109,7 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
     }
 
     protected PatternPureOreLoaderBuilder pattern(String name, HolderSet<Item> holderSet, String pattern) {
-        return (PatternPureOreLoaderBuilder) add(ElementalCraft.createRL(name), new PatternPureOreLoaderBuilder(holderSet, pattern));
+        return (PatternPureOreLoaderBuilder) add(ElementalCraftApi.createRL(name), new PatternPureOreLoaderBuilder(holderSet, pattern));
     }
 
     private HolderSet<Item> withoutSpecific(TagKey<Item> tag) {

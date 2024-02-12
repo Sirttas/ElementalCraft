@@ -3,7 +3,6 @@ package sirttas.elementalcraft.data.predicate.block.pipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Direction;
-import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -20,7 +19,7 @@ public record HasPipeUpgrade(PipeUpgradeType<?> type) implements IPipePredicate 
 
     public static final String NAME = "has_pipe_upgrade";
     public static final Codec<HasPipeUpgrade> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-            CodecHelper.getRegistryCodec(PipeUpgradeTypes.REGISTRY).fieldOf(ECNames.PIPE_UPGRADE).forGetter(HasPipeUpgrade::type)
+            PipeUpgradeTypes.REGISTRY.byNameCodec().fieldOf(ECNames.PIPE_UPGRADE).forGetter(HasPipeUpgrade::type)
     ).apply(builder, HasPipeUpgrade::new));
 
     @Override

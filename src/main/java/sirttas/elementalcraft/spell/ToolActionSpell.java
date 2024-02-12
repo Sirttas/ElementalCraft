@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraftforge.common.ToolAction;
+import net.neoforged.neoforge.common.ToolAction;
 
 import java.util.Set;
 

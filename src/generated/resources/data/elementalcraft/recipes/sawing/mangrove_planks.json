@@ -1,12 +1,12 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 1000,
-  "input": {
+  "ingredient": {
     "tag": "elementalcraft:stripped_mangrove"
   },
   "luck_ratio": 3,
   "output": {
-    "count": 6,
-    "item": "minecraft:mangrove_planks"
+    "Count": 6,
+    "id": "minecraft:mangrove_planks"
   }
 }

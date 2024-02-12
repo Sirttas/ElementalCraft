@@ -6,6 +6,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -20,7 +21,11 @@ public abstract class AbstractConnectedElementContainerBlock extends AbstractEle
 	private static final VoxelShape CONNECTOR_SOUTH = Shapes.or(Block.box(5D, 5D, 14D, 11D, 11D, 15D), Block.box(6D, 6D, 15D, 10D, 10D, 16D));
 	private static final VoxelShape CONNECTOR_WEST = Shapes.or(Block.box(1D, 5D, 5D, 2D, 11D, 11D), Block.box(0D, 6D, 6D, 1D, 10D, 10D));
 	private static final VoxelShape CONNECTOR_EAST = Shapes.or(Block.box(14D, 5D, 5D, 15D, 11D, 11D), Block.box(15D, 6D, 6D, 16D, 10D, 10D));
-	
+
+	protected AbstractConnectedElementContainerBlock(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
+
 	@Nonnull
 	@Override
 	@Deprecated

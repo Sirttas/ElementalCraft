@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -47,7 +48,8 @@ public abstract class AbstractAirMillBlock extends AbstractMillBlock {
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 
-	protected AbstractAirMillBlock() {
+	protected AbstractAirMillBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(HALF, DoubleBlockHalf.LOWER)
@@ -80,11 +82,13 @@ public abstract class AbstractAirMillBlock extends AbstractMillBlock {
 	/**
 	 * Called before the Block is set to air in the world. Called regardless of if
 	 * the player's tool can actually collect this block
+	 *
+	 * @return
 	 */
 	@Override
-	public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+	public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
-		super.playerWillDestroy(level, pos, state, player);
+		return super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Override

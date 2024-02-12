@@ -2,9 +2,9 @@ package sirttas.elementalcraft.infusion.tool.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.enchantment.Enchantment;
-import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -13,7 +13,7 @@ public class EnchantmentToolInfusionEffect implements IToolInfusionEffect {
 
 	public static final String NAME = ECNames.ENCHANTMENT;
 	public static final Codec<EnchantmentToolInfusionEffect> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			Codecs.ENCHANTMENT.fieldOf(ECNames.ENCHANTMENT).forGetter(EnchantmentToolInfusionEffect::getEnchantment),
+			BuiltInRegistries.ENCHANTMENT.byNameCodec().fieldOf(ECNames.ENCHANTMENT).forGetter(EnchantmentToolInfusionEffect::getEnchantment),
 			Codec.INT.optionalFieldOf(ECNames.LEVEL, 1).forGetter(EnchantmentToolInfusionEffect::getLevel)
 	).apply(builder, EnchantmentToolInfusionEffect::new));
 

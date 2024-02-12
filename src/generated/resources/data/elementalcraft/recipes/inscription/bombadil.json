@@ -4,6 +4,9 @@
   "element_type": "water",
   "ingredients": [
     {
+      "item": "elementalcraft:rune_slate"
+    },
+    {
       "tag": "elementalcraft:gems/fine_water"
     },
     {
@@ -14,14 +17,12 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:rune",
-    "nbt": {
+    "Count": 1,
+    "id": "elementalcraft:rune",
+    "tag": {
       "elementalcraft": {
         "rune": "elementalcraft:bombadil"
       }
     }
-  },
-  "slate": {
-    "item": "elementalcraft:rune_slate"
   }
 }

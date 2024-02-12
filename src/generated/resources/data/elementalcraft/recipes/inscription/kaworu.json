@@ -4,28 +4,29 @@
   "element_type": "earth",
   "ingredients": [
     {
+      "item": "elementalcraft:rune_slate"
+    },
+    {
       "tag": "elementalcraft:gems/fine_earth"
     },
     {
-      "type": "forge:partial_nbt",
+      "type": "neoforge:nbt",
       "item": "elementalcraft:rune",
-      "nbt": "{elementalcraft:{rune:\"elementalcraft:fus\"}}"
+      "tag": "{elementalcraft:{rune:\"elementalcraft:fus\"}}"
     },
     {
-      "type": "forge:partial_nbt",
+      "type": "neoforge:nbt",
       "item": "elementalcraft:rune",
-      "nbt": "{elementalcraft:{rune:\"elementalcraft:jita\"}}"
+      "tag": "{elementalcraft:{rune:\"elementalcraft:jita\"}}"
     }
   ],
   "output": {
-    "item": "elementalcraft:rune",
-    "nbt": {
+    "Count": 1,
+    "id": "elementalcraft:rune",
+    "tag": {
       "elementalcraft": {
         "rune": "elementalcraft:kaworu"
       }
     }
-  },
-  "slate": {
-    "item": "elementalcraft:rune_slate"
   }
 }

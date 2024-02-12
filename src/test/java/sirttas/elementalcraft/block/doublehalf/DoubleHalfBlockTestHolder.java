@@ -24,6 +24,7 @@ public record DoubleHalfBlockTestHolder(
     public static final List<DoubleHalfBlockTestHolder> HOLDERS = Stream.of(
             of("millgametests.air_mill_grindstone", ECBlocks.AIR_MILL_GRINDSTONE.get(), new BlockPos(0, 2, 0)),
             of("millgametests.air_mill_wood_saw", ECBlocks.AIR_MILL_WOOD_SAW.get(), new BlockPos(0, 2, 0)),
+            of("enchantmentliquefiergametests.should_transferenchantment", ECBlocks.ENCHANTMENT_LIQUEFIER.get(), new BlockPos(0, 2, 0)),
             of("breedingshrinegametests.should_breedcows", ECBlocks.BREEDING_SHRINE.get(), new BlockPos(0, 2, 3), new BlockPos(1, 2, 3)),
             of("enderlockshrinegametests.should_preventendermanfromteleporting", ECBlocks.ENDER_LOCK_SHRINE.get()),
             of("overclockedaccelerationshrineupgradegametests.should_allowselementtransfer", ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get(), new BlockPos(1, 2, 1)),

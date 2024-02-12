@@ -15,12 +15,12 @@ import sirttas.elementalcraft.nbt.NBTHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.ObjIntConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
 public class SpellHelper {
 
@@ -178,28 +178,28 @@ public class SpellHelper {
 
 	private static Spell getSpellFromTag(Tag nbt) {
 		if (nbt instanceof CompoundTag compoundTag) {
-			return Spells.REGISTRY.get().getValue(new ResourceLocation(compoundTag.getString(ECNames.SPELL)));
+			return Spells.REGISTRY.get(new ResourceLocation(compoundTag.getString(ECNames.SPELL)));
 		}
 		return Spells.NONE.get();
 	}
 
 	private static boolean isSpellInTag(Tag nbt, Spell spell) {
-		if (nbt instanceof CompoundTag && ((CompoundTag) nbt).contains(ECNames.SPELL)) {
-			return ((CompoundTag) nbt).getString(ECNames.SPELL).equals(spell.getKey().toString());
+		if (nbt instanceof CompoundTag compoundTag && compoundTag.contains(ECNames.SPELL)) {
+			return compoundTag.getString(ECNames.SPELL).equals(spell.getKey().toString());
 		}
 		return false;
 	}
 
 	public static Spell randomSpell(RandomSource rand) {
-		return randomSpell(Spells.REGISTRY.get().getValues(), rand);
+		return randomSpell(Spells.REGISTRY, rand);
 	}
 
 	public static Spell randomSpell(ElementType type, RandomSource rand) {
-		return randomSpell(Spells.REGISTRY.get().getValues().stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
+		return randomSpell(Spells.REGISTRY.stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
 	}
 
-	public static Spell randomSpell(Collection<Spell> spells, RandomSource rand) {
-		List<Spell> list = spells.stream().filter(Spell::isValid).toList();
+	public static Spell randomSpell(Iterable<Spell> spells, RandomSource rand) {
+		var list = StreamSupport.stream(spells.spliterator(), false).filter(Spell::isValid).toList();
 		int roll = rand.nextInt(list.stream().mapToInt(Spell::getWeight).sum());
 		
 		for (Spell spell : list) {

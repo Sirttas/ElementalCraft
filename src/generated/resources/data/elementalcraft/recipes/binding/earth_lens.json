@@ -17,6 +17,10 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:earth_lens"
+    "Count": 1,
+    "id": "elementalcraft:earth_lens",
+    "tag": {
+      "Damage": 0
+    }
   }
 }

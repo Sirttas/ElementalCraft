@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -32,7 +32,7 @@ public class SpringShrineRecipeCategory extends AbstractShrineRecipeCategory<Spr
         springShrine = ECBlocks.SPRING_SHRINE.get().defaultBlockState();
 
         timer = guiHelper.createTickTimer(40, 1, false);
-        setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 64);
+        setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 64);
     }
 
     @Nonnull

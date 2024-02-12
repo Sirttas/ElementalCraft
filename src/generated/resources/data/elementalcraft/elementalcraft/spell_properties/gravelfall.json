@@ -1,10 +1,16 @@
 {
   "attributes": {
-    "forge:entity_reach": [
+    "neoforge:entity_reach": [
       {
-        "amount": 5.0,
-        "name": "Reach distance modifier",
-        "operation": "addition"
+        "Amount": 5.0,
+        "Name": "Reach distance modifier",
+        "Operation": "addition",
+        "UUID": [
+          -1087992464,
+          489308246,
+          -1123130095,
+          -740073806
+        ]
       }
     ]
   },

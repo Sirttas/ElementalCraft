@@ -17,6 +17,7 @@ public class WaterMillWoodSawBlockEntity extends AbstractMillWoodSawBlockEntity 
 			ECConfig.COMMON.waterMillsTransferSpeed,
 			ECConfig.COMMON.waterMillsMaxRunes,
 			1,
+			false,
 			false
 	);
 

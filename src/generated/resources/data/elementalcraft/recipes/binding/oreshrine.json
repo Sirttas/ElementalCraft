@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:oreshrine"
+    "Count": 1,
+    "id": "elementalcraft:oreshrine"
   }
 }

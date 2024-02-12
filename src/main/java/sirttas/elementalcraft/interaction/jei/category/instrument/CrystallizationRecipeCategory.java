@@ -8,7 +8,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -24,7 +24,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 
 	public CrystallizationRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.crystallization", createDrawableStack(guiHelper, CRYSTALLIZER), guiHelper.createBlankDrawable(132, 110));
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/crystallization.png"), 0, 0, 124, 52), 10, 10);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/crystallization.png"), 0, 0, 124, 52), 10, 10);
 	}
 
 	@Nonnull
@@ -55,7 +55,7 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 42)
-				.addItemStacks(recipe.getOutputs().stream().map(ResultEntry::getResult).toList())
+				.addItemStacks(recipe.getOutputs().stream().map(ResultEntry::result).toList())
 				.addTooltipCallback((recipeSlotView, tooltip) -> tooltip.add(Component.translatable("tooltip.elementalcraft.chance", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(recipeSlotView.getDisplayedIngredient(VanillaTypes.ITEM_STACK).map(recipe::getWeight).orElse(0F) * 100F / recipe.getTotalWeight()))));
 	}
 

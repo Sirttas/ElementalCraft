@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nonnull;
 
@@ -80,7 +80,7 @@ public class AoeSpell extends Spell {
 
 			stack.getItem().hurtEnemy(stack, target, player);
 			if (stack.isEmpty()) {
-				ForgeEventFactory.onPlayerDestroyItem(player, copy, InteractionHand.MAIN_HAND);
+				EventHooks.onPlayerDestroyItem(player, copy, InteractionHand.MAIN_HAND);
 				sender.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
 			}
 		}

@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.IItemDecorator;
+import net.neoforged.neoforge.client.IItemDecorator;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 public class SpellCooldownItemDecorator implements IItemDecorator {

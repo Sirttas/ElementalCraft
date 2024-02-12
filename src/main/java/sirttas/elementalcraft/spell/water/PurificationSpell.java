@@ -6,8 +6,8 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -23,16 +23,15 @@ public class PurificationSpell extends Spell {
 
 	@SuppressWarnings("resource")
 	private InteractionResult cureEffects(Entity target) {
-		if (target instanceof LivingEntity) {
+		if (target instanceof LivingEntity livingTarget) {
 			if (!target.level().isClientSide) {
-				LivingEntity livingTarget = (LivingEntity) target;
 				Iterator<MobEffectInstance> itr = livingTarget.getActiveEffects().iterator();
 
 				while (itr.hasNext()) {
-					MobEffectInstance effect = itr.next();
+					var effect = itr.next();
+					var cures = effect.getCures(); // TODO create cure for purification spell
 
-					if (!effect.getCurativeItems().isEmpty() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL
-							&& !MinecraftForge.EVENT_BUS.post(new MobEffectEvent.Remove(livingTarget, effect))) {
+					if (!cures.isEmpty() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL && NeoForge.EVENT_BUS.post(new MobEffectEvent.Remove(livingTarget, effect, cures.iterator().next())).isCanceled()) {
 						livingTarget.onEffectRemoved(effect);
 						itr.remove();
 						livingTarget.updateEffectVisibility();

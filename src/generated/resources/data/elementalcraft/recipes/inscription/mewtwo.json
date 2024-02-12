@@ -4,28 +4,29 @@
   "element_type": "earth",
   "ingredients": [
     {
+      "item": "elementalcraft:major_rune_slate"
+    },
+    {
       "tag": "elementalcraft:gems/pristine_earth"
     },
     {
-      "type": "forge:partial_nbt",
+      "type": "neoforge:nbt",
       "item": "elementalcraft:rune",
-      "nbt": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
+      "tag": "{elementalcraft:{rune:\"elementalcraft:zod\"}}"
     },
     {
-      "type": "forge:partial_nbt",
+      "type": "neoforge:nbt",
       "item": "elementalcraft:rune",
-      "nbt": "{elementalcraft:{rune:\"elementalcraft:tano\"}}"
+      "tag": "{elementalcraft:{rune:\"elementalcraft:tano\"}}"
     }
   ],
   "output": {
-    "item": "elementalcraft:rune",
-    "nbt": {
+    "Count": 1,
+    "id": "elementalcraft:rune",
+    "tag": {
       "elementalcraft": {
         "rune": "elementalcraft:mewtwo"
       }
     }
-  },
-  "slate": {
-    "item": "elementalcraft:major_rune_slate"
   }
 }

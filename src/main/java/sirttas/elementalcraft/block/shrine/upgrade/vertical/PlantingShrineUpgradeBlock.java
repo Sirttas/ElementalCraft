@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.shrine.upgrade.vertical;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,12 +11,14 @@ import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -25,6 +28,7 @@ import java.util.List;
 public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_planting";
+	public static final MapCodec<PlantingShrineUpgradeBlock> CODEC = simpleCodec(PlantingShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE_1_UP = Block.box(6D, 14D, 6D, 10D, 16D, 10D);
 	private static final VoxelShape BASE_2_UP = Block.box(2D, 12D, 2D, 14D, 14D, 14D);
@@ -44,8 +48,13 @@ public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlo
 
 	private static final VoxelShape SHAPE_DOWN = Shapes.or(BASE_1_DOWN, BASE_2_DOWN, PIPE_1_DOWN, PIPE_2_DOWN, PIPE_3_DOWN, PIPE_4_DOWN);
 
-	public PlantingShrineUpgradeBlock() {
-		super(ShrineUpgrades.PLANTING);
+	public PlantingShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.PLANTING, properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<PlantingShrineUpgradeBlock> codec() {
+		return CODEC;
 	}
 
 	@Nonnull

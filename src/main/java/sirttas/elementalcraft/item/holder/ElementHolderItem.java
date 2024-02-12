@@ -3,10 +3,8 @@ package sirttas.elementalcraft.item.holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
@@ -15,7 +13,6 @@ import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class ElementHolderItem extends AbstractElementHolderItem implements ISourceInteractable, IElementTypeProvider {
 
@@ -41,21 +38,10 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	protected ElementType getElementType(IElementStorage target, BlockState blockstate) {
 		return elementType;
 	}
-	
-	@Override
-	@Nullable
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-		ElementStorage storage = new ElementStorage(stack);
-		
-		if (nbt != null && nbt.contains(ECNames.PARENT)) {
-			storage.deserializeNBT(nbt.getCompound(ECNames.PARENT));
-		}
-		return ElementStorageHelper.createProvider(storage);
-	}
 
 	@Override
 	public ISingleElementStorage getElementStorage(ItemStack stack) {
-		return (ISingleElementStorage) ElementStorageHelper.get(stack).orElse(new StaticElementStorage(elementType, 0));
+		return new ElementStorage(stack);
 	}
 
 	@Override
@@ -90,6 +76,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 		public ElementStorage(ItemStack stack) {
 			super(ElementHolderItem.this.elementType, ElementHolderItem.this.getElementCapacity());
 			this.stack = stack;
+			refresh();
 		}
 
 

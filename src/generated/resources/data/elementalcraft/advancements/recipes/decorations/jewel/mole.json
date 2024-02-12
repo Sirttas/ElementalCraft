@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "elementalcraft:jewel"
+        "recipe": "elementalcraft:jewel/mole"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_unset_jewel",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_unset_jewel"
     ]
   ],
   "rewards": {
     "recipes": [
-      "elementalcraft:jewel"
+      "elementalcraft:jewel/mole"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

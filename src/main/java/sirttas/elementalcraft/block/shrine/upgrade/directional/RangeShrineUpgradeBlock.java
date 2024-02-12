@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.shrine.upgrade.directional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -14,6 +17,7 @@ import javax.annotation.Nonnull;
 public class RangeShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_range";
+	public static final MapCodec<RangeShrineUpgradeBlock> CODEC = simpleCodec(RangeShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE_UP = Block.box(6D, 8D, 6D, 10D, 12D, 10D);
 	private static final VoxelShape PIPE_UP = Block.box(7D, 12D, 7D, 9D, 16D, 9D);
@@ -51,10 +55,15 @@ public class RangeShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlo
 	private static final VoxelShape PLATE_EAST = Block.box(4D, 4D, 4D, 6D, 12D, 12D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST, CONNECTOR_EAST, PLATE_EAST);
 
-	public RangeShrineUpgradeBlock() {
-		super(ShrineUpgrades.RANGE);
+	public RangeShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.RANGE, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<RangeShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Nonnull
     @Override
 	@Deprecated

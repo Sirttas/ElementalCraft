@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.VisibleForTesting;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -34,6 +35,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 			ECConfig.COMMON.pureInfuserTransferSpeed,
 			ECConfig.COMMON.pureInfuserMaxRunes,
 			0,
+			true,
 			true
 	);
 
@@ -44,10 +46,10 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		super(CONFIG, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
 		pedestalWrappers = new EnumMap<>(Direction.class);
-		pedestalWrappers.put(Direction.NORTH, new PedestalWrapper());
-		pedestalWrappers.put(Direction.SOUTH, new PedestalWrapper());
-		pedestalWrappers.put(Direction.WEST, new PedestalWrapper());
-		pedestalWrappers.put(Direction.EAST, new PedestalWrapper());
+		pedestalWrappers.put(Direction.NORTH, new PedestalWrapper(Direction.NORTH));
+		pedestalWrappers.put(Direction.SOUTH, new PedestalWrapper(Direction.SOUTH));
+		pedestalWrappers.put(Direction.WEST, new PedestalWrapper(Direction.WEST));
+		pedestalWrappers.put(Direction.EAST, new PedestalWrapper(Direction.EAST));
 	}
 
 	@Override
@@ -64,12 +66,14 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		if (!pureInfuser.isPowered()) {
 			pureInfuser.makeProgress();
 		}
+		AbstractECCraftingBlockEntity.tick(pureInfuser);
 	}
 
-	private void refreshPedestals() {
+	@VisibleForTesting
+	public void refreshPedestals() {
 		pedestalWrappers.forEach((d, w) -> {
 			if (w.isRemoved()) {
-				w.lookupPedestal(d);
+				w.lookupPedestal();
 			}
 		});
 	}
@@ -104,6 +108,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		return pedestal != null ? pedestal.getItem() : ItemStack.EMPTY;
 	}
 
+	@VisibleForTesting
 	public PedestalBlockEntity getPedestal(ElementType type) {
 		if (type == ElementType.NONE) {
 			return null;
@@ -205,10 +210,12 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 	private class PedestalWrapper implements IElementTypeProvider {
 
+		private final Direction direction;
 		private PedestalBlockEntity pedestal;
 		private int progress;
 
-		public PedestalWrapper() {
+		public PedestalWrapper(Direction direction) {
+			this.direction = direction;
 			this.pedestal = null;
 			this.progress = 0;
 		}
@@ -222,7 +229,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 			return isRemoved() ? ElementType.NONE : pedestal.getElementType();
 		}
 
-		public void lookupPedestal(Direction direction) {
+		public void lookupPedestal() {
 			var be = level != null ? level.getBlockEntity(worldPosition.relative(direction, 3)) : null;
 
 			pedestal = be instanceof PedestalBlockEntity p ? p : null;

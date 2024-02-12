@@ -12,7 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.AbstractHorizontalShrineUpgradeBlock;
@@ -30,7 +30,7 @@ public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<Bu
         super("elementalcraft.jei.buddingshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.BUDDING_SHRINE.get())), guiHelper.createBlankDrawable(110, 66));
         timer = guiHelper.createTickTimer(100, 4, false);
         springalineShrineUpgrade = ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get().defaultBlockState().setValue(AbstractHorizontalShrineUpgradeBlock.FACING, Direction.SOUTH);
-        setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
+        setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
     }
 
     @Nonnull

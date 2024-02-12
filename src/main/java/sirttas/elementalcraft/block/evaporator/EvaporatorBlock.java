@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.evaporator;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -15,14 +16,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -37,6 +40,7 @@ import javax.annotation.Nullable;
 public class EvaporatorBlock extends AbstractECContainerBlock {
 
 	public static final String NAME = "evaporator";
+	public static final MapCodec<EvaporatorBlock> CODEC = simpleCodec(EvaporatorBlock::new);
 
 	private static final VoxelShape BASE_1 = Block.box(6D, 0D, 6D, 10D, 1D, 10D);
 	private static final VoxelShape BASE_2 = Block.box(5D, 1D, 5D, 11D, 7D, 11D);
@@ -47,6 +51,15 @@ public class EvaporatorBlock extends AbstractECContainerBlock {
 	private static final VoxelShape PIPE_4 = Block.box(11D, 0D, 11D, 13D, 8D, 13D);
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, PIPE_1, PIPE_2, PIPE_3, PIPE_4);
+
+	public EvaporatorBlock(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<EvaporatorBlock> codec() {
+		return CODEC;
+	}
 
 	@Override
 	public EvaporatorBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {

@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraftforge.common.util.Lazy;
+import net.neoforged.neoforge.common.util.Lazy;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.jewel.Jewel;

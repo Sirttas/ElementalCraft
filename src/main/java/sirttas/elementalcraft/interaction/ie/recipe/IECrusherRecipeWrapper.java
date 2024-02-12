@@ -3,12 +3,11 @@ package sirttas.elementalcraft.interaction.ie.recipe;
 import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
@@ -39,12 +38,6 @@ public class IECrusherRecipeWrapper implements IGrindingRecipe {
     @Override
     public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
         return crushingRecipe.getResultItem(registryAccess);
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return crushingRecipe.getId();
     }
 
     @Nonnull

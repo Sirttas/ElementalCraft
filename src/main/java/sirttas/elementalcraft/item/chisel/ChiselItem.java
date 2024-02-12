@@ -7,9 +7,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.rune.handler.RuneHandlerHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.item.ECItem;
@@ -35,18 +36,22 @@ public class ChiselItem extends ECItem implements IPipeInteractingItem {
 
 	@Nonnull
     @Override
-	public InteractionResult useOn(UseOnContext context) {
+	public InteractionResult useOn(@NotNull UseOnContext context) {
 		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos()), context);
 	}
 
 	@Nonnull
 	@Override
 	public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
-		return doUse(RuneHandlerHelper.get(pipe, context.getClickedFace()), context);
+		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, pipe, context.getClickedFace()), context);
 	}
 
 	@Nonnull
 	public InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
+		if (handler == null) {
+			return InteractionResult.PASS;
+		}
+
 		Level level = context.getLevel();
 		Player player = context.getPlayer();
 		ItemStack stack = context.getItemInHand();

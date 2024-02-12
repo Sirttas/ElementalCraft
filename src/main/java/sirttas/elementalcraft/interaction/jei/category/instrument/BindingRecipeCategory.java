@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.binder.IBinder;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -23,7 +23,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<IBin
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.binding", createDrawableStack(guiHelper, BINDER), guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16));
-		setOverlay(guiHelper.createDrawable(ElementalCraft.createRL("textures/gui/overlay/binding.png"), 0, 0, 124, 83), 10, 10);
+		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/binding.png"), 0, 0, 124, 83), 10, 10);
 	}
 
 	@Nonnull

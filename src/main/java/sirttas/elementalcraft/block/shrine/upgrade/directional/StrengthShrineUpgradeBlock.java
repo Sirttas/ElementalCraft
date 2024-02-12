@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.shrine.upgrade.directional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -14,6 +17,7 @@ import javax.annotation.Nonnull;
 public class StrengthShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_strength";
+	public static final MapCodec<StrengthShrineUpgradeBlock> CODEC = simpleCodec(StrengthShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE_UP = Block.box(6D, 7D, 6D, 10D, 11D, 10D);
 	private static final VoxelShape PIPE_UP = Block.box(7D, 11D, 7D, 9D, 16D, 9D);
@@ -63,8 +67,13 @@ public class StrengthShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 	private static final VoxelShape PLATE_2_EAST = Block.box(6D, 5D, 12D, 12D, 11D, 13D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST, PIPE_SIDE_1_EAST, PIPE_SIDE_2_EAST, PLATE_1_EAST, PLATE_2_EAST);
 
-	public StrengthShrineUpgradeBlock() {
-		super(ShrineUpgrades.STRENGTH);
+	public StrengthShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.STRENGTH, properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<StrengthShrineUpgradeBlock> codec() {
+		return CODEC;
 	}
 	
 	@Nonnull

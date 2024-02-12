@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class SingleStackContainer extends AbstractSynchronizableContainer implements INBTSerializable<CompoundTag> {
 

@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#elementalcraft:has_sources/nether/forest",
+  "features": "elementalcraft:source_nether_forest",
+  "step": "underground_decoration"
+}

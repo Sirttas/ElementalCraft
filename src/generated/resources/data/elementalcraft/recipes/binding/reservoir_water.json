@@ -17,6 +17,7 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:reservoir_water"
+    "Count": 1,
+    "id": "elementalcraft:reservoir_water"
   }
 }

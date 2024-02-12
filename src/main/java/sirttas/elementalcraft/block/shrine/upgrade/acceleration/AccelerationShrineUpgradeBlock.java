@@ -1,14 +1,17 @@
 package sirttas.elementalcraft.block.shrine.upgrade.acceleration;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
 
@@ -17,6 +20,7 @@ import javax.annotation.Nonnull;
 public class AccelerationShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock implements EntityBlock {
 
 	public static final String NAME = "shrine_upgrade_acceleration";
+	public static final MapCodec<AccelerationShrineUpgradeBlock> CODEC = simpleCodec(AccelerationShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE_UP = Block.box(5D, 7D, 5D, 11D, 13D, 11D);
 	private static final VoxelShape PIPE_UP = Block.box(7D, 13D, 7D, 9D, 16D, 9D);
@@ -43,10 +47,15 @@ public class AccelerationShrineUpgradeBlock extends AbstractDirectionalShrineUpg
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST);
 
 	
-	public AccelerationShrineUpgradeBlock() {
-		super(ShrineUpgrades.ACCELERATION);
+	public AccelerationShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.ACCELERATION, properties);
 	}
-	
+
+	@Override
+	protected @NotNull MapCodec<AccelerationShrineUpgradeBlock> codec() {
+		return CODEC;
+	}
+
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new AccelerationShrineUpgradeBlockEntity(pos, state);

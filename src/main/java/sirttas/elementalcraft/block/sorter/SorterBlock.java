@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.sorter;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -20,6 +22,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -30,6 +33,7 @@ import javax.annotation.Nullable;
 public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 
 	public static final String NAME = "sorter";
+	public static final MapCodec<SorterBlock> CODEC = simpleCodec(SorterBlock::new);
 
 	private static final VoxelShape CORE_VOID = Shapes.or(Block.box(5D, 6D, 6D, 11D, 10D, 10D), Block.box(6D, 5D, 6D, 10D, 11D, 10D),
 			Block.box(6D, 6D, 5D, 10D, 10D, 11D));
@@ -37,10 +41,16 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 			Block.box(6D, 6D, 6D, 10D, 10D, 10D));
 
 
-	public SorterBlock() {
+	public SorterBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(SOURCE, Direction.SOUTH)
 				.setValue(TARGET, Direction.NORTH));
+	}
+
+	@Override
+	protected @NotNull MapCodec<SorterBlock> codec() {
+		return CODEC;
 	}
 
 	@Override

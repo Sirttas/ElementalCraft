@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.shrine.upgrade.directional;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -14,6 +17,7 @@ import javax.annotation.Nonnull;
 public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_capacity";
+	public static final MapCodec<CapacityShrineUpgradeBlock> CODEC = simpleCodec(CapacityShrineUpgradeBlock::new);
 
 	private static final VoxelShape BASE_UP = Block.box(5D, 6D, 5D, 11D, 12D, 11D);
 	private static final VoxelShape PIPE_UP = Block.box(7D, 12D, 7D, 9D, 16D, 9D);
@@ -39,8 +43,13 @@ public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgrade
 	private static final VoxelShape PIPE_EAST = Block.box(12D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST);
 
-	public CapacityShrineUpgradeBlock() {
-		super(ShrineUpgrades.CAPACITY);
+	public CapacityShrineUpgradeBlock(BlockBehaviour.Properties properties) {
+		super(ShrineUpgrades.CAPACITY, properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<CapacityShrineUpgradeBlock> codec() {
+		return CODEC;
 	}
 
 	@Nonnull

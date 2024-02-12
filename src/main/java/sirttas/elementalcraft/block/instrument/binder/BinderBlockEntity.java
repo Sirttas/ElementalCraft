@@ -21,6 +21,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 			ECConfig.COMMON.binderTransferSpeed,
 			ECConfig.COMMON.binderMaxRunes,
 			0,
+			true,
 			true
 	);
 
@@ -33,7 +34,6 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 	protected BinderBlockEntity(Config<IBinder, AbstractBindingRecipe> config, BlockPos pos, BlockState state) {
 		super(config, pos, state);
 		inventory = new InstrumentContainer(this::setChanged, 20);
-		lockable = true;
 		particleOffset = new Vec3(0, 0.2, 0);
 	}
 

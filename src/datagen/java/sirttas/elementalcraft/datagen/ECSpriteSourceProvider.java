@@ -4,12 +4,12 @@ import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.client.renderer.texture.atlas.sources.PalettedPermutations;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.SpriteSourceProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.source.SourceRendererHelper;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
@@ -20,16 +20,17 @@ import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class ECSpriteSourceProvider extends SpriteSourceProvider {
 
 
-    public ECSpriteSourceProvider(PackOutput output, ExistingFileHelper fileHelper) {
-        super(output, fileHelper, ElementalCraftApi.MODID);
+    public ECSpriteSourceProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper fileHelper) {
+        super(output, lookupProvider, ElementalCraftApi.MODID, fileHelper);
     }
 
     @Override
-    protected void addSources() {
+    protected void gather() {
         atlas(BLOCKS_ATLAS)
                 .addSource(directory("elementalcraft/jewels"))
                 .addSource(manager(ElementalCraftApi.RUNE_MANAGER))
@@ -97,7 +98,6 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
     }
 
     private ResourceLocation createTrimPermutation(String name) {
-        return ElementalCraft.createRL("trims/color_palettes/" + name);
+        return ElementalCraftApi.createRL("trims/color_palettes/" + name);
     }
-
 }

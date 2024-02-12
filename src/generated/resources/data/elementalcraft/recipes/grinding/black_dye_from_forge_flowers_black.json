@@ -1,28 +1,21 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:flowers/black"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "elementalcraft:grinding",
-        "element_amount": 1000,
-        "input": {
-          "tag": "forge:flowers/black"
-        },
-        "luck_ratio": 2,
-        "output": {
-          "count": 2,
-          "item": "minecraft:black_dye"
-        }
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:flowers/black"
       }
     }
-  ]
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "forge:flowers/black"
+  },
+  "luck_ratio": 2,
+  "output": {
+    "Count": 2,
+    "id": "minecraft:black_dye"
+  }
 }

@@ -13,8 +13,9 @@ import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.Lazy;
+import net.neoforged.neoforge.common.util.Lazy;
 import sirttas.elementalcraft.ElementalCraftUtils;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
@@ -56,7 +57,10 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 			return findGrass().map(p -> {
 				BlockItem item = findFlower();
 				
-				item.place(new DirectionalPlaceContext(level, p, Direction.DOWN, new ItemStack(item), Direction.UP));
+				if (!item.place(new DirectionalPlaceContext(level, p, Direction.DOWN, new ItemStack(item), Direction.UP)).consumesAction()) {
+					ElementalCraftApi.LOGGER.warn("Failed to place flower: {} at {}", item, p);
+					return false;
+				}
 				level.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, p, 0);
 				return true;
 			}).orElse(false);

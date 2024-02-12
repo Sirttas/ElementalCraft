@@ -1,17 +1,12 @@
 package sirttas.elementalcraft.item.source.receptacle;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
+import com.mojang.serialization.Codec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.IIngredientSerializer;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.source.trait.holder.SourceTraitHolderHelper;
+import sirttas.elementalcraft.item.ECIngredientTypes;
 import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
@@ -20,10 +15,12 @@ import java.util.stream.Stream;
 
 public class NaturalSourceIngredient extends Ingredient implements IElementTypeProvider {
 
+    public static final Codec<NaturalSourceIngredient> CODEC = ElementType.CODEC.xmap(NaturalSourceIngredient::new, NaturalSourceIngredient::getElementType);
+
     private final ElementType elementType;
 
     public NaturalSourceIngredient(ElementType elementType) {
-        super(Stream.of());
+        super(Stream.of(), ECIngredientTypes.NATURAL_SOURCE);
         this.elementType = elementType;
     }
 
@@ -45,50 +42,16 @@ public class NaturalSourceIngredient extends Ingredient implements IElementTypeP
 
     @Override
     public boolean test(@Nullable ItemStack stack) {
-        if (stack == null || !stack.is(ECItems.RECEPTACLE.get())) {
+        if (stack == null || stack.isEmpty() || !stack.is(ECItems.RECEPTACLE.get())) {
             return false;
         }
 
-        return SourceTraitHolderHelper.get(stack)
-                .map(t -> !t.isArtificial())
-                .orElse(true);
-    }
+        var traitHolder = stack.getCapability(ElementalCraftCapabilities.SourceTrait.ITEM, null);
 
-    @Nonnull
-    @Override
-    public JsonElement toJson() {
-        var json = new JsonObject();
-
-        json.addProperty(ECNames.TYPE, CraftingHelper.getID(Serializer.INSTANCE).toString());
-        json.addProperty(ECNames.ELEMENT_TYPE, elementType.getSerializedName());
-        return json;
-    }
-
-    @Nonnull
-    @Override
-    public IIngredientSerializer<? extends Ingredient> getSerializer() {
-        return Serializer.INSTANCE;
-    }
-
-    public static class Serializer implements IIngredientSerializer<NaturalSourceIngredient>
-    {
-        public static final Serializer INSTANCE = new Serializer();
-
-        @Nonnull
-        @Override
-        public NaturalSourceIngredient parse(FriendlyByteBuf buffer) {
-            return new NaturalSourceIngredient(ElementType.byName(buffer.readUtf()));
+        if (traitHolder == null) {
+            return false;
         }
 
-        @Nonnull
-        @Override
-        public NaturalSourceIngredient parse(@Nonnull JsonObject json) {
-            return new NaturalSourceIngredient(ElementType.byName(GsonHelper.getAsString(json, ECNames.ELEMENT_TYPE)));
-        }
-
-        @Override
-        public void write(FriendlyByteBuf buffer, NaturalSourceIngredient ingredient) {
-            buffer.writeUtf(ingredient.elementType.getSerializedName());
-        }
+        return !traitHolder.isArtificial();
     }
 }

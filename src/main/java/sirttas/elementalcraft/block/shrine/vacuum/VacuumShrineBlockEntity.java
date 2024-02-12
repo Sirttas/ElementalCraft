@@ -10,17 +10,17 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexPullPlayerMessage;
+import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexPullPlayerPayload;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.network.message.MessageHelper;
+import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {
 				this.consumeElement(consumeAmount);
 				if (entity instanceof ServerPlayer player) {
-					MessageHelper.sendToPlayer(player, new VortexPullPlayerMessage(pos3d, pullSpeed));
+					PayloadHelper.sendToPlayer(player, new VortexPullPlayerPayload(pos3d, pullSpeed));
 				} else {
 					entity.setDeltaMovement(pos3d.subtract(entity.position()).normalize().multiply(pullSpeed, pullSpeed, pullSpeed));
 				}

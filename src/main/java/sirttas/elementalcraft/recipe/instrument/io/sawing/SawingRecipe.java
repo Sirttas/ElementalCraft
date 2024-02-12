@@ -1,11 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument.io.sawing;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -18,31 +17,36 @@ import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.AbstractMillWoodSawBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public record SawingRecipe(
-		ResourceLocation id,
-		Ingredient ingredient,
-		ItemStack output,
 		int elementAmount,
-		int luckRation
+		int luckRation,
+		Ingredient ingredient,
+		ItemStack output
 ) implements IIOInstrumentRecipe<AbstractMillWoodSawBlockEntity> {
 
 	public static final String NAME = "sawing";
 
+	public static final Codec<SawingRecipe> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+			Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(SawingRecipe::elementAmount),
+			Codec.INT.fieldOf(ECNames.LUCK_RATIO).forGetter(SawingRecipe::luckRation),
+			Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(SawingRecipe::ingredient),
+			ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(SawingRecipe::output)
+	).apply(builder, SawingRecipe::new));
+
+	public SawingRecipe {
+		if (output.isEmpty()) {
+			throw new IllegalArgumentException("Sawing recipe output must not be empty");
+		}
+	}
+
 	@Override
 	public int getElementAmount() {
 		return elementAmount;
-	}
-
-	@Nonnull
-    @Override
-	public ResourceLocation getId() {
-		return id;
 	}
 
 	@Override
@@ -91,36 +95,28 @@ public record SawingRecipe(
 
 	public static class Serializer implements RecipeSerializer<SawingRecipe> {
 
+		@Override
 		@Nonnull
-        @Override
-		public SawingRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-			int elementAmount = GsonHelper.getAsInt(json, ECNames.ELEMENT_AMOUNT);
-			Ingredient ingredient = RecipeHelper.deserializeIngredient(json, ECNames.INPUT);
-			ItemStack output = RecipeHelper.readRecipeOutput(json, ECNames.OUTPUT);
-			int luckRation = GsonHelper.getAsInt(json, ECNames.LUCK_RATIO);
-
-			if (!output.isEmpty()) {
-				return new SawingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
-			}
-			throw new IllegalStateException("Sawing recipe output is empty!");
+		public Codec<SawingRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public SawingRecipe fromNetwork(@Nonnull ResourceLocation recipeId, FriendlyByteBuf buffer) {
+		public SawingRecipe fromNetwork(FriendlyByteBuf buffer) {
 			int elementAmount = buffer.readInt();
+			int luckRation = buffer.readInt();
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ItemStack output = buffer.readItem();
-			int luckRation = buffer.readInt();
 
-			return new SawingRecipe(recipeId, ingredient, output, elementAmount, luckRation);
+			return new SawingRecipe(elementAmount, luckRation, ingredient, output);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, SawingRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
+			buffer.writeInt(recipe.luckRation());
 			recipe.getIngredients().get(0).toNetwork(buffer);
 			buffer.writeItem(recipe.output);
-			buffer.writeInt(recipe.luckRation());
 		}
 
 	}

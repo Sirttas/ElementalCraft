@@ -1,0 +1,23 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_inert_crystal_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:inert_crystal_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_inert_crystal_block"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

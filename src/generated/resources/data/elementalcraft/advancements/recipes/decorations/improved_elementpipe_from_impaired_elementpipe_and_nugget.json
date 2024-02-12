@@ -20,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_swift_alloy_nugget",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_swift_alloy_nugget"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:improved_elementpipe_from_impaired_elementpipe_and_nugget"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#elementalcraft:has_sources/deep_dark",
+  "features": "elementalcraft:source_deep_dark",
+  "step": "underground_decoration"
+}

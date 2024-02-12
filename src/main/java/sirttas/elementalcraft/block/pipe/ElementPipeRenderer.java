@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.PipeUpgradeRenderers;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 
 public class ElementPipeRenderer implements BlockEntityRenderer<ElementPipeBlockEntity> {
 
-	public static final ResourceLocation SIDE_LOCATION = ElementalCraft.createRL("block/elementpipe_side");
-	public static final ResourceLocation EXTRACT_LOCATION = ElementalCraft.createRL("block/elementpipe_extract");
+	public static final ResourceLocation SIDE_LOCATION = ElementalCraftApi.createRL("block/elementpipe_side");
+	public static final ResourceLocation EXTRACT_LOCATION = ElementalCraftApi.createRL("block/elementpipe_extract");
 	
 	private static final AABB BOX = new AABB(0, 0, 0, 1, 1, 1);
 	

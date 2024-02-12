@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.container;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -14,6 +15,7 @@ import javax.annotation.Nonnull;
 public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 
 	public static final String NAME = "small_container";
+	public static final MapCodec<SmallElementContainerBlock> CODEC = simpleCodec(SmallElementContainerBlock::new);
 
 	private static final VoxelShape GLASS = Block.box(3D, 3D, 3D, 13D, 13D, 13D);
 
@@ -34,7 +36,11 @@ public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 
 	private static final VoxelShape SHAPE = Shapes.or(GLASS, CONNECTOR_NORTH_1, CONNECTOR_NORTH_2, CONNECTOR_SOUTH_1, CONNECTOR_SOUTH_2, CONNECTOR_WEST_1, CONNECTOR_WEST_2, CONNECTOR_EAST_1,
 			CONNECTOR_EAST_2, CONNECTOR_DOWN_1, CONNECTOR_DOWN_2, CONNECTOR_UP_1, CONNECTOR_UP_2);
-	
+
+	public SmallElementContainerBlock(Properties properties) {
+		super(properties);
+	}
+
 	@Nonnull
 	@Override
 	@Deprecated
@@ -45,5 +51,10 @@ public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 	@Override
 	public int getDefaultCapacity() {
 		return ECConfig.COMMON.tankSmallCapacity.get();
+	}
+
+	@Override
+	protected MapCodec<SmallElementContainerBlock> codec() {
+		return CODEC;
 	}
 }

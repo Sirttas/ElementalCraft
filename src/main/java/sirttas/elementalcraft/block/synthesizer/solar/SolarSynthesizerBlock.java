@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.synthesizer.solar;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -21,8 +23,9 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -35,6 +38,7 @@ import javax.annotation.Nullable;
 public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 
 	public static final String NAME = "solar_synthesizer";
+	public static final MapCodec<SolarSynthesizerBlock> CODEC = simpleCodec(SolarSynthesizerBlock::new);
 
 	private static final VoxelShape BASE_1 = Block.box(0D, 1D, 0D, 16D, 3D, 16D);
 	private static final VoxelShape BASE_2 = Shapes.join(Block.box(2D, 3D, 2D, 14D, 5D, 14D), Block.box(6D, 4D, 6D, 10D, 5D, 10D), BooleanOp.ONLY_FIRST);
@@ -48,6 +52,15 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	private static final VoxelShape PIPE_6 = Block.box(7D, 5D, 11D, 9D, 15D, 13D);
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, PIPE_1, PIPE_2, PIPE_3, PIPE_4, PIPE_5, PIPE_6);
+
+	public SolarSynthesizerBlock(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
+
+	@Override
+	protected @NotNull MapCodec<? extends SolarSynthesizerBlock> codec() {
+		return CODEC;
+	}
 
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
@@ -83,7 +96,9 @@ public class SolarSynthesizerBlock extends AbstractECContainerBlock {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-		BlockEntityHelper.getBlockEntityAs(world, pos, SolarSynthesizerBlockEntity.class).filter(SolarSynthesizerBlockEntity::isWorking).flatMap(SolarSynthesizerBlockEntity::getElementStorage)
+		BlockEntityHelper.getBlockEntityAs(world, pos, SolarSynthesizerBlockEntity.class)
+				.filter(SolarSynthesizerBlockEntity::isWorking)
+				.map(SolarSynthesizerBlockEntity::getElementStorage)
 				.ifPresent(storage -> ParticleHelper.createElementFlowParticle(storage.getElementType(), world, Vec3.atCenterOf(pos.below()), Direction.DOWN, 1, rand));
 	}
 	

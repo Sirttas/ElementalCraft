@@ -1,43 +1,31 @@
 package sirttas.elementalcraft.loot.function;
 
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSyntaxException;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
 import java.util.List;
 
-public class RandomSpell extends LootItemConditionalFunction {
+public class RandomSpell extends LootItemConditionalFunction implements IElementTypeProvider {
+
+	public static final Codec<RandomSpell> CODEC = RecordCodecBuilder.create(builder -> commonFields(builder).and(
+			ElementType.CODEC.optionalFieldOf(ECNames.ELEMENT_TYPE, ElementType.NONE).forGetter(RandomSpell::getElementType)
+	).apply(builder, RandomSpell::new));
 
 	private ElementType elementType;
-	private final List<Spell> spellList;
-	
-	private RandomSpell(LootItemCondition[] condition, Collection<Spell> spellList) {
-		super(condition);
-		this.spellList = List.copyOf(spellList);
-		this.elementType = ElementType.NONE;
-	}
 
-	private RandomSpell(LootItemCondition[] condition, ElementType elementType) {
-		this(condition, List.of());
+	private RandomSpell(List<LootItemCondition> condition, ElementType elementType) {
+		super(condition);
 		this.elementType = elementType;
 	}
 
@@ -47,9 +35,7 @@ public class RandomSpell extends LootItemConditionalFunction {
 		var random = context.getRandom();
 		Spell spell;
 
-		if (!this.spellList.isEmpty()) {
-			spell = SpellHelper.randomSpell(this.spellList, random);
-		} else if (this.elementType != ElementType.NONE) {
+		if (this.elementType != ElementType.NONE) {
 			spell = SpellHelper.randomSpell(this.elementType, random);
 		} else {
 			spell = SpellHelper.randomSpell(random);
@@ -59,63 +45,22 @@ public class RandomSpell extends LootItemConditionalFunction {
 	}
 
 	public static LootItemConditionalFunction.Builder<?> builder() {
-		return builder(List.of());
+		return builder(ElementType.NONE);
 	}
 
-	public static LootItemConditionalFunction.Builder<?> builder(Collection<Spell> spellList) {
-		return simpleBuilder(l -> new RandomSpell(l, spellList));
-	}
 
 	public static LootItemConditionalFunction.Builder<?> builder(ElementType elementType) {
 		return simpleBuilder(l -> new RandomSpell(l, elementType));
-	}
-
-	public static class Serializer extends LootItemConditionalFunction.Serializer<RandomSpell> {
-		@Override
-		public void serialize(@Nonnull JsonObject object, @Nonnull RandomSpell function, @Nonnull JsonSerializationContext serializationContext) {
-			super.serialize(object, function, serializationContext);
-			if (!function.spellList.isEmpty()) {
-				JsonArray jsonarray = new JsonArray();
-
-				for (Spell spell : function.spellList) {
-					ResourceLocation resourcelocation = Spells.REGISTRY.get().getKey(spell);
-					if (resourcelocation == null) {
-						throw new IllegalArgumentException("Don't know how to serialize spell " + spell);
-					}
-					jsonarray.add(new JsonPrimitive(resourcelocation.toString()));
-				}
-				object.add(ECNames.SPELL_LIST, jsonarray);
-			} else if (function.elementType != ElementType.NONE) {
-				object.addProperty(ECNames.ELEMENT_TYPE, function.elementType.getSerializedName());
-			}
-		}
-
-		@Nonnull
-        @Override
-		public RandomSpell deserialize(JsonObject object, @Nonnull JsonDeserializationContext deserializationContext, @Nonnull LootItemCondition[] conditionsIn) {
-			List<Spell> list = Lists.newArrayList();
-
-			if (object.has(ECNames.SPELL_LIST)) {
-				for (JsonElement jsonelement : GsonHelper.getAsJsonArray(object, ECNames.SPELL_LIST)) {
-					String s = GsonHelper.convertToString(jsonelement, ECNames.SPELL);
-					Spell spell = Spells.REGISTRY.get().getValue(new ResourceLocation(s));
-
-					if (spell == null) {
-						throw new JsonSyntaxException("Unknown spell '" + s + "'");
-					}
-					list.add(spell);
-				}
-				return new RandomSpell(conditionsIn, list);
-			} else if (object.has(ECNames.ELEMENT_TYPE)) {
-				return new RandomSpell(conditionsIn, ElementType.byName(GsonHelper.getAsString(object, ECNames.ELEMENT_TYPE)));
-			}
-			return new RandomSpell(conditionsIn, list);
-		} 
 	}
 
 	@Nonnull
     @Override
 	public LootItemFunctionType getType() {
 		return ECLootFunctions.RANDOM_SPELL.get();
+	}
+
+	@Override
+	public ElementType getElementType() {
+		return elementType;
 	}
 }

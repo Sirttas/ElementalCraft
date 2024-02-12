@@ -51,7 +51,7 @@
 "item.elementalcraft.cover_frame": "Скрывающая трубу рамка",
 "item.elementalcraft.elementpipe_priority": "Кольцо приоритета для труб",
 
-"item.elementalcraft.inertcrystal": "Инертный кристалл",
+"item.elementalcraft.inert_crystal": "Инертный кристалл",
 "item.elementalcraft.containedcrystal": "Кристалл содержания",
 "item.elementalcraft.purecrystal": "Чистый кристалл",
 "item.elementalcraft.firecrystal": "Огненный кристалл",
@@ -176,7 +176,7 @@
 "block.elementalcraft.purerock_stairs": "Чисто каменая лестница",
 "block.elementalcraft.purerock_wall": "Чисто каменая стена",
 "block.elementalcraft.fireite_block": "Блок огненного слитка",
-"block.elementalcraft.inertcrystal_block": "Блок инертного кристалла",
+"block.elementalcraft.inert_crystal_block": "Блок инертного кристалла",
 "block.elementalcraft.firecrystal_block": "Блок огненного кристалла",
 "block.elementalcraft.watercrystal_block": "Блок водного кристалла",
 "block.elementalcraft.earthcrystal_block": "Блок землянного кристалла",
@@ -302,7 +302,7 @@
 
 "elementalcraft.page.source0": "Источники $(thing) $() - это естественные места, где сходятся элементы $(thing) $(). $(br2) Странно рекомендуется немного изучить и найти источники $(thing) $() хотя бы по одному для каждого $(thing) элемента $(). $(br) Также рекомендуется отметить их место, чтобы легче было найти их обратно, когда они вам понадобятся.",
 "elementalcraft.page.source1": "$(thing) Воздушный источник $() найден естественным образом.",
-"elementalcraft.page.inertcrystal0": "Чтобы получить $(item) Inert Crystal $(), начните копать под землей и добыть $(item) Inert Crystal Ore $().",
+"elementalcraft.page.inert_crystal0": "Чтобы получить $(item) Inert Crystal $(), начните копать под землей и добыть $(item) Inert Crystal Ore $().",
 "elementalcraft.page.containedcrystal0": "$(item) Содержащиеся кристаллы $() являются основными компонентами инструментов $(thing) $(). $(br) Покрывая $(item) инертный кристалл $() $(thing) золото $(), вы становитесь может предотвратить его изменение с помощью $(thing) элемент $(), не теряя своей способности взаимодействовать с ними.",
 "elementalcraft.page.elementpipe0": "$(item) Каналы $() используются для транспортировки элементов $(thing) $() на расстояние, их основное назначение - предоставить $(thing) instruments $() требуемый элемент $(thing) $(). $(br2) вы можете настроить канал $(item) $(), щелкнув правой кнопкой мыши раздел или ядро, чтобы изменить его с $(thing) connected $(), $(thing) disconected $(), $(thing) insert $() или $(thing) извлечь $().",
 "elementalcraft.page.whiterock0": "$(item) Whiterock $() - это $(thing), пропитанная землей$() $(item) Stone $(). $(br) Он используется при создании продвинутых $(thing) инструментов $() и $( thing) shrines $(). $(br) Чтобы получить его, просто поместите $(item) stone $(). в $(ec:infuser).",

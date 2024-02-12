@@ -17,6 +17,7 @@ public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEnt
 			ECConfig.COMMON.airMillsTransferSpeed,
 			ECConfig.COMMON.airMillsMaxRunes,
 			1,
+			false,
 			false
 	);
 

@@ -9,16 +9,16 @@
     "_?block$"
   ],
   "source": {
-    "type": "forge:and",
+    "type": "neoforge:and",
     "values": [
       {
-        "type": "forge:or",
+        "type": "neoforge:or",
         "values": [
           "#elementalcraft:pure_ores/sources/geore_blocks"
         ]
       },
       {
-        "type": "forge:not",
+        "type": "neoforge:not",
         "value": "#elementalcraft:pure_ores/specifics"
       }
     ]

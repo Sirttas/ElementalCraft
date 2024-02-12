@@ -12,9 +12,9 @@
       "tag": "forge:nuggets/fireite"
     },
     "t": {
-      "type": "forge:partial_nbt",
+      "type": "neoforge:nbt",
       "item": "elementalcraft:scroll",
-      "nbt": "{elementalcraft:{spell:\"elementalcraft:translocation\"}}"
+      "tag": "{elementalcraft:{spell:\"elementalcraft:translocation\"}}"
     },
     "w": {
       "item": "elementalcraft:whiterock"
@@ -27,6 +27,5 @@
   ],
   "result": {
     "item": "elementalcraft:shrine_upgrade_translocation"
-  },
-  "show_notification": true
+  }
 }

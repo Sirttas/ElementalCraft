@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_whiterock",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_whiterock"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:whiterock_wall"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -2,15 +2,15 @@ package sirttas.elementalcraft.particle;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.particle.element.ElementCraftingParticle;
 import sirttas.elementalcraft.particle.element.ElementFlowParticle;
@@ -19,14 +19,14 @@ import sirttas.elementalcraft.particle.element.source.SourceParticle;
 
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ECParticles {
 
-	private static final DeferredRegister<ParticleType<?>> DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, ElementalCraftApi.MODID);
+	private static final DeferredRegister<ParticleType<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.PARTICLE_TYPE, ElementalCraftApi.MODID);
 
-	public static final RegistryObject<ParticleType<ElementTypeParticleData>> SOURCE = register(() -> ElementTypeParticleData.createParticleType(true), "source");
-	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_FLOW = register(() -> ElementTypeParticleData.createParticleType(false), "element_flow");
-	public static final RegistryObject<ParticleType<ElementTypeParticleData>> ELEMENT_CRAFTING = register(() -> ElementTypeParticleData.createParticleType(false), "elementcrafting");
+	public static final DeferredHolder<ParticleType<?>, ParticleType<ElementTypeParticleData>> SOURCE = register(() -> ElementTypeParticleData.createParticleType(true), "source");
+	public static final DeferredHolder<ParticleType<?>, ParticleType<ElementTypeParticleData>> ELEMENT_FLOW = register(() -> ElementTypeParticleData.createParticleType(false), "element_flow");
+	public static final DeferredHolder<ParticleType<?>, ParticleType<ElementTypeParticleData>> ELEMENT_CRAFTING = register(() -> ElementTypeParticleData.createParticleType(false), "elementcrafting");
 
 	private ECParticles() {}
 
@@ -38,7 +38,7 @@ public class ECParticles {
 		evt.registerSpriteSet(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
 	}
 
-	private static <O extends ParticleOptions, T extends ParticleType<O>> RegistryObject<T> register(Supplier<T> type, String name) {
+	private static <O extends ParticleOptions, T extends ParticleType<O>> DeferredHolder<ParticleType<?>, T> register(Supplier<T> type, String name) {
 		return DEFERRED_REGISTER.register(name, type);
 	}
 

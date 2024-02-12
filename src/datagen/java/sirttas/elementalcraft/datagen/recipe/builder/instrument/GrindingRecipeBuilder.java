@@ -1,21 +1,16 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
-import com.google.gson.JsonObject;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.datagen.recipe.builder.AbstractFinishedRecipe;
-import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
-
-import java.util.function.Consumer;
 
 public class GrindingRecipeBuilder {
 	
@@ -68,54 +63,22 @@ public class GrindingRecipeBuilder {
 		return this;
 	}
 
-	public void save(Consumer<FinishedRecipe> consumer) {
-		ResourceLocation id = ForgeRegistries.ITEMS.getKey(this.result);
+	public void save(RecipeOutput recipeOutput) {
+		ResourceLocation id = BuiltInRegistries.ITEM.getKey(this.result);
 
-		this.save(consumer, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, ElementalCraftApi.createRL(IGrindingRecipe.NAME + '/' + id.getPath()));
 	}
 
-	public void save(Consumer<FinishedRecipe> consumer, String save) {
-		ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
+	public void save(RecipeOutput recipeOutput, String save) {
+		ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
 		if ((new ResourceLocation(save)).equals(resourcelocation)) {
 			throw new IllegalStateException("Grinding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(consumer, ElementalCraft.createRL(IGrindingRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.createRL(IGrindingRecipe.NAME + '/' + save));
 		}
 	}
 
-	public void save(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
-		consumer.accept(new Result(id, this.ingredient, this.result, elementAmount, luckRatio, count));
-	}
-
-	public static class Result extends AbstractFinishedRecipe {
-
-		private final Ingredient ingredient;
-		private final Item output;
-		private final int elementAmount;
-		private final int luckRatio;
-		private final int count;
-
-		public Result(ResourceLocation id, Ingredient ingredient, Item result, int elementAmount, int luckRatio, int count) {
-			super(id, ECRecipeSerializers.GRINDING.get());
-			this.ingredient = ingredient;
-			this.output = result;
-			this.elementAmount = elementAmount;
-			this.luckRatio = luckRatio;
-			this.count = count;
-		}
-
-		@Override
-		public void serializeRecipeData(JsonObject json) {
-			json.addProperty(ECNames.ELEMENT_AMOUNT, elementAmount);
-			json.add(ECNames.INPUT, ingredient.toJson());
-			json.addProperty(ECNames.LUCK_RATIO, luckRatio);
-			JsonObject outputJson = new JsonObject();
-
-			outputJson.addProperty(ECNames.ITEM, ForgeRegistries.ITEMS.getKey(this.output).toString());
-			if (this.count > 1) {
-				outputJson.addProperty("count", this.count);
-			}
-			json.add(ECNames.OUTPUT, outputJson);
-		}
+	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+		recipeOutput.accept(id, new GrindingRecipe(elementAmount, luckRatio, this.ingredient, new ItemStack(this.result, count)), null);
 	}
 }

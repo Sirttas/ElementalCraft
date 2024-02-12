@@ -12,12 +12,13 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -29,7 +30,8 @@ import javax.annotation.Nullable;
 
 public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock implements IInstrumentBlock {
 
-	protected AbstractFireFurnaceBlock() {
+	protected AbstractFireFurnaceBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));
 	}

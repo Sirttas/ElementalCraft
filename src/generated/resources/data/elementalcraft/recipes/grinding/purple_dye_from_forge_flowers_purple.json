@@ -1,28 +1,21 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:flowers/purple"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "elementalcraft:grinding",
-        "element_amount": 1000,
-        "input": {
-          "tag": "forge:flowers/purple"
-        },
-        "luck_ratio": 2,
-        "output": {
-          "count": 2,
-          "item": "minecraft:purple_dye"
-        }
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:flowers/purple"
       }
     }
-  ]
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "forge:flowers/purple"
+  },
+  "luck_ratio": 2,
+  "output": {
+    "Count": 2,
+    "id": "minecraft:purple_dye"
+  }
 }

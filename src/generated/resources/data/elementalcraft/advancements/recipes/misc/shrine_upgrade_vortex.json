@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_shrine_upgrade_core",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_shrine_upgrade_core"
     ]
   ],
   "rewards": {
     "recipes": [
       "elementalcraft:shrine_upgrade_vortex"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

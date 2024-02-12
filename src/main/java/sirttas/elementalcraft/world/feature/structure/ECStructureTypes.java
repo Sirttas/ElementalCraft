@@ -5,9 +5,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECStructureTypes {
@@ -17,8 +17,8 @@ public class ECStructureTypes {
 
 
 
-	public static final RegistryObject<StructureType<SourceAltarStructure>> SOURCE_ALTAR = register(SourceAltarStructure.CODEC, SourceAltarStructure.NAME);
-	public static final RegistryObject<StructurePieceType> SOURCE_ALTAR_PIECE_TYPE = register(get(SourceAltarStructure.Piece::new), SourceAltarStructure.NAME);
+	public static final DeferredHolder<StructureType<?>, StructureType<SourceAltarStructure>> SOURCE_ALTAR = register(SourceAltarStructure.CODEC, SourceAltarStructure.NAME);
+	public static final DeferredHolder<StructurePieceType, StructurePieceType> SOURCE_ALTAR_PIECE_TYPE = register(get(SourceAltarStructure.Piece::new), SourceAltarStructure.NAME);
 
 	private ECStructureTypes() {}
 
@@ -26,11 +26,11 @@ public class ECStructureTypes {
 		return type;
 	}
 
-	private static <T extends Structure> RegistryObject<StructureType<T>> register(Codec<T> codec, String name) {
+	private static <T extends Structure> DeferredHolder<StructureType<?>, StructureType<T>> register(Codec<T> codec, String name) {
 		return STRUCTURE_TYPE_DEFERRED_REGISTER.register(name, () -> () -> codec);
 	}
 
-	private static RegistryObject<StructurePieceType> register(StructurePieceType type, String name) {
+	private static DeferredHolder<StructurePieceType, StructurePieceType> register(StructurePieceType type, String name) {
 		return PIECE_TYPE_DEFERRED_REGISTER.register(name, () -> type);
 	}
 

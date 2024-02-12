@@ -1,11 +1,12 @@
 {
   "type": "elementalcraft:grinding",
   "element_amount": 1000,
-  "input": {
+  "ingredient": {
     "tag": "forge:cobblestone"
   },
   "luck_ratio": 2,
   "output": {
-    "item": "minecraft:gravel"
+    "Count": 1,
+    "id": "minecraft:gravel"
   }
 }

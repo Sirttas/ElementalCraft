@@ -16,8 +16,9 @@ public class WaterMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockE
 			ECRecipeTypes.GRINDING,
 			ECConfig.COMMON.waterMillsTransferSpeed,
 			ECConfig.COMMON.waterMillsMaxRunes,
-			0,
-			true
+			1,
+			false,
+			false
 	);
 
 	public WaterMillGrindstoneBlockEntity(BlockPos pos, BlockState state) {

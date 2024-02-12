@@ -11,23 +11,21 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RegisterGuiOverlaysEvent;
+import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
+import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
+import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.ElementStorageHelper;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorList;
@@ -52,7 +50,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @SuppressWarnings("resource")
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -73,12 +71,12 @@ public class GuiHandler {
 
 	@SubscribeEvent
 	public static void onDrawScreenPost(RegisterGuiOverlaysEvent event) {
-		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "gauge", (f, g, t, w, h) -> drawGauge(f, g));
-		event.registerBelow(VanillaGuiOverlay.PORTAL.id(), "translocation_anchor_marker", (f, g, t, w, h) -> drawAnchors(f, g, w, h));
-		event.registerBelow(ElementalCraft.createRL("translocation_anchor_marker"), "single_translocation_anchor_marker", (f, g, t, w, h) -> drawAnchor(f, g, w, h));
+		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), ElementalCraftApi.createRL("gauge"), (f, g, t, w, h) -> drawGauge(f, g));
+		event.registerBelow(VanillaGuiOverlay.PORTAL.id(), ElementalCraftApi.createRL("translocation_anchor_marker"), (f, g, t, w, h) -> drawAnchors(f, g, w, h));
+		event.registerBelow(ElementalCraftApi.createRL("translocation_anchor_marker"), ElementalCraftApi.createRL("single_translocation_anchor_marker"), (f, g, t, w, h) -> drawAnchor(f, g, w, h));
 	}
 
-	public static void drawGauge(ForgeGui gui, GuiGraphics guiGraphics) {
+	public static void drawGauge(ExtendedGui gui, GuiGraphics guiGraphics) {
 		var font = gui.getFont();
 		var player = Minecraft.getInstance().player;
 
@@ -105,14 +103,19 @@ public class GuiHandler {
 		}
 	}
 
-	private static boolean isPlayerOwned(Player player, ISingleElementStorage storage) {
-		return ElementStorageHelper.get(player)
-				.map(s -> s.forElement(storage.getElementType()))
-				.map(s -> s.getElementAmount() == storage.getElementAmount() && s.getElementCapacity() == storage.getElementCapacity())
-				.orElse(false);
+	private static boolean isPlayerOwned(Player player, ISingleElementStorage storage) { // FIXME rework
+		var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+
+		if (playerStorage == null) {
+			return false;
+		}
+
+		var single = playerStorage.forElement(storage.getElementType());
+
+		return single.getElementAmount() == storage.getElementAmount() && single.getElementCapacity() == storage.getElementCapacity();
 	}
 
-	public static void drawAnchors(ForgeGui gui, GuiGraphics guiGraphics, int width, int height) {
+	public static void drawAnchors(ExtendedGui gui, GuiGraphics guiGraphics, int width, int height) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
@@ -146,7 +149,7 @@ public class GuiHandler {
 		buffer.endBatch();
 	}
 
-	public static void drawAnchor(ForgeGui gui, GuiGraphics guiGraphics, int width, int height) {
+	public static void drawAnchor(ExtendedGui gui, GuiGraphics guiGraphics, int width, int height) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
@@ -219,32 +222,26 @@ public class GuiHandler {
 
 		if (result != null && minecraft.options.getCameraType().isFirstPerson()) {
 			BlockPos pos = result.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) result).getBlockPos() : null;
-			BlockEntity tile = pos != null ? minecraft.player.level().getBlockEntity(pos) : null;
+			var storage = pos != null ? player.level().getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, null) : null;
+			List<ISingleElementStorage> storages = storage != null && (storage.doesRenderGauge() || GuiHelper.showDebugInfo()) ? splitStorage(storage) : Collections.emptyList();
 
-			if (tile != null) {
-				var storages = ElementStorageHelper.get(tile)
-						.filter(storage -> storage.doesRenderGauge() || GuiHelper.showDebugInfo())
-						.map(GuiHandler::splitStorage)
-						.orElse(Collections.emptyList());
-
-				if (!storages.isEmpty()) {
-					return storages;
-				}
+			if (!storages.isEmpty()) {
+				return storages;
 			}
 		}
 
 		var holder = EntityHelper.handStream(player)
-				.map(stack -> ElementStorageHelper.get(stack).resolve())
-				.<IElementStorage>mapMulti(Optional::ifPresent)
+				.map(stack -> stack.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM))
+				.filter(Objects::nonNull)
 				.findFirst();
 
 		if (holder.isPresent()) {
 			return splitStorage(holder.get());
 		}
 
-		var playerStorage = ElementStorageHelper.get(player).resolve();
+		var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
 
-		if (playerStorage.isEmpty()) {
+		if (playerStorage == null) {
 			return Collections.emptyList();
 		}
 
@@ -259,12 +256,16 @@ public class GuiHandler {
 		if (spellElementType != ElementType.NONE) {
 			list.add(spellElementType);
 		}
-		player.getCapability(IJewelHandler.CAPABILITY).ifPresent(handler -> handler.getActiveJewels().stream()
-				.map(Jewel::getElementType)
-				.distinct()
-				.filter(type -> type != ElementType.NONE && type != spellElementType)
-				.forEach(list::add));
-		return splitStorage(playerStorage.get(), list);
+		var jewelHandler = player.getCapability(IJewelHandler.CAPABILITY);
+
+		if (jewelHandler != null) {
+			jewelHandler.getActiveJewels().stream()
+					.map(Jewel::getElementType)
+					.distinct()
+					.filter(type -> type != ElementType.NONE && type != spellElementType)
+					.forEach(list::add);
+		}
+		return splitStorage(playerStorage, list);
 	}
 
 	private static List<ISingleElementStorage> splitStorage(IElementStorage storage) {

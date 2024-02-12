@@ -17,6 +17,10 @@
     }
   ],
   "output": {
-    "item": "elementalcraft:fire_lens"
+    "Count": 1,
+    "id": "elementalcraft:fire_lens",
+    "tag": {
+      "Damage": 0
+    }
   }
 }

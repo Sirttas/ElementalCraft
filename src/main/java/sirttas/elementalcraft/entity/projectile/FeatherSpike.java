@@ -18,12 +18,12 @@ public class FeatherSpike extends AbstractArrow {
     }
 
     public FeatherSpike(EntityType<? extends FeatherSpike> type, Level level) {
-        super(type, level);
+        super(type, level, ItemStack.EMPTY);
         pickup = AbstractArrow.Pickup.DISALLOWED;
     }
 
     public FeatherSpike(Level level, LivingEntity sender) {
-        super(ECEntities.FEATHER_SPIKE.get(), sender, level);
+        super(ECEntities.FEATHER_SPIKE.get(), sender, level, ItemStack.EMPTY);
         pickup = AbstractArrow.Pickup.DISALLOWED;
     }
 
