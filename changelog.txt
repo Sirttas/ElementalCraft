@@ -1,3 +1,9 @@
+1.20.4-6.1.2:
+
+- the elementalist grimoire can nom be placed in a chiseled bookshelf
+- fix a crash when patchouli is absent (issue #157)
+
+
 1.20.4-6.1.1:
 
 - new item: advanced shrine upgrade core

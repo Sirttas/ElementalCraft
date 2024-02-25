@@ -254,7 +254,9 @@ public class ECCreativeModeTabs {
             }).build());
 
     private static void generateElementopedia(@Nonnull CreativeModeTab.Output output) {
-        output.accept(createElementopedia());
+        if (ECinteractions.isPatchouliActive()) {
+            output.accept(createElementopedia());
+        }
     }
 
     @NotNull

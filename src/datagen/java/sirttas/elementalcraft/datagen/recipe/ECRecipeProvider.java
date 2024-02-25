@@ -1902,10 +1902,6 @@ public class ECRecipeProvider extends RecipeProvider {
 		return createRuneIngredient(rune.location());
 	}
 
-	private Ingredient createRuneIngredient(String rune) {
-		return createRuneIngredient(ElementalCraftApi.createRL(rune));
-	}
-
 	private Ingredient createRuneIngredient(ResourceLocation rune) {
 		var tag = new CompoundTag();
 		var ecTag = new CompoundTag();
