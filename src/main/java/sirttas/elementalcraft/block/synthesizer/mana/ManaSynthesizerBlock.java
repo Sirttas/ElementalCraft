@@ -19,6 +19,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.botania.ManaSynthesizerBlockInteractions;
 
@@ -57,12 +58,16 @@ public class ManaSynthesizerBlock extends SolarSynthesizerBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+		return createBlockEntity(pos, state);
+	}
+
+	public static SolarSynthesizerBlockEntity createBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		if (ECinteractions.isBotaniaActive()) {
 			return ManaSynthesizerBlockInteractions.newBlockEntity(pos, state);
 		}
-		return null;
+		return new ManaSynthesizerNoBotaniaBlockEntity(pos, state);
 	}
-	
+
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {

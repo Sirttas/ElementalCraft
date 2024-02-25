@@ -2,7 +2,9 @@ package sirttas.elementalcraft.block.instrument;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -99,11 +101,17 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	@Override
 	protected void assemble() {
-		var inv = getInventory();
 		var remainingItems = recipe.getRemainingItems(getContainerWrapper());
 
-		inv.setItem(outputSlot, recipe.assemble(getContainerWrapper(), level.registryAccess()));
-		for (int i = 0; i < inv.getContainerSize(); i++) {
+		getInventory().setItem(outputSlot, recipe.assemble(getContainerWrapper(), level.registryAccess()));
+		setRemainingItems(remainingItems);
+	}
+
+	protected void setRemainingItems(NonNullList<ItemStack> remainingItems) {
+		var inv = getInventory();
+		var size = inv.getContainerSize();
+
+		for (int i = 0; i < size; i++) {
 			if (i != outputSlot) {
 				inv.setItem(i, remainingItems.get(i));
 			}

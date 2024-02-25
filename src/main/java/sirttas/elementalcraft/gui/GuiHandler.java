@@ -223,7 +223,7 @@ public class GuiHandler {
 		if (result != null && minecraft.options.getCameraType().isFirstPerson()) {
 			BlockPos pos = result.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) result).getBlockPos() : null;
 			var storage = pos != null ? player.level().getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, null) : null;
-			List<ISingleElementStorage> storages = storage != null && (storage.doesRenderGauge() || GuiHelper.showDebugInfo()) ? splitStorage(storage) : Collections.emptyList();
+			List<ISingleElementStorage> storages = storage != null && (storage.doesRenderGauge(player) || GuiHelper.showDebugInfo()) ? splitStorage(storage) : Collections.emptyList();
 
 			if (!storages.isEmpty()) {
 				return storages;

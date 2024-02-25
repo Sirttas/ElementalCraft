@@ -37,7 +37,7 @@ public class ChiselItem extends ECItem implements IPipeInteractingItem {
 	@Nonnull
     @Override
 	public InteractionResult useOn(@NotNull UseOnContext context) {
-		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos()), context);
+		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos(), context.getClickedFace()), context);
 	}
 
 	@Nonnull

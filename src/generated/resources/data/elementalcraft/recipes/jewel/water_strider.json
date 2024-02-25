@@ -19,6 +19,6 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "nbt": "{elementalcraft:{jewel:\"elementalcraft:water_strider\"}}"
+    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:water_strider\"}"
   }
 }

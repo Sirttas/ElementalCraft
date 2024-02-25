@@ -315,6 +315,18 @@
 		#Range: 1 ~ 20
 		sourceSpawnCount = 2
 
+	#Shrines config
+	[elementalcraft.shrines]
+
+		#Shrine upgrades config
+		[elementalcraft.shrines.upgrades]
+			#The fortune level of the fortune shrine upgrade.
+			#Range: 1 ~ 10
+			fortuneShrineUpgradeLevel = 1
+			#The fortune level of the fortune shrine upgrade.
+			#Range: 1 ~ 10
+			greaterFortuneShrineUpgradeLevel = 3
+
 #mod interaction config
 [interaction]
 

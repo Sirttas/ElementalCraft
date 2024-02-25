@@ -27,6 +27,7 @@ public class ShrineGameTestHelper {
     public static void forcePeriods(AbstractShrineBlockEntity shrine, int periods) {
         var storage = shrine.getElementStorage();
 
+        shrine.refresh();
         for (int i = 0; i < periods; i++) {
             storage.fill();
             shrine.doPeriod();

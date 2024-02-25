@@ -6,6 +6,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlockEntity;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.ie.IEInteraction;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBlockEntity<AbstractMillGrindstoneBlockEntity, IGrindingRecipe> {
@@ -23,6 +24,9 @@ public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBloc
 
         var recipe = super.lookupRecipe();
 
+        if (recipe == null && ECinteractions.isMekanismActive()) {
+            recipe = MekanismInteraction.lookupCrusherRecipe(level, this);
+        }
         if (recipe == null && ECinteractions.isImmersiveEngineeringActive()) {
             recipe = IEInteraction.lookupCrusherRecipe(level, this);
         }

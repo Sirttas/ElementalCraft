@@ -5,7 +5,19 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:vacuumshrine"
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "elementalcraft:has_shrine_upgrade",
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
+        }
+      },
+      {
+        "type": "dpanvil:block",
+        "block": "elementalcraft:vacuumshrine"
+      }
+    ]
   }
 }

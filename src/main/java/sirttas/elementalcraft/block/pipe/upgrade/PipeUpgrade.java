@@ -36,7 +36,7 @@ import java.util.List;
 
 public class PipeUpgrade extends AttachmentHolder implements ItemLike {
 
-    public static final String FOLDER = "elementalcraft/pipe_upgrade/";
+    public static final String FOLDER = "elementalcraft/pipe_upgrades/";
     public static final String ATTACHMENTS = "neoforge:attachments";
 
 

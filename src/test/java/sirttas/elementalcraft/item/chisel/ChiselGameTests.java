@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -12,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
@@ -23,6 +21,7 @@ import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.RuneGameTestHelper;
 import sirttas.elementalcraft.rune.RuneTestHolder;
+import sirttas.elementalcraft.rune.Runes;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -39,7 +38,6 @@ public class ChiselGameTests {
         var pos = helper.absolutePos(new BlockPos(0, 2, 0));
         var itemHandler = ECContainerHelper.getItemHandlerAt(helper.getLevel(), pos);
         var player = mockChiselPlayer(helper, new BlockPos(0, 2, 0));
-        var state = helper.getBlockState(new BlockPos(0, 2, 0));
 
         itemHandler.insertItem(0, new ItemStack(ECItems.MAJOR_RUNE_SLATE.get()), false);
         itemHandler.insertItem(1, new ItemStack(Items.COAL_BLOCK), false);
@@ -47,13 +45,13 @@ public class ChiselGameTests {
         itemHandler.insertItem(3, new ItemStack(ECItems.PRISTINE_FIRE_GEM.get()), false);
 
         for (int i = 0; i < 9; i++) {
-            state.use(helper.getLevel(), player, InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.atCenterOf(pos), Direction.NORTH, pos, true));
+            helper.useBlock(new BlockPos(0, 2, 0), player);
         }
 
         var stack = itemHandler.getStackInSlot(0);
 
         assertThat(stack).is(ECItems.RUNE);
-        RuneGameTestHelper.assertRuneIs(stack, "tano");
+        RuneGameTestHelper.assertRuneIs(stack, Runes.TANO);
         helper.succeed();
     }
 
@@ -68,15 +66,15 @@ public class ChiselGameTests {
 
     private static void should_removeRunes(GameTestHelper helper, RuneTestHolder holder) {
         var pos = holder.pos();
+        var side = holder.side();
         var runes = holder.runes();
-        var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), holder.side());
+        var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), side);
 
         assertThat(runeHandler).isNotNull();
         var player = mockChiselPlayer(helper, pos);
 
         player.setShiftKeyDown(true);
-
-        ECGameTestHelper.useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);
+        ECGameTestHelper.useItemOn(helper, player, pos, side);
 
         assertThat(runeHandler.getRunes()).isEmpty();
         player.discard();
@@ -102,13 +100,14 @@ public class ChiselGameTests {
 
     private static void shouldNot_removeRunes(GameTestHelper helper, RuneTestHolder holder) {
         var pos = holder.pos();
-        var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), holder.side());
+        var side = holder.side();
+        var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), side);
 
         assertThat(runeHandler).isNotNull();
 
         var player = mockChiselPlayer(helper, pos);
 
-        ECGameTestHelper.useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);
+        ECGameTestHelper.useItemOn(helper, player, pos, side);
 
         assertThat(runeHandler.getRunes()).hasSize(holder.runes().size())
                 .allSatisfy(rune -> RuneGameTestHelper.assertRuneIs(rune, holder.runes().get(runeHandler.getRunes().indexOf(rune))));

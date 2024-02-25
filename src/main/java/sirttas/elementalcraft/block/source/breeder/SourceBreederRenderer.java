@@ -34,7 +34,7 @@ public class SourceBreederRenderer extends SingleItemRenderer<SourceBreederBlock
 
         poseStack.translate(0, 1, 0);
         if (stack.is(ECItems.RECEPTACLE.get())) {
-            ECRendererHelper.renderRunes(poseStack, buffer, breeder, partialTicks, light, overlay);
+            ECRendererHelper.renderRunes(poseStack, buffer, breeder.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
 
             var type = ReceptacleHelper.getElementType(stack);
 

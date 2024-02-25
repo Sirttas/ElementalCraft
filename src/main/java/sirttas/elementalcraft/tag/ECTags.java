@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -18,12 +19,13 @@ import sirttas.elementalcraft.interaction.curios.CuriosConstants;
 import java.util.function.Predicate;
 
 public class ECTags {
-	
-	private ECTags() {}
-	
+
+	private ECTags() {
+	}
+
 	public static class Items {
 		public static final TagKey<Item> SPELL_CAST_TOOLS = createTag("spell_cast_tools");
-		
+
 		public static final TagKey<Item> INFUSABLE_FOCUS = createTag("infusable/focus");
 		public static final TagKey<Item> INFUSABLE_STAVES = createTag("infusable/staves");
 		public static final TagKey<Item> INFUSABLE_SWORDS = createTag("infusable/swords");
@@ -135,27 +137,29 @@ public class ECTags {
 		public static final TagKey<Item> STRIPPED_CRIMSON = createTag("stripped_crimson");
 		public static final TagKey<Item> STRIPPED_WARPED = createTag("stripped_warped");
 		public static final TagKey<Item> STRIPPED_CHERRY = createTag("stripped_cherry");
+		public static final TagKey<Item> STRIPPED_BAMBOO = createTag("stripped_bamboo");
 
-        public static final TagKey<Item> WHITE_FLOWERS = createForgeTag("flowers/white");
-        public static final TagKey<Item> ORANGE_FLOWERS = createForgeTag("flowers/orange");
-        public static final TagKey<Item> MAGENTA_FLOWERS = createForgeTag("flowers/magenta");
-        public static final TagKey<Item> LIGHT_BLUE_FLOWERS = createForgeTag("flowers/light_blue");
+		public static final TagKey<Item> WHITE_FLOWERS = createForgeTag("flowers/white");
+		public static final TagKey<Item> ORANGE_FLOWERS = createForgeTag("flowers/orange");
+		public static final TagKey<Item> MAGENTA_FLOWERS = createForgeTag("flowers/magenta");
+		public static final TagKey<Item> LIGHT_BLUE_FLOWERS = createForgeTag("flowers/light_blue");
 		public static final TagKey<Item> YELLOW_FLOWERS = createForgeTag("flowers/yellow");
-        public static final TagKey<Item> LIME_FLOWERS = createForgeTag("flowers/lime");
-        public static final TagKey<Item> PINK_FLOWERS = createForgeTag("flowers/pink");
-        public static final TagKey<Item> GRAY_FLOWERS = createForgeTag("flowers/gray");
-        public static final TagKey<Item> LIGHT_GRAY_FLOWERS = createForgeTag("flowers/light_gray");
+		public static final TagKey<Item> LIME_FLOWERS = createForgeTag("flowers/lime");
+		public static final TagKey<Item> PINK_FLOWERS = createForgeTag("flowers/pink");
+		public static final TagKey<Item> GRAY_FLOWERS = createForgeTag("flowers/gray");
+		public static final TagKey<Item> LIGHT_GRAY_FLOWERS = createForgeTag("flowers/light_gray");
 		public static final TagKey<Item> CYAN_FLOWERS = createForgeTag("flowers/cyan");
 		public static final TagKey<Item> PURPLE_FLOWERS = createForgeTag("flowers/purple");
 		public static final TagKey<Item> BLUE_FLOWERS = createForgeTag("flowers/blue");
 		public static final TagKey<Item> BROWN_FLOWERS = createForgeTag("flowers/brown");
 		public static final TagKey<Item> GREEN_FLOWERS = createForgeTag("flowers/green");
-        public static final TagKey<Item> BLACK_FLOWERS = createForgeTag("flowers/black");
-        public static final TagKey<Item> RED_FLOWERS = createForgeTag("flowers/red");
+		public static final TagKey<Item> BLACK_FLOWERS = createForgeTag("flowers/black");
+		public static final TagKey<Item> RED_FLOWERS = createForgeTag("flowers/red");
 
 
-        private Items() {}
-		
+		private Items() {
+		}
+
 		private static TagKey<Item> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);
 		}
@@ -163,7 +167,7 @@ public class ECTags {
 		private static TagKey<Item> createTag(String namespace, String name) {
 			return ItemTags.create(new ResourceLocation(namespace, name));
 		}
-		
+
 		private static TagKey<Item> createForgeTag(String name) {
 			return createTag(ECNames.FORGE, name);
 		}
@@ -200,6 +204,7 @@ public class ECTags {
 		public static final TagKey<Block> RUNE_AFFECTED_PRESERVATION = createTag("rune_affected/preservation");
 		public static final TagKey<Block> RUNE_AFFECTED_OPTIMIZATION = createTag("rune_affected/optimization");
 		public static final TagKey<Block> RUNE_AFFECTED_LUCK = createTag("rune_affected/luck");
+		public static final TagKey<Block> RUNE_AFFECTED_TZEENTCH = createTag("rune_affected/tzeentch");
 
 		public static final TagKey<Block> SHRINES_LAVA_LIQUIFIABLES = createTag("shrines/lava/liquifiables");
 		public static final TagKey<Block> SHRINES_GROWTH_BLACKLIST = createTag("shrines/growth/blacklist");
@@ -240,8 +245,10 @@ public class ECTags {
 		public static final TagKey<Block> STRIPPED_CRIMSON = createTag("stripped_crimson");
 		public static final TagKey<Block> STRIPPED_WARPED = createTag("stripped_warped");
 		public static final TagKey<Block> STRIPPED_CHERRY = createTag("stripped_cherry");
+		public static final TagKey<Block> STRIPPED_BAMBOO = createTag("stripped_bamboo");
 
-		private Blocks() {}
+		private Blocks() {
+		}
 
 		private static TagKey<Block> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);
@@ -276,7 +283,7 @@ public class ECTags {
 		public static final TagKey<Biome> HAS_SOURCE_ALTAR = createTag("has_structure/source_altar");
 		public static final TagKey<Biome> HAS_INERT_CRYSTAL = createTag("has_inert_crystal");
 		public static final TagKey<Biome> HAS_SOURCE_ALL = createTag("has_sources/all");
-        public static final TagKey<Biome> HAS_SOURCE_ICY = createTag("has_sources/icy");
+		public static final TagKey<Biome> HAS_SOURCE_ICY = createTag("has_sources/icy");
 		public static final TagKey<Biome> HAS_SOURCE_JUNGLE = createTag("has_sources/jungle");
 		public static final TagKey<Biome> HAS_SOURCE_MUSHROOM = createTag("has_sources/mushroom");
 		public static final TagKey<Biome> HAS_SOURCE_NETHER = createTag("has_sources/nether");
@@ -290,14 +297,15 @@ public class ECTags {
 		public static final TagKey<Biome> HAS_SOURCE_HILL = createTag("has_sources/hill");
 		public static final TagKey<Biome> HAS_SOURCE_FOREST = createTag("has_sources/forest");
 		public static final TagKey<Biome> HAS_SOURCE_END = createTag("has_sources/end");
-        public static final TagKey<Biome> HAS_SOURCE_LUSH_CAVE = createTag("has_sources/lush_cave");
-        public static final TagKey<Biome> HAS_SOURCE_DRIPSTONE_CAVE = createTag("has_sources/dripstone_cave");
+		public static final TagKey<Biome> HAS_SOURCE_LUSH_CAVE = createTag("has_sources/lush_cave");
+		public static final TagKey<Biome> HAS_SOURCE_DRIPSTONE_CAVE = createTag("has_sources/dripstone_cave");
 		public static final TagKey<Biome> HAS_SOURCE_DEEP_DARK = createTag("has_sources/deep_dark");
 		public static final TagKey<Biome> HAS_SOURCE_UNDERGROUND = createTag("has_sources/underground");
 		public static final TagKey<Biome> HAS_SOURCE_SKY = createTag("has_sources/sky");
 
 
-        private Biomes() {}
+		private Biomes() {
+		}
 
 		private static TagKey<Biome> createTag(String name) {
 			return createTag(ElementalCraftApi.MODID, name);
@@ -312,4 +320,24 @@ public class ECTags {
 		}
 	}
 
+	public static class DamageTypes {
+		public static final TagKey<DamageType> BYPASSES_JEWELS = createTag("bypasses_jewels");
+		public static final TagKey<DamageType> BLOCKED_BY_TORTOISE_JEWEL = createTag("blocked_by_tortoise_jewel");
+
+
+		private DamageTypes() {
+		}
+
+		private static TagKey<DamageType> createTag(String name) {
+			return createTag(ElementalCraftApi.MODID, name);
+		}
+
+		private static TagKey<DamageType> createForgeTag(String name) {
+			return createTag(ECNames.FORGE, name);
+		}
+
+		private static TagKey<DamageType> createTag(String modId, String name) {
+			return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(modId, name));
+		}
+	}
 }

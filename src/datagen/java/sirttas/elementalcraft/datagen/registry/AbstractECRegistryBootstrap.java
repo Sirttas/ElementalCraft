@@ -69,7 +69,11 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
     protected abstract void gather();
 
     protected Holder.Reference<T> add(String name, T entry) {
-        return context.register(ResourceKey.create(key, ElementalCraftApi.createRL(name)), entry);
+        return add(ResourceKey.create(key, ElementalCraftApi.createRL(name)), entry);
+    }
+
+    protected Holder.Reference<T> add(ResourceKey<T> k, T entry) {
+        return context.register(k, entry);
     }
 
 }

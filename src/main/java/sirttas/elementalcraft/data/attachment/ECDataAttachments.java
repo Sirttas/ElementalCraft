@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.data.attachment;
 
+import net.minecraft.world.entity.Entity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -9,6 +10,7 @@ import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
+import sirttas.elementalcraft.jewel.handler.JewelHandler;
 import sirttas.elementalcraft.spell.tick.SpellTickManager;
 
 import java.util.function.Supplier;
@@ -24,6 +26,12 @@ public class ECDataAttachments {
     public static final Supplier<AttachmentType<Jewel>> JEWEL = DEFERRED_REGISTER.register(ECNames.JEWEL, () -> AttachmentType.builder(Jewels.NONE)
             .serialize(Jewels.REGISTRY.byNameCodec())
             .build());
+    public static final Supplier<AttachmentType<JewelHandler>> JEWEL_HANDLER = DEFERRED_REGISTER.register("jewel_handler", () -> AttachmentType.builder(h -> {
+        if (h instanceof Entity entity) {
+            return new JewelHandler(entity);
+        }
+        throw new IllegalArgumentException("JewelHandler can only be attached to an entity.");
+    }).build());
 
     private ECDataAttachments() {}
 

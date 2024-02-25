@@ -1,12 +1,12 @@
 {
   "parent": "elementalcraft:main/root",
   "criteria": {
-    "has_air_mill_wood_saw": {
+    "has_shrine_upgrade_greater_fortune": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:air_mill_wood_saw"
+              "elementalcraft:shrine_upgrade_greater_fortune"
             ]
           }
         ]
@@ -16,7 +16,7 @@
   },
   "requirements": [
     [
-      "has_air_mill_wood_saw"
+      "has_shrine_upgrade_greater_fortune"
     ]
   ],
   "sends_telemetry_event": true

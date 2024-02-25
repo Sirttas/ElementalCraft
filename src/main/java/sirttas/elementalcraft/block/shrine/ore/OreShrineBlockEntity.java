@@ -11,11 +11,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.Tags;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.loot.LootHelper;
+import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nullable;
@@ -66,7 +69,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	public static void harvest(ServerLevel level, BlockPos pos, AbstractShrineBlockEntity shrine, @Nullable BlockState newState) {
-		int fortune = shrine.getUpgradeCount(ShrineUpgrades.FORTUNE);
+		int fortune = getFortuneLevel(shrine);
 
 		if (fortune > 0) {
 			ItemStack pickaxe = new ItemStack(Items.NETHERITE_PICKAXE);
@@ -81,5 +84,23 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 		} else {
 			level.destroyBlock(pos, false);
 		}
+	}
+
+	private static int getFortuneLevel(AbstractShrineBlockEntity shrine) {
+		var fortune = shrine.getUpgradeCount(ShrineUpgrades.FORTUNE) * ECBlocks.FORTUNE_SHRINE_UPGRADE.get().getFortuneLevel();
+
+		var direction = shrine.getUpgradeDirection(ShrineUpgrades.GREATER_FORTUNE);
+
+		if (direction != null) {
+			fortune += ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get().getFortuneLevel();
+
+			var runeHandler = shrine.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, shrine.getBlockPos().relative(direction), null);
+
+			if (runeHandler != null && runeHandler.getRuneCount(Runes.TZEENTCH) > 0) {
+				fortune++;
+			}
+		}
+		return fortune;
+
 	}
 }

@@ -28,7 +28,6 @@ import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
-import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
@@ -62,7 +61,7 @@ public abstract class AbstractMillBlock extends AbstractECContainerBlock impleme
     @Override
 	@Deprecated
 	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		var mill = (AbstractMillGrindstoneBlockEntity) world.getBlockEntity(pos);
+		var mill = (AbstractMillBlockEntity<?, ?>) world.getBlockEntity(pos);
 		var inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
 		var heldItem = player.getItemInHand(hand);
 

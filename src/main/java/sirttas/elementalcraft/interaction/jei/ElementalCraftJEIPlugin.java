@@ -60,6 +60,7 @@ import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientEleme
 import sirttas.elementalcraft.interaction.jei.ingredient.source.IngredientSource;
 import sirttas.elementalcraft.interaction.jei.ingredient.source.SourceIngredientHelper;
 import sirttas.elementalcraft.interaction.jei.ingredient.source.SourceIngredientRenderer;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
@@ -193,6 +194,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.SOURCE_BREEDER_PEDESTAL.get()), ECJEIRecipeTypes.SOURCE_BREEDING);
 		registry.addRecipeCatalyst(new ItemStack(Blocks.DISPENSER), ECJEIRecipeTypes.CRYSTAL_THROWING);
 
+		if (ECinteractions.isMekanismActive()) {
+			MekanismInteraction.addAirMillToCrushing(registry);
+		}
 		if (ECinteractions.isImmersiveEngineeringActive()) {
 			IEInteraction.addAirMillToCrushing(registry);
 		}

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -16,10 +17,12 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 import sirttas.elementalcraft.loot.function.RandomSpell;
 import sirttas.elementalcraft.nbt.NBTHelper;
+import sirttas.elementalcraft.rune.Runes;
 
 import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
@@ -86,8 +89,8 @@ public class ECChestLoot implements LootTableSubProvider {
 				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
 				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type)).setWeight(5))
 				.add(randomSpell(type).setWeight(15))
-				.add(rune(getSmallRuneName(type)).setWeight(10))
-				.add(rune(getMediumRuneName(type)).setWeight(5))));
+				.add(rune(getSmallRune(type)).setWeight(10))
+				.add(rune(getMediumRune(type)).setWeight(5))));
 	}
 
 	@Nonnull
@@ -97,7 +100,7 @@ public class ECChestLoot implements LootTableSubProvider {
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_INGOT.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
 				.add(LootItem.lootTableItem(ECItems.SWIFT_ALLOY_NUGGET.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5))).setWeight(15))
 				.add(randomSpell(type).setWeight(15))
-				.add(rune(getMediumRuneName(type)).setWeight(10))
+				.add(rune(getMediumRune(type)).setWeight(10))
 				.add(rune(getLargeRuneName(type)).setWeight(5))
 				.add(LootItem.lootTableItem(ECItems.PURE_CRYSTAL.get()).setWeight(2));
 	}
@@ -127,39 +130,39 @@ public class ECChestLoot implements LootTableSubProvider {
 		return LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpell.builder(type));
 	}
 
-	private static LootPoolSingletonContainer.Builder<?> rune(String runeName) {
+	private static LootPoolSingletonContainer.Builder<?> rune(ResourceKey<Rune> rune) {
 		var tag = new CompoundTag();
 
-		NBTHelper.getOrCreate(tag, ECNames.EC_NBT).putString(ECNames.RUNE, ElementalCraftApi.createRL(runeName).toString());
+		NBTHelper.getOrCreate(tag, ECNames.EC_NBT).putString(ECNames.RUNE, rune.location().toString());
 		return LootItem.lootTableItem(ECItems.RUNE.get()).apply(SetNbtFunction.setTag(tag));
 	}
 
-	private static String getSmallRuneName(ElementType type) {
+	private static ResourceKey<Rune> getSmallRune(ElementType type) {
 		return switch (type) {
-			case AIR -> "wii";
-			case EARTH -> "soaryn";
-			case FIRE -> "manx";
-			case WATER -> "claptrap";
+			case AIR -> Runes.WII;
+			case EARTH -> Runes.SOARYN;
+			case FIRE -> Runes.MANX;
+			case WATER -> Runes.CLAPTRAP;
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
 
-	private static String getMediumRuneName(ElementType type) {
+	private static ResourceKey<Rune> getMediumRune(ElementType type) {
 		return switch (type) {
-			case AIR -> "fus";
-			case EARTH -> "kaworu";
-			case FIRE -> "jita";
-			case WATER -> "bombadil";
+			case AIR -> Runes.FUS;
+			case EARTH -> Runes.KAWORU;
+			case FIRE -> Runes.JITA;
+			case WATER -> Runes.BOMBADIL;
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}
 
-	private static String getLargeRuneName(ElementType type) {
+	private static ResourceKey<Rune> getLargeRuneName(ElementType type) {
 		return switch (type) {
-			case AIR -> "zod";
-			case EARTH -> "mewtwo";
-			case FIRE -> "tano";
-			case WATER -> "tzeentch";
+			case AIR -> Runes.ZOD;
+			case EARTH -> Runes.MEWTWO;
+			case FIRE -> Runes.TANO;
+			case WATER -> Runes.TZEENTCH;
 			default -> throw new IllegalArgumentException(ElementalItemHelper.ERROR_MESSAGE);
 		};
 	}

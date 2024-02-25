@@ -104,6 +104,7 @@ public class ECItems {
 	public static final DeferredHolder<Item, ECItem> FIREITE_NUGGET = register(ECItem::new, "fireite_nugget");
 	public static final DeferredHolder<Item, ECItem> AIR_SILK = register(ECItem::new, "air_silk");
 	public static final DeferredHolder<Item, ECItem> SHRINE_UPGRADE_CORE = register(ECItem::new, "shrine_upgrade_core");
+	public static final DeferredHolder<Item, ECItem> ADVANCED_SHRINE_UPGRADE_CORE = register(ECItem::new, "advanced_shrine_upgrade_core");
 	public static final DeferredHolder<Item, ECItem> SCROLL_PAPER = register(ECItem::new, "scroll_paper");
 	public static final DeferredHolder<Item, ECItem> SPRINGALINE_SHARD = register(ECItem::new, "springaline_shard");
 	public static final DeferredHolder<Item, ECItem> SOLAR_PRISM = register(ECItem::new, "solar_prism");

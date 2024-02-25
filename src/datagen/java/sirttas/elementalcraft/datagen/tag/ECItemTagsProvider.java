@@ -52,6 +52,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(ECTags.Blocks.STRIPPED_CRIMSON, ECTags.Items.STRIPPED_CRIMSON);
 		copy(ECTags.Blocks.STRIPPED_WARPED, ECTags.Items.STRIPPED_WARPED);
 		copy(ECTags.Blocks.STRIPPED_CHERRY, ECTags.Items.STRIPPED_CHERRY);
+		copy(ECTags.Blocks.STRIPPED_BAMBOO, ECTags.Items.STRIPPED_BAMBOO);
 
 		copy(BlockTags.SLABS, ItemTags.SLABS);
 		copy(BlockTags.STAIRS, ItemTags.STAIRS);

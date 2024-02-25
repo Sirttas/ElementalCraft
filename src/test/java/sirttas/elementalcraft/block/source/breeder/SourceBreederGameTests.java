@@ -21,6 +21,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.rune.RuneGameTestHelper;
+import sirttas.elementalcraft.rune.Runes;
 
 import java.util.function.Consumer;
 
@@ -69,7 +70,7 @@ public class SourceBreederGameTests {
 
                             assertThat(stack).isNotNull().hasCount(1).satisfiesAnyOf(
                                     s -> assertThat(s).is(ECBlocks.SOURCE_BREEDER),
-                                    s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> RuneGameTestHelper.assertRuneIs(s2, "creative"))
+                                    s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> RuneGameTestHelper.assertRuneIs(s2, Runes.CREATIVE))
                             );
                         });
         items.forEach(Entity::discard);

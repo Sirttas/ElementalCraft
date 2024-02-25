@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.damagesource.ECDamageTypes;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class KirinJewel extends AbstractAttackJewel {
     }
 
     public static DamageSource holyFire(Entity source) {
-        return null; // TODO new DamageSource("elementalcraft.jewel.kirin", source).bypassArmor();
+        return source.damageSources().source(ECDamageTypes.HOLY_FIRE, source);
     }
 
     @Override

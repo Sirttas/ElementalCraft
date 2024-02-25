@@ -24,6 +24,7 @@ import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
 import sirttas.elementalcraft.interaction.ECinteractions;
 import sirttas.elementalcraft.interaction.ie.IEInteraction;
+import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
@@ -45,6 +46,9 @@ public class PureOreRecipeFactoryTypes {
 			registerCooking(helper, RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new);
 			register(helper, IGrindingRecipe.NAME, PureOreGrindingRecipeFactory::new);
 
+			if (ECinteractions.isMekanismActive()) {
+				MekanismInteraction.registerPureOreRecipeInjectors(helper);
+			}
 			if (ECinteractions.isImmersiveEngineeringActive()) {
 				IEInteraction.registerPureOreRecipeInjectors(helper);
 			}

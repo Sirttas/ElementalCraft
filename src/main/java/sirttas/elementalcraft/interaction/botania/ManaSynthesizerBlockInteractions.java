@@ -25,7 +25,7 @@ public class ManaSynthesizerBlockInteractions {
     private ManaSynthesizerBlockInteractions() {}
 
 
-    public static BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public static ManaSynthesizerBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
             return new ManaSynthesizerBlockEntity(pos, state);
     }
 

@@ -55,8 +55,10 @@ public class ShrinePropertiesProvider extends AbstractManagedDataBuilderProvider
 				.consumption(50)
 				.range(ShrineRange.expendingUp(4, 9).stitch());
 		builder(LavaShrineBlockEntity.PROPERTIES_KEY, ElementType.FIRE)
+				.capacity(50000)
 				.period(1200)
 				.consumption(5000)
+				.strength(1000)
 				.range(ShrineRange.box(-1, 1, -1, 2, 2, 2).stitch().fixedHeight());
 		builder(OreShrineBlockEntity.PROPERTIES_KEY, ElementType.EARTH)
 				.period(200)

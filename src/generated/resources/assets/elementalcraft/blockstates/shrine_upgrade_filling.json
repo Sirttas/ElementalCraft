@@ -1,7 +1,48 @@
 {
   "variants": {
-    "": {
+    "facing=down,waterlogged=false": {
       "model": "elementalcraft:block/shrine_upgrade_filling"
+    },
+    "facing=down,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_filling"
+    },
+    "facing=east,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side",
+      "y": 90
+    },
+    "facing=east,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side"
+    },
+    "facing=north,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side"
+    },
+    "facing=south,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side",
+      "y": 180
+    },
+    "facing=south,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side",
+      "y": 180
+    },
+    "facing=up,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_filling",
+      "x": 180
+    },
+    "facing=up,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_filling",
+      "x": 180
+    },
+    "facing=west,waterlogged=false": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side",
+      "y": 270
+    },
+    "facing=west,waterlogged=true": {
+      "model": "elementalcraft:block/shrine_upgrade_filling_side",
+      "y": 270
     }
   }
 }

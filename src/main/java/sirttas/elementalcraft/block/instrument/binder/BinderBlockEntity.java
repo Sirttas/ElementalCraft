@@ -1,7 +1,9 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -61,5 +63,18 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 				}
 			}
 		}
+	}
+	@Override
+	protected void setRemainingItems(NonNullList<ItemStack> remainingItems) {
+		var targetIndex = 1;
+
+        for (var stack : remainingItems) {
+            if (targetIndex >= 20) {
+                return;
+            }
+            if (!stack.isEmpty()) {
+                inventory.setItem(targetIndex++, stack);
+            }
+        }
 	}
 }

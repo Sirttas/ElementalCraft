@@ -105,6 +105,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.STRENGTH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.OPTIMIZATION_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.FORTUNE_SHRINE_UPGRADE.get());
+                o.accept(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.SILK_TOUCH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.PLANTING_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE.get());
@@ -243,6 +244,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.SCROLL_PAPER.get());
                 o.accept(ECItems.SHRINE_BASE.get());
                 o.accept(ECItems.SHRINE_UPGRADE_CORE.get());
+                o.accept(ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get());
                 o.accept(ECItems.MINOR_RUNE_SLATE.get());
                 o.accept(ECItems.RUNE_SLATE.get());
                 o.accept(ECItems.MAJOR_RUNE_SLATE.get());

@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -77,7 +79,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 		ISingleElementStorage container = getContainer();
 
 		if (container != null) {
-			var synthesized = runeHandler.handleElementTransfer(getElementStorage().forElement(container.getElementType()), container, amount);
+			var synthesized = runeHandler.handleElementTransfer(getElementStorage(), container, amount);
 			var hasSynthesized = synthesized > 0;
 			
 			if (hasSynthesized || working) {
@@ -123,14 +125,21 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 		return containerCache;
 	}
 
+	@Nonnull
 	@Override
 	public ISingleElementStorage getElementStorage() {
 		var item = getInventory().getItem(0);
 
 		if (item.isEmpty()) {
-			return null;
+			return EmptyElementStorage.getSingle(ElementType.NONE);
 		}
-		return item.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM_LENS, multiplier);
+
+		var storage = item.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM_LENS, multiplier);
+
+		if (storage == null) {
+			return EmptyElementStorage.getSingle(ElementType.NONE);
+		}
+		return storage;
 	}
 
 	@Override

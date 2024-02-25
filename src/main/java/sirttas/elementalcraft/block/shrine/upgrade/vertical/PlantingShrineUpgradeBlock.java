@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
@@ -72,6 +73,13 @@ public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlo
 	}
 
 	public static boolean plant(@Nonnull ItemStack seeds, @Nonnull Level level, @Nonnull BlockPos pos) {
-		return seeds.useOn(new DirectionalPlaceContext(level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
+		if (!(seeds.getItem() instanceof BlockItem blockItem)) {
+			return false;
+		}
+
+		return blockItem.place(new DirectionalPlaceContext(level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
+
+		// FIXME https://github.com/neoforged/NeoForge/issues/661
+		// return seeds.useOn(new DirectionalPlaceContext(level, pos, Direction.DOWN, seeds, Direction.UP)).consumesAction();
 	}
 }

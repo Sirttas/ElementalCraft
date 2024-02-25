@@ -24,14 +24,12 @@ public class EnderLockShrineGameTests {
     // elementalcraft:enderlockshrinegametests.should_preventendermanfromteleporting
     @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
     public static void should_preventEnderManFromTeleporting(GameTestHelper helper) {
-        var level = helper.getLevel();
-        var enderman = EntityType.ENDERMAN.create(helper.getLevel());
-        var vec = helper.absoluteVec(new Vec3(2.5, 1.5, -2.5));
+        var relativeVec = new Vec3(2.5, 1.5, -2.5);
+        var enderman = helper.spawn(EntityType.ENDERMAN, relativeVec);
+        var vec = helper.absoluteVec(relativeVec);
 
-        level.addFreshEntity(enderman);
         helper.startSequence().thenExecute(() -> {
             ShrineGameTestHelper.getShrine(helper, new BlockPos(0, 1, 0)).getElementStorage().fill();
-            enderman.moveTo(vec);
         }).thenExecuteAfter(1, () -> {
             try {
                 ObfuscationReflectionHelper.findMethod(EnderMan.class, "teleport", double.class, double.class, double.class).invoke(enderman, 0, 0, 0);

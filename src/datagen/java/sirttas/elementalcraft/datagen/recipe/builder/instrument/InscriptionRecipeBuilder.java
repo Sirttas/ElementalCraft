@@ -2,6 +2,7 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import com.google.common.collect.Lists;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
@@ -27,6 +29,10 @@ public class InscriptionRecipeBuilder {
 		this.elementType = elementType;
 		elementAmount = 5000;
 		this.output = output;
+	}
+
+	public static InscriptionRecipeBuilder inscriptionRecipe(ResourceKey<Rune> output, ElementType elementType) {
+		return inscriptionRecipe(output.location(), elementType);
 	}
 
 	public static InscriptionRecipeBuilder inscriptionRecipe(ResourceLocation output, ElementType elementType) {

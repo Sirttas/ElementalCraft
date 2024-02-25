@@ -1,12 +1,12 @@
 {
   "parent": "elementalcraft:main/root",
   "criteria": {
-    "has_elemental_firefuel": {
+    "has_advanced_shrine_upgrade_core": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:elemental_firefuel"
+              "elementalcraft:advanced_shrine_upgrade_core"
             ]
           }
         ]
@@ -16,7 +16,7 @@
   },
   "requirements": [
     [
-      "has_elemental_firefuel"
+      "has_advanced_shrine_upgrade_core"
     ]
   ],
   "sends_telemetry_event": true

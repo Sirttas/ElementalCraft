@@ -1,3 +1,29 @@
+1.20.4-6.1.1:
+
+- new item: advanced shrine upgrade core
+- new block: greater fortune shrine upgrade
+- the translocation shrine upgrade, the overcloked acceleration shrine upgrade and the greater fortune shrine upgrade are now advanced shrine upgrades and are now incompatible with each other
+- added the ability to see the element amount of analyzed sources using a source analysis glass
+- added sawing recipes for bamboo
+- added config to change the fortune level of the fortune shrine upgrade and the greater fortune shrine upgrade
+- added back mekanism compatibility
+- lava shrine can now be upgraded using a filling shrine upgrade
+- increased lava shrine capacity
+- changed the translocation shrine upgrade recipe
+- changed the overcloked acceleration shrine upgrade recipe
+- fix jewels not ticking
+- fix jewel crafting recipes
+- fix kirin jewel crash
+- fix spring shrine not using the correct entity type
+- fix binder not correctly returning remaining items
+- fix shrine upgrades not having incompatibilities with each other upgrades
+- fix pipe upgrade not dropping
+- fix a crash when using an air mill wood saw
+- fix a crash with polylib
+- fix a crash with solar synthesizer
+- fix a crash with planting shrine upgrade
+
+
 1.20.4-6.1.0:
 
 - update to 1.20.4

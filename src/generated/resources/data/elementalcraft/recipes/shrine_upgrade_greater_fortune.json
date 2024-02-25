@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "elementalcraft:advanced_shrine_upgrade_core"
+    },
+    "l": {
+      "tag": "forge:gems/lapis"
+    },
+    "t": {
+      "type": "neoforge:nbt",
+      "item": "elementalcraft:rune",
+      "tag": "{elementalcraft:{rune:\"elementalcraft:tzeentch\"}}"
+    },
+    "u": {
+      "item": "elementalcraft:shrine_upgrade_fortune"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "tlt",
+    "wCw",
+    " u "
+  ],
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_greater_fortune"
+  }
+}

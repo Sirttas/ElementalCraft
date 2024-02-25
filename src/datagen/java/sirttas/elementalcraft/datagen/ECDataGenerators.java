@@ -21,6 +21,7 @@ import sirttas.elementalcraft.datagen.managed.pure.ore.loader.loader.PureOreLoad
 import sirttas.elementalcraft.datagen.managed.shrine.ShrinePropertiesProvider;
 import sirttas.elementalcraft.datagen.managed.shrine.ShrineUpgradeProvider;
 import sirttas.elementalcraft.datagen.recipe.ECRecipeProvider;
+import sirttas.elementalcraft.datagen.registry.ECDamageTypeProvider;
 import sirttas.elementalcraft.datagen.registry.ECTrimMaterialProvider;
 import sirttas.elementalcraft.datagen.registry.world.ECBiomeModifierProvider;
 import sirttas.elementalcraft.datagen.registry.world.ECFeaturesProvider;
@@ -28,6 +29,7 @@ import sirttas.elementalcraft.datagen.registry.world.ECStructureSetsProvider;
 import sirttas.elementalcraft.datagen.registry.world.ECStructuresProvider;
 import sirttas.elementalcraft.datagen.tag.ECBiomeTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
+import sirttas.elementalcraft.datagen.tag.ECDamageTypeTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
 
 import java.util.List;
@@ -55,7 +57,8 @@ public class ECDataGenerators {
 				.add(Registries.STRUCTURE, new ECStructuresProvider())
 				.add(Registries.STRUCTURE_SET, new ECStructureSetsProvider())
 				.add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, new ECBiomeModifierProvider())
-				.add(Registries.TRIM_MATERIAL, new ECTrimMaterialProvider()),
+				.add(Registries.TRIM_MATERIAL, new ECTrimMaterialProvider())
+				.add(Registries.DAMAGE_TYPE, new ECDamageTypeProvider()),
 				Set.of(ElementalCraftApi.MODID)));
 		var registries = datapackProvider.getRegistryProvider();
 
@@ -66,6 +69,7 @@ public class ECDataGenerators {
 		var blockTagsProvider = generator.addProvider(includeServer, new ECBlockTagsProvider(output, registries, fileHelper));
 		generator.addProvider(includeServer, new ECItemTagsProvider(output, registries, blockTagsProvider.contentsGetter(), fileHelper));
 		generator.addProvider(includeServer, new ECBiomeTagsProvider(output, registries, fileHelper));
+		generator.addProvider(includeServer, new ECDamageTypeTagsProvider(output, registries, fileHelper));
 		generator.addProvider(includeServer, new ECRecipeProvider(output, fileHelper));
 		generator.addProvider(includeServer, new AdvancementProvider(output, registries, fileHelper, List.of(new ECAdvancementGenerator())));
 		generator.addProvider(includeServer, new RunesProvider(output, registries, itemModelProvider));

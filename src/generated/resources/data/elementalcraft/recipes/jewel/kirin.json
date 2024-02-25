@@ -25,6 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "nbt": "{elementalcraft:{jewel:\"elementalcraft:kirin\"}}"
+    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:kirin\"}"
   }
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.predicates.ConditionUserBuilder;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 
@@ -52,7 +52,7 @@ public class PipeUpgradeLoot implements LootTableSubProvider {
 	private static ResourceLocation getKey(PipeUpgradeType<?> type) {
 		var key = PipeUpgradeTypes.REGISTRY.getKey(type);
 
-		return key != null ? key.withPrefix(ElementalCraftApi.MODID + "/pipe_upgrades/") : null;
+		return key != null ? key.withPrefix(PipeUpgrade.FOLDER) : null;
 	}
 
 	protected void add(ResourceLocation name, Builder builder) {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementalcraft:item/advanced_shrine_upgrade_core"
+  }
+}

@@ -98,6 +98,8 @@ public class ECConfig {
 		public final IntValue sourceBreedingBaseCost;
 		public final IntValue sourceBreederPedestalCapacity;
 		public final IntValue sourceBreederPedestalMaxRunes;
+		public final IntValue fortuneShrineUpgradeLevel;
+		public final IntValue greaterFortuneShrineUpgradeLevel;
 		public final IntValue elementHolderCapacity;
 		public final IntValue elementHolderTransferAmount;
 		public final IntValue pureElementHolderCapacity;
@@ -223,6 +225,11 @@ public class ECConfig {
 			sourceBreederPedestalMaxRunes = builder.comment("The max amount of runes on a source breeder pedestal.").defineInRange("sourceBreederPedestalMaxRunes", 1, 0, 10);
 			sourceBreederPedestalCapacity = builder.comment("The element capacity of a source breeder pedestal.").defineInRange("sourceBreederPedestalCapacity", 100000, 0, 100000000);
 
+			builder.pop(2).comment("Shrines config").push("shrines");
+			builder.comment("Shrine upgrades config").push("upgrades");
+			fortuneShrineUpgradeLevel = builder.comment("The fortune level of the fortune shrine upgrade.").defineInRange("fortuneShrineUpgradeLevel", 1, 1, 10);
+			greaterFortuneShrineUpgradeLevel = builder.comment("The fortune level of the fortune shrine upgrade.").defineInRange("greaterFortuneShrineUpgradeLevel", 3, 1, 10);
+
 			builder.pop(2).comment("Items config").push("items");
 			builder.push("elementHolder");
 			elementHolderCapacity = builder.comment("The element capacity of an element holder.").defineInRange("elementHolderCapacity", 10000, 0, 100000000);
@@ -238,7 +245,6 @@ public class ECConfig {
 
 			builder.pop().comment("Spell config").push("spell");
 			spellConsumeOnFail = builder.comment("Define if a spell will be cast (and destroyed) or not if you dont have enought element.").define("spellConsumeOnFail", false);
-
 
 			builder.pop().comment("Source config").push("source");
 			disableSourceExhaustion = builder.comment("set to true to make sources infinite.").define("disableSourceExhaustion", false);

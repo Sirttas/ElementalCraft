@@ -71,6 +71,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.DIFFUSER.get(), this::createRuneable);
 		add(ECBlocks.SORTER.get(), this::createRuneable);
 		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
+		add(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get(), this::createRuneable);
 		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.AIR_MILL_WOOD_SAW.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.ENCHANTMENT_LIQUEFIER.get(), this::createDoubleHalfRuneable);

@@ -13,7 +13,7 @@ import java.util.List;
 
 @GameTestHolder(ElementalCraftApi.MODID)
 public class HarvestShrineGameTests {
-    private static final List<BlockPos> POSES = List.of(
+    public static final List<BlockPos> POSES = List.of(
             new BlockPos(1, 2, 1),
             new BlockPos(1, 2, 2),
             new BlockPos(1, 2, 3),

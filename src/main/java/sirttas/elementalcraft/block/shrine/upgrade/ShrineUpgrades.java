@@ -8,19 +8,20 @@ import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShri
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.CapacityShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.EfficiencyShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.OptimizationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.StrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.FortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.FortuneShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.greater.GreaterFortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.CrystalGrowthShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinationShrineUpgradeBlock;
@@ -52,8 +53,10 @@ public class ShrineUpgrades {
 	public static final ResourceKey<ShrineUpgrade> EFFICIENCY = createKey(EfficiencyShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> OPTIMIZATION = createKey(OptimizationShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> ACCELERATION = createKey(AccelerationShrineUpgradeBlock.NAME);
+
 	public static final ResourceKey<ShrineUpgrade> OVERCLOCKED_ACCELERATION = createKey(OverclockedAccelerationShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> TRANSLOCATION = createKey(TranslocationShrineUpgradeBlock.NAME);
+	public static final ResourceKey<ShrineUpgrade> GREATER_FORTUNE = createKey(GreaterFortuneShrineUpgradeBlock.NAME);
 
 	private ShrineUpgrades() {}
 

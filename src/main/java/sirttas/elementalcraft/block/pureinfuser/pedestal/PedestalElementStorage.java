@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
@@ -17,7 +18,7 @@ public class PedestalElementStorage extends StaticElementStorage {
 	}
 
 	@Override
-	public boolean doesRenderGauge() {
+	public boolean doesRenderGauge(Player player) {
 		return true;
 	}
 

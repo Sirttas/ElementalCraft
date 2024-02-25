@@ -152,7 +152,7 @@ dependencies {
     // mod interactions
     implementation "mezz.jei:jei-${jei_version_prefix}:${jei_version}"
 
-    // TODO compileOnly "mekanism:Mekanism:${mekanism_version}"
+    compileOnly "mekanism:Mekanism:${mekanism_version}"
     compileOnly "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
 
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
@@ -172,7 +172,7 @@ dependencies {
     datagenImplementation sourceSets.api.output
     datagenImplementation sourceSets.main.output
     datagenImplementation "vazkii.patchouli:Patchouli:${patchouli_version}"
-    // TODO datagenImplementation "mekanism:Mekanism:${mekanism_version}"
+    datagenImplementation "mekanism:Mekanism:${mekanism_version}"
     datagenImplementation "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
     datagenImplementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     // datagenImplementation "vazkii.botania:Botania:${botania_version}"
@@ -197,6 +197,11 @@ tasks.withType(ProcessResources).configureEach {
             pack_format_number: pack_format_number,
 
             dpanvil_version: dpanvil_version,
+            dpanvil_version_range: dpanvil_version_range,
+            patchouli_version_range: patchouli_version_range,
+            jei_version_range: jei_version_range,
+            mekanism_version_range: mekanism_version_range,
+            curios_version_range: curios_version_range,
 
             elementalcraft_version: elementalcraft_version,
     ]

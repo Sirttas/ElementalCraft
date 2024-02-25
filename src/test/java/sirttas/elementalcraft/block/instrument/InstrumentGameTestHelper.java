@@ -13,6 +13,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,29 +25,46 @@ public class InstrumentGameTestHelper {
     private InstrumentGameTestHelper() {}
 
     public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, ItemStack input, ElementType elementType, Consumer<T> consumer) {
-        runInstrument(helper, input, elementType, true, consumer);
+        runInstrument(helper, List.of(input), elementType, true, consumer);
+    }
+
+    public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, List<ItemStack> inputs, ElementType elementType, Consumer<T> consumer) {
+        runInstrument(helper, inputs, elementType, true, consumer);
     }
 
     public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, BlockPos pos, ItemStack input, ElementType elementType, Consumer<T> consumer) {
-        runInstrument(helper, pos, input, elementType, true, consumer);
+        runInstrument(helper, pos, List.of(input), elementType, true, consumer);
+    }
+
+    public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, BlockPos pos, List<ItemStack> inputs, ElementType elementType, Consumer<T> consumer) {
+        runInstrument(helper, pos, inputs, elementType, true, consumer);
     }
 
     public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, ItemStack input, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
-        runInstrument(helper, new BlockPos(0, 2, 0), input, elementType, recipeAvailable, consumer);
+        runInstrument(helper, List.of(input), elementType, recipeAvailable, consumer);
+    }
+
+    public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, List<ItemStack> inputs, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
+        runInstrument(helper, new BlockPos(0, 2, 0), inputs, elementType, recipeAvailable, consumer);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, BlockPos pos, ItemStack input, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
+    public static <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(GameTestHelper helper, BlockPos pos, List<ItemStack> inputs, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
         var instrument = (T) getInstrument(helper, pos);
         var container = getContainer(helper, pos.below());
 
-        helper.startSequence().thenExecute(() -> {
-                    instrument.getInventory().setItem(0, input);
-                    container.fill(elementType);
+        helper.startSequence().thenExecute(ECGameTestHelper.fixAssertions(() -> {
+            var inv = instrument.getInventory();
 
-                    assertThat(instrument.isRecipeAvailable()).isEqualTo(recipeAvailable);
-                }).thenExecuteAfter(2, () -> consumer.accept(instrument))
-                .thenSucceed();
+            for (int i = 0; i < inputs.size(); i++) {
+                inv.setItem(i, inputs.get(i));
+            }
+            container.fill(elementType);
+
+            assertThat(instrument.isRecipeAvailable())
+                    .withFailMessage(() -> recipeAvailable ? "Recipe is not available but it should be" : "Recipe is available but it should not be")
+                    .isEqualTo(recipeAvailable);
+        })).thenExecuteAfter(2, ECGameTestHelper.fixAssertions(() -> consumer.accept(instrument))).thenSucceed();
     }
 
     @SuppressWarnings("unchecked")

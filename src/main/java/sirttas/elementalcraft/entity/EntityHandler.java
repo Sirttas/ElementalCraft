@@ -15,6 +15,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.IMenuOpenListener;
+import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
@@ -70,7 +71,9 @@ public class EntityHandler {
 
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
+		if (event.phase == TickEvent.Phase.START && !event.player.level().isClientSide) {
+			event.player.getData(ECDataAttachments.JEWEL_HANDLER).tick();
+		} else if (event.phase == TickEvent.Phase.END) {
 			var manager = SpellTickHelper.get(event.player);
 
 			if (manager != null) {

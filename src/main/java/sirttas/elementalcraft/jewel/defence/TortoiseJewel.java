@@ -3,11 +3,11 @@ package sirttas.elementalcraft.jewel.defence;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.GameRules;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class TortoiseJewel extends DefenceJewel {
     public float onHurt(Entity entity, DamageSource source, float amount) {
         var level = entity.level();
 
-        if (source.is(DamageTypes.FALLING_BLOCK) || source.is(DamageTypes.FALLING_STALACTITE) || source.is(DamageTypes.FALLING_ANVIL)) {
+        if (source.is(ECTags.DamageTypes.BLOCKED_BY_TORTOISE_JEWEL)) {
             level.getEntitiesOfClass(FallingBlockEntity.class, entity.getBoundingBox()).forEach(e -> {
                 e.discard();
                 if (e.dropItem && level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {

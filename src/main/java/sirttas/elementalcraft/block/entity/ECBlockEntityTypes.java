@@ -52,6 +52,7 @@ import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.sweet.SweetShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlockEntity;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.greater.GreaterFortuneShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlockEntity;
@@ -61,7 +62,7 @@ import sirttas.elementalcraft.block.source.breeder.SourceBreederBlockEntity;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlockEntity;
-import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlockEntity;
+import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 
 import java.util.Arrays;
@@ -78,7 +79,7 @@ public class ECBlockEntityTypes {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ExtractorBlockEntity>> EXTRACTOR = register(() -> builder(ExtractorBlockEntity::new, ECBlocks.EXTRACTOR, ECBlocks.EXTRACTOR_IMPROVED), ExtractorBlock.NAME);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EvaporatorBlockEntity>> EVAPORATOR = register(EvaporatorBlockEntity::new, ECBlocks.EVAPORATOR);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolarSynthesizerBlockEntity>> SOLAR_SYNTHESIZER = register(SolarSynthesizerBlockEntity::new, ECBlocks.SOLAR_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ManaSynthesizerBlockEntity>> MANA_SYNTHESIZER = register(ManaSynthesizerBlockEntity::new, ECBlocks.MANA_SYNTHESIZER);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolarSynthesizerBlockEntity>> MANA_SYNTHESIZER = register(ManaSynthesizerBlock::createBlockEntity, ECBlocks.MANA_SYNTHESIZER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DiffuserBlockEntity>> DIFFUSER = register(DiffuserBlockEntity::new, ECBlocks.DIFFUSER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<InfuserBlockEntity>> INFUSER = register(InfuserBlockEntity::new, ECBlocks.INFUSER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BinderBlockEntity>> BINDER = register(BinderBlockEntity::new, ECBlocks.BINDER);
@@ -113,6 +114,7 @@ public class ECBlockEntityTypes {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpawningShrineBlockEntity>> SPAWNING_SHRINE = register(SpawningShrineBlockEntity::new, ECBlocks.SPAWNING_SHRINE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AccelerationShrineUpgradeBlockEntity>> ACCELERATION_SHRINE_UPGRADE = register(AccelerationShrineUpgradeBlockEntity::new, ECBlocks.ACCELERATION_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OverclockedAccelerationShrineUpgradeBlockEntity>> OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE = register(OverclockedAccelerationShrineUpgradeBlockEntity::new, ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GreaterFortuneShrineUpgradeBlockEntity>> GREATER_FORTUNE_SHRINE_UPGRADE = register(GreaterFortuneShrineUpgradeBlockEntity::new, ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TranslocationShrineUpgradeBlockEntity>> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlockEntity::new, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VortexShrineUpgradeBlockEntity>> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlockEntity::new, ECBlocks.VORTEX_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SorterBlockEntity>> SORTER = register(SorterBlockEntity::new, ECBlocks.SORTER);

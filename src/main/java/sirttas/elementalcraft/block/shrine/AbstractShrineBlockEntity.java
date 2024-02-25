@@ -31,10 +31,12 @@ import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationSh
 import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -204,6 +206,25 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	public boolean hasUpgrade(ResourceKey<ShrineUpgrade> key) {
 		return getUpgradeCount(key) > 0;
+	}
+
+	@Nullable
+	public Direction getUpgradeDirection(ShrineUpgrade upgrade) {
+		return getUpgradeDirection(e -> e.getValue().equals(upgrade));
+	}
+
+	@Nullable
+	public Direction getUpgradeDirection(ResourceKey<ShrineUpgrade> key) {
+		return getUpgradeDirection(e -> e.getValue().is(key));
+	}
+
+	@Nullable
+	private Direction getUpgradeDirection(Predicate<Map.Entry<Direction, ShrineUpgrade>> predicate) {
+		return upgrades.entrySet().stream()
+				.filter(predicate)
+				.map(Map.Entry::getKey)
+				.findFirst()
+				.orElse(null);
 	}
 
 	private void setUpgrade(Direction direction, ShrineUpgrade upgrade) {

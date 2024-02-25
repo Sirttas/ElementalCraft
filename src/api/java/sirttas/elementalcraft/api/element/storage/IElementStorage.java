@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.element.storage;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
@@ -46,7 +47,7 @@ public interface IElementStorage {
 		return type != ElementType.NONE;
 	}
 
-	default boolean doesRenderGauge() {
+	default boolean doesRenderGauge(Player player) {
 		return false;
 	}
 

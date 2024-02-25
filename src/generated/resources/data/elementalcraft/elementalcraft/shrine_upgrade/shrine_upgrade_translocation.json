@@ -6,7 +6,28 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:tag",
-    "tag": "elementalcraft:shrines/upgradables/range"
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_overclocked_acceleration"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_greater_fortune"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dpanvil:tag",
+        "tag": "elementalcraft:shrines/upgradables/range"
+      }
+    ]
   }
 }

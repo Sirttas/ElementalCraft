@@ -6,7 +6,28 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:vacuumshrine"
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_vortex"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_strength"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dpanvil:block",
+        "block": "elementalcraft:vacuumshrine"
+      }
+    ]
   }
 }

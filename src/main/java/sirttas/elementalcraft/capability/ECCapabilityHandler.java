@@ -32,7 +32,6 @@ import sirttas.elementalcraft.item.elemental.LensItem;
 import sirttas.elementalcraft.item.holder.AbstractElementHolderItem;
 import sirttas.elementalcraft.jewel.handler.ClientJewelHandler;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
-import sirttas.elementalcraft.jewel.handler.JewelHandler;
 import sirttas.elementalcraft.spell.tick.ISpellTickManager;
 
 import java.util.Arrays;
@@ -114,6 +113,7 @@ public class ECCapabilityHandler {
         ).forEach(t -> event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, t.get(), (blockEntity, v) -> blockEntity.getElementStorage()));
 
         event.registerBlockEntity(ElementalCraftCapabilities.ElementTransferer.BLOCK, ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get(), (blockEntity, v) -> blockEntity.getTransferer());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
 
         deferBlockCapabilityBellow(event, Capabilities.ItemHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER);
         deferBlockCapabilityBellow(event, ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER);
@@ -207,7 +207,7 @@ public class ECCapabilityHandler {
             if (player.level().isClientSide) {
                 return new ClientJewelHandler();
             } else {
-                return new JewelHandler(player);
+                return player.getData(ECDataAttachments.JEWEL_HANDLER);
             }
         });
     }

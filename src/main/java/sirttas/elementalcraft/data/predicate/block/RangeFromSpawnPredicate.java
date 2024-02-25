@@ -35,7 +35,7 @@ public class RangeFromSpawnPredicate implements IBlockPosPredicate {
 
 	@Override
 	public boolean test(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction) {
-		BlockPos spawn = level instanceof ServerLevelAccessor accessor ? accessor.getLevel().getSharedSpawnPos() : BlockPos.ZERO;
+		var spawn = level instanceof ServerLevelAccessor accessor ? accessor.getLevel().getSharedSpawnPos() : BlockPos.ZERO;
 		
 		return new BlockPos(spawn.getX(), 0, spawn.getZ()).distSqr(new BlockPos(pos.getX(), 0, pos.getZ())) > rangeSq;
 	}

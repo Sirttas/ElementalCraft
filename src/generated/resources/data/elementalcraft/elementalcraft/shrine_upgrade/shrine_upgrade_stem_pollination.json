@@ -6,7 +6,28 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:growthshrine"
+    "type": "dpanvil:and",
+    "values": [
+      {
+        "type": "dpanvil:not",
+        "value": {
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_boneless_growth"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_crystal_growth"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dpanvil:block",
+        "block": "elementalcraft:growthshrine"
+      }
+    ]
   }
 }

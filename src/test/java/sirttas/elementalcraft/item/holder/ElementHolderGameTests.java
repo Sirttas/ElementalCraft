@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.TestFunction;
-import net.minecraft.world.InteractionHand;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -42,7 +41,7 @@ public class ElementHolderGameTests {
                 .thenExecute(() -> storage.fill(elementType))
                 .thenExecuteAfter(1, () -> {
                     player.setShiftKeyDown(true);
-                    ECGameTestHelper.useItemOn(helper, player, InteractionHand.MAIN_HAND, pos);
+                    ECGameTestHelper.useItemOn(helper, player, pos);
                 })
                 .thenExecuteAfter(10, ECGameTestHelper.fixAssertions(() -> assertThat(playerStorage.getElementAmount(elementType)).isEqualTo(holder.getTransferAmount() * 11)))
                 .thenExecute(player::discard)
@@ -72,7 +71,7 @@ public class ElementHolderGameTests {
                     playerStorage.fill(elementType);
                     storage.insertElement(100, elementType, false);
                 })
-                .thenExecuteAfter(1, () -> ECGameTestHelper.useItemOn(helper, player, InteractionHand.MAIN_HAND, pos))
+                .thenExecuteAfter(1, () -> helper.useBlock(pos, player))
                 .thenExecuteAfter(10, ECGameTestHelper.fixAssertions(() -> assertThat(storage.getElementAmount(elementType)).isEqualTo(100 + (holder.getTransferAmount() * 11))))
                 .thenExecute(player::discard)
                 .thenSucceed();

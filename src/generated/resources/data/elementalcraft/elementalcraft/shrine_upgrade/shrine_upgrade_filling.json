@@ -5,7 +5,51 @@
   },
   "max_amount": 1,
   "predicate": {
-    "type": "dpanvil:block",
-    "block": "elementalcraft:springshrine"
+    "type": "dpanvil:or",
+    "values": [
+      {
+        "type": "dpanvil:and",
+        "values": [
+          {
+            "type": "dpanvil:or",
+            "values": [
+              {
+                "type": "dpanvil:facing",
+                "direction": "east"
+              },
+              {
+                "type": "dpanvil:facing",
+                "direction": "west"
+              },
+              {
+                "type": "dpanvil:facing",
+                "direction": "south"
+              },
+              {
+                "type": "dpanvil:facing",
+                "direction": "north"
+              }
+            ]
+          },
+          {
+            "type": "dpanvil:block",
+            "block": "elementalcraft:lavashrine"
+          }
+        ]
+      },
+      {
+        "type": "dpanvil:and",
+        "values": [
+          {
+            "type": "dpanvil:facing",
+            "direction": "down"
+          },
+          {
+            "type": "dpanvil:block",
+            "block": "elementalcraft:springshrine"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -125,7 +125,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 
 		@Override
 		public void fill() {
-			amounts.replaceAll((elementType, amount) -> getElementCapacity(elementType));
+			ElementType.ALL_VALID.forEach(type -> amounts.put(type, getElementCapacity(type)));
 			updateAmount();
 		}
 

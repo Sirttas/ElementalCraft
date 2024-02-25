@@ -6,15 +6,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class ManaSynthesizerRenderer extends SolarSynthesizerRenderer<ManaSynthesizerBlockEntity> {
+public class ManaSynthesizerRenderer extends SolarSynthesizerRenderer {
 
 	@Override
-	public void render(ManaSynthesizerBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	public void render(SolarSynthesizerBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		float tick = ECRendererHelper.getClientTicks(partialTicks);
 		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
 

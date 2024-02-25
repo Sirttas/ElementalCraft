@@ -25,6 +25,6 @@
   ],
   "result": {
     "item": "elementalcraft:jewel",
-    "nbt": "{elementalcraft:{jewel:\"elementalcraft:mole\"}}"
+    "neoforge:attachments": "{\"elementalcraft:jewel\":\"elementalcraft:mole\"}"
   }
 }

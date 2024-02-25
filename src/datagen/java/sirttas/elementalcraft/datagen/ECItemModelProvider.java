@@ -75,7 +75,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 		for (Jewel jewel : Jewels.REGISTRY) {
 			var key = jewel.getKey();
 
-			if (ElementalCraft.owns(key) && !exists(jewel)) {
+			if (ElementalCraft.owns(key) && !exists(jewel) && jewel != Jewels.NONE.get()) {
 				singleJewelTexture(key.getPath());
 			}
 		}
