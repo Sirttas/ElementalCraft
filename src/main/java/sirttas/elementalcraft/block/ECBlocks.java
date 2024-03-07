@@ -69,6 +69,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgrad
 import sirttas.elementalcraft.block.shrine.upgrade.directional.StrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.OverwhelmingStrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
@@ -162,6 +163,7 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, CapacityShrineUpgradeBlock> CAPACITY_SHRINE_UPGRADE = registerNoOcclusion(CapacityShrineUpgradeBlock.NAME, CapacityShrineUpgradeBlock::new);
 	public static final DeferredHolder<Block, EfficiencyShrineUpgradeBlock> EFFICIENCY_SHRINE_UPGRADE = registerNoOcclusion(EfficiencyShrineUpgradeBlock.NAME, EfficiencyShrineUpgradeBlock::new);
 	public static final DeferredHolder<Block, StrengthShrineUpgradeBlock> STRENGTH_SHRINE_UPGRADE = registerNoOcclusion(StrengthShrineUpgradeBlock.NAME, StrengthShrineUpgradeBlock::new);
+	public static final DeferredHolder<Block, OverwhelmingStrengthShrineUpgradeBlock> OVERWHELMING_STRENGTH_SHRINE_UPGRADE = registerNoOcclusion(OverwhelmingStrengthShrineUpgradeBlock.NAME, OverwhelmingStrengthShrineUpgradeBlock::new);
 	public static final DeferredHolder<Block, OptimizationShrineUpgradeBlock> OPTIMIZATION_SHRINE_UPGRADE = registerNoOcclusion(OptimizationShrineUpgradeBlock.NAME, OptimizationShrineUpgradeBlock::new);
 	public static final DeferredHolder<Block, FortuneShrineUpgradeBlock> FORTUNE_SHRINE_UPGRADE = registerNoOcclusion(FortuneShrineUpgradeBlock.NAME, FortuneShrineUpgradeBlock::new);
 	public static final DeferredHolder<Block, GreaterFortuneShrineUpgradeBlock> GREATER_FORTUNE_SHRINE_UPGRADE = registerNoOcclusion(GreaterFortuneShrineUpgradeBlock.NAME, GreaterFortuneShrineUpgradeBlock::new);

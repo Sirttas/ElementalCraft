@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "elementalcraft:shrine_upgrade_overclocked_acceleration"
+        "recipe": "elementalcraft:shrine_upgrade_overwhelming_strength"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "elementalcraft:shrine_upgrade_overclocked_acceleration"
+      "elementalcraft:shrine_upgrade_overwhelming_strength"
     ]
   }
 }

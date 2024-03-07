@@ -103,6 +103,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.CAPACITY_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.EFFICIENCY_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.STRENGTH_SHRINE_UPGRADE.get());
+                o.accept(ECBlocks.OVERWHELMING_STRENGTH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.OPTIMIZATION_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.FORTUNE_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get());

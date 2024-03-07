@@ -10,8 +10,17 @@
       {
         "type": "dpanvil:not",
         "value": {
-          "type": "elementalcraft:has_shrine_upgrade",
-          "shrine_upgrade": "elementalcraft:shrine_upgrade_strength"
+          "type": "dpanvil:or",
+          "values": [
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_strength"
+            },
+            {
+              "type": "elementalcraft:has_shrine_upgrade",
+              "shrine_upgrade": "elementalcraft:shrine_upgrade_overwhelming_strength"
+            }
+          ]
         }
       },
       {

@@ -14,6 +14,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgrad
 import sirttas.elementalcraft.block.shrine.upgrade.directional.StrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.OverwhelmingStrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
@@ -57,6 +58,7 @@ public class ShrineUpgrades {
 	public static final ResourceKey<ShrineUpgrade> OVERCLOCKED_ACCELERATION = createKey(OverclockedAccelerationShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> TRANSLOCATION = createKey(TranslocationShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> GREATER_FORTUNE = createKey(GreaterFortuneShrineUpgradeBlock.NAME);
+	public static final ResourceKey<ShrineUpgrade> OVERWHELMING_STRENGTH = createKey(OverwhelmingStrengthShrineUpgradeBlock.NAME);
 
 	private ShrineUpgrades() {}
 

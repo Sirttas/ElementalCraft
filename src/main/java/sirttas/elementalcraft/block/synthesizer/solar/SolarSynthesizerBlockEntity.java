@@ -36,7 +36,7 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 
 	protected final int multiplier;
 	protected boolean working;
-	private ISingleElementStorage containerCache;
+	private ISingleElementStorage containerCache; // TODO use capability cache
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
 		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, ECConfig.COMMON.solarSynthesizerLensElementMultiplier.get(), pos, state);

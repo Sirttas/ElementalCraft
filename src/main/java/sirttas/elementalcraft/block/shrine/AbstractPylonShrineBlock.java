@@ -49,8 +49,6 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 		if (!level.isClientSide) {
 			if (player.isCreative()) {
 				DoublePlantBlock.preventDropFromBottomPart(level, pos, state, player);
-			} else {
-				dropResources(state, level, pos, null, player, player.getMainHandItem());
 			}
 		}
 	}

@@ -24,7 +24,7 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 	private int extractionAmount;
 	private final RuneHandler runeHandler;
 
-	private ISingleElementStorage containerCache;
+	private ISingleElementStorage containerCache; // TODO use capability cache
 
 	public ExtractorBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.EXTRACTOR, pos, state);
@@ -64,8 +64,9 @@ public class ExtractorBlockEntity extends AbstractECBlockEntity implements ICont
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, ExtractorBlockEntity extractor) {
 		if (extractor.canExtract()) {
-			BlockEntityHelper.getBlockEntityAs(level, pos.above(), SourceBlockEntity.class).map(SourceBlockEntity::getElementStorage)
-					.ifPresent(sourceStorage ->  extractor.runeHandler.handleElementTransfer(sourceStorage, extractor.getContainer(), extractor.extractionAmount));
+			BlockEntityHelper.getBlockEntityAs(level, pos.above(), SourceBlockEntity.class)
+					.map(SourceBlockEntity::getElementStorage)
+					.ifPresent(sourceStorage -> extractor.runeHandler.handleElementTransfer(sourceStorage, extractor.getContainer(), extractor.extractionAmount));
 		}
 	}
 

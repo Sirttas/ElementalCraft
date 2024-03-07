@@ -54,7 +54,7 @@ public class LavaShrineGameTests {
             ShrineGameTestHelper.forcePeriods(helper, new BlockPos(1, 2, 1), POSES.size());
         }).thenExecuteAfter(1, () -> {
             helper.assertBlockState(new BlockPos(3, 2, 1), b -> b.is(Blocks.LAVA_CAULDRON), () -> "Cauldron has not been filled");
-            helper.assertBlockState(new BlockPos(1, 3, 1), BlockBehaviour.BlockStateBase::isAir, () -> "Basalt has been removed");
+            helper.assertBlockState(new BlockPos(1, 3, 1), BlockBehaviour.BlockStateBase::isAir, () -> "Basalt has not been removed");
         }).thenSucceed();
     }
 

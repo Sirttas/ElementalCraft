@@ -33,7 +33,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 	private static final IBlockPosPredicate FILLING_PREDICATE = IBlockPosPredicate.match(ECBlocks.SPRING_SHRINE.get()).and(FacingBlockPredicate.DOWN)
 			.or(IBlockPosPredicate.match(ECBlocks.LAVA_SHRINE.get()).and(FacingBlockPredicate.NORTH.or(FacingBlockPredicate.SOUTH).or(FacingBlockPredicate.WEST).or(FacingBlockPredicate.EAST)));
 
-	private static final List<ResourceKey<ShrineUpgrade>> ADVANCED_UPGRADES = List.of(ShrineUpgrades.OVERCLOCKED_ACCELERATION, ShrineUpgrades.TRANSLOCATION, ShrineUpgrades.GREATER_FORTUNE);
+	private static final List<ResourceKey<ShrineUpgrade>> ADVANCED_UPGRADES = List.of(ShrineUpgrades.OVERCLOCKED_ACCELERATION, ShrineUpgrades.TRANSLOCATION, ShrineUpgrades.GREATER_FORTUNE, ShrineUpgrades.OVERWHELMING_STRENGTH);
 
 	public ShrineUpgradeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraft.SHRINE_UPGRADE_MANAGER, ShrineUpgrade.Builder.ENCODER);
@@ -68,7 +68,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 				.addBonus(BonusType.ELEMENT_CONSUMPTION, 100F)
 				.addBonus(BonusType.SPEED, 20F)
 				.addBonus(BonusType.RANGE, 0.5F)
-				.incompatibleWith(ShrineUpgrades.VORTEX, ShrineUpgrades.STRENGTH);
+				.incompatibleWith(ShrineUpgrades.VORTEX, ShrineUpgrades.STRENGTH, ShrineUpgrades.OVERWHELMING_STRENGTH);
 		shrineUpgrade(ShrineUpgrades.VORTEX)
 				.match(ECBlocks.VACUUM_SHRINE.get())
 				.max(1)
@@ -80,7 +80,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 				.max(1)
 				.addBonus(BonusType.ELEMENT_CONSUMPTION, 5F)
 				.addBonus(BonusType.SPEED, 2F)
-				.incompatibleWith(ShrineUpgrades.STRENGTH);
+				.incompatibleWith(ShrineUpgrades.STRENGTH, ShrineUpgrades.OVERWHELMING_STRENGTH);
 		shrineUpgrade(ShrineUpgrades.MYSTICAL_GROVE)
 				.match(ECBlocks.GROVE_SHRINE.get())
 				.max(1)
@@ -159,6 +159,11 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 				.addBonus(BonusType.RANGE, 0.75F)
 				.addBonus(BonusType.CAPACITY, 1.20F)
 				.addBonus(BonusType.ELEMENT_CONSUMPTION, 2F);
+		advancedShrineUpgrade(ShrineUpgrades.OVERWHELMING_STRENGTH)
+				.predicate(STRENGTH_PREDICATE)
+				.addBonus(BonusType.STRENGTH, 5F)
+				.addBonus(BonusType.ELEMENT_CONSUMPTION, 2F)
+				.incompatibleWith(ShrineUpgrades.NECTAR, ShrineUpgrades.PICKUP);
 	}
 
 	private IBlockPosPredicate miningPredicate(TagKey<Block> tag) {

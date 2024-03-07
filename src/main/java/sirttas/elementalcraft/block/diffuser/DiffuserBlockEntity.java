@@ -24,7 +24,8 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 	private boolean hasDiffused;
 	private final RuneHandler runeHandler;
 
-	private ISingleElementStorage containerCache;
+	private int progress = 0;
+	private ISingleElementStorage containerCache; // TODO use capability cache
 
 	public DiffuserBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.DIFFUSER, pos, state);

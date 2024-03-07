@@ -29,7 +29,7 @@ public class DoubleHalfBlockGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> helper.getLevel().destroyBlock(helper.absolutePos(holder.pos1()), true))
-                .thenExecuteAfter(1, () -> {
+                .thenExecuteAfter(5, () -> {
                     helper.assertBlockNotPresent(holder.block(), holder.pos1());
                     helper.assertBlockNotPresent(holder.block(), holder.pos2());
                     helper.assertItemEntityCountIs(holder.block().asItem(), holder.pos1(), 2, 1);

@@ -43,21 +43,21 @@ public class LavaShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	protected boolean doPeriod() {
-		return findRock()
-				.map(p -> melt(p, Fluids.LAVA))
-				.orElse(false);
+		var opt = findRock();
+
+		opt.ifPresent(p -> melt(p, Fluids.LAVA));
+		return opt.isPresent();
 	}
 
-	private boolean melt(BlockPos p, Fluid fluid) {
+	private void melt(BlockPos p, Fluid fluid) {
 		var fillingDirection = getUpgradeDirection(ShrineUpgrades.FILLING);
 
 		if (fillingDirection != null && fill(this, fillingDirection, fluid)) {
-			level.destroyBlock(p, true);
-			return true;
+			level.destroyBlock(p, false);
+			return;
 		}
 		level.setBlock(p, fluid.defaultFluidState().createLegacyBlock(), 11);
 		level.levelEvent(LevelEvent.LAVA_FIZZ, p, 0);
-		return true;
 	}
 
 	@Override

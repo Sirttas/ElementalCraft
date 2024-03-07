@@ -54,7 +54,12 @@ public abstract class AbstractIEPureOreRecipeFactory<T extends IESerializableRec
             } else if (recipeClass.isInstance(recipe)) {
                 return filterIERecipe(recipeClass.cast(recipe), stack);
             } else if (recipe instanceof GeneratedListRecipe<?, ?> generatedListRecipe) {
-                return generatedListRecipe.getSubRecipes().stream()
+                var subRecipes = generatedListRecipe.getSubRecipes();
+
+                if (subRecipes == null || subRecipes.isEmpty()) {
+                    return false;
+                }
+                return subRecipes.stream()
                         .anyMatch(r -> this.filter(new RecipeHolder<>(id, r), stack));
             }
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 {
   "bonuses": {
-    "element_consumption": 1.5,
-    "speed": 0.25
+    "element_consumption": 2.0,
+    "strength": 5.0
   },
   "max_amount": 1,
   "predicate": {
@@ -16,6 +16,10 @@
             "values": [
               {
                 "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_overclocked_acceleration"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
                 "shrine_upgrade": "elementalcraft:shrine_upgrade_translocation"
               },
               {
@@ -24,7 +28,11 @@
               },
               {
                 "type": "elementalcraft:has_shrine_upgrade",
-                "shrine_upgrade": "elementalcraft:shrine_upgrade_overwhelming_strength"
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_nectar"
+              },
+              {
+                "type": "elementalcraft:has_shrine_upgrade",
+                "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
               }
             ]
           }
@@ -37,17 +45,20 @@
               "values": [
                 {
                   "type": "elementalcraft:has_shrine_upgrade",
-                  "shrine_upgrade": "elementalcraft:shrine_upgrade_pickup"
+                  "shrine_upgrade": "elementalcraft:shrine_upgrade_filling"
                 },
                 {
-                  "type": "dpanvil:block",
-                  "block": "elementalcraft:vacuumshrine"
+                  "type": "dpanvil:blocks",
+                  "blocks": [
+                    "elementalcraft:springshrine",
+                    "elementalcraft:lavashrine"
+                  ]
                 }
               ]
             },
             {
               "type": "dpanvil:tag",
-              "tag": "elementalcraft:shrines/upgradables/acceleration"
+              "tag": "elementalcraft:shrines/upgradables/strength"
             }
           ]
         }

@@ -25,7 +25,7 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 	private final SingleElementStorage elementStorage;
 	private final RuneHandler runeHandler;
 
-	private ISingleElementStorage containerCache;
+	private ISingleElementStorage containerCache; // TODO use capability cache
 
 	public EvaporatorBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.EVAPORATOR, pos, state);

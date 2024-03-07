@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R extends IInstrumentRecipe<T>> extends AbstractECCraftingBlockEntity<T, R> implements IInstrument {
 
-	private int progress = 0;
+	private int progress = 0; // TODO use capability cache
 	private ISingleElementStorage containerCache;
 	protected Vec3 particleOffset;
 
@@ -151,10 +151,6 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	@Override
 	public int getProgress() {
 		return progress;
-	}
-
-	public float getProgressRatio() {
-		return (float) progress / getElementAmount();
 	}
 
 	@Override

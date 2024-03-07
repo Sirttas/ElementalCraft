@@ -1,3 +1,13 @@
+6.1.3:
+
+- new block: overwhelming strength shrine upgrade
+- fix some blocks breaking particle rendering
+- fix a log spam with immersive engineering
+- fix jei not loading when mekanism interaction is present
+- fix double half blocks dropping twice
+- moved version naming to semver
+
+
 1.20.4-6.1.2:
 
 - the elementalist grimoire can nom be placed in a chiseled bookshelf

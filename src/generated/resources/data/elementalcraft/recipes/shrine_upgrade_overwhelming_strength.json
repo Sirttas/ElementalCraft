@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "elementalcraft:advanced_shrine_upgrade_core"
+    },
+    "f": {
+      "tag": "elementalcraft:gems/pristine_fire"
+    },
+    "r": {
+      "tag": "forge:rods/blaze"
+    },
+    "u": {
+      "item": "elementalcraft:shrine_upgrade_strength"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "frf",
+    "wCw",
+    " u "
+  ],
+  "result": {
+    "item": "elementalcraft:shrine_upgrade_overwhelming_strength"
+  }
+}

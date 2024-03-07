@@ -89,6 +89,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	private static final String HAS_PURECRYSTAL = "has_purecrystal";
 	private static final String HAS_WHITEROCK = "has_whiterock";
 	private static final String HAS_SHRINE_UPGRADE_CORE = "has_shrine_upgrade_core";
+	private static final String HAS_ADVANCED_SHRINE_UPGRADE_CORE = "has_advanced_shrine_upgrade_core";
 	private static final String HAS_SPRINGALINE_SHARD = "has_springaline_shard";
 
 	private static final String HAS_DRENCHED_IRON_NUGGET = "has_drenched_iron_nugget";
@@ -1217,7 +1218,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("ftf")
 				.pattern("wCw")
 				.pattern(" u ")
-				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
+				.unlockedBy(HAS_ADVANCED_SHRINE_UPGRADE_CORE, has(ECItems.ADVANCED_SHRINE_UPGRADE_CORE))
 				.save(recipeOutput);
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get())
 				.define('C', ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get())
@@ -1228,7 +1229,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("ziz")
 				.pattern("pCp")
 				.pattern(" u ")
-				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
+				.unlockedBy(HAS_ADVANCED_SHRINE_UPGRADE_CORE, has(ECItems.ADVANCED_SHRINE_UPGRADE_CORE))
 				.save(recipeOutput);
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get())
 				.define('C', ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get())
@@ -1239,7 +1240,18 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("tlt")
 				.pattern("wCw")
 				.pattern(" u ")
-				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
+				.unlockedBy(HAS_ADVANCED_SHRINE_UPGRADE_CORE, has(ECItems.ADVANCED_SHRINE_UPGRADE_CORE))
+				.save(recipeOutput);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECBlocks.OVERWHELMING_STRENGTH_SHRINE_UPGRADE.get())
+				.define('C', ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get())
+				.define('f', ECTags.Items.PRISTINE_FIRE_GEMS)
+				.define('r', Tags.Items.RODS_BLAZE)
+				.define('w', ECBlocks.WHITE_ROCK.get())
+				.define('u', ECBlocks.STRENGTH_SHRINE_UPGRADE.get())
+				.pattern("frf")
+				.pattern("wCw")
+				.pattern(" u ")
+				.unlockedBy(HAS_ADVANCED_SHRINE_UPGRADE_CORE, has(ECItems.ADVANCED_SHRINE_UPGRADE_CORE))
 				.save(recipeOutput);
 	}
 
