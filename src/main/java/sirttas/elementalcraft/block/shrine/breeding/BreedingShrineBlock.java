@@ -14,6 +14,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -119,7 +120,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 			if (blockstate.getBlock() == this && blockstate.getValue(PART) != part) {
 				level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
-				level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
+				level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, blockpos, Block.getId(blockstate));
 			}
 		}
 		return super.playerWillDestroy(level, pos, state, player);

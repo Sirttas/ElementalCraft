@@ -180,7 +180,9 @@ public class ECCreativeModeTabs {
                 generateElementHolder(o, ECItems.AIR_HOLDER);
                 o.accept(ECItems.PURE_HOLDER_CORE.get());
                 generatePureElementHolder(o);
-                o.accept(ECItems.CHISEL.get());
+                o.accept(ECItems.DRENCHED_IRON_CHISEL.get());
+                o.accept(ECItems.SWIFT_ALLOY_CHISEL.get());
+                o.accept(ECItems.FIREITE_CHISEL.get());
                 o.accept(ECItems.ELEMENTAL_FIREFUEL.get());
                 generatePureOres(o);
                 o.accept(ECItems.INERT_CRYSTAL.get());
@@ -216,6 +218,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.PRISTINE_WATER_GEM.get());
                 o.accept(ECItems.PRISTINE_EARTH_GEM.get());
                 o.accept(ECItems.PRISTINE_AIR_GEM.get());
+                o.accept(ECItems.PRISTINE_SHARD.get());
                 o.accept(ECItems.DRENCHED_IRON_NUGGET.get());
                 o.accept(ECItems.DRENCHED_IRON_INGOT.get());
                 o.accept(ECBlocks.DRENCHED_IRON_BLOCK.get());

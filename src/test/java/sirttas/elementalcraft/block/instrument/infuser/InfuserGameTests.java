@@ -39,7 +39,25 @@ public class InfuserGameTests {
     public static void should_craftCrystal(GameTestHelper helper, ElementType elementType) {
         InstrumentGameTestHelper.<InfuserBlockEntity>runInstrument(helper, new ItemStack(ECItems.INERT_CRYSTAL.get()), elementType, infuser -> {
             assertThat(infuser.getItem())
-                    .is(ElementalItemHelper.getCrystalForType(elementType))
+                    .is(ElementalItemHelper.getCrystalForElement(elementType))
+                    .hasCount(1);
+        });
+    }
+
+    @GameTestGenerator
+    public static Collection<TestFunction> should_craftCrudeGem() {
+        return List.of(
+                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.FIRE)),
+                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.WATER)),
+                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.EARTH)),
+                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.AIR))
+        );
+    }
+
+    public static void should_craftCrudeGem(GameTestHelper helper, ElementType elementType) {
+        InstrumentGameTestHelper.<InfuserBlockEntity>runInstrument(helper, new ItemStack(Items.DIAMOND), elementType, infuser -> {
+            assertThat(infuser.getItem())
+                    .is(ElementalItemHelper.getCrudeGemForElement(elementType))
                     .hasCount(1);
         });
     }

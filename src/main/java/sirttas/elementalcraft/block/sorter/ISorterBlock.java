@@ -29,7 +29,7 @@ public interface ISorterBlock {
 	
 	VoxelShape getCoreShape(BlockState state);
 	
-	default VoxelShape getCurentShape(BlockState state) {
+	default VoxelShape getCurrentShape(BlockState state) {
 		return Shapes.or(getSourceShape(state), getTargetShape(state), getCoreShape(state)).optimize();
 	}
 	
@@ -48,7 +48,7 @@ public interface ISorterBlock {
 				return core;
 			}
 		}
-		return getCurentShape(state);
+		return getCurrentShape(state);
 	}
 	
 	default InteractionResult moveIO(BlockState state, Level world, BlockPos pos, BlockHitResult hit) {

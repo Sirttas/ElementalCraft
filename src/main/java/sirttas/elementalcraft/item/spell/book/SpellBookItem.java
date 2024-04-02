@@ -65,7 +65,7 @@ public class SpellBookItem extends ECItem {
 
 	@Override
 	public int getBarWidth(@Nonnull ItemStack stack) {
-		return Math.round(ECConfig.COMMON.spellBookMaxSpell.get() - SpellHelper.getSpellCount(stack) * 13F / ECConfig.COMMON.spellBookMaxSpell.get());
+		return Math.round(ECConfig.SERVER.spellBookMaxSpell.get() - SpellHelper.getSpellCount(stack) * 13F / ECConfig.SERVER.spellBookMaxSpell.get());
 	}
 	
 	private static class ContainerProvider implements MenuProvider {

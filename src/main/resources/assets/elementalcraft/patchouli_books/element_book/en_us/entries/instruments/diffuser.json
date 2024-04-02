@@ -4,7 +4,7 @@
   "icon": "elementalcraft:diffuser",
   "advancement": "elementalcraft:pickup/container",
   "turnin": "elementalcraft:pickup/diffuser",
-  "sortnum": 9,
+  "sortnum": 10,
   "pages": [
     {
       "type": "text",

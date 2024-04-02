@@ -9,7 +9,7 @@
       "item": "minecraft:diamond_pickaxe"
     },
     "e": {
-      "tag": "elementalcraft:gems/pristine_earth"
+      "item": "elementalcraft:pristine_earth_gem"
     },
     "p": {
       "item": "elementalcraft:purecrystal"

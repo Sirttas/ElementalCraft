@@ -62,21 +62,26 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	protected boolean isValidSource(BlockState state) {
-		return state.getBlock() == ECBlocks.SOURCE.get();
+		return state.is(ECBlocks.SOURCE.get());
 	}
 
 	@Override
-	public boolean canInteractWithSource(ItemStack stack, BlockState state) {
+	public boolean canInteractWithSource(BlockState state) {
 		return isValidSource(state);
 	}
 
 	@Nonnull
     @Override
 	public InteractionResult useOn(UseOnContext context) {
+		var player = context.getPlayer();
+
+		if (player == null) {
+			return InteractionResult.PASS;
+		}
+
 		var pos = context.getClickedPos();
 		var level = context.getLevel();
 		var stack = context.getItemInHand();
-		var player = context.getPlayer();
 		var result = tick(level, player, pos, stack);
 
 		if (result.consumesAction()) {

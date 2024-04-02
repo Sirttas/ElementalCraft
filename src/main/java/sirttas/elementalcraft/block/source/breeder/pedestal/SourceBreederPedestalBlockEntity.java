@@ -31,7 +31,7 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
         super(ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL, pos, state);
         elementStorage = new SourceBreederPedestalElementStorage(this);
         inventory = new SourceBreederPedestalItemContainer(this::setChanged);
-        runeHandler = new RuneHandler(ECConfig.COMMON.sourceBreederPedestalMaxRunes.get(), this::setChanged);
+        runeHandler = new RuneHandler(ECConfig.SERVER.sourceBreederPedestalMaxRunes.get(), this::setChanged);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SourceBreederPedestalBlockEntity pedestal) {

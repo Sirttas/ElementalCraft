@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -16,6 +15,7 @@ import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.container.IElementStorageBlocKEntity;
+import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 
 import javax.annotation.Nonnull;
 
@@ -45,14 +45,20 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
-		if (source.traitHolder.isEmpty() && level instanceof ServerLevel serverLevel) {
+		if (!(level instanceof ServerLevel serverLevel)) {
+			return;
+		}
+		if (source.traitHolder.isEmpty()) {
 			source.initTraits(serverLevel, 0);
 		}
         if (source.elementStorage.isExhausted()) {
 			if (source.traitHolder.isArtificial()) {
-				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+				serverLevel.destroyBlock(pos, false);
 			} else {
-				source.elementStorage.insertElement(source.traitHolder.getRecoverRate(), false);
+				var sourceFlux = serverLevel.getChunkAt(pos).getData(ECDataAttachments.SOURCE_FLUX);
+
+				source.elementStorage.insertElement(Math.round(source.traitHolder.getRecoverRate() * sourceFlux.getRatio()), false);
+				sourceFlux.consume();
 			}
         }
     }

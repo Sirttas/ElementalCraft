@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "e": {
-      "tag": "elementalcraft:gems/fine_earth"
+      "item": "elementalcraft:fine_earth_gem"
     },
     "s": {
       "item": "minecraft:spider_eye"
     },
     "w": {
-      "tag": "elementalcraft:gems/fine_water"
+      "item": "elementalcraft:fine_water_gem"
     }
   },
   "pattern": [

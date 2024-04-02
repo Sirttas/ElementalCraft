@@ -4,7 +4,7 @@
   "icon": "elementalcraft:source_stabilizer",
   "advancement": "elementalcraft:pickup/springaline_shard",
   "turnin": "elementalcraft:pickup/source_stabilizer",
-  "sortnum": 3,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",

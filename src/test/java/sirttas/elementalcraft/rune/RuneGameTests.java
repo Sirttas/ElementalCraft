@@ -22,12 +22,12 @@ public class RuneGameTests {
     public static Collection<TestFunction> should_dropRunes() {
         var index = new AtomicInteger(0);
 
-        return RuneTestHolder.HOLDERS.stream()
+        return RuneTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTestFunction("should_dropRunes#" + index.getAndIncrement(), RuneGameTests::should_dropRunes))
                 .toList();
     }
 
-    private static void should_dropRunes(GameTestHelper helper, RuneTestHolder holder) {
+    private static void should_dropRunes(GameTestHelper helper, RuneTestCaseHolder holder) {
         var pos = holder.pos();
         var runes = holder.runes();
 

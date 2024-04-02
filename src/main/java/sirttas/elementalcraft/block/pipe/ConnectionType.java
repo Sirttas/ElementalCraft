@@ -9,7 +9,8 @@ public enum ConnectionType {
     EXTRACT(3, "extract", true),
     DISCONNECT(4, "disconnect", false);
 
-    private final int value;
+    @Deprecated
+    private final int value; // TODO 1.21 remove
     private final String translationKey;
     private final boolean connected;
 
@@ -23,10 +24,12 @@ public enum ConnectionType {
         return connected;
     }
 
+    @Deprecated
     public int getValue() {
         return value;
     }
 
+    @Deprecated
     public static ConnectionType fromInteger(int x) {
         for (ConnectionType type : values()) {
             if (type.getValue() == x) {

@@ -28,7 +28,7 @@ public class SourceTraitsProvider extends AbstractManagedDataBuilderProvider<Sou
 	@Override
 	protected void collectBuilders(HolderLookup.Provider registries) {
 		builder(SourceTraits.ELEMENT_CAPACITY).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.element_capacity", List.of(SourceTrait.Type.CAPACITY), 500000, 1000000, 25000, 10000));
-		builder(SourceTraits.RECOVER_RATE).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.recover_rate", List.of(SourceTrait.Type.RECOVER_RATE), 50, 200, 7.5f, 10000));
+		builder(SourceTraits.RECOVER_RATE).value(new RangeBasedSourceTraitValueProvider("source_trait.elementalcraft.recover_rate", List.of(SourceTrait.Type.RECOVER_RATE), 200, 500, 7.5f, 10000));
 		builder(SourceTraits.DIURNAL_NOCTURNAL).value(StepsSourceTraitValueProvider.builder()
 				.step("source_trait.elementalcraft.nocturnal.5", 1, 2, Map.of(SourceTrait.Type.RECOVER_RATE, 1/2F, SourceTrait.Type.BREEDING_COST, 1.5F), -5, IBlockPosPredicate.none())
 				.step("source_trait.elementalcraft.nocturnal.4", 3, Map.of(SourceTrait.Type.RECOVER_RATE, 1/1.75F, SourceTrait.Type.BREEDING_COST, 1.4F), -4, IBlockPosPredicate.none())
@@ -44,30 +44,30 @@ public class SourceTraitsProvider extends AbstractManagedDataBuilderProvider<Sou
 				.predicate(new RangeFromSpawnPredicate(100))
 				.build());
 		builder(SourceTraits.GENEROSITY).value(StepsSourceTraitValueProvider.builder()
-				.step("source_trait.elementalcraft.selfish.5", 1, 2, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/1.5F, SourceTrait.Type.BREEDING_COST, 1.5F), -5, IBlockPosPredicate.none())
-				.step("source_trait.elementalcraft.selfish.4", 3, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/1.3F, SourceTrait.Type.BREEDING_COST, 1.4F), -4, IBlockPosPredicate.none())
-				.step("source_trait.elementalcraft.selfish.3", 5, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/1.2F, SourceTrait.Type.BREEDING_COST, 1.3F), -3, new RangeFromSpawnPredicate(2500))
+				.step("source_trait.elementalcraft.selfish.5", 1, 2, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/2F, SourceTrait.Type.BREEDING_COST, 1.5F), -5, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.selfish.4", 3, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/1.5F, SourceTrait.Type.BREEDING_COST, 1.4F), -4, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.selfish.3", 5, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/1.25F, SourceTrait.Type.BREEDING_COST, 1.3F), -3, new RangeFromSpawnPredicate(2500))
 				.step("source_trait.elementalcraft.selfish.2", 10, -1, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/1.1F, SourceTrait.Type.BREEDING_COST, 1.2F), -2, new RangeFromSpawnPredicate(1000))
 				.step("source_trait.elementalcraft.selfish.1", 20, -2, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1/1.05F, SourceTrait.Type.BREEDING_COST, 1.1F), -1)
 				.step("source_trait.elementalcraft.generous.1", 20, -2, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1.05F, SourceTrait.Type.BREEDING_COST, 1.1F), 1)
 				.step("source_trait.elementalcraft.generous.2", 10, -1, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1.1F, SourceTrait.Type.BREEDING_COST, 1.2F), 2, new RangeFromSpawnPredicate(1000))
-				.step("source_trait.elementalcraft.generous.3", 5, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1.2F, SourceTrait.Type.BREEDING_COST, 1.3F), 3, new RangeFromSpawnPredicate(2500))
-				.step("source_trait.elementalcraft.generous.4", 3, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1.3F, SourceTrait.Type.BREEDING_COST, 1.4F), 4, IBlockPosPredicate.none())
-				.step("source_trait.elementalcraft.generous.5", 1, 2, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1.5F, SourceTrait.Type.BREEDING_COST, 1.5F), 5, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.generous.3", 5, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1.25F, SourceTrait.Type.BREEDING_COST, 1.3F), 3, new RangeFromSpawnPredicate(2500))
+				.step("source_trait.elementalcraft.generous.4", 3, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 1.5F, SourceTrait.Type.BREEDING_COST, 1.4F), 4, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.generous.5", 1, 2, Map.of(SourceTrait.Type.EXTRACTION_SPEED, 2F, SourceTrait.Type.BREEDING_COST, 1.5F), 5, IBlockPosPredicate.none())
 				.chance(0.5F, 0.1f)
 				.predicate(new RangeFromSpawnPredicate(500))
 				.build());
 		builder(SourceTraits.THRIFTINESS).value(StepsSourceTraitValueProvider.builder()
-				.step("source_trait.elementalcraft.wasteful.5", 1, 2, Map.of(SourceTrait.Type.PRESERVATION, 1/1.5F, SourceTrait.Type.BREEDING_COST, 1.5F), -5, IBlockPosPredicate.none())
-				.step("source_trait.elementalcraft.wasteful.4", 3, Map.of(SourceTrait.Type.PRESERVATION, 1/1.3F, SourceTrait.Type.BREEDING_COST, 1.4F), -4, IBlockPosPredicate.none())
-				.step("source_trait.elementalcraft.wasteful.3", 5, Map.of(SourceTrait.Type.PRESERVATION, 1/1.2F, SourceTrait.Type.BREEDING_COST, 1.3F), -3, new RangeFromSpawnPredicate(5000))
+				.step("source_trait.elementalcraft.wasteful.5", 1, 2, Map.of(SourceTrait.Type.PRESERVATION, 1/2F, SourceTrait.Type.BREEDING_COST, 1.5F), -5, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.wasteful.4", 3, Map.of(SourceTrait.Type.PRESERVATION, 1/1.5F, SourceTrait.Type.BREEDING_COST, 1.4F), -4, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.wasteful.3", 5, Map.of(SourceTrait.Type.PRESERVATION, 1/1.25F, SourceTrait.Type.BREEDING_COST, 1.3F), -3, new RangeFromSpawnPredicate(5000))
 				.step("source_trait.elementalcraft.wasteful.2", 10, -1, Map.of(SourceTrait.Type.PRESERVATION, 1/1.1F, SourceTrait.Type.BREEDING_COST, 1.2F), -2, new RangeFromSpawnPredicate(2500))
 				.step("source_trait.elementalcraft.wasteful.1", 20, -2, Map.of(SourceTrait.Type.PRESERVATION, 1/1.05F, SourceTrait.Type.BREEDING_COST, 1.1F), -1)
 				.step("source_trait.elementalcraft.thrifty.1", 20, -2, Map.of(SourceTrait.Type.PRESERVATION, 1.05F, SourceTrait.Type.BREEDING_COST, 1.1F), 1)
 				.step("source_trait.elementalcraft.thrifty.2", 10, -1, Map.of(SourceTrait.Type.PRESERVATION, 1.1F, SourceTrait.Type.BREEDING_COST, 1.2F), 2, new RangeFromSpawnPredicate(2500))
-				.step("source_trait.elementalcraft.thrifty.3", 5, Map.of(SourceTrait.Type.PRESERVATION, 1.2F, SourceTrait.Type.BREEDING_COST, 1.3F), 3, new RangeFromSpawnPredicate(5000))
-				.step("source_trait.elementalcraft.thrifty.4", 3, Map.of(SourceTrait.Type.PRESERVATION, 1.3F, SourceTrait.Type.BREEDING_COST, 1.4F), 4, IBlockPosPredicate.none())
-				.step("source_trait.elementalcraft.thrifty.5", 1, 2, Map.of(SourceTrait.Type.PRESERVATION, 1.5F, SourceTrait.Type.BREEDING_COST, 1.5F), 5, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.thrifty.3", 5, Map.of(SourceTrait.Type.PRESERVATION, 1.25F, SourceTrait.Type.BREEDING_COST, 1.3F), 3, new RangeFromSpawnPredicate(5000))
+				.step("source_trait.elementalcraft.thrifty.4", 3, Map.of(SourceTrait.Type.PRESERVATION, 1.5F, SourceTrait.Type.BREEDING_COST, 1.4F), 4, IBlockPosPredicate.none())
+				.step("source_trait.elementalcraft.thrifty.5", 1, 2, Map.of(SourceTrait.Type.PRESERVATION, 2F, SourceTrait.Type.BREEDING_COST, 1.5F), 5, IBlockPosPredicate.none())
 				.chance(0.2F, 0.05f)
 				.predicate(new RangeFromSpawnPredicate(1000))
 				.build());

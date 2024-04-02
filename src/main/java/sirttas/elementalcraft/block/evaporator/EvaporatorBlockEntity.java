@@ -30,15 +30,15 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 	public EvaporatorBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.EVAPORATOR, pos, state);
 		inventory = new SingleStackContainer(this::setChanged);
-		this.elementStorage = new SingleElementStorage(ECConfig.COMMON.shardElementAmount.get() * 20, this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.evaporatorMaxRunes.get(), this::setChanged);
+		this.elementStorage = new SingleElementStorage(ECConfig.SERVER.shardElementAmount.get() * 20, this::setChanged);
+		runeHandler = new RuneHandler(ECConfig.SERVER.evaporatorMaxRunes.get(), this::setChanged);
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, EvaporatorBlockEntity evaporator) {
 		ItemStack stack = evaporator.inventory.getItem(0);
 		Item item = stack.getItem();
 		ElementType type = EvaporatorBlock.getShardElementType(stack);
-		float extractionAmount = evaporator.runeHandler.getTransferSpeed(ECConfig.COMMON.evaporatorExtractionAmount.get());
+		float extractionAmount = evaporator.runeHandler.getTransferSpeed(ECConfig.SERVER.evaporatorExtractionAmount.get());
 
 		if (type != ElementType.NONE && evaporator.elementStorage.getElementAmount() <= extractionAmount) {
 			evaporator.elementStorage.insertElement(evaporator.getShardElementAmount((ShardItem) item), type, false);
@@ -59,7 +59,7 @@ public class EvaporatorBlockEntity extends AbstractIERBlockEntity implements ICo
 	}
 
 	private int getShardElementAmount(ShardItem item) {
-		return Math.round(ECConfig.COMMON.shardElementAmount.get() * item.getElementAmount() * runeHandler.getElementPreservation());
+		return Math.round(ECConfig.SERVER.shardElementAmount.get() * item.getElementAmount() * runeHandler.getElementPreservation());
 	}
 
 	@Nonnull

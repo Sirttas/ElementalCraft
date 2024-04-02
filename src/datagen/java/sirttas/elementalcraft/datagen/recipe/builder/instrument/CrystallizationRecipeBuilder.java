@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import com.google.common.collect.Lists;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -11,25 +12,24 @@ import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
-import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe.ResultEntry;
 
 import java.util.List;
 
 public class CrystallizationRecipeBuilder {
 
-	private final List<ResultEntry> outputs;
-	private final List<Ingredient> ingredients = Lists.newArrayList(Ingredient.EMPTY, Ingredient.EMPTY, Ingredient.EMPTY);
+	private final Item result;
+	private final List<Ingredient> ingredients = Lists.newArrayList(Ingredient.EMPTY, Ingredient.EMPTY);
 	private final ElementType elementType;
 	private int elementAmount;
 
-	public CrystallizationRecipeBuilder(ElementType elementType) {
+	public CrystallizationRecipeBuilder(ItemLike result, ElementType elementType) {
+		this.result = result.asItem();
 		this.elementType = elementType;
 		elementAmount = 5000;
-		outputs = Lists.newArrayList();
 	}
 
-	public static CrystallizationRecipeBuilder crystallizationRecipe(ElementType elementType) {
-		return new CrystallizationRecipeBuilder(elementType);
+	public static CrystallizationRecipeBuilder crystallizationRecipe(ItemLike result, ElementType elementType) {
+		return new CrystallizationRecipeBuilder(result, elementType);
 	}
 
 	public CrystallizationRecipeBuilder withElementAmount(int elementAmount) {
@@ -61,18 +61,6 @@ public class CrystallizationRecipeBuilder {
 		return this.setIngredient(1, ingredient);
 	}
 
-	public CrystallizationRecipeBuilder setShard(TagKey<Item> tag) {
-		return this.setIngredient(2, tag);
-	}
-
-	public CrystallizationRecipeBuilder setShard(ItemLike item) {
-		return this.setIngredient(2, item);
-	}
-
-	public CrystallizationRecipeBuilder setShard(Ingredient ingredient) {
-		return this.setIngredient(2, ingredient);
-	}
-
 	private CrystallizationRecipeBuilder setIngredient(int index, TagKey<Item> tag) {
 		return this.setIngredient(index, Ingredient.of(tag));
 	}
@@ -86,20 +74,22 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public CrystallizationRecipeBuilder addOutput(ItemLike item, float weight) {
-		return addOutput(item, weight, 1);
-	}
+	public void save(RecipeOutput recipeOutput) {
+		ResourceLocation id = BuiltInRegistries.ITEM.getKey(this.result);
 
-	public CrystallizationRecipeBuilder addOutput(ItemLike item, float weight, float quality) {
-		this.outputs.add(CrystallizationRecipe.createResult(new ItemStack(item), weight, quality));
-		return this;
+		this.save(recipeOutput, new ResourceLocation(id.getNamespace(), CrystallizationRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
-		this.save(recipeOutput, ElementalCraftApi.createRL(CrystallizationRecipe.NAME + '/' + save));
+		ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
+		if ((new ResourceLocation(save)).equals(resourcelocation)) {
+			throw new IllegalStateException("Crystalization Recipe " + save + " should remove its 'save' argument");
+		} else {
+			this.save(recipeOutput, ElementalCraftApi.createRL(CrystallizationRecipe.NAME + '/' + save));
+		}
 	}
 
 	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
-		recipeOutput.accept(id, new CrystallizationRecipe(elementType, elementAmount, this.ingredients, this.outputs), null);
+		recipeOutput.accept(id, new CrystallizationRecipe(elementType, elementAmount, this.ingredients, new ItemStack(this.result)), null);
 	}
 }

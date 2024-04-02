@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "tag": "elementalcraft:gems/pristine_air"
+      "item": "elementalcraft:pristine_air_gem"
     },
     "c": {
       "item": "elementalcraft:aircrystal"
     },
     "f": {
-      "tag": "elementalcraft:gems/fine_air"
+      "item": "elementalcraft:fine_air_gem"
     },
     "s": {
       "item": "minecraft:sugar"

@@ -19,7 +19,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 	public static final String NAME = "pure_element_holder";
 
 	public PureElementHolderItem() {
-		super(ECConfig.COMMON.pureElementHolderCapacity::get, ECConfig.COMMON.pureElementHolderTransferAmount::get);
+		super(ECConfig.SERVER.pureElementHolderCapacity::get, ECConfig.SERVER.pureElementHolderTransferAmount::get);
 	}
 
 	@Override

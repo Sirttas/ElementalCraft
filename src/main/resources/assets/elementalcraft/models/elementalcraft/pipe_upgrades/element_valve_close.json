@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "elementalcraft:elementalcraft/pipe_upgrade/pipe_upgrade",
+	"parent": "elementalcraft:elementalcraft/pipe_upgrades/pipe_upgrade",
 	"textures": {
 		"1": "elementalcraft:block/iron",
 		"2": "elementalcraft:block/brass",

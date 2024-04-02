@@ -7,7 +7,9 @@
       "item": "elementalcraft:rune_slate"
     },
     {
-      "tag": "elementalcraft:gems/fine_water"
+      "type": "neoforge:nbt",
+      "item": "elementalcraft:rune",
+      "tag": "{elementalcraft:{rune:\"elementalcraft:claptrap\"}}"
     },
     {
       "tag": "forge:storage_blocks/lapis"

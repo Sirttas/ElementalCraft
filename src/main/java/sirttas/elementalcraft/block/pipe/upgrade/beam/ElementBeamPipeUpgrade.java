@@ -7,6 +7,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeTransferer;
@@ -105,10 +106,16 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    public void onTransfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
+    public int getWeight() {
+        return (int) Math.round(Math.floor(Math.sqrt(this.getPipe().getBlockPos().distSqr(this.other.getPipe().getBlockPos())) / 2));
+    }
+
+    @Override
+    public void onTransfer(ElementType type, int amount, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
         var pipe = this.getPipe();
         var level = pipe.getLevel();
         var otherPipe = this.other != null ? this.other.getPipe() : null;
+        var to = next != null ? next.getPos() : null;
 
         if (level == null || otherPipe == null || !otherPipe.getBlockPos().equals(to) || pipe.isCovered() || otherPipe.isCovered()) {
             return;
@@ -141,7 +148,7 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
         var pos = pipe.getBlockPos().mutable();
         var direction = this.getDirection();
         var opposite = direction.getOpposite();
-        int range = ECConfig.COMMON.elementBeamRange.get();
+        int range = ECConfig.SERVER.elementBeamRange.get();
 
         for (int i = 0; i < range; i++) {
             var transferer = level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pos.move(direction), opposite);

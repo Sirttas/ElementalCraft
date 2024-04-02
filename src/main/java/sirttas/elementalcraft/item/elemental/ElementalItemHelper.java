@@ -11,7 +11,7 @@ public class ElementalItemHelper {
 
     private ElementalItemHelper() {}
 
-    public static Item getCrystalForType(ElementType type) {
+    public static Item getCrystalForElement(ElementType type) {
         return switch (type) {
             case AIR -> ECItems.AIR_CRYSTAL.get();
             case EARTH -> ECItems.EARTH_CRYSTAL.get();
@@ -21,7 +21,7 @@ public class ElementalItemHelper {
         };
     }
 
-    public static Item getShardForType(ElementType type) {
+    public static Item getShardForElement(ElementType type) {
         return switch (type) {
             case AIR -> ECItems.AIR_SHARD.get();
             case EARTH -> ECItems.EARTH_SHARD.get();
@@ -31,7 +31,7 @@ public class ElementalItemHelper {
         };
     }
 
-    public static Item getPowerfulShardForType(ElementType type) {
+    public static Item getPowerfulShardForElement(ElementType type) {
         return switch (type) {
             case AIR -> ECItems.POWERFUL_AIR_SHARD.get();
             case EARTH -> ECItems.POWERFUL_EARTH_SHARD.get();
@@ -41,7 +41,36 @@ public class ElementalItemHelper {
         };
     }
 
-    public static Item getDisplacementPlate(ElementType type) {
+    public static Item getCrudeGemForElement(ElementType type) {
+        return switch (type) {
+            case AIR -> ECItems.CRUDE_AIR_GEM.get();
+            case EARTH -> ECItems.CRUDE_EARTH_GEM.get();
+            case FIRE -> ECItems.CRUDE_FIRE_GEM.get();
+            case WATER -> ECItems.CRUDE_WATER_GEM.get();
+            default -> ECItems.INERT_CRYSTAL.get();
+        };
+    }
+
+    public static Item getFineGemForElement(ElementType type) {
+        return switch (type) {
+            case AIR -> ECItems.FINE_AIR_GEM.get();
+            case EARTH -> ECItems.FINE_EARTH_GEM.get();
+            case FIRE -> ECItems.FINE_FIRE_GEM.get();
+            case WATER -> ECItems.FINE_WATER_GEM.get();
+            default -> throw new IllegalArgumentException(ERROR_MESSAGE);
+        };
+    }
+
+    public static Item getPristineGemForElement(ElementType type) {
+        return switch (type) {
+            case AIR -> ECItems.PRISTINE_AIR_GEM.get();
+            case EARTH -> ECItems.PRISTINE_EARTH_GEM.get();
+            case FIRE -> ECItems.PRISTINE_FIRE_GEM.get();
+            case WATER -> ECItems.PRISTINE_WATER_GEM.get();
+            default -> throw new IllegalArgumentException(ERROR_MESSAGE);
+        };
+    }
+    public static Item getDisplacementPlateForElement(ElementType type) {
         return switch (type) {
             case AIR -> ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE.get().asItem();
             case EARTH -> ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE.get().asItem();

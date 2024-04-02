@@ -34,7 +34,7 @@ public class SolarSynthesizerGameTests {
                     .is(ECItems.FIRE_LENS)
                     .hasDamage(t);
             assertThat(storage.getElementAmount(ElementType.FIRE))
-                    .isEqualTo(t * 10);
+                    .isEqualTo(t * 25);
         })).thenSucceed();
     }
 

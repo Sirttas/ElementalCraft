@@ -42,8 +42,8 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
 
     public SourceBreederBlockEntity(BlockPos pos, BlockState state) {
         super(ECBlockEntityTypes.SOURCE_BREEDER, pos, state);
-        runeHandler = new RuneHandler(ECConfig.COMMON.sourceBreederMaxRunes.get(), this::setChanged);
-        baseCost = ECConfig.COMMON.sourceBreedingBaseCost.get();
+        runeHandler = new RuneHandler(ECConfig.SERVER.sourceBreederMaxRunes.get(), this::setChanged);
+        baseCost = ECConfig.SERVER.sourceBreedingBaseCost.get();
         container = new SourceBreederItemContainer(this::setChanged);
         pedestalWrappers = new EnumMap<>(Direction.class);
         pedestalWrappers.put(Direction.NORTH, new PedestalWrapper(Direction.NORTH));
@@ -129,7 +129,7 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     }
 
     private float getTransferSpeed(SourceBreederPedestalBlockEntity pedestal) {
-        return ECConfig.COMMON.sourceBreederTransferSpeed.get() * (runeHandler.getBonus(Rune.BonusType.SPEED) + pedestal.getRuneHandler().getBonus(Rune.BonusType.SPEED) + 1);
+        return ECConfig.SERVER.sourceBreederTransferSpeed.get() * (runeHandler.getBonus(Rune.BonusType.SPEED) + pedestal.getRuneHandler().getBonus(Rune.BonusType.SPEED) + 1);
     }
 
     private ItemStack breed(ElementType elementType, ISourceTraitHolder source1, ISourceTraitHolder source2) {

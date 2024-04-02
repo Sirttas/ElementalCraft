@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class ECItem extends Item {
+public class ECItem extends Item { // FIXME remove this class
 
 	public ECItem() {
 		this(ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
@@ -82,6 +82,6 @@ public class ECItem extends Item {
 			return Component.translatable("attribute.modifier.take." + attributemodifier.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
 					Component.translatable(attribute.getDescriptionId())).withStyle(ChatFormatting.RED);
 		}
-		return null;
+		return Component.empty();
 	}
 }

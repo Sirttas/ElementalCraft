@@ -151,7 +151,7 @@ public class SpellBookMenu extends AbstractECMenu {
 	}
 
 	public boolean canAddSpell(ItemStack stack, Spell spell) {
-		return stack.is(ECItems.SCROLL.get()) && spell.isValid() && SpellHelper.getSpellCount(stack) < ECConfig.COMMON.spellBookMaxSpell.get();
+		return stack.is(ECItems.SCROLL.get()) && spell.isValid() && SpellHelper.getSpellCount(stack) < ECConfig.SERVER.spellBookMaxSpell.get();
 	}
 	
 	@Override
@@ -230,7 +230,7 @@ public class SpellBookMenu extends AbstractECMenu {
 
 		@Override
 		public int getMaxStackSize() {
-			return ECConfig.COMMON.spellBookMaxSpell.get();
+			return ECConfig.SERVER.spellBookMaxSpell.get();
 		}
 	}
 }

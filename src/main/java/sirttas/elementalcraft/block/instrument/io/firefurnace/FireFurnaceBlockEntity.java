@@ -13,8 +13,8 @@ public class FireFurnaceBlockEntity extends AbstractFireFurnaceBlockEntity<Smelt
 	private static final Config<AbstractFireFurnaceBlockEntity<SmeltingRecipe>, FurnaceRecipeWrapper<SmeltingRecipe>> CONFIG = new Config<>(
 			ECBlockEntityTypes.FIRE_FURNACE,
 			null,
-			ECConfig.COMMON.fireFurnaceTransferSpeed,
-			ECConfig.COMMON.fireFurnaceMaxRunes,
+			ECConfig.SERVER.fireFurnaceTransferSpeed,
+			ECConfig.SERVER.fireFurnaceMaxRunes,
 			1,
 			false,
 			false

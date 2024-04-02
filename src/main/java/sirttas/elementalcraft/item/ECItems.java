@@ -21,7 +21,6 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.ITooltipImageBlock;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
@@ -29,6 +28,7 @@ import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockItem;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
+import sirttas.elementalcraft.item.chisel.ChiselTiers;
 import sirttas.elementalcraft.item.elemental.CrystalItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.item.elemental.FireFuelItem;
@@ -79,7 +79,9 @@ public class ECItems {
 	public static final DeferredHolder<Item, PureElementHolderItem> PURE_HOLDER = register(PureElementHolderItem::new, PureElementHolderItem.NAME);
 	public static final DeferredHolder<Item, PureOreItem> PURE_ORE = register(PureOreItem::new, PureOreItem.NAME);
 	public static final DeferredHolder<Item, RuneItem> RUNE = register(RuneItem::new, RuneItem.NAME);
-	public static final DeferredHolder<Item, ChiselItem> CHISEL = register(ChiselItem::new, ChiselItem.NAME);
+	public static final DeferredHolder<Item, ChiselItem> DRENCHED_IRON_CHISEL = register(() -> new ChiselItem(ChiselTiers.DRENCHED_IRON, new Item.Properties()), ChiselItem.NAME_DRENCHED_IRON);
+	public static final DeferredHolder<Item, ChiselItem> SWIFT_ALLOY_CHISEL = register(() -> new ChiselItem(ChiselTiers.SWIFT_ALLOY, new Item.Properties()), ChiselItem.NAME_SWIFT_ALLOY);
+	public static final DeferredHolder<Item, ChiselItem> FIREITE_CHISEL = register(() -> new ChiselItem(ChiselTiers.FIREITE, new Item.Properties()), ChiselItem.NAME_FIREITE);
 	public static final DeferredHolder<Item, FireFuelItem> ELEMENTAL_FIREFUEL = register(FireFuelItem::new, FireFuelItem.NAME);
 	public static final DeferredHolder<Item, CoverFrameItem> COVER_FRAME = register(CoverFrameItem::new, CoverFrameItem.NAME);
 	public static final DeferredHolder<Item, PipeUpgradeItem> ELEMENT_PUMP = register(PipeUpgradeTypes.ELEMENT_PUMP);
@@ -132,6 +134,7 @@ public class ECItems {
 	public static final DeferredHolder<Item, ElementalItem> PRISTINE_WATER_GEM = register(() -> new ElementalItem(ElementType.WATER), "pristine_water_gem");
 	public static final DeferredHolder<Item, ElementalItem> PRISTINE_EARTH_GEM = register(() -> new ElementalItem(ElementType.EARTH), "pristine_earth_gem");
 	public static final DeferredHolder<Item, ElementalItem> PRISTINE_AIR_GEM = register(() -> new ElementalItem(ElementType.AIR), "pristine_air_gem");
+	public static final DeferredHolder<Item, ECItem> PRISTINE_SHARD = register(ECItem::new, "pristine_shard");
 	public static final DeferredHolder<Item, LensItem> FIRE_LENS = register(() -> new LensItem(ElementType.FIRE), LensItem.NAME_FIRE);
 	public static final DeferredHolder<Item, LensItem> WATER_LENS = register(() -> new LensItem(ElementType.WATER), LensItem.NAME_WATER);
 	public static final DeferredHolder<Item, LensItem> EARTH_LENS = register(() -> new LensItem(ElementType.EARTH), LensItem.NAME_EARTH);
@@ -174,8 +177,6 @@ public class ECItems {
 
 					if (block instanceof AbstractElementContainerBlock containerBlock) {
 						blockItem = new ElementContainerBlockItem(containerBlock, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
-					} else if (block instanceof ITooltipImageBlock) {
-						blockItem = new TooltipImageBlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
 					} else {
 						blockItem = new BlockItem(block, ECProperties.Items.DEFAULT_ITEM_PROPERTIES);
 					}
@@ -222,6 +223,7 @@ public class ECItems {
 	}
 
 	public static void register(IEventBus bus) {
+		DEFERRED_REGISTER.addAlias(ElementalCraftApi.createRL("chisel"), ElementalCraftApi.createRL(ChiselItem.NAME_SWIFT_ALLOY));
 		DEFERRED_REGISTER.register(bus);
 	}
 }

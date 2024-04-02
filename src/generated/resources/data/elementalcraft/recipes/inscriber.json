@@ -3,13 +3,13 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "elementalcraft:strongly_contained_crystal"
+      "item": "elementalcraft:contained_crystal"
     },
     "d": {
       "tag": "forge:gems/diamond"
     },
     "i": {
-      "tag": "forge:ingots/swift_alloy"
+      "tag": "forge:ingots/drenched_iron"
     },
     "w": {
       "item": "elementalcraft:whiterock"

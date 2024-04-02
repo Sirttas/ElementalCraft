@@ -19,7 +19,7 @@ public class ElementValveGameTests {
 
     // elementalcraft:elementvalvegametests.valve
     @GameTest(template = "valve", batch = ElementPipeGameTests.BATCH_NAME)
-    public static void should_transferElements_whenPowered(GameTestHelper helper) {
+    public static void should_transferElements_when_powered(GameTestHelper helper) {
         var ticks = new AtomicInteger(0);
 
         helper.startSequence()
@@ -38,7 +38,7 @@ public class ElementValveGameTests {
 
     // elementalcraft:elementvalvegametests.valve
     @GameTest(template = "valve", batch = ElementPipeGameTests.BATCH_NAME)
-    public static void shouldNot_transferElements_whenNotPowered(GameTestHelper helper) {
+    public static void shouldNot_transferElements_when_notPowered(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecute(() -> helper.setBlock(new BlockPos(1, 2, 0), ECBlocks.CONTAINER.get()))
                 .thenIdle(1)

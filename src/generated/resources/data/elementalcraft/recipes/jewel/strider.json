@@ -9,7 +9,7 @@
       "item": "minecraft:lava_bucket"
     },
     "f": {
-      "tag": "elementalcraft:gems/fine_fire"
+      "item": "elementalcraft:fine_fire_gem"
     }
   },
   "pattern": [

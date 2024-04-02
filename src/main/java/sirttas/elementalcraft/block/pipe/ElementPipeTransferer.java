@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.TickEvent;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -17,14 +18,13 @@ import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeHelper;
-import sirttas.elementalcraft.block.pipe.upgrade.priority.PipePriorityRingsPipeUpgrade;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,6 @@ public class ElementPipeTransferer implements IElementTransferer {
     final ElementPipeBlockEntity pipe;
     final Map<Direction, ConnectionType> connections;
     final Map<Direction, PipeUpgrade> upgrades;
-    final Comparator<Map.Entry<Direction, ConnectionType>> comparator;
     final int maxTransferAmount;
     private boolean initialized;
     int transferedAmount;
@@ -52,11 +51,10 @@ public class ElementPipeTransferer implements IElementTransferer {
         }
 
         this.upgrades = new EnumMap<>(Direction.class);
-        this.comparator = creatComparator();
         this.maxTransferAmount = switch (((ElementPipeBlock) pipe.getBlockState().getBlock()).getType()) {
-            case IMPAIRED -> ECConfig.COMMON.impairedPipeTransferAmount.get();
-            case STANDARD -> ECConfig.COMMON.pipeTransferAmount.get();
-            case IMPROVED -> ECConfig.COMMON.improvedPipeTransferAmount.get();
+            case IMPAIRED -> ECConfig.SERVER.impairedPipeTransferAmount.get();
+            case STANDARD -> ECConfig.SERVER.pipeTransferAmount.get();
+            case IMPROVED -> ECConfig.SERVER.improvedPipeTransferAmount.get();
             case CREATIVE -> Integer.MAX_VALUE;
         };
     }
@@ -78,26 +76,13 @@ public class ElementPipeTransferer implements IElementTransferer {
         }
     }
 
-    private Comparator<Map.Entry<Direction, ConnectionType>> creatComparator() {
-        Comparator<Map.Entry<Direction, ConnectionType>> cmp = (c1, c2) -> Boolean.compare(isPriority(c1.getKey()), isPriority(c2.getKey()));
+    public int getUpgradeWeight(Direction face) {
+        var upgrade = this.getUpgrade(face);
 
-        return cmp.thenComparingInt(c -> c.getValue().getValue());
-    }
-
-    public boolean isPriority(Direction face) { // TODO priority cache ?
-        if (this.getUpgrade(face) instanceof PipePriorityRingsPipeUpgrade) {
-            return true;
+        if (upgrade == null) {
+            return 0;
         }
-
-        var level = pipe.getLevel();
-
-        if (level == null) {
-            return false;
-        }
-
-        var opposite = face.getOpposite();
-
-        return level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pipe.getBlockPos().relative(face), opposite) instanceof ElementPipeTransferer elementPipeTransferer && elementPipeTransferer.getUpgrade(opposite) instanceof PipePriorityRingsPipeUpgrade;
+        return upgrade.getWeight();
     }
 
     public ConnectionType getConnection(Direction face) {
@@ -108,7 +93,7 @@ public class ElementPipeTransferer implements IElementTransferer {
         return connections;
     }
 
-    void init() {
+    synchronized void init() {
         if (initialized) {
             return;
         }
@@ -133,7 +118,6 @@ public class ElementPipeTransferer implements IElementTransferer {
         var pipePos = pipe.getBlockPos();
 
         return this.connections.entrySet().stream()
-                .sorted(this.comparator)
                 .<IElementTransferPathNode>mapMulti((entry, downstream) -> {
                     var side = entry.getKey();
                     var opposite = side.getOpposite();
@@ -144,7 +128,7 @@ public class ElementPipeTransferer implements IElementTransferer {
                     if (foundConnections.isEmpty()) {
                         return;
                     }
-                    foundConnections.forEach(p -> downstream.accept(createNode(level, p,  type, opposite, connection)));
+                    foundConnections.forEach(p -> downstream.accept(createNode(level, p, type, opposite, connection)));
                 }).toList();
     }
 
@@ -185,18 +169,29 @@ public class ElementPipeTransferer implements IElementTransferer {
     }
 
     @Override
-    public void onTransfer(@Nonnull ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
-        if (to != null) {
-            this.connections.forEach((side, connection) -> {
-                var upgrade = this.getUpgrade(side);
-
-                if (upgrade == null || !upgrade.getConnections(type, connection).contains(to)) {
-                    return;
-                }
-                upgrade.onTransfer(type, amount, from, to);
-            });
-        }
+    public void onTransfer(@Nonnull ElementType type, int amount, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
+        getInvolvedUpgrades(type, prev, next).forEach(upgrade -> upgrade.onTransfer(type, amount, prev, next));
         this.transferedAmount += amount;
+    }
+
+    private List<PipeUpgrade> getInvolvedUpgrades(@Nonnull ElementType type, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
+        var list = new ArrayList<PipeUpgrade>(this.connections.size());
+
+        this.connections.forEach((side, connection) -> {
+            var upgrade = this.getUpgrade(side);
+
+            if (upgrade != null && (isUpgradeConnectedTo(upgrade, prev, type, connection) || isUpgradeConnectedTo(upgrade, next, type, connection))) {
+                list.add(upgrade);
+            }
+        });
+        return List.copyOf(list);
+    }
+
+    private static boolean isUpgradeConnectedTo(PipeUpgrade upgrade, @Nullable IElementTransferPathNode to, @NotNull ElementType type, ConnectionType connection) {
+        if (to == null) {
+            return false;
+        }
+        return upgrade.getConnections(type, connection).contains(to.getPos());
     }
 
     @Override
@@ -229,9 +224,6 @@ public class ElementPipeTransferer implements IElementTransferer {
     void load(CompoundTag compound) {
         for (Direction face : Direction.values()) {
             this.setConnection(face, ConnectionType.fromInteger(compound.getInt(face.getSerializedName())));
-            if (compound.getBoolean(face.getSerializedName() + "_priority")) { // TODO 1.20 remove
-                this.setUpgrade(face, new PipePriorityRingsPipeUpgrade(pipe, face));
-            }
             this.setUpgrade(face, PipeUpgradeHelper.load(pipe, face, compound.getCompound(face.getSerializedName() + "_upgrades")));
         }
     }
@@ -261,6 +253,16 @@ public class ElementPipeTransferer implements IElementTransferer {
         @Override
         public IElementStorage getStorage() {
             return storage;
+        }
+
+        @Override
+        public int getWeight(@NotNull ElementType type, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
+            if (!(transferer instanceof ElementPipeTransferer pipeTransferer)) {
+                return 1;
+            }
+            return 1 + pipeTransferer.getInvolvedUpgrades(type, prev, next).stream()
+                    .mapToInt(PipeUpgrade::getWeight)
+                    .sum();
         }
     }
 

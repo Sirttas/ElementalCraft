@@ -18,8 +18,8 @@ public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEnti
     private static final Config<EnchantmentLiquefierBlockEntity, EnchantmentLiquefactionRecipe> CONFIG = new Config<>(
             ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER,
             null,
-            ECConfig.COMMON.enchantmentLiquefierTransferSpeed,
-            ECConfig.COMMON.enchantmentLiquefierMaxRunes,
+            ECConfig.SERVER.enchantmentLiquefierTransferSpeed,
+            ECConfig.SERVER.enchantmentLiquefierMaxRunes,
             1,
             true,
             true

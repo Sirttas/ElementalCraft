@@ -22,8 +22,8 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 	private static final Config<PurifierBlockEntity, IPurifierRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.PURIFIER,
 			null,
-			ECConfig.COMMON.purifierTransferSpeed,
-			ECConfig.COMMON.purifierMaxRunes,
+			ECConfig.SERVER.purifierTransferSpeed,
+			ECConfig.SERVER.purifierMaxRunes,
 			1,
 			false,
 			false

@@ -11,7 +11,7 @@ public class SourceBreederPedestalElementStorage extends StaticElementStorage {
     private final SourceBreederPedestalBlockEntity blockEntity;
 
     public SourceBreederPedestalElementStorage(SourceBreederPedestalBlockEntity blockEntity) {
-        super(ElementType.NONE, ECConfig.COMMON.sourceBreederPedestalCapacity.get(), blockEntity::setChanged);
+        super(ElementType.NONE, ECConfig.SERVER.sourceBreederPedestalCapacity.get(), blockEntity::setChanged);
         this.blockEntity = blockEntity;
     }
 

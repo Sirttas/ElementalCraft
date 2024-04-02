@@ -30,7 +30,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
 	}
 
-	protected List<ItemStack> getTanks() {
+	protected List<ItemStack> getContainers() {
 		return List.of(container);
 	}
 
@@ -49,7 +49,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 		builder.addSlot(RecipeIngredientRole.CATALYST, 30, 24)
 				.addItemStack(instrument);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 30, 40)
-				.addItemStacks(getTanks());
+				.addItemStacks(getContainers());
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 58)
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));

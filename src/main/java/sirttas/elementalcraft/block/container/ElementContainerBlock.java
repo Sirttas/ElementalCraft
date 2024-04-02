@@ -55,7 +55,7 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 
 	@Override
 	public int getDefaultCapacity() {
-		return ECConfig.COMMON.tankCapacity.get();
+		return ECConfig.SERVER.containerCapacity.get();
 	}
 
 	@Override

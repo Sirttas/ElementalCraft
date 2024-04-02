@@ -6,7 +6,7 @@
       "tag": "forge:nuggets/fireite"
     },
     "g": {
-      "tag": "elementalcraft:gems/pristine_earth"
+      "item": "elementalcraft:pristine_earth_gem"
     },
     "s": {
       "item": "elementalcraft:springaline_shard"

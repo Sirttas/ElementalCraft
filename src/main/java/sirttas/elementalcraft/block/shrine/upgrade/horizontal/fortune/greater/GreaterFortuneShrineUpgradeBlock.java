@@ -65,6 +65,6 @@ public class GreaterFortuneShrineUpgradeBlock extends AbstractFortuneShrineUpgra
 
 	@Override
 	public int getFortuneLevel() {
-		return ECConfig.COMMON.greaterFortuneShrineUpgradeLevel.get();
+		return ECConfig.SERVER.greaterFortuneShrineUpgradeLevel.get();
 	}
 }

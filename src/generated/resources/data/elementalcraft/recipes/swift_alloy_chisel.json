@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "h": {
+      "tag": "forge:rods/hardened"
+    },
+    "i": {
+      "tag": "forge:ingots/swift_alloy"
+    },
+    "s": {
+      "item": "elementalcraft:air_silk"
+    }
+  },
+  "pattern": [
+    " i ",
+    " si",
+    "h  "
+  ],
+  "result": {
+    "item": "elementalcraft:swift_alloy_chisel"
+  }
+}

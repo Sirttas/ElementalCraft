@@ -45,11 +45,11 @@ import sirttas.elementalcraft.interaction.jei.category.instrument.BindingRecipeC
 import sirttas.elementalcraft.interaction.jei.category.instrument.CrystallizationRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.EnchantmentLiquefactionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.InscriptionRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.instrument.io.GrindingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.InfusionRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.PurificationRecipeCategory;
-import sirttas.elementalcraft.interaction.jei.category.instrument.io.SawingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.ToolInfusionRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.instrument.io.mill.GrindingRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.instrument.io.mill.SawingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.shrine.BuddingShrineRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.shrine.LavaShrineRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.category.shrine.SpringShrineRecipeCategory;
@@ -170,7 +170,9 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.BINDER_IMPROVED.get()), ECJEIRecipeTypes.BINDING, ECJEIRecipeTypes.INFUSION, ECJEIRecipeTypes.TOOL_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.CRYSTALLIZER.get()), ECJEIRecipeTypes.CRYSTALLIZATION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.INSCRIBER.get()), ECJEIRecipeTypes.INSCRIPTION);
-		registry.addRecipeCatalyst(new ItemStack(ECItems.CHISEL.get()), ECJEIRecipeTypes.INSCRIPTION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.DRENCHED_IRON_CHISEL.get()), ECJEIRecipeTypes.INSCRIPTION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.SWIFT_ALLOY_CHISEL.get()), ECJEIRecipeTypes.INSCRIPTION);
+		registry.addRecipeCatalyst(new ItemStack(ECItems.FIREITE_CHISEL.get()), ECJEIRecipeTypes.INSCRIPTION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.ENCHANTMENT_LIQUEFIER.get()), ECJEIRecipeTypes.ENCHANTMENT_LIQUEFACTION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.PURE_INFUSER.get()), ECJEIRecipeTypes.PURE_INFUSION);
 		registry.addRecipeCatalyst(new ItemStack(ECBlocks.FIRE_PEDESTAL.get()), ECJEIRecipeTypes.PURE_INFUSION);
@@ -243,8 +245,8 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 				ECItems.NATURAL_FIRE_SOURCE_SEED.get(),
 				ECItems.NATURAL_WATER_SOURCE_SEED.get(),
 				ECItems.NATURAL_EARTH_SOURCE_SEED.get(),
-				ECItems.NATURAL_AIR_SOURCE_SEED.get())
-		);
+				ECItems.NATURAL_AIR_SOURCE_SEED.get()
+		));
 	}
 	private List<EnchantmentLiquefactionRecipeCategory.RecipeWrapper> getEnchantmentLiquefactionRecipes(@Nonnull IRecipeRegistration registry) {
 		var stacks = registry.getIngredientManager().getAllItemStacks();

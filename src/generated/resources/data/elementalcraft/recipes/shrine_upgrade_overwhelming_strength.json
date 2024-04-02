@@ -6,7 +6,7 @@
       "item": "elementalcraft:advanced_shrine_upgrade_core"
     },
     "f": {
-      "tag": "elementalcraft:gems/pristine_fire"
+      "item": "elementalcraft:pristine_fire_gem"
     },
     "r": {
       "tag": "forge:rods/blaze"

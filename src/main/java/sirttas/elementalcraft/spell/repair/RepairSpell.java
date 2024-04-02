@@ -58,7 +58,7 @@ public class RepairSpell extends Spell {
     }
 
     private void repairPlayerItems(ItemStack stack) {
-        stack.setDamageValue(stack.getDamageValue() - Math.min((int) (1 /* TODO spell strength property */ * stack.getXpRepairRatio()), stack.getDamageValue()));
+        stack.setDamageValue(stack.getDamageValue() - Math.min((int) (getStrength() * stack.getXpRepairRatio()), stack.getDamageValue()));
     }
 
     private static void playSound(BlockPos offset, Player player) {

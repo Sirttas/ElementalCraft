@@ -25,7 +25,7 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	private final ElementType elementType;
 
 	public ElementHolderItem(ElementType elementType) {
-		super(ECConfig.COMMON.elementHolderCapacity::get, ECConfig.COMMON.elementHolderTransferAmount::get);
+		super(ECConfig.SERVER.elementHolderCapacity::get, ECConfig.SERVER.elementHolderTransferAmount::get);
 		this.elementType = elementType;
 	}
 

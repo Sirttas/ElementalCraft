@@ -23,12 +23,12 @@ public class ElementHolderGameTests {
     public static Collection<TestFunction> should_fillHolder() {
         var index = new AtomicInteger(0);
 
-        return ElementHolderTestHolder.HOLDERS.stream()
+        return ElementHolderTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTestFunction("should_fillHolder#" + index.getAndIncrement(), ECGameTestHelper.EMPTY_CONTAINER_TEMPLATE, ElementHolderGameTests::should_fillHolder))
                 .toList();
     }
 
-    private static void should_fillHolder(GameTestHelper helper, ElementHolderTestHolder holder) {
+    private static void should_fillHolder(GameTestHelper helper, ElementHolderTestCaseHolder holder) {
         var pos = new BlockPos(0, 1, 0);
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
@@ -52,12 +52,12 @@ public class ElementHolderGameTests {
     public static Collection<TestFunction> should_emptyHolder() {
         var index = new AtomicInteger(0);
 
-        return ElementHolderTestHolder.HOLDERS.stream()
+        return ElementHolderTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTestFunction("should_emptyHolder#" + index.getAndIncrement(), ECGameTestHelper.EMPTY_CONTAINER_TEMPLATE, ElementHolderGameTests::should_emptyHolder))
                 .toList();
     }
 
-    private static void should_emptyHolder(GameTestHelper helper, ElementHolderTestHolder holder) {
+    private static void should_emptyHolder(GameTestHelper helper, ElementHolderTestCaseHolder holder) {
         var pos = new BlockPos(0, 1, 0);
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);

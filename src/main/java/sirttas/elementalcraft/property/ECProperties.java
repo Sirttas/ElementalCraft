@@ -46,8 +46,7 @@ public class ECProperties {
 				.strength(2)
 				.sound(SoundType.METAL)
 				.requiresCorrectToolForDrops()
-				.noOcclusion()
-				.randomTicks();
+				.noOcclusion();
 
 		public static final BlockBehaviour.Properties SOURCE = BlockBehaviour.Properties.of()
 				.replaceable()

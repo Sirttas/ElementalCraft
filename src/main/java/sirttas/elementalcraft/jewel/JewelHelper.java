@@ -21,10 +21,10 @@ public class JewelHelper {
 
     @Nonnull
     public static Jewel getJewel(@Nonnull ItemStack stack) {
-        if (stack.isEmpty() || !stack.hasData(ECDataAttachments.JEWEL)) {
+        if (stack.isEmpty()) {
             return Jewels.NONE.get();
         }
-        return stack.getData(ECDataAttachments.JEWEL);
+        return stack.getExistingData(ECDataAttachments.JEWEL).orElseGet(Jewels.NONE::get);
     }
 
     public static void setJewel(@Nonnull ItemStack stack, @Nonnull Jewel jewel) {

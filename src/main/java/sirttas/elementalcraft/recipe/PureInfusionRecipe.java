@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlock;
@@ -81,7 +82,21 @@ public class PureInfusionRecipe implements IContainerBlockEntityRecipe<PureInfus
 
 	@Override
 	public @NotNull ItemStack assemble(@Nonnull PureInfuserBlockEntity inv, @Nonnull RegistryAccess registry) {
-		return this.getResultItem(registry).copy(); // TODO transfer element from ingredients to result
+		var result = this.getResultItem(registry).copy();
+		var target = result.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+
+		if (target == null) {
+			return result;
+		}
+
+		for (var stack : inv.getStacksInPedestals()) {
+			var storage = stack.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+
+			if (storage != null) {
+				storage.transferAll(target);
+			}
+		}
+		return result;
 	}
 
 	public int getElementAmount() {

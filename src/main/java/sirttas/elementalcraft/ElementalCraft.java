@@ -4,6 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
@@ -77,8 +78,8 @@ public class ElementalCraft {
 	public static final IDataManager<IPureOreLoader> PURE_ORE_LOADERS_MANAGER = IDataManager.builder(IPureOreLoader.class, PURE_ORE_LOADERS_MANAGER_KEY)
 			.build();
 
-	public ElementalCraft(IEventBus modBus) {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ECConfig.COMMON_SPEC);
+	public ElementalCraft(IEventBus modBus, ModContainer container) {
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ECConfig.SERVER_SPEC);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ECConfig.CLIENT_SPEC);
 
 		ECBlocks.register(modBus);
@@ -111,6 +112,18 @@ public class ElementalCraft {
 		modBus.addListener(this::setup);
 		modBus.addListener(this::enqueueIMC);
 		NeoForge.EVENT_BUS.addListener(PURE_ORE_MANAGER::reload);
+
+		tryRegisterTestFramework(modBus, container);
+	}
+
+	private void tryRegisterTestFramework(IEventBus modBus, ModContainer container) {
+		try {
+			Class.forName("sirttas.elementalcraft.ElementalCraftTests")
+					.getMethod("registerTestFramework", IEventBus.class, ModContainer.class)
+					.invoke(null, modBus, container);
+		} catch (Exception e) {
+			ElementalCraftApi.LOGGER.debug("Test sourceset not found.");
+		}
 	}
 
 	public static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {

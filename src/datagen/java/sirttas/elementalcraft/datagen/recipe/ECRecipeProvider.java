@@ -233,6 +233,12 @@ public class ECRecipeProvider extends RecipeProvider {
 				.setIngredient(ElementType.EARTH, ECItems.EARTH_CRYSTAL.get())
 				.setIngredient(ElementType.AIR, ECItems.AIR_CRYSTAL.get())
 				.save(recipeOutput);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ECItems.PRISTINE_SHARD.get(), 8)
+				.requires(ECItems.PURE_CRYSTAL.get())
+				.requires(ECTags.Items.CHISELS)
+				.unlockedBy(HAS_PURECRYSTAL, has(ECItems.PURE_CRYSTAL))
+				.save(recipeOutput);
 	}
 
 	private static void registerLenses(@Nonnull RecipeOutput recipeOutput) {
@@ -301,18 +307,36 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("h  ")
 				.unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.save(recipeOutput);
-		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECItems.CHISEL.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECItems.DRENCHED_IRON_CHISEL.get())
+				.define('h', Tags.Items.RODS_WOODEN)
+				.define('s', ECItems.AIR_SILK.get())
+				.define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
+				.pattern(" i ")
+				.pattern(" si")
+				.pattern("h  ")
+				.unlockedBy(HAS_DRENCHED_IRON_INGOT, has(ECTags.Items.INGOTS_DRENCHED_IRON))
+				.save(recipeOutput);
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECItems.SWIFT_ALLOY_CHISEL.get())
 				.define('h', ECTags.Items.HARDENED_RODS)
-				.define('d', Tags.Items.GEMS_DIAMOND)
+				.define('s', ECItems.AIR_SILK.get())
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.pattern(" i ")
-				.pattern(" di")
+				.pattern(" si")
 				.pattern("h  ")
 				.unlockedBy(HAS_SWIFT_ALLOY_INGOT, has(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.save(recipeOutput);
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECItems.FIREITE_CHISEL.get())
+				.define('h', ECTags.Items.HARDENED_RODS)
+				.define('s', ECItems.AIR_SILK.get())
+				.define('i', ECTags.Items.INGOTS_FIREITE)
+				.pattern(" i ")
+				.pattern(" si")
+				.pattern("h  ")
+				.unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE))
+				.save(recipeOutput);
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECBlocks.TRANSLOCATION_ANCHOR.get())
 				.define('w', ECBlocks.WHITE_ROCK.get())
-				.define('g', ECTags.Items.PRISTINE_AIR_GEMS)
+				.define('g', ECItems.PRISTINE_AIR_GEM.get())
 				.define('f', ECTags.Items.NUGGETS_FIREITE)
 				.define('e', Items.ENDER_EYE)
 				.pattern(" e ")
@@ -461,8 +485,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("isi")
 				.pattern("wcw")
 				.save(recipeOutput);
-		prepareWhiterockInstrumentRecipe(ECBlocks.INSCRIBER.get(), ECItems.STRONGLY_CONTAINED_CRYSTAL.get())
-				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
+		prepareWhiterockInstrumentRecipe(ECBlocks.INSCRIBER.get(), ECItems.CONTAINED_CRYSTAL.get())
+				.define('i', ECTags.Items.INGOTS_DRENCHED_IRON)
 				.define('d', Tags.Items.GEMS_DIAMOND)
 				.pattern(" wi")
 				.pattern("wdi")
@@ -472,7 +496,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.define('t', Items.ENCHANTING_TABLE)
 				.define('e', Tags.Items.GEMS_EMERALD)
-				.define('g', ECTags.Items.PRISTINE_WATER_GEMS)
+				.define('g', ECItems.PRISTINE_WATER_GEM.get())
 				.pattern("ege")
 				.pattern("iti")
 				.pattern("wcw")
@@ -493,7 +517,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 		prepareWhiterockInstrumentRecipe(ECBlocks.PURIFIER.get(), ECItems.PURE_CRYSTAL.get())
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
-				.define('e', ECTags.Items.FINE_EARTH_GEMS)
+				.define('e', ECItems.FINE_EARTH_GEM.get())
 				.define('g', Tags.Items.INGOTS_GOLD)
 				.pattern("gig")
 				.pattern("wew")
@@ -511,7 +535,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.FIRE_PEDESTAL.get(), ElementType.FIRE)
 				.addIngredient(ECBlocks.INFUSER.get())
-				.addIngredient(ECTags.Items.FINE_FIRE_GEMS)
+				.addIngredient(ECItems.FINE_FIRE_GEM.get())
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
@@ -519,7 +543,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.WATER_PEDESTAL.get(), ElementType.WATER)
 				.addIngredient(ECBlocks.INFUSER.get())
-				.addIngredient(ECTags.Items.FINE_WATER_GEMS)
+				.addIngredient(ECItems.FINE_WATER_GEM.get())
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
@@ -527,7 +551,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.EARTH_PEDESTAL.get(), ElementType.EARTH)
 				.addIngredient(ECBlocks.INFUSER.get())
-				.addIngredient(ECTags.Items.FINE_EARTH_GEMS)
+				.addIngredient(ECItems.FINE_EARTH_GEM.get())
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
@@ -535,7 +559,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.AIR_PEDESTAL.get(), ElementType.AIR)
 				.addIngredient(ECBlocks.INFUSER.get())
-				.addIngredient(ECTags.Items.FINE_AIR_GEMS)
+				.addIngredient(ECItems.FINE_AIR_GEM.get())
 				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
@@ -565,28 +589,28 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECBlocks.CONTAINER.get())
 				.addIngredient(ECBlocks.SPRINGALINE_GLASS.get())
 				.addIngredient(ECItems.PURE_CRYSTAL.get())
-				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS)
+				.addIngredient(ECItems.PRISTINE_FIRE_GEM.get())
 				.withElementAmount(10000)
 				.save(recipeOutput);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.WATER_RESERVOIR.get(), ElementType.WATER)
 				.addIngredient(ECBlocks.CONTAINER.get())
 				.addIngredient(ECBlocks.SPRINGALINE_GLASS.get())
 				.addIngredient(ECItems.PURE_CRYSTAL.get())
-				.addIngredient(ECTags.Items.PRISTINE_WATER_GEMS)
+				.addIngredient(ECItems.PRISTINE_WATER_GEM.get())
 				.withElementAmount(10000)
 				.save(recipeOutput);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.EARTH_RESERVOIR.get(), ElementType.EARTH)
 				.addIngredient(ECBlocks.CONTAINER.get())
 				.addIngredient(ECBlocks.SPRINGALINE_GLASS.get())
 				.addIngredient(ECItems.PURE_CRYSTAL.get())
-				.addIngredient(ECTags.Items.PRISTINE_EARTH_GEMS)
+				.addIngredient(ECItems.PRISTINE_EARTH_GEM.get())
 				.withElementAmount(10000)
 				.save(recipeOutput);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.AIR_RESERVOIR.get(), ElementType.AIR)
 				.addIngredient(ECBlocks.CONTAINER.get())
 				.addIngredient(ECBlocks.SPRINGALINE_GLASS.get())
 				.addIngredient(ECItems.PURE_CRYSTAL.get())
-				.addIngredient(ECTags.Items.PRISTINE_AIR_GEMS)
+				.addIngredient(ECItems.PRISTINE_AIR_GEM.get())
 				.withElementAmount(10000)
 				.save(recipeOutput);
 	}
@@ -848,9 +872,18 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(ECItems.INERT_CRYSTAL.get()), ECItems.WATER_CRYSTAL.get(), ElementType.WATER)
 				.save(recipeOutput);
+		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(ECItems.INERT_CRYSTAL.get()), ECItems.EARTH_CRYSTAL.get(), ElementType.EARTH)
+				.save(recipeOutput);
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(ECItems.INERT_CRYSTAL.get()), ECItems.AIR_CRYSTAL.get(), ElementType.AIR)
 				.save(recipeOutput);
-		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(ECItems.INERT_CRYSTAL.get()), ECItems.EARTH_CRYSTAL.get(), ElementType.EARTH)
+
+		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(Tags.Items.GEMS_DIAMOND), ECItems.CRUDE_FIRE_GEM.get(), ElementType.FIRE)
+				.save(recipeOutput);
+		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(Tags.Items.GEMS_DIAMOND), ECItems.CRUDE_WATER_GEM.get(), ElementType.WATER)
+				.save(recipeOutput);
+		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(Tags.Items.GEMS_DIAMOND), ECItems.CRUDE_EARTH_GEM.get(), ElementType.EARTH)
+				.save(recipeOutput);
+		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(Tags.Items.GEMS_DIAMOND), ECItems.CRUDE_AIR_GEM.get(), ElementType.AIR)
 				.save(recipeOutput);
 
 		InfusionRecipeBuilder.infusionRecipe(Ingredient.of(Items.STONE), ECBlocks.WHITE_ROCK.get(), ElementType.EARTH)
@@ -892,7 +925,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.LAVA_SHRINE.get(), ElementType.FIRE)
 				.addIngredient(ECBlocks.FIRE_PYLON.get())
 				.addIngredient(ECItems.FIRE_CRYSTAL.get())
-				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS)
+				.addIngredient(ECItems.PRISTINE_FIRE_GEM.get())
 				.addIngredient(Blocks.OBSIDIAN)
 				.addIngredient(Items.LAVA_BUCKET)
 				.addIngredient(Items.BLAZE_ROD)
@@ -901,7 +934,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.HARVEST_SHRINE.get(), ElementType.EARTH)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
-				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
+				.addIngredient(ECItems.CRUDE_EARTH_GEM.get())
 				.addIngredient(Items.DIAMOND_HOE)
 				.addIngredient(Items.SHEARS)
 				.withElementAmount(5000)
@@ -909,7 +942,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.LUMBER_SHRINE.get(), ElementType.EARTH)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
-				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
+				.addIngredient(ECItems.CRUDE_EARTH_GEM.get())
 				.addIngredient(ECItems.DRENCHED_SAW_BLADE.get())
 				.addIngredient(Items.DIAMOND_AXE)
 				.addIngredient(Items.SHEARS)
@@ -918,7 +951,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.ORE_SHRINE.get(), ElementType.EARTH)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
-				.addIngredient(ECTags.Items.PRISTINE_EARTH_GEMS)
+				.addIngredient(ECItems.PRISTINE_EARTH_GEM.get())
 				.addIngredient(Items.DIAMOND_PICKAXE)
 				.withElementAmount(20000)
 				.save(recipeOutput);
@@ -942,7 +975,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.ENDER_LOCK_SHRINE.get(), ElementType.WATER)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.WATER_CRYSTAL.get())
-				.addIngredient(ECTags.Items.FINE_AIR_GEMS)
+				.addIngredient(ECItems.FINE_AIR_GEM.get())
 				.addIngredient(Items.ENDER_EYE)
 				.addIngredient(Items.DRAGON_BREATH)
 				.addIngredient(Items.OBSIDIAN)
@@ -951,7 +984,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.BREEDING_SHRINE.get(), ElementType.EARTH)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
-				.addIngredient(ECTags.Items.CRUDE_WATER_GEMS)
+				.addIngredient(ECItems.CRUDE_WATER_GEM.get())
 				.addIngredient(Tags.Items.CROPS)
 				.addIngredient(Tags.Items.LEATHER)
 				.addIngredient(Items.MILK_BUCKET)
@@ -961,7 +994,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.GROVE_SHRINE.get(), ElementType.WATER)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.WATER_CRYSTAL.get())
-				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
+				.addIngredient(ECItems.CRUDE_EARTH_GEM.get())
 				.addIngredient(ItemTags.FLOWERS)
 				.addIngredient(Tags.Items.SEEDS)
 				.addIngredient(Tags.Items.CROPS)
@@ -975,7 +1008,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.BUDDING_SHRINE.get(), ElementType.EARTH)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
-				.addIngredient(ECTags.Items.CRUDE_WATER_GEMS)
+				.addIngredient(ECItems.CRUDE_WATER_GEM.get())
 				.addIngredient(Items.AMETHYST_BLOCK)
 				.addIngredient(ECItems.SPRINGALINE_SHARD.get())
 				.addIngredient(Tags.Items.GEMS_DIAMOND)
@@ -983,7 +1016,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPAWNING_SHRINE.get(), ElementType.FIRE)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.FIRE_CRYSTAL.get())
-				.addIngredient(ECTags.Items.FINE_EARTH_GEMS)
+				.addIngredient(ECItems.FINE_EARTH_GEM.get())
 				.addIngredient(Items.ROTTEN_FLESH)
 				.addIngredient(Items.SPIDER_EYE)
 				.addIngredient(Items.ENDER_EYE)
@@ -1200,7 +1233,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE.get())
 				.define('C', ECItems.SHRINE_UPGRADE_CORE.get())
 				.define('s', ECBlocks.SPRINGALINE_BLOCK.get())
-				.define('e', ECTags.Items.PRISTINE_EARTH_GEMS)
+				.define('e', ECItems.PRISTINE_EARTH_GEM.get())
 				.define('w', ECBlocks.WHITE_ROCK.get())
 				.define('c', ECItems.WATER_CRYSTAL.get())
 				.pattern("ses")
@@ -1244,7 +1277,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECBlocks.OVERWHELMING_STRENGTH_SHRINE_UPGRADE.get())
 				.define('C', ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get())
-				.define('f', ECTags.Items.PRISTINE_FIRE_GEMS)
+				.define('f', ECItems.PRISTINE_FIRE_GEM.get())
 				.define('r', Tags.Items.RODS_BLAZE)
 				.define('w', ECBlocks.WHITE_ROCK.get())
 				.define('u', ECBlocks.STRENGTH_SHRINE_UPGRADE.get())
@@ -1256,10 +1289,10 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void registerSourceDisplacementPlates(RecipeOutput recipeOutput) {
-		createSourceDisplacementPlate(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, ECTags.Items.PRISTINE_FIRE_GEMS, recipeOutput);
-		createSourceDisplacementPlate(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE, ECTags.Items.PRISTINE_EARTH_GEMS, recipeOutput);
-		createSourceDisplacementPlate(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE, ECTags.Items.PRISTINE_WATER_GEMS, recipeOutput);
-		createSourceDisplacementPlate(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE, ECTags.Items.PRISTINE_AIR_GEMS, recipeOutput);
+		createSourceDisplacementPlate(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE, ECItems.PRISTINE_FIRE_GEM.get(), recipeOutput);
+		createSourceDisplacementPlate(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE, ECItems.PRISTINE_EARTH_GEM.get(), recipeOutput);
+		createSourceDisplacementPlate(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE, ECItems.PRISTINE_WATER_GEM.get(), recipeOutput);
+		createSourceDisplacementPlate(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE, ECItems.PRISTINE_AIR_GEM.get(), recipeOutput);
 	}
 
 	private void registerJewels(RecipeOutput recipeOutput) {
@@ -1277,27 +1310,27 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern(" w ")
 				.pattern("cUc")
 				.pattern(" a ")
-				.define('w', ECTags.Items.FINE_WATER_GEMS)
-				.define('a', ECTags.Items.CRUDE_AIR_GEMS)
+				.define('w', ECItems.FINE_WATER_GEM.get())
+				.define('a', ECItems.CRUDE_AIR_GEM.get())
 				.define('c', ECItems.WATER_CRYSTAL.get()), recipeOutput);
 		createJewelRecipe(Jewels.DOLPHIN, b -> b
 				.pattern(" w ")
 				.pattern("cUc")
 				.pattern(" w ")
-				.define('w', ECTags.Items.CRUDE_WATER_GEMS)
+				.define('w', ECItems.CRUDE_WATER_GEM.get())
 				.define('c', ECItems.WATER_CRYSTAL.get()), recipeOutput);
 		createJewelRecipe(Jewels.LEOPARD, b -> b
 				.pattern(" a ")
 				.pattern("cUc")
 				.pattern(" e ")
-				.define('a', ECTags.Items.FINE_AIR_GEMS)
-				.define('e', ECTags.Items.FINE_EARTH_GEMS)
+				.define('a', ECItems.FINE_AIR_GEM.get())
+				.define('e', ECItems.FINE_EARTH_GEM.get())
 				.define('c', ECItems.AIR_CRYSTAL.get()), recipeOutput);
 		createJewelRecipe(Jewels.PHOENIX, b -> b
 				.pattern("fgf")
 				.pattern("bUb")
 				.pattern("fpf")
-				.define('g', ECTags.Items.PRISTINE_FIRE_GEMS)
+				.define('g', ECItems.PRISTINE_FIRE_GEM.get())
 				.define('b', Tags.Items.RODS_BLAZE)
 				.define('f', Tags.Items.FEATHERS)
 				.define('p', ECItems.PURE_CRYSTAL.get()), recipeOutput);
@@ -1306,21 +1339,21 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("gUg")
 				.pattern("ses")
 				.define('g', Tags.Items.GRAVEL)
-				.define('e', ECTags.Items.CRUDE_EARTH_GEMS)
+				.define('e', ECItems.CRUDE_EARTH_GEM.get())
 				.define('s', Items.SCUTE), recipeOutput);
 		createJewelRecipe(Jewels.DEMIGOD, b -> b
 				.pattern("tat")
 				.pattern("cUc")
 				.pattern("tet")
-				.define('e', ECTags.Items.PRISTINE_EARTH_GEMS)
-				.define('a', ECTags.Items.PRISTINE_AIR_GEMS)
+				.define('e', ECItems.PRISTINE_EARTH_GEM.get())
+				.define('a', ECItems.PRISTINE_AIR_GEM.get())
 				.define('t', Items.TOTEM_OF_UNDYING)
 				.define('c', ECItems.PURE_CRYSTAL.get()), recipeOutput);
 		createJewelRecipe(Jewels.MOLE, b -> b
 				.pattern(" e ")
 				.pattern("sUa")
 				.pattern(" p ")
-				.define('e', ECTags.Items.PRISTINE_EARTH_GEMS)
+				.define('e', ECItems.PRISTINE_EARTH_GEM.get())
 				.define('a', Items.DIAMOND_PICKAXE)
 				.define('s', Items.DIAMOND_SHOVEL)
 				.define('p', ECItems.PURE_CRYSTAL.get()), recipeOutput);
@@ -1328,64 +1361,64 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("sas")
 				.pattern("cUc")
 				.pattern("sfs")
-				.define('a', ECTags.Items.PRISTINE_AIR_GEMS)
+				.define('a', ECItems.PRISTINE_AIR_GEM.get())
 				.define('c', ECItems.AIR_CRYSTAL.get())
-				.define('f', ECTags.Items.FINE_AIR_GEMS)
+				.define('f', ECItems.FINE_AIR_GEM.get())
 				.define('s', Items.SUGAR), recipeOutput);
 		createJewelRecipe(Jewels.BEAR, b -> b
 				.pattern("heh")
 				.pattern("cUc")
 				.pattern("hfh")
-				.define('e', ECTags.Items.PRISTINE_EARTH_GEMS)
+				.define('e', ECItems.PRISTINE_EARTH_GEM.get())
 				.define('c', ECItems.EARTH_CRYSTAL.get())
-				.define('f', ECTags.Items.FINE_EARTH_GEMS)
+				.define('f', ECItems.FINE_EARTH_GEM.get())
 				.define('h', Items.HONEY_BOTTLE), recipeOutput);
 		createJewelRecipe(Jewels.VIPER, b -> b
 				.pattern(" w ")
 				.pattern("sUs")
 				.pattern(" e ")
-				.define('e', ECTags.Items.FINE_EARTH_GEMS)
-				.define('w', ECTags.Items.FINE_WATER_GEMS)
+				.define('e', ECItems.FINE_EARTH_GEM.get())
+				.define('w', ECItems.FINE_WATER_GEM.get())
 				.define('s', Items.SPIDER_EYE), recipeOutput);
 		createJewelRecipe(Jewels.HAWK, b -> b
 				.pattern("gag")
 				.pattern("cUc")
 				.pattern("gag")
-				.define('a', ECTags.Items.FINE_AIR_GEMS)
+				.define('a', ECItems.FINE_AIR_GEM.get())
 				.define('g', Tags.Items.DUSTS_GLOWSTONE)
 				.define('c', ECItems.AIR_CRYSTAL.get()), recipeOutput);
 		createJewelRecipe(Jewels.KIRIN, b -> b
 				.pattern("sfs")
 				.pattern("cUc")
 				.pattern("sas")
-				.define('f', ECTags.Items.PRISTINE_FIRE_GEMS)
-				.define('a', ECTags.Items.PRISTINE_AIR_GEMS)
+				.define('f', ECItems.PRISTINE_FIRE_GEM.get())
+				.define('a', ECItems.PRISTINE_AIR_GEM.get())
 				.define('s', ECItems.SPRINGALINE_SHARD.get())
 				.define('c', ECItems.PURE_CRYSTAL.get()), recipeOutput);
 		createJewelRecipe(Jewels.ARCTIC_HARES, b -> b
 				.pattern(" w ")
 				.pattern("fUf")
 				.pattern(" a ")
-				.define('w', ECTags.Items.FINE_WATER_GEMS)
-				.define('a', ECTags.Items.CRUDE_AIR_GEMS)
+				.define('w', ECItems.FINE_WATER_GEM.get())
+				.define('a', ECItems.CRUDE_AIR_GEM.get())
 				.define('f', Items.RABBIT_FOOT), recipeOutput);
 		createJewelRecipe(Jewels.STRIDER, b -> b
 				.pattern(" f ")
 				.pattern("bUb")
 				.pattern(" f ")
-				.define('f', ECTags.Items.FINE_FIRE_GEMS)
+				.define('f', ECItems.FINE_FIRE_GEM.get())
 				.define('b', Items.LAVA_BUCKET), recipeOutput);
 		createJewelRecipe(Jewels.WATER_STRIDER, b -> b
 				.pattern(" w ")
 				.pattern("bUb")
 				.pattern(" w ")
-				.define('w', ECTags.Items.FINE_WATER_GEMS)
+				.define('w', ECItems.FINE_WATER_GEM.get())
 				.define('b', Items.WATER_BUCKET), recipeOutput);
 		createJewelRecipe(Jewels.BASILISK, b -> b
 				.pattern("fwf")
 				.pattern("cUc")
 				.pattern("sws")
-				.define('w', ECTags.Items.PRISTINE_WATER_GEMS)
+				.define('w', ECItems.PRISTINE_WATER_GEM.get())
 				.define('c', ECItems.PURE_CRYSTAL.get())
 				.define('f', Items.FERMENTED_SPIDER_EYE)
 				.define('s', Items.SCUTE), recipeOutput);
@@ -1394,7 +1427,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("pUp")
 				.pattern("gcg")
 				.define('c', ECItems.FIRE_CRYSTAL.get())
-				.define('f', ECTags.Items.CRUDE_FIRE_GEMS)
+				.define('f', ECItems.CRUDE_FIRE_GEM.get())
 				.define('g', Tags.Items.INGOTS_GOLD)
 				.define('p', Items.PORKCHOP), recipeOutput);
 	}
@@ -1445,83 +1478,83 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.GRAVEL_FALL)
-				.setGem(ECTags.Items.INPUT_EARTH_GEMS)
+				.setGem(Items.DIAMOND)
 				.setCrystal(ECItems.EARTH_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.STONE_WALL)
-				.setGem(ECTags.Items.INPUT_EARTH_GEMS)
+				.setGem(Items.DIAMOND)
 				.setCrystal(ECItems.EARTH_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FIRE_BALL)
-				.setGem(ECTags.Items.INPUT_FIRE_GEMS)
+				.setGem(Items.DIAMOND)
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ITEM_PULL)
-				.setGem(ECTags.Items.FINE_AIR_GEMS)
+				.setGem(ECItems.FINE_AIR_GEM.get())
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ENDER_STRIKE)
-				.setGem(ECTags.Items.CRUDE_AIR_GEMS)
+				.setGem(ECItems.CRUDE_AIR_GEM.get())
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.ANIMAL_GROWTH)
-				.setGem(ECTags.Items.CRUDE_WATER_GEMS)
+				.setGem(ECItems.CRUDE_WATER_GEM.get())
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.TREE_FALL)
-				.setGem(ECTags.Items.FINE_EARTH_GEMS)
+				.setGem(ECItems.FINE_EARTH_GEM.get())
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.PURIFICATION)
-				.setGem(ECTags.Items.CRUDE_WATER_GEMS)
+				.setGem(ECItems.CRUDE_WATER_GEM.get())
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.RIPENING)
-				.setGem(ECTags.Items.INPUT_WATER_GEMS)
+				.setGem(ECItems.CRUDE_EARTH_GEM.get())
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FLAME_CLEAVE)
-				.setGem(ECTags.Items.CRUDE_FIRE_GEMS)
+				.setGem(ECItems.CRUDE_FIRE_GEM.get())
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.INFERNO)
-				.setGem(ECTags.Items.INPUT_FIRE_GEMS)
+				.setGem(Items.DIAMOND)
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.DASH)
-				.setGem(ECTags.Items.FINE_AIR_GEMS)
+				.setGem(ECItems.FINE_AIR_GEM.get())
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SILK_VEIN)
-				.setGem(ECTags.Items.PRISTINE_EARTH_GEMS)
+				.setGem(ECItems.PRISTINE_EARTH_GEM.get())
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.TRANSLOCATION)
-				.setGem(ECTags.Items.PRISTINE_AIR_GEMS)
+				.setGem(ECItems.PRISTINE_AIR_GEM.get())
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.FEATHER_SPIKES)
-				.setGem(ECTags.Items.FINE_AIR_GEMS)
+				.setGem(ECItems.FINE_AIR_GEM.get())
 				.setCrystal(ECItems.EARTH_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.HEAL)
-				.setGem(ECTags.Items.PRISTINE_WATER_GEMS)
+				.setGem(ECItems.PRISTINE_WATER_GEM.get())
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SPEED)
-				.setGem(ECTags.Items.PRISTINE_AIR_GEMS)
+				.setGem(ECItems.PRISTINE_AIR_GEM.get())
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SHOCKWAVE)
-				.setGem(ECTags.Items.CRUDE_AIR_GEMS)
+				.setGem(ECItems.CRUDE_AIR_GEM.get())
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.AIR_SHIELD)
-				.setGem(ECTags.Items.FINE_AIR_GEMS)
+				.setGem(ECItems.FINE_AIR_GEM.get())
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
 				.save(recipeOutput);
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.REPAIR)
-				.setGem(ECTags.Items.PRISTINE_FIRE_GEMS)
+				.setGem(ECItems.PRISTINE_FIRE_GEM.get())
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
 				.save(recipeOutput);
 	}
@@ -1766,139 +1799,123 @@ public class ECRecipeProvider extends RecipeProvider {
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.WII, ElementType.AIR)
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.CRUDE_AIR_GEMS)
+				.addIngredient(ECItems.CRUDE_AIR_GEM.get())
 				.addIngredient(Items.SUGAR)
 				.addIngredient(Items.SUGAR)
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.FUS, ElementType.AIR)
 				.setSlate(ECItems.RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.FINE_AIR_GEMS)
+				.addIngredient(createRuneIngredient(Runes.WII))
 				.addIngredient(Tags.Items.STRING)
 				.addIngredient(Tags.Items.STRING)
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.ZOD, ElementType.AIR)
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.PRISTINE_AIR_GEMS)
+				.addIngredient(createRuneIngredient(Runes.FUS))
 				.addIngredient(ECItems.AIR_SILK.get())
 				.addIngredient(ECItems.AIR_SILK.get())
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.MANX, ElementType.FIRE)
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.CRUDE_FIRE_GEMS)
+				.addIngredient(ECItems.CRUDE_FIRE_GEM.get())
 				.addIngredient(ItemTags.COALS)
 				.addIngredient(ItemTags.COALS)
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.JITA, ElementType.FIRE)
 				.setSlate(ECItems.RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.FINE_FIRE_GEMS)
+				.addIngredient(createRuneIngredient(Runes.MANX))
 				.addIngredient(Items.BLAZE_ROD)
 				.addIngredient(Items.BLAZE_ROD)
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.TANO, ElementType.FIRE)
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.PRISTINE_FIRE_GEMS)
+				.addIngredient(createRuneIngredient(Runes.JITA))
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.SOARYN, ElementType.EARTH)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.CRUDE_EARTH_GEMS)
+				.addIngredient(ECItems.CRUDE_EARTH_GEM.get())
 				.addIngredient(createRuneIngredient(Runes.WII))
 				.addIngredient(createRuneIngredient(Runes.MANX))
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.KAWORU, ElementType.EARTH)
 				.withElementAmount(10000)
 				.setSlate(ECItems.RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.FINE_EARTH_GEMS)
+				.addIngredient(createRuneIngredient(Runes.SOARYN))
 				.addIngredient(createRuneIngredient(Runes.FUS))
 				.addIngredient(createRuneIngredient(Runes.JITA))
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.MEWTWO, ElementType.EARTH)
 				.withElementAmount(20000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.PRISTINE_EARTH_GEMS)
+				.addIngredient(createRuneIngredient(Runes.KAWORU))
 				.addIngredient(createRuneIngredient(Runes.ZOD))
 				.addIngredient(createRuneIngredient(Runes.TANO))
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.CLAPTRAP, ElementType.WATER)
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.CRUDE_WATER_GEMS)
+				.addIngredient(ECItems.CRUDE_WATER_GEM.get())
 				.addIngredient(Tags.Items.GEMS_LAPIS)
 				.addIngredient(Tags.Items.GEMS_LAPIS)
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.BOMBADIL, ElementType.WATER)
 				.setSlate(ECItems.RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.FINE_WATER_GEMS)
+				.addIngredient(createRuneIngredient(Runes.CLAPTRAP))
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS)
 				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS)
 				.save(recipeOutput);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.TZEENTCH, ElementType.WATER)
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
-				.addIngredient(ECTags.Items.PRISTINE_WATER_GEMS)
+				.addIngredient(createRuneIngredient(Runes.BOMBADIL))
 				.addIngredient(Tags.Items.GEMS_EMERALD)
 				.addIngredient(Tags.Items.GEMS_EMERALD)
 				.save(recipeOutput);
 	}
 
 	private void registerCrystallizations(@Nonnull RecipeOutput recipeOutput) {
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.FIRE)
-				.setGem(ECTags.Items.INPUT_FIRE_GEMS)
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.FINE_FIRE_GEM.get(), ElementType.FIRE)
+				.setGem(ECItems.CRUDE_FIRE_GEM.get())
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
-				.setShard(ECTags.Items.FIRE_SHARDS)
-				.addOutput(ECItems.CRUDE_FIRE_GEM.get(), 15, -0.5F)
-				.addOutput(ECItems.FINE_FIRE_GEM.get(), 4)
-				.addOutput(ECItems.PRISTINE_FIRE_GEM.get(), 1, 2)
-				.save(recipeOutput, "fire_gem");
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.WATER)
-				.setGem(ECTags.Items.INPUT_WATER_GEMS)
+				.save(recipeOutput);
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.FINE_WATER_GEM.get(), ElementType.WATER)
+				.setGem(ECItems.CRUDE_WATER_GEM.get())
 				.setCrystal(ECItems.WATER_CRYSTAL.get())
-				.setShard(ECTags.Items.WATER_SHARDS)
-				.addOutput(ECItems.CRUDE_WATER_GEM.get(), 15, -0.5F)
-				.addOutput(ECItems.FINE_WATER_GEM.get(), 4)
-				.addOutput(ECItems.PRISTINE_WATER_GEM.get(), 1, 2)
-				.save(recipeOutput, "water_gem");
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.EARTH)
-				.setGem(ECTags.Items.INPUT_EARTH_GEMS)
+				.save(recipeOutput);
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.FINE_EARTH_GEM.get(), ElementType.EARTH)
+				.setGem(ECItems.CRUDE_EARTH_GEM.get())
 				.setCrystal(ECItems.EARTH_CRYSTAL.get())
-				.setShard(ECTags.Items.EARTH_SHARDS)
-				.addOutput(ECItems.CRUDE_EARTH_GEM.get(), 15, -0.5F)
-				.addOutput(ECItems.FINE_EARTH_GEM.get(), 4)
-				.addOutput(ECItems.PRISTINE_EARTH_GEM.get(), 1, 2)
-				.save(recipeOutput, "earth_gem");
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.AIR)
-				.setGem(ECTags.Items.INPUT_AIR_GEMS)
+				.save(recipeOutput);
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.FINE_AIR_GEM.get(), ElementType.AIR)
+				.setGem(ECItems.CRUDE_AIR_GEM.get())
 				.setCrystal(ECItems.AIR_CRYSTAL.get())
-				.setShard(ECTags.Items.AIR_SHARDS)
-				.addOutput(ECItems.CRUDE_AIR_GEM.get(), 15, -0.5F)
-				.addOutput(ECItems.FINE_AIR_GEM.get(), 4)
-				.addOutput(ECItems.PRISTINE_AIR_GEM.get(), 1, 2)
-				.save(recipeOutput, "air_gem");
+				.save(recipeOutput);
 
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.FIRE)
-				.setGem(ECTags.Items.INPUT_FIRE_GEMS)
-				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.addOutput(ECItems.PRISTINE_FIRE_GEM.get(), 1)
-				.save(recipeOutput, "pristine_fire_gem");
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.WATER)
-				.setGem(ECTags.Items.INPUT_WATER_GEMS)
-				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.addOutput(ECItems.PRISTINE_WATER_GEM.get(), 1)
-				.save(recipeOutput, "pristine_water_gem");
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.EARTH)
-				.setGem(ECTags.Items.INPUT_EARTH_GEMS)
-				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.addOutput(ECItems.PRISTINE_EARTH_GEM.get(), 1)
-				.save(recipeOutput, "pristine_earth_gem");
-		CrystallizationRecipeBuilder.crystallizationRecipe(ElementType.AIR)
-				.setGem(ECTags.Items.INPUT_AIR_GEMS)
-				.setCrystal(ECItems.PURE_CRYSTAL.get())
-				.addOutput(ECItems.PRISTINE_AIR_GEM.get(), 1)
-				.save(recipeOutput, "pristine_air_gem");
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.PRISTINE_FIRE_GEM.get(), ElementType.FIRE)
+				.withElementAmount(10000)
+				.setGem(ECItems.FINE_FIRE_GEM.get())
+				.setCrystal(ECItems.PRISTINE_SHARD.get())
+				.save(recipeOutput);
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.PRISTINE_WATER_GEM.get(), ElementType.WATER)
+				.withElementAmount(10000)
+				.setGem(ECItems.FINE_WATER_GEM.get())
+				.setCrystal(ECItems.PRISTINE_SHARD.get())
+				.save(recipeOutput);
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.PRISTINE_EARTH_GEM.get(), ElementType.EARTH)
+				.withElementAmount(10000)
+				.setGem(ECItems.FINE_EARTH_GEM.get())
+				.setCrystal(ECItems.PRISTINE_SHARD.get())
+				.save(recipeOutput);
+		CrystallizationRecipeBuilder.crystallizationRecipe(ECItems.PRISTINE_AIR_GEM.get(), ElementType.AIR)
+				.withElementAmount(10000)
+				.setGem(ECItems.FINE_AIR_GEM.get())
+				.setCrystal(ECItems.PRISTINE_SHARD.get())
+				.save(recipeOutput);
 	}
 
 	private Ingredient createScrollIngredient(DeferredHolder<Spell, ? extends Spell> spell) {
@@ -2035,7 +2052,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get(), 8)
 				.define('f', ECTags.Items.NUGGETS_FIREITE)
 				.define('s', ECItems.SPRINGALINE_SHARD.get())
-				.define('g', ECTags.Items.PRISTINE_FIRE_GEMS)
+				.define('g', ECItems.PRISTINE_FIRE_GEM.get())
 				.pattern("fsf")
 				.pattern("sgs")
 				.pattern("fsf")
@@ -2044,7 +2061,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get(), 8)
 				.define('f', ECTags.Items.NUGGETS_FIREITE)
 				.define('s', ECItems.SPRINGALINE_SHARD.get())
-				.define('g', ECTags.Items.PRISTINE_WATER_GEMS)
+				.define('g', ECItems.PRISTINE_WATER_GEM.get())
 				.pattern("fsf")
 				.pattern("sgs")
 				.pattern("fsf")
@@ -2053,7 +2070,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get(), 8)
 				.define('f', ECTags.Items.NUGGETS_FIREITE)
 				.define('s', ECItems.SPRINGALINE_SHARD.get())
-				.define('g', ECTags.Items.PRISTINE_EARTH_GEMS)
+				.define('g', ECItems.PRISTINE_EARTH_GEM.get())
 				.pattern("fsf")
 				.pattern("sgs")
 				.pattern("fsf")
@@ -2062,7 +2079,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get(), 8)
 				.define('f', ECTags.Items.NUGGETS_FIREITE)
 				.define('s', ECItems.SPRINGALINE_SHARD.get())
-				.define('g', ECTags.Items.PRISTINE_AIR_GEMS)
+				.define('g', ECItems.PRISTINE_AIR_GEM.get())
 				.pattern("fsf")
 				.pattern("sgs")
 				.pattern("fsf")
@@ -2095,7 +2112,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		return existingFileHelper.exists(BuiltInRegistries.BLOCK.getKey(block), PackType.SERVER_DATA, ".json", "recipes");
 	}
 
-	private void createSourceDisplacementPlate(Supplier<? extends ItemLike> plate, TagKey<Item> gem, RecipeOutput recipeOutput) {
+	private void createSourceDisplacementPlate(Supplier<? extends ItemLike> plate, ItemLike gem, RecipeOutput recipeOutput) {
 		var plateItem = plate.get().asItem();
 
 		prepareWhiterockInstrumentRecipe(plateItem, ECItems.PURE_CRYSTAL.get())

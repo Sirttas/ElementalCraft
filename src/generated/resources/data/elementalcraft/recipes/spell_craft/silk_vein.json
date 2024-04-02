@@ -4,7 +4,7 @@
     "item": "elementalcraft:purecrystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/pristine_earth"
+    "item": "elementalcraft:pristine_earth_gem"
   },
   "output": {
     "Count": 1,

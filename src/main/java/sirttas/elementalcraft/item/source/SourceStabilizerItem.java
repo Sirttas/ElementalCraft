@@ -7,7 +7,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.api.source.ISourceInteractable;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.item.ECItem;
@@ -51,5 +53,10 @@ public class SourceStabilizerItem extends ECItem implements ISourceInteractable 
 					return InteractionResult.PASS;
 				}).orElse(InteractionResult.PASS);
 	}
-	
+
+	@Override
+	public boolean canInteractWithSource(BlockState state) {
+		return state.is(ECBlocks.SOURCE.get());
+	}
+
 }

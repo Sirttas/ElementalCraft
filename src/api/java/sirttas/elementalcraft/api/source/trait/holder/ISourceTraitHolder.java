@@ -12,8 +12,8 @@ public interface ISourceTraitHolder {
     void setTraits(Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits);
     boolean isArtificial();
 
-    default int getRecoverRate() {
-        return Math.round(getTraits(SourceTrait.Type.RECOVER_RATE));
+    default float getRecoverRate() {
+        return getTraits(SourceTrait.Type.RECOVER_RATE);
     }
 
     default int getCapacity() {

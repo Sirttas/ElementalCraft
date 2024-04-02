@@ -208,7 +208,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 
 	@Override
 	public int getDefaultCapacity() {
-		return ECConfig.COMMON.reservoirCapacity.get();
+		return ECConfig.SERVER.reservoirCapacity.get();
 	}
 	
 	@Override

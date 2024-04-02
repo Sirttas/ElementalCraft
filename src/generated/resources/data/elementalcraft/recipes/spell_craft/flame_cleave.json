@@ -4,7 +4,7 @@
     "item": "elementalcraft:firecrystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/crude_fire"
+    "item": "elementalcraft:crude_fire_gem"
   },
   "output": {
     "Count": 1,

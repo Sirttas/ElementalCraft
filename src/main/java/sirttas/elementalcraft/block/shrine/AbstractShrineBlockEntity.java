@@ -56,10 +56,10 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	private int rangeRenderTimer = 0;
 	private BlockPos targetPos;
 
-	protected AbstractShrineBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> upgradeKey) {
+	protected AbstractShrineBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> propertiesKey) {
 		super(blockEntityType, pos, state);
 		elementStorage = new ShrineElementStorage(this);
-		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(upgradeKey);
+		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(propertiesKey);
 		targetPos = pos;
 	}
 

@@ -9,7 +9,7 @@
       "item": "minecraft:water_bucket"
     },
     "w": {
-      "tag": "elementalcraft:gems/fine_water"
+      "item": "elementalcraft:fine_water_gem"
     }
   },
   "pattern": [

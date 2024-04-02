@@ -160,6 +160,10 @@ public class Spell implements IElementTypeProvider {
 	public int getWeight() {
 		return getProperties().weight();
 	}
+
+	public float getStrength() {
+		return getProperties().strength();
+	}
 	
 	public float getRange(@Nullable Entity caster) {
 		int bonus = 0;

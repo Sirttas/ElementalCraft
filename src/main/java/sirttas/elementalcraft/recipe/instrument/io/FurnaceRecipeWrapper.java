@@ -65,7 +65,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Override
 	public int getElementAmount() {
-		return getDuration() * (recipe.getType() == RecipeType.SMELTING ? ECConfig.COMMON.fireFurnaceElementAmount.get() : ECConfig.COMMON.fireBlastFurnaceElementAmount.get());
+		return getDuration() * (recipe.getType() == RecipeType.SMELTING ? ECConfig.SERVER.fireFurnaceElementAmount.get() : ECConfig.SERVER.fireBlastFurnaceElementAmount.get());
 	}
 
 	@Override

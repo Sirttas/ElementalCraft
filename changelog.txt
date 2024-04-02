@@ -1,3 +1,33 @@
+6.2.0:
+
+- new item: pristine shard
+- new item: drenched iron chisel
+- new item: fireite chisel
+- crafting a pure element holder now keeps elements from used holders
+- rework gems and gem crystallizer to better suit mod progression
+- rework inscriber, chisels and runes recipes to better suit mod progression
+- rework pipe pathfinding, output priority should be more intuitive
+- pipe priority rings now prioritize all path passing through them
+- pipes can now be upgraded to the next tier by right clicking them with the next tier pipe in hand
+- drastically increased source recovery
+- source recovery gets reduced the more source recover around each others
+- increased improved extractor ans solar synthesizer element output
+- increased the amount of inert crystal dropped by minning ore to 1-3 from only 1
+- moved common config to server config
+- rework some configs
+- made the inscriber cheaper
+- renamed chisel to swift alloy chisel
+- pipes can now transfer to multiple destinations in the same tick
+- added spell strength property
+- added smoking to pure ore
+- fix source config
+- fix pipe upgrades model in gui
+- fix pipes not refreshing connexions when destination is updated
+- fix fire blast furnace not working
+- fix pure ore only being smeltable in a furnace
+- fix jei for mills
+
+
 6.1.3:
 
 - new block: overwhelming strength shrine upgrade

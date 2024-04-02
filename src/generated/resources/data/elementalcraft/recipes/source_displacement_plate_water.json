@@ -6,7 +6,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "g": {
-      "tag": "elementalcraft:gems/pristine_water"
+      "item": "elementalcraft:pristine_water_gem"
     },
     "s": {
       "tag": "forge:ingots/swift_alloy"

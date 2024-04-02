@@ -5,7 +5,8 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -16,11 +17,13 @@ import java.util.List;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
+@ForEachTest(groups = BinderGameTests.GROUP)
 public class BinderGameTests {
+    public static final String GROUP = "instrument.binder";
 
     // elementalcraft:bindergametests.binder
-    @GameTest(template = "binder", batch = InstrumentGameTestHelper.BATCH_NAME)
+    @TestHolder
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder", batch = InstrumentGameTestHelper.BATCH_NAME)
     public static void should_craftSwiftAlloy(GameTestHelper helper) {
         InstrumentGameTestHelper.<BinderBlockEntity>runInstrument(helper, List.of(
                 new ItemStack(Items.GOLD_INGOT),
@@ -36,7 +39,8 @@ public class BinderGameTests {
     }
 
     // elementalcraft:bindergametests.binder
-    @GameTest(template = "binder", batch = InstrumentGameTestHelper.BATCH_NAME)
+    @TestHolder
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder", batch = InstrumentGameTestHelper.BATCH_NAME)
     public static void should_keepBucketAfterCraftingFirePylon(GameTestHelper helper) {
         InstrumentGameTestHelper.<BinderBlockEntity>runInstrument(helper, List.of(
                 new ItemStack(ECItems.SHRINE_BASE.get()),
@@ -56,7 +60,8 @@ public class BinderGameTests {
     }
 
     // elementalcraft:bindergametests.should_autocraftswiftalloys
-    @GameTest(batch = InstrumentGameTestHelper.BATCH_NAME)
+    @TestHolder
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.should_autocraftswiftalloys", batch = InstrumentGameTestHelper.BATCH_NAME)
     public static void should_autoCraftSwiftAlloys(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             helper.pullLever(0, 3, 0);

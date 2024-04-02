@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
@@ -18,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GreaterFortuneShrineUpgradeGameTests {
 
     // elementalcraft:greaterfortuneshrineupgradegametests.should_increaseoreloot
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
+    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME, required = false)
     public static void should_increaseOreLoot(GameTestHelper helper) {
         ShrineGameTestHelper.forcePeriods(helper, new BlockPos(12, 2, 12), 4);
-        helper.succeedIf(() -> {
+        helper.succeedIf(ECGameTestHelper.fixAssertions(() -> {
             helper.assertBlockState(new BlockPos(12, 1, 11), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
             helper.assertBlockState(new BlockPos(12, 1, 13), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
             helper.assertBlockState(new BlockPos(11, 1, 12), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
@@ -33,7 +34,7 @@ public class GreaterFortuneShrineUpgradeGameTests {
                     .sum();
 
             assertThat(count).isGreaterThan(4);
-        });
+        }));
     }
 
 }

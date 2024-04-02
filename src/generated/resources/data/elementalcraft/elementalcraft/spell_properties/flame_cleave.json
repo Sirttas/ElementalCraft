@@ -20,5 +20,6 @@
   "element_type": "fire",
   "range": 3.0,
   "spell_type": "combat",
+  "strength": 3.0,
   "weight": 15
 }

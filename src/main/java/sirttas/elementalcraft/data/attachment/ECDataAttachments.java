@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.data.attachment;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -8,6 +9,8 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.source.flux.SourceFlux;
+import sirttas.elementalcraft.block.source.flux.SourceFluxModHandler;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.jewel.handler.JewelHandler;
@@ -31,6 +34,15 @@ public class ECDataAttachments {
             return new JewelHandler(entity);
         }
         throw new IllegalArgumentException("JewelHandler can only be attached to an entity.");
+    }).build());
+
+    public static final Supplier<AttachmentType<SourceFlux>> SOURCE_FLUX = DEFERRED_REGISTER.register("source_flux", () -> AttachmentType.serializable(h -> {
+        if (h instanceof LevelChunk chunk) {
+            var pos = chunk.getPos();
+
+            return new SourceFlux(SourceFluxModHandler.getConfig(), pos.x, pos.z);
+        }
+        throw new IllegalArgumentException("SourceFlux can only be attached to a LevelChunk.");
     }).build());
 
     private ECDataAttachments() {}

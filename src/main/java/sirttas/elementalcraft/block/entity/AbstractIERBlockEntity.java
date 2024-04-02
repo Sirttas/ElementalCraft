@@ -42,8 +42,8 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 		super.saveAdditional(compound);
 		IElementStorage elementStorage = getElementStorage();
 		
-		if (elementStorage instanceof INBTSerializable) {
-			compound.put(ECNames.ELEMENT_STORAGE, ((INBTSerializable<?>) elementStorage).serializeNBT());
+		if (elementStorage instanceof INBTSerializable<?> serializable) {
+			compound.put(ECNames.ELEMENT_STORAGE, serializable.serializeNBT());
 		}
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
 	}

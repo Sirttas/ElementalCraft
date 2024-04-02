@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "tag": "elementalcraft:gems/pristine_air"
+      "item": "elementalcraft:pristine_air_gem"
     },
     "c": {
       "item": "elementalcraft:purecrystal"
     },
     "e": {
-      "tag": "elementalcraft:gems/pristine_earth"
+      "item": "elementalcraft:pristine_earth_gem"
     },
     "t": {
       "item": "minecraft:totem_of_undying"

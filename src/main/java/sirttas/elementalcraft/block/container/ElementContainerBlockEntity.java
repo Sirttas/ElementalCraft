@@ -12,7 +12,7 @@ public class ElementContainerBlockEntity extends AbstractElementContainerBlockEn
 
 
 	public ElementContainerBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.CONTAINER, pos, state, self -> new ElementContainerElementStorage((ElementContainerBlockEntity) self, state.getBlock() == ECBlocks.SMALL_CONTAINER.get() ? ECConfig.COMMON.tankSmallCapacity.get() : ECConfig.COMMON.tankCapacity.get()));
+		super(ECBlockEntityTypes.CONTAINER, pos, state, self -> new ElementContainerElementStorage((ElementContainerBlockEntity) self, state.getBlock() == ECBlocks.SMALL_CONTAINER.get() ? ECConfig.SERVER.smallContainerCapacity.get() : ECConfig.SERVER.containerCapacity.get()));
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElem
 		super(ECBlockEntityTypes.PEDESTAL, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
 		elementStorage = new PedestalElementStorage(ElementType.getElementType(state), this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.pedestalMaxRunes.get(), this::setChanged);
+		runeHandler = new RuneHandler(ECConfig.SERVER.pedestalMaxRunes.get(), this::setChanged);
 	}
 
 	@Override

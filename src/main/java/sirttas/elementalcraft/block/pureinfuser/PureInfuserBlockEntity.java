@@ -25,6 +25,7 @@ import sirttas.elementalcraft.recipe.PureInfusionRecipe;
 import javax.annotation.Nonnull;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfuserBlockEntity, PureInfusionRecipe> {
@@ -32,8 +33,8 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	private static final Config<PureInfuserBlockEntity, PureInfusionRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.PURE_INFUSER,
 			ECRecipeTypes.PURE_INFUSION,
-			ECConfig.COMMON.pureInfuserTransferSpeed,
-			ECConfig.COMMON.pureInfuserMaxRunes,
+			ECConfig.SERVER.pureInfuserTransferSpeed,
+			ECConfig.SERVER.pureInfuserMaxRunes,
 			0,
 			true,
 			true
@@ -106,6 +107,13 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		PedestalBlockEntity pedestal = getPedestal(type);
 
 		return pedestal != null ? pedestal.getItem() : ItemStack.EMPTY;
+	}
+
+	public List<ItemStack> getStacksInPedestals() {
+		return pedestalWrappers.values().stream()
+				.filter(w -> w.getElementType() != ElementType.NONE)
+				.map(w -> w.pedestal.getItem())
+				.toList();
 	}
 
 	@VisibleForTesting

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_strongly_contained_crystal": {
+    "has_contained_crystal": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementalcraft:strongly_contained_crystal"
+              "elementalcraft:contained_crystal"
             ]
           }
         ]
@@ -35,7 +35,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_strongly_contained_crystal",
+      "has_contained_crystal",
       "has_whiterock"
     ]
   ],

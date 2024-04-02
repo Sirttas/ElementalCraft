@@ -17,8 +17,8 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, 
 	private static final Config<IInfuser, IInfusionRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.INFUSER,
 			ECRecipeTypes.INFUSION,
-			ECConfig.COMMON.infuserTransferSpeed,
-			ECConfig.COMMON.infuserMaxRunes,
+			ECConfig.SERVER.infuserTransferSpeed,
+			ECConfig.SERVER.infuserMaxRunes,
 			0,
 			true,
 			true

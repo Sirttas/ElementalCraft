@@ -1,0 +1,17 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_amount": 5000,
+  "element_type": "earth",
+  "ingredients": {
+    "crystal": {
+      "item": "elementalcraft:earthcrystal"
+    },
+    "gem": {
+      "item": "elementalcraft:crude_earth_gem"
+    }
+  },
+  "result": {
+    "Count": 1,
+    "id": "elementalcraft:fine_earth_gem"
+  }
+}

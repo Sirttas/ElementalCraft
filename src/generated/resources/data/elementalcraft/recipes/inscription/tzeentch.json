@@ -7,7 +7,9 @@
       "item": "elementalcraft:major_rune_slate"
     },
     {
-      "tag": "elementalcraft:gems/pristine_water"
+      "type": "neoforge:nbt",
+      "item": "elementalcraft:rune",
+      "tag": "{elementalcraft:{rune:\"elementalcraft:bombadil\"}}"
     },
     {
       "tag": "forge:gems/emerald"

@@ -2,22 +2,24 @@ package sirttas.elementalcraft.block.source.trait;
 
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.EmptyTemplate;
 import org.assertj.core.data.Offset;
-import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.stream.IntStream;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
-@PrefixGameTestTemplate(false)
+@ForEachTest(groups = SourceTraitHelperGameTests.GROUP)
 public class SourceTraitHelperGameTests {
+    public static final String GROUP = "source.trait";
 
-    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE)
-    public void breed_should_createArtificialTraitMap(GameTestHelper helper) {
+    @TestHolder
+    @EmptyTemplate
+    @GameTest
+    public static void breed_should_createArtificialTraitMap(GameTestHelper helper) { // TODO use event test instead
         var traits = SourceTraitHelper.breed(helper.getLevel().random, 0, false, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits());
 
         assertThat(traits)
@@ -28,8 +30,10 @@ public class SourceTraitHelperGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE)
-    public void breed_should_createNaturalTraitMap(GameTestHelper helper) {
+    @TestHolder
+    @EmptyTemplate
+    @GameTest
+    public static void breed_should_createNaturalTraitMap(GameTestHelper helper) { // TODO use event test instead
         var traits = SourceTraitHelper.breed(helper.getLevel().random, 0, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits());
 
         assertThat(traits)
@@ -41,8 +45,10 @@ public class SourceTraitHelperGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE, required = false)
-    public void breed_should_addFertilityInAboutOneQuarter_with_luck0(GameTestHelper helper) {
+    @TestHolder
+    @EmptyTemplate
+    @GameTest(required = false)
+    public static void breed_should_addFertilityInAboutOneQuarter_with_luck0(GameTestHelper helper) { // TODO use event test instead
         var fertileCount = IntStream.range(0, 1000)
                 .mapToObj(i -> SourceTraitHelper.breed(helper.getLevel().random, 0, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits()))
                 .filter(traits -> traits.containsKey(SourceTraits.FERTILITY))
@@ -53,8 +59,10 @@ public class SourceTraitHelperGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = ECGameTestHelper.EMPTY_TEMPLATE, required = false)
-    public void breed_should_addFertilityInAboutFiveEighth_with_luck3(GameTestHelper helper) {
+    @TestHolder
+    @EmptyTemplate
+    @GameTest(required = false)
+    public static void breed_should_addFertilityInAboutFiveEighth_with_luck3(GameTestHelper helper) { // TODO use event test instead
         var fertileCount = IntStream.range(0, 1000)
                 .mapToObj(i -> SourceTraitHelper.breed(helper.getLevel().random, 3, true, SourceTraitGameTestHelper.getDefaultTraits(), SourceTraitGameTestHelper.getDefaultTraits()))
                 .filter(traits -> traits.containsKey(SourceTraits.FERTILITY))

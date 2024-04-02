@@ -9,7 +9,7 @@
       "tag": "forge:nuggets/fireite"
     },
     "g": {
-      "tag": "elementalcraft:gems/pristine_air"
+      "item": "elementalcraft:pristine_air_gem"
     },
     "w": {
       "item": "elementalcraft:whiterock"

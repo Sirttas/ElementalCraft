@@ -39,13 +39,13 @@ public class SolarSynthesizerBlockEntity extends AbstractECContainerBlockEntity 
 	private ISingleElementStorage containerCache; // TODO use capability cache
 
 	public SolarSynthesizerBlockEntity(BlockPos pos, BlockState state) {
-		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, ECConfig.COMMON.solarSynthesizerLensElementMultiplier.get(), pos, state);
+		this(ECBlockEntityTypes.SOLAR_SYNTHESIZER, ECConfig.SERVER.solarSynthesizerLensElementMultiplier.get(), pos, state);
 	}
 
 	protected SolarSynthesizerBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, int multiplier, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
-		runeHandler = new RuneHandler(ECConfig.COMMON.solarSynthesizerMaxRunes.get(), this::setChanged);
+		runeHandler = new RuneHandler(ECConfig.SERVER.solarSynthesizerMaxRunes.get(), this::setChanged);
 		this.multiplier = multiplier;
 		working = false;
 	}

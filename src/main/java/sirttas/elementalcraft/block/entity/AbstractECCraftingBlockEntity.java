@@ -125,7 +125,7 @@ public abstract class AbstractECCraftingBlockEntity<T extends ICraftingBlockEnti
 		}
 	}
 
-	public record Config<T extends ICraftingBlockEntity, R extends IContainerBlockEntityRecipe<T>>( // TODO 1.20.2 move to datapack
+	public record Config<T extends ICraftingBlockEntity, R extends IContainerBlockEntityRecipe<T>>( // TODO 1.21 move to datapack
 			Supplier<? extends BlockEntityType<?>> blockEntityType,
 			Supplier<? extends RecipeType<R>> recipeType,
 			Supplier<Integer> transferSpeed,

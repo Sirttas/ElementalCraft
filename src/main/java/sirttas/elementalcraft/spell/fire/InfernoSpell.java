@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -33,14 +34,14 @@ public class InfernoSpell extends Spell {
 						&& caster.distanceToSqr(target) < range * range && getAngle(caster, target) <= 30) {
 					var sources = caster.level().damageSources();
 
-					target.hurt(caster instanceof Player player ? sources.playerAttack(player) : sources.mobAttack(livingSender), 2);
+					target.hurt(caster instanceof Player player ? sources.playerAttack(player) : sources.mobAttack(livingSender), getStrength());
 					target.setSecondsOnFire(1);
 				}
 			}
 			for (int i = 0; i < range; i += 1) {
 				Vec3 scaledLook = look.scale(i);
 				
-				world.levelEvent(null, 2004, livingSender.blockPosition().offset(new Vec3i((int) Math.round(scaledLook.x), (int) Math.round(scaledLook.y), (int) Math.round(scaledLook.z))), 0);
+				world.levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, livingSender.blockPosition().offset(new Vec3i((int) Math.round(scaledLook.x), (int) Math.round(scaledLook.y), (int) Math.round(scaledLook.z))), 0);
 			}
 			return InteractionResult.CONSUME;
 		}

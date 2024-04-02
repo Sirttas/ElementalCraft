@@ -4,7 +4,7 @@
     "item": "elementalcraft:watercrystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/fine_earth"
+    "item": "elementalcraft:fine_earth_gem"
   },
   "output": {
     "Count": 1,

@@ -44,6 +44,7 @@ public class ECTags {
 		public static final TagKey<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
 		public static final TagKey<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
 
+		public static final TagKey<Item> CHISELS = createTag("chisels");
 		public static final TagKey<Item> SPELL_HOLDERS = createTag("spell_holders");
 		public static final TagKey<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
 		public static final TagKey<Item> CRYSTALS = createTag("crystals");
@@ -56,24 +57,6 @@ public class ECTags {
 		public static final TagKey<Item> WATER_SHARDS = createTag("shards/water");
 		public static final TagKey<Item> EARTH_SHARDS = createTag("shards/earth");
 		public static final TagKey<Item> AIR_SHARDS = createTag("shards/air");
-
-		public static final TagKey<Item> CRUDE_FIRE_GEMS = createTag("gems/crude_fire");
-		public static final TagKey<Item> CRUDE_WATER_GEMS = createTag("gems/crude_water");
-		public static final TagKey<Item> CRUDE_EARTH_GEMS = createTag("gems/crude_earth");
-		public static final TagKey<Item> CRUDE_AIR_GEMS = createTag("gems/crude_air");
-		public static final TagKey<Item> FINE_FIRE_GEMS = createTag("gems/fine_fire");
-		public static final TagKey<Item> FINE_WATER_GEMS = createTag("gems/fine_water");
-		public static final TagKey<Item> FINE_EARTH_GEMS = createTag("gems/fine_earth");
-		public static final TagKey<Item> FINE_AIR_GEMS = createTag("gems/fine_air");
-		public static final TagKey<Item> PRISTINE_FIRE_GEMS = createTag("gems/pristine_fire");
-		public static final TagKey<Item> PRISTINE_WATER_GEMS = createTag("gems/pristine_water");
-		public static final TagKey<Item> PRISTINE_EARTH_GEMS = createTag("gems/pristine_earth");
-		public static final TagKey<Item> PRISTINE_AIR_GEMS = createTag("gems/pristine_air");
-		public static final TagKey<Item> INPUT_FIRE_GEMS = createTag("gems/input_fire");
-		public static final TagKey<Item> INPUT_WATER_GEMS = createTag("gems/input_water");
-		public static final TagKey<Item> INPUT_EARTH_GEMS = createTag("gems/input_earth");
-		public static final TagKey<Item> INPUT_AIR_GEMS = createTag("gems/input_air");
-		public static final TagKey<Item> INPUT_GEMS = createTag("gems/input");
 
 		public static final TagKey<Item> RUNE_SLATES = createTag("rune_slates");
 		public static final TagKey<Item> PUREROCKS = createTag("purerocks");

@@ -4,7 +4,7 @@
     "item": "elementalcraft:aircrystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/crude_air"
+    "item": "elementalcraft:crude_air_gem"
   },
   "output": {
     "Count": 1,

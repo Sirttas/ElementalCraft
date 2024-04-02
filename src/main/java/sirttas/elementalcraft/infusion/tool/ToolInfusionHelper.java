@@ -32,10 +32,10 @@ public class ToolInfusionHelper {
 
 	@Nonnull
 	public static ToolInfusion getInfusion(@Nonnull ItemStack stack) {
-		if (stack.isEmpty() || !stack.hasData(ECDataAttachments.TOOL_INFUSION)) {
+		if (stack.isEmpty()) {
 			return ToolInfusion.NONE;
 		}
-		return stack.getData(ECDataAttachments.TOOL_INFUSION);
+		return stack.getExistingData(ECDataAttachments.TOOL_INFUSION).orElse(ToolInfusion.NONE);
 	}
 	
 	public static void setInfusion(@Nonnull ItemStack stack, @Nonnull ToolInfusion infusion) {

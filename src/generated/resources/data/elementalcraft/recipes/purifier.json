@@ -6,7 +6,7 @@
       "item": "elementalcraft:purecrystal"
     },
     "e": {
-      "tag": "elementalcraft:gems/fine_earth"
+      "item": "elementalcraft:fine_earth_gem"
     },
     "g": {
       "tag": "forge:ingots/gold"

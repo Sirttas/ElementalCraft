@@ -30,7 +30,7 @@ public class AoeSpell extends Spell {
 		if (caster instanceof LivingEntity livingSender) {
 			var attribute = livingSender.getAttribute(Attributes.ATTACK_DAMAGE);
 			float damageBase = attribute != null ? (float) attribute.getValue() : 1;
-			float damageMultiplier = (1 + EnchantmentHelper.getSweepingDamageRatio(livingSender));
+			float damageMultiplier = (1 + EnchantmentHelper.getSweepingDamageRatio(livingSender)) * getStrength();
 
 			for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, livingSender.getBoundingBox().inflate(range + 1, 0.25D, range + 1))) {
 				hitTarget(livingSender, target, damageBase, damageMultiplier);

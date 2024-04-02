@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "tag": "elementalcraft:gems/fine_air"
+      "item": "elementalcraft:fine_air_gem"
     },
     "c": {
       "item": "elementalcraft:aircrystal"
     },
     "e": {
-      "tag": "elementalcraft:gems/fine_earth"
+      "item": "elementalcraft:fine_earth_gem"
     }
   },
   "pattern": [

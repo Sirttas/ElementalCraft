@@ -1,72 +1,87 @@
 package sirttas.elementalcraft.api.element.transfer.path;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimpleElementTransferPathfinder {
 
     private ElementType type;
-    private final Deque<AbstractNode> nodes;
-    private final List<ProcessedNode> path;
+    private IElementTransferPathNode source;
+    private final Deque<NodeVisitor> nodes;
+    private final List<Path> paths;
     private final List<IElementTransferer> visited;
     private final Level level;
-    private IElementStorage target;
 
     public SimpleElementTransferPathfinder(Level level) {
         this.type = ElementType.NONE;
+        this.source = null;
         this.level = level;
         this.nodes = new ArrayDeque<>();
-        this.path = new ArrayList<>();
+        this.paths = new LinkedList<>();
         this.visited = new ArrayList<>();
     }
 
-
-    public IElementTransferPath findPath(ElementType type, IElementTransferPathNode source, IElementTransferPathNode first) {
-        if (type != ElementType.NONE) {
-            var profiler = level.getProfiler();
-
-            profiler.push("elementalcraft:simple_element_transfer_pathfinding");
-            this.type = type;
-            this.target = null;
-            this.nodes.clear();
-            this.path.clear();
-            this.visited.clear();
-            nodes.push(new ConnectNode(null, first.getPos(), first.getTransferer()));
-            while (!nodes.isEmpty() && target == null) {
-                nodes.pop().run();
-            }
-            profiler.pop();
-            if (target != null) {
-                path.add(0, ProcessedNode.wrap(source));
-                return new Path(source.getStorage(), target, type, path);
-            }
+    public synchronized List<IElementTransferPath> findPaths(ElementType type, IElementTransferPathNode source, IElementTransferPathNode first) {
+        if (type == ElementType.NONE) {
+            return Collections.emptyList();
         }
-        return InvalidElementTransferPath.INSTANCE;
+
+        var profiler = level.getProfiler();
+
+        profiler.push("elementalcraft:simple_element_transfer_pathfinding");
+        this.type = type;
+        this.source = source;
+        this.nodes.clear();
+        this.paths.clear();
+        this.visited.clear();
+        nodes.push(new NodeVisitor(null, first));
+        while (!nodes.isEmpty()) {
+            nodes.pop().visit();
+        }
+        paths.sort(Comparator.comparing(Path::weight));
+        profiler.pop();
+        return List.copyOf(paths);
     }
 
     private record Path(
             IElementStorage source,
             IElementStorage target,
             ElementType type,
-            List<ProcessedNode> nodes
+            List<IElementTransferPathNode> nodes,
+            int weight
     ) implements IElementTransferPath {
 
-        public Path {
-            nodes = List.copyOf(nodes);
+        public Path(IElementStorage source, IElementStorage target, ElementType type, List<IElementTransferPathNode> nodes) {
+            this(source, target, type, List.copyOf(nodes), getWeight(type, nodes));
+        }
+
+        private static int getWeight(ElementType type, List<IElementTransferPathNode> nodes) {
+            var weight = new AtomicInteger(0);
+
+            IElementTransferPathNode.forEachNodes(nodes, (node, prev, next) -> weight.addAndGet(node.getWeight(type, prev, next)));
+            return weight.get();
         }
 
         @Override
         public boolean isValid() {
-            return !this.nodes.isEmpty() && this.target != null && nodes.stream().allMatch(ProcessedNode::isValid);
+            return !this.nodes.isEmpty() && this.target != null && nodes.stream().allMatch(n -> {
+                var transferer = n.getTransferer();
+
+                return transferer == null || transferer.isValid();
+            });
         }
 
         private int getRemainingTransferAmount() {
@@ -98,96 +113,43 @@ public class SimpleElementTransferPathfinder {
         }
     }
 
-    private record ProcessedNode(
-            IElementTransferer transferer,
-            IElementStorage storage,
-            BlockPos pos
-    ) implements IElementTransferPathNode {
+    private class NodeVisitor {
 
-        public static ProcessedNode wrap(IElementTransferPathNode node) {
-            return new ProcessedNode(node.getTransferer(), node.getStorage(), node.getPos());
-        }
-        public boolean isValid() {
-            return transferer == null || transferer.isValid();
-        }
+        final NodeVisitor parent;
+        final IElementTransferPathNode node;
 
-        @Override
-        public BlockPos getPos() {
-            return pos;
-        }
-
-        @Override
-        public IElementTransferer getTransferer() {
-            return transferer;
-        }
-
-        @Override
-        public IElementStorage getStorage() {
-            return storage;
-        }
-    }
-
-    private abstract class AbstractNode implements Runnable {
-
-        protected final ConnectNode parent;
-        protected final BlockPos pos;
-
-        private AbstractNode(ConnectNode parent, BlockPos pos) {
+        private NodeVisitor(NodeVisitor parent, IElementTransferPathNode node) {
             this.parent = parent;
-            this.pos = pos;
-        }
-    }
-
-    private class InsertNode extends AbstractNode {
-
-        private final IElementStorage storage;
-
-        private InsertNode(ConnectNode parent, BlockPos pos, IElementStorage storage) {
-            super(parent, pos);
-            this.storage = storage;
+            this.node = node;
         }
 
-        @Override
-        public void run() {
-            target = storage;
+        public void visit() {
+            var storage = node.getStorage();
 
+            if (storage != null) {
+                paths.add(createPath(storage));
+            }
+
+            var transferer = node.getTransferer();
+
+            if (transferer != null && !visited.contains(transferer) && transferer.isValid()) {
+                transferer.getConnectedNodes(type).forEach(n -> nodes.push(new NodeVisitor(this, n)));
+                visited.add(transferer);
+            }
+        }
+
+        @NotNull
+        private Path createPath(IElementStorage storage) {
+            var list = new LinkedList<IElementTransferPathNode>();
+
+            list.add(source);
             var p = parent;
             while (p != null) {
-                path.add(new ProcessedNode(p.transferer, null, p.pos));
+                list.add(p.node);
                 p = p.parent;
             }
-            path.add(new ProcessedNode(null, storage, pos));
+            list.add(node);
+            return new Path(source.getStorage(), storage, type, list);
         }
     }
-
-    private class ConnectNode extends AbstractNode {
-
-        private final IElementTransferer transferer;
-
-        private ConnectNode(ConnectNode parent, BlockPos pos, IElementTransferer transferer) {
-            super(parent, pos);
-            this.transferer = transferer;
-        }
-
-        @Override
-        public void run() {
-            transferer.getConnectedNodes(type).forEach(node -> {
-                var nodePos = node.getPos();
-                var nodeStorage = node.getStorage();
-
-                if (nodeStorage != null && nodeStorage.insertElement(1, type, true) == 0) {
-                    nodes.push(new InsertNode(this, nodePos, nodeStorage));
-                }
-
-                var nodeTransferer = node.getTransferer();
-
-                if (nodeTransferer != null && !visited.contains(nodeTransferer) && nodeTransferer.isValid()) {
-                    visited.add(nodeTransferer);
-                    nodes.push(new ConnectNode(this, nodePos, nodeTransferer));
-                }
-            });
-        }
-
-    }
-
 }

@@ -56,6 +56,10 @@ public class ItemHandlerAssert extends AbstractAssert<ItemHandlerAssert, IItemHa
         return true;
     }
 
+    public ItemStackAssert stackInSlot(int slot) {
+        return ItemStackAssert.assertThat(actual.getStackInSlot(slot));
+    }
+
     public ItemHandlerAssert contains(int slot, ItemLike item) {
         isNotNull();
 

@@ -29,4 +29,8 @@ public class PipePriorityRingsPipeUpgrade extends PipeUpgrade {
         return SHAPES.get(this.getDirection());
     }
 
+    @Override
+    public int getWeight() {
+        return -1000;
+    }
 }

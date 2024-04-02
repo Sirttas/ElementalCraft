@@ -28,6 +28,7 @@ import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -61,8 +62,8 @@ public class ECBlockLoot extends BlockLootSubProvider {
 
 	@Override
 	protected void generate() {
-		add(ECBlocks.CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
-		add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), b -> createOreDrop(b, ECItems.INERT_CRYSTAL.get()));
+		add(ECBlocks.CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
+		add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
 		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createIER);
 		add(ECBlocks.CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
 		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
@@ -118,6 +119,19 @@ public class ECBlockLoot extends BlockLootSubProvider {
 				dropSelf(block);
 			}
 		}
+	}
+
+	@Nonnull
+	private LootTable.Builder createInertCrystalOreDrops(Block block) {
+		return createSilkTouchDispatchTable(
+				block,
+				this.applyExplosionDecay(
+						block,
+						LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get())
+								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)))
+								.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+				)
+		);
 	}
 
 	@Nonnull

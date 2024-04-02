@@ -19,8 +19,8 @@ public class AnimalGrowthSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
-		if (target instanceof Animal && ((Animal) target).isBaby()) {
-			((Animal) target).setAge(0);
+		if (target instanceof Animal animal && animal.isBaby()) {
+			animal.setAge(0);
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;

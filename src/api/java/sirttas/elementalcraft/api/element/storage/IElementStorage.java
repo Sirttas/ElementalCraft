@@ -56,7 +56,9 @@ public interface IElementStorage {
 	}
 	
 	default boolean isEmpty() {
-		return ElementType.ALL_VALID.stream().mapToInt(this::getElementAmount).allMatch(i -> i <= 0);
+		return ElementType.ALL_VALID.stream()
+				.mapToInt(this::getElementAmount)
+				.allMatch(i -> i <= 0);
 	}
 
 	default void fill() {
@@ -75,5 +77,11 @@ public interface IElementStorage {
 			return EmptyElementStorage.getSingle(type);
 		}
 		return new SingleElementStorageWrapper(type, this);
+	}
+
+	default int transferAll(IElementStorage target) {
+		return ElementType.ALL_VALID.stream()
+				.mapToInt(type -> transferTo(target, type, getElementAmount(type)))
+				.sum();
 	}
 }

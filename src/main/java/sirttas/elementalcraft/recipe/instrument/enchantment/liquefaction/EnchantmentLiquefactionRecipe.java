@@ -39,16 +39,16 @@ public class EnchantmentLiquefactionRecipe extends AbstractInstrumentRecipe<Ench
         this.enchantment = enchantment;
         this.enchantmentId = BuiltInRegistries.ENCHANTMENT.getKey(enchantment);
         this.elementAmount = Lazy.of(() -> switch (this.enchantment.getRarity()) {
-            case COMMON -> ECConfig.COMMON.enchantmentLiquefierElementAmountCommon.get();
-            case UNCOMMON -> ECConfig.COMMON.enchantmentLiquefierElementAmountUncommon.get();
-            case RARE -> ECConfig.COMMON.enchantmentLiquefierElementAmountRare.get();
-            case VERY_RARE -> ECConfig.COMMON.enchantmentLiquefierElementAmountVeryRare.get();
+            case COMMON -> ECConfig.SERVER.enchantmentLiquefierElementAmountCommon.get();
+            case UNCOMMON -> ECConfig.SERVER.enchantmentLiquefierElementAmountUncommon.get();
+            case RARE -> ECConfig.SERVER.enchantmentLiquefierElementAmountRare.get();
+            case VERY_RARE -> ECConfig.SERVER.enchantmentLiquefierElementAmountVeryRare.get();
         });
         this.breakChance = Lazy.of(() -> switch (this.enchantment.getRarity()) {
-            case COMMON -> ECConfig.COMMON.enchantmentLiquefierBreakChanceCommon.get();
-            case UNCOMMON -> ECConfig.COMMON.enchantmentLiquefierBreakChanceUncommon.get();
-            case RARE -> ECConfig.COMMON.enchantmentLiquefierBreakChanceRare.get();
-            case VERY_RARE -> ECConfig.COMMON.enchantmentLiquefierBreakChanceVeryRare.get();
+            case COMMON -> ECConfig.SERVER.enchantmentLiquefierBreakChanceCommon.get();
+            case UNCOMMON -> ECConfig.SERVER.enchantmentLiquefierBreakChanceUncommon.get();
+            case RARE -> ECConfig.SERVER.enchantmentLiquefierBreakChanceRare.get();
+            case VERY_RARE -> ECConfig.SERVER.enchantmentLiquefierBreakChanceVeryRare.get();
         });
     }
 

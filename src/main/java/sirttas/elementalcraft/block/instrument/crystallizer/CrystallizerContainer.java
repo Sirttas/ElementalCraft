@@ -15,12 +15,8 @@ public class CrystallizerContainer extends InstrumentContainer {
 	private static final List<Ingredient> FIRST_SLOT_ITEMS = new ArrayList<>();
 	private static final List<Ingredient> SECOND_SLOT_ITEMS = new ArrayList<>();
 
-
-	private final CrystallizerBlockEntity crystallizer;
-
 	public CrystallizerContainer(CrystallizerBlockEntity crystallizer) {
-		super(crystallizer::setChanged, 12);
-		this.crystallizer = crystallizer;
+		super(crystallizer::setChanged, 2);
 	}
 
 	@Override
@@ -30,7 +26,7 @@ public class CrystallizerContainer extends InstrumentContainer {
 		} else if (slot == 1) {
 			return SECOND_SLOT_ITEMS.isEmpty() || SECOND_SLOT_ITEMS.stream().anyMatch(i -> i.test(stack));
 		}
-		return crystallizer.isValidShard(stack);
+		return false;
 	}
 
 	public static void reload(RecipeManager recipeManager) {
@@ -50,5 +46,4 @@ public class CrystallizerContainer extends InstrumentContainer {
 			}
 		}
 	}
-
 }

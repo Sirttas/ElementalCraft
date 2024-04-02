@@ -37,7 +37,7 @@ public class DisplacementRecipeCategory extends AbstractECRecipeCategory<Element
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementType type, @Nonnull IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0).addIngredient(ECIngredientTypes.SOURCE, new IngredientSource(type));
-		builder.addSlot(RecipeIngredientRole.INPUT, 0, 16).addItemStack(new ItemStack(ElementalItemHelper.getDisplacementPlate(type)));
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 16).addItemStack(new ItemStack(ElementalItemHelper.getDisplacementPlateForElement(type)));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 0).addItemStack(ReceptacleHelper.create(type));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 16).addItemStack(new ItemStack(ECBlocks.BROKEN_SOURCE_DISPLACEMENT_PLATE.get()));
 	}

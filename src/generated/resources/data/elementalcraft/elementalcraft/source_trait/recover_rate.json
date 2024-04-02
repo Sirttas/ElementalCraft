@@ -5,10 +5,10 @@
     "bonus_type": [
       "recover_rate"
     ],
-    "end": 200.0,
+    "end": 500.0,
     "luck_ratio": 7.5,
     "name": "source_trait.elementalcraft.recover_rate",
-    "start": 50.0,
+    "start": 200.0,
     "weight": 10000.0
   }
 }

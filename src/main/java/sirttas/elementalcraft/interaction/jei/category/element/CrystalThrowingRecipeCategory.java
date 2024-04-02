@@ -32,8 +32,8 @@ public class CrystalThrowingRecipeCategory extends AbstractECRecipeCategory<Elem
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementType type, @Nonnull IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 2, 27).addItemStack(new ItemStack(ElementalItemHelper.getCrystalForType(type)));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 67, 27).addItemStack(new ItemStack(ElementalItemHelper.getPowerfulShardForType(type)));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 27).addItemStack(new ItemStack(ElementalItemHelper.getShardForType(type)));
+        builder.addSlot(RecipeIngredientRole.INPUT, 2, 27).addItemStack(new ItemStack(ElementalItemHelper.getCrystalForElement(type)));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 67, 27).addItemStack(new ItemStack(ElementalItemHelper.getPowerfulShardForElement(type)));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 27).addItemStack(new ItemStack(ElementalItemHelper.getShardForElement(type)));
     }
 }

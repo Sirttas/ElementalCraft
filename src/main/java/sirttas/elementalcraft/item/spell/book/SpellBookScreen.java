@@ -30,7 +30,7 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 
 	@Override
 	protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int x, int y) {
-		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.COMMON.spellBookMaxSpell.get()));
+		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.SERVER.spellBookMaxSpell.get()));
 
 		super.renderLabels(guiGraphics, x, y);
 		guiGraphics.drawString(font, text, this.imageWidth - this.font.width(text.getVisualOrderText()) - this.titleLabelX, this.titleLabelY, 4210752);

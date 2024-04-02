@@ -6,13 +6,13 @@
       "item": "elementalcraft:unset_jewel"
     },
     "a": {
-      "tag": "elementalcraft:gems/pristine_air"
+      "item": "elementalcraft:pristine_air_gem"
     },
     "c": {
       "item": "elementalcraft:purecrystal"
     },
     "f": {
-      "tag": "elementalcraft:gems/pristine_fire"
+      "item": "elementalcraft:pristine_fire_gem"
     },
     "s": {
       "item": "elementalcraft:springaline_shard"

@@ -9,10 +9,10 @@
       "item": "elementalcraft:earthcrystal"
     },
     "e": {
-      "tag": "elementalcraft:gems/pristine_earth"
+      "item": "elementalcraft:pristine_earth_gem"
     },
     "f": {
-      "tag": "elementalcraft:gems/fine_earth"
+      "item": "elementalcraft:fine_earth_gem"
     },
     "h": {
       "item": "minecraft:honey_bottle"

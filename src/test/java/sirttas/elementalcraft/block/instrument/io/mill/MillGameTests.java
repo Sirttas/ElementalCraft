@@ -21,12 +21,12 @@ public class MillGameTests {
     public static Collection<TestFunction> should_mill() {
         var index = new AtomicInteger(0);
 
-        return MillTestHolder.HOLDERS.stream()
+        return MillTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTestFunction("should_mill#" + index.getAndIncrement(), MillGameTests::should_mill))
                 .toList();
     }
 
-    public static void should_mill(GameTestHelper helper, MillTestHolder holder) {
+    public static void should_mill(GameTestHelper helper, MillTestCaseHolder holder) {
         InstrumentGameTestHelper.<AbstractMillBlockEntity<?, ?>>runInstrument(helper, new ItemStack(holder.input()), holder.type(), mill -> {
             assertThat(mill.getInventory().getItem(0)).isEmpty();
             assertThat(mill.getInventory().getItem(1))
@@ -39,12 +39,12 @@ public class MillGameTests {
     public static Collection<TestFunction> shouldNot_mill_with_wrongElement() {
         var index = new AtomicInteger(0);
 
-        return MillTestHolder.HOLDERS.stream()
+        return MillTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTestFunction("shouldNot_mill_with_wrongElement#" + index.getAndIncrement(), MillGameTests::shouldNot_mill_with_wrongElement))
                 .toList();
     }
 
-    public static void shouldNot_mill_with_wrongElement(GameTestHelper helper, MillTestHolder holder) {
+    public static void shouldNot_mill_with_wrongElement(GameTestHelper helper, MillTestCaseHolder holder) {
         var type = holder.type() == ElementType.AIR ? ElementType.WATER : ElementType.AIR;
 
         InstrumentGameTestHelper.<AbstractMillBlockEntity<?, ?>>runInstrument(helper, new ItemStack(holder.input()), type, false, mill -> {

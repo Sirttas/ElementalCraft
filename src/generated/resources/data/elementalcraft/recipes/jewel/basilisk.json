@@ -15,7 +15,7 @@
       "item": "minecraft:scute"
     },
     "w": {
-      "tag": "elementalcraft:gems/pristine_water"
+      "item": "elementalcraft:pristine_water_gem"
     }
   },
   "pattern": [

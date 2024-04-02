@@ -12,7 +12,7 @@
       "tag": "forge:feathers"
     },
     "g": {
-      "tag": "elementalcraft:gems/pristine_fire"
+      "item": "elementalcraft:pristine_fire_gem"
     },
     "p": {
       "item": "elementalcraft:purecrystal"

@@ -6,7 +6,7 @@
       "item": "elementalcraft:unset_jewel"
     },
     "e": {
-      "tag": "elementalcraft:gems/crude_earth"
+      "item": "elementalcraft:crude_earth_gem"
     },
     "g": {
       "tag": "forge:gravel"

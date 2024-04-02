@@ -16,7 +16,7 @@ public interface IElementTransferer {
 		return Integer.MAX_VALUE;
 	}
 
-	default void onTransfer(@Nonnull ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) { }
+	default void onTransfer(@Nonnull ElementType type, int amount, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) { }
 
 	default boolean canConnectTo(@Nonnull BlockPos to) {
 		return true;

@@ -18,8 +18,8 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 	private static final Config<InscriberBlockEntity, InscriptionRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.INSCRIBER,
 			ECRecipeTypes.INSCRIPTION,
-			ECConfig.COMMON.inscriberTransferSpeed,
-			ECConfig.COMMON.inscriberMaxRunes,
+			ECConfig.SERVER.inscriberTransferSpeed,
+			ECConfig.SERVER.inscriberMaxRunes,
 			0,
 			true,
 			true

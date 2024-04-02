@@ -9,11 +9,13 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.phys.BlockHitResult;
@@ -22,6 +24,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.EventHooks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
@@ -110,5 +113,9 @@ public class EntityHelper {
 
 	public static boolean isFighting(Entity entity, int ticks) {
 		return entity instanceof LivingEntity livingEntity && livingEntity.attackStrengthTicker < ticks;
+	}
+
+	public static void dropAtFeet(@NotNull Level level, @NotNull Entity entity, @NotNull ItemStack stack) {
+		level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY() + 0.25, entity.getZ(), stack));
 	}
 }

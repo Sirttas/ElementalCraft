@@ -7,7 +7,9 @@
       "item": "elementalcraft:major_rune_slate"
     },
     {
-      "tag": "elementalcraft:gems/pristine_fire"
+      "type": "neoforge:nbt",
+      "item": "elementalcraft:rune",
+      "tag": "{elementalcraft:{rune:\"elementalcraft:jita\"}}"
     },
     {
       "tag": "forge:storage_blocks/coal"

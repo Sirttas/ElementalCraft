@@ -14,8 +14,8 @@ public class WaterMillWoodSawBlockEntity extends AbstractMillWoodSawBlockEntity 
 	private static final Config<AbstractMillWoodSawBlockEntity, SawingRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.WATER_MILL_WOOD_SAW,
 			ECRecipeTypes.SAWING,
-			ECConfig.COMMON.waterMillsTransferSpeed,
-			ECConfig.COMMON.waterMillsMaxRunes,
+			ECConfig.SERVER.waterMillsTransferSpeed,
+			ECConfig.SERVER.waterMillsMaxRunes,
 			1,
 			false,
 			false

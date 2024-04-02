@@ -3,6 +3,7 @@ package sirttas.elementalcraft.pureore;
 import com.google.common.collect.Iterables;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -21,6 +21,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactory;
 import sirttas.elementalcraft.color.ECColorHelper;
 import sirttas.elementalcraft.config.ECConfig;
@@ -140,7 +141,7 @@ public class PureOreManager {
 					this.pureOres.computeIfAbsent(e.getId(), i -> new Entry()).ores.put(l, e);
 				}));
 
-		if (Boolean.TRUE.equals(ECConfig.COMMON.pureOreRecipeInjection.get())) {
+		if (Boolean.TRUE.equals(ECConfig.SERVER.pureOreRecipeInjection.get())) {
 			ElementalCraftApi.LOGGER.info("Building pure ore recipes.");
 			this.pureOres.values().removeIf(o -> !o.isProcessable());
 
@@ -151,8 +152,7 @@ public class PureOreManager {
 			var size = recipes.size();
 
 			var newRecipes = factories.stream()
-					.<RecipeHolder<?>>mapMulti((factory, downstream) -> build(registry, factory, entries)
-						.forEach(downstream))
+					.<RecipeHolder<?>>mapMulti((factory, downstream) -> build(registry, factory, entries).forEach(downstream))
 					.filter(ElementalCraftUtils.distinctBy(RecipeHolder::id))
 					.toList();
 
@@ -190,20 +190,26 @@ public class PureOreManager {
 	}
 
 	private <C extends Container, T extends Recipe<C>> RecipeHolder<T> buildEntry(@Nonnull RegistryAccess registry, @Nonnull IPureOreRecipeFactory<C, T> factory, @Nonnull PureOre entry) {
-		RecipeType<T> recipeType = factory.getRecipeType();
+		var recipeType = factory.getRecipeType();
+		var key = BuiltInRegistries.RECIPE_TYPE.getKey(factory.getRecipeType());
+
+		if (key == null) {
+			throw new PureOreException("Cannot build pure ore recipe as its RecipeType is absent in registry.");
+		}
+
 		try {
 			var recipe = entry.getRecipe(recipeType);
 			var id = entry.getId();
 
-			return recipe != null ? new RecipeHolder<>(buildRecipeId(id), factory.create(registry, recipe, NBTIngredient.of(true, createPureOre(id)))) : null;
+			return recipe != null ? new RecipeHolder<>(buildRecipeId(key, id), factory.create(registry, recipe, NBTIngredient.of(true, createPureOre(id)))) : null;
 		} catch (Exception e) {
 			ElementalCraftApi.LOGGER.error("Error building pure ore recipe", e);
 			return null;
 		}
 	}
 
-	private static ResourceLocation buildRecipeId(@Nonnull ResourceLocation source) {
-		return new ResourceLocation(ElementalCraftApi.MODID, "pure_ore/" + source.getNamespace() + "/" + source.getPath());
+	private static ResourceLocation buildRecipeId(@Nonnull ResourceLocation factoryId, @Nonnull ResourceLocation sourceId) {
+		return new ResourceLocation(ElementalCraftApi.MODID, "pure_ore/" + factoryId.getNamespace() + "/" + factoryId.getPath() + "/" + sourceId.getNamespace() + "/" + sourceId.getPath());
 	}
 
 	private static class Entry {

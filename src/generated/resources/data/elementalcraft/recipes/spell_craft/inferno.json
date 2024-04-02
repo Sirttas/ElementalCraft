@@ -4,7 +4,7 @@
     "item": "elementalcraft:firecrystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/input_fire"
+    "item": "minecraft:diamond"
   },
   "output": {
     "Count": 1,

@@ -36,7 +36,7 @@ public class SourceElementStorage extends StaticElementStorage {
 
 	@Override
 	public int extractElement(int count, ElementType type, boolean simulate) {
-		if (Boolean.TRUE.equals(ECConfig.COMMON.disableSourceExhaustion.get())) {
+		if (Boolean.TRUE.equals(ECConfig.SERVER.disableSourceExhaustion.get())) {
 			return count;
 		} else if (!exhausted) {
 			int value = super.extractElement(count, type, simulate);

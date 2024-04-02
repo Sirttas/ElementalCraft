@@ -25,16 +25,16 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 
 	private final int amount;
 	private final ItemStack extractor;
-	protected final List<ItemStack> tanks;
+	protected final List<ItemStack> containers;
 
 	public ExtractionRecipeCategory(IGuiHelper guiHelper) {
 		this(guiHelper, "elementalcraft.jei.extraction", new ItemStack(ECBlocks.EXTRACTOR.get()), Lists.newArrayList(new ItemStack(ECBlocks.CONTAINER.get()), new ItemStack(ECBlocks.SMALL_CONTAINER.get())), 1);
 	}
 
-	protected ExtractionRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack extractor, List<ItemStack> tanks, int amount) {
+	protected ExtractionRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack extractor, List<ItemStack> containers, int amount) {
 		super(translationKey, createDrawableStack(guiHelper, extractor), guiHelper.createBlankDrawable(64, 48));
 		this.extractor = extractor;
-		this.tanks = tanks;
+		this.containers = containers;
 		this.amount = amount;
 		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 21, 35);
 	}
@@ -49,7 +49,7 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<ElementTy
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementType type, @Nonnull IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0).addIngredient(ECIngredientTypes.SOURCE, new IngredientSource(type));
 		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 16).addItemStack(extractor);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 32).addItemStacks(tanks);
+		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 32).addItemStacks(containers);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 32).addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(type, amount));
 	}
 }

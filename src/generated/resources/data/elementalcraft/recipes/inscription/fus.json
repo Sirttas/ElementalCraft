@@ -7,7 +7,9 @@
       "item": "elementalcraft:rune_slate"
     },
     {
-      "tag": "elementalcraft:gems/fine_air"
+      "type": "neoforge:nbt",
+      "item": "elementalcraft:rune",
+      "tag": "{elementalcraft:{rune:\"elementalcraft:wii\"}}"
     },
     {
       "tag": "forge:string"

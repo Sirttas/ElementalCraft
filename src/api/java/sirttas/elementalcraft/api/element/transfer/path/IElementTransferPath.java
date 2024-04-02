@@ -18,19 +18,14 @@ public interface IElementTransferPath extends IElementTypeProvider {
             return;
         }
 
-        var size = nodes.size();
-
-        for (int i = 0; i < size - 1; i++) {
-            var transferer = nodes.get(i).getTransferer();
+        IElementTransferPathNode.forEachNodes(nodes, (node, prev, next) -> {
+            var transferer = node.getTransferer();
 
             if (transferer == null) {
-                continue;
+                return;
             }
 
-            var from = i >= 1 ? nodes.get(i - 1).getPos() : null;
-            var to = i < size - 1 ? nodes.get(i + 1).getPos() : null;
-
-            transferer.onTransfer(type, amount, from, to);
-        }
+            transferer.onTransfer(type, amount, prev, next);
+        });
     }
 }

@@ -3,13 +3,12 @@ package sirttas.elementalcraft.block.instrument.io.firefurnace;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
 import sirttas.elementalcraft.container.ContainerBlockEntityWrapper;
@@ -68,16 +67,8 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 		addExperience(recipe.getExperience());
 	}
 	
-	public void dropExperience(Player player) {
-		dropExperience(player.position());
-	}
-
-	public void dropExperience(Vec3 pos) {
-		while (exp > 0) {
-			int j = ExperienceOrb.getExperienceValue((int) exp);
-			exp -= j;
-			level.addFreshEntity(new ExperienceOrb(level, pos.x(), pos.y() + 0.5D, pos.z() + 0.5D, j));
-		}
+	public void dropExperience(ServerPlayer player) {
+		ExperienceOrb.award(player.serverLevel(), player.position(), Math.round(exp));
 		exp = 0;
 	}
 

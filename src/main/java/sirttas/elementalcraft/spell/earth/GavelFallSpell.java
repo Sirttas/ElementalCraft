@@ -27,7 +27,7 @@ public class GavelFallSpell extends Spell {
 		FallingBlockEntity entity = FallingBlockEntity.fall(world, pos, Blocks.GRAVEL.defaultBlockState());
 
 		entity.time = 1;
-		entity.setHurtsEntities(1F, 100); // TODO config
+		entity.setHurtsEntities(getStrength(), 100);
 		world.addFreshEntity(entity);
 	}
 

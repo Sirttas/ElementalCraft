@@ -20,5 +20,6 @@
   "element_type": "air",
   "range": 5.0,
   "spell_type": "combat",
+  "strength": 5.0,
   "weight": 10
 }

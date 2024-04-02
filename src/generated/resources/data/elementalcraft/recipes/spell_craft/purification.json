@@ -4,7 +4,7 @@
     "item": "elementalcraft:watercrystal"
   },
   "gem": {
-    "tag": "elementalcraft:gems/crude_water"
+    "item": "elementalcraft:crude_water_gem"
   },
   "output": {
     "Count": 1,

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.ObjIntConsumer;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
@@ -195,7 +194,9 @@ public class SpellHelper {
 	}
 
 	public static Spell randomSpell(ElementType type, RandomSource rand) {
-		return randomSpell(Spells.REGISTRY.stream().filter(spell -> spell.getElementType() == type && spell.isValid()).collect(Collectors.toList()), rand);
+		return randomSpell(Spells.REGISTRY.stream()
+				.filter(spell -> spell.getElementType() == type && spell.isValid())
+				.toList(), rand);
 	}
 
 	public static Spell randomSpell(Iterable<Spell> spells, RandomSource rand) {

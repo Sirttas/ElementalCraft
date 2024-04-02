@@ -43,7 +43,7 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
 
     public ElementPumpPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
         super(PipeUpgradeTypes.ELEMENT_PUMP.get(), pipe, direction);
-        runeHandler = new RuneHandler(ECConfig.COMMON.elementPumpMaxRunes.get(), pipe::setChanged);
+        runeHandler = new RuneHandler(ECConfig.SERVER.elementPumpMaxRunes.get(), pipe::setChanged);
     }
 
     @Override
@@ -71,6 +71,11 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
     }
 
     @Override
+    public int getWeight() {
+        return -10;
+    }
+
+    @Override
     public void load(@Nonnull CompoundTag compound) {
         super.load(compound);
         if (compound.contains(ECNames.RUNE_HANDLER)) {
@@ -83,6 +88,7 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
         super.saveAdditional(compound);
         compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
     }
+
 
     private class Path implements IElementTransferPath {
 
@@ -115,8 +121,8 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
             }
 
             var type = parent.getElementType();
-            var multiplier = runeHandler.getTransferSpeed(ECConfig.COMMON.elementPumpMultiplier.get().floatValue());
-            var waste = Math.max(0, ECConfig.COMMON.elementPumpWaste.get().floatValue() / runeHandler.getElementPreservation());
+            var multiplier = runeHandler.getTransferSpeed(ECConfig.SERVER.elementPumpMultiplier.get().floatValue());
+            var waste = Math.max(0, ECConfig.SERVER.elementPumpWaste.get().floatValue() / runeHandler.getElementPreservation());
             var source = nodes.get(0).getStorage();
             var target = nodes.get(nodes.size() - 1).getStorage();
 

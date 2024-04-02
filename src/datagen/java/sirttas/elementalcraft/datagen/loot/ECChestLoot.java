@@ -85,9 +85,9 @@ public class ECChestLoot implements LootTableSubProvider {
 	private static LootTable.Builder createWithType(NumberProvider range, ElementType type) {
 		return addVanilla(LootTable.lootTable().withPool(createBase(range)
 				.add(LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(10))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getCrystalForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForType(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
-				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForType(type)).setWeight(5))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getCrystalForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 6))).setWeight(40))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getShardForElement(type)).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 10))).setWeight(20))
+				.add(LootItem.lootTableItem(ElementalItemHelper.getPowerfulShardForElement(type)).setWeight(5))
 				.add(randomSpell(type).setWeight(15))
 				.add(rune(getSmallRune(type)).setWeight(10))
 				.add(rune(getMediumRune(type)).setWeight(5))));

@@ -27,14 +27,14 @@ public class ECFeatures {
 
 
 	public static void addSpawnSources(ServerLevel level) {
-		if (Boolean.TRUE.equals(ECConfig.COMMON.disableSourceSpawn.get())) {
+		if (Boolean.TRUE.equals(ECConfig.SERVER.disableSourceSpawn.get())) {
 			return;
 		}
 
 		BlockPos pos = level.getSharedSpawnPos().offset(-RADIUS / 2, 0, -RADIUS / 2);
 
 		for (var type : ElementType.ALL_VALID) {
-			for (int i = 0; i < ECConfig.COMMON.sourceSpawnCount.get(); i++) {
+			for (int i = 0; i < ECConfig.SERVER.sourceSpawnCount.get(); i++) {
 				addSpawnSource(level, pos.offset(level.random.nextInt(RADIUS), 0, level.random.nextInt(RADIUS)), type);
 			}
 		}

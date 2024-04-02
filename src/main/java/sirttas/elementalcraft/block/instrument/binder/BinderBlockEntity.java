@@ -20,8 +20,8 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 	private static final Config<IBinder, AbstractBindingRecipe> CONFIG = new Config<>(
 			ECBlockEntityTypes.BINDER,
 			ECRecipeTypes.BINDING,
-			ECConfig.COMMON.binderTransferSpeed,
-			ECConfig.COMMON.binderMaxRunes,
+			ECConfig.SERVER.binderTransferSpeed,
+			ECConfig.SERVER.binderMaxRunes,
 			0,
 			true,
 			true

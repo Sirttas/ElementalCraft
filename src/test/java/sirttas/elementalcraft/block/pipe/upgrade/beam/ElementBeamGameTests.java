@@ -36,7 +36,7 @@ public class ElementBeamGameTests {
 
     // elementalcraft:elementbeamgametests.shouldnot_transferelements_whenoutofrange
     @GameTest(batch = ElementPipeGameTests.BATCH_NAME)
-    public static void shouldNot_transferElements_whenOutOfRange(GameTestHelper helper) {
+    public static void shouldNot_transferElements_when_outOfRange(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecute(() -> {
                     helper.pullLever(1, 2, 0);

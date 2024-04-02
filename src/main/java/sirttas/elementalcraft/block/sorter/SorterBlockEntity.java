@@ -40,21 +40,27 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		index = 0;
 		tick = 0;
 		alwaysInsert = false;
-		runeHandler = new RuneHandler(ECConfig.COMMON.sorterMaxRunes.get(), this::setChanged);
+		runeHandler = new RuneHandler(ECConfig.SERVER.sorterMaxRunes.get(), this::setChanged);
 	}
 	
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SorterBlockEntity sorter) {
 		if (sorter.isPowered()) {
 			return;
 		}
+
+		var profiler = level.getProfiler();
+
+		profiler.push("elementalcraft:sorter");
+
 		var speed = sorter.runeHandler.getBonus(Rune.BonusType.SPEED) + 1;
-		var cooldown = ECConfig.COMMON.sorterCooldown.get();
+		int cooldown = ECConfig.SERVER.sorterCooldown.get();
 
 		sorter.tick += Math.min(speed, cooldown * 64f); // capped at 1 stack a tick to prevent lag spikes
 		while (sorter.tick > cooldown) { // TODO improve performance
 			sorter.transfer();
 			sorter.tick -= cooldown;
 		}
+		profiler.pop();
 	}
 
 	public InteractionResult addStack(ItemStack stack) {
@@ -63,7 +69,7 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 			index = 0;
 			this.setChanged();
 			return InteractionResult.SUCCESS;
-		} else if (stacks.size() < ECConfig.COMMON.sorterMaxItem.get()) {
+		} else if (stacks.size() < ECConfig.SERVER.sorterMaxItem.get()) {
 			ItemStack copy = stack.copy();
 
 			copy.setCount(1);

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
+import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeTransferer;
@@ -113,7 +114,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         // NOOP
     }
 
-    public void onTransfer(ElementType type, int amount, @Nullable BlockPos from, @Nullable BlockPos to) {
+    public void onTransfer(ElementType type, int amount, @javax.annotation.Nullable IElementTransferPathNode prev, @javax.annotation.Nullable IElementTransferPathNode next) {
         // NOOP
     }
 
@@ -180,5 +181,9 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
             item = this.type.asItem();
         }
         return item;
+    }
+
+    public int getWeight() {
+        return 0;
     }
 }

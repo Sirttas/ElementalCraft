@@ -1,0 +1,17 @@
+{
+  "type": "elementalcraft:crystallization",
+  "element_amount": 5000,
+  "element_type": "water",
+  "ingredients": {
+    "crystal": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "gem": {
+      "item": "elementalcraft:crude_water_gem"
+    }
+  },
+  "result": {
+    "Count": 1,
+    "id": "elementalcraft:fine_water_gem"
+  }
+}

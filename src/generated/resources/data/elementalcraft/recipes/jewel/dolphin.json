@@ -9,7 +9,7 @@
       "item": "elementalcraft:watercrystal"
     },
     "w": {
-      "tag": "elementalcraft:gems/crude_water"
+      "item": "elementalcraft:crude_water_gem"
     }
   },
   "pattern": [

@@ -120,9 +120,9 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	@Override
 	public ElementType getElementType() {
-		ElementType tankType = this.getContainerElementType();
+		ElementType containerType = this.getContainerElementType();
 		
-		return tankType != ElementType.NONE || recipe == null ? tankType : getRecipeElementType();
+		return containerType != ElementType.NONE || recipe == null ? containerType : getRecipeElementType();
 	}
 
 	@Override

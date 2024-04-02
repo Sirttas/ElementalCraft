@@ -36,7 +36,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 	}
 
 	@Override
-	protected List<ItemStack> getTanks() {
+	protected List<ItemStack> getContainers() {
 		return List.of(container, new ItemStack(ECBlocks.SMALL_CONTAINER.get()));
 	}
 
@@ -63,21 +63,22 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull IInfusionRecipe recipe, @Nonnull IFocusGroup focuses) {
 		var ingredients = recipe.getIngredients();
 		var output = getOutputs(recipe);
+		var input = ingredients.get(0);
 
 		var inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
-				.addIngredients(ingredients.get(0));
+				.addIngredients(input);
 
 		builder.addSlot(RecipeIngredientRole.CATALYST, 30, 24)
 				.addItemStack(instrument);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 30, 40)
-				.addItemStacks(getTanks());
+				.addItemStacks(getContainers());
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 58)
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		var outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 59, 0)
 				.addItemStacks(output);
 
-		if (recipe instanceof ToolInfusionRecipe && ingredients.get(0).getItems().length == output.size()) {
+		if (recipe instanceof ToolInfusionRecipe && input.getItems().length == output.size()) {
 			builder.createFocusLink(inputSlot, outputSlot);
 		}
 	}

@@ -9,7 +9,7 @@
       "tag": "forge:gems/emerald"
     },
     "g": {
-      "tag": "elementalcraft:gems/pristine_water"
+      "item": "elementalcraft:pristine_water_gem"
     },
     "i": {
       "tag": "forge:ingots/swift_alloy"

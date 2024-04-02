@@ -14,7 +14,7 @@ public class ManaSynthesizerNoBotaniaBlockEntity extends SolarSynthesizerBlockEn
 	private int mana;
 
 	public ManaSynthesizerNoBotaniaBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.MANA_SYNTHESIZER, ECConfig.COMMON.manaSynthesizerManaCapacity.get(), pos, state);
+		super(ECBlockEntityTypes.MANA_SYNTHESIZER, ECConfig.SERVER.manaSynthesizerManaCapacity.get(), pos, state);
 		this.mana = 0;
 	}
 

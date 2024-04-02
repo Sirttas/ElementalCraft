@@ -49,7 +49,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		if (binder.getContainerElementType() != getElementType() || binder.getItemCount() != ingredients.size()) {
 			return false;
 		}
-		return Boolean.TRUE.equals(ECConfig.COMMON.binderRecipeMatchOrder.get()) ? matchesOrdered(binder) : RecipeHelper.matchesUnordered(binder.getInventory(), ingredients);
+		return Boolean.TRUE.equals(ECConfig.SERVER.binderRecipeMatchOrder.get()) ? matchesOrdered(binder) : RecipeHelper.matchesUnordered(binder.getInventory(), ingredients);
 	}
 
 	private boolean matchesOrdered(IBinder binder) {

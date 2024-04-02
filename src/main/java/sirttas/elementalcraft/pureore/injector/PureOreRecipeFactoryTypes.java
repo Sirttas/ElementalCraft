@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -43,6 +44,7 @@ public class PureOreRecipeFactoryTypes {
 		event.register(REGISTRY_KEY, helper -> {
 			registerCooking(helper, RecipeType.SMELTING, SmeltingRecipe::new);
 			registerCooking(helper, RecipeType.BLASTING, BlastingRecipe::new);
+			registerCooking(helper, RecipeType.SMOKING, SmokingRecipe::new);
 			registerCooking(helper, RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new);
 			register(helper, IGrindingRecipe.NAME, PureOreGrindingRecipeFactory::new);
 
