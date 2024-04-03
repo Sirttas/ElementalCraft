@@ -1,3 +1,8 @@
+6.2.1:
+
+- fix performances with source flux
+
+
 6.2.0:
 
 - new item: pristine shard
