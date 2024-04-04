@@ -1,5 +1,10 @@
 6.2.1:
 
+- fix performances with source flux (again)
+
+
+6.2.1:
+
 - fix performances with source flux
 
 

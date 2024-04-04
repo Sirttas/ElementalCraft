@@ -1,12 +1,15 @@
 package sirttas.elementalcraft.block.source.flux;
 
+import net.minecraft.world.level.ChunkPos;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.time.Duration;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
 class SourceFluxTests {
@@ -26,32 +29,41 @@ class SourceFluxTests {
         runTest(4, f -> assertThat(f.getRatio()).isEqualTo(0.1F));
     }
 
-    void runTest(int sourceCount, Consumer<SourceFlux> consumer) {
-        var list = createTestList(new SourceFluxConfig(1200, 1, 1, 1), 2);
+    @Test
+    void shouldNot_takeToMuchTime() {
+        var list = createTestMap(new SourceFluxConfig(1200, 1, 1, 1), 32);
 
         for (int i = 0; i < 1000; i++) {
-            list.forEach(f -> {
+            assertTimeout(Duration.ofMillis(20), () -> SourceFluxHandler.handleSourceFluxMap(list));
+        }
+
+    }
+
+    void runTest(int sourceCount, Consumer<SourceFlux> consumer) {
+        var map = createTestMap(new SourceFluxConfig(1200, 1, 1, 1), 2);
+
+        for (int i = 0; i < 1000; i++) {
+            map.forEach((l, f) -> {
                 if (f.getX() == 0 && f.getY() == 0) {
                     for (int j = 0; j < sourceCount; j++) {
                         f.consume();
                     }
                 }
             });
-            list.sort(SourceFlux.COMPARATOR);
-            SourceFluxHandler.handleSourceFluxList(list);
+            SourceFluxHandler.handleSourceFluxMap(map);
         }
-        list.forEach(f -> {
+        map.forEach((l, f) -> {
             if (f.getX() == 0 && f.getY() == 0) {
                 consumer.accept(f);
             }
         });
     }
 
-    private static List<SourceFlux> createTestList(SourceFluxConfig config, int radius) {
+    private static Map<Long, SourceFlux> createTestMap(SourceFluxConfig config, int radius) {
         return IntStream.rangeClosed(-radius, radius)
                 .mapToObj(x -> IntStream.rangeClosed(-radius, radius).mapToObj(y -> new SourceFlux(config, x, y)))
                 .flatMap(s -> s)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(f -> ChunkPos.asLong(f.getX(), f.getY()), f -> f));
     }
 
 

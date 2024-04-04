@@ -1,15 +1,16 @@
 package sirttas.elementalcraft.block.source.flux;
 
 import net.minecraft.nbt.FloatTag;
+import net.minecraft.world.level.ChunkPos;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.VisibleForTesting;
 
 import javax.annotation.Nonnull;
-import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class SourceFlux implements INBTSerializable<FloatTag> {
-
-    public static final Comparator<? super SourceFlux> COMPARATOR = Comparator.comparingDouble(s -> s.flux);
 
     private final SourceFluxConfig config;
     private final int x;
@@ -34,13 +35,19 @@ public class SourceFlux implements INBTSerializable<FloatTag> {
         this.flux = Math.max(0, this.flux - config.consumption());
     }
 
-    void recover() {
+    void tick(NeighborSupplier neighbors) {
+        recover();
+        neighbors.getNeighbor(x, z).forEach(this::transfer);
+        afterTransfers();
+    }
+
+    private void recover() {
         var amount = config.recovery() * (1 - this.flux / config.capacity());
 
         this.flux = Math.min(config.capacity(), this.flux + amount);
     }
 
-    void transfer(SourceFlux other) {
+    private void transfer(SourceFlux other) {
         if (other.flux >= this.flux) {
             return;
         }
@@ -54,7 +61,7 @@ public class SourceFlux implements INBTSerializable<FloatTag> {
         this.flux = Math.max(0, this.flux - amount);
     }
 
-    void afterTransfers() {
+    private void afterTransfers() {
         this.flux = Math.min(config.capacity(), this.flux + fluxReceived);
         fluxReceived = 0;
     }
@@ -81,5 +88,21 @@ public class SourceFlux implements INBTSerializable<FloatTag> {
     @VisibleForTesting
     public int getY() {
         return z;
+    }
+
+    @FunctionalInterface
+    public interface NeighborSupplier {
+        List<SourceFlux> getNeighbor(int x, int z);
+
+        static NeighborSupplier of(Map<Long, SourceFlux> map) {
+            return (x, z) -> Stream.of(
+                            map.get(ChunkPos.asLong(x - 1, z)),
+                            map.get(ChunkPos.asLong(x + 1, z)),
+                            map.get(ChunkPos.asLong(x, z - 1)),
+                            map.get(ChunkPos.asLong(x, z + 1))
+                    )
+                    .filter(s -> s != null && s.isNeighbor(map.get(ChunkPos.asLong(x, z))))
+                    .toList();
+        }
     }
 }

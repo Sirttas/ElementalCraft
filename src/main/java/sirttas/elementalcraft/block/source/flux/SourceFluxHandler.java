@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.source.flux;
 
-import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.VisibleForTesting;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 
-import java.util.List;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class SourceFluxHandler {
@@ -34,40 +34,31 @@ public class SourceFluxHandler {
         profiler.push("elementalcraft:source_flux_transfer");
 
         var chunkSource = serverLevel.getChunkSource();
-        var list = getSourceFlux(chunkSource);
+        var map = getSourceFlux(chunkSource);
 
-        handleSourceFluxList(list);
+        handleSourceFluxMap(map);
         profiler.pop();
     }
 
     @VisibleForTesting
-    public static void handleSourceFluxList(List<SourceFlux> list) {
-        for (var i = 0; i < list.size() - 1; i++) {
-            var sourceFlux = list.get(i);
+    public static void handleSourceFluxMap(Map<Long, SourceFlux> map) {
+        var suppliers = SourceFlux.NeighborSupplier.of(map);
 
-            sourceFlux.recover();
-            for (var j = i + 1; j < list.size(); j++) {
-                var targetFlux = list.get(j);
-
-                if (sourceFlux.isNeighbor(targetFlux)) {
-                    sourceFlux.transfer(targetFlux);
-                }
-            }
-            sourceFlux.afterTransfers();
+        for (var sourceFlux : map.values()) {
+            sourceFlux.tick(suppliers);
         }
     }
 
-    private static List<SourceFlux> getSourceFlux(ServerChunkCache chunkSource) {
-        List<SourceFlux> list = Lists.newArrayListWithCapacity(chunkSource.chunkMap.size());
+    private static Map<Long, SourceFlux> getSourceFlux(ServerChunkCache chunkSource) {
+        Map<Long, SourceFlux> map = new Long2ObjectLinkedOpenHashMap<>();
 
         for (var chunkHolder : chunkSource.chunkMap.getChunks()) {
             var levelChunk = chunkHolder.getTickingChunk();
 
             if (levelChunk != null) {
-                list.add(levelChunk.getData(ECDataAttachments.SOURCE_FLUX));
+                map.put(levelChunk.getPos().toLong(), levelChunk.getData(ECDataAttachments.SOURCE_FLUX));
             }
         }
-        list.sort(SourceFlux.COMPARATOR);
-        return List.copyOf(list);
+        return map;
     }
 }
