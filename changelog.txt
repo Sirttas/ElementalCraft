@@ -1,3 +1,4 @@
+7.0.0:
 - update to 1.21.1
 - new item: air mill
 - new block: rudimentary element extractor
