@@ -180,8 +180,13 @@ dependencies {
         implementation(accessTransformers(interfaceInjectionData(project.dpAnvil)))
     } else {
         logger.info("DPAnvil not found locally, looking in maven repo")
+        apiCompileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
         compileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
+        testCompileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
+        datagenCompileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
         runtimeOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}"
+        testRuntimeOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}"
+        datagenRuntimeOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}"
     }
 
     compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}:api"
