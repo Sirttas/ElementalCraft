@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_infuser": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:infuser"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_infuser"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

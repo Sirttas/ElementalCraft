@@ -3,13 +3,13 @@ package sirttas.elementalcraft.interaction.jei.category.instrument.io.mill;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.AbstractMillWoodSawBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 
 import javax.annotation.Nonnull;
 
-public class SawingRecipeCategory extends AbstractMillRecipeCategory<AbstractMillWoodSawBlockEntity, SawingRecipe> {
+public class SawingRecipeCategory extends AbstractMillRecipeCategory<SimpleIOInstrumentRecipeInput, SawingRecipe> {
 
 	public SawingRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper, "elementalcraft.jei.sawing", ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get());

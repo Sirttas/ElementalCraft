@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "item": "minecraft:diamond_pickaxe"
+    },
+    "e": {
+      "item": "elementalcraft:pristine_earth_gem"
+    },
+    "p": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "s": {
+      "item": "minecraft:diamond_shovel"
+    }
+  },
+  "pattern": [
+    " e ",
+    "sUa",
+    " p "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:mole"
+  }
+}

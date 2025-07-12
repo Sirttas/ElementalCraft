@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/swift_alloy",
+  "criteria": {
+    "has_diffuser": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:diffuser"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.diffuser.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:diffuser"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.diffuser.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_diffuser"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

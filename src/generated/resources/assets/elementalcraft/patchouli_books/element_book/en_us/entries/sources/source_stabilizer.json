@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:main/springaline_shard",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:source_stabilizer",
+  "name": "item.elementalcraft.source_stabilizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_stabilizer0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:source_stabilizer"
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:main/source_stabilizer"
+}

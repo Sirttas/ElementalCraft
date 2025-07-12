@@ -3,8 +3,9 @@ package sirttas.elementalcraft.block.source.breeder.pedestal;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -67,16 +68,14 @@ public class SourceBreederPedestalBlock extends AbstractECContainerBlock impleme
 
     @Nonnull
     @Override
-    @Deprecated
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SHAPE;
     }
 
     @Nonnull
     @Override
-    @Deprecated
-    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-        return onSingleSlotActivated(level, pos, player, hand);
+    protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+        return onSingleSlotActivated(stack, level, pos, player, hand);
     }
 
     @Nullable
@@ -98,7 +97,6 @@ public class SourceBreederPedestalBlock extends AbstractECContainerBlock impleme
 
     @Nonnull
     @Override
-    @Deprecated
     public FluidState getFluidState(@Nonnull BlockState state) {
         return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }

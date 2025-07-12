@@ -2,28 +2,16 @@
   "attributes": {
     "minecraft:generic.attack_damage": [
       {
-        "Amount": 1.0,
-        "Name": "Weapon modifier",
-        "Operation": "multiply_total",
-        "UUID": [
-          1924578585,
-          2000506621,
-          -1544142702,
-          -1975528936
-        ]
+        "amount": 1.0,
+        "id": "elementalcraft:spell_attack_damage",
+        "operation": "add_multiplied_total"
       }
     ],
-    "neoforge:entity_reach": [
+    "minecraft:player.block_interaction_range": [
       {
-        "Amount": 5.0,
-        "Name": "Reach distance modifier",
-        "Operation": "addition",
-        "UUID": [
-          -1087992464,
-          489308246,
-          -1123130095,
-          -740073806
-        ]
+        "amount": 5.0,
+        "id": "elementalcraft:spell_reach_distance",
+        "operation": "add_value"
       }
     ]
   },

@@ -1,0 +1,18 @@
+{
+  "values": [
+    "elementalcraft:infuser",
+    "elementalcraft:binder",
+    "elementalcraft:crystallizer",
+    "elementalcraft:inscriber",
+    "elementalcraft:binder_improved",
+    "elementalcraft:rudimentary_element_extractor",
+    "elementalcraft:element_extractor",
+    "elementalcraft:improved_element_extractor",
+    "elementalcraft:diffuser",
+    "elementalcraft:water_mill_grindstone",
+    "elementalcraft:water_mill_wood_saw",
+    "elementalcraft:enchantment_liquefier",
+    "elementalcraft:draining_water_synthesizer",
+    "elementalcraft:culinary_water_synthesizer"
+  ]
+}

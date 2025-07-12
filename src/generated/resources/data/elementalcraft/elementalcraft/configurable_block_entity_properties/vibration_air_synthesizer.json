@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:synthesizer",
+  "element_capacity": 2000,
+  "element_type": "air",
+  "max_runes": 1,
+  "range": "elementalcraft:box_radius_10",
+  "synthesis_multiplier": 200.0,
+  "transfer_speed": 5
+}

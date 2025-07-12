@@ -3,8 +3,8 @@
 	"parent": "minecraft:block/block",
 	"textures": {
 		"0": "elementalcraft:block/iron",
-		"particle": "elementalcraft:block/solar_synthesizer_lense",
-		"1_0": "elementalcraft:block/solar_synthesizer_lense"
+		"particle": "elementalcraft:block/lens",
+		"1_0": "elementalcraft:block/lens"
 	},
 	"elements": [
 		{

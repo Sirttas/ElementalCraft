@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:infusion",
+  "element_amount": 500,
+  "element_type": "fire",
+  "input": {
+    "tag": "c:glass_blocks"
+  },
+  "output": {
+    "count": 1,
+    "id": "elementalcraft:burnt_glass"
+  }
+}

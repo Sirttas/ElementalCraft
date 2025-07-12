@@ -7,33 +7,86 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.testframework.Test;
 import net.neoforged.testframework.conf.ClientConfiguration;
 import net.neoforged.testframework.conf.Feature;
 import net.neoforged.testframework.conf.FrameworkConfiguration;
+import net.neoforged.testframework.conf.MissingDescriptionAction;
 import net.neoforged.testframework.impl.MutableTestFramework;
+import net.neoforged.testframework.summary.GitHubActionsStepSummaryDumper;
+import net.neoforged.testframework.summary.JUnitSummaryDumper;
 import org.lwjgl.glfw.GLFW;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.airmill.AirMillGameTests;
+import sirttas.elementalcraft.block.container.ContainerGameTests;
+import sirttas.elementalcraft.block.container.reservoir.ReservoirGameTests;
+import sirttas.elementalcraft.block.diffuser.DiffuserGameTests;
+import sirttas.elementalcraft.block.doublehalf.DoubleHalfBlockGameTests;
+import sirttas.elementalcraft.block.extractor.ElementExtractorGameTests;
+import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerGameTests;
+import sirttas.elementalcraft.block.instrument.infuser.InfuserGameTests;
+import sirttas.elementalcraft.block.instrument.io.firefurnace.FireFurnaceGameTests;
+import sirttas.elementalcraft.block.instrument.io.firefurnace.blast.FireBlastFurnaceGameTests;
+import sirttas.elementalcraft.block.instrument.io.mill.MillGameTests;
+import sirttas.elementalcraft.block.pipe.ElementPipeGameTests;
+import sirttas.elementalcraft.block.pureinfuser.PureInfuserGameTests;
+import sirttas.elementalcraft.item.chisel.ChiselGameTests;
+import sirttas.elementalcraft.item.holder.ElementHolderGameTests;
+import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTests;
+import sirttas.elementalcraft.range.RangeGameTests;
+import sirttas.elementalcraft.rune.RuneGameTests;
+
+import java.nio.file.Path;
+import java.util.function.Consumer;
 
 public class ElementalCraftTests {
 
     private ElementalCraftTests() { }
 
     public static void registerTestFramework(IEventBus modBus, ModContainer container) {
-        final MutableTestFramework framework = FrameworkConfiguration.builder(ElementalCraftApi.createRL("tests"))
-                .clientConfiguration(() -> ClientConfiguration.builder()
-                        .toggleOverlayKey(GLFW.GLFW_KEY_J)
-                        .openManagerKey(GLFW.GLFW_KEY_N)
-                        .build())
+        try {
+            final MutableTestFramework framework = FrameworkConfiguration.builder(ElementalCraftApi.createRL("tests"))
+                    .clientConfiguration(() -> ClientConfiguration.builder()
+                            .toggleOverlayKey(GLFW.GLFW_KEY_J)
+                            .openManagerKey(GLFW.GLFW_KEY_N)
+                            .build())
+                    .dumpers(new JUnitSummaryDumper(Path.of("tests/")), new GitHubActionsStepSummaryDumper())
+                    .enable(Feature.CLIENT_SYNC, Feature.CLIENT_MODIFICATIONS, Feature.TEST_STORE)
+                    .onMissingDescription(MissingDescriptionAction.ERROR)
+                    .build().create();
 
-                .enable(Feature.CLIENT_SYNC, Feature.CLIENT_MODIFICATIONS, Feature.TEST_STORE)
-                .build().create();
+            registerAdditionalTests(framework.tests()::register);
+            framework.init(modBus, container);
 
-        framework.init(modBus, container);
+            NeoForge.EVENT_BUS.addListener((final RegisterCommandsEvent event) -> {
+                final LiteralArgumentBuilder<CommandSourceStack> node = Commands.literal("tests");
+                framework.registerCommands(node);
+                event.getDispatcher().register(node);
+            });
+        } catch (Throwable t) {
+            ElementalCraftApi.LOGGER.error("Failed to register test framework", t);
+            throw t;
+        }
+    }
 
-        NeoForge.EVENT_BUS.addListener((final RegisterCommandsEvent event) -> {
-            final LiteralArgumentBuilder<CommandSourceStack> node = Commands.literal("tests");
-            framework.registerCommands(node);
-            event.getDispatcher().register(node);
-        });
+    private static void registerAdditionalTests(Consumer<Test> registrar) {
+        ElementHolderGameTests.collectTests().forEach(registrar);
+        ElementExtractorGameTests.collectTests().forEach(registrar);
+        InfuserGameTests.collectTests().forEach(registrar);
+        CrystallizerGameTests.collectTests().forEach(registrar);
+        MillGameTests.collectTests().forEach(registrar);
+        FireFurnaceGameTests.should_smelt().forEach(registrar);
+        FireBlastFurnaceGameTests.should_smelt().forEach(registrar);
+        ChiselGameTests.collectTests().forEach(registrar);
+        RuneGameTests.should_dropRunes().forEach(registrar);
+        ReceptacleGameTests.collectTests().forEach(registrar);
+        DiffuserGameTests.should_fillHolder().forEach(registrar);
+        PureInfuserGameTests.shouldNot_craftWhenAPedestalIsBroken().forEach(registrar);
+        ElementPipeGameTests.should_disconnectWhenBroken().forEach(registrar);
+        RangeGameTests.should_haveRange().forEach(registrar);
+        DoubleHalfBlockGameTests.should_breakBothParts().forEach(registrar);
+        AirMillGameTests.collectTests().forEach(registrar);
+        ContainerGameTests.should_supportARudimentaryExtractor().forEach(registrar);
+        ReservoirGameTests.should_insertElementFromBothParts().forEach(registrar);
     }
 }

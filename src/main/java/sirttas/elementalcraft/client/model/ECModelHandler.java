@@ -5,10 +5,10 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
@@ -22,14 +22,14 @@ import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShri
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.source.SourceRenderer;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
-import sirttas.elementalcraft.jewel.Jewels;
-import sirttas.elementalcraft.rune.Runes;
 
 import java.util.function.Consumer;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ECModelHandler {
 
     private ECModelHandler() { }
@@ -46,16 +46,17 @@ public class ECModelHandler {
     public static void registerModels(ModelEvent.RegisterAdditional event) {
         var addModel = addModel(event::register);
 
-        Runes.registerModels(addModel);
-        Jewels.registerModels(addModel);
-        ECModelShapers.getAll().forEach(shaper -> shaper.registerModels(addModel));
+        registerRuneModels(addModel);
+        ECModelShapers.getAll().forEach(shaper -> shaper.registerModels(event::register));
         event.register(ElementPipeRenderer.SIDE_LOCATION);
         event.register(ElementPipeRenderer.EXTRACT_LOCATION);
-        event.register(SolarSynthesizerRenderer.LENSE_LOCATION);
+        event.register(CrackingSynthesizerRenderer.HEAD_LOCATION);
+        event.register(SolarSynthesizerRenderer.LENS_LOCATION);
         event.register(MillRenderer.WATER_MILL_GRINDSTONE_SHAFT_LOCATION);
         event.register(MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION);
         event.register(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION);
         event.register(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION);
+        event.register(AirMillSynthesizerRenderer.SHAFT_LOCATION);
         event.register(DiffuserRenderer.CUBE_LOCATION);
         event.register(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
         event.register(VortexShrineUpgradeRenderer.RING_LOCATION);
@@ -67,16 +68,24 @@ public class ECModelHandler {
         event.register(ElementBeamPipeUpgradeRenderer.RING_2_LOCATION);
         event.register(ElementBeamPipeUpgradeRenderer.RING_3_LOCATION);
         event.register(ElementPumpPipeUpgradeRenderer.PUMP_LOCATION);
+        event.register(ECModelHelper.standalone("item/air_mill_synthesizer_broken"));
+        event.register(ECModelHelper.standalone("item/air_mill_grindstone_broken"));
+        event.register(ECModelHelper.standalone("item/air_mill_wood_saw_broken"));
     }
 
-    private static Consumer<ResourceLocation> addModel(Consumer<ResourceLocation> consumer) {
+    private static void registerRuneModels(Consumer<ResourceLocation> addModel) {
+        ElementalCraftApi.RUNE_MANAGER.getData().values().forEach(rune -> addModel.accept(rune.getModelName()));
+        Minecraft.getInstance().getResourceManager().listResources("models/" + ElementalCraftApi.RUNE_MANAGER.getFolder(), fileName -> fileName.getPath().endsWith(".json")).keySet().forEach(addModel);
+    }
+
+    private static Consumer<ResourceLocation> addModel(Consumer<ModelResourceLocation> consumer) {
         return m -> {
             var path = StringUtils.removeStart(StringUtils.removeEnd(m.getPath(), ".json"), "models/");
 
             if (path.startsWith("item/")) {
-                consumer.accept(new ModelResourceLocation(new ResourceLocation(m.getNamespace(), StringUtils.removeStart(path, "item/")), "inventory"));
+                consumer.accept(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(m.getNamespace(), StringUtils.removeStart(path, "item/"))));
             } else {
-                consumer.accept(new ResourceLocation(m.getNamespace(), path));
+                consumer.accept(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(m.getNamespace(), path)));
             }
         };
     }

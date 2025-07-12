@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_tortoise": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:tortoise"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tortoise"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

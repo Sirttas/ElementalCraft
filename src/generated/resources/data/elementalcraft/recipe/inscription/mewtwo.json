@@ -1,0 +1,41 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 20000,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "item": "elementalcraft:major_rune_slate"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:kaworu"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:zod"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:tano"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    }
+  ],
+  "output": {
+    "components": {
+      "elementalcraft:rune": "elementalcraft:mewtwo"
+    },
+    "count": 1,
+    "id": "elementalcraft:rune"
+  }
+}

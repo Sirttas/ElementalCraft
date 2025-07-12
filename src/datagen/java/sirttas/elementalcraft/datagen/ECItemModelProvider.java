@@ -13,17 +13,19 @@ import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
+import sirttas.elementalcraft.item.jewel.JewelItem;
 import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassItem;
+import sirttas.elementalcraft.item.source.receptacle.ReceptacleItem;
 import sirttas.elementalcraft.item.spell.FocusItem;
 import sirttas.elementalcraft.jewel.Jewel;
-import sirttas.elementalcraft.jewel.Jewels;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
@@ -46,7 +48,9 @@ public class ECItemModelProvider extends ItemModelProvider {
 			if (ElementalCraft.owns(key) && !exists(key)) {
 				String name = key.getPath();
 
-				if (item instanceof BlockItem blockItem) {
+				if (item instanceof ReceptacleItem) {
+					singleTexture(name);
+				} else if (item instanceof BlockItem blockItem) {
 					var block = blockItem.getBlock();
 					
 					if (block instanceof AmethystClusterBlock) {
@@ -59,26 +63,28 @@ public class ECItemModelProvider extends ItemModelProvider {
 					} else if (block instanceof ElementPipeBlock pipe) {
 						pipeInventory(pipe, name);
 					} else {
-						withExistingParent(name, ElementalCraftApi.createRL(BLOCK_PREFIX + name));
+						fromBlock(name);
 					}
 				} else if (item instanceof PipeUpgradeItem) {
 					withExistingParent(name, ElementalCraftApi.createRL(PipeUpgrade.FOLDER + name));
+				}else if (item instanceof JewelItem) {
+					singleJewelTexture(key.getPath());
 				} else if (item instanceof FocusItem || item instanceof SourceAnalysisGlassItem || item instanceof ChiselItem) {
-					singleTexture(name,  new ResourceLocation("minecraft", ITEM_PREFIX + "handheld"), "layer0", ElementalCraftApi.createRL(ITEM_PREFIX + name));
-				}else if (item instanceof ElementHolderItem) {
+					singleTexture(name, ResourceLocation.withDefaultNamespace(ITEM_PREFIX + "handheld"), "layer0", ElementalCraftApi.createRL(ITEM_PREFIX + name));
+				} else if (item instanceof ElementHolderItem) {
 					withExistingParent(name, ElementalCraftApi.createRL(ITEM_PREFIX + "template_element_holder"));
 				} else {
 					singleTexture(name);
 				}
 			}
 		}
-		for (Jewel jewel : Jewels.REGISTRY) {
-			var key = jewel.getKey();
+		fromBlock("air_mill_synthesizer_broken");
+		fromBlock("air_mill_grindstone_broken");
+		fromBlock("air_mill_wood_saw_broken");
+	}
 
-			if (ElementalCraft.owns(key) && !exists(jewel) && jewel != Jewels.NONE.get()) {
-				singleJewelTexture(key.getPath());
-			}
-		}
+	private void fromBlock(String name) {
+		withExistingParent(name, ElementalCraftApi.createRL(BLOCK_PREFIX + name));
 	}
 
 	private void pipeInventory(ElementPipeBlock pipe, String name) {
@@ -95,11 +101,11 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	public ItemModelBuilder singleTexture(String name, ResourceLocation texture) {
-		return singleTexture(name, new ResourceLocation("minecraft", ITEM_PREFIX + "generated"), "layer0", texture);
+		return singleTexture(name, ResourceLocation.withDefaultNamespace(ITEM_PREFIX + "generated"), "layer0", texture);
 	}
 
 	public ItemModelBuilder singleJewelTexture(String name) {
-		return singleTexture("elementalcraft/jewels/" + name, ElementalCraftApi.createRL("elementalcraft/jewels/" + name));
+		return singleTexture(name, ElementalCraftApi.createRL("elementalcraft/jewels/" + name));
 	}
 
 	public ItemModelBuilder runeTexture(String name, ResourceLocation slate, ResourceLocation rune) {
@@ -126,7 +132,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	}
 
 	@Override
-	public CompletableFuture<?> generateAll(CachedOutput cache) {
+	public @NotNull CompletableFuture<?> generateAll(@NotNull CachedOutput cache) {
 		return super.generateAll(cache);
 	}
 }

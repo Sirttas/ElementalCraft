@@ -1,0 +1,7 @@
+{
+  "type": "elementalcraft:crafting",
+  "max_runes": 3,
+  "output_slot": 1,
+  "recipe_type": "minecraft:blasting",
+  "transfer_speed": 20
+}

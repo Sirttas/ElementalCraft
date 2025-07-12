@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:element_production",
+  "icon": "elementalcraft:solar_fire_synthesizer",
+  "name": "block.elementalcraft.solar_fire_synthesizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.solar_fire_synthesizer0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:solar_fire_synthesizer"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:solar_fire_synthesizer"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 7,
+  "turnin": "elementalcraft:pickup/solar_fire_synthesizer"
+}

@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:element_production",
+  "icon": "elementalcraft:sculk_cracking_earth_synthesizer",
+  "name": "block.elementalcraft.sculk_cracking_earth_synthesizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.sculk_cracking_earth_synthesizer0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:sculk_cracking_earth_synthesizer"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:sculk_cracking_earth_synthesizer"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 9,
+  "turnin": "elementalcraft:pickup/sculk_cracking_earth_synthesizer"
+}

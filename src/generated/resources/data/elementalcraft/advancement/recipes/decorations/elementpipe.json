@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_contained_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:contained_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:elementpipe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_contained_crystal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:elementpipe"
+    ]
+  }
+}

@@ -48,25 +48,10 @@ public interface ISingleElementStorage extends IElementStorage, IElementTypeProv
 	}
 
 	@Override
-	default void fill(ElementType type) {
-		if (type == ElementType.NONE) {
-			return;
-		}
-
-		var currentType = this.getElementType();
-
-		if (type != currentType && currentType != ElementType.NONE) {
-			return;
-		}
-		insertElement(getElementCapacity(), type, false);
-	}
-
-	@Override
 	default ISingleElementStorage forElement(ElementType type) {
 		if (type != ElementType.NONE) {
 			return EmptyElementStorage.getSingle(type);
 		}
 		return this;
 	}
-
 }

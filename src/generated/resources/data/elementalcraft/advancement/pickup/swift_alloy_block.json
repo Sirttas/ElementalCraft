@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_swift_alloy_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:swift_alloy_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_swift_alloy_block"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

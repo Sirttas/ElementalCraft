@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 1250,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "tag": "c:rods/wooden"
+    },
+    {
+      "item": "elementalcraft:whiterock"
+    },
+    {
+      "item": "elementalcraft:air_silk"
+    },
+    {
+      "item": "elementalcraft:earthcrystal"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "elementalcraft:hardened_handle"
+  }
+}

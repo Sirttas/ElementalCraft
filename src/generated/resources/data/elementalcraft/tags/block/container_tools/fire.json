@@ -1,0 +1,17 @@
+{
+  "values": [
+    "elementalcraft:infuser",
+    "elementalcraft:binder",
+    "elementalcraft:crystallizer",
+    "elementalcraft:inscriber",
+    "elementalcraft:binder_improved",
+    "elementalcraft:rudimentary_element_extractor",
+    "elementalcraft:element_extractor",
+    "elementalcraft:improved_element_extractor",
+    "elementalcraft:diffuser",
+    "elementalcraft:firefurnace",
+    "elementalcraft:fireblastfurnace",
+    "elementalcraft:combustion_fire_synthesizer",
+    "elementalcraft:solar_fire_synthesizer"
+  ]
+}

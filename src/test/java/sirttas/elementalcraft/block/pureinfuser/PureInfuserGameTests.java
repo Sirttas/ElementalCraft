@@ -2,14 +2,15 @@ package sirttas.elementalcraft.block.pureinfuser;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.Test;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -19,15 +20,17 @@ import sirttas.elementalcraft.item.ECItems;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
+@ForEachTest(groups = PureInfuserGameTests.GROUP)
 public class PureInfuserGameTests {
 
+    public static final String GROUP = "level.blocks.pureInfuser";
+
     // elementalcraft:pureinfusergametests.pure_infuser
-    @GameTest(template = "pure_infuser")
+    @TestHolder(description = "Checks if the pure infuser can craft a pure crystal.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "pureinfusergametests.pure_infuser")
     public static void should_craftPureCrystal(GameTestHelper helper) {
         var pureInfuser = (PureInfuserBlockEntity) helper.getBlockEntity(new BlockPos(3, 1, 3));
 
@@ -69,10 +72,10 @@ public class PureInfuserGameTests {
 
         helper.startSequence().thenExecute(() -> {
             pureInfuserItemHandler.insertItem(0, new ItemStack(Items.DIAMOND), false);
-            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL.get()), false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL.get()), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
+            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL), false);
+            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL), false);
+            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL), false);
+            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL), false);
 
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();
@@ -88,15 +91,35 @@ public class PureInfuserGameTests {
             assertThat(airPedestalItemHandler).isEmpty();
         }).thenSucceed();
     }
-    @GameTestGenerator
-    public static Collection<TestFunction> shouldNot_craftWhenAPedestalIsBroken() {
-        var index = new AtomicInteger(0);
+
+    public static Collection<Test> shouldNot_craftWhenAPedestalIsBroken() {
+        var i = 0;
 
         return List.of(
-                ECGameTestHelper.createTestFunction("shouldNot_craftWhenAPedestalIsBroken#" + index.getAndIncrement(), "elementalcraft:pureinfusergametests.pure_infuser", h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(0, 1, 3))),
-                ECGameTestHelper.createTestFunction("shouldNot_craftWhenAPedestalIsBroken#" + index.getAndIncrement(), "elementalcraft:pureinfusergametests.pure_infuser", h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 0))),
-                ECGameTestHelper.createTestFunction("shouldNot_craftWhenAPedestalIsBroken#" + index.getAndIncrement(), "elementalcraft:pureinfusergametests.pure_infuser", h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(6, 1, 3))),
-                ECGameTestHelper.createTestFunction("shouldNot_craftWhenAPedestalIsBroken#" + index.getAndIncrement(), "elementalcraft:pureinfusergametests.pure_infuser", h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 6)))
+                ECGameTestUtils.createTest(
+                        GROUP,
+                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
+                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(0, 1, 3))),
+                ECGameTestUtils.createTest(
+                        GROUP,
+                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
+                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 0))),
+                ECGameTestUtils.createTest(
+                        GROUP,
+                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
+                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(6, 1, 3))),
+                ECGameTestUtils.createTest(
+                        GROUP,
+                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
+                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 6)))
         );
     }
 
@@ -141,10 +164,10 @@ public class PureInfuserGameTests {
 
         helper.startSequence().thenExecute(() -> {
             pureInfuserItemHandler.insertItem(0, new ItemStack(Items.DIAMOND), false);
-            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL.get()), false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL.get()), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL.get()), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL.get()), false);
+            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL), false);
+            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL), false);
+            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL), false);
+            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL), false);
 
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();
@@ -162,9 +185,10 @@ public class PureInfuserGameTests {
     }
 
     // elementalcraft:pureinfusergametests.pure_infuser
-    @GameTest(template = "pure_infuser")
-    public static void should_craftPureHolderWithElement(GameTestHelper helper) {
-        var pureInfuser = (PureInfuserBlockEntity) helper.getBlockEntity(new BlockPos(3, 1, 3));
+    @TestHolder(description = "Checks if the pure infuser can craft a pure holder and keep the emements that were present in the original holders.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "pureinfusergametests.pure_infuser")
+    public static void should_craftPureHolderWithElement(ECGameTestHelper helper) {
+        var pureInfuser = helper.getBlockEntity(new BlockPos(3, 1, 3), PureInfuserBlockEntity.class);
 
         assertThat(pureInfuser).isNotNull();
 
@@ -203,15 +227,15 @@ public class PureInfuserGameTests {
         assertThat(airPedestalElementStorage).isNotNull();
 
         helper.startSequence().thenExecute(() -> {
-            var fireHolder = new ItemStack(ECItems.FIRE_HOLDER.get());
+            var fireHolder = new ItemStack(ECItems.FIRE_HOLDER);
 
             fireHolder.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM).fill();
 
-            pureInfuserItemHandler.insertItem(0, new ItemStack(ECItems.PURE_HOLDER_CORE.get()), false);
+            pureInfuserItemHandler.insertItem(0, new ItemStack(ECItems.PURE_HOLDER_CORE), false);
             firePedestalItemHandler.insertItem(0, fireHolder, false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_HOLDER.get()), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_HOLDER.get()), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_HOLDER.get()), false);
+            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_HOLDER), false);
+            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_HOLDER), false);
+            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_HOLDER), false);
 
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();

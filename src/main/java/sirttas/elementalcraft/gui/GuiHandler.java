@@ -1,7 +1,9 @@
 package sirttas.elementalcraft.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -9,6 +11,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
@@ -16,11 +19,11 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.RegisterGuiOverlaysEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
-import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
-import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -28,12 +31,14 @@ import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchorList;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.block.shrine.ShrineElementStorage;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockItem;
 import sirttas.elementalcraft.client.LevelRenderHandler;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.entity.player.PlayerElementStorage;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.spell.ISpellHolder;
 import sirttas.elementalcraft.jewel.Jewel;
@@ -52,8 +57,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("resource")
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class GuiHandler {
 
 	public static final Material TRANSLOCATION_ANCHOR_MARKER = ECRendererHelper.getBlockMaterial("gui/translocation_anchor_marker");
@@ -70,21 +74,20 @@ public class GuiHandler {
 	}
 
 	@SubscribeEvent
-	public static void onDrawScreenPost(RegisterGuiOverlaysEvent event) {
-		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), ElementalCraftApi.createRL("gauge"), (f, g, t, w, h) -> drawGauge(f, g));
-		event.registerBelow(VanillaGuiOverlay.PORTAL.id(), ElementalCraftApi.createRL("translocation_anchor_marker"), (f, g, t, w, h) -> drawAnchors(f, g, w, h));
-		event.registerBelow(ElementalCraftApi.createRL("translocation_anchor_marker"), ElementalCraftApi.createRL("single_translocation_anchor_marker"), (f, g, t, w, h) -> drawAnchor(f, g, w, h));
+	public static void onDrawScreenPost(RegisterGuiLayersEvent event) {
+		event.registerAbove(VanillaGuiLayers.CROSSHAIR, ElementalCraftApi.createRL("gauge"), GuiHandler::drawGauge);
+		event.registerAbove(VanillaGuiLayers.CAMERA_OVERLAYS, ElementalCraftApi.createRL("translocation_anchor_marker"), GuiHandler::drawAnchors);
+		event.registerBelow(ElementalCraftApi.createRL("translocation_anchor_marker"), ElementalCraftApi.createRL("single_translocation_anchor_marker"), GuiHandler::drawAnchor);
 	}
 
-	public static void drawGauge(ExtendedGui gui, GuiGraphics guiGraphics) {
-		var font = gui.getFont();
+	public static void drawGauge(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
 
 		if (player == null) {
 			return;
 		}
 
-		gui.setupOverlayRenderState(true, false);
+		RenderSystem.enableBlend();
 
 		var spell = getSpell();
 		var i = 0;
@@ -92,8 +95,7 @@ public class GuiHandler {
 		for (var storage : getElementStorage(player)) {
 			ElementType type = storage.getElementType();
 
-			renderElementGauge(guiGraphics, font, storage.getElementAmount(), storage.getElementCapacity(), type, i);
-			gui.setupOverlayRenderState(true, false);
+			renderElementGauge(guiGraphics, Minecraft.getInstance().font, storage.getElementAmount(), storage.getElementCapacity(), type, i);
 			if (storage instanceof ShrineElementStorage shrineStorage) {
 				renderShrineCheck(guiGraphics, storage, shrineStorage);
 			} else if (spell.isValid() && spell.getElementType() == type && i == 0 && isPlayerOwned(player, storage)) {
@@ -101,39 +103,35 @@ public class GuiHandler {
 			}
 			i++;
 		}
+		RenderSystem.disableBlend();
 	}
 
-	private static boolean isPlayerOwned(Player player, ISingleElementStorage storage) { // FIXME rework
-		var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
-
-		if (playerStorage == null) {
-			return false;
+	private static boolean isPlayerOwned(Player player, ISingleElementStorage storage) {
+		if (storage instanceof SingleElementStorageWrapper wrapper && wrapper.getParent() instanceof PlayerElementStorage playerStorage) {
+			return player.equals(playerStorage.getPlayer());
 		}
-
-		var single = playerStorage.forElement(storage.getElementType());
-
-		return single.getElementAmount() == storage.getElementAmount() && single.getElementCapacity() == storage.getElementCapacity();
+		return false;
 	}
 
-	public static void drawAnchors(ExtendedGui gui, GuiGraphics guiGraphics, int width, int height) {
+	public static void drawAnchors(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
-		if (worldMatrix == null || player == null || !TranslocationSpell.holdsTranslocation(player) || TranslocationAnchorList.CLIENT_LIST.isEmpty()) {
+		if (worldMatrix == null || player == null || !TranslocationSpell.holdsTranslocation(player) || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
 			return;
 		}
 
-		var targetAnchor = TranslocationSpell.getTargetAnchor(player, TranslocationAnchorList.CLIENT_LIST);
+		var targetAnchor = TranslocationSpell.getTargetAnchor(player, TranslocationAnchorsSaveData.CLIENT_SET);
 
 		var range = Spells.TRANSLOCATION.get().getRange(player);
 		var rangeSq = range * range;
 		var falloffSq = (range / 2) * (range / 2);
 		var cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 		var playerPos = player.position();
-		var buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+		var buffer = createBufferSource();
 
-		gui.setupOverlayRenderState(true, false);
-		for (var anchor : TranslocationAnchorList.CLIENT_LIST) {
+		RenderSystem.enableBlend();
+		for (var anchor : TranslocationAnchorsSaveData.CLIENT_SET) {
 			var center = Vec3.atCenterOf(anchor);
 			var distanceSq = center.distanceToSqr(playerPos);
 
@@ -143,23 +141,24 @@ public class GuiHandler {
 				if (v.z() <= 0F || v.z() >= 1F) {
 					continue;
 				}
-				drawAnchor(guiGraphics.pose(), width, height, anchor.equals(targetAnchor) ? 1.5f : getAnchorScale(falloffSq, (float) distanceSq), buffer, v);
+				drawAnchor(guiGraphics.pose(), guiGraphics.guiWidth(), guiGraphics.guiHeight(), anchor.equals(targetAnchor) ? 1.5f : getAnchorScale(falloffSq, (float) distanceSq), buffer, v);
 			}
 		}
+		RenderSystem.disableBlend();
 		buffer.endBatch();
 	}
 
-	public static void drawAnchor(ExtendedGui gui, GuiGraphics guiGraphics, int width, int height) {
+	public static void drawAnchor(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
-		if (worldMatrix == null || player == null || TranslocationAnchorList.CLIENT_LIST.isEmpty()) {
+		if (worldMatrix == null || player == null || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
 			return;
 		}
 
 		var anchor = TranslocationShrineUpgradeBlockItem.getTargetAnchor(player);
 
-		if (anchor == null || !TranslocationAnchorList.CLIENT_LIST.contains(anchor)) {
+		if (anchor == null || !TranslocationAnchorsSaveData.CLIENT_SET.contains(anchor)) {
 			return;
 		}
 
@@ -178,11 +177,16 @@ public class GuiHandler {
 			return;
 		}
 
-		var buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+		var buffer = createBufferSource();
 
-		gui.setupOverlayRenderState(true, false);
-		drawAnchor(guiGraphics.pose(), width, height, 1.5f, buffer, v);
+		RenderSystem.enableBlend();
+		drawAnchor(guiGraphics.pose(), guiGraphics.guiWidth(), guiGraphics.guiHeight(), 1.5f, buffer, v);
+		RenderSystem.disableBlend();
 		buffer.endBatch();
+	}
+
+	private static @NotNull MultiBufferSource.BufferSource createBufferSource() {
+		return MultiBufferSource.immediate(Tesselator.getInstance().buffer);
 	}
 
 
@@ -247,7 +251,7 @@ public class GuiHandler {
 
 		var spellElementType = EntityHelper.handStream(player).map(stack -> {
 			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
-				return SpellHelper.getSpell(stack).getElementType();
+				return SpellHelper.getSpell(stack).value().getElementType();
 			}
 			return ElementType.NONE;
 		}).filter(type -> type != ElementType.NONE).findFirst().orElse(ElementType.NONE);
@@ -289,8 +293,11 @@ public class GuiHandler {
 			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
 				return SpellHelper.getSpell(stack);
 			}
-			return Spells.NONE.get();
-		}).filter(Spell::isValid).findFirst().orElseGet(Spells.NONE);
+			return Spells.NONE;
+		}).filter(SpellHelper::isValid)
+				.findFirst()
+				.map(Holder::value)
+				.orElseGet(Spells.NONE);
 	}
 
 	private static void renderElementGauge(GuiGraphics guiGraphics, Font font, int element, int max, ElementType type, int index) {

@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:ripening\"]",
+  "name": "elementalcraft_spell.elementalcraft.ripening",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.ripening0"
+    }
+  ],
+  "sortnum": 18,
+  "turnin": "elementalcraft:pickup/scroll"
+}

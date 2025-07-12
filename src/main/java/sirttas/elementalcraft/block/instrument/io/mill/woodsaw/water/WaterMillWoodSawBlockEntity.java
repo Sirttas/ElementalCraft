@@ -1,27 +1,22 @@
 package sirttas.elementalcraft.block.instrument.io.mill.woodsaw.water;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.state.BlockState;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.AbstractMillWoodSawBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
+import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlockEntity;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 
-public class WaterMillWoodSawBlockEntity extends AbstractMillWoodSawBlockEntity {
+public class WaterMillWoodSawBlockEntity extends AbstractMillBlockEntity<SawingRecipe> {
 
-	private static final Config<AbstractMillWoodSawBlockEntity, SawingRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.WATER_MILL_WOOD_SAW,
-			ECRecipeTypes.SAWING,
-			ECConfig.SERVER.waterMillsTransferSpeed,
-			ECConfig.SERVER.waterMillsMaxRunes,
-			1,
-			false,
-			false
-	);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(WaterMillWoodSawBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	public WaterMillWoodSawBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, ElementType.WATER, pos, state);
+		super(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, PROPERTIES, ElementType.WATER, pos, state);
 	}
 }

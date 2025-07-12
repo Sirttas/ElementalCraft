@@ -66,9 +66,6 @@ public interface IElementStorage {
 	}
 
 	default void fill(ElementType type) {
-		if (type == ElementType.NONE) {
-			return;
-		}
 		insertElement(getElementCapacity(type), type, false);
 	}
 

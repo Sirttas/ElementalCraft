@@ -4,6 +4,10 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -13,14 +17,14 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.particle.ParticleHelper;
@@ -57,30 +61,42 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	public DiffuserBlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
 		return new DiffuserBlockEntity(pos, state);
 	}
-	
+
+	@Nonnull
+	@Override
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		final DiffuserBlockEntity diffuser = (DiffuserBlockEntity) level.getBlockEntity(pos);
+
+		if (diffuser != null && player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
+			if (level.isClientSide) {
+				diffuser.startShowingRange();
+			}
+			return ItemInteractionResult.SUCCESS;
+		}
+		return super.useItemOn(stack, state, level, pos, player, hand, hit);
+	}
+
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECServerTicker(level, type, ECBlockEntityTypes.DIFFUSER, DiffuserBlockEntity::serverTick);
+		return createECTicker(level, type, ECBlockEntityTypes.DIFFUSER, level.isClientSide ? DiffuserBlockEntity::clientTick : DiffuserBlockEntity::serverTick);
 	}
 	
 	@Nonnull
 	@Override
-	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 	
 	@Override
-	@Deprecated
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state, level, pos.below());
+		return ElementContainer.isValidContainer(state, level, pos.below());
 	}
 	
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-		BlockEntityHelper.getBlockEntityAs(level, pos, DiffuserBlockEntity.class).filter(DiffuserBlockEntity::hasDiffused)
+		BlockEntityHelper.getBlockEntityAs(level, pos, DiffuserBlockEntity.class)
+				.filter(DiffuserBlockEntity::hasDiffused)
 				.ifPresent(e -> ParticleHelper.createElementFlowParticle(e.getContainerElementType(), level, Vec3.atCenterOf(pos), Direction.UP, 1, rand));
 	}
 }

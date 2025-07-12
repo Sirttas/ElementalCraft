@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:elementpipe_rudimentary"
+    },
+    {
+      "tag": "c:nuggets/swift_alloy"
+    },
+    {
+      "tag": "c:nuggets/swift_alloy"
+    },
+    {
+      "tag": "c:nuggets/swift_alloy"
+    },
+    {
+      "tag": "c:nuggets/swift_alloy"
+    },
+    {
+      "tag": "c:nuggets/swift_alloy"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:elementpipe_improved"
+  }
+}

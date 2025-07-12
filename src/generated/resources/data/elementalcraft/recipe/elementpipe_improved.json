@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "i": {
+      "tag": "c:ingots/swift_alloy"
+    }
+  },
+  "pattern": [
+    "ici"
+  ],
+  "result": {
+    "count": 4,
+    "id": "elementalcraft:elementpipe_improved"
+  }
+}

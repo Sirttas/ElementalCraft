@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -64,23 +64,20 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 
 	@Nonnull
     @Override
-	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return blockGetter instanceof Level level && level.isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return getCurrentShape(state);
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		return this.moveIO(state, world, pos, hit);
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		return this.moveIO(state, level, pos, hit);
 	}
 
 	public static void sendOutputToRetriever(Level level, BlockPos pos, Container inventory, int slot) {

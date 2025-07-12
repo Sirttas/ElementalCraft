@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.world.feature.placement;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
@@ -13,11 +13,11 @@ public class ECPlacements {
 
 	private static final DeferredRegister<PlacementModifierType<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, ElementalCraftApi.MODID);
 
-	public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<SourcePlacement>> SOURCE = register(SourcePlacement.CODEC, SourcePlacement.NAME);
+	public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<SourcePlacement>> SOURCE = register(SourcePlacement.NAME, SourcePlacement.CODEC);
 
 	private ECPlacements() {}
 
-	private static <T extends PlacementModifier> DeferredHolder<PlacementModifierType<?>, PlacementModifierType<T>> register(Codec<T> codec, String name) {
+	private static <T extends PlacementModifier> DeferredHolder<PlacementModifierType<?>, PlacementModifierType<T>> register(String name, MapCodec<T> codec) {
 		return DEFERRED_REGISTER.register(name, () -> () -> codec);
 	}
 

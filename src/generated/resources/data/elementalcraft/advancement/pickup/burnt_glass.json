@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_burnt_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:burnt_glass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_burnt_glass"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

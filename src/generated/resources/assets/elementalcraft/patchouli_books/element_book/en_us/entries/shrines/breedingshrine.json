@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:breedingshrine",
+  "name": "block.elementalcraft.breedingshrine",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.breedingshrine0"
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:pickup/breedingshrine"
+}

@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:main/drenched_iron",
+  "category": "elementalcraft:pipes",
+  "icon": "elementalcraft:cover_frame",
+  "name": "item.elementalcraft.cover_frame",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.cover_frame0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:cover_frame"
+    }
+  ],
+  "sortnum": 1,
+  "turnin": "elementalcraft:pickup/cover_frame"
+}

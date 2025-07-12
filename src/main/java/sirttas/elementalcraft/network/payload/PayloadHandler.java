@@ -1,34 +1,39 @@
 package sirttas.elementalcraft.network.payload;
 
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import sirttas.elementalcraft.advancements.LookAtSourcePayload;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorListPayload;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexPullPlayerPayload;
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassPayload;
 import sirttas.elementalcraft.item.spell.book.SpellBookPayload;
 import sirttas.elementalcraft.jewel.handler.ActiveJewelsPayload;
+import sirttas.elementalcraft.pureore.PureOreSyncPayload;
 import sirttas.elementalcraft.spell.ChangeSpellPayload;
 import sirttas.elementalcraft.spell.tick.SpellTickCooldownPayload;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class PayloadHandler {
 
-	private static final String PROTOCOL_VERSION = "1";
+	private static final String PROTOCOL_VERSION = "3";
 
 	private PayloadHandler() {}
 
 	@SubscribeEvent
-	public static void register(final RegisterPayloadHandlerEvent event) {
+	public static void register(final RegisterPayloadHandlersEvent event) {
 		var registrar = event.registrar(ElementalCraftApi.MODID).versioned(PROTOCOL_VERSION);
 
-		registrar.play(ChangeSpellPayload.ID, ChangeSpellPayload::new, ChangeSpellPayload::handle);
-		registrar.play(SpellBookPayload.ID, SpellBookPayload::new, SpellBookPayload::handle);
-		registrar.play(SpellTickCooldownPayload.ID, SpellTickCooldownPayload::new, SpellTickCooldownPayload::handle);
-		registrar.play(SourceAnalysisGlassPayload.ID, SourceAnalysisGlassPayload::new, SourceAnalysisGlassPayload::handle);
-		registrar.play(ActiveJewelsPayload.ID, ActiveJewelsPayload::new, ActiveJewelsPayload::handle);
-		registrar.play(VortexPullPlayerPayload.ID, VortexPullPlayerPayload::new, VortexPullPlayerPayload::handle);
-		registrar.play(TranslocationAnchorListPayload.ID, TranslocationAnchorListPayload::new, TranslocationAnchorListPayload::handle);
+		registrar.playToClient(SpellBookPayload.TYPE, SpellBookPayload.STREAM_CODEC, SpellBookPayload::handle);
+		registrar.playToClient(SpellTickCooldownPayload.TYPE, SpellTickCooldownPayload.STREAM_CODEC, SpellTickCooldownPayload::handle);
+		registrar.playToClient(SourceAnalysisGlassPayload.TYPE, SourceAnalysisGlassPayload.STREAM_CODEC, SourceAnalysisGlassPayload::handle);
+		registrar.playToClient(ActiveJewelsPayload.TYPE, ActiveJewelsPayload.STREAM_CODEC, ActiveJewelsPayload::handle);
+		registrar.playToClient(VortexPullPlayerPayload.TYPE, VortexPullPlayerPayload.STREAM_CODEC, VortexPullPlayerPayload::handle);
+		registrar.playToClient(TranslocationAnchorListPayload.TYPE, TranslocationAnchorListPayload.STREAM_CODEC, TranslocationAnchorListPayload::handle);
+		registrar.playToClient(PureOreSyncPayload.TYPE, PureOreSyncPayload.STREAM_CODEC, PureOreSyncPayload::handle);
+
+		registrar.playToServer(ChangeSpellPayload.TYPE, ChangeSpellPayload.STREAM_CODEC, ChangeSpellPayload::handle);
+		registrar.playToServer(LookAtSourcePayload.TYPE, LookAtSourcePayload.STREAM_CODEC, LookAtSourcePayload::handle);
 	}
 }

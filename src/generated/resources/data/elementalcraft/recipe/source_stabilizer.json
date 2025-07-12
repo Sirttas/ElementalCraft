@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "i": {
+      "tag": "c:ingots/swift_alloy"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_glass"
+    }
+  },
+  "pattern": [
+    "sis",
+    "i i",
+    "sis"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:source_stabilizer"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "i": {
+      "tag": "c:ingots/swift_alloy"
+    },
+    "s": {
+      "tag": "c:rods/hardened"
+    }
+  },
+  "pattern": [
+    " ic",
+    " si",
+    "d  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:focus"
+  }
+}

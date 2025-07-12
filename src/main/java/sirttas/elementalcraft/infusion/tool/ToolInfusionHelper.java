@@ -1,18 +1,15 @@
 package sirttas.elementalcraft.infusion.tool;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
-import sirttas.elementalcraft.data.attachment.ECDataAttachments;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.infusion.tool.effect.AttributeToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
@@ -21,6 +18,7 @@ import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,28 +26,32 @@ import java.util.stream.StreamSupport;
 
 public class ToolInfusionHelper {
 
+	private static final Holder<ToolInfusion> NONE = Holder.direct(ToolInfusion.NONE);
+
 	private ToolInfusionHelper() {}
 
 	@Nonnull
-	public static ToolInfusion getInfusion(@Nonnull ItemStack stack) {
+	public static Holder<ToolInfusion> getInfusion(@Nonnull ItemStack stack) {
 		if (stack.isEmpty()) {
-			return ToolInfusion.NONE;
+			return NONE;
 		}
-		return stack.getExistingData(ECDataAttachments.TOOL_INFUSION).orElse(ToolInfusion.NONE);
+		var infusion = stack.get(ECDataComponents.TOOL_INFUSION);
+
+		return infusion != null ? infusion : NONE;
 	}
 	
-	public static void setInfusion(@Nonnull ItemStack stack, @Nonnull ToolInfusion infusion) {
+	public static void setInfusion(@Nonnull ItemStack stack, @Nonnull Holder<ToolInfusion> infusion) {
 		if (stack.isEmpty()) {
 			return;
 		}
-		stack.setData(ECDataAttachments.TOOL_INFUSION, infusion);
+		stack.set(ECDataComponents.TOOL_INFUSION, infusion);
 	}
 
 	public static void removeInfusion(@Nonnull ItemStack stack) {
 		if (stack.isEmpty()) {
 			return;
 		}
-		stack.removeData(ECDataAttachments.TOOL_INFUSION);
+		stack.remove(ECDataComponents.TOOL_INFUSION);
 	}
 
 	public static boolean hasAutoSmelt(ItemStack stack) {
@@ -73,8 +75,11 @@ public class ToolInfusionHelper {
 	}
 
 	private static Stream<ToolInfusion> getInfusions(Entity entity) {
-		return StreamSupport.stream(entity.getAllSlots().spliterator(), false)
-				.map(ToolInfusionHelper::getInfusion);
+		if (entity instanceof LivingEntity livingEntity) {
+			return StreamSupport.stream(livingEntity.getAllSlots().spliterator(), false)
+					.map(s -> getInfusion(s).value());
+		}
+		return Stream.empty();
 	}
 	
 	private static Stream<IToolInfusionEffect> getInfusionEffects(Entity entity) {
@@ -82,21 +87,16 @@ public class ToolInfusionHelper {
 	}
 	
 	private static <T extends IToolInfusionEffect> Stream<T> getInfusionEffects(ItemStack stack, Class<T> type) {
-		return getInfusion(stack).getEffects().stream().mapMulti(ElementalCraftUtils.cast(type));
+		return getInfusion(stack).value().getEffects().stream().mapMulti(ElementalCraftUtils.cast(type));
 	}
 
-	public static Map<Enchantment, Integer> getAllInfusionEnchantments(ItemStack stack) {
+	public static Map<Holder<Enchantment>, Integer> getAllInfusionEnchantments(ItemStack stack) {
 		return getInfusionEffects(stack, EnchantmentToolInfusionEffect.class)
 				.collect(Collectors.toMap(EnchantmentToolInfusionEffect::getEnchantment, EnchantmentToolInfusionEffect::getLevel, Integer::sum));
 	}
 	
-	public static Multimap<Attribute, AttributeModifier> getInfusionAttribute(ItemStack stack, EquipmentSlot slot) {
-		Multimap<Attribute, AttributeModifier> map = ArrayListMultimap.create();
-		
-		getInfusionEffects(stack, AttributeToolInfusionEffect.class)
-				.filter(i -> i.slots().contains(slot))
-				.forEach(i -> map.put(i.attribute(), i.modifier()));
-		return map;
+	public static List<AttributeToolInfusionEffect> getInfusionAttribute(ItemStack stack) {
+		return getInfusionEffects(stack, AttributeToolInfusionEffect.class).toList();
 	}
 	
 	public static float getElementCostReduction(Entity entity) {

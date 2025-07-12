@@ -4,6 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
@@ -13,9 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.item.ECItem;
+import sirttas.elementalcraft.item.TooltipHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -30,8 +29,8 @@ public class EffectSpell extends Spell {
 	}
 
 	private InteractionResult applyEffect(Entity target) {
-		if (target instanceof LivingEntity) {
-			effects.forEach(e -> ((LivingEntity) target).addEffect(new MobEffectInstance(e)));
+		if (target instanceof LivingEntity livingEntity) {
+			effects.forEach(e -> livingEntity.addEffect(new MobEffectInstance(e)));
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;
@@ -49,26 +48,16 @@ public class EffectSpell extends Spell {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void addInformation(List<Component> tooltip) {
-		Multimap<Attribute, AttributeModifier> multiMap = HashMultimap.create();
+		Multimap<Holder<Attribute>, AttributeModifier> multiMap = HashMultimap.create();
 
 		if (!effects.isEmpty()) {
 			for (MobEffectInstance effectInstance : effects) {
 				var mutableComponent = Component.translatable(effectInstance.getDescriptionId());
-				var effect = effectInstance.getEffect();
+				var effect = effectInstance.getEffect().value();
 				var amplifier = effectInstance.getAmplifier();
 
-				var map = effect.getAttributeModifiers();
-				if (!map.isEmpty()) {
-					for (var entry : map.entrySet()) {
-						var attributemodifier = entry.getValue();
-						var attributeModifier1 =  entry.getValue().create(amplifier);
-
-						multiMap.put(entry.getKey(), attributeModifier1);
-					}
-				}
-
+				effect.createModifiers(effectInstance.getAmplifier(), multiMap::put);
 				if (amplifier > 0) {
 					mutableComponent = Component.translatable("potion.withAmplifier", mutableComponent, Component.translatable("potion.potency." + amplifier));
 				}
@@ -80,7 +69,7 @@ public class EffectSpell extends Spell {
 				tooltip.add(mutableComponent.withStyle(effect.getCategory().getTooltipFormatting()));
 			}
 		}
-		ECItem.addAttributeMultiMapToTooltip(tooltip, multiMap, Component.translatable("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
+		TooltipHelper.addAttributeMultiMapToTooltip(tooltip, multiMap, Component.translatable("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
 	}
 
 	public final List<MobEffectInstance> getEffects() {

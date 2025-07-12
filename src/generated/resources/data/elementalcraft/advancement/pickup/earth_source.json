@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_earth_source": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:earth_source"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_earth_source"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -15,8 +15,8 @@ public class SourceSourceTraitHolder extends SourceTraitHolder {
     }
 
     @Override
-    public float getRecoverRate() {
-        return super.getRecoverRate() + (source.isStabilized() ? 20F : 0F);
+    public float getPreservationModifier() {
+        return super.getPreservationModifier() * (source.isStabilized() ? 1.05F : 1F); // TODO config
     }
 
     @Override
@@ -25,13 +25,17 @@ public class SourceSourceTraitHolder extends SourceTraitHolder {
                 .mapToDouble(e -> {
                     var value = e.getValue().getValue(type);
 
-                    if (SourceTraits.DIURNAL_NOCTURNAL.equals(e.getKey())) {
-                        var l = source.getLevel();
+                    if (e.getKey().is(SourceTraits.DIURNAL_NOCTURNAL_KEY)) {
+                        var level = source.getLevel();
 
-                        if (l == null || value == 0) {
+                        if (level == null || value == 0 || value == 1) {
                             return 1;
+                        } else if (level.isDay()) {
+                            return value;
+                        } else if (level.isNight()) {
+                            return 1 / value;
                         }
-                        return (l.isDay() ? value : l.isNight() ? 1 / value : 1);
+                        return 1;
                     }
                     return value;
                 })

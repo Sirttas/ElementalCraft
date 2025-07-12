@@ -5,12 +5,12 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.spell.ChangeSpellPayload;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.tag.ECTags;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class InputHandler {
 
 	private InputHandler() {}
@@ -52,20 +52,19 @@ public class InputHandler {
 
 	private static void setSelectedSpell(LocalPlayer player, ItemStack stack, int i) {
 		SpellHelper.setSelected(stack, i);
-		player.displayClientMessage(SpellHelper.getSpell(stack).getDisplayName(), true);
-		PayloadHelper.sendToServer(new ChangeSpellPayload(i));
+		player.displayClientMessage(SpellHelper.getSpell(stack).value().getDisplayName(), true);
+		PacketDistributor.sendToServer(new ChangeSpellPayload(i));
 	}
 
-
 	@SubscribeEvent
-	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if(event.player.level().isClientSide && event.player instanceof LocalPlayer localPlayer && event.player == Minecraft.getInstance().player && event.phase == TickEvent.Phase.END) {
-			getFirstSpellCastTool(EntityHelper.handStream(localPlayer)).ifPresent(stack -> {
+	public static void onPlayerTick(PlayerTickEvent.Post event) {
+		if(event.getEntity() instanceof LocalPlayer player && player.level().isClientSide && player == Minecraft.getInstance().player) {
+			getFirstSpellCastTool(EntityHelper.handStream(player)).ifPresent(stack -> {
 				var index = 0;
 
 				for (var key : ECKeyMappings.CHANGE_TO_SPELL) {
-					if (!key.isUnbound() && key.consumeClick() && SpellHelper.getSpellsAsMap(stack).size() > index) {
-						setSelectedSpell(localPlayer, stack, index);
+					if (!key.isUnbound() && key.consumeClick() && SpellHelper.getSpellList(stack).getSpells().size() > index) {
+						setSelectedSpell(player, stack, index);
 					}
 					index++;
 				}

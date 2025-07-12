@@ -5,11 +5,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -84,8 +85,7 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return switch (state.getValue(FACING)) {
 			case NORTH -> NORTH_SHAPE;
 			case SOUTH -> SOUTH_SHAPE;
@@ -97,13 +97,12 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
 	@Nonnull
     @Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		if (world.isClientSide) {
-			return InteractionResult.SUCCESS;
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		if (level.isClientSide) {
+			return ItemInteractionResult.SUCCESS;
 		}
 		player.openMenu(new ContainerProvider());
-		return InteractionResult.CONSUME;
+		return ItemInteractionResult.CONSUME;
 	}
 	
 	private class ContainerProvider implements MenuProvider {

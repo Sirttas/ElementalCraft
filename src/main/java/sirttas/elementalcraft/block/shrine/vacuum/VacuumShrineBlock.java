@@ -12,8 +12,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
@@ -41,14 +39,12 @@ public class VacuumShrineBlock extends AbstractShrineBlock<VacuumShrineBlockEnti
 
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
-		ParticleHelper.createEnderParticle(world, Vec3.atLowerCornerOf(pos), 3, rand);
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level level, BlockPos pos, RandomSource rand) {
+		ParticleHelper.createEnderParticle(level, Vec3.atLowerCornerOf(pos), 3, rand);
 	}
 }

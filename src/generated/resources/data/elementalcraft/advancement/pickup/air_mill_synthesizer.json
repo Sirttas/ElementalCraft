@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_air_mill_synthesizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:air_mill_synthesizer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_air_mill_synthesizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

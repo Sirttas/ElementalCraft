@@ -1,19 +1,17 @@
 {
     "required": true,
     "minVersion": "0.8.5",
-    "compatibilityLevel": "JAVA_17",
+    "compatibilityLevel": "JAVA_21",
     "package": "sirttas.elementalcraft.mixin",
     "mixins": [
         "MixinEntity",
         "MixinLivingEntity",
-        "MixinMinecraftServer",
         "MixinPiglinAi",
         "MixinPlayer",
         "MixinPowderSnowBlock",
         "MixinProjectile",
         "MixinRecipeManager",
-        "MixinRepairContainer",
-        "MixinZombie"
+        "MixinRepairContainer"
     ],
     "injectors": {
         "defaultRequire": 1

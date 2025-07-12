@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:dolphin",
+  "name": "elementalcraft.jewel.elementalcraft.dolphin",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.dolphin0"
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:pickup/dolphin"
+}

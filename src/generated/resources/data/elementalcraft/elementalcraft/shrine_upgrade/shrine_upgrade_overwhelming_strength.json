@@ -51,7 +51,7 @@
                   "type": "dpanvil:blocks",
                   "blocks": [
                     "elementalcraft:springshrine",
-                    "elementalcraft:lavashrine"
+                    "elementalcraft:melting_shrine"
                   ]
                 }
               ]

@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:purifier",
+  "name": "block.elementalcraft.purifier",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.purifier0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:purifier"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:purifier"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 12,
+  "turnin": "elementalcraft:main/purifier"
+}

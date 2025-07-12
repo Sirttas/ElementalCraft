@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.container;
 
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class SingleItemContainer extends SingleStackContainer {
 
@@ -18,7 +19,7 @@ public class SingleItemContainer extends SingleStackContainer {
 	}
 
 	@Override
-	public ItemStack removeItem(int slot, int count) {
+	public @NotNull ItemStack removeItem(int slot, int count) {
 		ItemStack value = slot == 0 && !stack.isEmpty() && count == 1 ? stack.split(count) : ItemStack.EMPTY;
 
 		this.setChanged();

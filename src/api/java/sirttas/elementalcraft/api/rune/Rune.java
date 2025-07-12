@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
@@ -54,12 +55,15 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		return handler.getRuneCount() < handler.getMaxRunes() && canUpgrade(level, pos, direction, handler.getRuneCount(this));
 	}
 
-	public void addInformation(List<Component> tooltip) {
+	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		bonuses.forEach((type, multiplier) -> tooltip.add(
 				Component.translatable("rune_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier)).withStyle(multiplier > 0 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
 			tooltip.add(Component.empty());
 			tooltip.add(Component.translatable("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
+		}
+		if (flag.isAdvanced()) {
+			tooltip.addAll(this.getPredicateTooltip());
 		}
 	}
 
@@ -86,7 +90,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	public Component getDisplayName() {
 		ResourceLocation id = getId();
 
-		return Component.translatable("elementalcraft_rune." + id.getNamespace() + '.' + id.getPath());
+		return Component.translatable("elementalcraft.rune." + id.getNamespace() + '.' + id.getPath());
 	}
 
 	public boolean is(ResourceKey<Rune> key) {
@@ -120,7 +124,8 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		NONE(ECNames.NONE),
 		SPEED(ECNames.SPEED),
 		ELEMENT_PRESERVATION(ECNames.ELEMENT_PRESERVATION),
-		LUCK(ECNames.LUCK);
+		LUCK(ECNames.LUCK),
+		RANGE(ECNames.RANGE);
 
 		public static final Codec<BonusType> CODEC = StringRepresentable.fromEnum(BonusType::values);
 
@@ -188,7 +193,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		public Builder model(ItemModelBuilder model) {
 			ResourceLocation modelLoc = model.getLocation();
 			
-			this.model = new ResourceLocation(modelLoc.getNamespace(), modelLoc.getPath());
+			this.model = ResourceLocation.fromNamespaceAndPath(modelLoc.getNamespace(), modelLoc.getPath());
 			return this;
 		}
 

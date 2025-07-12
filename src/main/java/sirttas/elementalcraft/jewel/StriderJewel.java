@@ -19,7 +19,7 @@ public class StriderJewel extends Jewel {
     private final TagKey<Fluid> tag;
 
     public StriderJewel(ElementType elementType, int consumption, TagKey<Fluid> tag) {
-        super(elementType, consumption);
+        super(elementType, consumption, true);
         this.tag = tag;
     }
 

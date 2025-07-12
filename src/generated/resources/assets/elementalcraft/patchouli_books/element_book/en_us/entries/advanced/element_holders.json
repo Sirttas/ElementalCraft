@@ -1,0 +1,24 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:advanced",
+  "icon": "elementalcraft:element_holder_fire",
+  "name": "elementalcraft.entry.element_holders",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.element_holders0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:element_holder_fire",
+      "recipe2": "elementalcraft:element_holder_water"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:element_holder_earth",
+      "recipe2": "elementalcraft:element_holder_air"
+    }
+  ],
+  "sortnum": 0,
+  "turnin": "elementalcraft:main/element_holders"
+}

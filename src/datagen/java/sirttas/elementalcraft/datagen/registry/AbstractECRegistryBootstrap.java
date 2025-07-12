@@ -5,7 +5,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -17,14 +17,14 @@ import java.util.Arrays;
 public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuilder.RegistryBootstrap<T> {
 
     private final ResourceKey<Registry<T>> key;
-    private BootstapContext<T> context;
+    private BootstrapContext<T> context;
 
     protected AbstractECRegistryBootstrap(ResourceKey<Registry<T>> key) {
         this.key = key;
     }
 
     @Override
-    public void run(@Nonnull BootstapContext<T> context) {
+    public void run(@Nonnull BootstrapContext<T> context) {
         this.context = context;
         gather();
     }

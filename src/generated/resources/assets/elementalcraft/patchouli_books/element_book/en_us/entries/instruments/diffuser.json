@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:diffuser",
+  "name": "block.elementalcraft.diffuser",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.diffuser0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:diffuser"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:diffuser"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 13,
+  "turnin": "elementalcraft:main/diffuser"
+}

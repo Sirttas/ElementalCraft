@@ -1,0 +1,34 @@
+{
+  "parent": "elementalcraft:main/springaline_shard",
+  "criteria": {
+    "has_springaline_cluster": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:springaline_cluster"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.springaline_cluster.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:springaline_cluster"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.springaline_cluster.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_springaline_cluster"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

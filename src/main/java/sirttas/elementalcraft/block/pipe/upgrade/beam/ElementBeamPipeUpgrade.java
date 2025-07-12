@@ -30,13 +30,11 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     private static final Map<Direction, VoxelShape> SHAPES = ShapeHelper.directionShapes(Block.box(7D, 9.5D, 7D, 9D, 14D, 9D));
 
     private ElementBeamPipeUpgrade other;
-    private boolean linked;
 
     private int transfered;
 
     public ElementBeamPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
         super(PipeUpgradeTypes.ELEMENT_BEAM.get(), pipe, direction);
-        this.linked = false;
         transfered = 0;
     }
 
@@ -81,15 +79,13 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     }
 
     private void tryLink() {
-        if (!this.linked) {
+        if (this.other == null) {
             this.findOther().ifPresent(b -> {
                 var opt = b.findOther();
 
                 if (opt.isPresent() && opt.get() == this) {
                     this.other = b;
                     b.other = this;
-                    this.linked = true;
-                    b.linked = true;
                 }
             });
         }
@@ -98,8 +94,6 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     @Override
     public void onRemoved() {
         if (this.other != null) {
-            this.other.linked = false;
-            this.linked = false;
             this.other.other = null;
             this.other = null;
         }

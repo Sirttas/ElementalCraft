@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block.sorter;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -51,22 +51,22 @@ public interface ISorterBlock {
 		return getCurrentShape(state);
 	}
 	
-	default InteractionResult moveIO(BlockState state, Level world, BlockPos pos, BlockHitResult hit) {
-		return this.moveIO(state, world, pos, hit, getShape(state, pos, hit));
+	default ItemInteractionResult moveIO(BlockState state, Level level, BlockPos pos, BlockHitResult hit) {
+		return this.moveIO(state, level, pos, hit, getShape(state, pos, hit));
 	}
 	
-	default InteractionResult moveIO(BlockState state, Level world, BlockPos pos, BlockHitResult hit, VoxelShape shape) {
+	default ItemInteractionResult moveIO(BlockState state, Level level, BlockPos pos, BlockHitResult hit, VoxelShape shape) {
 		Direction direction = hit.getDirection().getOpposite();
 
 		if (state.getValue(SOURCE) == direction || state.getValue(TARGET) == direction) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		} else if (ECShapes.SOURCE_SHAPES.contains(shape)) {
-			world.setBlockAndUpdate(pos, state.setValue(SOURCE, direction));
-			return InteractionResult.SUCCESS;
+			level.setBlockAndUpdate(pos, state.setValue(SOURCE, direction));
+			return ItemInteractionResult.SUCCESS;
 		} else if (ECShapes.TARGET_SHAPES.contains(shape)) {
-			world.setBlockAndUpdate(pos, state.setValue(TARGET, direction));
-			return InteractionResult.SUCCESS;
+			level.setBlockAndUpdate(pos, state.setValue(TARGET, direction));
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 }

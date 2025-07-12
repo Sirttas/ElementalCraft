@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/infuser",
+  "criteria": {
+    "has_drenched_iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:drenched_iron_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.drenched_iron.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:drenched_iron_ingot"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.drenched_iron.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_iron"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

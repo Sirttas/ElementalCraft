@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "tag": "elementalcraft:chisels"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "id": "elementalcraft:pristine_shard"
+  }
+}

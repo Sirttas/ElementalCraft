@@ -1,0 +1,16 @@
+{
+  "type": "elementalcraft:spell_craft",
+  "crystal": {
+    "item": "elementalcraft:earthcrystal"
+  },
+  "gem": {
+    "item": "elementalcraft:fine_air_gem"
+  },
+  "output": {
+    "components": {
+      "elementalcraft:spell": "elementalcraft:feather_spikes"
+    },
+    "count": 1,
+    "id": "elementalcraft:scroll"
+  }
+}

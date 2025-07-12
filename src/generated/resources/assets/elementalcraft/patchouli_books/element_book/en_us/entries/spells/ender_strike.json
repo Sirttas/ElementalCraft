@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:ender_strike\"]",
+  "name": "elementalcraft_spell.elementalcraft.ender_strike",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.ender_strike0"
+    }
+  ],
+  "sortnum": 8,
+  "turnin": "elementalcraft:pickup/scroll"
+}

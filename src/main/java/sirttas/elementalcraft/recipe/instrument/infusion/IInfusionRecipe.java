@@ -1,25 +1,24 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
-public interface IInfusionRecipe extends ISingleElementInstrumentRecipe<IInfuser> {
+public interface IInfusionRecipe extends ISingleElementInstrumentRecipe<SingleItemSingleElementRecipeInput> {
 
 	String NAME = "infusion";
 
 	@Override
-	default boolean matches(@Nonnull IInfuser infuser, @Nonnull Level level) {
-		ItemStack stack = infuser.getItem();
+	default boolean matches(@Nonnull SingleItemSingleElementRecipeInput input, @Nonnull Level level) {
+		var stack = input.getItem(0);
 		
-		return !stack.isEmpty() && infuser.getContainerElementType() == getElementType() && getInput().test(stack);
+		return !stack.isEmpty() && input.getElementType() == getElementType() && getInput().test(stack);
 	}
 
 	@Nonnull

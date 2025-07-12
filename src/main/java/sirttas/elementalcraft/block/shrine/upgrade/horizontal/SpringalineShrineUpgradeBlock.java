@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -15,8 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
@@ -88,8 +87,7 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return getShape(state);
 	}
 	
@@ -100,7 +98,6 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	}
 	
 	@Override
-	@Deprecated
 	public void onRemove(@Nonnull BlockState state, @Nonnull Level level, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
 		super.onRemove(state, level, pos, newState, isMoving);
 		setShrineState(level, pos.relative(getFacing(state)), CrystalType.AMETHYST);
@@ -115,9 +112,8 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	}
 	
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(Component.translatable("tooltip.elementalcraft.springaline_shrine_upgrade").withStyle(ChatFormatting.BLUE));
-		super.appendHoverText(stack, worldIn, tooltip, flag);
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+		tooltip.add(Component.translatable("tooltip.elementalcraft.shrine_upgrade.springaline").withStyle(ChatFormatting.BLUE));
+		super.appendHoverText(stack, tooltipContext, tooltip, flag);
 	}
 }

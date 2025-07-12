@@ -57,10 +57,10 @@ public class EfficiencyShrineUpgradeBlock extends AbstractDirectionalShrineUpgra
 	protected @NotNull MapCodec<EfficiencyShrineUpgradeBlock> codec() {
 		return CODEC;
 	}
+
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return switch (state.getValue(FACING)) {
 			case DOWN -> SHAPE_DOWN;
 			case EAST -> SHAPE_EAST;

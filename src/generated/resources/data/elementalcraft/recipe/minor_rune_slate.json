@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "tag": "c:ingots/drenched_iron"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "www",
+    "wiw",
+    "www"
+  ],
+  "result": {
+    "count": 4,
+    "id": "elementalcraft:minor_rune_slate"
+  }
+}

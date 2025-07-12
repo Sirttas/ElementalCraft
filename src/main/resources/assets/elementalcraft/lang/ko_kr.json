@@ -131,7 +131,7 @@
   "block.elementalcraft.source.water": "물 원소 원본",
   "block.elementalcraft.source.earth": "흙 원소 원본",
   "block.elementalcraft.source.air": "공기 원소 원본",
-  "block.elementalcraft.elementpipe_impaired": "손상된 원소 파이프",
+  "block.elementalcraft.elementpipe_rudimentary": "손상된 원소 파이프",
   "block.elementalcraft.elementpipe": "원소 파이프",
   "block.elementalcraft.elementpipe_improved": "개선된 원소 파이프",
   "block.elementalcraft.instrument_retriever": "기구 출력 검색기",

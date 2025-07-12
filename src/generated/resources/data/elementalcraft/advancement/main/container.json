@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/small_container",
+  "criteria": {
+    "has_container": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:container"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.container.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:container"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.container.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_container"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

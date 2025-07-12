@@ -62,7 +62,6 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 			super(minecraft, WIDTH, HEIGHT, topPos + titleLabelY + 13, 11);
 
 			this.setX(leftPos + titleLabelX + 2);
-			this.setRenderBackground(false);
 		}
 
 		@Override

@@ -1,5 +1,4 @@
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
-import net.neoforged.gradle.common.runtime.tasks.DownloadAssets
 
 plugins {
     id 'java-library'
@@ -7,11 +6,23 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'jacoco'
-    id 'net.neoforged.gradle.userdev' version "${neogradle_version}"
+    id 'net.neoforged.moddev' version '2.0.+'
 
-    id "org.sonarqube" version "${sonar_version}"
     id 'net.darkhax.curseforgegradle' version '1.1.+'
     id "com.modrinth.minotaur" version "2.+"
+}
+
+eclipse {
+    classpath {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
 
 version = project.hasProperty('tag_version') ? "${tag_version}" : "${elementalcraft_version}"
@@ -19,7 +30,6 @@ group = 'sirttas.elementalcraft'
 
 repositories {
     mavenCentral()
-    flatDir { dirs 'libs', '../libs', '../DPAnvil/build/libs' }
     maven { url "https://repo.elementalcraft.org/public" }
 }
 
@@ -29,7 +39,26 @@ base {
 
 logger.info('Building Elemental Craft: ' + project.version)
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of("${java_version}")
+
+ext.lookupModDependancyLocaly = { name ->
+    def mod = findProject(":${name}")
+
+    if (mod == null) {
+        logger.info("${name} not found locally")
+    } else {
+        evaluationDependsOn(":${name}")
+        logger.info("${name} found locally")
+    }
+    return mod
+}
+
+project.ext.set('dpAnvil', lookupModDependancyLocaly(':DPAnvil'))
+if (project.dpAnvil == null) {
+    project.ext.set('dpAnvil', lookupModDependancyLocaly(':datapack-anvil'))
+} else {
+    project.dpAnvil = dpAnvil
+}
 
 sourceSets {
     api {
@@ -41,105 +70,114 @@ sourceSets {
         resources {
             srcDir 'src/generated/resources'
         }
-        compileClasspath += api.output
-        runtimeClasspath += api.output
     }
     datagen {
         java {
             srcDir 'src/datagen/java'
         }
     }
-    test {
-        compileClasspath += api.output
-        runtimeClasspath += api.output
-    }
+    test
 }
 
-minecraft.accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
+neoForge {
+    version = project.neo_version
 
-runs {
-    configureEach {
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
-        systemProperty 'fml.earlyprogresswindow', 'false'
-        systemProperty 'mixin.debug.verbose', 'true'
+    addModdingDependenciesTo(sourceSets.api)
+    addModdingDependenciesTo(sourceSets.datagen)
+    addModdingDependenciesTo(sourceSets.test)
 
-        modSource sourceSets.api
-        modSource sourceSets.main
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
 
-        def dpAnvil = findProject(':DPAnvil')
+    accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
 
-        if (dpAnvil != null) {
-            modSource dpAnvil.sourceSets.api
-            modSource dpAnvil.sourceSets.main
+    runs {
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+            systemProperty 'fml.earlyprogresswindow', 'false'
+            systemProperty 'mixin.debug.verbose', 'true'
+
+            logLevel = org.slf4j.event.Level.DEBUG
         }
 
-        dependencies {
-            runtime "org.assertj:assertj-core:${assertj_version}"
+        client {
+            client()
+
+            gameDirectory = file('runs/client')
+            sourceSet = sourceSets.test
+            systemProperty 'forge.enabledGameTestNamespaces', 'elementalcraft'
+        }
+
+        server {
+            server()
+
+            gameDirectory = file('runs/server')
+            sourceSet = sourceSets.test
+            programArgument '--nogui'
+            systemProperty 'forge.enabledGameTestNamespaces', 'elementalcraft'
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file('runs/gameTestServer')
+            sourceSet = sourceSets.test
+            systemProperty 'forge.enabledGameTestNamespaces', 'elementalcraft'
+        }
+
+        data {
+            data()
+
+            gameDirectory = file('runs/data')
+            sourceSet = sourceSets.datagen
+            programArguments.addAll '--mod', 'elementalcraft',
+                    '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+    }
+
+    mods {
+        elementalcraft {
+            sourceSet(sourceSets.api)
+            sourceSet(sourceSets.main)
+            sourceSet(sourceSets.datagen)
+            sourceSet(sourceSets.test)
+        }
+        if (project.dpAnvil != null) {
+            dpanvil {
+                sourceSet(project.dpAnvil.sourceSets.api)
+                sourceSet(project.dpAnvil.sourceSets.main)
+            }
         }
     }
 
-    client {
-        systemProperty 'forge.enabledGameTestNamespaces', 'elementalcraft'
-
-        modSource sourceSets.test
+    unitTest {
+        enable()
+        testedMod = mods.elementalcraft
     }
-
-    server {
-        systemProperty 'forge.enabledGameTestNamespaces', 'elementalcraft'
-        programArgument '--nogui'
-
-        modSource sourceSets.test
-    }
-
-    gameTestServer {
-        systemProperty 'forge.enabledGameTestNamespaces', 'elementalcraft'
-
-        modSource sourceSets.test
-    }
-    data {
-        programArguments.addAll '--mod', 'elementalcraft', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-
-        modSource sourceSets.datagen
-    }
-}
-
-ext.updateSourceSetMapping = { sourceSet ->
-	if (project.hasProperty('UPDATE_MAPPINGS')) {
-		extractRangeMap.sources += sourceSet.java.srcDirs
-		applyRangeMap.sources += sourceSet.java.srcDirs
-		sourceSet.java.srcDirs.each { src -> 
-			extractMappedNew.addTarget(src) 
-		}
-	}
 }
 
 configurations {
-	apiCompile.extendsFrom(compile)
-    apiImplementation.extendsFrom(implementation)
-    apiCompileOnly.extendsFrom(compileOnly)
-    datagenCompile.extendsFrom(compile)
-    datagenImplementation.extendsFrom(implementation)
-    datagenCompileOnly.extendsFrom(compileOnly)
-    datagenRuntimeOnly.extendsFrom(runtimeOnly)
-    testCompile.extendsFrom(compile)
-    testImplementation.extendsFrom(implementation)
-    testCompileOnly.extendsFrom(compileOnly)
-    testRuntimeOnly.extendsFrom(runtimeOnly)
+    additionalRuntimeClasspath.extendsFrom(localRuntime)
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
+    implementation sourceSets.api.output
 
     // mod dependencies
-    def dpAnvil = findProject(':DPAnvil')
-
-    if (dpAnvil != null) {
-        apiCompileOnly dpAnvil.sourceSets.api.output
-        compileOnly dpAnvil.sourceSets.api.output
-        datagenCompileOnly dpAnvil.sourceSets.api.output
-        runtimeOnly dpAnvil.sourceSets.main.output
-        datagenRuntimeOnly dpAnvil.sourceSets.main.output
+    if (project.dpAnvil != null) {
+        apiCompileOnly project.dpAnvil.sourceSets.api.output
+        compileOnly project.dpAnvil.sourceSets.api.output
+        testCompileOnly project.dpAnvil.sourceSets.api.output
+        datagenCompileOnly project.dpAnvil.sourceSets.api.output
+        runtimeOnly project.dpAnvil.sourceSets.main.output
+        testRuntimeOnly project.dpAnvil.sourceSets.main.output
+        datagenRuntimeOnly project.dpAnvil.sourceSets.main.output
+        implementation(accessTransformers(interfaceInjectionData(project.dpAnvil)))
     } else {
         logger.info("DPAnvil not found locally, looking in maven repo")
         compileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
@@ -155,8 +193,7 @@ dependencies {
     compileOnly "mekanism:Mekanism:${mekanism_version}"
     compileOnly "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
 
-    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     compileOnly "vazkii.botania:Botania:${botania_version}:api"
     // runtimeOnly "vazkii.botania:Botania:${botania_version}"
@@ -165,9 +202,13 @@ dependencies {
     testImplementation sourceSets.api.output
     testImplementation sourceSets.main.output
     testImplementation "net.neoforged:testframework:${neo_version}"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_version}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_version}"
+    testImplementation(platform("org.junit:junit-bom:${junit_version}"))
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "org.junit.jupiter:junit-jupiter-params"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testImplementation "org.mockito:mockito-core:${mockito_version}"
     testImplementation "org.assertj:assertj-core:${assertj_version}"
+    localRuntime "org.assertj:assertj-core:${assertj_version}"
 
     // datagen
     datagenImplementation sourceSets.api.output
@@ -176,6 +217,7 @@ dependencies {
     datagenImplementation "mekanism:Mekanism:${mekanism_version}"
     datagenImplementation "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
     datagenImplementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    datagenImplementation "vazkii.botania:Botania:${botania_version}:api"
     // datagenImplementation "vazkii.botania:Botania:${botania_version}"
     /* datagenImplementation("net.silentchaos512:silent-gear:${silentgear_version}") {
         exclude module: 'forge'
@@ -188,7 +230,7 @@ dependencies {
     } */
 }
 
-tasks.withType(ProcessResources).configureEach {
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     var replaceProperties = [
             minecraft_version: minecraft_version,
             minecraft_version_range: minecraft_version_range,
@@ -207,19 +249,13 @@ tasks.withType(ProcessResources).configureEach {
             elementalcraft_version: elementalcraft_version,
     ]
     inputs.properties replaceProperties
-
-    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
-        expand replaceProperties
-    }
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
 }
 
-def dpAnvil = findProject(':DPAnvil')
-
-if (dpAnvil != null) {
-    tasks.withType(DownloadAssets).configureEach { it ->
-        it.dependsOn dpAnvil.tasks.withType(DownloadAssets)
-    }
-}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
 
 jar {
 	from sourceSets.api.output
@@ -253,16 +289,13 @@ task sourcesJar(type: Jar) {
     from sourceSets.api.allSource
     from sourceSets.main.allSource
     from sourceSets.datagen.allSource
+    from sourceSets.test.allSource
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 build.dependsOn tasks.apiJar
 build.dependsOn tasks.sourcesJar
 build.dependsOn tasks.datagenJar
-
-updateSourceSetMapping(sourceSets.api)
-updateSourceSetMapping(sourceSets.datagen)
-updateSourceSetMapping(sourceSets.test)
 
 test {
     useJUnitPlatform()
@@ -272,18 +305,18 @@ test {
     }
 }
 jacoco {
-    toolVersion = "0.8.9"
+    toolVersion = "${jacoco_version}"
 }
 jacocoTestReport {
-    // dependsOn 'test'
+    dependsOn 'runJunit'
     dependsOn 'runGameTestServer'
     reports {
         xml.required.set(true)
     }
-    getExecutionData().setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
+    getExecutionData().setFrom(fileTree(layout.buildDirectory).include("/jacoco/*.exec"))
 }
 tasks.configureEach {
-    if (it.name == 'runGameTestServer') {
+    if (it.name == 'runJunit' || it.name == 'runGameTestServer') {
         JacocoPluginExtension jacoco = project.extensions.getByType(JacocoPluginExtension)
 
         jacoco.applyTo(it)
@@ -293,19 +326,6 @@ tasks.configureEach {
         }
     }
 }
-
-sonarqube {
-	properties {
-    	property "sonar.projectKey", "Sirttas_ElementalCraft"
-    	property "sonar.organization", "sirttas"
-    	property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/*.exec"
-        property "sonar.coverage.exclusions", "src/datagen/**"
-    	properties["sonar.sources"] += sourceSets.api.java.srcDirs
-    	properties["sonar.sources"] += sourceSets.datagen.java.srcDirs
-	}
-}
-project.tasks["sonarqube"].dependsOn "jacocoTestReport"
 
 def modmaven_user = System.getenv("MODMAVEN_USER") ?: project.findProperty("modmaven_user")
 def modmaven_password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProperty("modmaven_password")
@@ -364,7 +384,7 @@ if (curseforge_key != null || modrinth_token != null) {
     def changeStart = false
     def changeEnd = false
 
-    println('Changelog:')
+    logger.info('Changelog:')
 
     file('changelog.txt').withReader { reader ->
         def line
@@ -376,7 +396,7 @@ if (curseforge_key != null || modrinth_token != null) {
                 changeEnd = true
             }
             if (changeStart && !changeEnd) {
-                println(line)
+                logger.info(line)
                 generatedChangelog += line + '\n'
             }
         }

@@ -3,22 +3,24 @@ package sirttas.elementalcraft.interaction.ie.injector;
 import blusunrize.immersiveengineering.api.crafting.IESerializableRecipe;
 import blusunrize.immersiveengineering.common.crafting.GeneratedListRecipe;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.pureore.factory.AbstractPureOreRecipeFactory;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractIEPureOreRecipeFactory<T extends IESerializableRecipe> extends AbstractPureOreRecipeFactory<Container, IESerializableRecipe> {
+public abstract class AbstractIEPureOreRecipeFactory<T extends IESerializableRecipe> extends AbstractPureOreRecipeFactory<RecipeInput, IESerializableRecipe> {
 
     private final Class<T> recipeClass;
 
@@ -32,7 +34,7 @@ public abstract class AbstractIEPureOreRecipeFactory<T extends IESerializableRec
         if (recipeClass.isInstance(recipe)) {
             return buildIERecipe(recipeClass.cast(recipe), ingredient);
         } else if (recipe instanceof GeneratedListRecipe<?, ?> generatedListRecipe) {
-            return generatedListRecipe.getSubRecipes().stream()
+            return streamSubRecipes(generatedListRecipe)
                     .map(r -> this.create(registry, r, ingredient))
                     .filter(Objects::nonNull)
                     .findFirst()
@@ -49,23 +51,28 @@ public abstract class AbstractIEPureOreRecipeFactory<T extends IESerializableRec
         var id = holder.id();
 
         try {
-            if (!stack.is(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS)) {
+            if (!stack.is(ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIALS)) {
                 return false;
             } else if (recipeClass.isInstance(recipe)) {
                 return filterIERecipe(recipeClass.cast(recipe), stack);
             } else if (recipe instanceof GeneratedListRecipe<?, ?> generatedListRecipe) {
-                var subRecipes = generatedListRecipe.getSubRecipes();
-
-                if (subRecipes == null || subRecipes.isEmpty()) {
-                    return false;
-                }
-                return subRecipes.stream()
+                return streamSubRecipes(generatedListRecipe)
                         .anyMatch(r -> this.filter(new RecipeHolder<>(id, r), stack));
             }
         } catch (Exception e) {
             ElementalCraftApi.LOGGER.warn("Error while filtering immersive engineering recipe {} for pure ore", id, e);
         }
         return false;
+    }
+
+    private static @NotNull Stream<IESerializableRecipe> streamSubRecipes(GeneratedListRecipe<?, ?> generatedListRecipe) {
+        var subRecipes = generatedListRecipe.getSubRecipes();
+
+        if (subRecipes == null || subRecipes.isEmpty()) {
+            return Stream.empty();
+        }
+        return subRecipes.stream()
+                .mapMulti(ElementalCraftUtils.cast(IESerializableRecipe.class));
     }
 
     protected abstract boolean filterIERecipe(T recipe, ItemStack stack);

@@ -8,8 +8,10 @@ import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
@@ -87,8 +89,20 @@ public class SpellDeskMenu extends AbstractECMenu {
 	}
 	
 	private void updateRecipeList(Level level) {
-		stacks = level.getRecipeManager().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), input, level).stream()
-                .map(h -> h.value().assemble(input, level.registryAccess()))
+		var recipeInput = new RecipeInput() {
+
+			@Override
+			public @NotNull ItemStack getItem(int slot) {
+				return input.getItem(slot);
+			}
+
+			@Override
+			public int size() {
+				return input.getContainerSize();
+			}
+		};
+		stacks = level.getRecipeManager().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), recipeInput, level).stream()
+                .map(h -> h.value().assemble(recipeInput, level.registryAccess()))
 				.toList();
 
 		this.page.set(0);

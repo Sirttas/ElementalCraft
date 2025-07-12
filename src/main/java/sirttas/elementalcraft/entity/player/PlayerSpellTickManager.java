@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.entity.player;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.tick.ISpellTickManager;
@@ -34,7 +34,7 @@ public class PlayerSpellTickManager implements ISpellTickManager {
     @Override
     public void startCooldown(Spell spell) {
         delegate.startCooldown(spell);
-        PayloadHelper.sendToPlayer(player, new SpellTickCooldownPayload(spell));
+        PacketDistributor.sendToPlayer(player, new SpellTickCooldownPayload(spell));
     }
 
     @Override

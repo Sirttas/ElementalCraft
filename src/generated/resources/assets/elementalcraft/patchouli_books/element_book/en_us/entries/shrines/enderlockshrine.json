@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:enderlockshrine",
+  "name": "block.elementalcraft.enderlockshrine",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.enderlockshrine0"
+    }
+  ],
+  "sortnum": 6,
+  "turnin": "elementalcraft:pickup/enderlockshrine"
+}

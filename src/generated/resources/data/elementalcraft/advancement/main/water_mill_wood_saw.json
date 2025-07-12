@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/drenched_iron",
+  "criteria": {
+    "has_water_mill_wood_saw": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:water_mill_wood_saw"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.water_mill_wood_saw.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:water_mill_wood_saw"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.water_mill_wood_saw.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_water_mill_wood_saw"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

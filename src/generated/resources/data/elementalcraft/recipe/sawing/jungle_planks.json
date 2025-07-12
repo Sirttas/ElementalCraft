@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:sawing",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "elementalcraft:stripped_jungle"
+  },
+  "luck_ratio": 3.0,
+  "output": {
+    "count": 6,
+    "id": "minecraft:jungle_planks"
+  }
+}

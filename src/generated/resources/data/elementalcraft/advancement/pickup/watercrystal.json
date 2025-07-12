@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_watercrystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:watercrystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_watercrystal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

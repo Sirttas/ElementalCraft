@@ -105,14 +105,8 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 		level.setBlock(pos.relative(state.getValue(FACING)), state.setValue(PART, Part.BOWL), 3);
 	}
 
-	/**
-	 * Called before the Block is set to air in the world. Called regardless of if
-	 * the player's tool can actually collect this block
-	 *
-	 * @return
-	 */
 	@Override
-	public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+	public @NotNull BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		if (!level.isClientSide && player.isCreative()) {
 			Part part = state.getValue(PART);
 			BlockPos blockpos = pos.relative(getNeighbourDirection(part, state.getValue(FACING)));
@@ -128,8 +122,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 	@Override
 	@Nonnull
-	@Deprecated
-	public BlockState updateShape(BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+	public BlockState updateShape(@NotNull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
 		if (facing == getNeighbourDirection(state.getValue(PART), state.getValue(FACING))) {
 			return facingState.is(this) && facingState.getValue(PART) != state.getValue(PART) ? state : Blocks.AIR.defaultBlockState();
 		} else {
@@ -163,7 +156,6 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		if (state.getValue(PART) == Part.CORE) {
 			return switch (state.getValue(FACING)) {
@@ -185,20 +177,20 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rotation) {
 		return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
 	}
 
-	@Nonnull
+	@SuppressWarnings("deprecation")
+    @Nonnull
 	@Override
-	@Deprecated
 	public BlockState mirror(BlockState state, Mirror mirror) {
 		return state.rotate(mirror.getRotation(state.getValue(FACING)));
 	}
 
 	public enum Part implements StringRepresentable {
-		CORE("core"), BOWL("bowl");
+		CORE("core"),
+		BOWL("bowl");
 
 		private final String name;
 

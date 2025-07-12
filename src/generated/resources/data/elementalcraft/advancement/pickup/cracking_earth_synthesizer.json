@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_cracking_earth_synthesizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:cracking_earth_synthesizer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_cracking_earth_synthesizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

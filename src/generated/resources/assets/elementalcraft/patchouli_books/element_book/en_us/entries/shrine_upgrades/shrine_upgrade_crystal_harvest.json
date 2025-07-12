@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrine_upgrades",
+  "icon": "elementalcraft:shrine_upgrade_crystal_harvest",
+  "name": "block.elementalcraft.shrine_upgrade_crystal_harvest",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.shrine_upgrade_crystal_harvest0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:shrine_upgrade_crystal_harvest"
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:pickup/shrine_upgrade_crystal_harvest"
+}

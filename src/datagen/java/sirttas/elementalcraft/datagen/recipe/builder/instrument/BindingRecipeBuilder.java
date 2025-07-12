@@ -54,12 +54,12 @@ public class BindingRecipeBuilder {
 	public void save(RecipeOutput recipeOutput) {
 		ResourceLocation id = BuiltInRegistries.ITEM.getKey(this.result);
 
-		this.save(recipeOutput, new ResourceLocation(id.getNamespace(), AbstractBindingRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), AbstractBindingRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
 		ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
-		if ((new ResourceLocation(save)).equals(resourcelocation)) {
+		if (ResourceLocation.parse(save).equals(resourcelocation)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
 		} else {
 			this.save(recipeOutput, ElementalCraftApi.createRL(AbstractBindingRecipe.NAME + '/' + save));

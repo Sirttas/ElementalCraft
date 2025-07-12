@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:storage_blocks/fireite"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "elementalcraft:fireite_ingot"
+  }
+}

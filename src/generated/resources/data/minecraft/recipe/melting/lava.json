@@ -1,0 +1,7 @@
+{
+  "type": "elementalcraft:melting",
+  "cooldown": 1200,
+  "element_amount": 5000,
+  "input": "#elementalcraft:shrines/melting/liquifiables/lava",
+  "result": "minecraft:lava"
+}

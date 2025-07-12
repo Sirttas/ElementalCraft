@@ -1,41 +1,40 @@
 package sirttas.elementalcraft.item.holder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.NeoForgeMod;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
-import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.item.ECItem;
+import sirttas.elementalcraft.block.source.SourceElementStorage;
+import sirttas.elementalcraft.component.ECDataComponents;
+import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.particle.ParticleHelper;
-import sirttas.elementalcraft.property.ECProperties;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.function.IntSupplier;
 
-public abstract class AbstractElementHolderItem extends ECItem implements ISourceInteractable {
-	
-	private static final String SAVED_POS = "saved_pos";
+public abstract class AbstractElementHolderItem extends Item {
 
 	private final IntSupplier elementCapacity;
 	private final IntSupplier transferAmount;
 	
-	protected AbstractElementHolderItem(IntSupplier elementCapacity, IntSupplier transferAmount) {
-		super(ECProperties.Items.ITEM_UNSTACKABLE);
+	protected AbstractElementHolderItem(IntSupplier elementCapacity, IntSupplier transferAmount, Item.Properties properties) {
+		super(properties);
 		this.elementCapacity = elementCapacity;
 		this.transferAmount = transferAmount;
 	}
@@ -43,7 +42,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	public abstract IElementStorage getElementStorage(ItemStack stack);
 
 	@Override
-	public int getUseDuration(@Nonnull ItemStack stack) {
+	public int getUseDuration(@Nonnull ItemStack stack, @NotNull LivingEntity entity) {
 		return getElementCapacity() / getTransferAmount();
 	}
 
@@ -62,12 +61,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	protected boolean isValidSource(BlockState state) {
-		return state.is(ECBlocks.SOURCE.get());
-	}
-
-	@Override
-	public boolean canInteractWithSource(BlockState state) {
-		return isValidSource(state);
+		return state.is(ECTags.Blocks.SOURCES);
 	}
 
 	@Nonnull
@@ -85,7 +79,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 		var result = tick(level, player, pos, stack);
 
 		if (result.consumesAction()) {
-			this.setSavedPos(stack, pos);
+			stack.set(ECDataComponents.TARGET_POS, pos);
 			player.startUsingItem(context.getHand());
 		}
 		return result;
@@ -93,10 +87,15 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 
 	@Override
 	public void onUseTick(@Nonnull Level level, @Nonnull LivingEntity player, @Nonnull ItemStack stack, int count) {
-		var pos = this.getSavedPos(stack);
-		var reachAttribute = player.getAttribute(NeoForgeMod.ENTITY_REACH.value());
+		var pos = stack.get(ECDataComponents.TARGET_POS);
+
+		if (pos == null) {
+			return;
+		}
+
+		var reachAttribute = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
 		var reach = reachAttribute != null ? reachAttribute.getValue() : 5;
-		
+
 		if (player.blockPosition().distSqr(pos) + 1 > reach * reach || !this.tick(player.level(), player, pos, stack).consumesAction()) {
 			player.releaseUsingItem();
 		}
@@ -104,7 +103,7 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 
 	@Override
 	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
-		this.removeSavedPos(stack);
+		stack.remove(ECDataComponents.TARGET_POS);
 	}
 
 	protected abstract ElementType getElementType(IElementStorage target, BlockState blockstate);
@@ -132,6 +131,13 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 
 				if (value > 0) {
 					ParticleHelper.createElementFlowParticle(elementType, level, Vec3.atCenterOf(pos), entity.getRopeHoldPosition(0), level.random);
+
+					if (isSource && storage.getElementAmount(elementType) <= 0) {
+						if (storage instanceof SourceElementStorage sourceStorage && sourceStorage.getSource().isStabilized()) {
+							EntityHelper.dropAtFeet(level, entity, new ItemStack(ECItems.SOURCE_STABILIZER));
+						}
+						level.removeBlock(pos, false);
+					}
 					return InteractionResult.CONSUME;
 				}
 				return InteractionResult.PASS;
@@ -149,33 +155,8 @@ public abstract class AbstractElementHolderItem extends ECItem implements ISourc
 	}
 
 	@Override
-	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+	public boolean isBookEnchantable(@NotNull ItemStack stack, @NotNull ItemStack book) {
 		return false;
-	}
-
-	public BlockPos getSavedPos(ItemStack stack) {
-		CompoundTag tag = stack.getTag();
-		
-		if (tag != null) {
-			CompoundTag savedPos = tag.getCompound(SAVED_POS);
-
-			if (savedPos != null) {
-				return NbtUtils.readBlockPos(savedPos);
-			}
-		}
-		return null;
-	}
-
-	public void setSavedPos(ItemStack stack, BlockPos pos) {
-		stack.getOrCreateTag().put(SAVED_POS, NbtUtils.writeBlockPos(pos));
-	}
-
-	public void removeSavedPos(ItemStack stack) {
-		CompoundTag tag = stack.getTag();
-
-		if (tag != null) {
-			tag.remove(SAVED_POS);
-		}
 	}
 
 	@Nonnull

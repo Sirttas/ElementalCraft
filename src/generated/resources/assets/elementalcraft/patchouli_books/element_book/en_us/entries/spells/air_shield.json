@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:air_shield\"]",
+  "name": "elementalcraft_spell.elementalcraft.air_shield",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.air_shield0"
+    }
+  ],
+  "sortnum": 5,
+  "turnin": "elementalcraft:pickup/scroll"
+}

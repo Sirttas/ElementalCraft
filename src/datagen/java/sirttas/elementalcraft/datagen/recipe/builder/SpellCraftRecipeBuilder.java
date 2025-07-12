@@ -64,8 +64,8 @@ public class SpellCraftRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
-		var spell = Spells.REGISTRY.get(output);
-		var stack = new ItemStack(ECItems.SCROLL.get());
+		var spell = Spells.REGISTRY.getHolder(output).orElseThrow();
+		var stack = new ItemStack(ECItems.SCROLL);
 
 		SpellHelper.setSpell(stack, spell);
 		recipeOutput.accept(id, new SpellCraftRecipe(this.gem, this.crystal, stack), null);

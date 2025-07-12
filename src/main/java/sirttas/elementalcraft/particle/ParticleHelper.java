@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
+import sirttas.elementalcraft.particle.element.ElementParticleData;
 
 import java.util.stream.IntStream;
 
@@ -23,7 +23,7 @@ public class ParticleHelper {
 		double y = pos.y() - 3D / 16;
 		double z = pos.z() + (rand.nextDouble() * 2 - 1) / 16;
 
-		addParticle(level, new ElementTypeParticleData(ECParticles.SOURCE.get(), type), x, y, z, 0F, 0F, 0F);
+		addParticle(level, new ElementParticleData(ECParticles.SOURCE.get(), type), x, y, z, 0F, 0F, 0F);
 	}
 
 	public static void createCraftingParticle(ElementType type, Level level, Vec3 pos, RandomSource rand) {
@@ -32,7 +32,7 @@ public class ParticleHelper {
 		double z = pos.z() + (rand.nextDouble() * 2 - 1) / 16;
 
 		IntStream.range(0, 8 + rand.nextInt(5))
-				.forEach(i -> addParticle(level,new ElementTypeParticleData(ECParticles.ELEMENT_CRAFTING.get(), type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
+				.forEach(i -> addParticle(level,new ElementParticleData(ECParticles.ELEMENT_CRAFTING.get(), type != ElementType.NONE ? type : ElementType.random(rand)), x, y, z, 0F, 0F, 0F));
 	}
 
 	public static void createElementFlowParticle(ElementType type, Level level, Vec3 end, Direction direction, float scale, RandomSource rand) {
@@ -48,7 +48,7 @@ public class ParticleHelper {
 		double y = end.y() + (((2 * rand.nextDouble()) - 1) * radius.y()) / 16;
 		double z = end.z() + (((2 * rand.nextDouble()) - 1) * radius.z()) / 16;
 
-		addParticle(level, new ElementTypeParticleData(ECParticles.ELEMENT_FLOW.get(), type), x, y, z, flow.x(), flow.y(), flow.z());
+		addParticle(level, new ElementParticleData(ECParticles.ELEMENT_FLOW.get(), type), x, y, z, flow.x(), flow.y(), flow.z());
 	}
 
 

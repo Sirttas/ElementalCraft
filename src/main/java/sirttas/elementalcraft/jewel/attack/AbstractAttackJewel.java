@@ -7,9 +7,8 @@ import sirttas.elementalcraft.jewel.Jewel;
 
 public abstract class AbstractAttackJewel extends Jewel {
 
-    protected AbstractAttackJewel(ElementType elementType, int consumption) {
-        super(elementType, consumption);
-        this.ticking = false;
+    protected AbstractAttackJewel(ElementType elementType, int consumption, boolean ticking) {
+        super(elementType, consumption, ticking);
     }
 
     public abstract void onAttack(Entity attacker, LivingEntity target);

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    " c ",
+    " i ",
+    "ici"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:rudimentary_element_extractor"
+  }
+}

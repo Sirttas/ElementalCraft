@@ -1,9 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument;
 
+import net.minecraft.world.item.crafting.RecipeInput;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.IInstrument;
 
-public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements ISingleElementInstrumentRecipe<T> {
+public abstract class AbstractInstrumentRecipe<I extends RecipeInput> implements ISingleElementInstrumentRecipe<I> {
 
 	protected final ElementType elementType;
 
@@ -12,7 +13,7 @@ public abstract class AbstractInstrumentRecipe<T extends IInstrument> implements
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 }

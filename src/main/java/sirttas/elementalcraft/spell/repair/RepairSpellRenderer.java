@@ -71,7 +71,7 @@ public class RepairSpellRenderer implements ISpellRenderer {
         var useTicks = 40F - ((player.getUseItemRemainingTicks() - partialTicks + 1.0F) % 40F);
         var swing = useTicks < HAMMER_INTERVAL * 3 ? (useTicks % HAMMER_INTERVAL) / HAMMER_INTERVAL : 0;
 
-        Minecraft.getInstance().gameRenderer.itemInHandRenderer.renderArmWithItem(player, partialTicks, Mth.lerp(partialTicks, player.xRotO, player.getXRot()), InteractionHand.MAIN_HAND, swing, new ItemStack(ECItems.REPAIR_HAMMER.get()), 0.0F, poseStack, buffer, packedLight);
+        Minecraft.getInstance().gameRenderer.itemInHandRenderer.renderArmWithItem(player, partialTicks, Mth.lerp(partialTicks, player.xRotO, player.getXRot()), InteractionHand.MAIN_HAND, swing, new ItemStack(ECItems.REPAIR_HAMMER), 0.0F, poseStack, buffer, packedLight);
     }
 
     @Nullable

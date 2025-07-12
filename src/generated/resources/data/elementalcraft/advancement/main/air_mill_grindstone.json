@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/water_mill_grindstone",
+  "criteria": {
+    "has_air_mill_grindstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:air_mill_grindstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.air_mill_grindstone.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:air_mill_grindstone"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.air_mill_grindstone.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_air_mill_grindstone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:inert_crystal"
+    },
+    "p": {
+      "item": "elementalcraft:elementpipe"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    " p ",
+    "pcp",
+    "www"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:shrinebase"
+  }
+}

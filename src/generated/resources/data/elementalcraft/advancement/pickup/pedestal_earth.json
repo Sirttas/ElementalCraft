@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_pedestal_earth": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pedestal_earth"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_pedestal_earth"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

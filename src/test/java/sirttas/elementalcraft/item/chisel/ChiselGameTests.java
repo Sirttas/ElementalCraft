@@ -2,47 +2,43 @@ package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestGenerator;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.Test;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
-import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.rune.RuneGameTestHelper;
 import sirttas.elementalcraft.rune.RuneTestCaseHolder;
 import sirttas.elementalcraft.rune.Runes;
 
-import javax.annotation.Nonnull;
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
+@ForEachTest(groups = ChiselGameTests.GROUP_NAME)
 public class ChiselGameTests {
 
+    public static final String GROUP_NAME = "stacks.chisel";
+
     // elementalcraft:chiselgametests.inscriber
-    @GameTest(template = "inscriber", batch = InstrumentGameTestHelper.BATCH_NAME)
-    public static void should_craftRune(GameTestHelper helper) {
+    @TestHolder(description = "Checks if the inscriber can craft a rune.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "chiselgametests.inscriber")
+    public static void should_craftRune(ECGameTestHelper helper) {
         var pos = helper.absolutePos(new BlockPos(0, 2, 0));
         var itemHandler = ECContainerHelper.getItemHandlerAt(helper.getLevel(), pos);
-        var player = mockChiselPlayer(helper, new BlockPos(0, 2, 0));
+        var player = helper.mockChiselPlayer(new BlockPos(0, 2, 0));
 
-        itemHandler.insertItem(0, new ItemStack(ECItems.MINOR_RUNE_SLATE.get()), false);
+        itemHandler.insertItem(0, new ItemStack(ECItems.MINOR_RUNE_SLATE), false);
         itemHandler.insertItem(1, new ItemStack(Items.COAL), false);
         itemHandler.insertItem(2, new ItemStack(Items.COAL), false);
-        itemHandler.insertItem(3, new ItemStack(ECItems.CRUDE_FIRE_GEM.get()), false);
+        itemHandler.insertItem(3, new ItemStack(ECItems.CRUDE_FIRE_GEM), false);
 
         for (int i = 0; i < 3; i++) {
             helper.useBlock(new BlockPos(0, 2, 0), player);
@@ -51,30 +47,40 @@ public class ChiselGameTests {
         var stack = itemHandler.getStackInSlot(0);
 
         assertThat(stack).is(ECItems.RUNE);
-        RuneGameTestHelper.assertRuneIs(stack, Runes.MANX);
+        helper.assertRuneIs(stack, Runes.MANX);
         helper.succeed();
     }
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_removeRunes() {
+    public static List<Test> collectTests() {
         var index = new AtomicInteger(0);
 
         return RuneTestCaseHolder.HOLDERS.stream()
-                .map(t -> t.createTestFunction("should_removeRunes#" + index.getAndIncrement(), ChiselGameTests::should_removeRunes))
+                .<Test>mapMulti((t, downstream) -> {
+                    var i = index.getAndIncrement();
+
+                    downstream.accept(t.createTest(
+                            "should_removeRunes#" + i,
+                            "Check that a player can remove a rune while sneaking",
+                            ChiselGameTests::should_removeRunes));
+                    downstream.accept(t.createTest(
+                            "shouldNot_removeRunes#" + i,
+                            "Check that a player cannot remove a rune if not sneaking",
+                            ChiselGameTests::shouldNot_removeRunes));
+                })
                 .toList();
     }
 
-    private static void should_removeRunes(GameTestHelper helper, RuneTestCaseHolder holder) {
+    private static void should_removeRunes(ECGameTestHelper helper, RuneTestCaseHolder holder) {
         var pos = holder.pos();
         var side = holder.side();
         var runes = holder.runes();
         var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), side);
 
         assertThat(runeHandler).isNotNull();
-        var player = mockChiselPlayer(helper, pos);
+        var player = helper.mockChiselPlayer(pos);
 
         player.setShiftKeyDown(true);
-        ECGameTestHelper.useItemOn(helper, player, pos, side);
+        helper.useItemOn(player, pos, side);
 
         assertThat(runeHandler.getRunes()).isEmpty();
         player.discard();
@@ -84,42 +90,24 @@ public class ChiselGameTests {
         assertThat(items).hasSize(runes.size())
                 .allSatisfy(item -> assertThat(item.getItem())
                         .is(ECItems.RUNE)
-                        .satisfies(stack -> RuneGameTestHelper.assertRuneIs(stack, runes.get(items.indexOf(item)))));
+                        .satisfies(stack -> helper.assertRuneIs(stack, runes.get(items.indexOf(item)))));
         items.forEach(Entity::discard);
         helper.succeed();
     }
 
-    @GameTestGenerator
-    public static Collection<TestFunction> shouldNot_removeRunes() {
-        var index = new AtomicInteger(0);
-
-        return RuneTestCaseHolder.HOLDERS.stream()
-                .map(t -> t.createTestFunction("shouldNot_removeRunes#" + index.getAndIncrement(), ChiselGameTests::shouldNot_removeRunes))
-                .toList();
-    }
-
-    private static void shouldNot_removeRunes(GameTestHelper helper, RuneTestCaseHolder holder) {
+    private static void shouldNot_removeRunes(ECGameTestHelper helper, RuneTestCaseHolder holder) {
         var pos = holder.pos();
         var side = holder.side();
         var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, helper.absolutePos(pos), side);
 
         assertThat(runeHandler).isNotNull();
 
-        var player = mockChiselPlayer(helper, pos);
+        var player = helper.mockChiselPlayer(pos);
 
-        ECGameTestHelper.useItemOn(helper, player, pos, side);
+        helper.useItemOn(player, pos, side);
 
         assertThat(runeHandler.getRunes()).hasSize(holder.runes().size())
-                .allSatisfy(rune -> RuneGameTestHelper.assertRuneIs(rune, holder.runes().get(runeHandler.getRunes().indexOf(rune))));
+                .allSatisfy(rune -> helper.assertRuneIs(rune, holder.runes().get(runeHandler.getRunes().indexOf(rune))));
         helper.succeed();
-    }
-
-    @Nonnull
-    private static Player mockChiselPlayer(GameTestHelper helper, BlockPos pos) {
-        var player = helper.makeMockPlayer();
-
-        player.moveTo(helper.absoluteVec(Vec3.atCenterOf(pos)));
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.SWIFT_ALLOY_CHISEL.get()));
-        return player;
     }
 }

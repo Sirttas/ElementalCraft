@@ -1,20 +1,19 @@
 package sirttas.elementalcraft.item.holder;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.element.storage.AbstractItemStackSingleElementStorage;
 
 import javax.annotation.Nonnull;
 
-public class ElementHolderItem extends AbstractElementHolderItem implements ISourceInteractable, IElementTypeProvider {
+public class ElementHolderItem extends AbstractElementHolderItem implements IElementTypeProvider {
 
 	public static final String NAME = "element_holder";
 	public static final String NAME_FIRE = NAME + "_fire";
@@ -24,13 +23,13 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 
 	private final ElementType elementType;
 
-	public ElementHolderItem(ElementType elementType) {
-		super(ECConfig.SERVER.elementHolderCapacity::get, ECConfig.SERVER.elementHolderTransferAmount::get);
+	public ElementHolderItem(ElementType elementType, Item.Properties properties) {
+		super(ECConfig.SERVER.elementHolderCapacity::get, ECConfig.SERVER.elementHolderTransferAmount::get, properties);
 		this.elementType = elementType;
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 	
@@ -63,65 +62,29 @@ public class ElementHolderItem extends AbstractElementHolderItem implements ISou
 	public boolean isBarVisible(@Nonnull ItemStack stack) {
 		return true;
 	}
-
-	@Override
-	public boolean canBeDepleted() {
-		return true;
-	}
 	
-	private class ElementStorage extends StaticElementStorage {
+	private class ElementStorage extends AbstractItemStackSingleElementStorage {
 
-		private final ItemStack stack;
-		
-		public ElementStorage(ItemStack stack) {
-			super(ElementHolderItem.this.elementType, ElementHolderItem.this.getElementCapacity());
-			this.stack = stack;
-			refresh();
+		private ElementStorage(ItemStack stack) {
+			super(stack);
+
 		}
-
 
 		@Override
 		public boolean usableInInventory() {
 			return true;
 		}
-		
-		@Override
-		public int getElementAmount() {
-			refresh();
-			return super.getElementAmount();
-		}
-		
-		@Override
-		public int insertElement(int count, ElementType type, boolean simulate) {
-			refresh();
-			
-			int value = super.insertElement(count, type, simulate);
-
-			updateAmount();
-			return value;
-		}
 
 		@Override
-		public int extractElement(int count, ElementType type, boolean simulate) {
-			refresh();
-			
-			int value = super.extractElement(count, type, simulate);
-
-			updateAmount();
-			return value;
+		public int getElementCapacity() {
+			return ElementHolderItem.this.getElementCapacity();
 		}
-		
 
-		private void refresh() {
-			CompoundTag tag = stack.getTag();
-			
-			if (tag != null && tag.contains(ECNames.ELEMENT_AMOUNT)) {
-				elementAmount = tag.getInt(ECNames.ELEMENT_AMOUNT);
-			}
-		}
-		
-		private void updateAmount() {
-			stack.getOrCreateTag().putInt(ECNames.ELEMENT_AMOUNT, elementAmount);
+
+		@NotNull
+		@Override
+		public ElementType getElementType() {
+			return ElementHolderItem.this.elementType;
 		}
 	}
 }

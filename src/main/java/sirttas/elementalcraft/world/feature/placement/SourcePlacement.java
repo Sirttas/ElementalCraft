@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.world.feature.placement;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -18,7 +18,7 @@ public class SourcePlacement extends PlacementModifier {
 	public static final String NAME = "source";
 
 	public static final SourcePlacement INSTANCE = new SourcePlacement();
-	public static final Codec<SourcePlacement> CODEC = Codec.unit(INSTANCE);
+	public static final MapCodec<SourcePlacement> CODEC = MapCodec.unit(INSTANCE);
 
 	private SourcePlacement() {}
 

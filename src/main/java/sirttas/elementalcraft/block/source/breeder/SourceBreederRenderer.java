@@ -11,9 +11,9 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemRenderer;
 import sirttas.elementalcraft.block.source.SourceRendererHelper;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 
@@ -33,7 +33,7 @@ public class SourceBreederRenderer extends SingleItemRenderer<SourceBreederBlock
         var stack = breeder.getInventory().getItem(0);
 
         poseStack.translate(0, 1, 0);
-        if (stack.is(ECItems.RECEPTACLE.get())) {
+        if (stack.is(ECTags.Items.FULL_RECEPTACLES)) {
             ECRendererHelper.renderRunes(poseStack, buffer, breeder.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
 
             var type = ReceptacleHelper.getElementType(stack);
@@ -42,7 +42,7 @@ public class SourceBreederRenderer extends SingleItemRenderer<SourceBreederBlock
                 return;
             }
             poseStack.translate(0, 1, 0);
-            SourceRendererHelper.renderSource(poseStack, buffer, partialTicks, light, overlay, type, false, 1);
+            SourceRendererHelper.renderSource(poseStack, buffer, partialTicks, light, overlay, type, 1);
             return;
         }
 

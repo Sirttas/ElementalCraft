@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_whiterock_brick": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:whiterock_brick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_whiterock_brick"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

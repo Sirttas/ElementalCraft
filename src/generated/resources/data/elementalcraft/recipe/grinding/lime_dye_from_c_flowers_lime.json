@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:flowers/lime"
+      }
+    }
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "c:flowers/lime"
+  },
+  "luck_ratio": 2.0,
+  "output": {
+    "count": 2,
+    "id": "minecraft:lime_dye"
+  }
+}

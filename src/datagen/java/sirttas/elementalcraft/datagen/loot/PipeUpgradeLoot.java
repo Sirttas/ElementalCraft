@@ -1,8 +1,9 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import com.google.common.collect.Maps;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -23,7 +24,7 @@ import java.util.function.Supplier;
 
 public class PipeUpgradeLoot implements LootTableSubProvider {
 
-	private final Map<ResourceLocation, Builder> map = Maps.newHashMap();
+	private final Map<ResourceKey<LootTable>, Builder> map = Maps.newHashMap();
 
 	protected void generate() {
 		add(getKey(PipeUpgradeTypes.ELEMENT_PUMP), createRuneable(PipeUpgradeTypes.ELEMENT_PUMP.get()));
@@ -33,29 +34,28 @@ public class PipeUpgradeLoot implements LootTableSubProvider {
 	}
 
 	@Override
-	public void generate(@NotNull BiConsumer<ResourceLocation, Builder> consumer) {
+	public void generate(@NotNull BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
 		map.clear();
 		generate();
 		map.forEach(consumer);
 	}
 
-
 	protected void dropSelf(PipeUpgradeType<?> type) {
 		add(getKey(type), createSingleItemTable(type));
 	}
 
-	private ResourceLocation getKey(Supplier<? extends PipeUpgradeType<?>> type) {
+	private ResourceKey<LootTable> getKey(Supplier<? extends PipeUpgradeType<?>> type) {
 		return getKey(type.get());
 	}
 
 	@Nullable
-	private static ResourceLocation getKey(PipeUpgradeType<?> type) {
+	private static ResourceKey<LootTable> getKey(PipeUpgradeType<?> type) {
 		var key = PipeUpgradeTypes.REGISTRY.getKey(type);
 
-		return key != null ? key.withPrefix(PipeUpgrade.FOLDER) : null;
+		return key != null ? ResourceKey.create(Registries.LOOT_TABLE, key.withPrefix(PipeUpgrade.FOLDER)) : null;
 	}
 
-	protected void add(ResourceLocation name, Builder builder) {
+	protected void add(ResourceKey<LootTable> name, Builder builder) {
 		map.put(name, builder);
 	}
 

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:storage_blocks/drenched_iron"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "elementalcraft:drenched_iron_ingot"
+  }
+}

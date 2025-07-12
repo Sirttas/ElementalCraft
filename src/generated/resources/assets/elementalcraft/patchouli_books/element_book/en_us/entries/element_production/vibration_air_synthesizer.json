@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:element_production",
+  "icon": "elementalcraft:vibration_air_synthesizer",
+  "name": "block.elementalcraft.vibration_air_synthesizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.vibration_air_synthesizer0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:vibration_air_synthesizer"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:small_container",
+          "I": "elementalcraft:vibration_air_synthesizer"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 6,
+  "turnin": "elementalcraft:pickup/vibration_air_synthesizer"
+}

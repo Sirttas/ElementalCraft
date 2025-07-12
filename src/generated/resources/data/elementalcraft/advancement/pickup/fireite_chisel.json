@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_fireite_chisel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fireite_chisel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_fireite_chisel"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

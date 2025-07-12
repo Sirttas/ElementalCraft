@@ -1,7 +1,9 @@
 package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -25,25 +27,25 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void load(@Nonnull CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
 		IElementStorage elementStorage = getElementStorage();
 		
 		if (compound.contains(ECNames.ELEMENT_STORAGE) && elementStorage instanceof INBTSerializable) {
-			((INBTSerializable<CompoundTag>) elementStorage).deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
+			((INBTSerializable<CompoundTag>) elementStorage).deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
 		if (compound.contains(ECNames.RUNE_HANDLER)) {
-			IRuneHandler.readNBT(getRuneHandler(), compound.getList(ECNames.RUNE_HANDLER, 8));
+			IRuneHandler.readNBT(getRuneHandler(), compound.getList(ECNames.RUNE_HANDLER, Tag.OBJECT_HEADER));
 		}
 	}
 	
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound) {
-		super.saveAdditional(compound);
+	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
 		IElementStorage elementStorage = getElementStorage();
 		
 		if (elementStorage instanceof INBTSerializable<?> serializable) {
-			compound.put(ECNames.ELEMENT_STORAGE, serializable.serializeNBT());
+			compound.put(ECNames.ELEMENT_STORAGE, serializable.serializeNBT(provider));
 		}
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
 	}

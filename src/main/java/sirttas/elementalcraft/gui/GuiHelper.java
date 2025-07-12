@@ -11,7 +11,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 
 @OnlyIn(Dist.CLIENT)
-@SuppressWarnings("resource")
 public class GuiHelper {
 
 	private static final ResourceLocation GAUGE = ElementalCraftApi.createRL("textures/gui/element_gauge.png");

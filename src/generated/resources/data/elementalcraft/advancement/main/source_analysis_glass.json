@@ -1,0 +1,34 @@
+{
+  "parent": "elementalcraft:main/sources",
+  "criteria": {
+    "has_source_analysis_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:source_analysis_glass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.source_analysis_glass.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:source_analysis_glass"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.source_analysis_glass.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_analysis_glass"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

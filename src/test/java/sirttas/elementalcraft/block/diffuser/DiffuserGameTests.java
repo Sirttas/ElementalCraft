@@ -1,45 +1,64 @@
 package sirttas.elementalcraft.block.diffuser;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTestGenerator;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.testframework.Test;
+import net.neoforged.testframework.annotation.RegisterStructureTemplate;
+import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
+import net.neoforged.testframework.gametest.StructureTemplateBuilder;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
 import sirttas.elementalcraft.item.holder.ElementHolderTestCaseHolder;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class DiffuserGameTests {
 
-    // elementalcraft:diffusergametests.diffuser
-    @GameTestGenerator
-    public static Collection<TestFunction> should_fillHolder() {
+    public static final String TEMPLATE_23x23_NAME = "elementalcraft:diffuser_23x23";
+
+    @RegisterStructureTemplate(TEMPLATE_23x23_NAME)
+    public static final Supplier<StructureTemplate> TEMPLATE_23x23 = StructureTemplateBuilder.lazy(23, 4, 23, b -> b
+            .fill(0, 0, 0, 22, 0, 22, ECBlocks.WHITE_ROCK_BRICK.get().defaultBlockState())
+            .set(11, 1, 11, ECBlocks.CONTAINER.get().defaultBlockState())
+            .set(11, 2, 11, ECBlocks.DIFFUSER.get().defaultBlockState()));
+
+    public static Collection<Test> should_fillHolder() {
         var index = new AtomicInteger(0);
 
         return ElementHolderTestCaseHolder.HOLDERS.stream()
-                .map(t -> t.createTestFunction("diffusergametests.should_fillHolder#" + index.getAndIncrement(), "elementalcraft:diffusergametests.diffuser", DiffuserGameTests::should_fillHolder))
+                .map(t -> t.createTest(
+                        "diffusergametests.should_fillHolder#" + index.getAndIncrement(),
+                        "Check if a diffuser can fill holders in a player inventory.",
+                        TEMPLATE_23x23_NAME,
+                        DiffuserGameTests::should_fillHolder))
                 .toList();
     }
 
-    private static void should_fillHolder(GameTestHelper helper, ElementHolderTestCaseHolder holder) {
+    private static void should_fillHolder(ExtendedGameTestHelper helper, ElementHolderTestCaseHolder holder) {
         var elementType = holder.type();
-        var player = holder.mockPlayer(helper);
-        var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 0))).getElementStorage();
+        var player = holder.mockPlayer(helper, new Vec3(9, 1, 9));
+        var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(11, 2, 11))).getElementStorage();
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY_FOR_ELEMENT, elementType);
+        var ticks = new AtomicInteger(0);
 
         assertThat(playerStorage).isNotNull();
 
         helper.startSequence()
                 .thenExecute(() -> storage.fill(elementType))
-                .thenExecuteAfter(10, ECGameTestHelper.fixAssertions(() -> assertThat(playerStorage.getElementAmount(elementType)).isEqualTo(50)))
+                .thenIdle(1)
+                .thenExecuteFor(10, ECGameTestUtils.fixAssertions(() -> {
+                    var i = ticks.incrementAndGet();
+
+                    assertThat(storage.getElementAmount(elementType)).isEqualTo(100000 - (5 * i));
+                    assertThat(playerStorage.getElementAmount(elementType)).isEqualTo(5 * i);
+                }))
                 .thenExecute(player::discard)
                 .thenSucceed();
     }

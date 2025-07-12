@@ -1,0 +1,16 @@
+{
+  "type": "elementalcraft:spell_craft",
+  "crystal": {
+    "item": "elementalcraft:aircrystal"
+  },
+  "gem": {
+    "item": "elementalcraft:fine_air_gem"
+  },
+  "output": {
+    "components": {
+      "elementalcraft:spell": "elementalcraft:item_pull"
+    },
+    "count": 1,
+    "id": "elementalcraft:scroll"
+  }
+}

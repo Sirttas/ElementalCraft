@@ -24,24 +24,24 @@ public class InfernoSpell extends Spell {
 
 	@Override
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level world = caster.level();
+		Level level = caster.level();
 		float range = getRange(caster);
 		Vec3 look = caster.getLookAngle().normalize();
 
 		if (caster instanceof LivingEntity livingSender) {
-			for (LivingEntity target : world.getEntitiesOfClass(LivingEntity.class, caster.getBoundingBox().expandTowards(look.scale(range + 1)).inflate(1.0D, 0.25D, 1.0D))) {
+			for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, caster.getBoundingBox().expandTowards(look.scale(range + 1)).inflate(1.0D, 0.25D, 1.0D))) {
 				if (target != caster && !caster.isAlliedTo(target) && (!(target instanceof ArmorStand stand) || !stand.isMarker())
 						&& caster.distanceToSqr(target) < range * range && getAngle(caster, target) <= 30) {
 					var sources = caster.level().damageSources();
 
 					target.hurt(caster instanceof Player player ? sources.playerAttack(player) : sources.mobAttack(livingSender), getStrength());
-					target.setSecondsOnFire(1);
+					target.igniteForSeconds(1);
 				}
 			}
 			for (int i = 0; i < range; i += 1) {
 				Vec3 scaledLook = look.scale(i);
 				
-				world.levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, livingSender.blockPosition().offset(new Vec3i((int) Math.round(scaledLook.x), (int) Math.round(scaledLook.y), (int) Math.round(scaledLook.z))), 0);
+				level.levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, livingSender.blockPosition().offset(new Vec3i((int) Math.round(scaledLook.x), (int) Math.round(scaledLook.y), (int) Math.round(scaledLook.z))), 0);
 			}
 			return InteractionResult.CONSUME;
 		}

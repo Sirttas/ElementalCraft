@@ -5,6 +5,8 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
@@ -85,10 +87,17 @@ public class SourceTrait {
 		return this.id != null ? this.id.hashCode() : 0;
 	}
 
+	public Codec<ISourceTraitValue> valueCodec() {
+		return valueProvider.valueCodec();
+	}
+
+	public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+		return valueProvider.valueStreamCodec();
+	}
+
 	public enum Type implements StringRepresentable {
 		NONE(ECNames.NONE),
 		CAPACITY(ECNames.ELEMENT_CAPACITY),
-		RECOVER_RATE(ECNames.RECOVER_RATE),
 		EXTRACTION_SPEED(ECNames.EXTRACTION_SPEED),
 		PRESERVATION(ECNames.ELEMENT_PRESERVATION),
 		BREEDING_COST(ECNames.BREEDING_COST);

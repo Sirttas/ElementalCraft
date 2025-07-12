@@ -8,77 +8,64 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
 public class SolarSynthesizerRenderer implements BlockEntityRenderer<SolarSynthesizerBlockEntity> {
 
-	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_synthesizer_beam");
-	public static final ResourceLocation LENSE_LOCATION = ElementalCraftApi.createRL("block/solar_synthesizer_lense");
+	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_fire_synthesizer_beam");
+	public static final ModelResourceLocation LENS_LOCATION = ECModelHelper.standalone("block/solar_fire_synthesizer_lens");
 
-	private static BakedModel lenseModel;
+	private static final float RED = ElementType.FIRE.getRed();
+	private static final float GREEN = ElementType.FIRE.getGreen();
+	private static final float BLUE = ElementType.FIRE.getBlue();
+
+	private static BakedModel lensModel;
 
 	@Override
-	public void render(SolarSynthesizerBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
+	public void render(SolarSynthesizerBlockEntity solarSynthesizer, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+		ECRendererHelper.renderRunes(matrixStack, buffer, solarSynthesizer.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
 
-		var elementType = getElementType(te);
+		Minecraft minecraft = Minecraft.getInstance();
+		boolean receivingSkyLight = solarSynthesizer.isReceivingSkyLight();
 
-		if (elementType != ElementType.NONE) {
-			Minecraft minecraft = Minecraft.getInstance();
-			float r = elementType.getRed();
-			float g = elementType.getGreen();
-			float b = elementType.getBlue();
-			boolean isWorking = te.isWorking();
+		matrixStack.pushPose();
+		matrixStack.translate(0.5, 14.5 / 16, 0.5);
+		if (receivingSkyLight) {
+			matrixStack.mulPose(Axis.ZP.rotation(solarSynthesizer.getLevel().getSunAngle(partialTicks)));
+		} else {
+			matrixStack.mulPose(Axis.ZP.rotationDegrees(90));
+		}
+		matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
+		minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), solarSynthesizer.getBlockState(), getLensModel(), RED, GREEN, BLUE, light, overlay, ECRendererHelper.getModelData(getLensModel(), solarSynthesizer), RenderType.translucent());
+		matrixStack.popPose();
+		if (receivingSkyLight) {
+			Vec3 beamVect = Vec3.atCenterOf(solarSynthesizer.getBlockPos()).subtract(minecraft.getEntityRenderDispatcher().camera.getPosition()).multiply(1, 0, 1).normalize();
 
 			matrixStack.pushPose();
-			matrixStack.translate(0.5, 14.5 / 16, 0.5);
-			if (isWorking) {
-				matrixStack.mulPose(Axis.ZP.rotation(te.getLevel().getSunAngle(partialTicks)));
-			} else {
-				matrixStack.mulPose(Axis.ZP.rotationDegrees(90));
-			}
-			matrixStack.translate(-3D / 16, -1D / 32, -3D / 16);
-			minecraft.getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(RenderType.translucent()), te.getBlockState(), getLenseModel(), r, g, b, light, overlay, ECRendererHelper.getModelData(getLenseModel(), te), RenderType.translucent());
+			matrixStack.translate(0.5, 0.5, 0.5);
+			matrixStack.mulPose(Axis.YP.rotation((float) Math.acos(beamVect.z * (beamVect.x > 0 ? 1 : -1))));
+			matrixStack.scale(0.006F, 0.006F, 0.006F);
+			ECRendererHelper.renderIcon(matrixStack, buffer, -21, 38, BEAM, 42, -76, RED, GREEN, BLUE, light, overlay);
 			matrixStack.popPose();
-			if (isWorking) {
-				Vec3 beamVect = Vec3.atCenterOf(te.getBlockPos()).subtract(minecraft.getEntityRenderDispatcher().camera.getPosition()).multiply(1, 0, 1).normalize();
-
-				matrixStack.pushPose();
-				matrixStack.translate(0.5, 0.5, 0.5);
-				matrixStack.mulPose(Axis.YP.rotation((float) Math.acos(beamVect.z * (beamVect.x > 0 ? 1 : -1))));
-				matrixStack.scale(0.006F, 0.006F, 0.006F);
-				ECRendererHelper.renderIcon(matrixStack, buffer, -21, 38, BEAM, 42, -76, r, g, b, light, overlay);
-				matrixStack.popPose();
-			}
 		}
 	}
 
 	protected ElementType getElementType(SolarSynthesizerBlockEntity te) {
-		ItemStack stack = te.getInventory().getItem(0);
-
-		if (!stack.isEmpty()) {
-			Item item = stack.getItem();
-
-			return item instanceof IElementTypeProvider elementTypeProvider ? elementTypeProvider.getElementType() : ElementType.NONE;
-		}
-		return ElementType.NONE;
+		return ElementType.getElementType(te.getInventory().getItem(0));
 	}
 
-	protected synchronized BakedModel getLenseModel() {
-		if (lenseModel == null) {
+	private synchronized BakedModel getLensModel() {
+		if (lensModel == null) {
 			Minecraft minecraft = Minecraft.getInstance();
 
-			lenseModel = minecraft.getModelManager().getModel(LENSE_LOCATION);
+			lensModel = minecraft.getModelManager().getModel(LENS_LOCATION);
 		}
-		return lenseModel;
+		return lensModel;
 	}
 }

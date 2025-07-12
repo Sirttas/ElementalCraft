@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:groveshrine",
+  "name": "block.elementalcraft.groveshrine",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.groveshrine0"
+    }
+  ],
+  "sortnum": 7,
+  "turnin": "elementalcraft:pickup/groveshrine"
+}

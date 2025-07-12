@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
@@ -13,8 +14,12 @@ public class SingleElementStorageWrapper implements ISingleElementStorage {
 		this.storage = storage;
 	}
 
+	public IElementStorage getParent() {
+		return storage;
+	}
+
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 

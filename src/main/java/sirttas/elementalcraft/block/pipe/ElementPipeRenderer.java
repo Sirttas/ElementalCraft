@@ -8,15 +8,15 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.PipeUpgradeRenderers;
+import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import java.util.Objects;
@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 
 public class ElementPipeRenderer implements BlockEntityRenderer<ElementPipeBlockEntity> {
 
-	public static final ResourceLocation SIDE_LOCATION = ElementalCraftApi.createRL("block/elementpipe_side");
-	public static final ResourceLocation EXTRACT_LOCATION = ElementalCraftApi.createRL("block/elementpipe_extract");
+	public static final ModelResourceLocation SIDE_LOCATION = ECModelHelper.standalone("block/elementpipe_side");
+	public static final ModelResourceLocation EXTRACT_LOCATION = ECModelHelper.standalone("block/elementpipe_extract");
 	
 	private static final AABB BOX = new AABB(0, 0, 0, 1, 1, 1);
 	

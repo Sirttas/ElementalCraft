@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_mole": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:mole"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_mole"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -7,12 +7,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -29,8 +29,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
@@ -57,12 +56,11 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return this.elementType;
 	}
 
 	@Override
-	@Deprecated
 	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
 			BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class).ifPresent(shrine -> shrine.getUpgradeDirections().forEach(direction -> {
@@ -80,35 +78,31 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@Nonnull
 	@Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final AbstractShrineBlockEntity shrine = (AbstractShrineBlockEntity) level.getBlockEntity(pos);
 
 		if (shrine != null && player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
 			if (level.isClientSide) {
 				shrine.startShowingRange();
 			}
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return super.useItemOn(stack, state, level, pos, player, hand, hit);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, @Nonnull TooltipFlag flag) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class)
 				.filter(AbstractShrineBlockEntity::isRunning)
 				.ifPresent(s -> this.doAnimateTick(s, state, level, pos, rand));
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level level, BlockPos pos, RandomSource rand) {
 		// NO-OP
 	}
 
@@ -144,14 +138,12 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public FluidState getFluidState(@Nonnull BlockState state) {
 		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
 		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);

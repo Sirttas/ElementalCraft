@@ -13,14 +13,14 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchorList;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.Collection;
 
 public class TranslocationSpell extends Spell {
 
@@ -31,14 +31,14 @@ public class TranslocationSpell extends Spell {
 	}
 
     public static boolean isTranslocation(ItemStack stack) {
-        return SpellHelper.getSpell(stack) == Spells.TRANSLOCATION.get();
+        return SpellHelper.getSpell(stack).is(Spells.TRANSLOCATION);
     }
 
 	public static boolean holdsTranslocation(Player player) {
 		return isTranslocation(player.getMainHandItem()) || isTranslocation(player.getOffhandItem());
 	}
 
-	public static BlockPos getTargetAnchor(Entity caster, List<BlockPos> anchors) {
+	public static BlockPos getTargetAnchor(Entity caster, Collection<BlockPos> anchors) {
 		var playerPos = caster.getEyePosition();
 		var playerLook = caster.getLookAngle().normalize();
 		BlockPos target = null;
@@ -99,7 +99,7 @@ public class TranslocationSpell extends Spell {
 	}
 
 	private Vec3 getNewPos(@Nonnull Entity caster, Level level, Vec3 look) {
-		var list = TranslocationAnchorList.get(level);
+		var list = TranslocationAnchorsSaveData.get(level);
 
 		if (list != null) {
 			var target = getTargetAnchor(caster, list.getAnchors());
@@ -118,8 +118,8 @@ public class TranslocationSpell extends Spell {
 		return newPos;
 	}
 
-	private double getHeight(Level world, Entity sender, Vec3 targetPos) {
-		double height = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlockPos.containing(targetPos)).getY() + 1D;
+	private double getHeight(Level level, Entity sender, Vec3 targetPos) {
+		double height = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlockPos.containing(targetPos)).getY() + 1D;
 		
 		if (!sender.onGround()) {
 			return Math.max(height, sender.getY());

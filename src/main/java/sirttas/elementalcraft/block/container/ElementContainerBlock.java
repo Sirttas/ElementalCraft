@@ -2,6 +2,8 @@ package sirttas.elementalcraft.block.container;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -11,13 +13,18 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 
 import javax.annotation.Nonnull;
 
 public class ElementContainerBlock extends AbstractConnectedElementContainerBlock {
 
 	public static final String NAME = "container";
+
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+
 	public static final MapCodec<ElementContainerBlock> CODEC = simpleCodec(ElementContainerBlock::new);
 
 	private static final VoxelShape BASE = Block.box(0D, 0D, 0D, 16D, 2D, 16D);
@@ -33,7 +40,11 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 	private static final VoxelShape SHAPE = Shapes.or(BASE, GLASS, PIPE_1, PIPE_2, PIPE_3, PIPE_4, CONNECTOR);
 
 	public ElementContainerBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+		this(properties, PROPERTIES);
+	}
+
+	protected ElementContainerBlock(BlockBehaviour.Properties properties, Holder<IConfigurableBlockEntityProperties> entityProperties) {
+		super(properties, entityProperties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(NORTH, false)
 				.setValue(EAST, false)
@@ -43,7 +54,6 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return Shapes.or(SHAPE, super.getShape(state, level, pos, context));
 	}
@@ -51,11 +61,6 @@ public class ElementContainerBlock extends AbstractConnectedElementContainerBloc
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
 		container.add(NORTH, SOUTH, EAST, WEST);
-	}
-
-	@Override
-	public int getDefaultCapacity() {
-		return ECConfig.SERVER.containerCapacity.get();
 	}
 
 	@Override

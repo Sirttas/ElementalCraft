@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "item": "elementalcraft:crude_air_gem"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "w": {
+      "item": "elementalcraft:fine_water_gem"
+    }
+  },
+  "pattern": [
+    " w ",
+    "cUc",
+    " a "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:salmon"
+  }
+}

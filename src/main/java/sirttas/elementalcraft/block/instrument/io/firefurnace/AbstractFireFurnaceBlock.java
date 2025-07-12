@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 
 import javax.annotation.Nonnull;
@@ -37,8 +37,7 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 
 	@Nonnull
     @Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		var furnace = (AbstractFireFurnaceBlockEntity<?>) level.getBlockEntity(pos);
 		var heldItem = player.getItemInHand(hand);
 	
@@ -53,13 +52,12 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 			}
 			return this.onSlotActivated(inv, player, heldItem, 0);
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 	
 	@Override
-	@Deprecated
-	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state, world, pos.below());
+	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
+		return ElementContainer.isValidContainer(state, level, pos.below());
 	}
 	
 	@Override
@@ -75,14 +73,12 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 
 	@Nonnull
     @Override
-	@Deprecated
 	public FluidState getFluidState(@Nonnull BlockState state) {
 		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
 		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);

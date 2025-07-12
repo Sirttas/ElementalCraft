@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:firefurnace",
+  "name": "block.elementalcraft.firefurnace",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.firefurnace0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:firefurnace"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:firefurnace"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 5,
+  "turnin": "elementalcraft:pickup/firefurnace"
+}

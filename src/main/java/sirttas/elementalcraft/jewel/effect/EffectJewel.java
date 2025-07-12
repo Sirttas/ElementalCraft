@@ -16,27 +16,27 @@ public class EffectJewel extends Jewel {
 
     protected final List<MobEffectInstance> effects;
 
-    public EffectJewel(ElementType elementType, int consumption, MobEffectInstance... effects) {
-        super(elementType, consumption);
+    public EffectJewel(ElementType elementType, int consumption, boolean ticking, MobEffectInstance... effects) {
+        super(elementType, consumption, ticking);
         this.effects = ImmutableList.copyOf(effects);
     }
 
-    public void apply(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity) {
-            for (MobEffectInstance e : effects) {
-                var effect = new MobEffectInstance(e);
-
-                livingEntity.addEffect(effect);
-            }
+    public void apply(LivingEntity entity) {
+        for (MobEffectInstance effect : effects) {
+            entity.addEffect(new MobEffectInstance(effect));
         }
     }
 
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-        if (entity instanceof LivingEntity livingEntity) {
-            var activeEffects = livingEntity.getActiveEffects();
+        return isActive(entity, entity, elementStorage);
+    }
 
-            if (effects.stream().allMatch(e -> activeEffects.stream().anyMatch(a -> a.getEffect().equals(e.getEffect()) && a.getAmplifier() >= e.getAmplifier() && a.getDuration() >= 2))) {
+    public boolean isActive(@Nonnull Entity entity, @Nonnull Entity target, @Nullable IElementStorage elementStorage) {
+        if (target instanceof LivingEntity livingTarget) {
+            var activeEffects = livingTarget.getActiveEffects();
+
+            if (effects.stream().allMatch(effect -> activeEffects.stream().anyMatch(activeEffect -> activeEffect.getEffect().equals(effect.getEffect()) && activeEffect.getAmplifier() >= effect.getAmplifier() && activeEffect.getDuration() >= 2))) {
                 return false;
             }
         }

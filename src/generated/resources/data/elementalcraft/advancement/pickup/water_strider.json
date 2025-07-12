@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_water_strider": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:water_strider"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_water_strider"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

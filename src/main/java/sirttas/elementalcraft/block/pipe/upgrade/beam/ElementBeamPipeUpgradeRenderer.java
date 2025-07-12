@@ -5,20 +5,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.resources.ResourceLocation;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
+import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
 public class ElementBeamPipeUpgradeRenderer implements IPipeUpgradeRenderer<ElementBeamPipeUpgrade> {
 
-    public static final ResourceLocation RING_1_LOCATION = ElementalCraftApi.createRL(PipeUpgrade.FOLDER + "element_beam_ring_1");
-    public static final ResourceLocation RING_2_LOCATION = ElementalCraftApi.createRL(PipeUpgrade.FOLDER + "element_beam_ring_2");
-    public static final ResourceLocation RING_3_LOCATION = ElementalCraftApi.createRL(PipeUpgrade.FOLDER + "element_beam_ring_3");
+    public static final ModelResourceLocation RING_1_LOCATION = ECModelHelper.standalone(PipeUpgrade.FOLDER + "element_beam_ring_1");
+    public static final ModelResourceLocation RING_2_LOCATION = ECModelHelper.standalone(PipeUpgrade.FOLDER + "element_beam_ring_2");
+    public static final ModelResourceLocation RING_3_LOCATION = ECModelHelper.standalone(PipeUpgrade.FOLDER + "element_beam_ring_3");
 
     private BakedModel ring1Model;
     private BakedModel ring2Model;

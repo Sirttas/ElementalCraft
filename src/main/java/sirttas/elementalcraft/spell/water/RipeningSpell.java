@@ -33,7 +33,7 @@ public class RipeningSpell extends Spell {
 					growable.performBonemeal(serverLevel, level.random, target, state);
 					state = level.getBlockState(target);
 				}
-				level.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, target, 0);
+				level.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, target, 0);
 			}
 			return InteractionResult.SUCCESS;
 		}

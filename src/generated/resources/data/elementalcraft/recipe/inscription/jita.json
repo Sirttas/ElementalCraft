@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 5000,
+  "element_type": "fire",
+  "ingredients": [
+    {
+      "item": "elementalcraft:rune_slate"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:manx"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "output": {
+    "components": {
+      "elementalcraft:rune": "elementalcraft:jita"
+    },
+    "count": 1,
+    "id": "elementalcraft:rune"
+  }
+}

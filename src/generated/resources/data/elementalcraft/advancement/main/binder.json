@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/drenched_iron",
+  "criteria": {
+    "has_binder": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:binder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.binder.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:binder"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.binder.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_binder"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -11,10 +11,10 @@ import sirttas.elementalcraft.api.element.ElementType;
 @OnlyIn(Dist.CLIENT)
 public class ElementCraftingParticle extends AbstractElementParticle {
 
-	public static final SpriteParticleRegistration<ElementTypeParticleData> FACTORY = s -> (data, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> new ElementCraftingParticle(worldIn, new Vec3(x, y, z), s, data.getElementType());
+	public static final SpriteParticleRegistration<ElementParticleData> FACTORY = s -> (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new ElementCraftingParticle(level, new Vec3(x, y, z), s, data.getElementType());
 	
-	private ElementCraftingParticle(ClientLevel worldIn, Vec3 coord, SpriteSet sprite, ElementType type) {
-		super(worldIn, coord, type);
+	private ElementCraftingParticle(ClientLevel level, Vec3 coord, SpriteSet sprite, ElementType type) {
+		super(level, coord, type);
 		this.xd = (this.random.nextFloat() - 0.5F);
 		this.yd = (this.random.nextFloat() - 0.5F);
 		this.zd = (this.random.nextFloat() - 0.5F);

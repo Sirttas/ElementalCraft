@@ -2,17 +2,18 @@ package sirttas.elementalcraft.block.shrine.lumber;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.IPlantable;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.block.shrine.upgrade.vertical.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.loot.LootHelper;
@@ -23,10 +24,11 @@ import java.util.Optional;
 
 public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(LumberShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(LumberShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	public LumberShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.LUMBER_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.LUMBER_SHRINE, PROPERTIES, pos, state);
 	}
 
 	private Optional<BlockPos> findTreeBlock() {
@@ -44,7 +46,7 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 			var y = this.worldPosition.getY();
 
 			loots.stream()
-					.filter(stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof IPlantable)
+					.filter(stack -> stack.is(ItemTags.SAPLINGS))
 					.findFirst()
 					.ifPresent(seeds -> {
 						var mutablePos = new BlockPos.MutableBlockPos(pos.getX(), pos.getY(), pos.getZ());

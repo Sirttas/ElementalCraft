@@ -22,10 +22,14 @@ public class ECDamageTypeTagsProvider extends DamageTypeTagsProvider {
     @Override
     protected void addTags(@Nonnull HolderLookup.Provider provider) {
         tag(DamageTypeTags.IS_FIRE).add(ECDamageTypes.HOLY_FIRE);
-        tag(DamageTypeTags.BYPASSES_ARMOR).add(ECDamageTypes.HOLY_FIRE);
+        tag(DamageTypeTags.BYPASSES_ARMOR).add(ECDamageTypes.HOLY_FIRE, ECDamageTypes.DRAINING);
+        tag(DamageTypeTags.BYPASSES_EFFECTS).add(ECDamageTypes.DRAINING);
         tag(DamageTypeTags.BYPASSES_COOLDOWN).add(ECDamageTypes.HOLY_FIRE);
+        tag(DamageTypeTags.NO_KNOCKBACK).add(ECDamageTypes.HOLY_FIRE, ECDamageTypes.DRAINING);
         tag(Tags.DamageTypes.IS_MAGIC).add(ECDamageTypes.HOLY_FIRE);
-        tag(ECTags.DamageTypes.BYPASSES_JEWELS).add(ECDamageTypes.HOLY_FIRE);
+        tag(Tags.DamageTypes.IS_ENVIRONMENT).add(ECDamageTypes.DRAINING);
+        tag(ECTags.DamageTypes.BYPASSES_DEFENSE_JEWELS);
+        tag(ECTags.DamageTypes.BYPASSES_ATTACK_JEWELS).add(ECDamageTypes.HOLY_FIRE);
 
         tag(ECTags.DamageTypes.BLOCKED_BY_TORTOISE_JEWEL).addTag(DamageTypeTags.DAMAGES_HELMET);
     }

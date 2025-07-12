@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:strider",
+  "name": "elementalcraft.jewel.elementalcraft.strider",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.strider0"
+    }
+  ],
+  "sortnum": 13,
+  "turnin": "elementalcraft:pickup/strider"
+}

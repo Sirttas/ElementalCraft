@@ -8,10 +8,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -26,8 +26,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -52,7 +50,6 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	@Nonnull
     @Override
-	@Deprecated
 	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.MODEL;
 	}
@@ -63,14 +60,12 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	}
 
 	@Override
-	@Deprecated
 	public void onRemove(@Nonnull BlockState state, @Nonnull Level level, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
 		BlockEntityHelper.getBlockEntityAs(level, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
 		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override
-	@Deprecated
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
 		if (!upgrade.isBound()) { // we only remove upgrades if it is fully loaded
 			return true;
@@ -101,21 +96,18 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	@Nonnull
     @Override
-	@Deprecated
 	public FluidState getFluidState(@Nonnull BlockState state) {
 		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
 		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
 	}
 	
 	@Override
-	@Deprecated
 	public void tick(BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		if (!state.canSurvive(level, pos)) {
 			level.destroyBlock(pos, true);
@@ -128,10 +120,9 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	public abstract Direction getFacing(@Nonnull BlockState state);
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		if (upgrade.isBound()) {
-			getUpgrade().addInformation(tooltip);
+			getUpgrade().addInformation(tooltip, flag);
 		}
 	}
 

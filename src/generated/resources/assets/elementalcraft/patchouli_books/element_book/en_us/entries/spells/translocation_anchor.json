@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/fireite_ingot",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:translocation_anchor",
+  "name": "block.elementalcraft.translocation_anchor",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.translocation_anchor0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:translocation_anchor"
+    }
+  ],
+  "sortnum": 25,
+  "turnin": "elementalcraft:pickup/translocation_anchor"
+}

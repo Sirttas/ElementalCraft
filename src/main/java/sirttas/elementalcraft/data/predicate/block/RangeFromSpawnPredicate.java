@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.data.predicate.block;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,7 +17,7 @@ import javax.annotation.Nullable;
 public class RangeFromSpawnPredicate implements IBlockPosPredicate {
 
 	public static final String NAME = "range_from_spawn";
-	public static final Codec<RangeFromSpawnPredicate> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+	public static final MapCodec<RangeFromSpawnPredicate> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
 			Codec.INT.fieldOf(ECNames.RANGE).forGetter(p -> p.range)
 	).apply(builder, RangeFromSpawnPredicate::new));
 

@@ -32,17 +32,17 @@ public class StoneWallSpell extends Spell {
 	}
 
 	public InteractionResult cast(Entity sender, BlockPos pos, Direction direction) {
-		Level world = sender.level();
+		Level level = sender.level();
 
-		checkAndPlace(world, pos);
-		checkAndPlace(world, pos.relative(direction.getClockWise()));
-		checkAndPlace(world, pos.relative(direction.getCounterClockWise()));
-		checkAndPlace(world, pos.above(1));
-		checkAndPlace(world, pos.above(2));
-		checkAndPlace(world, pos.relative(direction.getClockWise()).above(1));
-		checkAndPlace(world, pos.relative(direction.getClockWise()).above(2));
-		checkAndPlace(world, pos.relative(direction.getCounterClockWise()).above(1));
-		checkAndPlace(world, pos.relative(direction.getCounterClockWise()).above(2));
+		checkAndPlace(level, pos);
+		checkAndPlace(level, pos.relative(direction.getClockWise()));
+		checkAndPlace(level, pos.relative(direction.getCounterClockWise()));
+		checkAndPlace(level, pos.above(1));
+		checkAndPlace(level, pos.above(2));
+		checkAndPlace(level, pos.relative(direction.getClockWise()).above(1));
+		checkAndPlace(level, pos.relative(direction.getClockWise()).above(2));
+		checkAndPlace(level, pos.relative(direction.getCounterClockWise()).above(1));
+		checkAndPlace(level, pos.relative(direction.getCounterClockWise()).above(2));
 		return InteractionResult.SUCCESS;
 	}
 
@@ -50,7 +50,7 @@ public class StoneWallSpell extends Spell {
 	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
 		Optional<Direction> opt = Stream.of(Direction.orderedByNearest(caster)).filter(d -> d.getAxis() != Axis.Y).findFirst();
 		
-		if (!opt.isPresent()) {
+		if (opt.isEmpty()) {
 			return InteractionResult.PASS;
 		}
 		return cast(caster, BlockPos.containing(caster.position()).relative(opt.get(), 3), opt.get());

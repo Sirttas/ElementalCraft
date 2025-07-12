@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:feather_spikes\"]",
+  "name": "elementalcraft_spell.elementalcraft.feather_spikes",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.feather_spikes0"
+    }
+  ],
+  "sortnum": 9,
+  "turnin": "elementalcraft:pickup/scroll"
+}

@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.source.trait.value;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +16,7 @@ import java.util.List;
 public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValueProvider {
 
 	public static final String NAME = "range_based";
-	public static final Codec<RangeBasedSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> codec(builder)
+	public static final MapCodec<RangeBasedSourceTraitValueProvider> CODEC = RecordCodecBuilder.mapCodec(builder -> codec(builder)
 	        .and(Codec.FLOAT.fieldOf(ECNames.WEIGHT).forGetter(p -> p.weight))
 	        .apply(builder, RangeBasedSourceTraitValueProvider::new));
 	

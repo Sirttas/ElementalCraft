@@ -14,11 +14,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -27,13 +28,14 @@ import java.util.Optional;
 
 public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(GroveShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(GroveShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private static final Lazy<HolderSet.Named<Item>> MYSTICAL_GROVE_FLOWERS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS));
 	private static final Lazy<HolderSet.Named<Item>> GROVE_SHRINE_FLOWERS = Lazy.of(() -> ECTags.Items.getTag(ECTags.Items.GROVE_SHRINE_FLOWERS));
 
 	public GroveShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.GROVE_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.GROVE_SHRINE, PROPERTIES, pos, state);
 	}
 
 	private Optional<BlockPos> findGrass() {
@@ -61,7 +63,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 					ElementalCraftApi.LOGGER.warn("Failed to place flower: {} at {}", item, p);
 					return false;
 				}
-				level.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, p, 0);
+				level.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, p, 0);
 				return true;
 			}).orElse(false);
 		}

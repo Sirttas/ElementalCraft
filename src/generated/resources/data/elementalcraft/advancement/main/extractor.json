@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/rudimentary_extractor",
+  "criteria": {
+    "has_extractor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:element_extractor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.extractor.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:element_extractor"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.extractor.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_extractor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

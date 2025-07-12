@@ -1,33 +1,43 @@
 package sirttas.elementalcraft.block.instrument.enchantment.liquefier;
 
 import net.minecraft.Util;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
+import sirttas.elementalcraft.enchantment.ECEnchantmentHelper;
 
 import java.util.List;
-import java.util.Map;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
+
+@ForEachTest(groups = EnchantmentLiquefierGameTests.GROUP)
 public class EnchantmentLiquefierGameTests {
 
-    // elementalcraft:enchantmentliquefiergametests.should_transferenchantment
-    @GameTest(batch = InstrumentGameTestHelper.BATCH_NAME)
-    public static void should_transferEnchantment(GameTestHelper helper) {
-        InstrumentGameTestHelper.<EnchantmentLiquefierBlockEntity>runInstrument(helper, List.of(
+    public static final String GROUP = "level.blocks.instruments.enchantment_liquefier";
+
+    public static final String TEMPLATE = "elementalcraft:enchantmentliquefiergametests.should_transferenchantment";
+
+    @GameTest(template = TEMPLATE)
+    @TestHolder
+    public static void should_transferEnchantment(ECGameTestHelper helper) {
+        var sharpness = ECEnchantmentHelper.getEnchantmentHolder(helper.getLevel().registryAccess(), Enchantments.SHARPNESS);
+
+        helper.<EnchantmentLiquefierBlockEntity>runInstrument(List.of(
                 Util.make(() -> {
                     var book = new ItemStack(Items.ENCHANTED_BOOK);
+                    var mutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
 
-                    EnchantmentHelper.setEnchantments(Map.of(Enchantments.SHARPNESS, 4), book);
+                    mutable.set(sharpness, 4);
+                    EnchantmentHelper.setEnchantments(book, mutable.toImmutable());
                     return book;
                 }),
                 new ItemStack(Items.NETHERITE_SWORD)
@@ -38,10 +48,11 @@ public class EnchantmentLiquefierGameTests {
 
             assertThat(output)
                     .is(Items.NETHERITE_SWORD)
-                    .satisfies(o -> assertThat(EnchantmentHelper.getEnchantments(o)).hasEntrySatisfying(Enchantments.SHARPNESS, level -> assertThat(level).isBetween(3, 4)));
+                    .hasDataComponentSatisfying(DataComponents.ENCHANTMENTS, e -> assertThat(e.getLevel(sharpness)).isBetween(3, 4));
             assertThat(input)
                     .is(Items.BOOK)
-                    .satisfies(i -> assertThat(EnchantmentHelper.getEnchantments(i)).isEmpty());
+                    .doesNotHaveDataComponent(DataComponents.STORED_ENCHANTMENTS)
+                    .hasDataComponentSatisfying(DataComponents.ENCHANTMENTS, e -> assertThat(e.isEmpty()).isTrue());
         });
     }
 }

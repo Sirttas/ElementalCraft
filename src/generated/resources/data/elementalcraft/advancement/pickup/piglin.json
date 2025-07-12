@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_piglin": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:piglin"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_piglin"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

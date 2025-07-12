@@ -1,34 +1,30 @@
 package sirttas.elementalcraft.recipe.instrument.io.grinding;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
 import javax.annotation.Nonnull;
 
 public record GrindingRecipe(
 		int elementAmount,
-		int luckRation,
+		double luckRatio,
 		Ingredient ingredient,
 		ItemStack output
 ) implements IGrindingRecipe {
-
-	public static final Codec<GrindingRecipe> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(GrindingRecipe::elementAmount),
-			Codec.INT.fieldOf(ECNames.LUCK_RATIO).forGetter(GrindingRecipe::luckRation),
-			Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(GrindingRecipe::ingredient),
-			ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(GrindingRecipe::output)
-	).apply(builder, GrindingRecipe::new));
 
 	public GrindingRecipe {
 		if (output.isEmpty()) {
@@ -41,7 +37,7 @@ public record GrindingRecipe(
 		return elementAmount;
 	}
 	@Override
-	public boolean matches(ItemStack stack, @Nonnull Level level) {
+	public boolean matches(@NotNull ItemStack stack, @Nonnull Level level) {
 		return ingredient.test(stack) && IGrindingRecipe.super.matches(stack, level);
 	}
 
@@ -53,7 +49,7 @@ public record GrindingRecipe(
 
 	@Nonnull
     @Override
-	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
+	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
 		return output;
 	}
 
@@ -64,34 +60,45 @@ public record GrindingRecipe(
 	}
 
 	@Override
-	public int getLuck(AbstractMillGrindstoneBlockEntity instrument) {
-		return Math.round(instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK) * luckRation);
+	public int getLuck(SimpleIOInstrumentRecipeInput input) {
+		return (int) Math.round(input.getRuneBonus(Rune.BonusType.LUCK) * luckRatio);
 	}
 
 	public static class Serializer implements RecipeSerializer<GrindingRecipe> {
 
+		public static final MapCodec<GrindingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+				Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(GrindingRecipe::elementAmount),
+				Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(GrindingRecipe::luckRatio),
+				Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(GrindingRecipe::ingredient),
+				ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(GrindingRecipe::output)
+		).apply(builder, GrindingRecipe::new));
+		public static final StreamCodec<RegistryFriendlyByteBuf, GrindingRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
+
 		@Override
 		@Nonnull
-		public Codec<GrindingRecipe> codec() {
+		public MapCodec<GrindingRecipe> codec() {
 			return CODEC;
 		}
 
 		@Override
-		public GrindingRecipe fromNetwork(FriendlyByteBuf buffer) {
-			int elementAmount = buffer.readInt();
-			int luckRation = buffer.readInt();
-			Ingredient ingredient = Ingredient.fromNetwork(buffer);
-			ItemStack output = buffer.readItem();
-
-			return new GrindingRecipe(elementAmount, luckRation, ingredient, output);
+		public @NotNull StreamCodec<RegistryFriendlyByteBuf, GrindingRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, GrindingRecipe recipe) {
+		public static GrindingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+			var elementAmount = buffer.readInt();
+			var luckRatio = buffer.readDouble();
+			var ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+			var output = ItemStack.STREAM_CODEC.decode(buffer);
+
+			return new GrindingRecipe(elementAmount, luckRatio, ingredient, output);
+		}
+
+		public static void toNetwork(RegistryFriendlyByteBuf buffer, GrindingRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeInt(recipe.luckRation());
-			recipe.getIngredients().get(0).toNetwork(buffer);
-			buffer.writeItem(recipe.output);
+			buffer.writeDouble(recipe.luckRatio());
+			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+			ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
 		}
 
 	}

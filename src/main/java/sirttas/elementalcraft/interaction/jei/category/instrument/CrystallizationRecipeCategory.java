@@ -9,20 +9,20 @@ import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
+import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 
 import javax.annotation.Nonnull;
 
-public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCategory<CrystallizerBlockEntity, CrystallizationRecipe> {
+public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCategory<MultipleItemsSingleElementRecipeInput, CrystallizationRecipe> {
 
 	private static final ItemStack CRYSTALLIZER = new ItemStack(ECBlocks.CRYSTALLIZER.get());
 
 	public CrystallizationRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.crystallization", createDrawableStack(guiHelper, CRYSTALLIZER), guiHelper.createBlankDrawable(132, 110));
-		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/crystallization.png"), 0, 0, 124, 52), 10, 10);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/crystallization.png"), 0, 0, 124, 52), 10, 10);
 	}
 
 	@Nonnull

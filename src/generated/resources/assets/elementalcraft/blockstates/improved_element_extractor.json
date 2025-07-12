@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "elementalcraft:block/improved_element_extractor"
+    }
+  }
+}

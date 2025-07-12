@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "consumed_item": {
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "elementalcraft:textures/block/whiterock.png",
+    "description": {
+      "translate": "advancements.elementalcraft.root.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:focus"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.elementalcraft.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "consumed_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

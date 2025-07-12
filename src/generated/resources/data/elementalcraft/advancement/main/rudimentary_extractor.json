@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/contained_crystal",
+  "criteria": {
+    "has_rudimentary_extractor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:rudimentary_element_extractor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.rudimentary_extractor.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:rudimentary_element_extractor"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.rudimentary_extractor.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_rudimentary_extractor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

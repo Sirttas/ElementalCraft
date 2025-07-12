@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:synthesizer",
+  "element_capacity": 1000,
+  "element_type": "earth",
+  "max_runes": 1,
+  "range": {
+    "box": [
+      -5.0,
+      -3.0,
+      -5.0,
+      6.0,
+      -1.0,
+      6.0
+    ],
+    "growth_ratio": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "stitch": true
+  },
+  "transfer_speed": 5
+}

@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:fireblastfurnace",
+  "name": "block.elementalcraft.fireblastfurnace",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.fireblastfurnace0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:fireblastfurnace"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:fireblastfurnace"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 6,
+  "turnin": "elementalcraft:pickup/fireblastfurnace"
+}

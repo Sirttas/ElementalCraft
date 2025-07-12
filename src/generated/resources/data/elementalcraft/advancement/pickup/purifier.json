@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_purifier": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:purifier"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_purifier"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

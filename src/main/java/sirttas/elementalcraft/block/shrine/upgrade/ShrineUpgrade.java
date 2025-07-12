@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.world.CacheBlockPredicate;
@@ -31,7 +32,6 @@ import java.util.stream.StreamSupport;
 
 public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
-
 	public static final Codec<ShrineUpgrade> CODEC = RecordCodecBuilder.create(builder -> AbstractUpgrade.codec(builder, BonusType.CODEC).apply(builder, ShrineUpgrade::new));
 
 	private ShrineUpgrade(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount) {
@@ -47,12 +47,15 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		return canUpgrade(shrine.getLevel(), shrine.getBlockPos(), direction, count);
 	}
 
-	public void addInformation(List<Component> tooltip) {
+	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		bonuses.forEach((type, multiplier) -> tooltip.add(Component.translatable("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
 				.withStyle(type.isPositive() ^ multiplier < 1 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
 			tooltip.add(Component.empty());
 			tooltip.add(Component.translatable("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
+		}
+		if (flag.isAdvanced()) {
+			tooltip.addAll(this.getPredicateTooltip());
 		}
 	}
 

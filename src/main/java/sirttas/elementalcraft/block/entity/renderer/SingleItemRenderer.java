@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.entity.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
@@ -14,7 +15,7 @@ import sirttas.elementalcraft.renderer.ECRendererHelper;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> implements IRuneRenderer<T> {
+public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> implements BlockEntityRenderer<T> {
 
 	private final Vec3 position;
 	private final float size;
@@ -29,15 +30,15 @@ public class SingleItemRenderer<T extends BlockEntity & IContainerBlockEntity> i
 	}
 
 	@Override
-	public void render(@Nonnull T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		ItemStack stack = te.getInventory().getItem(0);
+	public void render(@Nonnull T blockEntity, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+		ItemStack stack = blockEntity.getInventory().getItem(0);
 
-		IRuneRenderer.super.render(te, partialTicks, matrixStack, buffer, light, overlay);
+		ECRendererHelper.renderRunes(poseStack, buffer, blockEntity, partialTicks, light, overlay);
 		if (!stack.isEmpty()) {
-			matrixStack.translate(position.x, position.y, position.z);
-			matrixStack.mulPose(Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTicks)));
-			matrixStack.scale(size, size, size);
-			ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
+			poseStack.translate(position.x, position.y, position.z);
+			poseStack.mulPose(Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTicks)));
+			poseStack.scale(size, size, size);
+			ECRendererHelper.renderItem(stack, poseStack, buffer, light, overlay);
 		}
 	}
 }

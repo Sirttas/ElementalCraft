@@ -1,18 +1,16 @@
 package sirttas.elementalcraft.recipe.instrument;
 
 import net.minecraft.util.RandomSource;
-import sirttas.elementalcraft.container.IContainerBlockEntity;
-import sirttas.elementalcraft.recipe.IContainerBlockEntityRecipe;
+import sirttas.elementalcraft.recipe.IECRecipe;
+import sirttas.elementalcraft.recipe.input.RandomSourceRecipeInput;
 
-public interface ILuckRecipe<T extends IContainerBlockEntity> extends IContainerBlockEntityRecipe<T> {
+public interface ILuckRecipe<I extends RandomSourceRecipeInput> extends IECRecipe<I> {
 
-    default RandomSource getRand(T be) {
-        return RandomSource.create();
+    default RandomSource getRandomSource(I input) {
+        return input.getRandomSource();
     }
 
-    default int getLuck(T instrument) {
+    default int getLuck(I input) {
         return 0;
     }
-
-
 }

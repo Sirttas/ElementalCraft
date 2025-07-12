@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_minor_rune_slate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:minor_rune_slate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_minor_rune_slate"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -2,9 +2,12 @@ package sirttas.elementalcraft.block.pipe.upgrade.type;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
@@ -21,8 +24,10 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     private Item item;
     private ResourceLocation key;
     private String descriptionId;
+    private ResourceKey<LootTable> lootTable;
     @OnlyIn(Dist.CLIENT)
     private BakedModel model;
+
 
     public PipeUpgradeType(Factory<T> factory) {
         this.factory = factory;
@@ -56,9 +61,9 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     @Nonnull
     public String getDescriptionId() {
         if (descriptionId == null) {
-            var k = getKey();
+            var id = getKey();
 
-            descriptionId = "elementalcraft.pipe_upgrade." + k.getNamespace() + '.' + k.getPath();
+            descriptionId = "elementalcraft.pipe_upgrade." + id.getNamespace() + '.' + id.getPath();
         }
         return descriptionId;
     }
@@ -70,6 +75,15 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
             model = ECModelShapers.get(PipeUpgradeModelShaper.NAME).getBlockModel(this);
         }
         return model;
+    }
+
+    public ResourceKey<LootTable> getLootTable() {
+        if (lootTable == null) {
+            var k = getKey();
+
+            lootTable = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(k.getNamespace(), PipeUpgrade.FOLDER + k.getPath()));
+        }
+        return lootTable;
     }
 
     @FunctionalInterface

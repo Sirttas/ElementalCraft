@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 import java.text.MessageFormat;
 
 public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> implements MenuAccess<SpellBookMenu> {
-	private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
+	private static final ResourceLocation CHEST_GUI_TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/container/generic_54.png");
 
 	public SpellBookScreen(SpellBookMenu container, Inventory playerInventory, Component title) {
 		super(container, playerInventory, title);

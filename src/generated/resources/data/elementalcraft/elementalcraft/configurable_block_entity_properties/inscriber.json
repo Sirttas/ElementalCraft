@@ -1,0 +1,8 @@
+{
+  "type": "elementalcraft:crafting",
+  "lockable": true,
+  "max_runes": 2,
+  "recipe_type": "elementalcraft:inscription",
+  "retrieve_all": true,
+  "transfer_speed": 1000
+}

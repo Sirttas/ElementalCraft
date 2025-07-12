@@ -1,6 +1,8 @@
 package sirttas.elementalcraft.block.source;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -14,14 +16,14 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.source.trait.holder.ItemSourceTraitHolder;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.container.IElementStorageBlocKEntity;
-import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 
 import javax.annotation.Nonnull;
 
 public class SourceBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider, IElementStorageBlocKEntity {
 
-	private boolean analyzed = false;
 	private boolean stabilized = false;
 	private final SourceElementStorage elementStorage;
 	private final SourceSourceTraitHolder traitHolder;
@@ -44,24 +46,17 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		return this.traitHolder;
 	}
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, SourceBlockEntity source) {
+	@Override
+	public void setLevel(@NotNull Level level) {
+		super.setLevel(level);
+
 		if (!(level instanceof ServerLevel serverLevel)) {
 			return;
 		}
-		if (source.traitHolder.isEmpty()) {
-			source.initTraits(serverLevel, 0);
+		if (traitHolder.isEmpty()) {
+			initTraits(serverLevel, 0);
 		}
-        if (source.elementStorage.isExhausted()) {
-			if (source.traitHolder.isArtificial()) {
-				serverLevel.destroyBlock(pos, false);
-			} else {
-				var sourceFlux = serverLevel.getChunkAt(pos).getData(ECDataAttachments.SOURCE_FLUX);
-
-				source.elementStorage.insertElement(Math.round(source.traitHolder.getRecoverRate() * sourceFlux.getRatio()), false);
-				sourceFlux.consume();
-			}
-        }
-    }
+	}
 
     private void initTraits(@Nonnull ServerLevelAccessor level, int luck) {
         if (elementStorage.getElementType() == ElementType.NONE) {
@@ -77,18 +72,8 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		this.initTraits(level, luck);
 	}
 
-	public boolean isExhausted() {
-		return elementStorage.isExhausted();
-	}
-
-	public void exhaust() {
-		if (!traitHolder.isArtificial()) {
-			elementStorage.setElementAmount(0);
-		}
-	}
-
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return this.elementStorage.getElementType();
 	}
 
@@ -99,15 +84,6 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 			return 0;
 		}
 		return this.elementStorage.getElementAmount() / (float) capacity;
-	}
-
-	public boolean isAnalyzed() {
-		return analyzed;
-	}
-
-	public void setAnalyzed(boolean analyzed) {
-		this.analyzed = analyzed;
-		this.setChanged();
 	}
 
 	public boolean isStabilized() {
@@ -132,27 +108,45 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
 	@Override
-	public void load(@Nonnull CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
+			elementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
-		analyzed = compound.getBoolean(ECNames.ANALYZED);
-		if (compound.contains(ECNames.TRAITS_HOLDER)) {
-			traitHolder.deserializeNBT(compound.getCompound(ECNames.TRAITS_HOLDER));
+		if (compound.contains(ECNames.SOURCE_TRAITS_HOLDER)) {
+			traitHolder.deserializeNBT(provider, compound.getCompound(ECNames.SOURCE_TRAITS_HOLDER));
 		}
 		stabilized = compound.getBoolean(ECNames.STABILIZED);
-		elementStorage.setExhausted(compound.getBoolean(ECNames.EXHAUSTED));
 		refreshCapacity();
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound) {
-		super.saveAdditional(compound);
-		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
-		compound.putBoolean(ECNames.EXHAUSTED, elementStorage.isExhausted());
-		compound.put(ECNames.TRAITS_HOLDER, traitHolder.serializeNBT());
-		compound.putBoolean(ECNames.ANALYZED, analyzed);
+	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
+		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT(provider));
+		compound.put(ECNames.SOURCE_TRAITS_HOLDER, traitHolder.serializeNBT(provider));
 		compound.putBoolean(ECNames.STABILIZED, stabilized);
+	}
+
+	@Override
+	protected void applyImplicitComponents(@NotNull DataComponentInput input) {
+		super.applyImplicitComponents(input);
+		elementStorage.setElementAmount(input.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0));
+		traitHolder.setTraits(input.getOrDefault(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.EMPTY).getTraits());
+	}
+
+	@Override
+	protected void collectImplicitComponents(@NotNull DataComponentMap.Builder builder) {
+		super.collectImplicitComponents(builder);
+		builder.set(ECDataComponents.ELEMENT_AMOUNT, elementStorage.getElementAmount());
+		builder.set(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.from(traitHolder));
+	}
+
+	@Override
+	@Deprecated
+	public void removeComponentsFromTag(@NotNull CompoundTag tag) {
+		super.removeComponentsFromTag(tag);
+		tag.remove(ECNames.ELEMENT_STORAGE);
+		tag.remove(ECNames.SOURCE_TRAITS_HOLDER);
 	}
 }

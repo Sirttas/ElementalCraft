@@ -1,13 +1,14 @@
 package sirttas.elementalcraft.item.holder;
 
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -31,7 +32,7 @@ public record ElementHolderTestCaseHolder(
             of(ElementType.AIR, ECItems.PURE_HOLDER)
     );
 
-    public static final String BATCH_NAME = "element_holder";
+    public static final String GROUP = "stacks.holder";
 
     public static ElementHolderTestCaseHolder of(ElementType type, Supplier< ? extends AbstractElementHolderItem> item) {
         return new ElementHolderTestCaseHolder(type, item);
@@ -41,14 +42,18 @@ public record ElementHolderTestCaseHolder(
         return item.get().getTransferAmount();
     }
 
-    public TestFunction createTestFunction(String name, String template, BiConsumer<GameTestHelper, ElementHolderTestCaseHolder> function) {
-        return ECGameTestHelper.createTestFunction(BATCH_NAME, name, template, Rotation.NONE, h -> function.accept(h, this));
+    public Test createTest(String name, String description, String template, BiConsumer<ECGameTestHelper, ElementHolderTestCaseHolder> function) {
+        return ECGameTestUtils.createTest(GROUP, name, description, template, h -> function.accept(h, this));
     }
 
     public Player mockPlayer(GameTestHelper helper) {
-    	var player = helper.makeMockPlayer();
+        return mockPlayer(helper, Vec3.ZERO);
+    }
 
-        player.moveTo(helper.absoluteVec(Vec3.ZERO));
+    public Player mockPlayer(GameTestHelper helper, Vec3 pos) {
+    	var player = helper.makeMockPlayer(GameType.SURVIVAL);
+
+        player.moveTo(helper.absoluteVec(pos));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(item.get()));
         helper.getLevel().addFreshEntity(player);
         return player;

@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrine_upgrades",
+  "icon": "elementalcraft:shrine_upgrade_vortex",
+  "name": "block.elementalcraft.shrine_upgrade_vortex",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.shrine_upgrade_vortex0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:shrine_upgrade_vortex"
+    }
+  ],
+  "sortnum": 19,
+  "turnin": "elementalcraft:pickup/shrine_upgrade_vortex"
+}

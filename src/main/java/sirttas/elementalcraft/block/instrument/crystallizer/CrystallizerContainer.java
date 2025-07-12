@@ -39,7 +39,7 @@ public class CrystallizerContainer extends InstrumentContainer {
 			var ingredients = recipe.getIngredients();
 
 			if (!ingredients.isEmpty()) {
-				FIRST_SLOT_ITEMS.add(ingredients.get(0));
+				FIRST_SLOT_ITEMS.add(ingredients.getFirst());
 			}
 			if (ingredients.size() > 1) {
 				SECOND_SLOT_ITEMS.add(ingredients.get(1));

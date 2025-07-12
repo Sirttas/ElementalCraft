@@ -1,0 +1,8 @@
+{
+  "type": "elementalcraft:crafting",
+  "lockable": true,
+  "max_runes": 3,
+  "recipe_type": "elementalcraft:crystallization",
+  "retrieve_all": true,
+  "transfer_speed": 25
+}

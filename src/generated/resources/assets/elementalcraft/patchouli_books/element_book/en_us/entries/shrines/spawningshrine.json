@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:spawningshrine",
+  "name": "block.elementalcraft.spawningshrine",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.spawningshrine0"
+    }
+  ],
+  "sortnum": 13,
+  "turnin": "elementalcraft:pickup/spawningshrine"
+}

@@ -1,7 +1,8 @@
 package sirttas.elementalcraft.interaction.jei.ingredient.source;
 
-import mezz.jei.api.ingredients.IIngredientType;
+import com.mojang.serialization.Codec;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 
@@ -10,11 +11,10 @@ import java.util.List;
 
 public record IngredientSource(ElementType elementType) implements IElementTypeProvider {
 
-	public static final IIngredientType<IngredientSource> TYPE = () -> IngredientSource.class;
-
+	public static final Codec<IngredientSource> CODEC = ElementType.CODEC.xmap(IngredientSource::new, IngredientSource::getElementType);
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 
@@ -24,13 +24,12 @@ public record IngredientSource(ElementType elementType) implements IElementTypeP
 
 	@Nonnull
 	public String getTranslationKey() {
-		return "block.elementalcraft.source." + elementType.getSerializedName();
+		return "block.elementalcraft." + elementType.getSerializedName() + "_source";
 	}
 
 	public IngredientSource copy() {
 		return new IngredientSource(elementType);
 	}
-
 
 	public static List<IngredientSource> all() {
 		return ElementType.ALL_VALID.stream()

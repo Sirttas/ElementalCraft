@@ -4,19 +4,11 @@
       "type": "elementalcraft:attribute",
       "attribute": "minecraft:generic.movement_speed",
       "modifier": {
-        "Amount": 0.01,
-        "Name": "Movement Speed Infusion",
-        "Operation": "addition",
-        "UUID": [
-          -728773529,
-          1742554850,
-          -1770542583,
-          -804716449
-        ]
+        "amount": 0.01,
+        "id": "elementalcraft:tool_infusion_movement_speed",
+        "operation": "add_value"
       },
-      "slot": [
-        "legs"
-      ]
+      "slot_group": "legs"
     }
   ],
   "element_type": "air"

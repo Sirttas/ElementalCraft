@@ -31,7 +31,7 @@
     },
     {
       "type": "minecraft:rarity_filter",
-      "chance": 60
+      "chance": 30
     }
   ]
 }

@@ -1,16 +1,10 @@
 {
   "attributes": {
-    "neoforge:entity_reach": [
+    "minecraft:player.block_interaction_range": [
       {
-        "Amount": 5.0,
-        "Name": "Reach distance modifier",
-        "Operation": "addition",
-        "UUID": [
-          -1087992464,
-          489308246,
-          -1123130095,
-          -740073806
-        ]
+        "amount": 5.0,
+        "id": "elementalcraft:spell_reach_distance",
+        "operation": "add_value"
       }
     ]
   },

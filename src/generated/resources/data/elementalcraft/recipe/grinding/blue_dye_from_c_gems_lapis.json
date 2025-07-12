@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:gems/lapis"
+      }
+    }
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "c:gems/lapis"
+  },
+  "luck_ratio": 2.0,
+  "output": {
+    "count": 2,
+    "id": "minecraft:blue_dye"
+  }
+}

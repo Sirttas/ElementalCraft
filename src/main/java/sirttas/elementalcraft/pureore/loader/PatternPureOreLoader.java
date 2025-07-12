@@ -2,33 +2,33 @@ package sirttas.elementalcraft.pureore.loader;
 
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.pureore.PureOre;
+import sirttas.elementalcraft.api.pureore.PureOreException;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PatternPureOreLoader extends AbstractPureOreLoader {
 
-    public static final Codec<PatternPureOreLoader> CODEC = RecordCodecBuilder.create(builder -> {
+    public static final MapCodec<PatternPureOreLoader> CODEC = RecordCodecBuilder.mapCodec(builder -> {
         var b1 = AbstractPureOreLoader.codec(builder);
 
         return new Products.P10<>(b1.t1(), b1.t2(), b1.t3(), b1.t4(), b1.t5(), b1.t6(),
                 Codecs.PATTERN.fieldOf("tag_pattern").forGetter(l -> l.tagPattern),
                 Codecs.PATTERN.listOf().optionalFieldOf("patterns", Collections.emptyList()).forGetter(l -> l.patterns),
-                Codec.STRING.optionalFieldOf("namespace", ECNames.FORGE).forGetter(l -> l.namespace),
+                Codec.STRING.optionalFieldOf("namespace", ECNames.COMMON_TAGS_NAMESPACE).forGetter(l -> l.namespace),
                 Codecs.PATTERN.optionalFieldOf("namespace_pattern").forGetter(l -> l.namespacePattern)
         ).apply(builder, PatternPureOreLoader::new);
     });
@@ -47,15 +47,21 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
     }
 
     @Override
-    public Codec<PatternPureOreLoader> codec() {
-        return CODEC;
+    public PureOreLoaderType<PatternPureOreLoader> type() {
+        return PureOreLoaderTypes.PATTERN.get();
     }
 
     @Override
-    protected GeneratedPureOre load(Map<ResourceLocation, PureOre> pureOres, Item ore) {
+    protected PureOreTagGroup load(Map<ResourceLocation, LoadedPureOre> pureOres, Holder<Item> ore) {
         var np = namespacePattern.orElseGet(() -> Pattern.compile("^" + namespace + "$"));
-        var id = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(ore));
-        var tags = ore.builtInRegistryHolder().tags()
+        var key = ore.getKey();
+
+        if (key == null) {
+            throw new PureOreException("Holder " + ore + " has no key");
+        }
+
+        var id = key.location();
+        var tags = ore.tags()
                 .filter(t -> {
                     var location = t.location();
 
@@ -70,12 +76,12 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
                         tagPattern::pattern,
                         () -> tags.stream().map(t -> t.location().toString()).collect(Collectors.joining(", ")));
             }
-            id = new ResourceLocation(namespace, cleanPath(tagPattern.matcher(tags.get(0).location().getPath()).replaceAll("")));
+            id = ResourceLocation.fromNamespaceAndPath(namespace, cleanPath(tagPattern.matcher(tags.getFirst().location().getPath()).replaceAll("")));
         } else {
-            id = new ResourceLocation(id.getNamespace(), cleanPath(id.getPath()));
+            id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), cleanPath(id.getPath()));
         }
 
-        return new GeneratedPureOre(id, tags);
+        return new PureOreTagGroup(id, tags);
     }
 
     private String cleanPath(String path) {

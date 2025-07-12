@@ -3,6 +3,8 @@ package sirttas.elementalcraft.block.shrine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -11,23 +13,25 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.ElementalCraftUtils;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchorList;
+import sirttas.elementalcraft.api.range.RangeVariants;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockEntity;
+import sirttas.elementalcraft.component.ECDataComponents;
+import sirttas.elementalcraft.range.RangeHelper;
+import sirttas.elementalcraft.range.RangeRenderTimer;
 import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
@@ -38,34 +42,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider {
 
 	protected static final List<Direction> DEFAULT_UPGRADE_DIRECTIONS = List.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	protected final Holder<ShrineProperties> properties;
+	private final Holder<IConfigurableBlockEntityProperties> properties;
 
 	private final Map<Direction, ShrineUpgrade> upgrades = new EnumMap<>(Direction.class);
 	private final Map<ShrineUpgrade.BonusType, Float> upgradeMultipliers = new EnumMap<>(ShrineUpgrade.BonusType.class);
+	private final RangeRenderTimer rangeRenderTimer = new RangeRenderTimer();
+
 	protected final ShrineElementStorage elementStorage;
 
 	private boolean running = false;
 	private double tick = 0;
-	private int rangeRenderTimer = 0;
 	private BlockPos targetPos;
+	private AABB range;
 
-	protected AbstractShrineBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state, ResourceKey<ShrineProperties> propertiesKey) {
+	protected AbstractShrineBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
-		elementStorage = new ShrineElementStorage(this);
-		properties = ElementalCraft.SHRINE_PROPERTIES_MANAGER.getOrCreateHolder(propertiesKey);
-		targetPos = pos;
-	}
-
-	@Nonnull
-	protected static ResourceKey<ShrineProperties> createKey(@Nonnull String name) {
-		return IDataManager.createKey(ElementalCraft.SHRINE_PROPERTIES_MANAGER_KEY, ElementalCraftApi.createRL(name));
+		this.elementStorage = new ShrineElementStorage(this);
+		this.properties = properties;
+		this.targetPos = pos;
+		this.range = new AABB(pos);
 	}
 
 	protected int consumeElement(int i) {
@@ -77,7 +78,6 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		if (!shrine.isTargetPosValid(shrine.targetPos)) {
-			shrine.targetPos = shrine.getBlockPos();
 			shrine.setChanged();
 		}
 
@@ -92,7 +92,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		if (!shrine.isPowered()) {
 			shrine.tick++;
 			if (period <= 0) {
-				ElementalCraftApi.LOGGER.warn("Shrine period should not be 0");
+				ElementalCraftApi.LOGGER.warn("Shrine period should not be 0, shrine: {} at {}", shrine.getBlockState().getBlock(), shrine.getBlockPos());
 				period = 1;
 			}
 			while (shrine.tick >= period) {
@@ -112,9 +112,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	public static void clientTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
-		if (shrine.rangeRenderTimer > 0) {
-			shrine.rangeRenderTimer--;
-		}
+		shrine.rangeRenderTimer.tick();
 	}
 
 	public void refresh() {
@@ -122,6 +120,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 		if (!this.hasLevel()) {
 			targetPos = blockPos;
+			range = new AABB(blockPos);
 			return;
 		}
 
@@ -157,6 +156,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 				.map(TranslocationShrineUpgradeBlockEntity::getTarget)
 				.filter(this::isTargetPosValid)
 				.orElse(blockPos);
+		range = lookupRange();
 	}
 
 	private boolean isTargetPosValid(BlockPos p) {
@@ -173,7 +173,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		var maxRange = Spells.TRANSLOCATION.get().getRange(null);
 
 		if (maxRange <= 0) {
-			throw new IllegalStateException("Translocation spell range should not be 0");
+			throw new IllegalStateException("Translocation spell ranges should not be 0");
 		}
 
 		var maxRangeSq = maxRange * maxRange;
@@ -183,7 +183,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 			return false;
 		}
 
-		var list = TranslocationAnchorList.get(this.level);
+		var list = TranslocationAnchorsSaveData.get(this.level);
 
 		return list != null && list.getAnchors().contains(p);
 	}
@@ -250,11 +250,11 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	public boolean showsRange() {
-		return this.rangeRenderTimer > 0;
+		return rangeRenderTimer.showsRange();
 	}
 
 	public void startShowingRange() {
-		this.rangeRenderTimer = 600;
+		rangeRenderTimer.startShowingRange();
 	}
 
 	public BlockPos getTargetPos() {
@@ -262,43 +262,40 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	public Stream<BlockPos> getBlocksInRange() {
-		var box = getRange();
-
-		return getRange(box.minX, box.maxX)
-				.mapToObj(x -> getRange(box.minZ, box.maxZ)
-				.mapToObj(z -> getRange(box.minY, box.maxY)
-				.mapToObj(y -> new BlockPos(x, y, z))))
-				.mapMulti((s, downstream) -> s.forEach(s2 -> s2.forEach(downstream)));
-	}
-
-	@Nonnull
-	private IntStream getRange(double min, double max) {
-		return IntStream.range((int) Math.floor(min + 0.00001), (int) Math.ceil(max - 0.00001));
+		return RangeHelper.getBlocksInAABB(getRange());
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return getProperties().getElementType();
 	}
 
-	public AABB getRange() {
-		var range = getProperties().range();
-
-		return getRange(range.box(), range.stitch(), range.fixedHeight());
+	public final AABB getRange() {
+		return range;
 	}
 
-	protected AABB getRange(AABB box, boolean stitch, boolean fixedHeight) {
-		var multiplier = getMultiplier(BonusType.RANGE);
+	protected AABB lookupRange() {
+		var ranges = getProperties().ranges();
+		var key = RangeVariants.DEFAULT_KEY;
 
-		if (fixedHeight) {
-			box = new AABB(box.minX * multiplier, box.minY, box.minZ * multiplier, box.maxX * multiplier, box.maxY, box.maxZ * multiplier);
-		} else {
-			box = new AABB(box.minX * multiplier, box.minY * multiplier, box.minZ * multiplier, box.maxX * multiplier, box.maxY * multiplier, box.maxZ * multiplier);
+		if (this.hasUpgrade(ShrineUpgrades.TRANSLOCATION) && ranges.containsKey(RangeVariants.TRANSLOCATION_KEY)) {
+			key = RangeVariants.TRANSLOCATION_KEY;
+		} else if (!ranges.containsKey(RangeVariants.DEFAULT_KEY)) {
+			return new AABB(this.getBlockPos());
 		}
-		if (stitch) {
-			box = ElementalCraftUtils.stitchAABB(box);
-		}
-		return box.move(this.getTargetPos());
+		return lookupRange(key);
+	}
+
+	protected AABB lookupRange(Direction direction) {
+		return lookupRange(direction.getSerializedName());
+	}
+
+	protected AABB lookupRange(String key) {
+		var box = getProperties().ranges().get(key).value().scaleBox(getMultiplier(BonusType.RANGE)).move(targetPos);
+		var top = this.hasLevel() ? Math.min(this.level.getMaxBuildHeight(), box.maxY) : box.maxY;
+		var bottom = this.hasLevel() ? Math.max(this.level.getMinBuildHeight(), box.minY) : box.minY;
+
+		return new AABB(box.minX, bottom, box.minZ, box.maxX, top, box.maxZ);
 	}
 
 	public int getConsumeAmount() {
@@ -311,8 +308,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	@Nonnull
 	public ShrineProperties getProperties() {
-		if (properties.isBound()) {
-			return this.properties.value();
+		if (properties.isBound() && this.properties.value() instanceof ShrineProperties shrineProperties) {
+			return shrineProperties;
 		}
 		return ShrineProperties.DEFAULT;
 	}
@@ -340,20 +337,39 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	@Override
-	public void load(@Nonnull CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
 		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			elementStorage.deserializeNBT(compound.getCompound(ECNames.ELEMENT_STORAGE));
+			elementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
 		}
 		running = compound.getBoolean(ECNames.RUNNING);
 		refresh();
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound) {
-		super.saveAdditional(compound);
-		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT());
+	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
+		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT(provider));
 		compound.putBoolean(ECNames.RUNNING, running);
+	}
+
+	@Override
+	protected void applyImplicitComponents(@NotNull DataComponentInput input) {
+		super.applyImplicitComponents(input);
+		elementStorage.setElementAmount(input.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0));
+	}
+
+	@Override
+	protected void collectImplicitComponents(@NotNull DataComponentMap.Builder builder) {
+		super.collectImplicitComponents(builder);
+		builder.set(ECDataComponents.ELEMENT_AMOUNT, elementStorage.getElementAmount());
+	}
+
+	@Override
+	@Deprecated
+	public void removeComponentsFromTag(@NotNull CompoundTag tag) {
+		super.removeComponentsFromTag(tag);
+		tag.remove(ECNames.ELEMENT_STORAGE);
 	}
 
 	public ISingleElementStorage getElementStorage() {

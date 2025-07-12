@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "elementalcraft:advanced_shrine_upgrade_core"
+    },
+    "f": {
+      "tag": "c:nuggets/fireite"
+    },
+    "t": {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:spell": "elementalcraft:translocation"
+      },
+      "items": "elementalcraft:scroll",
+      "strict": true
+    },
+    "u": {
+      "item": "elementalcraft:shrine_upgrade_range"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "ftf",
+    "wCw",
+    " u "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:shrine_upgrade_translocation"
+  }
+}

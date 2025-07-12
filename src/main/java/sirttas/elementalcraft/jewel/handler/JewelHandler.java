@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.jewel.handler;
 
 import com.google.common.collect.Multimap;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,17 +9,18 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.storage.InfiniteElementStorage;
+import sirttas.elementalcraft.attributes.AttributesHelper;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.attack.AbstractAttackJewel;
 import sirttas.elementalcraft.jewel.defence.DefenceJewel;
 import sirttas.elementalcraft.jewel.effect.EffectJewel;
-import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -26,11 +28,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
+@EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class JewelHandler implements IJewelHandler {
     private final Entity entity;
     private List<Jewel> activeJewels;
-    private Multimap<Attribute, AttributeModifier> oldAttributes;
+    private Multimap<Holder<Attribute>, AttributeModifier> oldAttributes;
 
 
     public JewelHandler(Entity entity) {
@@ -58,15 +60,14 @@ public class JewelHandler implements IJewelHandler {
                 jewels.add(jewel);
                 if (jewel.isTicking()) {
                     jewel.consume(entity, elementStorage);
-                    if (jewel instanceof EffectJewel effectJewel) {
-                        effectJewel.apply(entity);
+                    if (jewel instanceof EffectJewel effectJewel && entity instanceof LivingEntity livingEntity) {
+                        effectJewel.apply(livingEntity);
                     }
                 }
             }
         }
-        if (jewels.size() != activeJewels.size()) {
-            jewels.sort(Comparator.comparing(Jewel::getKey));
-        }
+
+        jewels.sort(Comparator.comparing(Jewel::getKey));
         if (!jewels.equals(activeJewels)) {
             activeJewels = jewels;
             this.onActiveJewelsChanged();
@@ -76,28 +77,30 @@ public class JewelHandler implements IJewelHandler {
     private void onActiveJewelsChanged() {
         this.reloadAttributes();
         if (this.entity instanceof ServerPlayer player) {
-            PayloadHelper.sendToPlayer(player, new ActiveJewelsPayload(this));
+            PacketDistributor.sendToPlayer(player, new ActiveJewelsPayload(this));
         }
     }
 
     private void reloadAttributes() {
         if (entity instanceof LivingEntity livingEntity) {
             var attributes = JewelHelper.getJewelsAttribute(entity);
-            var entityAttributes = livingEntity.getAttributes();
+            var attributeMap = livingEntity.getAttributes();
+
+
 
             if (oldAttributes != null) {
-                entityAttributes.removeAttributeModifiers(oldAttributes);
+                AttributesHelper.removeAttributes(attributeMap, oldAttributes);
             }
-            entityAttributes.addTransientAttributeModifiers(attributes);
+            AttributesHelper.addAttributes(attributeMap, attributes);
             oldAttributes = attributes;
         }
     }
 
     @SubscribeEvent
-    public static void onLivingDamage(@Nonnull LivingDamageEvent event) {
+    public static void onLivingDamage(@Nonnull LivingDamageEvent.Pre event) {
         var source = event.getSource();
 
-        if (source.is(ECTags.DamageTypes.BYPASSES_JEWELS)) {
+        if (source.is(ECTags.DamageTypes.BYPASSES_DEFENSE_JEWELS)) {
             return;
         }
 
@@ -105,13 +108,23 @@ public class JewelHandler implements IJewelHandler {
 
         for (var jewel : JewelHelper.getActiveJewels(target)) {
             if (jewel instanceof DefenceJewel defenceJewel) {
-                defenceJewel.onHurt(target, source, event.getAmount());
+                event.setNewDamage(defenceJewel.onHurt(target, source, event.getNewDamage()));
                 if (!jewel.isTicking()) {
                     jewel.consume(target);
                 }
             }
         }
+    }
 
+    @SubscribeEvent
+    public static void onLivingDamage(@Nonnull LivingDamageEvent.Post event) {
+        var source = event.getSource();
+
+        if (source.is(ECTags.DamageTypes.BYPASSES_ATTACK_JEWELS)) {
+            return;
+        }
+
+        var target = event.getEntity();
         var attacker = source.getEntity();
 
         if (attacker instanceof Projectile projectile) {
@@ -127,6 +140,5 @@ public class JewelHandler implements IJewelHandler {
                 }
             }
         }
-
     }
 }

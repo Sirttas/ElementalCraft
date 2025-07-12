@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrine_upgrades",
+  "icon": "elementalcraft:shrine_upgrade_protection",
+  "name": "block.elementalcraft.shrine_upgrade_protection",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.shrine_upgrade_protection0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:shrine_upgrade_protection"
+    }
+  ],
+  "sortnum": 13,
+  "turnin": "elementalcraft:pickup/shrine_upgrade_protection"
+}

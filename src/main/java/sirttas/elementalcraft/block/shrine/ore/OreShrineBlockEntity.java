@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.shrine.ore;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -11,12 +12,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.Tags;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.enchantment.ECEnchantmentHelper;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.tag.ECTags;
@@ -26,12 +29,15 @@ import java.util.Optional;
 
 public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(OreShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(OreShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+
+	public static final String CRYSTAL_HARVEST_RANGE_KEY = "crystal_harvest";
 
 	private boolean hasCrystalHarvest = false;
 
 	public OreShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.ORE_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.ORE_SHRINE, PROPERTIES, pos, state);
 	}
 
 	private Optional<BlockPos> findOre() {
@@ -41,17 +47,12 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AABB getRange() {
-		var box = super.getRange();
-
+	public AABB lookupRange() {
 		if (this.hasUpgrade(ShrineUpgrades.CRYSTAL_HARVEST)) {
-			return box;
+			return lookupRange(CRYSTAL_HARVEST_RANGE_KEY);
 		}
 
-		var minY = level.getMinBuildHeight();
-		var maxY = this.getTargetPos().getY();
-
-		return new AABB(box.minX, minY, box.minZ, box.maxX, maxY, box.maxZ);
+		return super.lookupRange();
 	}
 
 
@@ -74,7 +75,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 		if (fortune > 0) {
 			ItemStack pickaxe = new ItemStack(Items.NETHERITE_PICKAXE);
 
-			pickaxe.enchant(Enchantments.BLOCK_FORTUNE, fortune);
+			pickaxe.enchant(ECEnchantmentHelper.getEnchantmentHolder(level.registryAccess(), Enchantments.FORTUNE), fortune);
 			LootHelper.getDrops(level, pos, pickaxe).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));
 		} else {
 			LootHelper.getDrops(level, pos, shrine.hasUpgrade(ShrineUpgrades.SILK_TOUCH)).forEach(s -> Block.popResource(level, shrine.getBlockPos().above(), s));

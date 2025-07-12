@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.instrument.io.mill;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,12 +14,11 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
@@ -28,9 +27,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.airmill.AirMill;
+import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
+import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
 
@@ -44,15 +46,17 @@ public abstract class AbstractAirMillBlock extends AbstractMillBlock {
 	private static final VoxelShape OVEN_PILLAR_4 = Block.box(13D, 0D, 13D, 15D, 10D, 15D);
 	private static final VoxelShape OVEN_SHAFT = Block.box(7D, 4D, 7D, 9D, 10D, 9D);
 	protected static final VoxelShape SHAPE_LOWER = Shapes.or(OVEN_SLAB, OVEN_SLAB_2, OVEN_CONNECTION, OVEN_PILLAR_1, OVEN_PILLAR_2, OVEN_PILLAR_3, OVEN_PILLAR_4, OVEN_SHAFT);
-	protected static final VoxelShape SHAPE_UPPER =  Block.box(7D, 0D, 7D, 9D, 16D, 9D);
+	public static final VoxelShape SHAPE_UPPER =  Block.box(7D, 0D, 7D, 9D, 16D, 9D);
 
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
+	public static final BooleanProperty BROKEN = BooleanProperty.create("broken");
 
 	protected AbstractAirMillBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(HALF, DoubleBlockHalf.LOWER)
+				.setValue(BROKEN, false)
 				.setValue(WATERLOGGED, false));
 	}
 
@@ -62,38 +66,28 @@ public abstract class AbstractAirMillBlock extends AbstractMillBlock {
 
 	@Nonnull
     @Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		if (isLower(state)) {
-			return super.use(state, world, pos, player, hand, hit);
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		if (!isLower(state)) {
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		} else if (stack.is(ECItems.AIR_MILL)) {
+			return AirMill.setMill(stack, state, level, pos, player, hand);
 		}
-		return InteractionResult.PASS;
-	}
-	
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place
-	 * logic
-	 */
-	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-		worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
+		return super.useItemOn(stack, state, level, pos, player, hand, hit);
 	}
 
-	/**
-	 * Called before the Block is set to air in the world. Called regardless of if
-	 * the player's tool can actually collect this block
-	 *
-	 * @return
-	 */
 	@Override
-	public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+		level.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
+	}
+
+	@Override
+	public @NotNull BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
 		return super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Override
 	@Nonnull
-	@Deprecated
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
 		return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> {
 			WaterLoggingHelper.scheduleWaterTick(state, level, pos);
@@ -109,44 +103,27 @@ public abstract class AbstractAirMillBlock extends AbstractMillBlock {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, WaterLoggingHelper.isPlacedInWater(context));
 	}
 
-	@Nonnull
-    @Override
-	@Deprecated
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-	}
-
-	@Nonnull
-    @Override
-	@Deprecated
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
-	}
-
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(WATERLOGGED, FACING, HALF);
+		builder.add(WATERLOGGED, FACING, HALF, BROKEN);
 	}
 	
 	@Override
-	@Deprecated
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
 		var below = pos.below();
 		
-		return (isLower(state) && BlockEntityHelper.isValidContainer(state, level, below)) || level.getBlockState(below).is(this);
+		return (isLower(state) && ElementContainer.isValidContainer(state, level, below)) || level.getBlockState(below).is(this);
 	}
 	
 	@Nonnull
     @Override
-	@Deprecated
 	public FluidState getFluidState(@Nonnull BlockState state) {
 		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Nonnull
 	@Override
-	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return isLower(state) ? SHAPE_LOWER : SHAPE_UPPER;
 	}
 }

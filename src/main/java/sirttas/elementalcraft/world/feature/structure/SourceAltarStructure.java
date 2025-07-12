@@ -1,8 +1,10 @@
 package sirttas.elementalcraft.world.feature.structure;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
@@ -34,7 +36,11 @@ public class SourceAltarStructure extends Structure {
 
 	public static final String NAME = "source_altar";
 
-	public static final Codec<SourceAltarStructure> CODEC = simpleCodec(SourceAltarStructure::new);
+	public static final MapCodec<SourceAltarStructure> CODEC = simpleCodec(SourceAltarStructure::new);
+
+	public static final ResourceLocation CHAPEL = ElementalCraftApi.createRL("altar/chapel");
+	public static final ResourceLocation MEDIUM = ElementalCraftApi.createRL("altar/medium");
+	public static final ResourceLocation SMALL = ElementalCraftApi.createRL("altar/small");
 
 	public SourceAltarStructure(Structure.StructureSettings settings) {
 		super(settings);
@@ -50,11 +56,11 @@ public class SourceAltarStructure extends Structure {
 		int roll = random.nextInt(20);
 
 		if (roll == 0) {
-			return ElementalCraftApi.createRL("altar/chapel");
+			return CHAPEL;
 		} else if (roll <= 3) {
-			return ElementalCraftApi.createRL("altar/medium");
+			return MEDIUM;
 		}
-		return ElementalCraftApi.createRL("altar/small");
+		return SMALL;
 	}
 
 	@Nonnull
@@ -111,7 +117,7 @@ public class SourceAltarStructure extends Structure {
 		@Override
 		protected void handleDataMarker(String name, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull RandomSource rand, @Nonnull BoundingBox sbb) {
 			if (name.endsWith("chest")) {
-				this.createChest(level, sbb, rand, pos, ElementalCraftApi.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName()), null);
+				this.createChest(level, sbb, rand, pos, ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName())), null); // FIXME static resource keys
 				level.blockUpdated(pos, Blocks.CHEST);
 			} else if (name.startsWith("source")) {
 				SourceFeature.placeSource(level, pos, elementType, getSourceLuck(name));

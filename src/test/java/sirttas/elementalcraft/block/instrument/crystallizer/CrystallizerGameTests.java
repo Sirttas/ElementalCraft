@@ -1,41 +1,69 @@
 package sirttas.elementalcraft.block.instrument.crystallizer;
 
-import net.minecraft.gametest.framework.GameTestGenerator;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.Test;
+import sirttas.elementalcraft.ECGameTestHelper;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class CrystallizerGameTests {
 
-    private static final String TEMPLATE = "elementalcraft:crystallizergametests.crystallizer";
-    @GameTestGenerator
-    public static Collection<TestFunction> should_craftFineGem() {
+    public static final String GROUP = "level.blocks.instruments.crystallizer";
+
+    private static final String TEMPLATE = "elementalcraft:crystallizergametests.crystallizer"; // TODO move to template generation
+
+    public static Collection<Test> collectTests() {
         return List.of(
-                InstrumentGameTestHelper.createTestFunction("should_craftFineGem", TEMPLATE, h -> should_craftFineGem(h, ElementType.FIRE)),
-                InstrumentGameTestHelper.createTestFunction("should_craftFineGem", TEMPLATE, h -> should_craftFineGem(h, ElementType.WATER)),
-                InstrumentGameTestHelper.createTestFunction("should_craftFineGem", TEMPLATE, h -> should_craftFineGem(h, ElementType.EARTH)),
-                InstrumentGameTestHelper.createTestFunction("should_craftFineGem", TEMPLATE, h -> should_craftFineGem(h, ElementType.AIR))
+                createTest(
+                        "should_craftFineFireGem",
+                        "Check if a crystallizer can craft a fine fire gem",
+                        h -> should_craftFineGem(h, ElementType.FIRE)),
+                createTest(
+                        "should_craftFineWaterGem",
+                        "Check if a crystallizer can craft a fine water gem",
+                        h -> should_craftFineGem(h, ElementType.WATER)),
+                createTest(
+                        "should_craftFineEarthGem",
+                        "Check if a crystallizer can craft a fine earth gem",
+                        h -> should_craftFineGem(h, ElementType.EARTH)),
+                createTest(
+                        "should_craftFineAirGem",
+                        "Check if a crystallizer can craft a fine air gem",
+                        h -> should_craftFineGem(h, ElementType.AIR)),
+                createTest(
+                        "should_craftPristineFireGem",
+                        "Check if a crystallizer can craft a pristine rire gem",
+                        h -> should_craftPristineGem(h, ElementType.FIRE)),
+                createTest(
+                        "should_craftPristineWaterGem",
+                        "Check if a crystallizer can craft a pristine water gem",
+                        h -> should_craftPristineGem(h, ElementType.WATER)),
+                createTest(
+                        "should_craftPristineEarthGem",
+                        "Check if a crystallizer can craft a pristine earth gem",
+                        h -> should_craftPristineGem(h, ElementType.EARTH)),
+                createTest(
+                        "should_craftPristineAirGem",
+                        "Check if a crystallizer can craft a pristine air gem",
+                        h -> should_craftPristineGem(h, ElementType.AIR))
+
         );
     }
 
-    public static void should_craftFineGem(GameTestHelper helper, ElementType elementType) {
-        InstrumentGameTestHelper.<CrystallizerBlockEntity>runInstrument(helper, List.of(
+    private static void should_craftFineGem(ECGameTestHelper helper, ElementType elementType) {
+        helper.<CrystallizerBlockEntity>runInstrument(List.of(
                 new ItemStack(ElementalItemHelper.getCrudeGemForElement(elementType)),
                 new ItemStack(ElementalItemHelper.getCrystalForElement(elementType))
-        ), elementType, binder -> {
-            var inv = binder.getInventory();
+        ), elementType, crystallizer -> {
+            var inv = crystallizer.getInventory();
 
             assertThat(inv.getItem(0))
                     .is(ElementalItemHelper.getFineGemForElement(elementType))
@@ -45,22 +73,12 @@ public class CrystallizerGameTests {
         });
     }
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_craftPristineGem() {
-        return List.of(
-                InstrumentGameTestHelper.createTestFunction("should_craftPristineGem", TEMPLATE, h -> should_craftPristineGem(h, ElementType.FIRE)),
-                InstrumentGameTestHelper.createTestFunction("should_craftPristineGem", TEMPLATE, h -> should_craftPristineGem(h, ElementType.WATER)),
-                InstrumentGameTestHelper.createTestFunction("should_craftPristineGem", TEMPLATE, h -> should_craftPristineGem(h, ElementType.EARTH)),
-                InstrumentGameTestHelper.createTestFunction("should_craftPristineGem", TEMPLATE, h -> should_craftPristineGem(h, ElementType.AIR))
-        );
-    }
-
-    public static void should_craftPristineGem(GameTestHelper helper, ElementType elementType) {
-        InstrumentGameTestHelper.<CrystallizerBlockEntity>runInstrument(helper, List.of(
+    private static void should_craftPristineGem(ECGameTestHelper helper, ElementType elementType) {
+        helper.<CrystallizerBlockEntity>runInstrument(List.of(
                 new ItemStack(ElementalItemHelper.getFineGemForElement(elementType)),
-                new ItemStack(ECItems.PRISTINE_SHARD.get())
-        ), elementType, binder -> {
-            var inv = binder.getInventory();
+                new ItemStack(ECItems.PRISTINE_SHARD)
+        ), elementType, crystallizer -> {
+            var inv = crystallizer.getInventory();
 
             assertThat(inv.getItem(0))
                     .is(ElementalItemHelper.getPristineGemForElement(elementType))
@@ -68,5 +86,9 @@ public class CrystallizerGameTests {
             assertThat(inv.getItem(1))
                     .isEmpty();
         });
+    }
+
+    private static Test createTest(String name, String description, Consumer<ECGameTestHelper> function) {
+        return ECGameTestUtils.createTest(GROUP, name, description, TEMPLATE, function);
     }
 }

@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:piglin",
+  "name": "elementalcraft.jewel.elementalcraft.piglin",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.piglin0"
+    }
+  ],
+  "sortnum": 10,
+  "turnin": "elementalcraft:pickup/piglin"
+}

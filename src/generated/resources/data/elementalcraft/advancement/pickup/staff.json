@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_staff": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:staff"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_staff"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "axis=x,waterlogged=false": {
+      "model": "elementalcraft:block/element_extractor"
+    },
+    "axis=x,waterlogged=true": {
+      "model": "elementalcraft:block/element_extractor"
+    },
+    "axis=z,waterlogged=false": {
+      "model": "elementalcraft:block/element_extractor",
+      "y": 90
+    },
+    "axis=z,waterlogged=true": {
+      "model": "elementalcraft:block/element_extractor",
+      "y": 90
+    }
+  }
+}

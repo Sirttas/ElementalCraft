@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/fire_furnace",
+  "criteria": {
+    "has_fire_blast_furnace": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fireblastfurnace"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.fire_blast_furnace.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:fireblastfurnace"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.fire_blast_furnace.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_fire_blast_furnace"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

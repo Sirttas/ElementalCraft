@@ -130,30 +130,30 @@ public class ECFeaturesProvider extends AbstractECRegistryBootstrap<PlacedFeatur
                 OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), ECBlocks.DEEPSLATE_CRYSTAL_ORE.get().defaultBlockState())), 9))),
                 OrePlacements.commonOrePlacement(10, HeightRangePlacement.triangle(VerticalAnchor.absolute(-24), VerticalAnchor.absolute(96)))));
 
-        addSourceChanced(SourceFeature.NAME, ALL, 900);
+        addSourceChanced(SourceFeature.NAME, ALL, 600);
         addSourceChanced(SourceFeature.NAME_ICY, ICY);
-        addSourceChanced(SourceFeature.NAME_JUNGLE, JUNGLE, 30);
+        addSourceChanced(SourceFeature.NAME_JUNGLE, JUNGLE, 15);
         addSourceChanced(SourceFeature.NAME_MUSHROOM, ALL);
         addSourceChanced(SourceFeature.NAME_WET, WET);
         addSourceChanced(SourceFeature.NAME_DRY, DRY);
         addSourceChanced(SourceFeature.NAME_END, END, 400);
-        addSourceChanced(SourceFeature.NAME_FOREST, FOREST, 30);
+        addSourceChanced(SourceFeature.NAME_FOREST, FOREST, 15);
         addSourceChanced(SourceFeature.NAME_HILL, HILL);
         addSourceChanced(SourceFeature.NAME_MOUNTAIN, MOUNTAIN);
         addSourceChanced(SourceFeature.NAME_PLAIN, PLAIN);
         addSourceChanced(SourceFeature.NAME_OCEAN, ElementTypeFeatureConfig.WATER, 400);
-        addSourceNether(SourceFeature.NAME_NETHER_ALL, NETHER_ALL,400);
-        addSourceNether(SourceFeature.NAME_NETHER, NETHER,60);
-        addSourceNether(SourceFeature.NAME_NETHER_FOREST, NETHER_FORSET,30);
+        addSourceNether(SourceFeature.NAME_NETHER_ALL, NETHER_ALL,200);
+        addSourceNether(SourceFeature.NAME_NETHER, NETHER,30);
+        addSourceNether(SourceFeature.NAME_NETHER_FOREST, NETHER_FORSET,15);
         addSourceUnderground(SourceFeature.NAME_LUSH_CAVE, LUSH_CAVE);
         addSourceUnderground(SourceFeature.NAME_DRIPSTONE_CAVE, DRIPSTONE_CAVE);
         addSourceUnderground(SourceFeature.NAME_DEEP_DARK, DEEP_DARK);
-        addSourceUnderground(SourceFeature.NAME_UNDERGROUND, ALL, 100);
-        addSource(SourceFeature.NAME_SKY, SKY, List.of(InSquarePlacement.spread(), IN_THE_SKY, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(400)));
+        addSourceUnderground(SourceFeature.NAME_UNDERGROUND, ALL, 50);
+        addSource(SourceFeature.NAME_SKY, SKY, List.of(InSquarePlacement.spread(), IN_THE_SKY, BiomeFilter.biome(), RarityFilter.onAverageOnceEvery(200)));
     }
 
     private Holder.Reference<PlacedFeature> addSourceUnderground(String name, RandomElementTypeFeatureConfig config) {
-        return addSourceUnderground(name, config, 10);
+        return addSourceUnderground(name, config, 5);
     }
 
     private Holder.Reference<PlacedFeature> addSourceUnderground(String name, RandomElementTypeFeatureConfig config, int chance) {
@@ -165,7 +165,7 @@ public class ECFeaturesProvider extends AbstractECRegistryBootstrap<PlacedFeatur
     }
 
     private Holder.Reference<PlacedFeature> addSourceChanced(String name, IElementTypeFeatureConfig config) {
-        return addSourceChanced(name, config, 90);
+        return addSourceChanced(name, config, 45);
     }
 
     private Holder.Reference<PlacedFeature> addSourceChanced(String name, IElementTypeFeatureConfig config, int oneEvery) {

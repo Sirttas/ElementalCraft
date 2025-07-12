@@ -20,12 +20,14 @@ public class SalmonJewel extends EffectJewel {
     public static final String NAME = "salmon";
 
     public SalmonJewel() {
-        super(ElementType.WATER,10, new MobEffectInstance(MobEffects.WATER_BREATHING, 2));
+        super(ElementType.WATER,10, true, new MobEffectInstance(MobEffects.WATER_BREATHING, 2));
     }
 
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-        return entity.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value()) && !entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN) && super.isActive(entity, elementStorage);
+        return entity.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value())
+                && !entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN)
+                && super.isActive(entity, elementStorage);
     }
 
     @Override

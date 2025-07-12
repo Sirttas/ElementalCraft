@@ -1,11 +1,14 @@
 package sirttas.elementalcraft.block.container;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.component.ECDataComponents;
+import sirttas.elementalcraft.gui.GuiHelper;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -18,42 +21,20 @@ public class ElementContainerBlockItem extends BlockItem {
 
     @Override
     public int getBarColor(@Nonnull ItemStack stack) {
-        var tag = getElementStorageTag(stack);
-
-        if (tag != null) {
-            return ElementType.byName(tag.getString(ECNames.ELEMENT_TYPE)).getColor();
-        }
-        return super.getBarColor(stack);
+        return stack.getOrDefault(ECDataComponents.ELEMENT_TYPE, ElementType.NONE).getColor();
     }
 
     @Override
     @Nonnull
-    public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) { // TODO move to item
-        var elementStorageNbt = getElementStorageTag(stack);
+    public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {
+        var elementType = stack.getOrDefault(ECDataComponents.ELEMENT_TYPE, ElementType.NONE);
+        int amount = stack.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0);
+        var capacity = ((AbstractElementContainerBlock) getBlock()).getDefaultCapacity();
 
-        if (elementStorageNbt != null) {
-            ElementType elementType = ElementType.byName(elementStorageNbt.getString(ECNames.ELEMENT_TYPE));
-            int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
-            int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
-
-            if (amount > 0) {
-                return Optional.of(new AbstractElementContainerBlock.Tooltip(elementType, amount, capacity));
-            }
+        if (elementType != ElementType.NONE && amount > 0) {
+            return Optional.of(new Tooltip(elementType, amount, capacity));
         }
         return Optional.empty();
-    }
-
-    private CompoundTag getElementStorageTag(@Nonnull ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-
-        if (tag != null && tag.contains(ECNames.BLOCK_ENTITY_TAG)) {
-            CompoundTag blockNbt = tag.getCompound(ECNames.BLOCK_ENTITY_TAG);
-
-            if (blockNbt.contains(ECNames.ELEMENT_STORAGE)) {
-                return blockNbt.getCompound(ECNames.ELEMENT_STORAGE);
-            }
-        }
-        return null;
     }
 
     @Override
@@ -63,16 +44,44 @@ public class ElementContainerBlockItem extends BlockItem {
 
     @Override
     public int getBarWidth(@Nonnull ItemStack stack) {
-        var elementStorageNbt = getElementStorageTag(stack);
+        int amount = stack.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0);
+        var capacity = ((AbstractElementContainerBlock) getBlock()).getDefaultCapacity();
 
-        if (elementStorageNbt != null) {
-            int amount = elementStorageNbt.getInt(ECNames.ELEMENT_AMOUNT);
-            int capacity = elementStorageNbt.getInt(ECNames.ELEMENT_CAPACITY);
-
-            if (amount > 0) {
-                return Math.round(amount * 13.0F / capacity);
+        if (amount > 0) {
+            return Math.round(amount * 13.0F / capacity);
             }
-        }
         return 0;
+    }
+
+    public record Tooltip(
+            ElementType elementType,
+            int amount,
+            int capacity
+    ) implements TooltipComponent { }
+
+    public record ClientTooltip(
+            ElementType elementType,
+            int amount,
+            int capacity
+    ) implements ClientTooltipComponent {
+
+        public ClientTooltip(Tooltip tooltip) {
+            this(tooltip.elementType, tooltip.amount, tooltip.capacity);
+        }
+
+        @Override
+        public int getHeight() {
+            return 18;
+        }
+
+        @Override
+        public int getWidth(@Nonnull Font font) {
+            return 16;
+        }
+
+        @Override
+        public void renderImage(@Nonnull Font font, int x, int y, @Nonnull GuiGraphics guiGraphics) {
+            GuiHelper.renderElementGauge(guiGraphics, font, x, y, amount, capacity, elementType, false);
+        }
     }
 }

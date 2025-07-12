@@ -1,42 +1,37 @@
 package sirttas.elementalcraft.recipe.instrument.io.sawing;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.RandomSource;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.AbstractMillWoodSawBlockEntity;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.IOInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public record SawingRecipe(
 		int elementAmount,
-		int luckRation,
+		double luckRatio,
 		Ingredient ingredient,
 		ItemStack output
-) implements IIOInstrumentRecipe<AbstractMillWoodSawBlockEntity> {
+) implements IOInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
 
 	public static final String NAME = "sawing";
-
-	public static final Codec<SawingRecipe> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(SawingRecipe::elementAmount),
-			Codec.INT.fieldOf(ECNames.LUCK_RATIO).forGetter(SawingRecipe::luckRation),
-			Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(SawingRecipe::ingredient),
-			ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(SawingRecipe::output)
-	).apply(builder, SawingRecipe::new));
 
 	public SawingRecipe {
 		if (output.isEmpty()) {
@@ -50,8 +45,8 @@ public record SawingRecipe(
 	}
 
 	@Override
-	public boolean matches(ItemStack stack, @Nonnull Level level) {
-		return ingredient.test(stack) && IIOInstrumentRecipe.super.matches(stack, level);
+	public boolean matches(@NotNull ItemStack stack, @Nonnull Level level) {
+		return ingredient.test(stack) && IOInstrumentRecipe.super.matches(stack, level);
 	}
 
 	@Nonnull
@@ -62,7 +57,7 @@ public record SawingRecipe(
 
 	@Nonnull
     @Override
-	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
+	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
 		return output;
 	}
 
@@ -73,8 +68,8 @@ public record SawingRecipe(
 	}
 
 	@Override
-	public int getLuck(AbstractMillWoodSawBlockEntity instrument) {
-		return Math.round(instrument.getRuneHandler().getBonus(Rune.BonusType.LUCK) * luckRation);
+	public int getLuck(SimpleIOInstrumentRecipeInput input) {
+		return (int) Math.round(input.getRuneBonus(Rune.BonusType.LUCK) * luckRatio);
 	}
 
 	@Override
@@ -88,35 +83,42 @@ public record SawingRecipe(
 		return ECRecipeTypes.SAWING.get();
 	}
 
-	@Override
-	public RandomSource getRand(AbstractMillWoodSawBlockEntity instrument) {
-		return instrument.getLevel().getRandom();
-	}
-
 	public static class Serializer implements RecipeSerializer<SawingRecipe> {
+
+		public static final MapCodec<SawingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+				Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(SawingRecipe::elementAmount),
+				Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(SawingRecipe::luckRatio),
+				Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(SawingRecipe::ingredient),
+				ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(SawingRecipe::output)
+		).apply(builder, SawingRecipe::new));
+
+		public static final StreamCodec<RegistryFriendlyByteBuf, SawingRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
 		@Override
 		@Nonnull
-		public Codec<SawingRecipe> codec() {
+		public MapCodec<SawingRecipe> codec() {
 			return CODEC;
 		}
 
 		@Override
-		public SawingRecipe fromNetwork(FriendlyByteBuf buffer) {
-			int elementAmount = buffer.readInt();
-			int luckRation = buffer.readInt();
-			Ingredient ingredient = Ingredient.fromNetwork(buffer);
-			ItemStack output = buffer.readItem();
+		public @NotNull StreamCodec<RegistryFriendlyByteBuf, SawingRecipe> streamCodec() {
+			return STREAM_CODEC;
+		}
+
+		private static SawingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+			var elementAmount = buffer.readInt();
+			var luckRation = buffer.readDouble();
+			var ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+			var output = ItemStack.STREAM_CODEC.decode(buffer);
 
 			return new SawingRecipe(elementAmount, luckRation, ingredient, output);
 		}
 
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, SawingRecipe recipe) {
+		private static void toNetwork(RegistryFriendlyByteBuf buffer, SawingRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeInt(recipe.luckRation());
-			recipe.getIngredients().get(0).toNetwork(buffer);
-			buffer.writeItem(recipe.output);
+			buffer.writeDouble(recipe.luckRatio());
+			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+			ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
 		}
 
 	}

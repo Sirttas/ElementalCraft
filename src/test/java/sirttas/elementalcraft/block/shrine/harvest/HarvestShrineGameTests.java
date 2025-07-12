@@ -5,13 +5,11 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class HarvestShrineGameTests {
     public static final List<BlockPos> POSES = List.of(
             new BlockPos(1, 2, 1),
@@ -39,9 +37,10 @@ public class HarvestShrineGameTests {
             new BlockPos(5, 2, 4),
             new BlockPos(5, 2, 5)
     );
+    private static final String TEMPLATE = "elementalcraft:harvestshrinegametests.should_harvestwheat";
 
-    // elementalcraft:harvestshrinegametests.should_harvestwheat
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
+    @TestHolder
+    @GameTest(template = TEMPLATE)
     public static void should_harvestWheat(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 4, 3), POSES.size());

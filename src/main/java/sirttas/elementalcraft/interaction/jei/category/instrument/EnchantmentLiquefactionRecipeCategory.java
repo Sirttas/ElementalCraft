@@ -7,34 +7,34 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.Util;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.enchantment.liquefier.EnchantmentLiquefierBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.enchantment.liquefaction.EnchantmentLiquefactionRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRecipeCategory<EnchantmentLiquefierBlockEntity, EnchantmentLiquefactionRecipeCategory.RecipeWrapper> {
+public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRecipeCategory<SimpleIOInstrumentRecipeInput, EnchantmentLiquefactionRecipeCategory.RecipeWrapper> {
 
 	private static final ItemStack ENCHANTMENT_LIQUEFIER = new ItemStack(ECBlocks.ENCHANTMENT_LIQUEFIER.get());
 
 	public EnchantmentLiquefactionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.enchantment_liquefaction", createDrawableStack(guiHelper, ENCHANTMENT_LIQUEFIER), guiHelper.createBlankDrawable(86, 100));
-		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/enchantment_liquefaction.png"), 0, 0, 46, 13), 20, 20);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/enchantment_liquefaction.png"), 0, 0, 46, 13), 20, 20);
 	}
 
 	@Nonnull
@@ -70,7 +70,7 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 	}
 
-	public static class RecipeWrapper implements IInstrumentRecipe<EnchantmentLiquefierBlockEntity> {
+	public static class RecipeWrapper implements IInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
 
 		private final EnchantmentLiquefactionRecipe recipe;
 		private final List<ItemStack> stacks;
@@ -86,16 +86,20 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 				return list;
 			});
 			this.enchantmentStacks = Util.make(() -> {
-				var map = Map.of(recipe.getEnchantment(), level);
+				var mutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
 				var list = new ArrayList<ItemStack>(stacks.size() + 1);
 				var book = new ItemStack(Items.ENCHANTED_BOOK);
 
-				EnchantmentHelper.setEnchantments(map, book);
+				mutable.set(recipe.getEnchantment(), level);
+
+				var enchantments = mutable.toImmutable();
+
+				EnchantmentHelper.setEnchantments(book, enchantments);
 				list.add(book);
 				stacks.stream()
 						.map(s -> {
 							var copy = s.copy();
-							EnchantmentHelper.setEnchantments(map, copy);
+							EnchantmentHelper.setEnchantments(copy, enchantments);
 							return copy;
 						}).forEach(list::add);
 				return list;
@@ -103,8 +107,8 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
         }
 
         @Override
-		public boolean matches(EnchantmentLiquefierBlockEntity inv, @NotNull Level level) {
-			return recipe.matches(inv, level);
+		public boolean matches(@NotNull SimpleIOInstrumentRecipeInput input, @NotNull Level level) {
+			return recipe.matches(input, level);
 		}
 
 		@Override
@@ -118,8 +122,8 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 		}
 
 		@Override
-		public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
-			return recipe.getResultItem(registryAccess);
+		public @NotNull ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
+			return recipe.getResultItem(provider);
 		}
 
 		@Override
@@ -128,7 +132,7 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 		}
 
 		@Override
-		public net.minecraft.world.item.crafting.@NotNull RecipeType<?> getType() {
+		public @NotNull net.minecraft.world.item.crafting.RecipeType<?> getType() {
 			return recipe.getType();
 		}
 	}

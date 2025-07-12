@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:element_production",
+  "icon": "elementalcraft:culinary_water_synthesizer",
+  "name": "block.elementalcraft.culinary_water_synthesizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.culinary_water_synthesizer0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:culinary_water_synthesizer"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:culinary_water_synthesizer"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 8,
+  "turnin": "elementalcraft:pickup/culinary_water_synthesizer"
+}

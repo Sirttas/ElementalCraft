@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/strongly_contained_crystal",
+  "criteria": {
+    "has_crystallizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:crystallizer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.crystallizer.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:crystallizer"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.crystallizer.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_crystallizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

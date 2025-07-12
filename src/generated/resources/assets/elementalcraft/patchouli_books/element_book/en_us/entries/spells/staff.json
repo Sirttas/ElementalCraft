@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/focus",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:staff",
+  "name": "item.elementalcraft.staff",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.staff0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:staff"
+    }
+  ],
+  "sortnum": 3,
+  "turnin": "elementalcraft:pickup/staff"
+}

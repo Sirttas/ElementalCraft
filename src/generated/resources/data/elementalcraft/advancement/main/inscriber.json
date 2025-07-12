@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/drenched_iron",
+  "criteria": {
+    "has_inscriber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:inscriber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.inscriber.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:inscriber"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.inscriber.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_inscriber"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

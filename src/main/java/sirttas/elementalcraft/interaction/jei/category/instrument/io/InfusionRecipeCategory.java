@@ -6,12 +6,11 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.item.ItemStack;
-import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
+import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 
@@ -19,7 +18,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<IInfuser, IInfusionRecipe> {
+public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<SingleItemSingleElementRecipeInput, IInfusionRecipe> {
 
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
 		this(guiHelper, "elementalcraft.jei.infusion");
@@ -44,7 +43,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<I
 	@Nonnull
 	protected List<ItemStack> getOutputs(@Nonnull IInfusionRecipe recipe) {
 		if (recipe instanceof ToolInfusionRecipe toolInfusionRecipe) {
-			ToolInfusion infusion = toolInfusionRecipe.getToolInfusion();
+			var infusion = toolInfusionRecipe.getToolInfusion();
 
 			return recipe.getIngredients().stream()
 					.flatMap(i -> Arrays.stream(i.getItems())

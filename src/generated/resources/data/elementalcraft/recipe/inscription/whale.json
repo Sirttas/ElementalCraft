@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 5000,
+  "element_type": "air",
+  "ingredients": [
+    {
+      "item": "elementalcraft:rune_slate"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:kirby"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "tag": "c:dusts/glowstone"
+    },
+    {
+      "tag": "c:dusts/glowstone"
+    }
+  ],
+  "output": {
+    "components": {
+      "elementalcraft:rune": "elementalcraft:whale"
+    },
+    "count": 1,
+    "id": "elementalcraft:rune"
+  }
+}

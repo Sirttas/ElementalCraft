@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_pristine_earth_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pristine_earth_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_pristine_earth_gem"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

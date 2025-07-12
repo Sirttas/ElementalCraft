@@ -1,0 +1,38 @@
+{
+  "parent": "elementalcraft:main/small_container",
+  "criteria": {
+    "has_element_holder": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:element_holder_fire",
+              "elementalcraft:element_holder_water",
+              "elementalcraft:element_holder_earth",
+              "elementalcraft:element_holder_air"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.element_holders.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:element_holder_fire"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.element_holders.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_element_holder"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

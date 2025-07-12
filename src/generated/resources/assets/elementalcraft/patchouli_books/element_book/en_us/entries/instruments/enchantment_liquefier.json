@@ -1,0 +1,39 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:enchantment_liquefier",
+  "name": "block.elementalcraft.enchantment_liquefier",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.enchantment_liquefier0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:enchantment_liquefier"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:enchantment_liquefier",
+          "U": "elementalcraft:enchantment_liquefier[half=upper]"
+        },
+        "pattern": [
+          [
+            "U"
+          ],
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 11,
+  "turnin": "elementalcraft:pickup/enchantment_liquefier"
+}

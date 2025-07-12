@@ -3,20 +3,21 @@ package sirttas.elementalcraft.block.shrine.sweet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class SweetShrineGameTests {
 
-    // elementalcraft:sweetshrinegametests.should_feedplayer
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
+    private static final String TEMPLATE = "elementalcraft:sweetshrinegametests.should_feedplayer";
+
+    @TestHolder
+    @GameTest(template = TEMPLATE)
     public static void should_feedPlayer(GameTestHelper helper) {
-        var player = helper.makeMockPlayer();
+        var player = helper.makeMockPlayer(GameType.SURVIVAL);
 
         helper.getLevel().addFreshEntity(player);
         helper.startSequence().thenExecute(() -> {

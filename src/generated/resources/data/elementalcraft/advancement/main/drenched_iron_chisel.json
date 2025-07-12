@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/inscriber",
+  "criteria": {
+    "has_drenched_iron_chisel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:drenched_iron_chisel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.drenched_iron_chisel.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:drenched_iron_chisel"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.drenched_iron_chisel.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_iron_chisel"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

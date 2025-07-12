@@ -3,11 +3,12 @@ package sirttas.elementalcraft.capability;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -16,21 +17,21 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
-import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
-import sirttas.elementalcraft.block.entity.AbstractIERBlockEntity;
+import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
-import sirttas.elementalcraft.block.source.trait.holder.WrapperSourceTraitHolder;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
+import sirttas.elementalcraft.container.IElementStorageBlocKEntity;
+import sirttas.elementalcraft.container.IRuneableBlockEntity;
 import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 import sirttas.elementalcraft.entity.player.PlayerElementStorage;
 import sirttas.elementalcraft.entity.player.PlayerSpellTickManager;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.elemental.LensItem;
 import sirttas.elementalcraft.item.holder.AbstractElementHolderItem;
+import sirttas.elementalcraft.item.source.receptacle.ReceptacleItem;
 import sirttas.elementalcraft.jewel.handler.ClientJewelHandler;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
 import sirttas.elementalcraft.spell.tick.ISpellTickManager;
@@ -39,7 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ECCapabilityHandler {
 
     private ECCapabilityHandler() {}
@@ -53,16 +54,9 @@ public class ECCapabilityHandler {
                 ECBlockEntityTypes.CONTAINER,
                 ECBlockEntityTypes.RESERVOIR,
                 ECBlockEntityTypes.CREATIVE_CONTAINER
-        ).forEach(t -> event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, t.get(), (blockEntity, v) -> blockEntity.getElementStorage()));
-
-        List.of(
-                ECBlockEntityTypes.SOLAR_SYNTHESIZER,
-                ECBlockEntityTypes.MANA_SYNTHESIZER
         ).forEach(t -> {
-            var type = t.get();
-
-            event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, IContainerBlockEntity::getItemHandler);
-            event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, type, (blockEntity, v) -> blockEntity.getRuneHandler());
+            event.registerBlockEntity(ElementContainer.CAPABILITY, t.get(), (blockEntity, v) -> blockEntity);
+            event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, t.get(), (blockEntity, v) -> blockEntity.getElementStorage());
         });
 
         registerCraftingBlockEntityCapabilities(event, ECBlockEntityTypes.INFUSER);
@@ -92,7 +86,15 @@ public class ECCapabilityHandler {
         PipeUpgradeCapabilities.register(PipeUpgradeCapabilities.RUNE_HANDLER, PipeUpgradeTypes.ELEMENT_PUMP.get(), (upgrade, v) -> upgrade.getRuneHandler());
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.PIPE.get(), PipeUpgradeCapabilities.RUNE_HANDLER.getBlockCapabilityProvider());
 
-        registerIERCapabilities(event, ECBlockEntityTypes.EVAPORATOR);
+        registerElementRunesCapabilities(event, ECBlockEntityTypes.CRACKING_SYNTHESIZER);
+        registerIERCapabilities(event, ECBlockEntityTypes.COMBUSTION_SYNTHESIZER);
+        registerElementRunesCapabilities(event, ECBlockEntityTypes.DRAINING_SYNTHESIZER);
+        registerElementRunesCapabilities(event, ECBlockEntityTypes.VIBRATION_SYNTHESIZER);
+        registerIERCapabilities(event, ECBlockEntityTypes.SOLAR_SYNTHESIZER);
+        registerIERCapabilities(event, ECBlockEntityTypes.CULINARY_SYNTHESIZER);
+        registerElementRunesCapabilities(event, ECBlockEntityTypes.SCULK_CRACKING_SYNTHESIZER);
+        registerElementRunesCapabilities(event, ECBlockEntityTypes.AIR_MILL_SYNTHESIZER);
+
         registerIERCapabilities(event, ECBlockEntityTypes.PEDESTAL);
         registerSourceBreederPedestalCapabilities(event);
 
@@ -125,7 +127,10 @@ public class ECCapabilityHandler {
             }
             return null;
         },
-                ECBlocks.SOURCE.get(),
+                ECBlocks.FIRE_SOURCE.get(),
+                ECBlocks.WATER_SOURCE.get(),
+                ECBlocks.EARTH_SOURCE.get(),
+                ECBlocks.AIR_SOURCE.get(),
                 ECBlocks.CONTAINER.get(),
                 ECBlocks.SMALL_CONTAINER.get(),
                 ECBlocks.CREATIVE_CONTAINER.get(),
@@ -133,7 +138,11 @@ public class ECCapabilityHandler {
                 ECBlocks.WATER_RESERVOIR.get(),
                 ECBlocks.EARTH_RESERVOIR.get(),
                 ECBlocks.AIR_RESERVOIR.get(),
-                ECBlocks.EVAPORATOR.get(),
+                ECBlocks.CRACKING_SYNTHESIZER.get(),
+                ECBlocks.COMBUSTION_SYNTHESIZER.get(),
+                ECBlocks.DRAINING_SYNTHESIZER.get(),
+                ECBlocks.VIBRATION_SYNTHESIZER.get(),
+                ECBlocks.SOLAR_SYNTHESIZER.get(),
                 ECBlocks.FIRE_PEDESTAL.get(),
                 ECBlocks.WATER_PEDESTAL.get(),
                 ECBlocks.EARTH_PEDESTAL.get(),
@@ -144,7 +153,7 @@ public class ECCapabilityHandler {
                 ECBlocks.GROWTH_SHRINE.get(),
                 ECBlocks.HARVEST_SHRINE.get(),
                 ECBlocks.LUMBER_SHRINE.get(),
-                ECBlocks.LAVA_SHRINE.get(),
+                ECBlocks.MELTING_SHRINE.get(),
                 ECBlocks.ORE_SHRINE.get(),
                 ECBlocks.OVERLOAD_SHRINE.get(),
                 ECBlocks.SWEET_SHRINE.get(),
@@ -157,9 +166,10 @@ public class ECCapabilityHandler {
         );
 
         deferBlockCapabilityBellow(event, Capabilities.ItemHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER);
-        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER);
-        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorage.BLOCK, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR);
-        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorage.BLOCK_FOR_ELEMENT, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR);
+        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER, ECBlocks.AIR_MILL_SYNTHESIZER);
+        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorage.BLOCK, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);
+        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorage.BLOCK_FOR_ELEMENT, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);
+        deferBlockCapabilityBellow(event, ElementContainer.CAPABILITY, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR);
 
         registerElementHolderCapabilities(event, ECItems.FIRE_HOLDER);
         registerElementHolderCapabilities(event, ECItems.WATER_HOLDER);
@@ -167,19 +177,8 @@ public class ECCapabilityHandler {
         registerElementHolderCapabilities(event, ECItems.AIR_HOLDER);
         registerElementHolderCapabilities(event, ECItems.PURE_HOLDER);
 
-        event.registerItem(ElementalCraftCapabilities.SourceTrait.ITEM, (stack, v) -> new WrapperSourceTraitHolder(stack), ECItems.RECEPTACLE.get());
-
-        registerLensCapabilities(event, ECItems.FIRE_LENS);
-        registerLensCapabilities(event, ECItems.WATER_LENS);
-        registerLensCapabilities(event, ECItems.EARTH_LENS);
-        registerLensCapabilities(event, ECItems.AIR_LENS);
-
-        event.registerItem(ElementalCraftCapabilities.SourceInteractable.ITEM, (s, v) -> {
-            if (s.getItem() instanceof ISourceInteractable sourceInteractable) {
-                return sourceInteractable;
-            }
-            return null;
-        }, ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get(), ECItems.PURE_HOLDER.get(), ECItems.SOURCE_ANALYSIS_GLASS.get(), ECItems.SOURCE_STABILIZER.get());
+        event.registerItem(ElementalCraftCapabilities.ElementStorage.ITEM, (stack, v) -> ((ReceptacleItem) stack.getItem()).getElementStorage(stack), ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());
+        event.registerItem(ElementalCraftCapabilities.SourceTrait.ITEM, (stack, v) -> ReceptacleItem.getTraitHolder(stack), ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());
 
         registerPlayerCapabilities(event);
     }
@@ -202,12 +201,6 @@ public class ECCapabilityHandler {
         event.registerItem(ElementalCraftCapabilities.ElementStorage.ITEM, (stack, v) -> item.getElementStorage(stack), item);
     }
 
-    private static void registerLensCapabilities(RegisterCapabilitiesEvent event, Supplier<? extends LensItem> holder) {
-        var item = holder.get();
-
-        event.registerItem(ElementalCraftCapabilities.ElementStorage.ITEM_LENS, item::getStorage, item);
-    }
-
     @SuppressWarnings("unchecked")
     private static void registerCraftingBlockEntityCapabilities(RegisterCapabilitiesEvent event, DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<? extends AbstractECCraftingBlockEntity<?, ?>>> holder) {
         var type = (BlockEntityType<AbstractECCraftingBlockEntity<?, ?>>) holder.get();
@@ -216,12 +209,20 @@ public class ECCapabilityHandler {
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, type, (blockEntity, v) -> blockEntity.getRuneHandler());
     }
 
-    private static void registerIERCapabilities(RegisterCapabilitiesEvent event, DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<? extends AbstractIERBlockEntity>> holder) {
+    private static <T extends BlockEntity & IContainerBlockEntity & IRuneableBlockEntity & IElementStorageBlocKEntity> void registerIERCapabilities(RegisterCapabilitiesEvent event, DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<T>> holder) {
         registerIERCapabilities(event, holder.get());
     }
 
-    private static void registerIERCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<? extends AbstractIERBlockEntity> type) {
+    private static <T extends BlockEntity & IContainerBlockEntity & IRuneableBlockEntity & IElementStorageBlocKEntity> void registerIERCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<T> type) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, IContainerBlockEntity::getItemHandler);
+        registerElementRunesCapabilities(event, type);
+    }
+
+    private static <T extends BlockEntity & IRuneableBlockEntity & IElementStorageBlocKEntity> void registerElementRunesCapabilities(RegisterCapabilitiesEvent event, DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<T>> holder) {
+        registerElementRunesCapabilities(event, holder.get());
+    }
+
+    private static <T extends BlockEntity & IRuneableBlockEntity & IElementStorageBlocKEntity> void registerElementRunesCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<T> type) {
         event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, type, (blockEntity, v) -> blockEntity.getElementStorage());
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, type, (blockEntity, v) -> blockEntity.getRuneHandler());
     }

@@ -108,7 +108,7 @@ public class SimpleElementTransferPathfinder {
         }
 
         @Override
-        public ElementType getElementType() {
+        public @NotNull ElementType getElementType() {
             return type;
         }
     }

@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.block.instrument;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
@@ -8,6 +9,7 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.container.AbstractSynchronizableContainer;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class InstrumentContainer extends AbstractSynchronizableContainer implements INBTSerializable<CompoundTag> {
 
@@ -53,6 +55,10 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 		}
 	}
 
+	public List<ItemStack> getStacks() {
+		return stacks;
+	}
+
 	@Override
 	public int getMaxStackSize() {
 		return 1;
@@ -79,16 +85,16 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 	}
 
 	@Override
-	public CompoundTag serializeNBT() {
+	public CompoundTag serializeNBT(@Nonnull HolderLookup.Provider provider) {
 		CompoundTag nbt = new CompoundTag();
 
-		ContainerHelper.saveAllItems(nbt, this.stacks);
+		ContainerHelper.saveAllItems(nbt, this.stacks, provider);
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(CompoundTag nbt) {
+	public void deserializeNBT(@Nonnull HolderLookup.Provider provider, CompoundTag nbt) {
 		clearContent();
-		ContainerHelper.loadAllItems(nbt, this.stacks);
+		ContainerHelper.loadAllItems(nbt, this.stacks, provider);
 	}
 }

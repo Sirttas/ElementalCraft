@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.infusion.tool.effect;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
@@ -10,7 +11,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 public record FastDrawToolInfusionEffect(int value) implements IToolInfusionEffect {
 
 	public static final String NAME = "fastdraw";
-	public static final Codec<FastDrawToolInfusionEffect> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+	public static final MapCodec<FastDrawToolInfusionEffect> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
 			Codec.INT.fieldOf(ECNames.VALUE).forGetter(FastDrawToolInfusionEffect::value)
 	).apply(builder, FastDrawToolInfusionEffect::new));
 

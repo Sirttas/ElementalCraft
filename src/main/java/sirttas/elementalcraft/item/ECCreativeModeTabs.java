@@ -1,27 +1,21 @@
 package sirttas.elementalcraft.item;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
-import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.component.ECDataComponents;
+import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
-import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
-import sirttas.elementalcraft.jewel.Jewels;
-import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
@@ -35,16 +29,20 @@ public class ECCreativeModeTabs {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ELEMENTAL_CRAFT_CREATIVE_TAB = DEFERRED_REGISTER.register("elemental_craft", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.elementalcraft"))
-            .icon(() -> new ItemStack(ECItems.FOCUS.get()))
+            .icon(() -> new ItemStack(ECItems.FOCUS))
             .displayItems((p, o) -> {
+                o.accept(ECBlocks.RUDIMENTARY_EXTRACTOR.get());
                 o.accept(ECBlocks.EXTRACTOR.get());
-                o.accept(ECBlocks.EXTRACTOR_IMPROVED.get());
-                o.accept(ECBlocks.EVAPORATOR.get());
+                o.accept(ECBlocks.IMPROVED_EXTRACTOR.get());
                 o.accept(ECBlocks.INFUSER.get());
+                o.accept(ECBlocks.CRACKING_SYNTHESIZER.get());
+                o.accept(ECBlocks.COMBUSTION_SYNTHESIZER.get());
+                o.accept(ECBlocks.DRAINING_SYNTHESIZER.get());
+                o.accept(ECBlocks.VIBRATION_SYNTHESIZER.get());
                 o.accept(ECBlocks.SOLAR_SYNTHESIZER.get());
-                if (ECinteractions.isBotaniaActive()) {
-                    o.accept(ECBlocks.MANA_SYNTHESIZER.get());
-                }
+                o.accept(ECBlocks.CULINARY_SYNTHESIZER.get());
+                o.accept(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get());
+                o.accept(ECBlocks.AIR_MILL_SYNTHESIZER.get());
                 o.accept(ECBlocks.DIFFUSER.get());
                 o.accept(ECBlocks.BINDER.get());
                 o.accept(ECBlocks.BINDER_IMPROVED.get());
@@ -70,7 +68,7 @@ public class ECCreativeModeTabs {
                 generateElementContainer(o, ECBlocks.EARTH_RESERVOIR);
                 generateElementContainer(o, ECBlocks.AIR_RESERVOIR);
                 generateElementContainer(o, ECBlocks.CREATIVE_CONTAINER);
-                o.accept(ECBlocks.PIPE_IMPAIRED.get());
+                o.accept(ECBlocks.PIPE_RUDIMENTARY.get());
                 o.accept(ECBlocks.PIPE.get());
                 o.accept(ECBlocks.PIPE_IMPROVED.get());
                 o.accept(ECBlocks.PIPE_CREATIVE.get());
@@ -87,7 +85,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.GROWTH_SHRINE.get());
                 o.accept(ECBlocks.HARVEST_SHRINE.get());
                 o.accept(ECBlocks.LUMBER_SHRINE.get());
-                o.accept(ECBlocks.LAVA_SHRINE.get());
+                o.accept(ECBlocks.MELTING_SHRINE.get());
                 o.accept(ECBlocks.ORE_SHRINE.get());
                 o.accept(ECBlocks.OVERLOAD_SHRINE.get());
                 o.accept(ECBlocks.SWEET_SHRINE.get());
@@ -113,7 +111,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.PICKUP_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.VORTEX_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.NECTAR_SHRINE_UPGRADE.get());
-                if (ECinteractions.isBotaniaActive()) {
+                if (ECInteractions.isBotaniaActive()) {
                     o.accept(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE.get());
                 }
                 o.accept(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE.get());
@@ -124,21 +122,12 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get());
 
-                o.accept(ECBlocks.BROKEN_SOURCE_DISPLACEMENT_PLATE.get());
-                o.accept(ECBlocks.FIRE_SOURCE_DISPLACEMENT_PLATE.get());
-                o.accept(ECBlocks.WATER_SOURCE_DISPLACEMENT_PLATE.get());
-                o.accept(ECBlocks.EARTH_SOURCE_DISPLACEMENT_PLATE.get());
-                o.accept(ECBlocks.AIR_SOURCE_DISPLACEMENT_PLATE.get());
                 o.accept(ECBlocks.SOURCE_BREEDER.get());
                 o.accept(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
-                o.accept(ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get());
-                o.accept(ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get());
-                o.accept(ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get());
-                o.accept(ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get());
-                o.accept(ECItems.NATURAL_FIRE_SOURCE_SEED.get());
-                o.accept(ECItems.NATURAL_WATER_SOURCE_SEED.get());
-                o.accept(ECItems.NATURAL_EARTH_SOURCE_SEED.get());
-                o.accept(ECItems.NATURAL_AIR_SOURCE_SEED.get());
+                o.accept(ECItems.FIRE_SOURCE_SEED.get());
+                o.accept(ECItems.WATER_SOURCE_SEED.get());
+                o.accept(ECItems.EARTH_SOURCE_SEED.get());
+                o.accept(ECItems.AIR_SOURCE_SEED.get());
                 o.accept(ECBlocks.TRANSLOCATION_ANCHOR.get());
                 o.accept(ECBlocks.CRYSTAL_ORE.get());
                 o.accept(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
@@ -166,13 +155,16 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.PURE_ROCK_STAIRS.get());
                 o.accept(ECBlocks.PURE_ROCK_WALL.get());
 
-                generateElementopedia(o);
                 o.accept(ECItems.FOCUS.get());
                 o.accept(ECItems.STAFF.get());
                 generateSpells(o);
                 o.accept(ECItems.SPELL_BOOK.get());
                 o.accept(ECItems.SOURCE_ANALYSIS_GLASS.get());
-                generateReceptacles(o);
+                o.accept(ECItems.EMPTY_RECEPTACLE.get());
+                o.accept(ECBlocks.FIRE_SOURCE.get());
+                o.accept(ECBlocks.WATER_SOURCE.get());
+                o.accept(ECBlocks.EARTH_SOURCE.get());
+                o.accept(ECBlocks.AIR_SOURCE.get());
                 o.accept(ECItems.SOURCE_STABILIZER.get());
                 generateElementHolder(o, ECItems.FIRE_HOLDER);
                 generateElementHolder(o, ECItems.WATER_HOLDER);
@@ -198,14 +190,6 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.AIR_CRYSTAL.get());
                 o.accept(ECBlocks.AIR_CRYSTAL_BLOCK.get());
                 o.accept(ECItems.PURE_CRYSTAL.get());
-                o.accept(ECItems.FIRE_SHARD.get());
-                o.accept(ECItems.WATER_SHARD.get());
-                o.accept(ECItems.EARTH_SHARD.get());
-                o.accept(ECItems.AIR_SHARD.get());
-                o.accept(ECItems.POWERFUL_FIRE_SHARD.get());
-                o.accept(ECItems.POWERFUL_WATER_SHARD.get());
-                o.accept(ECItems.POWERFUL_EARTH_SHARD.get());
-                o.accept(ECItems.POWERFUL_AIR_SHARD.get());
                 o.accept(ECItems.CRUDE_FIRE_GEM.get());
                 o.accept(ECItems.CRUDE_WATER_GEM.get());
                 o.accept(ECItems.CRUDE_EARTH_GEM.get());
@@ -239,9 +223,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.SPRINGALINE_LANTERN.get());
                 o.accept(ECItems.SOLAR_PRISM.get());
                 o.accept(ECItems.FIRE_LENS.get());
-                o.accept(ECItems.WATER_LENS.get());
-                o.accept(ECItems.EARTH_LENS.get());
-                o.accept(ECItems.AIR_LENS.get());
+                o.accept(ECItems.AIR_MILL.get());
                 o.accept(ECItems.AIR_SILK.get());
                 o.accept(ECItems.HARDENED_HANDLE.get());
                 o.accept(ECItems.DRENCHED_SAW_BLADE.get());
@@ -254,22 +236,24 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.MAJOR_RUNE_SLATE.get());
                 generateRunes(o);
                 o.accept(ECItems.UNSET_JEWEL.get());
-                generateJewels(o);
+                o.accept(ECItems.SALMON_JEWEL.get());
+                o.accept(ECItems.PHOENIX_JEWEL.get());
+                o.accept(ECItems.BASILISK_JEWEL.get());
+                o.accept(ECItems.BEAR_JEWEL.get());
+                o.accept(ECItems.TIGER_JEWEL.get());
+                o.accept(ECItems.LEOPARD_JEWEL.get());
+                o.accept(ECItems.DOLPHIN_JEWEL.get());
+                o.accept(ECItems.KIRIN_JEWEL.get());
+                o.accept(ECItems.VIPER_JEWEL.get());
+                o.accept(ECItems.TORTOISE_JEWEL.get());
+                o.accept(ECItems.ARCTIC_HARE_JEWEL.get());
+                o.accept(ECItems.MOLE_JEWEL.get());
+                o.accept(ECItems.HAWK_JEWEL.get());
+                o.accept(ECItems.DEMIGOD_JEWEL.get());
+                o.accept(ECItems.STRIDER_JEWEL.get());
+                o.accept(ECItems.WATER_STRIDER_JEWEL.get());
+                o.accept(ECItems.PIGLIN_JEWEL.get());
             }).build());
-
-    private static void generateElementopedia(@Nonnull CreativeModeTab.Output output) {
-        if (ECinteractions.isPatchouliActive()) {
-            output.accept(createElementopedia());
-        }
-    }
-
-    @NotNull
-    public static ItemStack createElementopedia() {
-        var book = new ItemStack(ECItems.ELEMENTOPEDIA.get());
-
-        book.getOrCreateTag().putString("patchouli:book", "elementalcraft:element_book");
-        return book;
-    }
 
     private static void generateElementContainer(@Nonnull CreativeModeTab.Output output, @Nonnull Supplier<? extends AbstractElementContainerBlock> supplier) {
         var block = supplier.get();
@@ -277,10 +261,10 @@ public class ECCreativeModeTabs {
 
         output.accept(new ItemStack(item));
         for (ElementType type : block instanceof IElementTypeProvider provider ? List.of(provider.getElementType()) : ElementType.ALL_VALID) {
-            ItemStack stack = new ItemStack(item);
-            CompoundTag tag = stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG);
+            var stack = new ItemStack(item);
 
-            tag.put(ECNames.ELEMENT_STORAGE, new SingleElementStorage(type, block.getDefaultCapacity(), block.getDefaultCapacity()).serializeNBT());
+            stack.set(ECDataComponents.ELEMENT_TYPE, type);
+            stack.set(ECDataComponents.ELEMENT_AMOUNT, block.getDefaultCapacity());
             output.accept(stack);
         }
     }
@@ -300,45 +284,29 @@ public class ECCreativeModeTabs {
         var full = new ItemStack(item);
         var storage = item.getElementStorage(full);
 
-        ElementType.ALL_VALID.forEach(elementType -> storage.insertElement(item.getElementCapacity(), elementType, false));
+        storage.fill();
         output.accept(new ItemStack(item));
         output.accept(full);
     }
 
     private static void generateSpells(@Nonnull CreativeModeTab.Output output) {
-        Spells.REGISTRY.stream()
-                .filter(Spell::isVisible)
+        Spells.REGISTRY.holders()
+                .filter(SpellHelper::isVisible)
                 .map(s -> {
-                    var stack = new ItemStack(ECItems.SCROLL.get());
+                    var stack = new ItemStack(ECItems.SCROLL);
 
                     SpellHelper.setSpell(stack, s);
                     return stack;
                 }).forEach(output::accept);
     }
 
-    private static void generateReceptacles(@Nonnull CreativeModeTab.Output output) {
-        ElementType.ALL_VALID.stream()
-                .map(ReceptacleHelper::create)
-                .forEach(output::accept);
-    }
-
     private static void generatePureOres(@Nonnull CreativeModeTab.Output output) {
-        ElementalCraft.PURE_ORE_MANAGER.getOres().forEach(id -> output.accept(ElementalCraft.PURE_ORE_MANAGER.createPureOre(id)));
+        PureOreManager.getInstance().getOres().forEach(id -> output.accept(PureOreManager.getInstance().createPureOre(id)));
     }
     private static void generateRunes(@Nonnull CreativeModeTab.Output output) {
         var item = ECItems.RUNE.get();
 
         ElementalCraftApi.RUNE_MANAGER.getData().forEach((l, r) -> output.accept(item.getRuneStack(r)));
-    }
-
-    private static void generateJewels(@Nonnull CreativeModeTab.Output output) {
-        var item = ECItems.JEWEL.get();
-
-        Jewels.REGISTRY.forEach(j -> {
-            if (j != Jewels.NONE.get()) {
-                output.accept(item.getJewelStack(j));
-            }
-        });
     }
 
     private ECCreativeModeTabs() { }

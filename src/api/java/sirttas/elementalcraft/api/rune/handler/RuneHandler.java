@@ -3,11 +3,7 @@ package sirttas.elementalcraft.api.rune.handler;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class RuneHandler implements IRuneHandler {
 
@@ -69,5 +65,9 @@ public class RuneHandler implements IRuneHandler {
 	public void clear() {
 		runes.clear();
 		bonuses.clear();
+	}
+
+	public Map<BonusType, Float> getBonuses() {
+		return Map.copyOf(this.bonuses);
 	}
 }

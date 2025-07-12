@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.pipe.upgrade;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -38,8 +39,6 @@ import java.util.List;
 public class PipeUpgrade extends AttachmentHolder implements ItemLike {
 
     public static final String FOLDER = "elementalcraft/pipe_upgrades/";
-    public static final String ATTACHMENTS = "neoforge:attachments";
-
 
     private final PipeUpgradeType<?> type;
 
@@ -69,26 +68,31 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         return type.getKey();
     }
 
-    public void load(CompoundTag tag) {
-        if (tag.contains(ATTACHMENTS, 10)) {
-            this.deserializeAttachments(tag.getCompound(ATTACHMENTS));
+    public final void load(CompoundTag tag, HolderLookup.Provider provider) {
+        if (tag.contains(ATTACHMENTS_NBT_KEY, 10)) {
+            this.deserializeAttachments(provider, tag.getCompound(ATTACHMENTS_NBT_KEY));
         }
-
+        loadAdditional(tag, provider);
     }
 
-    public CompoundTag save() {
-        CompoundTag tag = new CompoundTag();
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        // for subclasses
+    }
+
+    public final CompoundTag save(HolderLookup.Provider provider) {
+        var tag = new CompoundTag();
+        var attachments = this.serializeAttachments(provider);
 
         tag.putString("id", getKey().toString());
-        saveAdditional(tag);
+        if (attachments != null) {
+            tag.put(ATTACHMENTS_NBT_KEY, attachments);
+        }
+        saveAdditional(tag, provider);
         return tag;
     }
 
-    protected void saveAdditional(CompoundTag tag) {
-        CompoundTag attachments = this.serializeAttachments();
-        if (attachments != null) {
-            tag.put(ATTACHMENTS, attachments);
-        }
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        // for subclasses
     }
 
     @Nonnull
@@ -114,7 +118,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         // NOOP
     }
 
-    public void onTransfer(ElementType type, int amount, @javax.annotation.Nullable IElementTransferPathNode prev, @javax.annotation.Nullable IElementTransferPathNode next) {
+    public void onTransfer(ElementType type, int amount, @Nullable IElementTransferPathNode prev, @Nullable IElementTransferPathNode next) {
         // NOOP
     }
 
@@ -156,10 +160,9 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
             return;
         }
 
-        var registryName = getKey();
-        var tableLocation = new ResourceLocation(registryName.getNamespace(), FOLDER + registryName.getPath());
+        var tableKey = this.type.getLootTable();
 
-        if (tableLocation.equals(BuiltInLootTables.EMPTY)) {
+        if (tableKey.equals(BuiltInLootTables.EMPTY)) {
             return;
         }
 
@@ -171,7 +174,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
                 .withOptionalParameter(LootContextParams.BLOCK_ENTITY, pipe)
                 .create(ECLootContextParamSets.PIPE_UPGRADE);
 
-        serverLevel.getServer().getLootData().getLootTable(tableLocation).getRandomItems(lootParams).forEach(player != null ? player::spawnAtLocation : stack -> Containers.dropItemStack(serverLevel, pipe.getBlockPos().getX(), pipe.getBlockPos().getY(), pipe.getBlockPos().getZ(), stack));
+        serverLevel.getServer().reloadableRegistries().getLootTable(tableKey).getRandomItems(lootParams).forEach(player != null ? player::spawnAtLocation : stack -> Containers.dropItemStack(serverLevel, pipe.getBlockPos().getX(), pipe.getBlockPos().getY(), pipe.getBlockPos().getZ(), stack));
     }
 
     @Nonnull

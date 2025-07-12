@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 10000,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "item": "elementalcraft:container"
+    },
+    {
+      "item": "elementalcraft:springaline_glass"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    },
+    {
+      "item": "elementalcraft:pristine_earth_gem"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "elementalcraft:reservoir_earth"
+  }
+}

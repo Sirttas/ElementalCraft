@@ -4,15 +4,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class CrystalGrowthShrineUpgradeGameTests {
 
-    // elementalcraft:crystalgrowthshrineupgradegametests.should_growamethyst
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
+    private static final String TEMPLATE = "elementalcraft:crystalgrowthshrineupgradegametests.should_growamethyst";
+
+    @TestHolder
+    @GameTest(template = TEMPLATE)
     public static void should_growAmethyst(GameTestHelper helper) {
 
 

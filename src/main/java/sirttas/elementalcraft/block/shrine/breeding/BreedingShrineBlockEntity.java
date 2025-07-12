@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.breeding;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
@@ -11,9 +12,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,9 +24,11 @@ import java.util.stream.Collectors;
 
 public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(BreedingShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(BreedingShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+
 	public BreedingShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.BREEDING_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.BREEDING_SHRINE, PROPERTIES, pos, state);
 	}
 
 	private <T extends Entity> List<T> getEntities(Class<T> clazz) {
@@ -31,11 +36,11 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	@Override
-	public AABB getRange() {
-		var facing = this.getBlockState().getValue(BreedingShrineBlock.FACING);
-		var box = super.getRange();
-
-		return box.move(facing.getStepX() * (box.getXsize() - 1) * 0.5, 0, facing.getStepZ() * (box.getZsize() - 1) * 0.5);
+	public AABB lookupRange() {
+		if (this.hasUpgrade(ShrineUpgrades.TRANSLOCATION)) {
+			return super.lookupRange();
+		}
+		return lookupRange(this.getBlockState().getValue(BreedingShrineBlock.FACING));
 	}
 
 	@Override

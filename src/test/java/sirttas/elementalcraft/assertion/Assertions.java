@@ -8,10 +8,6 @@ import sirttas.elementalcraft.item.ItemStackAssert;
 
 public class Assertions extends org.assertj.core.api.Assertions {
 
-    static {
-        GlobalTestReporter.replaceWith(new StackTraceLogTestReporter());
-    }
-
     private Assertions() {}
 
     public static ItemStackAssert assertThat(ItemStack itemStack) {

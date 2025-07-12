@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_crude_air_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:crude_air_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_crude_air_gem"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

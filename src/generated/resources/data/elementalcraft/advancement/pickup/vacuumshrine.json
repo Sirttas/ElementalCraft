@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_vacuumshrine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:vacuumshrine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_vacuumshrine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

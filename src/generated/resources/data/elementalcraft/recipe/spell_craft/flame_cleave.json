@@ -1,0 +1,16 @@
+{
+  "type": "elementalcraft:spell_craft",
+  "crystal": {
+    "item": "elementalcraft:firecrystal"
+  },
+  "gem": {
+    "item": "elementalcraft:crude_fire_gem"
+  },
+  "output": {
+    "components": {
+      "elementalcraft:spell": "elementalcraft:flame_cleave"
+    },
+    "count": 1,
+    "id": "elementalcraft:scroll"
+  }
+}

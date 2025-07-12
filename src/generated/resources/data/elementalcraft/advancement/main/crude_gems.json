@@ -1,0 +1,72 @@
+{
+  "parent": "elementalcraft:main/infuser",
+  "criteria": {
+    "has_crude_air_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:crude_air_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_crude_earth_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:crude_earth_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_crude_fire_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:crude_fire_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_crude_water_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:crude_water_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.crude_gems.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:crude_fire_gem"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.crude_gems.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_crude_fire_gem"
+    ],
+    [
+      "has_crude_water_gem"
+    ],
+    [
+      "has_crude_earth_gem"
+    ],
+    [
+      "has_crude_air_gem"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

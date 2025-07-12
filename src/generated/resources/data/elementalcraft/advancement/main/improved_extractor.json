@@ -1,0 +1,34 @@
+{
+  "parent": "elementalcraft:main/extractor",
+  "criteria": {
+    "has_improved_extractor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:improved_element_extractor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.improved_extractor.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:improved_element_extractor"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.improved_extractor.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_improved_extractor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

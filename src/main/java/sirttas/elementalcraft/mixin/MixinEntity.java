@@ -16,7 +16,7 @@ public abstract class MixinEntity extends AttachmentHolder {
             at = @At("RETURN"),
             cancellable = true)
     private void canFreeze$return(CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValueZ() && JewelHelper.hasJewel((Entity) (Object) this, Jewels.ARCTIC_HARES.get())) {
+        if (!cir.getReturnValueZ() && JewelHelper.hasJewel((Entity) (Object) this, Jewels.ARCTIC_HARE.get())) {
             cir.setReturnValue(true);
         }
     }

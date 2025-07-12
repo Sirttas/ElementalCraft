@@ -1,0 +1,21 @@
+{
+  "values": [
+    "elementalcraft:infuser",
+    "elementalcraft:binder",
+    "elementalcraft:crystallizer",
+    "elementalcraft:inscriber",
+    "elementalcraft:binder_improved",
+    "elementalcraft:rudimentary_element_extractor",
+    "elementalcraft:element_extractor",
+    "elementalcraft:improved_element_extractor",
+    "elementalcraft:diffuser",
+    "#elementalcraft:extractors",
+    "#elementalcraft:synthesizers",
+    "#elementalcraft:instruments",
+    "#elementalcraft:container_tools/small",
+    "#elementalcraft:container_tools/fire",
+    "#elementalcraft:container_tools/water",
+    "#elementalcraft:container_tools/earth",
+    "#elementalcraft:container_tools/air"
+  ]
+}

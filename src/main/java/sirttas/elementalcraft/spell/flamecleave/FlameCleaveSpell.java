@@ -35,6 +35,6 @@ public class FlameCleaveSpell extends AoeSpell {
 
 	@Override
 	protected void onHit(LivingEntity sender, LivingEntity target, float damage) {
-		target.setSecondsOnFire(5);
+		target.igniteForSeconds(5);
 	}
 }

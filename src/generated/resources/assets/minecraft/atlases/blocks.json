@@ -12,7 +12,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "elementalcraft:effect/solar_synthesizer_beam"
+      "resource": "elementalcraft:effect/solar_fire_synthesizer_beam"
     },
     {
       "type": "minecraft:single",
@@ -21,14 +21,6 @@
     {
       "type": "minecraft:single",
       "resource": "elementalcraft:effect/air_shield_blade"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "elementalcraft:effect/source_displacement"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "elementalcraft:effect/source_displacement_circle"
     },
     {
       "type": "minecraft:single",

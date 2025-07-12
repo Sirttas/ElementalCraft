@@ -1,0 +1,7 @@
+{
+  "type": "elementalcraft:melting",
+  "cooldown": 10,
+  "element_amount": 1,
+  "input": "#elementalcraft:shrines/melting/liquifiables/water",
+  "result": "minecraft:water"
+}

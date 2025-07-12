@@ -1,27 +1,21 @@
 package sirttas.elementalcraft.block.instrument.io.mill.grindstone.water;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.state.BlockState;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 
 public class WaterMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEntity {
 
-	private static final Config<AbstractMillGrindstoneBlockEntity, IGrindingRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.WATER_MILL_GRINDSTONE,
-			ECRecipeTypes.GRINDING,
-			ECConfig.SERVER.waterMillsTransferSpeed,
-			ECConfig.SERVER.waterMillsMaxRunes,
-			1,
-			false,
-			false
-	);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(WaterMillGrindstoneBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	public WaterMillGrindstoneBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, ElementType.WATER, pos, state);
+		super(ECBlockEntityTypes.WATER_MILL_GRINDSTONE, PROPERTIES, ElementType.WATER, pos, state);
 	}
 }

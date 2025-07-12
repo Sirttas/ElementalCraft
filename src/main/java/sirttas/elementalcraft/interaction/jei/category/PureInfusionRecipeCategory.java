@@ -8,20 +8,21 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
-import sirttas.elementalcraft.recipe.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipeInput;
 
 import javax.annotation.Nonnull;
 
-public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategory<PureInfuserBlockEntity, PureInfusionRecipe> {
+public class PureInfusionRecipeCategory extends AbstractInventoryRecipeCategory<PureInfusionRecipeInput, PureInfusionRecipe> {
 
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.pureinfusion", createDrawableStack(guiHelper, new ItemStack(ECBlocks.PURE_INFUSER.get())), guiHelper.createBlankDrawable(177, 134));
-		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
 	}
 
 	@Nonnull
@@ -32,35 +33,35 @@ public class PureInfusionRecipeCategory extends AbstractBlockEntityRecipeCategor
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull PureInfusionRecipe recipe, @Nonnull IFocusGroup focuses) {
-		var ingredients = recipe.getIngredients();
-		var elementIngredients = IngredientElementType.all(getGaugeValue(recipe.getElementAmount()));
+		var ingredients = recipe.getIngredientsMap();
+		var elementAmount = IngredientElementType.getGaugeValue(recipe.getElementAmount());
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 61)
-				.addIngredients(ingredients.get(0));
+				.addIngredients(ingredients.get(ElementType.NONE));
 
 		// Left
 		builder.addSlot(RecipeIngredientRole.INPUT, 26, 61)
-				.addIngredients(ingredients.get(1));
+				.addIngredients(ingredients.get(ElementType.FIRE));
 		builder.addSlot(RecipeIngredientRole.INPUT, 9, 61)
-				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(0));
+				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.FIRE, elementAmount));
 
 		// Top
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 27)
-				.addIngredients(ingredients.get(2));
+				.addIngredients(ingredients.get(ElementType.WATER));
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 10)
-				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(1));
+				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.WATER, elementAmount));
 
 		// Bottom
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 95)
-				.addIngredients(ingredients.get(3));
+				.addIngredients(ingredients.get(ElementType.EARTH));
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 112)
-				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(2));
+				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.EARTH, elementAmount));
 
 		// Right
 		builder.addSlot(RecipeIngredientRole.INPUT, 94, 61)
-				.addIngredients(ingredients.get(4));
+				.addIngredients(ingredients.get(ElementType.AIR));
 		builder.addSlot(RecipeIngredientRole.INPUT, 111, 61)
-				.addIngredient(ECIngredientTypes.ELEMENT, elementIngredients.get(3));
+				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.AIR, elementAmount));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 154, 61)
 				.addItemStack(RecipeUtil.getResultItem(recipe));

@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:tiger",
+  "name": "elementalcraft.jewel.elementalcraft.tiger",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.tiger0"
+    }
+  ],
+  "sortnum": 14,
+  "turnin": "elementalcraft:pickup/tiger"
+}

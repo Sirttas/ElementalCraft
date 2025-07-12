@@ -1,0 +1,5 @@
+{
+  "type": "elementalcraft:container",
+  "compatible_tools": "#elementalcraft:container_tools/fire",
+  "element_capacity": 5000000
+}

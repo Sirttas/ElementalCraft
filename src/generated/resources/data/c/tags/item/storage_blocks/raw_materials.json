@@ -1,0 +1,103 @@
+{
+  "values": [
+    "#c:storage_blocks/raw_copper",
+    "#c:storage_blocks/raw_iron",
+    "#c:storage_blocks/raw_gold",
+    {
+      "id": "#c:storage_blocks/raw_silver",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_lead",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_tin",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_zinc",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_aluminum",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_nickel",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_uranium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_osmium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_desh",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_calorite",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_ostrum",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_platinum",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_iesnium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_unobtainium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_crimson_iron",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_allthemodium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_vibranium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_iridium",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks/raw_azure_silver",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_aquite",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_charoite",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_falsite",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_ventium",
+      "required": false
+    },
+    {
+      "id": "#blue_skies:storage_blocks/raw_horizonite",
+      "required": false
+    }
+  ]
+}

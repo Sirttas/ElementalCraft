@@ -13,7 +13,6 @@ import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
 
 public class ElementalCraftCapabilities {
@@ -32,8 +31,6 @@ public class ElementalCraftCapabilities {
         public static final EntityCapability<ISingleElementStorage, @Nullable ElementType> ENTITY_FOR_ELEMENT = EntityCapability.create(FOR_ELEMENT_ID, ISingleElementStorage.class, ElementType.class);
 
         public static final ItemCapability<IElementStorage, Void> ITEM = ItemCapability.createVoid(ID, IElementStorage.class);
-        public static final ItemCapability<ISingleElementStorage, Integer> ITEM_LENS = ItemCapability.create(ElementalCraftApi.createRL("lens_element_storage"), ISingleElementStorage.class, Integer.class);
-
         public record BlockForElementContext(
                 ElementType elementType,
                 Direction direction
@@ -55,14 +52,6 @@ public class ElementalCraftCapabilities {
         public static final EntityCapability<ISourceTraitHolder, Void> ENTITY = EntityCapability.createVoid(ID, ISourceTraitHolder.class);
         public static final ItemCapability<ISourceTraitHolder, Void> ITEM = ItemCapability.createVoid(ID, ISourceTraitHolder.class);
     }
-
-    public static class SourceInteractable {
-
-        private SourceInteractable() {}
-
-        public static final ItemCapability<ISourceInteractable, Void> ITEM = ItemCapability.createVoid(ElementalCraftApi.createRL("source_interactable"), ISourceInteractable.class);
-    }
-
 
     public static class RuneHandler {
         private RuneHandler() {}

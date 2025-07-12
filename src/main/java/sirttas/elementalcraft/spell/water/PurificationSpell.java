@@ -21,7 +21,6 @@ public class PurificationSpell extends Spell {
 		super(key);
 	}
 
-	@SuppressWarnings("resource")
 	private InteractionResult cureEffects(Entity target) {
 		if (target instanceof LivingEntity livingTarget) {
 			if (!target.level().isClientSide) {
@@ -31,7 +30,7 @@ public class PurificationSpell extends Spell {
 					var effect = itr.next();
 					var cures = effect.getCures(); // TODO create cure for purification spell
 
-					if (!cures.isEmpty() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL && NeoForge.EVENT_BUS.post(new MobEffectEvent.Remove(livingTarget, effect, cures.iterator().next())).isCanceled()) {
+					if (!cures.isEmpty() && effect.getEffect().value().getCategory() == MobEffectCategory.HARMFUL && NeoForge.EVENT_BUS.post(new MobEffectEvent.Remove(livingTarget, effect, cures.iterator().next())).isCanceled()) {
 						livingTarget.onEffectRemoved(effect);
 						itr.remove();
 						livingTarget.updateEffectVisibility();

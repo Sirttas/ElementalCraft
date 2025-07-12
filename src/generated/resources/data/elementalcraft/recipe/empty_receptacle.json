@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    },
+    "i": {
+      "tag": "c:ingots/drenched_iron"
+    }
+  },
+  "pattern": [
+    " g ",
+    "ici",
+    " g "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:empty_receptacle"
+  }
+}

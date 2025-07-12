@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:dash\"]",
+  "name": "elementalcraft_spell.elementalcraft.dash",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.dash0"
+    }
+  ],
+  "sortnum": 7,
+  "turnin": "elementalcraft:pickup/scroll"
+}

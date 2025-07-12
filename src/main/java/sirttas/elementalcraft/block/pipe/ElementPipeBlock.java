@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +33,6 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -48,12 +47,12 @@ import javax.annotation.Nullable;
 public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	public static final String NAME = "elementpipe";
-	public static final String NAME_IMPAIRED = NAME + "_impaired";
+	public static final String NAME_RUDIMENTARY = NAME + "_rudimentary";
 	public static final String NAME_IMPROVED = NAME + "_improved";
 	public static final String NAME_CREATIVE = NAME + "_creative";
 
 	public static final MapCodec<ElementPipeBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-			PipeType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(p -> p.type),
+			PipeType.CODEC.fieldOf("pipe_type").forGetter(p -> p.type),
 			propertiesCodec()
 	).apply(instance, ElementPipeBlock::new));
 
@@ -91,7 +90,6 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	@Override
-	@Deprecated
 	public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
 		if (level.getBlockEntity(pos) instanceof ElementPipeBlockEntity pipe) {
 			pipe.refresh();
@@ -116,7 +114,6 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	@Override
-	@Deprecated
 	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
 		var player = getPlayer(context);
 		var blockEntity = getBlockEntity(blockGetter, pos);
@@ -152,14 +149,12 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	@Override
-	@Deprecated
-	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-		return getCurrentShape(state, getBlockEntity(world, pos), null);
+	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+		return getCurrentShape(state, getBlockEntity(level, pos), null);
 	}
 
 	@Override
-	@Deprecated
-	public @NotNull InteractionResult use(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+	protected @NotNull ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
 		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) level.getBlockEntity(pos);
 
 		if (pipe != null) {
@@ -185,18 +180,18 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			}
 			return value;
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
-	private InteractionResult upgrade(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand) {
+	private ItemInteractionResult upgrade(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand) {
 		if (!state.is(this)) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var stack = player.getItemInHand(hand);
 
 		if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem item) || !(item.getBlock() instanceof ElementPipeBlock block) || block.type.getTiers() <= type.getTiers()) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var oldBlockEntity = getBlockEntity(level, pos);
@@ -220,10 +215,10 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 			this.upgrade(level.getBlockState(p), level, p, player, hand);
 		}
-		return InteractionResult.SUCCESS;
+		return ItemInteractionResult.SUCCESS;
 	}
 
-	private InteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand, BlockHitResult hit) {
+	private ItemInteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (face != null) {
 			ItemStack stack = player.getItemInHand(hand);
 
@@ -232,11 +227,10 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			}
 			return pipe.activatePipe(player, face);
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override
-	@Deprecated
 	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		var newBlock = newState.getBlock();
 
@@ -280,19 +274,10 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		public String getSerializedName() {
 			return this.name;
 		}
-
-		public static CoverType byName(String name) {
-			for (CoverType bonusType : values()) {
-				if (bonusType.name.equals(name)) {
-					return bonusType;
-				}
-			}
-			return NONE;
-		}
 	}
 
 	public enum PipeType implements StringRepresentable {
-		IMPAIRED("impaired", 0),
+		RUDIMENTARY("rudimentary", 0),
 		STANDARD("standard", 1),
 		IMPROVED("improved", 2),
 		CREATIVE("creative", 3);

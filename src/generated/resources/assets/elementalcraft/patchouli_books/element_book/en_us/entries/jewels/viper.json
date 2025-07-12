@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:viper",
+  "name": "elementalcraft.jewel.elementalcraft.viper",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.viper0"
+    }
+  ],
+  "sortnum": 16,
+  "turnin": "elementalcraft:pickup/viper"
+}

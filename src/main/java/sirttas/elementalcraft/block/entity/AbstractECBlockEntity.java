@@ -1,13 +1,14 @@
 package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -36,13 +37,13 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 
 	@Override
 	public final ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Nonnull
 	@Override
-	public final CompoundTag getUpdateTag() {
-		return saveWithoutMetadata();
+	public final CompoundTag getUpdateTag(@Nonnull HolderLookup.Provider provider) {
+		return saveWithoutMetadata(provider);
 	}
 
 	public void sendUpdate() {
@@ -52,10 +53,12 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 			dirty = false;
 		}
 	}
-	
+
 	private void sendUpdatePacket() {
 		if (level instanceof ServerLevel serverLevel) {
-			PacketDistributor.TRACKING_CHUNK.with(serverLevel.getChunkAt(worldPosition)).send(getUpdatePacket());
+			var packet = getUpdatePacket();
+
+			serverLevel.getChunkSource().chunkMap.getPlayers(new ChunkPos(worldPosition), false).forEach(e -> e.connection.send(packet));
 		}
 	}
 }

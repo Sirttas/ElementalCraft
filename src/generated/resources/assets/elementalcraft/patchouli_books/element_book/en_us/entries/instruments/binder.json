@@ -1,0 +1,36 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:binder",
+  "name": "block.elementalcraft.binder",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.binder0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:binder"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:binder"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "priority": true,
+  "sortnum": 1,
+  "turnin": "elementalcraft:main/binder"
+}

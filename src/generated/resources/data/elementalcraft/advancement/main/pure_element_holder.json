@@ -1,0 +1,34 @@
+{
+  "parent": "elementalcraft:main/element_holders",
+  "criteria": {
+    "has_pure_element_holder": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pure_element_holder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.pure_element_holder.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:pure_element_holder"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.pure_element_holder.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_pure_element_holder"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

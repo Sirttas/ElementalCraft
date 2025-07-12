@@ -1,12 +1,16 @@
 package sirttas.elementalcraft.block.shrine.upgrade.translocation;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.component.ECDataComponents;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,18 +33,41 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
     }
 
     @Override
-    public void load(@Nonnull CompoundTag tag) {
-        super.load(tag);
-        if (tag.contains(ECNames.TARGET)) {
-            target = NbtUtils.readBlockPos(tag.getCompound(ECNames.TARGET));
+    public void loadAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
+        NbtUtils.readBlockPos(tag, ECNames.TARGET_POS).ifPresent(this::setTarget);
+    }
+
+    @Override
+    protected void saveAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        if (target != null) {
+            tag.put(ECNames.TARGET_POS, NbtUtils.writeBlockPos(target));
         }
     }
 
     @Override
-    protected void saveAdditional(@Nonnull CompoundTag tag) {
-        super.saveAdditional(tag);
-        if (target != null) {
-            tag.put(ECNames.TARGET, NbtUtils.writeBlockPos(target));
+    protected void applyImplicitComponents(@NotNull DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        var pos = input.get(ECDataComponents.TARGET_POS);
+
+        if (pos != null) {
+            setTarget(pos);
         }
+    }
+
+    @Override
+    protected void collectImplicitComponents(@NotNull DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        if (target != null) {
+            builder.set(ECDataComponents.TARGET_POS, target);
+        }
+    }
+
+    @Override
+    @Deprecated
+    public void removeComponentsFromTag(@NotNull CompoundTag tag) {
+        super.removeComponentsFromTag(tag);
+        tag.remove(ECNames.TARGET_POS);
     }
 }

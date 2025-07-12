@@ -1,25 +1,21 @@
 package sirttas.elementalcraft.item.holder;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.INBTSerializable;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.api.source.ISourceInteractable;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.element.ElementAmounts;
 
-import java.util.EnumMap;
-import java.util.Map;
-
-public class PureElementHolderItem extends AbstractElementHolderItem implements ISourceInteractable {
+public class PureElementHolderItem extends AbstractElementHolderItem {
 
 	public static final String NAME = "pure_element_holder";
 
-	public PureElementHolderItem() {
-		super(ECConfig.SERVER.pureElementHolderCapacity::get, ECConfig.SERVER.pureElementHolderTransferAmount::get);
+	public PureElementHolderItem(Item.Properties properties) {
+		super(ECConfig.SERVER.pureElementHolderCapacity::get, ECConfig.SERVER.pureElementHolderTransferAmount::get, properties);
 	}
 
 	@Override
@@ -29,23 +25,18 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 
 	@Override
 	protected ElementType getElementType(IElementStorage target, BlockState blockstate) {
-		if (blockstate.hasProperty(ElementType.STATE_PROPERTY)) {
-			return ElementType.getElementType(blockstate);
-		}
 		if (target instanceof IElementTypeProvider provider) {
 			return provider.getElementType();
 		}
-		return ElementType.NONE;
+		return ElementType.getElementType(blockstate);
 	}
 	
-	private class ElementStorage implements IElementStorage, INBTSerializable<CompoundTag> {
+	private class ElementStorage implements IElementStorage {
 
 		private final ItemStack stack;
-		private final Map<ElementType, Integer> amounts = new EnumMap<>(ElementType.class);
 		
 		public ElementStorage(ItemStack stack) {
 			this.stack = stack;
-			refresh();
 		}
 
 		@Override
@@ -55,8 +46,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 
 		@Override
 		public int getElementAmount(ElementType type) {
-			refresh();
-			return amounts.getOrDefault(type, 0);
+			return stack.getOrDefault(ECDataComponents.ELEMENT_AMOUNTS, ElementAmounts.EMPTY).get(type);
 		}
 
 		@Override
@@ -71,8 +61,7 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 			int ret = count - newCount + amount;
 
 			if (!simulate) {
-				amounts.put(type, newCount);
-				updateAmount();
+				setAmount(type, newCount);
 			}
 			return ret;
 		}
@@ -84,55 +73,27 @@ public class PureElementHolderItem extends AbstractElementHolderItem implements 
 			int ret = amount - newCount;
 
 			if (!simulate) {
-				amounts.put(type, newCount);
-				updateAmount();
+				setAmount(type, newCount);
 			}
 			return ret;
-		}
-		
-		private void refresh() {
-			var tag = stack.getTag();
-
-			if (tag != null) {
-				deserializeNBT(tag);
-			}
-		}
-		
-		private void updateAmount() {
-			serializeNBT(stack.getOrCreateTag());
-		}
-		
-		@Override
-		public @NotNull CompoundTag serializeNBT() {
-			CompoundTag compound = new CompoundTag();
-
-			serializeNBT(compound);
-			return compound;
-		}
-
-		private void serializeNBT(CompoundTag compound) {
-			amounts.forEach((elementType, amount) -> compound.putInt(elementType.getSerializedName(), amount));
-		}
-		
-		@Override
-		public void deserializeNBT(@NotNull CompoundTag compound) {
-			ElementType.ALL_VALID.forEach(elementType -> {
-			if (compound.contains(elementType.getSerializedName())) {
-				amounts.put(elementType, compound.getInt(elementType.getSerializedName()));
-				}
-			});
 		}
 
 		@Override
 		public void fill() {
-			ElementType.ALL_VALID.forEach(type -> amounts.put(type, getElementCapacity(type)));
-			updateAmount();
+			stack.set(ECDataComponents.ELEMENT_AMOUNTS, stack.getOrDefault(ECDataComponents.ELEMENT_AMOUNTS, ElementAmounts.EMPTY)
+					.with(ElementType.FIRE, getElementCapacity(ElementType.FIRE))
+					.with(ElementType.WATER, getElementCapacity(ElementType.WATER))
+					.with(ElementType.EARTH, getElementCapacity(ElementType.EARTH))
+					.with(ElementType.AIR, getElementCapacity(ElementType.AIR)));
 		}
 
 		@Override
 		public void fill(ElementType type) {
-			amounts.put(type, getElementCapacity(type));
-			updateAmount();
+			setAmount(type, getElementCapacity(type));
+		}
+
+		private void setAmount(ElementType type, int newCount) {
+			stack.set(ECDataComponents.ELEMENT_AMOUNTS, stack.getOrDefault(ECDataComponents.ELEMENT_AMOUNTS, ElementAmounts.EMPTY).with(type, newCount));
 		}
 	}
 }

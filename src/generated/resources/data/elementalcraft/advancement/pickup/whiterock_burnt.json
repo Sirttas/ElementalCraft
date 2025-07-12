@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_whiterock_burnt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:whiterock_burnt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_whiterock_burnt"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

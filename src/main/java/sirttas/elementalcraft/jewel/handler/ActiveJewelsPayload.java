@@ -1,19 +1,21 @@
 package sirttas.elementalcraft.jewel.handler;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
+import sirttas.elementalcraft.network.payload.PayloadHelper;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public record ActiveJewelsPayload(List<ResourceLocation> jewels) implements CustomPacketPayload {
 
-    public static final ResourceLocation ID = ElementalCraftApi.createRL("active_jewels");
+    public static final CustomPacketPayload.Type<ActiveJewelsPayload> TYPE = PayloadHelper.createType("active_jewels");
+    public static final StreamCodec<FriendlyByteBuf, ActiveJewelsPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), ActiveJewelsPayload::new);
 
     public ActiveJewelsPayload(IJewelHandler jewelHandler) {
         this(jewelHandler.getActiveJewels().stream()
@@ -25,25 +27,24 @@ public record ActiveJewelsPayload(List<ResourceLocation> jewels) implements Cust
         this(buf.readList(FriendlyByteBuf::readResourceLocation));
     }
 
-    @Override
     public void write(FriendlyByteBuf buf) {
         buf.writeCollection(jewels, FriendlyByteBuf::writeResourceLocation);
     }
 
     @Override
-    @Nonnull
-    public ResourceLocation id() {
-        return ID;
+    public @NotNull Type<ActiveJewelsPayload> type() {
+        return TYPE;
     }
 
-    public void handle(PlayPayloadContext ctx) {
-        ctx.workHandler().execute(() -> ctx.player()
-                .map(player -> player.getCapability(IJewelHandler.CAPABILITY))
-                .filter(ClientJewelHandler.class::isInstance)
-                .map(ClientJewelHandler.class::cast)
-                .ifPresent(handler -> handler.setActiveJewels(jewels.stream()
+    public void handle(IPayloadContext payloadContext) {
+        payloadContext.enqueueWork(() -> {
+            var player = payloadContext.player();
+
+            if (player.getCapability(IJewelHandler.CAPABILITY) instanceof ClientJewelHandler handler) {
+                handler.setActiveJewels(jewels.stream()
                         .map(Jewels.REGISTRY::get)
-                        .toList())));
+                        .toList());
+            }
+        });
     }
-
 }

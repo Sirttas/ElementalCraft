@@ -7,8 +7,6 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.apache.commons.lang3.function.Consumers;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -27,7 +25,7 @@ public class PipeUpgradeTypes {
 
     private static final DeferredRegister<PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
 
-    public static final Registry<PipeUpgradeType<?>> REGISTRY = DEFERRED_REGISTER.makeRegistry(Consumers.nop());
+    public static final Registry<PipeUpgradeType<?>> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true));
 
     public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<ElementPumpPipeUpgrade>> ELEMENT_PUMP = register(ElementPumpPipeUpgrade.NAME, ElementPumpPipeUpgrade::new);
     public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<PipePriorityRingsPipeUpgrade>> PIPE_PRIORITY_RINGS = register(PipePriorityRingsPipeUpgrade.NAME, PipePriorityRingsPipeUpgrade::new);

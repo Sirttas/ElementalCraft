@@ -4,19 +4,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import sirttas.elementalcraft.block.entity.renderer.IRuneRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class SorterRenderer implements IRuneRenderer<SorterBlockEntity> {
+public class SorterRenderer implements BlockEntityRenderer<SorterBlockEntity> {
 
 
-	@SuppressWarnings("resource")
 	@Override
 	public void render(@Nonnull SorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
 		var mouseOver = Minecraft.getInstance().hitResult;

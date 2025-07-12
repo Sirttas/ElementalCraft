@@ -7,9 +7,8 @@ import sirttas.elementalcraft.jewel.Jewel;
 
 public class DefenceJewel extends Jewel {
 
-    protected DefenceJewel(ElementType elementType, int consumption) {
-        super(elementType, consumption);
-        this.ticking = false;
+    protected DefenceJewel(ElementType elementType, int consumption, boolean ticking) {
+        super(elementType, consumption, ticking);
     }
 
     public float onHurt(Entity entity, DamageSource source, float amount) {

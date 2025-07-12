@@ -6,8 +6,8 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.library.util.RecipeUtil;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -15,11 +15,11 @@ import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 
 import javax.annotation.Nonnull;
 
-public class SpellCraftRecipeCategory extends AbstractInventoryRecipeCategory<Container, SpellCraftRecipe> {
+public class SpellCraftRecipeCategory extends AbstractInventoryRecipeCategory<RecipeInput, SpellCraftRecipe> {
 
 	public SpellCraftRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.spell_craft", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SPELL_DESK.get())), guiHelper.createBlankDrawable(123, 55));
-		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/spell_craft.png"), 0, 0, 103, 36), 10, 10);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/spell_craft.png"), 0, 0, 103, 36), 10, 10);
 	}
 
 	@Nonnull

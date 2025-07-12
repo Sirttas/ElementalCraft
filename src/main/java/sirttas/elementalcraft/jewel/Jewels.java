@@ -1,39 +1,46 @@
 package sirttas.elementalcraft.jewel;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.FluidTags;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.item.jewel.JewelItem;
 import sirttas.elementalcraft.jewel.attack.KirinJewel;
 import sirttas.elementalcraft.jewel.attack.ViperJewel;
 import sirttas.elementalcraft.jewel.attribute.BearJewel;
 import sirttas.elementalcraft.jewel.attribute.DolphinJewel;
 import sirttas.elementalcraft.jewel.attribute.LeopardJewel;
 import sirttas.elementalcraft.jewel.attribute.TigerJewel;
-import sirttas.elementalcraft.jewel.defence.ArcticHaresJewel;
+import sirttas.elementalcraft.jewel.defence.ArcticHareJewel;
 import sirttas.elementalcraft.jewel.defence.TortoiseJewel;
 import sirttas.elementalcraft.jewel.effect.BasiliskJewel;
+import sirttas.elementalcraft.jewel.effect.DemigodJewel;
 import sirttas.elementalcraft.jewel.effect.PhoenixJewel;
 import sirttas.elementalcraft.jewel.effect.SalmonJewel;
 import sirttas.elementalcraft.jewel.effect.mole.MoleJewel;
 
-import java.util.function.Consumer;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class Jewels {
 
-    private static final DeferredRegister<Jewel> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.JEWEL), ElementalCraftApi.MODID);
+    private static final Map<Jewel, Item> JEWEL_ITEM_MAP = new Object2ObjectOpenHashMap<>();
 
-    public static final Registry<Jewel> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.defaultKey(ElementalCraftApi.createRL(ECNames.NONE)));
+    public static final ResourceKey<Registry<Jewel>> REGISTRY_KEY = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.JEWEL));
 
-    public static final DeferredHolder<Jewel, Jewel> NONE = register(ECNames.NONE, () -> new Jewel(ElementType.NONE, 0));
+    private static final DeferredRegister<Jewel> DEFERRED_REGISTER = DeferredRegister.create(REGISTRY_KEY, ElementalCraftApi.MODID);
+
+    public static final Registry<Jewel> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true).defaultKey(ElementalCraftApi.createRL(ECNames.NONE)));
+
     public static final DeferredHolder<Jewel, SalmonJewel> SALMON = register(SalmonJewel.NAME, SalmonJewel::new);
     public static final DeferredHolder<Jewel, PhoenixJewel> PHOENIX = register(PhoenixJewel.NAME, PhoenixJewel::new);
     public static final DeferredHolder<Jewel, BasiliskJewel> BASILISK = register(BasiliskJewel.NAME, BasiliskJewel::new);
@@ -44,7 +51,7 @@ public class Jewels {
     public static final DeferredHolder<Jewel, KirinJewel> KIRIN = register(KirinJewel.NAME, KirinJewel::new);
     public static final DeferredHolder<Jewel, ViperJewel> VIPER = register(ViperJewel.NAME, ViperJewel::new);
     public static final DeferredHolder<Jewel, TortoiseJewel> TORTOISE = register(TortoiseJewel.NAME, TortoiseJewel::new);
-    public static final DeferredHolder<Jewel, ArcticHaresJewel> ARCTIC_HARES = register(ArcticHaresJewel.NAME, ArcticHaresJewel::new);
+    public static final DeferredHolder<Jewel, ArcticHareJewel> ARCTIC_HARE = register(ArcticHareJewel.NAME, ArcticHareJewel::new);
     public static final DeferredHolder<Jewel, MoleJewel> MOLE = register(MoleJewel.NAME, MoleJewel::new);
     public static final DeferredHolder<Jewel, HawkJewel> HAWK = register(HawkJewel.NAME, HawkJewel::new);
     public static final DeferredHolder<Jewel, DemigodJewel> DEMIGOD = register(DemigodJewel.NAME, DemigodJewel::new);
@@ -54,20 +61,27 @@ public class Jewels {
 
     private Jewels() {}
 
+    public static Item getJewelItem(Jewel jewel) {
+        return JEWEL_ITEM_MAP.get(jewel);
+    }
+
     private static <T extends Jewel> DeferredHolder<Jewel, T> register(String name, Supplier<? extends T> builder) {
         return DEFERRED_REGISTER.register(name, builder);
     }
 
     public static void register(IEventBus modBus) {
+        registerAliases(DEFERRED_REGISTER);
         DEFERRED_REGISTER.register(modBus);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static void registerModels(Consumer<ResourceLocation> addModel) {
-        REGISTRY.holders().forEach(h -> {
-            if (h.value() != NONE.value()) {
-                addModel.accept(h.value().getModelName());
-            }
-        });
+    public static void registerAliases(DeferredRegister<?> register) {
+        register.addAlias(ElementalCraftApi.createRL("arctic_hares"), ElementalCraftApi.createRL(ArcticHareJewel.NAME));
+    }
+
+    public static void setup() {
+        JEWEL_ITEM_MAP.clear();
+        BuiltInRegistries.ITEM.stream()
+                .mapMulti(ElementalCraftUtils.cast(JewelItem.class))
+                .forEach(i -> JEWEL_ITEM_MAP.put(i.getJewel(), i));
     }
 }

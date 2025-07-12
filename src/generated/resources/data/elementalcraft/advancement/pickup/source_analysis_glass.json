@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_source_analysis_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:source_analysis_glass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_analysis_glass"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_water_source": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:water_source"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_water_source"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

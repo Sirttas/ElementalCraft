@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "elementalcraft:elementalcraft/jewels/arctic_hares"
-  }
-}

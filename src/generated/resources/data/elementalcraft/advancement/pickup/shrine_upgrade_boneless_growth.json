@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_shrine_upgrade_boneless_growth": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:shrine_upgrade_boneless_growth"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_shrine_upgrade_boneless_growth"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

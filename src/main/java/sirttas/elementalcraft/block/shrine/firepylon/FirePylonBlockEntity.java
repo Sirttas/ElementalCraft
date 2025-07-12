@@ -2,13 +2,15 @@ package sirttas.elementalcraft.block.shrine.firepylon;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
@@ -17,12 +19,13 @@ import java.util.List;
 
 public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(FirePylonBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(FirePylonBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public FirePylonBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.FIRE_PYLON, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.FIRE_PYLON, PROPERTIES, pos, state);
 	}
 
 	private List<LivingEntity> getEntities() {
@@ -37,7 +40,7 @@ public class FirePylonBlockEntity extends AbstractShrineBlockEntity {
 		getEntities().forEach(e -> {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {
 				e.hurt(level.damageSources().inFire(), (float) this.getStrength());
-				e.setSecondsOnFire(Math.max(1, (int) (this.consumeElement(consumeAmount) * this.getStrength(1))));
+				e.igniteForSeconds(Math.max(1, (int) (this.consumeElement(consumeAmount) * this.getStrength(1))));
 			}
 		});
 		return false;

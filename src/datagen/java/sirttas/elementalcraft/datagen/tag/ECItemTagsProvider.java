@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.jewel.JewelItem;
 import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
@@ -65,9 +66,7 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
 		copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
 		copy(ECTags.Blocks.SHRINE_UPGRADES, ECTags.Items.SHRINE_UPGRADES);
-		copy(ECTags.Blocks.SMALL_CONTAINER_COMPATIBLES, ECTags.Items.SMALL_CONTAINER_COMPATIBLES);
 		copy(ECTags.Blocks.INSTRUMENTS, ECTags.Items.INSTRUMENTS);
-		copy(ECTags.Blocks.CONTAINER_TOOLS, ECTags.Items.CONTAINER_TOOLS);
 
 		copy(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Items.STORAGE_BLOCKS_DRENCHED_IRON);
 		copy(ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Items.STORAGE_BLOCKS_SWIFT_ALLOY);
@@ -86,30 +85,26 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.TOOLS_PAXELS);
 		tag(ECTags.Items.TOOLS_AIOTS);
 		tag(ECTags.Items.INFUSABLE_PAXELS).addTags(ECTags.Items.TOOLS_PAXELS, ECTags.Items.TOOLS_AIOTS);
-		tag(ECTags.Items.INFUSABLE_SHILDS).addTags(Tags.Items.TOOLS_SHIELDS);
-		tag(ECTags.Items.INFUSABLE_BOWS).addTag(Tags.Items.TOOLS_BOWS);
-		tag(ECTags.Items.INFUSABLE_CROSSBOWS).addTag(Tags.Items.TOOLS_CROSSBOWS);
+		tag(ECTags.Items.INFUSABLE_SHILDS).addTags(Tags.Items.TOOLS_SHIELD);
+		tag(ECTags.Items.INFUSABLE_BOWS).addTag(Tags.Items.TOOLS_BOW);
+		tag(ECTags.Items.INFUSABLE_CROSSBOWS).addTag(Tags.Items.TOOLS_CROSSBOW);
 		tag(ECTags.Items.INFUSABLE_FISHING_RODS).add(Items.FISHING_ROD);
 		tag(ECTags.Items.INFUSABLE_TRIDENTS).add(Items.TRIDENT);
 
-		tag(ECTags.Items.INFUSABLE_HELMETS).addTag(Tags.Items.ARMORS_HELMETS);
-		tag(ECTags.Items.INFUSABLE_CHESTPLATES).addTag(Tags.Items.ARMORS_CHESTPLATES);
-		tag(ECTags.Items.INFUSABLE_LEGGINGS).addTag(Tags.Items.ARMORS_LEGGINGS);
-		tag(ECTags.Items.INFUSABLE_BOOTS).addTag(Tags.Items.ARMORS_BOOTS);
+		tag(ECTags.Items.INFUSABLE_HELMETS).addTag(ItemTags.HEAD_ARMOR);
+		tag(ECTags.Items.INFUSABLE_CHESTPLATES).addTag(ItemTags.CHEST_ARMOR);
+		tag(ECTags.Items.INFUSABLE_LEGGINGS).addTag(ItemTags.LEG_ARMOR);
+		tag(ECTags.Items.INFUSABLE_BOOTS).addTag(ItemTags.FOOT_ARMOR);
 
 		tag(ECTags.Items.CHISELS).add(ECItems.DRENCHED_IRON_CHISEL.get(), ECItems.SWIFT_ALLOY_CHISEL.get(), ECItems.FIREITE_CHISEL.get());
 		tag(ECTags.Items.SPELL_HOLDERS).add(getItems(AbstractSpellHolderItem.class));
 		tag(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.FIRE_CRYSTAL.get(), ECItems.WATER_CRYSTAL.get(), ECItems.EARTH_CRYSTAL.get(), ECItems.AIR_CRYSTAL.get());
 		tag(ECTags.Items.CRYSTALS).add(ECItems.INERT_CRYSTAL.get(), ECItems.CONTAINED_CRYSTAL.get(), ECItems.PURE_CRYSTAL.get()).addTag(ECTags.Items.ELEMENTAL_CRYSTALS);
-		tag(ECTags.Items.LENSES).add(ECItems.FIRE_LENS.get(), ECItems.WATER_LENS.get(), ECItems.EARTH_LENS.get(), ECItems.AIR_LENS.get());
-		
-		tag(ECTags.Items.DEFAULT_SHARDS).add(ECItems.FIRE_SHARD.get(), ECItems.WATER_SHARD.get(), ECItems.EARTH_SHARD.get(), ECItems.AIR_SHARD.get());
-		tag(ECTags.Items.POWERFUL_SHARDS).add(ECItems.POWERFUL_FIRE_SHARD.get(), ECItems.POWERFUL_WATER_SHARD.get(), ECItems.POWERFUL_EARTH_SHARD.get(), ECItems.POWERFUL_AIR_SHARD.get());
-		tag(ECTags.Items.FIRE_SHARDS).add(ECItems.FIRE_SHARD.get(), ECItems.POWERFUL_FIRE_SHARD.get());
-		tag(ECTags.Items.WATER_SHARDS).add(ECItems.WATER_SHARD.get(), ECItems.POWERFUL_WATER_SHARD.get());
-		tag(ECTags.Items.EARTH_SHARDS).add(ECItems.EARTH_SHARD.get(), ECItems.POWERFUL_EARTH_SHARD.get());
-		tag(ECTags.Items.AIR_SHARDS).add(ECItems.AIR_SHARD.get(), ECItems.POWERFUL_AIR_SHARD.get());
-		tag(ECTags.Items.SHARDS).addTag(ECTags.Items.DEFAULT_SHARDS).addTag(ECTags.Items.POWERFUL_SHARDS);
+		tag(ECTags.Items.LENSES).add(ECItems.FIRE_LENS.get());
+
+		tag(ECTags.Items.EMPTY_RECEPTACLES).add(ECItems.EMPTY_RECEPTACLE.get());
+		copy(ECTags.Blocks.SOURCES, ECTags.Items.FULL_RECEPTACLES);
+		tag(ECTags.Items.RECEPTACLES).addTags(ECTags.Items.EMPTY_RECEPTACLES, ECTags.Items.FULL_RECEPTACLES);
 
 		tag(ECTags.Items.INGOTS_DRENCHED_IRON).add(ECItems.DRENCHED_IRON_INGOT.get());
 		tag(ECTags.Items.INGOTS_SWIFT_ALLOY).add(ECItems.SWIFT_ALLOY_INGOT.get());
@@ -133,30 +128,30 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 		tag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS)
 				.addTags(Tags.Items.STORAGE_BLOCKS_RAW_COPPER, Tags.Items.STORAGE_BLOCKS_RAW_IRON, Tags.Items.STORAGE_BLOCKS_RAW_GOLD)
-				.addOptionalTag(forge("storage_blocks/raw_silver"))
-				.addOptionalTag(forge("storage_blocks/raw_lead"))
-				.addOptionalTag(forge("storage_blocks/raw_tin"))
-				.addOptionalTag(forge("storage_blocks/raw_zinc"))
-				.addOptionalTag(forge("storage_blocks/raw_aluminum"))
-				.addOptionalTag(forge("storage_blocks/raw_nickel"))
-				.addOptionalTag(forge("storage_blocks/raw_uranium"))
-				.addOptionalTag(forge("storage_blocks/raw_osmium"))
-				.addOptionalTag(forge("storage_blocks/raw_desh"))
-				.addOptionalTag(forge("storage_blocks/raw_calorite"))
-				.addOptionalTag(forge("storage_blocks/raw_ostrum"))
-				.addOptionalTag(forge("storage_blocks/raw_platinum"))
-				.addOptionalTag(forge("storage_blocks/raw_iesnium"))
-				.addOptionalTag(forge("storage_blocks/raw_unobtainium"))
-				.addOptionalTag(forge("storage_blocks/raw_crimson_iron"))
-				.addOptionalTag(forge("storage_blocks/raw_allthemodium"))
-				.addOptionalTag(forge("storage_blocks/raw_vibranium"))
-				.addOptionalTag(forge("storage_blocks/raw_iridium"))
-				.addOptionalTag(forge("storage_blocks/raw_azure_silver"))
-				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_aquite"))
-				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_charoite"))
-				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_falsite"))
-				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_ventium"))
-				.addOptionalTag(new ResourceLocation(BLUE_SKIES, "storage_blocks/raw_horizonite"));
+				.addOptionalTag(common("storage_blocks/raw_silver"))
+				.addOptionalTag(common("storage_blocks/raw_lead"))
+				.addOptionalTag(common("storage_blocks/raw_tin"))
+				.addOptionalTag(common("storage_blocks/raw_zinc"))
+				.addOptionalTag(common("storage_blocks/raw_aluminum"))
+				.addOptionalTag(common("storage_blocks/raw_nickel"))
+				.addOptionalTag(common("storage_blocks/raw_uranium"))
+				.addOptionalTag(common("storage_blocks/raw_osmium"))
+				.addOptionalTag(common("storage_blocks/raw_desh"))
+				.addOptionalTag(common("storage_blocks/raw_calorite"))
+				.addOptionalTag(common("storage_blocks/raw_ostrum"))
+				.addOptionalTag(common("storage_blocks/raw_platinum"))
+				.addOptionalTag(common("storage_blocks/raw_iesnium"))
+				.addOptionalTag(common("storage_blocks/raw_unobtainium"))
+				.addOptionalTag(common("storage_blocks/raw_crimson_iron"))
+				.addOptionalTag(common("storage_blocks/raw_allthemodium"))
+				.addOptionalTag(common("storage_blocks/raw_vibranium"))
+				.addOptionalTag(common("storage_blocks/raw_iridium"))
+				.addOptionalTag(common("storage_blocks/raw_azure_silver"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_aquite"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_charoite"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_falsite"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_ventium"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_horizonite"));
 
 		tag(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE.get(), ECItems.RUNE_SLATE.get(), ECItems.MAJOR_RUNE_SLATE.get());
 
@@ -168,8 +163,14 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		addPureOreTags();
 
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
-		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "double_mystical_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "mystical_flowers"));
-		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST).add(Items.CHORUS_FLOWER, Items.WITHER_ROSE, Items.SPORE_BLOSSOM).addTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "special_flowers")).addOptionalTag(new ResourceLocation(BotaniaAPI.MODID, "floating_flowers"));
+		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS)
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "double_mystical_flowers"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "mystical_flowers"));
+		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST)
+				.add(Items.CHORUS_FLOWER, Items.WITHER_ROSE, Items.SPORE_BLOSSOM)
+				.addTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS)
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "special_flowers"))
+				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "floating_flowers"));
 
 		tag(ECTags.Items.WHITE_FLOWERS).add(Items.LILY_OF_THE_VALLEY);
 		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP, Items.TORCHFLOWER);
@@ -191,11 +192,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ItemTags.BEACON_PAYMENT_ITEMS).add(ECItems.DRENCHED_IRON_INGOT.get(), ECItems.SWIFT_ALLOY_INGOT.get(), ECItems.FIREITE_INGOT.get());
 		tag(ItemTags.BOOKSHELF_BOOKS).add(ECItems.SPELL_BOOK.get());
 
+		tag(ECTags.Items.JEWELS).add(getItems(JewelItem.class));
 		tag(ECTags.Items.JEWEL_SOCKETABLES).addTags(Tags.Items.TOOLS, Tags.Items.ARMORS, ECTags.Items.SPELL_CAST_TOOLS).add(Items.ELYTRA);
 
-		tag(ECTags.Items.ARTIFICIAL_SOURCE_SEEDS).add(ECItems.ARTIFICIAL_FIRE_SOURCE_SEED.get(), ECItems.ARTIFICIAL_WATER_SOURCE_SEED.get(), ECItems.ARTIFICIAL_EARTH_SOURCE_SEED.get(), ECItems.ARTIFICIAL_AIR_SOURCE_SEED.get());
-		tag(ECTags.Items.NATURAL_SOURCE_SEEDS).add(ECItems.NATURAL_FIRE_SOURCE_SEED.get(), ECItems.NATURAL_WATER_SOURCE_SEED.get(), ECItems.NATURAL_EARTH_SOURCE_SEED.get(), ECItems.NATURAL_AIR_SOURCE_SEED.get());
-		tag(ECTags.Items.SOURCE_SEEDS).addTags(ECTags.Items.ARTIFICIAL_SOURCE_SEEDS, ECTags.Items.NATURAL_SOURCE_SEEDS);
+		tag(ECTags.Items.SOURCE_SEEDS).add(ECItems.FIRE_SOURCE_SEED.get(), ECItems.WATER_SOURCE_SEED.get(), ECItems.EARTH_SOURCE_SEED.get(), ECItems.AIR_SOURCE_SEED.get());
 
 		tag(ECTags.Items.CURIOS_ELEMENT_HOLDER).add(ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get(), ECItems.PURE_HOLDER.get());
 
@@ -211,36 +211,49 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	}
 
 	private void addPureOreTags() {
-		tag(ECTags.Items.PURE_ORES_SOURCE_ORES).addTag(Tags.Items.ORES);
-		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
-		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
-		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_SHARDS).addOptionalTag(forge("geore_shards"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_GEORE_BLOCKS).addOptionalTag(forge("geore_blocks"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_ORES).addTag(Tags.Items.ORES);
+		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS).addOptionalTag(common("geore_shards"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_GEORE_BLOCKS).addOptionalTag(common("geore_blocks"));
 
-		tag(ECTags.Items.PURE_ORES_SOURCE_RESONANT_ORE).addOptionalTag(new ResourceLocation("deepresonance", "resonant_ore"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_RESONANT_ORE).addOptionalTag(ResourceLocation.fromNamespaceAndPath("deepresonance", "resonant_ore"));
 
-		tag(ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE).addOptional(new ResourceLocation(POWAH, "uraninite_raw"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE)
-				.addOptional(new ResourceLocation(POWAH, "uraninite_ore_poor"))
-				.addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_poor"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_URANINITE)
-				.addOptional(new ResourceLocation(POWAH, "uraninite_ore"))
-				.addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore"));
-		tag(ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE)
-				.addOptional(new ResourceLocation(POWAH, "uraninite_ore_dense"))
-				.addOptional(new ResourceLocation(POWAH, "deepslate_uraninite_ore_dense"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_URANINITE).addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_raw"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_POOR_URANINITE)
+				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_ore_poor"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore_poor"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_URANINITE)
+				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_ore"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_DENSE_URANINITE)
+				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_ore_dense"))
+				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore_dense"));
 
 		tag(ECTags.Items.PURE_ORES_SPECIFICS).addTags(
-				ECTags.Items.PURE_ORES_SOURCE_RESONANT_ORE,
-				ECTags.Items.PURE_ORES_SOURCE_RAW_URANINITE,
-				ECTags.Items.PURE_ORES_SOURCE_POOR_URANINITE,
-				ECTags.Items.PURE_ORES_SOURCE_URANINITE,
-				ECTags.Items.PURE_ORES_SOURCE_DENSE_URANINITE
-		).addOptionalTag(forge("ores/pendorite"));
+				ECTags.Items.PURE_ORES_SOURCES_RESONANT_ORE,
+				ECTags.Items.PURE_ORES_SOURCES_RAW_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCES_POOR_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCES_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCES_DENSE_URANINITE
+		).addOptionalTag(common("ores/pendorite"));
+
+		tag(ECTags.Items.PURE_ORES_SOURCES).addTags(
+				ECTags.Items.PURE_ORES_SOURCES_ORES,
+				ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIALS,
+				ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIAL_BLOCKS,
+				ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS,
+				ECTags.Items.PURE_ORES_SOURCES_GEORE_BLOCKS,
+				ECTags.Items.PURE_ORES_SOURCES_RESONANT_ORE,
+				ECTags.Items.PURE_ORES_SOURCES_RAW_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCES_POOR_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCES_URANINITE,
+				ECTags.Items.PURE_ORES_SOURCES_DENSE_URANINITE
+		);
 	}
 
-	private ResourceLocation forge(String name) {
-		return new ResourceLocation(ECNames.FORGE, name);
+	private ResourceLocation common(String name) {
+		return ResourceLocation.fromNamespaceAndPath(ECNames.COMMON_TAGS_NAMESPACE, name);
 	}
 
 	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {

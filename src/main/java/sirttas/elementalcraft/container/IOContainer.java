@@ -2,13 +2,14 @@ package sirttas.elementalcraft.container;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.nbt.NBTHelper;
 
 import javax.annotation.Nonnull;
 
@@ -31,7 +32,6 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
 	public void clearContent() {
 		input = ItemStack.EMPTY;
 		output = ItemStack.EMPTY;
-
 	}
 
 	@Override
@@ -85,24 +85,26 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
 		ItemStack ret = getItem(index);
 
 		setItem(index, ItemStack.EMPTY);
-		this.setChanged();
 		return ret;
 	}
 
 	@Override
-	public CompoundTag serializeNBT() {
-		CompoundTag nbt = new CompoundTag();
+	public CompoundTag serializeNBT(@Nonnull HolderLookup.Provider provider) {
+		var tag = new CompoundTag();
 
-		NBTHelper.writeItemStack(nbt, ECNames.INPUT, this.input);
-		NBTHelper.writeItemStack(nbt, ECNames.OUTPUT, this.output);
-		return nbt;
+		if (!input.isEmpty()) {
+			tag.put(ECNames.INPUT, this.input.save(provider));
+		}
+		if (!output.isEmpty()) {
+			tag.put(ECNames.OUTPUT, this.output.save(provider));
+		}
+		return tag;
 	}
 
 	@Override
-	public void deserializeNBT(CompoundTag nbt) {
-		this.input = NBTHelper.readItemStack(nbt, ECNames.INPUT);
-		this.output = NBTHelper.readItemStack(nbt, ECNames.OUTPUT);
-
+	public void deserializeNBT(@Nonnull HolderLookup.Provider provider, @NotNull CompoundTag tag) {
+		this.input = tag.contains(ECNames.INPUT) ? ItemStack.parseOptional(provider, tag.getCompound(ECNames.INPUT)) : ItemStack.EMPTY;
+		this.output = tag.contains(ECNames.OUTPUT) ? ItemStack.parseOptional(provider, tag.getCompound(ECNames.OUTPUT)) : ItemStack.EMPTY;
 	}
 
 	@Nonnull

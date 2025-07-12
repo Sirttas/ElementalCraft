@@ -2,6 +2,7 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -45,25 +46,25 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	public static ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredient, ResourceLocation infusion) {
 		return new ToolInfusionRecipeBuilder(ingredient, infusion);
 	}
-	
-	public static ToolInfusionRecipeBuilder toolInfusionRecipe(ItemLike ingredient, Enchantment enchantment) {
+
+	public static ToolInfusionRecipeBuilder toolInfusionRecipe(ItemLike ingredient, ResourceKey<Enchantment> enchantment) {
 		return toolInfusionRecipe(ingredient, getEnchantmentName(enchantment));
 	}
 
-	public static ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredient, Enchantment enchantment) {
+	public static ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredient, ResourceKey<Enchantment> enchantment) {
 		return toolInfusionRecipe(ingredient, getEnchantmentName(enchantment));
 	}
 
 	@Nonnull
-	private static ResourceLocation getEnchantmentName(Enchantment enchantment) {
-		return ElementalCraftApi.createRL(BuiltInRegistries.ENCHANTMENT.getKey(enchantment).getPath());
+	private static ResourceLocation getEnchantmentName(ResourceKey<Enchantment> enchantment) {
+		return ElementalCraftApi.createRL(enchantment.location().getPath());
 	}
 
 	@Override
 	protected ResourceLocation getId() {
 		String namespace = infusion.getNamespace();
 		
-		return new ResourceLocation(namespace.equals("minecraft") ? ElementalCraftApi.MODID : namespace, prefix + infusion.getPath());
+		return ResourceLocation.fromNamespaceAndPath(namespace.equals("minecraft") ? ElementalCraftApi.MODID : namespace, prefix + infusion.getPath());
 	}
 	
 	@Override

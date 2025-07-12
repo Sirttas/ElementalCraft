@@ -2,14 +2,14 @@ package sirttas.elementalcraft.block.container;
 
 import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.DynamicSingleElementStorage;
 
-public class ElementContainerElementStorage extends SingleElementStorage {
+public class ElementContainerElementStorage extends DynamicSingleElementStorage {
 
 	private final ElementContainerBlockEntity container;
 
-	public ElementContainerElementStorage(ElementContainerBlockEntity container, int elementCapacity) {
-		super(elementCapacity, container::setChanged);
+	public ElementContainerElementStorage(ElementContainerBlockEntity container) {
+		super(container.getProperties().capacity(), container::setChanged);
 		this.container = container;
 	}
 
@@ -26,5 +26,9 @@ public class ElementContainerElementStorage extends SingleElementStorage {
 	@Override
 	public boolean doesRenderGauge(Player player) {
 		return true;
+	}
+
+	void setElementType(ElementType elementType) {
+		this.elementType = elementType;
 	}
 }

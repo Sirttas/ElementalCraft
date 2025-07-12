@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.source.trait;
 
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -17,25 +17,24 @@ public class SourceTraitHelper {
 	private SourceTraitHelper() {}
 	
 	@Nonnull
-	public static Map<ResourceKey<SourceTrait>, ISourceTraitValue> loadTraits(@Nullable CompoundTag tag) {
-		Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits = SourceTraits.createTraitMap();
+	public static Map<Holder<SourceTrait>, ISourceTraitValue> loadTraits(@Nullable CompoundTag tag) {
+		var traits = SourceTraits.createTraitMap();
 		
 		loadTraits(tag, traits);
 		return traits;
 	}
 	
-	public static void loadTraits(@Nullable CompoundTag tag, @Nonnull Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits) {
+	public static void loadTraits(@Nullable CompoundTag tag, @Nonnull Map<Holder<SourceTrait>, ISourceTraitValue> traits) {
 		traits.clear();
 		if (tag != null) {
 			for (String name : tag.getAllKeys()) {
-  				var key = SourceTraits.key(name);
-				var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(new ResourceLocation(name));
+				var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.getOrCreateHolder(ResourceLocation.parse(name));
 				
-				if (trait != null) {
-					var value = trait.load(tag.get(name));
+				if (trait.isBound()) {
+					var value = trait.value().load(tag.get(name));
 					
 					if (value != null) {
-						traits.put(key, value);
+						traits.put(trait, value);
 					}
 				}
   			}
@@ -43,12 +42,12 @@ public class SourceTraitHelper {
 	}
 	
 	@Nonnull
-	public static CompoundTag saveTraits(@Nonnull Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits) {
+	public static CompoundTag saveTraits(@Nonnull Map<Holder<SourceTrait>, ISourceTraitValue> traits) {
 		var traitTag = new CompoundTag();
 
 		traits.forEach((key, value) -> {
-			var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.get(key);
-			if (trait != null) {
+			if (key.isBound()) {
+				var trait = key.value();
 				var tag = trait.save(value);
 
 				if (tag != null) {
@@ -59,20 +58,14 @@ public class SourceTraitHelper {
 		return traitTag;
 	}
 
-	public static Map<ResourceKey<SourceTrait>, ISourceTraitValue> breed(@Nonnull RandomSource random, float luck, boolean natural, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map1, Map<ResourceKey<SourceTrait>, ISourceTraitValue> map2) {
-		Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits = SourceTraits.createTraitMap();
+	public static Map<Holder<SourceTrait>, ISourceTraitValue> breed(@Nonnull RandomSource random, float luck, Map<Holder<SourceTrait>, ISourceTraitValue> map1, Map<Holder<SourceTrait>, ISourceTraitValue> map2) {
+		var traits = SourceTraits.createTraitMap();
 
-		for (var entry : ElementalCraftApi.SOURCE_TRAIT_MANAGER.getData().entrySet()) {
-			var key = SourceTraits.key(entry.getKey());
-
-			if (natural && key.equals(SourceTraits.ARTIFICIAL)) {
-				continue;
-			}
-
-			var value = entry.getValue().breed(random, luck, map1.get(key), map2.get(key));
+		for (var holder : ElementalCraftApi.SOURCE_TRAIT_MANAGER.holders().toList()) {
+			var value = holder.value().breed(random, luck, map1.get(holder), map2.get(holder));
 
 			if (value != null) {
-				traits.put(key, value);
+				traits.put(holder, value);
 			}
 		}
 		return traits;

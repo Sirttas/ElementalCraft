@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_swift_alloy_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:ingots/swift_alloy"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementalcraft:air_mill"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_swift_alloy_ingot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementalcraft:air_mill"
+    ]
+  }
+}

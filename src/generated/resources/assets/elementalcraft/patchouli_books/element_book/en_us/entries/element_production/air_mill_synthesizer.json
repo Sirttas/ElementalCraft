@@ -1,0 +1,39 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:element_production",
+  "icon": "elementalcraft:air_mill_synthesizer",
+  "name": "block.elementalcraft.air_mill_synthesizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.air_mill_synthesizer0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:air_mill_synthesizer"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:air_mill_synthesizer",
+          "M": "elementalcraft:air_mill_synthesizer[half=upper]"
+        },
+        "pattern": [
+          [
+            "M"
+          ],
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 10,
+  "turnin": "elementalcraft:pickup/air_mill_synthesizer"
+}

@@ -69,13 +69,33 @@ public class ECRendererHelper {
     }
 
     public static void renderIcon(PoseStack poseStack, VertexConsumer builder, float x, float y, int width, int height, float r, float g, float b, int light, int overlay) {
-        var matrix = poseStack.last().pose();
-        var normal = poseStack.last().normal();
+        var pose = poseStack.last();
+        var matrix = pose.pose();
 
-        builder.vertex(matrix, x, y, 0).color(r, g, b, 1F).uv(0, 0).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-        builder.vertex(matrix, x + width, y, 0).color(r, g, b, 1F).uv(1, 0).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-        builder.vertex(matrix, x + width, y + height, 0).color(r, g, b, 1F).uv(1, 1).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
-        builder.vertex(matrix, x, y + height, 0).color(r, g, b, 1F).uv(0, 1).overlayCoords(overlay).uv2(light).normal(normal, 0, 1, 0).endVertex();
+        builder.addVertex(matrix, x, y, 0)
+                .setColor(r, g, b, 1F)
+                .setUv(0, 0)
+                .setOverlay(overlay)
+                .setLight(light)
+                .setNormal(pose, 0, 1, 0);
+        builder.addVertex(matrix, x + width, y, 0)
+                .setColor(r, g, b, 1F)
+                .setUv(1, 0)
+                .setOverlay(overlay)
+                .setLight(light)
+                .setNormal(pose, 0, 1, 0);
+        builder.addVertex(matrix, x + width, y + height, 0)
+                .setColor(r, g, b, 1F)
+                .setUv(1, 1)
+                .setOverlay(overlay)
+                .setLight(light)
+                .setNormal(pose, 0, 1, 0);
+        builder.addVertex(matrix, x, y + height, 0)
+                .setColor(r, g, b, 1F)
+                .setUv(0, 1)
+                .setOverlay(overlay)
+                .setLight(light)
+                .setNormal(pose, 0, 1, 0);
     }
 
     public static Quaternionf getRotation(Direction direction) {
@@ -263,7 +283,11 @@ public class ECRendererHelper {
     private static void fluidVertex(PoseStack poseStack, VertexConsumer consumer, float x, float y, float z, float r, float g, float b, float alpha, float u, float v) {
         var last = poseStack.last();
 
-        consumer.vertex(last.pose(), x, y, z).color(r, g, b, alpha).uv(u, v).uv2(15728880).normal(last.normal(), 0.0F, 1.0F, 0.0F).endVertex();
+        consumer.addVertex(last.pose(), x, y, z)
+                .setColor(r, g, b, alpha)
+                .setUv(u, v)
+                .setLight(15728880)
+                .setNormal(last, 0.0F, 1.0F, 0.0F);
     }
 
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, PipeUpgrade pu, float tick, int light, int overlay) {

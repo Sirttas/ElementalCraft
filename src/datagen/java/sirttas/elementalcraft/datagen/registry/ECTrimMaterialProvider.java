@@ -3,6 +3,7 @@ package sirttas.elementalcraft.datagen.registry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.level.ItemLike;
@@ -31,7 +32,7 @@ public class ECTrimMaterialProvider extends AbstractECRegistryBootstrap<TrimMate
         return addTrim(name, item, color, Collections.emptyMap());
     }
 
-    private Holder.Reference<TrimMaterial> addTrim(String name, ItemLike item, int color, Map<ArmorMaterials, String> overrides) {
+    private Holder.Reference<TrimMaterial> addTrim(String name, ItemLike item, int color, Map<Holder<ArmorMaterial>, String> overrides) {
         increment += 0.1F;
         return add(name, new TrimMaterial(name, getReference(Registries.ITEM, item.asItem()), increment, overrides, Component.translatable("trim_material.elementalcraft." + name).withStyle(s -> s.withColor(color))));
     }

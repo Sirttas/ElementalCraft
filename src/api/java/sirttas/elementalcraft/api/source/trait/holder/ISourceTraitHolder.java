@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.api.source.trait.holder;
 
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 
@@ -8,13 +8,7 @@ import java.util.Map;
 
 public interface ISourceTraitHolder {
 
-    Map<ResourceKey<SourceTrait>, ISourceTraitValue> getTraits();
-    void setTraits(Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits);
-    boolean isArtificial();
-
-    default float getRecoverRate() {
-        return getTraits(SourceTrait.Type.RECOVER_RATE);
-    }
+    Map<Holder<SourceTrait>, ISourceTraitValue> getTraits();
 
     default int getCapacity() {
         return Math.round(getTraits(SourceTrait.Type.CAPACITY));

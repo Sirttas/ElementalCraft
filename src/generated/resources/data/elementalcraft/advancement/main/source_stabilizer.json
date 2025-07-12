@@ -1,0 +1,34 @@
+{
+  "parent": "elementalcraft:main/sources",
+  "criteria": {
+    "has_source_stabilizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:source_stabilizer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.source_stabilizer.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:source_stabilizer"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.source_stabilizer.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_source_stabilizer"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

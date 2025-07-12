@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:arctic_hare",
+  "name": "elementalcraft.jewel.elementalcraft.arctic_hare",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.arctic_hare0"
+    }
+  ],
+  "sortnum": 0,
+  "turnin": "elementalcraft:pickup/arctic_hare"
+}

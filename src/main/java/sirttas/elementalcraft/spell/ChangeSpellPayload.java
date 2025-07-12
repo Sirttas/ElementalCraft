@@ -1,41 +1,36 @@
 package sirttas.elementalcraft.spell;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.tag.ECTags;
-
-import javax.annotation.Nonnull;
 
 public record ChangeSpellPayload(int i) implements CustomPacketPayload {
 
-    public static final ResourceLocation ID = ElementalCraftApi.createRL("change_spell");
+    public static final CustomPacketPayload.Type<ChangeSpellPayload> TYPE = PayloadHelper.createType("change_spell");
+    public static final StreamCodec<FriendlyByteBuf, ChangeSpellPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), ChangeSpellPayload::new);
 
     public ChangeSpellPayload(FriendlyByteBuf buf) {
          this(buf.readInt());
     }
 
-    @Override
     public void write(FriendlyByteBuf buf) {
         buf.writeInt(i);
     }
 
-
-    public void handle(PlayPayloadContext ctx) {
-        ctx.workHandler().execute(() -> ctx.player()
-                .flatMap(player -> EntityHelper.handStream(player)
-                .filter(stack -> stack.is(ECTags.Items.SPELL_CAST_TOOLS))
-                .findFirst())
-                .ifPresent(stack -> SpellHelper.setSelected(stack, i)));
+    @Override
+    public @NotNull Type<ChangeSpellPayload> type() {
+        return TYPE;
     }
 
-
-    @Override
-    @Nonnull
-    public ResourceLocation id() {
-        return ID;
+    public void handle(IPayloadContext payloadContext) {
+        payloadContext.enqueueWork(() -> EntityHelper.handStream(payloadContext.player())
+                .filter(stack -> stack.is(ECTags.Items.SPELL_CAST_TOOLS))
+                .findFirst()
+                .ifPresent(stack -> SpellHelper.setSelected(stack, i)));
     }
 }

@@ -1,0 +1,5 @@
+{
+  "type": "elementalcraft:container",
+  "compatible_tools": "#elementalcraft:container_tools/small",
+  "element_capacity": 2000
+}

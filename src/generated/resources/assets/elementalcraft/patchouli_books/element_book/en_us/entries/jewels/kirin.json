@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:kirin",
+  "name": "elementalcraft.jewel.elementalcraft.kirin",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.kirin0"
+    }
+  ],
+  "sortnum": 6,
+  "turnin": "elementalcraft:pickup/kirin"
+}

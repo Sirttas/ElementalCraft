@@ -76,6 +76,24 @@ public class ItemHandlerAssert extends AbstractAssert<ItemHandlerAssert, IItemHa
         return contains(slot, item.get());
     }
 
+    public ItemHandlerAssert contains(ItemLike item) {
+        isNotNull();
+
+        var itm = item.asItem();
+
+        for (int i = 0; i < actual.getSlots(); i++) {
+            if (actual.getStackInSlot(i).is(itm)) {
+                return this;
+            }
+        }
+        failWithMessage("Expected item handler to contain %s");
+        return this;
+    }
+
+    public ItemHandlerAssert contains(Supplier<? extends ItemLike> item) {
+        return contains(item.get());
+    }
+
     public ItemHandlerAssert satisfies(int slot, Consumer<ItemStack> consumer) {
         isNotNull();
         consumer.accept(actual.getStackInSlot(slot));

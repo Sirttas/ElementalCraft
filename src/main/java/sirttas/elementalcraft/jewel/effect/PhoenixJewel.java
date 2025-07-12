@@ -17,7 +17,7 @@ public class PhoenixJewel extends EffectJewel {
     public static final String NAME = "phoenix";
 
     public PhoenixJewel() {
-        super(ElementType.FIRE, 20,
+        super(ElementType.FIRE, 20,true,
                 new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2),
                 new MobEffectInstance(MobEffects.REGENERATION, 2));
     }

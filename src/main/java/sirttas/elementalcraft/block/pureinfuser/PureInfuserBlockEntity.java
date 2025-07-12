@@ -2,49 +2,49 @@ package sirttas.elementalcraft.block.pureinfuser;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.VisibleForTesting;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
-import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.particle.ParticleHelper;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
+import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipeInput;
 
 import javax.annotation.Nonnull;
 import java.util.Comparator;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfuserBlockEntity, PureInfusionRecipe> {
+public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureInfusionRecipeInput, PureInfusionRecipe> {
 
-	private static final Config<PureInfuserBlockEntity, PureInfusionRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.PURE_INFUSER,
-			ECRecipeTypes.PURE_INFUSION,
-			ECConfig.SERVER.pureInfuserTransferSpeed,
-			ECConfig.SERVER.pureInfuserMaxRunes,
-			0,
-			true,
-			true
-	);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(PureInfuserBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private final SingleItemContainer inventory;
 	private final Map<Direction, PedestalWrapper> pedestalWrappers;
 
 	public PureInfuserBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, pos, state);
+		super(ECBlockEntityTypes.PURE_INFUSER, PROPERTIES, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
 		pedestalWrappers = new EnumMap<>(Direction.class);
 		pedestalWrappers.put(Direction.NORTH, new PedestalWrapper(Direction.NORTH));
@@ -56,9 +56,18 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	@Override
 	public void process() {
 		super.process();
-		if (this.level.isClientSide) {
+		if (level.isClientSide) {
 			ParticleHelper.createCraftingParticle(ElementType.NONE, level, Vec3.atCenterOf(worldPosition).add(0, 0.7, 0), level.random);
 		}
+	}
+
+	@Override
+	protected @NotNull PureInfusionRecipeInput createRecipeInput() {
+		return new PureInfusionRecipeInput(
+				pedestalWrappers.values().stream()
+						.map(p -> p.pedestal.createRecipeInput())
+						.collect(Collectors.toMap(SingleItemSingleElementRecipeInput::getElementType, Function.identity(), (i1, i2) -> i1)),
+				getItem());
 	}
 
 	public static void tick(Level level, BlockPos pos, BlockState state, PureInfuserBlockEntity pureInfuser) {
@@ -101,19 +110,6 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 	private void resetProgress() {
 		pedestalWrappers.values().forEach(w -> w.progress = 0);
-	}
-
-	public ItemStack getStackInPedestal(ElementType type) {
-		PedestalBlockEntity pedestal = getPedestal(type);
-
-		return pedestal != null ? pedestal.getItem() : ItemStack.EMPTY;
-	}
-
-	public List<ItemStack> getStacksInPedestals() {
-		return pedestalWrappers.values().stream()
-				.filter(w -> w.getElementType() != ElementType.NONE)
-				.map(w -> w.pedestal.getItem())
-				.toList();
 	}
 
 	@VisibleForTesting
@@ -166,12 +162,12 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 
 	@Override
 	public void assemble() {
-		inventory.setItem(0, recipe.assemble(this, level.registryAccess()));
+		inventory.setItem(0, recipe.assemble(createRecipeInput(), level.registryAccess()));
 		pedestalWrappers.values().forEach(w -> w.setPedestalInventory(w.pedestal.getItem().getCraftingRemainingItem()));
 	}
 
 	private float getTransferSpeed(PedestalBlockEntity pedestal) {
-		return this.transferSpeed * (runeHandler.getBonus(BonusType.SPEED) + pedestal.getRuneHandler().getBonus(BonusType.SPEED) + 1);
+		return this.getTransferSpeed() * (runeHandler.getBonus(BonusType.SPEED) + pedestal.getRuneHandler().getBonus(BonusType.SPEED) + 1);
 	}
 
 	@Nonnull
@@ -190,13 +186,8 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public int getProgress() {
-		return 0;
-	}
-
-	@Override
-	public void load(@Nonnull CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
 		int[] progressArray = compound.getIntArray(ECNames.PROGRESS);
 
 		for (int i = 0; i < progressArray.length; i++) {
@@ -207,8 +198,8 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound) {
-		super.saveAdditional(compound);
+	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
 
 		compound.putIntArray(ECNames.PROGRESS, pedestalWrappers.entrySet().stream()
 				.sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue()))
@@ -233,7 +224,7 @@ public class PureInfuserBlockEntity extends AbstractECCraftingBlockEntity<PureIn
 		}
 
 		@Override
-		public ElementType getElementType() {
+		public @NotNull ElementType getElementType() {
 			return isRemoved() ? ElementType.NONE : pedestal.getElementType();
 		}
 

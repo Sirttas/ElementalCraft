@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:flowers/light_blue"
+      }
+    }
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "c:flowers/light_blue"
+  },
+  "luck_ratio": 2.0,
+  "output": {
+    "count": 2,
+    "id": "minecraft:light_blue_dye"
+  }
+}

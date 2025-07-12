@@ -1,0 +1,26 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "player_look_at_source": {
+      "trigger": "elementalcraft:look_at_source"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.sources.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:fire_source"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.sources.title"
+    }
+  },
+  "requirements": [
+    [
+      "player_look_at_source"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

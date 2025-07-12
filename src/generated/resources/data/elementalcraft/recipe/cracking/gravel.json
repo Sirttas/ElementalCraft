@@ -1,0 +1,6 @@
+{
+  "type": "elementalcraft:cracking",
+  "element_amount": 75,
+  "input": "#c:gravels",
+  "result": "minecraft:sand"
+}

@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sirttas.elementalcraft.jewel.DemigodJewel;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.StriderJewel;
+import sirttas.elementalcraft.jewel.effect.DemigodJewel;
 
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity extends Entity {

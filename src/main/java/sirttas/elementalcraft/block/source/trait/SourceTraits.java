@@ -1,12 +1,9 @@
 package sirttas.elementalcraft.block.source.trait;
 
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
 import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.dpanvil.api.event.DataManagerReloadEvent;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
@@ -14,46 +11,42 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 
 import javax.annotation.Nonnull;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class SourceTraits {
-
-	private static final Map<ResourceKey<SourceTrait>, Integer> SOURCE_TRAITS_ORDERS = new HashMap<>();
 
 	private SourceTraits() {}
 	
-	public static final ResourceKey<SourceTrait> ELEMENT_CAPACITY = key(ECNames.ELEMENT_CAPACITY);
-	public static final ResourceKey<SourceTrait> RECOVER_RATE = key(ECNames.RECOVER_RATE);
-	public static final ResourceKey<SourceTrait> DIURNAL_NOCTURNAL = key("diurnal_nocturnal");
-	public static final ResourceKey<SourceTrait> GENEROSITY = key("generosity");
-	public static final ResourceKey<SourceTrait> THRIFTINESS = key("thriftiness");
-	public static final ResourceKey<SourceTrait> FERTILITY = key("fertility");
-	public static final ResourceKey<SourceTrait> ARTIFICIAL = key("artificial");
+	public static final ResourceKey<SourceTrait> ELEMENT_CAPACITY_KEY = key(ECNames.ELEMENT_CAPACITY);
+	public static final Holder<SourceTrait> ELEMENT_CAPACITY = holder(ELEMENT_CAPACITY_KEY);
+	public static final ResourceKey<SourceTrait> DIURNAL_NOCTURNAL_KEY = key("diurnal_nocturnal");
+	public static final Holder<SourceTrait> DIURNAL_NOCTURNAL = holder(DIURNAL_NOCTURNAL_KEY);
+	public static final ResourceKey<SourceTrait> GENEROSITY_KEY = key("generosity");
+	public static final Holder<SourceTrait> GENEROSITY = holder(GENEROSITY_KEY);
+	public static final ResourceKey<SourceTrait> THRIFTINESS_KEY = key("thriftiness");
+	public static final Holder<SourceTrait> THRIFTINESS = holder(THRIFTINESS_KEY);
+	public static final ResourceKey<SourceTrait> FERTILITY_KEY = key("fertility");
+	public static final Holder<SourceTrait> FERTILITY = holder(FERTILITY_KEY);
 
 	@Nonnull
-	public static SortedMap<ResourceKey<SourceTrait>, ISourceTraitValue> createTraitMap() {
+	public static SortedMap<Holder<SourceTrait>, ISourceTraitValue> createTraitMap() {
 		return new TreeMap<>(Comparator.comparingInt(SourceTraits::getOrder));
 	}
 
-	public static int getOrder(ResourceKey<SourceTrait> trait) {
-		return SOURCE_TRAITS_ORDERS.getOrDefault(trait, Integer.MAX_VALUE);
+	public static int getOrder(Holder<SourceTrait> trait) {
+		return trait.isBound() ? trait.value().getOrder() : Integer.MAX_VALUE;
 	}
 
-	public static ResourceKey<SourceTrait> key(String name) {
+	private static Holder<SourceTrait> holder(ResourceKey<SourceTrait> key) {
+		return ElementalCraftApi.SOURCE_TRAIT_MANAGER.getOrCreateHolder(key);
+	}
+
+	private static ResourceKey<SourceTrait> key(String name) {
 		return key(ElementalCraftApi.createRL(name));
 	}
 
-	public static ResourceKey<SourceTrait> key(ResourceLocation name) {
+	private static ResourceKey<SourceTrait> key(ResourceLocation name) {
 		return IDataManager.createKey(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, name);
-	}
-
-	@SubscribeEvent
-	public static void onSourceTraitReloaded(DataManagerReloadEvent<SourceTrait> event) {
-		SOURCE_TRAITS_ORDERS.clear();
-		event.getDataManager().getData().forEach((key, trait) -> SOURCE_TRAITS_ORDERS.put(IDataManager.createKey(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, key), trait.getOrder()));
 	}
 }

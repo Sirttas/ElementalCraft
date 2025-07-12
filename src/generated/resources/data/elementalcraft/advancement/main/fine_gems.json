@@ -1,0 +1,72 @@
+{
+  "parent": "elementalcraft:main/crude_gems",
+  "criteria": {
+    "has_fine_air_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fine_air_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fine_earth_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fine_earth_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fine_fire_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fine_fire_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fine_water_gem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fine_water_gem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.fine_gems.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:fine_fire_gem"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.fine_gems.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_fine_fire_gem"
+    ],
+    [
+      "has_fine_water_gem"
+    ],
+    [
+      "has_fine_earth_gem"
+    ],
+    [
+      "has_fine_air_gem"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

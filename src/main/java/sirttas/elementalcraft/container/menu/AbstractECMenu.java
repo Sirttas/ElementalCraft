@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractECMenu extends AbstractContainerMenu implements IMenuOpenListener {
+public abstract class AbstractECMenu extends AbstractContainerMenu {
 
 	protected AbstractECMenu(DeferredHolder<MenuType<?>, ? extends MenuType<?>> type, int id) {
 		super(type.get(), id);
@@ -44,7 +44,4 @@ public abstract class AbstractECMenu extends AbstractContainerMenu implements IM
 			setCarried(ItemStack.EMPTY);
 		}
 	}
-	
-	@Override
-	public void onOpen(Player player) {}
 }

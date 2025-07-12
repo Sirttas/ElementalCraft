@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_shrinebase": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:shrinebase"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_shrinebase"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

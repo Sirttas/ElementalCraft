@@ -21,7 +21,6 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements BlockEntityRenderer<T> {
 
-
 	@Override
 	public void render(T shrine, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn) {
 		if (shrine.showsRange()) {
@@ -44,7 +43,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements Bloc
 		}
 
 		var pos = shrine.getBlockPos();
-		var iterator =  List.of(player.getMainHandItem(), player.getOffhandItem()).iterator();
+		var iterator = List.of(player.getMainHandItem(), player.getOffhandItem()).iterator();
 		boolean wasRendered = false;
 
 		while(iterator.hasNext() && !wasRendered) {

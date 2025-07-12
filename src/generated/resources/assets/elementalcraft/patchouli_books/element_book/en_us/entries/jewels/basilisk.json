@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:basilisk",
+  "name": "elementalcraft.jewel.elementalcraft.basilisk",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.basilisk0"
+    }
+  ],
+  "sortnum": 1,
+  "turnin": "elementalcraft:pickup/basilisk"
+}

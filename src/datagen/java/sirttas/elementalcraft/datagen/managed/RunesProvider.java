@@ -28,6 +28,7 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 
 	private static final IBlockPosPredicate SPEED_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_SPEED).cache();
 	private static final IBlockPosPredicate PRESERVATION_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).cache();
+	private static final IBlockPosPredicate RANGE_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_RANGE).cache();
 	private static final IBlockPosPredicate OPTIMIZATION_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION).and(IBlockPosPredicate.createOr(
 			new HasRunePredicate(Runes.SOARYN),
 			new HasRunePredicate(Runes.KAWORU),
@@ -55,20 +56,97 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 
 	@Override
 	protected void collectBuilders(HolderLookup.Provider registries) {
-		builder(Runes.WII, MINOR_SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 0.1F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
-		builder(Runes.FUS, SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 0.3F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
-		builder(Runes.ZOD, MAJOR_SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 0.5F).addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
-		builder(Runes.MANX, MINOR_SLATE).predicate(PRESERVATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F).addBonus(BonusType.SPEED, -0.1F);
-		builder(Runes.JITA, SLATE).predicate(PRESERVATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F).addBonus(BonusType.SPEED, -0.1F);
-		builder(Runes.TANO, MAJOR_SLATE).predicate(PRESERVATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.15F).addBonus(BonusType.SPEED, -0.1F);
-		builder(Runes.SOARYN, MINOR_SLATE).predicate(OPTIMIZATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.03F).addBonus(BonusType.SPEED, 0.05F).max(1);
-		builder(Runes.KAWORU, SLATE).predicate(OPTIMIZATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F).addBonus(BonusType.SPEED, 0.1F).max(1);
-		builder(Runes.MEWTWO, MAJOR_SLATE).predicate(OPTIMIZATION_PREDICATE).addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F).addBonus(BonusType.SPEED, 0.3F).max(1);
-		builder(Runes.CLAPTRAP, MINOR_SLATE).predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 1).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1);
-		builder(Runes.BOMBADIL, SLATE).predicate(LUCK_PREDICATE).addBonus(BonusType.LUCK, 2).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1);
-		builder(Runes.TZEENTCH, MAJOR_SLATE).predicate(TZEENTCH_PREDICATE).addBonus(BonusType.LUCK, 3).addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F).max(1);
+		generateSpeedRunes();
+		generatePreservationRunes();
+		generateRangeRunes();
+		generateOptimizationRunes();
+		generateLuckRunes();
 
-		builder(Runes.CREATIVE, MAJOR_SLATE).predicate(SPEED_PREDICATE).addBonus(BonusType.SPEED, 1000000F).addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F).max(1);
+		builder(Runes.CREATIVE, MAJOR_SLATE)
+				.predicate(SPEED_PREDICATE)
+				.addBonus(BonusType.SPEED, 1000000F)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F)
+				.max(1);
+	}
+
+	private void generateSpeedRunes() {
+		builder(Runes.WII, MINOR_SLATE)
+				.predicate(SPEED_PREDICATE)
+				.addBonus(BonusType.SPEED, 0.1F)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+		builder(Runes.FUS, SLATE)
+				.predicate(SPEED_PREDICATE)
+				.addBonus(BonusType.SPEED, 0.3F)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+		builder(Runes.ZOD, MAJOR_SLATE)
+				.predicate(SPEED_PREDICATE)
+				.addBonus(BonusType.SPEED, 0.5F)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+	}
+
+	private void generatePreservationRunes() {
+		builder(Runes.MANX, MINOR_SLATE)
+				.predicate(PRESERVATION_PREDICATE)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F)
+				.addBonus(BonusType.SPEED, -0.1F);
+		builder(Runes.JITA, SLATE)
+				.predicate(PRESERVATION_PREDICATE)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F)
+				.addBonus(BonusType.SPEED, -0.1F);
+		builder(Runes.TANO, MAJOR_SLATE)
+				.predicate(PRESERVATION_PREDICATE)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.15F)
+				.addBonus(BonusType.SPEED, -0.1F);
+	}
+
+	private void generateRangeRunes() {
+		builder(Runes.KIRBY, MINOR_SLATE)
+				.predicate(RANGE_PREDICATE)
+				.addBonus(BonusType.RANGE, 0.05F)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+		builder(Runes.WHALE, SLATE)
+				.predicate(RANGE_PREDICATE)
+				.addBonus(BonusType.RANGE, 0.1F)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+		builder(Runes.TYRIA, MAJOR_SLATE)
+				.predicate(RANGE_PREDICATE)
+				.addBonus(BonusType.RANGE, 0.15F)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
+	}
+
+	private void generateOptimizationRunes() {
+		builder(Runes.SOARYN, MINOR_SLATE)
+				.predicate(OPTIMIZATION_PREDICATE)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.03F)
+				.addBonus(BonusType.SPEED, 0.05F).max(1);
+		builder(Runes.KAWORU, SLATE)
+				.predicate(OPTIMIZATION_PREDICATE)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F)
+				.addBonus(BonusType.SPEED, 0.1F)
+				.max(1);
+		builder(Runes.MEWTWO, MAJOR_SLATE)
+				.predicate(OPTIMIZATION_PREDICATE)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F)
+				.addBonus(BonusType.SPEED, 0.3F)
+				.max(1);
+	}
+
+	private void generateLuckRunes() {
+		builder(Runes.CLAPTRAP, MINOR_SLATE)
+				.predicate(LUCK_PREDICATE)
+				.addBonus(BonusType.LUCK, 1)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F)
+				.max(1);
+		builder(Runes.BOMBADIL, SLATE)
+				.predicate(LUCK_PREDICATE)
+				.addBonus(BonusType.LUCK, 2)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F)
+				.max(1);
+		builder(Runes.TZEENTCH, MAJOR_SLATE)
+				.predicate(TZEENTCH_PREDICATE)
+				.addBonus(BonusType.LUCK, 3)
+				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F)
+				.max(1);
 	}
 
 	@Nonnull

@@ -2,30 +2,37 @@ package sirttas.elementalcraft.block.shrine.overload;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OverloadShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(OverloadShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(OverloadShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private TickingBlockEntity ticker;
 
 	public OverloadShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.OVERLOAD_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.OVERLOAD_SHRINE, PROPERTIES, pos, state);
 	}
 
 	@Override
-	public AABB getRange() {
-		return new AABB(getTargetPos());
+	public AABB lookupRange() {
+		if (this.hasUpgrade(ShrineUpgrades.TRANSLOCATION)) {
+			return super.lookupRange();
+		}
+		return lookupRange(this.getBlockState().getValue(OverloadShrineBlock.FACING));
 	}
 
 	@Override

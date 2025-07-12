@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/contained_crystal",
+  "criteria": {
+    "has_rudimentary_pipe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:elementpipe_rudimentary"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.rudimentary_pipe.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:elementpipe_rudimentary"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.rudimentary_pipe.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_rudimentary_pipe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -3,12 +3,16 @@ package sirttas.elementalcraft.api.element;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 
 import javax.annotation.Nonnull;
@@ -18,27 +22,27 @@ import java.util.stream.Stream;
 
 public enum ElementType implements StringRepresentable, IElementTypeProvider {
 
-	NONE(0, 0, 0, "none"),
-	WATER(43, 173, 255, "water"),
-	FIRE(247, 107, 27, "fire"),
-	EARTH(13, 128, 37, "earth"),
-	AIR(238, 255, 219, "air");
+	NONE("none", 0, 0, 0),
+	WATER("water", 43, 173, 255),
+	FIRE("fire", 247, 107, 27),
+	EARTH("earth", 13, 128, 37),
+	AIR("air", 238, 255, 219);
 
 	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).toList());
 	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values);
-	public static final EnumProperty<ElementType> STATE_PROPERTY = EnumProperty.create(ECNames.ELEMENT_TYPE, ElementType.class);
+	public static final StreamCodec<ByteBuf, ElementType> STREAM_CODEC = ByteBufCodecs.INT.map(i -> values()[i], Enum::ordinal);
 	
+	private final String name;
 	private final float r;
 	private final float g;
 	private final float b;
 	private final int color;
-	private final String name;
 
-	ElementType(int r, int g, int b, String name) {
-		this.r = r / 255F;
+    ElementType(String name, int r, int g, int b) {
+        this.name = name;
+        this.r = r / 255F;
 		this.g = g / 255F;
 		this.b = b / 255F;
-		this.name = name;
 		this.color = Mth.color(this.r, this.g, this.b);
 	}
 
@@ -80,16 +84,16 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return this;
 	}
 
-	public String getTranslationKey() {
+	public String getDescriptionId() {
 		return "element.elementalcraft." + getSerializedName();
 	}
 
 	public Component getDisplayName() {
-		return Component.translatable(getTranslationKey());
+		return Component.translatable(getDescriptionId());
 	}
 
 	public static ElementType byName(String name) {
@@ -102,9 +106,16 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	}
 
 	public static ElementType getElementType(BlockState state) {
-		if (state.hasProperty(STATE_PROPERTY)) {
-			return state.getValue(STATE_PROPERTY);
-		} else if (state.getBlock() instanceof IElementTypeProvider provider) {
+		if (state.getBlock() instanceof IElementTypeProvider provider) {
+			return provider.getElementType();
+		}
+		return ElementType.NONE;
+	}
+
+	public static ElementType getElementType(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return ElementType.NONE;
+		} else if (stack.getItem() instanceof IElementTypeProvider provider) {
 			return provider.getElementType();
 		}
 		return ElementType.NONE;

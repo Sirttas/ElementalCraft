@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:heal\"]",
+  "name": "elementalcraft_spell.elementalcraft.heal",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.heal0"
+    }
+  ],
+  "sortnum": 13,
+  "turnin": "elementalcraft:pickup/scroll"
+}

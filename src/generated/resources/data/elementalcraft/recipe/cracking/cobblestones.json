@@ -1,0 +1,6 @@
+{
+  "type": "elementalcraft:cracking",
+  "element_amount": 100,
+  "input": "#c:cobblestones",
+  "result": "minecraft:gravel"
+}

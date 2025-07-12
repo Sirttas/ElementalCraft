@@ -2,28 +2,35 @@ package sirttas.elementalcraft.block.source.breeder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
-import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.container.IRuneableBlockEntity;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
+import sirttas.elementalcraft.recipe.source.breeding.SourceBreedingRecipe;
+import sirttas.elementalcraft.recipe.source.breeding.SourceBreedingRecipeInput;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -32,19 +39,20 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity implements IElementTypeProvider, IRuneableBlockEntity {
+public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<SourceBreedingRecipeInput, SourceBreedingRecipe> implements IElementTypeProvider {
 
-    private final SourceBreederItemContainer container;
-    private final RuneHandler runeHandler;
+    public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(SourceBreederBlock.NAME);
+    private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+
+    private final SourceBreederContainer container;
 
     private final Map<Direction, PedestalWrapper> pedestalWrappers;
     private final int baseCost;
 
     public SourceBreederBlockEntity(BlockPos pos, BlockState state) {
-        super(ECBlockEntityTypes.SOURCE_BREEDER, pos, state);
-        runeHandler = new RuneHandler(ECConfig.SERVER.sourceBreederMaxRunes.get(), this::setChanged);
+        super(ECBlockEntityTypes.SOURCE_BREEDER, PROPERTIES, pos, state);
         baseCost = ECConfig.SERVER.sourceBreedingBaseCost.get();
-        container = new SourceBreederItemContainer(this::setChanged);
+        container = new SourceBreederContainer(this::setChanged);
         pedestalWrappers = new EnumMap<>(Direction.class);
         pedestalWrappers.put(Direction.NORTH, new PedestalWrapper(Direction.NORTH));
         pedestalWrappers.put(Direction.SOUTH, new PedestalWrapper(Direction.SOUTH));
@@ -54,7 +62,12 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
 
     public static void tick(Level level, BlockPos pos, BlockState state, SourceBreederBlockEntity breeder) {
         breeder.refreshPedestals();
-        breeder.makeProgress();
+
+        if (!breeder.isPowered()) {
+            breeder.makeProgress();
+        }
+
+        AbstractECCraftingBlockEntity.tick(breeder);
     }
 
     private void refreshPedestals() {
@@ -73,34 +86,29 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     }
 
     @Override
-    public ElementType getElementType() {
+    public @NotNull ElementType getElementType() {
         var stack = container.getItem(0);
 
         if (!stack.is(ECTags.Items.SOURCE_SEEDS)) {
             return ElementType.NONE;
-        } else if (stack.getItem() instanceof IElementTypeProvider provider) {
-            return provider.getElementType();
         }
-        return ElementType.NONE;
+        return ElementType.getElementType(stack);
     }
 
     private void makeProgress() {
         var type = getElementType();
-        var activeWrappers = pedestalWrappers.values().stream()
-                .filter(w -> !w.isRemoved())
-                .toList();
 
-        if (!container.getItem(0).is(ECTags.Items.SOURCE_SEEDS) || activeWrappers.size() != 2 || !activeWrappers.stream().allMatch(w -> w.pedestal.hasSource() && w.getElementType() == type)) {
+        if (type == ElementType.NONE || !this.isRecipeAvailable()) {
             resetProgress();
             return;
         }
 
+        var activeWrappers = getActiveWrappers();
+
         activeWrappers.forEach(this::transfer);
 
         if (activeWrappers.stream().allMatch(w -> w.progress >= w.getCost())) {
-            container.setItem(0, breed(type, activeWrappers.get(0).getTraitHolder(), activeWrappers.get(1).getTraitHolder()));
-            RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), 0);
-            RetrieverBlock.sendOutputToRetriever(level, worldPosition.above(), getInventory(), 0);
+            process();
             resetProgress();
         }
     }
@@ -129,16 +137,48 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     }
 
     private float getTransferSpeed(SourceBreederPedestalBlockEntity pedestal) {
-        return ECConfig.SERVER.sourceBreederTransferSpeed.get() * (runeHandler.getBonus(Rune.BonusType.SPEED) + pedestal.getRuneHandler().getBonus(Rune.BonusType.SPEED) + 1);
+        return this.getTransferSpeed() * (runeHandler.getBonus(Rune.BonusType.SPEED) + pedestal.getRuneHandler().getBonus(Rune.BonusType.SPEED) + 1);
     }
 
     private ItemStack breed(ElementType elementType, ISourceTraitHolder source1, ISourceTraitHolder source2) {
-        return ReceptacleHelper.create(elementType, SourceTraitHelper.breed(level.random, runeHandler.getBonus(Rune.BonusType.LUCK), container.getItem(0).is(ECTags.Items.NATURAL_SOURCE_SEEDS), source1.getTraits(), source2.getTraits()));
+        return ReceptacleHelper.create(elementType, SourceTraitHelper.breed(level.random, runeHandler.getBonus(Rune.BonusType.LUCK), source1.getTraits(), source2.getTraits()));
     }
 
     @Override
-    public void saveAdditional(@Nonnull CompoundTag compound) {
-        super.saveAdditional(compound);
+    protected void assemble() {
+        var type = getElementType();
+        var activeWrappers = getActiveWrappers();
+
+        container.setItem(0, breed(type, activeWrappers.get(0).getTraitHolder(), activeWrappers.get(1).getTraitHolder()));
+        for (var pedestalWrapper : activeWrappers) {
+            var storage = pedestalWrapper.pedestal.getReceptacle().getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+
+            if (storage != null) {
+                var drawn = Math.round(storage.getElementCapacity(type) * 0.25F) + 1; // TODO config
+
+                storage.extractElement(drawn, type, false);
+                if (storage.getElementAmount(type) <= 0) {
+                    pedestalWrapper.setPedestalInventory(ItemStack.EMPTY);
+                }
+            }
+        }
+    }
+
+    private @NotNull List<PedestalWrapper> getActiveWrappers() {
+        return pedestalWrappers.values().stream()
+                .filter(w -> !w.isEmpty())
+                .toList();
+    }
+
+    @Override
+    protected void retrieve() {
+        RetrieverBlock.sendOutputToRetriever(level, worldPosition, getInventory(), 0);
+        RetrieverBlock.sendOutputToRetriever(level, worldPosition.above(), getInventory(), 0);
+    }
+
+    @Override
+    public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+        super.saveAdditional(compound, provider);
         compound.putIntArray(ECNames.PROGRESS, pedestalWrappers.entrySet().stream()
                 .sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue()))
                 .mapToInt(e -> e.getValue().progress)
@@ -147,8 +187,8 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     }
 
     @Override
-    public void load(@Nonnull CompoundTag compound) {
-        super.load(compound);
+    public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+        super.loadAdditional(compound, provider);
         if (compound.contains(ECNames.RUNE_HANDLER)) {
             IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
         }
@@ -162,9 +202,25 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
     }
 
     @Override
-    @Nonnull
-    public IRuneHandler getRuneHandler() {
-        return runeHandler;
+    public boolean isRunning() {
+        return getActiveWrappers().stream().anyMatch(w -> !w.isRemoved() && w.progress > 0);
+    }
+
+    @Override
+    protected SourceBreedingRecipe lookupRecipe(@NotNull SourceBreedingRecipeInput recipeInput) {
+        var recipe = new SourceBreedingRecipe();
+
+        return recipe.matches(createRecipeInput(), level) ? recipe : null;
+    }
+
+    @NotNull
+    @Override
+    protected SourceBreedingRecipeInput createRecipeInput() {
+        return new SourceBreedingRecipeInput(container.getItem(0), getElementType(),
+                pedestalWrappers.values().stream()
+                        .filter(w -> !w.isRemoved())
+                        .map(w -> w.pedestal.createRecipeInput())
+                        .toList());
     }
 
     private class PedestalWrapper implements IElementTypeProvider {
@@ -184,7 +240,7 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
         }
 
         @Override
-        public ElementType getElementType() {
+        public @NotNull ElementType getElementType() {
             return isRemoved() ? ElementType.NONE : pedestal.getElementType();
         }
 
@@ -209,6 +265,10 @@ public class SourceBreederBlockEntity extends AbstractECContainerBlockEntity imp
 
             pedestal.getInventory().setItem(0, stack);
             pedestal.setChanged();
+        }
+
+        public boolean isEmpty() {
+            return isRemoved() || pedestal.getReceptacle().isEmpty();
         }
     }
 }

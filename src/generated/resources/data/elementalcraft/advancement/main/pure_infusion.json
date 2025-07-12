@@ -1,0 +1,86 @@
+{
+  "parent": "elementalcraft:main/crystallizer",
+  "criteria": {
+    "has_air_pedestal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pedestal_air"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_earth_pedestal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pedestal_earth"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fire_pedestal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pedestal_fire"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_pure_infusion": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pure_infuser"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_water_pedestal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:pedestal_water"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.pure_infusion.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:pure_infuser"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.pure_infusion.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_pure_infusion"
+    ],
+    [
+      "has_fire_pedestal"
+    ],
+    [
+      "has_water_pedestal"
+    ],
+    [
+      "has_earth_pedestal"
+    ],
+    [
+      "has_air_pedestal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

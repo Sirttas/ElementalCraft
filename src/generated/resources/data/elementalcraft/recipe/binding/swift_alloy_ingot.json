@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 1250,
+  "element_type": "air",
+  "ingredients": [
+    {
+      "tag": "c:ingots/gold"
+    },
+    {
+      "tag": "c:ingots/drenched_iron"
+    },
+    {
+      "tag": "c:ingots/copper"
+    },
+    {
+      "tag": "c:dusts/redstone"
+    },
+    {
+      "item": "elementalcraft:aircrystal"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "elementalcraft:swift_alloy_ingot"
+  }
+}

@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -31,7 +31,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -85,39 +85,36 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 
 	@Nonnull
 	@Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		final CrystallizerBlockEntity crystallizer = (CrystallizerBlockEntity) world.getBlockEntity(pos);
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		final CrystallizerBlockEntity crystallizer = (CrystallizerBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
 		if (crystallizer != null && hand == InteractionHand.MAIN_HAND) {
 			if ((crystallizer.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !crystallizer.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 			}
 			for (int i = 0; i < inv.getSlots(); i++) {
-				if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i).shouldSwing()) {
-					return InteractionResult.SUCCESS;
+				if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == ItemInteractionResult.SUCCESS) {
+					return ItemInteractionResult.SUCCESS;
 				}
 			}
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Nonnull
 	@Override
-	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 	
 	@Override
-	@Deprecated
-	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state, world, pos.below());
+	public boolean canSurvive(@NotNull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
+		return ElementContainer.isValidContainer(state, level, pos.below());
 	}
 	
 	@Override
@@ -133,14 +130,12 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public FluidState getFluidState(@Nonnull BlockState state) {
 		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
 		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);

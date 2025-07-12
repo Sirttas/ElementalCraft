@@ -7,6 +7,6 @@
   "ingredient": "elementalcraft:fireite_ingot",
   "item_model_index": 1.319918,
   "override_armor_materials": {
-    "netherite": "fireite_flame"
+    "minecraft:netherite": "fireite_flame"
   }
 }

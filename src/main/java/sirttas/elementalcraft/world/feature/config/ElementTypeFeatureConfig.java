@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.world.feature.config;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.util.RandomSource;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -12,7 +12,7 @@ public class ElementTypeFeatureConfig implements IElementTypeFeatureConfig {
 	public static final ElementTypeFeatureConfig EARTH = new ElementTypeFeatureConfig(ElementType.EARTH);
 	public static final ElementTypeFeatureConfig AIR = new ElementTypeFeatureConfig(ElementType.AIR);
 
-	public static final Codec<ElementTypeFeatureConfig> CODEC = ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).xmap(ElementTypeFeatureConfig::new, c -> c.elementType).codec();
+	public static final MapCodec<ElementTypeFeatureConfig> CODEC = ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).xmap(ElementTypeFeatureConfig::new, c -> c.elementType);
 
 	private final ElementType elementType;
 

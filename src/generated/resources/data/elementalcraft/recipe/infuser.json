@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    },
+    "n": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "pattern": [
+    "n n",
+    "ici"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:infuser"
+  }
+}

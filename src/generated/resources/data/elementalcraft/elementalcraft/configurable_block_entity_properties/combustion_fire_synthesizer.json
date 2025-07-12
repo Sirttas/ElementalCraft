@@ -1,0 +1,7 @@
+{
+  "type": "elementalcraft:synthesizer",
+  "element_capacity": 20000,
+  "element_type": "fire",
+  "max_runes": 1,
+  "transfer_speed": 5
+}

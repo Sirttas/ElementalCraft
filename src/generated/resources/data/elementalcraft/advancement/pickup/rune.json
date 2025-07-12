@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_rune": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:rune"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_rune"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

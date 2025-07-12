@@ -2,30 +2,37 @@ package sirttas.elementalcraft.block.instrument;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.entity.AbstractECCraftingBlockEntity;
+import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
-public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R extends IInstrumentRecipe<T>> extends AbstractECCraftingBlockEntity<T, R> implements IInstrument {
+public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R extends IInstrumentRecipe<I>> extends AbstractECCraftingBlockEntity<I, R> implements IInstrument {
 
-	private int progress = 0; // TODO use capability cache
-	private ISingleElementStorage containerCache;
+	private int progress = 0;
+	private ISingleElementStorage containerCache; // TODO use capability cache
 	protected Vec3 particleOffset;
 
-	protected AbstractInstrumentBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
-		super(config, pos, state);
+	protected AbstractInstrumentBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+		super(blockEntityType, properties, pos, state);
 		particleOffset = Vec3.ZERO;
 	}
 
@@ -37,7 +44,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		}
 	}
 
-	public static <T extends IInstrument, R extends IInstrumentRecipe<T>> void tick(Level level, BlockPos pos, BlockState state, AbstractInstrumentBlockEntity<T, R> instrument) {
+	public static <I extends RecipeInput, R extends IInstrumentRecipe<I>> void tick(Level level, BlockPos pos, BlockState state, AbstractInstrumentBlockEntity<I, R> instrument) {
 		if (!instrument.isPowered() && instrument.progressOnTick()) {
 			instrument.makeProgress();
 		}
@@ -50,18 +57,19 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	protected boolean makeProgress() {
 		var container = getContainer();
+		var recipeCost = recipe == null ? 0 : recipe.getElementAmount(createRecipeInput());
 
-		if (recipe != null && progress >= getElementAmount()) {
+		if (recipe != null && progress >= recipeCost) {
 			process();
 			progress = 0;
 			return true;
 		} else if (this.isRecipeAvailable() && container != null) {
 			float preservation = runeHandler.getElementPreservation();
 			int oldProgress = progress;
-			var transfer = ceilTransfer(container, Math.round(runeHandler.getTransferSpeed(this.transferSpeed) / preservation));
+			var transfer = ceilTransfer(container, Math.round(runeHandler.getTransferSpeed(this.getTransferSpeed()) / preservation), recipeCost);
 
 			progress += Math.round(container.extractElement(transfer, getRecipeElementType(), false) * preservation);
-			if (level.isClientSide && progress > 0 && getProgressRounded(this.transferSpeed, progress) > getProgressRounded(this.transferSpeed, oldProgress)) {
+			if (level.isClientSide && progress > 0 && getProgressRounded(transfer, progress) > getProgressRounded(transfer, oldProgress)) {
 				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.random);
 				renderProgressParticles();
 			}
@@ -72,23 +80,21 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 		return false;
 	}
 
-	private int ceilTransfer(ISingleElementStorage container, int transfer) {
+	private int ceilTransfer(ISingleElementStorage container, int transfer, int recipeCost) {
 		var max = container.getElementAmount();
 
-		if (transfer >= max) {
-			if (progress + max < getElementAmount()) {
+		if (max <= 0) {
+			return 0;
+		} else if (transfer >= max) {
+			if (progress + max < recipeCost) {
 				transfer = max - 1; // -1 to avoid draining the container
 			} else {
 				transfer = max; // we have enough element to finish the recipe, so we don't care if we drain the container
 			}
 		}
-		return transfer;
+		return Math.max(0, transfer);
 	}
 
-	@SuppressWarnings("unchecked")
-	private int getElementAmount() {
-		return recipe == null ? 0 : recipe.getElementAmount((T) this);
-	}
 
 	protected void renderProgressParticles() {}
 	
@@ -101,15 +107,17 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 
 	@Override
 	protected void assemble() {
-		var remainingItems = recipe.getRemainingItems(getContainerWrapper());
+		var input = createRecipeInput();
+		var remainingItems = recipe.getRemainingItems(input);
 
-		getInventory().setItem(outputSlot, recipe.assemble(getContainerWrapper(), level.registryAccess()));
+		getInventory().setItem(getOutputSlot(), recipe.assemble(input, level.registryAccess()));
 		setRemainingItems(remainingItems);
 	}
 
 	protected void setRemainingItems(NonNullList<ItemStack> remainingItems) {
 		var inv = getInventory();
 		var size = inv.getContainerSize();
+		var outputSlot = getOutputSlot();
 
 		for (int i = 0; i < size; i++) {
 			if (i != outputSlot) {
@@ -119,7 +127,7 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		ElementType containerType = this.getContainerElementType();
 		
 		return containerType != ElementType.NONE || recipe == null ? containerType : getRecipeElementType();
@@ -131,14 +139,14 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound) {
-		super.saveAdditional(compound);
+	protected void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
 		compound.putInt(ECNames.PROGRESS, progress);
 	}
 
 	@Override
-	public void load(@Nonnull CompoundTag compound) {
-		super.load(compound);
+	protected void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
 		progress = compound.getInt(ECNames.PROGRESS);
 	}
 
@@ -146,11 +154,6 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	public void clearContent() {
 		super.clearContent();
 		progress = 0;
-	}
-
-	@Override
-	public int getProgress() {
-		return progress;
 	}
 
 	@Override
@@ -162,10 +165,10 @@ public abstract class AbstractInstrumentBlockEntity<T extends IInstrument, R ext
 	}
 
 	@Override
-	protected R lookupRecipe() {
+	protected R lookupRecipe(@NotNull I recipeInput) {
 		if (getContainerElementType() == ElementType.NONE) {
 			return null;
 		}
-		return super.lookupRecipe();
+		return super.lookupRecipe(recipeInput);
 	}
 }

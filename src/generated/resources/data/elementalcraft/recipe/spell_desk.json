@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "tag": "c:ingots/drenched_iron"
+    },
+    "l": {
+      "item": "minecraft:lectern"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "wlw",
+    " i ",
+    " w "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:spell_desk"
+  }
+}

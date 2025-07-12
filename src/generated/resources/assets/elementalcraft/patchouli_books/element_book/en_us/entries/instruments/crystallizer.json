@@ -1,0 +1,36 @@
+{
+  "advancement": "elementalcraft:main/binder",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:crystallizer",
+  "name": "block.elementalcraft.crystallizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.crystallizer0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:crystallizer"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:crystallizer"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "priority": true,
+  "sortnum": 3,
+  "turnin": "elementalcraft:main/crystallizer"
+}

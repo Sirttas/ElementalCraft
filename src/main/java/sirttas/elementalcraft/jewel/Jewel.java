@@ -5,6 +5,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -14,21 +17,24 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Jewel implements IElementTypeProvider {
+public class Jewel implements IElementTypeProvider, ItemLike {
 
 	private final ElementType elementType;
 	private final int consumption;
-	protected boolean ticking = true;
+	private final boolean ticking;
 
+	private String descriptionId;
 	private ResourceLocation key;
-	
-	protected Jewel(ElementType elementType, int consumption) {
+	private Item item;
+
+	protected Jewel(ElementType elementType, int consumption, boolean ticking) { // TODO create propery
 		this.elementType = elementType;
 		this.consumption = consumption;
+		this.ticking = ticking;
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 
@@ -50,20 +56,32 @@ public class Jewel implements IElementTypeProvider {
 	public ResourceLocation getModelName() {
 		var id = this.getKey();
 
-		return new ResourceLocation(id.getNamespace(), "elementalcraft/jewels/" + id.getPath());
+		return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "elementalcraft/jewels/" + id.getPath());
+	}
+
+	@Nonnull
+	public String getDescriptionId() {
+		if (descriptionId == null) {
+			var id = getKey();
+
+			descriptionId = "elementalcraft.jewel." + id.getNamespace() + '.' + id.getPath();
+		}
+		return descriptionId;
 	}
 
 	public Component getDisplayName() {
-		var id = this.getKey();
-
-		return Component.translatable("elementalcraft_jewel." + id.getNamespace() + '.' + id.getPath());
+		return Component.translatable(getDescriptionId());
 	}
 
 	public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-		return (entity instanceof Player player && player.getAbilities().instabuild) || (elementStorage != null && elementStorage.extractElement(consumption, elementType, true) == consumption);
+		return (entity instanceof Player player && player.getAbilities().instabuild)
+				|| (elementStorage != null && elementStorage.extractElement(consumption, elementType, true) == consumption);
 	}
 
 	public final void consume(@Nonnull Entity entity) {
+		if (entity instanceof Player player && player.getAbilities().instabuild) {
+			return;
+		}
 		this.consume(entity, entity.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY, null));
 	}
 
@@ -76,5 +94,13 @@ public class Jewel implements IElementTypeProvider {
 	public void appendHoverText(List<Component> tooltip) {
 		tooltip.add(Component.empty());
 		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
+	}
+
+	@Override
+	public @NotNull Item asItem() {
+		if (item == null) {
+			item = Jewels.getJewelItem(this);
+		}
+		return item;
 	}
 }

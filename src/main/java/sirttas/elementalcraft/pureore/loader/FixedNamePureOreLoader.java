@@ -1,18 +1,18 @@
 package sirttas.elementalcraft.pureore.loader;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import sirttas.elementalcraft.pureore.PureOre;
 
 import java.util.Collections;
 import java.util.Map;
 
 public class FixedNamePureOreLoader extends AbstractPureOreLoader {
 
-    public static final Codec<FixedNamePureOreLoader> CODEC = RecordCodecBuilder.create(builder -> AbstractPureOreLoader.codec(builder).and(
+    public static final MapCodec<FixedNamePureOreLoader> CODEC = RecordCodecBuilder.mapCodec(builder -> AbstractPureOreLoader.codec(builder).and(
             ResourceLocation.CODEC.fieldOf("fixed_name").forGetter(l -> l.fixedName)
     ).apply(builder, FixedNamePureOreLoader::new));
 
@@ -24,12 +24,12 @@ public class FixedNamePureOreLoader extends AbstractPureOreLoader {
     }
 
     @Override
-    public Codec<FixedNamePureOreLoader> codec() {
-        return CODEC;
+    public PureOreLoaderType<FixedNamePureOreLoader> type() {
+        return PureOreLoaderTypes.FIXED_NAME.get();
     }
 
     @Override
-    protected GeneratedPureOre load(Map<ResourceLocation, PureOre> pureOres, Item ore) {
-        return new GeneratedPureOre(fixedName, Collections.emptyList());
+    protected PureOreTagGroup load(Map<ResourceLocation, LoadedPureOre> pureOres, Holder<Item> ore) {
+        return new PureOreTagGroup(fixedName, Collections.emptyList());
     }
 }

@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_kirin": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:kirin"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_kirin"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

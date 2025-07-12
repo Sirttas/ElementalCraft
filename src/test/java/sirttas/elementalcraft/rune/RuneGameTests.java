@@ -1,45 +1,67 @@
 package sirttas.elementalcraft.rune;
 
-import net.minecraft.gametest.framework.GameTestGenerator;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.neoforged.testframework.Test;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.rune.RuneItem;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class RuneGameTests {
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_dropRunes() {
+    public static Collection<Test> should_dropRunes() {
         var index = new AtomicInteger(0);
 
         return RuneTestCaseHolder.HOLDERS.stream()
-                .map(t -> t.createTestFunction("should_dropRunes#" + index.getAndIncrement(), RuneGameTests::should_dropRunes))
+                .map(t -> t.createTest(
+                        "should_dropRunes#" + index.getAndIncrement(),
+                        "Check if the rune is dropped when the block is destroyed",
+                        RuneGameTests::should_dropRunes))
                 .toList();
     }
 
-    private static void should_dropRunes(GameTestHelper helper, RuneTestCaseHolder holder) {
+    private static void should_dropRunes(ECGameTestHelper helper, RuneTestCaseHolder holder) {
         var pos = holder.pos();
         var runes = holder.runes();
 
         helper.getLevel().destroyBlock(helper.absolutePos(pos), true, null);
 
-        var items = helper.getEntities(EntityType.ITEM, pos, 1);
+        var itemEntities = helper.getEntities(EntityType.ITEM, pos, 1);
 
-        assertThat(items).hasSizeGreaterThanOrEqualTo(runes.size())
-                .anySatisfy(item -> assertThat(item.getItem()) // we must use anySatisfy because we also have other items
-                        .is(ECItems.RUNE)
-                        .satisfies(stack -> assertThat(runes).anySatisfy(rune -> RuneGameTestHelper.assertRuneIs(stack, rune))));
-        items.forEach(Entity::discard);
+        assertThat(itemEntities).hasSizeGreaterThanOrEqualTo(runes.size());
+
+        var droppedRunes = itemEntities.stream()
+                .map(ItemEntity::getItem)
+                .filter(stack -> stack.is(ECItems.RUNE))
+                .map(RuneItem::getRune)
+                .collect(Collectors.toList());
+
+        assertThat(droppedRunes)
+                .describedAs("The dropped runes are not the expected ones")
+                .hasSize(runes.size());
+
+        for (var runeKey : runes) {
+            for (var rune : droppedRunes) {
+                if (rune.is(runeKey)) {
+                    droppedRunes.remove(rune);
+                    break;
+                }
+            }
+        }
+
+        assertThat(droppedRunes)
+                .describedAs("The dropped runes are not the expected ones")
+                .isEmpty();
+
+        itemEntities.forEach(Entity::discard);
         helper.succeed();
     }
 

@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/water_mill_wood_saw",
+  "criteria": {
+    "has_air_mill_wood_saw": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:air_mill_wood_saw"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.air_mill_wood_saw.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:air_mill_wood_saw"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.air_mill_wood_saw.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_air_mill_wood_saw"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

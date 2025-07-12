@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_small_springaline_bud": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:small_springaline_bud"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_small_springaline_bud"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:water_mill_grindstone",
+  "name": "block.elementalcraft.water_mill_grindstone",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.water_mill_grindstone0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:water_mill_grindstone"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:water_mill_grindstone"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 8,
+  "turnin": "elementalcraft:main/water_mill_grindstone"
+}

@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_earthcrystal_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:earthcrystal_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_earthcrystal_block"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

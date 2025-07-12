@@ -7,8 +7,8 @@ import sirttas.elementalcraft.particle.AbstractECParticle;
 
 public abstract class AbstractElementParticle extends AbstractECParticle {
 
-	protected AbstractElementParticle(ClientLevel worldIn, Vec3 coord, ElementType type) {
-		super(worldIn, coord);
+	protected AbstractElementParticle(ClientLevel level, Vec3 coord, ElementType type) {
+		super(level, coord);
 		float f = this.random.nextFloat() * 0.3F + 0.7F;
 
 		this.rCol = f * type.getRed();

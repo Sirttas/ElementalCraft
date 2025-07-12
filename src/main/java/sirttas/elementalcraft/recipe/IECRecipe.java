@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.recipe;
 
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.Container;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 
 import javax.annotation.Nonnull;
 
-public interface IECRecipe<T extends Container> extends Recipe<T> {
+public interface IECRecipe<I extends RecipeInput> extends Recipe<I> {
 
 	@Override
 	default boolean canCraftInDimensions(int width, int height) {
@@ -16,8 +16,8 @@ public interface IECRecipe<T extends Container> extends Recipe<T> {
 	
 	@Nonnull
     @Override
-	default ItemStack assemble(@Nonnull T inv, @Nonnull RegistryAccess registry) {
-		return this.getResultItem(registry).copy();
+	default ItemStack assemble(@Nonnull I input, @Nonnull HolderLookup.Provider provider) {
+		return this.getResultItem(provider).copy();
 	}
 	
 }

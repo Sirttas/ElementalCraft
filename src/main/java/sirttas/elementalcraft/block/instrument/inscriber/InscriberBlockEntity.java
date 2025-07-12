@@ -1,40 +1,33 @@
 package sirttas.elementalcraft.block.instrument.inscriber;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
-import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 import javax.annotation.Nonnull;
 
-public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<InscriberBlockEntity, InscriptionRecipe> {
+public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<MultipleItemsSingleElementRecipeInput, InscriptionRecipe> {
 
-	private static final Config<InscriberBlockEntity, InscriptionRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.INSCRIBER,
-			ECRecipeTypes.INSCRIPTION,
-			ECConfig.SERVER.inscriberTransferSpeed,
-			ECConfig.SERVER.inscriberMaxRunes,
-			0,
-			true,
-			true
-	);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(InscriberBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private final InstrumentContainer inventory;
 
 	public InscriberBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, pos, state);
+		super(ECBlockEntityTypes.INSCRIBER, PROPERTIES, pos, state);
 		inventory = new InscriberContainer(this::setChanged);
 		particleOffset = new Vec3(0, 0.2, 0);
-	}
-
-	public int getItemCount() {
-		return inventory.getItemCount();
 	}
 	
 	@Nonnull
@@ -50,5 +43,13 @@ public class InscriberBlockEntity extends AbstractInstrumentBlockEntity<Inscribe
 
 	public boolean useChisel() {
 		return makeProgress();
+	}
+
+	@Override
+	protected @NotNull MultipleItemsSingleElementRecipeInput createRecipeInput() {
+		return new MultipleItemsSingleElementRecipeInput(
+				inventory.getStacks(),
+				getElementType(),
+				getContainer().getElementAmount());
 	}
 }

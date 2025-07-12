@@ -1,40 +1,39 @@
 package sirttas.elementalcraft.block.doublehalf;
 
-import net.minecraft.gametest.framework.GameTestGenerator;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class DoubleHalfBlockGameTests {
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_breakBothParts() {
+    public static List<Test> should_breakBothParts() {
         var index = new AtomicInteger(0);
 
         return DoubleHalfBlockTestCaseHolder.HOLDERS.stream()
-                .map(t -> t.createTestFunction("should_breakBothParts#" + index.getAndIncrement(), DoubleHalfBlockGameTests::should_breakBothParts))
+                .map(t -> t.createTest(
+                        "should_breakBothParts#" + index.getAndIncrement(),
+                        "Check if both parts of the block are broken",
+                        DoubleHalfBlockGameTests::should_breakBothParts))
                 .toList();
 
     }
 
-    public static void should_breakBothParts(GameTestHelper helper, DoubleHalfBlockTestCaseHolder holder) {
-        helper.assertBlockPresent(holder.block(), holder.pos1());
-        helper.assertBlockPresent(holder.block(), holder.pos2());
+    public static void should_breakBothParts(ECGameTestHelper helper, DoubleHalfBlockTestCaseHolder holder) {
+        var block = holder.block().get();
+
+        helper.assertBlockPresent(block, holder.pos1());
+        helper.assertBlockPresent(block, holder.pos2());
 
         helper.startSequence()
                 .thenExecute(() -> helper.getLevel().destroyBlock(helper.absolutePos(holder.pos1()), true))
                 .thenExecuteAfter(5, () -> {
-                    helper.assertBlockNotPresent(holder.block(), holder.pos1());
-                    helper.assertBlockNotPresent(holder.block(), holder.pos2());
-                    helper.assertItemEntityCountIs(holder.block().asItem(), holder.pos1(), 2, 1);
+                    helper.assertBlockNotPresent(block, holder.pos1());
+                    helper.assertBlockNotPresent(block, holder.pos2());
+                    helper.assertItemEntityCountIs(block.asItem(), holder.pos1(), 2, 1);
                 })
-                .thenExecute(() -> ECGameTestHelper.discardItems(helper, holder.pos1(), 2))
+                .thenExecute(() -> helper.discardItems(holder.pos1(), 2))
                 .thenSucceed();
     }
 

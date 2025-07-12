@@ -9,22 +9,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class ItemStackToItemStackPureOreRecipeFactory<T extends ItemStackToItemStackRecipe> extends AbstractMekanismPureOreRecipeFactory<T> {
+public class ItemStackToItemStackPureOreRecipeFactory<T extends ItemStackToItemStackRecipe> extends AbstractMekanismPureOreRecipeFactory<SingleRecipeInput, T> {
 
 	private final Factory<T> factory;
 
-	public ItemStackToItemStackPureOreRecipeFactory(@Nonnull RecipeManager recipeManager, @Nonnull RecipeTypeRegistryObject<T, InputRecipeCache.SingleItem<ItemStackToItemStackRecipe>> recipeType, @Nonnull Factory<T> factory) {
+	public ItemStackToItemStackPureOreRecipeFactory(@Nonnull RecipeManager recipeManager, @Nonnull RecipeTypeRegistryObject<SingleRecipeInput, T, InputRecipeCache.SingleItem<ItemStackToItemStackRecipe>> recipeType, @Nonnull Factory<T> factory) {
 		super(recipeManager, recipeType);
 		this.factory = factory;
 	}
 
 	@Override
 	public T create(@NotNull RegistryAccess registry, @NotNull T recipe, @NotNull Ingredient ingredient) {
-		return factory.create(getInput(ingredient, recipe.getInput()), getRecipeOutput(registry, recipe));
+		return factory.create(
+				getInput(ingredient, recipe.getInput()),
+				getRecipeOutput(registry, recipe));
 	}
 
 	@Override

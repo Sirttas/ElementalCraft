@@ -15,7 +15,7 @@ public class ViperJewel extends AbstractAttackJewel {
     public static final String NAME = "viper";
 
     public ViperJewel() {
-        super(ElementType.WATER, 1000);
+        super(ElementType.WATER, 1000, false);
     }
 
     @Override

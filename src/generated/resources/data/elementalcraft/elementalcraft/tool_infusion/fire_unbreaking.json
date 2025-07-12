@@ -1,9 +1,0 @@
-{
-  "effects": [
-    {
-      "type": "elementalcraft:enchantment",
-      "enchantment": "minecraft:unbreaking"
-    }
-  ],
-  "element_type": "fire"
-}

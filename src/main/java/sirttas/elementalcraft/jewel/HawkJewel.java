@@ -11,8 +11,7 @@ public class HawkJewel extends Jewel {
     public static final String NAME = "hawk";
 
     public HawkJewel() {
-        super(ElementType.AIR, 200);
-        this.ticking = false;
+        super(ElementType.AIR, 200, false);
     }
 
     @Override

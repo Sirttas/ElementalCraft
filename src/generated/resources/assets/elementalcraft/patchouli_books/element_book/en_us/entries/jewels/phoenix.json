@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:phoenix",
+  "name": "elementalcraft.jewel.elementalcraft.phoenix",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.phoenix0"
+    }
+  ],
+  "sortnum": 9,
+  "turnin": "elementalcraft:pickup/phoenix"
+}

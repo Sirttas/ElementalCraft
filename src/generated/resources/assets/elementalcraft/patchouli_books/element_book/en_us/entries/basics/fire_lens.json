@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:main/springaline_shard",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:fire_lens",
+  "name": "item.elementalcraft.fire_lens",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.fire_lens0"
+    }
+  ],
+  "sortnum": 7,
+  "turnin": "elementalcraft:pickup/fire_lens"
+}

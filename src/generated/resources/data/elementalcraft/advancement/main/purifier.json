@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/pure_infusion",
+  "criteria": {
+    "has_purifier": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:purifier"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.purifier.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:purifier"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.purifier.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_purifier"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

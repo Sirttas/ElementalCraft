@@ -1,0 +1,6 @@
+{
+  "description": "elementalcraft.category.spells.desc",
+  "icon": "elementalcraft:textures/gui/entries/spells.png",
+  "name": "elementalcraft.category.spells",
+  "sortnum": 8
+}

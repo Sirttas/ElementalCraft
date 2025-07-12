@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:inert_crystal"
+    },
+    "g": {
+      "tag": "c:nuggets/gold"
+    }
+  },
+  "pattern": [
+    " g ",
+    "gcg",
+    " g "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:contained_crystal"
+  }
+}

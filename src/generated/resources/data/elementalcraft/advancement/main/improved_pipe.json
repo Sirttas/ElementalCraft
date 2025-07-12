@@ -1,0 +1,34 @@
+{
+  "parent": "elementalcraft:main/pipe",
+  "criteria": {
+    "has_improved_pipe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:elementpipe_improved"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.improved_pipe.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:elementpipe_improved"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.improved_pipe.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_improved_pipe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

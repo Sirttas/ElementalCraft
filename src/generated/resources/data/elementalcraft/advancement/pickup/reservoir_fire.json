@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_reservoir_fire": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:reservoir_fire"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_reservoir_fire"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

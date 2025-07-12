@@ -7,10 +7,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 
 import java.util.List;
@@ -19,39 +19,39 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
 @ForEachTest(groups = BinderGameTests.GROUP)
 public class BinderGameTests {
-    public static final String GROUP = "instrument.binder";
+    public static final String GROUP = "level.blocks.instruments.binder";
 
     // elementalcraft:bindergametests.binder
-    @TestHolder
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder", batch = InstrumentGameTestHelper.BATCH_NAME)
-    public static void should_craftSwiftAlloy(GameTestHelper helper) {
-        InstrumentGameTestHelper.<BinderBlockEntity>runInstrument(helper, List.of(
+    @TestHolder(description = "Checks if the binder can craft a swift alloy.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder")
+    public static void should_craftSwiftAlloy(ECGameTestHelper helper) {
+        helper.<BinderBlockEntity>runInstrument(List.of(
                 new ItemStack(Items.GOLD_INGOT),
-                new ItemStack(ECItems.DRENCHED_IRON_INGOT.get()),
+                new ItemStack(ECItems.DRENCHED_IRON_INGOT),
                 new ItemStack(Items.COPPER_INGOT),
                 new ItemStack(Items.REDSTONE),
-                new ItemStack(ECItems.AIR_CRYSTAL.get())
+                new ItemStack(ECItems.AIR_CRYSTAL)
         ), ElementType.AIR, binder -> {
             assertThat(binder.getInventory().getItem(0))
-                    .is(ECItems.SWIFT_ALLOY_INGOT.get())
+                    .is(ECItems.SWIFT_ALLOY_INGOT)
                     .hasCount(1);
         });
     }
 
     // elementalcraft:bindergametests.binder
-    @TestHolder
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder", batch = InstrumentGameTestHelper.BATCH_NAME)
-    public static void should_keepBucketAfterCraftingFirePylon(GameTestHelper helper) {
-        InstrumentGameTestHelper.<BinderBlockEntity>runInstrument(helper, List.of(
-                new ItemStack(ECItems.SHRINE_BASE.get()),
-                new ItemStack(ECItems.FIRE_CRYSTAL.get()),
+    @TestHolder(description = "Checks if the binder keeps the bucket after crafting a fire pylon.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder")
+    public static void should_keepBucketAfterCraftingFirePylon(ECGameTestHelper helper) {
+        helper.<BinderBlockEntity>runInstrument(List.of(
+                new ItemStack(ECItems.SHRINE_BASE),
+                new ItemStack(ECItems.FIRE_CRYSTAL),
                 new ItemStack(Items.LAVA_BUCKET),
                 new ItemStack(Items.GOLD_INGOT)
         ), ElementType.FIRE, binder -> {
             var inv = binder.getInventory();
 
             assertThat(inv.getItem(0))
-                    .is(ECBlocks.FIRE_PYLON.get())
+                    .is(ECBlocks.FIRE_PYLON)
                     .hasCount(1);
             assertThat(inv.getItem(1))
                     .is(Items.BUCKET)
@@ -60,8 +60,8 @@ public class BinderGameTests {
     }
 
     // elementalcraft:bindergametests.should_autocraftswiftalloys
-    @TestHolder
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.should_autocraftswiftalloys", batch = InstrumentGameTestHelper.BATCH_NAME)
+    @TestHolder(description = "Checks if the binder can automaticaly craft multiple swift alloys with a sorter/retriever setup.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.should_autocraftswiftalloys")
     public static void should_autoCraftSwiftAlloys(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             helper.pullLever(0, 3, 0);

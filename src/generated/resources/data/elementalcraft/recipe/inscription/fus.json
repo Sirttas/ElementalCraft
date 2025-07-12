@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 5000,
+  "element_type": "air",
+  "ingredients": [
+    {
+      "item": "elementalcraft:rune_slate"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:wii"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "tag": "c:strings"
+    },
+    {
+      "tag": "c:strings"
+    }
+  ],
+  "output": {
+    "components": {
+      "elementalcraft:rune": "elementalcraft:fus"
+    },
+    "count": 1,
+    "id": "elementalcraft:rune"
+  }
+}

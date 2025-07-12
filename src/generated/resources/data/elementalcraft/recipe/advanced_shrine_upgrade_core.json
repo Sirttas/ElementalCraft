@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "elementalcraft:shrine_upgrade_core"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "i": {
+      "tag": "c:ingots/gold"
+    },
+    "n": {
+      "tag": "c:nuggets/fireite"
+    },
+    "s": {
+      "item": "elementalcraft:solar_prism"
+    }
+  },
+  "pattern": [
+    "nsn",
+    "iCi",
+    "ncn"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:advanced_shrine_upgrade_core"
+  }
+}

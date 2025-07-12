@@ -4,9 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.entity.BlockEntityGameTestHelper;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.container.ContainerGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -14,11 +12,12 @@ import javax.annotation.Nonnull;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class OrderedSorterGameTests {
 
-    // elementalcraft:orderedsortergametests.should_transferitems
-    @GameTest
+    private static final String TEMPLATE = "elementalcraft:orderedsortergametests.should_transferitems";
+
+    @TestHolder
+    @GameTest(template = TEMPLATE)
     public static void should_transferItems(GameTestHelper helper) {
         var sorter = getOrderedSorter(helper, new BlockPos(1, 2, 1));
         var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 2));
@@ -39,6 +38,6 @@ public class OrderedSorterGameTests {
 
     @Nonnull
     private static SorterBlockEntity getOrderedSorter(GameTestHelper helper, BlockPos pos) {
-        return (SorterBlockEntity) BlockEntityGameTestHelper.getBlockEntity(helper, pos);
+        return helper.getBlockEntity(pos);
     }
 }

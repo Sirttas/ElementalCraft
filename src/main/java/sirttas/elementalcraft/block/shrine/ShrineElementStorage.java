@@ -3,11 +3,11 @@ package sirttas.elementalcraft.block.shrine;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 
 import javax.annotation.Nonnull;
 
-public class ShrineElementStorage extends StaticElementStorage {
+public class ShrineElementStorage extends SingleElementStorage {
 
 	private final AbstractShrineBlockEntity shrine;
 

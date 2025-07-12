@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/extractor",
+  "category": "elementalcraft:element_production",
+  "icon": "elementalcraft:improved_element_extractor",
+  "name": "block.elementalcraft.improved_element_extractor",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.improved_extractor0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:improved_element_extractor"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:improved_element_extractor"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 2,
+  "turnin": "elementalcraft:main/improved_extractor"
+}

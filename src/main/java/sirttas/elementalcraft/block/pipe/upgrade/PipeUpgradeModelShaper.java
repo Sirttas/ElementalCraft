@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.pipe.upgrade;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -32,13 +33,13 @@ public class PipeUpgradeModelShaper extends AbstractECModelShaper<PipeUpgradeTyp
     }
 
     @Override
-    public void registerModels(Consumer<ResourceLocation> addModel) {
+    public void registerModels(Consumer<ModelResourceLocation> addModel) {
         PipeUpgradeTypes.REGISTRY.forEach(type -> addModel.accept(getModelLocation(type)));
     }
 
-    private ResourceLocation getModelLocation(PipeUpgradeType<?> type) {
+    private ModelResourceLocation getModelLocation(PipeUpgradeType<?> type) {
         var key = type.getKey();
 
-        return new ResourceLocation(key.getNamespace(), PipeUpgrade.FOLDER + key.getPath());
+        return ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(key.getNamespace(), PipeUpgrade.FOLDER + key.getPath()));
     }
 }

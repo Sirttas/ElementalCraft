@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 10000,
+  "element_type": "water",
+  "ingredients": [
+    {
+      "item": "elementalcraft:major_rune_slate"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:bombadil"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "tag": "c:gems/emerald"
+    },
+    {
+      "tag": "c:gems/emerald"
+    }
+  ],
+  "output": {
+    "components": {
+      "elementalcraft:rune": "elementalcraft:tzeentch"
+    },
+    "count": 1,
+    "id": "elementalcraft:rune"
+  }
+}

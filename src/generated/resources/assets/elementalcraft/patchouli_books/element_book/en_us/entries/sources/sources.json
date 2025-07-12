@@ -1,0 +1,26 @@
+{
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:fire_source",
+  "name": "elementalcraft.entry.sources",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.sources0"
+    },
+    {
+      "type": "text",
+      "text": "elementalcraft.page.sources1"
+    },
+    {
+      "type": "image",
+      "border": true,
+      "images": [
+        "elementalcraft:textures/gui/entries/source0.png"
+      ],
+      "text": "elementalcraft.page.sources2"
+    }
+  ],
+  "priority": true,
+  "sortnum": 0,
+  "turnin": "elementalcraft:main/sources"
+}

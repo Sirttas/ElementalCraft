@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_buddingshrine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:buddingshrine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_buddingshrine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

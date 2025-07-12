@@ -1,0 +1,40 @@
+package sirttas.elementalcraft.block.shrine.upgrade.fortune.greater;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.neoforged.testframework.annotation.TestHolder;
+import sirttas.elementalcraft.ECGameTestUtils;
+import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class GreaterFortuneShrineUpgradeGameTests {
+
+    private static final String TEMPLATE = "elementalcraft:greaterfortuneshrineupgradegametests.should_increaseoreloot";
+
+    @TestHolder
+    @GameTest(template = TEMPLATE, required = false)
+    public static void should_increaseOreLoot(GameTestHelper helper) {
+        ShrineGameTestHelper.forcePeriods(helper, new BlockPos(12, 2, 12), 4);
+        helper.succeedIf(ECGameTestUtils.fixAssertions(() -> {
+            helper.assertBlockState(new BlockPos(12, 1, 11), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
+            helper.assertBlockState(new BlockPos(12, 1, 13), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
+            helper.assertBlockState(new BlockPos(11, 1, 12), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
+            helper.assertBlockState(new BlockPos(13, 1, 12), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
+            var count = helper.getEntities(EntityType.ITEM, new BlockPos(12, 1, 12), 2).stream()
+                    .map(ItemEntity::getItem)
+                    .filter(i -> i.is(Items.RAW_IRON))
+                    .mapToInt(ItemStack::getCount)
+                    .sum();
+
+            assertThat(count).isGreaterThan(4);
+        }));
+    }
+
+}

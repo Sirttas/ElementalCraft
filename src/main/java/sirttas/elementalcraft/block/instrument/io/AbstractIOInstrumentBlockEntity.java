@@ -1,35 +1,54 @@
 package sirttas.elementalcraft.block.instrument.io;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
-import sirttas.elementalcraft.block.instrument.IInstrument;
-import sirttas.elementalcraft.recipe.instrument.io.IIOInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.IOInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.IOInstrumentRecipeInput;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
-public abstract class AbstractIOInstrumentBlockEntity<T extends IInstrument, R extends IIOInstrumentRecipe<T>> extends AbstractInstrumentBlockEntity<T, R> {
+import java.util.function.Supplier;
 
-	protected AbstractIOInstrumentBlockEntity(Config<T, R> config, BlockPos pos, BlockState state) {
-		super(config, pos, state);
+public abstract class AbstractIOInstrumentBlockEntity<I extends IOInstrumentRecipeInput, R extends IOInstrumentRecipe<I>> extends AbstractInstrumentBlockEntity<I, R> {
+
+	protected AbstractIOInstrumentBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+		super(blockEntityType, properties, pos, state);
 	}
 
-	@SuppressWarnings("unchecked")
+	@NotNull
+	protected SimpleIOInstrumentRecipeInput createSimpleIORecipeInput() {
+		var inv = getInventory();
+		var container = getContainer();
+
+		return new SimpleIOInstrumentRecipeInput(
+				inv.getItem(0),
+				inv.getItem(1),
+				level.getRandom(),
+				container.getElementType(),
+				container.getElementAmount(),
+				getRuneHandler().getBonuses());
+	}
+
 	@Override
 	public void assemble() {
-		T self = (T) this;
-		Container inv = getInventory();
-		ItemStack in = inv.getItem(0);
-		ItemStack result = inv.getItem(1);
-		ItemStack craftingResult = recipe.assemble(self, level.registryAccess());
-		int inputSize = recipe.getInputSize();
-		int luck = recipe.getLuck(self);
+		var input = createRecipeInput();
+		var craftingResult = recipe.assemble(input, level.registryAccess());
+		var inputSize = recipe.getInputSize();
+		var luck = recipe.getLuck(input);
 
-		if (luck > 0 && recipe.getRand(self).nextInt(100) < luck) {
+		if (luck > 0 && recipe.getRandomSource(input).nextInt(100) < luck) {
 			craftingResult.grow(1);
 		}
 
 		var count = craftingResult.getCount();
+		var inv = getInventory();
+		var in = inv.getItem(0);
+		var result = inv.getItem(1);
 
 		if (ItemStack.isSameItem(craftingResult, result) && result.getCount() + count <= result.getMaxStackSize()) {
 			in.shrink(inputSize);

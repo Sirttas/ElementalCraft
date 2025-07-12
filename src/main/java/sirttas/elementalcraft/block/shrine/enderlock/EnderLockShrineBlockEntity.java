@@ -2,14 +2,16 @@ package sirttas.elementalcraft.block.shrine.enderlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.entity.EntityHelper;
 
@@ -17,11 +19,13 @@ import java.util.List;
 
 public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(EnderLockShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(EnderLockShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
 	public EnderLockShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.ENDER_LOCK_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.ENDER_LOCK_SHRINE, PROPERTIES, pos, state);
 	}
 
 	@Override
@@ -37,7 +41,9 @@ public class EnderLockShrineBlockEntity extends AbstractShrineBlockEntity {
 	public boolean doLock(Entity entity) {
 		int consumeAmount = this.getConsumeAmount();
 
-		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(entity)) && isInRange(entity.getPosition(0)) && (this.elementStorage.getElementAmount() >= consumeAmount)) {
+		if ((!this.hasUpgrade(ShrineUpgrades.PROTECTION) || EntityHelper.isHostile(entity))
+				&& isInRange(entity.getPosition(0))
+				&& (this.elementStorage.getElementAmount() >= consumeAmount)) {
 			this.consumeElement(consumeAmount);
 			return true;
 		}

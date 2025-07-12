@@ -10,22 +10,29 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.network.PacketDistributor;
+import sirttas.elementalcraft.advancements.LookAtSourcePayload;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.renderer.ISpellInstanceRenderer;
 import sirttas.elementalcraft.spell.renderer.SpellRenderers;
 import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class EntityClientHandler {
 
 	private EntityClientHandler() {}
@@ -41,7 +48,7 @@ public class EntityClientHandler {
 
 		poseStack.pushPose();
 		poseStack.mulPose(Axis.YP.rotationDegrees(180 - Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)));
-		renderSingleSpellFirstPerson(spell, null, entity, partialTicks, poseStack, buffer, packedLight);
+		renderSingleSpellFirstPerson(spell.value(), null, entity, partialTicks, poseStack, buffer, packedLight);
 		SpellTickHelper.getSpellInstances(entity).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
 		poseStack.popPose();
 	}
@@ -73,7 +80,7 @@ public class EntityClientHandler {
 			return;
 		}
 
-		var inUseRenderer = SpellRenderers.get(SpellHelper.getSpellInUse(player));
+		var inUseRenderer = SpellRenderers.get(SpellHelper.getSpellInUse(player).value());
 		var hand = event.getHand();
 
 		if (inUseRenderer != null && inUseRenderer.hideHand(hand)) {
@@ -87,7 +94,7 @@ public class EntityClientHandler {
 			var spell = SpellHelper.getSpell(stack);
 
 			if (localPlayer.isUsingItem() && localPlayer.getUsedItemHand() == hand && !stack.isEmpty()) {
-				renderSingleSpellFirstPerson(spell, null, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
+				renderSingleSpellFirstPerson(spell.value(), null, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
 			}
 			if (hand == InteractionHand.MAIN_HAND) {
 				SpellTickHelper.getSpellInstances(localPlayer).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, buffer, packedLight));
@@ -111,5 +118,19 @@ public class EntityClientHandler {
 			renderer.renderFirstPerson(spell, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
 		}
 		poseStack.popPose();
+	}
+
+	@SubscribeEvent
+	public static void onClientPostTick(ClientTickEvent.Post event) {
+		var minecraft = Minecraft.getInstance();
+
+		if (minecraft.hitResult instanceof BlockHitResult hitResult && hitResult.getType() == HitResult.Type.BLOCK && minecraft.level != null && minecraft.player != null && !minecraft.player.getData(ECDataAttachments.HAS_SEEN_SOURCE)) {
+			var state = minecraft.level.getBlockState(hitResult.getBlockPos());
+
+			if (state.is(ECTags.Blocks.SOURCES)) {
+				PacketDistributor.sendToServer(new LookAtSourcePayload(hitResult));
+				minecraft.player.setData(ECDataAttachments.HAS_SEEN_SOURCE, true);
+			}
+		}
 	}
 }

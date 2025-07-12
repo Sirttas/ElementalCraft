@@ -1,34 +1,31 @@
 package sirttas.elementalcraft.block.instrument.enchantment.liquefier;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.enchantment.liquefaction.EnchantmentLiquefactionRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
-public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEntity<EnchantmentLiquefierBlockEntity, EnchantmentLiquefactionRecipe> {
+public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEntity<SimpleIOInstrumentRecipeInput, EnchantmentLiquefactionRecipe> {
 
-    private static final Config<EnchantmentLiquefierBlockEntity, EnchantmentLiquefactionRecipe> CONFIG = new Config<>(
-            ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER,
-            null,
-            ECConfig.SERVER.enchantmentLiquefierTransferSpeed,
-            ECConfig.SERVER.enchantmentLiquefierMaxRunes,
-            1,
-            true,
-            true
-    );
+    public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(EnchantmentLiquefierBlock.NAME);
+    private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
     private final InstrumentContainer inventory;
 
     public EnchantmentLiquefierBlockEntity(BlockPos pos, BlockState state) {
-        super(CONFIG, pos, state);
+        super(ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER, PROPERTIES, pos, state);
         inventory = new EnchantmentLiquefierContainer(this);
         particleOffset = new Vec3(0, 0.4, 0);
     }
@@ -40,17 +37,33 @@ public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEnti
     }
 
     @Override
-    protected EnchantmentLiquefactionRecipe lookupRecipe() {
+    protected @NotNull SimpleIOInstrumentRecipeInput createRecipeInput() {
+        var inv = getInventory();
+        var container = getContainer();
+
+        return new SimpleIOInstrumentRecipeInput(
+                inv.getItem(0),
+                inv.getItem(1),
+                1,
+                level.getRandom(),
+                container.getElementType(),
+                container.getElementAmount(),
+                getRuneHandler().getBonuses()
+        );
+    }
+
+    @Override
+    protected EnchantmentLiquefactionRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         if (level == null) {
             return null;
         }
 
-        var enchantments = EnchantmentHelper.getEnchantments(inventory.getItem(0));
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(inventory.getItem(0));
 
         for (var enchantment : enchantments.keySet()) {
             var recipe = new EnchantmentLiquefactionRecipe(enchantment);
 
-            if (recipe.matches(this, level)) {
+            if (recipe.matches(createRecipeInput(), level)) {
                 return recipe;
             }
         }

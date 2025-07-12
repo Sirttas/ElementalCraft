@@ -41,14 +41,13 @@ public abstract class AbstractHorizontalShrineUpgradeBlock extends AbstractShrin
 
 	@Nonnull
     @Override
-	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
-	@Nonnull
+	@SuppressWarnings("deprecation")
+    @Nonnull
 	@Override
-	@Deprecated
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
 		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}

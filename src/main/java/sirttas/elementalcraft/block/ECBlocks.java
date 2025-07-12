@@ -25,9 +25,9 @@ import sirttas.elementalcraft.block.container.SmallElementContainerBlock;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlock;
-import sirttas.elementalcraft.block.evaporator.EvaporatorBlock;
-import sirttas.elementalcraft.block.extractor.ExtractorBlock;
-import sirttas.elementalcraft.block.extractor.improved.ImprovedExtractorBlock;
+import sirttas.elementalcraft.block.extractor.ElementExtractorBlock;
+import sirttas.elementalcraft.block.extractor.ImprovedElementExtractorBlock;
+import sirttas.elementalcraft.block.extractor.RudimentaryElementExtractorBlock;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlock;
 import sirttas.elementalcraft.block.instrument.binder.improved.ImprovedBinderBlock;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlock;
@@ -52,8 +52,8 @@ import sirttas.elementalcraft.block.shrine.firepylon.FirePylonBlock;
 import sirttas.elementalcraft.block.shrine.grove.GroveShrineBlock;
 import sirttas.elementalcraft.block.shrine.growth.GrowthShrineBlock;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineBlock;
-import sirttas.elementalcraft.block.shrine.lava.LavaShrineBlock;
 import sirttas.elementalcraft.block.shrine.lumber.LumberShrineBlock;
+import sirttas.elementalcraft.block.shrine.melting.MeltingShrineBlock;
 import sirttas.elementalcraft.block.shrine.ore.OreShrineBlock;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
 import sirttas.elementalcraft.block.shrine.spawning.SpawningShrineBlock;
@@ -66,15 +66,15 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.EfficiencyShrineU
 import sirttas.elementalcraft.block.shrine.upgrade.directional.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.OptimizationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.StrengthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.fortune.FortuneShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.OverwhelmingStrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.FortuneShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.greater.GreaterFortuneShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.strength.OverwhelmingStrengthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.strength.StrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.BonelessGrowthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.CrystalGrowthShrineUpgradeBlock;
@@ -88,11 +88,15 @@ import sirttas.elementalcraft.block.sorter.SorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederBlock;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlock;
-import sirttas.elementalcraft.block.source.displacement.plate.BrokenSourceDisplacementPlateBlock;
-import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
 import sirttas.elementalcraft.block.spelldesk.SpellDeskBlock;
-import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.combustion.CombustionSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.cracking.sculk.SculkCrackingSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.culinary.CulinarySynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.draining.DrainingSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlock;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlock;
 import sirttas.elementalcraft.property.ECProperties;
 
 import java.util.function.Function;
@@ -111,11 +115,17 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, ReservoirBlock> EARTH_RESERVOIR = register(ReservoirBlock.NAME_EARTH, () -> new ReservoirBlock(ElementType.EARTH, ECProperties.Blocks.CONTAINER));
 	public static final DeferredHolder<Block, ReservoirBlock> AIR_RESERVOIR = register(ReservoirBlock.NAME_AIR, () -> new ReservoirBlock(ElementType.AIR, ECProperties.Blocks.CONTAINER));
 	public static final DeferredHolder<Block, CreativeElementContainerBlock> CREATIVE_CONTAINER = register(CreativeElementContainerBlock.NAME, () -> new CreativeElementContainerBlock(ECProperties.Blocks.CONTAINER));
-	public static final DeferredHolder<Block, ExtractorBlock> EXTRACTOR = registerDefault(ExtractorBlock.NAME, ExtractorBlock::new);
-	public static final DeferredHolder<Block, ImprovedExtractorBlock> EXTRACTOR_IMPROVED = registerDefault(ImprovedExtractorBlock.NAME, ImprovedExtractorBlock::new);
-	public static final DeferredHolder<Block, EvaporatorBlock> EVAPORATOR = registerDefault(EvaporatorBlock.NAME, EvaporatorBlock::new);
+	public static final DeferredHolder<Block, RudimentaryElementExtractorBlock> RUDIMENTARY_EXTRACTOR = registerDefault(RudimentaryElementExtractorBlock.NAME, RudimentaryElementExtractorBlock::new);
+	public static final DeferredHolder<Block, ElementExtractorBlock> EXTRACTOR = registerDefault(ElementExtractorBlock.NAME, ElementExtractorBlock::new);
+	public static final DeferredHolder<Block, ImprovedElementExtractorBlock> IMPROVED_EXTRACTOR = registerDefault(ImprovedElementExtractorBlock.NAME, ImprovedElementExtractorBlock::new);
+	public static final DeferredHolder<Block, CrackingSynthesizerBlock> CRACKING_SYNTHESIZER = registerDefault(CrackingSynthesizerBlock.NAME, CrackingSynthesizerBlock::new);
+	public static final DeferredHolder<Block, CombustionSynthesizerBlock> COMBUSTION_SYNTHESIZER = registerDefault(CombustionSynthesizerBlock.NAME, CombustionSynthesizerBlock::new);
+	public static final DeferredHolder<Block, DrainingSynthesizerBlock> DRAINING_SYNTHESIZER = registerDefault(DrainingSynthesizerBlock.NAME, DrainingSynthesizerBlock::new);
+	public static final DeferredHolder<Block, VibrationSynthesizerBlock> VIBRATION_SYNTHESIZER = registerDefault(VibrationSynthesizerBlock.NAME, VibrationSynthesizerBlock::new);
 	public static final DeferredHolder<Block, SolarSynthesizerBlock> SOLAR_SYNTHESIZER = registerDefault(SolarSynthesizerBlock.NAME, SolarSynthesizerBlock::new);
-	public static final DeferredHolder<Block, ManaSynthesizerBlock> MANA_SYNTHESIZER = registerDefault(ManaSynthesizerBlock.NAME, ManaSynthesizerBlock::new);
+	public static final DeferredHolder<Block, CulinarySynthesizerBlock> CULINARY_SYNTHESIZER = registerDefault(CulinarySynthesizerBlock.NAME, CulinarySynthesizerBlock::new);
+	public static final DeferredHolder<Block, SculkCrackingSynthesizerBlock> SCULK_CRACKING_SYNTHESIZER = registerDefault(SculkCrackingSynthesizerBlock.NAME, SculkCrackingSynthesizerBlock::new);
+	public static final DeferredHolder<Block, AirMillSynthesizerBlock> AIR_MILL_SYNTHESIZER = registerDefault(AirMillSynthesizerBlock.NAME, AirMillSynthesizerBlock::new);
 	public static final DeferredHolder<Block, DiffuserBlock> DIFFUSER = registerDefault(DiffuserBlock.NAME, DiffuserBlock::new);
 	public static final DeferredHolder<Block, InfuserBlock> INFUSER = registerDefault(InfuserBlock.NAME, InfuserBlock::new);
 	public static final DeferredHolder<Block, BinderBlock> BINDER = registerDefault(BinderBlock.NAME, BinderBlock::new);
@@ -135,7 +145,7 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, FireFurnaceBlock> FIRE_FURNACE = registerDefault(FireFurnaceBlock.NAME, FireFurnaceBlock::new);
 	public static final DeferredHolder<Block, FireBlastFurnaceBlock> FIRE_BLAST_FURNACE = registerDefault(FireBlastFurnaceBlock.NAME, FireBlastFurnaceBlock::new);
 	public static final DeferredHolder<Block, PurifierBlock> PURIFIER = registerDefault(PurifierBlock.NAME, PurifierBlock::new);
-	public static final DeferredHolder<Block, ElementPipeBlock> PIPE_IMPAIRED = register(ElementPipeBlock.NAME_IMPAIRED, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.IMPAIRED, ECProperties.Blocks.PIPE));
+	public static final DeferredHolder<Block, ElementPipeBlock> PIPE_RUDIMENTARY = register(ElementPipeBlock.NAME_RUDIMENTARY, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.RUDIMENTARY, ECProperties.Blocks.PIPE));
 	public static final DeferredHolder<Block, ElementPipeBlock> PIPE = register(ElementPipeBlock.NAME, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.STANDARD, ECProperties.Blocks.PIPE));
 	public static final DeferredHolder<Block, ElementPipeBlock> PIPE_IMPROVED = register(ElementPipeBlock.NAME_IMPROVED, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.IMPROVED, ECProperties.Blocks.PIPE));
 	public static final DeferredHolder<Block, ElementPipeBlock> PIPE_CREATIVE = register(ElementPipeBlock.NAME_CREATIVE, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.CREATIVE, ECProperties.Blocks.PIPE));
@@ -147,7 +157,7 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, GrowthShrineBlock> GROWTH_SHRINE = registerNoOcclusion(GrowthShrineBlock.NAME, GrowthShrineBlock::new);
 	public static final DeferredHolder<Block, HarvestShrineBlock> HARVEST_SHRINE = registerNoOcclusion(HarvestShrineBlock.NAME, HarvestShrineBlock::new);
 	public static final DeferredHolder<Block, LumberShrineBlock> LUMBER_SHRINE = registerNoOcclusion(LumberShrineBlock.NAME, LumberShrineBlock::new);
-	public static final DeferredHolder<Block, LavaShrineBlock> LAVA_SHRINE = registerNoOcclusion(LavaShrineBlock.NAME, LavaShrineBlock::new);
+	public static final DeferredHolder<Block, MeltingShrineBlock> MELTING_SHRINE = registerNoOcclusion(MeltingShrineBlock.NAME, MeltingShrineBlock::new);
 	public static final DeferredHolder<Block, OreShrineBlock> ORE_SHRINE = registerNoOcclusion(OreShrineBlock.NAME, OreShrineBlock::new);
 	public static final DeferredHolder<Block, OverloadShrineBlock> OVERLOAD_SHRINE = registerNoOcclusion(OverloadShrineBlock.NAME, OverloadShrineBlock::new);
 	public static final DeferredHolder<Block, SweetShrineBlock> SWEET_SHRINE = registerNoOcclusion(SweetShrineBlock.NAME, SweetShrineBlock::new);
@@ -181,12 +191,10 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, CrystalHarvestShrineUpgradeBlock> CRYSTAL_HARVEST_SHRINE_UPGRADE = registerNoOcclusion(CrystalHarvestShrineUpgradeBlock.NAME, CrystalHarvestShrineUpgradeBlock::new);
 	public static final DeferredHolder<Block, CrystalGrowthShrineUpgradeBlock> CRYSTAL_GROWTH_SHRINE_UPGRADE = registerNoOcclusion(CrystalGrowthShrineUpgradeBlock.NAME, CrystalGrowthShrineUpgradeBlock::new);
 	public static final DeferredHolder<Block, TranslocationShrineUpgradeBlock> TRANSLOCATION_SHRINE_UPGRADE = registerNoOcclusion(TranslocationShrineUpgradeBlock.NAME, TranslocationShrineUpgradeBlock::new);
-	public static final DeferredHolder<Block, SourceBlock> SOURCE = register(SourceBlock.NAME, () -> new SourceBlock(ECProperties.Blocks.SOURCE));
-	public static final DeferredHolder<Block, SourceDisplacementPlateBlock> FIRE_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_FIRE, () -> new SourceDisplacementPlateBlock(ElementType.FIRE, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
-	public static final DeferredHolder<Block, SourceDisplacementPlateBlock> WATER_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_WATER, () -> new SourceDisplacementPlateBlock(ElementType.WATER, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
-	public static final DeferredHolder<Block, SourceDisplacementPlateBlock> EARTH_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_EARTH, () -> new SourceDisplacementPlateBlock(ElementType.EARTH, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
-	public static final DeferredHolder<Block, SourceDisplacementPlateBlock> AIR_SOURCE_DISPLACEMENT_PLATE = register(SourceDisplacementPlateBlock.NAME_AIR, () -> new SourceDisplacementPlateBlock(ElementType.AIR, ECProperties.Blocks.DEFAULT_BLOCK_PROPERTIES));
-	public static final DeferredHolder<Block, BrokenSourceDisplacementPlateBlock> BROKEN_SOURCE_DISPLACEMENT_PLATE = registerDefault(BrokenSourceDisplacementPlateBlock.NAME, BrokenSourceDisplacementPlateBlock::new);
+	public static final DeferredHolder<Block, SourceBlock> FIRE_SOURCE = register(SourceBlock.NAME_FIRE, () -> new SourceBlock(ElementType.FIRE, ECProperties.Blocks.SOURCE));
+	public static final DeferredHolder<Block, SourceBlock> WATER_SOURCE = register(SourceBlock.NAME_WATER, () -> new SourceBlock(ElementType.WATER, ECProperties.Blocks.SOURCE));
+	public static final DeferredHolder<Block, SourceBlock> EARTH_SOURCE = register(SourceBlock.NAME_EARTH, () -> new SourceBlock(ElementType.EARTH, ECProperties.Blocks.SOURCE));
+	public static final DeferredHolder<Block, SourceBlock> AIR_SOURCE = register(SourceBlock.NAME_AIR, () -> new SourceBlock(ElementType.AIR, ECProperties.Blocks.SOURCE));
 	public static final DeferredHolder<Block, SourceBreederBlock> SOURCE_BREEDER = registerDefault(SourceBreederBlock.NAME, SourceBreederBlock::new);
 	public static final DeferredHolder<Block, SourceBreederPedestalBlock> SOURCE_BREEDER_PEDESTAL = registerNoOcclusion(SourceBreederPedestalBlock.NAME, SourceBreederPedestalBlock::new);
 	public static final DeferredHolder<Block, TranslocationAnchorBlock> TRANSLOCATION_ANCHOR = registerDefault(TranslocationAnchorBlock.NAME, TranslocationAnchorBlock::new);
@@ -260,7 +268,7 @@ public class ECBlocks {
 	}
 
 	private static <T extends Block> DeferredHolder<Block, StairBlock> registerStairs(DeferredHolder<Block, T> block, BlockBehaviour.Properties properties) {
-		return register(block.getId().getPath() + "_stairs", () -> new StairBlock(() -> block.get().defaultBlockState(), properties));
+		return register(block.getId().getPath() + "_stairs", () -> new StairBlock(block.get().defaultBlockState(), properties));
 	}
 
 	private static <T extends Block> DeferredHolder<Block, WallBlock> registerWall(DeferredHolder<Block, T> block, BlockBehaviour.Properties properties) {
@@ -279,6 +287,16 @@ public class ECBlocks {
 	}
 
 	public static void register(IEventBus bus) {
+		registerAliases(DEFERRED_REGISTER);
 		DEFERRED_REGISTER.register(bus);
+	}
+
+	public static void registerAliases(DeferredRegister<?> register) {
+		register.addAlias(ElementalCraftApi.createRL("extractor"), ElementalCraftApi.createRL(RudimentaryElementExtractorBlock.NAME));
+		register.addAlias(ElementalCraftApi.createRL("extractor_improved"), ElementalCraftApi.createRL(ImprovedElementExtractorBlock.NAME));
+		register.addAlias(ElementalCraftApi.createRL("elementpipe_impaired"), ElementalCraftApi.createRL(ElementPipeBlock.NAME_RUDIMENTARY));
+		register.addAlias(ElementalCraftApi.createRL("solar_synthesizer"), ElementalCraftApi.createRL(SolarSynthesizerBlock.NAME));
+		register.addAlias(ElementalCraftApi.createRL("pureinfuser"), ElementalCraftApi.createRL(PureInfuserBlock.NAME));
+		register.addAlias(ElementalCraftApi.createRL("lavashrine"), ElementalCraftApi.createRL(MeltingShrineBlock.NAME));
 	}
 }

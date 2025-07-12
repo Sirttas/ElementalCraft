@@ -1,0 +1,5 @@
+{
+  "type": "elementalcraft:sculk_cracking",
+  "element_amount": 1000,
+  "input": "minecraft:sculk"
+}

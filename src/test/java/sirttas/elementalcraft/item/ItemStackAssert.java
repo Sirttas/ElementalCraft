@@ -1,10 +1,14 @@
 package sirttas.elementalcraft.item;
 
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.assertj.core.api.AbstractAssert;
 
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
 public class ItemStackAssert extends AbstractAssert<ItemStackAssert, ItemStack> {
@@ -56,10 +60,61 @@ public class ItemStackAssert extends AbstractAssert<ItemStackAssert, ItemStack> 
         return is(item.get());
     }
 
-    public ItemStackAssert hasDamage(int damage) {
-        if (actual.getDamageValue() != damage) {
-            failWithMessage("Expected item stack to have damage %d but was %d", damage, actual.getDamageValue());
+    public ItemStackAssert is(TagKey<Item> tag) {
+        isNotEmpty();
+        if (!actual.is(tag)) {
+            failWithMessage("Expected item stack to be %s but was %s", tag, actual.getItem());
         }
         return this;
+    }
+
+    public ItemStackAssert hasDamage(int damage) {
+        var actualDamage = actual.getDamageValue();
+
+        if (actualDamage != damage) {
+            failWithMessage("Expected item stack to have damage %d but was %d", damage, actualDamage);
+        }
+        return this;
+    }
+
+    public ItemStackAssert hasDamageSatisfying(IntConsumer consumer) {
+        consumer.accept(actual.getDamageValue());
+        return this;
+    }
+
+    public <T> ItemStackAssert hasDataComponent(DataComponentType<T> componentType) {
+        isNotEmpty();
+        if (actual.get(componentType) == null) {
+            failWithMessage("Expected item stack to have component %s", componentType);
+        }
+        return this;
+    }
+
+    public <T> ItemStackAssert hasDataComponent(Supplier<DataComponentType<T>> componentType) {
+        return hasDataComponent(componentType.get());
+    }
+
+    public <T> ItemStackAssert hasDataComponentSatisfying(DataComponentType<T> componentType, Consumer<T> consumer) {
+        hasDataComponent(componentType);
+        consumer.accept(actual.get(componentType));
+        return this;
+    }
+
+    public <T> ItemStackAssert hasDataComponentSatisfying(Supplier<DataComponentType<T>> componentType, Consumer<T> consumer) {
+        hasDataComponent(componentType);
+        consumer.accept(actual.get(componentType));
+        return this;
+    }
+
+    public <T> ItemStackAssert doesNotHaveDataComponent(DataComponentType<T> componentType) {
+        isNotEmpty();
+        if (actual.get(componentType) != null) {
+            failWithMessage("Expected item stack to not have component %s", componentType);
+        }
+        return this;
+    }
+
+    public <T> ItemStackAssert doesNotHaveDataComponent(Supplier<DataComponentType<T>> componentType) {
+        return doesNotHaveDataComponent(componentType.get());
     }
 }

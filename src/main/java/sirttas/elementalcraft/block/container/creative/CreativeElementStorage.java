@@ -2,9 +2,9 @@ package sirttas.elementalcraft.block.container.creative;
 
 import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.DynamicSingleElementStorage;
 
-public class CreativeElementStorage extends SingleElementStorage {
+public class CreativeElementStorage extends DynamicSingleElementStorage {
 
 	public CreativeElementStorage(Runnable syncCallback) {
 		super(1000000, syncCallback);
@@ -32,5 +32,9 @@ public class CreativeElementStorage extends SingleElementStorage {
 	@Override
 	public boolean doesRenderGauge(Player player) {
 		return true;
+	}
+
+	void setElementType(ElementType elementType) {
+		this.elementType = elementType;
 	}
 }

@@ -1,0 +1,31 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 10000,
+  "element_type": "air",
+  "ingredients": [
+    {
+      "item": "elementalcraft:major_rune_slate"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:tyria"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "item": "minecraft:glowstone"
+    },
+    {
+      "item": "minecraft:glowstone"
+    }
+  ],
+  "output": {
+    "components": {
+      "elementalcraft:rune": "elementalcraft:tyria"
+    },
+    "count": 1,
+    "id": "elementalcraft:rune"
+  }
+}

@@ -2,40 +2,52 @@ package sirttas.elementalcraft.block.synthesizer.solar;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.DynamicTest;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
+@ForEachTest(groups = SolarSynthesizerGameTests.GROUP)
 public class SolarSynthesizerGameTests {
 
-    // elementalcraft:solarsynthesizergametests.solar_synthesizer
-    @GameTest(template = "solar_synthesizer")
-    public static void should_generateElementFromLens(GameTestHelper helper) {
-        var ticks = new AtomicInteger(0);
-        var inv = ((SolarSynthesizerBlockEntity) helper.getBlockEntity(new BlockPos(0, 2, 0))).getInventory();
-        var storage = InstrumentGameTestHelper.getContainer(helper, new BlockPos(0, 1, 0));
+    public static final String GROUP = "synthesizer.solar";
 
-        helper.startSequence().thenExecute(() -> {
-            inv.setItem(0, new ItemStack(ECItems.FIRE_LENS.get()));
-        }).thenIdle(1).thenExecuteFor(20, ECGameTestHelper.fixAssertions(() -> {
-            var t = ticks.incrementAndGet();
+    @TestHolder(description = "Checks if the solar synthesizer generates fire from the lens.")
+    @GameTest
+    public static void should_generateFireFromLens(DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 1)
+                .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
+                .set(0, 1, 0, ECBlocks.SOLAR_SYNTHESIZER.get().defaultBlockState()));
 
-            assertThat(inv.getItem(0))
-                    .is(ECItems.FIRE_LENS)
-                    .hasDamage(t);
-            assertThat(storage.getElementAmount(ElementType.FIRE))
-                    .isEqualTo(t * 25);
-        })).thenSucceed();
+        test.onGameTest(ECGameTestHelper.class, helper -> {
+            var ticks = new AtomicInteger(0);
+            var inv = ((SolarSynthesizerBlockEntity) helper.getBlockEntity(new BlockPos(0, 2, 0))).getInventory();
+            var storage = helper.requireElementContainer(new BlockPos(0, 1, 0));
+
+            helper.startSequence().thenExecute(() -> {
+                inv.setItem(0, new ItemStack(ECItems.FIRE_LENS));
+            }).thenIdle(1).thenExecuteFor(20, ECGameTestUtils.fixAssertions(() -> {
+                var t = ticks.incrementAndGet();
+
+                assertThat(inv.getItem(0))
+                        .is(ECItems.FIRE_LENS)
+                        .hasDamage((int) Math.ceil(t / 2F)); // 2 ticks per damage, the solar synthesizer generate by ticks of 50 but only transfer 25
+                assertThat(storage.getElementType())
+                        .isEqualTo(ElementType.FIRE);
+                assertThat(storage.getElementAmount())
+                        .isEqualTo(t * 25);
+            })).thenSucceed();
+        });
     }
 
 }

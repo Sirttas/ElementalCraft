@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:stonewall\"]",
+  "name": "elementalcraft_spell.elementalcraft.stonewall",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.stonewall0"
+    }
+  ],
+  "sortnum": 22,
+  "turnin": "elementalcraft:pickup/scroll"
+}

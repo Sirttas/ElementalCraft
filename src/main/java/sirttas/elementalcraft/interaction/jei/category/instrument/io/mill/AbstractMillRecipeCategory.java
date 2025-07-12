@@ -5,9 +5,9 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.AbstractIOInstrumentRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractMillRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractIOInstrumentRecipeCategory<K, T> {
+public abstract class AbstractMillRecipeCategory<I extends RecipeInput, T extends IInstrumentRecipe<I>> extends AbstractIOInstrumentRecipeCategory<I, T> {
 
     private final List<ItemStack> instruments;
 
@@ -37,7 +37,7 @@ public abstract class AbstractMillRecipeCategory<K extends IInstrument, T extend
         var ingredients = recipe.getIngredients();
 
         builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
-                .addIngredients(ingredients.get(0));
+                .addIngredients(ingredients.getFirst());
 
         var containers = getContainers();
         var types = getElementTypeIngredients(recipe);

@@ -5,10 +5,9 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECNames {
 
+	public static final String COMMON_TAGS_NAMESPACE = "c";
 	public static final String EC_NBT = ElementalCraftApi.MODID;
-	public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
 	public static final String ALWAYS_INSERT = "always_insert";
-	public static final String ANALYZED = "analyzed";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String ATTRIBUTES = "attributes";
 	public static final String BONUSES = "bonuses";
@@ -29,11 +28,7 @@ public class ECNames {
 	public static final String ELEMENT_TYPE = "element_type";
 	public static final String ENCHANTMENT = "enchantment";
 	public static final String END = "end";
-	public static final String EXHAUSTED = "exhausted";
-	public static final String EXTRACTION_AMOUNT = "extraction_amount";
 	public static final String EXTRACTION_SPEED = "extraction_speed";
-	public static final String FORGE = "forge";
-
 	public static final String GEM = "gem";
 	public static final String HAS_BOOK = "has_elementopedia";
 	public static final String HAS_DIFFUSED = "has_diffused";
@@ -55,7 +50,7 @@ public class ECNames {
 	public static final String ORE = "ore";
 	public static final String OUTPUT = "output";
 	public static final String OUTPUTS = "outputs";
-	public static final String PERIODE = "periode";
+	public static final String PERIOD = "period";
 	public static final String PIPE_UPGRADE = "pipe_upgrade";
 	public static final String PIPE_UPGRADE_TAG = "pipe_upgrade_tag";
 	public static final String PIPE_UPGRADE_TYPE = "pipe_upgrade_type";
@@ -66,14 +61,14 @@ public class ECNames {
 	public static final String PURE_ORE_RECIPE_FACTORY_TYPE = "pure_ore_recipe_factory_type";
 	public static final String QUALITY = "quality";
 	public static final String RANGE = "range";
-	public static final String RECOVER_RATE = "recover_rate";
+	public static final String RANGES = "ranges";
 	public static final String RESULT = "result";
 	public static final String RUNE = "rune";
 	public static final String RUNE_HANDLER = "rune_handler";
 	public static final String RUNNING = "running";
-	public static final String SHARD = "shard";
 	public static final String SHRINE_UPGRADE = "shrine_upgrade";
 	public static final String SLOT = "slot";
+	public static final String SLOT_GROUP = "slot_group";
 	public static final String SMALL = "small";
 	public static final String SOURCE_TRAIT = "source_trait";
 	public static final String SOURCE_TRAIT_VALUE_PROVIDER_TYPE = "source_trait_value_provider_type";
@@ -86,7 +81,7 @@ public class ECNames {
 	public static final String STEPS = "steps";
 	public static final String TOOL_INFUSION = "tool_infusion";
 	public static final String TOOL_INFUSION_TYPE = "tool_infusion_type";
-	public static final String TRAITS_HOLDER = "traits_holder";
+	public static final String SOURCE_TRAITS_HOLDER = "source_traits_holder";
 	public static final String TRANSFERER = "transferer";
 	public static final String USE_DURATION = "use_duration";
 	public static final String VALUE = DPAnvilNames.VALUE;
@@ -102,9 +97,14 @@ public class ECNames {
     public static final String PROVIDER = "provider";
     public static final String BREED_INDEX = "breed_index";
     public static final String BREEDING_COST = "breeding_cost";
-    public static final String TARGET = "target";
+    public static final String TARGET_POS = "target_pos";
 	public static final String SHRINE_PROPERTIES = "shrine_properties";
 	public static final String SPELL_PROPERTIES = "spell_properties";
+	public static final String LOCKED = "locked";
+	public static final String TRANSFER_SPEED = "transfer_speed";
+	public static final String MAX_RUNES = "max_runes";
+	public static final String LISTENER = "listener";
+	public static final String DAMAGE = "damage";
 
 	private ECNames() {}
 }

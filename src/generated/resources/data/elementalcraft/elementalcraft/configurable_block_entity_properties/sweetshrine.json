@@ -1,0 +1,14 @@
+{
+  "type": "elementalcraft:shrine",
+  "element_capacity": 10000,
+  "element_consumption": 500,
+  "element_type": "water",
+  "period": 40.0,
+  "ranges": {
+    "default": "elementalcraft:box_radius_10"
+  },
+  "strength": [
+    1.0,
+    0.1
+  ]
+}

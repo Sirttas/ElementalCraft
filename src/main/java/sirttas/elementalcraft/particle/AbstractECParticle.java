@@ -29,20 +29,13 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 	@SuppressWarnings("deprecation")
 	static final ParticleRenderType EC_RENDER = new ParticleRenderType() {
 		@Override
-		public void begin(BufferBuilder buffer, @Nonnull TextureManager textureManager) {
+		public BufferBuilder begin(Tesselator tesselator, @Nonnull TextureManager textureManager) {
 			RenderSystem.enableDepthTest();
 			RenderSystem.depthMask(false);
 			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-			buffer.begin(Mode.QUADS, DefaultVertexFormat.PARTICLE);
-		}
-
-		@Override
-		public void end(Tesselator tesselator) {
-			tesselator.end();
-			RenderSystem.depthMask(true);
-			RenderSystem.disableBlend();
+			return tesselator.begin(Mode.QUADS, DefaultVertexFormat.PARTICLE);
 		}
 
 		@Override
@@ -51,8 +44,8 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 		}
 	};
 	
-	protected AbstractECParticle(ClientLevel world, Vec3 coord) {
-		super(world, coord.x(), coord.y(), coord.z());
+	protected AbstractECParticle(ClientLevel level, Vec3 coord) {
+		super(level, coord.x(), coord.y(), coord.z());
 		this.coordX = coord.x();
 		this.coordY = coord.y();
 		this.coordZ = coord.z();
@@ -70,8 +63,7 @@ public abstract class AbstractECParticle extends TextureSheetParticle {
 	}
 
 	@Nonnull
-    @SuppressWarnings("resource")
-	@Override
+    @Override
 	@OnlyIn(Dist.CLIENT)
 	public ParticleRenderType getRenderType() {
 		return Minecraft.getInstance().options.graphicsMode().get() == GraphicsStatus.FAST ? ParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;

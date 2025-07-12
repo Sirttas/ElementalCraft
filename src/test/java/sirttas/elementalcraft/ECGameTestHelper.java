@@ -3,80 +3,59 @@ package sirttas.elementalcraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestAssertException;
-import net.minecraft.gametest.framework.GameTestBatch;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
+import net.minecraft.gametest.framework.GameTestInfo;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
+import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.IElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.block.container.ElementContainer;
+import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
+import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.rune.RuneItem;
+import sirttas.elementalcraft.jewel.Jewel;
+import sirttas.elementalcraft.jewel.JewelTestHelper;
 
+import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-public class ECGameTestHelper {
+import static org.assertj.core.api.Assertions.assertThat;
 
-    public static final String EMPTY_TEMPLATE = "empty";
-    public static final String EMPTY_CONTAINER_TEMPLATE = "empty_container";
+public class ECGameTestHelper extends ExtendedGameTestHelper {
 
-    private ECGameTestHelper() {}
-
-    public static TestFunction createTestFunction(String name, String template, Consumer<GameTestHelper> function) {
-        return createTestFunction(name, template, Rotation.NONE, function);
+    public ECGameTestHelper(GameTestInfo info) {
+        super(info);
     }
 
-    public static TestFunction createTestFunction(String name, String template, Rotation rotation, Consumer<GameTestHelper> function) {
-        return createTestFunction(GameTestBatch.DEFAULT_BATCH_NAME, name, template, rotation, function);
+    public void useItemOn(Player player, int x, int y, int z) {
+        useItemOn(player, new BlockPos(x, y, z));
     }
 
-    public static TestFunction createTestFunction(String batchName, String name, String template, Rotation rotation, Consumer<GameTestHelper> function) {
-        if (!template.startsWith("elementalcraft:")) {
-            template = "elementalcraft:" + template;
-        }
-        if (!name.endsWith(":" + template)) {
-            name += ":" + template;
-        }
-
-        return new TestFunction(batchName, name, template, rotation, 100, 0, true, fixAssertions(function));
+    public void useItemOn(Player player, BlockPos pos) {
+        useItemOn(player, pos, Direction.NORTH);
     }
 
-    public static Consumer<GameTestHelper> fixAssertions(Consumer<GameTestHelper> function) {
-        return helper -> {
-            try {
-                function.accept(helper);
-            } catch (AssertionError e) {
-                logAssertionError(e);
-                helper.fail(e.getMessage());
-            }
-        };
-    }
-
-    public static Runnable fixAssertions(Runnable function) {
-        return () -> {
-            try {
-                function.run();
-            } catch (AssertionError e) {
-                logAssertionError(e);
-                throw new GameTestAssertException(e.getMessage());
-            }
-        };
-    }
-
-    private static void logAssertionError(AssertionError e) {
-        ElementalCraftApi.LOGGER.error("Assertion failed: ", e);
-    }
-
-    public static void useItemOn(GameTestHelper helper, Player player, BlockPos pos) {
-        useItemOn(helper, player, pos, Direction.NORTH);
-    }
-
-    public static void useItemOn(GameTestHelper helper, Player player, BlockPos pos, Direction direction) {
-        var absolutePos = helper.absolutePos(pos);
+    public void useItemOn(Player player, BlockPos pos, Direction direction) {
+        var absolutePos = absolutePos(pos);
         var result = new BlockHitResult(Vec3.atCenterOf(absolutePos), direction, absolutePos, true);
         var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
@@ -85,10 +64,125 @@ public class ECGameTestHelper {
             stack.useOn(useoncontext);
             return;
         }
-        helper.useBlock(pos, player, result);
+        useBlock(pos, player, result);
     }
 
-    public static void discardItems(GameTestHelper helper, BlockPos pos, int expansionAmount) {
-        helper.getLevel().getEntities(EntityType.ITEM, new AABB(helper.absolutePos(pos)).inflate(expansionAmount), Entity::isAlive).forEach(e -> e.remove(Entity.RemovalReason.DISCARDED));
+    public void discardItems(BlockPos pos, int expansionAmount) {
+        getLevel().getEntities(EntityType.ITEM, new AABB(absolutePos(pos)).inflate(expansionAmount), Entity::isAlive).forEach(e -> e.remove(Entity.RemovalReason.DISCARDED));
+    }
+
+    @Nonnull
+    public Player mockChiselPlayer(BlockPos pos) {
+        var player = makeMockPlayer();
+
+        player.moveTo(absoluteVec(Vec3.atCenterOf(pos)));
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.SWIFT_ALLOY_CHISEL));
+        return player;
+    }
+
+    public Player mockPlayerWithJewel(Supplier<? extends Jewel> jewel) {
+        return mockPlayerWithJewel(new Vec3(1, 1, 1), jewel);
+    }
+
+    public Player mockPlayerWithJewel(Vec3 pos, Supplier<? extends Jewel> jewel) {
+        var player = makeMockPlayer(GameType.SURVIVAL);
+
+        player.moveTo(absoluteVec(pos));
+        player.setItemSlot(EquipmentSlot.HEAD, JewelTestHelper.createWithJewel(Items.LEATHER_HELMET, jewel));
+        player.setItemInHand(InteractionHand.OFF_HAND, JewelTestHelper.createFullPureHolder());
+        getLevel().addFreshEntity(player);
+        return player;
+    }
+
+    @Nonnull
+    public Player mockReceptaclePlayer() {
+        var player = makeMockPlayer();
+
+        player.moveTo(Vec3.atLowerCornerOf(this.testInfo.getStructureBlockPos()));
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.EMPTY_RECEPTACLE));
+        return player;
+    }
+
+    public IElementStorage getElementStorage(BlockPos pos) {
+        return getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, null);
+    }
+
+    public ISingleElementStorage getElementContainer(BlockPos pos) {
+        return ElementContainer.getElementContainer(getLevel(), absolutePos(pos));
+    }
+
+    public ISingleElementStorage requireElementContainer(BlockPos pos) {
+        var container = getElementContainer(pos);
+
+        if (container == null) {
+            throw new GameTestAssertException("Expected ElementContainer at " + pos);
+        }
+        return container;
+    }
+
+    public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(ItemStack input, ElementType elementType, Consumer<T> consumer) {
+        runInstrument(List.of(input), elementType, true, consumer);
+    }
+
+    public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(List<ItemStack> inputs, ElementType elementType, Consumer<T> consumer) {
+        runInstrument(inputs, elementType, true, consumer);
+    }
+
+    public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(BlockPos pos, ItemStack input, ElementType elementType, Consumer<T> consumer) {
+        runInstrument(pos, List.of(input), elementType, true, consumer);
+    }
+
+    public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(BlockPos pos, List<ItemStack> inputs, ElementType elementType, Consumer<T> consumer) {
+        runInstrument(pos, inputs, elementType, true, consumer);
+    }
+
+    public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(ItemStack input, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
+        runInstrument(List.of(input), elementType, recipeAvailable, consumer);
+    }
+
+    public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(List<ItemStack> inputs, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
+        runInstrument(new BlockPos(0, 2, 0), inputs, elementType, recipeAvailable, consumer);
+    }
+
+    public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(BlockPos pos, List<ItemStack> inputs, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
+        T instrument = this.getBlockEntity(pos);
+        var container = this.requireElementContainer(pos.below());
+
+        this.startSequence().thenExecute(ECGameTestUtils.fixAssertions(() -> {
+                    var inv = instrument.getInventory();
+
+                    for (int i = 0; i < inputs.size(); i++) {
+                        inv.setItem(i, inputs.get(i));
+                    }
+                    container.fill(elementType);
+
+                    assertThat(instrument.isRecipeAvailable())
+                            .withFailMessage(() -> recipeAvailable ? "Recipe is not available but it should be" : "Recipe is available but it should not be")
+                            .isEqualTo(recipeAvailable);
+                })).thenExecuteAfter(2, ECGameTestUtils.fixAssertions(() -> consumer.accept(instrument)))
+                .thenSucceed();
+    }
+
+    public void assertRuneIs(Rune rune, ResourceKey<Rune> name) {
+        assertRuneIs(rune, name.location());
+    }
+
+    public void assertRuneIs(Rune rune, ResourceLocation name) {
+        if (!rune.is(IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, name))) {
+            throw new GameTestAssertException("Expected rune " + name + " but got " + rune);
+        }
+    }
+
+    public void assertRuneIs(ItemStack stack, ResourceKey<Rune> name) {
+        assertRuneIs(stack, name.location());
+    }
+
+    public void assertRuneIs(ItemStack stack, ResourceLocation name) {
+        var rune = RuneItem.getRune(stack);
+
+        if (rune == null) {
+            throw new GameTestAssertException("Expected rune " + name + " but got " + stack);
+        }
+        assertRuneIs(rune.value(), name);
     }
 }

@@ -17,11 +17,12 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.AbstractHorizontalShrineUpgradeBlock;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
+import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<BuddingShrineBlock.CrystalType> {
+public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<BuddingShrineBlock.CrystalType> {
 
     private final ITickTimer timer;
     private final BlockState springalineShrineUpgrade;
@@ -30,7 +31,7 @@ public class BuddingShrineRecipeCategory extends AbstractShrineRecipeCategory<Bu
         super("elementalcraft.jei.buddingshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.BUDDING_SHRINE.get())), guiHelper.createBlankDrawable(110, 66));
         timer = guiHelper.createTickTimer(100, 4, false);
         springalineShrineUpgrade = ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get().defaultBlockState().setValue(AbstractHorizontalShrineUpgradeBlock.FACING, Direction.SOUTH);
-        setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
+        addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
     }
 
     @Nonnull

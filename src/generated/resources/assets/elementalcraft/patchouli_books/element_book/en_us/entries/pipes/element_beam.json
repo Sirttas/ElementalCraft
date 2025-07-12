@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/cover_frame",
+  "category": "elementalcraft:pipes",
+  "icon": "elementalcraft:element_beam",
+  "name": "elementalcraft.pipe_upgrade.elementalcraft.element_beam",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.element_beam0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:element_beam"
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:pickup/element_beam"
+}

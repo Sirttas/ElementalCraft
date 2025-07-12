@@ -16,7 +16,7 @@ public class SawingRecipeBuilder {
 	private final Item result;
 	private Ingredient ingredient;
 	private int elementAmount;
-	private int luckRatio;
+	private double luckRatio;
 	private int count;
 
 	public SawingRecipeBuilder(ItemLike result) {
@@ -52,7 +52,7 @@ public class SawingRecipeBuilder {
 		return this;
 	}
 
-	public SawingRecipeBuilder withLuckRatio(int luckRatio) {
+	public SawingRecipeBuilder withLuckRatio(double luckRatio) {
 		this.luckRatio = luckRatio;
 		return this;
 	}
@@ -70,7 +70,7 @@ public class SawingRecipeBuilder {
 
 	public void save(RecipeOutput recipeOutput, String save) {
 		ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
-		if ((new ResourceLocation(save)).equals(resourcelocation)) {
+		if (ResourceLocation.parse(save).equals(resourcelocation)) {
 			throw new IllegalStateException("Sawing Recipe " + save + " should remove its 'save' argument");
 		} else {
 			this.save(recipeOutput, ElementalCraftApi.createRL(SawingRecipe.NAME + '/' + save));

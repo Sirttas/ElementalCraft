@@ -1,0 +1,19 @@
+{
+  "advancement": "elementalcraft:main/infuser",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:spell_desk",
+  "name": "block.elementalcraft.spell_desk",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.spell_desk0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:spell_desk"
+    }
+  ],
+  "priority": true,
+  "sortnum": 0,
+  "turnin": "elementalcraft:pickup/spell_desk"
+}

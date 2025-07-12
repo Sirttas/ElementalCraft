@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:mole",
+  "name": "elementalcraft.jewel.elementalcraft.mole",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.mole0"
+    }
+  ],
+  "sortnum": 8,
+  "turnin": "elementalcraft:pickup/mole"
+}

@@ -10,8 +10,10 @@
 /.idea/
 /run-server/
 /test-server/*
-!/runs/gameTestServer/server.properties
+#!/runs/gameTestServer/server.properties
 !/runs/gameTestServer/config/elementalcraft-server.toml
+#!/runs/templateGameTestServer/server.properties
+!/runs/templateGameTestServer/config/elementalcraft-server.toml
 /logs/
 /.factorypath
 /Users/
@@ -20,3 +22,4 @@
 /sonar.bat
 /.apt_generated/
 /runs/
+settings.gradle

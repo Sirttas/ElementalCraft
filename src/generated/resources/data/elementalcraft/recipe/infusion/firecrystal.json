@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:infusion",
+  "element_amount": 1000,
+  "element_type": "fire",
+  "input": {
+    "item": "elementalcraft:inert_crystal"
+  },
+  "output": {
+    "count": 1,
+    "id": "elementalcraft:firecrystal"
+  }
+}

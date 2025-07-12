@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "l": {
+      "tag": "c:leathers"
+    },
+    "p": {
+      "item": "elementalcraft:scroll_paper"
+    },
+    "s": {
+      "item": "elementalcraft:air_silk"
+    }
+  },
+  "pattern": [
+    "slp",
+    "clp",
+    "slp"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:spell_book"
+  }
+}

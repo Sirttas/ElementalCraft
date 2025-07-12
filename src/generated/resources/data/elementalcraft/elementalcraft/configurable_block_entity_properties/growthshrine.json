@@ -1,0 +1,47 @@
+{
+  "type": "elementalcraft:shrine",
+  "element_capacity": 10000,
+  "element_consumption": 50,
+  "element_type": "water",
+  "period": 20.0,
+  "ranges": {
+    "crystal_growth": {
+      "box": [
+        -4.0,
+        -4.0,
+        -4.0,
+        5.0,
+        5.0,
+        5.0
+      ],
+      "growth_ratio": [
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "stitch": true
+    },
+    "default": {
+      "box": [
+        -4.0,
+        0.0,
+        -4.0,
+        5.0,
+        3.0,
+        5.0
+      ],
+      "growth_ratio": [
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "stitch": true
+    }
+  }
+}

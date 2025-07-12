@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "item": "elementalcraft:pristine_air_gem"
+    },
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    },
+    "f": {
+      "item": "elementalcraft:fine_air_gem"
+    },
+    "s": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "sas",
+    "cUc",
+    "sfs"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:tiger"
+  }
+}

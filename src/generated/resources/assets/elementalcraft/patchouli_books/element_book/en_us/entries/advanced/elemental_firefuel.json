@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:main/binder",
+  "category": "elementalcraft:advanced",
+  "icon": "elementalcraft:elemental_firefuel",
+  "name": "item.elementalcraft.elemental_firefuel",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.elemental_firefuel0"
+    }
+  ],
+  "sortnum": 5,
+  "turnin": "elementalcraft:pickup/elemental_firefuel"
+}

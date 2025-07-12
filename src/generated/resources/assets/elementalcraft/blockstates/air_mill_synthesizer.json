@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "broken=false,half=lower": {
+      "model": "elementalcraft:block/air_mill_synthesizer_lower"
+    },
+    "broken=true,half=lower": {
+      "model": "elementalcraft:block/air_mill_synthesizer_broken"
+    },
+    "half=upper": {
+      "model": "elementalcraft:block/air_mill_upper"
+    }
+  }
+}

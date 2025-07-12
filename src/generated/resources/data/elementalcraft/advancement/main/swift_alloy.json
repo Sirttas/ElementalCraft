@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/binder",
+  "criteria": {
+    "has_swift_alloy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:swift_alloy_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.swift_alloy.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:swift_alloy_ingot"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.swift_alloy.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_swift_alloy"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

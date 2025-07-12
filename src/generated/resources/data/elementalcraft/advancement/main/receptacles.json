@@ -1,0 +1,85 @@
+{
+  "parent": "elementalcraft:main/empty_receptacle",
+  "criteria": {
+    "use_air_receptacle": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "elementalcraft:air_source"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    },
+    "use_earth_receptacle": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "elementalcraft:earth_source"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    },
+    "use_fire_receptacle": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "elementalcraft:fire_source"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    },
+    "use_water_receptacle": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "elementalcraft:water_source"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.receptacles.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:fire_source"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.receptacles.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_fire_receptacle"
+    ],
+    [
+      "use_water_receptacle"
+    ],
+    [
+      "use_earth_receptacle"
+    ],
+    [
+      "use_air_receptacle"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import sirttas.elementalcraft.component.ECDataComponents;
 
 public class ECProperties {
 
@@ -60,10 +61,12 @@ public class ECProperties {
 	}
 
 	public static class Items {
-		public static final Item.Properties DEFAULT_ITEM_PROPERTIES = new Item.Properties();
-		public static final Item.Properties ITEM_UNSTACKABLE = new Item.Properties().stacksTo(1);
-		public static final Item.Properties FIREITE = new Item.Properties().fireResistant();
-		
+		public static final Item.Properties ITEM_UNSTACKABLE = new Item.Properties()
+				.stacksTo(1);
+		public static final Item.Properties HOLDER = new Item.Properties()
+				.stacksTo(1)
+				.component(ECDataComponents.ELEMENT_AMOUNT, 0);
+
 		private Items() {}
 	}
 }

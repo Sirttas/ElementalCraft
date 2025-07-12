@@ -26,12 +26,12 @@ public abstract class AbstractInfusionRecipeBuilder {
 	public void save(RecipeOutput recipeOutput) {
 		ResourceLocation id = getId();
 
-		this.save(recipeOutput, new ResourceLocation(id.getNamespace(), IInfusionRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), IInfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
 		ResourceLocation resourcelocation = getId();
-		if ((new ResourceLocation(save)).equals(resourcelocation)) {
+		if (ResourceLocation.parse(save).equals(resourcelocation)) {
 			throw new IllegalStateException("Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
 			this.save(recipeOutput, ElementalCraftApi.createRL(IInfusionRecipe.NAME + '/' + save));

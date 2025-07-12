@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.container;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 public interface IContainerTopBlockEntity {
 
@@ -15,7 +14,7 @@ public interface IContainerTopBlockEntity {
 		var self = self();
 
 		//noinspection ConstantConditions
-		return self.hasLevel() ? BlockEntityHelper.getElementContainer(self.getBlockState(), self.getLevel(), self.getBlockPos().below()).orElse(null) : null;
+		return self.hasLevel() ? ElementContainer.getElementContainer(self.getBlockState(), self.getLevel(), self.getBlockPos().below()) : null;
 	}
 
 	default ElementType getContainerElementType() {

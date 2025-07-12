@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:inscriber",
+  "name": "block.elementalcraft.inscriber",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.inscriber0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:inscriber"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:inscriber"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:main/inscriber"
+}

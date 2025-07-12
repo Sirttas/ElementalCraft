@@ -1,0 +1,8 @@
+{
+  "type": "elementalcraft:synthesizer",
+  "element_capacity": 2000,
+  "element_type": "water",
+  "max_runes": 1,
+  "synthesis_multiplier": 50.0,
+  "transfer_speed": 5
+}

@@ -3,11 +3,13 @@ package sirttas.elementalcraft.interaction.jei.ingredient.source;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.event.TickHandler;
 
@@ -52,10 +54,14 @@ public class SourceIngredientRenderer implements IIngredientRenderer<IngredientS
 		RenderSystem.depthMask(true);
 	}
 
-	@Nonnull
-    @Override
-	public List<Component> getTooltip(IngredientSource ingredient, @Nonnull TooltipFlag tooltipFlag) {
-		return List.of(ingredient.getDisplayName());
+	@Override
+	public List<Component> getTooltip(@NotNull IngredientSource ingredientSource, @NotNull TooltipFlag tooltipFlag) {
+		return List.of();
+	}
+
+	@Override
+	public void getTooltip(ITooltipBuilder tooltip, IngredientSource ingredient, @NotNull TooltipFlag tooltipFlag) {
+		tooltip.add(ingredient.getDisplayName());
 	}
 
 }

@@ -1,11 +1,10 @@
 package sirttas.elementalcraft.block.instrument.io.mill;
 
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Rotation;
+import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public record MillTestCaseHolder(
         ItemLike output,
         ElementType type
 ) {
-    public static final String BATCH_NAME = "mill";
+    public static final String GROUP = "level.blocks.instruments.mills";
 
     public static final List<MillTestCaseHolder> HOLDERS = List.of(
             of("water_mill_grindstone", Items.GRAVEL, Items.SAND, ElementType.WATER),
@@ -30,7 +29,7 @@ public record MillTestCaseHolder(
         return new MillTestCaseHolder("millgametests." + template, input, output, type);
     }
 
-    public TestFunction createTestFunction(String name, BiConsumer<GameTestHelper, MillTestCaseHolder> function) {
-        return ECGameTestHelper.createTestFunction(BATCH_NAME, name, template, Rotation.NONE, h -> function.accept(h, this));
+    public Test createTest(String name, String description, BiConsumer<ECGameTestHelper, MillTestCaseHolder> function) {
+        return ECGameTestUtils.createTest(GROUP, name, description, template, h -> function.accept(h, this));
     }
 }

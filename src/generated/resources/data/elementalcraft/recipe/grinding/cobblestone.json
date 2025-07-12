@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "tag": "c:stones"
+  },
+  "luck_ratio": 1.0,
+  "output": {
+    "count": 1,
+    "id": "minecraft:cobblestone"
+  }
+}

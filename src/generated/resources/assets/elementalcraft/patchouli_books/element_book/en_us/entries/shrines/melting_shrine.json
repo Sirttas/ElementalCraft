@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:melting_shrine",
+  "name": "block.elementalcraft.melting_shrine",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.melting_shrine0"
+    }
+  ],
+  "sortnum": 10,
+  "turnin": "elementalcraft:pickup/melting_shrine"
+}

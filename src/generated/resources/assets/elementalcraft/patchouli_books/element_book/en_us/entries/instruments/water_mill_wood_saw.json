@@ -1,0 +1,35 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:water_mill_wood_saw",
+  "name": "block.elementalcraft.water_mill_wood_saw",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.water_mill_wood_saw0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:water_mill_wood_saw"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:water_mill_wood_saw"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 7,
+  "turnin": "elementalcraft:main/water_mill_wood_saw"
+}

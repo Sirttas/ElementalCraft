@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlock;
@@ -77,30 +77,29 @@ public class EnchantmentLiquefierBlock extends AbstractECContainerBlock implemen
 
     @Nonnull
     @Override
-    @Deprecated
-    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
         if (!isLower(state)) {
             pos = pos.below();
         }
 
-        var enchantmentLiquefier = (EnchantmentLiquefierBlockEntity) world.getBlockEntity(pos);
+        var enchantmentLiquefier = (EnchantmentLiquefierBlockEntity) level.getBlockEntity(pos);
         var heldItem = player.getItemInHand(hand);
-        var inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
+        var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
         if (enchantmentLiquefier != null && hand == InteractionHand.MAIN_HAND) {
             if ((enchantmentLiquefier.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !enchantmentLiquefier.getInventory().isEmpty()) {
                 for (int i = 0; i < inv.getSlots(); i++) {
                     this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
                 }
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
             for (int i = 0; i < inv.getSlots(); i++) {
-                if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i).shouldSwing()) {
-                    return InteractionResult.SUCCESS;
+                if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == ItemInteractionResult.SUCCESS) {
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Nullable
@@ -116,19 +115,18 @@ public class EnchantmentLiquefierBlock extends AbstractECContainerBlock implemen
     }
 
     @Override
-    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        worldIn.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        level.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
     }
 
     @Override
-    public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+    public @NotNull BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
         AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
         return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
     @Nonnull
-    @Deprecated
     public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
         return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> {
             WaterLoggingHelper.scheduleWaterTick(state, level, pos);
@@ -150,23 +148,20 @@ public class EnchantmentLiquefierBlock extends AbstractECContainerBlock implemen
     }
 
     @Override
-    @Deprecated
     public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
         var below = pos.below();
 
-        return (isLower(state) && BlockEntityHelper.isValidContainer(state, level, below)) || level.getBlockState(below).is(this);
+        return (isLower(state) && ElementContainer.isValidContainer(state, level, below)) || level.getBlockState(below).is(this);
     }
 
     @Nonnull
     @Override
-    @Deprecated
     public FluidState getFluidState(@Nonnull BlockState state) {
         return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Nonnull
     @Override
-    @Deprecated
     public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return isLower(state) ? SHAPE_LOWER : BinderBlock.SHAPE;
     }

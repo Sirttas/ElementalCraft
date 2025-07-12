@@ -1,0 +1,32 @@
+{
+  "type": "elementalcraft:shrine",
+  "element_capacity": 10000,
+  "element_consumption": 2000,
+  "element_type": "earth",
+  "period": 200.0,
+  "ranges": {
+    "crystal_harvest": {
+      "parent": "elementalcraft:box_radius_10",
+      "stitch": true
+    },
+    "default": {
+      "box": [
+        -12.0,
+        -400.0,
+        -12.0,
+        13.0,
+        0.0,
+        13.0
+      ],
+      "growth_ratio": [
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "stitch": true
+    }
+  }
+}

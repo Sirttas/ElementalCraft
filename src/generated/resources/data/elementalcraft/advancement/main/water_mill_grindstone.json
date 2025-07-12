@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/drenched_iron",
+  "criteria": {
+    "has_water_mill_grindstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:water_mill_grindstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.water_mill_grindstone.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:water_mill_grindstone"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.water_mill_grindstone.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_water_mill_grindstone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

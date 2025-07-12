@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/focus",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:spell_book",
+  "name": "item.elementalcraft.spell_book",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.spell_book0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:spell_book"
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:pickup/spell_book"
+}

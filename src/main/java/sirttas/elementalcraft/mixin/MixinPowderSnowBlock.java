@@ -21,7 +21,7 @@ public abstract class MixinPowderSnowBlock extends Block {
             at = @At("RETURN"),
             cancellable = true)
     private static void canEntityWalkOnPowderSnow$return(Entity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValueZ() && JewelHelper.hasJewel(entity, Jewels.ARCTIC_HARES.get())) {
+        if (!cir.getReturnValueZ() && JewelHelper.hasJewel(entity, Jewels.ARCTIC_HARE.get())) {
             cir.setReturnValue(true);
         }
     }

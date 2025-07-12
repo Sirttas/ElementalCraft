@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_sweetshrine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:sweetshrine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_sweetshrine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

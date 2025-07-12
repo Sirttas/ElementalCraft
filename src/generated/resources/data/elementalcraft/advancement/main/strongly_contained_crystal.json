@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/swift_alloy",
+  "criteria": {
+    "has_strongly_contained_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:strongly_contained_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.strongly_contained_crystal.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:strongly_contained_crystal"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.strongly_contained_crystal.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_strongly_contained_crystal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

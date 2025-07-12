@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:animal_growth\"]",
+  "name": "elementalcraft_spell.elementalcraft.animal_growth",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.animal_growth0"
+    }
+  ],
+  "sortnum": 6,
+  "turnin": "elementalcraft:pickup/scroll"
+}

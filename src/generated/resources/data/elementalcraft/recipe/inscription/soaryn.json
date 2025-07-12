@@ -1,0 +1,36 @@
+{
+  "type": "elementalcraft:inscription",
+  "element_amount": 5000,
+  "element_type": "earth",
+  "ingredients": [
+    {
+      "item": "elementalcraft:minor_rune_slate"
+    },
+    {
+      "item": "elementalcraft:crude_earth_gem"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:wii"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "elementalcraft:rune": "elementalcraft:manx"
+      },
+      "items": "elementalcraft:rune",
+      "strict": true
+    }
+  ],
+  "output": {
+    "components": {
+      "elementalcraft:rune": "elementalcraft:soaryn"
+    },
+    "count": 1,
+    "id": "elementalcraft:rune"
+  }
+}

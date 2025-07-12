@@ -16,11 +16,12 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
+import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
-public class SpringShrineRecipeCategory extends AbstractShrineRecipeCategory<SpringShrineBlock> {
+public class SpringShrineRecipeCategory extends AbstractECRecipeCategory<SpringShrineBlock> {
 
     private final BlockState water;
     private final BlockState springShrine;
@@ -32,7 +33,7 @@ public class SpringShrineRecipeCategory extends AbstractShrineRecipeCategory<Spr
         springShrine = ECBlocks.SPRING_SHRINE.get().defaultBlockState();
 
         timer = guiHelper.createTickTimer(40, 1, false);
-        setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 64);
+        addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 64);
     }
 
     @Nonnull

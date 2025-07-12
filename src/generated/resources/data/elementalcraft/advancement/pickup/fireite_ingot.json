@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_fireite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fireite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_fireite_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

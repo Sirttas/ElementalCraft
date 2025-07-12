@@ -14,5 +14,6 @@ public class ECDamageTypeProvider extends AbstractECRegistryBootstrap<DamageType
     @Override
     protected void gather() {
         add(ECDamageTypes.HOLY_FIRE, new DamageType("elementalcraft.holy_fire", 0.1F, DamageEffects.BURNING));
+        add(ECDamageTypes.DRAINING, new DamageType("elementalcraft.draining", 0));
     }
 }

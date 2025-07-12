@@ -26,13 +26,11 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.MODEL;
 	}
 
 	@Override
-	@Deprecated
 	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()) {
 			dropItems(level, pos);
@@ -85,7 +83,6 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	@Deprecated
 	public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
 		return true;
 	}

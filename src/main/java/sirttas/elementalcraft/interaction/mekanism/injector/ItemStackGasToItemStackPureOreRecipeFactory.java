@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.interaction.mekanism.injector;
 
-import mekanism.api.chemical.gas.Gas;
-import mekanism.api.chemical.gas.GasStack;
-import mekanism.api.recipes.ItemStackGasToItemStackRecipe;
+import mekanism.api.chemical.ChemicalStack;
+import mekanism.api.recipes.ItemStackChemicalToItemStackRecipe;
 import mekanism.api.recipes.ingredients.ChemicalStackIngredient;
 import mekanism.api.recipes.ingredients.ItemStackIngredient;
+import mekanism.api.recipes.vanilla_input.SingleItemChemicalRecipeInput;
 import mekanism.common.recipe.lookup.cache.InputRecipeCache;
 import mekanism.common.registration.impl.RecipeTypeRegistryObject;
 import net.minecraft.core.RegistryAccess;
@@ -16,23 +16,27 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class ItemStackGasToItemStackPureOreRecipeFactory<T extends ItemStackGasToItemStackRecipe> extends AbstractMekanismPureOreRecipeFactory<T> {
+public class ItemStackGasToItemStackPureOreRecipeFactory<T extends ItemStackChemicalToItemStackRecipe> extends AbstractMekanismPureOreRecipeFactory<SingleItemChemicalRecipeInput, T> {
 
 	private final Factory<T> factory;
 
-	public ItemStackGasToItemStackPureOreRecipeFactory(@Nonnull RecipeManager recipeManager, @Nonnull RecipeTypeRegistryObject<T, InputRecipeCache.ItemChemical<Gas, GasStack, ItemStackGasToItemStackRecipe>> recipeType, @Nonnull Factory<T> factory) {
+	public ItemStackGasToItemStackPureOreRecipeFactory(@Nonnull RecipeManager recipeManager, @Nonnull RecipeTypeRegistryObject<SingleItemChemicalRecipeInput, T, InputRecipeCache.ItemChemical<ItemStackChemicalToItemStackRecipe>> recipeType, @Nonnull Factory<T> factory) {
 		super(recipeManager, recipeType);
 		this.factory = factory;
 	}
 
 	@Override
 	public T create(@NotNull RegistryAccess registry, @NotNull T recipe, @NotNull Ingredient ingredient) {
-		return factory.create(getInput(ingredient, recipe.getItemInput()), tweakOutput(recipe.getChemicalInput()), getRecipeOutput(registry, recipe));
+		return factory.create(
+				getInput(ingredient, recipe.getItemInput()),
+				tweakOutput(recipe.getChemicalInput()),
+				getRecipeOutput(registry, recipe),
+				recipe.perTickUsage());
 	}
 
 	@Override
 	public ItemStack getRecipeOutput(@NotNull RegistryAccess registry, @NotNull T recipe) {
-		return tweakOutput(recipe.getOutput(ItemStack.EMPTY, GasStack.EMPTY));
+		return tweakOutput(recipe.getOutput(ItemStack.EMPTY, ChemicalStack.EMPTY));
 	}
 
 	@Override
@@ -41,6 +45,6 @@ public class ItemStackGasToItemStackPureOreRecipeFactory<T extends ItemStackGasT
 	}
 
 	public interface Factory<T> {
-		T create(ItemStackIngredient itemInput, ChemicalStackIngredient.GasStackIngredient gasInput, ItemStack output);
+		T create(ItemStackIngredient itemInput, ChemicalStackIngredient gasInput, ItemStack output, boolean perTickUsage);
 	}
 }

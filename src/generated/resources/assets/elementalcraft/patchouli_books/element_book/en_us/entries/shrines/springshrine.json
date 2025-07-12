@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:springshrine",
+  "name": "block.elementalcraft.springshrine",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.springshrine0"
+    }
+  ],
+  "sortnum": 14,
+  "turnin": "elementalcraft:pickup/springshrine"
+}

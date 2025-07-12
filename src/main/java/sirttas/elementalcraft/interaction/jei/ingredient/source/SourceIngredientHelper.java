@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 
 import javax.annotation.Nonnull;
@@ -57,7 +58,7 @@ public class SourceIngredientHelper implements IIngredientHelper<IngredientSourc
 	@Nonnull
     @Override
 	public IIngredientType<IngredientSource> getIngredientType() {
-		return IngredientSource.TYPE;
+		return ECIngredientTypes.SOURCE;
 	}
 
 	@Nonnull

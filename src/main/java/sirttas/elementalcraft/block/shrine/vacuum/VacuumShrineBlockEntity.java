@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.vacuum;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -12,24 +13,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.network.PacketDistributor;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexPullPlayerPayload;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
-import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
 import java.util.List;
 
 public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(VacuumShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(VacuumShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 	public VacuumShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.VACUUM_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.VACUUM_SHRINE, PROPERTIES, pos, state);
 	}
 
 	private List<? extends Entity> getEntities() {
@@ -66,7 +69,7 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 			if (this.elementStorage.getElementAmount() >= consumeAmount) {
 				this.consumeElement(consumeAmount);
 				if (entity instanceof ServerPlayer player) {
-					PayloadHelper.sendToPlayer(player, new VortexPullPlayerPayload(pos3d, pullSpeed));
+					PacketDistributor.sendToPlayer(player, new VortexPullPlayerPayload(pos3d, pullSpeed));
 				} else {
 					entity.setDeltaMovement(pos3d.subtract(entity.position()).normalize().multiply(pullSpeed, pullSpeed, pullSpeed));
 				}

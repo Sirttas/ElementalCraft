@@ -1,0 +1,13 @@
+{
+  "type": "elementalcraft:shrine",
+  "element_capacity": 10000,
+  "element_consumption": 2000,
+  "element_type": "earth",
+  "period": 1200.0,
+  "ranges": {
+    "default": "elementalcraft:above"
+  },
+  "strength": [
+    100.0
+  ]
+}

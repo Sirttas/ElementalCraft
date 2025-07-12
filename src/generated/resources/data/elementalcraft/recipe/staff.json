@@ -1,0 +1,27 @@
+{
+  "type": "elementalcraft:staff",
+  "category": "equipment",
+  "key": {
+    "f": {
+      "item": "elementalcraft:focus"
+    },
+    "h": {
+      "tag": "c:rods/hardened"
+    },
+    "i": {
+      "tag": "c:ingots/fireite"
+    },
+    "s": {
+      "tag": "elementalcraft:staff_craft_sword"
+    }
+  },
+  "pattern": [
+    " if",
+    "ihi",
+    "si "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:staff"
+  }
+}

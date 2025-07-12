@@ -42,7 +42,11 @@
         "minecraft:trims/models/armor/raiser",
         "minecraft:trims/models/armor/raiser_leggings",
         "minecraft:trims/models/armor/host",
-        "minecraft:trims/models/armor/host_leggings"
+        "minecraft:trims/models/armor/host_leggings",
+        "minecraft:trims/models/armor/bolt",
+        "minecraft:trims/models/armor/bolt_leggings",
+        "minecraft:trims/models/armor/flow",
+        "minecraft:trims/models/armor/flow_leggings"
       ]
     }
   ]

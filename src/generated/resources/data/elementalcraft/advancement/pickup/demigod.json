@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_demigod": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:demigod"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_demigod"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

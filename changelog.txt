@@ -1,108 +1,53 @@
-6.2.1:
-
-- fix performances with source flux (again)
-
-
-6.2.1:
-
-- fix performances with source flux
-
-
-6.2.0:
-
-- new item: pristine shard
-- new item: drenched iron chisel
-- new item: fireite chisel
-- crafting a pure element holder now keeps elements from used holders
-- rework gems and gem crystallizer to better suit mod progression
-- rework inscriber, chisels and runes recipes to better suit mod progression
-- rework pipe pathfinding, output priority should be more intuitive
-- pipe priority rings now prioritize all path passing through them
-- pipes can now be upgraded to the next tier by right clicking them with the next tier pipe in hand
-- drastically increased source recovery
-- source recovery gets reduced the more source recover around each others
-- increased improved extractor ans solar synthesizer element output
-- increased the amount of inert crystal dropped by minning ore to 1-3 from only 1
-- moved common config to server config
-- rework some configs
-- made the inscriber cheaper
-- renamed chisel to swift alloy chisel
-- pipes can now transfer to multiple destinations in the same tick
-- added spell strength property
-- added smoking to pure ore
-- fix source config
-- fix pipe upgrades model in gui
-- fix pipes not refreshing connexions when destination is updated
-- fix fire blast furnace not working
-- fix pure ore only being smeltable in a furnace
-- fix jei for mills
-
-
-6.1.3:
-
-- new block: overwhelming strength shrine upgrade
-- fix some blocks breaking particle rendering
-- fix a log spam with immersive engineering
-- fix jei not loading when mekanism interaction is present
-- fix double half blocks dropping twice
-- moved version naming to semver
-
-
-1.20.4-6.1.2:
-
-- the elementalist grimoire can nom be placed in a chiseled bookshelf
-- fix a crash when patchouli is absent (issue #157)
-
-
-1.20.4-6.1.1:
-
-- new item: advanced shrine upgrade core
-- new block: greater fortune shrine upgrade
-- the translocation shrine upgrade, the overcloked acceleration shrine upgrade and the greater fortune shrine upgrade are now advanced shrine upgrades and are now incompatible with each other
-- added the ability to see the element amount of analyzed sources using a source analysis glass
-- added sawing recipes for bamboo
-- added config to change the fortune level of the fortune shrine upgrade and the greater fortune shrine upgrade
-- added back mekanism compatibility
-- lava shrine can now be upgraded using a filling shrine upgrade
-- increased lava shrine capacity
-- changed the translocation shrine upgrade recipe
-- changed the overcloked acceleration shrine upgrade recipe
-- fix jewels not ticking
-- fix jewel crafting recipes
-- fix kirin jewel crash
-- fix spring shrine not using the correct entity type
-- fix binder not correctly returning remaining items
-- fix shrine upgrades not having incompatibilities with each other upgrades
-- fix pipe upgrade not dropping
-- fix a crash when using an air mill wood saw
-- fix a crash with polylib
-- fix a crash with solar synthesizer
-- fix a crash with planting shrine upgrade
-
-
-1.20.4-6.1.0:
-
-- update to 1.20.4
-- new instrument: water enchantment liquefier
-- instrument output retrievers can now be turned off using a redstone signal
-- fix air mill wood saw behavior
-- fix a few bugs with elementopedia (issues #155 and #156)
-
-
-1.20.1-6.0.1:
-
-- new item: elemental firefuel
-- new instrument: water mill grindstone
-- new instrument: air mill wood saw
-- made the drenched saw blade easier to craft
-- instrument crafting now kep remaining items like buckets
-- fix IE hemp not working correctly with harvest shrine
-- fix elementopedia in creative tab and JEI
-
-
-1.20.1-6.0.0:
-
-- initial port to 1.20.1
-- added cherry tree wood saw recipes
-- added grinding recipes for pink petals, torchflower and pitcher plant
-- added trim colors for drenched iron, swift alloy, fireite and springaline
+- update to 1.21.1
+- new item: air mill
+- new block: rudimentary element extractor
+- new block: combustion fire synthesizer
+- new block: cracking earth synthesizer
+- new block: draining water synthesizer
+- new block: vibration air synthesizer
+- new block: culinary water synthesizer
+- new block: sculk cracking earth synthesizer
+- new block: air mill synthesizer
+- added french translation
+- added advancements
+- added range runes
+- added back empty source receptacle
+- added tooltip to shrine upgrades and runes
+- added range renderer to diffuser
+- added crude gems to source alta chests
+- ore purification recipes can now be added through datapack
+- changed element extractor model and recipe
+- element specific instruments can no longer be place on top of reservoirs of other elements
+- increased pipe transfer speed
+- increased the amount of element extracted by the extractor and the improved extractor
+- when a source is depleted, it is now removed, if it is stabilized it drops it's source stabilizer
+- retriever can now get source stabilizer from the element extractor when it depletes a source
+- greatly reduced source element breeding cost
+- greatly increased source spawn rate
+- breeding sources now consumes a portion of their remaining element
+- source hitbox is now always visible
+- simplify element extraction in jei
+- crystals can no longer get thrown
+- air mill now gets damage while crafting and needs to be replaced
+- jewels now needs to be socketed to be used
+- rename lava shrine into melting shrine
+- melting shrine can now melt ice into water
+- pack authors can now add recipes for melting shrine
+- rename impaired pipes to rudimentary
+- rename solar element synthesizer to solar fire synthesizer
+- remove source recovery traits and artificial source traits
+- remove artificial source seeds
+- remove source recovery
+- remove source flux
+- remove source displacement plates
+- remove water, earth and air lenses
+- remove mana element synthesizer
+- remove evaporator
+- remove shards
+- remove spawn runes
+- lenses can no longer be infused or enchanted
+- fix jei not loading with mekanism
+- fix pure infusion in jei
+- fix retriever not working properly when target inventory was full
+- fix reservoirs not able to handle tools or instruments
+- fix reservoirs rendering

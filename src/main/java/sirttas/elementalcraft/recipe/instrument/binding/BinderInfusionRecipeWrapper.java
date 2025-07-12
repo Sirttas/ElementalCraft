@@ -1,12 +1,11 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.block.instrument.binder.IBinder;
-import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
+import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 import javax.annotation.Nonnull;
@@ -26,22 +25,22 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public boolean matches(IBinder inv, @NotNull Level level) {
-		return inv instanceof IInfuser infuser && recipe.matches(infuser, level);
+	public boolean matches(MultipleItemsSingleElementRecipeInput input, @NotNull Level level) {
+		return input.size() == 1 && recipe.matches(input.singleItem(), level);
 	}
 	
 	@Override
-	public @NotNull ItemStack assemble(@NotNull IBinder instrument, @Nonnull RegistryAccess registry) {
-		if (instrument instanceof IInfuser infuser) {
-			return recipe.assemble(infuser, registry);
+	public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input, @Nonnull HolderLookup.Provider provider) {
+		if (input.size() == 1) {
+			return recipe.assemble(input.singleItem(), provider);
 		}
-		return super.assemble(instrument, registry);
+		return super.assemble(input, provider);
 	}
 
 	@Nonnull
 	@Override
-	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
-		return recipe.getResultItem(registry);
+	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
+		return recipe.getResultItem(provider);
 	}
 
 	@Nonnull

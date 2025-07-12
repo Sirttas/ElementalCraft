@@ -1,22 +1,20 @@
 package sirttas.elementalcraft.block.pipe;
 
 import net.minecraft.network.chat.Component;
+import org.apache.commons.lang3.StringUtils;
 
 public enum ConnectionType {
-    NONE(0, "none", false),
-    CONNECT(1, "connect", true),
-    INSERT(2, "insert", true),
-    EXTRACT(3, "extract", true),
-    DISCONNECT(4, "disconnect", false);
+    NONE("none", false),
+    CONNECT("connect", true),
+    INSERT("insert", true),
+    EXTRACT("extract", true),
+    DISCONNECT("disconnect", false);
 
-    @Deprecated
-    private final int value; // TODO 1.21 remove
-    private final String translationKey;
+    private final String name;
     private final boolean connected;
 
-    ConnectionType(int value, String key, boolean connected) {
-        this.value = value;
-        this.translationKey = "message.elementalcraft.pipe." + key;
+    ConnectionType(String name, boolean connected) {
+        this.name = name;
         this.connected = connected;
     }
 
@@ -24,15 +22,14 @@ public enum ConnectionType {
         return connected;
     }
 
-    @Deprecated
-    public int getValue() {
-        return value;
+
+    public String getName() {
+        return name;
     }
 
-    @Deprecated
-    public static ConnectionType fromInteger(int x) {
+    public static ConnectionType byName(String name) {
         for (ConnectionType type : values()) {
-            if (type.getValue() == x) {
+            if (StringUtils.endsWithIgnoreCase(type.getName(), name)) {
                 return type;
             }
         }
@@ -40,6 +37,6 @@ public enum ConnectionType {
     }
 
     public Component getDisplayName() {
-        return Component.translatable(translationKey);
+        return Component.translatable("message.elementalcraft.pipe." + name);
     }
 }

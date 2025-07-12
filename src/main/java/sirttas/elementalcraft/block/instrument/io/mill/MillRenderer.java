@@ -7,28 +7,29 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.airmill.AirMill;
+import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class MillRenderer<T extends AbstractMillBlockEntity<?, ?>> implements BlockEntityRenderer<T> {
+public class MillRenderer<T extends AbstractMillBlockEntity<?>> implements BlockEntityRenderer<T> {
 
-	public static final ResourceLocation WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraftApi.createRL("block/water_mill_grindstone_shaft");
-	public static final ResourceLocation AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ElementalCraftApi.createRL("block/air_mill_grindstone_shaft");
-	public static final ResourceLocation WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraftApi.createRL("block/water_mill_wood_saw_shaft");
-	public static final ResourceLocation AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ElementalCraftApi.createRL("block/air_mill_wood_saw_shaft");
+	public static final ModelResourceLocation WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_grindstone_shaft");
+	public static final ModelResourceLocation AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_grindstone_shaft");
+	public static final ModelResourceLocation WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_wood_saw_shaft");
+	public static final ModelResourceLocation AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_wood_saw_shaft");
 
-	private final ResourceLocation modelLocation;
+	private final ModelResourceLocation modelLocation;
 	private BakedModel model;
 
-	public MillRenderer(ResourceLocation modelLocation) {
+	public MillRenderer(ModelResourceLocation modelLocation) {
 		this.modelLocation = modelLocation;
 	}
 
@@ -43,15 +44,17 @@ public class MillRenderer<T extends AbstractMillBlockEntity<?, ?>> implements Bl
 		float tick = ECRendererHelper.getClientTicks(partialTicks);
 
 		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
-		matrixStack.pushPose();
-		matrixStack.translate(0, 1 / 4D, 0);
-		if (te.isRunning()) {
-			matrixStack.translate(0.5, 0, 0.5);
-			matrixStack.mulPose(Axis.YP.rotationDegrees(-5 * tick));
-			matrixStack.translate(-0.5, 0, -0.5);
+		if (!(te instanceof AirMill airMill) || !airMill.isBroken()) {
+			matrixStack.pushPose();
+			matrixStack.translate(0, 1 / 4D, 0);
+			if (te.isRunning()) {
+				matrixStack.translate(0.5, 0, 0.5);
+				matrixStack.mulPose(Axis.YP.rotationDegrees(-5 * tick));
+				matrixStack.translate(-0.5, 0, -0.5);
+			}
+			ECRendererHelper.renderModel(model, matrixStack, buffer, te, light, overlay);
+			matrixStack.popPose();
 		}
-		ECRendererHelper.renderModel(model, matrixStack, buffer, te, light, overlay);
-		matrixStack.popPose();
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
 			matrixStack.translate(0.5, 0.3, 0.5);
 			matrixStack.mulPose(ECRendererHelper.getRotation(te.getBlockState().getValue(AbstractMillBlock.FACING)));

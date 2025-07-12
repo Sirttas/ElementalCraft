@@ -10,14 +10,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.wrapper.EmptyHandler;
+import net.neoforged.neoforge.items.wrapper.EmptyItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.stream.IntStream;
 
 public class ECContainerHelper {
 
@@ -37,7 +36,7 @@ public class ECContainerHelper {
 		}
 		return BlockEntityHelper.getBlockEntity(level, pos)
 				.map(t -> getItemHandler(t, side))
-				.orElse(EmptyHandler.INSTANCE);
+				.orElse(EmptyItemHandler.INSTANCE);
 	}
 
 	@Nonnull
@@ -51,7 +50,7 @@ public class ECContainerHelper {
 		} else if (entity instanceof Container container) {
 			return new InvWrapper(container);
 		}
-		return EmptyHandler.INSTANCE;
+		return EmptyItemHandler.INSTANCE;
 	}
 
 	public static int getSlotFor(Container inv, ItemStack stack) {
@@ -64,10 +63,6 @@ public class ECContainerHelper {
 		}
 
 		return -1;
-	}
-
-	public static int getItemCount(Container inv) {
-		return (int) IntStream.range(0, inv.getContainerSize()).filter(i -> !inv.getItem(i).isEmpty()).count();
 	}
 
 	public static boolean isEmpty(IItemHandler targetInv) {

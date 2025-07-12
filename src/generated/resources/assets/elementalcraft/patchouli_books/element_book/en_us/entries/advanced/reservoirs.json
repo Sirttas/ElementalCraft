@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:advanced",
+  "icon": "elementalcraft:reservoir_fire",
+  "name": "elementalcraft.entry.reservoirs",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.reservoirs0"
+    }
+  ],
+  "sortnum": 6,
+  "turnin": "elementalcraft:main/reservoirs"
+}

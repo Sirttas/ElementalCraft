@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "e": {
+      "item": "elementalcraft:crude_earth_gem"
+    },
+    "g": {
+      "tag": "c:gravels"
+    },
+    "s": {
+      "item": "minecraft:turtle_scute"
+    }
+  },
+  "pattern": [
+    "ses",
+    "gUg",
+    "ses"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:tortoise"
+  }
+}

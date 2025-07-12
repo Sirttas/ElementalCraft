@@ -1,17 +1,18 @@
 package sirttas.elementalcraft.item.pipe;
 
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
-import sirttas.elementalcraft.item.ECItem;
+import sirttas.elementalcraft.component.ECDataComponents;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public class PipeUpgradeItem extends ECItem implements IPipeInteractingItem {
+public class PipeUpgradeItem extends Item implements IPipeInteractingItem {
 
     private final Supplier<PipeUpgradeType<?>> supplier;
     private PipeUpgradeType<?> pipeUpgradeType;
@@ -30,21 +31,21 @@ public class PipeUpgradeItem extends ECItem implements IPipeInteractingItem {
 
     @Nonnull
     @Override
-    public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
+    public ItemInteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
         var stack = context.getItemInHand();
         var face = context.getClickedFace();
         var player = context.getPlayer();
+        var level = pipe.getLevel();
 
-
-        if (pipe.getUpgrade(face) != null) {
-           return InteractionResult.FAIL;
+        if (level == null || pipe.getUpgrade(face) != null) {
+           return ItemInteractionResult.FAIL;
         }
 
         var upgrade = getPipeUpgradeType().create(pipe, face);
-        var tag = stack.getTag();
+        var customData = stack.getOrDefault(ECDataComponents.PIPE_UPGRADE_DATA, CustomData.EMPTY);
 
-        if (tag != null) {
-            upgrade.load(tag.getCompound(ECNames.PIPE_UPGRADE_TAG));
+        if (!customData.isEmpty()) {
+            upgrade.load(customData.copyTag(), level.registryAccess());
         }
         if (upgrade.canPlace(pipe.getConnection(face))) {
             pipe.setUpgrade(face, upgrade);
@@ -54,9 +55,9 @@ public class PipeUpgradeItem extends ECItem implements IPipeInteractingItem {
                     player.setItemInHand(context.getHand(), ItemStack.EMPTY);
                 }
             }
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.FAIL;
+        return ItemInteractionResult.FAIL;
     }
 
     @Nonnull

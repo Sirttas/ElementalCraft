@@ -17,7 +17,7 @@ public class GrindingRecipeBuilder {
 	private final Item result;
 	private Ingredient ingredient;
 	private int elementAmount;
-	private int luckRatio;
+	private double luckRatio;
 	private int count;
 
 	public GrindingRecipeBuilder(ItemLike result) {
@@ -53,7 +53,7 @@ public class GrindingRecipeBuilder {
 		return this;
 	}
 
-	public GrindingRecipeBuilder withLuckRatio(int luckRatio) {
+	public GrindingRecipeBuilder withLuckRatio(double luckRatio) {
 		this.luckRatio = luckRatio;
 		return this;
 	}
@@ -71,7 +71,7 @@ public class GrindingRecipeBuilder {
 
 	public void save(RecipeOutput recipeOutput, String save) {
 		ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
-		if ((new ResourceLocation(save)).equals(resourcelocation)) {
+		if (ResourceLocation.parse(save).equals(resourcelocation)) {
 			throw new IllegalStateException("Grinding Recipe " + save + " should remove its 'save' argument");
 		} else {
 			this.save(recipeOutput, ElementalCraftApi.createRL(IGrindingRecipe.NAME + '/' + save));

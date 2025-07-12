@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_growthshrine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:growthshrine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_growthshrine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

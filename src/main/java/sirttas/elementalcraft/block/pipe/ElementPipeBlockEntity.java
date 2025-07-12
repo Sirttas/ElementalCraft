@@ -2,14 +2,14 @@ package sirttas.elementalcraft.block.pipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -31,6 +31,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	}
 
 	public void copyTo(ElementPipeBlockEntity newBlockEntity) {
-		newBlockEntity.transferer.load(transferer.save(new CompoundTag())); // there has to be a better way
+		transferer.copyTo(newBlockEntity.transferer);
 		newBlockEntity.coverState = coverState;
 
 	}
@@ -250,16 +251,16 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		}
 	}
 	
-	public InteractionResult activatePipe(@Nullable Player player, Direction face) {
+	public ItemInteractionResult activatePipe(@Nullable Player player, Direction face) {
 		if (level == null) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var upgrade = getUpgrade(face);
 
 		if (upgrade != null) {
 			removeUpgrade(player, face);
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
 
 		var opposite = face.getOpposite();
@@ -275,14 +276,14 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				} else {
 					this.setConnection(face, ConnectionType.DISCONNECT);
 				}
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 			}
 			case EXTRACT, CONNECT -> {
 				this.setConnection(face, ConnectionType.DISCONNECT);
 				if (level.getBlockEntity(adjacent) instanceof ElementPipeBlockEntity pipe) {
 					pipe.setConnection(face.getOpposite(), ConnectionType.DISCONNECT);
 				}
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 			}
 			case DISCONNECT -> {
 				var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, adjacent, opposite);
@@ -295,10 +296,10 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 					this.setConnection(face, ConnectionType.CONNECT);
 					pipe.setConnection(face.getOpposite(), ConnectionType.CONNECT);
 				}
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 			}
 			default -> {
-				return InteractionResult.PASS;
+				return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 			}
 		}
 	}
@@ -335,24 +336,24 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		return transferer.maxTransferAmount;
 	}
 
-	public InteractionResult setCover(Player player, InteractionHand hand) {
+	public ItemInteractionResult setCover(Player player, InteractionHand hand) {
 		if (level == null) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var stack = player.getItemInHand(hand);
 		if (stack.isEmpty()) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var item = stack.getItem();
 		if (!(item instanceof BlockItem blockItem)) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var state = blockItem.getBlock().defaultBlockState();
 		if (state == coverState) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		if (!coverState.isAir()) {
@@ -367,23 +368,23 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				player.setItemInHand(hand, ItemStack.EMPTY);
 			}
 		}
-		return InteractionResult.SUCCESS;
+		return ItemInteractionResult.SUCCESS;
 	}
 	
 	@Override
-	public void load(@NotNull CompoundTag compound) {
-		super.load(compound);
-		transferer.load(compound.getCompound(ECNames.TRANSFERER));
+	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
+		if (compound.contains(ECNames.TRANSFERER)) {
+		transferer.deserializeNBT(provider, compound.getCompound(ECNames.TRANSFERER));
+		}
 
-		var blockGetter = this.level != null ? this.level.holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
-
-		coverState = compound.contains(ECNames.COVER) ? NbtUtils.readBlockState(blockGetter, compound.getCompound(ECNames.COVER)) : Blocks.AIR.defaultBlockState();
+		coverState = compound.contains(ECNames.COVER) ? NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), compound.getCompound(ECNames.COVER)) : Blocks.AIR.defaultBlockState();
 	}
 
 	@Override
-	public void saveAdditional(@NotNull CompoundTag compound) {
-		super.saveAdditional(compound);
-		compound.put(ECNames.TRANSFERER, transferer.save(new CompoundTag()));
+	public void saveAdditional(@NotNull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
+		compound.put(ECNames.TRANSFERER, transferer.serializeNBT(provider));
 		if (!coverState.isAir()) {
 			compound.put(ECNames.COVER, NbtUtils.writeBlockState(coverState));
 		} else if (compound.contains(ECNames.COVER)) {

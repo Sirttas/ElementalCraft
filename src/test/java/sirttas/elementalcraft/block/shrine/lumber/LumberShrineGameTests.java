@@ -2,18 +2,16 @@ package sirttas.elementalcraft.block.shrine.lumber;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class LumberShrineGameTests {
-    private static final List<BlockPos> POSES = List.of(
+    public static final List<BlockPos> POSES = List.of(
             new BlockPos(1, 2, 1),
             new BlockPos(1, 2, 2),
             new BlockPos(1, 2, 3),
@@ -41,8 +39,9 @@ public class LumberShrineGameTests {
     );
 
     // elementalcraft:lumbershrinegametests.should_cutoakblocks
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
-    public static void should_cutOakBlocks(GameTestHelper helper) {
+    @TestHolder(description = "Checks if the lumber shrine cuts oak blocks.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "lumbershrinegametests.should_cutoakblocks", batch = ShrineGameTestHelper.BATCH_NAME)
+    public static void should_cutOakBlocks(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             POSES.forEach(p -> helper.setBlock(p, Blocks.OAK_LOG));
         }).thenExecuteAfter(1, () -> {
@@ -50,7 +49,7 @@ public class LumberShrineGameTests {
         }).thenExecuteAfter(1, () -> {
             POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.AIR), () -> "Block has not been cut"));
             helper.assertItemEntityCountIs(Blocks.OAK_LOG.asItem(), new BlockPos(3, 2, 3), 3, POSES.size());
-        }).thenExecute(() -> ECGameTestHelper.discardItems(helper, new BlockPos(3, 2, 3), 3))
+        }).thenExecute(() -> helper.discardItems(new BlockPos(3, 2, 3), 3))
         .thenSucceed();
     }
 }

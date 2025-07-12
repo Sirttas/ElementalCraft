@@ -6,10 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import org.joml.Vector3f;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
@@ -18,7 +18,7 @@ public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<Ac
 
 	private static final Vector3f POSITION = new Vector3f(0, 2F / 16, 0);
 
-	public static final ResourceLocation CLOCK_LOCATION = ElementalCraftApi.createRL("block/shrine_upgrade_acceleration_clock");
+	public static final ModelResourceLocation CLOCK_LOCATION = ECModelHelper.standalone("block/shrine_upgrade_acceleration_clock");
 
 	private BakedModel clockModel;
 

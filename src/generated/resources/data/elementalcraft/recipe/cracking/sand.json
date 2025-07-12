@@ -1,0 +1,5 @@
+{
+  "type": "elementalcraft:cracking",
+  "element_amount": 50,
+  "input": "#minecraft:sand"
+}

@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.shrine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
-import sirttas.elementalcraft.block.entity.BlockEntityGameTestHelper;
 
 import javax.annotation.Nonnull;
 
@@ -36,6 +35,6 @@ public class ShrineGameTestHelper {
 
     @Nonnull
     public static AbstractShrineBlockEntity getShrine(GameTestHelper helper, BlockPos pos) {
-        return (AbstractShrineBlockEntity) BlockEntityGameTestHelper.getBlockEntity(helper, pos);
+        return helper.getBlockEntity(pos);
     }
 }

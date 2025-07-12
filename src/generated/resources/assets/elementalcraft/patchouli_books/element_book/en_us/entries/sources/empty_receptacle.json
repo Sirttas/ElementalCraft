@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:main/sources",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:empty_receptacle",
+  "name": "item.elementalcraft.empty_receptacle",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.empty_receptacle0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:empty_receptacle"
+    }
+  ],
+  "sortnum": 2,
+  "turnin": "elementalcraft:main/empty_receptacle"
+}

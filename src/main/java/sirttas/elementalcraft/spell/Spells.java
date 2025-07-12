@@ -31,10 +31,10 @@ import java.util.function.Function;
 
 public class Spells {
 
-	public static final ResourceKey<Registry<Spell>> KEY = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.SPELL));
+	public static final ResourceKey<Registry<Spell>> REGISTRY_KEY = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.SPELL));
 	private static final DeferredRegister<Spell> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.SPELL), ElementalCraftApi.MODID);
 
-	public static final Registry<Spell> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.defaultKey(ElementalCraftApi.createRL("none")));
+	public static final Registry<Spell> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true).defaultKey(ElementalCraftApi.createRL("none")));
 
 
 	public static final DeferredHolder<Spell, Spell> NONE = register("none", Spell::new);
@@ -63,7 +63,7 @@ public class Spells {
 	private Spells() {}
 
 	private static <T extends Spell> DeferredHolder<Spell, T> register(String name, Function<ResourceKey<Spell>, ? extends T> builder) {
-		return DEFERRED_REGISTER.register(name, () -> builder.apply(ResourceKey.create(KEY, ElementalCraftApi.createRL(name))));
+		return DEFERRED_REGISTER.register(name, () -> builder.apply(ResourceKey.create(REGISTRY_KEY, ElementalCraftApi.createRL(name))));
 	}
 
 	public static void register(IEventBus modBus) {

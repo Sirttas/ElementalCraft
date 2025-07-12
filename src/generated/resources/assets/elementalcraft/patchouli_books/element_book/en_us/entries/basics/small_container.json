@@ -1,0 +1,19 @@
+{
+  "advancement": "elementalcraft:main/contained_crystal",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:small_container",
+  "name": "block.elementalcraft.small_container",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.small_container0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:small_container"
+    }
+  ],
+  "priority": true,
+  "sortnum": 2,
+  "turnin": "elementalcraft:main/small_container"
+}

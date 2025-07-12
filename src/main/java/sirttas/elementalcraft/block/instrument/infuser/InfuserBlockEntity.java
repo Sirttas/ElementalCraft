@@ -1,38 +1,40 @@
 package sirttas.elementalcraft.block.instrument.infuser;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.SingleItemContainer;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 import javax.annotation.Nonnull;
 
-public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<IInfuser, IInfusionRecipe> implements IInfuser {
+public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<SingleItemSingleElementRecipeInput, IInfusionRecipe> implements IInfuser {
 
-	private static final Config<IInfuser, IInfusionRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.INFUSER,
-			ECRecipeTypes.INFUSION,
-			ECConfig.SERVER.infuserTransferSpeed,
-			ECConfig.SERVER.infuserMaxRunes,
-			0,
-			true,
-			true
-	);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(InfuserBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private final SingleItemContainer inventory;
 
 	public InfuserBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, pos, state);
+		super(ECBlockEntityTypes.INFUSER, PROPERTIES, pos, state);
 		inventory = new SingleItemContainer(this::setChanged);
 	}
 
 	@Override
-	protected IInfusionRecipe lookupRecipe() {
+	protected @NotNull SingleItemSingleElementRecipeInput createRecipeInput() {
+		return createInfusionRecipeInput();
+	}
+
+	@Override
+	protected IInfusionRecipe lookupRecipe(@NotNull SingleItemSingleElementRecipeInput recipeInput) {
 		return this.lookupInfusionRecipe(level);
 	}
 

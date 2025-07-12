@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_lumbershrine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:lumbershrine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_lumbershrine"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

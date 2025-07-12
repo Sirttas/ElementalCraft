@@ -9,20 +9,18 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,15 +30,15 @@ public class EntityHelper {
 
 	private EntityHelper() {}
 	
-	public static Stream<ItemStack> handStream(Player player) {
-		return Stream.of(player.getMainHandItem(), player.getOffhandItem());
+	public static Stream<ItemStack> handStream(LivingEntity entity) {
+		return Stream.of(entity.getMainHandItem(), entity.getOffhandItem());
 	}
 
 	public static HitResult rayTrace(Entity entity) {
 		double range = 5;
 
 		if (entity instanceof LivingEntity livingEntity) {
-			var reach = livingEntity.getAttribute(NeoForgeMod.ENTITY_REACH.value());
+			var reach = livingEntity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
 
 			if (reach != null) {
 				range = reach.getValue();
@@ -80,12 +78,10 @@ public class EntityHelper {
 		if (entity instanceof Mob mob) {
 			mob.moveTo(pos.getX(), pos.getY(), pos.getZ(), level.random.nextFloat() * 360.0F, 0.0F);
 
-			EventHooks.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
+			EventHooks.finalizeMobSpawn(mob, level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null);
 			level.addFreshEntityWithPassengers(mob);
-			if (mob.isAddedToWorld()) {
-				mob.spawnAnim();
-				return true;
-			}
+			mob.spawnAnim();
+			return true;
 		}
 		return false;
 	}
@@ -96,12 +92,12 @@ public class EntityHelper {
 		if (entityType.canSummon()) {
 			var placementType = SpawnPlacements.getPlacementType(entityType);
 
-			if (!NaturalSpawner.isSpawnPositionOk(placementType, level, pos, entityType)) {
+			if (!placementType.isSpawnPositionOk(level, pos, entityType)) {
 				return false;
 			} else if (!SpawnPlacements.checkSpawnRules(entityType, level, MobSpawnType.SPAWNER, pos, level.random)) {
 				return false;
 			} else {
-				return level.noCollision(entityType.getAABB(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D));
+				return level.noCollision(entityType.getSpawnAABB(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D));
 			}
 		}
 		return false;

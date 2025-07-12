@@ -1,0 +1,36 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:element_production",
+  "icon": "elementalcraft:rudimentary_element_extractor",
+  "name": "block.elementalcraft.rudimentary_element_extractor",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.rudimentary_extractor0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:rudimentary_element_extractor"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:small_container",
+          "I": "elementalcraft:rudimentary_element_extractor"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "priority": true,
+  "sortnum": 0,
+  "turnin": "elementalcraft:main/rudimentary_extractor"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "elementalcraft:shrine",
+  "element_capacity": 10000,
+  "element_consumption": 5,
+  "element_type": "air",
+  "period": 1.0,
+  "ranges": {
+    "default": "elementalcraft:box_radius_10"
+  },
+  "strength": [
+    2.0
+  ]
+}

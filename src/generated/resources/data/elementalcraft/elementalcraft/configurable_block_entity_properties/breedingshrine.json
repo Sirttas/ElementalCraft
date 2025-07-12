@@ -1,0 +1,82 @@
+{
+  "type": "elementalcraft:shrine",
+  "element_capacity": 10000,
+  "element_consumption": 2000,
+  "element_type": "earth",
+  "period": 200.0,
+  "ranges": {
+    "east": {
+      "box": [
+        -0.0,
+        -10.0,
+        -10.0,
+        21.0,
+        11.0,
+        11.0
+      ],
+      "growth_ratio": [
+        0.0,
+        1.0,
+        1.0,
+        2.0,
+        1.0,
+        1.0
+      ]
+    },
+    "north": {
+      "box": [
+        -10.0,
+        -10.0,
+        -20.0,
+        11.0,
+        11.0,
+        1.0
+      ],
+      "growth_ratio": [
+        1.0,
+        1.0,
+        2.0,
+        1.0,
+        1.0,
+        0.0
+      ]
+    },
+    "south": {
+      "box": [
+        -10.0,
+        -10.0,
+        -0.0,
+        11.0,
+        11.0,
+        21.0
+      ],
+      "growth_ratio": [
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        2.0
+      ]
+    },
+    "translocation": "elementalcraft:box_radius_10",
+    "west": {
+      "box": [
+        -20.0,
+        -10.0,
+        -10.0,
+        1.0,
+        11.0,
+        11.0
+      ],
+      "growth_ratio": [
+        2.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0
+      ]
+    }
+  }
+}

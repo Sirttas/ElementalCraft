@@ -3,10 +3,10 @@ package sirttas.elementalcraft.block.source.breeder.pedestal;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.element.storage.single.StaticElementStorage;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 
-public class SourceBreederPedestalElementStorage extends StaticElementStorage {
+public class SourceBreederPedestalElementStorage extends SingleElementStorage {
 
     private final SourceBreederPedestalBlockEntity blockEntity;
 

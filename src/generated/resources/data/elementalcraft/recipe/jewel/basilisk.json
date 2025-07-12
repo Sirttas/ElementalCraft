@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "c": {
+      "item": "elementalcraft:purecrystal"
+    },
+    "f": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "s": {
+      "item": "minecraft:turtle_scute"
+    },
+    "w": {
+      "item": "elementalcraft:pristine_water_gem"
+    }
+  },
+  "pattern": [
+    "fwf",
+    "cUc",
+    "sws"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:basilisk"
+  }
+}

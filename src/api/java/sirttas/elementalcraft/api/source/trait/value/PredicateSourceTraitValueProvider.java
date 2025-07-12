@@ -1,9 +1,12 @@
 package sirttas.elementalcraft.api.source.trait.value;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
@@ -15,7 +18,7 @@ import javax.annotation.Nullable;
 public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvider {
 
 	public static final String NAME = "predicate";
-	public static final Codec<PredicateSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+	public static final MapCodec<PredicateSourceTraitValueProvider> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
 			ISourceTraitValueProvider.CODEC.fieldOf(ECNames.PROVIDER).forGetter(p -> p.provider),
 			IBlockPosPredicate.CODEC.fieldOf(ECNames.PREDICATE).forGetter(p -> p.predicate)
 	).apply(builder, PredicateSourceTraitValueProvider::new));
@@ -57,5 +60,13 @@ public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvi
 		return provider.save(value);
 	}
 
+	@Override
+	public Codec<ISourceTraitValue> valueCodec() {
+		return provider.valueCodec();
+	}
 
+	@Override
+	public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+		return provider.valueStreamCodec();
+	}
 }

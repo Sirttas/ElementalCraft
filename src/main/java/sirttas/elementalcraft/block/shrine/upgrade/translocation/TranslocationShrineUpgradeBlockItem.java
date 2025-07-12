@@ -2,15 +2,14 @@ package sirttas.elementalcraft.block.shrine.upgrade.translocation;
 
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.component.ECDataComponents;
 
 import javax.annotation.Nonnull;
 
@@ -21,12 +20,12 @@ public class TranslocationShrineUpgradeBlockItem extends BlockItem {
     }
 
     public static BlockPos getTargetAnchor(Player player) {
-        var main = getTargetPos(player.getMainHandItem());
+        var pos = getTargetPos(player.getMainHandItem());
 
-        if (main != null) {
-            return main;
+        if (pos == null) {
+            pos = getTargetPos(player.getOffhandItem());
         }
-        return getTargetPos(player.getOffhandItem());
+        return pos;
     }
 
     @Nonnull
@@ -42,15 +41,10 @@ public class TranslocationShrineUpgradeBlockItem extends BlockItem {
     }
 
     private void setTargetPos(ItemStack stack, BlockPos pos) {
-        stack.getOrCreateTagElement(ECNames.BLOCK_ENTITY_TAG).put(ECNames.TARGET, NbtUtils.writeBlockPos(pos));
+        stack.set(ECDataComponents.TARGET_POS, pos);
     }
 
     public static BlockPos getTargetPos(ItemStack stack) {
-        var tag = stack.getTagElement(ECNames.BLOCK_ENTITY_TAG);
-
-        if (tag == null || !tag.contains(ECNames.TARGET)) {
-            return null;
-        }
-        return NbtUtils.readBlockPos(tag.getCompound(ECNames.TARGET));
+        return stack.get(ECDataComponents.TARGET_POS);
     }
 }

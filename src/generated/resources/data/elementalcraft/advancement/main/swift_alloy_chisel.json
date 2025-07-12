@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/drenched_iron_chisel",
+  "criteria": {
+    "has_swift_alloy_chisel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:swift_alloy_chisel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.swift_alloy_chisel.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:swift_alloy_chisel"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.swift_alloy_chisel.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_swift_alloy_chisel"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

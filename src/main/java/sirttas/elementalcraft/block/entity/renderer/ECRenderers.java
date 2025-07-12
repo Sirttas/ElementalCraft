@@ -8,13 +8,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ContainerRenderer;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.extractor.ExtractorRenderer;
 import sirttas.elementalcraft.block.instrument.binder.BinderRenderer;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerRenderer;
 import sirttas.elementalcraft.block.instrument.enchantment.liquefier.EnchantmentLiquefierRenderer;
@@ -27,20 +28,22 @@ import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeRenderer;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.fortune.greater.GreaterFortuneShrineUpgradeRenderer;
+import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.sorter.SorterRenderer;
 import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederRenderer;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalRenderer;
-import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
-import sirttas.elementalcraft.block.synthesizer.mana.ManaSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.draining.DrainingSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
+import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerRenderer;
 
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
 public final class ECRenderers {
 
 	private ECRenderers() {}
@@ -49,10 +52,14 @@ public final class ECRenderers {
 	public static void registerModels(RegisterGeometryLoaders evt) {
 		register(ECBlockEntityTypes.PIPE, ElementPipeRenderer::new);
 		register(ECBlockEntityTypes.INFUSER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5)));
-		register(ECBlockEntityTypes.EXTRACTOR, IRuneRenderer::create);
-		register(ECBlockEntityTypes.EVAPORATOR, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5), 0.5F));
+		register(ECBlockEntityTypes.EXTRACTOR, ExtractorRenderer::new);
+		register(ECBlockEntityTypes.CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
+		register(ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.5, 0.5), 0.7F));
+		register(ECBlockEntityTypes.DRAINING_SYNTHESIZER, DrainingSynthesizerRenderer::new);
+		register(ECBlockEntityTypes.VIBRATION_SYNTHESIZER, VibrationSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerRenderer::new);
-		register(ECBlockEntityTypes.MANA_SYNTHESIZER, ManaSynthesizerRenderer::new);
+		register(ECBlockEntityTypes.SCULK_CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
+		register(ECBlockEntityTypes.AIR_MILL_SYNTHESIZER, AirMillSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.DIFFUSER, DiffuserRenderer::new);
 		register(ECBlockEntityTypes.BINDER, BinderRenderer::new);
 		register(ECBlockEntityTypes.BINDER_IMPROVED, BinderRenderer::new);
@@ -96,7 +103,6 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.CREATIVE_CONTAINER, ContainerRenderer::new);
 		register(ECBlockEntityTypes.RESERVOIR, ContainerRenderer::new);
 
-		register(ECBlockEntityTypes.SOURCE_DISPLACEMENT_PLATE, SourceDisplacementPlateRenderer::new);
 		register(ECBlockEntityTypes.SOURCE_BREEDER, SourceBreederRenderer::new);
 		register(ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL, SourceBreederPedestalRenderer::new);
 	}

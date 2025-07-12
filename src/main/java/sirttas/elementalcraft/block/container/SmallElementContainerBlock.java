@@ -2,19 +2,27 @@ package sirttas.elementalcraft.block.container;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import sirttas.elementalcraft.config.ECConfig;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 
 import javax.annotation.Nonnull;
 
 public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 
 	public static final String NAME = "small_container";
+
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+
 	public static final MapCodec<SmallElementContainerBlock> CODEC = simpleCodec(SmallElementContainerBlock::new);
 
 	private static final VoxelShape GLASS = Block.box(3D, 3D, 3D, 13D, 13D, 13D);
@@ -38,23 +46,17 @@ public class SmallElementContainerBlock extends AbstractElementContainerBlock {
 			CONNECTOR_EAST_2, CONNECTOR_DOWN_1, CONNECTOR_DOWN_2, CONNECTOR_UP_1, CONNECTOR_UP_2);
 
 	public SmallElementContainerBlock(Properties properties) {
-		super(properties);
+		super(properties, PROPERTIES);
 	}
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
-	
-	@Override
-	public int getDefaultCapacity() {
-		return ECConfig.SERVER.smallContainerCapacity.get();
-	}
 
 	@Override
-	protected MapCodec<SmallElementContainerBlock> codec() {
+	protected @NotNull MapCodec<SmallElementContainerBlock> codec() {
 		return CODEC;
 	}
 }

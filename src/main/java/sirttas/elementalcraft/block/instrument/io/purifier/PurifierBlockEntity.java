@@ -2,38 +2,32 @@ package sirttas.elementalcraft.block.instrument.io.purifier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.io.AbstractIOInstrumentBlockEntity;
-import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
+import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<PurifierBlockEntity, IPurifierRecipe> {
+public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<SimpleIOInstrumentRecipeInput, OrePurificationRecipe> {
 
-	private static final Config<PurifierBlockEntity, IPurifierRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.PURIFIER,
-			null,
-			ECConfig.SERVER.purifierTransferSpeed,
-			ECConfig.SERVER.purifierMaxRunes,
-			1,
-			false,
-			false
-	);
-
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(PurifierBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private final PurifierContainer inventory;
 
 	public PurifierBlockEntity(BlockPos pos, BlockState state) {
-		super(CONFIG, pos, state);
+		super(ECBlockEntityTypes.PURIFIER, PROPERTIES, pos, state);
 		inventory = new PurifierContainer(this::setChanged);
 	}
 
@@ -43,18 +37,10 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<Purifie
 		return new SidedInvWrapper(inventory, direction);
 	}
 
+	@NotNull
 	@Override
-	protected IPurifierRecipe lookupRecipe() {
-		ItemStack input = inventory.getItem(0);
-
-		if (!input.isEmpty()) {
-			IPurifierRecipe recipe = ElementalCraft.PURE_ORE_MANAGER.getRecipes(input, level);
-
-			if (recipe != null && recipe.matches(this, level)) {
-				return recipe;
-			}
-		}
-		return null;
+	protected SimpleIOInstrumentRecipeInput createRecipeInput() {
+		return createSimpleIORecipeInput();
 	}
 
 	@Nonnull

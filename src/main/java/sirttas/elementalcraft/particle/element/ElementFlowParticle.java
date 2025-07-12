@@ -11,10 +11,10 @@ import sirttas.elementalcraft.api.element.ElementType;
 @OnlyIn(Dist.CLIENT)
 public class ElementFlowParticle extends AbstractElementParticle {
 
-	public static final SpriteParticleRegistration<ElementTypeParticleData> FACTORY = s -> (data, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> new ElementFlowParticle(worldIn, new Vec3(x, y, z), new Vec3(xSpeed, ySpeed, zSpeed), s, data.getElementType());
+	public static final SpriteParticleRegistration<ElementParticleData> FACTORY = s -> (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new ElementFlowParticle(level, new Vec3(x, y, z), new Vec3(xSpeed, ySpeed, zSpeed), s, data.getElementType());
 	
-	private ElementFlowParticle(ClientLevel worldIn, Vec3 coord, Vec3 speed, SpriteSet sprite, ElementType type) {
-		super(worldIn, coord, type);
+	private ElementFlowParticle(ClientLevel level, Vec3 coord, Vec3 speed, SpriteSet sprite, ElementType type) {
+		super(level, coord, type);
 		this.xd = speed.x();
 		this.yd = speed.y();
 		this.zd = speed.z();

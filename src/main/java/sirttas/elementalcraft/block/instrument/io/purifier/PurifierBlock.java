@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -33,13 +33,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
+import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.pureore.PureOreManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -110,26 +110,24 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 
 	@Nonnull
     @Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		final PurifierBlockEntity purifier = (PurifierBlockEntity) world.getBlockEntity(pos);
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		final PurifierBlockEntity purifier = (PurifierBlockEntity) level.getBlockEntity(pos);
+		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 
 		if (purifier != null && hand == InteractionHand.MAIN_HAND) {
 			if (!purifier.getInventory().getItem(1).isEmpty()) {
 				return this.onSlotActivated(inv, player, ItemStack.EMPTY, 1);
-			} else if (heldItem.isEmpty() || ElementalCraft.PURE_ORE_MANAGER.isValidOre(heldItem)) {
+			} else if (heldItem.isEmpty() || PureOreManager.getInstance().isValidOre(heldItem)) {
 				return this.onSlotActivated(inv, player, heldItem, 0);
 			}
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return switch (state.getValue(FACING)) {
 			case NORTH -> NORTH_SHAPE;
 			case SOUTH -> SOUTH_SHAPE;
@@ -146,14 +144,13 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 
 	@Nonnull
     @Override
-	@Deprecated
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
-	@Nonnull
+	@SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-	@Deprecated
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
 		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}
@@ -164,21 +161,18 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 	}
 
 	@Override
-	@Deprecated
-	public boolean canSurvive(BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-		return BlockEntityHelper.isValidContainer(state, world, pos.below());
+	public boolean canSurvive(@NotNull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
+		return ElementContainer.isValidContainer(state, level, pos.below());
 	}
 	
 	@Nonnull
     @Override
-	@Deprecated
 	public FluidState getFluidState(@Nonnull BlockState state) {
 		return WaterLoggingHelper.isWaterlogged(state) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
 		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);

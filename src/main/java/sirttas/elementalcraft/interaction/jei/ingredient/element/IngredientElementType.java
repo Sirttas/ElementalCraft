@@ -1,11 +1,17 @@
 package sirttas.elementalcraft.interaction.jei.ingredient.element;
 
-import mezz.jei.api.ingredients.IIngredientType;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.api.name.ECNames;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public record IngredientElementType(
@@ -13,7 +19,10 @@ public record IngredientElementType(
 		int amount
 ) implements IElementTypeProvider {
 
-	public static final IIngredientType<IngredientElementType> TYPE = () -> IngredientElementType.class;
+	public static final Codec<IngredientElementType> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+			ElementType.forGetter(IngredientElementType::elementType),
+			Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(IngredientElementType::amount)
+	).apply(builder, IngredientElementType::new));
 
 	public IngredientElementType(ElementType elementType, int amount) {
 		this.elementType = elementType;
@@ -21,7 +30,7 @@ public record IngredientElementType(
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 
@@ -31,6 +40,24 @@ public record IngredientElementType(
 
 	public IngredientElementType copy() {
 		return new IngredientElementType(elementType, amount);
+	}
+
+	public static int getGaugeValue(int amount) {
+		return (int) Math.log10(amount) - 1;
+	}
+
+	@Nonnull
+	public static IngredientElementType fromIngredient(@Nonnull Ingredient ingredient) {
+		return new IngredientElementType(getElementType(ingredient), 1);
+	}
+
+	private static ElementType getElementType(Ingredient recipe) {
+		ItemStack[] stacks = recipe.getItems();
+
+		if (stacks.length > 0) {
+			return ElementType.getElementType(stacks[0]);
+		}
+		return ElementType.NONE;
 	}
 
 	public static List<IngredientElementType> all() {

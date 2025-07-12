@@ -3,11 +3,13 @@ package sirttas.elementalcraft.block.pipe;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -29,8 +31,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
-public class ElementPipeTransferer implements IElementTransferer {
+@EventBusSubscriber(modid = ElementalCraftApi.MODID)
+public class ElementPipeTransferer implements IElementTransferer, INBTSerializable<CompoundTag> {
 
     private static final Collection<ElementPipeTransferer> TRANSFERERS = new ReferenceOpenHashSet<>();
 
@@ -43,7 +45,7 @@ public class ElementPipeTransferer implements IElementTransferer {
 
     ElementPipeTransferer(ElementPipeBlockEntity pipe) {
         this.pipe = pipe;
-        this.initialized = pipe.getBlockState().is(ECBlocks.PIPE_CREATIVE.get());
+        this.initialized = false;
         this.connections = new EnumMap<>(Direction.class);
 
         for (var direction : Direction.values()) {
@@ -52,7 +54,7 @@ public class ElementPipeTransferer implements IElementTransferer {
 
         this.upgrades = new EnumMap<>(Direction.class);
         this.maxTransferAmount = switch (((ElementPipeBlock) pipe.getBlockState().getBlock()).getType()) {
-            case IMPAIRED -> ECConfig.SERVER.impairedPipeTransferAmount.get();
+            case RUDIMENTARY -> ECConfig.SERVER.rudimentaryPipeTransferAmount.get();
             case STANDARD -> ECConfig.SERVER.pipeTransferAmount.get();
             case IMPROVED -> ECConfig.SERVER.improvedPipeTransferAmount.get();
             case CREATIVE -> Integer.MAX_VALUE;
@@ -60,18 +62,16 @@ public class ElementPipeTransferer implements IElementTransferer {
     }
 
     @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            var it = TRANSFERERS.iterator();
+    public static void onServerTick(ServerTickEvent.Post event) {
+        var it = TRANSFERERS.iterator();
 
-            while (it.hasNext()) {
-                var transferer = it.next();
+        while (it.hasNext()) {
+            var transferer = it.next();
 
-                if (transferer.pipe.isRemoved()) {
-                    it.remove();
-                } else {
-                    transferer.transferedAmount = 0;
-                }
+            if (transferer.pipe.isRemoved()) {
+                it.remove();
+            } else {
+                transferer.transferedAmount = 0;
             }
         }
     }
@@ -103,7 +103,9 @@ public class ElementPipeTransferer implements IElementTransferer {
         if (level == null || level.isClientSide()) {
             return;
         }
-        TRANSFERERS.add(this);
+        if (!pipe.getBlockState().is(ECBlocks.PIPE_CREATIVE.get())) { // Creative pipes don't need to be ticked
+            TRANSFERERS.add(this);
+        }
         initialized = true;
     }
 
@@ -221,17 +223,29 @@ public class ElementPipeTransferer implements IElementTransferer {
         this.upgrades.remove(side);
     }
 
-    void load(CompoundTag compound) {
+    @Override
+    public void deserializeNBT(@NotNull HolderLookup.Provider provider, @NotNull CompoundTag compound) {
         for (Direction face : Direction.values()) {
-            this.setConnection(face, ConnectionType.fromInteger(compound.getInt(face.getSerializedName())));
-            this.setUpgrade(face, PipeUpgradeHelper.load(pipe, face, compound.getCompound(face.getSerializedName() + "_upgrades")));
+            this.setConnection(face, ConnectionType.byName(compound.getString(face.getSerializedName())));
+            this.setUpgrade(face, PipeUpgradeHelper.load(pipe, face, compound.getCompound(face.getSerializedName() + "_upgrade"), provider));
         }
     }
 
-    CompoundTag save(CompoundTag compound) {
-        connections.forEach((k, v) -> compound.putInt(k.getSerializedName(), v.getValue()));
-        upgrades.forEach((k, v) -> compound.put(k.getSerializedName() + "_upgrades", v.save()));
+    @Override
+    public CompoundTag serializeNBT(@NotNull HolderLookup.Provider provider) {
+        var compound = new CompoundTag();
+
+        connections.forEach((k, v) -> compound.putString(k.getSerializedName(), v.getName()));
+        upgrades.forEach((k, v) -> compound.put(k.getSerializedName() + "_upgrade", v.save(provider)));
         return compound;
+    }
+
+    void copyTo(ElementPipeTransferer transferer) {
+        for (Direction face : Direction.values()) {
+            transferer.setConnection(face, this.getConnection(face));
+            transferer.setUpgrade(face, this.getUpgrade(face));
+        }
+        transferer.transferedAmount = this.transferedAmount;
     }
 
     public record Node(

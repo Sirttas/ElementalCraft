@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:demigod",
+  "name": "elementalcraft.jewel.elementalcraft.demigod",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.demigod0"
+    }
+  ],
+  "sortnum": 3,
+  "turnin": "elementalcraft:pickup/demigod"
+}

@@ -1,0 +1,36 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:infuser",
+  "name": "block.elementalcraft.infuser",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.infuser0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:infuser"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:infuser"
+        },
+        "pattern": [
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "priority": true,
+  "sortnum": 0,
+  "turnin": "elementalcraft:main/infuser"
+}

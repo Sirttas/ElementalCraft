@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.block.instrument.io.firefurnace;
 
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Rotation;
+import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.ECGameTestUtils;
+import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.pureore.PureOreManager;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -25,7 +25,7 @@ public record FireFurnaceTestHolder(
             of(Items.COBBLESTONE, Items.STONE, false),
             of(Items.OAK_LOG, Items.CHARCOAL, false),
             of(Items.IRON_ORE, Items.IRON_INGOT),
-            of(() -> ElementalCraft.PURE_ORE_MANAGER.createPureOre(new ResourceLocation("forge:iron")), Items.IRON_INGOT)
+            of(() -> PureOreManager.getInstance().createPureOre(ResourceLocation.fromNamespaceAndPath(ECNames.COMMON_TAGS_NAMESPACE, "iron")), Items.IRON_INGOT)
     );
 
     public static FireFurnaceTestHolder of(Supplier<ItemStack> input, ItemLike output, boolean blast) {
@@ -43,11 +43,7 @@ public record FireFurnaceTestHolder(
         return of(input, output, true);
     }
 
-    public TestFunction createTestFunction(String name, BiConsumer<GameTestHelper, FireFurnaceTestHolder> function) {
-        return createTestFunction(name, "firefurnacegametests.fire_furnace", function);
-    }
-
-    public TestFunction createTestFunction(String name, String template, BiConsumer<GameTestHelper, FireFurnaceTestHolder> function) {
-        return ECGameTestHelper.createTestFunction(BATCH_NAME, name, template, Rotation.NONE, h -> function.accept(h, this));
+    public Test createTest(String group, String name, String description, String template, BiConsumer<ECGameTestHelper, FireFurnaceTestHolder> function) {
+        return ECGameTestUtils.createTest(group, name, description, template, h -> function.accept(h, this));
     }
 }

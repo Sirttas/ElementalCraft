@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_rudimentary_element_extractor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:rudimentary_element_extractor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_rudimentary_element_extractor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

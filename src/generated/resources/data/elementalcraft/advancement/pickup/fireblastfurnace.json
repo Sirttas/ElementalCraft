@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_fireblastfurnace": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fireblastfurnace"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_fireblastfurnace"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

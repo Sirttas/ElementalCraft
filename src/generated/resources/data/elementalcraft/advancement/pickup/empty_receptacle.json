@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_empty_receptacle": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:empty_receptacle"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_empty_receptacle"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

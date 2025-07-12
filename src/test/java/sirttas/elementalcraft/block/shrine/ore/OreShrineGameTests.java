@@ -4,13 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class OreShrineGameTests {
 
     private static final List<BlockPos> IN_RANGE = List.of(
@@ -38,9 +36,10 @@ public class OreShrineGameTests {
             new BlockPos(-12, 1, -13),
             new BlockPos(-13, 1, -13)
     );
+    private static final String TEMPLATE = "elementalcraft:oreshrinegametests.should_mineinrange";
 
-    // elementalcraft:oreshrinegametests.should_mineinrange
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
+    @TestHolder
+    @GameTest(template = TEMPLATE)
     public static void should_mineInRange(GameTestHelper helper) {
         ShrineGameTestHelper.forcePeriods(helper, new BlockPos(13, 2, 13), IN_RANGE.size() + OUTSIDE_RANGE.size());
         helper.succeedIf(() -> {

@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#elementalcraft:extractors",
+    "#elementalcraft:synthesizers",
+    "#elementalcraft:instruments",
+    "#elementalcraft:pedestals",
+    "elementalcraft:pure_infuser",
+    "elementalcraft:source_breeder"
+  ]
+}

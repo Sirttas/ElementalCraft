@@ -23,26 +23,26 @@ public class GavelFallSpell extends Spell {
 		super(key);
 	}
 
-	private void spawn(Level world, BlockPos pos) {
-		FallingBlockEntity entity = FallingBlockEntity.fall(world, pos, Blocks.GRAVEL.defaultBlockState());
+	private void spawn(Level level, BlockPos pos) {
+		FallingBlockEntity entity = FallingBlockEntity.fall(level, pos, Blocks.GRAVEL.defaultBlockState());
 
 		entity.time = 1;
 		entity.setHurtsEntities(getStrength(), 100);
-		world.addFreshEntity(entity);
+		level.addFreshEntity(entity);
 	}
 
-	private void checkAndSpawn(Level world, BlockPos pos) {
-		if (world.isEmptyBlock(pos)) {
-			spawn(world, pos);
+	private void checkAndSpawn(Level level, BlockPos pos) {
+		if (level.isEmptyBlock(pos)) {
+			spawn(level, pos);
 		}
 	}
 
 	private InteractionResult spawnGravel(Entity sender, BlockPos pos) {
-		Level world = sender.level();
+		Level level = sender.level();
 
-		checkAndSpawn(world, pos.above(4));
-		checkAndSpawn(world, pos.above(5));
-		checkAndSpawn(world, pos.above(6));
+		checkAndSpawn(level, pos.above(4));
+		checkAndSpawn(level, pos.above(5));
+		checkAndSpawn(level, pos.above(6));
 		return InteractionResult.SUCCESS;
 	}
 

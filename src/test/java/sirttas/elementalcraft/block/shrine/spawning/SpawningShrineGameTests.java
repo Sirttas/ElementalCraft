@@ -4,15 +4,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class SpawningShrineGameTests {
 
-    // elementalcraft:spawningshrinegametests.should_spawnmobs
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME, required = false)
+    private static final String TEMPLATE = "elementalcraft:spawningshrinegametests.should_spawnmobs";
+
+    @TestHolder
+    @GameTest(template = TEMPLATE, required = false)
     public static void should_spawnMobs(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecuteAfter(1, () -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 2, 5), 20))

@@ -7,9 +7,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
+import sirttas.elementalcraft.block.container.reservoir.ReservoirBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
-import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -35,14 +35,14 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
         while(iterator.hasNext() && !wasRendered) {
             var stack = iterator.next();
 
-            if (stack.getItem() instanceof BlockItem blockItem && stack.is(container.isSmall() ? ECTags.Items.SMALL_CONTAINER_COMPATIBLES : ECTags.Items.CONTAINER_TOOLS)) {
+            if (stack.getItem() instanceof BlockItem blockItem) {
                 var block = blockItem.getBlock();
-                var instrumentPos = pos.above();
+                var instrumentPos = pos.above(container instanceof ReservoirBlockEntity ? 2 : 1);
 
                 if (level.getBlockState(instrumentPos).isAir()) {
                     var state = block.getStateForPlacement(new DirectionalPlaceContext(level, instrumentPos, Direction.DOWN, stack, Direction.UP));
 
-                    if (state != null && state.canSurvive(level, instrumentPos)) {
+                    if (state != null && state.canSurvive(level, instrumentPos) && state.is(container.getCompatibleTools())) {
                         poseStack.pushPose();
                         poseStack.translate(0, 1, 0);
                         ECRendererHelper.renderGhost(state, poseStack, bufferSource, level, instrumentPos);

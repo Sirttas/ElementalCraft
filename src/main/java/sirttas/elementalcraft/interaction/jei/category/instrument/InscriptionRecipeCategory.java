@@ -9,20 +9,20 @@ import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.inscriber.InscriberBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
+import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 
 import javax.annotation.Nonnull;
 
-public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<InscriberBlockEntity, InscriptionRecipe> {
+public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<MultipleItemsSingleElementRecipeInput, InscriptionRecipe> {
 
 	private static final ItemStack INSCRIBER = new ItemStack(ECBlocks.INSCRIBER.get());
 
 	public InscriptionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.inscription", createDrawableStack(guiHelper, INSCRIBER), guiHelper.createBlankDrawable(100, 100));
-		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
 	}
 
 	@Nonnull

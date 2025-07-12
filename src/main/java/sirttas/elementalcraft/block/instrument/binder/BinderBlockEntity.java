@@ -1,40 +1,39 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
-import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
+import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
-public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, AbstractBindingRecipe> implements IBinder {
+public class BinderBlockEntity extends AbstractInstrumentBlockEntity<MultipleItemsSingleElementRecipeInput, AbstractBindingRecipe> implements IBinder {
 
-	private static final Config<IBinder, AbstractBindingRecipe> CONFIG = new Config<>(
-			ECBlockEntityTypes.BINDER,
-			ECRecipeTypes.BINDING,
-			ECConfig.SERVER.binderTransferSpeed,
-			ECConfig.SERVER.binderMaxRunes,
-			0,
-			true,
-			true
-	);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(BinderBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private final InstrumentContainer inventory;
 
 	public BinderBlockEntity(BlockPos pos, BlockState state) {
-		this(CONFIG, pos, state);
+		this(ECBlockEntityTypes.BINDER, PROPERTIES, pos, state);
 	}
 
-	protected BinderBlockEntity(Config<IBinder, AbstractBindingRecipe> config, BlockPos pos, BlockState state) {
-		super(config, pos, state);
+	protected BinderBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+		super(blockEntityType, properties, pos, state);
 		inventory = new InstrumentContainer(this::setChanged, 20);
 		particleOffset = new Vec3(0, 0.2, 0);
 	}
@@ -52,7 +51,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
 
 	@Override
 	protected void assemble() {
-		var remainingItem = recipe.getRemainingItems(getContainerWrapper()).get(0);
+		var remainingItem = recipe.getRemainingItems(createRecipeInput()).getFirst();
 
 		super.assemble();
 		if (!remainingItem.isEmpty()) {
@@ -76,5 +75,13 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<IBinder, Ab
                 inventory.setItem(targetIndex++, stack);
             }
         }
+	}
+
+	@Override
+	protected @NotNull MultipleItemsSingleElementRecipeInput createRecipeInput() {
+		return new MultipleItemsSingleElementRecipeInput(
+				inventory.getStacks(),
+				getElementType(),
+				getContainer().getElementAmount());
 	}
 }

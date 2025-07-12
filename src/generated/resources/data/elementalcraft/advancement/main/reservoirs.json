@@ -1,0 +1,39 @@
+{
+  "parent": "elementalcraft:main/container",
+  "criteria": {
+    "has_reservoir": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementalcraft:reservoir_fire",
+              "elementalcraft:reservoir_water",
+              "elementalcraft:reservoir_earth",
+              "elementalcraft:reservoir_air"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.reservoirs.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:reservoir_fire"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.reservoirs.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_reservoir"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

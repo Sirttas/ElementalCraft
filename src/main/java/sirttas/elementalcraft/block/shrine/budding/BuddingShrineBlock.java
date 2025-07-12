@@ -46,8 +46,7 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
 	}
 	
@@ -56,7 +55,7 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 		builder.add(WATERLOGGED, CRYSTAL_TYPE);
 	}
 	
-	public enum CrystalType implements StringRepresentable {
+	public enum CrystalType implements StringRepresentable { // TODO extract to datapack
 		AMETHYST("amethyst"),
 		SPRINGALINE("springaline");
 

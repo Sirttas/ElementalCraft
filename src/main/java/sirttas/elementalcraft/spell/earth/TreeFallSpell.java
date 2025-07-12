@@ -28,7 +28,7 @@ public class TreeFallSpell extends Spell {
 		return state.is(ECTags.Blocks.TREE_PARTS);
 	}
 
-	private void cutTree(Entity sender, Level world, BlockPos target) {
+	private void cutTree(Entity sender, Level level, BlockPos target) {
 		Queue<BlockPos> queue = new ArrayDeque<>();
 		float rangeSq = getRange(sender);
 
@@ -36,10 +36,10 @@ public class TreeFallSpell extends Spell {
 		queue.offer(target);
 		while (!queue.isEmpty()) {
 			BlockPos pos = queue.poll();
-			var state = world.getBlockState(pos);
+			var state = level.getBlockState(pos);
 			
 			if (isValidBlock(state) && pos.distSqr(target) <= rangeSq) {
-				world.destroyBlock(pos, true);
+				level.destroyBlock(pos, true);
 				Stream.of(Direction.values()).filter(d -> d != Direction.DOWN).forEach(d -> queue.offer(pos.relative(d)));
 			}
 		}
@@ -48,10 +48,10 @@ public class TreeFallSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		Level world = sender.level();
+		Level level = sender.level();
 
-		if (!world.isClientSide && isValidBlock(world.getBlockState(target))) {
-			cutTree(sender, world, target);
+		if (!level.isClientSide && isValidBlock(level.getBlockState(target))) {
+			cutTree(sender, level, target);
 			return InteractionResult.SUCCESS;
 		}
 

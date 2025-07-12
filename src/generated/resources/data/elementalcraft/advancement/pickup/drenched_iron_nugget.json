@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_drenched_iron_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:drenched_iron_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_drenched_iron_nugget"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

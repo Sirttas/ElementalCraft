@@ -1,0 +1,41 @@
+{
+  "advancement": "elementalcraft:main/crystallizer",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:pure_infuser",
+  "name": "block.elementalcraft.pure_infuser",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.pure_infuser0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:pure_infuser"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:pure_infuser",
+          "a": "elementalcraft:pedestal_air",
+          "e": "elementalcraft:pedestal_earth",
+          "f": "elementalcraft:pedestal_fire",
+          "w": "elementalcraft:pedestal_water"
+        },
+        "pattern": [
+          [
+            "   w   ",
+            "       ",
+            "       ",
+            "f  0  e",
+            "       ",
+            "       ",
+            "   a   "
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 8,
+  "turnin": "elementalcraft:pickup/pure_infuser"
+}

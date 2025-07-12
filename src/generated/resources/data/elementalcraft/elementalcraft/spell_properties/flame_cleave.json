@@ -2,15 +2,9 @@
   "attributes": {
     "minecraft:generic.attack_damage": [
       {
-        "Amount": 0.5,
-        "Name": "Weapon modifier",
-        "Operation": "multiply_total",
-        "UUID": [
-          1924578585,
-          2000506621,
-          -1544142702,
-          -1975528936
-        ]
+        "amount": 0.5,
+        "id": "elementalcraft:spell_attack_damage",
+        "operation": "add_multiplied_total"
       }
     ]
   },

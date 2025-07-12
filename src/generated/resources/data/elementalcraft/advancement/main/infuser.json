@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/contained_crystal",
+  "criteria": {
+    "has_infuser": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:infuser"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.infuser.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:infuser"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.infuser.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_infuser"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

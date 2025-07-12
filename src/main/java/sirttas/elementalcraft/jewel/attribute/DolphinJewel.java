@@ -2,27 +2,31 @@ package sirttas.elementalcraft.jewel.attribute;
 
 import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class DolphinJewel extends AttributeJewel {
 
     public static final String NAME = "dolphin";
 
+    private static final ResourceLocation SWIM_SPEED_ID = ElementalCraftApi.createRL("dolphin_jewel_swim_speed");
+
     public DolphinJewel() {
         super(ElementType.WATER, 50, () -> {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
 
-            builder.put(NeoForgeMod.SWIM_SPEED.value(), new AttributeModifier(UUID.fromString("a1cedb96-34ca-42ef-a9ea-c45868b2c790"), "Swim speed modifier", 0.05, AttributeModifier.Operation.MULTIPLY_TOTAL));
+            builder.put(NeoForgeMod.SWIM_SPEED, new AttributeModifier(SWIM_SPEED_ID, 0.05, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             return builder.build();
         });
     }

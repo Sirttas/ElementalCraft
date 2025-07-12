@@ -27,9 +27,9 @@ public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEnti
 	}
 
 	@Override
-	public void render(@Nonnull PureInfuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		renderPedestalShadow(te, partialTicks, matrixStack, buffer);
-		super.render(te, partialTicks, matrixStack, buffer, light, overlay);
+	public void render(@Nonnull PureInfuserBlockEntity blockEntity, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+		renderPedestalShadow(blockEntity, partialTicks, poseStack, buffer);
+		super.render(blockEntity, partialTicks, poseStack, buffer, light, overlay);
 	}
 
 	private void renderPedestalShadow(@Nonnull PureInfuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer) {

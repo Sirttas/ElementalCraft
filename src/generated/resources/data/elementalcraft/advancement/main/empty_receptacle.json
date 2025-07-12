@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/sources",
+  "criteria": {
+    "has_empty_receptacle": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:empty_receptacle"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.empty_receptacle.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:empty_receptacle"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.empty_receptacle.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_empty_receptacle"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

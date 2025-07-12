@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.client;
 
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class LevelRenderHandler {
 
     private static Matrix4f worldMatrix;

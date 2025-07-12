@@ -1,0 +1,12 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "ingredient": {
+    "item": "minecraft:cocoa_beans"
+  },
+  "luck_ratio": 2.0,
+  "output": {
+    "count": 2,
+    "id": "minecraft:brown_dye"
+  }
+}

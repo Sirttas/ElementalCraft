@@ -4,9 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -63,21 +64,21 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		profiler.pop();
 	}
 
-	public InteractionResult addStack(ItemStack stack) {
+	public ItemInteractionResult addStack(ItemStack stack) {
 		if (!stacks.isEmpty() && stack.isEmpty()) {
 			stacks.clear();
 			index = 0;
 			this.setChanged();
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		} else if (stacks.size() < ECConfig.SERVER.sorterMaxItem.get()) {
 			ItemStack copy = stack.copy();
 
 			copy.setCount(1);
 			stacks.add(copy);
 			this.setChanged();
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	public List<ItemStack> getStacks() {
@@ -115,7 +116,7 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 			ItemStack stack = stacks.get(index).copy();
 
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				if (ItemHandlerHelper.canItemStacksStack(stack, sourceInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, true)) {
+				if (ItemStack.isSameItemSameComponents(stack, sourceInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, true)) {
 					doTransfer(sourceInv, targetInv, i, false);
 					index++;
 					if (index >= stacks.size()) {
@@ -143,9 +144,9 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 	}
 
 	@Override
-	public void load(@Nonnull CompoundTag compound) {
-		super.load(compound);
-		readStacks(compound.getList(ECNames.STACKS, 10));
+	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
+		readStacks(provider, compound.getList(ECNames.STACKS, 10));
 		index = compound.getInt(ECNames.INDEX);
 		if (index > stacks.size()) {
 			index = 0;
@@ -156,10 +157,10 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 		}
 	}
 
-	private void readStacks(ListTag listNbt) {
+	private void readStacks(@Nonnull HolderLookup.Provider provider, ListTag listNbt) {
 		stacks.clear();
 		for (int i = 0; i < listNbt.size(); ++i) {
-			ItemStack itemstack = ItemStack.of(listNbt.getCompound(i));
+			ItemStack itemstack = ItemStack.parseOptional(provider, listNbt.getCompound(i));
 
 			if (!itemstack.isEmpty()) {
 				stacks.add(itemstack);
@@ -169,20 +170,20 @@ public class SorterBlockEntity extends AbstractECBlockEntity {
 	}
 
     @Override
-	public void saveAdditional(@Nonnull CompoundTag compound) {
-		super.saveAdditional(compound);
-		compound.put(ECNames.STACKS, this.writeStacks());
+	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
+		compound.put(ECNames.STACKS, this.writeStacks(provider));
 		compound.putInt(ECNames.INDEX, index);
 		compound.putBoolean(ECNames.ALWAYS_INSERT, alwaysInsert);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
 	}
 
-	private ListTag writeStacks() {
+	private ListTag writeStacks(@Nonnull HolderLookup.Provider provider) {
 		ListTag listTag = new ListTag();
 
 		for (ItemStack itemstack : stacks) {
 			if (!itemstack.isEmpty()) {
-				listTag.add(itemstack.save(new CompoundTag()));
+				listTag.add(itemstack.save(provider));
 			}
 		}
 		return listTag;

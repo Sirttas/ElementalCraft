@@ -33,7 +33,7 @@
           },
           {
             "type": "dpanvil:block",
-            "block": "elementalcraft:lavashrine"
+            "block": "elementalcraft:melting_shrine"
           }
         ]
       },

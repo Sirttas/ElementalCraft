@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 2500,
+  "element_type": "water",
+  "ingredients": [
+    {
+      "item": "elementalcraft:shrinebase"
+    },
+    {
+      "item": "elementalcraft:watercrystal"
+    },
+    {
+      "item": "minecraft:bucket"
+    },
+    {
+      "tag": "minecraft:fishes"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "elementalcraft:springshrine"
+  }
+}

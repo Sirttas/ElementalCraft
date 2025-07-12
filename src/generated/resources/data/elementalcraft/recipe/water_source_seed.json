@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "f": {
+      "tag": "c:nuggets/fireite"
+    },
+    "g": {
+      "item": "elementalcraft:pristine_water_gem"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_shard"
+    }
+  },
+  "pattern": [
+    "fsf",
+    "sgs",
+    "fsf"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:water_source_seed"
+  }
+}

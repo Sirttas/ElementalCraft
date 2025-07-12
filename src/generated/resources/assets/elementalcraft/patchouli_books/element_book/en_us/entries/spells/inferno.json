@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:inferno\"]",
+  "name": "elementalcraft_spell.elementalcraft.inferno",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.inferno0"
+    }
+  ],
+  "sortnum": 14,
+  "turnin": "elementalcraft:pickup/scroll"
+}

@@ -2,7 +2,7 @@ package sirttas.elementalcraft.client.model;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -43,5 +43,5 @@ public abstract class AbstractECModelShaper<T> {
     protected abstract Map<? extends T, ? extends BakedModel> getModels();
 
 
-    public abstract void registerModels(Consumer<ResourceLocation> addModel);
+    public abstract void registerModels(Consumer<ModelResourceLocation> addModel);
 }

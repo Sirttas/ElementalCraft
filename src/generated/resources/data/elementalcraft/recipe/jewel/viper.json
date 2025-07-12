@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "e": {
+      "item": "elementalcraft:fine_earth_gem"
+    },
+    "s": {
+      "item": "minecraft:spider_eye"
+    },
+    "w": {
+      "item": "elementalcraft:fine_water_gem"
+    }
+  },
+  "pattern": [
+    " w ",
+    "sUs",
+    " e "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:viper"
+  }
+}

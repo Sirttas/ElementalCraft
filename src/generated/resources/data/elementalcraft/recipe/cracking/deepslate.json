@@ -1,0 +1,6 @@
+{
+  "type": "elementalcraft:cracking",
+  "element_amount": 200,
+  "input": "minecraft:deepslate",
+  "result": "minecraft:cobbled_deepslate"
+}

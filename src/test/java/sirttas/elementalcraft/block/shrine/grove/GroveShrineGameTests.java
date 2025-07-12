@@ -4,13 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.tags.BlockTags;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class GroveShrineGameTests {
 
     private static final List<BlockPos> POSES = List.of(
@@ -39,9 +37,10 @@ public class GroveShrineGameTests {
             new BlockPos(5, 2, 4),
             new BlockPos(5, 2, 5)
     );
+    private static final String TEMPLATE = "elementalcraft:groveshrinegametests.should_generateflowers";
 
-    // elementalcraft:groveshrinegametests.should_generateflowers
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
+    @TestHolder
+    @GameTest(template = TEMPLATE)
     public static void should_generateFlowers(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecuteAfter(1, () -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 2, 3), POSES.size()))

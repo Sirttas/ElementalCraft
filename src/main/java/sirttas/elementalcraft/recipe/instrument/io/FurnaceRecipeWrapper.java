@@ -1,30 +1,30 @@
 package sirttas.elementalcraft.recipe.instrument.io;
 
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.io.firefurnace.AbstractFireFurnaceBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
-public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements IIOInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>>, ISingleElementInstrumentRecipe<AbstractFireFurnaceBlockEntity<T>> {
+public class FurnaceRecipeWrapper implements IOInstrumentRecipe<IOInstrumentRecipeInput>, ISingleElementInstrumentRecipe<IOInstrumentRecipeInput> {
 
-	private final T recipe;
+	private final AbstractCookingRecipe recipe;
 
-	public FurnaceRecipeWrapper(T recipe) {
+	public FurnaceRecipeWrapper(AbstractCookingRecipe recipe) {
 		this.recipe = recipe;
 	}
 
 	@Override
-	public @NotNull ItemStack assemble(@NotNull AbstractFireFurnaceBlockEntity<T> inv, @Nonnull RegistryAccess registry) {
-		return recipe.assemble(inv.getInventory(), registry);
+	public @NotNull ItemStack assemble(@NotNull IOInstrumentRecipeInput input, @Nonnull HolderLookup.Provider provider) {
+		return recipe.assemble(new SingleRecipeInput(input.getItem(0)), provider);
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 
 	@Nonnull
     @Override
-	public ItemStack getResultItem(@Nonnull RegistryAccess registry) {
-		return recipe.getResultItem(registry);
+	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
+		return recipe.getResultItem(provider);
 	}
 
 	@Nonnull
@@ -55,7 +55,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return ElementType.FIRE;
 	}
 
@@ -69,7 +69,7 @@ public class FurnaceRecipeWrapper<T extends AbstractCookingRecipe> implements II
 	}
 
 	@Override
-	public boolean matches(@Nonnull AbstractFireFurnaceBlockEntity<T> instrument, @Nonnull Level level) {
-		return instrument.getContainerElementType() == ElementType.FIRE && recipe.matches(instrument.getInventory(), level);
+	public boolean matches(@NotNull IOInstrumentRecipeInput input, @Nonnull Level level) {
+		return input.getElementType() == ElementType.FIRE && recipe.matches(new SingleRecipeInput(input.getItem(0)), level);
 	}
 }

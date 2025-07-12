@@ -4,6 +4,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,15 +26,13 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.container.AbstractConnectedElementContainerBlock;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
-import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -45,8 +45,17 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	public static final String NAME_EARTH = NAME + "_earth";
 	public static final String NAME_AIR = NAME + "_air";
 
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY_FIRE = IConfigurableBlockEntityProperties.createKey(NAME_FIRE);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES_FIRE = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY_FIRE);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY_WATER = IConfigurableBlockEntityProperties.createKey(NAME_WATER);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES_WATER = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY_WATER);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY_EARTH = IConfigurableBlockEntityProperties.createKey(NAME_EARTH);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES_EARTH = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY_EARTH);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY_AIR = IConfigurableBlockEntityProperties.createKey(NAME_AIR);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES_AIR = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY_AIR);
+
 	public static final MapCodec<ReservoirBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-			ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(ReservoirBlock::getElementType),
+			ElementType.forGetter(ReservoirBlock::getElementType),
 			propertiesCodec()
 	).apply(instance, ReservoirBlock::new));
 
@@ -105,7 +114,13 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	private final ElementType elementType;
 	
 	public ReservoirBlock(ElementType elementType, BlockBehaviour.Properties properties) {
-		super(properties);
+		super(properties, switch (elementType) {
+			case FIRE -> PROPERTIES_FIRE;
+			case WATER -> PROPERTIES_WATER;
+			case EARTH -> PROPERTIES_EARTH;
+			case AIR -> PROPERTIES_AIR;
+			case NONE -> throw new IllegalArgumentException("Cannot create a reservoir for NONE");
+		});
 		this.elementType = elementType;
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(HALF, DoubleBlockHalf.LOWER)
@@ -121,7 +136,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 	
@@ -141,7 +156,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	 * @return
 	 */
 	@Override
-	public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+	public @NotNull BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
 		AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
 		return super.playerWillDestroy(level, pos, state, player);
 	}
@@ -157,20 +172,17 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 
 	@Override
 	@Nonnull
-	@Deprecated
 	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
 		return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> super.updateShape(state, facing, facingState, level, pos, facingPos));
 	}
 
 	@Override
-	@Deprecated
 	public boolean canSurvive(BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
 		return state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER || level.getBlockState(pos.below()).is(this);
 	}
 
 	@Nonnull
 	@Override
-	@Deprecated
 	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		VoxelShape shape;
 
@@ -205,14 +217,8 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
 		container.add(HALF, NORTH, SOUTH, EAST, WEST);
 	}
-
-	@Override
-	public int getDefaultCapacity() {
-		return ECConfig.SERVER.reservoirCapacity.get();
-	}
 	
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
 		if (state.getValue(ReservoirBlock.HALF) == DoubleBlockHalf.UPPER) {
 			super.animateTick(state, level, pos, rand);

@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/pure_crystal",
+  "criteria": {
+    "has_fireite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fireite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.fireite.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:fireite_ingot"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.fireite.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_fireite"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

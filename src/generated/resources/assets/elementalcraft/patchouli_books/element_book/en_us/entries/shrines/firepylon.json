@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/shrinebase",
+  "category": "elementalcraft:shrines",
+  "icon": "elementalcraft:firepylon",
+  "name": "block.elementalcraft.firepylon",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.firepylon0"
+    }
+  ],
+  "sortnum": 1,
+  "turnin": "elementalcraft:pickup/firepylon"
+}

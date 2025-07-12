@@ -8,15 +8,15 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.particle.element.AbstractElementParticle;
-import sirttas.elementalcraft.particle.element.ElementTypeParticleData;
+import sirttas.elementalcraft.particle.element.ElementParticleData;
 
 @OnlyIn(Dist.CLIENT)
 public class SourceParticle extends AbstractElementParticle {
 
-	public static final SpriteParticleRegistration<ElementTypeParticleData> FACTORY = s -> (data, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> new SourceParticle(worldIn, new Vec3(x, y, z), s, data.getElementType());
+	public static final SpriteParticleRegistration<ElementParticleData> FACTORY = s -> (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new SourceParticle(level, new Vec3(x, y, z), s, data.getElementType());
 	
-	protected SourceParticle(ClientLevel worldIn, Vec3 coord, SpriteSet sprite, ElementType type) {
-		super(worldIn, coord, type);
+	protected SourceParticle(ClientLevel level, Vec3 coord, SpriteSet sprite, ElementType type) {
+		super(level, coord, type);
 		this.xd = 0;
 		this.yd = 0;
 		this.zd = 0;

@@ -14,8 +14,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shape.ECShapes;
@@ -61,14 +59,12 @@ public class EnderLockShrineBlock extends AbstractPylonShrineBlock<EnderLockShri
 	
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? LOWER_SHAPE : UPPER_SHAPE;
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level world, BlockPos pos, RandomSource rand) {
-		ParticleHelper.createEnderParticle(world, Vec3.atLowerCornerOf(pos), 8 + rand.nextInt(5), rand);
+	protected void doAnimateTick(AbstractShrineBlockEntity shrine, BlockState state, Level level, BlockPos pos, RandomSource rand) {
+		ParticleHelper.createEnderParticle(level, Vec3.atLowerCornerOf(pos), 8 + rand.nextInt(5), rand);
 	}
 }

@@ -1,25 +1,21 @@
 package sirttas.elementalcraft.item.elemental;
 
+import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.item.ECItem;
-import sirttas.elementalcraft.property.ECProperties;
 
-public class ElementalItem extends ECItem implements IElementTypeProvider {
+public class ElementalItem extends Item implements IElementTypeProvider {
 
 	protected final ElementType elementType;
 
-	public ElementalItem(ElementType elementType) {
-		this(ECProperties.Items.DEFAULT_ITEM_PROPERTIES, elementType);
-	}
-
-	public ElementalItem(Properties properties, ElementType elementType) {
+	public ElementalItem(ElementType elementType, Properties properties) {
 		super(properties);
 		this.elementType = elementType;
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 }

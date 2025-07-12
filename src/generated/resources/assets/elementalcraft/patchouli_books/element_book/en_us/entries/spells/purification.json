@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:purification\"]",
+  "name": "elementalcraft_spell.elementalcraft.purification",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.purification0"
+    }
+  ],
+  "sortnum": 16,
+  "turnin": "elementalcraft:pickup/scroll"
+}

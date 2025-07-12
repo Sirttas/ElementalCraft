@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -22,10 +22,10 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 	}
 
 	private boolean canInsertStack(IItemHandler inventory, ItemStack stack, ItemStack heldItem, int slot) {
-		return ItemHandlerHelper.canItemStacksStack(stack, heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
+		return ItemStack.isSameItemSameComponents(stack, heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
 	}
 
-	public InteractionResult onSlotActivated(IItemHandler inventory, Player player, ItemStack heldItem, int slot) {
+	public ItemInteractionResult onSlotActivated(IItemHandler inventory, Player player, ItemStack heldItem, int slot) {
 		ItemStack stack = inventory.getStackInSlot(slot);
 		Level level = player.level();
 
@@ -34,9 +34,9 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 				if (!level.isClientSide()) {
 					EntityHelper.dropAtFeet(level, player, inventory.extractItem(slot, stack.getCount(), false));
 				}
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 			}
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		} else if (stack.isEmpty() && inventory.isItemValid(slot, heldItem)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot));
 
@@ -46,7 +46,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 				heldItem.shrink(size);
 			}
 			inventory.insertItem(slot, stack, false);
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
 
@@ -54,29 +54,26 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 				heldItem.shrink(size);
 			}
 			stack.grow(size);
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
-	protected InteractionResult onSingleSlotActivated(Level world, BlockPos pos, Player player, InteractionHand hand) {
-		final IItemHandler inv = ECContainerHelper.getItemHandlerAt(world, pos, null);
-		ItemStack heldItem = player.getItemInHand(hand);
+	protected ItemInteractionResult onSingleSlotActivated(ItemStack stack, Level level, BlockPos pos, Player player, InteractionHand hand) {
+		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
 		if (inv != null && hand == InteractionHand.MAIN_HAND) {
-			return this.onSlotActivated(inv, player, heldItem, 0);
+			return this.onSlotActivated(inv, player, stack, 0);
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override
-	@Deprecated
 	public boolean hasAnalogOutputSignal(@Nonnull BlockState state) {
 		return true;
 	}
 
 	@Override
-	@Deprecated
 	public int getAnalogOutputSignal(@Nonnull BlockState blockState, @Nonnull Level level, @Nonnull BlockPos pos) {
 		return ItemHandlerHelper.calcRedstoneFromInventory(ECContainerHelper.getItemHandlerAt(level, pos));
 	}

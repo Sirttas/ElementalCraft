@@ -10,8 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.recipe.PureInfusionRecipe;
-import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
+import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -60,20 +59,19 @@ public class PureInfusionRecipeBuilder {
 		this.ingredients.put(type, ingredientIn);
 		return this;
 	}
-
 	
 	public void save(RecipeOutput recipeOutput) {
 		ResourceLocation id = BuiltInRegistries.ITEM.getKey(this.result);
 
-		this.save(recipeOutput, new ResourceLocation(id.getNamespace(), PureInfusionRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), PureInfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
 		ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
-		if ((new ResourceLocation(save)).equals(resourcelocation)) {
-			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
+		if (ResourceLocation.parse(save).equals(resourcelocation)) {
+			throw new IllegalStateException("Pure Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(recipeOutput, ElementalCraftApi.createRL(AbstractBindingRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.createRL(PureInfusionRecipe.NAME + '/' + save));
 		}
 	}
 

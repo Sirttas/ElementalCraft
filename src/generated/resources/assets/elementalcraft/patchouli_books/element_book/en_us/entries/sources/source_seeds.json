@@ -1,0 +1,23 @@
+{
+  "advancement": "elementalcraft:pickup/source_breeder",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:fire_source_seed",
+  "name": "elementalcraft.entry.source_seeds",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_seeds0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:fire_source_seed",
+      "recipe2": "elementalcraft:water_source_seed"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:earth_source_seed",
+      "recipe2": "elementalcraft:air_source_seed"
+    }
+  ],
+  "sortnum": 6
+}

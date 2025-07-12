@@ -1,89 +1,126 @@
 package sirttas.elementalcraft.block.instrument.infuser;
 
-import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.neoforged.testframework.Test;
+import sirttas.elementalcraft.ECGameTestHelper;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.instrument.InstrumentGameTestHelper;
+import sirttas.elementalcraft.enchantment.ECEnchantmentHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class InfuserGameTests {
 
-    private static final String TEMPLATE = "elementalcraft:infusergametests.infuser";
+    public static final String GROUP = "level.blocks.instruments.infuser";
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_craftCrystal() {
+    private static final String TEMPLATE = "elementalcraft:infusergametests.infuser"; // TODO move to template generation
+
+    public static Collection<Test> collectTests() {
         return List.of(
-                InstrumentGameTestHelper.createTestFunction("should_craftFireCrystal", TEMPLATE, h -> should_craftCrystal(h, ElementType.FIRE)),
-                InstrumentGameTestHelper.createTestFunction("should_craftWaterCrystal", TEMPLATE, h -> should_craftCrystal(h, ElementType.WATER)),
-                InstrumentGameTestHelper.createTestFunction("should_craftEarthCrystal", TEMPLATE, h -> should_craftCrystal(h, ElementType.EARTH)),
-                InstrumentGameTestHelper.createTestFunction("should_craftAirCrystal", TEMPLATE, h -> should_craftCrystal(h, ElementType.AIR))
+                createTest(
+                        "should_craftFireCrystal",
+                        "Check if an infuser can craft a fire crystal",
+                        helper -> should_craftCrystal(helper, ElementType.FIRE)),
+                createTest(
+                        "should_craftWaterCrystal",
+                        "Check if an infuser can craft a water crystal",
+                        helper -> should_craftCrystal(helper, ElementType.WATER)),
+                createTest(
+                        "should_craftEarthCrystal",
+                        "Check if an infuser can craft an earth crystal",
+                        helper -> should_craftCrystal(helper, ElementType.EARTH)),
+                createTest(
+                        "should_craftAirCrystal",
+                        "Check if an infuser can craft an air crystal",
+                        helper -> should_craftCrystal(helper, ElementType.AIR)),
+
+                createTest(
+                        "should_craftCrudeFireGem",
+                        "Check if an infuser can craft a fire crude gem",
+                        helper -> should_craftCrudeGem(helper, ElementType.FIRE)),
+                createTest(
+                        "should_craftCrudeWaterGem",
+                        "Check if an infuser can craft a water crude gem",
+                        helper -> should_craftCrudeGem(helper, ElementType.WATER)),
+                createTest(
+                        "should_craftCrudeEarthGem",
+                        "Check if an infuser can craft an earth crude gem",
+                        helper -> should_craftCrudeGem(helper, ElementType.EARTH)),
+                createTest(
+                        "should_craftCrudeAirGem",
+                        "Check if an infuser can craft an air crude gem",
+                        helper -> should_craftCrudeGem(helper, ElementType.AIR)),
+
+                createTest(
+                        "should_infuseDiamondSwordWithFire",
+                        "Checks if a diamond sword can be infused with fire and has fire aspect",
+                        helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_SWORD), ElementType.FIRE, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.FIRE_ASPECT))),
+                createTest(
+                        "should_infuseDiamondSwordWithWater",
+                        "Checks if a diamond sword can be infused with water and has looting",
+                        helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_SWORD), ElementType.WATER, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.LOOTING))),
+                createTest(
+                        "should_infuseDiamondSwordWithAir",
+                        "Checks if a diamond sword can be infused with earth and has sharpness",
+                        helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_SWORD), ElementType.EARTH, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.SHARPNESS))),
+                createTest(
+                        "should_infuseDiamondPickaxeWithWater",
+                        "Checks if a diamond pickaxe can be infused with water and has fortune",
+                        helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.WATER, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.FORTUNE))),
+                createTest(
+                        "should_infuseDiamondPickaxeWithEarth",
+                        "Checks if a diamond pickaxe can be infused with earth and has unbreaking",
+                        helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.EARTH, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.UNBREAKING))),
+                createTest(
+                        "should_infuseDiamondPickaxeWithAir",
+                        "Checks if a diamond pickaxe can be infused with air and has efficiency",
+                        helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.AIR, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.EFFICIENCY)))
         );
     }
 
-    public static void should_craftCrystal(GameTestHelper helper, ElementType elementType) {
-        InstrumentGameTestHelper.<InfuserBlockEntity>runInstrument(helper, new ItemStack(ECItems.INERT_CRYSTAL.get()), elementType, infuser -> {
+    private static void should_craftCrystal(ECGameTestHelper helper, ElementType elementType) {
+        helper.<InfuserBlockEntity>runInstrument(new ItemStack(ECItems.INERT_CRYSTAL.get()), elementType, infuser -> {
             assertThat(infuser.getItem())
                     .is(ElementalItemHelper.getCrystalForElement(elementType))
                     .hasCount(1);
         });
     }
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_craftCrudeGem() {
-        return List.of(
-                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.FIRE)),
-                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.WATER)),
-                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.EARTH)),
-                InstrumentGameTestHelper.createTestFunction("should_craftCrudeGem", TEMPLATE, h -> should_craftCrudeGem(h, ElementType.AIR))
-        );
-    }
-
-    public static void should_craftCrudeGem(GameTestHelper helper, ElementType elementType) {
-        InstrumentGameTestHelper.<InfuserBlockEntity>runInstrument(helper, new ItemStack(Items.DIAMOND), elementType, infuser -> {
+    private static void should_craftCrudeGem(ECGameTestHelper helper, ElementType elementType) {
+        helper.<InfuserBlockEntity>runInstrument(new ItemStack(Items.DIAMOND), elementType, infuser -> {
             assertThat(infuser.getItem())
                     .is(ElementalItemHelper.getCrudeGemForElement(elementType))
                     .hasCount(1);
         });
     }
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_infuseTool() {
-        var index = new AtomicInteger(0);
-
-        return List.of(
-                InstrumentGameTestHelper.createTestFunction("should_infuseTool#" + index.getAndIncrement(), TEMPLATE, h -> should_infuseTool(h, new ItemStack(Items.DIAMOND_SWORD), ElementType.FIRE, s -> assertThat(s.getEnchantmentLevel(Enchantments.FIRE_ASPECT)).isEqualTo(1))),
-                InstrumentGameTestHelper.createTestFunction("should_infuseTool#" + index.getAndIncrement(), TEMPLATE, h -> should_infuseTool(h, new ItemStack(Items.DIAMOND_SWORD), ElementType.WATER, s -> assertThat(s.getEnchantmentLevel(Enchantments.MOB_LOOTING)).isEqualTo(1))),
-                InstrumentGameTestHelper.createTestFunction("should_infuseTool#" + index.getAndIncrement(), TEMPLATE, h -> should_infuseTool(h, new ItemStack(Items.DIAMOND_SWORD), ElementType.EARTH, s -> assertThat(s.getEnchantmentLevel(Enchantments.SHARPNESS)).isEqualTo(1))),
-
-                InstrumentGameTestHelper.createTestFunction("should_infuseTool#" + index.getAndIncrement(), TEMPLATE, h -> should_infuseTool(h, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.WATER, s -> assertThat(s.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE)).isEqualTo(1))),
-                InstrumentGameTestHelper.createTestFunction("should_infuseTool#" + index.getAndIncrement(), TEMPLATE, h -> should_infuseTool(h, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.EARTH, s -> assertThat(s.getEnchantmentLevel(Enchantments.UNBREAKING)).isEqualTo(1))),
-                InstrumentGameTestHelper.createTestFunction("should_infuseTool#" + index.getAndIncrement(), TEMPLATE, h -> should_infuseTool(h, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.AIR, s -> assertThat(s.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY)).isEqualTo(1)))
-        );
-    }
-
-    public static void should_infuseTool(GameTestHelper helper, ItemStack tool, ElementType elementType, Consumer<ItemStack> assertion) {
-        InstrumentGameTestHelper.<InfuserBlockEntity>runInstrument(helper, tool.copy(), elementType, infuser -> {
+    private static void should_infuseTool(ECGameTestHelper helper, ItemStack tool, ElementType elementType, Consumer<ItemStack> assertion) {
+        helper.<InfuserBlockEntity>runInstrument(tool.copy(), elementType, infuser -> {
             assertThat(infuser.getItem())
                     .is(tool.getItem())
                     .hasCount(1)
-                    .satisfies(s -> assertThat(ToolInfusionHelper.getInfusion(s)).satisfies(i -> assertThat(i.getElementType()).isEqualTo(elementType)))
+                    .satisfies(s -> assertThat(ToolInfusionHelper.getInfusion(s)).satisfies(i -> assertThat(i.value().getElementType()).isEqualTo(elementType)))
                     .satisfies(assertion);
         });
+    }
+
+    private static void assertHasToolInfusionWithEnchantment(GameTestHelper helper, ItemStack stack, ResourceKey<Enchantment> enchantment) {
+        assertThat(stack.getEnchantmentLevel(ECEnchantmentHelper.getEnchantmentHolder(helper.getLevel().registryAccess(), enchantment))).isEqualTo(1);
+    }
+
+    private static Test createTest(String name, String description, Consumer<ECGameTestHelper> function) {
+        return ECGameTestUtils.createTest(GROUP, name, description, TEMPLATE, function);
     }
 }

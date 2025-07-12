@@ -5,9 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.CropBlock;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.entity.BlockEntityGameTestHelper;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
@@ -15,7 +13,6 @@ import java.util.List;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class TranslocationShrineUpgradeGameTests {
 
     private static final List<BlockPos> CROPS = List.of(
@@ -39,11 +36,12 @@ public class TranslocationShrineUpgradeGameTests {
             new BlockPos(11, 2, 6),
             new BlockPos(11, 2, 7)
     );
+    private static final String TEMPLATE = "elementalcraft:translocationshrineupgradegametests.should_growcropsaroundanchor";
 
-    // elementalcraft:translocationshrineupgradegametests.should_growcropsaroundanchor
-    @GameTest(batch = ShrineGameTestHelper.BATCH_NAME)
+    @TestHolder
+    @GameTest(template = TEMPLATE)
     public static void should_growCropsAroundAnchor(GameTestHelper helper) {
-        var upgrade = (TranslocationShrineUpgradeBlockEntity) BlockEntityGameTestHelper.getBlockEntity(helper, new BlockPos(5, 2, 4));
+        var upgrade = (TranslocationShrineUpgradeBlockEntity) helper.getBlockEntity(new BlockPos(5, 2, 4));
         var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 2, 4));
         var targetPos = helper.absolutePos(new BlockPos(9, 2, 4));
 

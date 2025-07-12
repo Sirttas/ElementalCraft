@@ -1,60 +1,45 @@
 package sirttas.elementalcraft.item.jewel;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.item.ECItem;
 import sirttas.elementalcraft.jewel.Jewel;
-import sirttas.elementalcraft.jewel.JewelHelper;
-import sirttas.elementalcraft.jewel.Jewels;
-import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Supplier;
 
-public class JewelItem extends ECItem {
+public class JewelItem extends Item {
 
     public static final String NAME = ECNames.JEWEL;
 
-    public JewelItem() {
-        super(ECProperties.Items.ITEM_UNSTACKABLE);
+    private final Supplier<Jewel> supplier;
+    private Jewel jewel;
+
+    public JewelItem(Supplier<Jewel> supplier, Item.Properties properties) {
+        super(properties);
+        this.supplier = supplier;
     }
 
     @Nonnull
-    public static Jewel getJewel(@Nonnull ItemStack stack) {
-        return JewelHelper.getJewel(stack);
-    }
-
-    public ItemStack getJewelStack(Jewel jewel) {
-        ItemStack stack = new ItemStack(this);
-
-        JewelHelper.setJewel(stack, jewel);
-        return stack;
-    }
-
-    @Nonnull
-    @Override
-    public Component getName(@Nonnull ItemStack stack) {
-        Jewel jewel = getJewel(stack);
-
-        if (jewel != Jewels.NONE.get()) {
-            return jewel.getDisplayName();
+    public Jewel getJewel() {
+        if (jewel == null) {
+            jewel = supplier.get();
         }
-        return super.getName(stack);
+        return jewel;
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
-        Jewel jewel = getJewel(stack);
+    public @NotNull String getDescriptionId() {
+        return getJewel().getDescriptionId();
+    }
 
-        if (jewel != Jewels.NONE.get()) {
-            jewel.appendHoverText(tooltip);
-        }
+    @Override
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+        getJewel().appendHoverText(tooltip);
     }
 }

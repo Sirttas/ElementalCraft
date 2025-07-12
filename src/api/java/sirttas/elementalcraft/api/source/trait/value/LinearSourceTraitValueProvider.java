@@ -2,6 +2,7 @@ package sirttas.elementalcraft.api.source.trait.value;
 
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
@@ -9,7 +10,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -23,7 +27,7 @@ import java.util.List;
 public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider {
 
 	public static final String NAME = "linear";
-	public static final Codec<LinearSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> codec(builder)
+	public static final MapCodec<LinearSourceTraitValueProvider> CODEC = RecordCodecBuilder.mapCodec(builder -> codec(builder)
 	        .apply(builder, LinearSourceTraitValueProvider::new));
 	
 	protected final String translationKey;
@@ -31,6 +35,9 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	protected final float end;
 	protected final float luckRatio;
 	protected final List<SourceTrait.Type> types;
+
+	private final Codec<ISourceTraitValue> valueCodec;
+	private final StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec;
 
 	public LinearSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float end) {
 		this(translationKey, types, 0, end);
@@ -46,6 +53,8 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 		this.end = end;
 		this.types = types;
 		this.luckRatio = luckRatio;
+		this.valueCodec = Codec.FLOAT.xmap(this::createValue, t -> ((SourceTraitValue) t).value);
+		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.FLOAT, t -> ((SourceTraitValue) t).value, this::createValue);
 	}
 	
     protected static <T extends LinearSourceTraitValueProvider> Products.P5<Mu<T>, String, List<SourceTrait.Type>, Float, Float, Float> codec(Instance<T> builder) {
@@ -65,7 +74,7 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 		return end;
 	}
 
-	private float getLuckRatio(){
+	private float getLuckRatio() {
 		return luckRatio;
 	}
 
@@ -136,6 +145,16 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	@Override
 	public Tag save(ISourceTraitValue value) {
 		return value instanceof SourceTraitValue sourceTraitValue ? FloatTag.valueOf(sourceTraitValue.value) : null;
+	}
+
+	@Override
+	public Codec<ISourceTraitValue> valueCodec() {
+		return valueCodec;
+	}
+
+	@Override
+	public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+		return valueStreamCodec;
 	}
 
 	protected ISourceTraitValue createValue(float value) {

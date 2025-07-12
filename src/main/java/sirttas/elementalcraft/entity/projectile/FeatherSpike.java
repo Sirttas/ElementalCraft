@@ -18,18 +18,24 @@ public class FeatherSpike extends AbstractArrow {
     }
 
     public FeatherSpike(EntityType<? extends FeatherSpike> type, Level level) {
-        super(type, level, ItemStack.EMPTY);
+        super(type, level);
         pickup = AbstractArrow.Pickup.DISALLOWED;
     }
 
     public FeatherSpike(Level level, LivingEntity sender) {
-        super(ECEntities.FEATHER_SPIKE.get(), sender, level, ItemStack.EMPTY);
+        super(ECEntities.FEATHER_SPIKE.get(), sender, level, ItemStack.EMPTY, null);
         pickup = AbstractArrow.Pickup.DISALLOWED;
     }
 
     @Nonnull
     @Override
     protected ItemStack getPickupItem() {
+        return ItemStack.EMPTY;
+    }
+
+    @Nonnull
+    @Override
+    protected ItemStack getDefaultPickupItem() {
         return ItemStack.EMPTY;
     }
 }

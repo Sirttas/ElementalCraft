@@ -73,7 +73,6 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
 
     @Nonnull
     @Override
-    @Deprecated
     public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
             return UPPER_SHAPES.get(state.getValue(FACING));
@@ -109,7 +108,6 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     }
 
     @Override
-    @Deprecated
     public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
         if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
             return super.canSurvive(state, level, pos);
@@ -118,7 +116,7 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     }
 
     @Override
-    public BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+    public @NotNull BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
         AbstractPylonShrineBlock.doubleHalfHarvest(level, pos, state, player);
         return super.playerWillDestroy(level, pos, state, player);
     }
@@ -141,7 +139,6 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
 
     @Nonnull
     @Override
-    @Deprecated
     public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
         return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> {
             var newState = super.updateShape(state, facing, facingState, level, pos, facingPos);

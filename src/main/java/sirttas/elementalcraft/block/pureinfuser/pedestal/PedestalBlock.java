@@ -5,8 +5,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -22,7 +23,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 
@@ -50,7 +50,7 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	public static final String NAME_AIR = NAME + "_air";
 
 	public static final MapCodec<PedestalBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-			ElementType.CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(PedestalBlock::getElementType),
+			ElementType.forGetter(PedestalBlock::getElementType),
 			propertiesCodec()
 	).apply(instance, PedestalBlock::new));
 
@@ -78,15 +78,13 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 
 	@Nonnull
     @Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		return onSingleSlotActivated(world, pos, player, hand);
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+		return onSingleSlotActivated(stack, level, pos, player, hand);
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		VoxelShape shape = getBaseShape();
 
 		if (Boolean.TRUE.equals(state.getValue(NORTH))) {
@@ -114,7 +112,7 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 	
@@ -130,8 +128,7 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 
 	@Nonnull
     @Override
-	@Deprecated
-	public BlockState updateShape(@Nonnull BlockState stateIn, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor worldIn, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
-		return doUpdateShape(stateIn, worldIn, currentPos, facing);
+	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+		return doUpdateShape(state, level, currentPos, facing);
 	}
 }

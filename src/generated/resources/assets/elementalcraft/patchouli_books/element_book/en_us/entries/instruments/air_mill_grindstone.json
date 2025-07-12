@@ -1,0 +1,39 @@
+{
+  "advancement": "elementalcraft:main/container",
+  "category": "elementalcraft:instruments",
+  "icon": "elementalcraft:air_mill_grindstone",
+  "name": "block.elementalcraft.air_mill_grindstone",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.air_mill_grindstone0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:air_mill_grindstone"
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "elementalcraft:container",
+          "I": "elementalcraft:air_mill_grindstone",
+          "M": "elementalcraft:air_mill_grindstone[half=upper]"
+        },
+        "pattern": [
+          [
+            "M"
+          ],
+          [
+            "I"
+          ],
+          [
+            "0"
+          ]
+        ]
+      }
+    }
+  ],
+  "sortnum": 10,
+  "turnin": "elementalcraft:main/air_mill_grindstone"
+}

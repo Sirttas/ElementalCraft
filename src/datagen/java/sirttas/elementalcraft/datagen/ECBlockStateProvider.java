@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -43,7 +44,8 @@ import sirttas.elementalcraft.block.shrine.upgrade.vertical.AbstractVerticalShri
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.block.sorter.SorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
-import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateBlock;
+import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlock;
+import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlock;
 
 import javax.annotation.Nonnull;
 
@@ -67,7 +69,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		air = models().getExistingFile(new ResourceLocation("block/air"));
+		air = models().getExistingFile(ResourceLocation.withDefaultNamespace("block/air"));
 		containerConnector = models().getExistingFile(prefix("container_connector"));
 
 		BuiltInRegistries.BLOCK.holders().forEach(h -> {
@@ -93,12 +95,13 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	}
 	
 	private ResourceLocation prefix(ResourceLocation name) {
-		return new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
+		return ResourceLocation.fromNamespaceAndPath(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
 
 	}
 
 	private void save(ResourceLocation key, Block block) {
 		String name = key.getPath();
+		var airMilUpper = models().getBuilder("air_mill_upper").parent(air).texture("particle", prefix("air_mill_blades"));
 
 		if (block instanceof SlabBlock slabBlock) {
 			slabBlock(key, slabBlock);
@@ -134,10 +137,16 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			getMultipartBuilder(block).part().modelFile(base).addModel().end()
 				.part().modelFile(amethyst).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.AMETHYST).end()
 				.part().modelFile(springaline).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.SPRINGALINE).end();
+		} else if (block instanceof AirMillSynthesizerBlock) {
+			getVariantBuilder(block)
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(airMilUpper))
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(AbstractAirMillBlock.BROKEN, false).setModels(new ConfiguredModel(models().getExistingFile(prefix("air_mill_synthesizer_lower"))))
+				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(AbstractAirMillBlock.BROKEN, true).setModels(new ConfiguredModel(models().getExistingFile(prefix("air_mill_synthesizer_broken"))));
 		} else if (block instanceof AbstractAirMillBlock) {
 			getVariantBuilder(block)
-				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(models().getBuilder("air_mill_grindstone_upper").parent(air).texture("particle", prefix("air_mill_blades"))))
-				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(models().getExistingFile(prefix("air_mill"))));
+					.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(airMilUpper))
+					.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(AbstractAirMillBlock.BROKEN, false).setModels(new ConfiguredModel(models().getExistingFile(prefix("air_mill_lower"))))
+					.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(AbstractAirMillBlock.BROKEN, true).setModels(new ConfiguredModel(models().getExistingFile(prefix(name + "_broken"))));
 		} else if (block instanceof AbstractMillBlock) {
 			horizontalBlock(block, models().getExistingFile(prefix("water_mill")));
 		} else if (block instanceof ReservoirBlock) {
@@ -208,6 +217,15 @@ public class ECBlockStateProvider extends BlockStateProvider {
 								.rotationY(vertical ? 0 : (int) (facing.toYRot() + 180) % 360)
 								.build();
 					});
+		} else if (block instanceof VibrationSynthesizerBlock) {
+			ModelFile parent = models().getExistingFile(prefix(name));
+			ModelFile inactive = models().getBuilder(name + "_inactive").parent(parent);
+			ModelFile active = models().getBuilder(name + "_active").parent(parent).texture("tendril", prefix("vibration_air_synthesizer_tendril_active"));
+
+			getVariantBuilder(block)
+					.partialState().with(VibrationSynthesizerBlock.PHASE, SculkSensorPhase.INACTIVE).setModels(new ConfiguredModel(inactive))
+					.partialState().with(VibrationSynthesizerBlock.PHASE, SculkSensorPhase.ACTIVE).setModels(new ConfiguredModel(active))
+					.partialState().with(VibrationSynthesizerBlock.PHASE, SculkSensorPhase.COOLDOWN).setModels(new ConfiguredModel(inactive));
 		} else if (block instanceof OverclockedAccelerationShrineUpgradeBlock) {
 			ModelFile upper = models().getExistingFile(prefix(name + "_upper"));
 			ModelFile lower = models().getExistingFile(prefix(name + "_lower"));
@@ -247,10 +265,16 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			getVariantBuilder(block)
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(upper))
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setModels(new ConfiguredModel(lower));
+		} else if (block.defaultBlockState().hasProperty(BlockStateProperties.HORIZONTAL_AXIS)) {
+			ModelFile model = models().getExistingFile(prefix(name));
+
+			getVariantBuilder(block)
+				.forAllStates(state -> ConfiguredModel.builder()
+					.modelFile(model)
+					.rotationY(state.getValue(BlockStateProperties.HORIZONTAL_AXIS) == Direction.Axis.Z ? 90 : 0)
+					.build());
 		} else if (block instanceof SourceBlock) {
 			simpleBlock(block, models().withExistingParent(name, air.getLocation()).renderType(TRANSLUCENT));
-		} else if (block instanceof SourceDisplacementPlateBlock sourceDisplacementPlateBlock) {
-			simpleBlock(block, models().withExistingParent(name, prefix("template_source_displacement_plate")).texture(TEXTURE, prefix("source_displacement_plate_" + sourceDisplacementPlateBlock.getElementType().getSerializedName() + "_top")));
 		} else if (modelExists(key)) {
 			simpleBlock(block, models().getExistingFile(prefix(name)));
 		} else if (block instanceof TransparentBlock) {

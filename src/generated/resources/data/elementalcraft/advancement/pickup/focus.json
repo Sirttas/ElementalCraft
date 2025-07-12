@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_focus": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:focus"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_focus"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

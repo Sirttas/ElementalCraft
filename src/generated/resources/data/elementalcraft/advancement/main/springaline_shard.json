@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/binder",
+  "criteria": {
+    "has_springaline_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:springaline_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.springaline_shard.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:springaline_shard"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.springaline_shard.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_springaline_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "d": {
+      "item": "minecraft:dispenser"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "i": {
+      "tag": "c:ingots/drenched_iron"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "iw ",
+    "hdi",
+    "iw "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:instrument_retriever"
+  }
+}

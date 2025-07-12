@@ -1,60 +1,32 @@
 package sirttas.elementalcraft.item.source.analysis;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import sirttas.elementalcraft.api.source.ISourceInteractable;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
-import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
-import sirttas.elementalcraft.item.ECItem;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.property.ECProperties;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractable {
+public class SourceAnalysisGlassItem extends Item {
 
 	public static final String NAME = "source_analysis_glass";
 
 	
 	public SourceAnalysisGlassItem() {
 		super(ECProperties.Items.ITEM_UNSTACKABLE);
-	}
-	
-	public static boolean consumeSpringaline(Player player) {
-		if (player == null || player.getAbilities().instabuild) {
-			return true;
-		}
-
-		var inv = player.getInventory();
-		var slot = inv.findSlotMatchingItem(new ItemStack(ECItems.SPRINGALINE_SHARD.get()));
-		
-		if (slot >= 0) {
-			var stack = inv.getItem(slot);
-			
-			if (!stack.isEmpty()) {
-				stack.shrink(1);
-				if (stack.isEmpty()) {
-					inv.setItem(slot, ItemStack.EMPTY);
-				}
-				return true;
-			}
-		}
-		player.displayClientMessage(Component.translatable("message.elementalcraft.missing_springaline"), true);
-		return false;
 	}
 
 	@Nonnull
@@ -65,33 +37,23 @@ public class SourceAnalysisGlassItem extends ECItem implements ISourceInteractab
 		Player player = context.getPlayer();
 		
 		return BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class)
-				.map(source -> {
-					if (source.isAnalyzed() || consumeSpringaline(player)) {
-						source.setAnalyzed(true);
-						return open(level, player, source.getTraitHolder().getTraits());
-					}
-					return InteractionResult.PASS;
-				}).orElse(InteractionResult.PASS);
+				.map(source -> open(level, player, source.getTraitHolder().getTraits()))
+				.orElse(InteractionResult.PASS);
 	}
 	
-	public InteractionResult open(Level world, Player player, Map<ResourceKey<SourceTrait>, ISourceTraitValue> traitMap) {
-		if (world.isClientSide) {
+	public InteractionResult open(Level level, Player player, Map<Holder<SourceTrait>, ISourceTraitValue> traitMap) {
+		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
 		player.openMenu(new Menu(traitMap));
 		return InteractionResult.CONSUME;
 	}
 
-	@Override
-	public boolean canInteractWithSource(BlockState state) {
-		return state.is(ECBlocks.SOURCE.get());
-	}
-
 	private class Menu implements MenuProvider {
 
-		private final Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits;
+		private final Map<Holder<SourceTrait>, ISourceTraitValue> traits;
 		
-		private Menu(Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits) {
+		private Menu(Map<Holder<SourceTrait>, ISourceTraitValue> traits) {
 			this.traits = traits;
 		}
 		

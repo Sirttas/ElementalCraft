@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "item": "elementalcraft:fine_air_gem"
+    },
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    },
+    "e": {
+      "item": "elementalcraft:fine_earth_gem"
+    }
+  },
+  "pattern": [
+    " a ",
+    "cUc",
+    " e "
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:leopard"
+  }
+}

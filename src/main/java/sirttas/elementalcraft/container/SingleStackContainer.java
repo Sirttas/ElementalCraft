@@ -1,13 +1,14 @@
 package sirttas.elementalcraft.container;
 
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Lists;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class SingleStackContainer extends AbstractSynchronizableContainer implements INBTSerializable<CompoundTag> {
 
@@ -73,22 +74,23 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 		ItemStack ret = stack;
 
 		stack = ItemStack.EMPTY;
-		this.setChanged();
 		return ret;
 	}
 
 	@Override
 	@Nonnull
-	public CompoundTag serializeNBT() {
-		CompoundTag stackNbt = new CompoundTag();
+	public CompoundTag serializeNBT(@Nonnull HolderLookup.Provider provider) {
+		var compoundTag = new CompoundTag();
 
-		stack.save(stackNbt);
-		return stackNbt;
+		if (!stack.isEmpty()) {
+			compoundTag.put("stack", stack.save(provider));
+		}
+		return compoundTag;
 	}
 
 	@Override
-	public void deserializeNBT(CompoundTag nbt) {
-		stack = ItemStack.of(nbt);
+	public void deserializeNBT(@Nonnull HolderLookup.Provider provider, @NotNull CompoundTag compoundTag) {
+		stack = ItemStack.parseOptional(provider, compoundTag.getCompound("stack"));
 	}
 
 }

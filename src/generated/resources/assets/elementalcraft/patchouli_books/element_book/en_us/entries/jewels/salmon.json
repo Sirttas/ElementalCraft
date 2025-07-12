@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:salmon",
+  "name": "elementalcraft.jewel.elementalcraft.salmon",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.salmon0"
+    }
+  ],
+  "sortnum": 11,
+  "turnin": "elementalcraft:pickup/salmon"
+}

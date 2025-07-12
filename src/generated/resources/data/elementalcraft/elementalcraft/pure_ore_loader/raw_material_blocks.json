@@ -2,7 +2,7 @@
   "type": "elementalcraft:pattern",
   "element_consumption": 15000,
   "luck_ratio": 18.0,
-  "namespace_pattern": "^(forge|blue_skies)$",
+  "namespace_pattern": "^(c|forge|blue_skies)$",
   "order": 2,
   "output_size": 12,
   "patterns": [

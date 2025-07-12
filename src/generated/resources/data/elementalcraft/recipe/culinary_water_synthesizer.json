@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "minecraft:bucket"
+    },
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "i": {
+      "tag": "c:ingots/swift_alloy"
+    },
+    "l": {
+      "item": "minecraft:cake"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    " l ",
+    "ibi",
+    "wcw"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:culinary_water_synthesizer"
+  }
+}

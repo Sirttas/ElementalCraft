@@ -1,8 +1,10 @@
 package sirttas.elementalcraft.infusion.tool.effect;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
@@ -15,7 +17,7 @@ public record ElementCostReductionToolInfusionEffect(
 ) implements IToolInfusionEffect, IElementTypeProvider {
 
 	public static final String NAME = "element_cost_reduction";
-	public static final Codec<ElementCostReductionToolInfusionEffect> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+	public static final MapCodec<ElementCostReductionToolInfusionEffect> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
 			ElementType.forGetter(ElementCostReductionToolInfusionEffect::getElementType),
 			Codec.FLOAT.fieldOf(ECNames.VALUE).forGetter(ElementCostReductionToolInfusionEffect::value)
 	).apply(builder, ElementCostReductionToolInfusionEffect::new));
@@ -31,7 +33,7 @@ public record ElementCostReductionToolInfusionEffect(
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return elementType;
 	}
 }

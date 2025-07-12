@@ -1,52 +1,62 @@
 package sirttas.elementalcraft.block.doublehalf;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Rotation;
+import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.airmill.AirMillTestCaseHolder;
+import sirttas.elementalcraft.block.container.reservoir.ReservoirGameTests;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public record DoubleHalfBlockTestCaseHolder(
         String template,
-        Block block,
+        Supplier<Block> block,
         BlockPos pos1,
         BlockPos pos2
 ) {
 
-    public static final String BATCH_NAME = "doubleHalf";
+    public static final String GROUP = "level.blocks.doubleHalf";
 
-    public static final List<DoubleHalfBlockTestCaseHolder> HOLDERS = Stream.of(
-            of("millgametests.air_mill_grindstone", ECBlocks.AIR_MILL_GRINDSTONE.get(), new BlockPos(0, 2, 0)),
-            of("millgametests.air_mill_wood_saw", ECBlocks.AIR_MILL_WOOD_SAW.get(), new BlockPos(0, 2, 0)),
-            of("enchantmentliquefiergametests.should_transferenchantment", ECBlocks.ENCHANTMENT_LIQUEFIER.get(), new BlockPos(0, 2, 0)),
-            of("breedingshrinegametests.should_breedcows", ECBlocks.BREEDING_SHRINE.get(), new BlockPos(0, 2, 3), new BlockPos(1, 2, 3)),
-            of("enderlockshrinegametests.should_preventendermanfromteleporting", ECBlocks.ENDER_LOCK_SHRINE.get()),
-            of("overclockedaccelerationshrineupgradegametests.should_allowselementtransfer", ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get(), new BlockPos(1, 2, 1)),
-            of("sourcebreedergametests.source_breeder", ECBlocks.SOURCE_BREEDER.get(), new BlockPos(0, 1, 2))
-    ).<DoubleHalfBlockTestCaseHolder>mapMulti(List::forEach).toList();
+    public static final List<DoubleHalfBlockTestCaseHolder> HOLDERS = flatten(Stream.of(
+            flatten(AirMillTestCaseHolder.HOLDERS.stream().map(h -> of(h.template(), h.block(), new BlockPos(0, 2, 0)))),
+            of("enchantmentliquefiergametests.should_transferenchantment", ECBlocks.ENCHANTMENT_LIQUEFIER, new BlockPos(0, 2, 0)),
+            of("breedingshrinegametests.should_breedcows", ECBlocks.BREEDING_SHRINE, new BlockPos(0, 2, 3), new BlockPos(1, 2, 3)),
+            of("enderlockshrinegametests.should_preventendermanfromteleporting", ECBlocks.ENDER_LOCK_SHRINE),
+            of("overclockedaccelerationshrineupgradegametests.should_allowselementtransfer", ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, new BlockPos(1, 2, 1)),
+            of("sourcebreedergametests.source_breeder", ECBlocks.SOURCE_BREEDER, new BlockPos(0, 1, 2)),
+            of(ReservoirGameTests.FIRE_RESERVOIR_TEMPLATE_NAME, ECBlocks.FIRE_RESERVOIR),
+            of(ReservoirGameTests.WATER_RESERVOIR_TEMPLATE_NAME, ECBlocks.WATER_RESERVOIR),
+            of(ReservoirGameTests.EARTH_RESERVOIR_TEMPLATE_NAME, ECBlocks.EARTH_RESERVOIR),
+            of(ReservoirGameTests.AIR_RESERVOIR_TEMPLATE_NAME, ECBlocks.AIR_RESERVOIR)
+    ));
 
-    public static List<DoubleHalfBlockTestCaseHolder> of(String template, Block block, BlockPos pos1, BlockPos pos2) {
+    @SuppressWarnings("unchecked")
+    public static List<DoubleHalfBlockTestCaseHolder> of(String template, Supplier<? extends Block> block, BlockPos pos1, BlockPos pos2) {
         return List.of(
-                new DoubleHalfBlockTestCaseHolder(template, block, pos1, pos2),
-                new DoubleHalfBlockTestCaseHolder(template, block, pos2, pos1)
+                new DoubleHalfBlockTestCaseHolder(template, (Supplier<Block>) block, pos1, pos2),
+                new DoubleHalfBlockTestCaseHolder(template, (Supplier<Block>) block, pos2, pos1)
         );
     }
 
-    public static List<DoubleHalfBlockTestCaseHolder> of(String template, Block block, BlockPos pos1) {
+    public static List<DoubleHalfBlockTestCaseHolder> of(String template, Supplier<? extends Block> block, BlockPos pos1) {
         return of(template, block, pos1, pos1.above());
     }
 
-    public static List<DoubleHalfBlockTestCaseHolder> of(String template, Block block) {
+    public static List<DoubleHalfBlockTestCaseHolder> of(String template, Supplier<? extends Block> block) {
         return of(template, block, new BlockPos(0, 1, 0), new BlockPos(0, 2, 0));
     }
 
-    public TestFunction createTestFunction(String name, BiConsumer<GameTestHelper, DoubleHalfBlockTestCaseHolder> function) {
-        return ECGameTestHelper.createTestFunction(BATCH_NAME, name, template, Rotation.NONE, h -> function.accept(h, this));
+    private static List<DoubleHalfBlockTestCaseHolder> flatten(Stream<List<DoubleHalfBlockTestCaseHolder>> stream) {
+        return stream.<DoubleHalfBlockTestCaseHolder>mapMulti(List::forEach).toList();
+    }
+
+    public Test createTest(String name, String description, BiConsumer<ECGameTestHelper, DoubleHalfBlockTestCaseHolder> function) {
+        return ECGameTestUtils.createTest(GROUP, name, description, template, h -> function.accept(h, this));
     }
 }

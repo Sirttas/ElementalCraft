@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.interaction.mekanism.recipe;
 
 import mekanism.api.recipes.ItemStackToItemStackRecipe;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -26,7 +26,7 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 	}
 
 	@Override
-	public boolean matches(ItemStack stack, @NotNull Level level) {
+	public boolean matches(@NotNull ItemStack stack, @NotNull Level level) {
 		return crushingRecipe.getInput().test(stack) && IGrindingRecipe.super.matches(stack, level);
 	}
 
@@ -38,7 +38,7 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 	
 	@Nonnull
 	@Override
-	public ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
+	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
 		return crushingRecipe.getOutput(ItemStack.EMPTY);
 	}
 

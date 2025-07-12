@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.anchor;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -36,13 +37,11 @@ public class TranslocationAnchorBlock extends Block {
 
     @Nonnull
     @Override
-    @Deprecated
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    @Deprecated
     public boolean canSurvive(@Nonnull BlockState state, LevelReader level, BlockPos pos) {
         var bellow = pos.below();
 
@@ -50,10 +49,9 @@ public class TranslocationAnchorBlock extends Block {
     }
 
     @Override
-    @Deprecated
     public void onPlace(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
         if (!oldState.is(this)) {
-            var anchorList = TranslocationAnchorList.get(level);
+            var anchorList = TranslocationAnchorsSaveData.get(level);
 
             if (anchorList != null) {
                 anchorList.addAnchor(pos);
@@ -64,10 +62,9 @@ public class TranslocationAnchorBlock extends Block {
     }
 
     @Override
-    @Deprecated
     public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (!newState.is(this)) {
-            var anchorList = TranslocationAnchorList.get(level);
+            var anchorList = TranslocationAnchorsSaveData.get(level);
 
             if (anchorList != null) {
                 anchorList.removeAnchor(pos);
@@ -78,11 +75,13 @@ public class TranslocationAnchorBlock extends Block {
     }
 
     private void sendToPlayers(@Nonnull Level level) {
-        PacketDistributor.DIMENSION.with(level.dimension()).send(TranslocationAnchorListPayload.create(level));
+        if (level instanceof ServerLevel serverLevel) {
+            PacketDistributor.sendToPlayersInDimension(serverLevel, TranslocationAnchorListPayload.create(level));
+        }
+
     }
 
     @Override
-    @Deprecated
     public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
         return true;
     }

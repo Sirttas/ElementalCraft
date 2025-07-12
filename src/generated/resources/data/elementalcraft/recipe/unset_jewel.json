@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "i": {
+      "tag": "c:ingots/swift_alloy"
+    },
+    "s": {
+      "item": "elementalcraft:springaline_shard"
+    }
+  },
+  "pattern": [
+    "sis",
+    "idi",
+    "sis"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:unset_jewel"
+  }
+}

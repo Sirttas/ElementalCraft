@@ -1,0 +1,34 @@
+{
+  "parent": "elementalcraft:main/swift_alloy_chisel",
+  "criteria": {
+    "has_fireite_chisel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fireite_chisel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.fireite_chisel.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:fireite_chisel"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.fireite_chisel.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_fireite_chisel"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -2,11 +2,15 @@ package sirttas.elementalcraft.api.source.trait.value;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
@@ -24,18 +28,24 @@ import java.util.Map;
 public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider {
 
 	public static final String NAME = "steps";
-	public static final Codec<StepsSourceTraitValueProvider> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+	public static final MapCodec<StepsSourceTraitValueProvider> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
 			Step.CODEC.listOf().fieldOf(ECNames.STEPS).forGetter(p -> p.steps)
 	).apply(builder, StepsSourceTraitValueProvider::new));
 	
 	private final List<Step> steps;
-	
+
+	private final Codec<ISourceTraitValue> valueCodec;
+	private final StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec;
+
 	public static Builder builder() {
 		return new Builder();
 	}
-	
+
+	@SuppressWarnings("SuspiciousMethodCalls")
 	private StepsSourceTraitValueProvider(Collection<Step> steps) {
 		this.steps = ImmutableList.copyOf(steps);
+		this.valueCodec = Codec.INT.xmap(this.steps::get, this.steps::indexOf);
+		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.INT, this.steps::indexOf, this.steps::get);
 	}
 	
 	@Override
@@ -138,7 +148,17 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	public Tag save(ISourceTraitValue value) {
 		return value instanceof Step step ? IntTag.valueOf(steps.indexOf(step)) : null;
 	}
-	
+
+    @Override
+	public Codec<ISourceTraitValue> valueCodec() {
+		return valueCodec;
+	}
+
+	@Override
+	public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+		return valueStreamCodec;
+	}
+
 	public static class Builder implements ISourceTraitValueProviderBuilder {
 		
 		private final List<Step> steps;

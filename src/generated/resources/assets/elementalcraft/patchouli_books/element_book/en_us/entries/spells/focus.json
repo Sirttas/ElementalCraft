@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:focus",
+  "name": "item.elementalcraft.focus",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.focus0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:focus"
+    }
+  ],
+  "sortnum": 2,
+  "turnin": "elementalcraft:pickup/focus"
+}

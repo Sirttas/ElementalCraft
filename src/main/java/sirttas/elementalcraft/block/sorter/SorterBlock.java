@@ -5,8 +5,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -82,26 +83,25 @@ public class SorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 	
 	@Nonnull
     @Override
-	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return blockGetter instanceof Level level && level.isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
 	}
 	@Nonnull
     @Override
-	@Deprecated
-	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return getCurrentShape(state);
 	}
 
 	@Nonnull
     @Override
-	@Deprecated
-	public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		VoxelShape shape = getShape(state, pos, hit);
 
 		if (CORE.equals(shape)) {
-			return BlockEntityHelper.getBlockEntityAs(world, pos, SorterBlockEntity.class).map(sorter -> sorter.addStack(player.getItemInHand(hand))).orElse(InteractionResult.PASS);
+			return BlockEntityHelper.getBlockEntityAs(level, pos, SorterBlockEntity.class)
+					.map(sorter -> sorter.addStack(player.getItemInHand(hand)))
+					.orElse(ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
 		} 
-		return this.moveIO(state, world, pos, hit, shape);
+		return this.moveIO(state, level, pos, hit, shape);
 	}
 }

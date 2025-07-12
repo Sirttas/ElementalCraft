@@ -2,15 +2,10 @@ package sirttas.elementalcraft.item.spell;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.property.ECProperties;
-import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,36 +15,35 @@ public class ScrollItem extends AbstractSpellHolderItem {
 
 	public static final String NAME = "scroll";
 
-	public ScrollItem() {
-		super(ECProperties.Items.ITEM_UNSTACKABLE);
+	public ScrollItem(Item.Properties properties) {
+		super(properties);
 	}
 
 	@Override
 	protected void consume(ItemStack stack) {
-		stack.setCount(0);
+		stack.shrink(1);
 	}
 
 	/**
-	 * allows items to add custom lines of information to the mouseover description
+	 * allows stacks to add custom lines of information to the mouseover description
 	 */
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level worldIn, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
-		Spell spell = SpellHelper.getSpell(stack);
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+		var spell = SpellHelper.getSpell(stack);
 
-		if (spell != Spells.NONE.get()) {
-			tooltip.add(Component.empty().append(spell.getDisplayName()).withStyle(ChatFormatting.GRAY));
-			addAttributeTooltip(tooltip, spell);
+		if (SpellHelper.isValid(spell)) {
+			tooltip.add(Component.empty().append(spell.value().getDisplayName()).withStyle(ChatFormatting.GRAY));
+			addAttributeTooltip(tooltip, spell.value());
 		}
 	}
 
 	@Nonnull
     @Override
 	public Component getName(@Nonnull ItemStack stack) {
-		Spell spell = SpellHelper.getSpell(stack);
+		var spell = SpellHelper.getSpell(stack);
 
-		if (spell != Spells.NONE.get()) {
-			return Component.translatable("tooltip.elementalcraft.scroll_of", spell.getDisplayName());
+		if (SpellHelper.isValid(spell)) {
+			return Component.translatable("tooltip.elementalcraft.scroll_of", spell.value().getDisplayName());
 		}
 		return super.getName(stack);
 	}

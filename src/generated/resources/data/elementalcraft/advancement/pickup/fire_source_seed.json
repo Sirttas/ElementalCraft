@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_fire_source_seed": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:fire_source_seed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_fire_source_seed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

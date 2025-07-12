@@ -17,7 +17,7 @@ import java.util.List;
 public class PiglinJewel extends Jewel {
 
     protected PiglinJewel() {
-        super(ElementType.FIRE, 5);
+        super(ElementType.FIRE, 5, true);
     }
 
     @Override

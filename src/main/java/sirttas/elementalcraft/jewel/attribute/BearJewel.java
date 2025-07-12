@@ -2,29 +2,34 @@ package sirttas.elementalcraft.jewel.attribute;
 
 import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.entity.EntityHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class BearJewel extends AttributeJewel {
 
     public static final String NAME = "bear";
 
+    private static final ResourceLocation ATTACK_DAMAGE_ID = ElementalCraftApi.createRL("bear_jewel_attack_damage");
+    private static final ResourceLocation ATTACK_KNOCKBACK_ID = ElementalCraftApi.createRL("bear_jewel_attack_knockback");
+
     public BearJewel() {
         super(ElementType.EARTH, 10, () -> {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
 
-            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(UUID.fromString("714a20d3-058a-4fe2-822e-b5cd2ecfa7a7"), "Attack damage modifier", 6, AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(UUID.fromString("6221bc99-a10f-419d-97a6-d7d07e0b3fc3"), "Attack knockback modifier", 2, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_ID, 6, AttributeModifier.Operation.ADD_VALUE));
+            builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(ATTACK_KNOCKBACK_ID, 2, AttributeModifier.Operation.ADD_VALUE));
             return builder.build();
         });
     }

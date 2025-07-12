@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/rudimentary_pipe",
+  "criteria": {
+    "has_small_container": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:small_container"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.small_container.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:small_container"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.small_container.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_small_container"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

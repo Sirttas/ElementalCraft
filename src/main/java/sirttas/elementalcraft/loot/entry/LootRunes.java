@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.loot.entry;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 
 public class LootRunes extends LootPoolSingletonContainer {
 
-    public static final Codec<LootRunes> CODEC = RecordCodecBuilder.create(builder -> singletonFields(builder).apply(builder, LootRunes::new));
+    public static final MapCodec<LootRunes> CODEC = RecordCodecBuilder.mapCodec(builder -> singletonFields(builder).apply(builder, LootRunes::new));
     private LootRunes(int weight, int quality, List<LootItemCondition> conditions, List<LootItemFunction> functions) {
         super(weight, quality, conditions, functions);
     }

@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.interaction.ECinteractions;
+import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
 
 import java.util.ArrayList;
@@ -20,6 +20,11 @@ public class PlayerElementStorage implements IElementStorage {
 
 	public PlayerElementStorage(Player player) {
 		this.player = player;
+	}
+
+
+	public Player getPlayer() {
+		return player;
 	}
 	
 	@Override
@@ -85,7 +90,7 @@ public class PlayerElementStorage implements IElementStorage {
 					storages.add(storage);
 				}
 			}
-			if (ECinteractions.isCuriosActive()) {
+			if (ECInteractions.isCuriosActive()) {
 				CuriosInteractions.getHolders(player).forEach(i -> {
 					var storage = i.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
 
@@ -98,5 +103,4 @@ public class PlayerElementStorage implements IElementStorage {
 		}
 		return storages;
 	}
-	
 }

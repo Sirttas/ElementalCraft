@@ -1,26 +1,18 @@
 package sirttas.elementalcraft.entity;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.TickEvent;
-import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.IMenuOpenListener;
 import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
-import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
-@Mod.EventBusSubscriber(modid = ElementalCraftApi.MODID)
+@EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class EntityHandler {
 
 	private EntityHandler() {}
@@ -35,30 +27,12 @@ public class EntityHandler {
 	}
 	
 	@SubscribeEvent
-	public static void onEntityLivingAttack(LivingAttackEvent event) {
+	public static void onEntityLivingAttack(LivingIncomingDamageEvent event) {
 		var entity = event.getEntity();
 		var world = entity.level();
 
 		if (!world.isClientSide && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
 			event.setCanceled(true);
-		}
-	}
-
-	@SubscribeEvent
-	public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		var player = event.getEntity();
-		
-		if (!player.level().isClientSide && Boolean.TRUE.equals(ECConfig.SERVER.playersSpawnWithBook.get())) {
-			CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
-
-			if (!tag.getBoolean(ECNames.HAS_BOOK)) {
-				ItemStack book = new ItemStack(ECItems.ELEMENTOPEDIA.get());
-
-				book.getOrCreateTag().putString("patchouli:book", "elementalcraft:element_book");
-				ItemHandlerHelper.giveItemToPlayer(player, book);
-				tag.putBoolean(ECNames.HAS_BOOK, true);
-				player.getPersistentData().put(Player.PERSISTED_NBT_TAG, tag);
-			}
 		}
 	}
 
@@ -70,15 +44,21 @@ public class EntityHandler {
 	}
 
 	@SubscribeEvent
-	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if (event.phase == TickEvent.Phase.START && !event.player.level().isClientSide) {
-			event.player.getData(ECDataAttachments.JEWEL_HANDLER).tick();
-		} else if (event.phase == TickEvent.Phase.END) {
-			var manager = SpellTickHelper.get(event.player);
+	public static void onPlayerTick(PlayerTickEvent.Pre event) {
+		var player = event.getEntity();
 
-			if (manager != null) {
-				manager.tick();
-			}
+		if (!player.level().isClientSide) {
+			player.getData(ECDataAttachments.JEWEL_HANDLER).tick();
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerTick(PlayerTickEvent.Post event) {
+		var player = event.getEntity();
+		var manager = SpellTickHelper.get(player);
+
+		if (manager != null) {
+			manager.tick();
 		}
 	}
 }

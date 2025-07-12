@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "sculk_sensor_phase=active": {
+      "model": "elementalcraft:block/vibration_air_synthesizer_active"
+    },
+    "sculk_sensor_phase=cooldown": {
+      "model": "elementalcraft:block/vibration_air_synthesizer_inactive"
+    },
+    "sculk_sensor_phase=inactive": {
+      "model": "elementalcraft:block/vibration_air_synthesizer_inactive"
+    }
+  }
+}

@@ -3,13 +3,13 @@ package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.instrument.io.purifier.PurifierBlockEntity;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
-import sirttas.elementalcraft.recipe.instrument.io.IPurifierRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
+import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 
 import javax.annotation.Nonnull;
 
-public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCategory<PurifierBlockEntity, IPurifierRecipe> {
+public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCategory<SimpleIOInstrumentRecipeInput, OrePurificationRecipe> {
 
 	public static final String NAME = "purification";
 
@@ -19,7 +19,7 @@ public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCatego
 
 	@Nonnull
 	@Override
-	public RecipeType<IPurifierRecipe> getRecipeType() {
-		return ECJEIRecipeTypes.PURIFICATION;
+	public RecipeType<OrePurificationRecipe> getRecipeType() {
+		return ECJEIRecipeTypes.ORE_PURIFICATION;
 	}
 }

@@ -11,13 +11,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: 21
       - name: Cache Gradle packages
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -35,4 +35,6 @@ jobs:
           ELEMENTAL_CRAFT_REPO_PASSWORD: ${{ secrets.ELEMENTAL_CRAFT_REPO_PASSWORD }}
           CURSEFORGE_KEY: ${{ secrets.CURSEFORGE_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew publish curseforge modrinth -Ptag_version=${{ steps.get_tag_version.outputs.TAG_VERSION }} --info --stacktrace
+        run: |
+          cp settings.gradle.example settings.gradle
+          ./gradlew publish curseforge modrinth -Ptag_version=${{ steps.get_tag_version.outputs.TAG_VERSION }} --info --stacktrace

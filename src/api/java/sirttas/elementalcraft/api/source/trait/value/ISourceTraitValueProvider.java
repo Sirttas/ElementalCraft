@@ -3,6 +3,8 @@ package sirttas.elementalcraft.api.source.trait.value;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.registry.ElementalCraftRegistries;
@@ -22,8 +24,12 @@ public interface ISourceTraitValueProvider {
 	@Nullable
 	ISourceTraitValue breed(SourceTraitRollContext context, @Nullable ISourceTraitValue value1, @Nullable ISourceTraitValue value2);
 
+	@Deprecated
 	ISourceTraitValue load(Tag tag);
 
+	@Deprecated
 	Tag save(ISourceTraitValue value);
-	
+
+	Codec<ISourceTraitValue> valueCodec();
+	StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec();
 }

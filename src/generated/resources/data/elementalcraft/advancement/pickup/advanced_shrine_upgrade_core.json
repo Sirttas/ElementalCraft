@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_advanced_shrine_upgrade_core": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:advanced_shrine_upgrade_core"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_advanced_shrine_upgrade_core"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

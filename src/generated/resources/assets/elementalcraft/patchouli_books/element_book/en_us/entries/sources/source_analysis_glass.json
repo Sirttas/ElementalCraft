@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:main/springaline_shard",
+  "category": "elementalcraft:sources",
+  "icon": "elementalcraft:source_analysis_glass",
+  "name": "item.elementalcraft.source_analysis_glass",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.source_analysis_glass0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:source_analysis_glass"
+    }
+  ],
+  "sortnum": 3,
+  "turnin": "elementalcraft:main/source_analysis_glass"
+}

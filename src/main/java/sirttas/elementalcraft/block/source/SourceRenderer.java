@@ -7,16 +7,16 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 
 public class SourceRenderer implements BlockEntityRenderer<SourceBlockEntity> {
 
-	public static final ResourceLocation STABILIZER_LOCATION = ElementalCraftApi.createRL("block/source_stabilizer");
+	public static final ModelResourceLocation STABILIZER_LOCATION = ECModelHelper.standalone("block/source_stabilizer");
 	
 	private BakedModel stabilizerModel;
 
@@ -33,7 +33,7 @@ public class SourceRenderer implements BlockEntityRenderer<SourceBlockEntity> {
 			stabilizerModel = minecraft.getModelManager().getModel(STABILIZER_LOCATION);
 		}
 
-		SourceRendererHelper.renderSource(poseStack, buffer, partialTicks, light, overlay, elementType, source.isExhausted(), source.getRemainingRatio());
+		SourceRendererHelper.renderSource(poseStack, buffer, partialTicks, light, overlay, elementType, source.getRemainingRatio());
 		if (source.isStabilized()) {
 			poseStack.translate(0.5, 0, 0.5);
 			poseStack.mulPose(Axis.YP.rotation(ECRendererHelper.getClientTicks(partialTicks) / 20F));

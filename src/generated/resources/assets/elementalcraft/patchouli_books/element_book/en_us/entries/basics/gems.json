@@ -1,0 +1,15 @@
+{
+  "advancement": "elementalcraft:main/infuser",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:pristine_fire_gem",
+  "name": "elementalcraft.entry.gems",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.gems0"
+    }
+  ],
+  "priority": true,
+  "sortnum": 4,
+  "turnin": "elementalcraft:main/pristine_gems"
+}

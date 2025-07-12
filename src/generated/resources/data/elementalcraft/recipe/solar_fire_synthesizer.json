@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:firecrystal"
+    },
+    "d": {
+      "tag": "c:ingots/drenched_iron"
+    },
+    "h": {
+      "tag": "c:rods/hardened"
+    },
+    "i": {
+      "tag": "c:ingots/swift_alloy"
+    },
+    "p": {
+      "item": "elementalcraft:solar_prism"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "dhd",
+    "ipi",
+    "wcw"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:solar_fire_synthesizer"
+  }
+}

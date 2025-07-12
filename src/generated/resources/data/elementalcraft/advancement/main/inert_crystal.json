@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/root",
+  "criteria": {
+    "has_inert_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:inert_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.inert_crystal.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:inert_crystal"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.inert_crystal.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_inert_crystal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

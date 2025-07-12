@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.loot.entry;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
@@ -17,7 +17,7 @@ public class ECLootPoolEntries {
 
     private ECLootPoolEntries() {}
 
-    private static DeferredHolder<LootPoolEntryType, LootPoolEntryType> register(String name, Codec<? extends LootPoolEntryContainer> codec) {
+    private static DeferredHolder<LootPoolEntryType, LootPoolEntryType> register(String name, MapCodec<? extends LootPoolEntryContainer> codec) {
         return DEFERRED_REGISTER.register(name, () -> new LootPoolEntryType(codec));
     }
     public static void register(IEventBus modBus) {

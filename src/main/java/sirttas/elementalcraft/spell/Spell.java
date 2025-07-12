@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,11 +20,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
@@ -34,11 +37,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.StreamSupport;
 
 public class Spell implements IElementTypeProvider {
 
-	private String translationKey;
+	private String descriptionId;
 	protected final Holder<SpellProperties> properties;
 	private final ResourceKey<Spell> key;
 
@@ -47,12 +49,12 @@ public class Spell implements IElementTypeProvider {
 		this.key = key;
 	}
 
-	public String getTranslationKey() {
-		if (this.translationKey == null) {
-			this.translationKey = Util.makeDescriptionId("spell", getKey());
+	public String getDescriptionId() {
+		if (this.descriptionId == null) {
+			this.descriptionId = Util.makeDescriptionId("elementalcraft_spell", getKey());
 		}
 
-		return this.translationKey;
+		return this.descriptionId;
 	}
 
 	public ResourceLocation getKey() {
@@ -60,10 +62,10 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	public Component getDisplayName() {
-		return Component.translatable(getTranslationKey());
+		return Component.translatable(getDescriptionId());
 	}
 
-	public Multimap<Attribute, AttributeModifier> getOnUseAttributeModifiers() {
+	public Multimap<Holder<Attribute>, AttributeModifier> getOnUseAttributeModifiers() {
 		return getProperties().getAttributes();
 	}
 
@@ -145,7 +147,7 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	@Override
-	public ElementType getElementType() {
+	public @NotNull ElementType getElementType() {
 		return getProperties().getElementType();
 	}
 
@@ -168,7 +170,7 @@ public class Spell implements IElementTypeProvider {
 	public float getRange(@Nullable Entity caster) {
 		int bonus = 0;
 		
-		if (caster != null && StreamSupport.stream(caster.getHandSlots().spliterator(), false).anyMatch(s -> !s.isEmpty() && s.is(ECItems.STAFF.get()))) {
+		if (caster instanceof LivingEntity livingEntity && EntityHelper.handStream(livingEntity).anyMatch(s -> !s.isEmpty() && s.is(ECItems.STAFF.get()))) {
 			bonus++;
 		}
 		return getProperties().range() + bonus;

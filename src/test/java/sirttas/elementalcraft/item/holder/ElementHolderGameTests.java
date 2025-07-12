@@ -1,38 +1,64 @@
 package sirttas.elementalcraft.item.holder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.TestFunction;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.block.container.ContainerGameTests;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
+import sirttas.elementalcraft.block.source.SourceBlock;
+import sirttas.elementalcraft.block.source.SourceBlockEntity;
+import sirttas.elementalcraft.block.source.SourceElementStorage;
+import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.item.source.SourceGameTestTemplates;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
 
-@GameTestHolder(ElementalCraftApi.MODID)
 public class ElementHolderGameTests {
 
-    @GameTestGenerator
-    public static Collection<TestFunction> should_fillHolder() {
+    public static List<Test> collectTests() {
         var index = new AtomicInteger(0);
 
         return ElementHolderTestCaseHolder.HOLDERS.stream()
-                .map(t -> t.createTestFunction("should_fillHolder#" + index.getAndIncrement(), ECGameTestHelper.EMPTY_CONTAINER_TEMPLATE, ElementHolderGameTests::should_fillHolder))
+                .<Test>mapMulti((t, downstream) -> {
+                    var i = index.getAndIncrement();
+
+                    downstream.accept(t.createTest(
+                            "ElementHolderGameTests.should_fillHolder#" + i,
+                            "Check if an holder can be filled from a container.",
+                            ContainerGameTests.EMPTY_CONTAINER_TEMPLATE_NAME,
+                            ElementHolderGameTests::should_fillHolder));
+                    downstream.accept(t.createTest(
+                            "ElementHolderGameTests.should_emptyHolder#" + i,
+                            "Check if an holder can be emptied into a container.",
+                            ContainerGameTests.EMPTY_CONTAINER_TEMPLATE_NAME,
+                            ElementHolderGameTests::should_emptyHolder));
+                    downstream.accept(t.createTest(
+                            "ElementHolderGameTests.should_exhaustSource#" + i,
+                            "Check if an holder can be filled from a source and exhaust it.",
+                            SourceGameTestTemplates.getSourceTemplate(t.type()),
+                            ElementHolderGameTests::should_exhaustSource));
+                    downstream.accept(t.createTest(
+                            "ElementHolderGameTests.should_dropStabilizer_when_sourceGetExhausted#" + i,
+                            "Check if an holder can be filled from a source, exhaust it and drop a stabilizer when it is stabilized.",
+                            SourceGameTestTemplates.getSourceWithStabilizerTemplate(t.type()),
+                            ElementHolderGameTests::should_dropStabilizer_when_sourceGetExhausted));
+                })
                 .toList();
     }
 
-    private static void should_fillHolder(GameTestHelper helper, ElementHolderTestCaseHolder holder) {
+    private static void should_fillHolder(ECGameTestHelper helper, ElementHolderTestCaseHolder holder) {
         var pos = new BlockPos(0, 1, 0);
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
-        var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
+        var storage = helper.requireElementContainer(pos);
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
 
         assertThat(storage).isNotNull();
@@ -41,20 +67,11 @@ public class ElementHolderGameTests {
                 .thenExecute(() -> storage.fill(elementType))
                 .thenExecuteAfter(1, () -> {
                     player.setShiftKeyDown(true);
-                    ECGameTestHelper.useItemOn(helper, player, pos);
+                    helper.useItemOn(player, pos);
                 })
-                .thenExecuteAfter(10, ECGameTestHelper.fixAssertions(() -> assertThat(playerStorage.getElementAmount(elementType)).isEqualTo(holder.getTransferAmount() * 11)))
+                .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(playerStorage.getElementAmount(elementType)).isEqualTo(holder.getTransferAmount() * 11)))
                 .thenExecute(player::discard)
                 .thenSucceed();
-    }
-
-    @GameTestGenerator
-    public static Collection<TestFunction> should_emptyHolder() {
-        var index = new AtomicInteger(0);
-
-        return ElementHolderTestCaseHolder.HOLDERS.stream()
-                .map(t -> t.createTestFunction("should_emptyHolder#" + index.getAndIncrement(), ECGameTestHelper.EMPTY_CONTAINER_TEMPLATE, ElementHolderGameTests::should_emptyHolder))
-                .toList();
     }
 
     private static void should_emptyHolder(GameTestHelper helper, ElementHolderTestCaseHolder holder) {
@@ -72,7 +89,43 @@ public class ElementHolderGameTests {
                     storage.insertElement(100, elementType, false);
                 })
                 .thenExecuteAfter(1, () -> helper.useBlock(pos, player))
-                .thenExecuteAfter(10, ECGameTestHelper.fixAssertions(() -> assertThat(storage.getElementAmount(elementType)).isEqualTo(100 + (holder.getTransferAmount() * 11))))
+                .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(storage.getElementAmount(elementType)).isEqualTo(100 + (holder.getTransferAmount() * 11))))
+                .thenExecute(player::discard)
+                .thenSucceed();
+    }
+
+    private static void should_exhaustSource(GameTestHelper helper, ElementHolderTestCaseHolder holder) {
+        var pos = new BlockPos(0, 1, 0);
+        var player = holder.mockPlayer(helper);
+        var sourceStorage = (SourceElementStorage) ((SourceBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+
+        assertThat(sourceStorage).isNotNull();
+        assertThat(playerStorage).isNotNull();
+        helper.startSequence()
+                .thenExecute(() -> sourceStorage.setElementAmount(10))
+                .thenExecuteAfter(1, () -> helper.useBlock(pos, player))
+                .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> helper.assertBlockNotPresent(SourceBlock.findSourceBlock(holder.type()), pos)))
+                .thenExecute(player::discard)
+                .thenSucceed();
+    }
+
+    private static void should_dropStabilizer_when_sourceGetExhausted(GameTestHelper helper, ElementHolderTestCaseHolder holder) {
+        var pos = new BlockPos(0, 1, 0);
+        var player = holder.mockPlayer(helper);
+        var sourceStorage = (SourceElementStorage) ((SourceBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+
+        assertThat(sourceStorage).isNotNull();
+        assertThat(playerStorage).isNotNull();
+        helper.startSequence()
+                .thenExecute(() -> sourceStorage.setElementAmount(10))
+                .thenExecuteAfter(1, () -> helper.useBlock(pos, player))
+                .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> {
+                    helper.assertBlockNotPresent(SourceBlock.findSourceBlock(holder.type()), pos);
+                    assertThat(player.getCapability(Capabilities.ItemHandler.ENTITY)).contains(ECItems.SOURCE_STABILIZER);
+                    assertThat(playerStorage.getElementAmount(holder.type())).isGreaterThanOrEqualTo(10);
+                }))
                 .thenExecute(player::discard)
                 .thenSucceed();
     }

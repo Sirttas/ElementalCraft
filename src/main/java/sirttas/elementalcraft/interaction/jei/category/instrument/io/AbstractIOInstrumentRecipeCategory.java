@@ -6,9 +6,9 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.interaction.jei.category.instrument.AbstractInstrumentRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
@@ -16,7 +16,7 @@ import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, T extends IInstrumentRecipe<K>> extends AbstractInstrumentRecipeCategory<K, T> {
+public abstract class AbstractIOInstrumentRecipeCategory<I extends RecipeInput, T extends IInstrumentRecipe<I>> extends AbstractInstrumentRecipeCategory<I, T> {
 	
 	protected final ItemStack instrument;
 
@@ -27,7 +27,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack instrument) {
 		super(translationKey, createDrawableStack(guiHelper, instrument), guiHelper.createBlankDrawable(75, 75));
 		this.instrument = instrument;
-		setOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
 	}
 
 	protected List<ItemStack> getContainers() {
@@ -44,7 +44,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<K extends IInstrument, 
 		var ingredients = recipe.getIngredients();
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
-				.addIngredients(ingredients.get(0));
+				.addIngredients(ingredients.getFirst());
 
 		builder.addSlot(RecipeIngredientRole.CATALYST, 30, 24)
 				.addItemStack(instrument);

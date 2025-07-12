@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/unset_jewel",
+  "category": "elementalcraft:jewels",
+  "icon": "elementalcraft:bear",
+  "name": "elementalcraft.jewel.elementalcraft.bear",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.bear0"
+    }
+  ],
+  "sortnum": 2,
+  "turnin": "elementalcraft:pickup/bear"
+}

@@ -1,0 +1,19 @@
+{
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:inert_crystal",
+  "name": "item.elementalcraft.inert_crystal",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.inert_crystal0"
+    },
+    {
+      "type": "spotlight",
+      "item": "elementalcraft:inert_crystal",
+      "link_recipe": true
+    }
+  ],
+  "priority": true,
+  "sortnum": 0,
+  "turnin": "elementalcraft:main/inert_crystal"
+}

@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_firecrystal_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:firecrystal_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_firecrystal_block"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

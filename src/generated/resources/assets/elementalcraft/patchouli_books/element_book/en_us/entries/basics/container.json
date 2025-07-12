@@ -1,0 +1,19 @@
+{
+  "advancement": "elementalcraft:main/small_container",
+  "category": "elementalcraft:basics",
+  "icon": "elementalcraft:container",
+  "name": "block.elementalcraft.container",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.container0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:container"
+    }
+  ],
+  "priority": true,
+  "sortnum": 5,
+  "turnin": "elementalcraft:main/container"
+}

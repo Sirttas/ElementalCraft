@@ -1,0 +1,13 @@
+{
+  "type": "elementalcraft:shrine",
+  "element_capacity": 50000,
+  "element_consumption": 1,
+  "element_type": "fire",
+  "period": 1.0,
+  "ranges": {
+    "default": "elementalcraft:above"
+  },
+  "strength": [
+    1.0
+  ]
+}

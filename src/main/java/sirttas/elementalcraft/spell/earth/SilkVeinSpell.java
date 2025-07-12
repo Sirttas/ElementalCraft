@@ -54,10 +54,10 @@ public class SilkVeinSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		Level world = sender.level();
+		Level level = sender.level();
 
-		if (!world.isClientSide && isValidBlock(world.getBlockState(target))) {
-			mineVein(sender, world, target);
+		if (!level.isClientSide && isValidBlock(level.getBlockState(target))) {
+			mineVein(sender, level, target);
 			return InteractionResult.SUCCESS;
 		}
 

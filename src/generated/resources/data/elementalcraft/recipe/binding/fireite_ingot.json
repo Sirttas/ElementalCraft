@@ -1,0 +1,23 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 30000,
+  "element_type": "fire",
+  "ingredients": [
+    {
+      "tag": "c:ingots/netherite"
+    },
+    {
+      "tag": "c:ingots/swift_alloy"
+    },
+    {
+      "item": "elementalcraft:springaline_shard"
+    },
+    {
+      "item": "elementalcraft:purecrystal"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "elementalcraft:fireite_ingot"
+  }
+}

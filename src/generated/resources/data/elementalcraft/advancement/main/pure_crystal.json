@@ -1,0 +1,33 @@
+{
+  "parent": "elementalcraft:main/pure_infusion",
+  "criteria": {
+    "has_pure_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:purecrystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.elementalcraft.pure_crystal.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "elementalcraft:purecrystal"
+    },
+    "title": {
+      "translate": "advancements.elementalcraft.pure_crystal.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_pure_crystal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

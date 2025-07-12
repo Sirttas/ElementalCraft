@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:contained_crystal"
+    },
+    "i": {
+      "tag": "c:nuggets/drenched_iron"
+    },
+    "p": {
+      "tag": "minecraft:wool_carpets"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "ipi",
+    "wcw"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:vibration_air_synthesizer"
+  }
+}

@@ -1,7 +1,10 @@
 package sirttas.elementalcraft.datagen.loot;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.flag.FeatureFlags;
@@ -21,19 +24,18 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
-import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
+import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
-import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
-import sirttas.elementalcraft.block.extractor.ExtractorBlock;
+import sirttas.elementalcraft.block.extractor.AbstractElementExtractorBlock;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
@@ -41,6 +43,8 @@ import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
+import sirttas.elementalcraft.block.source.SourceBlock;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.entry.LootRunes;
 
@@ -51,41 +55,55 @@ import java.util.stream.Collectors;
 
 public class ECBlockLoot extends BlockLootSubProvider {
 
-	protected ECBlockLoot() {
+	protected ECBlockLoot(HolderLookup.Provider registries) {
 		super(Set.of(
 				ECBlocks.PURE_ROCK.get().asItem(),
 				ECBlocks.PURE_ROCK_SLAB.get().asItem(),
 				ECBlocks.PURE_ROCK_STAIRS.get().asItem(),
 				ECBlocks.PURE_ROCK_WALL.get().asItem()
-		), FeatureFlags.REGISTRY.allFlags());
+		), FeatureFlags.REGISTRY.allFlags(), registries);
 	}
 
 	@Override
 	protected void generate() {
 		add(ECBlocks.CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
 		add(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get(), this::createInertCrystalOreDrops);
-		add(ECBlocks.EVAPORATOR.get(), ECBlockLoot::createIER);
-		add(ECBlocks.CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
-		add(ECBlocks.SMALL_CONTAINER.get(), b -> createCopyNbt(b, ECNames.ELEMENT_STORAGE, ECNames.SMALL));
-		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyNbt(b, ECNames.TARGET));
+
+		add(ECBlocks.CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
+		add(ECBlocks.SMALL_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
 		add(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
+
 		add(ECBlocks.DIFFUSER.get(), this::createRuneable);
 		add(ECBlocks.SORTER.get(), this::createRuneable);
 		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
+
+		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyComponents(b, ECDataComponents.TARGET_POS.get()));
 		add(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get(), this::createRuneable);
-		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createDoubleHalfRuneable);
-		add(ECBlocks.AIR_MILL_WOOD_SAW.get(), this::createDoubleHalfRuneable);
+
+		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createAirMill);
+		add(ECBlocks.AIR_MILL_WOOD_SAW.get(), this::createAirMill);
 		add(ECBlocks.ENCHANTMENT_LIQUEFIER.get(), this::createDoubleHalfRuneable);
+
 		add(ECBlocks.SOURCE_BREEDER.get(), this::createDoubleHalfRuneable);
 		add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get(), this::createRuneable);
-		add(ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlockLoot::createIER);
-		add(ECBlocks.MANA_SYNTHESIZER.get(), b -> createCopyNbt(b, "mana").withPool(dropRunes()));
+
+		add(ECBlocks.CRACKING_SYNTHESIZER.get(), this::createIER);
+		add(ECBlocks.COMBUSTION_SYNTHESIZER.get(), this::createIER);
+		add(ECBlocks.DRAINING_SYNTHESIZER.get(), this::createIER);
+		add(ECBlocks.VIBRATION_SYNTHESIZER.get(), this::createIER);
+		add(ECBlocks.SOLAR_SYNTHESIZER.get(), this::createIER);
+		add(ECBlocks.CULINARY_SYNTHESIZER.get(), this::createIER);
+		add(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get(), this::createIER);
+		add(ECBlocks.AIR_MILL_SYNTHESIZER.get(), this::createAirMill);
+
 		add(ECBlocks.BREEDING_SHRINE.get(), ECBlockLoot::createBreedingShrine);
-		add(ECBlocks.BURNT_GLASS.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
-		add(ECBlocks.BURNT_GLASS_PANE.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
-		add(ECBlocks.SPRINGALINE_GLASS.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
-		add(ECBlocks.SPRINGALINE_GLASS_PANE.get(), BlockLootSubProvider::createSilkTouchOnlyTable);
-		add(ECBlocks.SPRINGALINE_CLUSTER.get(), ECBlockLoot::createSpringaline);
+
+		add(ECBlocks.BURNT_GLASS.get(), this::createSilkTouchOnlyTable);
+		add(ECBlocks.BURNT_GLASS_PANE.get(), this::createSilkTouchOnlyTable);
+		add(ECBlocks.SPRINGALINE_GLASS.get(), this::createSilkTouchOnlyTable);
+		add(ECBlocks.SPRINGALINE_GLASS_PANE.get(), this::createSilkTouchOnlyTable);
+
+		add(ECBlocks.SPRINGALINE_CLUSTER.get(), this::createSpringaline);
 		add(ECBlocks.SMALL_SPRINGALINE_BUD.get(), noDrop());
 		add(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), noDrop());
 		add(ECBlocks.LARGE_SPRINGALINE_BUD.get(), noDrop());
@@ -104,15 +122,17 @@ public class ECBlockLoot extends BlockLootSubProvider {
 			} else if (block instanceof AbstractShrineBlock) {
 				add(block, ECBlockLoot::createCopyElementStorage);
 			} else if (block instanceof PedestalBlock) {
-				add(block, ECBlockLoot::createIER);
+				add(block, this::createIER);
 			} else if (block instanceof IInstrumentBlock) {
 				add(block, this::createRuneable);
-			} else if (block instanceof ExtractorBlock) {
+			} else if (block instanceof AbstractElementExtractorBlock) {
 				add(block, this::createRuneable);
 			} else if (block instanceof ElementPipeBlock) {
 				add(block, this::createPipe);
 			} else if (block instanceof ReservoirBlock) {
 				add(block, ECBlockLoot::createDoubleHalfElementStorage);
+			} else if (block instanceof SourceBlock) {
+				add(block, noDrop());
 			} else if (block.defaultBlockState().hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
 				add(block, b -> createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
 			} else {
@@ -123,22 +143,31 @@ public class ECBlockLoot extends BlockLootSubProvider {
 
 	@Nonnull
 	private LootTable.Builder createInertCrystalOreDrops(Block block) {
+		var registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+
 		return createSilkTouchDispatchTable(
 				block,
 				this.applyExplosionDecay(
 						block,
 						LootItem.lootTableItem(ECItems.INERT_CRYSTAL.get())
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)))
-								.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+								.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
 				)
 		);
 	}
 
 	@Nonnull
-	private Builder createDoubleHalfRuneable(Block b) {
-		return createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
-				.withPool(dropRunes()
-						.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(b).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))));
+	private Builder createDoubleHalfRuneable(Block block) {
+		return createSinglePropConditionTable(block, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
+				.withPool(doubleHalfDropRunes(block));
+	}
+
+	@Nonnull
+	private Builder createAirMill(Block block) {
+		return LootTable.lootTable()
+				.withPool(createCopyComponentsPool(LootItem.lootTableItem(block), ECDataComponents.AIR_MILL_DAMAGE.get())
+						.when(createHasStateCondition(block, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)))
+				.withPool(doubleHalfDropRunes(block));
 	}
 
 	private Builder createPipe(Block block) {
@@ -150,55 +179,62 @@ public class ECBlockLoot extends BlockLootSubProvider {
 						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.COVERED))));
 	}
 
-	private static Builder createSpringaline(Block ore) {
-		return BlockLootSubProvider.createSilkTouchDispatchTable(ore, LootItem.lootTableItem(ECItems.SPRINGALINE_SHARD.get())
+	private Builder createSpringaline(Block ore) {
+		var registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+
+		return createSilkTouchDispatchTable(ore, LootItem.lootTableItem(ECItems.SPRINGALINE_SHARD.get())
 				.apply(SetItemCountFunction.setCount(ConstantValue.exactly(4)))
-				.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+				.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
 				.apply(ApplyExplosionDecay.explosionDecay()));
 	}
 
-	private static Builder createCopyNbt(Block block, String... tags) {
-		return createCopyNbt(LootItem.lootTableItem(block), tags);
+	private static Builder createCopyComponents(Block block,  DataComponentType<?>... components) {
+		return createCopyComponents(LootItem.lootTableItem(block), components);
 	}
 
 	private static Builder createCopyElementStorage(Block item) {
-		return createCopyNbt(item, ECNames.ELEMENT_STORAGE);
+		return createCopyComponents(item, ECDataComponents.ELEMENT_TYPE.get(), ECDataComponents.ELEMENT_AMOUNT.get());
 	}
 
 	public Builder createRuneable(ItemLike item) {
 		return createSingleItemTable(item).withPool(dropRunes());
 	}
 
-	private static Builder createIER(Block item) {
+	private Builder createIER(Block item) {
 		return createCopyElementStorage(item).withPool(dropRunes());
 	}
 
 	private static Builder createDoubleHalfElementStorage(Block block) {
-		return LootTable.lootTable().withPool(createCopyNbtPool(LootItem.lootTableItem(block), ECNames.ELEMENT_STORAGE)
+		return LootTable.lootTable().withPool(createCopyComponentsPool(LootItem.lootTableItem(block), ECDataComponents.ELEMENT_AMOUNT.get())
 				.when(createHasStateCondition(block, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)));
 	}
 
 	private static Builder createBreedingShrine(Block block) {
-		return LootTable.lootTable().withPool(createCopyNbtPool(LootItem.lootTableItem(block), ECNames.ELEMENT_STORAGE)
+		return LootTable.lootTable().withPool(createCopyComponentsPool(LootItem.lootTableItem(block), ECDataComponents.ELEMENT_AMOUNT.get())
 				.when(createHasStateCondition(block, BreedingShrineBlock.PART, BreedingShrineBlock.Part.CORE)));
 	}
 
-	private static Builder createCopyNbt(LootPoolEntryContainer.Builder<?> entry, String... tags) {
-		return LootTable.lootTable().withPool(createCopyNbtPool(entry, tags));
+	private static Builder createCopyComponents(LootPoolEntryContainer.Builder<?> entry, DataComponentType<?>... components) {
+		return LootTable.lootTable().withPool(createCopyComponentsPool(entry, components));
 	}
 
-	public static LootPool.Builder dropRunes() {
+	public static @NotNull LootPool.Builder dropRunes() {
 		return LootPool.lootPool()
 				.name("elementalcraft:runes")
 				.add(LootRunes.builder())
 				.when(ExplosionCondition.survivesExplosion());
 	}
 
-	private static LootPool.Builder createCopyNbtPool(LootPoolEntryContainer.Builder<?> entry, String... tags) {
-		CopyNbtFunction.Builder func = CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY);
+	private static @NotNull LootPool.Builder doubleHalfDropRunes(Block block) {
+		return dropRunes()
+				.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)));
+	}
 
-		for (String tag : tags) {
-			func = func.copy(tag, ECNames.BLOCK_ENTITY_TAG + '.' + tag);
+	private static LootPool.Builder createCopyComponentsPool(LootPoolEntryContainer.Builder<?> entry, DataComponentType<?>... components) {
+		CopyComponentsFunction.Builder func = CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY);
+
+		for (var component : components) {
+			func = func.include(component);
 		}
 		return LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(entry).when(ExplosionCondition.survivesExplosion()).apply(func);
 	}

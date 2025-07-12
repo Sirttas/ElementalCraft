@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "U": {
+      "item": "elementalcraft:unset_jewel"
+    },
+    "a": {
+      "item": "elementalcraft:fine_air_gem"
+    },
+    "c": {
+      "item": "elementalcraft:aircrystal"
+    },
+    "g": {
+      "tag": "c:dusts/glowstone"
+    }
+  },
+  "pattern": [
+    "gag",
+    "cUc",
+    "gag"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:hawk"
+  }
+}

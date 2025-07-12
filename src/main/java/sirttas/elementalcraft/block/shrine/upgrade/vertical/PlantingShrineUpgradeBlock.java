@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
@@ -16,8 +17,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
@@ -59,16 +58,14 @@ public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlo
 
 	@Nonnull
     @Override
-	@Deprecated
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return state.getValue(FACING) == Direction.UP ? SHAPE_UP : SHAPE_DOWN;
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable BlockGetter level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(Component.translatable("tooltip.elementalcraft.planting").withStyle(ChatFormatting.BLUE));
-		super.appendHoverText(stack, level, tooltip, flag);
+	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+		tooltip.add(Component.translatable("tooltip.elementalcraft.shrine_upgrade.planting").withStyle(ChatFormatting.BLUE));
+		super.appendHoverText(stack, tooltipContext, tooltip, flag);
 	}
 
 	public static boolean plant(@Nonnull ItemStack seeds, @Nonnull Level level, @Nonnull BlockPos pos) {

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "elementalcraft:block/culinary_water_synthesizer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "elementalcraft:block/culinary_water_synthesizer"
+    },
+    "facing=south": {
+      "model": "elementalcraft:block/culinary_water_synthesizer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "elementalcraft:block/culinary_water_synthesizer",
+      "y": 270
+    }
+  }
+}

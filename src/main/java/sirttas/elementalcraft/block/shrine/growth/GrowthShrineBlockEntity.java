@@ -2,19 +2,16 @@ package sirttas.elementalcraft.block.shrine.growth;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.BuddingAmethystBlock;
-import net.minecraft.world.level.block.LevelEvent;
-import net.minecraft.world.level.block.StemBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.common.IPlantable;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.properties.ShrineProperties;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -25,13 +22,16 @@ import java.util.Optional;
 
 public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<ShrineProperties> PROPERTIES_KEY = createKey(GrowthShrineBlock.NAME);
+	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(GrowthShrineBlock.NAME);
+	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+
+	public static final String CRYSTAL_GROWTH_RANGE_KEY = "crystal_growth";
 	private static final int MAX_TRYS = 100;
 
 	private boolean hasStemPollination = false;
 
 	public GrowthShrineBlockEntity(BlockPos pos, BlockState state) {
-		super(ECBlockEntityTypes.GROWTH_SHRINE, pos, state, PROPERTIES_KEY);
+		super(ECBlockEntityTypes.GROWTH_SHRINE, PROPERTIES, pos, state);
 	}
 
 	private Optional<BlockPos> findGrowable() {
@@ -73,18 +73,15 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private void addGrowthParticles(BlockPos pos) {
-		level.levelEvent(LevelEvent.PARTICLES_PLANT_GROWTH, pos, 0);
+		level.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, pos, 0);
 	}
 
 	@Override
-	public AABB getRange() {
+	public AABB lookupRange() {
 		if (this.hasUpgrade(ShrineUpgrades.CRYSTAL_GROWTH)) {
-			var range = getProperties().range();
-			var box = range.box();
-
-			return getRange(box.expandTowards(0, -2, 0).inflate(0, box.maxX - (box.maxY), 0), true, false);
+			return lookupRange(CRYSTAL_GROWTH_RANGE_KEY);
 		}
-		return super.getRange();
+		return super.lookupRange();
 	}
 
 	private boolean growBoneless() {
@@ -100,7 +97,8 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 			Block block = state.getBlock();
 
-			if ((block instanceof BonemealableBlock || block instanceof IPlantable) && !(block instanceof StemBlock) && block.isRandomlyTicking(state) && this.elementStorage.getElementAmount() >= consumeAmount) {
+			// TODO use tag only
+			if ((block instanceof BonemealableBlock || state.is(ECTags.Blocks.SHRINES_GROWTH_BONELESS)) && !(block instanceof StemBlock) && state.isRandomlyTicking() && this.elementStorage.getElementAmount() >= consumeAmount) {
 				state.randomTick((ServerLevel) level, pos, level.random);
 
 				var newState = level.getBlockState(pos);

@@ -1,5 +1,5 @@
 {
-  "order": 3,
+  "order": 2,
   "value": {
     "type": "elementalcraft:predicate",
     "predicate": {
@@ -10,6 +10,7 @@
       "type": "elementalcraft:chance",
       "chance": 0.5,
       "chance_on_bred": 0.1,
+      "luck_ratio_on_bred": 0.05,
       "provider": {
         "type": "elementalcraft:steps",
         "steps": [

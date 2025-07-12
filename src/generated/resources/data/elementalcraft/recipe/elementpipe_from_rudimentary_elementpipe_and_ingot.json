@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementalcraft:elementpipe_rudimentary"
+    },
+    {
+      "item": "elementalcraft:elementpipe_rudimentary"
+    },
+    {
+      "item": "elementalcraft:elementpipe_rudimentary"
+    },
+    {
+      "item": "elementalcraft:elementpipe_rudimentary"
+    },
+    {
+      "tag": "c:ingots/drenched_iron"
+    },
+    {
+      "tag": "c:ingots/drenched_iron"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "elementalcraft:elementpipe"
+  }
+}

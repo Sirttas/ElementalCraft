@@ -16,7 +16,6 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.pureore.PureOre;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -60,20 +59,20 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 	}
 
 	@Override
-	public List<PureOre> generate(RegistryAccess registry) {
-		return List.copyOf(this.generatePureOres(registry).values());
+	public List<LoadedPureOre> generate(RegistryAccess registry) {
+		return List.copyOf(this.generatePureOres().values());
 	}
 
-	private Map<ResourceLocation, PureOre> generatePureOres(RegistryAccess registry) {
+	private Map<ResourceLocation, LoadedPureOre> generatePureOres() {
 		var list = streamSource().toList();
 		var id = this.getId();
 
 		if (list.isEmpty()) {
-			ElementalCraftApi.LOGGER.debug("No source items found for {}", id);
+			ElementalCraftApi.LOGGER.debug("No source stacks found for {}", id);
 			return Collections.emptyMap();
 		}
 
-		Map<ResourceLocation, PureOre> pureOres = new HashMap<>();
+		Map<ResourceLocation, LoadedPureOre> pureOres = new HashMap<>();
 		ElementalCraftApi.LOGGER.info("Loading pure ores: {}.\r\n\tSource ores: {}",
 				() -> id,
 				() -> list.stream()
@@ -81,10 +80,7 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 						.map(r -> r.key().location().toString())
 						.collect(Collectors.joining(", ")));
 
-		list.forEach(holder -> {
-			var ore = holder.value();
-			var entry = findOrCreateEntry(pureOres, ore);
-		});
+		list.forEach(holder -> register(pureOres, holder));
 		return pureOres;
 	}
 
@@ -98,24 +94,24 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 		return this.source.stream();
 	}
 
-	private PureOre findOrCreateEntry(Map<ResourceLocation, PureOre> pureOres, Item ore) {
-		for (PureOre pureOre : pureOres.values()) {
-			if (pureOre.contains(ore)) {
-				return pureOre;
+	private LoadedPureOre register(Map<ResourceLocation, LoadedPureOre> pureOres, Holder<Item> ore) {
+		for (LoadedPureOre generatedPureOre : pureOres.values()) {
+			if (generatedPureOre.contains(ore)) {
+				return generatedPureOre;
 			}
 		}
 
 		var generated = load(pureOres, ore);
-		var entry = pureOres.computeIfAbsent(generated.id(), i -> new PureOre(i, elementConsumption, inputSize, outputSize, luckRatio));
+		var entry = pureOres.computeIfAbsent(generated.id(), i -> new LoadedPureOre(i, elementConsumption, inputSize, outputSize, luckRatio));
 
 		entry.getOres().add(ore);
 		generated.tags().forEach(entry::addTag);
 		return entry;
 	}
 
-	protected abstract GeneratedPureOre load(Map<ResourceLocation, PureOre> pureOres, Item ore);
+	protected abstract PureOreTagGroup load(Map<ResourceLocation, LoadedPureOre> pureOres, Holder<Item> ore);
 
-	public record GeneratedPureOre(
+	public record PureOreTagGroup(
 			ResourceLocation id,
 			List<TagKey<Item>> tags
 	) {}

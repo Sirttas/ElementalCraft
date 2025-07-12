@@ -1,14 +1,14 @@
 package sirttas.elementalcraft.item.source.receptacle;
 
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
-import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
+import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.source.trait.holder.ItemSourceTraitHolder;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.nbt.NBTHelper;
 
 import java.util.Map;
 
@@ -17,24 +17,27 @@ public class ReceptacleHelper {
 	private ReceptacleHelper() {}
 	
 	public static ElementType getElementType(ItemStack stack) {
-		return stack.isEmpty() || stack.getTag() == null ? ElementType.NONE : ElementType.byName(stack.getTag().getString(ECNames.ELEMENT_TYPE));
-	}
-
-	private static ItemStack setElementType(ItemStack stack, ElementType elementType) {
-		stack.getOrCreateTag().putString(ECNames.ELEMENT_TYPE, elementType.getSerializedName());
-		return stack;
+		if (stack.is(ECItems.EMPTY_RECEPTACLE)) {
+			return ElementType.NONE;
+		}
+		return ElementType.getElementType(stack);
 	}
 
 	public static ItemStack create(ElementType elementType) {
-		return setElementType(new ItemStack(ECItems.RECEPTACLE.get()), elementType);
+		return switch (elementType) {
+			case FIRE -> new ItemStack(ECBlocks.FIRE_SOURCE.get());
+			case WATER -> new ItemStack(ECBlocks.WATER_SOURCE.get());
+			case EARTH -> new ItemStack(ECBlocks.EARTH_SOURCE.get());
+			case AIR -> new ItemStack(ECBlocks.AIR_SOURCE.get());
+			case NONE -> new ItemStack(ECItems.EMPTY_RECEPTACLE);
+		};
 	}
 
-	public static ItemStack create(ElementType elementType, Map<ResourceKey<SourceTrait>, ISourceTraitValue> traits) {
+	public static ItemStack create(ElementType elementType, Map<Holder<SourceTrait>, ISourceTraitValue> traits) {
 		var stack = create(elementType);
-		var tag = NBTHelper.getOrCreate(stack.getOrCreateTag(), ECNames.BLOCK_ENTITY_TAG);
 
-		tag.putBoolean(ECNames.ANALYZED, true);
-		tag.put(ECNames.TRAITS_HOLDER, SourceTraitHelper.saveTraits(traits));
+		stack.set(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.from(traits));
+		stack.set(ECDataComponents.ELEMENT_AMOUNT, ReceptacleItem.getTraitHolder(stack).getCapacity());
 		return stack;
 	}
 }

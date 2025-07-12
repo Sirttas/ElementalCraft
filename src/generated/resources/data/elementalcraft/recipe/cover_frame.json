@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "tag": "c:ingots/drenched_iron"
+    }
+  },
+  "pattern": [
+    "iii",
+    "i i",
+    "iii"
+  ],
+  "result": {
+    "count": 8,
+    "id": "elementalcraft:cover_frame"
+  }
+}

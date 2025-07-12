@@ -4,10 +4,12 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.AABB;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.range.Range;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 
@@ -57,7 +59,11 @@ public interface IRuneHandler {
 	default float getElementPreservation() {
 		return getBonus(BonusType.ELEMENT_PRESERVATION) + 1;
 	}
-	
+
+	default AABB getRange(Range range) {
+		return range.scaleBox(getBonus(BonusType.RANGE) + 1);
+	}
+
 	default int handleElementTransfer(IElementStorage from, IElementStorage to, ElementType type, float amount) {
 		return from.transferTo(to, type, getTransferSpeed(amount), getElementPreservation());
 	}
@@ -76,7 +82,7 @@ public interface IRuneHandler {
 		handler.clear();
 		nbtTagList.forEach(nbt -> {
 			String name = nbt.getAsString();
-			Rune rune = ElementalCraftApi.RUNE_MANAGER.get(new ResourceLocation(name));
+			Rune rune = ElementalCraftApi.RUNE_MANAGER.get(ResourceLocation.parse(name));
 
 			if (rune != null) {
 				handler.addRune(rune);

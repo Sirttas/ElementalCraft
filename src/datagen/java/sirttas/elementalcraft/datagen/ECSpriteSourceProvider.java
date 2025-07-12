@@ -12,7 +12,6 @@ import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.source.SourceRendererHelper;
-import sirttas.elementalcraft.block.source.displacement.plate.SourceDisplacementPlateRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.gui.GuiHandler;
 import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;
@@ -37,46 +36,48 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
                 .addSource(single(SolarSynthesizerRenderer.BEAM))
                 .addSource(single(AirShieldSpellRenderer.BACKGROUND))
                 .addSource(single(AirShieldSpellRenderer.BLADE))
-                .addSource(single(SourceDisplacementPlateRenderer.SOURCE_DISPLACEMENT))
-                .addSource(single(SourceDisplacementPlateRenderer.CIRCLE))
                 .addSource(single(SourceRendererHelper.OUTER))
                 .addSource(single(SourceRendererHelper.MIDDLE))
                 .addSource(single(GuiHandler.TRANSLOCATION_ANCHOR_MARKER));
-        atlas(new ResourceLocation("armor_trims"))
+        atlas(ResourceLocation.withDefaultNamespace("armor_trims"))
                 .addSource(new PalettedPermutations(List.of(
-                        new ResourceLocation("trims/models/armor/coast"),
-                        new ResourceLocation("trims/models/armor/coast_leggings"),
-                        new ResourceLocation("trims/models/armor/sentry"),
-                        new ResourceLocation("trims/models/armor/sentry_leggings"),
-                        new ResourceLocation("trims/models/armor/dune"),
-                        new ResourceLocation("trims/models/armor/dune_leggings"),
-                        new ResourceLocation("trims/models/armor/wild"),
-                        new ResourceLocation("trims/models/armor/wild_leggings"),
-                        new ResourceLocation("trims/models/armor/ward"),
-                        new ResourceLocation("trims/models/armor/ward_leggings"),
-                        new ResourceLocation("trims/models/armor/eye"),
-                        new ResourceLocation("trims/models/armor/eye_leggings"),
-                        new ResourceLocation("trims/models/armor/vex"),
-                        new ResourceLocation("trims/models/armor/vex_leggings"),
-                        new ResourceLocation("trims/models/armor/tide"),
-                        new ResourceLocation("trims/models/armor/tide_leggings"),
-                        new ResourceLocation("trims/models/armor/snout"),
-                        new ResourceLocation("trims/models/armor/snout_leggings"),
-                        new ResourceLocation("trims/models/armor/rib"),
-                        new ResourceLocation("trims/models/armor/rib_leggings"),
-                        new ResourceLocation("trims/models/armor/spire"),
-                        new ResourceLocation("trims/models/armor/spire_leggings"),
-                        new ResourceLocation("trims/models/armor/wayfinder"),
-                        new ResourceLocation("trims/models/armor/wayfinder_leggings"),
-                        new ResourceLocation("trims/models/armor/shaper"),
-                        new ResourceLocation("trims/models/armor/shaper_leggings"),
-                        new ResourceLocation("trims/models/armor/silence"),
-                        new ResourceLocation("trims/models/armor/silence_leggings"),
-                        new ResourceLocation("trims/models/armor/raiser"),
-                        new ResourceLocation("trims/models/armor/raiser_leggings"),
-                        new ResourceLocation("trims/models/armor/host"),
-                        new ResourceLocation("trims/models/armor/host_leggings")
-                ), new ResourceLocation("trims/color_palettes/trim_palette"), Map.of(
+                        createTrimPattern("coast"),
+                        createTrimPattern("coast_leggings"),
+                        createTrimPattern("sentry"),
+                        createTrimPattern("sentry_leggings"),
+                        createTrimPattern("dune"),
+                        createTrimPattern("dune_leggings"),
+                        createTrimPattern("wild"),
+                        createTrimPattern("wild_leggings"),
+                        createTrimPattern("ward"),
+                        createTrimPattern("ward_leggings"),
+                        createTrimPattern("eye"),
+                        createTrimPattern("eye_leggings"),
+                        createTrimPattern("vex"),
+                        createTrimPattern("vex_leggings"),
+                        createTrimPattern("tide"),
+                        createTrimPattern("tide_leggings"),
+                        createTrimPattern("snout"),
+                        createTrimPattern("snout_leggings"),
+                        createTrimPattern("rib"),
+                        createTrimPattern("rib_leggings"),
+                        createTrimPattern("spire"),
+                        createTrimPattern("spire_leggings"),
+                        createTrimPattern("wayfinder"),
+                        createTrimPattern("wayfinder_leggings"),
+                        createTrimPattern("shaper"),
+                        createTrimPattern("shaper_leggings"),
+                        createTrimPattern("silence"),
+                        createTrimPattern("silence_leggings"),
+                        createTrimPattern("raiser"),
+                        createTrimPattern("raiser_leggings"),
+                        createTrimPattern("host"),
+                        createTrimPattern("host_leggings"),
+                        createTrimPattern("bolt"),
+                        createTrimPattern("bolt_leggings"),
+                        createTrimPattern("flow"),
+                        createTrimPattern("flow_leggings")
+                ), ResourceLocation.withDefaultNamespace("trims/color_palettes/trim_palette"), Map.of(
                         "drenched_iron", createTrimPermutation("drenched_iron"),
                         "swift_alloy", createTrimPermutation("swift_alloy"),
                         "fireite", createTrimPermutation("fireite"),
@@ -99,5 +100,9 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
 
     private ResourceLocation createTrimPermutation(String name) {
         return ElementalCraftApi.createRL("trims/color_palettes/" + name);
+    }
+
+    private ResourceLocation createTrimPattern(String name) {
+        return ResourceLocation.withDefaultNamespace("trims/models/armor/" + name);
     }
 }

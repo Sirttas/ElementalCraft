@@ -1,0 +1,14 @@
+{
+  "values": [
+    "#elementalcraft:pure_ores/sources/ores",
+    "#elementalcraft:pure_ores/sources/raw_materials",
+    "#elementalcraft:pure_ores/sources/raw_material_blocks",
+    "#elementalcraft:pure_ores/sources/geore_shards",
+    "#elementalcraft:pure_ores/sources/geore_blocks",
+    "#elementalcraft:pure_ores/sources/resonant_ore",
+    "#elementalcraft:pure_ores/sources/raw_uraninite",
+    "#elementalcraft:pure_ores/sources/poor_uraninite",
+    "#elementalcraft:pure_ores/sources/uraninite",
+    "#elementalcraft:pure_ores/sources/dense_uraninite"
+  ]
+}

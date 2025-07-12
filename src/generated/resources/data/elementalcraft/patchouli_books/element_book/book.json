@@ -1,0 +1,22 @@
+{
+  "creative_tab": "elementalcraft:elemental_craft",
+  "i18n": true,
+  "landing_text": "elementalcraft.landing",
+  "macros": {
+    "$(ec:binder)": "$(l:instruments/binder)",
+    "$(ec:container)": "$(l:instruments/container)",
+    "$(ec:extractor)": "$(l:instruments/extractor)",
+    "$(ec:firefurnace)": "$(l:instruments/firefurnace)",
+    "$(ec:holder)": "$(l:advanced/element_holder)",
+    "$(ec:infuser)": "$(l:instruments/infuser)",
+    "$(ec:pipe)": "$(l:pipes/elementpipe)",
+    "$(ec:rune)": "$(l:advanced/rune)",
+    "$(ec:small_container)": "$(l:instruments/small_container)",
+    "$(ec:source)": "$(l:sources/source)",
+    "$(ec:source_traits)": "$(l:source/source_traits)"
+  },
+  "model": "elementalcraft:element_book",
+  "name": "item.elementalcraft.element_book",
+  "use_resource_pack": true,
+  "version": "24"
+}

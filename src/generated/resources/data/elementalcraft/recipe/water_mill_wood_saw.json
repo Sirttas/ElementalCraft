@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "elementalcraft:watercrystal"
+    },
+    "i": {
+      "tag": "c:ingots/drenched_iron"
+    },
+    "s": {
+      "item": "elementalcraft:drenched_saw_blade"
+    },
+    "w": {
+      "item": "elementalcraft:whiterock"
+    }
+  },
+  "pattern": [
+    "www",
+    "isi",
+    "wcw"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elementalcraft:water_mill_wood_saw"
+  }
+}

@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.item.spell.book;
 
-import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -9,19 +9,21 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
+import sirttas.elementalcraft.container.menu.IMenuOpenListener;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-public class SpellBookMenu extends AbstractECMenu {
+public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
 
 	static final int ROW_COUNT = (Spells.REGISTRY.size() + 9 - 1) / 9;
 	static final int SLOT_COUNT = ROW_COUNT * 9;
@@ -31,7 +33,7 @@ public class SpellBookMenu extends AbstractECMenu {
 	private final Player player;
 
 	public SpellBookMenu(int id, Inventory player) {
-		this(id, player, new ItemStack(ECItems.SPELL_BOOK.get()));
+		this(id, player, new ItemStack(ECItems.SPELL_BOOK));
 	}
 
 	private SpellBookMenu(int id, Inventory playerInventoryIn, ItemStack book) {
@@ -66,15 +68,15 @@ public class SpellBookMenu extends AbstractECMenu {
 	 */
 	@Nonnull
     @Override
-	public ItemStack quickMoveStack(@Nonnull Player playerIn, int index) {
+	public ItemStack quickMoveStack(@Nonnull Player player, int index) {
 		Slot slot = this.slots.get(index);
 
 		if (slot.hasItem()) {
-			ItemStack stack = slot.getItem();
-			ItemStack old = stack.copy();
-			Spell spell = SpellHelper.getSpell(stack);
+			var stack = slot.getItem();
+			var old = stack.copy();
+			var spell = SpellHelper.getSpell(stack);
 
-			if (stack.is(ECItems.SCROLL.get()) && spell.isValid()) {
+			if (stack.is(ECItems.SCROLL.get()) && SpellHelper.isValid(spell)) {
 				if (index < SLOT_COUNT) {
 					removeSpell(stack);
 					return ItemStack.EMPTY;
@@ -95,20 +97,20 @@ public class SpellBookMenu extends AbstractECMenu {
 	}
 
 	@Override
-	public void clicked(int slotId, int dragType, @Nonnull ClickType clickTypeIn, @Nonnull Player player) {
+	public void clicked(int slotId, int dragType, @Nonnull ClickType clickType, @Nonnull Player player) {
 		Slot slot = slotId >= 0 ? this.slots.get(slotId) : null;
 
 		if (slot == null || !slot.getItem().is(ECItems.SPELL_BOOK.get())) {
-			if (slotId < 0 || slotId >= SLOT_COUNT || clickTypeIn == ClickType.THROW || clickTypeIn == ClickType.QUICK_MOVE || clickTypeIn == ClickType.PICKUP_ALL) {
-				super.clicked(slotId, dragType, clickTypeIn, player);
-			} else if (clickTypeIn == ClickType.CLONE && player.getAbilities().instabuild && getCarried().isEmpty()) {
+			if (slotId < 0 || slotId >= SLOT_COUNT || clickType == ClickType.THROW || clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP_ALL) {
+				super.clicked(slotId, dragType, clickType, player);
+			} else if (clickType == ClickType.CLONE && player.getAbilities().instabuild && getCarried().isEmpty()) {
 				if (slot != null && slot.hasItem()) {
 					ItemStack scroll = slot.getItem().copy();
 
 					scroll.setCount(1);
 					setCarried(scroll);
 				}
-			} else if (clickTypeIn == ClickType.PICKUP) {
+			} else if (clickType == ClickType.PICKUP) {
 				if (getCarried().isEmpty()) {
 					if (slot != null && slot.hasItem()) {
 						ItemStack stack = slot.getItem();
@@ -121,10 +123,10 @@ public class SpellBookMenu extends AbstractECMenu {
 						this.refresh();
 					}
 				} else {
-					ItemStack stack = getCarried();
-					Spell spell = SpellHelper.getSpell(stack);
+					var stack = getCarried();
+					var spell = SpellHelper.getSpell(stack);
 
-					if (stack.is(ECItems.SCROLL.get()) && spell.isValid()) {
+					if (stack.is(ECItems.SCROLL.get()) && SpellHelper.isValid(spell)) {
 						SpellHelper.addSpell(book, spell);
 						setCarried(ItemStack.EMPTY);
 						this.refresh();
@@ -135,7 +137,7 @@ public class SpellBookMenu extends AbstractECMenu {
 	}
 
 	public int getSpellCount() {
-		int spellCount = SpellHelper.getSpellCount(book);
+		int spellCount = SpellHelper.getSpellList(book).count();
 
 		return spellCount > 0 ? spellCount : IntStream.range(0, SLOT_COUNT).map(i -> {
 			ItemStack stack = inventory.getItem(i);
@@ -150,8 +152,8 @@ public class SpellBookMenu extends AbstractECMenu {
 
 	}
 
-	public boolean canAddSpell(ItemStack stack, Spell spell) {
-		return stack.is(ECItems.SCROLL.get()) && spell.isValid() && SpellHelper.getSpellCount(stack) < ECConfig.SERVER.spellBookMaxSpell.get();
+	public boolean canAddSpell(ItemStack stack, Holder<Spell> spell) {
+		return stack.is(ECItems.SCROLL.get()) && SpellHelper.isValid(spell) && !SpellHelper.getSpellList(stack).isFull();
 	}
 	
 	@Override
@@ -160,35 +162,35 @@ public class SpellBookMenu extends AbstractECMenu {
 	}
 	
 	private void refresh() {
-		var spells = SpellHelper.getSpellsAsMap(book);
+		var spells = SpellHelper.getSpellList(book).getSpells();
+		var i = new AtomicInteger(0);
 
-		for (int i = 0; i < SLOT_COUNT; ++i) {
-			if (i < spells.size()) {
-				ItemStack scroll = new ItemStack(ECItems.SCROLL.get());
-				Pair<Spell, Integer> pair = spells.get(i);
+		spells.forEach((s, c) -> {
+			var scroll = new ItemStack(ECItems.SCROLL);
 
-				SpellHelper.setSpell(scroll, pair.getFirst());
-				scroll.setCount(pair.getSecond());
-				inventory.setItem(i, scroll);
-			} else {
-				inventory.setItem(i, ItemStack.EMPTY);
-			}
-			this.slots.forEach(Slot::setChanged);
+			SpellHelper.setSpell(scroll, s);
+			scroll.setCount(c);
+			inventory.setItem(i.getAndIncrement(), scroll);
+		});
+		for (var j = i.get(); j < SLOT_COUNT; j++) {
+			inventory.setItem(j, ItemStack.EMPTY);
 		}
-		if (player instanceof ServerPlayer) {
-			PayloadHelper.sendToPlayer((ServerPlayer) player, new SpellBookPayload(book));
+		this.slots.forEach(Slot::setChanged);
+
+		if (player instanceof ServerPlayer serverPlayer) {
+			PacketDistributor.sendToPlayer(serverPlayer, new SpellBookPayload(book));
 		}
 	}
 
 	private void removeSpell(ItemStack stack) {
-		Spell spell = SpellHelper.getSpell(stack);
+		var spell = SpellHelper.getSpell(stack);
 
-		if (spell.isValid()) {
+		if (SpellHelper.isValid(spell)) {
 			for (int i = 0; i < this.slots.size(); i++) {
 				Slot slot = this.slots.get(i + SLOT_COUNT);
 
 				if (!slot.hasItem()) {
-					ItemStack scroll = new ItemStack(ECItems.SCROLL.get());
+					ItemStack scroll = new ItemStack(ECItems.SCROLL);
 
 					SpellHelper.setSpell(scroll, spell);
 					slot.set(scroll);
@@ -202,13 +204,13 @@ public class SpellBookMenu extends AbstractECMenu {
 		}
 	}
 
-	private void addSpell(ItemStack stack, Spell spell) {
+	private void addSpell(ItemStack stack, Holder<Spell> spell) {
 		for (int i = 0; i < SLOT_COUNT; i++) {
 			Slot slot = this.slots.get(i);
 
 			ItemStack stackInSlot = slot.getItem();
 
-			if (stackInSlot.isEmpty() || spell.equals(SpellHelper.getSpell(stackInSlot))) {
+			if (stackInSlot.isEmpty() || spell.is(SpellHelper.getSpell(stackInSlot))) {
 				stack.shrink(1);
 				SpellHelper.addSpell(book, spell);
 				refresh();

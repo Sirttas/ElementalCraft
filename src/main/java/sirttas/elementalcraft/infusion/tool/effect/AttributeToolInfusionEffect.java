@@ -1,44 +1,35 @@
 package sirttas.elementalcraft.infusion.tool.effect;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.item.ECItem;
-
-import java.util.List;
+import sirttas.elementalcraft.item.TooltipHelper;
 
 public record AttributeToolInfusionEffect(
-		List<EquipmentSlot> slots,
-		Attribute attribute,
+		EquipmentSlotGroup slotGroup,
+		Holder<Attribute> attribute,
 		AttributeModifier modifier
 ) implements IToolInfusionEffect {
 
 	public static final String NAME = ECNames.ATTRIBUTE;
-	public static final Codec<AttributeToolInfusionEffect> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			Codecs.EQUIPMENT_SLOT_TYPE.listOf().fieldOf(ECNames.SLOT).forGetter(i -> i.slots),
-			BuiltInRegistries.ATTRIBUTE.byNameCodec().fieldOf(ECNames.ATTRIBUTE).forGetter(i -> i.attribute),
+	public static final MapCodec<AttributeToolInfusionEffect> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+			EquipmentSlotGroup.CODEC.fieldOf(ECNames.SLOT_GROUP).forGetter(i -> i.slotGroup),
+			BuiltInRegistries.ATTRIBUTE.holderByNameCodec().fieldOf(ECNames.ATTRIBUTE).forGetter(i -> i.attribute),
 			AttributeModifier.CODEC.fieldOf(ECNames.MODIFIER).forGetter(i -> i.modifier)
 	).apply(builder, AttributeToolInfusionEffect::new));
 
-	public AttributeToolInfusionEffect(List<EquipmentSlot> slots, Attribute attribute, AttributeModifier modifier) {
-		this.slots = ImmutableList.copyOf(slots);
-		this.attribute = attribute;
-		this.modifier = modifier;
-	}
-
 	@Override
 	public Component getDescription() {
-		return ECItem.getAttributeTooltip(attribute, modifier).withStyle(ChatFormatting.YELLOW);
+		return TooltipHelper.getAttributeTooltip(attribute, modifier).withStyle(ChatFormatting.YELLOW);
 	}
 
 	@Override
