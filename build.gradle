@@ -99,6 +99,7 @@ neoForge {
             systemProperty 'forge.logging.console.level', 'debug'
             systemProperty 'fml.earlyprogresswindow', 'false'
             systemProperty 'mixin.debug.verbose', 'true'
+            systemProperty 'mixin.env.remapRefMap', 'true'
 
             logLevel = org.slf4j.event.Level.DEBUG
         }
@@ -337,7 +338,7 @@ def modmaven_password = System.getenv("MODMAVEN_PASSWORD") ?: project.findProper
 def use_modmaven = modmaven_user != null && modmaven_password != null
 def elemental_craft_repo_user = System.getenv("ELEMENTAL_CRAFT_REPO_USER") ?: project.findProperty("elemental_craft_repo_user")
 def elemental_craft_repo_password = System.getenv("ELEMENTAL_CRAFT_REPO_PASSWORD") ?: project.findProperty("elemental_craft_repo_password")
-def use_elemental_craft_repo = elemental_craft_repo_user != null && elemental_craft_repo_password != null
+def use_elemental_craft_repo = project.findProperty("use_elemental_craft_repo") && elemental_craft_repo_user != null && elemental_craft_repo_password != null
 
 if (use_modmaven || use_elemental_craft_repo) {
     if (use_modmaven) {

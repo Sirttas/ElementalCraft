@@ -24,7 +24,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Get the version in tag
         id: get_tag_version
-        run: echo ::set-output name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
       - name: Publish
         env:
           GITHUB_USERNAME: ${{ github.actor }}
