@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
-import mezz.jei.common.Constants;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -24,6 +24,7 @@ public class CombustionRecipeCategory extends AbstractECRecipeCategory<IJeiFueli
 
 	public static final String NAME = "combustion";
 
+	private static final ResourceLocation TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/combustion.png");
 	private static final ItemStack COMBUSTION_SYNTHESIZER = new ItemStack(ECBlocks.COMBUSTION_SYNTHESIZER.get());
 	private static final List<ItemStack> CONTAINERS = List.of(
 			new ItemStack(ECBlocks.SMALL_CONTAINER.get()),
@@ -31,9 +32,9 @@ public class CombustionRecipeCategory extends AbstractECRecipeCategory<IJeiFueli
 			new ItemStack(ECBlocks.FIRE_RESERVOIR.get()));
 
 	public CombustionRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.combustion", createDrawableStack(guiHelper, COMBUSTION_SYNTHESIZER), guiHelper.createBlankDrawable(55, 63));
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/combustion.png"), 0, 0, 38, 13), 0, 17);
-		addOverlay(guiHelper.drawableBuilder(Constants.RECIPE_GUI_VANILLA, 82, 114, 14, 14).buildAnimated(100, IDrawableAnimated.StartDirection.TOP, true), 0, 17);
+		super("elementalcraft.jei.combustion", createDrawableStack(guiHelper, COMBUSTION_SYNTHESIZER), 55, 63);
+		addOverlay(guiHelper.createDrawable(TEXTURE, 0, 0, 38, 13), 0, 17);
+		addOverlay(guiHelper.drawableBuilder(TEXTURE, 0, 13, 14, 14).buildAnimated(100, IDrawableAnimated.StartDirection.TOP, true), 0, 17);
 	}
 
 	@Nonnull

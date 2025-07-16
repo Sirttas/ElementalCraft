@@ -28,7 +28,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
     private final BlockState springalineShrineUpgrade;
 
     public BuddingShrineRecipeCategory(IGuiHelper guiHelper) {
-        super("elementalcraft.jei.buddingshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.BUDDING_SHRINE.get())), guiHelper.createBlankDrawable(110, 66));
+        super("elementalcraft.jei.buddingshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.BUDDING_SHRINE.get())), 110, 66);
         timer = guiHelper.createTickTimer(100, 4, false);
         springalineShrineUpgrade = ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get().defaultBlockState().setValue(AbstractHorizontalShrineUpgradeBlock.FACING, Direction.SOUTH);
         addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);

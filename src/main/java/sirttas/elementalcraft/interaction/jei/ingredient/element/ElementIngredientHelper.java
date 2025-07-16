@@ -27,6 +27,12 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 
 	@Nonnull
 	@Override
+	public Object getUid(@Nonnull IngredientElementType ingredient, @Nonnull UidContext context) {
+		return ingredient.getElementType();
+	}
+
+	@Nonnull
+	@Override
 	public ResourceLocation getResourceLocation(IngredientElementType ingredient) {
 		return ElementalCraftApi.createRL(ingredient.getElementType().getSerializedName());
 	}

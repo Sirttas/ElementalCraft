@@ -27,7 +27,7 @@ public class MeltingShrineRecipeCategory extends AbstractECRecipeCategory<Meltin
     private final ITickTimer timer;
 
     public MeltingShrineRecipeCategory(IGuiHelper guiHelper) {
-        super("elementalcraft.jei.melting_shrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.MELTING_SHRINE.get())), guiHelper.createBlankDrawable(121, 80));
+        super("elementalcraft.jei.melting_shrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.MELTING_SHRINE.get())), 121, 80);
         meltingShrine = ECBlocks.MELTING_SHRINE.get().defaultBlockState();
         timer = guiHelper.createTickTimer(100, 4, false);
         addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 72, 64);

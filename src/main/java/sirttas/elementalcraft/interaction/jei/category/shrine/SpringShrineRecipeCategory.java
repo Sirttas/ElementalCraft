@@ -28,7 +28,7 @@ public class SpringShrineRecipeCategory extends AbstractECRecipeCategory<SpringS
     private final ITickTimer timer;
 
     public SpringShrineRecipeCategory(IGuiHelper guiHelper) {
-        super("elementalcraft.jei.springshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SPRING_SHRINE.get())), guiHelper.createBlankDrawable(110, 80));
+        super("elementalcraft.jei.springshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SPRING_SHRINE.get())), 110, 80);
         water = Blocks.WATER.defaultBlockState();
         springShrine = ECBlocks.SPRING_SHRINE.get().defaultBlockState();
 

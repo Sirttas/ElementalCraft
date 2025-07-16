@@ -20,8 +20,10 @@ public class CrystallizationRecipeCategory extends AbstractInstrumentRecipeCateg
 
 	private static final ItemStack CRYSTALLIZER = new ItemStack(ECBlocks.CRYSTALLIZER.get());
 
+	private final ItemStack container = new ItemStack(ECBlocks.CONTAINER.get());
+
 	public CrystallizationRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.crystallization", createDrawableStack(guiHelper, CRYSTALLIZER), guiHelper.createBlankDrawable(132, 110));
+		super("elementalcraft.jei.crystallization", createDrawableStack(guiHelper, CRYSTALLIZER), 132, 110);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/crystallization.png"), 0, 0, 124, 52), 10, 10);
 	}
 

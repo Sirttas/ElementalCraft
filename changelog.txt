@@ -1,3 +1,10 @@
+7.0.1:
+- fix crash with latest versions of JEI
+- ad missing translation for source displacement in JEI
+- bump JEI dependency version
+- bump curios dependency version
+
+
 7.0.0:
 - update to 1.21.1
 - new item: air mill

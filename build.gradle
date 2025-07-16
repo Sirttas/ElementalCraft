@@ -416,6 +416,7 @@ if (curseforge_key != null) {
 
         task.upload(395158, jar) { main ->
             releaseType = "${release_type}"
+            addModLoader('NeoForge')
             changelog = changeLog
             releaseVersions.each { v -> addGameVersion(v) }
             addRequirement('datapack-anvil')

@@ -23,7 +23,7 @@ public class SourceBreedingRecipeCategory extends AbstractECRecipeCategory<Eleme
 
 
 	public SourceBreedingRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.source_breeding", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SOURCE_BREEDER.get())), guiHelper.createBlankDrawable(67, 80));
+		super("elementalcraft.jei.source_breeding", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SOURCE_BREEDER.get())), 67, 80);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/source_breeding.png"), 0, 0, 47, 33), 10, 10);
 	}
 

@@ -14,14 +14,13 @@ import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
-import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipeInput;
 
 import javax.annotation.Nonnull;
 
-public class PureInfusionRecipeCategory extends AbstractInventoryRecipeCategory<PureInfusionRecipeInput, PureInfusionRecipe> {
+public class PureInfusionRecipeCategory extends AbstractECRecipeCategory<PureInfusionRecipe> {
 
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.pureinfusion", createDrawableStack(guiHelper, new ItemStack(ECBlocks.PURE_INFUSER.get())), guiHelper.createBlankDrawable(177, 134));
+		super("elementalcraft.jei.pureinfusion", createDrawableStack(guiHelper, new ItemStack(ECBlocks.PURE_INFUSER.get())), 177, 134);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
 	}
 

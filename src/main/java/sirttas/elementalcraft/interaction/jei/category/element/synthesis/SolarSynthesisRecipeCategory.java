@@ -27,7 +27,7 @@ public class SolarSynthesisRecipeCategory extends AbstractECRecipeCategory<Ingre
 			new ItemStack(ECBlocks.FIRE_RESERVOIR.get()));
 
 	public SolarSynthesisRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.solar_fire_synthesis", createDrawableStack(guiHelper, SOLAR_SYNTHESIZER), guiHelper.createBlankDrawable(84, 66));
+		super("elementalcraft.jei.solar_fire_synthesis", createDrawableStack(guiHelper, SOLAR_SYNTHESIZER), 84, 66);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/solar_fire_synthesis.png"), 0, 0, 49, 54), 8, 4);
 	}
 

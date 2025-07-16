@@ -27,7 +27,7 @@ public class AirMillSynthesisRecipeCategory extends AbstractECRecipeCategory<Ing
 			new ItemStack(ECBlocks.AIR_RESERVOIR.get()));
 
 	public AirMillSynthesisRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.air_mill_synthesis", createDrawableStack(guiHelper, AIR_MILL_SYNTHESIZER), guiHelper.createBlankDrawable(64, 48));
+		super("elementalcraft.jei.air_mill_synthesis", createDrawableStack(guiHelper, AIR_MILL_SYNTHESIZER), 64, 48);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 21, 35);
 	}
 

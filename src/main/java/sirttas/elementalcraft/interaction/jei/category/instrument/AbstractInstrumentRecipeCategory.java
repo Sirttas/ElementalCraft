@@ -2,17 +2,17 @@ package sirttas.elementalcraft.interaction.jei.category.instrument;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.world.item.crafting.RecipeInput;
-import sirttas.elementalcraft.interaction.jei.category.AbstractInventoryRecipeCategory;
+import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public abstract class AbstractInstrumentRecipeCategory<I extends RecipeInput, T extends IInstrumentRecipe<I>> extends AbstractInventoryRecipeCategory<I, T> {
+public abstract class AbstractInstrumentRecipeCategory<I extends RecipeInput, T extends IInstrumentRecipe<I>> extends AbstractECRecipeCategory<T> {
 
-	protected AbstractInstrumentRecipeCategory(String translationKey, IDrawable icon, IDrawable background) {
-		super(translationKey, icon, background);
+	protected AbstractInstrumentRecipeCategory(String translationKey, IDrawable icon, int width, int height) {
+		super(translationKey, icon, width, height);
 	}
 
 	@Nonnull

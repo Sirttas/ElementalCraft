@@ -38,7 +38,7 @@ public class VibrationRecipeCategory extends AbstractECRecipeCategory<Ingredient
 	private final IGuiHelper guiHelper;
 
 	public VibrationRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.vibration", createDrawableStack(guiHelper, VIBRATION_SYNTHESIZER), guiHelper.createBlankDrawable(61, 54));
+		super("elementalcraft.jei.vibration", createDrawableStack(guiHelper, VIBRATION_SYNTHESIZER), 61, 54);
 		addOverlay(guiHelper.createDrawable(TEXTURE, 0, 0, 23, 9), 21, 9);
 		this.guiHelper = guiHelper;
 	}
@@ -91,7 +91,7 @@ public class VibrationRecipeCategory extends AbstractECRecipeCategory<Ingredient
 		}
 
 		@Override
-		public void draw(@NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+		public void drawWidget(@NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
 			int stepIndex = ticks % steps.length;
 			steps[stepIndex].draw(guiGraphics, 0, 0);
 		}

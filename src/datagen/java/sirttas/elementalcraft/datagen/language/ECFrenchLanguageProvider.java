@@ -350,6 +350,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         add("elementalcraft.jei.melting_shrine", "Sanctuaire de fonte");
         add("elementalcraft.jei.springshrine", "Sanctuaire de source");
         add("elementalcraft.jei.source_breeding", "Reproduction de source");
+        add("elementalcraft.jei.displacement", "Déplacement d'élément");
 
         addTooltip("do_not_use", "Objet fonctionnel, NE PAS UTILISER!!!");
 

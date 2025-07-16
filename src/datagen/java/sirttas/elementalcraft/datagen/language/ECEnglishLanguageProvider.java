@@ -350,6 +350,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         add("elementalcraft.jei.melting_shrine", "Melting Shrine");
         add("elementalcraft.jei.springshrine", "Spring Shrine");
         add("elementalcraft.jei.source_breeding", "Source Breeding");
+        add("elementalcraft.jei.displacement", "Source Displacement");
 
         addTooltip("do_not_use", "Functional Item, DO NOT USE!!!");
 

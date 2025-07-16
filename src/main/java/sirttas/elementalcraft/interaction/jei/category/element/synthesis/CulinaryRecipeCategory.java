@@ -31,7 +31,7 @@ public class CulinaryRecipeCategory extends AbstractECRecipeCategory<ItemStack> 
 	private final IGuiHelper guiHelper;
 
 	public CulinaryRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.culinary", createDrawableStack(guiHelper, CULINARY_SYNTHESIZER), guiHelper.createBlankDrawable(55, 63));
+		super("elementalcraft.jei.culinary", createDrawableStack(guiHelper, CULINARY_SYNTHESIZER), 55, 63);
 		addOverlay(guiHelper.createDrawable(DrainingRecipeCategory.TEXTURE, 0, 0, 36, 9), 2, 20);
 		this.guiHelper = guiHelper;
 	}

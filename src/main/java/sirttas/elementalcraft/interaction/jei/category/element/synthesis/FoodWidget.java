@@ -30,7 +30,7 @@ public class FoodWidget implements IRecipeWidget {
     }
 
     @Override
-    public void draw(@NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void drawWidget(@NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         if (ticks < 20) {
             fullFood.draw(guiGraphics, 0, 0);
         } else if (ticks < 40) {

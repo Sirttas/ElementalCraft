@@ -25,13 +25,15 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 
 	private final String translationKey;
 	private final IDrawable icon;
-	private final IDrawable background;
+	private final int width;
+	private final int height;
 	private final List<Overlay<T>> overlays;
 	
-	protected AbstractECRecipeCategory(String translationKey, IDrawable icon, IDrawable background) {
-		this.background = background;
-		this.icon = icon;
+	protected AbstractECRecipeCategory(String translationKey, IDrawable icon, int width, int height) {
 		this.translationKey = translationKey;
+		this.icon = icon;
+		this.width = width;
+		this.height = height;
 		this.overlays = new ArrayList<>();
 	}
 
@@ -83,12 +85,16 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		return icon;
 	}
 
-	@Nonnull
-    @Override
-	public IDrawable getBackground() {
-		return background;
+	@Override
+	public int getWidth() {
+		return width;
 	}
-	
+
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
 	public void addOverlay(IDrawable overlay, int x, int y) {
 		this.addOverlay(overlay, x, y, t -> true);
 	}

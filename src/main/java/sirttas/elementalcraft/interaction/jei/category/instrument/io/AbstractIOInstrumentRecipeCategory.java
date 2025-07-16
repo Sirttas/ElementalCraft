@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.category.instrument.AbstractInstrumentRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
@@ -17,7 +18,8 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public abstract class AbstractIOInstrumentRecipeCategory<I extends RecipeInput, T extends IInstrumentRecipe<I>> extends AbstractInstrumentRecipeCategory<I, T> {
-	
+
+	protected final ItemStack container = new ItemStack(ECBlocks.CONTAINER.get());
 	protected final ItemStack instrument;
 
 	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemLike item) {
@@ -25,7 +27,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<I extends RecipeInput, 
 	}
 	
 	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack instrument) {
-		super(translationKey, createDrawableStack(guiHelper, instrument), guiHelper.createBlankDrawable(75, 75));
+		super(translationKey, createDrawableStack(guiHelper, instrument), 75, 75);
 		this.instrument = instrument;
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
 	}

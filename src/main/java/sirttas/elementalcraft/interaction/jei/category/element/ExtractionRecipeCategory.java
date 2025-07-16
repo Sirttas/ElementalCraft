@@ -22,7 +22,7 @@ public class ExtractionRecipeCategory extends AbstractECRecipeCategory<Extractio
 	public static final String NAME = "extraction";
 
 	public ExtractionRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.extraction", createDrawableStack(guiHelper, new ItemStack(ECBlocks.RUDIMENTARY_EXTRACTOR.get())), guiHelper.createBlankDrawable(64, 48));
+		super("elementalcraft.jei.extraction", createDrawableStack(guiHelper, new ItemStack(ECBlocks.RUDIMENTARY_EXTRACTOR.get())), 64, 48);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 21, 35);
 	}
 

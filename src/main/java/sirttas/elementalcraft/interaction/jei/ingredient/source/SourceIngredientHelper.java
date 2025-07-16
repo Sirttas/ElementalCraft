@@ -6,6 +6,7 @@ import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
@@ -30,6 +31,12 @@ public class SourceIngredientHelper implements IIngredientHelper<IngredientSourc
 	@Nonnull
 	private String getName(IngredientSource ingredient) {
 		return ingredient.getElementType().getSerializedName() + "_source";
+	}
+
+	@Nonnull
+	@Override
+	public Object getUid(@NotNull IngredientSource ingredient, @Nonnull UidContext context) {
+		return getName(ingredient); // TODO use block instead of element type
 	}
 
 	@Nonnull

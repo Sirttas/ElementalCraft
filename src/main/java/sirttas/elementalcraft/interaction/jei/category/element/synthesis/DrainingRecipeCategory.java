@@ -34,7 +34,7 @@ public class DrainingRecipeCategory extends AbstractECRecipeCategory<IngredientE
 	private final IGuiHelper guiHelper;
 
 	public DrainingRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.draining", createDrawableStack(guiHelper, DRAINING_SYNTHESIZER), guiHelper.createBlankDrawable(55, 46));
+		super("elementalcraft.jei.draining", createDrawableStack(guiHelper, DRAINING_SYNTHESIZER), 55, 46);
 		addOverlay(guiHelper.createDrawable(TEXTURE, 0, 0, 36, 9), 2, 3);
 		this.guiHelper = guiHelper;
 	}

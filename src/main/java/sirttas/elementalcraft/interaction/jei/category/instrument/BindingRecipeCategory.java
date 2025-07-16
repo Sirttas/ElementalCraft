@@ -18,11 +18,12 @@ import javax.annotation.Nonnull;
 
 public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<MultipleItemsSingleElementRecipeInput, AbstractBindingRecipe> {
 
+	private final ItemStack container = new ItemStack(ECBlocks.CONTAINER.get());
 	private static final ItemStack BINDER = new ItemStack(ECBlocks.BINDER.get());
 	private static final int RADIUS = 42;
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.binding", createDrawableStack(guiHelper, BINDER), guiHelper.createBlankDrawable(RADIUS * 2 + 48, RADIUS * 2 + 16));
+		super("elementalcraft.jei.binding", createDrawableStack(guiHelper, BINDER), RADIUS * 2 + 48, RADIUS * 2 + 16);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/binding.png"), 0, 0, 124, 83), 10, 10);
 	}
 

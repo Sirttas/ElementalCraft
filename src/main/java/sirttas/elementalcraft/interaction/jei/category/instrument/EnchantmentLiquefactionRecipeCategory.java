@@ -32,8 +32,12 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 
 	private static final ItemStack ENCHANTMENT_LIQUEFIER = new ItemStack(ECBlocks.ENCHANTMENT_LIQUEFIER.get());
 
+	private final List<ItemStack> containers = List.of(
+				new ItemStack(ECBlocks.CONTAINER.get()),
+				new ItemStack(ECBlocks.WATER_RESERVOIR.get()));
+
 	public EnchantmentLiquefactionRecipeCategory(IGuiHelper guiHelper) {
-		super("elementalcraft.jei.enchantment_liquefaction", createDrawableStack(guiHelper, ENCHANTMENT_LIQUEFIER), guiHelper.createBlankDrawable(86, 100));
+		super("elementalcraft.jei.enchantment_liquefaction", createDrawableStack(guiHelper, ENCHANTMENT_LIQUEFIER), 86, 100);
 		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/enchantment_liquefaction.png"), 0, 0, 46, 13), 20, 20);
 	}
 
@@ -64,7 +68,7 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 		builder.addSlot(RecipeIngredientRole.CATALYST, 35, 42)
 				.addItemStack(ENCHANTMENT_LIQUEFIER);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 35, 58)
-				.addItemStack(container);
+				.addItemStacks(containers);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 36, 76)
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
