@@ -5,7 +5,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import sirttas.dpanvil.api.DataPackAnvilApi;
 import sirttas.elementalcraft.ElementalCraftUtils;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
@@ -26,7 +28,7 @@ import java.util.stream.StreamSupport;
 
 public class ToolInfusionHelper {
 
-	private static final Holder<ToolInfusion> NONE = Holder.direct(ToolInfusion.NONE);
+	private static final Holder<ToolInfusion> NONE = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(DataPackAnvilApi.ID_NONE);
 
 	private ToolInfusionHelper() {}
 
@@ -42,6 +44,9 @@ public class ToolInfusionHelper {
 	
 	public static void setInfusion(@Nonnull ItemStack stack, @Nonnull Holder<ToolInfusion> infusion) {
 		if (stack.isEmpty()) {
+			return;
+		} else if (NONE.is(infusion)) {
+			stack.remove(ECDataComponents.TOOL_INFUSION);
 			return;
 		}
 		stack.set(ECDataComponents.TOOL_INFUSION, infusion);
