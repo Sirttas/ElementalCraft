@@ -9,6 +9,7 @@ import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.pureore.PureOre;
 
@@ -19,10 +20,8 @@ public class PurifierGameTests {
 
     public static final String GROUP = "level.blocks.instruments.ore_purifier";
 
-    public static final String TEMPLATE = "elementalcraft:purifiergametests.ore_purifier";  // TODO move to template generation
-
-    @GameTest(template = TEMPLATE)
     @TestHolder
+    @GameTest(template = InstrumentTestTemplates.ORE_PURIFIER_TEMPLATE_NAME)
     public static void should_purifyIronOre(ECGameTestHelper helper) {
         helper.<PurifierBlockEntity>runInstrument(new ItemStack(Items.IRON_ORE), ElementType.EARTH, purifier -> {
             assertThat(purifier.getInventory().getItem(0)).isEmpty();
@@ -33,8 +32,8 @@ public class PurifierGameTests {
         });
     }
 
-    @GameTest(template = TEMPLATE)
     @TestHolder
+    @GameTest(template = InstrumentTestTemplates.ORE_PURIFIER_TEMPLATE_NAME)
     public static void shouldNot_purify_with_wrongElement(ECGameTestHelper helper) {
         helper.<PurifierBlockEntity>runInstrument(new ItemStack(Items.IRON_ORE), ElementType.WATER, false, purifier -> {
             assertThat(purifier.getInventory().getItem(0))

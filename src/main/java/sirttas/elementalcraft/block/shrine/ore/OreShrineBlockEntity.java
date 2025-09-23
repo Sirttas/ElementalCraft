@@ -95,7 +95,7 @@ public class OreShrineBlockEntity extends AbstractShrineBlockEntity {
 		if (direction != null) {
 			fortune += ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get().getFortuneLevel();
 
-			var runeHandler = shrine.getLevel().getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, shrine.getBlockPos().relative(direction), null);
+			var runeHandler = shrine.getLevel().getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, shrine.getBlockPos().relative(direction), null);
 
 			if (runeHandler != null && runeHandler.getRuneCount(Runes.TZEENTCH) > 0) {
 				fortune++;

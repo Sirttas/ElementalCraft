@@ -31,7 +31,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.Over
 import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
-import sirttas.elementalcraft.block.sorter.SorterRenderer;
+import sirttas.elementalcraft.block.sorter.ordered.OrderedSorterRenderer;
 import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederRenderer;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalRenderer;
@@ -80,7 +80,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.TRANSLOCATION_SHRINE_UPGRADE, TranslocationShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, OverclockedAccelerationShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE, GreaterFortuneShrineUpgradeRenderer::new);
-		register(ECBlockEntityTypes.SORTER, SorterRenderer::new);
+		register(ECBlockEntityTypes.SORTER, OrderedSorterRenderer::new);
 		register(ECBlockEntityTypes.SOURCE, SourceRenderer::new);
 
 		register(ECBlockEntityTypes.FIRE_PYLON, ShrineRenderer::new);

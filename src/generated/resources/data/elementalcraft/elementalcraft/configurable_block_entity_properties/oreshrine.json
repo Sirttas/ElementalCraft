@@ -6,7 +6,7 @@
   "period": 200.0,
   "ranges": {
     "crystal_harvest": {
-      "parent": "elementalcraft:box_radius_10",
+      "dpanvil:parent": "elementalcraft:box_radius_10",
       "stitch": true
     },
     "default": {

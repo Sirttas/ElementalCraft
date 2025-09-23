@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.shrine.lumber;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -10,6 +11,7 @@ import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class LumberShrineGameTests {
     public static final List<BlockPos> POSES = List.of(
             new BlockPos(1, 2, 1),
@@ -40,7 +42,7 @@ public class LumberShrineGameTests {
 
     // elementalcraft:lumbershrinegametests.should_cutoakblocks
     @TestHolder(description = "Checks if the lumber shrine cuts oak blocks.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "lumbershrinegametests.should_cutoakblocks", batch = ShrineGameTestHelper.BATCH_NAME)
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "lumbershrinegametests.should_cutoakblocks")
     public static void should_cutOakBlocks(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             POSES.forEach(p -> helper.setBlock(p, Blocks.OAK_LOG));

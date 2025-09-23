@@ -35,7 +35,6 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,22 +57,6 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	@Override
 	public @NotNull ElementType getElementType() {
 		return this.elementType;
-	}
-
-	@Override
-	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			BlockEntityHelper.getBlockEntityAs(level, pos, AbstractShrineBlockEntity.class).ifPresent(shrine -> shrine.getUpgradeDirections().forEach(direction -> {
-				BlockPos newPos = pos.relative(direction);
-				BlockState upgradeState = level.getBlockState(newPos);
-				Block block = upgradeState.getBlock();
-
-				if (block instanceof AbstractShrineUpgradeBlock upgrade && upgrade.getFacing(upgradeState) == direction.getOpposite()) {
-					level.destroyBlock(newPos, true);
-				}
-			}));
-		}
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Nonnull

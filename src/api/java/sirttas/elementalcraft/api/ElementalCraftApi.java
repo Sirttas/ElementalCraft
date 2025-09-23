@@ -6,12 +6,17 @@ import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sirttas.dpanvil.api.data.IDataManager;
+import sirttas.dpanvil.api.data.preprocessor.InheritanceDataPreprocessor;
+import sirttas.dpanvil.api.data.preprocessor.MergeDataPreprocessor;
+import sirttas.dpanvil.api.data.preprocessor.NeoForgeConditionsPreprocessor;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.range.Range;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
+import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 
 public class ElementalCraftApi {
 
@@ -22,23 +27,33 @@ public class ElementalCraftApi {
 
 	public static final ResourceKey<IDataManager<Range>> RANGE_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.RANGE));
 	public static final IDataManager<Range> RANGE_MANAGER = IDataManager.builder(Range.class, RANGE_MANAGER_KEY)
+			.preprocessor(new InheritanceDataPreprocessor(Range.MERGER))
+			.preprocessor(new NeoForgeConditionsPreprocessor())
+			.preprocessor(new MergeDataPreprocessor(Range.MERGER))
 			.withDefault(Range.DEFAULT)
-			.withInheritance()
 			.build();
 
 	public static final ResourceKey<IDataManager<Rune>> RUNE_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.RUNE));
 	public static final IDataManager<Rune> RUNE_MANAGER = IDataManager.builder(Rune.class, RUNE_MANAGER_KEY)
-			.withIdSetter(Rune::setId)
-			.merged(Rune::merge)
+			.preprocessor(new NeoForgeConditionsPreprocessor())
+			.preprocessor(new MergeDataPreprocessor(AbstractUpgrade.MERGER))
 			.build();
+
+	public static final ResourceKey<IDataManager<ShrineUpgrade>> SHRINE_UPGRADE_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.SHRINE_UPGRADE));
+	public static final IDataManager<ShrineUpgrade> SHRINE_UPGRADE_MANAGER = IDataManager.builder(ShrineUpgrade.class, SHRINE_UPGRADE_MANAGER_KEY)
+			.preprocessor(new NeoForgeConditionsPreprocessor())
+			.preprocessor(new MergeDataPreprocessor(AbstractUpgrade.MERGER))
+			.build();
+
 	public static final ResourceKey<IDataManager<ToolInfusion>> TOOL_INFUSION_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.TOOL_INFUSION));
 	public static final IDataManager<ToolInfusion> TOOL_INFUSION_MANAGER = IDataManager.builder(ToolInfusion.class, TOOL_INFUSION_MANAGER_KEY)
 			.withDefault(ToolInfusion.NONE)
-			.withIdSetter(ToolInfusion::setId)
+			.idSetter(ToolInfusion::setId)
 			.build();
+
 	public static final ResourceKey<IDataManager<SourceTrait>> SOURCE_TRAIT_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.SOURCE_TRAIT));
 	public static final IDataManager<SourceTrait> SOURCE_TRAIT_MANAGER = IDataManager.builder(SourceTrait.class, SOURCE_TRAIT_MANAGER_KEY)
-			.withIdSetter(SourceTrait::setId)
+			.idSetter(SourceTrait::setId)
 			.build();
 
 	private ElementalCraftApi() {}

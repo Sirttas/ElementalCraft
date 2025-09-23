@@ -91,14 +91,14 @@ public class PureInfusionRecipe implements IECRecipe<PureInfusionRecipeInput> {
 	@Override
 	public @NotNull ItemStack assemble(@Nonnull PureInfusionRecipeInput input, @Nonnull HolderLookup.Provider provider) {
 		var result = this.getResultItem(provider).copy();
-		var target = result.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+		var target = result.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
 
 		if (target == null) {
 			return result;
 		}
 
 		for (var stack : input.getStacksInPedestals()) {
-			var storage = stack.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+			var storage = stack.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
 
 			if (storage != null) {
 				storage.transferAll(target);

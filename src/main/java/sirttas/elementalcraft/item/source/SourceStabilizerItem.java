@@ -9,7 +9,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
-import sirttas.elementalcraft.property.ECProperties;
+import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 
 import javax.annotation.Nonnull;
 
@@ -17,8 +17,8 @@ public class SourceStabilizerItem extends Item {
 
 	public static final String NAME = "source_stabilizer";
 	
-	public SourceStabilizerItem() {
-		super(ECProperties.Items.ITEM_UNSTACKABLE);
+	public SourceStabilizerItem(Item.Properties properties) {
+		super(properties);
 	}
 	
 	@Nonnull
@@ -33,12 +33,7 @@ public class SourceStabilizerItem extends Item {
 				.map(source -> {
 					if (player != null && !source.isStabilized()) {
 						source.setStabilized(true);
-						if (!player.getAbilities().instabuild) {
-							stack.shrink(1);
-							if (stack.isEmpty()) {
-								player.setItemInHand(context.getHand(), ItemStack.EMPTY);
-							}
-						}
+						ECPlayerHelper.shrinkItemInHand(player, stack, context.getHand());
 						return InteractionResult.SUCCESS;
 					}
 					return InteractionResult.PASS;

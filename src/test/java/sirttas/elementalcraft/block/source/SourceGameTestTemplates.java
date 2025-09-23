@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.item.source;
+package sirttas.elementalcraft.block.source;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -7,7 +7,7 @@ import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.source.SourceBlock;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.block.source.trait.SourceTraitTestHelper;
 
@@ -23,6 +23,7 @@ public class SourceGameTestTemplates {
     public static final String EARTH_SOURCE_WITH_STABILIZER_TEMPLATE_NAME = "elementalcraft:earth_source_with_stabilizer";
     public static final String AIR_SOURCE_TEMPLATE_NAME = "elementalcraft:air_source";
     public static final String AIR_SOURCE_WITH_STABILIZER_TEMPLATE_NAME = "elementalcraft:air_source_with_stabilizer";
+    public static final String EMPTY_FOR_SOURCE_TEMPLATE_NAME = "elementalcraft:empty_for_source";
 
     @RegisterStructureTemplate(FIRE_SOURCE_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> FIRE_SOURCE_TEMPLATE = createSourceTemplate(ElementType.FIRE);
@@ -40,6 +41,8 @@ public class SourceGameTestTemplates {
     public static final Supplier<StructureTemplate> AIR_SOURCE_TEMPLATE = createSourceTemplate(ElementType.AIR);
     @RegisterStructureTemplate(AIR_SOURCE_WITH_STABILIZER_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> AIR_SOURCE_WITH_STABILIZER_TEMPLATE = createSourceWithStabilizerTemplate(ElementType.AIR);
+    @RegisterStructureTemplate(EMPTY_FOR_SOURCE_TEMPLATE_NAME)
+    public static final Supplier<StructureTemplate> EMPTY_FOR_SOURCE_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 1, builder -> builder.set(0, 0, 0, ECBlocks.WHITE_ROCK.get().defaultBlockState()));
 
     private SourceGameTestTemplates() {}
 

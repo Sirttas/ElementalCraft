@@ -229,7 +229,7 @@ public class PureInfuserGameTests {
         helper.startSequence().thenExecute(() -> {
             var fireHolder = new ItemStack(ECItems.FIRE_HOLDER);
 
-            fireHolder.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM).fill();
+            fireHolder.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM).fill();
 
             pureInfuserItemHandler.insertItem(0, new ItemStack(ECItems.PURE_HOLDER_CORE), false);
             firePedestalItemHandler.insertItem(0, fireHolder, false);
@@ -247,7 +247,7 @@ public class PureInfuserGameTests {
             assertThat(pureInfuserItemHandler).satisfies(0, s -> {
                 assertThat(s)
                         .is(ECItems.PURE_HOLDER);
-                assertThat(s.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM)).satisfies(es -> {
+                assertThat(s.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM)).satisfies(es -> {
                     assertThat(es).isNotNull();
                     assertThat(es.getElementAmount(ElementType.FIRE)).isEqualTo(10000);
                     assertThat(es.getElementAmount(ElementType.WATER)).isEqualTo(0);

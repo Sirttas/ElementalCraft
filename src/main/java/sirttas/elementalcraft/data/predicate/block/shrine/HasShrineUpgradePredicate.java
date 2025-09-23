@@ -8,10 +8,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 
 import javax.annotation.Nonnull;
@@ -21,7 +21,7 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
 
 	public static final String NAME = "has_shrine_upgrade";
 	public static final MapCodec<HasShrineUpgradePredicate> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-	        IDataManager.keyCodec(ElementalCraft.SHRINE_UPGRADE_MANAGER_KEY).fieldOf(ECNames.SHRINE_UPGRADE).forGetter(p -> p.key),
+	        IDataManager.keyCodec(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY).fieldOf(ECNames.SHRINE_UPGRADE).forGetter(p -> p.key),
 			Codec.INT.optionalFieldOf(ECNames.COUNT, 1).forGetter(p -> p.count)
 	).apply(builder, HasShrineUpgradePredicate::new));
 
@@ -33,7 +33,7 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
     }
 
     public HasShrineUpgradePredicate(ResourceLocation upgradeId, int count) {
-        this(IDataManager.createKey(ElementalCraft.SHRINE_UPGRADE_MANAGER_KEY, upgradeId), count);
+        this(IDataManager.createKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, upgradeId), count);
     }
 
 	public HasShrineUpgradePredicate(ResourceKey<ShrineUpgrade> key) {

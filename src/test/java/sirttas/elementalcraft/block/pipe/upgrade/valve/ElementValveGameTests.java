@@ -3,7 +3,8 @@ package sirttas.elementalcraft.block.pipe.upgrade.valve;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -14,11 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID) // TODO move to test framework
+@ForEachTest(groups = ElementPipeGameTests.GROUP)
 public class ElementValveGameTests {
 
-    // elementalcraft:elementvalvegametests.valve
-    @GameTest(template = "valve", batch = ElementPipeGameTests.GROUP) // TODO move to test framework
+    @TestHolder(description = "Checks that a pipe with a valve can transfer elements if it is powered.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementvalvegametests.valve")
     public static void should_transferElements_when_powered(GameTestHelper helper) {
         var ticks = new AtomicInteger(0);
 
@@ -36,8 +37,8 @@ public class ElementValveGameTests {
                 .thenSucceed();
     }
 
-    // elementalcraft:elementvalvegametests.valve
-    @GameTest(template = "valve", batch = ElementPipeGameTests.GROUP) // TODO move to test framework
+    @TestHolder(description = "Checks that a pipe with a valve cannot transfer elements if it is not powered.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementvalvegametests.valve")
     public static void shouldNot_transferElements_when_notPowered(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecute(() -> helper.setBlock(new BlockPos(1, 2, 0), ECBlocks.CONTAINER.get()))

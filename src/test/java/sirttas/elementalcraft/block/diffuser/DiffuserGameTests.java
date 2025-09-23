@@ -45,7 +45,7 @@ public class DiffuserGameTests {
         var elementType = holder.type();
         var player = holder.mockPlayer(helper, new Vec3(9, 1, 9));
         var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(11, 2, 11))).getElementStorage();
-        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY_FOR_ELEMENT, elementType);
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY_FOR_ELEMENT, elementType);
         var ticks = new AtomicInteger(0);
 
         assertThat(playerStorage).isNotNull();

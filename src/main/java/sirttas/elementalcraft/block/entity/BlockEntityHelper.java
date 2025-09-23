@@ -2,6 +2,8 @@ package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -10,6 +12,7 @@ import net.neoforged.neoforge.capabilities.BlockCapability;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.EmptyRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.particle.ParticleHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,11 +49,20 @@ public class BlockEntityHelper {
 			return EmptyRuneHandler.INSTANCE;
 		}
 
-		var cap = l.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, pos, direction);
+		var cap = l.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, pos, direction);
 
 		if (cap == null) {
 			return EmptyRuneHandler.INSTANCE;
 		}
 		return cap;
+	}
+
+	public static void renderItemBreaking(Level level, BlockPos pos, ItemStack stack) {
+		if (level == null) {
+			return;
+		}
+
+		level.playSound(null, pos, stack.getBreakingSound(), SoundSource.BLOCKS);
+		ParticleHelper.createItemBreakParticle(level, pos.getCenter(), level.random, stack, 5);
 	}
 }

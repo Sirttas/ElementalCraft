@@ -4,9 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class SpawningShrineGameTests {
 
     private static final String TEMPLATE = "elementalcraft:spawningshrinegametests.should_spawnmobs";

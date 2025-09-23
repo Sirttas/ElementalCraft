@@ -4,12 +4,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.CropBlock;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class GrowthShrineGameTests {
 
     private static final List<BlockPos> CROPS = IntStream.rangeClosed(1, 9)

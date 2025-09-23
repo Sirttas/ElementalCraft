@@ -43,7 +43,7 @@ public class AirMillSynthesizerBlockEntity extends AbstractSynthesizerBlockEntit
 		if (damage < maxDamage) {
 			damage++;
 			if (damage >= maxDamage) {
-				// TODO play sound
+				AirMill.renderMillBreaking(this.getLevel(), this.getBlockPos());
 				this.getBlockState().setValue(AbstractAirMillBlock.BROKEN, true);
 			}
 			return Math.round(this.synthesisMultiplier);

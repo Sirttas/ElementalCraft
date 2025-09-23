@@ -141,7 +141,7 @@ public class ECFeaturesProvider extends AbstractECRegistryBootstrap<PlacedFeatur
         addSourceChanced(SourceFeature.NAME_HILL, HILL);
         addSourceChanced(SourceFeature.NAME_MOUNTAIN, MOUNTAIN);
         addSourceChanced(SourceFeature.NAME_PLAIN, PLAIN);
-        addSourceChanced(SourceFeature.NAME_OCEAN, ElementTypeFeatureConfig.WATER, 400);
+        addSourceChanced(SourceFeature.NAME_OCEAN, ElementTypeFeatureConfig.WATER, 350);
         addSourceNether(SourceFeature.NAME_NETHER_ALL, NETHER_ALL,200);
         addSourceNether(SourceFeature.NAME_NETHER, NETHER,30);
         addSourceNether(SourceFeature.NAME_NETHER_FOREST, NETHER_FORSET,15);
@@ -153,7 +153,7 @@ public class ECFeaturesProvider extends AbstractECRegistryBootstrap<PlacedFeatur
     }
 
     private Holder.Reference<PlacedFeature> addSourceUnderground(String name, RandomElementTypeFeatureConfig config) {
-        return addSourceUnderground(name, config, 5);
+        return addSourceUnderground(name, config, 3);
     }
 
     private Holder.Reference<PlacedFeature> addSourceUnderground(String name, RandomElementTypeFeatureConfig config, int chance) {
@@ -165,7 +165,7 @@ public class ECFeaturesProvider extends AbstractECRegistryBootstrap<PlacedFeatur
     }
 
     private Holder.Reference<PlacedFeature> addSourceChanced(String name, IElementTypeFeatureConfig config) {
-        return addSourceChanced(name, config, 45);
+        return addSourceChanced(name, config, 40);
     }
 
     private Holder.Reference<PlacedFeature> addSourceChanced(String name, IElementTypeFeatureConfig config, int oneEvery) {

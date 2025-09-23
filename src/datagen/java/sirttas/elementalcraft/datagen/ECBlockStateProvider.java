@@ -32,7 +32,6 @@ import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
-import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
@@ -42,7 +41,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.FillingShrineUpgr
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.vertical.AbstractVerticalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
-import sirttas.elementalcraft.block.sorter.SorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlock;
 import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlock;
@@ -169,10 +167,10 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			pedestalContainerBlock(block, models().getExistingFile(prefix(name)), containerConnector);
 		} else if (block instanceof PedestalBlock) {
 			pedestalContainerBlock(block, models().getExistingFile(prefix(name)), models().getExistingFile(prefix("pedestal_connector")));
-		} else if (block instanceof RetrieverBlock || block instanceof SorterBlock) {
+		} else if (block instanceof ISorterBlock) {
 			ModelFile core = models().getExistingFile(prefix(name + CORE));
-			ModelFile source = models().getExistingFile(prefix("instrument_retriever_source"));
-			ModelFile target = models().getExistingFile(prefix("instrument_retriever_target"));
+			ModelFile source = models().getExistingFile(prefix("sorter_source"));
+			ModelFile target = models().getExistingFile(prefix("sorter_target"));
 
 			getMultipartBuilder(block).part().modelFile(core).addModel().end()
 				.part().modelFile(source).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.SOUTH).end()

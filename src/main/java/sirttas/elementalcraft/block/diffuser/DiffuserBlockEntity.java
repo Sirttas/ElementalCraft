@@ -65,7 +65,7 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 		diffuser.hasDiffused = false;
 		if (container != null && !container.isEmpty()) {
 			level.getEntities(null, diffuser.getRange()).stream()
-					.map(e -> e.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY, null))
+					.map(e -> e.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY, null))
 					.filter(Objects::nonNull)
 					.forEach(storage -> {
 						if (!container.isEmpty() && amount.get() > 0 && container.transferTo(storage, container.getElementType(), diffuser.runeHandler.getTransferSpeed(amount.get()), Math.min(1, diffuser.runeHandler.getElementPreservation())) > 0) {

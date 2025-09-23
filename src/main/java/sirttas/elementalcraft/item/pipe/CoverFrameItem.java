@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
+import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 
 import javax.annotation.Nonnull;
 
@@ -32,11 +33,8 @@ public class CoverFrameItem extends Item {
 
 		if (state.getBlock() instanceof ElementPipeBlock && state.getValue(ElementPipeBlock.COVER) == CoverType.NONE) {
 			level.setBlockAndUpdate(pos, state.setValue(ElementPipeBlock.COVER, CoverType.FRAME));
-			if (!player.getAbilities().instabuild) {
-				stack.shrink(1);
-				if (stack.isEmpty()) {
-					player.setItemInHand(context.getHand(), ItemStack.EMPTY);
-				}
+			if (player != null) {
+				ECPlayerHelper.shrinkItemInHand(player, stack, context.getHand());
 			}
 			return InteractionResult.SUCCESS;
 		}

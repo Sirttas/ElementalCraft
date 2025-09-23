@@ -10,10 +10,10 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -30,7 +30,7 @@ public class SourceBreederGameTests {
 
 
     @TestHolder(description = "Checks if the source breeder can breed sources.")
-    @GameTest(template = "elementalcraft:sourcebreedergametests.source_breeder")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "sourcebreedergametests.source_breeder")
     public static void should_breedSource(ECGameTestHelper helper) {
         var breeder = (SourceBreederBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 2));
 
@@ -73,12 +73,12 @@ public class SourceBreederGameTests {
                 .satisfies(0, s -> {
                     assertThat(s).isNotEmpty().is(ECTags.Items.RECEPTACLES);
                     assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type);
-                    assertThat(s.getCapability(ElementalCraftCapabilities.SourceTrait.ITEM))
+                    assertThat(s.getCapability(ElementalCraftCapabilities.SourceTraits.ITEM))
                             .isNotNull()
                             .satisfies(h -> assertThat(h.getTraits())
                                     .hasSizeGreaterThanOrEqualTo(1)
-                                    .containsKeys(SourceTraits.ELEMENT_CAPACITY));
-                    assertThat(s.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM))
+                                    .containsKeys(sirttas.elementalcraft.block.source.trait.SourceTraits.ELEMENT_CAPACITY));
+                    assertThat(s.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM))
                             .isNotNull()
                             .satisfies(storage -> {
                                 assertThat(storage.getElementCapacity(type)).isPositive();
@@ -88,7 +88,7 @@ public class SourceBreederGameTests {
     }
 
     @TestHolder(description = "Checks if the source breeder drops a source breeder and a rune.")
-    @GameTest(template = "elementalcraft:sourcebreedergametests.source_breeder")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "sourcebreedergametests.source_breeder")
     public static void should_dropOneSourceBreederAndRune(ECGameTestHelper helper) {
         var pos = new BlockPos(0, 1, 2);
 

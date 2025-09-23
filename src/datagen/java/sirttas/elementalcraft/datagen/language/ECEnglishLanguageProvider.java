@@ -147,7 +147,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.PIPE_IMPROVED, "Improved Element Pipe");
         addBlock(ECBlocks.PIPE_CREATIVE, "Creative Element Pipe");
         addBlock(ECBlocks.RETRIEVER, "Instrument Output Retriever");
-        addBlock(ECBlocks.SORTER, "Ordered Sorter");
+        addBlock(ECBlocks.ORDERED_SORTER, "Ordered Sorter");
         addBlock(ECBlocks.SPELL_DESK, "Spell Desk");
         addBlock(ECBlocks.SOURCE_BREEDER, "Element Source Breeder");
         addBlock(ECBlocks.SOURCE_BREEDER_PEDESTAL, "Element Source Breeder Pedestal");
@@ -236,6 +236,8 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.SPRINGALINE_GLASS_PANE, "Springaline Glass Pane");
         addBlock(ECBlocks.SPRINGALINE_LANTERN, "Springaline Lantern");
 
+        addBlock(ECBlocks.ELEMENTAL_EMBER, "Elemental Ember");
+
         addSpell(Spells.NONE, "");
         addSpell(Spells.GRAVEL_FALL, "Gravel Fall");
         addSpell(Spells.STONE_WALL, "Stone Wall");
@@ -255,6 +257,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addSpell(Spells.SHOCKWAVE, "Shockwave");
         addSpell(Spells.AIR_SHIELD, "Air Shield");
         addSpell(Spells.REPAIR, "Repair");
+        addSpell(Spells.LIGHT, "Light");
 
         addSpell(Spells.HEAL, "Healing");
         addSpell(Spells.SPEED, "Speed");
@@ -352,8 +355,9 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         add("elementalcraft.jei.source_breeding", "Source Breeding");
         add("elementalcraft.jei.displacement", "Source Displacement");
 
-        addTooltip("do_not_use", "Functional Item, DO NOT USE!!!");
+        addTooltip("do_not_use", "§cFunctional Item, DO NOT USE!!!");
 
+        addTooltip("source.unanalyzed", "§cUnanalyzed");
         addTooltip("infused.single", "%s infused (%s)");
         addTooltip("infused", "%s infused");
         addTooltip("enchantment_infused", "%s +%d");
@@ -374,9 +378,9 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addTooltip("optional", "Optional");
         addTooltip("staff.range", "Slightly increase range of spells");
 
-        addTooltip("elementalcraft.pure_ore", "Pure %s Chunk");
-        addTooltip("elementalcraft.pure_ore.id", "Ore: %s");
-        addTooltip("elementalcraft.pure_ore.colors", "Colors: %s, %s, %s");
+        addTooltip("pure_ore", "Pure %s Chunk");
+        addTooltip("pure_ore.id", "Ore: %s");
+        addTooltip("pure_ore.colors", "Colors: %s, %s, %s");
         addPureOre("iron", "Pure Iron Ore Chunk");
         addPureOre("copper", "Pure Copper Ore Chunk");
         addPureOre("gold", "Pure Gold Ore Chunk");
@@ -626,16 +630,16 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("pure_infuser", "The $(item)Pure Infuser$() is the most powerful crafting tool. It uses $(item)pedestals$() to channel all four $(thing)elements$() into a single item.$(br)To operate, it needs to be circled with each of the four $(item)pedestals$(), each being provided with the correct $(thing)element$() using $(ec:pipe)improved pipes$().$(br)Once this setup is done, you can start crafting by putting the correct $(item)ingredient$() on each $(thing)pedestal$() and the main one on the $(thing)pure infuser$().$(br2)Can be upgraded with up to three $(ec:rune)Runes$() and one for pedestals.");
 
         addPatchouliPages("sources",
-                "$(thing)Sources$() are naturally occurring spots where $(thing)elements$() converge.$(br2)It's strongly recommended to explore a bit and find at least one $(thing)source$() for each $(thing)element$().$(br2)Be careful though as if you extract too much element from a source it will enter a recovery state. In this state you can no longer extract from the source until it fully recovers its capacity.$(br)It is also recommended to mark their spots to find them easier again when you need them.",
+                "$(thing)Sources$() are naturally occurring spots where $(thing)elements$() converge.$(br2)It's strongly recommended to explore a bit and find at least one $(thing)source$() for each $(thing)element$().$(br)It is also recommended to mark their spots to find them easier again when you need them, using a $(l:sources/empty_receptacle)receptacle$() you will later be able to move them.$(br2)Sources haves a limited amount of element and will get used up. Later using a $(l:sources/source_breeder)source breeder$() you will be able to create ne sources from the ones you already have.",
                 "$(thing)Sources$() have natural affinity to different biomes or world areas.$(br)$(thing)Fire$() is found in dry biomes and in the nether.$(br)$(thing)Water$() is found in wet biomes and over bodies of water.$(br)$(thing)Earth$() is fount in rock biomes and underground.$(br)$(thing)Air$() is found over tall biomes or plains, up in the sky and in the end.",
                 "An $(thing)Air Source$() found naturally.");
         addPatchouliPages("source_traits",
                 "$(thing)Source traits$() are an ensemble of traits that define how $(ec:source)sources$() behave. This affects things like the amount they can hold or the speed it takes for them to recover. You can see source traits by using a $(l:sources/source_analysis_glass)source analysis glass$().",
                 "$(thing)Capacity$(): The element capacity of the source, the bigger the capacity the longer it will take to exhaust and replenish the source.$(br)$(e)Diurnal$(): Increased recovery speed during the day, decreased recovery speed during the night.$(br)$(1)Nocturnal$(): Increased recovery speed during the night, decreased recovery speed during the day.",
                 "$(9)Generous$(): Increased extraction speed from the source.$(br)$(c)Selfish$(): Decreased extraction speed from the source.$(br)$(9)Thrifty$(): Decreased element loss when extracting from the source.$(br)$(c)Wasteful$(): Increased element loss when extracting from the source.$(br)$(9)Fertile$(): Reduced element cost of $(l:sources/source_seeds)source seeds$().");
-        addPatchouliPages("source_analysis_glass", "The $(item)Source Analysis Glass$() can be used to analyse $(ec:source)sources$(). It will show you what $(ec:source_traits)traits$() the source has.$(br)Every analysis will consume a $(l:basics/springaline)Springaline shard$() from your inventory, so you need to have at least one. You can either analyse a source by right-clicking it with the glass or from a receptacle by placing it in the upper right slot of the analysis GUI.");
+        addPatchouliPages("source_analysis_glass", "The $(item)Source Analysis Glass$() can be used to analyse $(ec:source)sources$(). It will show you what $(ec:source_traits)traits$() the source has.$(br)You can either analyse a source by right-clicking it with the glass or right-clicking the glass to analyze every sources in your inventory.");
         addPatchouliPages("empty_receptacle", "The $(item)Source Receptacle$() is a powerful tool that allow you to move $(ec:source)source$().$(br)By using it on a source yon can pick it up, you can then place it back where ever you want. Doing so will consume the receptacle.");
-        addPatchouliPages("source_stabilizer", "The $(item)source stabilizer$() is an item that can be used on $(ec:source)sources$(). It prevents them from being replaced by blocks. It also slightly increases the source recovery rate.");
+        addPatchouliPages("source_stabilizer", "The $(item)source stabilizer$() is an item that can be used on $(ec:source)sources$(). It prevents them from being replaced by blocks. It also slightly increases the source recovery rate.$(br)You can also place a $(l:advanced/instrument_retriever)retriever$() on an $(ec:extractor)extractor$() to retrive the stabilizer once the source get exhausted.");
         addPatchouliPages("source_breeder", "The $(item)source breeder$() is the strongest tool that can act on $(ec:source)sources$(). It has the ability to create new sources from existing ones. The created source will inherit $(ec:source_traits)traits$() from the parent sources.$(br)It needs a $(l:sources/source_seeds)source seed$() to create a new source.$(br2)Can be upgraded with up to three $(ec:rune)Runes$() and one for pedestals.");
         addPatchouliPages("source_seeds", "The $(item)source seeds$() are used in the $(l:sources/source_breeder)source breeder$() to create new $(ec:source)sources$().");
 
@@ -672,14 +676,14 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("cover_frame", "The $(item)pipe cover frame$() allows you to hide a $(ec:pipe)pipe$() behind a block. Use it on a pipe (preferably while sneaking), then right click it with the block you want to hide it with.$(br)You can hide frames and show pipes by holding a pipe, a frame or having an empty hand.");
         addPatchouliPages("pipe_priority_rings", "$(item)Pipe priority rings$() are an upgrade you can put on a $(ec:pipe)pipe$() section to encourage $(thing)elements$() flow in a specific direction.");
         addPatchouliPages("element_valve", "The $(item)Element valve$() is an upgrade you can put on a $(ec:pipe)pipe$() section to only let $(thing)elements$() flow when it receives a redstone signal.");
-        addPatchouliPages("element_beam", "The $(item)Element beam$() is an upgrade you can put on two $(ec:pipe)pipe$() sections facing each other allowing element transfer between them for a short range.");
-        addPatchouliPages("element_pump", "The $(item)Element pump$() is an upgrade you can put on a $(ec:pipe)pipe$() extracting section to greatly improve its extracting speed at the cost of wasting a portion of the transferred elements.$(br2)Can be upgraded with up to three speed only $(ec:rune)Runes$().");
+        addPatchouliPages("element_beam", "The $(item)Element beam$() is an upgrade you can put on two $(ec:pipe)pipe$() sections facing each other allowing element transfer between them for a short range.$(br2)Can be upgraded with one range only $(ec:rune)Runes$().");
+        addPatchouliPages("element_pump", "The $(item)Element pump$() is an upgrade you can put on a $(ec:pipe)pipe$() extracting section to greatly improve its extracting speed at the cost of wasting a portion of the transferred elements.$(br2)Can be upgraded with up to three $(ec:rune)Runes$().");
 
         addPatchouliPages("element_holders", "$(item)Element Holders$() can hold $(thing)elements$() for transport or for use by $(thing)spells$().$(br)To fill them hold right-click on a $(ec:source)source$() of the same $(thing)element$() type. You can also transfer $(thing)element$() back to a receiver by holding right-click on it.");
         addPatchouliPages("purerock", "$(item)Pure Rock$() is an extremely strong stone that is able to resist some of the most powerful blasts, even a $(thing)Wither$().");
         addPatchouliPages("instrument_retriever", "The $(item)Instrument Output Retriever$() is a finely-tweaked machine that can interact with $(thing)instruments$() and handle their output for themselves, allowing you to extract their output upon crafting and store it in a $(item)chest$(), for example.$(br2)You can reorient its input and output by right-clicking.");
         addPatchouliPages("elemental_firefuel", "The $(item)Elemental Firefuel$() is an advanced form of fuel that does not get consumed if there is nothing to cook.");
-        addPatchouliPages("sorter", "The $(item)Ordered Sorter$() uses the advanced properties of swift alloy to insert specific items in a specific order into any $(thing)instrument$() or $(thing)chest$().$(br)You can add a new item to the order list by right-clicking the middle part.$(br)You can reorient its input and output by right-clicking.$(br2)Can be upgraded with up to three speed only $(ec:rune)Runes$().");
+        addPatchouliPages("ordered_sorter", "The $(item)Ordered Sorter$() uses the advanced properties of swift alloy to insert specific items in a specific order into any $(thing)instrument$() or $(thing)chest$().$(br)You can add a new item to the order list by right-clicking the middle part.$(br)You can reorient its input and output by right-clicking.$(br2)Can be upgraded with up to three speed only $(ec:rune)Runes$().");
         addPatchouliPages("runes", "$(thing)Runes$() are infused with element power that can be transferred to $(thing)instruments$() to boost their properties.$(br)They are created using an $(l:instruments/inscriber)inscriber$() and a chisel.$(br)You can simply add them by right clicking the instrument with the rune, and remove them either with a chisel or by breaking the instrument.");
         addPatchouliPages("pure_element_holder", "The $(item)Pure element holder$() is an improved version of the $(ec:holder)element holder$(). It can store all four $(thing)elements$() at once and in a way bigger quantity.");
 
@@ -761,7 +765,8 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("feather_spikes", "Throw three feather projectiles in front of you in a quick succession.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().");
         addPatchouliPages("air_shield", "Channel air in front of you to block projectiles and hits (like a shield does). $(br)This spell is channeled, you must hold right click to cast it.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().");
         addPatchouliPages("shockwave", "Knock back and damage mobs around you.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().");
-        addPatchouliPages("repair", "Repair the item in your other hand, you need to target a block so the anvil can spawn on top of it.$(br)This spell is channeled, you must hold right click to cast it$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().");
+        addPatchouliPages("repair", "Repair the item in your other hand, you need to target a block so the anvil can spawn on top of it.$(br)This spell is channeled, you must hold right click to cast it.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().");
+        addPatchouliPages("light", "Create a light at the target location.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().");
 
         addPatchouliPages("salmon", "The $(item)jewel of the salmon$() allows you to breathe under water.$(br)Consumes $(thing)water$() from an $(ec:holder)element holder$().");
         addPatchouliPages("phoenix", "The $(item)jewel of the phoenix$() makes you invulnerable to fire and makes it heal you.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().");

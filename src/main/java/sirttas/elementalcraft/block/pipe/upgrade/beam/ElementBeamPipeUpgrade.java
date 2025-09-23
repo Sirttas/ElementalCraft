@@ -2,12 +2,18 @@ package sirttas.elementalcraft.block.pipe.upgrade.beam;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
+import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.ElementPipeTransferer;
@@ -17,6 +23,7 @@ import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
@@ -29,12 +36,15 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
 
     private static final Map<Direction, VoxelShape> SHAPES = ShapeHelper.directionShapes(Block.box(7D, 9.5D, 7D, 9D, 14D, 9D));
 
+    private final RuneHandler runeHandler;
+
     private ElementBeamPipeUpgrade other;
 
     private int transfered;
 
     public ElementBeamPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
         super(PipeUpgradeTypes.ELEMENT_BEAM.get(), pipe, direction);
+        runeHandler = new RuneHandler(ECConfig.SERVER.elementBeamMaxRunes.get(), pipe::setChanged);
         transfered = 0;
     }
 
@@ -54,23 +64,17 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     }
 
     public boolean isLinked() {
-        tryLink();
-
-        return this.other != null;
+        return getOther() != null;
     }
 
     @Override
     public List<BlockPos> getConnections(ElementType type, ConnectionType connection) {
-        tryLink();
-
-        return this.other != null ? Collections.singletonList(this.other.getPipe().getBlockPos()) : Collections.emptyList();
+        return getOther() != null ? Collections.singletonList(this.other.getPipe().getBlockPos()) : Collections.emptyList();
     }
 
     @Override
     public boolean canTransfer(ElementType type, ConnectionType connection) {
-        tryLink();
-
-        return this.other != null;
+       return getOther() != null;
     }
 
     @Override
@@ -142,16 +146,42 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
         var pos = pipe.getBlockPos().mutable();
         var direction = this.getDirection();
         var opposite = direction.getOpposite();
-        int range = ECConfig.SERVER.elementBeamRange.get();
+        int range = Math.round((runeHandler.getBonus(Rune.BonusType.RANGE) + 1) * ECConfig.SERVER.elementBeamRange.get());
 
         for (int i = 0; i < range; i++) {
-            var transferer = level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pos.move(direction), opposite);
+            var transferer = level.getCapability(ElementalCraftCapabilities.ElementTransferers.BLOCK, pos.move(direction), opposite);
 
             if (transferer instanceof ElementPipeTransferer elementPipeTransferer && elementPipeTransferer.getUpgrade(opposite) instanceof ElementBeamPipeUpgrade elementBeamPipeUpgrade) {
                 return Optional.of(elementBeamPipeUpgrade);
             }
         }
         return Optional.empty();
+    }
+
+    private ElementBeamPipeUpgrade getOther() {
+        if (this.other == null || !this.other.getPipe().isRemoved()) {
+            this.other = null;
+            this.tryLink();
+        }
+        return this.other;
+    }
+
+    public RuneHandler getRuneHandler() {
+        return runeHandler;
+    }
+
+    @Override
+    public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+        super.loadAdditional(compound, provider);
+        if (compound.contains(ECNames.RUNE_HANDLER)) {
+            IRuneHandler.readNBT(getRuneHandler(), compound.getList(ECNames.RUNE_HANDLER, 8));
+        }
+    }
+
+    @Override
+    public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
+        super.saveAdditional(compound, provider);
+        compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
     }
 
 }

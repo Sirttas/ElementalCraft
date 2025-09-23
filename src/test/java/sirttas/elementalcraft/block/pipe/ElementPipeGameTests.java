@@ -24,8 +24,6 @@ public class ElementPipeGameTests {
 
     public static final String GROUP = "level.blocks.pipe";
 
-
-    // elementalcraft:elementpipegametests.shouldnot_transferabovemax
     @TestHolder(description = "Checks if the pipe does not transfer above max.")
     @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementpipegametests.shouldnot_transferabovemax")
     public static void shouldNot_transferAboveMax(GameTestHelper helper) {
@@ -38,7 +36,6 @@ public class ElementPipeGameTests {
                 .thenSucceed();
     }
 
-    // elementalcraft:elementpipegametests.should_transfertomultiplestorages
     @TestHolder(description = "Checks if the pipe transfers to multiple storages in the same tick.")
     @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementpipegametests.should_transfertomultiplestorages")
     public static void should_transferToMultipleStorages(GameTestHelper helper) {
@@ -120,7 +117,7 @@ public class ElementPipeGameTests {
         })).thenSucceed();
     }
 
-    private static ISingleElementStorage getElementStorage(GameTestHelper helper, int x, int y, int z) {
+    public static ISingleElementStorage getElementStorage(GameTestHelper helper, int x, int y, int z) {
         var be = helper.getBlockEntity(new BlockPos(x, y, z));
 
         assertThat(be).isNotNull().isInstanceOf(ElementContainerBlockEntity.class);

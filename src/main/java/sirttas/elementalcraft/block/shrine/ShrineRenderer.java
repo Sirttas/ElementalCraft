@@ -11,6 +11,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.tag.ECTags;
@@ -46,27 +47,33 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements Bloc
 		var iterator = List.of(player.getMainHandItem(), player.getOffhandItem()).iterator();
 		boolean wasRendered = false;
 
-		while(iterator.hasNext() && !wasRendered) {
+		while (iterator.hasNext() && !wasRendered) {
 			var stack = iterator.next();
+			var upgrade = stack.getCapability(ElementalCraftCapabilities.ShrineUpgrades.ITEM);
 
-			if (stack.getItem() instanceof BlockItem blockItem && stack.is(ECTags.Items.SHRINE_UPGRADES)) {
-				var block = blockItem.getBlock();
+			if (upgrade == null || !(stack.getItem() instanceof BlockItem blockItem) || !stack.is(ECTags.Items.SHRINE_UPGRADES)) {
+				continue;
+			}
 
-				for (var direction : shrine.getUpgradeDirections()) {
-					var upgradePos = pos.relative(direction);
+			var block = blockItem.getBlock();
 
-					if (level.getBlockState(upgradePos).isAir()) {
-						var state = block.getStateForPlacement(new DirectionalPlaceContext(level, upgradePos, direction.getOpposite(), stack, direction));
+			for (var direction : shrine.getUpgradeDirections()) {
+				var upgradePos = pos.relative(direction);
 
-						if (state != null && state.canSurvive(level, upgradePos)) {
-							poseStack.pushPose();
-							poseStack.translate(direction.getStepX(), direction.getStepY(), direction.getStepZ());
-							ECRendererHelper.renderGhost(state, poseStack, bufferSource, level, upgradePos);
-							poseStack.popPose();
-							wasRendered = true;
-						}
-					}
+				if (!level.getBlockState(upgradePos).isAir() || !shrine.canReceiveUpgrade(direction, upgrade)) {
+					continue;
 				}
+
+				var state = block.getStateForPlacement(new DirectionalPlaceContext(level, upgradePos, direction.getOpposite(), stack, direction));
+
+				if (state == null || !state.canSurvive(level, upgradePos)) {
+					continue;
+				}
+				poseStack.pushPose();
+				poseStack.translate(direction.getStepX(), direction.getStepY(), direction.getStepZ());
+				ECRendererHelper.renderGhost(state, poseStack, bufferSource, level, upgradePos);
+				poseStack.popPose();
+				wasRendered = true;
 			}
 		}
 	}

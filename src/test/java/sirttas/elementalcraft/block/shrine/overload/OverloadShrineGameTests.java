@@ -5,12 +5,14 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.container.ContainerGameTestHelper;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class OverloadShrineGameTests {
 
     private static final String TEMPLATE = "elementalcraft:overloadshrinegametests.should_speedupfurnace";

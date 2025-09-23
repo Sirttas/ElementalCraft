@@ -29,15 +29,19 @@ public class ReceptacleHelper {
 			case WATER -> new ItemStack(ECBlocks.WATER_SOURCE.get());
 			case EARTH -> new ItemStack(ECBlocks.EARTH_SOURCE.get());
 			case AIR -> new ItemStack(ECBlocks.AIR_SOURCE.get());
-			case NONE -> new ItemStack(ECItems.EMPTY_RECEPTACLE);
+			case NONE ->  ItemStack.EMPTY;
 		};
 	}
 
-	public static ItemStack create(ElementType elementType, Map<Holder<SourceTrait>, ISourceTraitValue> traits) {
+	public static ItemStack create(ElementType elementType, Map<Holder<SourceTrait>, ISourceTraitValue> traits, boolean analyzed) {
 		var stack = create(elementType);
 
+		if (stack.isEmpty()) {
+			return ItemStack.EMPTY;
+		}
 		stack.set(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.from(traits));
 		stack.set(ECDataComponents.ELEMENT_AMOUNT, ReceptacleItem.getTraitHolder(stack).getCapacity());
+		stack.set(ECDataComponents.SOURCE_ANALYZED, analyzed);
 		return stack;
 	}
 }

@@ -17,6 +17,8 @@ public class MockRandomSource implements RandomSource {
     private final Deque<Double> doubles;
     private final Deque<Double> gaussians;
 
+    private Behavior behavior;
+
     public MockRandomSource() {
         this(RandomSource.create());
     }
@@ -29,6 +31,17 @@ public class MockRandomSource implements RandomSource {
         this.floats = new ArrayDeque<>();
         this.doubles = new ArrayDeque<>();
         this.gaussians = new ArrayDeque<>();
+        this.behavior = Behavior.FIFO;
+    }
+
+    public MockRandomSource fifo() {
+        this.behavior = Behavior.FIFO;
+        return this;
+    }
+
+    public MockRandomSource lifo() {
+        this.behavior = Behavior.LIFO;
+        return this;
     }
 
     @Override
@@ -51,7 +64,7 @@ public class MockRandomSource implements RandomSource {
         if (integers.isEmpty()) {
             return fallback.nextInt();
         }
-        return integers.pop();
+        return this.behavior == Behavior.FIFO ? integers.removeFirst() : integers.removeLast();
     }
 
     @Override
@@ -59,11 +72,11 @@ public class MockRandomSource implements RandomSource {
         if (integers.isEmpty()) {
             return fallback.nextInt(bound);
         }
-        return integers.pop();
+        return this.behavior == Behavior.FIFO ? integers.removeFirst() : integers.removeLast();
     }
 
     public MockRandomSource pushInt(int value) {
-        integers.push(value);
+        integers.addLast(value);
         return this;
     }
 
@@ -72,11 +85,11 @@ public class MockRandomSource implements RandomSource {
         if (longs.isEmpty()) {
             return fallback.nextLong();
         }
-        return longs.pop();
+        return this.behavior == Behavior.FIFO ? longs.removeFirst() : longs.removeLast();
     }
 
     public MockRandomSource pushLong(long value) {
-        longs.push(value);
+        longs.addLast(value);
         return this;
     }
 
@@ -85,11 +98,11 @@ public class MockRandomSource implements RandomSource {
         if (booleans.isEmpty()) {
             return fallback.nextBoolean();
         }
-        return booleans.pop();
+        return this.behavior == Behavior.FIFO ? booleans.removeFirst() : booleans.removeLast();
     }
 
     public MockRandomSource pushBoolean(boolean value) {
-        booleans.push(value);
+        booleans.addLast(value);
         return this;
     }
 
@@ -98,11 +111,11 @@ public class MockRandomSource implements RandomSource {
         if (floats.isEmpty()) {
             return fallback.nextFloat();
         }
-        return floats.pop();
+        return this.behavior == Behavior.FIFO ? floats.removeFirst() : floats.removeLast();
     }
 
     public MockRandomSource pushFloat(float value) {
-        floats.push(value);
+        floats.addLast(value);
         return this;
     }
 
@@ -111,11 +124,11 @@ public class MockRandomSource implements RandomSource {
         if (doubles.isEmpty()) {
             return fallback.nextDouble();
         }
-        return doubles.pop();
+        return this.behavior == Behavior.FIFO ? doubles.removeFirst() : doubles.removeLast();
     }
 
     public MockRandomSource pushDouble(double value) {
-        doubles.push(value);
+        doubles.addLast(value);
         return this;
     }
 
@@ -124,12 +137,16 @@ public class MockRandomSource implements RandomSource {
         if (gaussians.isEmpty()) {
             return fallback.nextGaussian();
         }
-        return gaussians.pop();
+        return this.behavior == Behavior.FIFO ? gaussians.removeFirst() : gaussians.removeLast();
     }
 
     public MockRandomSource pushGaussian(double value) {
-        gaussians.push(value);
+        gaussians.addLast(value);
         return this;
+    }
+
+    public enum Behavior {
+        FIFO, LIFO
     }
 
     private record MockPositionalRandomFactory(PositionalRandomFactory fallback) implements PositionalRandomFactory {

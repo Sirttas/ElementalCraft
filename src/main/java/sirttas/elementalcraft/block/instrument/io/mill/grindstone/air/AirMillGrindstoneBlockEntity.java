@@ -71,11 +71,10 @@ public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEnt
 		super.assemble();
 		damage++;
 		if (damage >= AirMill.getMaxDamage()) {
-			// TODO play sound
+			AirMill.renderMillBreaking(this.getLevel(), this.getBlockPos());
 			this.getBlockState().setValue(AbstractAirMillBlock.BROKEN, true);
 		}
 	}
-
 
 	@Override
 	public int getDamage() {

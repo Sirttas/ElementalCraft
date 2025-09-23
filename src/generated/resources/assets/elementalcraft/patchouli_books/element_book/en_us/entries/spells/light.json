@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:light\"]",
+  "name": "elementalcraft_spell.elementalcraft.light",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.light0"
+    }
+  ],
+  "sortnum": 5,
+  "turnin": "elementalcraft:pickup/scroll"
+}

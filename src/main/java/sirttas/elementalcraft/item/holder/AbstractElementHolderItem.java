@@ -111,7 +111,7 @@ public abstract class AbstractElementHolderItem extends Item {
 	private InteractionResult tick(Level level, LivingEntity entity, BlockPos pos, ItemStack stack) {
 		var amount = this.transferAmount.getAsInt();
 		var blockstate = level.getBlockState(pos);
-		var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, null);
+		var storage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
 
 		if (storage == null) {
 			return InteractionResult.PASS;
@@ -166,7 +166,7 @@ public abstract class AbstractElementHolderItem extends Item {
 			return Optional.empty();
 		}
 
-		var storage = stack.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM, null);
+		var storage = stack.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM, null);
 
 		if (storage == null) {
 			return Optional.empty();

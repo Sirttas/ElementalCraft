@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -39,11 +40,8 @@ public class EmptyReceptacleItem extends Item {
 			if (!level.isClientSide) {
 				spawnReceptacle(level, pos, player);
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-				if (player != null && !player.getAbilities().instabuild) {
-					player.getItemInHand(hand).shrink(1);
-					if (player.getItemInHand(hand).isEmpty()) {
-						player.setItemInHand(hand, ItemStack.EMPTY);
-					}
+				if (player != null) {
+					ECPlayerHelper.shrinkItemInHand(player, context.getItemInHand(), hand);
 				}
 			}
 			return InteractionResult.SUCCESS;

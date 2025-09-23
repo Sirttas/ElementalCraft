@@ -9,10 +9,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.synthesizer.AbstractContainerSynthesizerBlockEntity;
 import sirttas.elementalcraft.container.SingleStackContainer;
+import sirttas.elementalcraft.item.ECItems;
 
 public class SolarSynthesizerBlockEntity extends AbstractContainerSynthesizerBlockEntity {
 
@@ -36,6 +38,16 @@ public class SolarSynthesizerBlockEntity extends AbstractContainerSynthesizerBlo
 			return Math.round(synthesisMultiplier);
 		}
 		return 0;
+	}
+
+	@Override
+	protected int synthesizeElement() {
+		var amount = super.synthesizeElement();
+
+		if (amount > 0 && this.getInventory().isEmpty()) {
+			BlockEntityHelper.renderItemBreaking(this.getLevel(), this.getBlockPos(), new ItemStack(ECItems.FIRE_LENS));
+		}
+		return amount;
 	}
 
 	protected boolean isReceivingSkyLight() {

@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 
 public class FeatherSpikesSpell extends Spell {
 
-    public static final String NAME = FeatherSpike.NAME +'s';
+    public static final String NAME = FeatherSpike.NAME + 's';
 
     private final int castCount;
 

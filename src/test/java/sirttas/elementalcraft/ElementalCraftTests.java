@@ -30,6 +30,7 @@ import sirttas.elementalcraft.block.instrument.io.firefurnace.blast.FireBlastFur
 import sirttas.elementalcraft.block.instrument.io.mill.MillGameTests;
 import sirttas.elementalcraft.block.pipe.ElementPipeGameTests;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserGameTests;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 import sirttas.elementalcraft.item.chisel.ChiselGameTests;
 import sirttas.elementalcraft.item.holder.ElementHolderGameTests;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTests;
@@ -76,7 +77,7 @@ public class ElementalCraftTests {
         CrystallizerGameTests.collectTests().forEach(registrar);
         MillGameTests.collectTests().forEach(registrar);
         FireFurnaceGameTests.should_smelt().forEach(registrar);
-        FireBlastFurnaceGameTests.should_smelt().forEach(registrar);
+        FireBlastFurnaceGameTests.collectTests().forEach(registrar);
         ChiselGameTests.collectTests().forEach(registrar);
         RuneGameTests.should_dropRunes().forEach(registrar);
         ReceptacleGameTests.collectTests().forEach(registrar);
@@ -88,5 +89,6 @@ public class ElementalCraftTests {
         AirMillGameTests.collectTests().forEach(registrar);
         ContainerGameTests.should_supportARudimentaryExtractor().forEach(registrar);
         ReservoirGameTests.should_insertElementFromBothParts().forEach(registrar);
+        ShrineGameUpgradeTests.should_breakUpgradesWhenBroken().forEach(registrar);
     }
 }

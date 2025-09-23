@@ -19,7 +19,7 @@ public class JewelTestHelper {
     public static ItemStack createFullPureHolder() {
         var holder = new ItemStack(ECItems.PURE_HOLDER);
 
-        holder.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM).fill();
+        holder.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM).fill();
         return holder;
     }
 
@@ -35,7 +35,7 @@ public class JewelTestHelper {
     }
 
     public static void assertElementUsed(Player player, InteractionHand hand, ElementType elementType) {
-        var holder = player.getItemInHand(hand).getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+        var holder = player.getItemInHand(hand).getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
 
         assertThat(holder).isNotNull();
         assertThat(holder.getElementAmount(elementType))

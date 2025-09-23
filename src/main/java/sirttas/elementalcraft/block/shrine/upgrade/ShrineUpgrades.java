@@ -2,8 +2,8 @@ package sirttas.elementalcraft.block.shrine.upgrade;
 
 import net.minecraft.resources.ResourceKey;
 import sirttas.dpanvil.api.data.IDataManager;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.CapacityShrineUpgradeBlock;
@@ -63,7 +63,7 @@ public class ShrineUpgrades {
 	private ShrineUpgrades() {}
 
 	private static ResourceKey<ShrineUpgrade> createKey(String name) {
-		return IDataManager.createKey(ElementalCraft.SHRINE_UPGRADE_MANAGER_KEY, ElementalCraftApi.createRL(name));
+		return IDataManager.createKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, ElementalCraftApi.createRL(name));
 	}
 
 }

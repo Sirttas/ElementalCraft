@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.upgrade;
 
+import com.google.gson.JsonPrimitive;
 import com.mojang.datafixers.Products.P3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
@@ -7,10 +8,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.LevelReader;
 import net.neoforged.neoforge.common.util.Lazy;
+import sirttas.dpanvil.api.json.merger.BlockPredicateJsonMerger;
+import sirttas.dpanvil.api.json.merger.ForeachJsonMerger;
+import sirttas.dpanvil.api.json.merger.JsonMerger;
+import sirttas.dpanvil.api.json.merger.JsonObjectMerger;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 
@@ -21,7 +25,11 @@ import java.util.Map;
 
 public abstract class AbstractUpgrade<T> {
 
-	private ResourceLocation id;
+	public static final JsonMerger MERGER = JsonObjectMerger.builder()
+			.with(ECNames.PREDICATE, new BlockPredicateJsonMerger())
+			.with(ECNames.BONUSES, new ForeachJsonMerger((j1, j2) -> new JsonPrimitive(j1.getAsFloat() * j2.getAsFloat())))
+			.build();
+
 	private IBlockPosPredicate predicate;
 	protected int maxAmount;
 	protected final Map<T, Float> bonuses;
@@ -31,7 +39,6 @@ public abstract class AbstractUpgrade<T> {
 		this.setPredicate(predicate);
 		this.bonuses = map;
 		this.maxAmount = maxAmount;
-		this.id = null;
 	}
 
 	protected static <T extends StringRepresentable, U extends AbstractUpgrade<T>> P3<Mu<U>, IBlockPosPredicate, Map<T, Float>, Integer> codec(Instance<U> builder, Codec<T> bonusCodec) {
@@ -41,31 +48,13 @@ public abstract class AbstractUpgrade<T> {
 				Codec.INT.optionalFieldOf(ECNames.MAX_AMOUNT, 0).forGetter(u -> u.maxAmount)
 		);
 	}
-	
-	protected boolean canUpgrade(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction, int amount) {
-		return (maxAmount == 0 || amount < maxAmount) && predicate.test(level, pos, direction);
-	}
 
-	protected void merge(AbstractUpgrade<T> other) {
-		this.setPredicate(this.predicate.or(other.predicate));
-		other.bonuses.forEach((bonus, value) -> {
-			if (bonuses.containsKey(bonus)) {
-				bonuses.put(bonus, bonuses.get(bonus) * value);
-			} else {
-				bonuses.put(bonus, value);
-			}
-		});
-		if (this.maxAmount == 0) {
-			this.maxAmount = other.maxAmount;
-		}
+	public boolean canUpgrade(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction, int amount) {
+		return (maxAmount == 0 || amount < maxAmount) && predicate.test(level, pos, direction);
 	}
 	
 	public final Map<T, Float> getBonuses() {
 		return bonuses;
-	}
-
-	public ResourceLocation getId() {
-		return id;
 	}
 
 	public IBlockPosPredicate getPredicate() {
@@ -80,27 +69,4 @@ public abstract class AbstractUpgrade<T> {
 	public List<Component> getPredicateTooltip() {
 		return predicateTooltip.get();
 	}
-
-	public final void setId(ResourceLocation id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return id != null ? id.toString() : super.toString();
-	}
-
-	@Override
-	public int hashCode() {
-		return this.id != null ? this.id.hashCode() : super.hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof AbstractUpgrade && this.id != null) {
-			return this.id.equals(((AbstractUpgrade<?>) other).id);
-		}
-		return super.equals(other);
-	}
-
 }

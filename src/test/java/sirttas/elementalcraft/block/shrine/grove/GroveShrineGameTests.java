@@ -4,11 +4,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.tags.BlockTags;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class GroveShrineGameTests {
 
     private static final List<BlockPos> POSES = List.of(

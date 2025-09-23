@@ -1,11 +1,15 @@
 package sirttas.elementalcraft.api.source.trait.value;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -14,6 +18,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
@@ -21,7 +26,6 @@ import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,20 +41,39 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	private final Codec<ISourceTraitValue> valueCodec;
 	private final StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec;
 
-	public static Builder builder() {
-		return new Builder();
+	public static Builder builder(String translationPrefix) {
+		return new Builder(translationPrefix);
 	}
 
-	@SuppressWarnings("SuspiciousMethodCalls")
-	private StepsSourceTraitValueProvider(Collection<Step> steps) {
+	private StepsSourceTraitValueProvider(List<Step> steps) {
 		this.steps = ImmutableList.copyOf(steps);
-		this.valueCodec = Codec.INT.xmap(this.steps::get, this.steps::indexOf);
-		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.INT, this.steps::indexOf, this.steps::get);
+		this.valueCodec = new Codec<>() {
+            @Override
+            public <T> DataResult<Pair<ISourceTraitValue, T>> decode(DynamicOps<T> ops, T input) {
+				var result = Codec.STRING.decode(ops, input);
+
+				if (result.isSuccess()) {
+					return result.map(p -> p.mapFirst(f -> findStep(f)));
+				}
+				return  Codec.INT.decode(ops, input).map(p -> p.mapFirst(f -> getStep(f)));
+            }
+
+            @Override
+            public <T> DataResult<T> encode(ISourceTraitValue input, DynamicOps<T> ops, T prefix) {
+                return input instanceof Step step ? Codec.STRING.encode(step.name(), ops, prefix) : DataResult.error(() -> "Value must be a Step");
+            }
+        };
+		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, v -> {
+			if (v instanceof Step step) {
+				return step.name();
+			}
+			throw new IllegalArgumentException("Value must be a Step");
+		}, this::findStep);
 	}
-	
+
 	@Override
 	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
-		return roll(context.random(), context.luck(), steps.stream()
+		return rollStep(context.random(), context.luck(), steps.stream()
 				.filter(s -> s.predicate().test(level, pos, null))
 				.toList());
 	}
@@ -65,13 +88,13 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 			var b1 = step1.breedIndex();
 			var b2 = step2.breedIndex();
 
-			return createStep(random, luck, getMin(b1, b2), getMax(b1, b2));
+			return rollStep(random, luck, getMin(b1, b2), getMax(b1, b2));
 		} else if (value1 instanceof Step step) {
-			return createStep(random, luck, step);
+			return rollStep(random, luck, step);
 		} else if (value2 instanceof Step step) {
-			return createStep(random, luck, step);
+			return rollStep(random, luck, step);
 		}
-		return createStep(random, luck, -1, 1);
+		return rollStep(random, luck, -1, 1);
 	}
 
 	private int getMin(int b1, int b2) {
@@ -94,22 +117,41 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		}
 	}
 
-	@Nullable
-	private Step createStep(RandomSource random, float luck, Step step) {
-		var index = step.breedIndex();
+	@Deprecated
+	private Step getStep(int stepIndex) {
+		if (stepIndex < 0 || stepIndex >= steps.size()) {
+			throw new IllegalArgumentException("Step index: " + stepIndex + " out of range (0, " + steps.size() + ")");
+		}
+		var step =  this.steps.get(stepIndex);
 
-		return createStep(random, luck, index - 1, index + 1);
+        ElementalCraftApi.LOGGER.debug("Step loaded from index: {}", stepIndex);
+		return step;
 	}
 
 	@Nullable
-	private Step createStep(RandomSource random, float luck, int min, int max) {
-		return roll(random, luck, steps.stream()
+	private Step findStep(String name) {
+		return steps.stream()
+				.filter(s -> s.name().equals(name))
+				.findFirst()
+				.orElse(null);
+	}
+
+	@Nullable
+	private Step rollStep(RandomSource random, float luck, Step step) {
+		var index = step.breedIndex();
+
+		return rollStep(random, luck, index - 1, index + 1);
+	}
+
+	@Nullable
+	private Step rollStep(RandomSource random, float luck, int min, int max) {
+		return rollStep(random, luck, steps.stream()
 				.filter(s -> s.breedIndex() >= min && s.breedIndex() <= max)
 				.toList());
 	}
 
 	@Nullable
-	private Step roll(RandomSource random, float luck, List<Step> list) {
+	private Step rollStep(RandomSource random, float luck, List<Step> list) {
 		var bound = list.stream()
 				.mapToInt(s -> s.weight(luck))
 				.sum();
@@ -141,7 +183,11 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 
 	@Override
 	public ISourceTraitValue load(Tag tag) {
-		return tag instanceof IntTag intTag && intTag.getAsInt() >= 0 && intTag.getAsInt() < steps.size() ? steps.get(intTag.getAsInt()) : null;
+		return switch (tag) {
+			case IntTag intTag -> getStep(intTag.getAsInt()); // TODO 1.22 remove
+			case StringTag stringTag -> findStep(stringTag.getAsString());
+			case null, default -> null;
+		};
 	}
 
 	@Override
@@ -160,27 +206,48 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	}
 
 	public static class Builder implements ISourceTraitValueProviderBuilder {
-		
+
+		private final String translationPrefix;
 		private final List<Step> steps;
 		
-		private Builder() {
-			steps = new ArrayList<>();
-		}
-		
-		public Builder step(String translationKey, int weight, Map<SourceTrait.Type, Float> values, int breedIndex) {
-			return step(translationKey, weight, values, breedIndex, IBlockPosPredicate.any());
+		private Builder(String translationPrefix) {
+            this.translationPrefix = translationPrefix;
+            steps = new ArrayList<>();
 		}
 
-		public Builder step(String translationKey, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex) {
-			return step(translationKey, weight, luckRatio, values, breedIndex, IBlockPosPredicate.any());
+		public Builder step(String name, int weight, Map<SourceTrait.Type, Float> values, int breedIndex) {
+			return step(name, weight, values, breedIndex, IBlockPosPredicate.any());
 		}
 
-		public Builder step(String translationKey, int weight, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
-			return step(translationKey, weight, 1, values, breedIndex, predicate);
+		public Builder step(String name, String translationKey, int weight, Map<SourceTrait.Type, Float> values, int breedIndex) {
+			return step(name, translationKey, weight, values, breedIndex, IBlockPosPredicate.any());
 		}
 
-		public Builder step(String translationKey, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
-			steps.add(new Step(translationKey, weight, luckRatio, values, breedIndex, predicate));
+		public Builder step(String name, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex) {
+			return step(name, weight, luckRatio, values, breedIndex, IBlockPosPredicate.any());
+		}
+
+		public Builder step(String name, String translationKey, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex) {
+			return step(name, translationKey, weight, luckRatio, values, breedIndex, IBlockPosPredicate.any());
+		}
+
+		public Builder step(String name, int weight, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
+			return step(name, weight, 1, values, breedIndex, predicate);
+		}
+
+		public Builder step(String name, String translationKey, int weight, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
+			return step(name, translationKey, weight, 1, values, breedIndex, predicate);
+		}
+
+		public Builder step(String name, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
+			return step(name, translationPrefix + "." + name.replaceAll("_", "."), weight, luckRatio, values, breedIndex, predicate);
+		}
+
+		public Builder step(String name, String translationKey, int weight, float luckRatio, Map<SourceTrait.Type, Float> values, int breedIndex, IBlockPosPredicate predicate) {
+			if (steps.stream().anyMatch(s -> s.name().equals(name))) {
+				throw new IllegalArgumentException("Steps with the same name already exists!");
+			}
+			steps.add(new Step(name, translationKey, weight, luckRatio, values, breedIndex, predicate));
 			return this;
 		}
 		
@@ -191,6 +258,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	}
 
 	private record Step(
+			String name,
 			String translationKey,
 			int weight,
 			float luckRatio,
@@ -200,7 +268,8 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	) implements ISourceTraitValue {
 
 		public static final Codec<Step> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-				Codec.STRING.fieldOf(ECNames.NAME).forGetter(Step::translationKey),
+				Codec.STRING.fieldOf(ECNames.NAME).forGetter(Step::name),
+				Codec.STRING.fieldOf(ECNames.TRANSLATION_KEY).forGetter(Step::translationKey),
 				Codec.INT.fieldOf(ECNames.WEIGHT).forGetter(Step::weight),
 				Codec.FLOAT.optionalFieldOf(ECNames.LUCK_RATIO, 1f).forGetter(Step::luckRatio),
 				SourceTrait.Type.VALUE_CODEC.fieldOf(ECNames.VALUES).forGetter(Step::values),

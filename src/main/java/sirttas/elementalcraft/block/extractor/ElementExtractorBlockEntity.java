@@ -81,7 +81,7 @@ public class ElementExtractorBlockEntity extends AbstractECBlockEntity implement
 		var above = pos.above();
 
 		if (extractor.sourceCache == null) {
-			extractor.sourceCache = BlockCapabilityCache.create(ElementalCraftCapabilities.ElementStorage.BLOCK, (ServerLevel) level, above, Direction.DOWN, () -> !extractor.isRemoved(), () -> {});
+			extractor.sourceCache = BlockCapabilityCache.create(ElementalCraftCapabilities.ElementStorages.BLOCK, (ServerLevel) level, above, Direction.DOWN, () -> !extractor.isRemoved(), () -> {});
 		}
 
         if (!extractor.canExtract() || !(extractor.sourceCache.getCapability() instanceof SourceElementStorage sourceStorage)) {
@@ -112,7 +112,7 @@ public class ElementExtractorBlockEntity extends AbstractECBlockEntity implement
 		var sourceStorage = sourceCache != null && sourceCache.getCapability() instanceof SourceElementStorage s ? s : null;
 
 		if (sourceStorage == null) {
-			sourceStorage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, worldPosition.above(), Direction.DOWN) instanceof SourceElementStorage s ? s : null;
+			sourceStorage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, worldPosition.above(), Direction.DOWN) instanceof SourceElementStorage s ? s : null;
 		}
 
 		if (sourceStorage == null) {

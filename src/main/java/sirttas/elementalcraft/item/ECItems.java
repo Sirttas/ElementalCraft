@@ -22,6 +22,8 @@ import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
+import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlockItem;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockItem;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.SourceElementStorage;
@@ -78,7 +80,7 @@ public class ECItems {
 			.stacksTo(1)
 			.component(ECDataComponents.SPELL_LIST, SpellList.EMPTY)));
 	public static final DeferredHolder<Item, EmptyReceptacleItem> EMPTY_RECEPTACLE = register(EmptyReceptacleItem.NAME, () -> new EmptyReceptacleItem(new Item.Properties()));
-	public static final DeferredHolder<Item, SourceStabilizerItem> SOURCE_STABILIZER = register(SourceStabilizerItem.NAME, SourceStabilizerItem::new);
+	public static final DeferredHolder<Item, SourceStabilizerItem> SOURCE_STABILIZER = register(SourceStabilizerItem.NAME, () -> new SourceStabilizerItem(new Item.Properties()));
 	public static final DeferredHolder<Item, SourceAnalysisGlassItem> SOURCE_ANALYSIS_GLASS = register(SourceAnalysisGlassItem.NAME, SourceAnalysisGlassItem::new);
 	public static final DeferredHolder<Item, ElementHolderItem> FIRE_HOLDER = register(ElementHolderItem.NAME_FIRE, () -> new ElementHolderItem(ElementType.FIRE, ECProperties.Items.HOLDER));
 	public static final DeferredHolder<Item, ElementHolderItem> WATER_HOLDER = register(ElementHolderItem.NAME_WATER, () -> new ElementHolderItem(ElementType.WATER, ECProperties.Items.HOLDER));
@@ -205,7 +207,9 @@ public class ECItems {
 						case SourceBlock sourceBlock -> new ReceptacleItem(sourceBlock, new Item.Properties()
 								.stacksTo(1)
 								.component(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.EMPTY)
-								.component(ECDataComponents.ELEMENT_AMOUNT, SourceElementStorage.DEFAULT_CAPACITY));
+								.component(ECDataComponents.ELEMENT_AMOUNT, SourceElementStorage.DEFAULT_CAPACITY)
+								.component(ECDataComponents.SOURCE_ANALYZED, false));
+						case AbstractShrineUpgradeBlock shrineUpgradeBlock -> new ShrineUpgradeBlockItem(shrineUpgradeBlock, new Item.Properties());
 						default -> new BlockItem(block, new Item.Properties());
 					});
 				}

@@ -5,6 +5,7 @@ import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.elemental.ElementalItemHelper;
 
@@ -17,8 +18,6 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class CrystallizerGameTests {
 
     public static final String GROUP = "level.blocks.instruments.crystallizer";
-
-    private static final String TEMPLATE = "elementalcraft:crystallizergametests.crystallizer"; // TODO move to template generation
 
     public static Collection<Test> collectTests() {
         return List.of(
@@ -89,6 +88,6 @@ public class CrystallizerGameTests {
     }
 
     private static Test createTest(String name, String description, Consumer<ECGameTestHelper> function) {
-        return ECGameTestUtils.createTest(GROUP, name, description, TEMPLATE, function);
+        return ECGameTestUtils.createTest(GROUP, name, description, InstrumentTestTemplates.CRYSTALLIZER_TEMPLATE_NAME, function);
     }
 }

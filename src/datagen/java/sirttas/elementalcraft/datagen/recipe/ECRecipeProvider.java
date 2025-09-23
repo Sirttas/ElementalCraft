@@ -293,9 +293,9 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern(" g ")
 				.unlockedBy(HAS_DRENCHED_IRON_INGOT, has(ECTags.Items.INGOTS_DRENCHED_IRON))
 				.save(recipeOutput);
-		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECItems.SOURCE_STABILIZER.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECItems.SOURCE_STABILIZER.get(), 4)
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
-				.define('s', ECBlocks.SPRINGALINE_GLASS.get())
+				.define('s', ECBlocks.SPRINGALINE_GLASS_PANE.get())
 				.pattern("sis")
 				.pattern("i i")
 				.pattern("sis")
@@ -358,7 +358,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("hdi")
 				.pattern("iw "
 				).save(recipeOutput);
-		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECBlocks.SORTER.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ECBlocks.ORDERED_SORTER.get())
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.define('h', Blocks.HOPPER)
 				.define('d', Blocks.DISPENSER)
@@ -1561,6 +1561,10 @@ public class ECRecipeProvider extends RecipeProvider {
 		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.REPAIR)
 				.setGem(ECItems.PRISTINE_FIRE_GEM.get())
 				.setCrystal(ECItems.PURE_CRYSTAL.get())
+				.save(recipeOutput);
+		SpellCraftRecipeBuilder.spellCraftRecipe(Spells.LIGHT)
+				.setGem(Items.DIAMOND)
+				.setCrystal(ECItems.FIRE_CRYSTAL.get())
 				.save(recipeOutput);
 	}
 

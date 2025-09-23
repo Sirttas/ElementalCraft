@@ -33,7 +33,7 @@ public class LootRunes extends LootPoolSingletonContainer {
             return;
         }
 
-        var runeHandler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, be, context.getParamOrNull(ECLootContextParams.DIRECTION));
+        var runeHandler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, be, context.getParamOrNull(ECLootContextParams.DIRECTION));
 
         if (runeHandler == null) {
             return;

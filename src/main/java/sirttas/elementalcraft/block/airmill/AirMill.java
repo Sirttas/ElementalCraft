@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -26,6 +27,10 @@ public interface AirMill {
         var stack = new ItemStack(ECItems.AIR_MILL);
 
         return stack.getMaxDamage();
+    }
+
+    static void renderMillBreaking(Level level, BlockPos pos) {
+        BlockEntityHelper.renderItemBreaking(level, pos.above(), new ItemStack(ECItems.AIR_MILL));
     }
 
     static ItemInteractionResult setMill(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand) {

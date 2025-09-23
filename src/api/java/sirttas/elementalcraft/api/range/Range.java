@@ -11,6 +11,8 @@ import net.minecraft.world.phys.AABB;
 import sirttas.dpanvil.api.DPAnvilNames;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
+import sirttas.dpanvil.api.json.merger.JsonMerger;
+import sirttas.dpanvil.api.json.merger.JsonObjectMerger;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.Optional;
@@ -29,6 +31,10 @@ public record Range(
             GrowthRatio.CODEC.optionalFieldOf("growth_ratio", GrowthRatio.DEFAULT).forGetter(Range::growthRatio)
     ).apply(builder, Range::new));
     public static final Codec<Holder<Range>> HOLDER_CODEC = DataManagerCodecs.holderCodec(ElementalCraftApi.RANGE_MANAGER_KEY, CODEC);
+    public static final JsonMerger MERGER = JsonObjectMerger.builder()
+            .with("box", JsonMerger.SECOND)
+            .with("growth_ratio", JsonMerger.SECOND)
+            .build();
 
     public static Range.Builder builder() {
         return new Range.Builder(null);
@@ -57,8 +63,10 @@ public record Range(
 
     public static class Builder {
 
+        private static final String PARENT_TAG_NAME = DPAnvilNames.ResourceLocations.PARENT.toString();
+
         public static final Codec<Range.Builder> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-                ResourceLocation.CODEC.optionalFieldOf(DPAnvilNames.PARENT).forGetter(b -> Optional.ofNullable(b.parent)),
+                ResourceLocation.CODEC.optionalFieldOf(PARENT_TAG_NAME).forGetter(b -> Optional.ofNullable(b.parent)),
                 Codecs.AABB.optionalFieldOf("box").forGetter(b -> Optional.ofNullable(b.box)),
                 Codec.BOOL.optionalFieldOf("stitch", false).forGetter(b -> b.stitch),
                 GrowthRatio.CODEC.optionalFieldOf("growth_ratio", GrowthRatio.DEFAULT).forGetter(b -> b.growthRatio)

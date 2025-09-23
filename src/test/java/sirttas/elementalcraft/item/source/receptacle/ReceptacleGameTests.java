@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.item.source.receptacle;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
@@ -8,12 +9,14 @@ import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.ObjectAssert;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.assertion.Assertions;
 import sirttas.elementalcraft.block.source.SourceBlock;
+import sirttas.elementalcraft.block.source.SourceElementStorage;
+import sirttas.elementalcraft.block.source.SourceGameTestTemplates;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.source.SourceGameTestTemplates;
 import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
@@ -47,6 +50,18 @@ public class ReceptacleGameTests {
                             "Check if a player picks-up a full receptacle and a stabilizer when using an empty receptacle on it.",
                             SourceGameTestTemplates.getSourceWithStabilizerTemplate(t),
                             h -> should_pickupReceptacleAndDropStabilizer(h, t)));
+                    downstream.accept(ECGameTestUtils.createTest(
+                            GROUP,
+                            "ReceptacleGameTests.should_placeDownNewSource#" + i,
+                            "Check if a player place down a source with a full receptacle.",
+                            SourceGameTestTemplates.EMPTY_FOR_SOURCE_TEMPLATE_NAME,
+                            h -> should_placeDownNewSource(h, t)));
+                    downstream.accept(ECGameTestUtils.createTest(
+                            GROUP,
+                            "ReceptacleGameTests.should_placeDownUsedSource#" + i,
+                            "Check if a player place down a source with a partially used source in a receptacle.",
+                            SourceGameTestTemplates.EMPTY_FOR_SOURCE_TEMPLATE_NAME,
+                            h -> should_placeDownUsedSource(h, t)));
                 })
                 .toList();
     }
@@ -91,6 +106,52 @@ public class ReceptacleGameTests {
                                     .hasDataComponentSatisfying(ECDataComponents.SOURCE_TRAITS_HOLDER, h -> assertThat(h.getTraits()).isNotEmpty())
                                     .satisfies(s -> assertThat(s.getItem()).asInstanceOf(RECEPTACLE_ITEM)
                                             .satisfies(i -> assertThat(i.getElementType()).isEqualTo(elementType))));
+                }))
+                .thenExecute(player::discard)
+                .thenSucceed();
+    }
+
+    public static void should_placeDownNewSource(ECGameTestHelper helper, ElementType elementType) {
+        var pos = new BlockPos(0, 2, 0);
+        var player = helper.mockReceptaclePlayer(elementType);
+
+        helper.startSequence()
+                .thenExecute(() -> helper.useItemOn(player, pos))
+                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                    helper.assertBlockPresent(SourceBlock.findSourceBlock(elementType), pos);
+
+                    var storage = helper.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
+
+                    assertThat(storage).isNotNull();
+                    assertThat(storage.getElementAmount(elementType))
+                            .isEqualTo(SourceElementStorage.DEFAULT_CAPACITY);
+                    assertThat(storage.getElementCapacity(elementType))
+                            .isEqualTo(SourceElementStorage.DEFAULT_CAPACITY);
+                    assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).isEmpty();
+                    assertThat(player.getItemInHand(InteractionHand.MAIN_HAND)).isEmpty();
+                }))
+                .thenExecute(player::discard)
+                .thenSucceed();
+    }
+
+    public static void should_placeDownUsedSource(ECGameTestHelper helper, ElementType elementType) {
+        var pos = new BlockPos(0, 2, 0);
+        var player = helper.mockReceptaclePlayer(elementType, SourceElementStorage.DEFAULT_CAPACITY / 2);
+
+        helper.startSequence()
+                .thenExecute(() -> helper.useItemOn(player, pos))
+                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                    helper.assertBlockPresent(SourceBlock.findSourceBlock(elementType), pos);
+
+                    var storage = helper.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
+
+                    assertThat(storage).isNotNull();
+                    assertThat(storage.getElementAmount(elementType))
+                            .isEqualTo(SourceElementStorage.DEFAULT_CAPACITY / 2);
+                    assertThat(storage.getElementCapacity(elementType))
+                            .isEqualTo(SourceElementStorage.DEFAULT_CAPACITY);
+                    assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).isEmpty();
+                    assertThat(player.getItemInHand(InteractionHand.MAIN_HAND)).isEmpty();
                 }))
                 .thenExecute(player::discard)
                 .thenSucceed();

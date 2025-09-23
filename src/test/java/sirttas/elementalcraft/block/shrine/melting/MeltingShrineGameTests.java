@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
@@ -17,6 +18,7 @@ import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.function.Supplier;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class MeltingShrineGameTests {
 
     public static final String MELTING_SHRINE_TEMPLATE_NAME = "elementalcraft:melting_shrine";

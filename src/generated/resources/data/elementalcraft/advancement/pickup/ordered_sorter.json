@@ -1,0 +1,21 @@
+{
+  "parent": "elementalcraft:pickup/root",
+  "criteria": {
+    "has_ordered_sorter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elementalcraft:ordered_sorter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_ordered_sorter"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

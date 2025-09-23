@@ -12,6 +12,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 
 import javax.annotation.Nonnull;
 
@@ -42,17 +43,13 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 			stack = heldItem.copy();
 			stack.setCount(size);
-			if (!player.getAbilities().instabuild) {
-				heldItem.shrink(size);
-			}
+			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND);
 			inventory.insertItem(slot, stack, false);
 			return ItemInteractionResult.SUCCESS;
 		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
 
-			if (!player.getAbilities().instabuild) {
-				heldItem.shrink(size);
-			}
+			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND);
 			stack.grow(size);
 			return ItemInteractionResult.SUCCESS;
 		}

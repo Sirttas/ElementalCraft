@@ -2,12 +2,12 @@ package sirttas.elementalcraft.item.pipe;
 
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.component.ECDataComponents;
+import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -49,11 +49,9 @@ public class PipeUpgradeItem extends Item implements IPipeInteractingItem {
         }
         if (upgrade.canPlace(pipe.getConnection(face))) {
             pipe.setUpgrade(face, upgrade);
-            if (player != null && !player.getAbilities().instabuild) {
-                stack.shrink(1);
-                if (stack.isEmpty()) {
-                    player.setItemInHand(context.getHand(), ItemStack.EMPTY);
-                }
+
+            if (player != null) {
+                ECPlayerHelper.shrinkItemInHand(player, stack, context.getHand());
             }
             return ItemInteractionResult.SUCCESS;
         }

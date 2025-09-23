@@ -55,7 +55,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortun
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlockEntity;
-import sirttas.elementalcraft.block.sorter.SorterBlockEntity;
+import sirttas.elementalcraft.block.sorter.ordered.OrderedSorterBlockEntity;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederBlockEntity;
@@ -126,7 +126,7 @@ public class ECBlockEntityTypes {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GreaterFortuneShrineUpgradeBlockEntity>> GREATER_FORTUNE_SHRINE_UPGRADE = register(GreaterFortuneShrineUpgradeBlockEntity::new, ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TranslocationShrineUpgradeBlockEntity>> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlockEntity::new, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VortexShrineUpgradeBlockEntity>> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlockEntity::new, ECBlocks.VORTEX_SHRINE_UPGRADE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SorterBlockEntity>> SORTER = register(SorterBlockEntity::new, ECBlocks.SORTER);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OrderedSorterBlockEntity>> SORTER = register(OrderedSorterBlockEntity::new, ECBlocks.ORDERED_SORTER);
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SourceBreederBlockEntity>> SOURCE_BREEDER = register(SourceBreederBlockEntity::new, ECBlocks.SOURCE_BREEDER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SourceBreederPedestalBlockEntity>> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlockEntity::new, ECBlocks.SOURCE_BREEDER_PEDESTAL);

@@ -3,19 +3,25 @@ package sirttas.elementalcraft.item.source.analysis;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.property.ECProperties;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -37,10 +43,29 @@ public class SourceAnalysisGlassItem extends Item {
 		Player player = context.getPlayer();
 		
 		return BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class)
-				.map(source -> open(level, player, source.getTraitHolder().getTraits()))
+				.map(source -> {
+					source.setAnalyzed();
+					return open(level, player, source.getTraitHolder().getTraits());
+				})
 				.orElse(InteractionResult.PASS);
 	}
-	
+
+	@Override
+	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+		var hasBeenUsed = false;
+
+		for (var stack : player.getInventory().items) {
+			if (stack.is(ECTags.Items.FULL_RECEPTACLES) && Boolean.FALSE.equals(stack.get(ECDataComponents.SOURCE_ANALYZED))) {
+				stack.set(ECDataComponents.SOURCE_ANALYZED, true);
+				hasBeenUsed = true;
+			}
+		}
+		if (hasBeenUsed) {
+			return InteractionResultHolder.success(player.getItemInHand(usedHand));
+		}
+		return super.use(level, player, usedHand);
+	}
+
 	public InteractionResult open(Level level, Player player, Map<Holder<SourceTrait>, ISourceTraitValue> traitMap) {
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;

@@ -84,7 +84,7 @@ public class PlayerElementStorage implements IElementStorage {
 			Inventory inventory = player.getInventory();
 
 			for (int i = 0; i < inventory.getContainerSize(); i++) {
-				var storage = inventory.getItem(i).getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+				var storage = inventory.getItem(i).getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
 
 				if (storage != null && storage.usableInInventory()) {
 					storages.add(storage);
@@ -92,7 +92,7 @@ public class PlayerElementStorage implements IElementStorage {
 			}
 			if (ECInteractions.isCuriosActive()) {
 				CuriosInteractions.getHolders(player).forEach(i -> {
-					var storage = i.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+					var storage = i.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
 
 					if (storage != null && storage.usableInInventory()) {
 						storages.add(storage);

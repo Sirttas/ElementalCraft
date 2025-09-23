@@ -1,10 +1,11 @@
 package sirttas.elementalcraft.api.rune.handler;
 
-import java.util.Collections;
-import java.util.List;
-
+import net.minecraft.core.Holder;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
+
+import java.util.Collections;
+import java.util.List;
 
 public class EmptyRuneHandler implements IRuneHandler {
 
@@ -14,12 +15,12 @@ public class EmptyRuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public void addRune(Rune rune) {
+	public void addRune(Holder<Rune> rune) {
 		// nothing to do
 	}
 
 	@Override
-	public void removeRune(Rune rune) {
+	public void removeRune(Holder<Rune> rune) {
 		// nothing to do
 	}
 
@@ -29,7 +30,7 @@ public class EmptyRuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public int getRuneCount(Rune rune) {
+	public int getRuneCount(Holder<Rune> rune) {
 		return 0;
 	}
 
@@ -39,7 +40,7 @@ public class EmptyRuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public List<Rune> getRunes() {
+	public List<Holder<Rune>> getRunes() {
 		return Collections.emptyList();
 	}
 

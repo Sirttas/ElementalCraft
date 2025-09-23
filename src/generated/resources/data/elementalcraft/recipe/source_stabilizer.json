@@ -6,7 +6,7 @@
       "tag": "c:ingots/swift_alloy"
     },
     "s": {
-      "item": "elementalcraft:springaline_glass"
+      "item": "elementalcraft:springaline_glass_pane"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     "sis"
   ],
   "result": {
-    "count": 1,
+    "count": 4,
     "id": "elementalcraft:source_stabilizer"
   }
 }

@@ -13,6 +13,7 @@ import sirttas.elementalcraft.block.diffuser.DiffuserGameTests;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.melting.MeltingShrineGameTests;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeGameTests;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerGameTests;
@@ -43,6 +44,7 @@ public class RangeGameTests {
                 createTest(i++, SculkCrackingSynthesizerGameTests.SCULK_CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(8, 3, 8), new AABB(0, -5, 0, 17, 12,  17), SculkCrackingSynthesizerBlockEntity::getRange)),
                 createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 1, 1), new AABB(1, 2, 1, 2, 3, 2))),
                 createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 1, 1), new AABB(1, 2, 1, 2, 3, 2))),
+                createTest(i++, CrystalHarvestShrineUpgradeGameTests.TEMPLATE_NAME,helper -> should_haveRange(helper, new BlockPos(11, 2, 11), new AABB(6, -3, 6, 17, 8, 17))),
                 createTest(i++, "oreshrinegametests.should_mineinrange", helper -> should_haveRange(helper, new BlockPos(13, 2, 13), new AABB(1, -4, 1, 26, 2, 26))),
                 createTest(i++, "crystalgrowthshrineupgradegametests.should_growamethyst", helper -> should_haveRange(helper, new BlockPos(1, 2, 3), new AABB(-3, -2, -1, 6, 7, 8))),
                 createTest(i++, "vacuumshrinegametests.should_pullandpickup", helper -> should_haveRange(helper, new BlockPos(2, 2, 2), new AABB(-8, -4 /* TODO -8 */, -8, 13, 13, 13))),

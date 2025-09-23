@@ -12,8 +12,8 @@ import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.block.source.SourceElementStorage;
+import sirttas.elementalcraft.block.source.SourceGameTestTemplates;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.item.source.SourceGameTestTemplates;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -59,7 +59,7 @@ public class ElementHolderGameTests {
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
         var storage = helper.requireElementContainer(pos);
-        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(storage).isNotNull();
         assertThat(playerStorage).isNotNull();
@@ -79,7 +79,7 @@ public class ElementHolderGameTests {
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
         var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
-        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(storage).isNotNull();
         assertThat(playerStorage).isNotNull();
@@ -98,7 +98,7 @@ public class ElementHolderGameTests {
         var pos = new BlockPos(0, 1, 0);
         var player = holder.mockPlayer(helper);
         var sourceStorage = (SourceElementStorage) ((SourceBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
-        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(sourceStorage).isNotNull();
         assertThat(playerStorage).isNotNull();
@@ -114,7 +114,7 @@ public class ElementHolderGameTests {
         var pos = new BlockPos(0, 1, 0);
         var player = holder.mockPlayer(helper);
         var sourceStorage = (SourceElementStorage) ((SourceBlockEntity) helper.getBlockEntity(pos)).getElementStorage();
-        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+        var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(sourceStorage).isNotNull();
         assertThat(playerStorage).isNotNull();

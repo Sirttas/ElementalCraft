@@ -62,6 +62,6 @@ public class HasRunePredicate implements IRunePredicate {
 	public List<Component> getTooltip() {
 		var loc = key.location();
 
-		return List.of(Component.translatable("tooltip.elementalcraft.predicate.rune", count, Component.translatable("elementalcraft_rune." + loc.getNamespace() + "." + loc.getPath())));
+		return List.of(Component.translatable("tooltip.elementalcraft.predicate.rune", count, Component.translatable("elementalcraft.rune." + loc.getNamespace() + "." + loc.getPath())));
 	}
 }

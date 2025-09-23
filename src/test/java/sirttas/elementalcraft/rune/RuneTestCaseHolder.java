@@ -8,8 +8,8 @@ import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.extractor.ElementExtractorGameTests;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.block.instrument.io.mill.MillTestCaseHolder;
-import sirttas.elementalcraft.block.instrument.io.purifier.PurifierGameTests;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerGameTests;
 
 import java.util.List;
@@ -28,16 +28,16 @@ public record RuneTestCaseHolder(
             of(ElementExtractorGameTests.EXTRACTOR_WITH_RUNES_TEMPLATE_NAME, Runes.ZOD, Runes.ZOD),
             of(ElementExtractorGameTests.IMPROVED_EXTRACTOR_WITH_RUNES_TEMPLATE_NAME, Runes.ZOD, Runes.ZOD, Runes.ZOD),
             of(CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE_NAME, new BlockPos(6, 3, 6), Runes.TYRIA),
-            of("chiselgametests.inscriber", Runes.MEWTWO),
-            of("infusergametests.infuser", Runes.CREATIVE),
-            of("bindergametests.binder", Runes.CREATIVE),
-            of("crystallizergametests.crystallizer", Runes.CREATIVE),
-            of(PurifierGameTests.TEMPLATE, Runes.CREATIVE),
-            of("firefurnacegametests.fire_furnace", Runes.CREATIVE),
-            of("fireblastfurnacegametests.fire_blast_furnace", Runes.CREATIVE),
+            of(InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME, Runes.MEWTWO),
+            of(InstrumentTestTemplates.INFUSER_TEMPLATE_NAME, Runes.CREATIVE),
+            of(InstrumentTestTemplates.BINDER_TEMPLATE_NAME, Runes.CREATIVE),
+            of(InstrumentTestTemplates.CRYSTALLIZER_TEMPLATE_NAME, Runes.CREATIVE),
+            of(InstrumentTestTemplates.ORE_PURIFIER_TEMPLATE_NAME, Runes.CREATIVE),
+            of(InstrumentTestTemplates.FIRE_FURNACE_TEMPLATE_NAME, Runes.CREATIVE),
+            of(InstrumentTestTemplates.FIRE_BLAST_FURNACE_TEMPLATE_NAME, Runes.CREATIVE),
             of("chiselgametests.sorter_with_rune", new BlockPos(0, 1, 0), Runes.ZOD),
-            of("enchantmentliquefiergametests.should_transferenchantment", Runes.CREATIVE),
-            of("enchantmentliquefiergametests.should_transferenchantment", new BlockPos(0, 3, 0), Runes.CREATIVE),
+            of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, Runes.CREATIVE),
+            of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, new BlockPos(0, 3, 0), Runes.CREATIVE),
             of("sourcebreedergametests.source_breeder", new BlockPos(0, 1, 2), Runes.CREATIVE),
             of("pureinfusergametests.pure_infuser", new BlockPos(3, 1, 3), Runes.CREATIVE),
             of("greaterfortuneshrineupgradegametests.should_increaseoreloot", new BlockPos(12, 2, 13), Runes.TZEENTCH),

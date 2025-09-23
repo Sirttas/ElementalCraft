@@ -21,6 +21,7 @@ import sirttas.elementalcraft.spell.earth.StoneWallSpell;
 import sirttas.elementalcraft.spell.earth.TreeFallSpell;
 import sirttas.elementalcraft.spell.fire.FireBallSpell;
 import sirttas.elementalcraft.spell.fire.InfernoSpell;
+import sirttas.elementalcraft.spell.fire.LightSpell;
 import sirttas.elementalcraft.spell.flamecleave.FlameCleaveSpell;
 import sirttas.elementalcraft.spell.repair.RepairSpell;
 import sirttas.elementalcraft.spell.water.AnimalGrowthSpell;
@@ -59,6 +60,7 @@ public class Spells {
 	public static final DeferredHolder<Spell, AoeSpell> SHOCKWAVE = register("shockwave", AoeSpell::new);
 	public static final DeferredHolder<Spell, AirShieldSpell> AIR_SHIELD = register(AirShieldSpell.NAME, AirShieldSpell::new);
 	public static final DeferredHolder<Spell, RepairSpell> REPAIR = register(RepairSpell.NAME, RepairSpell::new);
+	public static final DeferredHolder<Spell, LightSpell> LIGHT = register(LightSpell.NAME, LightSpell::new);
 
 	private Spells() {}
 

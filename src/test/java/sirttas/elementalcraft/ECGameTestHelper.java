@@ -2,11 +2,13 @@ package sirttas.elementalcraft;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestInfo;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -28,10 +30,14 @@ import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.rune.RuneItem;
+import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelTestHelper;
+import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -44,6 +50,17 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
 
     public ECGameTestHelper(GameTestInfo info) {
         super(info);
+    }
+
+    public InteractionResultHolder<ItemStack> useItem(Player player) {
+        return useItem(player, InteractionHand.MAIN_HAND);
+    }
+
+    public InteractionResultHolder<ItemStack> useItem(Player player, InteractionHand hand) {
+        var level = player.level();
+        var stack = player.getItemInHand(hand);
+
+        return stack.use(level, player, hand);
     }
 
     public void useItemOn(Player player, int x, int y, int z) {
@@ -94,17 +111,47 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         return player;
     }
 
+    public Player mockPlayerWithSpell(Vec3 pos, Holder<Spell> spell) {
+        var player = makeMockPlayer(GameType.SURVIVAL);
+
+        player.moveTo(absoluteVec(pos));
+
+        var scroll = new ItemStack(ECItems.SCROLL);
+
+        SpellHelper.setSpell(scroll, spell);
+
+        player.setItemInHand(InteractionHand.MAIN_HAND, scroll);
+        player.setItemInHand(InteractionHand.OFF_HAND, JewelTestHelper.createFullPureHolder());
+        getLevel().addFreshEntity(player);
+        return player;
+    }
+
     @Nonnull
     public Player mockReceptaclePlayer() {
+        return mockReceptaclePlayer(ElementType.NONE);
+    }
+
+    @Nonnull
+    public Player mockReceptaclePlayer(ElementType type) {
+        return mockReceptaclePlayer(type, -1);
+    }
+
+    @Nonnull
+    public Player mockReceptaclePlayer(ElementType type, int elementAmount) {
         var player = makeMockPlayer();
+        var receptacle = ReceptacleGameTestHelper.createSimpleReceptacle(type);
+
+        if (elementAmount > 0) {
+            receptacle.set(ECDataComponents.ELEMENT_AMOUNT, elementAmount);
+        }
 
         player.moveTo(Vec3.atLowerCornerOf(this.testInfo.getStructureBlockPos()));
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.EMPTY_RECEPTACLE));
+        player.setItemInHand(InteractionHand.MAIN_HAND, receptacle);
         return player;
     }
 
     public IElementStorage getElementStorage(BlockPos pos) {
-        return getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, null);
+        return getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
     }
 
     public ISingleElementStorage getElementContainer(BlockPos pos) {
@@ -163,11 +210,11 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
                 .thenSucceed();
     }
 
-    public void assertRuneIs(Rune rune, ResourceKey<Rune> name) {
+    public void assertRuneIs(Holder<Rune> rune, ResourceKey<Rune> name) {
         assertRuneIs(rune, name.location());
     }
 
-    public void assertRuneIs(Rune rune, ResourceLocation name) {
+    public void assertRuneIs(Holder<Rune> rune, ResourceLocation name) {
         if (!rune.is(IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, name))) {
             throw new GameTestAssertException("Expected rune " + name + " but got " + rune);
         }
@@ -183,6 +230,6 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         if (rune == null) {
             throw new GameTestAssertException("Expected rune " + name + " but got " + stack);
         }
-        assertRuneIs(rune.value(), name);
+        assertRuneIs(rune, name);
     }
 }

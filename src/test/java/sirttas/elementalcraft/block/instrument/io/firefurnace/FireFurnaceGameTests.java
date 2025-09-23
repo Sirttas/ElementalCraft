@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.instrument.io.firefurnace;
 import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,7 +22,7 @@ public class FireFurnaceGameTests {
                         GROUP,
                         "should_smelt#" + index.getAndIncrement(),
                         "Check if the fire furnace can smelt the input item.",
-                        "firefurnacegametests.fire_furnace",
+                        InstrumentTestTemplates.FIRE_FURNACE_TEMPLATE_NAME,
                         FireFurnaceGameTests::should_smelt))
                 .toList();
     }

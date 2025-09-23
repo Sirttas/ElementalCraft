@@ -14,7 +14,7 @@ public class ElementStorageGameTestHelper {
     public static IElementStorage get(BlockEntity blockEntity) {
         assertThat(blockEntity).isNotNull();
 
-        var storage = BlockEntityHelper.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, blockEntity, null);
+        var storage = BlockEntityHelper.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, blockEntity, null);
 
         assertThat(storage).isNotNull();
 

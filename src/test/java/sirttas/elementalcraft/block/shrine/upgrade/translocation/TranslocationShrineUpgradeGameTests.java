@@ -5,14 +5,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.CropBlock;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import java.util.List;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
+@ForEachTest(groups = ShrineGameUpgradeTests.GROUP)
 public class TranslocationShrineUpgradeGameTests {
 
     private static final List<BlockPos> CROPS = List.of(
@@ -36,9 +39,9 @@ public class TranslocationShrineUpgradeGameTests {
             new BlockPos(11, 2, 6),
             new BlockPos(11, 2, 7)
     );
-    private static final String TEMPLATE = "elementalcraft:translocationshrineupgradegametests.should_growcropsaroundanchor";
+    public static final String TEMPLATE = "elementalcraft:translocationshrineupgradegametests.should_growcropsaroundanchor";
 
-    @TestHolder
+    @TestHolder(description = "Checks if the translocation shrine upgrade grows crops around the anchor")
     @GameTest(template = TEMPLATE)
     public static void should_growCropsAroundAnchor(GameTestHelper helper) {
         var upgrade = (TranslocationShrineUpgradeBlockEntity) helper.getBlockEntity(new BlockPos(5, 2, 4));

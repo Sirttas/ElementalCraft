@@ -82,7 +82,7 @@ public class Jewel implements IElementTypeProvider, ItemLike {
 		if (entity instanceof Player player && player.getAbilities().instabuild) {
 			return;
 		}
-		this.consume(entity, entity.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY, null));
+		this.consume(entity, entity.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY, null));
 	}
 
 	public void consume(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {

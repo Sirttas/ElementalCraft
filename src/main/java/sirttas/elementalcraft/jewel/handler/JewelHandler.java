@@ -47,7 +47,7 @@ public class JewelHandler implements IJewelHandler {
     }
 
     public void tick() {
-        var elementStorage = entity.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+        var elementStorage = entity.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         if (elementStorage == null) {
             elementStorage = InfiniteElementStorage.INSTANCE;
@@ -97,7 +97,7 @@ public class JewelHandler implements IJewelHandler {
     }
 
     @SubscribeEvent
-    public static void onLivingDamage(@Nonnull LivingDamageEvent.Pre event) {
+    public static void onPreLivingDamage(@Nonnull LivingDamageEvent.Pre event) {
         var source = event.getSource();
 
         if (source.is(ECTags.DamageTypes.BYPASSES_DEFENSE_JEWELS)) {
@@ -117,7 +117,7 @@ public class JewelHandler implements IJewelHandler {
     }
 
     @SubscribeEvent
-    public static void onLivingDamage(@Nonnull LivingDamageEvent.Post event) {
+    public static void onPostLivingDamage(@Nonnull LivingDamageEvent.Post event) {
         var source = event.getSource();
 
         if (source.is(ECTags.DamageTypes.BYPASSES_ATTACK_JEWELS)) {

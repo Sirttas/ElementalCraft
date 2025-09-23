@@ -65,10 +65,10 @@ public class ItemSourceTraitHolder implements ISourceTraitHolder {
                 final T errors = ops.createMap(failed.build());
 
                 return result.map(unit -> elements).setPartial(elements).mapError(e -> e + " missed input: " + errors);
-            }).map(r -> {
+            }).map(result -> {
                 var holder = new ItemSourceTraitHolder();
 
-                holder.traits.putAll(r);
+                holder.traits.putAll(result);
                 return Pair.of(holder, input);
             });
         }

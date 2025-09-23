@@ -8,10 +8,10 @@ import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.direction.FacingBlockPredicate;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.tag.ECTags;
@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<ShrineUpgrade, ShrineUpgrade.Builder> {
+public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<ShrineUpgrade, ShrineUpgradeBuilder> {
 
 	private static final IBlockPosPredicate ACCELERATION_PREDICATE = IBlockPosPredicate.match(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION)
 			.or(IBlockPosPredicate.match(ECBlocks.VACUUM_SHRINE.get()).and(new HasShrineUpgradePredicate(ShrineUpgrades.PICKUP)))
@@ -37,7 +37,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 	private static final List<ResourceKey<ShrineUpgrade>> ADVANCED_UPGRADES = List.of(ShrineUpgrades.OVERCLOCKED_ACCELERATION, ShrineUpgrades.TRANSLOCATION, ShrineUpgrades.GREATER_FORTUNE, ShrineUpgrades.OVERWHELMING_STRENGTH);
 
 	public ShrineUpgradeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
-		super(packOutput, registries, ElementalCraft.SHRINE_UPGRADE_MANAGER, ShrineUpgrade.Builder.ENCODER);
+		super(packOutput, registries, ElementalCraftApi.SHRINE_UPGRADE_MANAGER, ShrineUpgradeBuilder.ENCODER);
 	}
 
 	@Override
@@ -175,14 +175,14 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 				.cache();
 	}
 
-	protected ShrineUpgrade.Builder advancedShrineUpgrade(ResourceKey<ShrineUpgrade> key) {
+	protected ShrineUpgradeBuilder advancedShrineUpgrade(ResourceKey<ShrineUpgrade> key) {
 		return shrineUpgrade(key)
 				.max(1)
 				.incompatibleWith(ADVANCED_UPGRADES);
 	}
 
-	protected ShrineUpgrade.Builder shrineUpgrade(ResourceKey<ShrineUpgrade> key) {
-		var builder = ShrineUpgrade.builder(key);
+	protected ShrineUpgradeBuilder shrineUpgrade(ResourceKey<ShrineUpgrade> key) {
+		var builder = new ShrineUpgradeBuilder(key);
 		
 		add(key, builder);
 		return builder;

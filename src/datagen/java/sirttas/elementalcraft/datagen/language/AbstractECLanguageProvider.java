@@ -63,7 +63,7 @@ public abstract class AbstractECLanguageProvider extends LanguageProvider {
     }
 
     public void addPureOre(ResourceLocation key, String name) {
-        addTooltip(key.getNamespace() + '.' + key.getPath(), name);
+        addTooltip("pure_ore." + key.getNamespace() + '.' + key.getPath(), name);
     }
 
     public void addPureOre(String key, String name) {

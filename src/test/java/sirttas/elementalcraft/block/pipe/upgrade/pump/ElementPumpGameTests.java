@@ -3,7 +3,8 @@ package sirttas.elementalcraft.block.pipe.upgrade.pump;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
@@ -13,11 +14,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@GameTestHolder(ElementalCraftApi.MODID) // TODO move to test framework
+@ForEachTest(groups = ElementPipeGameTests.GROUP)
 public class ElementPumpGameTests {
 
-    // elementalcraft:elementpumpgametests.should_transfer2500elements
-    @GameTest(batch = ElementPipeGameTests.GROUP) // TODO move to test framework
+    @TestHolder(description = "Checks that a pipe with a pump transfer 2500 element without runes.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementpumpgametests.should_transfer2500elements")
     public static void should_transfer2500Elements(GameTestHelper helper) {
         var ticks = new AtomicInteger(0);
 
@@ -37,8 +38,8 @@ public class ElementPumpGameTests {
                 .thenSucceed();
     }
 
-    // elementalcraft:elementpumpgametests.should_transfer6250elements
-    @GameTest(batch = ElementPipeGameTests.GROUP) // TODO move to test framework
+    @TestHolder(description = "Checks that a pipe with a pump transfer 6250 element with runes.")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementpumpgametests.should_transfer6250elements")
     public static void should_transfer6250Elements(GameTestHelper helper) {
         var ticks = new AtomicInteger(0);
 

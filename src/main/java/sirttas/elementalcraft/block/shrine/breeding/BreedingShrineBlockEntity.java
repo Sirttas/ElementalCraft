@@ -71,10 +71,10 @@ public class BreedingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 		if (foodList.isEmpty()) {
 			return false;
-		} else if (foodList.get(0).getCount() >= 2) {
-			foodList.get(0).shrink(2);
+		} else if (foodList.getFirst().getCount() >= 2) {
+			foodList.getFirst().shrink(2);
 		} else if (foodList.size() >= 2) {
-			foodList.get(0).shrink(1);
+			foodList.getFirst().shrink(1);
 			foodList.get(1).shrink(1);
 		} else {
 			return false;

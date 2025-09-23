@@ -32,10 +32,14 @@ public class StructureTemplateHelper {
 
     @SafeVarargs
     public static @NotNull CompoundTag addRuneHandler(CompoundTag tag, ResourceKey<Rune>...runes) {
+        if (runes.length == 0) {
+            return tag;
+        }
+
         var handler = new RuneHandler(runes.length);
 
         for (var rune : runes) {
-            handler.addRune(ElementalCraftApi.RUNE_MANAGER.get(rune));
+            handler.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune));
         }
         tag.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(handler));
         return tag;

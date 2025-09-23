@@ -50,10 +50,18 @@ public class MultiblockPageBuilder implements PageBuilder {
 
     @Override
     public void validate(ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
-         // TODO
+        for (List<String> layer : multiblock.pattern) {
+            for (String row : layer) {
+                for (char symbol : row.toCharArray()) {
+                    if (!multiblock.mapping.containsKey(String.valueOf(symbol)) && symbol != ' ') {
+                        throw new IllegalStateException("Multiblock pattern contains undefined symbol: " + symbol);
+                    }
+                }
+            }
+        }
     }
 
-    private class Multiblock {
+    private static class Multiblock {
 
         private static final Codec<Multiblock> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                 Codec.unboundedMap(Codec.STRING, PatchouliFile.STATE_CODEC).optionalFieldOf("mapping", null).forGetter(b -> b.mapping),

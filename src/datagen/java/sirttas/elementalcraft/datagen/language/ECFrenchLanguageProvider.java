@@ -147,7 +147,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.PIPE_IMPROVED, "Conduit d'élément amélioré");
         addBlock(ECBlocks.PIPE_CREATIVE, "Conduit d'élément créatif");
         addBlock(ECBlocks.RETRIEVER, "Récupérateur de sortie d'instrument");
-        addBlock(ECBlocks.SORTER, "Trieur ordonné");
+        addBlock(ECBlocks.ORDERED_SORTER, "Trieur ordonné");
         addBlock(ECBlocks.SPELL_DESK, "Pupitre de sorcellerie");
         addBlock(ECBlocks.SOURCE_BREEDER, "Reproducteur de source");
         addBlock(ECBlocks.SOURCE_BREEDER_PEDESTAL, "Piédestal de reproducteur de source");
@@ -236,6 +236,8 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.SPRINGALINE_GLASS_PANE, "Vitre de printanite");
         addBlock(ECBlocks.SPRINGALINE_LANTERN, "Lanterne de printanite");
 
+        addBlock(ECBlocks.ELEMENTAL_EMBER, "Braise Elementaire");
+
         addSpell(Spells.NONE, "");
         addSpell(Spells.GRAVEL_FALL, "Chute de gravier");
         addSpell(Spells.STONE_WALL, "Mur de pierre");
@@ -255,6 +257,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addSpell(Spells.SHOCKWAVE, "Onde de choc");
         addSpell(Spells.AIR_SHIELD, "Bouclier d'air");
         addSpell(Spells.REPAIR, "Réparation");
+        addSpell(Spells.LIGHT, "Lumière");
 
         addSpell(Spells.HEAL, "Guérison");
         addSpell(Spells.SPEED, "Vitesse");
@@ -352,8 +355,9 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         add("elementalcraft.jei.source_breeding", "Reproduction de source");
         add("elementalcraft.jei.displacement", "Déplacement d'élément");
 
-        addTooltip("do_not_use", "Objet fonctionnel, NE PAS UTILISER!!!");
+        addTooltip("do_not_use", "§cObjet fonctionnel, NE PAS UTILISER!!!");
 
+        addTooltip("source.unanalyzed", "§cNon analysé");
         addTooltip("infused.single", "%s infusé (%s)");
         addTooltip("infused", "%s infusé");
         addTooltip("enchantment_infused", "%s +%d");
@@ -374,9 +378,9 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addTooltip("optional", "Optionnel");
         addTooltip("staff.range", "Augmente légèrement la portée des sorts");
 
-        addTooltip("elementalcraft.pure_ore", "Fragment de %s pur");
-        addTooltip("elementalcraft.pure_ore.id", "Minerai : %s");
-        addTooltip("elementalcraft.pure_ore.colors", "Couleurs : %s, %s, %s");
+        addTooltip("pure_ore", "Fragment de %s pur");
+        addTooltip("pure_ore.id", "Minerai : %s");
+        addTooltip("pure_ore.colors", "Couleurs : %s, %s, %s");
         addPureOre("iron", "Fragment de minerai de fer pur");
         addPureOre("copper", "Fragment de minerai de cuivre pur");
         addPureOre("gold", "Fragment de minerai d'or pur");
@@ -626,16 +630,16 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("pure_infuser", "L'$(item)Infuseur Pur$() est l'outil de fabrication le plus puissant. Il utilise des $(item)pédestaux$() pour canaliser les quatre $(thing)éléments$() en un seul objet.$(br)Pour fonctionner, il doit être entouré de chacun des quatre $(item)pédestaux$(), chacun étant fourni avec le $(thing)élément$() correct en utilisant des $(ec:pipe)tuyaux améliorés$().$(br)Une fois cette configuration effectuée, vous pouvez commencer à fabriquer en mettant l'$(item)ingrédient$() correct sur chaque $(thing)pédestal$() et l'ingrédient principal sur l'$(thing)infuseur pur$().$(br2)Peut être amélioré avec jusqu'à trois $(ec:rune)Runes$() et une pour les pédestaux.");
 
         addPatchouliPages("sources",
-                "$(thing)Sources$() sont des points naturels où les $(thing)éléments$() convergent.$(br2)Il est fortement recommandé d'explorer un peu et de trouver au moins une $(thing)source$() pour chaque $(thing)élément$().$(br2)Faites attention cependant, car si vous extrayez trop d'éléments d'une source, elle entrera dans un état de récupération. Dans cet état, vous ne pouvez plus extraire de la source jusqu'à ce qu'elle récupère complètement sa capacité.$(br)Il est également recommandé de marquer leurs emplacements pour les retrouver plus facilement lorsque vous en aurez besoin.",
+                "$(thing)Les sources$() sont des points naturels où les $(thing)éléments$() convergent.$(br2)Il est fortement recommandé d'explorer un peu et de trouver au moins une $(thing)source$() pour chaque $(thing)élément$().$(br)Il est également conseillé de marquer leur emplacement pour les retrouver plus facilement lorsque vous en aurez besoin, en utilisant une $(l:sources/empty_receptacle)réceptacle$() vous serais par la suite capable de les déplacer.$(br2)Les sources ont une quantité limitée d'élément et finiront par s'épuiser. Plus tard, grâce à un $(l:sources/source_breeder)reproducteur de sources$(), vous pourrez créer de nouvelles sources à partir de celles que vous possédez",
                 "$(thing)Sources$() ont une affinité naturelle pour différents biomes ou zones du monde.$(br)Le $(thing)Feu$() se trouve dans les biomes secs et dans le Nether.$(br)L'$(thing)Eau$() se trouve dans les biomes humides et au-dessus des plans d'eau.$(br)La $(thing)Terre$() se trouve dans les biomes rocheux et sous terre.$(br)L'$(thing)Air$() se trouve au-dessus des biomes élevés ou des plaines, dans le ciel et dans l'End.",
                 "Une $(thing)Source d'Air$() trouvée naturellement.");
         addPatchouliPages("source_traits",
                 "Les $(thing)traits de source$() sont un ensemble de caractéristiques qui définissent le comportement des $(ec:source)sources$(). Cela affecte des choses comme la quantité qu'elles peuvent contenir ou la vitesse à laquelle elles se rétablissent. Vous pouvez voir les traits de source en utilisant un $(l:sources/source_analysis_glass)verre d'analyse de source$().",
                 "La $(thing)Capacité$() : La capacité élémentaire de la source, plus la capacité est grande, plus il faudra de temps pour épuiser et reconstituer la source.$(br)$(e)Diurne$() : Vitesse de récupération augmentée pendant la journée, vitesse de récupération diminuée pendant la nuit.$(br)$(1)Nocturne$() : Vitesse de récupération augmentée pendant la nuit, vitesse de récupération diminuée pendant la journée.",
                 "$(9)Généreux$() : Vitesse d'extraction augmentée de la source.$(br)$(c)Égoïste$() : Vitesse d'extraction diminuée de la source.$(br)$(9)Économe$() : Perte d'élément diminuée lors de l'extraction de la source.$(br)$(c)Gaspilleur$() : Perte d'élément augmentée lors de l'extraction de la source.$(br)$(9)Fertile$() : Coût en élément réduit des $(l:sources/source_seeds)graines de source$().");
-        addPatchouliPages("source_analysis_glass", "Le $(item)Verre d'Analyse de Source$() peut être utilisé pour analyser les $(ec:source)sources$(). Il vous montrera quels $(ec:source_traits)traits$() la source possède.$(br)Chaque analyse consommera un $(l:basics/springaline)éclat de printanite$() de votre inventaire, vous devez donc en avoir au moins un. Vous pouvez soit analyser une source en cliquant dessus avec le verre, soit depuis un réceptacle en le plaçant dans le slot en haut à droite de l'interface d'analyse.");
+        addPatchouliPages("source_analysis_glass", "Le $(item)verre d'analyse de source$() peut être utilisé pour analyser les $(ec:source)sources$(). Il affichera les $(ec:source_traits)caractéristiques$() de la source.$(br)Vous pouvez soit analyser une source en faisant un clic droit dessus avec le verre, soit faire un clic droit sur le verre pour analyser toutes les sources dans votre inventaire.");
         addPatchouliPages("empty_receptacle", "Le $(item)Réceptacle de Source$() est un outil puissant qui vous permet de déplacer les $(ec:source)sources$().$(br)En l'utilisant sur une source, vous pouvez la ramasser, puis la replacer où vous le souhaitez. Cela consommera le réceptacle.");
-        addPatchouliPages("source_stabilizer", "Le $(item)stabilisateur de source$() est un objet qui peut être utilisé sur les $(ec:source)sources$(). Il empêche qu'elles soient remplacées par des blocs. Il augmente également légèrement la vitesse de récupération de la source.");
+        addPatchouliPages("source_stabilizer", "Le $(item)stabilisateur de source$() est un objet qui peut être utilisé sur les $(ec:source)sources$(). Il empêche qu'elles soient remplacées par des blocs. Il augmente également légèrement la vitesse de récupération de la source.$(br)Vous pouvez également placer un $(l:advanced/instrument_retriever)récupérateur() sur un $(ec:extractor)extracteur$() pour récupérer le stabilisateur une fois la source épuisée.");
         addPatchouliPages("source_breeder", "Le $(item)reproducteur de source$() est l'outil le plus puissant qui peut agir sur les $(ec:source)sources$(). Il a la capacité de créer de nouvelles sources à partir de celles existantes. La source créée héritera des $(ec:source_traits)traits$() des sources parentes.$(br)Il a besoin d'une $(l:sources/source_seeds)graine de source$() pour créer une nouvelle source.$(br2)Peut être amélioré avec jusqu'à trois $(ec:rune)Runes$() et une pour les piédestaux.");
         addPatchouliPages("source_seeds", "Les $(item)graines de source$() sont utilisées dans le $(l:sources/source_breeder)reproducteur de source$() pour créer de nouvelles $(ec:source)sources$().");
 
@@ -672,14 +676,14 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("cover_frame", "Le $(item)cadre de couverture de tuyau$() vous permet de cacher un $(ec:pipe)tuyau$() derrière un bloc. Utilisez-le sur un tuyau (de préférence en étant accroupi), puis cliquez dessus avec le bloc que vous souhaitez utiliser pour le cacher.$(br)Vous pouvez cacher les cadres et montrer les tuyaux en tenant un tuyau, un cadre ou en ayant une main vide.");
         addPatchouliPages("pipe_priority_rings", "Les $(item)anneaux de priorité de tuyau$() sont une amélioration que vous pouvez mettre sur une section de $(ec:pipe)tuyau$() pour encourager le flux d'$(thing)éléments$() dans une direction spécifique.");
         addPatchouliPages("element_valve", "La $(item)valve d'élément$() est une amélioration que vous pouvez mettre sur une section de $(ec:pipe)tuyau$() pour ne laisser passer les $(thing)éléments$() que lorsqu'elle reçoit un signal de redstone.");
-        addPatchouliPages("element_beam", "Le $(item)faisceau d'élément$() est une amélioration que vous pouvez mettre sur deux sections de $(ec:pipe)tuyau$() se faisant face, permettant le transfert d'éléments entre elles sur une courte distance.");
-        addPatchouliPages("element_pump", "La $(item)pompe à élément$() est une amélioration que vous pouvez mettre sur une section d'extraction de $(ec:pipe)tuyau$() pour améliorer considérablement sa vitesse d'extraction au prix de gaspiller une partie des éléments transférés.$(br2)Peut être améliorée avec jusqu'à trois $(ec:rune)Runes$() de vitesse uniquement.");
+        addPatchouliPages("element_beam", "Le $(item)faisceau d'élément$() est une amélioration que vous pouvez mettre sur deux sections de $(ec:pipe)tuyau$() se faisant face, permettant le transfert d'éléments entre elles sur une courte distance.$(br2)Peut être améliorée avec une $(ec:rune)Runes$() de portée uniquement.");
+        addPatchouliPages("element_pump", "La $(item)pompe à élément$() est une amélioration que vous pouvez mettre sur une section d'extraction de $(ec:pipe)tuyau$() pour améliorer considérablement sa vitesse d'extraction au prix de gaspiller une partie des éléments transférés.$(br2)Peut être améliorée avec jusqu'à trois $(ec:rune)Runes$().");
 
         addPatchouliPages("element_holders", "$(item)Les Porte-Éléments$() peuvent contenir des $(thing)éléments$() pour le transport ou pour l'utilisation par des $(thing)sorts$().$(br)Pour les remplir, maintenez le clic droit sur une $(ec:source)source$() du même type d'$(thing)élément$(). Vous pouvez également transférer des $(thing)éléments$() vers un récepteur en maintenant le clic droit dessus.");
         addPatchouliPages("purerock", "$(item)La Roche Pure$() est une pierre extrêmement solide capable de résister à certaines des explosions les plus puissantes, même à un $(thing)Wither$().");
         addPatchouliPages("instrument_retriever", "Le $(item)Récupérateur de Sortie d'Instrument$() est une machine finement réglée qui peut interagir avec des $(thing)instruments$() et gérer leur sortie par elle-même, vous permettant d'extraire leur sortie lors de l'artisanat et de la stocker dans un $(item)coffre$(), par exemple.$(br2)Vous pouvez réorienter son entrée et sa sortie en cliquant avec le bouton droit.");
         addPatchouliPages("elemental_firefuel", "Le $(item)Carburant Élémentaire$() est une forme avancée de carburant qui ne se consomme pas s'il n'y a rien à cuire.");
-        addPatchouliPages("sorter", "Le $(item)Trieur Ordonné$() utilise les propriétés avancées de l'alliage rapide pour insérer des objets spécifiques dans un ordre spécifique dans n'importe quel $(thing)instrument$() ou $(thing)coffre$().$(br)Vous pouvez ajouter un nouvel objet à la liste de l'ordre en cliquant avec le bouton droit sur la partie centrale.$(br)Vous pouvez réorienter son entrée et sa sortie en cliquant avec le bouton droit.$(br2)Peut être amélioré avec jusqu'à trois $(ec:rune)Runes$() de vitesse uniquement.");
+        addPatchouliPages("ordered_sorter", "Le $(item)Trieur Ordonné$() utilise les propriétés avancées de l'alliage rapide pour insérer des objets spécifiques dans un ordre spécifique dans n'importe quel $(thing)instrument$() ou $(thing)coffre$().$(br)Vous pouvez ajouter un nouvel objet à la liste de l'ordre en cliquant avec le bouton droit sur la partie centrale.$(br)Vous pouvez réorienter son entrée et sa sortie en cliquant avec le bouton droit.$(br2)Peut être amélioré avec jusqu'à trois $(ec:rune)Runes$() de vitesse uniquement.");
         addPatchouliPages("runes", "$(thing)Les Runes$() sont infusées de pouvoir élémentaire qui peut être transféré aux $(thing)instruments$() pour améliorer leurs propriétés.$(br)Elles sont créées en utilisant un $(l:instruments/inscriber)inscripteur$() et un ciseau.$(br)Vous pouvez simplement les ajouter en cliquant avec le bouton droit sur l'instrument avec la rune, et les retirer soit avec un ciseau soit en cassant l'instrument.");
         addPatchouliPages("pure_element_holder", "Le $(item)Porte-Élément Pur$() est une version améliorée du $(ec:holder)porte-élément$(). Il peut stocker les quatre $(thing)éléments$() à la fois et en bien plus grande quantité.");
 
@@ -762,6 +766,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("air_shield", "Canalise l'air devant vous pour bloquer les projectiles et les coups (comme un bouclier). $(br)Ce sort est canalisé, vous devez maintenir le clic droit pour le lancer.$(br)Consomme de l'$(thing)élément d'air$() d'un $(ec:holder)porteur d'élément$().");
         addPatchouliPages("shockwave", "Repousse et inflige des dégâts aux monstres autour de vous.$(br)Consomme de l'$(thing)élément d'air$() d'un $(ec:holder)porteur d'élément$().");
         addPatchouliPages("repair", "Répare l'objet dans votre autre main, vous devez cibler un bloc pour que l'enclume puisse apparaître dessus.$(br)Ce sort est canalisé, vous devez maintenir le clic droit pour le lancer.$(br)Consomme de l'$(thing)élément de feu$() d'un $(ec:holder)porteur d'élément$().");
+        addPatchouliPages("light", "Créer une source de lumiére a l'endroit visé.$(br)Consomme de l'$(thing)élément de feu$() d'un $(ec:holder)porteur d'élément$().");
 
         addPatchouliPages("salmon", "Le $(item)joyau du saumon$() vous permet de respirer sous l'eau.$(br)Consomme de l'$(thing)élément d'eau$() d'un $(ec:holder)porteur d'élément$().");
         addPatchouliPages("phoenix", "Le $(item)joyau du phénix$() vous rend invulnérable au feu et le feu vous soigne.$(br)Consomme de l'$(thing)élément de feu$() d'un $(ec:holder)porteur d'élément$().");

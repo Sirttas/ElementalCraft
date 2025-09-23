@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.component;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
@@ -62,6 +63,9 @@ public class ECDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemSourceTraitHolder>> SOURCE_TRAITS_HOLDER = register(ECNames.SOURCE_TRAITS_HOLDER, b -> b
             .persistent(ItemSourceTraitHolder.CODEC)
             .networkSynchronized(ItemSourceTraitHolder.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SOURCE_ANALYZED = register("source_analyzed", b -> b
+            .persistent(Codec.BOOL)
+            .networkSynchronized(ByteBufCodecs.BOOL));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> AIR_MILL_DAMAGE = register("air_mill_damage", b -> b
             .persistent(ExtraCodecs.NON_NEGATIVE_INT)
             .networkSynchronized(ByteBufCodecs.VAR_INT));

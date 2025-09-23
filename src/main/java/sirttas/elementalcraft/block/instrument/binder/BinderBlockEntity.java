@@ -20,12 +20,13 @@ import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class BinderBlockEntity extends AbstractInstrumentBlockEntity<MultipleItemsSingleElementRecipeInput, AbstractBindingRecipe> implements IBinder {
 
 	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(BinderBlock.NAME);
 	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
-
+	private static final int MAX_INVENTORY_SIZE = 20;
 	private final InstrumentContainer inventory;
 
 	public BinderBlockEntity(BlockPos pos, BlockState state) {
@@ -34,7 +35,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<MultipleIte
 
 	protected BinderBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, properties, pos, state);
-		inventory = new InstrumentContainer(this::setChanged, 20);
+		inventory = new InstrumentContainer(this::setChanged, MAX_INVENTORY_SIZE);
 		particleOffset = new Vec3(0, 0.2, 0);
 	}
 
@@ -50,30 +51,13 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<MultipleIte
 	}
 
 	@Override
-	protected void assemble() {
-		var remainingItem = recipe.getRemainingItems(createRecipeInput()).getFirst();
-
-		super.assemble();
-		if (!remainingItem.isEmpty()) {
-			for (int i = 0; i < inventory.getContainerSize(); i++) {
-				if (inventory.getItem(i).isEmpty()) {
-					inventory.setItem(i, remainingItem);
-					break;
-				}
-			}
-		}
-	}
-	@Override
 	protected void setRemainingItems(NonNullList<ItemStack> remainingItems) {
-		var targetIndex = 1;
+		var list = remainingItems.stream()
+				.filter(s -> !s.isEmpty())
+				.collect(Collectors.toList());
 
-        for (var stack : remainingItems) {
-            if (targetIndex >= 20) {
-                return;
-            }
-            if (!stack.isEmpty()) {
-                inventory.setItem(targetIndex++, stack);
-            }
+        for (var targetIndex = 1; targetIndex < MAX_INVENTORY_SIZE; targetIndex++) {
+			inventory.setItem(targetIndex, list.isEmpty() ? ItemStack.EMPTY : list.removeFirst());
         }
 	}
 
