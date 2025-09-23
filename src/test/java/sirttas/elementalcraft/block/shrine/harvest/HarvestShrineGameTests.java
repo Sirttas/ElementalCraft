@@ -5,11 +5,13 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class HarvestShrineGameTests {
     public static final List<BlockPos> POSES = List.of(
             new BlockPos(1, 2, 1),

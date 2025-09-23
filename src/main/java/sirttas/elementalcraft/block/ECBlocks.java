@@ -84,7 +84,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinatio
 import sirttas.elementalcraft.block.shrine.upgrade.vertical.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.vacuum.VacuumShrineBlock;
-import sirttas.elementalcraft.block.sorter.SorterBlock;
+import sirttas.elementalcraft.block.sorter.ordered.OrderedSorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederBlock;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlock;
@@ -150,7 +150,7 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, ElementPipeBlock> PIPE_IMPROVED = register(ElementPipeBlock.NAME_IMPROVED, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.IMPROVED, ECProperties.Blocks.PIPE));
 	public static final DeferredHolder<Block, ElementPipeBlock> PIPE_CREATIVE = register(ElementPipeBlock.NAME_CREATIVE, () -> new ElementPipeBlock(ElementPipeBlock.PipeType.CREATIVE, ECProperties.Blocks.PIPE));
 	public static final DeferredHolder<Block, RetrieverBlock> RETRIEVER = registerDefault(RetrieverBlock.NAME, RetrieverBlock::new);
-	public static final DeferredHolder<Block, SorterBlock> SORTER = registerNoOcclusion(SorterBlock.NAME, SorterBlock::new);
+	public static final DeferredHolder<Block, OrderedSorterBlock> ORDERED_SORTER = registerNoOcclusion(OrderedSorterBlock.NAME, OrderedSorterBlock::new);
 	public static final DeferredHolder<Block, SpellDeskBlock> SPELL_DESK = registerDefault(SpellDeskBlock.NAME, SpellDeskBlock::new);
 	public static final DeferredHolder<Block, FirePylonBlock> FIRE_PYLON = registerNoOcclusion(FirePylonBlock.NAME, FirePylonBlock::new);
 	public static final DeferredHolder<Block, VacuumShrineBlock> VACUUM_SHRINE = registerNoOcclusion(VacuumShrineBlock.NAME, VacuumShrineBlock::new);
@@ -243,6 +243,8 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, IronBarsBlock> SPRINGALINE_GLASS_PANE = registerGlassPane(SPRINGALINE_GLASS);
 	public static final DeferredHolder<Block, Block> SPRINGALINE_LANTERN = register("springaline_lantern", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SEA_LANTERN)));
 
+	public static final DeferredHolder<Block, ElementalEmberBlock> ELEMENTAL_EMBER = register(ElementalEmberBlock.NAME, () -> new ElementalEmberBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH)));
+
 	private static <T extends Block> DeferredHolder<Block, T> register(String name, Supplier<T> block) {
 		return DEFERRED_REGISTER.register(name, block);
 	}
@@ -298,5 +300,6 @@ public class ECBlocks {
 		register.addAlias(ElementalCraftApi.createRL("solar_synthesizer"), ElementalCraftApi.createRL(SolarSynthesizerBlock.NAME));
 		register.addAlias(ElementalCraftApi.createRL("pureinfuser"), ElementalCraftApi.createRL(PureInfuserBlock.NAME));
 		register.addAlias(ElementalCraftApi.createRL("lavashrine"), ElementalCraftApi.createRL(MeltingShrineBlock.NAME));
+		register.addAlias(ElementalCraftApi.createRL("sorter"), ElementalCraftApi.createRL(OrderedSorterBlock.NAME));
 	}
 }

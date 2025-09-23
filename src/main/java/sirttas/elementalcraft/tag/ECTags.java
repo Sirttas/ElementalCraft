@@ -192,6 +192,7 @@ public class ECTags {
 		public static final TagKey<Block> RUNE_AFFECTED_RANGE = createTag("rune_affected/range");
 
 		public static final TagKey<Block> CULTIVABLE_TALL_PLANTS = createTag("cultivable_tall_plants");
+		public static final TagKey<Block> USES_SINGLE_SET_FROM_ORDERED_SORTER = createTag("uses_single_set_from_ordered_sorter");
 
 		public static final TagKey<Block> SHRINES_MELTING_LIQUIFIABLES_LAVA = createTag("shrines/melting/liquifiables/lava");
 		public static final TagKey<Block> SHRINES_MELTING_LIQUIFIABLES_WATER = createTag("shrines/melting/liquifiables/water");

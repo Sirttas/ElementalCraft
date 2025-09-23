@@ -3,7 +3,6 @@ package sirttas.elementalcraft.block.pipe.upgrade.beam;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestUtils;
@@ -16,12 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ForEachTest(groups = ElementPipeGameTests.GROUP)
-@GameTestHolder(ElementalCraftApi.MODID) // TODO move to test framework
 public class ElementBeamGameTests {
 
-    // elementalcraft:elementbeamgametests.should_transferelements
     @TestHolder(description = "Checks that a beam allow element flow.")
-    @GameTest(template = "elementalcraft:elementbeamgametests.should_transferelements")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementbeamgametests.should_transferelements")
     public static void should_transferElements(GameTestHelper helper) {
         var ticks = new AtomicInteger(0);
 
@@ -38,9 +35,8 @@ public class ElementBeamGameTests {
                 .thenSucceed();
     }
 
-    // elementalcraft:elementbeamgametests.shouldnot_transferelements_whenoutofrange
     @TestHolder(description = "Checks that a beam does not allow element flow when out of range.")
-    @GameTest(template = "elementalcraft:elementbeamgametests.shouldnot_transferelements_whenoutofrange")
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementbeamgametests.shouldnot_transferelements_when_outofrange")
     public static void shouldNot_transferElements_when_outOfRange(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecute(() -> {

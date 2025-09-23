@@ -103,7 +103,7 @@ public class Spell implements IElementTypeProvider {
 	public boolean consume(Entity caster, boolean simulate) {
 		if (!(caster instanceof Player player) || !player.getAbilities().instabuild) {
 			int consumeAmount = Math.max(1, Math.round(getConsumeAmount() * ToolInfusionHelper.getElementCostReduction(caster)));
-			var storage = caster.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+			var storage = caster.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
 			if (storage == null) {
 				return false;

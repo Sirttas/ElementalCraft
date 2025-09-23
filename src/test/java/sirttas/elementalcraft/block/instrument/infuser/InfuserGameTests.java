@@ -10,6 +10,7 @@ import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.enchantment.ECEnchantmentHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -24,8 +25,6 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class InfuserGameTests {
 
     public static final String GROUP = "level.blocks.instruments.infuser";
-
-    private static final String TEMPLATE = "elementalcraft:infusergametests.infuser"; // TODO move to template generation
 
     public static Collection<Test> collectTests() {
         return List.of(
@@ -121,6 +120,6 @@ public class InfuserGameTests {
     }
 
     private static Test createTest(String name, String description, Consumer<ECGameTestHelper> function) {
-        return ECGameTestUtils.createTest(GROUP, name, description, TEMPLATE, function);
+        return ECGameTestUtils.createTest(GROUP, name, description, InstrumentTestTemplates.INFUSER_TEMPLATE_NAME, function);
     }
 }

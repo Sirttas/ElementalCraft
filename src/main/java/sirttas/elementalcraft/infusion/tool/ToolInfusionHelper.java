@@ -5,7 +5,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import sirttas.dpanvil.api.DataPackAnvilApi;
+import sirttas.dpanvil.api.DPAnvilNames;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -28,7 +28,7 @@ import java.util.stream.StreamSupport;
 
 public class ToolInfusionHelper {
 
-	private static final Holder<ToolInfusion> NONE = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(DataPackAnvilApi.ID_NONE);
+	private static final Holder<ToolInfusion> NONE = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(DPAnvilNames.ResourceLocations.NONE);
 
 	private ToolInfusionHelper() {}
 

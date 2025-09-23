@@ -4,11 +4,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class OreShrineGameTests {
 
     private static final List<BlockPos> IN_RANGE = List.of(

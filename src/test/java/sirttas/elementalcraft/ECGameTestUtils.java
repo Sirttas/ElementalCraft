@@ -38,6 +38,10 @@ public class ECGameTestUtils {
         return new ECTest(id, group, description, Either.left(template), rotation, fixAssertions(function));
     }
 
+    public static Test createTest(String group, String id, String description, Supplier<StructureTemplateBuilder> template, Rotation rotation, Consumer<ECGameTestHelper> function) {
+        return new ECTest(id, group, description, Either.right(template), rotation, fixAssertions(function));
+    }
+
     public static <T extends GameTestHelper> Consumer<T> fixAssertions(Consumer<T> function) {
         return helper -> {
             try {

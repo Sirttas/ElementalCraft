@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "elementalcraft:sorter"
+          "name": "elementalcraft:ordered_sorter"
         }
       ],
       "rolls": 1.0
@@ -32,5 +32,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "elementalcraft:blocks/sorter"
+  "random_sequence": "elementalcraft:blocks/ordered_sorter"
 }

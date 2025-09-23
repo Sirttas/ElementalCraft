@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:pipe_upgrade",
+  "type": "minecraft:elementalcraft_pipe_upgrade",
   "pools": [
     {
       "bonus_rolls": 0.0,

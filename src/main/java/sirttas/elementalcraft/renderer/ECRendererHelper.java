@@ -299,7 +299,7 @@ public class ECRendererHelper {
     }
 
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, BlockEntity be, float tick, int light, int overlay) {
-        var handler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, be, null);
+        var handler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, be, null);
 
         if (handler != null && !handler.isEmpty()) {
             ECRendererHelper.renderRunes(poseStack, buffer, handler, getClientTicks(tick), light, overlay);
@@ -318,7 +318,7 @@ public class ECRendererHelper {
             poseStack.translate(0.75F, 0F, 0F);
             poseStack.mulPose(Axis.YP.rotationDegrees(90));
             poseStack.scale(1F / 64F, 1F / 64F, 1F / 64F);
-            ECRendererHelper.renderIcon(poseStack, buffer, rune.getSprite(), 16, -16, light, overlay);
+            ECRendererHelper.renderIcon(poseStack, buffer, rune.value().getSprite(), 16, -16, light, overlay);
             poseStack.popPose();
         });
         poseStack.popPose();

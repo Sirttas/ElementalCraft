@@ -1,3 +1,22 @@
+- new spell: light
+- source stabilizer can now be stacked (issue #169)
+- source stabilizer are now a bit cheaper to make and are now crafted 4 by 4 instead of 1 by 1 (issue #169)
+- slightly increased source spawn rates
+- improve progression through the elementopedia
+- the air mill grindstone, air mill wood saw, air mill synthesizer and solar synthesizer now play a sound an particles when they are broken
+- source once again track if they have benn analyzed
+- add back tooltip for traits of analyzed sources
+- element beam can now receive one range rune
+- fix source elementopedia entry to descripe their current behavior
+- fix binder not resetting its content (issue #166)
+- fix source serialization (issue #165)
+- fix source generation from receptacle
+- fix pure ore translations (issue #168)
+- fix range of ore shrine with a crystal harvester shrine upgrade
+- fix runes tooltips for conditions
+- fix element beam sometimes still rendering as linked
+
+
 7.0.2:
 - bump DPAnvil
 - fix a crash with tool infusions

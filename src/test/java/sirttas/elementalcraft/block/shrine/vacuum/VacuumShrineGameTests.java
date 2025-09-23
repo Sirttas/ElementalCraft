@@ -4,12 +4,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.Items;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class VacuumShrineGameTests {
 
     private static final String TEMPLATE = "elementalcraft:vacuumshrinegametests.should_pullandpickup";

@@ -1,11 +1,11 @@
 {
   "parent": "elementalcraft:pickup/root",
   "criteria": {
-    "has_sorter": {
+    "has_elemental_ember": {
       "conditions": {
         "items": [
           {
-            "items": "elementalcraft:sorter"
+            "items": "elementalcraft:elemental_ember"
           }
         ]
       },
@@ -14,7 +14,7 @@
   },
   "requirements": [
     [
-      "has_sorter"
+      "has_elemental_ember"
     ]
   ],
   "sends_telemetry_event": true

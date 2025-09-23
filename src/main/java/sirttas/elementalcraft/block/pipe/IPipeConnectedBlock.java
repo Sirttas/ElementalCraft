@@ -42,7 +42,7 @@ public interface IPipeConnectedBlock {
 
 		var opposite = face.getOpposite();
 		var pos = from.relative(face);
-		var transferer = l.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pos, opposite);
+		var transferer = l.getCapability(ElementalCraftCapabilities.ElementTransferers.BLOCK, pos, opposite);
 		
 		if (transferer instanceof ElementPipeTransferer elementPipeTransferer) {
 			ConnectionType connection = elementPipeTransferer.getConnection(opposite);

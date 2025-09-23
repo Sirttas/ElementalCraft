@@ -39,7 +39,7 @@ public class ChiselItem extends TieredItem implements IPipeInteractingItem {
 	@Nonnull
 	@Override
 	public ItemInteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
-		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, pipe, context.getClickedFace()), context);
+		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, pipe, context.getClickedFace()), context);
 	}
 
 	@Nonnull

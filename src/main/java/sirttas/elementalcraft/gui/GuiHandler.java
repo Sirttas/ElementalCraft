@@ -226,7 +226,7 @@ public class GuiHandler {
 
 		if (result != null && minecraft.options.getCameraType().isFirstPerson()) {
 			BlockPos pos = result.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) result).getBlockPos() : null;
-			var storage = pos != null ? player.level().getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, null) : null;
+			var storage = pos != null ? player.level().getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null) : null;
 			List<ISingleElementStorage> storages = storage != null && (storage.doesRenderGauge(player) || GuiHelper.showDebugInfo()) ? splitStorage(storage) : Collections.emptyList();
 
 			if (!storages.isEmpty()) {
@@ -235,7 +235,7 @@ public class GuiHandler {
 		}
 
 		var holder = EntityHelper.handStream(player)
-				.map(stack -> stack.getCapability(ElementalCraftCapabilities.ElementStorage.ITEM))
+				.map(stack -> stack.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM))
 				.filter(Objects::nonNull)
 				.findFirst();
 
@@ -243,7 +243,7 @@ public class GuiHandler {
 			return splitStorage(holder.get());
 		}
 
-		var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY);
+		var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
 		if (playerStorage == null) {
 			return Collections.emptyList();

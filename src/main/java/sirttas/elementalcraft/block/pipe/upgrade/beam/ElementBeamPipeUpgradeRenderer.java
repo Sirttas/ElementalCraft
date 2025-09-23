@@ -56,6 +56,9 @@ public class ElementBeamPipeUpgradeRenderer implements IPipeUpgradeRenderer<Elem
             ECRendererHelper.renderModel(ring3Model, poseStack, buffer, pipe, light, overlay);
             poseStack.popPose();
         }
+        poseStack.translate(0.25, 0.5, 0.25);
+        poseStack.scale(0.5F, 0.5F, 0.5F);
+        ECRendererHelper.renderRunes(poseStack, buffer, upgrade, partialTicks, light, overlay);
     }
 
     private static void translateRing(float tick, int from, int to, int from2, int to2, @Nonnull PoseStack poseStack) {

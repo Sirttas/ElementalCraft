@@ -2,21 +2,15 @@ package sirttas.elementalcraft.block.synthesizer.cracking;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.template.StructureTemplateHelper;
@@ -46,15 +40,6 @@ public class CrackingSynthesizerGameTests {
             .fill(0, 0, 0, 12, 0, 12, ECBlocks.WHITE_ROCK_BRICK.get())
             .set(6, 1, 6, ECBlocks.CONTAINER.get().defaultBlockState())
             .set(6, 2, 6, ECBlocks.CRACKING_SYNTHESIZER.get().defaultBlockState(), StructureTemplateHelper.addRuneHandler(Runes.TYRIA)));
-
-    private static @NotNull CompoundTag CreateHnadlerTag() {
-        var tag = new CompoundTag();
-        var handler = new RuneHandler(1);
-
-        handler.addRune(ElementalCraftApi.RUNE_MANAGER.get(Runes.TYRIA));
-        tag.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(handler));
-        return tag;
-    }
 
     @TestHolder(description = "Checks if the cracking synthesizer generates earth from the surrounding stones.")
     @GameTest(template = CRACKING_SYNTHESIZER_TEMPLATE_NAME)

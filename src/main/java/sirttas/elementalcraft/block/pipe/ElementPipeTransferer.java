@@ -136,7 +136,7 @@ public class ElementPipeTransferer implements IElementTransferer, INBTSerializab
 
 
     public IElementTransferPathNode createNode(Level level, BlockPos pos, ElementType type, Direction side, ConnectionType connection) {
-        var transferer = level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, pos, side);
+        var transferer = level.getCapability(ElementalCraftCapabilities.ElementTransferers.BLOCK, pos, side);
 
         if (transferer instanceof ElementPipeTransferer elementPipeTransferer) {
             var upgrade = elementPipeTransferer.getUpgrade(side);
@@ -146,7 +146,7 @@ public class ElementPipeTransferer implements IElementTransferer, INBTSerializab
             }
         }
 
-        var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, side);
+        var storage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, side);
 
         if (storage != null && !storage.canPipeInsert(type, side)) {
             storage = null;

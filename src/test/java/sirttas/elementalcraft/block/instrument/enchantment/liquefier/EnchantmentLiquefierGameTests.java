@@ -12,6 +12,7 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.enchantment.ECEnchantmentHelper;
 
 import java.util.List;
@@ -24,10 +25,9 @@ public class EnchantmentLiquefierGameTests {
 
     public static final String GROUP = "level.blocks.instruments.enchantment_liquefier";
 
-    public static final String TEMPLATE = "elementalcraft:enchantmentliquefiergametests.should_transferenchantment";
 
-    @GameTest(template = TEMPLATE)
     @TestHolder
+    @GameTest(template = InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME)
     public static void should_transferEnchantment(ECGameTestHelper helper) {
         var sharpness = ECEnchantmentHelper.getEnchantmentHolder(helper.getLevel().registryAccess(), Enchantments.SHARPNESS);
 

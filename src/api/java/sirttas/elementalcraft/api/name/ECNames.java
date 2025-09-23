@@ -8,6 +8,7 @@ public class ECNames {
 	public static final String COMMON_TAGS_NAMESPACE = "c";
 	public static final String EC_NBT = ElementalCraftApi.MODID;
 	public static final String ALWAYS_INSERT = "always_insert";
+	public static final String ANALYZED = "analyzed";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String ATTRIBUTES = "attributes";
 	public static final String BONUSES = "bonuses";
@@ -105,6 +106,7 @@ public class ECNames {
 	public static final String MAX_RUNES = "max_runes";
 	public static final String LISTENER = "listener";
 	public static final String DAMAGE = "damage";
+	public static final String TRANSLATION_KEY = "translation_key";
 
 	private ECNames() {}
 }

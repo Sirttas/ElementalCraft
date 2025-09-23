@@ -1,14 +1,19 @@
 package sirttas.elementalcraft.api.rune.handler;
 
+import net.minecraft.core.Holder;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class RuneHandler implements IRuneHandler {
 
 	private final int max;
-	private final List<Rune> runes;
+	private final List<Holder<Rune>> runes;
 	private final Map<BonusType, Float> bonuses;
 
 	private final Runnable onChange;
@@ -25,10 +30,10 @@ public class RuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public void addRune(Rune rune) {
+	public void addRune(Holder<Rune> rune) {
 		if (runes.size() < max) {
 			runes.add(rune);
-			rune.getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) + value));
+			rune.value().getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) + value));
 			if (onChange != null) {
 				onChange.run();
 			}
@@ -36,10 +41,10 @@ public class RuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public void removeRune(Rune rune) {
+	public void removeRune(Holder<Rune> rune) {
 		if (runes.contains(rune)) {
 			runes.remove(rune);
-			rune.getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) - value));
+			rune.value().getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) - value));
 			if (onChange != null) {
 				onChange.run();
 			}
@@ -52,7 +57,7 @@ public class RuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public List<Rune> getRunes() {
+	public List<Holder<Rune>> getRunes() {
 		return runes.stream().filter(Objects::nonNull).toList();
 	}
 

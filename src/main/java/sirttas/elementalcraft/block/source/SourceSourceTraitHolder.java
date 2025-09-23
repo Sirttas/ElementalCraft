@@ -39,7 +39,7 @@ public class SourceSourceTraitHolder extends SourceTraitHolder {
                     }
                     return value;
                 })
-                .reduce(1, (a, b) -> a * b);
+                .reduce(1D, (a, b) -> a * b);
     }
 
 }

@@ -8,15 +8,18 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ForEachTest(groups = ShrineGameUpgradeTests.GROUP)
 public class GreaterFortuneShrineUpgradeGameTests {
 
-    private static final String TEMPLATE = "elementalcraft:greaterfortuneshrineupgradegametests.should_increaseoreloot";
+    public static final String TEMPLATE = "elementalcraft:greaterfortuneshrineupgradegametests.should_increaseoreloot";
 
     @TestHolder
     @GameTest(template = TEMPLATE, required = false)

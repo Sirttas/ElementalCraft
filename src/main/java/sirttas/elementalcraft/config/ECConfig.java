@@ -48,6 +48,7 @@ public class ECConfig {
 		public final IntValue improvedPipeTransferAmount;
 		public final BooleanValue pipePathCache;
 		public final IntValue elementBeamRange;
+		public final IntValue elementBeamMaxRunes;
 		public final DoubleValue elementPumpMultiplier;
 		public final DoubleValue elementPumpWaste;
 		public final IntValue elementPumpMaxRunes;
@@ -110,6 +111,7 @@ public class ECConfig {
 			builder.push("upgrade")
 					.push("elementBeam");
 			elementBeamRange = builder.comment("The ranges of the element beam.").defineInRange("elementBeamRange", 10, 0, 100);
+			elementBeamMaxRunes = builder.comment("The max amount of runes an element beam can have.").defineInRange("elementBeamMaxRunes", 1, 0, 10);
 			builder.pop().push("elementPump");
 			elementPumpMultiplier = builder.comment("The amount of element pumped by the element pump.").defineInRange("elementPumpMultiplier", 5D, 0, 100);
 			elementPumpWaste = builder.comment("The amount of element wasted by the element pump.").defineInRange("elementPumpWaste", 0.1D, 0, 1);

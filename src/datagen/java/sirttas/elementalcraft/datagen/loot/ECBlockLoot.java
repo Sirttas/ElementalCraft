@@ -74,7 +74,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.CREATIVE_CONTAINER.get(), ECBlockLoot::createCopyElementStorage);
 
 		add(ECBlocks.DIFFUSER.get(), this::createRuneable);
-		add(ECBlocks.SORTER.get(), this::createRuneable);
+		add(ECBlocks.ORDERED_SORTER.get(), this::createRuneable);
 		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
 
 		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyComponents(b, ECDataComponents.TARGET_POS.get()));
@@ -107,6 +107,8 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.SMALL_SPRINGALINE_BUD.get(), noDrop());
 		add(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), noDrop());
 		add(ECBlocks.LARGE_SPRINGALINE_BUD.get(), noDrop());
+
+		add(ECBlocks.ELEMENTAL_EMBER.get(), noDrop());
 
 		for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
 			var block = entry.getValue();

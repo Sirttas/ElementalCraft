@@ -182,17 +182,17 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.text("elementalcraft.page.empty_receptacle0"))
                 .page(PageBuilder.crafting(ECItems.EMPTY_RECEPTACLE.get()));
         sources.entry(ECItems.SOURCE_ANALYSIS_GLASS.get())
-                .advancement(ElementalCraftApi.createRL("main/springaline_shard"))
+                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
                 .turnIn(ElementalCraftApi.createRL("main/source_analysis_glass"))
                 .page(PageBuilder.text("elementalcraft.page.source_analysis_glass0"))
                 .page(PageBuilder.crafting(ECItems.SOURCE_ANALYSIS_GLASS.get()));
         sources.entry(ECItems.SOURCE_STABILIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/springaline_shard"))
+                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
                 .turnIn(ElementalCraftApi.createRL("main/source_stabilizer"))
                 .page(PageBuilder.text("elementalcraft.page.source_stabilizer0"))
                 .page(PageBuilder.crafting(ECItems.SOURCE_STABILIZER.get()));
         sources.entry(ECBlocks.SOURCE_BREEDER.get())
-                .advancement(ElementalCraftApi.createRL("main/fireite"))
+                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
                 .turnIn(ElementalCraftApi.createRL("pickup/source_breeder"))
                 .page(PageBuilder.text("elementalcraft.page.source_breeder0"))
                 .page(PageBuilder.crafting(ECBlocks.SOURCE_BREEDER.get(), ECBlocks.SOURCE_BREEDER_PEDESTAL.get()))
@@ -206,7 +206,7 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("p 1 p"));
         sources.entry("source_seeds")
                 .icon(ECItems.FIRE_SOURCE_SEED.get())
-                .advancement(ElementalCraftApi.createRL("pickup/source_breeder"))
+                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
                 .page(PageBuilder.text("elementalcraft.page.source_seeds0"))
                 .page(PageBuilder.crafting(ECItems.FIRE_SOURCE_SEED.get(), ECItems.WATER_SOURCE_SEED.get()))
                 .page(PageBuilder.crafting(ECItems.EARTH_SOURCE_SEED.get(), ECItems.AIR_SOURCE_SEED.get()));
@@ -563,11 +563,11 @@ public class BookDataProvider implements DataProvider {
                 .turnIn(ElementalCraftApi.createRL("pickup/instrument_retriever"))
                 .page(PageBuilder.text("elementalcraft.page.instrument_retriever0"))
                 .page(PageBuilder.crafting(ECBlocks.RETRIEVER.get()));
-        advanced.entry(ECBlocks.SORTER.get())
+        advanced.entry(ECBlocks.ORDERED_SORTER.get())
                 .advancement(ElementalCraftApi.createRL("main/binder"))
-                .turnIn(ElementalCraftApi.createRL("pickup/sorter"))
-                .page(PageBuilder.text("elementalcraft.page.sorter0"))
-                .page(PageBuilder.crafting(ECBlocks.SORTER.get()));
+                .turnIn(ElementalCraftApi.createRL("pickup/ordered_sorter"))
+                .page(PageBuilder.text("elementalcraft.page.ordered_sorter0"))
+                .page(PageBuilder.crafting(ECBlocks.ORDERED_SORTER.get()));
         advanced.entry(ECItems.ELEMENTAL_FIREFUEL.get())
                 .advancement(ElementalCraftApi.createRL("main/binder"))
                 .turnIn(ElementalCraftApi.createRL("pickup/elemental_firefuel"))
@@ -685,6 +685,7 @@ public class BookDataProvider implements DataProvider {
                 .turnIn(ElementalCraftApi.createRL("pickup/spell_book"))
                 .page(PageBuilder.text("elementalcraft.page.spell_book0"))
                 .page(PageBuilder.crafting(ECItems.SPELL_BOOK.get()));
+        spell(spells, Spells.LIGHT);
         spell(spells, Spells.AIR_SHIELD);
         spell(spells, Spells.ANIMAL_GROWTH);
         spell(spells, Spells.DASH);

@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.rune.handler;
 
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
@@ -18,9 +19,9 @@ import java.util.stream.Collectors;
 
 public interface IRuneHandler {
 
-	void addRune(Rune rune);
+	void addRune(Holder<Rune> rune);
 
-	void removeRune(Rune rune);
+	void removeRune(Holder<Rune> rune);
 
 	int getMaxRunes();
 
@@ -28,7 +29,7 @@ public interface IRuneHandler {
 		getRunes().forEach(this::removeRune);
 	}
 
-	List<Rune> getRunes();
+	List<Holder<Rune>> getRunes();
 	
 	default int getRuneCount() {
 		return getRunes().size();
@@ -38,16 +39,20 @@ public interface IRuneHandler {
 		return getRunes().isEmpty();
 	}
 
-	default int getRuneCount(Rune rune) {
+	default int getRuneCount(Holder<Rune> rune) {
 		var runes = getRunes();
 		
-		return runes == null ? 0 : (int) runes.stream().filter(rune::equals).count();
+		return runes == null ? 0 : (int) runes.stream()
+				.filter(r -> r.is(rune))
+				.count();
 	}
 
 	default int getRuneCount(ResourceKey<Rune> rune) {
 		var runes = getRunes();
 
-		return runes == null ? 0 : (int) runes.stream().filter(r -> r.is(rune)).count();
+		return runes == null ? 0 : (int) runes.stream()
+				.filter(r -> r.is(rune))
+				.count();
 	}
 
 	float getBonus(Rune.BonusType type);
@@ -74,7 +79,7 @@ public interface IRuneHandler {
 	
 	static ListTag writeNBT(IRuneHandler handler) {
 		return handler.getRunes().stream()
-				.map(rune -> StringTag.valueOf(rune.getId().toString()))
+				.map(rune -> StringTag.valueOf(rune.getKey().location().toString()))
 				.collect(Collectors.toCollection(ListTag::new));
 	}
 
@@ -82,13 +87,8 @@ public interface IRuneHandler {
 		handler.clear();
 		nbtTagList.forEach(nbt -> {
 			String name = nbt.getAsString();
-			Rune rune = ElementalCraftApi.RUNE_MANAGER.get(ResourceLocation.parse(name));
 
-			if (rune != null) {
-				handler.addRune(rune);
-			} else {
-				ElementalCraftApi.LOGGER.warn("Rune not fount with id: {}", name);
-			}
-		});
+			handler.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(ResourceLocation.parse(name)));
+        });
 	}
 }

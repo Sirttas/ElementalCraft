@@ -23,6 +23,7 @@ import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider {
 
@@ -53,8 +54,8 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 		this.end = end;
 		this.types = types;
 		this.luckRatio = luckRatio;
-		this.valueCodec = Codec.FLOAT.xmap(this::createValue, t -> ((SourceTraitValue) t).value);
-		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.FLOAT, t -> ((SourceTraitValue) t).value, this::createValue);
+		this.valueCodec = Codec.FLOAT.xmap(this::createValue, LinearSourceTraitValueProvider::getFloatValue);
+		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.FLOAT, LinearSourceTraitValueProvider::getFloatValue, this::createValue);
 	}
 	
     protected static <T extends LinearSourceTraitValueProvider> Products.P5<Mu<T>, String, List<SourceTrait.Type>, Float, Float, Float> codec(Instance<T> builder) {
@@ -66,6 +67,13 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
                 Codec.FLOAT.fieldOf(ECNames.LUCK_RATIO).forGetter(LinearSourceTraitValueProvider::getLuckRatio)
         );
     }
+
+	private static float getFloatValue(ISourceTraitValue value) {
+		if (!(value instanceof SourceTraitValue sourceTraitValue)) {
+			throw new IllegalArgumentException("Source trait value must be of type SourceTraitValue");
+		}
+		return sourceTraitValue.value;
+	}
 
 	public float getStart() {
 		return start;
@@ -81,7 +89,7 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	private List<SourceTrait.Type> getTypes() {
 		return types;
 	}
-	
+
 	@Override
 	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
 		return createValue(start, end, context.random(), context.luck());
@@ -102,7 +110,6 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 		}
 		return createValue(start, end, random, luck);
 	}
-
 
 	private ISourceTraitValue createValue(float value, RandomSource random, float luck) {
 		return createValue(roll(getBreedingStart(start), value, random, luck), roll(value, getBreedingStart(end), random, luck), random, luck);
@@ -200,6 +207,20 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 				return ChatFormatting.YELLOW;
 			}
 			return ChatFormatting.GREEN;
+		}
+
+		@Override
+		public boolean equals(Object other) {
+			if (other == null || getClass() != other.getClass()) {
+				return false;
+			}
+			SourceTraitValue that = (SourceTraitValue) other;
+			return Float.compare(value, that.value) == 0;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hashCode(value);
 		}
 	}
 }

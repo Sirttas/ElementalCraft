@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.sorter;
+package sirttas.elementalcraft.block.sorter.ordered;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
@@ -21,7 +21,7 @@ public class OrderedSorterGameTests {
     public static void should_transferItems(GameTestHelper helper) {
         var sorter = getOrderedSorter(helper, new BlockPos(1, 2, 1));
         var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 2));
-        var targetChest =  ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 0));
+        var targetChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 0));
 
         assertThat(sourceChest).isNotEmpty();
         assertThat(targetChest).isEmpty();
@@ -37,7 +37,7 @@ public class OrderedSorterGameTests {
     }
 
     @Nonnull
-    private static SorterBlockEntity getOrderedSorter(GameTestHelper helper, BlockPos pos) {
+    private static OrderedSorterBlockEntity getOrderedSorter(GameTestHelper helper, BlockPos pos) {
         return helper.getBlockEntity(pos);
     }
 }

@@ -30,6 +30,7 @@ import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
+import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -122,7 +123,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		var connection = this.getConnection(face);
 		var opposite = face.getOpposite();
 
-		var t = level.getCapability(ElementalCraftCapabilities.ElementTransferer.BLOCK, adjacent, opposite);
+		var t = level.getCapability(ElementalCraftCapabilities.ElementTransferers.BLOCK, adjacent, opposite);
 
 		if (t != null) {
 			if (t.canConnectTo(this.getBlockPos())) {
@@ -131,7 +132,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 			return ConnectionType.NONE;
 		}
 
-		var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, adjacent, opposite);
+		var storage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, adjacent, opposite);
 
 		if (storage != null) {
 			if (this.canInsertInStorage(storage, opposite)) {
@@ -204,7 +205,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 					}
 
 					var adjacent = pos.relative(side);
-					var sender = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, adjacent, side.getOpposite());
+					var sender = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, adjacent, side.getOpposite());
 
 					if (sender instanceof IElementTypeProvider provider) {
 						pipe.transferElement(sender, side, provider.getElementType());
@@ -269,7 +270,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 
 		switch (connection) {
 			case INSERT -> {
-				var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, adjacent, opposite);
+				var storage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, adjacent, opposite);
 
 				if (canExtractFromStorage(storage, opposite)) {
 					this.setConnection(face, ConnectionType.EXTRACT);
@@ -286,7 +287,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 				return ItemInteractionResult.SUCCESS;
 			}
 			case DISCONNECT -> {
-				var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, adjacent, opposite);
+				var storage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, adjacent, opposite);
 
 				if (canInsertInStorage(storage, opposite)) {
 					this.setConnection(face, ConnectionType.INSERT);
@@ -362,12 +363,7 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		coverState = state;
 		level.setBlockAndUpdate(getBlockPos(), level.getBlockState(worldPosition).setValue(ElementPipeBlock.COVER, CoverType.COVERED));
 
-		if (!player.getAbilities().instabuild) {
-			stack.shrink(1);
-			if (stack.isEmpty()) {
-				player.setItemInHand(hand, ItemStack.EMPTY);
-			}
-		}
+		ECPlayerHelper.shrinkItemInHand(player, stack, hand);
 		return ItemInteractionResult.SUCCESS;
 	}
 	

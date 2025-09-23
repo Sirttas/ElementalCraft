@@ -23,6 +23,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
+import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
 import sirttas.elementalcraft.container.IElementStorageBlocKEntity;
 import sirttas.elementalcraft.container.IRuneableBlockEntity;
@@ -47,8 +48,8 @@ public class ECCapabilityHandler {
 
     @SubscribeEvent
     public static void registerProviders(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, ECBlockEntityTypes.SOURCE.get(), (blockEntity, v) -> blockEntity.getElementStorage());
-        event.registerBlockEntity(ElementalCraftCapabilities.SourceTrait.BLOCK, ECBlockEntityTypes.SOURCE.get(), (pedestal, v) -> pedestal.getTraitHolder());
+        event.registerBlockEntity(ElementalCraftCapabilities.ElementStorages.BLOCK, ECBlockEntityTypes.SOURCE.get(), (blockEntity, v) -> blockEntity.getElementStorage());
+        event.registerBlockEntity(ElementalCraftCapabilities.SourceTraits.BLOCK, ECBlockEntityTypes.SOURCE.get(), (pedestal, v) -> pedestal.getTraitHolder());
 
         List.of(
                 ECBlockEntityTypes.CONTAINER,
@@ -56,7 +57,7 @@ public class ECCapabilityHandler {
                 ECBlockEntityTypes.CREATIVE_CONTAINER
         ).forEach(t -> {
             event.registerBlockEntity(ElementContainer.CAPABILITY, t.get(), (blockEntity, v) -> blockEntity);
-            event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, t.get(), (blockEntity, v) -> blockEntity.getElementStorage());
+            event.registerBlockEntity(ElementalCraftCapabilities.ElementStorages.BLOCK, t.get(), (blockEntity, v) -> blockEntity.getElementStorage());
         });
 
         registerCraftingBlockEntityCapabilities(event, ECBlockEntityTypes.INFUSER);
@@ -75,16 +76,17 @@ public class ECCapabilityHandler {
         registerCraftingBlockEntityCapabilities(event, ECBlockEntityTypes.PURIFIER);
 
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ECBlockEntityTypes.SOURCE_BREEDER.get(), IContainerBlockEntity::getItemHandler);
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.SOURCE_BREEDER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.SOURCE_BREEDER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
 
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.EXTRACTOR.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.DIFFUSER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.SORTER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.EXTRACTOR.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.DIFFUSER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.SORTER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
 
-        event.registerBlockEntity(ElementalCraftCapabilities.ElementTransferer.BLOCK, ECBlockEntityTypes.PIPE.get(), (blockEntity, v) -> blockEntity.getTransferer());
+        event.registerBlockEntity(ElementalCraftCapabilities.ElementTransferers.BLOCK, ECBlockEntityTypes.PIPE.get(), (blockEntity, v) -> blockEntity.getTransferer());
 
         PipeUpgradeCapabilities.register(PipeUpgradeCapabilities.RUNE_HANDLER, PipeUpgradeTypes.ELEMENT_PUMP.get(), (upgrade, v) -> upgrade.getRuneHandler());
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.PIPE.get(), PipeUpgradeCapabilities.RUNE_HANDLER.getBlockCapabilityProvider());
+        PipeUpgradeCapabilities.register(PipeUpgradeCapabilities.RUNE_HANDLER, PipeUpgradeTypes.ELEMENT_BEAM.get(), (upgrade, v) -> upgrade.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.PIPE.get(), PipeUpgradeCapabilities.RUNE_HANDLER.getBlockCapabilityProvider());
 
         registerElementRunesCapabilities(event, ECBlockEntityTypes.CRACKING_SYNTHESIZER);
         registerIERCapabilities(event, ECBlockEntityTypes.COMBUSTION_SYNTHESIZER);
@@ -114,13 +116,13 @@ public class ECCapabilityHandler {
                 ECBlockEntityTypes.SPRING_SHRINE,
                 ECBlockEntityTypes.BUDDING_SHRINE,
                 ECBlockEntityTypes.SPAWNING_SHRINE
-        ).forEach(t -> event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, t.get(), (blockEntity, v) -> blockEntity.getElementStorage()));
+        ).forEach(t -> event.registerBlockEntity(ElementalCraftCapabilities.ElementStorages.BLOCK, t.get(), (blockEntity, v) -> blockEntity.getElementStorage()));
 
-        event.registerBlockEntity(ElementalCraftCapabilities.ElementTransferer.BLOCK, ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get(), (blockEntity, v) -> blockEntity.getTransferer());
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.ElementTransferers.BLOCK, ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get(), (blockEntity, v) -> blockEntity.getTransferer());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
 
-        event.registerBlock(ElementalCraftCapabilities.ElementStorage.BLOCK_FOR_ELEMENT, (level, pos, state, blockEntity, context) -> {
-            var storage = level.getCapability(ElementalCraftCapabilities.ElementStorage.BLOCK, pos, state, blockEntity, context != null ? context.direction() : null);
+        event.registerBlock(ElementalCraftCapabilities.ElementStorages.BLOCK_FOR_ELEMENT, (level, pos, state, blockEntity, context) -> {
+            var storage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, state, blockEntity, context != null ? context.direction() : null);
 
             if (storage != null) {
                 return storage.forElement(context != null ? context.elementType() : ElementType.NONE);
@@ -165,10 +167,36 @@ public class ECCapabilityHandler {
                 ECBlocks.SPAWNING_SHRINE.get()
         );
 
+        registerShrineUpgradeCapabilities(event, ECBlocks.ACCELERATION_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.RANGE_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.CAPACITY_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.EFFICIENCY_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.STRENGTH_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.OVERWHELMING_STRENGTH_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.OPTIMIZATION_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.FORTUNE_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.SILK_TOUCH_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.PLANTING_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.PICKUP_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.VORTEX_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.NECTAR_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.PROTECTION_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.FILLING_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get());
+
+
         deferBlockCapabilityBellow(event, Capabilities.ItemHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER);
-        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.RuneHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER, ECBlocks.AIR_MILL_SYNTHESIZER);
-        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorage.BLOCK, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);
-        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorage.BLOCK_FOR_ELEMENT, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);
+        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER, ECBlocks.AIR_MILL_SYNTHESIZER);
+        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorages.BLOCK, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);
+        deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorages.BLOCK_FOR_ELEMENT, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);
         deferBlockCapabilityBellow(event, ElementContainer.CAPABILITY, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR);
 
         registerElementHolderCapabilities(event, ECItems.FIRE_HOLDER);
@@ -177,8 +205,8 @@ public class ECCapabilityHandler {
         registerElementHolderCapabilities(event, ECItems.AIR_HOLDER);
         registerElementHolderCapabilities(event, ECItems.PURE_HOLDER);
 
-        event.registerItem(ElementalCraftCapabilities.ElementStorage.ITEM, (stack, v) -> ((ReceptacleItem) stack.getItem()).getElementStorage(stack), ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());
-        event.registerItem(ElementalCraftCapabilities.SourceTrait.ITEM, (stack, v) -> ReceptacleItem.getTraitHolder(stack), ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());
+        event.registerItem(ElementalCraftCapabilities.ElementStorages.ITEM, (stack, v) -> ((ReceptacleItem) stack.getItem()).getElementStorage(stack), ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());
+        event.registerItem(ElementalCraftCapabilities.SourceTraits.ITEM, (stack, v) -> ReceptacleItem.getTraitHolder(stack), ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());
 
         registerPlayerCapabilities(event);
     }
@@ -195,10 +223,20 @@ public class ECCapabilityHandler {
                 .toArray(Block[]::new));
     }
 
+    private static void registerShrineUpgradeCapabilities(RegisterCapabilitiesEvent event, AbstractShrineUpgradeBlock block) {
+        event.registerBlock(ElementalCraftCapabilities.ShrineUpgrades.BLOCK, (level, pos, state, blockEntity, context) -> {
+                    if (state.is(block) && block.getFacing(state) == context) {
+                        return block.getUpgrade();
+                    }
+                    return null;
+                }, block);
+        event.registerItem(ElementalCraftCapabilities.ShrineUpgrades.ITEM, (stack, v) -> block.getUpgrade(), block);
+    }
+
     private static void registerElementHolderCapabilities(RegisterCapabilitiesEvent event, Supplier<? extends AbstractElementHolderItem> holder) {
         var item = holder.get();
 
-        event.registerItem(ElementalCraftCapabilities.ElementStorage.ITEM, (stack, v) -> item.getElementStorage(stack), item);
+        event.registerItem(ElementalCraftCapabilities.ElementStorages.ITEM, (stack, v) -> item.getElementStorage(stack), item);
     }
 
     @SuppressWarnings("unchecked")
@@ -206,7 +244,7 @@ public class ECCapabilityHandler {
         var type = (BlockEntityType<AbstractECCraftingBlockEntity<?, ?>>) holder.get();
 
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, IContainerBlockEntity::getItemHandler);
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, type, (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, type, (blockEntity, v) -> blockEntity.getRuneHandler());
     }
 
     private static <T extends BlockEntity & IContainerBlockEntity & IRuneableBlockEntity & IElementStorageBlocKEntity> void registerIERCapabilities(RegisterCapabilitiesEvent event, DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<T>> holder) {
@@ -223,25 +261,25 @@ public class ECCapabilityHandler {
     }
 
     private static <T extends BlockEntity & IRuneableBlockEntity & IElementStorageBlocKEntity> void registerElementRunesCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<T> type) {
-        event.registerBlockEntity(ElementalCraftCapabilities.ElementStorage.BLOCK, type, (blockEntity, v) -> blockEntity.getElementStorage());
-        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandler.BLOCK, type, (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(ElementalCraftCapabilities.ElementStorages.BLOCK, type, (blockEntity, v) -> blockEntity.getElementStorage());
+        event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, type, (blockEntity, v) -> blockEntity.getRuneHandler());
     }
 
     private static void registerSourceBreederPedestalCapabilities(RegisterCapabilitiesEvent event) {
         var type = ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL.get();
 
         registerIERCapabilities(event, type);
-        event.registerBlockEntity(ElementalCraftCapabilities.SourceTrait.BLOCK, type, (pedestal, v) -> pedestal.getTraitHolder());
+        event.registerBlockEntity(ElementalCraftCapabilities.SourceTraits.BLOCK, type, (pedestal, v) -> pedestal.getTraitHolder());
     }
 
     private static void registerPlayerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerEntity(ElementalCraftCapabilities.ElementStorage.ENTITY, EntityType.PLAYER, (player, v) -> new PlayerElementStorage(player));
-        event.registerEntity(ElementalCraftCapabilities.ElementStorage.ENTITY_FOR_ELEMENT, EntityType.PLAYER, (player, t) -> {
+        event.registerEntity(ElementalCraftCapabilities.ElementStorages.ENTITY, EntityType.PLAYER, (player, v) -> new PlayerElementStorage(player));
+        event.registerEntity(ElementalCraftCapabilities.ElementStorages.ENTITY_FOR_ELEMENT, EntityType.PLAYER, (player, t) -> {
             if (t == null || t == ElementType.NONE) {
                 return EmptyElementStorage.getSingle(ElementType.NONE);
             }
 
-            var s = player.getCapability(ElementalCraftCapabilities.ElementStorage.ENTITY, null);
+            var s = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY, null);
 
             if (s == null) {
                 return EmptyElementStorage.getSingle(t);

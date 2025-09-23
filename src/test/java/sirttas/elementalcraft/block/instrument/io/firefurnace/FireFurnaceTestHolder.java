@@ -19,7 +19,6 @@ public record FireFurnaceTestHolder(
         ItemLike output,
         boolean blast
 ) {
-    public static final String BATCH_NAME = "fireFurnace";
 
     public static final List<FireFurnaceTestHolder> HOLDERS = List.of(
             of(Items.COBBLESTONE, Items.STONE, false),

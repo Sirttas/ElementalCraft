@@ -26,6 +26,7 @@ import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityPr
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
 import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.particle.ParticleHelper;
@@ -140,8 +141,8 @@ public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<Sour
         return this.getTransferSpeed() * (runeHandler.getBonus(Rune.BonusType.SPEED) + pedestal.getRuneHandler().getBonus(Rune.BonusType.SPEED) + 1);
     }
 
-    private ItemStack breed(ElementType elementType, ISourceTraitHolder source1, ISourceTraitHolder source2) {
-        return ReceptacleHelper.create(elementType, SourceTraitHelper.breed(level.random, runeHandler.getBonus(Rune.BonusType.LUCK), source1.getTraits(), source2.getTraits()));
+    private ItemStack breed(ElementType elementType, PedestalWrapper wrapper1, PedestalWrapper wrapper2) {
+        return ReceptacleHelper.create(elementType, SourceTraitHelper.breed(level.random, runeHandler.getBonus(Rune.BonusType.LUCK), wrapper1.getTraitHolder().getTraits(), wrapper2.getTraitHolder().getTraits()), wrapper1.isAnalyzed() && wrapper2.isAnalyzed());
     }
 
     @Override
@@ -149,9 +150,9 @@ public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<Sour
         var type = getElementType();
         var activeWrappers = getActiveWrappers();
 
-        container.setItem(0, breed(type, activeWrappers.get(0).getTraitHolder(), activeWrappers.get(1).getTraitHolder()));
+        container.setItem(0, breed(type, activeWrappers.get(0), activeWrappers.get(1)));
         for (var pedestalWrapper : activeWrappers) {
-            var storage = pedestalWrapper.pedestal.getReceptacle().getCapability(ElementalCraftCapabilities.ElementStorage.ITEM);
+            var storage = pedestalWrapper.pedestal.getReceptacle().getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
 
             if (storage != null) {
                 var drawn = Math.round(storage.getElementCapacity(type) * 0.25F) + 1; // TODO config
@@ -269,6 +270,10 @@ public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<Sour
 
         public boolean isEmpty() {
             return isRemoved() || pedestal.getReceptacle().isEmpty();
+        }
+
+        public boolean isAnalyzed() {
+            return Boolean.TRUE.equals(pedestal.getReceptacle().get(ECDataComponents.SOURCE_ANALYZED));
         }
     }
 }

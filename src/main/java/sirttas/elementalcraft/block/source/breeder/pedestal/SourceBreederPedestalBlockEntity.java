@@ -68,7 +68,7 @@ public class SourceBreederPedestalBlockEntity extends AbstractIERBlockEntity imp
         if (receptacle.isEmpty()) {
             return null;
         }
-        return receptacle.getCapability(ElementalCraftCapabilities.SourceTrait.ITEM, null);
+        return receptacle.getCapability(ElementalCraftCapabilities.SourceTraits.ITEM, null);
     }
 
     @Override

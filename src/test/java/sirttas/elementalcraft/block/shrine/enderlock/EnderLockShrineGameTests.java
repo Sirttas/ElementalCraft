@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 import static sirttas.elementalcraft.assertion.Assertions.within;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class EnderLockShrineGameTests {
 
     private static final Method TELEPORT = ObfuscationReflectionHelper.findMethod(EnderMan.class, "teleport", double.class, double.class, double.class);

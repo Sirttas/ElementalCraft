@@ -5,6 +5,7 @@ import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerGameTests;
 
 import java.util.List;
@@ -20,8 +21,8 @@ public record AirMillTestCaseHolder(
 
     public static final List<AirMillTestCaseHolder> HOLDERS = List.of(
             of(AirMillSynthesizerGameTests.TEMPLATE_NAME, ECBlocks.AIR_MILL_SYNTHESIZER),
-            of("millgametests.air_mill_grindstone", ECBlocks.AIR_MILL_GRINDSTONE),
-            of("millgametests.air_mill_wood_saw", ECBlocks.AIR_MILL_WOOD_SAW)
+            of(InstrumentTestTemplates.AIR_MILL_GRINDSTONE_TEMPLATE_NAME, ECBlocks.AIR_MILL_GRINDSTONE),
+            of(InstrumentTestTemplates.AIR_MILL_WOOD_SAW_TEMPLATE_NAME, ECBlocks.AIR_MILL_WOOD_SAW)
     );
 
     @SuppressWarnings("unchecked")

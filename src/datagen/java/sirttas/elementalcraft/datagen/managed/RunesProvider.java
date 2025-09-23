@@ -28,7 +28,9 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 
 	private static final IBlockPosPredicate SPEED_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_SPEED).cache();
 	private static final IBlockPosPredicate PRESERVATION_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).cache();
-	private static final IBlockPosPredicate RANGE_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_RANGE).cache();
+	private static final IBlockPosPredicate RANGE_PREDICATE =  IBlockPosPredicate.match(ECTags.Blocks.RUNE_AFFECTED_RANGE)
+			.or(new HasPipeUpgrade(PipeUpgradeTypes.ELEMENT_BEAM.get()))
+			.cache();
 	private static final IBlockPosPredicate OPTIMIZATION_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_OPTIMIZATION).and(IBlockPosPredicate.createOr(
 			new HasRunePredicate(Runes.SOARYN),
 			new HasRunePredicate(Runes.KAWORU),
@@ -41,17 +43,21 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	public static final ResourceLocation SLATE = ElementalCraftApi.createRL("item/rune_slate");
 	public static final ResourceLocation MAJOR_SLATE = ElementalCraftApi.createRL("item/major_rune_slate");
 
+	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ECItemModelProvider itemModelProvider) {
+		super(packOutput, registries, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
+		this.itemModelProvider = itemModelProvider;
+	}
+
+	private static IBlockPosPredicate matchTagOrElementPump(TagKey<Block> tag) {
+		return IBlockPosPredicate.match(tag).or(new HasPipeUpgrade(PipeUpgradeTypes.ELEMENT_PUMP.get()));
+	}
+
 	private static IBlockPosPredicate createLuckPredicate(TagKey<Block> tag) {
 		return IBlockPosPredicate.match(tag).and(IBlockPosPredicate.createOr(
 				new HasRunePredicate(Runes.CLAPTRAP),
 				new HasRunePredicate(Runes.BOMBADIL),
 				new HasRunePredicate(Runes.TZEENTCH)
 		).not()).cache();
-	}
-
-	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ECItemModelProvider itemModelProvider) {
-		super(packOutput, registries, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
-		this.itemModelProvider = itemModelProvider;
 	}
 
 	@Override
@@ -164,10 +170,6 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 
 		add(ElementalCraftApi.createRL(name), builder);
 		return builder;
-	}
-
-	private static IBlockPosPredicate matchTagOrElementPump(TagKey<Block> tag) {
-		return IBlockPosPredicate.match(tag).or(new HasPipeUpgrade(PipeUpgradeTypes.ELEMENT_PUMP.get()));
 	}
 
 	@Nonnull

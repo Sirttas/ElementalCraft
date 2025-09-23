@@ -1,5 +1,5 @@
 {
-  "advancement": "elementalcraft:pickup/source_breeder",
+  "advancement": "elementalcraft:main/empty_receptacle",
   "category": "elementalcraft:sources",
   "icon": "elementalcraft:fire_source_seed",
   "name": "elementalcraft.entry.source_seeds",

@@ -47,7 +47,7 @@ public class SourceElementStorage extends SingleElementStorage {
 
 	@Override
 	public boolean doesRenderGauge(Player player) {
-		return EntityHelper.handStream(player).anyMatch(i -> i.is(ECItems.SOURCE_ANALYSIS_GLASS.get()));
+		return source.isAnalyzed() || EntityHelper.handStream(player).anyMatch(i -> i.is(ECItems.SOURCE_ANALYSIS_GLASS.get()));
 	}
 	
 	protected void setElementCapacity(int elementCapacity) {

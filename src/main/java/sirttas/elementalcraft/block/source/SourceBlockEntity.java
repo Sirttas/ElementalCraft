@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 
 public class SourceBlockEntity extends AbstractECBlockEntity implements IElementTypeProvider, IElementStorageBlocKEntity {
 
+	private boolean analyzed = false;
 	private boolean stabilized = false;
 	private final SourceElementStorage elementStorage;
 	private final SourceSourceTraitHolder traitHolder;
@@ -61,10 +62,9 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
     private void initTraits(@Nonnull ServerLevelAccessor level, int luck) {
         if (elementStorage.getElementType() == ElementType.NONE) {
             elementStorage.setElementType(ElementType.getElementType(this.getBlockState()));
-			this.setChanged();
         }
 		traitHolder.initTraits(level, this.worldPosition, luck);
-		this.refreshCapacity();
+		this.initStorageFromTraits();
     }
 
 	public void resetTraits(@Nonnull ServerLevelAccessor level, int luck) {
@@ -90,56 +90,76 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		return stabilized;
 	}
 
+	public boolean isAnalyzed() {
+		return analyzed;
+	}
+
+	public void setAnalyzed() {
+		if (!analyzed) {
+			analyzed = true;
+			this.setChanged();
+		}
+	}
+
 	public void setStabilized(boolean stabilized) {
 		this.stabilized = stabilized;
 		this.setChanged();
 	}
 
-	private void refreshCapacity() {
-		var oldCapacity = elementStorage.getElementCapacity();
+	private void initStorageFromTraits() {
 		var capacity = traitHolder.getCapacity();
-		var amount = elementStorage.getElementAmount();
 
 		elementStorage.setElementCapacity(capacity);
-		if (amount <= 0 || amount >= oldCapacity || amount >= capacity) {
-			elementStorage.setElementAmount(capacity);
-		}
+		elementStorage.setElementAmount(capacity);
 		this.setChanged();
 	}
 
 	@Override
 	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
 		super.loadAdditional(compound, provider);
-		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			elementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
-		}
 		if (compound.contains(ECNames.SOURCE_TRAITS_HOLDER)) {
 			traitHolder.deserializeNBT(provider, compound.getCompound(ECNames.SOURCE_TRAITS_HOLDER));
 		}
+		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
+			elementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
+		} else {
+			initStorageFromTraits();
+		}
+		analyzed = compound.getBoolean(ECNames.ANALYZED);
 		stabilized = compound.getBoolean(ECNames.STABILIZED);
-		refreshCapacity();
 	}
 
 	@Override
 	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
 		super.saveAdditional(compound, provider);
-		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT(provider));
 		compound.put(ECNames.SOURCE_TRAITS_HOLDER, traitHolder.serializeNBT(provider));
+		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT(provider));
+		compound.putBoolean(ECNames.ANALYZED, analyzed);
 		compound.putBoolean(ECNames.STABILIZED, stabilized);
 	}
 
 	@Override
 	protected void applyImplicitComponents(@NotNull DataComponentInput input) {
 		super.applyImplicitComponents(input);
-		elementStorage.setElementAmount(input.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0));
-		traitHolder.setTraits(input.getOrDefault(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.EMPTY).getTraits());
+
+		var traits = input.getOrDefault(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.EMPTY).getTraits();
+
+		if (!traits.isEmpty()) {
+			traitHolder.setTraits(traits);
+			initStorageFromTraits();
+			elementStorage.setElementAmount(input.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, elementStorage.getElementCapacity()));
+		} else {
+			initStorageFromTraits();
+		}
+		analyzed = input.getOrDefault(ECDataComponents.SOURCE_ANALYZED, false);
 	}
 
 	@Override
 	protected void collectImplicitComponents(@NotNull DataComponentMap.Builder builder) {
 		super.collectImplicitComponents(builder);
-		builder.set(ECDataComponents.ELEMENT_AMOUNT, elementStorage.getElementAmount());
 		builder.set(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.from(traitHolder));
+		builder.set(ECDataComponents.ELEMENT_AMOUNT, elementStorage.getElementAmount());
+		builder.set(ECDataComponents.SOURCE_ANALYZED, analyzed);
 	}
 
 	@Override
@@ -148,5 +168,6 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 		super.removeComponentsFromTag(tag);
 		tag.remove(ECNames.ELEMENT_STORAGE);
 		tag.remove(ECNames.SOURCE_TRAITS_HOLDER);
+		tag.remove(ECNames.ANALYZED);
 	}
 }

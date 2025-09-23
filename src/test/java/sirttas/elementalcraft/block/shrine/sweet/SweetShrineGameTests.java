@@ -5,11 +5,13 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ForEachTest(groups = ShrineGameTestHelper.GROUP)
 public class SweetShrineGameTests {
 
     private static final String TEMPLATE = "elementalcraft:sweetshrinegametests.should_feedplayer";

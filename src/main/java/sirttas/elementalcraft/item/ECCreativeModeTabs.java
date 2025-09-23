@@ -78,7 +78,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.ELEMENT_VALVE.get());
                 o.accept(ECItems.ELEMENT_BEAM.get());
                 o.accept(ECBlocks.RETRIEVER.get());
-                o.accept(ECBlocks.SORTER.get());
+                o.accept(ECBlocks.ORDERED_SORTER.get());
                 o.accept(ECBlocks.SPELL_DESK.get());
                 o.accept(ECBlocks.FIRE_PYLON.get());
                 o.accept(ECBlocks.VACUUM_SHRINE.get());
@@ -306,7 +306,7 @@ public class ECCreativeModeTabs {
     private static void generateRunes(@Nonnull CreativeModeTab.Output output) {
         var item = ECItems.RUNE.get();
 
-        ElementalCraftApi.RUNE_MANAGER.getData().forEach((l, r) -> output.accept(item.getRuneStack(r)));
+        ElementalCraftApi.RUNE_MANAGER.holders().forEach(h -> output.accept(item.getRuneStack(h)));
     }
 
     private ECCreativeModeTabs() { }

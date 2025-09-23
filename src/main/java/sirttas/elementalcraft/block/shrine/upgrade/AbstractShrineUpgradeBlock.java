@@ -26,7 +26,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -43,7 +44,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
 		super(properties);
-		upgrade = ElementalCraft.SHRINE_UPGRADE_MANAGER.getOrCreateHolder(key);
+		upgrade = ElementalCraftApi.SHRINE_UPGRADE_MANAGER.getOrCreateHolder(key);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(WATERLOGGED, false));
 	}
@@ -78,9 +79,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 			return true;
 		}
 
-		return BlockEntityHelper.getBlockEntityAs(level, shrinePos, AbstractShrineBlockEntity.class)
-				.filter(shrine -> shrine.getUpgradeDirections().contains(facing.getOpposite()) && getUpgrade().canUpgrade(shrine, level.getBlockState(pos).is(this), facing))
-				.isPresent();
+		return BlockEntityHelper.getBlockEntityAs(level, shrinePos, AbstractShrineBlockEntity.class).isPresent();
 	}
 
 	@Nullable
@@ -122,11 +121,11 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	@Override
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		if (upgrade.isBound()) {
-			getUpgrade().addInformation(tooltip, flag);
+			upgrade.value().addInformation(tooltip, flag);
 		}
 	}
 
-	public ShrineUpgrade getUpgrade() {
-		return upgrade.value();
+	public Holder<ShrineUpgrade> getUpgrade() {
+		return upgrade;
 	}
 }

@@ -11,6 +11,7 @@ import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.item.ECItems;
 
 import java.util.List;
@@ -21,9 +22,8 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class BinderGameTests {
     public static final String GROUP = "level.blocks.instruments.binder";
 
-    // elementalcraft:bindergametests.binder
     @TestHolder(description = "Checks if the binder can craft a swift alloy.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder")
+    @GameTest(template = InstrumentTestTemplates.BINDER_TEMPLATE_NAME)
     public static void should_craftSwiftAlloy(ECGameTestHelper helper) {
         helper.<BinderBlockEntity>runInstrument(List.of(
                 new ItemStack(Items.GOLD_INGOT),
@@ -32,15 +32,19 @@ public class BinderGameTests {
                 new ItemStack(Items.REDSTONE),
                 new ItemStack(ECItems.AIR_CRYSTAL)
         ), ElementType.AIR, binder -> {
-            assertThat(binder.getInventory().getItem(0))
+            var inv = binder.getInventory();
+
+            assertThat(inv.getItem(0))
                     .is(ECItems.SWIFT_ALLOY_INGOT)
                     .hasCount(1);
+            for (int i = 1; i < inv.getContainerSize(); i++) {
+                assertThat(inv.getItem(i)).isEmpty();
+            }
         });
     }
 
-    // elementalcraft:bindergametests.binder
     @TestHolder(description = "Checks if the binder keeps the bucket after crafting a fire pylon.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.binder")
+    @GameTest(template = InstrumentTestTemplates.BINDER_TEMPLATE_NAME)
     public static void should_keepBucketAfterCraftingFirePylon(ECGameTestHelper helper) {
         helper.<BinderBlockEntity>runInstrument(List.of(
                 new ItemStack(ECItems.SHRINE_BASE),
@@ -56,10 +60,12 @@ public class BinderGameTests {
             assertThat(inv.getItem(1))
                     .is(Items.BUCKET)
                     .hasCount(1);
+            for (int i = 2; i < inv.getContainerSize(); i++) {
+                assertThat(inv.getItem(i)).isEmpty();
+            }
         });
     }
 
-    // elementalcraft:bindergametests.should_autocraftswiftalloys
     @TestHolder(description = "Checks if the binder can automaticaly craft multiple swift alloys with a sorter/retriever setup.")
     @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "bindergametests.should_autocraftswiftalloys")
     public static void should_autoCraftSwiftAlloys(GameTestHelper helper) {

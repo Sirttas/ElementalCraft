@@ -9,12 +9,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.VisibleForTesting;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade.BonusType;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
@@ -24,9 +27,6 @@ import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.component.ECDataComponents;
@@ -50,7 +50,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	private final Holder<IConfigurableBlockEntityProperties> properties;
 
-	private final Map<Direction, ShrineUpgrade> upgrades = new EnumMap<>(Direction.class);
+	private final Map<Direction, Holder<ShrineUpgrade>> upgrades = new EnumMap<>(Direction.class);
 	private final Map<ShrineUpgrade.BonusType, Float> upgradeMultipliers = new EnumMap<>(ShrineUpgrade.BonusType.class);
 	private final RangeRenderTimer rangeRenderTimer = new RangeRenderTimer();
 
@@ -74,7 +74,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		return elementStorage.extractElement(i, false);
 	}
 
-	protected abstract boolean doPeriod();
+	@VisibleForTesting
+	protected abstract boolean doPeriod(); // FIXME make private
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		if (!shrine.isTargetPosValid(shrine.targetPos)) {
@@ -129,16 +130,12 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		this.upgrades.clear();
 		this.upgradeMultipliers.clear();
 		getUpgradeDirections().forEach(direction -> {
-			BlockPos pos = blockPos.relative(direction);
-			BlockState state = this.level.getBlockState(pos);
-			Block block = state.getBlock();
+			var pos = blockPos.relative(direction);
+			var state = this.level.getBlockState(pos);
+			var upgrade = level.getCapability(ElementalCraftCapabilities.ShrineUpgrades.BLOCK, pos, state, null, direction.getOpposite());
 
-			if (block instanceof AbstractShrineUpgradeBlock upgradeBlock && upgradeBlock.getFacing(state) == direction.getOpposite()) {
-				ShrineUpgrade upgrade = upgradeBlock.getUpgrade();
-
-				if (upgrade != null) {
-					setUpgrade(direction, upgrade);
-				}
+			if (upgrade != null) {
+				setUpgrade(direction, upgrade);
 			}
 		});
 		getUpgradeDirections().forEach(direction -> {
@@ -192,15 +189,17 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		return this.upgradeMultipliers.getOrDefault(type, 1F);
 	}
 
-	public int getUpgradeCount(ShrineUpgrade upgrade) {
-		return upgrade == null ? 0 : (int) upgrades.values().stream().filter(upgrade::equals).count();
+	public int getUpgradeCount(Holder<ShrineUpgrade> upgrade) {
+		return upgrade == null ? 0 : (int) upgrades.values().stream()
+				.filter(upgrade::equals)
+				.count();
 	}
 
 	public int getUpgradeCount(ResourceKey<ShrineUpgrade> key) {
 		return key == null ? 0 : (int) upgrades.values().stream().filter(u -> u.is(key)).count();
 	}
 
-	public boolean hasUpgrade(ShrineUpgrade upgrade) {
+	public boolean hasUpgrade(Holder<ShrineUpgrade> upgrade) {
 		return getUpgradeCount(upgrade) > 0;
 	}
 
@@ -209,17 +208,12 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	@Nullable
-	public Direction getUpgradeDirection(ShrineUpgrade upgrade) {
-		return getUpgradeDirection(e -> e.getValue().equals(upgrade));
-	}
-
-	@Nullable
 	public Direction getUpgradeDirection(ResourceKey<ShrineUpgrade> key) {
 		return getUpgradeDirection(e -> e.getValue().is(key));
 	}
 
 	@Nullable
-	private Direction getUpgradeDirection(Predicate<Map.Entry<Direction, ShrineUpgrade>> predicate) {
+	private Direction getUpgradeDirection(Predicate<Map.Entry<Direction, Holder<ShrineUpgrade>>> predicate) {
 		return upgrades.entrySet().stream()
 				.filter(predicate)
 				.map(Map.Entry::getKey)
@@ -227,17 +221,26 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 				.orElse(null);
 	}
 
-	private void setUpgrade(Direction direction, ShrineUpgrade upgrade) {
-		ShrineUpgrade old = upgrades.get(direction);
+	private void setUpgrade(Direction direction, Holder<ShrineUpgrade> upgrade) {
+		var old = upgrades.get(direction);
 
 		if (old != null) {
-			old.getBonuses().forEach((type, bonus) -> upgradeMultipliers.put(type, getMultiplier(type) / bonus));
+			old.value().getBonuses().forEach((type, bonus) -> upgradeMultipliers.put(type, getMultiplier(type) / bonus));
 		}
 		upgrades.put(direction, upgrade);
-		upgrade.getBonuses().forEach((type, bonus) -> upgradeMultipliers.put(type, getMultiplier(type) * bonus));
+		upgrade.value().getBonuses().forEach((type, bonus) -> upgradeMultipliers.put(type, getMultiplier(type) * bonus));
 	}
 
-	public Collection<ShrineUpgrade> getAllUpgrades() {
+
+	public boolean canReceiveUpgrade(Direction direction, Holder<ShrineUpgrade> upgrade) {
+		if (!getUpgradeDirections().contains(direction)) {
+			return false;
+		}
+		return upgrade.value().canUpgrade(this.level, this.getBlockPos(), direction, getUpgradeCount(upgrade));
+
+	}
+
+	public Collection<Holder<ShrineUpgrade>> getAllUpgrades() {
 		return upgrades.values();
 	}
 
@@ -278,7 +281,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		var ranges = getProperties().ranges();
 		var key = RangeVariants.DEFAULT_KEY;
 
-		if (this.hasUpgrade(ShrineUpgrades.TRANSLOCATION) && ranges.containsKey(RangeVariants.TRANSLOCATION_KEY)) {
+		if (this.hasUpgrade(sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades.TRANSLOCATION) && ranges.containsKey(RangeVariants.TRANSLOCATION_KEY)) {
 			key = RangeVariants.TRANSLOCATION_KEY;
 		} else if (!ranges.containsKey(RangeVariants.DEFAULT_KEY)) {
 			return new AABB(this.getBlockPos());

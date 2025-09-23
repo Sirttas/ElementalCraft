@@ -1,0 +1,18 @@
+{
+  "advancement": "elementalcraft:main/binder",
+  "category": "elementalcraft:advanced",
+  "icon": "elementalcraft:ordered_sorter",
+  "name": "block.elementalcraft.ordered_sorter",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.ordered_sorter0"
+    },
+    {
+      "type": "crafting",
+      "recipe": "elementalcraft:ordered_sorter"
+    }
+  ],
+  "sortnum": 4,
+  "turnin": "elementalcraft:pickup/ordered_sorter"
+}

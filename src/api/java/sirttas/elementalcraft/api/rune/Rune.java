@@ -5,15 +5,11 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -21,16 +17,12 @@ import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
 
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	
@@ -49,10 +41,6 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
 		this.modelName = modelName;
 		this.fxSpriteName = fxSpriteName;
-	}
-
-	public boolean canUpgrade(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nullable Direction direction, IRuneHandler handler) {
-		return handler.getRuneCount() < handler.getMaxRunes() && canUpgrade(level, pos, direction, handler.getRuneCount(this));
 	}
 
 	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
@@ -85,39 +73,6 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			sprite = ClientHooks.getBlockMaterial(fxSpriteName);
 		}
 		return sprite;
-	}
-
-	public Component getDisplayName() {
-		ResourceLocation id = getId();
-
-		return Component.translatable("elementalcraft.rune." + id.getNamespace() + '.' + id.getPath());
-	}
-
-	public boolean is(ResourceKey<Rune> key) {
-		return key.location().equals(this.getId());
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof Rune) {
-			return super.equals(other);
-		}
-		return false;
-	}
-	
-	public static Rune merge(Stream<Rune> runes) {
-		AtomicReference<Rune> atomicValue = new AtomicReference<>();
-		
-		runes.forEach(rune -> {
-			Rune value = atomicValue.get();
-			
-			if (value == null) {
-				atomicValue.set(rune);
-			} else {
-				value.merge(rune);
-			}
-		});
-		return atomicValue.get();
 	}
 
 	public enum BonusType implements StringRepresentable {

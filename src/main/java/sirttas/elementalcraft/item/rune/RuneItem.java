@@ -1,17 +1,14 @@
 package sirttas.elementalcraft.item.rune;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -20,6 +17,7 @@ import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.component.ECDataComponents;
+import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 
 import javax.annotation.Nonnull;
@@ -43,7 +41,7 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 	@Nonnull
 	@Override
 	public ItemInteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
-		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandler.BLOCK, pipe, context.getClickedFace()), context);
+		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, pipe, context.getClickedFace()), context);
 	}
 
 	@Nonnull
@@ -52,19 +50,16 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
-		Level level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		ItemStack stack = context.getItemInHand();
-		Player player = context.getPlayer();
+		var level = context.getLevel();
+		var pos = context.getClickedPos();
+		var stack = context.getItemInHand();
+		var player = context.getPlayer();
 		var rune = getRune(stack);
 
-		if (rune != null && rune.value().canUpgrade(level, pos, context.getClickedFace(), handler)) {
-			handler.addRune(rune.value());
-			if (player != null && !player.getAbilities().instabuild) {
-				stack.shrink(1);
-				if (stack.isEmpty()) {
-					player.setItemInHand(context.getHand(), ItemStack.EMPTY);
-				}
+		if (rune != null && handler.getRuneCount() < handler.getMaxRunes() && rune.value().canUpgrade(level, pos, context.getClickedFace(), handler.getRuneCount(rune.getKey()))) {
+			handler.addRune(rune);
+			if (player != null) {
+				ECPlayerHelper.shrinkItemInHand(player, stack, context.getHand());
 			}
 			return ItemInteractionResult.SUCCESS;
 		}
@@ -73,10 +68,6 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 
 	public static Holder<Rune> getRune(ItemStack stack) {
 		return stack.get(ECDataComponents.RUNE);
-	}
-
-	public ItemStack getRuneStack(Rune rune) {
-		return getRuneStack(rune.getId());
 	}
 
 	public ItemStack getRuneStack(ResourceLocation rune) {
@@ -103,9 +94,12 @@ public class RuneItem extends Item implements IPipeInteractingItem {
     @Override
 	public Component getName(@Nonnull ItemStack stack) {
 		var rune = getRune(stack);
+		var id = rune != null ? rune.getKey() : null;
 
-		if (rune != null) {
-			return rune.value().getDisplayName();
+		if (id != null) {
+			var location = id.location();
+
+			return Component.translatable("elementalcraft.rune." + location.getNamespace() + '.' + location.getPath());
 		}
 		return super.getName(stack);
 	}

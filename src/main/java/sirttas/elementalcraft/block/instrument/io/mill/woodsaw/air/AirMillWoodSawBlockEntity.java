@@ -71,7 +71,7 @@ public class AirMillWoodSawBlockEntity extends AbstractMillBlockEntity<SawingRec
 		super.assemble();
 		damage++;
 		if (damage >= AirMill.getMaxDamage()) {
-			// TODO play sound
+			AirMill.renderMillBreaking(this.getLevel(), this.getBlockPos());
 			this.getBlockState().setValue(AbstractAirMillBlock.BROKEN, true);
 		}
 	}

@@ -15,7 +15,8 @@
           {
             "breed_index": -5,
             "luck_ratio": 2.0,
-            "name": "source_trait.elementalcraft.barren.5",
+            "name": "barren_5",
+            "translation_key": "source_trait.elementalcraft.barren.5",
             "values": {
               "breeding_cost": 2.0
             },
@@ -23,7 +24,8 @@
           },
           {
             "breed_index": -4,
-            "name": "source_trait.elementalcraft.barren.4",
+            "name": "barren_4",
+            "translation_key": "source_trait.elementalcraft.barren.4",
             "values": {
               "breeding_cost": 1.6666666
             },
@@ -31,7 +33,8 @@
           },
           {
             "breed_index": -3,
-            "name": "source_trait.elementalcraft.barren.3",
+            "name": "barren_3",
+            "translation_key": "source_trait.elementalcraft.barren.3",
             "values": {
               "breeding_cost": 1.4285715
             },
@@ -40,7 +43,8 @@
           {
             "breed_index": -2,
             "luck_ratio": -1.0,
-            "name": "source_trait.elementalcraft.barren.2",
+            "name": "barren_2",
+            "translation_key": "source_trait.elementalcraft.barren.2",
             "values": {
               "breeding_cost": 1.25
             },
@@ -49,7 +53,8 @@
           {
             "breed_index": -1,
             "luck_ratio": -2.0,
-            "name": "source_trait.elementalcraft.barren.1",
+            "name": "barren_1",
+            "translation_key": "source_trait.elementalcraft.barren.1",
             "values": {
               "breeding_cost": 1.1111112
             },
@@ -58,7 +63,8 @@
           {
             "breed_index": 1,
             "luck_ratio": -2.0,
-            "name": "source_trait.elementalcraft.fertile.1",
+            "name": "fertile_1",
+            "translation_key": "source_trait.elementalcraft.fertile.1",
             "values": {
               "breeding_cost": 0.9
             },
@@ -67,7 +73,8 @@
           {
             "breed_index": 2,
             "luck_ratio": -1.0,
-            "name": "source_trait.elementalcraft.fertile.2",
+            "name": "fertile_2",
+            "translation_key": "source_trait.elementalcraft.fertile.2",
             "values": {
               "breeding_cost": 0.8
             },
@@ -75,7 +82,8 @@
           },
           {
             "breed_index": 3,
-            "name": "source_trait.elementalcraft.fertile.3",
+            "name": "fertile_3",
+            "translation_key": "source_trait.elementalcraft.fertile.3",
             "values": {
               "breeding_cost": 0.7
             },
@@ -83,7 +91,8 @@
           },
           {
             "breed_index": 4,
-            "name": "source_trait.elementalcraft.fertile.4",
+            "name": "fertile_4",
+            "translation_key": "source_trait.elementalcraft.fertile.4",
             "values": {
               "breeding_cost": 0.6
             },
@@ -92,7 +101,8 @@
           {
             "breed_index": 5,
             "luck_ratio": 2.0,
-            "name": "source_trait.elementalcraft.fertile.5",
+            "name": "fertile_5",
+            "translation_key": "source_trait.elementalcraft.fertile.5",
             "values": {
               "breeding_cost": 0.5
             },

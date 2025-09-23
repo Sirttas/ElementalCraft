@@ -17,15 +17,14 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineGameTests;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 
-@ForEachTest(groups = PlantingShrineUpgradeGameTests.GROUP)
+@ForEachTest(groups = ShrineGameUpgradeTests.GROUP)
 public class PlantingShrineUpgradeGameTests {
-
-    public static final String GROUP = "shrine.upgrade.planting";
 
     // elementalcraft:plantingshrineupgradegametests.should_plantwheat
     @TestHolder(description = "Checks if the planting shrine upgrade plants wheat when used with a harvest shrine.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "plantingshrineupgradegametests.should_plantwheat", batch = ShrineGameTestHelper.BATCH_NAME)
+    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "plantingshrineupgradegametests.should_plantwheat")
     public static void should_plantWheat(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             verifyUpgradeIsPresent(helper, new BlockPos(3, 3, 3), Direction.UP);
