@@ -190,6 +190,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.PROTECTION_SHRINE_UPGRADE, "Protection Shrine Upgrade");
         addBlock(ECBlocks.FILLING_SHRINE_UPGRADE, "Filling Shrine Upgrade");
         addBlock(ECBlocks.SPRINGALINE_SHRINE_UPGRADE, "Springaline Shrine Upgrade");
+        addBlock(ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE, "Certus Quartz Shrine Upgrade");
         addBlock(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, "Crystal Harvest Shrine Upgrade");
         addBlock(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE, "Crystal Growth Shrine Upgrade");
         addBlock(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE, "Translocation Shrine Upgrade");
@@ -454,6 +455,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addTooltip("shrine_upgrade.protection", "Only affect hostiles");
         addTooltip("shrine_upgrade.filling", "Fill tank with water");
         addTooltip("shrine_upgrade.springaline", "Grows springaline instead of amethyst");
+        addTooltip("shrine_upgrade.certus_quartz", "Grows certus quartz instead of amethyst");
         addTooltip("shrine_upgrade.crystal_harvest", "Harvest fully grown crystals");
         addTooltip("shrine_upgrade.crystal_growth", "Increase growth speed of crystals");
 
@@ -726,6 +728,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("shrine_upgrade_protection", "The $(item)protection shrine upgrade$() alters a shrine that affects creatures to only affect hostile mobs. It can be placed on any side but not on top and bottom.");
         addPatchouliPages("shrine_upgrade_filling", "The $(item)filling shrine upgrade$() is a shrine upgrade exclusive to the $(l:shrines/springshrine)spring shrine$() and the $(l:shrines/melting_shrine)lava shrine$() changing the behavior of the shrine. It will instantly fill the liquid tank connected to the upgrade with fluid. It can only be placed on top of the $(l:shrines/springshrine)spring shrine$() and on the side of the $(l:shrines/melting_shrine)lava shrine$().");
         addPatchouliPages("shrine_upgrade_springaline", "The $(item)Springaline shrine upgrade$() is a shrine upgrade exclusive to the $(l:shrines/buddingshrine)budding shrine$(). It makes the budding shrine grow $(l:basics/springaline)springaline clusters$() instead of amethyst. It can be placed on any of the four sides but not on top or bottom.");
+        addPatchouliPages("shrine_upgrade_certus_quartz", "The $(item)certus quartz shrine upgrade$() is a shrine upgrade exclusive to the $(l:shrines/buddingshrine)budding shrine$(). It makes the budding shrine grow $(l:basics/springaline)certus quartz clusters$() instead of amethyst. It can be placed on any of the four sides but not on top or bottom.");
         addPatchouliPages("shrine_upgrade_crystal_harvest", "The $(item)crystal harvest shrine upgrade$() is a shrine upgrade for the $(l:shrines/buddingshrine)budding shrine$() and the $(l:shrines/oreshrine)ore shrine$(). It makes the $(l:shrines/buddingshrine)budding shrine$() automatically harvest the amethyst or $(l:basics/springaline)springaline clusters$() once fully grown. With it, the $(l:shrines/oreshrine)ore shrine$() will harvest fully grown crystals from budding blocks. It can be placed on any of the four sides but not on top or bottom.");
         addPatchouliPages("shrine_upgrade_mystical_grove", "The $(item)mystical grove shrine upgrade$() is a shrine upgrade exclusive to the $(l:shrines/wildgroveshrine)wild grove shrine$(). It is only available if Botania is present in the pack. It makes the $(l:shrines/wildgroveshrine)wild grove shrine$() grow Botania mystical flowers instead of traditional flowers. It can be placed on top.");
         addPatchouliPages("shrine_upgrade_crystal_growth", "The $(item)crystal growth shrine upgrade$() makes the $(l:shrines/growthshrine)growth shrine$() speedup the growth of budding crystals like amethyst instead of crops, this does not affect crystals that a $(l:shrines/buddingshrine)budding shrine$() is growing. It can only be placed on top of a $(l:shrines/growthshrine)growth shrine$(). It cannot be used in combination with a $(l:shrine_upgrades/shrine_upgrade_boneless_growth)boneless growth shrine upgrade$().");

@@ -1,5 +1,8 @@
 package sirttas.elementalcraft.datagen.recipe;
 
+import appeng.api.ids.AEConstants;
+import appeng.core.definitions.AEBlocks;
+import appeng.core.definitions.AEItems;
 import mekanism.api.MekanismAPI;
 import mekanism.api.datagen.recipe.builder.ItemStackToItemStackRecipeBuilder;
 import mekanism.api.recipes.ingredients.creator.IngredientCreatorAccess;
@@ -1231,6 +1234,17 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern(" c ")
 				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
 				.save(recipeOutput);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE.get())
+				.define('C', ECItems.SHRINE_UPGRADE_CORE.get())
+				.define('f', AEItems.FLUIX_CRYSTAL)
+				.define('q', AEBlocks.QUARTZ_BLOCK)
+				.define('w', ECBlocks.WHITE_ROCK.get())
+				.define('c', ECItems.PURE_CRYSTAL.get())
+				.pattern("qfq")
+				.pattern("wCw")
+				.pattern(" c ")
+				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
+				.save(recipeOutput.withConditions(new ModLoadedCondition(AEConstants.MOD_ID)));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE.get())
 				.define('C', ECItems.SHRINE_UPGRADE_CORE.get())
 				.define('p', Items.DIAMOND_PICKAXE)

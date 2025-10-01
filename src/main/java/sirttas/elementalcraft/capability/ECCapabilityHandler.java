@@ -188,6 +188,7 @@ public class ECCapabilityHandler {
         registerShrineUpgradeCapabilities(event, ECBlocks.PROTECTION_SHRINE_UPGRADE.get());
         registerShrineUpgradeCapabilities(event, ECBlocks.FILLING_SHRINE_UPGRADE.get());
         registerShrineUpgradeCapabilities(event, ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get());
+        registerShrineUpgradeCapabilities(event, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE.get());
         registerShrineUpgradeCapabilities(event, ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE.get());
         registerShrineUpgradeCapabilities(event, ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE.get());
         registerShrineUpgradeCapabilities(event, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get());

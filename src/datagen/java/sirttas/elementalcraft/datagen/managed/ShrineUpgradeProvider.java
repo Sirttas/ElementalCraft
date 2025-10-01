@@ -103,7 +103,13 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 				.max(1)
 				.addBonus(BonusType.ELEMENT_CONSUMPTION, 2F)
 				.addBonus(BonusType.SPEED, 2F)
-				.addBonus(BonusType.CAPACITY, 2F);
+				.addBonus(BonusType.CAPACITY, 2F)
+                .incompatibleWith(ShrineUpgrades.CERTUS_QUARTZ);
+        shrineUpgrade(ShrineUpgrades.CERTUS_QUARTZ)
+				.match(ECBlocks.BUDDING_SHRINE.get())
+				.max(1)
+				.addBonus(BonusType.SPEED, 3F)
+                .incompatibleWith(ShrineUpgrades.SPRINGALINE);
 		shrineUpgrade(ShrineUpgrades.CRYSTAL_HARVEST)
 				.match(ECTags.Blocks.SHRINES_UPGRADABLES_CRYSTAL_HARVEST)
 				.max(1).addBonus(BonusType.ELEMENT_CONSUMPTION, 1.5F)
@@ -156,6 +162,7 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 		advancedShrineUpgrade(ShrineUpgrades.GREATER_FORTUNE)
 				.predicate(miningPredicate(ECTags.Blocks.SHRINES_UPGRADABLES_FORTUNE))
 				.addBonus(BonusType.ELEMENT_CONSUMPTION, 2.5F)
+				.incompatibleWith(ShrineUpgrades.FORTUNE)
 				.incompatibleWith(ShrineUpgrades.SILK_TOUCH);
 		advancedShrineUpgrade(ShrineUpgrades.TRANSLOCATION)
 				.match(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE)

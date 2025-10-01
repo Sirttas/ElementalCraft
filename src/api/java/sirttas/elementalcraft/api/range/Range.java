@@ -8,9 +8,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
-import sirttas.dpanvil.api.DPAnvilNames;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
+import sirttas.dpanvil.api.data.preprocessor.InheritanceDataPreprocessor;
 import sirttas.dpanvil.api.json.merger.JsonMerger;
 import sirttas.dpanvil.api.json.merger.JsonObjectMerger;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -63,10 +63,8 @@ public record Range(
 
     public static class Builder {
 
-        private static final String PARENT_TAG_NAME = DPAnvilNames.ResourceLocations.PARENT.toString();
-
         public static final Codec<Range.Builder> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-                ResourceLocation.CODEC.optionalFieldOf(PARENT_TAG_NAME).forGetter(b -> Optional.ofNullable(b.parent)),
+                InheritanceDataPreprocessor.fieldOf(b -> b.parent),
                 Codecs.AABB.optionalFieldOf("box").forGetter(b -> Optional.ofNullable(b.box)),
                 Codec.BOOL.optionalFieldOf("stitch", false).forGetter(b -> b.stitch),
                 GrowthRatio.CODEC.optionalFieldOf("growth_ratio", GrowthRatio.DEFAULT).forGetter(b -> b.growthRatio)

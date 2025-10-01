@@ -13,11 +13,11 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.OptimizationShrin
 import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.fortune.FortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BudTypeShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SpringalineShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.strength.OverwhelmingStrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.strength.StrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlock;
@@ -48,7 +48,8 @@ public class ShrineUpgrades {
 	public static final ResourceKey<ShrineUpgrade> CRYSTAL_HARVEST = createKey(CrystalHarvestShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> CRYSTAL_GROWTH = createKey(CrystalGrowthShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> STRENGTH = createKey(StrengthShrineUpgradeBlock.NAME);
-    public static final ResourceKey<ShrineUpgrade> SPRINGALINE = createKey(SpringalineShrineUpgradeBlock.NAME);
+    public static final ResourceKey<ShrineUpgrade> SPRINGALINE = createKey(BudTypeShrineUpgradeBlock.SPRINGALINE_NAME);
+    public static final ResourceKey<ShrineUpgrade> CERTUS_QUARTZ = createKey(BudTypeShrineUpgradeBlock.CERTUS_QUARTZ_NAME);
 	public static final ResourceKey<ShrineUpgrade> CAPACITY = createKey(CapacityShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> RANGE = createKey(RangeShrineUpgradeBlock.NAME);
 	public static final ResourceKey<ShrineUpgrade> EFFICIENCY = createKey(EfficiencyShrineUpgradeBlock.NAME);

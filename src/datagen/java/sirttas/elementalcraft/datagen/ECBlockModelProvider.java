@@ -18,5 +18,6 @@ public class ECBlockModelProvider extends BlockModelProvider {
 
         withExistingParent(BuddingShrineBudType.PLATE_MODEL_FOLDER + "/amethyst", platesTemplate).texture("texture", ECBlockStateProvider.prefix("minecraft:budding_amethyst"));
         withExistingParent(BuddingShrineBudType.PLATE_MODEL_FOLDER + "/springaline", platesTemplate).texture("texture", ECBlockStateProvider.prefix("budding_springaline"));
+        withExistingParent(BuddingShrineBudType.PLATE_MODEL_FOLDER + "/certus_quartz", platesTemplate).texture("texture", ECBlockStateProvider.prefix("ae2:flawless_budding_quartz"));
     }
 }
