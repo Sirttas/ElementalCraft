@@ -2,13 +2,11 @@ package sirttas.elementalcraft.block.shrine.budding;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -23,8 +21,6 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 
 	public static final String NAME = "buddingshrine";
 	public static final MapCodec<BuddingShrineBlock> CODEC = simpleCodec(BuddingShrineBlock::new);
-
-	public static final EnumProperty<CrystalType> CRYSTAL_TYPE = EnumProperty.create("crystal_type", CrystalType.class);
 	
 	private static final VoxelShape BASE_1 = Block.box(2D, 10D, 2D, 14D, 12D, 14D);
 	private static final VoxelShape BASE_2 = Block.box(0D, 12D, 0D, 16D, 14D, 16D);
@@ -35,7 +31,6 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 	public BuddingShrineBlock(BlockBehaviour.Properties properties) {
 		super(ElementType.EARTH, properties);
 		this.registerDefaultState(this.defaultBlockState()
-				.setValue(CRYSTAL_TYPE, CrystalType.AMETHYST)
 				.setValue(WATERLOGGED, false));
 	}
 
@@ -52,23 +47,6 @@ public class BuddingShrineBlock extends AbstractShrineBlock<BuddingShrineBlockEn
 	
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(WATERLOGGED, CRYSTAL_TYPE);
-	}
-	
-	public enum CrystalType implements StringRepresentable { // TODO extract to datapack
-		AMETHYST("amethyst"),
-		SPRINGALINE("springaline");
-
-		private final String name;
-		
-		CrystalType(String name) {
-			this.name = name;
-		}
-		
-		@Nonnull
-        @Override
-		public String getSerializedName() {
-			return name;
-		}
+		builder.add(WATERLOGGED);
 	}
 }

@@ -26,6 +26,7 @@ import sirttas.elementalcraft.block.instrument.io.purifier.PurifierRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserRenderer;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
+import sirttas.elementalcraft.block.shrine.budding.BuddingShrineRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeRenderer;
@@ -85,7 +86,7 @@ public final class ECRenderers {
 
 		register(ECBlockEntityTypes.FIRE_PYLON, ShrineRenderer::new);
 		register(ECBlockEntityTypes.GROVE_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.BUDDING_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.BUDDING_SHRINE, BuddingShrineRenderer::new);
 		register(ECBlockEntityTypes.BREEDING_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.SPAWNING_SHRINE, ShrineRenderer::new);
 		register(ECBlockEntityTypes.LAVA_SHRINE, ShrineRenderer::new);

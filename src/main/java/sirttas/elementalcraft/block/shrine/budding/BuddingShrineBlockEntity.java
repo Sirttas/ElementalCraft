@@ -11,9 +11,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.common.util.Lazy;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -29,33 +29,38 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	private static final Lazy<List<Block>> AMETHYSTS = Lazy.of(() -> List.of(Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, Blocks.AMETHYST_CLUSTER));
-	private static final Lazy<List<Block>> SPRINGALINES = Lazy.of(() -> List.of(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get(), ECBlocks.SPRINGALINE_CLUSTER.get()));
+    private BuddingShrineBudType budType = BuddingShrineBudType.AMETHYST;
 
 	public BuddingShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.BUDDING_SHRINE, PROPERTIES, pos, state);
 	}
 
+    public BuddingShrineBudType getBudType() {
+        return budType;
+    }
+
 	private BlockPos above() {
 		return this.getTargetPos().above();
 	}
 
-	@Override
-	protected boolean doPeriod() {
-		return switch (this.getBlockState().getValue(BuddingShrineBlock.CRYSTAL_TYPE)) {
-			case SPRINGALINE -> grow(SPRINGALINES.get());
-			default -> grow(AMETHYSTS.get());
-		};
-	}
+    @Override
+    public void refresh() {
+        super.refresh();
+        budType = ElementalCraftApi.BUD_TYPE_MANAGER.getData().values().stream()
+                .filter(b -> this.hasUpgrade(b.requiredUpgrade()))
+                .findFirst()
+                .orElse(BuddingShrineBudType.AMETHYST);
+    }
 
-	private boolean grow(List<Block> blocks) {
+    @Override
+	protected boolean doPeriod() {
 		var state = this.level.getBlockState(above());
 
 		if (BuddingAmethystBlock.canClusterGrowAtState(state)) {
-			setBud(blocks.get(0), state);
+			setBud(budType.sequence().getFirst(), state);
 			return true;
 		}
-		var it = blocks.iterator();
+		var it = budType.sequence().iterator();
 		while (it.hasNext()) {
 			if (state.is(it.next())) {
 				if (it.hasNext()) {

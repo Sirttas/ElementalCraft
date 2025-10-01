@@ -13,6 +13,7 @@ import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.elementalcraft.advancements.ECCriteriaTriggers;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -152,6 +153,7 @@ public class ElementalCraft {
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.SHRINE_UPGRADE_MANAGER).withCodec(ShrineUpgrade.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.TOOL_INFUSION_MANAGER).withCodec(ToolInfusion.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.SOURCE_TRAIT_MANAGER).withCodec(SourceTrait.CODEC));
+		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(ElementalCraftApi.BUD_TYPE_MANAGER).withCodec(BuddingShrineBudType.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(SPELL_PROPERTIES_MANAGER).withCodec(SpellProperties.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(PURE_ORE_LOADERS_MANAGER).withCodec(IPureOreLoader.CODEC));
 		DataManagerIMC.enqueue(() -> new DataManagerIMC<>(CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER).withCodec(IConfigurableBlockEntityProperties.CODEC));

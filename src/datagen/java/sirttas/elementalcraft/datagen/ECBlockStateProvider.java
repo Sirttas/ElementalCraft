@@ -33,8 +33,6 @@ import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
-import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
-import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.FillingShrineUpgradeBlock;
@@ -78,9 +76,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 				save(key, block);
 			}
 		});
-	}
+    }
 
-	private boolean exists(ResourceLocation name) {
+    private boolean exists(ResourceLocation name) {
 		return existingFileHelper.exists(name, PackType.CLIENT_RESOURCES, ".json", "blockstates");
 	}
 
@@ -88,13 +86,12 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		return existingFileHelper.exists(name, PackType.CLIENT_RESOURCES, ".json", "models/block");
 	}
 
-	private ResourceLocation prefix(String name) {
+    public static ResourceLocation prefix(String name) {
 		return prefix(ElementalCraftApi.createRL(name));
 	}
 	
-	private ResourceLocation prefix(ResourceLocation name) {
+	public static ResourceLocation prefix(ResourceLocation name) {
 		return ResourceLocation.fromNamespaceAndPath(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
-
 	}
 
 	private void save(ResourceLocation key, Block block) {
@@ -127,14 +124,6 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			ModelFile bowl = models().getExistingFile(prefix(name + "_bowl"));
 
 			horizontalBlock(block, state -> state.getValue(BreedingShrineBlock.PART) == BreedingShrineBlock.Part.CORE ? core : bowl);
-		} else if (block instanceof BuddingShrineBlock) {
-			ModelFile base = models().getExistingFile(prefix(name + "_base"));
-			ModelFile amethyst = models().withExistingParent("buddingshrine_plate_amethyst", prefix("template_buddingshrine_plate")).texture(TEXTURE, prefix("minecraft:budding_amethyst"));
-			ModelFile springaline = models().withExistingParent("buddingshrine_plate_springaline", prefix("template_buddingshrine_plate")).texture(TEXTURE, prefix("budding_springaline"));
-			
-			getMultipartBuilder(block).part().modelFile(base).addModel().end()
-				.part().modelFile(amethyst).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.AMETHYST).end()
-				.part().modelFile(springaline).addModel().condition(BuddingShrineBlock.CRYSTAL_TYPE, CrystalType.SPRINGALINE).end();
 		} else if (block instanceof AirMillSynthesizerBlock) {
 			getVariantBuilder(block)
 				.partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).setModels(new ConfiguredModel(airMilUpper))

@@ -9,6 +9,7 @@ import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.data.preprocessor.InheritanceDataPreprocessor;
 import sirttas.dpanvil.api.data.preprocessor.MergeDataPreprocessor;
 import sirttas.dpanvil.api.data.preprocessor.NeoForgeConditionsPreprocessor;
+import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
@@ -56,7 +57,13 @@ public class ElementalCraftApi {
 			.idSetter(SourceTrait::setId)
 			.build();
 
-	private ElementalCraftApi() {}
+    public static final ResourceKey<IDataManager<BuddingShrineBudType>> BUD_TYPE_MANAGER_KEY = IDataManager.createManagerKey(createRL(ECNames.BUD_TYPE));
+    public static final IDataManager<BuddingShrineBudType> BUD_TYPE_MANAGER = IDataManager.builder(BuddingShrineBudType.class, BUD_TYPE_MANAGER_KEY)
+            .withDefault(BuddingShrineBudType.AMETHYST)
+            .build();
+
+
+    private ElementalCraftApi() {}
 
 	public static ResourceLocation createRL(String name) {
 		if (name.contains(":")) {

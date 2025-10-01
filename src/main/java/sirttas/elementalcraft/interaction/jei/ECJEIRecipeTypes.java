@@ -5,6 +5,7 @@ import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.block.shrine.melting.MeltingShrineBlock;
@@ -62,7 +63,7 @@ public class ECJEIRecipeTypes {
     public static final RecipeType<SawingRecipe> SAWING = create(SawingRecipe.NAME, SawingRecipe.class);
     public static final RecipeType<SpellCraftRecipe> SPELL_CRAFTING = create(SpellCraftRecipe.NAME, SpellCraftRecipe.class);
     public static final RecipeType<ElementType> DISPLACEMENT = create(DisplacementRecipeCategory.NAME, ElementType.class);
-    public static final RecipeType<BuddingShrineBlock.CrystalType> BUDDING_SHRINE = create(BuddingShrineBlock.NAME, BuddingShrineBlock.CrystalType.class);
+    public static final RecipeType<BuddingShrineBudType> BUDDING_SHRINE = create(BuddingShrineBlock.NAME, BuddingShrineBudType.class);
     public static final RecipeType<MeltingRecipe> MELTING_SHRINE = create(MeltingShrineBlock.NAME, MeltingRecipe.class);
     public static final RecipeType<SpringShrineBlock> SPRING_SHRINE = create(SpringShrineBlock.NAME, SpringShrineBlock.class);
     public static final RecipeType<ElementalItem> SOURCE_BREEDING = create(SourceBreedingRecipeCategory.NAME, ElementalItem.class);
