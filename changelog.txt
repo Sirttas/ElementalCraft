@@ -1,3 +1,7 @@
+- add a tooltip for the springaline shrine upgrade in recipe vie for the budding shrine in JEI
+
+
+7.1.0:
 - new spell: light
 - source stabilizer can now be stacked (issue #169)
 - source stabilizer are now a bit cheaper to make and are now crafted 4 by 4 instead of 1 by 1 (issue #169)

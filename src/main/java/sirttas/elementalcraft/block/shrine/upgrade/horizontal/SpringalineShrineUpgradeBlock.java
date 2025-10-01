@@ -4,12 +4,10 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,9 +15,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
-import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock.CrystalType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
@@ -90,27 +85,7 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return getShape(state);
 	}
-	
-	@Override
-	public void setPlacedBy(@Nonnull Level level, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-		super.setPlacedBy(level, pos, state, placer, stack);
-		setShrineState(level, pos.relative(getFacing(state)), CrystalType.SPRINGALINE);
-	}
-	
-	@Override
-	public void onRemove(@Nonnull BlockState state, @Nonnull Level level, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-		super.onRemove(state, level, pos, newState, isMoving);
-		setShrineState(level, pos.relative(getFacing(state)), CrystalType.AMETHYST);
-	}
-	
-	private void setShrineState(Level level, BlockPos pos, CrystalType type) {
-		var shrineState = level.getBlockState(pos);
 
-		if (shrineState.is(ECBlocks.BUDDING_SHRINE.get())) {
-			level.setBlockAndUpdate(pos, shrineState.setValue(BuddingShrineBlock.CRYSTAL_TYPE, type));
-		}
-	}
-	
 	@Override
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
 		tooltip.add(Component.translatable("tooltip.elementalcraft.shrine_upgrade.springaline").withStyle(ChatFormatting.BLUE));

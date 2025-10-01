@@ -10,7 +10,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.apache.commons.lang3.StringUtils;
+import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.instrument.io.mill.MillRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
@@ -47,6 +49,7 @@ public class ECModelHandler {
         var addModel = addModel(event::register);
 
         registerRuneModels(addModel);
+        registerBuddingShrinePlatesModels(addModel);
         ECModelShapers.getAll().forEach(shaper -> shaper.registerModels(event::register));
         event.register(ElementPipeRenderer.SIDE_LOCATION);
         event.register(ElementPipeRenderer.EXTRACT_LOCATION);
@@ -75,7 +78,21 @@ public class ECModelHandler {
 
     private static void registerRuneModels(Consumer<ResourceLocation> addModel) {
         ElementalCraftApi.RUNE_MANAGER.getData().values().forEach(rune -> addModel.accept(rune.getModelName()));
-        Minecraft.getInstance().getResourceManager().listResources("models/" + ElementalCraftApi.RUNE_MANAGER.getFolder(), fileName -> fileName.getPath().endsWith(".json")).keySet().forEach(addModel);
+        addAllModelsInManagerFolder(ElementalCraftApi.RUNE_MANAGER, addModel);
+    }
+
+    private static void registerBuddingShrinePlatesModels(Consumer<ResourceLocation> addModel) {
+        ElementalCraftApi.BUD_TYPE_MANAGER.getData().values().forEach(budType -> addModel.accept(budType.plateModel()));
+        addModel.accept(BuddingShrineBudType.AMETHYST.plateModel());
+        addAllModelsFolder(BuddingShrineBudType.PLATE_MODEL_FOLDER, addModel);
+    }
+
+    private static void addAllModelsInManagerFolder(IDataManager<?> manager, Consumer<ResourceLocation> addModel) {
+        addAllModelsFolder(manager.getFolder(), addModel);
+    }
+
+    private static void addAllModelsFolder(String folder, Consumer<ResourceLocation> addModel) {
+        Minecraft.getInstance().getResourceManager().listResources("models/" + folder, fileName -> fileName.getPath().endsWith(".json")).keySet().forEach(addModel);
     }
 
     private static Consumer<ResourceLocation> addModel(Consumer<ModelResourceLocation> consumer) {

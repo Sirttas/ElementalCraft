@@ -23,7 +23,7 @@ import java.util.List;
 public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements BlockEntityRenderer<T> {
 
 	@Override
-	public void render(T shrine, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn) {
+	public void render(T shrine, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int combinedLight, int combinedOverlay) {
 		if (shrine.showsRange()) {
 			BlockPos pos = shrine.getBlockPos();
 			

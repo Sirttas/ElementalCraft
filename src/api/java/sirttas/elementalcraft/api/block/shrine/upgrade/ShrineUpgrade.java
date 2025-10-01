@@ -19,6 +19,7 @@ import java.util.Map;
 public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
 	public static final Codec<ShrineUpgrade> CODEC = RecordCodecBuilder.create(builder -> AbstractUpgrade.codec(builder, BonusType.CODEC).apply(builder, ShrineUpgrade::new));
+
 	public ShrineUpgrade(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount) {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
 	}

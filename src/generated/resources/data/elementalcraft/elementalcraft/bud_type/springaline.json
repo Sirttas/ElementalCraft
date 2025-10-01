@@ -1,0 +1,10 @@
+{
+  "plate_model": "elementalcraft:elementalcraft/budding_shrine_plates/springaline",
+  "requires_upgrade": "elementalcraft:shrine_upgrade_springaline",
+  "sequence": [
+    "elementalcraft:small_springaline_bud",
+    "elementalcraft:medium_springaline_bud",
+    "elementalcraft:large_springaline_bud",
+    "elementalcraft:springaline_cluster"
+  ]
+}

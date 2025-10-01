@@ -18,6 +18,7 @@ import sirttas.elementalcraft.datagen.language.ECEnglishLanguageProvider;
 import sirttas.elementalcraft.datagen.language.ECFrenchLanguageProvider;
 import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 import sirttas.elementalcraft.datagen.loot.ECLootTableProvider;
+import sirttas.elementalcraft.datagen.managed.BudTypeProvider;
 import sirttas.elementalcraft.datagen.managed.ECRemapKeysProvider;
 import sirttas.elementalcraft.datagen.managed.RangesProvider;
 import sirttas.elementalcraft.datagen.managed.RunesProvider;
@@ -79,6 +80,7 @@ public class ECDataGenerators {
 		generator.addProvider(includeServer, new ECLootTableProvider(output, registries));
 		generator.addProvider(includeClient, new ECBlockStateProvider(output, fileHelper));
 		generator.addProvider(includeClient, itemModelProvider);
+        generator.addProvider(includeClient, new ECBlockModelProvider(output, fileHelper));
 		var blockTagsProvider = generator.addProvider(includeServer, new ECBlockTagsProvider(output, registries, fileHelper));
 		generator.addProvider(includeServer, new ECItemTagsProvider(output, registries, blockTagsProvider.contentsGetter(), fileHelper));
 		generator.addProvider(includeServer, new ECBiomeTagsProvider(output, registries, fileHelper));
@@ -97,6 +99,7 @@ public class ECDataGenerators {
 		generator.addProvider(includeServer, new SourceTraitsProvider(output, registries));
 		generator.addProvider(includeServer, new ConfigurableBlockEntityPropertiesProvider(output, registries));
 		generator.addProvider(includeServer, new PureOreLoaderProvider(output, registries));
+		generator.addProvider(includeServer, new BudTypeProvider(output, registries));
 		generator.addProvider(includeServer, new ECRemapKeysProvider(output, registries));
 		generator.addProvider(includeServer && includeClient, new BookDataProvider(output, registries, fileHelper, translationKeyValidator));
 	}

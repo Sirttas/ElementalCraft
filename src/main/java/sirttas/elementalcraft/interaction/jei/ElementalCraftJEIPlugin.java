@@ -26,9 +26,9 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.shrine.budding.BuddingShrineBlock;
 import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.interaction.ie.IEInteraction;
 import sirttas.elementalcraft.interaction.jei.category.PureInfusionRecipeCategory;
@@ -246,7 +246,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addRecipes(RecipeTypes.ANVIL, createCastToolsAnvilRecipes(registry.getVanillaRecipeFactory()));
 		registry.addRecipes(RecipeTypes.ANVIL, createJewelsAnvilRecipes(registry.getVanillaRecipeFactory()));
 		registry.addRecipes(ECJEIRecipeTypes.DISPLACEMENT, ElementType.ALL_VALID);
-		registry.addRecipes(ECJEIRecipeTypes.BUDDING_SHRINE, List.of(BuddingShrineBlock.CrystalType.values()));
+		registry.addRecipes(ECJEIRecipeTypes.BUDDING_SHRINE, getBudTypes());
 		registry.addRecipes(ECJEIRecipeTypes.MELTING_SHRINE, getRecipes(recipeManager, ECRecipeTypes.MELTING));
 		registry.addRecipes(ECJEIRecipeTypes.SPRING_SHRINE, List.of(ECBlocks.SPRING_SHRINE.get()));
 		registry.addRecipes(ECJEIRecipeTypes.SOURCE_BREEDING, List.of(
@@ -320,4 +320,12 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 			return factory.createAnvilRecipe(new ItemStack(item), List.of(new ItemStack(jewel)), List.of(stack), jewel.getKey());
 		})).toList();
 	}
+
+
+    private List<BuddingShrineBudType> getBudTypes() {
+        List<BuddingShrineBudType> list = new ArrayList<>(ElementalCraftApi.BUD_TYPE_MANAGER.getData().values());
+
+        list.addFirst(BuddingShrineBudType.AMETHYST);
+        return list;
+    }
 }

@@ -16,7 +16,7 @@ public class CrystalGrowthShrineUpgradeGameTests {
 
     @TestHolder
     @GameTest(template = TEMPLATE)
-    public static void should_growAmethyst(GameTestHelper helper) {
+    public static void should_growAmethystOnBuddingBlocks(GameTestHelper helper) {
         helper.startSequence().thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriods(helper, new BlockPos(1, 2, 3), 36);
         }).thenExecuteAfter(1, () -> {
