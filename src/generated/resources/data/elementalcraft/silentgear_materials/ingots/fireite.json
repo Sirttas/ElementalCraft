@@ -1,0 +1,143 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "metal",
+      "endgame"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:ingots/fireite"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FF5A383B",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "material.elementalcraft.fireite"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:coating": {
+      "armor_durability": {
+        "operation": "MULTIPLY_TOTAL",
+        "value": 0.33333337
+      },
+      "armor_toughness": {
+        "operation": "ADD",
+        "value": 4.0
+      },
+      "attack_damage": {
+        "operation": "MULTIPLY_TOTAL",
+        "value": 0.5
+      },
+      "durability": [
+        {
+          "operation": "MULTIPLY_TOTAL",
+          "value": 0.4
+        },
+        {
+          "operation": "ADD",
+          "value": 3.0
+        }
+      ],
+      "enchantment_value": {
+        "operation": "ADD",
+        "value": 7.0
+      },
+      "harvest_speed": {
+        "operation": "MULTIPLY_TOTAL",
+        "value": 0.15
+      },
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "minecraft:incorrect_for_netherite_tool",
+        "level_hint": "4",
+        "name": "netherite"
+      },
+      "knockback_resistance": {
+        "operation": "ADD",
+        "value": 1.0
+      },
+      "magic_damage": {
+        "operation": "MULTIPLY_TOTAL",
+        "value": 0.5
+      },
+      "ranged_damage": {
+        "operation": "MULTIPLY_TOTAL",
+        "value": 0.5
+      },
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:fireproof"
+        }
+      ]
+    },
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:bastion"
+        }
+      ]
+    },
+    "silentgear:tip": {
+      "armor_durability": {
+        "operation": "ADD",
+        "value": 10.0
+      },
+      "attack_damage": {
+        "operation": "ADD",
+        "value": 2.0
+      },
+      "durability": {
+        "operation": "ADD",
+        "value": 350.0
+      },
+      "harvest_speed": {
+        "operation": "ADD",
+        "value": 3.0
+      },
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "minecraft:incorrect_for_diamond_tool",
+        "level_hint": "3",
+        "name": "diamond"
+      },
+      "magic_damage": {
+        "operation": "ADD",
+        "value": 3.0
+      },
+      "ranged_damage": {
+        "operation": "ADD",
+        "value": 0.5
+      },
+      "rarity": {
+        "operation": "ADD",
+        "value": 40.0
+      },
+      "traits": [
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:malleable"
+        },
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:fiery"
+        },
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:jagged"
+        }
+      ]
+    }
+  }
+}

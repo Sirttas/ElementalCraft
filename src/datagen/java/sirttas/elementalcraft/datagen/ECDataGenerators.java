@@ -13,6 +13,7 @@ import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.datagen.advancement.ECAdvancementGenerator;
 import sirttas.elementalcraft.datagen.advancement.ECPickupAdvancementGenerator;
+import sirttas.elementalcraft.datagen.interaction.ECSilentGearMaterialProvider;
 import sirttas.elementalcraft.datagen.interaction.patchouli.BookDataProvider;
 import sirttas.elementalcraft.datagen.language.ECEnglishLanguageProvider;
 import sirttas.elementalcraft.datagen.language.ECFrenchLanguageProvider;
@@ -40,6 +41,7 @@ import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECDamageTypeTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECGameEventTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
+import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import java.util.List;
@@ -102,6 +104,9 @@ public class ECDataGenerators {
 		generator.addProvider(includeServer, new BudTypeProvider(output, registries));
 		generator.addProvider(includeServer, new ECRemapKeysProvider(output, registries));
 		generator.addProvider(includeServer && includeClient, new BookDataProvider(output, registries, fileHelper, translationKeyValidator));
+		if (ECInteractions.isSilentGearActive()) {
+			generator.addProvider(includeServer, new ECSilentGearMaterialProvider(generator));
+		}
 	}
 
 	public static String getPipeTexture(ElementPipeBlock.PipeType type) {
