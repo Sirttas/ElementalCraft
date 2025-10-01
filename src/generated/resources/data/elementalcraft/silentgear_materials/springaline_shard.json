@@ -1,0 +1,131 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "intermediate"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "item": "elementalcraft:springaline_shard"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FF9ACCFC",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "material.elementalcraft.springaline_shard"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 16.0,
+      "armor/boots": 3.0,
+      "armor/chestplate": 6.0,
+      "armor/helmet": 3.0,
+      "armor/leggings": 4.0,
+      "armor_durability": 14.0,
+      "attack_damage": 2.0,
+      "attack_speed": 0.1,
+      "charging_value": 1.4,
+      "draw_speed": 0.1,
+      "durability": 300.0,
+      "enchantment_value": 16.0,
+      "harvest_speed": 8.0,
+      "magic_armor": 10.0,
+      "magic_damage": 3.0,
+      "projectile_accuracy": 1.0,
+      "projectile_speed": 1.0,
+      "ranged_damage": 1.0,
+      "rarity": 41.0,
+      "traits": [
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgear:crushing"
+        },
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:jagged"
+        },
+        {
+          "conditions": [
+            {
+              "type": "silentgear:material_ratio",
+              "ratio": 0.7
+            }
+          ],
+          "level": 1,
+          "trait": "silentgear:renew"
+        }
+      ]
+    },
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 4,
+          "trait": "silentgear:cursed"
+        },
+        {
+          "conditions": [
+            {
+              "type": "silentgear:material_ratio",
+              "ratio": 0.5
+            }
+          ],
+          "level": 2,
+          "trait": "silentgear:mighty"
+        }
+      ]
+    },
+    "silentgear:tip": {
+      "armor_durability": {
+        "operation": "ADD",
+        "value": 64.0
+      },
+      "durability": [
+        {
+          "operation": "MULTIPLY_TOTAL",
+          "value": -0.12
+        },
+        {
+          "operation": "ADD",
+          "value": 64.0
+        }
+      ],
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "minecraft:incorrect_for_iron_tool",
+        "level_hint": "2",
+        "name": "iron"
+      },
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:chipping"
+        },
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgear:jagged"
+        },
+        {
+          "conditions": [
+            {
+              "type": "silentgear:material_ratio",
+              "ratio": 0.66
+            }
+          ],
+          "level": 1,
+          "trait": "silentgear:silky"
+        }
+      ]
+    }
+  }
+}
