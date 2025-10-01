@@ -118,6 +118,9 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.PROTECTION_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.FILLING_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get());
+                if (ECInteractions.isAppliedEnergistics2Active()) {
+                    o.accept(ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE.get());
+                }
                 o.accept(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get());

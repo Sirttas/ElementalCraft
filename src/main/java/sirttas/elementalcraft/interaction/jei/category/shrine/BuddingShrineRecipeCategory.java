@@ -89,13 +89,13 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
 
     @Override
     public void getTooltip(@NotNull ITooltipBuilder tooltip, @NotNull BuddingShrineBudType budType, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
-        if (!(mouseX >= 34) || !(mouseX <= 50) || !(mouseY >= 40) || !(mouseY <= 56)) {
+        if (mouseX < 34 || mouseX > 50 || mouseY < 40 || mouseY > 56) {
             return;
         }
 
         var upgradeStack = getUpgradeStack(budType);
 
-        if (!upgradeStack.isEmpty()) {
+        if (upgradeStack.isEmpty()) {
             return;
         }
         Minecraft minecraft = Minecraft.getInstance();

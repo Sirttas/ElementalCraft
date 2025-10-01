@@ -1,8 +1,6 @@
 {
   "bonuses": {
-    "element_capacity": 2.0,
-    "element_consumption": 2.0,
-    "speed": 2.0
+    "speed": 3.0
   },
   "max_amount": 1,
   "predicate": {
@@ -12,7 +10,7 @@
         "type": "dpanvil:not",
         "value": {
           "type": "elementalcraft:has_shrine_upgrade",
-          "shrine_upgrade": "elementalcraft:shrine_upgrade_certus_quartz"
+          "shrine_upgrade": "elementalcraft:shrine_upgrade_springaline"
         }
       },
       {

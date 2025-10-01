@@ -28,4 +28,8 @@ public class ECInteractions {
 	public static boolean isTestFrameworkActive() {
 		return ModList.get().isLoaded("testframework");
 	}
+
+    public static boolean isAppliedEnergistics2Active() {
+        return ModList.get().isLoaded("ae2");
+    }
 }

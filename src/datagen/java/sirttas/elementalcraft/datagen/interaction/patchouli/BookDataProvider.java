@@ -639,6 +639,8 @@ public class BookDataProvider implements DataProvider {
         shrineUpgrade(shrineUpgrades, ECBlocks.RANGE_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.SILK_TOUCH_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.SPRINGALINE_SHRINE_UPGRADE);
+        shrineUpgrade(shrineUpgrades, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE)
+                .ignoreValidation();
         shrineUpgrade(shrineUpgrades, ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.STRENGTH_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.VORTEX_SHRINE_UPGRADE);

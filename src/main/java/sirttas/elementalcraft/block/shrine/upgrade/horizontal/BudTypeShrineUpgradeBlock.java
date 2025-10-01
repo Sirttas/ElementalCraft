@@ -1,9 +1,13 @@
 package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -15,16 +19,23 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.dpanvil.api.DataPackAnvilApi;
+import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
+public class BudTypeShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
-	public static final String NAME = "shrine_upgrade_springaline";
-	public static final MapCodec<SpringalineShrineUpgradeBlock> CODEC = simpleCodec(SpringalineShrineUpgradeBlock::new);
+	public static final String SPRINGALINE_NAME = "shrine_upgrade_springaline";
+	public static final String CERTUS_QUARTZ_NAME = "shrine_upgrade_certus_quartz";
+	public static final MapCodec<BudTypeShrineUpgradeBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            ResourceLocation.CODEC.xmap(l -> DataPackAnvilApi.createResourceKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, l), ResourceKey::location).fieldOf("shrine_upgrade").forGetter(p -> p.key),
+            Codec.STRING.fieldOf("tooltip_key").forGetter(p -> p.tooltipKey),
+            propertiesCodec()
+    ).apply(instance, BudTypeShrineUpgradeBlock::new));
 
 	private static final VoxelShape BASE_NORTH = Block.box(5D, 5D, 4D, 11D, 11D, 10D);
 	private static final VoxelShape PLATE_SOUTH_NORTH = Block.box(6D, 6D, 10D, 10D, 10D, 11D);
@@ -62,12 +73,17 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 	private static final VoxelShape PIPE_EAST = Block.box(12D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST,PLATE_WEST_EAST, PLATE_UP_EAST, PLATE_DOWN_EAST, PLATE_NORTH_EAST, PLATE_SOUTH_EAST);
 
-	public SpringalineShrineUpgradeBlock(BlockBehaviour.Properties properties) {
-		super(ShrineUpgrades.SPRINGALINE, properties);
-	}
+    private final ResourceKey<ShrineUpgrade> key;
+    private final String tooltipKey;
+
+	public BudTypeShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key, String tooltipKey, BlockBehaviour.Properties properties) {
+		super(key, properties);
+        this.key = key;
+        this.tooltipKey = tooltipKey;
+    }
 
 	@Override
-	protected @NotNull MapCodec<SpringalineShrineUpgradeBlock> codec() {
+	protected @NotNull MapCodec<BudTypeShrineUpgradeBlock> codec() {
 		return CODEC;
 	}
 
@@ -88,7 +104,7 @@ public class SpringalineShrineUpgradeBlock extends AbstractHorizontalShrineUpgra
 
 	@Override
 	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(Component.translatable("tooltip.elementalcraft.shrine_upgrade.springaline").withStyle(ChatFormatting.BLUE));
+		tooltip.add(Component.translatable(tooltipKey).withStyle(ChatFormatting.BLUE));
 		super.appendHoverText(stack, tooltipContext, tooltip, flag);
 	}
 }

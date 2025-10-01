@@ -1,4 +1,6 @@
+- new block: certus quartz shrine upgrade
 - add a tooltip for the springaline shrine upgrade in recipe vie for the budding shrine in JEI
+- fix incompability between fortune and greater fortune shrine upgrades
 
 
 7.1.0:
