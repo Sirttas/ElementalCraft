@@ -1,12 +1,10 @@
 {
   "type": "elementalcraft:pattern",
-  "element_consumption": 6250,
-  "luck_ratio": 4.0,
-  "order": 5,
-  "output_size": 5,
+  "luck_ratio": 1.0,
+  "order": 3,
   "patterns": [
     "^deepslate_",
-    "_?block$"
+    "_?cluster$"
   ],
   "source": {
     "type": "neoforge:and",
@@ -14,7 +12,7 @@
       {
         "type": "neoforge:or",
         "values": [
-          "#elementalcraft:pure_ores/sources/geore_blocks"
+          "#elementalcraft:pure_ores/sources/clusters"
         ]
       },
       {
@@ -23,5 +21,5 @@
       }
     ]
   },
-  "tag_pattern": "^geore_blocks/"
+  "tag_pattern": "^clusters/"
 }

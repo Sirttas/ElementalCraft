@@ -1695,6 +1695,11 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withIngredient(ECBlocks.SPRINGALINE_CLUSTER.get())
 				.withLuckRatio(5)
 				.save(recipeOutput);
+        GrindingRecipeBuilder.grindingRecipe(AEItems.CERTUS_QUARTZ_CRYSTAL)
+                .withCount(6)
+                .withIngredient(AEBlocks.QUARTZ_CLUSTER)
+                .withLuckRatio(5)
+                .save(recipeOutput.withConditions(new ModLoadedCondition(AEConstants.MOD_ID)));
 		GrindingRecipeBuilder.grindingRecipe(Items.BONE_MEAL)
 				.withCount(4)
 				.withIngredient(Tags.Items.BONES)

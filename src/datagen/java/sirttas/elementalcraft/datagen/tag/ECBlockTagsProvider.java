@@ -102,7 +102,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_WATER).add(Blocks.SNOW_BLOCK).addTag(BlockTags.ICE);
 		tag(ECTags.Blocks.SHRINES_GROWTH_BLACKLIST).add(Blocks.SHORT_GRASS, Blocks.GRASS_BLOCK, Blocks.TALL_GRASS);
 		tag(ECTags.Blocks.SHRINES_GROWTH_BONELESS).addTags(BlockTags.CROPS, ECTags.Blocks.CULTIVABLE_TALL_PLANTS).add(Blocks.SWEET_BERRY_BUSH, Blocks.CAVE_VINES,Blocks.CAVE_VINES_PLANT);
-		tag(ECTags.Blocks.SHRINES_ORE_HARVESTABLE_CRYSTALS).addTag(ECTags.Blocks.CLUSTERS);
+		tag(ECTags.Blocks.SHRINES_ORE_HARVESTABLE_CRYSTALS).addTag(Tags.Blocks.CLUSTERS);
 
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.MELTING_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.OVERLOAD_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.SPRING_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get(),  ECBlocks.FIRE_PYLON.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.VACUUM_SHRINE.get(), ECBlocks.FIRE_PYLON.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.ENDER_LOCK_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get());
@@ -119,9 +119,9 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.ORES_INERT_CRYSTAL).add(ECBlocks.CRYSTAL_ORE.get(), ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
 
 		tag(Tags.Blocks.ORES).addTag(ECTags.Blocks.ORES_INERT_CRYSTAL);
-		tag(ECTags.Blocks.BUDDING).add(Blocks.BUDDING_AMETHYST);
-		tag(ECTags.Blocks.BUDS).add(Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get());
-		tag(ECTags.Blocks.CLUSTERS).add(Blocks.AMETHYST_CLUSTER, ECBlocks.SPRINGALINE_CLUSTER.get());
+		tag(Tags.Blocks.BUDDING_BLOCKS).add(Blocks.BUDDING_AMETHYST);
+		tag(Tags.Blocks.BUDS).add(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get());
+		tag(Tags.Blocks.CLUSTERS).add(ECBlocks.SPRINGALINE_CLUSTER.get());
 
 		tag(ECTags.Blocks.PUREROCKS).add(ECBlocks.PURE_ROCK.get(), ECBlocks.PURE_ROCK_SLAB.get(), ECBlocks.PURE_ROCK_STAIRS.get(), ECBlocks.PURE_ROCK_WALL.get());
 		tag(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);

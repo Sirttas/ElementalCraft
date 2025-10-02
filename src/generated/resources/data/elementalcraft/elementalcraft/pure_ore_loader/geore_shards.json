@@ -3,7 +3,7 @@
   "element_consumption": 5000,
   "input_size": 4,
   "luck_ratio": 1.0,
-  "order": 3,
+  "order": 4,
   "output_size": 5,
   "patterns": [
     "^deepslate_",

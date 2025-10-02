@@ -5,9 +5,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BuddingAmethystBlock;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.common.Tags;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
@@ -123,13 +128,13 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	private boolean canClusterGrowAtState(BlockState s) {
-		return BuddingAmethystBlock.canClusterGrowAtState(s) || s.is(ECTags.Blocks.BUDS);
+		return BuddingAmethystBlock.canClusterGrowAtState(s) || s.is(Tags.Blocks.BUDS);
 	}
 
 	private boolean canGrowCrystal(BlockPos pos) {
 		BlockState state = level.getBlockState(pos);
 
-		if (state.is(ECTags.Blocks.BUDDING) && state.isRandomlyTicking()) {
+		if (state.is(Tags.Blocks.BUDDING_BLOCKS) && state.isRandomlyTicking()) {
 			for (Direction direction : Direction.values()) {
 				var offset = pos.relative(direction);
 				var s = level.getBlockState(offset);
