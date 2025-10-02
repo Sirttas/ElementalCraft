@@ -1,3 +1,4 @@
+7.1.1:
 - new block: certus quartz shrine upgrade
 - add a tooltip for the springaline shrine upgrade in recipe vie for the budding shrine in JEI
 - add back silent gear interaction
