@@ -1,6 +1,8 @@
 package sirttas.elementalcraft.datagen.language;
 
+import appeng.api.ids.AEConstants;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -438,6 +440,9 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPureOre("ventium", "Fragment de minerai de ventium pur");
         addPureOre(ElementalCraftApi.createRL("resonating"), "Fragment de minerai résonant pur");
         addPureOre(ElementalCraftApi.createRL("uraninite"), "Fragment de minerai d'uraninite pur");
+        addPureOre(ResourceLocation.withDefaultNamespace("amethyst"), "Fragment de minerai d'améthyste pur");
+        addPureOre(ElementalCraftApi.createRL("springaline"), "Fragment de minerai de printanite pur");
+        addPureOre(ResourceLocation.fromNamespaceAndPath(AEConstants.MOD_ID, "quartz"), "Fragment de minerai de quartz de certus pur");
 
         addTooltip("element_amount.0", "Petite quantité");
         addTooltip("element_amount.1", "Faible quantité");
@@ -728,7 +733,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("shrine_upgrade_protection", "L'$(item)Amélioration de Protection de Sanctuaire$() modifie un sanctuaire qui affecte les créatures pour n'affecter que les créatures hostiles. Elle peut être placée sur n'importe quel côté mais pas en haut et en bas.");
         addPatchouliPages("shrine_upgrade_filling", "L'$(item)Amélioration de Remplissage de Sanctuaire$() est une amélioration de sanctuaire exclusive au $(l:shrines/springshrine)sanctuaire de source$() et au $(l:shrines/melting_shrine)sanctuaire de lave$() changeant le comportement du sanctuaire. Elle remplira instantanément le réservoir de liquide connecté à l'amélioration avec du fluide. Elle ne peut être placée qu'en haut du $(l:shrines/springshrine)sanctuaire de source$() et sur le côté du $(l:shrines/melting_shrine)sanctuaire de lave$().");
         addPatchouliPages("shrine_upgrade_springaline", "L'$(item)Amélioration de Printanite de Sanctuaire$() est une amélioration de sanctuaire exclusive au $(l:shrines/buddingshrine)sanctuaire de bourgeonnement$(). Elle fait pousser des $(l:basics/springaline)clusters de printanite$() au lieu d'améthyste. Elle peut être placée sur n'importe lequel des quatre côtés mais pas en haut ou en bas.");
-        addPatchouliPages("shrine_upgrade_certus_quartz", "L'$(item)Amélioration de certus de Sanctuaire$() est une amélioration de sanctuaire exclusive au $(l:shrines/buddingshrine)sanctuaire de bourgeonnement$(). Elle fait pousser des clusters de certus quartz au lieu d'améthyste. Elle peut être placée sur n'importe lequel des quatre côtés mais pas en haut ou en bas.");
+        addPatchouliPages("shrine_upgrade_certus_quartz", "L'$(item)Amélioration de certus de Sanctuaire$() est une amélioration de sanctuaire exclusive au $(l:shrines/buddingshrine)sanctuaire de bourgeonnement$(). Elle fait pousser des clusters de quartz de certus au lieu d'améthyste. Elle peut être placée sur n'importe lequel des quatre côtés mais pas en haut ou en bas.");
         addPatchouliPages("shrine_upgrade_crystal_harvest", "L'$(item)Amélioration de Récolte de Cristal de Sanctuaire$() est une amélioration de sanctuaire pour le $(l:shrines/buddingshrine)sanctuaire de bourgeonnement$() et le $(l:shrines/oreshrine)sanctuaire de minerai$(). Elle fait que le $(l:shrines/buddingshrine)sanctuaire de bourgeonnement$() récolte automatiquement les clusters d'améthyste ou de $(l:basics/springaline)printanite$() une fois complètement développés. Avec elle, le $(l:shrines/oreshrine)sanctuaire de minerai$() récoltera les cristaux complètement développés des blocs de bourgeonnement. Elle peut être placée sur n'importe lequel des quatre côtés mais pas en haut ou en bas.");
         addPatchouliPages("shrine_upgrade_mystical_grove", "L'$(item)Amélioration de Bosquet Mystique de Sanctuaire$() est une amélioration de sanctuaire exclusive au $(l:shrines/wildgroveshrine)sanctuaire de bosquet sauvage$(). Elle n'est disponible que si Botania est présent dans le pack. Elle fait que le $(l:shrines/wildgroveshrine)sanctuaire de bosquet sauvage$() fasse pousser des fleurs mystiques de Botania au lieu de fleurs traditionnelles. Elle peut être placée en haut.");
         addPatchouliPages("shrine_upgrade_crystal_growth", "L'$(item)Amélioration de Croissance de Cristal de Sanctuaire$() fait que le $(l:shrines/growthshrine)sanctuaire de croissance$() accélère la croissance des cristaux bourgeonnants comme l'améthyste au lieu des cultures, cela n'affecte pas les cristaux qu'un $(l:shrines/buddingshrine)sanctuaire de bourgeonnement$() fait pousser. Elle ne peut être placée qu'en haut d'un $(l:shrines/growthshrine)sanctuaire de croissance$(). Elle ne peut pas être utilisée en combinaison avec une $(l:shrine_upgrades/shrine_upgrade_boneless_growth)amélioration de sanctuaire de croissance sans os$().");

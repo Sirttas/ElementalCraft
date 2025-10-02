@@ -2,6 +2,6 @@
   "type": "elementalcraft:fixed_name",
   "fixed_name": "elementalcraft:uraninite",
   "luck_ratio": 2.0,
-  "order": 6,
+  "order": 7,
   "source": "#elementalcraft:pure_ores/sources/raw_uraninite"
 }

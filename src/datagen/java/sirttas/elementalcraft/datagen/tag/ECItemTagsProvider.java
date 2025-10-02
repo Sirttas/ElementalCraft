@@ -62,6 +62,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		copy(Tags.Blocks.GLASS_PANES, Tags.Items.GLASS_PANES);
 		copy(ECTags.Blocks.ORES_INERT_CRYSTAL, ECTags.Items.ORES_INERT_CRYSTAL);
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
+		copy(Tags.Blocks.BUDDING_BLOCKS, Tags.Items.BUDDING_BLOCKS);
+		copy(Tags.Blocks.BUDS, Tags.Items.BUDS);
+		copy(Tags.Blocks.CLUSTERS, Tags.Items.CLUSTERS);
 
 		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
 		copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
@@ -214,6 +217,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.PURE_ORES_SOURCES_ORES).addTag(Tags.Items.ORES);
 		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
 		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCES_CLUSTERS).addTag(Tags.Items.CLUSTERS);
+
 		tag(ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS).addOptionalTag(common("geore_shards"));
 		tag(ECTags.Items.PURE_ORES_SOURCES_GEORE_BLOCKS).addOptionalTag(common("geore_blocks"));
 

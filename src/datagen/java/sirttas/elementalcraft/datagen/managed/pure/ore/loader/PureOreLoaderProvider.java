@@ -42,6 +42,9 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
         rawMaterialsBlocks("raw_material_blocks", ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIAL_BLOCKS)
                 .namespacePattern(NAMESPACE_PATTERN);
 
+        standard("clusters", ECTags.Items.PURE_ORES_SOURCES_CLUSTERS)
+                .patterns(DEEPSLATE_PATTERN, "_?cluster$")
+                .luckRatio(1);
         standard("geore_shards", ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS)
                 .patterns(DEEPSLATE_PATTERN, "_?shard$")
                 .consumption(5000)

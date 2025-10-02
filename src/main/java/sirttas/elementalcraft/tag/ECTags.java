@@ -72,6 +72,7 @@ public class ECTags {
 		public static final TagKey<Item> PURE_ORES_SOURCES_ORES = createTag("pure_ores/sources/ores");
 		public static final TagKey<Item> PURE_ORES_SOURCES_RAW_MATERIALS = createTag("pure_ores/sources/raw_materials");
 		public static final TagKey<Item> PURE_ORES_SOURCES_RAW_MATERIAL_BLOCKS = createTag("pure_ores/sources/raw_material_blocks");
+		public static final TagKey<Item> PURE_ORES_SOURCES_CLUSTERS = createTag("pure_ores/sources/clusters");
 		public static final TagKey<Item> PURE_ORES_SOURCES_GEORE_SHARDS = createTag("pure_ores/sources/geore_shards");
 		public static final TagKey<Item> PURE_ORES_SOURCES_GEORE_BLOCKS = createTag("pure_ores/sources/geore_blocks");
 		public static final TagKey<Item> PURE_ORES_SOURCES_RESONANT_ORE = createTag("pure_ores/sources/resonant_ore");
@@ -218,9 +219,6 @@ public class ECTags {
 		public static final TagKey<Block> STORAGE_BLOCKS_FIREITE = createCommonTag("storage_blocks/fireite");
 
 		public static final TagKey<Block> ORES_INERT_CRYSTAL = createCommonTag("ores/inert_crystal");
-		public static final TagKey<Block> BUDDING = createCommonTag("budding");
-		public static final TagKey<Block> BUDS = createCommonTag("buds");
-		public static final TagKey<Block> CLUSTERS = createCommonTag("clusters");
 
 		public static final TagKey<Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
 
