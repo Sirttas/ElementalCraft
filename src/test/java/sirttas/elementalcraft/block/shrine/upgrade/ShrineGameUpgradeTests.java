@@ -33,7 +33,7 @@ public class ShrineGameUpgradeTests {
     private static Test should_breakUpgradesWhenBroken(int index, String template, BlockPos shrinePos, BlockPos ...upgradePos) {
         return ECGameTestUtils.createTest(
                 GROUP,
-                "should_breakUpgradesWhenBroken#" + index++,
+                "should_breakUpgradesWhenBroken_" + index++,
                 "Check that shrine upgrades are broken when the shrine is broken",
                 template,
                 h -> should_breakUpgradesWhenBroken(h, shrinePos, upgradePos));

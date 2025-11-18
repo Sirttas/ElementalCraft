@@ -6,11 +6,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Rotation;
 import net.neoforged.testframework.Test;
+import net.neoforged.testframework.TestFramework;
 import net.neoforged.testframework.gametest.GameTestData;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import net.neoforged.testframework.impl.TestFrameworkImpl;
 import net.neoforged.testframework.impl.test.AbstractTest;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.Collections;
@@ -69,6 +71,11 @@ public class ECGameTestUtils {
     }
 
     private static class ECTest extends AbstractTest.Dynamic {
+        private final String group;
+        private final Either<String, Supplier<StructureTemplateBuilder>> template;
+        private final Rotation rotation;
+        private final Consumer<ECGameTestHelper> function;
+
 
         private ECTest(
                 String id,
@@ -78,6 +85,10 @@ public class ECGameTestUtils {
                 Rotation rotation,
                 Consumer<ECGameTestHelper> function) {
             this.id = id;
+            this.group = group;
+            this.template = template;
+            this.rotation = rotation;
+            this.function = function;
             this.enabledByDefault = true;
             this.groups.clear();
             if (StringUtils.isNotBlank(group)) {
@@ -86,11 +97,12 @@ public class ECGameTestUtils {
             this.visuals = new Visuals(
                     Component.literal(TestFrameworkImpl.capitaliseWords(id, "_")),
                     StringUtils.isNotBlank(description) ? List.of(Component.literal(description)) : Collections.emptyList());
+        }
 
-            var templateName = template.map(Function.identity(), builder -> {
-                this.registerGameTestTemplate(builder);
-                return createModId() + ":gametest_template";
-            });
+        @Override
+        public void init(@NotNull TestFramework framework) {
+                super.init(framework);
+            var templateName = template.map(Function.identity(), builder -> createModId() + ":gametest_template");
 
             this.gameTestData = new GameTestData(
                     StringUtils.isNotBlank(group) ? group : null,
@@ -105,6 +117,7 @@ public class ECGameTestUtils {
                     true);
 
             this.onGameTest(ECGameTestHelper.class, function);
+            template.right().ifPresent(this::registerGameTestTemplate);
         }
     }
 

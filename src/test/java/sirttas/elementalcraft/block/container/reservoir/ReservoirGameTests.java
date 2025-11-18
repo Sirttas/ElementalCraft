@@ -50,10 +50,10 @@ public class ReservoirGameTests {
         var i = 0;
 
         return List.of(
-                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts#" + i++, "Check if element can be inserted into both part of the fire reservoir", FIRE_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.FIRE)),
-                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts#" + i++, "Check if element can be inserted into both part of the water reservoir", WATER_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.WATER)),
-                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts#" + i++, "Check if element can be inserted into both part of the earth reservoir", EARTH_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.EARTH)),
-                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts#" + i++, "Check if element can be inserted into both part of the air reservoir", AIR_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.AIR)));
+                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts_" + i++, "Check if element can be inserted into both part of the fire reservoir", FIRE_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.FIRE)),
+                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts_" + i++, "Check if element can be inserted into both part of the water reservoir", WATER_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.WATER)),
+                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts_" + i++, "Check if element can be inserted into both part of the earth reservoir", EARTH_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.EARTH)),
+                ECGameTestUtils.createTest(GROUP, "should_insertElementFromBothParts_" + i++, "Check if element can be inserted into both part of the air reservoir", AIR_RESERVOIR_TEMPLATE_NAME, h -> should_insertElementFromBothParts(h, ElementType.AIR)));
     }
 
     private static void should_insertElementFromBothParts(ECGameTestHelper helper, ElementType type) {

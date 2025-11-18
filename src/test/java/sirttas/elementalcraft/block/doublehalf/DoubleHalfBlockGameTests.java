@@ -13,7 +13,7 @@ public class DoubleHalfBlockGameTests {
 
         return DoubleHalfBlockTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTest(
-                        "should_breakBothParts#" + index.getAndIncrement(),
+                        "should_breakBothParts_" + index.getAndIncrement(),
                         "Check if both parts of the block are broken",
                         DoubleHalfBlockGameTests::should_breakBothParts))
                 .toList();

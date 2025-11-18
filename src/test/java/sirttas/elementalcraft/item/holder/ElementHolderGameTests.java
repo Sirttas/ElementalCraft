@@ -31,22 +31,22 @@ public class ElementHolderGameTests {
                     var i = index.getAndIncrement();
 
                     downstream.accept(t.createTest(
-                            "ElementHolderGameTests.should_fillHolder#" + i,
+                            "ElementHolderGameTests.should_fillHolder_" + i,
                             "Check if an holder can be filled from a container.",
                             ContainerGameTests.EMPTY_CONTAINER_TEMPLATE_NAME,
                             ElementHolderGameTests::should_fillHolder));
                     downstream.accept(t.createTest(
-                            "ElementHolderGameTests.should_emptyHolder#" + i,
+                            "ElementHolderGameTests.should_emptyHolder_" + i,
                             "Check if an holder can be emptied into a container.",
                             ContainerGameTests.EMPTY_CONTAINER_TEMPLATE_NAME,
                             ElementHolderGameTests::should_emptyHolder));
                     downstream.accept(t.createTest(
-                            "ElementHolderGameTests.should_exhaustSource#" + i,
+                            "ElementHolderGameTests.should_exhaustSource_" + i,
                             "Check if an holder can be filled from a source and exhaust it.",
                             SourceGameTestTemplates.getSourceTemplate(t.type()),
                             ElementHolderGameTests::should_exhaustSource));
                     downstream.accept(t.createTest(
-                            "ElementHolderGameTests.should_dropStabilizer_when_sourceGetExhausted#" + i,
+                            "ElementHolderGameTests.should_dropStabilizer_when_sourceGetExhausted_" + i,
                             "Check if an holder can be filled from a source, exhaust it and drop a stabilizer when it is stabilized.",
                             SourceGameTestTemplates.getSourceWithStabilizerTemplate(t.type()),
                             ElementHolderGameTests::should_dropStabilizer_when_sourceGetExhausted));

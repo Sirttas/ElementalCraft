@@ -23,13 +23,13 @@ public class FireBlastFurnaceGameTests {
                 .map(t -> t.blast() ?
                         t.createTest(
                             GROUP,
-                            "should_smelt#" + index.getAndIncrement(),
+                            "should_smelt_" + index.getAndIncrement(),
                             "Check that the fire blast furnace can smelt the input item.",
                             InstrumentTestTemplates.FIRE_BLAST_FURNACE_TEMPLATE_NAME,
                             FireBlastFurnaceGameTests::should_melt) :
                         t.createTest(
                             GROUP,
-                            "shouldNot_melt#" + index.getAndIncrement(),
+                            "shouldNot_melt_" + index.getAndIncrement(),
                             "Check that the fire blast furnace cannot smelt the input item.",
                             InstrumentTestTemplates.FIRE_BLAST_FURNACE_TEMPLATE_NAME,
                             FireBlastFurnaceGameTests::shouldNot_melt))

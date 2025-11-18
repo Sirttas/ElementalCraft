@@ -20,11 +20,11 @@ public class MillGameTests {
                     var i = index.getAndIncrement();
 
                     consumer.accept(holder.createTest(
-                            "should_mill#" + i,
+                            "should_mill_" + i,
                             "Check if the mill can mill the input item.",
                             MillGameTests::should_mill));
                     consumer.accept(holder.createTest(
-                            "shouldNot_mill_with_wrongElement#" + i,
+                            "shouldNot_mill_with_wrongElement_" + i,
                             "Check if the mill can't mill the input item with the wrong element.",
                             MillGameTests::shouldNot_mill_with_wrongElement));
                 })

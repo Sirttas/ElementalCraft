@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.testframework.Test;
+import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
@@ -13,6 +14,7 @@ import sirttas.elementalcraft.block.diffuser.DiffuserGameTests;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.melting.MeltingShrineGameTests;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgradeTemplates;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeGameTests;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerBlockEntity;
@@ -26,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
@@ -68,7 +71,8 @@ public class RangeGameTests {
 
                     upgrade.setTarget(targetPos);
                     should_haveRange(helper, shrine, new AABB(6, 2, 1, 13, 5, 8));
-                })
+                }),
+                createTest(i++, RangeShrineUpgradeTemplates.HARVEST_SHRINE_WITH_1_RANGE_TEMPLATE, helper -> should_haveRange(helper, new BlockPos(0, 2, 0), new AABB(-7, -1, -7, 8, 2, 8)))
         );
     }
 
@@ -103,11 +107,25 @@ public class RangeGameTests {
         return createTest(index, template, Rotation.NONE, function);
     }
 
+    public static Test createTest(int index, Supplier<StructureTemplateBuilder> template, Consumer<ECGameTestHelper> function) {
+        return createTest(index, template, Rotation.NONE, function);
+    }
+
     public static Test createTest(int index, String template, Rotation rotation, Consumer<ECGameTestHelper> function) {
         return ECGameTestUtils.createTest(
                 GROUP,
-                "should_haveRange#" + index,
+                "should_haveRange_" + index,
                 "Check range for block entity in template: " + template,
+                template,
+                rotation,
+                function);
+    }
+
+    public static Test createTest(int index, Supplier<StructureTemplateBuilder> template, Rotation rotation, Consumer<ECGameTestHelper> function) {
+        return ECGameTestUtils.createTest(
+                GROUP,
+                "should_haveRange_" + index,
+                "Check range for block entity in anonymous template",
                 template,
                 rotation,
                 function);

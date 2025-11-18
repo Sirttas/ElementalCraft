@@ -40,37 +40,37 @@ public class ContainerGameTests {
         return List.of(
                 ECGameTestUtils.createTest(
                         GROUP,
-                        "should_supportARudimentaryExtractor#" + i++,
+                        "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a small element container",
                         EMPTY_SMALL_CONTAINER_TEMPLATE_NAME,
                         h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
                 ECGameTestUtils.createTest(
-                        GROUP, "should_supportARudimentaryExtractor#" + i++,
+                        GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of an element container",
                         EMPTY_CONTAINER_TEMPLATE_NAME,
                         h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
                 ECGameTestUtils.createTest(
-                        GROUP, "should_supportARudimentaryExtractor#" + i++,
+                        GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a fire reservoir",
                         ReservoirGameTests.FIRE_RESERVOIR_TEMPLATE_NAME,
                         h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
                 ECGameTestUtils.createTest(
-                        GROUP, "should_supportARudimentaryExtractor#" + i++,
+                        GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a water reservoir",
                         ReservoirGameTests.WATER_RESERVOIR_TEMPLATE_NAME,
                         h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
                 ECGameTestUtils.createTest(
-                        GROUP, "should_supportARudimentaryExtractor#" + i++,
+                        GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of an earth reservoir",
                         ReservoirGameTests.EARTH_RESERVOIR_TEMPLATE_NAME,
                         h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
                 ECGameTestUtils.createTest(
-                        GROUP, "should_supportARudimentaryExtractor#" + i++,
+                        GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of an air reservoir",
                         ReservoirGameTests.AIR_RESERVOIR_TEMPLATE_NAME,
                         h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
                 ECGameTestUtils.createTest(
-                        GROUP, "should_supportARudimentaryExtractor#" + i++,
+                        GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a creative element container",
                         EMPTY_CREATIVE_CONTAINER_TEMPLATE_NAME,
                         h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))));

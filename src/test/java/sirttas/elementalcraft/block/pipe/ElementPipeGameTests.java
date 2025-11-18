@@ -85,22 +85,22 @@ public class ElementPipeGameTests {
 
         return List.of(
                 createTest(
-                        "should_disconnectWhenBroken#" + i++,
+                        "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "elementpipegametests.shouldnot_transferabovemax",
                         h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 1), Direction.NORTH)),
                 createTest(
-                        "should_disconnectWhenBroken#" + i++,
+                        "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "elementpipegametests.shouldnot_transferabovemax",
                         h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 2), Direction.NORTH)),
                 createTest(
-                        "should_disconnectWhenBroken#" + i++,
+                        "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "elementpipegametests.shouldnot_transferabovemax",
                         h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 2), Direction.SOUTH)),
                 createTest(
-                        "should_disconnectWhenBroken#" + i++,
+                        "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "overclockedaccelerationshrineupgradegametests.should_allowselementtransfer",
                         h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 2), Direction.NORTH))

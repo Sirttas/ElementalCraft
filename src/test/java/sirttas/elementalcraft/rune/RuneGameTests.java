@@ -22,7 +22,7 @@ public class RuneGameTests {
 
         return RuneTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTest(
-                        "should_dropRunes#" + index.getAndIncrement(),
+                        "should_dropRunes_" + index.getAndIncrement(),
                         "Check if the rune is dropped when the block is destroyed",
                         RuneGameTests::should_dropRunes))
                 .toList();
