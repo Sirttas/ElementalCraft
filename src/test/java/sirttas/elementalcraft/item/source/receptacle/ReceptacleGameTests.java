@@ -40,25 +40,25 @@ public class ReceptacleGameTests {
 
                     downstream.accept(ECGameTestUtils.createTest(
                             GROUP,
-                            "ReceptacleGameTests.should_pickupReceptacle#" + i,
+                            "ReceptacleGameTests.should_pickupReceptacle_" + i,
                             "Check if a player picks-up a full receptacle when using an empty receptacle on it.",
                             SourceGameTestTemplates.getSourceTemplate(t),
                             h -> should_pickupReceptacle(h, t)));
                     downstream.accept(ECGameTestUtils.createTest(
                             GROUP,
-                            "ReceptacleGameTests.should_pickupReceptacleAndDropStabilizer#" + i,
+                            "ReceptacleGameTests.should_pickupReceptacleAndDropStabilizer_" + i,
                             "Check if a player picks-up a full receptacle and a stabilizer when using an empty receptacle on it.",
                             SourceGameTestTemplates.getSourceWithStabilizerTemplate(t),
                             h -> should_pickupReceptacleAndDropStabilizer(h, t)));
                     downstream.accept(ECGameTestUtils.createTest(
                             GROUP,
-                            "ReceptacleGameTests.should_placeDownNewSource#" + i,
+                            "ReceptacleGameTests.should_placeDownNewSource_" + i,
                             "Check if a player place down a source with a full receptacle.",
                             SourceGameTestTemplates.EMPTY_FOR_SOURCE_TEMPLATE_NAME,
                             h -> should_placeDownNewSource(h, t)));
                     downstream.accept(ECGameTestUtils.createTest(
                             GROUP,
-                            "ReceptacleGameTests.should_placeDownUsedSource#" + i,
+                            "ReceptacleGameTests.should_placeDownUsedSource_" + i,
                             "Check if a player place down a source with a partially used source in a receptacle.",
                             SourceGameTestTemplates.EMPTY_FOR_SOURCE_TEMPLATE_NAME,
                             h -> should_placeDownUsedSource(h, t)));

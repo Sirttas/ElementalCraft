@@ -34,7 +34,7 @@ public class DiffuserGameTests {
 
         return ElementHolderTestCaseHolder.HOLDERS.stream()
                 .map(t -> t.createTest(
-                        "diffusergametests.should_fillHolder#" + index.getAndIncrement(),
+                        "diffusergametests.should_fillHolder_" + index.getAndIncrement(),
                         "Check if a diffuser can fill holders in a player inventory.",
                         TEMPLATE_23x23_NAME,
                         DiffuserGameTests::should_fillHolder))

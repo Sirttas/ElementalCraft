@@ -29,15 +29,15 @@ public class AirMillGameTests {
                     var i = index.getAndIncrement();
 
                     consumer.accept(holder.createTest(
-                            "should_dropDamagedMill#" + i,
+                            "should_dropDamagedMill_" + i,
                             "Check if a damaged mill drops damaged",
                             AirMillGameTests::should_dropDamagedMill));
                     consumer.accept(holder.createTest(
-                            "should_getRepairedByPlayer#" + i,
+                            "should_getRepairedByPlayer_" + i,
                             "Check if a damaged mill can be repaired by a player",
                             AirMillGameTests::should_getRepairedByPlayer));
                     consumer.accept(holder.createTest(
-                            "should_getFullyRepairedByPlayer#" + i,
+                            "should_getFullyRepairedByPlayer_" + i,
                             "Check if a damaged mill can be fully repaired by a player and the item is consumed",
                             AirMillGameTests::should_getFullyRepairedByPlayer));
                 })

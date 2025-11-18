@@ -98,25 +98,25 @@ public class PureInfuserGameTests {
         return List.of(
                 ECGameTestUtils.createTest(
                         GROUP,
-                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(0, 1, 3))),
                 ECGameTestUtils.createTest(
                         GROUP,
-                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 0))),
                 ECGameTestUtils.createTest(
                         GROUP,
-                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(6, 1, 3))),
                 ECGameTestUtils.createTest(
                         GROUP,
-                        "shouldNot_craftWhenAPedestalIsBroken#" + i++,
+                        "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 6)))

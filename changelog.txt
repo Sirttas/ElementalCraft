@@ -1,4 +1,5 @@
 - fix source altars not generating properly
+- fix growth ratio not applying correctly to ranges
 
 
 7.1.1:

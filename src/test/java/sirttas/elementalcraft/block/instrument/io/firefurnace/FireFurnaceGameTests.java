@@ -20,7 +20,7 @@ public class FireFurnaceGameTests {
         return FireFurnaceTestHolder.HOLDERS.stream()
                 .map(t -> t.createTest(
                         GROUP,
-                        "should_smelt#" + index.getAndIncrement(),
+                        "should_smelt_" + index.getAndIncrement(),
                         "Check if the fire furnace can smelt the input item.",
                         InstrumentTestTemplates.FIRE_FURNACE_TEMPLATE_NAME,
                         FireFurnaceGameTests::should_smelt))

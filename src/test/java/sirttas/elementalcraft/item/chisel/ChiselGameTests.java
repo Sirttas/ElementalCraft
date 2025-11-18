@@ -62,11 +62,11 @@ public class ChiselGameTests {
                     var i = index.getAndIncrement();
 
                     downstream.accept(t.createTest(
-                            "should_removeRunes#" + i,
+                            "should_removeRunes_" + i,
                             "Check that a player can remove a rune while sneaking",
                             ChiselGameTests::should_removeRunes));
                     downstream.accept(t.createTest(
-                            "shouldNot_removeRunes#" + i,
+                            "shouldNot_removeRunes_" + i,
                             "Check that a player cannot remove a rune if not sneaking",
                             ChiselGameTests::shouldNot_removeRunes));
                 })

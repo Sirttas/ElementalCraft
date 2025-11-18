@@ -59,9 +59,9 @@ public record GrowthRatio(
         var m = multiplier - 1;
 
         return new AABB(
-                box.minX * (1 + west * m),
-                box.minY * (1 + down * m),
-                box.minZ * (1 + north * m),
+                (box.minX - 1) * (1 + west * m) + 1,
+                (box.minY - 1) * (1 + down * m) + 1,
+                (box.minZ - 1) * (1 + north * m) + 1,
                 box.maxX * (1 + east * m),
                 box.maxY * (1 + up * m),
                 box.maxZ * (1 + south * m)
