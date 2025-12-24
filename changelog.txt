@@ -1,5 +1,7 @@
 - fix source altars not generating properly
 - fix growth ratio not applying correctly to ranges
+- fix repair spell not working properly
+- fix spells using range in place of their strength
 
 
 7.1.1:

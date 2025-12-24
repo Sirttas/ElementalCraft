@@ -10,7 +10,6 @@ import net.neoforged.testframework.gametest.EmptyTemplate;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.jewel.JewelTestHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import static org.assertj.core.api.Assertions.within;
@@ -38,7 +37,7 @@ public class DemigodJewelGameTests {
             helper.assertMobEffectPresent(player, MobEffects.REGENERATION, "Regeneration");
             helper.assertMobEffectPresent(player, MobEffects.ABSORPTION, "Absorption");
             helper.assertMobEffectPresent(player, MobEffects.FIRE_RESISTANCE, "Fire resistance");
-            JewelTestHelper.assertElementUsed(player, ElementType.AIR);
+            helper.assertElementUsed(player, ElementType.AIR);
             assertThat(player.getInventory().contains(s -> s.is(Items.TOTEM_OF_UNDYING)))
                     .describedAs("Totem of undying should be consumed")
                     .isFalse();

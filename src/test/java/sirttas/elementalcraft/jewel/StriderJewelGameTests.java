@@ -33,7 +33,7 @@ public class StriderJewelGameTests {
             helper.startSequence().thenExecuteAfter(20, ECGameTestUtils.fixAssertions(() -> {
                         assertThat(player.getOnPos())
                                 .isEqualTo(helper.absolutePos(new BlockPos(2, 5, 2)));
-                        JewelTestHelper.assertElementUsed(player, ElementType.WATER);
+                        helper.assertElementUsed(player, ElementType.WATER);
                     })).thenExecute(player::discard)
                     .thenSucceed();
         });
@@ -52,7 +52,7 @@ public class StriderJewelGameTests {
             helper.startSequence().thenExecuteAfter(20, ECGameTestUtils.fixAssertions(() -> {
                         assertThat(player.getOnPos())
                                 .isEqualTo(helper.absolutePos(new BlockPos(2, 5, 2)));
-                        JewelTestHelper.assertElementUsed(player, ElementType.FIRE);
+                        helper.assertElementUsed(player, ElementType.FIRE);
                     })).thenExecute(player::discard)
                     .thenSucceed();
         });

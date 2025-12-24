@@ -13,5 +13,6 @@
   "element_consumption": 250,
   "element_type": "earth",
   "spell_type": "combat",
+  "strength": 1.0,
   "weight": 20
 }

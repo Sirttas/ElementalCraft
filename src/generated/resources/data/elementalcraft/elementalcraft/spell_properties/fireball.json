@@ -4,5 +4,6 @@
   "element_consumption": 500,
   "element_type": "fire",
   "spell_type": "combat",
+  "strength": 1.0,
   "weight": 30
 }

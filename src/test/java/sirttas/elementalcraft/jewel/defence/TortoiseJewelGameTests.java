@@ -10,7 +10,6 @@ import net.neoforged.testframework.gametest.EmptyTemplate;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.jewel.JewelTestHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.jewel.attack.KirinJewelGameTests;
 
@@ -39,7 +38,7 @@ public class TortoiseJewelGameTests {
             assertThat(anvil.isAlive())
                     .describedAs("Anvil should have dropped")
                     .isFalse();
-            JewelTestHelper.assertElementUsed(player, ElementType.EARTH);
+            helper.assertElementUsed(player, ElementType.EARTH);
             helper.assertBlockNotPresent(Blocks.ANVIL, 1, 2, 1);
         })).thenExecute(() -> {
             anvil.discard();

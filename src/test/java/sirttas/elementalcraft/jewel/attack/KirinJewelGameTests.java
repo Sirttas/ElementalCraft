@@ -9,7 +9,6 @@ import net.neoforged.testframework.gametest.EmptyTemplate;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.jewel.JewelTestHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import static org.assertj.core.api.Assertions.within;
@@ -34,7 +33,7 @@ public class KirinJewelGameTests {
                     .describedAs("Enderman should be alive")
                     .isTrue();
             assertThat(target.getHealth()).isCloseTo(33, within(1.9F));
-            JewelTestHelper.assertElementUsed(player, ElementType.FIRE);
+            helper.assertElementUsed(player, ElementType.FIRE);
         })).thenExecute(() -> {
             target.discard();
             player.discard();
@@ -55,7 +54,7 @@ public class KirinJewelGameTests {
                     .describedAs("Zombie should be alive")
                     .isTrue();
             assertThat(target.getHealth()).isCloseTo(8, within(1.9F));
-            JewelTestHelper.assertElementUsed(player, ElementType.FIRE);
+            helper.assertElementUsed(player, ElementType.FIRE);
         })).thenExecute(() -> {
             target.discard();
             player.discard();

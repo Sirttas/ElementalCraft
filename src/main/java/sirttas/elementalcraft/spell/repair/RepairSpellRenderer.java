@@ -42,7 +42,7 @@ public class RepairSpellRenderer implements ISpellRenderer {
                 var cameraPos = camera.getPosition();
                 var newStack = new PoseStack();
                 var anvilState = getAnvilState(player, blockRay);
-                var itemToRepair = repairSpell.getItemToRepair(player);
+                var itemToRepair = repairSpell.getItemInOtherHand(player);
 
                 if (anvilState == null) {
                     return;
