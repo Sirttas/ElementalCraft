@@ -65,6 +65,22 @@ public class Spell implements IElementTypeProvider {
 		return Component.translatable(getDescriptionId());
 	}
 
+    public boolean is(@NotNull Holder<Spell> spell) {
+        return this.key == spell.getKey();
+    }
+
+    public ItemStack getItemInOtherHand(LivingEntity entity) {
+        var mainHand = entity.getMainHandItem();
+        var offHand = entity.getOffhandItem();
+
+        if (this.is(SpellHelper.getSpell(mainHand))) {
+            return offHand;
+        } else if (this.is(SpellHelper.getSpell(offHand))) {
+            return mainHand;
+        }
+        return ItemStack.EMPTY;
+    }
+
 	public Multimap<Holder<Attribute>, AttributeModifier> getOnUseAttributeModifiers() {
 		return getProperties().getAttributes();
 	}

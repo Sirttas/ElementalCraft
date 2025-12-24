@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
-import sirttas.elementalcraft.spell.SpellHelper;
 
 import javax.annotation.Nonnull;
 
@@ -32,7 +31,7 @@ public class RepairSpell extends Spell {
         }
 
         if (sender instanceof Player player) {
-            var item = getItemToRepair(player);
+            var item = getItemInOtherHand(player);
 
             if (!item.isEmpty() && item.isDamaged()) {
                 repairPlayerItems(item);
@@ -42,19 +41,6 @@ public class RepairSpell extends Spell {
         }
 
         return InteractionResult.PASS;
-    }
-
-    public ItemStack getItemToRepair(Player player) {
-        var mainHand = player.getMainHandItem();
-        var offHand = player.getOffhandItem();
-
-        if (SpellHelper.getSpell(mainHand) == this) {
-            return offHand;
-        } else if (SpellHelper.getSpell(offHand) == this) {
-            return mainHand;
-        } else {
-            return ItemStack.EMPTY;
-        }
     }
 
     private void repairPlayerItems(ItemStack stack) {

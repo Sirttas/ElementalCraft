@@ -130,13 +130,14 @@ public class JewelHandler implements IJewelHandler {
         if (attacker instanceof Projectile projectile) {
             attacker = projectile.getOwner();
         }
-        if (attacker != null) {
-            for (var jewel : JewelHelper.getActiveJewels(attacker)) {
-                if (jewel instanceof AbstractAttackJewel attackJewel) {
-                    attackJewel.onAttack(attacker, target);
-                    if (!jewel.isTicking()) {
-                        jewel.consume(attacker);
-                    }
+        if (attacker == null) {
+            return;
+        }
+        for (var jewel : JewelHelper.getActiveJewels(attacker)) {
+            if (jewel instanceof AbstractAttackJewel attackJewel) {
+                attackJewel.onAttack(attacker, target);
+                if (!jewel.isTicking()) {
+                    jewel.consume(attacker);
                 }
             }
         }

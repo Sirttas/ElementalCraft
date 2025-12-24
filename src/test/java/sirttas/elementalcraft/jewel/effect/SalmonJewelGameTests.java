@@ -12,7 +12,6 @@ import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.jewel.JewelTestHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
@@ -38,7 +37,7 @@ public class SalmonJewelGameTests {
                                 .isTrue();
                         assertThat(player.getHealth()).isEqualTo(20);
                         helper.assertMobEffectPresent(player, MobEffects.WATER_BREATHING, "Water breathing");
-                        JewelTestHelper.assertElementUsed(player, ElementType.WATER);
+                        helper.assertElementUsed(player, ElementType.WATER);
                     })).thenExecute(player::discard)
                     .thenSucceed();
         });

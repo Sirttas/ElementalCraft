@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -35,7 +36,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.rune.RuneItem;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 import sirttas.elementalcraft.jewel.Jewel;
-import sirttas.elementalcraft.jewel.JewelTestHelper;
+import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 
@@ -105,8 +106,8 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         var player = makeMockPlayer(GameType.SURVIVAL);
 
         player.moveTo(absoluteVec(pos));
-        player.setItemSlot(EquipmentSlot.HEAD, JewelTestHelper.createWithJewel(Items.LEATHER_HELMET, jewel));
-        player.setItemInHand(InteractionHand.OFF_HAND, JewelTestHelper.createFullPureHolder());
+        player.setItemSlot(EquipmentSlot.HEAD, createWithJewel(Items.LEATHER_HELMET, jewel));
+        player.addItem(createFullPureHolder());
         getLevel().addFreshEntity(player);
         return player;
     }
@@ -121,7 +122,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         SpellHelper.setSpell(scroll, spell);
 
         player.setItemInHand(InteractionHand.MAIN_HAND, scroll);
-        player.setItemInHand(InteractionHand.OFF_HAND, JewelTestHelper.createFullPureHolder());
+        player.addItem(createFullPureHolder());
         getLevel().addFreshEntity(player);
         return player;
     }
@@ -231,5 +232,30 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
             throw new GameTestAssertException("Expected rune " + name + " but got " + stack);
         }
         assertRuneIs(rune, name);
+    }
+
+    public ItemStack createFullPureHolder() {
+        var holder = new ItemStack(ECItems.PURE_HOLDER);
+
+        holder.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM).fill();
+        return holder;
+    }
+
+    public ItemStack createWithJewel(ItemLike item, Supplier<? extends Jewel> jewel) {
+        var stack = new ItemStack(item);
+
+        JewelHelper.setJewel(stack, jewel.get());
+        return stack;
+    }
+
+    public void assertElementUsed(Player player, ElementType elementType) {
+        assertElementUsed(player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY), elementType);
+    }
+
+    public void assertElementUsed(IElementStorage storage, ElementType elementType) {
+        assertThat(storage).isNotNull();
+        assertThat(storage.getElementAmount(elementType))
+                .describedAs("Element %s should have been used", elementType.getSerializedName())
+                .isLessThan(storage.getElementCapacity(elementType));
     }
 }

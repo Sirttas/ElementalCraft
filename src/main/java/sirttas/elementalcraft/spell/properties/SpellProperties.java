@@ -45,7 +45,7 @@ public record SpellProperties(
 			Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(SpellProperties::consumeAmount),
 			Codec.INT.optionalFieldOf(ECNames.COOLDOWN, 0).forGetter(SpellProperties::cooldown),
 			Codec.FLOAT.optionalFieldOf(ECNames.RANGE, 0F).forGetter(SpellProperties::range),
-			Codec.FLOAT.optionalFieldOf(ECNames.STRENGTH, 0F).forGetter(SpellProperties::range),
+			Codec.FLOAT.optionalFieldOf(ECNames.STRENGTH, 0F).forGetter(SpellProperties::strength),
 			Codecs.COLOR.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::color),
 			Codec.BOOL.optionalFieldOf("hidden", false).forGetter(SpellProperties::hidden),
 			Codecs.ATTRIBUTE_MULTIMAP.optionalFieldOf(ECNames.ATTRIBUTES, Multimaps.forMap(Collections.emptyMap())).forGetter(SpellProperties::getAttributes)

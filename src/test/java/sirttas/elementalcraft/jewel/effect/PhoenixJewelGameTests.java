@@ -8,7 +8,6 @@ import net.neoforged.testframework.gametest.EmptyTemplate;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.jewel.JewelTestHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
@@ -33,7 +32,7 @@ public class PhoenixJewelGameTests {
             assertThat(player.getHealth()).isEqualTo(20);
             helper.assertMobEffectPresent(player, MobEffects.FIRE_RESISTANCE, "Fire resistance");
             helper.assertMobEffectPresent(player, MobEffects.REGENERATION, "Regeneration");
-            JewelTestHelper.assertElementUsed(player, ElementType.FIRE);
+            helper.assertElementUsed(player, ElementType.FIRE);
         })).thenExecute(player::discard)
                 .thenSucceed();
     }

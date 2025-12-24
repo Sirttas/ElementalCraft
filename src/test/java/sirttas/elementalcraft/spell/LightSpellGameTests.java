@@ -12,10 +12,8 @@ import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.jewel.JewelTestHelper;
-import sirttas.elementalcraft.jewel.StriderJewelGameTests;
 
-@ForEachTest(groups = StriderJewelGameTests.GROUP)
+@ForEachTest(groups = LightSpellGameTests.GROUP)
 public class LightSpellGameTests {
 
     public static final String GROUP = "spell.light";
@@ -34,7 +32,7 @@ public class LightSpellGameTests {
                     .thenExecute(() -> helper.useItem(player))
                     .thenExecuteAfter(2, ECGameTestUtils.fixAssertions(() -> {
                         helper.assertBlockPresent(ECBlocks.ELEMENTAL_EMBER.get(), new BlockPos(8, 1, 1));
-                        JewelTestHelper.assertElementUsed(player, ElementType.FIRE);
+                        helper.assertElementUsed(player, ElementType.FIRE);
                     }))
                     .thenExecute(player::discard)
                     .thenSucceed();

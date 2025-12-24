@@ -4,5 +4,6 @@
   "element_consumption": 500,
   "element_type": "air",
   "spell_type": "combat",
+  "strength": 4.0,
   "weight": 5
 }
