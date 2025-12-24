@@ -9,10 +9,12 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.entity.spectral.SpectralTool;
 import sirttas.elementalcraft.spell.air.DashSpell;
 import sirttas.elementalcraft.spell.air.EnderStrikeSpell;
 import sirttas.elementalcraft.spell.air.FeatherSpikesSpell;
 import sirttas.elementalcraft.spell.air.ItemPullSpell;
+import sirttas.elementalcraft.spell.air.SpectralToolSpell;
 import sirttas.elementalcraft.spell.air.TranslocationSpell;
 import sirttas.elementalcraft.spell.airshield.AirShieldSpell;
 import sirttas.elementalcraft.spell.earth.GavelFallSpell;
@@ -61,6 +63,7 @@ public class Spells {
 	public static final DeferredHolder<Spell, AirShieldSpell> AIR_SHIELD = register(AirShieldSpell.NAME, AirShieldSpell::new);
 	public static final DeferredHolder<Spell, RepairSpell> REPAIR = register(RepairSpell.NAME, RepairSpell::new);
 	public static final DeferredHolder<Spell, LightSpell> LIGHT = register(LightSpell.NAME, LightSpell::new);
+	public static final DeferredHolder<Spell, SpectralToolSpell> SPECTRAL_TOOL = register(SpectralTool.NAME, SpectralToolSpell::new);
 
 	private Spells() {}
 

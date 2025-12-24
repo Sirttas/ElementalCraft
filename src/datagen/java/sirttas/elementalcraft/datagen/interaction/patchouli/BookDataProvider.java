@@ -708,6 +708,7 @@ public class BookDataProvider implements DataProvider {
         spell(spells, Spells.STONE_WALL);
         spell(spells, Spells.TREE_FALL);
         spell(spells, Spells.TRANSLOCATION);
+        spell(spells, Spells.SPECTRAL_TOOL);
         spells.entry(ECBlocks.TRANSLOCATION_ANCHOR.get())
                 .advancement(ElementalCraftApi.createRL("pickup/fireite_ingot"))
                 .turnIn(ElementalCraftApi.createRL("pickup/translocation_anchor"))

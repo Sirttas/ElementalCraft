@@ -115,7 +115,6 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 				.color(218, 184, 255)
 				.consumeAmount(500)
 				.cooldown(300)
-				.weight(2)
 				.range(100);
 		builder(Spells.FEATHER_SPIKES, Spell.Type.COMBAT, ElementType.AIR)
 				.color(180, 150, 71)
@@ -151,7 +150,6 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 				.consumeAmount(100)
 				.useDuration(401)
 				.cooldown(2400)
-				.weight(2)
 				.strength(1);
 		builder(Spells.LIGHT, Spell.Type.UTILITY, ElementType.FIRE)
 				.color(242, 255, 64)
@@ -160,6 +158,10 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 				.weight(20)
 				.strength(14)
 				.addAttribute(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(REACH_DISTANCE_ID, 15.0D, AttributeModifier.Operation.ADD_VALUE));
+        builder(Spells.SPECTRAL_TOOL, Spell.Type.UTILITY, ElementType.AIR)
+                .color(203, 219, 245)
+                .consumeAmount(1000)
+                .cooldown(300);
 	}
 
 	private SpellProperties.Builder builder(DeferredHolder<Spell, ? extends Spell> spell, Spell.Type type, ElementType elementType) {

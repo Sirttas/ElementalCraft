@@ -1,0 +1,14 @@
+{
+  "advancement": "elementalcraft:pickup/spell_desk",
+  "category": "elementalcraft:spells",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:spectral_tool\"]",
+  "name": "elementalcraft_spell.elementalcraft.spectral_tool",
+  "pages": [
+    {
+      "type": "text",
+      "text": "elementalcraft.page.spectral_tool0"
+    }
+  ],
+  "sortnum": 26,
+  "turnin": "elementalcraft:pickup/scroll"
+}

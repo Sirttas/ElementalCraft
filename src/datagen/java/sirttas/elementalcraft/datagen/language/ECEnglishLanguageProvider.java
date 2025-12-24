@@ -261,6 +261,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addSpell(Spells.AIR_SHIELD, "Air Shield");
         addSpell(Spells.REPAIR, "Repair");
         addSpell(Spells.LIGHT, "Light");
+        addSpell(Spells.SPECTRAL_TOOL, "Spectral Tool");
 
         addSpell(Spells.HEAL, "Healing");
         addSpell(Spells.SPEED, "Speed");
@@ -775,6 +776,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("shockwave", "Knock back and damage mobs around you.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$().");
         addPatchouliPages("repair", "Repair the item in your other hand, you need to target a block so the anvil can spawn on top of it.$(br)This spell is channeled, you must hold right click to cast it.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().");
         addPatchouliPages("light", "Create a light at the target location.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().");
+        addPatchouliPages("spectral_tool", "Create a TODO.$(br)Consumes $(thing)air$() from an $(ec:holder)element holder$()."); // TODO: add a complete descrition
 
         addPatchouliPages("salmon", "The $(item)jewel of the salmon$() allows you to breathe under water.$(br)Consumes $(thing)water$() from an $(ec:holder)element holder$().");
         addPatchouliPages("phoenix", "The $(item)jewel of the phoenix$() makes you invulnerable to fire and makes it heal you.$(br)Consumes $(thing)fire$() from an $(ec:holder)element holder$().");

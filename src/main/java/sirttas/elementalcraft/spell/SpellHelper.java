@@ -119,6 +119,7 @@ public class SpellHelper {
 	public static Holder<Spell> randomSpell(Iterable<? extends Holder<Spell>> spells, RandomSource rand) {
 		var list = StreamSupport.stream(spells.spliterator(), false)
 				.filter(SpellHelper::isValid)
+                .filter(h -> h.value().getWeight() > 0)
 				.toList();
 
 		if (list.isEmpty()) {

@@ -1580,6 +1580,10 @@ public class ECRecipeProvider extends RecipeProvider {
 				.setGem(Items.DIAMOND)
 				.setCrystal(ECItems.FIRE_CRYSTAL.get())
 				.save(recipeOutput);
+        SpellCraftRecipeBuilder.spellCraftRecipe(Spells.SPECTRAL_TOOL)
+                .setGem(ECItems.PRISTINE_AIR_GEM.get())
+                .setCrystal(ECItems.PURE_CRYSTAL.get())
+                .save(recipeOutput);
 	}
 
 	private void registerToolInfusions(RecipeOutput recipeOutput) {

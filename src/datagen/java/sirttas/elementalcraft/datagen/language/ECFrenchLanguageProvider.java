@@ -261,6 +261,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addSpell(Spells.AIR_SHIELD, "Bouclier d'air");
         addSpell(Spells.REPAIR, "Réparation");
         addSpell(Spells.LIGHT, "Lumière");
+        addSpell(Spells.SPECTRAL_TOOL, "Outil spectral");
 
         addSpell(Spells.HEAL, "Guérison");
         addSpell(Spells.SPEED, "Vitesse");
@@ -775,6 +776,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPatchouliPages("shockwave", "Repousse et inflige des dégâts aux monstres autour de vous.$(br)Consomme de l'$(thing)élément d'air$() d'un $(ec:holder)porteur d'élément$().");
         addPatchouliPages("repair", "Répare l'objet dans votre autre main, vous devez cibler un bloc pour que l'enclume puisse apparaître dessus.$(br)Ce sort est canalisé, vous devez maintenir le clic droit pour le lancer.$(br)Consomme de l'$(thing)élément de feu$() d'un $(ec:holder)porteur d'élément$().");
         addPatchouliPages("light", "Créer une source de lumiére a l'endroit visé.$(br)Consomme de l'$(thing)élément de feu$() d'un $(ec:holder)porteur d'élément$().");
+        addPatchouliPages("spectral_tool", "Create a TODO.$(br)Consomme de l'$(thing)élément d'air() d'un $(ec:holder)porteur d'élément$()."); // TODO: add a complete descrition
 
         addPatchouliPages("salmon", "Le $(item)joyau du saumon$() vous permet de respirer sous l'eau.$(br)Consomme de l'$(thing)élément d'eau$() d'un $(ec:holder)porteur d'élément$().");
         addPatchouliPages("phoenix", "Le $(item)joyau du phénix$() vous rend invulnérable au feu et le feu vous soigne.$(br)Consomme de l'$(thing)élément de feu$() d'un $(ec:holder)porteur d'élément$().");

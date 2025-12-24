@@ -1,0 +1,8 @@
+{
+  "color": "#CBDBF5",
+  "cooldown": 300,
+  "element_consumption": 1000,
+  "element_type": "air",
+  "spell_type": "utility",
+  "weight": 2
+}
