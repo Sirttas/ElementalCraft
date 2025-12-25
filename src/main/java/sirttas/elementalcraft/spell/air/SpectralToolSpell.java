@@ -6,6 +6,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.BlockHitResult;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.entity.spectral.SpectralTool;
 import sirttas.elementalcraft.spell.Spell;
@@ -41,11 +42,16 @@ public class SpectralToolSpell extends Spell {
 
     @Override
     public @NotNull InteractionResult castOnBlock(@NotNull Entity caster, @NotNull BlockPos target, @NotNull BlockHitResult hitResult) {
+        var hasGivenOrder = new MutableBoolean(false);
         var level = caster.level();
 
         level.getEntities(caster, caster.getBoundingBox().inflate(this.getRange(caster)), e -> e instanceof SpectralTool)
-                .forEach(e -> ((SpectralTool) e).digBlock(target));
-        return InteractionResult.SUCCESS_NO_ITEM_USED;
+                .forEach(e -> {
+                    if (((SpectralTool) e).digBlock(target)) {
+                        hasGivenOrder.setTrue();
+                    }
+                });
+        return hasGivenOrder.booleanValue() ? InteractionResult.SUCCESS_NO_ITEM_USED : InteractionResult.PASS;
     }
 
     @Override

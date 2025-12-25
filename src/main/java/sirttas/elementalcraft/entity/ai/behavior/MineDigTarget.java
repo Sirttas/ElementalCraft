@@ -9,6 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class MineDigTarget extends Behavior<LivingEntity> {
         super(Map.of(
                 ECMemoryModuleTypes.DIG_TARGET.get(), MemoryStatus.VALUE_PRESENT,
                 ECMemoryModuleTypes.DIG_PROGRESS.get(), MemoryStatus.REGISTERED,
-                ECMemoryModuleTypes.DIG_TARGET_STATE.get(), MemoryStatus.VALUE_PRESENT
+                ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), MemoryStatus.VALUE_PRESENT
         ));
     }
 
@@ -34,15 +35,15 @@ public class MineDigTarget extends Behavior<LivingEntity> {
             return false;
         }
 
-        var targetState = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_TARGET_STATE.get()).orElse(null);
+        var block = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get()).orElse(Blocks.AIR);
 
-        if (targetState == null) {
+        if (block.defaultBlockState().isAir()) {
             return false;
         }
 
         var state = level.getBlockState(target);
 
-        return isInRange(entity, target) && targetState.equals(state);
+        return isInRange(entity, target) && state.is(block);
     }
 
     private static boolean isInRange(@NotNull LivingEntity entity, BlockPos target) {

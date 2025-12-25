@@ -2,9 +2,10 @@ package sirttas.elementalcraft.entity.ai;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -18,7 +19,7 @@ public class ECMemoryModuleTypes {
 
     public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<BlockPos>> DIG_TARGET = register("dig_target", BlockPos.CODEC);
     public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Float>> DIG_PROGRESS = register("dig_progress", Codec.FLOAT);
-    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<BlockState>> DIG_TARGET_STATE = register("dig_target_state", BlockState.CODEC);
+    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Block>> DIG_TARGET_BLOCK = register("dig_target_state", BuiltInRegistries.BLOCK.byNameCodec());
 
     private ECMemoryModuleTypes() {}
 

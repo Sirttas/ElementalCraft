@@ -58,7 +58,7 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
             MemoryModuleType.PATH,
             MemoryModuleType.WALK_TARGET,
             MemoryModuleType.ATTACK_COOLING_DOWN,
-            ECMemoryModuleTypes.DIG_TARGET_STATE.get(),
+            ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(),
             ECMemoryModuleTypes.DIG_TARGET.get(),
             ECMemoryModuleTypes.DIG_PROGRESS.get()
     ));
@@ -69,7 +69,7 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         this(ECEntities.SPECTRAL_TOOL.get(), owner.level());
         this.setItemInHand(InteractionHand.MAIN_HAND, tool);
         this.owner = owner.getUUID();
-        this.moveControl = new FlyingMoveControl(this, 10, false);
+        this.moveControl = new FlyingMoveControl(this, 10, true);
     }
 
     public SpectralTool(EntityType<? extends SpectralTool> entityType, Level level) {
@@ -164,10 +164,17 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         }
     }
 
-    public void digBlock(@NotNull BlockPos target) {
+    public boolean digBlock(@NotNull BlockPos target) {
+        var state = this.level().getBlockState(target);
+
+        if (state.requiresCorrectToolForDrops() && !this.getMainHandItem().isCorrectToolForDrops(state)) {
+            return false;
+        }
+
         var brain = this.getBrain();
 
         brain.setMemory(ECMemoryModuleTypes.DIG_TARGET.get(), target);
-        brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_STATE.get(), this.level().getBlockState(target), 60L);
+        brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), state.getBlock(), 600L);
+        return true;
     }
 }

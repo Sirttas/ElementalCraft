@@ -46,7 +46,7 @@ public class SpectralToolAi {
                 FindBlockToDig.create(16, 8),
                 MoveToDigTarget.create(),
                 new MineDigTarget()
-        ), ECMemoryModuleTypes.DIG_TARGET_STATE.get());
+        ), ECMemoryModuleTypes.DIG_TARGET_BLOCK.get());
         brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(
                 StopAttackingIfTargetInvalid.create(),
                 SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
@@ -61,16 +61,16 @@ public class SpectralToolAi {
     private static BehaviorControl<SpectralTool> dropEveryThingIfOwnerIsTooFar() {
         return BehaviorBuilder.create(builder ->
                 builder.group(
-                        builder.registered(ECMemoryModuleTypes.DIG_TARGET_STATE.get()),
+                        builder.registered(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get()),
                         builder.registered(MemoryModuleType.ATTACK_TARGET)
-                ).apply(builder, (digTargetState, attackTarget) -> (level, entity, time) -> {
+                ).apply(builder, (digTargetBlock, attackTarget) -> (level, entity, time) -> {
                     var owner = entity.getOwner();
 
                     if (owner == null) {
                         return false;
                     }
                     if (entity.distanceToSqr(owner) > MAX_RANGE_FROM_OWNER * MAX_RANGE_FROM_OWNER) {
-                        digTargetState.erase();
+                        digTargetBlock.erase();
                         attackTarget.erase();
                         return false;
                     }

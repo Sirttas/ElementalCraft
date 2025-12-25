@@ -24,7 +24,7 @@ public class ECEntities {
             .clientTrackingRange(4)
             .updateInterval(20), FeatherSpike.NAME);
     public static final DeferredHolder<EntityType<?>, EntityType<SpectralTool>> SPECTRAL_TOOL = register(EntityType.Builder.<SpectralTool>of(SpectralTool::new, MobCategory.MISC)
-            .sized(0.6F, 1.8F)
+            .sized(0.5F, 0.5F)
             .clientTrackingRange(10), SpectralTool.NAME);
 
     private ECEntities() {}

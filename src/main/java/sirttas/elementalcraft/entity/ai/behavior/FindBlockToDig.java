@@ -24,10 +24,10 @@ public class FindBlockToDig {
 
         return BehaviorBuilder.create(builder ->
                 builder.group(
-                        builder.present(ECMemoryModuleTypes.DIG_TARGET_STATE.get()),
+                        builder.present(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get()),
                         builder.absent(ECMemoryModuleTypes.DIG_TARGET.get()),
                         builder.registered(MemoryModuleType.LOOK_TARGET)
-                ).apply(builder, (digTargetState, digTarget, lookTarget) -> (level, entity, time) -> {
+                ).apply(builder, (digTargetBlock, digTarget, lookTarget) -> (level, entity, time) -> {
                     if (time < nextTry.getValue()) {
                         nextTry.setValue(time + TRY_INTERVAL);
                         return true;
@@ -36,12 +36,13 @@ public class FindBlockToDig {
                     for (BlockPos pos : BlockPos.withinManhattan(entity.blockPosition(), range, verticalRange, range)) {
                         var state = level.getBlockState(pos);
 
-                        if (builder.get(digTargetState).equals(state)) {
+                        if (state.is(builder.get(digTargetBlock))) {
                             lookTarget.set(new BlockPosTracker(pos));
                             digTarget.set(pos);
                             return true;
                         }
                     }
+                    digTargetBlock.erase();
                     return false;
                 }));
     }

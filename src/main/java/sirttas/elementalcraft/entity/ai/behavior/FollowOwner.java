@@ -7,7 +7,6 @@ import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
-import net.minecraft.world.entity.ai.util.LandRandomPos;
 
 public class FollowOwner {
 
@@ -16,7 +15,7 @@ public class FollowOwner {
     public static <T extends PathfinderMob & OwnableEntity> BehaviorControl<T> create(double range) {
         return BehaviorBuilder.create(builder ->
             builder.group(
-                    builder.absent(MemoryModuleType.WALK_TARGET),
+                    builder.registered(MemoryModuleType.WALK_TARGET),
                     builder.registered(MemoryModuleType.LOOK_TARGET)
             ).apply(builder, (walkTarget, lookTarget) -> (level, entity, time) -> {
                 var owner = entity.getOwner();
@@ -31,14 +30,8 @@ public class FollowOwner {
                     return false;
                 }
 
-                var target = LandRandomPos.getPosTowards(entity, 10, 7, ownerPos);
-
-                if (target == null) {
-                    return false;
-                }
-
                 lookTarget.set(new BlockPosTracker(ownerPos));
-                walkTarget.set(new WalkTarget(target, 1F, 0));
+                walkTarget.set(new WalkTarget(ownerPos, 1F, 3));
                 return true;
             }));
     }
