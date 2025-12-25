@@ -16,7 +16,7 @@ public class ECMemoryModuleTypes {
 
     private static final DeferredRegister<MemoryModuleType<?>> DEFERRED_REGISTRY = DeferredRegister.create(Registries.MEMORY_MODULE_TYPE, ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<BlockPos>> DIG_TARGET = register("dig_target", BlockPos.CODEC); // TODO BlockPosTracker
+    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<BlockPos>> DIG_TARGET = register("dig_target", BlockPos.CODEC);
     public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Float>> DIG_PROGRESS = register("dig_progress", Codec.FLOAT);
     public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<BlockState>> DIG_TARGET_STATE = register("dig_target_state", BlockState.CODEC);
 

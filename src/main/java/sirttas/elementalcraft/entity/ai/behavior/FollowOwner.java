@@ -18,7 +18,7 @@ public class FollowOwner {
             builder.group(
                     builder.absent(MemoryModuleType.WALK_TARGET),
                     builder.registered(MemoryModuleType.LOOK_TARGET)
-            ).apply(builder, (walkTarget, lookTarget) -> (world, entity, time) -> {
+            ).apply(builder, (walkTarget, lookTarget) -> (level, entity, time) -> {
                 var owner = entity.getOwner();
 
                 if (owner == null) {
@@ -38,7 +38,7 @@ public class FollowOwner {
                 }
 
                 lookTarget.set(new BlockPosTracker(ownerPos));
-                walkTarget.set(new WalkTarget(target, 0.6F, 0));
+                walkTarget.set(new WalkTarget(target, 1F, 0));
                 return true;
             }));
     }

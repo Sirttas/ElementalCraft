@@ -2,8 +2,10 @@ package sirttas.elementalcraft.entity.ai.behavior;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -14,19 +16,39 @@ import sirttas.elementalcraft.entity.ai.ECMemoryModuleTypes;
 
 import java.util.Map;
 
-public class MineTargetBlock extends Behavior<LivingEntity> {
+public class MineDigTarget extends Behavior<LivingEntity> {
 
-    public MineTargetBlock() {
+    public MineDigTarget() {
         super(Map.of(
                 ECMemoryModuleTypes.DIG_TARGET.get(), MemoryStatus.VALUE_PRESENT,
                 ECMemoryModuleTypes.DIG_PROGRESS.get(), MemoryStatus.REGISTERED,
                 ECMemoryModuleTypes.DIG_TARGET_STATE.get(), MemoryStatus.VALUE_PRESENT
-        ),  120);
+        ));
     }
 
     @Override
-    protected boolean checkExtraStartConditions(@NotNull ServerLevel level, @NotNull LivingEntity owner) {
-        return true;
+    protected boolean checkExtraStartConditions(@NotNull ServerLevel level, @NotNull LivingEntity entity) {
+        var target = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_TARGET.get()).orElse(null);
+
+        if (target == null) {
+            return false;
+        }
+
+        var targetState = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_TARGET_STATE.get()).orElse(null);
+
+        if (targetState == null) {
+            return false;
+        }
+
+        var state = level.getBlockState(target);
+
+        return isInRange(entity, target) && targetState.equals(state);
+    }
+
+    private static boolean isInRange(@NotNull LivingEntity entity, BlockPos target) {
+        var range = entity.getAttributeValue(Attributes.BLOCK_INTERACTION_RANGE);
+
+        return entity.position().distanceToSqr(Vec3.atCenterOf(target)) <= range * range;
     }
 
     @Override
@@ -86,12 +108,12 @@ public class MineTargetBlock extends Behavior<LivingEntity> {
 
     private float progressDigging(@NotNull ServerLevel level, @NotNull LivingEntity entity, BlockPos pos, BlockState state) {
         float oldProgress = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_PROGRESS.get()).orElse(0F);
-        float destroyProgress = getDestroyProgress(level, pos, state, entity);
+        float destroyProgress = oldProgress + getDestroyProgress(level, pos, state, entity);
 
         level.destroyBlockProgress(entity.getId(), pos, (int) (destroyProgress * 10F));
 
-        destroyProgress += oldProgress;
         entity.getBrain().setMemory(ECMemoryModuleTypes.DIG_PROGRESS.get(), destroyProgress);
+        entity.swing(InteractionHand.MAIN_HAND, true);
         return destroyProgress;
     }
 

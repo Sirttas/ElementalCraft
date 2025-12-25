@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.entity.spectral;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.players.OldUsersConverter;
@@ -12,36 +12,28 @@ import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
-import net.minecraft.world.entity.ai.behavior.MeleeAttack;
-import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
-import net.minecraft.world.entity.ai.behavior.SetEntityLookTarget;
-import net.minecraft.world.entity.ai.behavior.SetLookAndInteract;
-import net.minecraft.world.entity.ai.behavior.SetWalkTargetFromAttackTargetIfTargetOutOfReach;
-import net.minecraft.world.entity.ai.behavior.StopAttackingIfTargetInvalid;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.entity.ai.ECMemoryModuleTypes;
-import sirttas.elementalcraft.entity.ai.ECSensorTypes;
-import sirttas.elementalcraft.entity.ai.behavior.FindBlockToDig;
-import sirttas.elementalcraft.entity.ai.behavior.FollowOwner;
-import sirttas.elementalcraft.entity.ai.behavior.MineTargetBlock;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
-public class SpectralTool extends PathfinderMob implements FlyingAnimal, OwnableEntity {
+public class SpectralTool extends PathfinderMob implements OwnableEntity {
 
     public static final String NAME = "spectral_tool";
 
@@ -49,8 +41,7 @@ public class SpectralTool extends PathfinderMob implements FlyingAnimal, Ownable
 
     protected static final Lazy<List<SensorType<? extends Sensor<? super SpectralTool>>>> SENSOR_TYPES = Lazy.of(() -> List.of(
             SensorType.NEAREST_LIVING_ENTITIES,
-            SensorType.HURT_BY,
-            ECSensorTypes.WATCH_OWNER_DIG.get()
+            SensorType.HURT_BY
     ));
 
     protected static final Lazy<List<MemoryModuleType<?>>> MEMORY_TYPES =  Lazy.of(() -> List.of(
@@ -78,6 +69,7 @@ public class SpectralTool extends PathfinderMob implements FlyingAnimal, Ownable
         this(ECEntities.SPECTRAL_TOOL.get(), owner.level());
         this.setItemInHand(InteractionHand.MAIN_HAND, tool);
         this.owner = owner.getUUID();
+        this.moveControl = new FlyingMoveControl(this, 10, false);
     }
 
     public SpectralTool(EntityType<? extends SpectralTool> entityType, Level level) {
@@ -85,12 +77,18 @@ public class SpectralTool extends PathfinderMob implements FlyingAnimal, Ownable
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes();
+        return Monster.createMonsterAttributes()
+                .add(Attributes.BLOCK_INTERACTION_RANGE, 4.5)
+                .add(Attributes.FLYING_SPEED, 0.7F);
     }
 
     @Override
-    public boolean isFlying() {
-        return !this.onGround();
+    protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
+        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
+        flyingpathnavigation.setCanOpenDoors(false);
+        flyingpathnavigation.setCanFloat(true);
+        flyingpathnavigation.setCanPassDoors(true);
+        return flyingpathnavigation;
     }
 
     @Override
@@ -99,6 +97,16 @@ public class SpectralTool extends PathfinderMob implements FlyingAnimal, Ownable
         if (this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
             this.discard();
         }
+    }
+
+    @Override
+    protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
+    }
+
+    @Override
+    public void aiStep() {
+        this.updateSwingTime();
+        super.aiStep();
     }
 
     @Override
@@ -117,30 +125,7 @@ public class SpectralTool extends PathfinderMob implements FlyingAnimal, Ownable
 
     @Override
     protected @NotNull Brain<?> makeBrain(@NotNull Dynamic<?> dynamic) {
-        var brain = this.brainProvider().makeBrain(dynamic);
-
-        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
-                new LookAtTargetSink(45, 90),
-                new MoveToTargetSink()
-        ));
-        brain.addActivity(Activity.IDLE, 10, ImmutableList.of(
-                SetEntityLookTarget.create(8F),
-                SetLookAndInteract.create(EntityType.PLAYER, 4),
-                FollowOwner.create(8)
-        ));
-        brain.addActivityAndRemoveMemoryWhenStopped(Activity.DIG, 10, ImmutableList.of(
-                FindBlockToDig.create(6),
-                new MineTargetBlock()
-        ), ECMemoryModuleTypes.DIG_TARGET_STATE.get());
-        brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(
-                StopAttackingIfTargetInvalid.create(),
-                SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
-                MeleeAttack.create(20)
-        ), MemoryModuleType.ATTACK_TARGET);
-        brain.setCoreActivities(Set.of(Activity.CORE));
-        brain.setDefaultActivity(Activity.IDLE);
-        brain.useDefaultActivity();
-        return brain;
+        return SpectralToolAi.makeBrain(this, dynamic);
     }
 
     @Override
@@ -177,5 +162,12 @@ public class SpectralTool extends PathfinderMob implements FlyingAnimal, Ownable
         if (uuid != null) {
             this.owner = uuid;
         }
+    }
+
+    public void digBlock(@NotNull BlockPos target) {
+        var brain = this.getBrain();
+
+        brain.setMemory(ECMemoryModuleTypes.DIG_TARGET.get(), target);
+        brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_STATE.get(), this.level().getBlockState(target), 60L);
     }
 }

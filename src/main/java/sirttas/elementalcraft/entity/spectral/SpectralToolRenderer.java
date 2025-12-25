@@ -60,7 +60,10 @@ public class SpectralToolRenderer<T extends SpectralTool> extends MobRenderer<T,
             }
             HumanoidModel.ArmPose forgeArmPose = IClientItemExtensions.of(itemstack).getArmPose(entity, InteractionHand.MAIN_HAND, itemstack);
 
-            return forgeArmPose != null ? forgeArmPose : HumanoidModel.ArmPose.EMPTY;
+            if (forgeArmPose != null) {
+                return forgeArmPose;
+            }
+            return entity.swinging? HumanoidModel.ArmPose.ITEM : HumanoidModel.ArmPose.EMPTY;
         }
     }
 
