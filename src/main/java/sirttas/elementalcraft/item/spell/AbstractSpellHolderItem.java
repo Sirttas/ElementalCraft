@@ -92,11 +92,11 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 
 		AttributesHelper.addAttributes(attributeMap, attributes);
 
-		InteractionResult result = Boolean.TRUE.equals(ECConfig.SERVER.spellConsumeOnFail.get()) || spell.consume(player, true) ? castSpell(player, spell) : InteractionResult.FAIL;
+		InteractionResult result = ECConfig.SERVER.spellConsumeOnFail.get() || spell.consume(player, true) ? castSpell(player, spell) : InteractionResult.FAIL;
 
 		if (result.consumesAction()) {
-			if (doConsume(player, hand, stack, spell)) {
-				result = InteractionResult.SUCCESS;
+			if (result.indicateItemUse()) {
+                doConsume(player, hand, stack, spell);
 			}
 			if (result.shouldSwing() && !player.getAbilities().instabuild) {
 				if (!level.isClientSide) {
@@ -134,14 +134,12 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 		return result;
 	}
 	
-	private boolean doConsume(Player player, InteractionHand hand, ItemStack stack, Spell spell) {
+	private void doConsume(Player player, InteractionHand hand, ItemStack stack, Spell spell) {
 		if (!player.getAbilities().instabuild && !spell.consume(player, false)) {
 			consume(stack);
 			player.onEquippedItemBroken(this, LivingEntity.getSlotForHand(hand));
-			return true;
-		}
-		return false;
-	}
+        }
+    }
 
 	protected abstract void consume(ItemStack stack);
 
