@@ -161,7 +161,8 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
         builder(Spells.SPECTRAL_TOOL, Spell.Type.UTILITY, ElementType.AIR)
                 .color(203, 219, 245)
                 .consumeAmount(1000)
-                .cooldown(300);
+                .cooldown(300)
+                .range(16);
 	}
 
 	private SpellProperties.Builder builder(DeferredHolder<Spell, ? extends Spell> spell, Spell.Type type, ElementType elementType) {
