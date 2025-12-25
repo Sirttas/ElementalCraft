@@ -5,6 +5,5 @@
   "element_type": "fire",
   "spell_type": "utility",
   "strength": 1.0,
-  "use_duration": 401,
-  "weight": 2
+  "use_duration": 401
 }

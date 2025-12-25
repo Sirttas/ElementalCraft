@@ -4,6 +4,5 @@
   "element_consumption": 500,
   "element_type": "air",
   "range": 100.0,
-  "spell_type": "utility",
-  "weight": 2
+  "spell_type": "utility"
 }
