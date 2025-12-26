@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
 import sirttas.elementalcraft.spell.AoeSpell;
 import sirttas.elementalcraft.spell.Spell;
@@ -19,13 +20,13 @@ public class FlameCleaveSpell extends AoeSpell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		if (caster instanceof LivingEntity) {
 			this.delay(caster, 10, () -> {
-				var value = super.castOnSelf(caster);
+				var value = super.castOnSelf(level, caster);
 
 				if (value == InteractionResult.SUCCESS) {
-					caster.level().levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, caster.blockPosition(), 0);
+					level.levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, caster.blockPosition(), 0);
 				}
 			});
 			return InteractionResult.SUCCESS;

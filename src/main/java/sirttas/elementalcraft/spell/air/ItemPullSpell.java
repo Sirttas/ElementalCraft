@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
@@ -19,9 +20,8 @@ public class ItemPullSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		var pos = caster.position();
-		var level = caster.level();
 
 		level.getEntitiesOfClass(ItemEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).forEach(i -> {
 			if (level.isClientSide) {

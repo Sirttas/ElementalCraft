@@ -37,9 +37,7 @@ public class GavelFallSpell extends Spell {
 		}
 	}
 
-	private InteractionResult spawnGravel(Entity sender, BlockPos pos) {
-		Level level = sender.level();
-
+	private InteractionResult spawnGravel(@Nonnull Level level, Entity sender, BlockPos pos) {
 		checkAndSpawn(level, pos.above(4));
 		checkAndSpawn(level, pos.above(5));
 		checkAndSpawn(level, pos.above(6));
@@ -48,14 +46,14 @@ public class GavelFallSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		return spawnGravel(sender, target);
+	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+		return spawnGravel(level, sender, target);
 	}
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
-		return spawnGravel(caster, BlockPos.containing(target.position()));
+	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+		return spawnGravel(level, caster, BlockPos.containing(target.position()));
 	}
 
 	@Override

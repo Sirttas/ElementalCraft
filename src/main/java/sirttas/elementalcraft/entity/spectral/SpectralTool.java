@@ -164,9 +164,7 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         }
     }
 
-    public boolean digBlock(@NotNull BlockPos target) {
-        var state = this.level().getBlockState(target);
-
+    public boolean digBlock(@NotNull BlockPos target, BlockState state) {
         if (state.requiresCorrectToolForDrops() && !this.getMainHandItem().isCorrectToolForDrops(state)) {
             return false;
         }

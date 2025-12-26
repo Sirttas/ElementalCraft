@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
@@ -20,9 +21,7 @@ public class SpectralToolSpell extends Spell {
     }
 
     @Override
-    public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-        var level = caster.level();
-
+    public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
         if (level.isClientSide || !(caster instanceof LivingEntity livingEntity)) {
             return InteractionResult.PASS;
         }
@@ -41,22 +40,26 @@ public class SpectralToolSpell extends Spell {
     }
 
     @Override
-    public @NotNull InteractionResult castOnBlock(@NotNull Entity caster, @NotNull BlockPos target, @NotNull BlockHitResult hitResult) {
-        var hasGivenOrder = new MutableBoolean(false);
-        var level = caster.level();
+    public @NotNull InteractionResult castOnBlock(@Nonnull Level level, @NotNull Entity caster, @NotNull BlockPos target, @NotNull BlockHitResult hitResult) {
+        var state = level.getBlockState(target);
 
-        level.getEntities(caster, caster.getBoundingBox().inflate(this.getRange(caster)), e -> e instanceof SpectralTool)
-                .forEach(e -> {
-                    if (((SpectralTool) e).digBlock(target)) {
-                        hasGivenOrder.setTrue();
-                    }
-                });
+        if (state.isAir()) {
+            return InteractionResult.PASS;
+        }
+
+        var hasGivenOrder = new MutableBoolean(false);
+
+        level.getEntitiesOfClass(SpectralTool.class, caster.getBoundingBox().inflate(this.getRange(caster))).forEach(e -> {
+            if (e.digBlock(target, state)) {
+                hasGivenOrder.setTrue();
+            }
+        });
         return hasGivenOrder.booleanValue() ? InteractionResult.SUCCESS_NO_ITEM_USED : InteractionResult.PASS;
     }
 
     @Override
-    public @NotNull InteractionResult castOnEntity(@NotNull Entity caster, @NotNull Entity target) {
-        if (caster.level().isClientSide || !(target instanceof SpectralTool spectralTool)) {
+    public @NotNull InteractionResult castOnEntity(@Nonnull Level level, @NotNull Entity caster, @NotNull Entity target) {
+        if (level.isClientSide || !(target instanceof SpectralTool spectralTool)) {
             return InteractionResult.PASS;
         }
 

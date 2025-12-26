@@ -92,7 +92,7 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 
 		AttributesHelper.addAttributes(attributeMap, attributes);
 
-		InteractionResult result = ECConfig.SERVER.spellConsumeOnFail.get() || spell.consume(player, true) ? castSpell(player, spell) : InteractionResult.FAIL;
+		InteractionResult result = ECConfig.SERVER.spellConsumeOnFail.get() || spell.consume(player, true) ? castSpell(level, player, spell) : InteractionResult.FAIL;
 
 		if (result.consumesAction()) {
 			if (result.indicateItemUse()) {
@@ -113,7 +113,7 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 		return result;
 	}
 
-	private InteractionResult castSpell(Player player, Spell spell) {
+	private InteractionResult castSpell(Level level, Player player, Spell spell) {
 		if (SpellTickHelper.hasCooldown(player, spell)) {
 			return InteractionResult.PASS;
 		}
@@ -123,13 +123,13 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 		HitResult.Type rayType = ray.getType();
 		
 		if (rayType == HitResult.Type.ENTITY && ray instanceof EntityHitResult entityRay) {
-			result = spell.castOnEntity(player, entityRay.getEntity());
+			result = spell.castOnEntity(level, player, entityRay.getEntity());
 		}
 		if (rayType == HitResult.Type.BLOCK && !result.consumesAction() && ray instanceof BlockHitResult blockRay) {
-			result = spell.castOnBlock(player, blockRay.getBlockPos(), blockRay);
+			result = spell.castOnBlock(level, player, blockRay.getBlockPos(), blockRay);
 		}
 		if (!result.consumesAction()) {
-			result = spell.castOnSelf(player);
+			result = spell.castOnSelf(level, player);
 		}
 		return result;
 	}

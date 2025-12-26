@@ -31,9 +31,7 @@ public class StoneWallSpell extends Spell {
 		}
 	}
 
-	public InteractionResult cast(Entity sender, BlockPos pos, Direction direction) {
-		Level level = sender.level();
-
+	public InteractionResult cast(@Nonnull Level level, Entity sender, BlockPos pos, Direction direction) {
 		checkAndPlace(level, pos);
 		checkAndPlace(level, pos.relative(direction.getClockWise()));
 		checkAndPlace(level, pos.relative(direction.getCounterClockWise()));
@@ -47,13 +45,13 @@ public class StoneWallSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		Optional<Direction> opt = Stream.of(Direction.orderedByNearest(caster)).filter(d -> d.getAxis() != Axis.Y).findFirst();
 		
 		if (opt.isEmpty()) {
 			return InteractionResult.PASS;
 		}
-		return cast(caster, BlockPos.containing(caster.position()).relative(opt.get(), 3), opt.get());
+		return cast(level, caster, BlockPos.containing(caster.position()).relative(opt.get(), 3), opt.get());
 	}
 
 	@Override
