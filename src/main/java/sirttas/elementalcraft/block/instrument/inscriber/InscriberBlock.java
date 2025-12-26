@@ -39,7 +39,7 @@ import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
-import sirttas.elementalcraft.tag.ECTags;
+import sirttas.elementalcraft.item.ECItemAbilities;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -150,14 +150,14 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
 		if (inscriber != null && hand == InteractionHand.MAIN_HAND) {
-			if (heldItem.is(ECTags.Items.CHISELS) && !inscriber.isLocked()) {
+			if (heldItem.canPerformAction(ECItemAbilities.CHISEL_INSCRIBE_RUNE) && !inscriber.isLocked()) {
 				return makeProgress(player, hand, inscriber, heldItem);
 			} else if ((inscriber.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !inscriber.getInventory().isEmpty()) {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
 				return ItemInteractionResult.SUCCESS;
-			} else if (heldItem.is(ECTags.Items.CHISELS)) {
+			} else if (heldItem.canPerformAction(ECItemAbilities.CHISEL_INSCRIBE_RUNE)) {
 				return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 			}
 			for (int i = 0; i < inv.getSlots(); i++) {
