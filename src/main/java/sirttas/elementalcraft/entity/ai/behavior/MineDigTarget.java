@@ -19,12 +19,15 @@ import java.util.Map;
 
 public class MineDigTarget extends Behavior<LivingEntity> {
 
-    public MineDigTarget() {
+    private final long memoryDuration;
+
+    public MineDigTarget(long memoryDuration) {
         super(Map.of(
                 ECMemoryModuleTypes.DIG_TARGET.get(), MemoryStatus.VALUE_PRESENT,
                 ECMemoryModuleTypes.DIG_PROGRESS.get(), MemoryStatus.REGISTERED,
                 ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), MemoryStatus.VALUE_PRESENT
         ));
+        this.memoryDuration = memoryDuration;
     }
 
     @Override
@@ -43,6 +46,10 @@ public class MineDigTarget extends Behavior<LivingEntity> {
 
         var state = level.getBlockState(target);
 
+        if (state.isAir()) {
+            return false;
+        }
+
         return isInRange(entity, target) && state.is(block);
     }
 
@@ -54,12 +61,21 @@ public class MineDigTarget extends Behavior<LivingEntity> {
 
     @Override
     protected boolean canStillUse(@NotNull ServerLevel level, @NotNull LivingEntity entity, long gameTime) {
-        return true;
+        var target = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_TARGET.get()).orElse(null);
+
+        if (target == null) {
+            return false;
+        }
+
+        var state = level.getBlockState(target);
+
+        return !state.isAir() && isInRange(entity, target);
     }
 
     @Override
     protected void start(@NotNull ServerLevel level, @NotNull LivingEntity entity, long gameTime) {
-        var pos = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_TARGET.get()).orElse(null);
+        var brain = entity.getBrain();
+        var pos = brain.getMemory(ECMemoryModuleTypes.DIG_TARGET.get()).orElse(null);
 
         if (pos == null) {
             return;
@@ -77,7 +93,7 @@ public class MineDigTarget extends Behavior<LivingEntity> {
                 state,
                 item -> entity.onEquippedItemBroken(item, EquipmentSlot.MAINHAND));
 
-        entity.getBrain().eraseMemory(ECMemoryModuleTypes.DIG_PROGRESS.get());
+        brain.eraseMemory(ECMemoryModuleTypes.DIG_PROGRESS.get());
         if (progressDigging(level, entity, pos, state) >= 1) {
             this.doStop(level, entity, gameTime);
         }
@@ -108,20 +124,26 @@ public class MineDigTarget extends Behavior<LivingEntity> {
     }
 
     private float progressDigging(@NotNull ServerLevel level, @NotNull LivingEntity entity, BlockPos pos, BlockState state) {
-        float oldProgress = entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_PROGRESS.get()).orElse(0F);
+        var brain = entity.getBrain();
+        float oldProgress = brain.getMemory(ECMemoryModuleTypes.DIG_PROGRESS.get()).orElse(0F);
         float destroyProgress = oldProgress + getDestroyProgress(level, pos, state, entity);
 
         level.destroyBlockProgress(entity.getId(), pos, (int) (destroyProgress * 10F));
 
-        entity.getBrain().setMemory(ECMemoryModuleTypes.DIG_PROGRESS.get(), destroyProgress);
+        brain.setMemory(ECMemoryModuleTypes.DIG_PROGRESS.get(), destroyProgress);
         entity.swing(InteractionHand.MAIN_HAND, true);
         return destroyProgress;
     }
 
     @Override
     protected void stop(@NotNull ServerLevel level, @NotNull LivingEntity entity, long gameTime) {
-        entity.getBrain().getMemory(ECMemoryModuleTypes.DIG_TARGET.get()).ifPresent(pos -> level.destroyBlock(pos, true, entity));
-        entity.getBrain().eraseMemory(ECMemoryModuleTypes.DIG_TARGET.get());
-        entity.getBrain().eraseMemory(ECMemoryModuleTypes.DIG_PROGRESS.get());
+        var brain = entity.getBrain();
+
+        brain.getMemory(ECMemoryModuleTypes.DIG_TARGET.get()).ifPresent(pos -> level.destroyBlock(pos, true, entity));
+        brain.eraseMemory(ECMemoryModuleTypes.DIG_TARGET.get());
+        brain.eraseMemory(ECMemoryModuleTypes.DIG_PROGRESS.get());
+        if (memoryDuration > 0) {
+            brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), brain.getMemory(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get()).orElse(Blocks.AIR), memoryDuration);
+        }
     }
 }

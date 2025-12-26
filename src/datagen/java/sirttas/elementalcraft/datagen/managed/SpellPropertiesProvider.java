@@ -160,8 +160,8 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 				.addAttribute(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(REACH_DISTANCE_ID, 15.0D, AttributeModifier.Operation.ADD_VALUE));
         builder(Spells.SPECTRAL_TOOL, Spell.Type.UTILITY, ElementType.AIR)
                 .color(203, 219, 245)
-                .consumeAmount(1000)
-                .cooldown(300)
+                .consumeAmount(2000)
+                .cooldown(1200)
                 .range(16);
 	}
 

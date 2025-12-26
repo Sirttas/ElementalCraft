@@ -12,7 +12,7 @@ public class FollowOwner {
 
     private FollowOwner() {}
 
-    public static <T extends PathfinderMob & OwnableEntity> BehaviorControl<T> create(double range) {
+    public static <T extends PathfinderMob & OwnableEntity> BehaviorControl<T> create(double range, float speed) {
         return BehaviorBuilder.create(builder ->
             builder.group(
                     builder.registered(MemoryModuleType.WALK_TARGET),
@@ -31,7 +31,7 @@ public class FollowOwner {
                 }
 
                 lookTarget.set(new BlockPosTracker(ownerPos));
-                walkTarget.set(new WalkTarget(ownerPos, 1F, 3));
+                walkTarget.set(new WalkTarget(ownerPos, speed, 3));
                 return true;
             }));
     }

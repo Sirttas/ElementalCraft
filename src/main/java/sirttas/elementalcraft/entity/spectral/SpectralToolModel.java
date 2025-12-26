@@ -144,7 +144,7 @@ public class SpectralToolModel<T extends SpectralTool> extends EntityModel<T> im
                 CubeListBuilder.create()
                         .texOffs(0, 0)
                         .addBox(-1.0F, -1.0F, -1.0F, 2.0F, 2.0F, 2.0F, CubeDeformation.NONE),
-                PartPose.offset(0.0F, 3.0F, 0.0F)
+                PartPose.offset(0.0F, 0.0F, 0.0F)
         );
 
         return meshdefinition;

@@ -21,11 +21,13 @@ import sirttas.elementalcraft.entity.ai.behavior.FindBlockToDig;
 import sirttas.elementalcraft.entity.ai.behavior.FollowOwner;
 import sirttas.elementalcraft.entity.ai.behavior.MineDigTarget;
 import sirttas.elementalcraft.entity.ai.behavior.MoveToDigTarget;
+import sirttas.elementalcraft.spell.Spells;
 
 import java.util.Set;
 
 public class SpectralToolAi {
 
+    public static final long DIG_TARGET_MEMORY_DURATION = 600;
     private static final double MAX_RANGE_FROM_OWNER = 50;
 
     protected static Brain<?> makeBrain(SpectralTool spectralTool, Dynamic<?> dynamic) {
@@ -39,13 +41,13 @@ public class SpectralToolAi {
         brain.addActivity(Activity.IDLE, 10, ImmutableList.of(
                 SetEntityLookTarget.create(8F),
                 SetLookAndInteract.create(EntityType.PLAYER, 4),
-                FollowOwner.create(8)
+                FollowOwner.create(Spells.SPECTRAL_TOOL.get().getRange(null) -1, 1.5F)
         ));
         brain.addActivityAndRemoveMemoryWhenStopped(Activity.DIG, 10, ImmutableList.of(
                 ClearDigTargetIfNoLongerPresent.create(),
                 FindBlockToDig.create(16, 8),
                 MoveToDigTarget.create(),
-                new MineDigTarget()
+                new MineDigTarget(SpectralToolAi.DIG_TARGET_MEMORY_DURATION)
         ), ECMemoryModuleTypes.DIG_TARGET_BLOCK.get());
         brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(
                 StopAttackingIfTargetInvalid.create(),

@@ -172,7 +172,7 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         var brain = this.getBrain();
 
         brain.setMemory(ECMemoryModuleTypes.DIG_TARGET.get(), target);
-        brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), state.getBlock(), 600L);
+        brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), state.getBlock(), SpectralToolAi.DIG_TARGET_MEMORY_DURATION);
         return true;
     }
 }
