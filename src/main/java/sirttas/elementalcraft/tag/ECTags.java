@@ -45,7 +45,9 @@ public class ECTags {
 		public static final TagKey<Item> INFUSABLE_LEGGINGS = createTag("infusable/leggings");
 		public static final TagKey<Item> INFUSABLE_BOOTS = createTag("infusable/boots");
 
-		public static final TagKey<Item> CHISELS = createTag("chisels");
+        public static final TagKey<Item> SPECTRAL_TOOLS = createTag("spectral_tools");
+
+        public static final TagKey<Item> CHISELS = createTag("chisels");
 		public static final TagKey<Item> SPELL_HOLDERS = createTag("spell_holders");
 		public static final TagKey<Item> ELEMENTAL_CRYSTALS = createTag("crystals/elemental");
 		public static final TagKey<Item> CRYSTALS = createTag("crystals");

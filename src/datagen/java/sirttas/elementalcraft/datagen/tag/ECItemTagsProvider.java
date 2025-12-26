@@ -99,6 +99,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.INFUSABLE_LEGGINGS).addTag(ItemTags.LEG_ARMOR);
 		tag(ECTags.Items.INFUSABLE_BOOTS).addTag(ItemTags.FOOT_ARMOR);
 
+		tag(ECTags.Items.SPECTRAL_TOOLS).addTags(ItemTags.PICKAXES, ItemTags.SHOVELS, ItemTags.AXES, ItemTags.HOES);
+
 		tag(ECTags.Items.CHISELS).add(ECItems.DRENCHED_IRON_CHISEL.get(), ECItems.SWIFT_ALLOY_CHISEL.get(), ECItems.FIREITE_CHISEL.get());
 		tag(ECTags.Items.SPELL_HOLDERS).add(getItems(AbstractSpellHolderItem.class));
 		tag(ECTags.Items.ELEMENTAL_CRYSTALS).add(ECItems.FIRE_CRYSTAL.get(), ECItems.WATER_CRYSTAL.get(), ECItems.EARTH_CRYSTAL.get(), ECItems.AIR_CRYSTAL.get());

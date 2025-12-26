@@ -11,6 +11,7 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.entity.spectral.SpectralTool;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +29,7 @@ public class SpectralToolSpell extends Spell {
 
         var tool = this.getItemInOtherHand(livingEntity);
 
-        if (tool.isEmpty()) {
+        if (tool.isEmpty() || !tool.is(ECTags.Items.SPECTRAL_TOOLS)) {
             return InteractionResult.PASS;
         }
 
