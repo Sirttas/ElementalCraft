@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.entity.ai.ECMemoryModuleTypes;
+import sirttas.elementalcraft.entity.ai.ECSensorTypes;
 
 import java.util.List;
 import java.util.UUID;
@@ -41,7 +42,8 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
 
     protected static final Lazy<List<SensorType<? extends Sensor<? super SpectralTool>>>> SENSOR_TYPES = Lazy.of(() -> List.of(
             SensorType.NEAREST_LIVING_ENTITIES,
-            SensorType.HURT_BY
+            SensorType.HURT_BY,
+            ECSensorTypes.WATCH_OWNER_FIGHT_SENSOR.get()
     ));
 
     protected static final Lazy<List<MemoryModuleType<?>>> MEMORY_TYPES =  Lazy.of(() -> List.of(
@@ -146,9 +148,6 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
@@ -156,8 +155,8 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         if (compound.hasUUID(OWNER_TAG)) {
             uuid = compound.getUUID(OWNER_TAG);
         } else {
-            String s = compound.getString(OWNER_TAG);
-            uuid = OldUsersConverter.convertMobOwnerIfNecessary(this.getServer(), s);
+            String owner = compound.getString(OWNER_TAG);
+            uuid = OldUsersConverter.convertMobOwnerIfNecessary(this.getServer(), owner);
         }
         if (uuid != null) {
             this.owner = uuid;

@@ -14,6 +14,8 @@ public class ECSensorTypes {
 
     private static final DeferredRegister<SensorType<?>> DEFERRED_REGISTRY = DeferredRegister.create(Registries.SENSOR_TYPE, ElementalCraftApi.MODID);
 
+    public static final DeferredHolder<SensorType<?>, SensorType<WatchOwnerFightSensor>> WATCH_OWNER_FIGHT_SENSOR = register("watch_owner_fight_sensor", WatchOwnerFightSensor::new);
+
     private ECSensorTypes() {}
 
     private static <U extends Sensor<?>> DeferredHolder<SensorType<?>, SensorType<U>> register(String key, Supplier<U> sensorSupplier) {
