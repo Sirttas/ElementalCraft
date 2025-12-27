@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.lang3.mutable.MutableBoolean;
@@ -33,10 +34,14 @@ public class SpectralToolSpell extends Spell {
             return InteractionResult.PASS;
         }
 
-        var entity = new SpectralTool(livingEntity, tool);
+        var entity = new SpectralTool(livingEntity, tool.copy());
 
         entity.setPos(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
         level.addFreshEntity(entity);
+
+        if (livingEntity instanceof Player player && !player.getAbilities().instabuild) {
+            tool.shrink(1);
+        }
         return InteractionResult.SUCCESS;
     }
 
@@ -50,8 +55,8 @@ public class SpectralToolSpell extends Spell {
 
         var hasGivenOrder = new MutableBoolean(false);
 
-        level.getEntitiesOfClass(SpectralTool.class, caster.getBoundingBox().inflate(this.getRange(caster))).forEach(e -> {
-            if (e.digBlock(target, state)) {
+        level.getEntitiesOfClass(SpectralTool.class, caster.getBoundingBox().inflate(this.getRange(caster))).forEach(spectralTool -> {
+            if (spectralTool.digBlock(target, state)) {
                 hasGivenOrder.setTrue();
             }
         });

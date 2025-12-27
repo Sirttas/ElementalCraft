@@ -46,7 +46,7 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
             ECSensorTypes.WATCH_OWNER_FIGHT_SENSOR.get()
     ));
 
-    protected static final Lazy<List<MemoryModuleType<?>>> MEMORY_TYPES =  Lazy.of(() -> List.of(
+    protected static final Lazy<List<MemoryModuleType<?>>> MEMORY_TYPES = Lazy.of(() -> List.of(
             MemoryModuleType.LOOK_TARGET,
             MemoryModuleType.NEAREST_LIVING_ENTITIES,
             MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,

@@ -60,6 +60,29 @@ public class SpectralToolAi {
         return brain;
     }
 
+    protected static Brain<?> makeChiselBrain(SpectralTool spectralTool, Dynamic<?> dynamic) {
+        var brain = spectralTool.brainProvider().makeBrain(dynamic);
+
+        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
+                new LookAtTargetSink(45, 90),
+                new MoveToTargetSink()
+        ));
+        brain.addActivity(Activity.IDLE, 10, ImmutableList.of(
+                SetEntityLookTarget.create(8F),
+                SetLookAndInteract.create(EntityType.PLAYER, 4)
+        ));
+        brain.addActivityAndRemoveMemoryWhenStopped(Activity.DIG, 10, ImmutableList.of(
+                ClearDigTargetIfNoLongerPresent.create(),
+                FindBlockToDig.create(16, 8),
+                MoveToDigTarget.create(),
+                new MineDigTarget(SpectralToolAi.DIG_TARGET_MEMORY_DURATION)
+        ), ECMemoryModuleTypes.DIG_TARGET_BLOCK.get());
+        brain.setCoreActivities(Set.of(Activity.CORE));
+        brain.setDefaultActivity(Activity.IDLE);
+        brain.useDefaultActivity();
+        return brain;
+    }
+
     private static BehaviorControl<SpectralTool> dropEveryThingIfOwnerIsTooFar() {
         return BehaviorBuilder.create(builder ->
                 builder.group(

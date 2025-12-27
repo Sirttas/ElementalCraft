@@ -3,6 +3,7 @@ package sirttas.elementalcraft.spell;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
@@ -12,33 +13,35 @@ import net.neoforged.testframework.gametest.EmptyTemplate;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.entity.ECEntities;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
-@ForEachTest(groups = RepairSpellGameTests.GROUP)
-public class RepairSpellGameTests {
+@ForEachTest(groups = SpectralToolSpellGameTests.GROUP)
+public class SpectralToolSpellGameTests {
 
-    public static final String GROUP = "spell.repair";
+    public static final String GROUP = "spell.spectral_tool";
 
     @GameTest
     @EmptyTemplate(floor = true)
-    @TestHolder(description = "Checks that repair spell repair spell in other hand.")
-    public static void should_repairItemInOtherHand(ECGameTestHelper helper) {
-        var player = helper.mockPlayerWithSpell(new Vec3(1, 1, 1), Spells.REPAIR);
-        var damagedItem = new ItemStack(Items.DIAMOND_PICKAXE);
+    @TestHolder(description = "Checks that spectral tool spell create a spectral tool entity.")
+    public static void should_createSpectralToolEntity(ECGameTestHelper helper) {
+        var player = helper.mockPlayerWithSpell(new Vec3(1, 1, 1), Spells.SPECTRAL_TOOL);
 
-        damagedItem.setDamageValue(10);
-        player.setItemInHand(InteractionHand.OFF_HAND, damagedItem);
+        player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.DIAMOND_PICKAXE));
         player.lookAt(EntityAnchorArgument.Anchor.EYES, helper.absoluteVec(new Vec3(9, 1, 1)));
         helper.startSequence()
-                .thenExecuteFor(20, () -> helper.useItem(player))
+                .thenExecute(() -> helper.useItem(player))
                 .thenExecuteAfter(2, ECGameTestUtils.fixAssertions(() -> {
                     assertThat(player.getItemInHand(InteractionHand.OFF_HAND))
-                            .is(Items.DIAMOND_PICKAXE)
-                            .hasDamage(0);
-                    helper.assertElementUsed(player, ElementType.FIRE);
+                            .isEmpty();
+                    helper.assertEntitiesPresent(ECEntities.SPECTRAL_TOOL.get(), 1);
+                    helper.assertElementUsed(player, ElementType.AIR);
                 }))
-                .thenExecute(player::discard)
+                .thenExecute(() -> {
+                    player.discard();
+                    helper.findEntities(ECEntities.SPECTRAL_TOOL.get(), 0, 0, 0, 3).forEach(Entity::discard);
+                })
                 .thenSucceed();
     }
 }

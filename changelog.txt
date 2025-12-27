@@ -1,3 +1,4 @@
+- new spell: spectral tool
 - repair and translocation spells can no longer be found in chest, they must be crafted
 - fix source altars not generating properly
 - fix growth ratio not applying correctly to ranges
