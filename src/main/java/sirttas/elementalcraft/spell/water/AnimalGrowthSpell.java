@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.spell.Spell;
 
 import javax.annotation.Nonnull;
@@ -18,7 +19,7 @@ public class AnimalGrowthSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
+	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
 		if (target instanceof Animal animal && animal.isBaby()) {
 			animal.setAge(0);
 			return InteractionResult.SUCCESS;

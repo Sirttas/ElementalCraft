@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.item.TooltipHelper;
 
 import javax.annotation.Nonnull;
@@ -38,12 +39,12 @@ public class EffectSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
+	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
 		return applyEffect(target);
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		return applyEffect(caster);
 	}
 

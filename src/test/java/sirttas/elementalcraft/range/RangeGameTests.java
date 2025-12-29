@@ -72,7 +72,7 @@ public class RangeGameTests {
                     upgrade.setTarget(targetPos);
                     should_haveRange(helper, shrine, new AABB(6, 2, 1, 13, 5, 8));
                 }),
-                createTest(i++, RangeShrineUpgradeTemplates.HARVEST_SHRINE_WITH_1_RANGE_TEMPLATE, helper -> should_haveRange(helper, new BlockPos(0, 2, 0), new AABB(-7, -1, -7, 8, 2, 8)))
+                createTest(i++, RangeShrineUpgradeTemplates.HARVEST_SHRINE_WITH_1_RANGE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(0, 2, 0), new AABB(-7, -1, -7, 8, 2, 8)))
         );
     }
 

@@ -11,6 +11,7 @@ import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.EmptyTemplate;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
+import sirttas.elementalcraft.api.element.ElementType;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
@@ -35,6 +36,7 @@ public class RepairSpellGameTests {
                     assertThat(player.getItemInHand(InteractionHand.OFF_HAND))
                             .is(Items.DIAMOND_PICKAXE)
                             .hasDamage(0);
+                    helper.assertElementUsed(player, ElementType.FIRE);
                 }))
                 .thenExecute(player::discard)
                 .thenSucceed();

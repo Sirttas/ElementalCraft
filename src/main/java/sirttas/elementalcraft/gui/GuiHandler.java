@@ -12,7 +12,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -62,6 +64,10 @@ public class GuiHandler {
 
 	public static final Material TRANSLOCATION_ANCHOR_MARKER = ECRendererHelper.getBlockMaterial("gui/translocation_anchor_marker");
 
+    private static final ResourceLocation GAUGE_LAYER = ElementalCraftApi.createRL("gauge");
+    private static final ResourceLocation TRANSLOCATION_ANCHOR_MARKER_LAYER = ElementalCraftApi.createRL("translocation_anchor_marker");
+    private static final ResourceLocation SINGLE_TRANSLOCATION_ANCHOR_MARKER_LAYER = ElementalCraftApi.createRL("single_translocation_anchor_marker");
+
 	private GuiHandler() {}
 
 	@SubscribeEvent
@@ -75,9 +81,9 @@ public class GuiHandler {
 
 	@SubscribeEvent
 	public static void onDrawScreenPost(RegisterGuiLayersEvent event) {
-		event.registerAbove(VanillaGuiLayers.CROSSHAIR, ElementalCraftApi.createRL("gauge"), GuiHandler::drawGauge);
-		event.registerAbove(VanillaGuiLayers.CAMERA_OVERLAYS, ElementalCraftApi.createRL("translocation_anchor_marker"), GuiHandler::drawAnchors);
-		event.registerBelow(ElementalCraftApi.createRL("translocation_anchor_marker"), ElementalCraftApi.createRL("single_translocation_anchor_marker"), GuiHandler::drawAnchor);
+		event.registerAbove(VanillaGuiLayers.CROSSHAIR, GAUGE_LAYER, GuiHandler::drawGauge);
+		event.registerAbove(VanillaGuiLayers.CAMERA_OVERLAYS, TRANSLOCATION_ANCHOR_MARKER_LAYER, GuiHandler::drawAnchors);
+		event.registerBelow(TRANSLOCATION_ANCHOR_MARKER_LAYER, SINGLE_TRANSLOCATION_ANCHOR_MARKER_LAYER, GuiHandler::drawAnchor);
 	}
 
 	public static void drawGauge(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
@@ -89,7 +95,7 @@ public class GuiHandler {
 
 		RenderSystem.enableBlend();
 
-		var spell = getSpell();
+		var spell = getSpell(player);
 		var i = 0;
 
 		for (var storage : getElementStorage(player)) {
@@ -288,8 +294,8 @@ public class GuiHandler {
 				.toList();
 	}
 
-	private static Spell getSpell() {
-		return EntityHelper.handStream(Minecraft.getInstance().player).map(stack -> {
+	private static Spell getSpell(LivingEntity player) {
+		return EntityHelper.handStream(player).map(stack -> {
 			if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
 				return SpellHelper.getSpell(stack);
 			}

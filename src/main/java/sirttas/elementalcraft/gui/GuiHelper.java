@@ -39,7 +39,7 @@ public class GuiHelper {
 		if (progress <= 1 && amount > 0) {
 			progress = 2;
 		}
-		guiGraphics.blit(GAUGE, x, y + 16 - progress, getElementTypeOffset(type) * 16, 16 - progress + (Boolean.TRUE.equals(ECConfig.CLIENT.usePaleElementGauge.get()) ? 16 : 0), 16, progress);
+		guiGraphics.blit(GAUGE, x, y + 16 - progress, getElementTypeOffset(type) * 16, 16 - progress + (ECConfig.CLIENT.usePaleElementGauge.get() ? 16 : 0), 16, progress);
 		if (showDebugInfo() && showDebugInfo) {
 			guiGraphics.drawString(font, amount + "/" + max, x, y + 16, 16777215, true);
 		}

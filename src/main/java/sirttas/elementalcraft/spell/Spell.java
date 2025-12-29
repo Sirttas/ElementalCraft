@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
@@ -86,17 +87,17 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	@Nonnull
-	public InteractionResult castOnEntity(@Nonnull Entity caster, @Nonnull Entity target) {
+	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
 		return InteractionResult.PASS;
 	}
 
 	@Nonnull
-	public InteractionResult castOnBlock(@Nonnull Entity caster, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity caster, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		return InteractionResult.PASS;
 	}
 
 	@Nonnull
-	public InteractionResult castOnSelf(@Nonnull Entity caster) {
+	public InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		return InteractionResult.PASS;
 	}
 
