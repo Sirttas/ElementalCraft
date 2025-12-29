@@ -37,12 +37,12 @@ public class GavelFallSpell extends Spell {
 		}
 	}
 
-	private InteractionResult spawnGravel(@Nonnull Level level, Entity sender, BlockPos pos) {
-		checkAndSpawn(level, pos.above(4));
-		checkAndSpawn(level, pos.above(5));
-		checkAndSpawn(level, pos.above(6));
-		return InteractionResult.SUCCESS;
-	}
+    private InteractionResult spawnGravel(@Nonnull Level level, BlockPos pos) {
+        checkAndSpawn(level, pos.above(4));
+        checkAndSpawn(level, pos.above(5));
+        checkAndSpawn(level, pos.above(6));
+        return InteractionResult.SUCCESS;
+    }
 
 	@Nonnull
 	@Override
