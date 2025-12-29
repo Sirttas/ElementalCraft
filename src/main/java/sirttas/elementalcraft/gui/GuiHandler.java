@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
@@ -60,7 +61,11 @@ import java.util.Objects;
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class GuiHandler {
 
-	public static final Material TRANSLOCATION_ANCHOR_MARKER = ECRendererHelper.getBlockMaterial("gui/translocation_anchor_marker");
+	public static final Material TRANSLOCATION_ANCHOR_MARKER_MATERIAL = ECRendererHelper.getBlockMaterial("gui/translocation_anchor_marker");
+
+    private static final ResourceLocation GAUGE = ElementalCraftApi.createRL("gauge");
+    private static final ResourceLocation TRANSLOCATION_ANCHOR_MARKER = ElementalCraftApi.createRL("translocation_anchor_marker");
+    private static final ResourceLocation SINGLE_TRANSLOCATION_ANCHOR_MARKER = ElementalCraftApi.createRL("single_translocation_anchor_marker");
 
 	private GuiHandler() {}
 
@@ -75,9 +80,9 @@ public class GuiHandler {
 
 	@SubscribeEvent
 	public static void onDrawScreenPost(RegisterGuiLayersEvent event) {
-		event.registerAbove(VanillaGuiLayers.CROSSHAIR, ElementalCraftApi.createRL("gauge"), GuiHandler::drawGauge);
-		event.registerAbove(VanillaGuiLayers.CAMERA_OVERLAYS, ElementalCraftApi.createRL("translocation_anchor_marker"), GuiHandler::drawAnchors);
-		event.registerBelow(ElementalCraftApi.createRL("translocation_anchor_marker"), ElementalCraftApi.createRL("single_translocation_anchor_marker"), GuiHandler::drawAnchor);
+		event.registerAbove(VanillaGuiLayers.CROSSHAIR, GAUGE, GuiHandler::drawGauge);
+		event.registerAbove(VanillaGuiLayers.CAMERA_OVERLAYS, TRANSLOCATION_ANCHOR_MARKER, GuiHandler::drawAnchors);
+		event.registerBelow(TRANSLOCATION_ANCHOR_MARKER, SINGLE_TRANSLOCATION_ANCHOR_MARKER, GuiHandler::drawAnchor);
 	}
 
 	public static void drawGauge(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
@@ -202,7 +207,7 @@ public class GuiHandler {
 		poseStack.scale(0.25F, 0.25F, 1F);
 		poseStack.scale(scale, scale, 1F);
 		poseStack.translate(-64, -64, 1F);
-		ECRendererHelper.renderIcon(poseStack, buffer, TRANSLOCATION_ANCHOR_MARKER, 128, 128);
+		ECRendererHelper.renderIcon(poseStack, buffer, TRANSLOCATION_ANCHOR_MARKER_MATERIAL, 128, 128);
 		poseStack.popPose();
 	}
 

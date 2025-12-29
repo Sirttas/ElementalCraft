@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.entity.ai.ECMemoryModuleTypes;
 import sirttas.elementalcraft.entity.ai.ECSensorTypes;
+import sirttas.elementalcraft.spell.Spells;
 
 import java.util.List;
 import java.util.UUID;
@@ -140,12 +142,40 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         return owner;
     }
 
+    public boolean digBlock(@NotNull BlockPos target, BlockState state) {
+        if (state.requiresCorrectToolForDrops() && !this.getMainHandItem().isCorrectToolForDrops(state)) {
+            return false;
+        }
+
+        var brain = this.getBrain();
+
+        brain.setMemory(ECMemoryModuleTypes.DIG_TARGET.get(), target);
+        brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), state.getBlock(), SpectralToolAi.DIG_TARGET_MEMORY_DURATION);
+        return true;
+    }
+
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         if (this.owner != null) {
             compound.putUUID(OWNER_TAG, this.owner);
         }
+    }
+
+    @Override
+    public ItemEntity spawnAtLocation(@NotNull ItemStack stack, float offsetY) {
+        var owner = this.getOwner();
+
+        if (owner == null) {
+            return super.spawnAtLocation(stack, offsetY);
+        }
+
+        var range = Spells.SPECTRAL_TOOL.get().getRange(owner);
+
+        if (owner.distanceToSqr(this) <= range * range) {
+            return owner.spawnAtLocation(stack, offsetY);
+        }
+        return super.spawnAtLocation(stack, offsetY);
     }
 
     @Override
@@ -161,17 +191,5 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
         if (uuid != null) {
             this.owner = uuid;
         }
-    }
-
-    public boolean digBlock(@NotNull BlockPos target, BlockState state) {
-        if (state.requiresCorrectToolForDrops() && !this.getMainHandItem().isCorrectToolForDrops(state)) {
-            return false;
-        }
-
-        var brain = this.getBrain();
-
-        brain.setMemory(ECMemoryModuleTypes.DIG_TARGET.get(), target);
-        brain.setMemoryWithExpiry(ECMemoryModuleTypes.DIG_TARGET_BLOCK.get(), state.getBlock(), SpectralToolAi.DIG_TARGET_MEMORY_DURATION);
-        return true;
     }
 }
