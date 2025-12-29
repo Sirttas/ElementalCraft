@@ -38,7 +38,7 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
                 .addSource(single(AirShieldSpellRenderer.BLADE))
                 .addSource(single(SourceRendererHelper.OUTER))
                 .addSource(single(SourceRendererHelper.MIDDLE))
-                .addSource(single(GuiHandler.TRANSLOCATION_ANCHOR_MARKER_MATERIAL));
+                .addSource(single(GuiHandler.TRANSLOCATION_ANCHOR_MARKER));
         atlas(ResourceLocation.withDefaultNamespace("armor_trims"))
                 .addSource(new PalettedPermutations(List.of(
                         createTrimPattern("coast"),
