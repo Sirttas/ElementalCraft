@@ -47,13 +47,13 @@ public class GavelFallSpell extends Spell {
 	@Nonnull
 	@Override
 	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		return spawnGravel(level, sender, target);
+		return spawnGravel(level, target);
 	}
 
 	@Nonnull
 	@Override
 	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
-		return spawnGravel(level, caster, BlockPos.containing(target.position()));
+		return spawnGravel(level, BlockPos.containing(target.position()));
 	}
 
 	@Override
