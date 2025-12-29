@@ -6,6 +6,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.BlockHitResult;
@@ -23,10 +24,10 @@ public class RepairSpell extends Spell {
 
     @Nonnull
     @Override
-    public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+    public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
         var offset = target.relative(hitResult.getDirection());
 
-        if (!sender.level().getBlockState(offset).isAir() || FallingBlock.isFree(sender.level().getBlockState(offset.below()))) {
+        if (!level.getBlockState(offset).isAir() || FallingBlock.isFree(level.getBlockState(offset.below()))) {
             return InteractionResult.PASS;
         }
 
@@ -35,7 +36,7 @@ public class RepairSpell extends Spell {
 
             if (!item.isEmpty() && item.isDamaged()) {
                 repairPlayerItems(item);
-                playSound(offset, player);
+                playSound(level, offset, player);
                 return InteractionResult.CONSUME;
             }
         }
@@ -47,11 +48,11 @@ public class RepairSpell extends Spell {
         stack.setDamageValue(stack.getDamageValue() - Math.min((int) (getStrength() * stack.getXpRepairRatio()), stack.getDamageValue()));
     }
 
-    private static void playSound(BlockPos offset, Player player) {
+    private static void playSound(@Nonnull Level level, BlockPos offset, Player player) {
         var useTicks = player.getUseItemRemainingTicks();
 
         if (useTicks > 0 && useTicks % 40 == 0) {
-            player.level().levelEvent(player, LevelEvent.SOUND_ANVIL_USED, offset, 0);
+            level.levelEvent(player, LevelEvent.SOUND_ANVIL_USED, offset, 0);
         }
     }
 }

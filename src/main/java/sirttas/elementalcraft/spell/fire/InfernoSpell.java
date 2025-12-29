@@ -23,8 +23,7 @@ public class InfernoSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level level = caster.level();
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		float range = getRange(caster);
 		Vec3 look = caster.getLookAngle().normalize();
 
@@ -32,7 +31,7 @@ public class InfernoSpell extends Spell {
 			for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, caster.getBoundingBox().expandTowards(look.scale(range + 1)).inflate(1.0D, 0.25D, 1.0D))) {
 				if (target != caster && !caster.isAlliedTo(target) && (!(target instanceof ArmorStand stand) || !stand.isMarker())
 						&& caster.distanceToSqr(target) < range * range && getAngle(caster, target) <= 30) {
-					var sources = caster.level().damageSources();
+					var sources = level.damageSources();
 
 					target.hurt(caster instanceof Player player ? sources.playerAttack(player) : sources.mobAttack(livingSender), getStrength());
 					target.igniteForSeconds(1);

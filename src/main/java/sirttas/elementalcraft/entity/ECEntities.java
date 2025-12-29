@@ -14,7 +14,10 @@ public class ECEntities {
 
     private static final DeferredRegister<EntityType<?>> DEFERRED_REGISTRY = DeferredRegister.create(Registries.ENTITY_TYPE, ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<FeatherSpike>> FEATHER_SPIKE = register(EntityType.Builder.<FeatherSpike>of(FeatherSpike::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20), FeatherSpike.NAME);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeatherSpike>> FEATHER_SPIKE = register(EntityType.Builder.<FeatherSpike>of(FeatherSpike::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F)
+            .clientTrackingRange(4)
+            .updateInterval(20), FeatherSpike.NAME);
 
     private ECEntities() {}
 

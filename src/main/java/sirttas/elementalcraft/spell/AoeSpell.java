@@ -25,8 +25,7 @@ public class AoeSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level level = caster.level();
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		float range = getRange(caster);
 
 		if (caster instanceof LivingEntity livingSender) {
@@ -57,7 +56,7 @@ public class AoeSpell extends Spell {
 			var sources = level.damageSources();
 			var damageSource = sender instanceof Player player ? sources.playerAttack(player) : sources.mobAttack(sender);
 
-			damage = getEnchantedDamage(sender, target, damage, damageSource);
+			damage = getEnchantedDamage(level, sender, target, damage, damageSource);
 
 			if (damage > 0) {
 				target.knockback(0.4F, sender.getX() - target.getX(), sender.getZ() - target.getZ());
@@ -72,8 +71,8 @@ public class AoeSpell extends Spell {
 		}
 	}
 
-	private float getEnchantedDamage(LivingEntity sender, Entity target, float damage, DamageSource damageSource) {
-		if (sender.level() instanceof ServerLevel serverLevel) {
+	private float getEnchantedDamage(@Nonnull Level level, LivingEntity sender, Entity target, float damage, DamageSource damageSource) {
+		if (level instanceof ServerLevel serverLevel) {
 			return EnchantmentHelper.modifyDamage(serverLevel, sender.getWeaponItem(), target, damageSource, damage);
 		}
 		return damage;

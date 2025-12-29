@@ -5,6 +5,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -20,7 +21,7 @@ public class DashSpell extends Spell {
 
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		var range = getRange(caster);
 
 		if (caster.isPassenger()) {

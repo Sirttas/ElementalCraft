@@ -47,10 +47,8 @@ public class TreeFallSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		Level level = sender.level();
-
-        if (level.isClientSide || !isValidBlock(level.getBlockState(target))) {
+	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+		if (level.isClientSide || !isValidBlock(level.getBlockState(target))) {
             return InteractionResult.PASS;
         }
 

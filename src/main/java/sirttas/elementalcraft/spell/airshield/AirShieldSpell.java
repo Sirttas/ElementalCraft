@@ -3,6 +3,7 @@ package sirttas.elementalcraft.spell.airshield;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import sirttas.elementalcraft.spell.ItemAbilitySpell;
 import sirttas.elementalcraft.spell.Spell;
@@ -18,7 +19,7 @@ public class AirShieldSpell extends ItemAbilitySpell {
     }
 
     @Override
-    public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
+    public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
         return InteractionResult.CONSUME;
     }
 }

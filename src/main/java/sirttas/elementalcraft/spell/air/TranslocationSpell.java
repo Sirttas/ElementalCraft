@@ -66,8 +66,7 @@ public class TranslocationSpell extends Spell {
 	}
 	
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Entity caster) {
-		Level level = caster.level();
+	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		Vec3 look = caster.getLookAngle();
 		Vec3 newPos = getNewPos(caster, level, look);
 
