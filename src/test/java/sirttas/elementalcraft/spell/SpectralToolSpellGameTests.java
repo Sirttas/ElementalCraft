@@ -44,4 +44,27 @@ public class SpectralToolSpellGameTests {
                 })
                 .thenSucceed();
     }
+
+    @GameTest
+    @EmptyTemplate(value = "5x3x3", floor = true)
+    @TestHolder(description = "Checks that spectral tool spell can be used to unsummon tools.")
+    public static void should_unsummonSpectralToolEntity(ECGameTestHelper helper) {
+        var player = helper.mockPlayerWithSpell(new Vec3(1, 3, 2), Spells.SPECTRAL_TOOL);
+        var tool = helper.createSpectralTool(player, new Vec3(4, 2, 2), new ItemStack(Items.DIAMOND_PICKAXE));
+
+        helper.startSequence()
+                .thenExecute(() -> {
+                    player.lookAt(EntityAnchorArgument.Anchor.EYES, tool.position());
+                    helper.useItem(player);
+                })
+                .thenExecuteAfter(5, ECGameTestUtils.fixAssertions(() -> {
+                    assertThat(tool.isAlive()).as("Spectral tool should be removed").isFalse();
+                    assertThat(player.getInventory().contains(new ItemStack(Items.DIAMOND_PICKAXE))).as("Pickaxe should return to player").isTrue();
+                }))
+                .thenExecute(() -> {
+                    player.discard();
+                    tool.discard();
+                })
+                .thenSucceed();
+    }
 }

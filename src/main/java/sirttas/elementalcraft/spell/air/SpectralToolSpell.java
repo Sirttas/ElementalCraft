@@ -56,7 +56,7 @@ public class SpectralToolSpell extends Spell {
         var hasGivenOrder = new MutableBoolean(false);
 
         level.getEntitiesOfClass(SpectralTool.class, caster.getBoundingBox().inflate(this.getRange(caster))).forEach(spectralTool -> {
-            if (spectralTool.digBlock(target, state)) {
+            if (spectralTool.getOwner() == caster && spectralTool.digBlock(target, state)) {
                 hasGivenOrder.setTrue();
             }
         });
@@ -69,7 +69,7 @@ public class SpectralToolSpell extends Spell {
             return InteractionResult.PASS;
         }
 
-        spectralTool.discard();
+        spectralTool.kill();
         return InteractionResult.SUCCESS_NO_ITEM_USED;
     }
 }

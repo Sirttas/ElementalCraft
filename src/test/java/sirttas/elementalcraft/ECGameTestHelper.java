@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,6 +23,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -32,6 +34,7 @@ import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.component.ECDataComponents;
+import sirttas.elementalcraft.entity.spectral.SpectralTool;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.rune.RuneItem;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
@@ -139,7 +142,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
 
     @Nonnull
     public Player mockReceptaclePlayer(ElementType type, int elementAmount) {
-        var player = makeMockPlayer();
+        var player = makeMockPlayer((GameType.SURVIVAL));
         var receptacle = ReceptacleGameTestHelper.createSimpleReceptacle(type);
 
         if (elementAmount > 0) {
@@ -149,6 +152,14 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         player.moveTo(Vec3.atLowerCornerOf(this.testInfo.getStructureBlockPos()));
         player.setItemInHand(InteractionHand.MAIN_HAND, receptacle);
         return player;
+    }
+
+    public @NotNull SpectralTool createSpectralTool(LivingEntity player, Vec3 pos, ItemStack stack) {
+        var tool = new SpectralTool(this.getLevel(), player, stack);
+
+        tool.moveTo(absoluteVec(pos));
+        getLevel().addFreshEntity(tool);
+        return tool;
     }
 
     public IElementStorage getElementStorage(BlockPos pos) {

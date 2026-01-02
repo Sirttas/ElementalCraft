@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.players.OldUsersConverter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.PathfinderMob;
@@ -70,14 +71,19 @@ public class SpectralTool extends PathfinderMob implements OwnableEntity {
     private UUID owner;
 
     public SpectralTool(LivingEntity owner, ItemStack tool) {
-        this(ECEntities.SPECTRAL_TOOL.get(), owner.level());
+        this(owner.level(), owner, tool);
+    }
+
+    public SpectralTool(Level level, LivingEntity owner, ItemStack tool) {
+        this(ECEntities.SPECTRAL_TOOL.get(), level);
         this.setItemInHand(InteractionHand.MAIN_HAND, tool);
-        this.owner = owner.getUUID();
+        this.owner = owner != null ? owner.getUUID() : null;
         this.moveControl = new FlyingMoveControl(this, 10, true);
     }
 
     public SpectralTool(EntityType<? extends SpectralTool> entityType, Level level) {
         super(entityType, level);
+        this.setGuaranteedDrop(EquipmentSlot.MAINHAND);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
