@@ -1,3 +1,5 @@
+7.1.2:
+
 - repair and translocation spells can no longer be found in chest, they must be crafted
 - vibrations air synthesizers now prevent other synthesizers from synthesizing while they are active
 - fix vibration air synthesizer duplicating itself when receiving vibration
