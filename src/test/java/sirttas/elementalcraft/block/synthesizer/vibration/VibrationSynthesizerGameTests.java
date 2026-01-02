@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -57,37 +58,77 @@ public class VibrationSynthesizerGameTests {
                 .thenSucceed();
     }
 
-
-
     @TestHolder(description = "Checks that vibration air synthesizer catch a vibration and changes state.")
-    @GameTest
+    @GameTest(timeoutTicks =  200)
     public static void should_catchVibrationAndChangeState(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 2)
-                .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
-                .set(0, 1, 0, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(3, 2, 3)
+                .fill(0, 0, 0, 2, 1, 2, Blocks.WHITE_WOOL)
+                .set(1, 0, 1, ECBlocks.CONTAINER.get().defaultBlockState())
+                .set(1, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var storage = helper.requireElementContainer(new BlockPos(0, 1, 0));
+            var storage = helper.requireElementContainer(new BlockPos(1, 1, 1));
 
             helper.startSequence()
                     .thenExecute(() -> {
-                        helper.getLevel().gameEvent(GameEvent.STEP, helper.absoluteVec(Vec3.ZERO), GameEvent.Context.of(null, null));
+                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
                     })
-                    .thenExecuteAfter(1, () -> {
-                        helper.assertBlockState(new BlockPos(0, 2, 0), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, () -> "Vibration synthesizer should be active after receiving vibration");
+                    .thenExecuteAfter(5, () -> {
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, () -> "Vibration synthesizer should be active after receiving vibration");
                     })
                     .thenExecuteAfter(30, () -> {
-                        helper.assertBlockState(new BlockPos(0, 2, 0), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
                     })
                     .thenExecuteAfter(70, ECGameTestUtils.fixAssertions(() -> {
                         assertThat(storage.getElementType())
                                 .isEqualTo(ElementType.AIR);
                         assertThat(storage.getElementAmount())
-                                .isEqualTo(100);
+                                .isEqualTo(200);
                     }))
-                    .thenExecute(() -> helper.getEntities(EntityType.CHICKEN).forEach(Entity::discard))
                     .thenSucceed();
         });
     }
 
+    @TestHolder(description = "Checks that vibration air synthesizer prevent multiple synthesizers from synthesizing air from the same vibration.")
+    @GameTest(timeoutTicks =  200)
+    public static void should_preventMultipleSynthesizersFromSynthesizing(DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(4, 2, 3)
+                .fill(0, 0, 0, 3, 1, 2, Blocks.WHITE_WOOL)
+                .set(1, 0, 1, ECBlocks.CONTAINER.get().defaultBlockState())
+                .set(2, 0, 1, ECBlocks.CONTAINER.get().defaultBlockState())
+                .set(1, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState())
+                .set(2, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
+
+        test.onGameTest(ECGameTestHelper.class, helper -> {
+            var storage1 = helper.requireElementContainer(new BlockPos(1, 1, 1));
+            var storage2 = helper.requireElementContainer(new BlockPos(2, 1, 1));
+
+            helper.startSequence()
+                    .thenExecute(() -> {
+                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
+                    })
+                    .thenExecuteAfter(5, () -> {
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, () -> "Vibration synthesizer should be active after receiving vibration");
+                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, () -> "Vibration synthesizer should be active after receiving vibration");
+                    })
+                    .thenExecuteAfter(30, () -> {
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
+                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
+                    })
+                    .thenExecuteAfter(10, () -> {
+                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
+                    })
+                    .thenExecuteAfter(60, ECGameTestUtils.fixAssertions(() -> {
+                        assertThat(storage1.getElementType())
+                                .isEqualTo(ElementType.AIR);
+                        assertThat(storage1.getElementAmount())
+                                .isEqualTo(200);
+                        assertThat(storage2.getElementType())
+                                .isEqualTo(ElementType.AIR);
+                        assertThat(storage2.getElementAmount())
+                                .isEqualTo(200);
+                    }))
+                    .thenSucceed();
+        });
+    }
 }
