@@ -153,7 +153,6 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
                     nearbySynthesis--;
                 } else {
                     getElementStorage().insertElement(Math.round(synthesisMultiplier), ElementType.AIR, false);
-                    level.gameEvent(ECGameEvents.AIR_SYNTHESIS, getBlockPos(), GameEvent.Context.of(state));
                 }
             } else if (gameEvent.is(ECGameEvents.AIR_SYNTHESIS)) {
                 nearbySynthesis++;

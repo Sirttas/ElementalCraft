@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -29,6 +30,7 @@ import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.synthesizer.AbstractSynthesizerBlockEntity;
+import sirttas.elementalcraft.gameevent.ECGameEvents;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -75,6 +77,7 @@ public class VibrationSynthesizerBlock extends AbstractECContainerBlock {
 		var phase = getPhase(state);
 
 		if (phase == SculkSensorPhase.ACTIVE) {
+            level.gameEvent(ECGameEvents.AIR_SYNTHESIS, pos, GameEvent.Context.of(state));
 			level.setBlockAndUpdate(pos, state.setValue(PHASE, SculkSensorPhase.COOLDOWN));
 			level.scheduleTick(pos, state.getBlock(), 10);
 		} else if (phase == SculkSensorPhase.COOLDOWN) {
