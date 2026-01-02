@@ -13,6 +13,8 @@ public class ECGameEvents {
 
     public static final DeferredHolder<GameEvent, GameEvent> AIR_SYNTHESIS = register("air_synthesis");
 
+    private ECGameEvents() {}
+    
     private static DeferredHolder<GameEvent, GameEvent> register(String name) {
         return DEFERRED_REGISTRY.register(name, () -> new GameEvent(16));
     }
