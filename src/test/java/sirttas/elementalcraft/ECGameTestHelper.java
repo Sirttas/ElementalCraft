@@ -18,6 +18,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -257,5 +258,13 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         assertThat(storage.getElementAmount(elementType))
                 .describedAs("Element %s should have been used", elementType.getSerializedName())
                 .isLessThan(storage.getElementCapacity(elementType));
+    }
+
+    public void fireGameEvent(Holder<GameEvent> event) {
+        fireGameEvent(event, Vec3.ZERO);
+    }
+
+    public void fireGameEvent(Holder<GameEvent> event, Vec3 pos) {
+        getLevel().gameEvent(event, absoluteVec(pos), GameEvent.Context.of(null, null));
     }
 }

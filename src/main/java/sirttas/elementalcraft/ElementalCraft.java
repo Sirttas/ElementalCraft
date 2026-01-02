@@ -32,6 +32,7 @@ import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 import sirttas.elementalcraft.entity.ECEntities;
+import sirttas.elementalcraft.gameevent.ECGameEvents;
 import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectTypes;
 import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.item.ECCreativeModeTabs;
@@ -104,6 +105,7 @@ public class ElementalCraft {
 		PureOreLoaderTypes.register(modBus);
 		ECCriteriaTriggers.register(modBus);
 		ConfigurableBlockEntityPropertiesType.register(modBus);
+        ECGameEvents.register(modBus);
 
 		modBus.addListener(this::setup);
 		modBus.addListener(this::enqueueIMC);
