@@ -3,9 +3,11 @@ package sirttas.elementalcraft.datagen.tag;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.GameEventTagsProvider;
+import net.minecraft.tags.GameEventTags;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.gameevent.ECGameEvents;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -19,6 +21,7 @@ public class ECGameEventTagsProvider extends GameEventTagsProvider {
 
     @Override
     protected void addTags(@Nonnull HolderLookup.Provider provider) {
+        tag(GameEventTags.VIBRATIONS).add(ECGameEvents.AIR_SYNTHESIS.getKey());
         tag(ECTags.GameEvents.SYNTHESIZABLE_TO_AIR).add(
                 GameEvent.STEP.key(),
                 GameEvent.DRINK.key(),

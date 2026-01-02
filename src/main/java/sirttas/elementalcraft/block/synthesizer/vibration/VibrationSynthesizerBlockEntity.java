@@ -29,6 +29,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.synthesizer.AbstractSynthesizerBlockEntity;
+import sirttas.elementalcraft.gameevent.ECGameEvents;
 import sirttas.elementalcraft.range.RangeRenderTimer;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -43,12 +44,14 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
     private VibrationSystem.Data vibrationData;
     private final VibrationSystem.Listener vibrationListener;
     private final VibrationSystem.User vibrationUser;
+    private int nearbySynthesis;
 
     public VibrationSynthesizerBlockEntity(BlockPos pos, BlockState state) {
         super(ECBlockEntityTypes.VIBRATION_SYNTHESIZER, PROPERTIES, pos, state);
         this.vibrationData = new VibrationSystem.Data();
         this.vibrationListener = new VibrationSystem.Listener(this);
         this.vibrationUser = new VibrationUser(pos);
+        this.nearbySynthesis = 0;
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, VibrationSynthesizerBlockEntity vibrationSynthesizer) {
@@ -96,6 +99,7 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
                     .resultOrPartial(message -> ElementalCraftApi.LOGGER.error("Failed to parse vibration listener for vibration air synthesizer: '{}'", message))
                     .ifPresent(data -> this.vibrationData = data);
         }
+        this.nearbySynthesis = compound.getInt("nearby_synthesis");
     }
 
     @Override
@@ -107,6 +111,7 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
         VibrationSystem.Data.CODEC.encodeStart(ops, this.vibrationData)
                 .resultOrPartial(message -> ElementalCraftApi.LOGGER.error("Failed to encode vibration listener for vibration air synthesizer: '{}'", message))
                 .ifPresent(tag -> compound.put(ECNames.LISTENER, tag));
+        compound.putInt("nearby_synthesis", this.nearbySynthesis);
     }
 
     private class VibrationUser implements VibrationSystem.User {
@@ -131,27 +136,41 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
 
         @Override
         public boolean canReceiveVibration(@NotNull ServerLevel serverLevel, @NotNull BlockPos pos, @NotNull Holder<GameEvent> gameEvent, @NotNull GameEvent.Context context) {
-            return pos != getBlockPos() && getRange().contains(pos.getCenter()) && getBlockState().getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.INACTIVE && gameEvent.is(ECTags.GameEvents.SYNTHESIZABLE_TO_AIR);
+            if (pos == getBlockPos() || !getRange().contains(pos.getCenter())) {
+                return false;
+            } else if (gameEvent.is(ECGameEvents.AIR_SYNTHESIS)) {
+                return true;
+            }
+            return getBlockState().getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.INACTIVE && gameEvent.is(ECTags.GameEvents.SYNTHESIZABLE_TO_AIR);
         }
 
         @Override
         public void onReceiveVibration(@NotNull ServerLevel serverLevel, @NotNull BlockPos pos, @NotNull Holder<GameEvent> gameEvent, @Nullable Entity entity, @Nullable Entity owner, float range) {
             var state = getBlockState();
 
-            getElementStorage().insertElement(Math.round(synthesisMultiplier), ElementType.AIR, false);
-            serverLevel.setBlockAndUpdate(pos, state.setValue(VibrationSynthesizerBlock.PHASE, SculkSensorPhase.ACTIVE));
-            serverLevel.scheduleTick(pos, state.getBlock(), 30);
-            serverLevel.playSound(
-                    null,
-                    worldPosition.getX() + 0.5,
-                    worldPosition.getY() + 0.5,
-                    worldPosition.getZ() + 0.5,
-                    SoundEvents.SCULK_CLICKING,
-                    SoundSource.BLOCKS,
-                    1.0F,
-                    serverLevel.random.nextFloat() * 0.2F + 0.8F
-            );
-            // TODO turn off other synthesizers in range
+            if (gameEvent.is(ECTags.GameEvents.SYNTHESIZABLE_TO_AIR)) {
+                if (nearbySynthesis > 0) {
+                    nearbySynthesis--;
+                } else {
+                    getElementStorage().insertElement(Math.round(synthesisMultiplier), ElementType.AIR, false);
+                }
+            } else if (gameEvent.is(ECGameEvents.AIR_SYNTHESIS)) {
+                nearbySynthesis++;
+            }
+            if (state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.INACTIVE) {
+                serverLevel.setBlockAndUpdate(worldPosition, state.setValue(VibrationSynthesizerBlock.PHASE, SculkSensorPhase.ACTIVE));
+                serverLevel.scheduleTick(worldPosition, state.getBlock(), 30);
+                serverLevel.playSound(
+                        null,
+                        worldPosition.getX() + 0.5,
+                        worldPosition.getY() + 0.5,
+                        worldPosition.getZ() + 0.5,
+                        SoundEvents.SCULK_CLICKING,
+                        SoundSource.BLOCKS,
+                        1.0F,
+                        serverLevel.random.nextFloat() * 0.2F + 0.8F
+                );
+            }
         }
     }
 }
