@@ -19,6 +19,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ElementContainer;
+import sirttas.elementalcraft.block.cover.Coverable;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
@@ -81,8 +82,11 @@ public class ECCapabilityHandler {
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.EXTRACTOR.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.DIFFUSER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.SORTER.get(), (blockEntity, v) -> blockEntity.getRuneHandler());
+        event.registerBlockEntity(Coverable.CAPABILITY, ECBlockEntityTypes.SORTER.get(), (blockEntity, v) -> blockEntity);
+        event.registerBlockEntity(Coverable.CAPABILITY, ECBlockEntityTypes.COVERABLE.get(), (blockEntity, v) -> blockEntity);
 
         event.registerBlockEntity(ElementalCraftCapabilities.ElementTransferers.BLOCK, ECBlockEntityTypes.PIPE.get(), (blockEntity, v) -> blockEntity.getTransferer());
+        event.registerBlockEntity(Coverable.CAPABILITY, ECBlockEntityTypes.PIPE.get(), (blockEntity, v) -> blockEntity);
 
         PipeUpgradeCapabilities.register(PipeUpgradeCapabilities.RUNE_HANDLER, PipeUpgradeTypes.ELEMENT_PUMP.get(), (upgrade, v) -> upgrade.getRuneHandler());
         PipeUpgradeCapabilities.register(PipeUpgradeCapabilities.RUNE_HANDLER, PipeUpgradeTypes.ELEMENT_BEAM.get(), (upgrade, v) -> upgrade.getRuneHandler());

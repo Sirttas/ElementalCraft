@@ -3,10 +3,13 @@ package sirttas.elementalcraft;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.MinecraftServer;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.conf.ClientConfiguration;
 import net.neoforged.testframework.conf.Feature;
@@ -32,6 +35,7 @@ import sirttas.elementalcraft.block.pipe.ElementPipeGameTests;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserGameTests;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 import sirttas.elementalcraft.item.chisel.ChiselGameTests;
+import sirttas.elementalcraft.item.cover.CoverFrameGameTests;
 import sirttas.elementalcraft.item.holder.ElementHolderGameTests;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTests;
 import sirttas.elementalcraft.range.RangeGameTests;
@@ -43,6 +47,8 @@ import java.util.function.Consumer;
 public class ElementalCraftTests {
 
     private ElementalCraftTests() { }
+
+    static MinecraftServer server;
 
     public static void registerTestFramework(IEventBus modBus, ModContainer container) {
         try {
@@ -59,6 +65,9 @@ public class ElementalCraftTests {
             registerAdditionalTests(framework.tests()::register);
             framework.init(modBus, container);
 
+            NeoForge.EVENT_BUS.addListener(EventPriority.HIGH, (final ServerStartedEvent event) -> {
+                server = event.getServer();
+            });
             NeoForge.EVENT_BUS.addListener((final RegisterCommandsEvent event) -> {
                 final LiteralArgumentBuilder<CommandSourceStack> node = Commands.literal("tests");
                 framework.registerCommands(node);
@@ -90,5 +99,6 @@ public class ElementalCraftTests {
         ContainerGameTests.should_supportARudimentaryExtractor().forEach(registrar);
         ReservoirGameTests.should_insertElementFromBothParts().forEach(registrar);
         ShrineGameUpgradeTests.should_breakUpgradesWhenBroken().forEach(registrar);
+        CoverFrameGameTests.collectTests().forEach(registrar);
     }
 }

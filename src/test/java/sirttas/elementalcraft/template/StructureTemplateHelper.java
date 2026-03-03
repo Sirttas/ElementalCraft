@@ -1,8 +1,13 @@
 package sirttas.elementalcraft.template;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
@@ -42,6 +47,29 @@ public class StructureTemplateHelper {
             handler.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune));
         }
         tag.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(handler));
+        return tag;
+    }
+
+    public static @NotNull CompoundTag withContainerContent(ItemStack...stacks) {
+        return withContainerContent(new CompoundTag(), stacks);
+    }
+
+    public static @NotNull CompoundTag withContainerContent(CompoundTag tag, ItemStack...stacks) {
+        return ContainerHelper.saveAllItems(tag, NonNullList.of(ItemStack.EMPTY, stacks), ECGameTestUtils.registryAccess());
+    }
+
+    public static @NotNull CompoundTag withStackList(String tagName, ItemStack...stacks) {
+        return withStackList(new CompoundTag(), tagName, stacks);
+    }
+
+
+    public static @NotNull CompoundTag withStackList(CompoundTag tag, String tagName, ItemStack...stacks) {
+        var list = new ListTag();
+
+        for (var stack : stacks) {
+            list.add(stack.save(ECGameTestUtils.registryAccess()));
+        }
+        tag.put(tagName, list);
         return tag;
     }
 }

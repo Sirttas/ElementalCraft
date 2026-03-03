@@ -152,6 +152,15 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         return player;
     }
 
+    @Nonnull
+    public Player mockCoverFramePlayer() {
+        var player = makeMockPlayer();
+
+        player.moveTo(Vec3.atLowerCornerOf(this.testInfo.getStructureBlockPos()));
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.COVER_FRAME));
+        return player;
+    }
+
     public IElementStorage getElementStorage(BlockPos pos) {
         return getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
     }
@@ -267,4 +276,5 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     public void fireGameEvent(Holder<GameEvent> event, Vec3 pos) {
         getLevel().gameEvent(event, absoluteVec(pos), GameEvent.Context.of(null, null));
     }
+
 }

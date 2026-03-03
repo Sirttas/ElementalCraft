@@ -14,6 +14,7 @@ import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
 import sirttas.elementalcraft.block.container.creative.CreativeElementContainerBlockEntity;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlockEntity;
+import sirttas.elementalcraft.block.cover.CoverableBlockEntity;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
 import sirttas.elementalcraft.block.extractor.ElementExtractorBlockEntity;
 import sirttas.elementalcraft.block.extractor.RudimentaryElementExtractorBlock;
@@ -127,6 +128,7 @@ public class ECBlockEntityTypes {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TranslocationShrineUpgradeBlockEntity>> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlockEntity::new, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VortexShrineUpgradeBlockEntity>> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlockEntity::new, ECBlocks.VORTEX_SHRINE_UPGRADE);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OrderedSorterBlockEntity>> SORTER = register(OrderedSorterBlockEntity::new, ECBlocks.ORDERED_SORTER);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoverableBlockEntity>> COVERABLE = register(CoverableBlockEntity::new, ECBlocks.RETRIEVER);
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SourceBreederBlockEntity>> SOURCE_BREEDER = register(SourceBreederBlockEntity::new, ECBlocks.SOURCE_BREEDER);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SourceBreederPedestalBlockEntity>> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlockEntity::new, ECBlocks.SOURCE_BREEDER_PEDESTAL);

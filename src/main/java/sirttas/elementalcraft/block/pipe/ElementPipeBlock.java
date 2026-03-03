@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -34,12 +33,14 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
-import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,14 +57,12 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			propertiesCodec()
 	).apply(instance, ElementPipeBlock::new));
 
-	public static final EnumProperty<CoverType> COVER = EnumProperty.create("cover", CoverType.class);
-
 	private final PipeType type;
 
 	public ElementPipeBlock(PipeType type, BlockBehaviour.Properties properties) {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
-				.setValue(COVER, CoverType.NONE));
+				.setValue(CoverType.PROPERTY, CoverType.NONE));
 		this.type = type;
 	}
 
@@ -75,7 +74,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
-		container.add(COVER);
+		container.add(CoverType.PROPERTY);
 	}
 
 	@Override
@@ -96,19 +95,9 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 	}
 
-	public static boolean showCover(BlockState state, Player player) {
-		return isCovered(state) && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && stack.is(ECTags.Items.PIPE_COVER_HIDING)));
-	}
-
-	private static boolean isCovered(BlockState state) {
-		return state.getValue(COVER) == CoverType.COVERED;
-	}
-
-	private VoxelShape getCurrentShape(BlockState state, ElementPipeBlockEntity entity, Player player) {
-		if (showCover(state, entity != null ? player : null)) {
+	private VoxelShape getCurrentShape(ElementPipeBlockEntity entity, Player player) {
+		if (entity.showCover(player)) {
 			return Shapes.block();
-		} else if (entity == null) {
-			return Shapes.empty();
 		}
 		return entity.getShape();
 	}
@@ -118,7 +107,10 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		var player = getPlayer(context);
 		var blockEntity = getBlockEntity(blockGetter, pos);
 
-		return blockGetter instanceof Level level && level.isClientSide ? getShapeAndFace(state, pos, blockEntity, Minecraft.getInstance().hitResult, player).getFirst() : getCurrentShape(state, blockEntity, player);
+        if (blockEntity == null) {
+            return Shapes.empty();
+        }
+		return blockGetter instanceof Level level && level.isClientSide ? getShapeAndFace(pos, blockEntity, Minecraft.getInstance().hitResult, player).getFirst() : getCurrentShape(blockEntity, player);
 	}
 
 	private Player getPlayer(CollisionContext context) {
@@ -128,8 +120,8 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		return null;
 	}
 
-	public Pair<VoxelShape, Direction> getShapeAndFace(BlockState state, BlockPos pos, ElementPipeBlockEntity pipe, HitResult result, Player player) {
-		if (!showCover(state, player) && result instanceof BlockHitResult blockHitResult && blockHitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals(pos)) {
+	public Pair<VoxelShape, Direction> getShapeAndFace(BlockPos pos, ElementPipeBlockEntity pipe, HitResult result, Player player) {
+        if (!pipe.showCover(player) && result instanceof BlockHitResult blockHitResult && blockHitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals(pos)) {
 			var hit = blockHitResult.getLocation();
 
 			for (Direction face : Direction.values()) {
@@ -141,28 +133,37 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			}
 			if (ShapeHelper.vectorCollideWithShape(ElementPipeShapes.BASE_SHAPE, pos, hit)) {
 				return Pair.of(ElementPipeShapes.BASE_SHAPE, blockHitResult.getDirection());
-			} else if (ShapeHelper.vectorCollideWithShape(ElementPipeShapes.FRAME_SHAPE, pos, hit)) {
-				return Pair.of(ElementPipeShapes.FRAME_SHAPE, null);
+			} else if (ShapeHelper.vectorCollideWithShape(ECShapes.COVER_FRAME_SHAPE, pos, hit)) {
+				return Pair.of(ECShapes.COVER_FRAME_SHAPE, null);
 			}
 		}
-		return Pair.of(getCurrentShape(state, pipe, player), null);
+		return Pair.of(getCurrentShape(pipe, player), null);
 	}
 
-	@Override
+    @Override
 	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-		return getCurrentShape(state, getBlockEntity(level, pos), null);
+        var blockEntity = getBlockEntity(level, pos);
+
+        if (blockEntity == null) {
+            return Shapes.empty();
+        }
+		return getCurrentShape(blockEntity, null);
 	}
 
 	@Override
-	protected @NotNull ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+	protected @NotNull ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+        if (stack.is(ECItems.COVER_FRAME.get()) && !player.isShiftKeyDown()) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
 		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) level.getBlockEntity(pos);
 
 		if (pipe != null) {
-			var pair = getShapeAndFace(state, pos, getBlockEntity(level, pos), hit, player);
+			var pair = getShapeAndFace(pos, getBlockEntity(level, pos), hit, player);
 			var shape = pair.getFirst();
 
-			if (shape == ElementPipeShapes.FRAME_SHAPE || state.getValue(COVER) == CoverType.FRAME) {
-				return pipe.setCover(player, hand);
+			if (shape == ECShapes.COVER_FRAME_SHAPE || state.getValue(CoverType.PROPERTY) == CoverType.FRAME) {
+				return pipe.putCover(player, hand);
 			} else if (shape == ElementPipeShapes.BASE_SHAPE) {
 				var value = upgrade(state, level, pos, player, hand);
 
@@ -196,7 +197,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 		var oldBlockEntity = getBlockEntity(level, pos);
 
-		level.setBlockAndUpdate(pos, block.defaultBlockState().setValue(COVER, state.getValue(COVER)));
+		level.setBlockAndUpdate(pos, block.defaultBlockState().setValue(CoverType.PROPERTY, state.getValue(CoverType.PROPERTY)));
 
 		var newBlockEntity = getBlockEntity(level, pos);
 
@@ -240,7 +241,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		var te = level.getBlockEntity(pos);
 
 		if (te instanceof ElementPipeBlockEntity pipe) {
-			if (isCovered(state)) {
+			if (pipe.isCovered()) {
 				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
 			}
 			pipe.removeAllUpgrades();
@@ -256,27 +257,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		return type;
 	}
 
-	public enum CoverType implements StringRepresentable {
-		NONE("none"),
-		FRAME("frame"),
-		COVERED("covered");
-
-		public static final Codec<CoverType> CODEC = StringRepresentable.fromEnum(CoverType::values);
-
-		private final String name;
-
-		CoverType(String name) {
-			this.name = name;
-		}
-
-		@Nonnull
-		@Override
-		public String getSerializedName() {
-			return this.name;
-		}
-	}
-
-	public enum PipeType implements StringRepresentable {
+    public enum PipeType implements StringRepresentable {
 		RUDIMENTARY("rudimentary", 0),
 		STANDARD("standard", 1),
 		IMPROVED("improved", 2),

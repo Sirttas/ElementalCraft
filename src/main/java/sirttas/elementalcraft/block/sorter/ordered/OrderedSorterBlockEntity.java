@@ -17,7 +17,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
-import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
+import sirttas.elementalcraft.block.cover.CoverableBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.config.ECConfig;
@@ -27,7 +27,7 @@ import sirttas.elementalcraft.tag.ECTags;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class OrderedSorterBlockEntity extends AbstractECBlockEntity {
+public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 
 	private final RuneHandler runeHandler;
 	private final List<ItemStack> stacks;
@@ -54,10 +54,9 @@ public class OrderedSorterBlockEntity extends AbstractECBlockEntity {
 		var speed = sorter.runeHandler.getBonus(Rune.BonusType.SPEED) + 1;
 		int cooldown = ECConfig.SERVER.sorterCooldown.get();
 
-		sorter.tick += Math.min(speed, cooldown * 64f); // capped at 1 stack a tick to prevent lag spikes
-		while (sorter.tick > cooldown) { // TODO improve performance
-			sorter.transfer();
-			sorter.tick -= cooldown;
+		sorter.tick += speed;
+		while (sorter.tick > cooldown) {
+			sorter.tick -= cooldown * Math.max(1, sorter.transfer((int) Math.floor(sorter.tick / cooldown)));
 		}
 		profiler.pop();
 	}
@@ -92,7 +91,7 @@ public class OrderedSorterBlockEntity extends AbstractECBlockEntity {
 		return index;
 	}
 
-	void transfer() {
+	private int transfer(int amount) {
 		BlockState state = this.getBlockState();
 		Direction source = state.getValue(ISorterBlock.SOURCE);
 		Direction target = state.getValue(ISorterBlock.TARGET);
@@ -101,47 +100,49 @@ public class OrderedSorterBlockEntity extends AbstractECBlockEntity {
 
 		if (stacks.isEmpty()) {
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				ItemStack stack = sourceInv.getStackInSlot(i).copy();
-
-				stack.setCount(1);
-				if (!stack.isEmpty() && doTransfer(sourceInv, targetInv, i, true)) {
-					doTransfer(sourceInv, targetInv, i, false);
-					return;
+				if (!sourceInv.getStackInSlot(i).isEmpty() && doTransfer(sourceInv, targetInv, i, amount, true) > 0) {
+					return doTransfer(sourceInv, targetInv, i, amount, false);
 				}
 			}
 		} else if (!doesTargetUsesSingleSet(target) || index > 0 || ECContainerHelper.isEmpty(targetInv)) {
 			ItemStack stack = stacks.get(index).copy();
 
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				if (ItemStack.isSameItemSameComponents(stack, sourceInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, true)) {
-					doTransfer(sourceInv, targetInv, i, false);
+				if (ItemStack.isSameItemSameComponents(stack, sourceInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, 1, true) > 0) {
+					doTransfer(sourceInv, targetInv, i, 1, false);
 					index++;
 					if (index >= stacks.size()) {
 						index = 0;
 					}
-					return;
+					return 1;
 				}
 			}
 		}
+        return 0;
 	}
 
 	private boolean doesTargetUsesSingleSet(Direction target) {
 		return level.getBlockState(worldPosition.relative(target)).is(ECTags.Blocks.USES_SINGLE_SET_FROM_ORDERED_SORTER);
 	}
 
-	private boolean doTransfer(IItemHandler sourceInv, IItemHandler targetInv, int i, boolean simulate) {
-		var extracted = sourceInv.extractItem(i, 1, simulate);
+	private int doTransfer(IItemHandler sourceInv, IItemHandler targetInv, int i, int amount, boolean simulate) {
+		var extracted = sourceInv.extractItem(i, amount, simulate);
 
 		if (extracted.isEmpty()) {
-			return false;
+			return 0;
 		}
 
 		var stack = ItemHandlerHelper.insertItem(targetInv, extracted, simulate);
 
 		if (!simulate) {
 			this.setChanged();
+            if (!stack.isEmpty()) {
+                if (!ItemHandlerHelper.insertItem(sourceInv, stack, false).isEmpty()) {
+                    throw new IllegalStateException("Couldn't return leftover items to source inventory after failed transfer from ordered sorter");
+                }
+            }
 		}
-		return !stack.equals(extracted);
+		return extracted.getCount() - stack.getCount();
 	}
 
 	@Override
@@ -157,7 +158,7 @@ public class OrderedSorterBlockEntity extends AbstractECBlockEntity {
 		}
 	}
 
-	private void readStacks(@Nonnull HolderLookup.Provider provider, ListTag listNbt) {
+    private void readStacks(@Nonnull HolderLookup.Provider provider, ListTag listNbt) {
 		stacks.clear();
 		for (int i = 0; i < listNbt.size(); ++i) {
 			ItemStack itemstack = ItemStack.parseOptional(provider, listNbt.getCompound(i));
@@ -175,9 +176,9 @@ public class OrderedSorterBlockEntity extends AbstractECBlockEntity {
 		compound.put(ECNames.STACKS, this.writeStacks(provider));
 		compound.putInt(ECNames.INDEX, index);
 		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-	}
+    }
 
-	private ListTag writeStacks(@Nonnull HolderLookup.Provider provider) {
+    private ListTag writeStacks(@Nonnull HolderLookup.Provider provider) {
 		ListTag listTag = new ListTag();
 
 		for (ItemStack itemstack : stacks) {

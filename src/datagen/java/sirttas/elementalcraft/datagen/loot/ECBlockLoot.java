@@ -35,10 +35,10 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
+import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.extractor.AbstractElementExtractorBlock;
 import sirttas.elementalcraft.block.instrument.IInstrumentBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
@@ -177,8 +177,8 @@ public class ECBlockLoot extends BlockLootSubProvider {
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(ECItems.COVER_FRAME.get()))
 				.when(AnyOfCondition.anyOf(
-						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.FRAME),
-						createHasStateCondition(block, ElementPipeBlock.COVER, CoverType.COVERED))));
+						createHasStateCondition(block, CoverType.PROPERTY, CoverType.FRAME),
+						createHasStateCondition(block, CoverType.PROPERTY, CoverType.COVERED))));
 	}
 
 	private Builder createSpringaline(Block ore) {

@@ -3,18 +3,11 @@ package sirttas.elementalcraft.block.pipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -26,11 +19,9 @@ import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.SimpleElementTransferPathfinder;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
+import sirttas.elementalcraft.block.cover.CoverableBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
-import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,15 +29,13 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 
-public class ElementPipeBlockEntity extends AbstractECBlockEntity {
+public class ElementPipeBlockEntity extends CoverableBlockEntity {
 
 	private final ElementPipeTransferer transferer;
-	private BlockState coverState;
 
 	public ElementPipeBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.PIPE, pos, state);
 		transferer = new ElementPipeTransferer(this);
-		coverState = Blocks.AIR.defaultBlockState();
 	}
 
 	public ConnectionType getConnection(Direction face) {
@@ -56,7 +45,6 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 	public void copyTo(ElementPipeBlockEntity newBlockEntity) {
 		transferer.copyTo(newBlockEntity.transferer);
 		newBlockEntity.coverState = coverState;
-
 	}
 
 	public VoxelShape getShape(@Nullable Direction face) {
@@ -325,66 +313,21 @@ public class ElementPipeBlockEntity extends AbstractECBlockEntity {
 		return this.getConnection(face).getDisplayName();
 	}
 
-	public BlockState getCoverState() {
-		return coverState;
-	}
-
-	public boolean isCovered() {
-		return !coverState.isAir();
-	}
-
 	public int getMaxTransferAmount() {
 		return transferer.maxTransferAmount;
-	}
-
-	public ItemInteractionResult setCover(Player player, InteractionHand hand) {
-		if (level == null) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-		}
-
-		var stack = player.getItemInHand(hand);
-		if (stack.isEmpty()) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-		}
-
-		var item = stack.getItem();
-		if (!(item instanceof BlockItem blockItem)) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-		}
-
-		var state = blockItem.getBlock().defaultBlockState();
-		if (state == coverState) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-		}
-
-		if (!coverState.isAir()) {
-			Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), new ItemStack(coverState.getBlock()));
-		}
-		coverState = state;
-		level.setBlockAndUpdate(getBlockPos(), level.getBlockState(worldPosition).setValue(ElementPipeBlock.COVER, CoverType.COVERED));
-
-		ECPlayerHelper.shrinkItemInHand(player, stack, hand);
-		return ItemInteractionResult.SUCCESS;
 	}
 	
 	@Override
 	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
 		super.loadAdditional(compound, provider);
 		if (compound.contains(ECNames.TRANSFERER)) {
-		transferer.deserializeNBT(provider, compound.getCompound(ECNames.TRANSFERER));
+		    transferer.deserializeNBT(provider, compound.getCompound(ECNames.TRANSFERER));
 		}
-
-		coverState = compound.contains(ECNames.COVER) ? NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), compound.getCompound(ECNames.COVER)) : Blocks.AIR.defaultBlockState();
 	}
 
 	@Override
 	public void saveAdditional(@NotNull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
 		super.saveAdditional(compound, provider);
 		compound.put(ECNames.TRANSFERER, transferer.serializeNBT(provider));
-		if (!coverState.isAir()) {
-			compound.put(ECNames.COVER, NbtUtils.writeBlockState(coverState));
-		} else if (compound.contains(ECNames.COVER)) {
-			compound.remove(ECNames.COVER);
-		}
 	}
 }

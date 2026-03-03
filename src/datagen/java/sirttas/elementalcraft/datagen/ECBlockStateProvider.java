@@ -27,10 +27,10 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
+import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
@@ -56,7 +56,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	private final ExistingFileHelper existingFileHelper;
 	
 	private ModelFile air;
+    private ModelFile airMilUpper;
 	private ModelFile containerConnector;
+    ModelFile coverFrame;
 
 	public ECBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
 		super(output, ElementalCraftApi.MODID, exFileHelper);
@@ -66,7 +68,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		air = models().getExistingFile(ResourceLocation.withDefaultNamespace("block/air"));
-		containerConnector = models().getExistingFile(prefix("container_connector"));
+        airMilUpper = models().getBuilder("air_mill_upper").parent(air).texture("particle", prefix("air_mill_blades"));
+        containerConnector = models().getExistingFile(prefix("container_connector"));
+        coverFrame = models().getExistingFile(prefix("cover_frame"));
 
 		BuiltInRegistries.BLOCK.holders().forEach(h -> {
 			var block = h.value();
@@ -96,7 +100,6 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	private void save(ResourceLocation key, Block block) {
 		String name = key.getPath();
-		var airMilUpper = models().getBuilder("air_mill_upper").parent(air).texture("particle", prefix("air_mill_blades"));
 
 		if (block instanceof SlabBlock slabBlock) {
 			slabBlock(key, slabBlock);
@@ -161,19 +164,20 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			ModelFile source = models().getExistingFile(prefix("sorter_source"));
 			ModelFile target = models().getExistingFile(prefix("sorter_target"));
 
-			getMultipartBuilder(block).part().modelFile(core).addModel().end()
-				.part().modelFile(source).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.SOUTH).end()
-				.part().modelFile(source).rotationY(90).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.WEST).end()
-				.part().modelFile(source).rotationY(180).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.NORTH).end()
-				.part().modelFile(source).rotationY(270).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.EAST).end()
-				.part().modelFile(source).rotationX(270).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.DOWN).end()
-				.part().modelFile(source).rotationX(90).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.UP).end()
-				.part().modelFile(target).rotationY(180).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.SOUTH).end()
-				.part().modelFile(target).rotationY(270).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.WEST).end()
-				.part().modelFile(target).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.NORTH).end()
-				.part().modelFile(target).rotationY(90).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.EAST).end()
-				.part().modelFile(target).rotationX(90).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.DOWN).end()
-				.part().modelFile(target).rotationX(270).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.UP).end();
+			getMultipartBuilder(block).part().modelFile(core).addModel().condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(source).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.SOUTH).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(source).rotationY(90).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.WEST).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(source).rotationY(180).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.NORTH).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(source).rotationY(270).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.EAST).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(source).rotationX(270).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.DOWN).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(source).rotationX(90).uvLock(true).addModel().condition(ISorterBlock.SOURCE, Direction.UP).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(target).rotationY(180).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.SOUTH).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(target).rotationY(270).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.WEST).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(target).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.NORTH).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(target).rotationY(90).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.EAST).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(target).rotationX(90).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.DOWN).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+				.part().modelFile(target).rotationX(270).uvLock(true).addModel().condition(ISorterBlock.TARGET, Direction.UP).condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+                .part().modelFile(coverFrame).uvLock(true).addModel().condition(CoverType.PROPERTY, CoverType.FRAME).end();
 		} else if (block instanceof ElementPipeBlock pipe) {
 			pipeBlock(pipe, name);
 		} else if (block instanceof SilkTouchShrineUpgradeBlock) {
@@ -281,10 +285,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	private void pipeBlock(ElementPipeBlock block, String name) {
 		ModelFile core = models().withExistingParent(name + CORE, prefix("template_elementpipe_core")).texture(TEXTURE, prefix(ECDataGenerators.getPipeTexture(block.getType())));
-		ModelFile frame = models().getExistingFile(prefix("cover_frame"));
 		
-		getMultipartBuilder(block).part().modelFile(core).addModel().condition(ElementPipeBlock.COVER, CoverType.NONE, CoverType.FRAME).end()
-			.part().modelFile(frame).uvLock(true).addModel().condition(ElementPipeBlock.COVER, CoverType.FRAME).end();
+		getMultipartBuilder(block).part().modelFile(core).addModel().condition(CoverType.PROPERTY, CoverType.NONE, CoverType.FRAME).end()
+			.part().modelFile(coverFrame).uvLock(true).addModel().condition(CoverType.PROPERTY, CoverType.FRAME).end();
 	}
 
 	private void slabBlock(ResourceLocation key, SlabBlock block) {

@@ -1,6 +1,7 @@
 package sirttas.elementalcraft;
 
 import com.mojang.datafixers.util.Either;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
@@ -66,6 +67,11 @@ public class ECGameTestUtils {
         };
     }
 
+
+    public static RegistryAccess registryAccess() {
+        return ElementalCraftTests.server.registryAccess();
+    }
+
     private static void logAssertionError(AssertionError e) {
         ElementalCraftApi.LOGGER.error("Assertion failed: ", e);
     }
@@ -120,5 +126,4 @@ public class ECGameTestUtils {
             template.right().ifPresent(this::registerGameTestTemplate);
         }
     }
-
 }

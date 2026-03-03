@@ -3,6 +3,9 @@
     {
       "apply": {
         "model": "elementalcraft:block/ordered_sorter_core"
+      },
+      "when": {
+        "cover": "none|frame"
       }
     },
     {
@@ -11,6 +14,7 @@
         "uvlock": true
       },
       "when": {
+        "cover": "none|frame",
         "source": "south"
       }
     },
@@ -21,6 +25,7 @@
         "y": 90
       },
       "when": {
+        "cover": "none|frame",
         "source": "west"
       }
     },
@@ -31,6 +36,7 @@
         "y": 180
       },
       "when": {
+        "cover": "none|frame",
         "source": "north"
       }
     },
@@ -41,6 +47,7 @@
         "y": 270
       },
       "when": {
+        "cover": "none|frame",
         "source": "east"
       }
     },
@@ -51,6 +58,7 @@
         "x": 270
       },
       "when": {
+        "cover": "none|frame",
         "source": "down"
       }
     },
@@ -61,6 +69,7 @@
         "x": 90
       },
       "when": {
+        "cover": "none|frame",
         "source": "up"
       }
     },
@@ -71,6 +80,7 @@
         "y": 180
       },
       "when": {
+        "cover": "none|frame",
         "target": "south"
       }
     },
@@ -81,6 +91,7 @@
         "y": 270
       },
       "when": {
+        "cover": "none|frame",
         "target": "west"
       }
     },
@@ -90,6 +101,7 @@
         "uvlock": true
       },
       "when": {
+        "cover": "none|frame",
         "target": "north"
       }
     },
@@ -100,6 +112,7 @@
         "y": 90
       },
       "when": {
+        "cover": "none|frame",
         "target": "east"
       }
     },
@@ -110,6 +123,7 @@
         "x": 90
       },
       "when": {
+        "cover": "none|frame",
         "target": "down"
       }
     },
@@ -120,7 +134,17 @@
         "x": 270
       },
       "when": {
+        "cover": "none|frame",
         "target": "up"
+      }
+    },
+    {
+      "apply": {
+        "model": "elementalcraft:block/cover_frame",
+        "uvlock": true
+      },
+      "when": {
+        "cover": "frame"
       }
     }
   ]

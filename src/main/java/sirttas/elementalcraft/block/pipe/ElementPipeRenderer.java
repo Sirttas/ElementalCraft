@@ -11,10 +11,9 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlock.CoverType;
+import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.PipeUpgradeRenderers;
 import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
@@ -37,8 +36,7 @@ public class ElementPipeRenderer implements BlockEntityRenderer<ElementPipeBlock
 		var minecraft = Minecraft.getInstance();
 		var player = minecraft.player;
 		var level = Objects.requireNonNull(pipe.getLevel());
-		BlockState coverState = pipe.getCoverState();
-		boolean showCover = !coverState.isAir();
+        var hasCover = pipe.isCovered();
 
 		if (sideModel == null || extractModel == null) {
 			ModelManager modelManager = minecraft.getModelManager();
@@ -46,12 +44,12 @@ public class ElementPipeRenderer implements BlockEntityRenderer<ElementPipeBlock
 			sideModel = modelManager.getModel(SIDE_LOCATION);
 			extractModel = modelManager.getModel(EXTRACT_LOCATION);
 		}
-		if (showCover && ElementPipeBlock.showCover(pipe.getBlockState(), player)) {
-			ECRendererHelper.renderBatched(coverState, poseStack, buffer, pipe.getLevel(), pipe.getBlockPos());
+		if (hasCover && pipe.showCover(player)) {
+			ECRendererHelper.renderBatched( pipe.getCoverState(), poseStack, buffer, pipe.getLevel(), pipe.getBlockPos());
 		} else {
 			renderPipes(pipe, partialTicks, poseStack, buffer, light, overlay);
-			if (showCover) {
-				ECRendererHelper.renderBlock(pipe.getBlockState().setValue(ElementPipeBlock.COVER, CoverType.NONE), poseStack, buffer, light, overlay, ECRendererHelper.getModelData(level, pipe.getBlockPos()));
+			if (hasCover) {
+				ECRendererHelper.renderBlock(pipe.getBlockState().setValue(CoverType.PROPERTY, CoverType.NONE), poseStack, buffer, light, overlay, ECRendererHelper.getModelData(level, pipe.getBlockPos()));
 				LevelRenderer.renderLineBox(poseStack, buffer.getBuffer(RenderType.lines()), BOX, 0F, 0F, 0F, 1);
 			}
 		}

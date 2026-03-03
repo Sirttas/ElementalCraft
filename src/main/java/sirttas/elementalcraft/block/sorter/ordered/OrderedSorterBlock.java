@@ -25,9 +25,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
+import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
+import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,7 +50,8 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(SOURCE, Direction.SOUTH)
-				.setValue(TARGET, Direction.NORTH));
+				.setValue(TARGET, Direction.NORTH)
+                .setValue(CoverType.PROPERTY, CoverType.NONE));
 	}
 
 	@Override
@@ -74,7 +78,7 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
-		container.add(SOURCE, TARGET);
+		container.add(SOURCE, TARGET, CoverType.PROPERTY);
 	}
 
 	@Override
@@ -96,13 +100,20 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
 	@Nonnull
     @Override
 	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		VoxelShape shape = getShape(state, pos, hit);
+        if (stack.is(ECItems.COVER_FRAME.get()) && !player.isShiftKeyDown()) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
 
-		if (CORE.equals(shape)) {
-			return BlockEntityHelper.getBlockEntityAs(level, pos, OrderedSorterBlockEntity.class)
-					.map(sorter -> sorter.addStack(player.getItemInHand(hand)))
-					.orElse(ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
-		} 
+		VoxelShape shape = getShape(state, pos, hit);
+        var sorter = BlockEntityHelper.getBlockEntityAs(level, pos, OrderedSorterBlockEntity.class).orElse(null);
+
+        if (sorter == null) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        } else if (CORE.equals(shape)) {
+			return sorter.addStack(player.getItemInHand(hand));
+		} else if (shape == ECShapes.COVER_FRAME_SHAPE || state.getValue(CoverType.PROPERTY) == CoverType.FRAME) {
+            return sorter.putCover(player, hand);
+        }
 		return this.moveIO(state, level, pos, hit, shape);
 	}
 }

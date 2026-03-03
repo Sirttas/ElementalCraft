@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shape;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -51,6 +52,10 @@ public class ECShapes {
 	private static final VoxelShape BONELESS_GROWTH_PIPE_4 = Block.box(4D, -1D, 7D, 6D, 3D, 9D);
 	private static final VoxelShape BONELESS_GROWTH_PIPE_5 = Block.box(10D, -1D, 7D, 12D, 3D, 9D);
 	public static final VoxelShape BONELESS_GROWTH = Shapes.or(BONELESS_GROWTH_BASE_1, BONELESS_GROWTH_BASE_2, BONELESS_GROWTH_PIPE_1, BONELESS_GROWTH_PIPE_2, BONELESS_GROWTH_PIPE_3, BONELESS_GROWTH_PIPE_4, BONELESS_GROWTH_PIPE_5);
+
+    public static final VoxelShape COVER_FRAME_SHAPE = Shapes.join(Shapes.block(),
+            Shapes.or(Block.box(0D, 1D, 1D, 16D, 15D, 15D), Block.box(1D, 0D, 1D, 15D, 16D, 15D), Block.box(1D, 1D, 0D, 15D, 15D, 16D)),
+            BooleanOp.ONLY_FIRST);
 
 	private ECShapes() {}
 	

@@ -13,6 +13,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -21,13 +22,17 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.cover.CoverType;
+import sirttas.elementalcraft.block.cover.CoverableBlockEntity;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
+import sirttas.elementalcraft.item.ECItems;
 
 import javax.annotation.Nonnull;
 
-public class RetrieverBlock extends Block implements ISorterBlock {
+public class RetrieverBlock extends AbstractECEntityBlock implements ISorterBlock {
 
 	public static final String NAME = "instrument_retriever";
 	public static final MapCodec<RetrieverBlock> CODEC = simpleCodec(RetrieverBlock::new);
@@ -38,13 +43,19 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(SOURCE, Direction.SOUTH)
-				.setValue(TARGET, Direction.NORTH));
+				.setValue(TARGET, Direction.NORTH)
+                .setValue(CoverType.PROPERTY, CoverType.NONE));
 	}
 
 	@Override
 	protected @NotNull MapCodec<RetrieverBlock> codec() {
 		return CODEC;
 	}
+
+    @Override
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+        return new CoverableBlockEntity(pos, state);
+    }
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -54,7 +65,7 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
-		container.add(SOURCE, TARGET);
+		container.add(SOURCE, TARGET, CoverType.PROPERTY);
 	}
 
 	@Override
@@ -77,6 +88,9 @@ public class RetrieverBlock extends Block implements ISorterBlock {
 	@Nonnull
     @Override
 	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+        if (stack.is(ECItems.COVER_FRAME.get()) && !player.isShiftKeyDown()) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
 		return this.moveIO(state, level, pos, hit);
 	}
 
