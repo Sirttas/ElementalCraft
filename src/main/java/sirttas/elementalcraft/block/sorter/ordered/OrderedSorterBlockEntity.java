@@ -54,12 +54,11 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 		profiler.push("elementalcraft:ordered_sorter");
 
 		var speed = sorter.runeHandler.getBonus(Rune.BonusType.SPEED) + 1;
-		int cooldown = ECConfig.SERVER.sorterCooldown.get();
-
-        Direction source = state.getValue(ISorterBlock.SOURCE);
-        Direction target = state.getValue(ISorterBlock.TARGET);
-        IItemHandler sourceInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(source), source.getOpposite());
-        IItemHandler targetInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(target), target.getOpposite());
+        int cooldown = ECConfig.SERVER.sorterCooldown.get();
+        var source = state.getValue(ISorterBlock.SOURCE);
+        var target = state.getValue(ISorterBlock.TARGET);
+        var sourceInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(source), source.getOpposite());
+        var targetInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(target), target.getOpposite());
 
 		sorter.tick += speed;
 		while (sorter.tick > cooldown) {
@@ -117,20 +116,24 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
 				if (ItemStack.isSameItemSameComponents(stack, sourceInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, 1, true) > 0) {
 					doTransfer(sourceInv, targetInv, i, 1, false);
-					index++;
-					if (index >= stacks.size()) {
-						index = 0;
-					}
-					return 1;
+                    moveIndexForward();
+                    return 1;
 				}
 			}
 		}
         return 0;
 	}
 
-	private boolean doesTargetUsesSingleSet(Direction target) {
+    private boolean doesTargetUsesSingleSet(Direction target) {
 		return level.getBlockState(worldPosition.relative(target)).is(ECTags.Blocks.USES_SINGLE_SET_FROM_ORDERED_SORTER);
 	}
+
+    private void moveIndexForward() {
+        index++;
+        if (index >= stacks.size()) {
+            index = 0;
+        }
+    }
 
 	private int doTransfer(IItemHandler sourceInv, IItemHandler targetInv, int i, int amount, boolean simulate) {
 		var extracted = sourceInv.extractItem(i, amount, simulate);
