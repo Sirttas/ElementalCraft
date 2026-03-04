@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -27,7 +27,7 @@ public class SourceTrait {
 			ISourceTraitValueProvider.CODEC.fieldOf(ECNames.VALUE).forGetter(t -> t.valueProvider)
 	).apply(builder, SourceTrait::new));
 	
-	private ResourceLocation id;
+	private Identifier id;
 	private final int order;
 	private final ISourceTraitValueProvider valueProvider;
 	
@@ -40,11 +40,11 @@ public class SourceTrait {
 		this.valueProvider = valueProvider;
 	}
 	
-	public ResourceLocation getId() {
+	public Identifier getId() {
 		return id;
 	}
 
-	public void setId(ResourceLocation id) {
+	public void setId(Identifier id) {
 		this.id = id;
 	}
 	

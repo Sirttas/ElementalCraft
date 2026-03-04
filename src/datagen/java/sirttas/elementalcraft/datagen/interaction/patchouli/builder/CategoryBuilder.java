@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.apache.commons.lang3.StringUtils;
@@ -56,13 +56,13 @@ public class CategoryBuilder implements PatchouliFile {
         return this;
     }
 
-    public CategoryBuilder icon(ResourceLocation icon) {
+    public CategoryBuilder icon(Identifier icon) {
         this.icon = new BookIcon.TextureIcon(icon);
         return this;
     }
 
     public CategoryBuilder icon(String icon) {
-        return this.icon(ResourceLocation.fromNamespaceAndPath(book.getNamespace(), icon));
+        return this.icon(Identifier.fromNamespaceAndPath(book.getNamespace(), icon));
     }
 
     public CategoryBuilder icon(ItemStack icon) {

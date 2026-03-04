@@ -2,7 +2,7 @@ package sirttas.elementalcraft.api.capability;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
@@ -26,8 +26,8 @@ public class ElementalCraftCapabilities {
         private ElementStorages() {
         }
 
-        private static final ResourceLocation ID = ElementalCraftApi.createRL(ECNames.ELEMENT_STORAGE);
-        private static final ResourceLocation FOR_ELEMENT_ID = ElementalCraftApi.createRL("element_storage_for_element");
+        private static final Identifier ID = ElementalCraftApi.createRL(ECNames.ELEMENT_STORAGE);
+        private static final Identifier FOR_ELEMENT_ID = ElementalCraftApi.createRL("element_storage_for_element");
 
         public static final BlockCapability<IElementStorage, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, IElementStorage.class);
         public static final BlockCapability<ISingleElementStorage, @Nullable BlockForElementContext> BLOCK_FOR_ELEMENT = BlockCapability.create(FOR_ELEMENT_ID, ISingleElementStorage.class, BlockForElementContext.class);
@@ -54,7 +54,7 @@ public class ElementalCraftCapabilities {
         private SourceTraits() {
         }
 
-        private static final ResourceLocation ID = ElementalCraftApi.createRL("source_trait_holder");
+        private static final Identifier ID = ElementalCraftApi.createRL("source_trait_holder");
 
         public static final BlockCapability<ISourceTraitHolder, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, ISourceTraitHolder.class);
         public static final EntityCapability<ISourceTraitHolder, Void> ENTITY = EntityCapability.createVoid(ID, ISourceTraitHolder.class);
@@ -65,7 +65,7 @@ public class ElementalCraftCapabilities {
         private RuneHandlers() {
         }
 
-        private static final ResourceLocation ID = ElementalCraftApi.createRL("rune_handler");
+        private static final Identifier ID = ElementalCraftApi.createRL("rune_handler");
 
         public static final BlockCapability<IRuneHandler, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, IRuneHandler.class);
         public static final EntityCapability<IRuneHandler, Void> ENTITY = EntityCapability.createVoid(ID, IRuneHandler.class);
@@ -77,7 +77,7 @@ public class ElementalCraftCapabilities {
         private ShrineUpgrades() {
         }
 
-        private static final ResourceLocation ID = ElementalCraftApi.createRL("shrine_upgrade");
+        private static final Identifier ID = ElementalCraftApi.createRL("shrine_upgrade");
 
         public static final BlockCapability<Holder<ShrineUpgrade>, @Nullable Direction> BLOCK = (BlockCapability) BlockCapability.createSided(ID, Holder.class);
         public static final ItemCapability<Holder<ShrineUpgrade>, Void> ITEM =  (ItemCapability) ItemCapability.createVoid(ID, Holder.class);

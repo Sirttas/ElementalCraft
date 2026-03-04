@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Player;
@@ -64,7 +64,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         return cap.getCapability(this, context);
     }
 
-    public ResourceLocation getKey() {
+    public Identifier getKey() {
         return type.getKey();
     }
 

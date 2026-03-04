@@ -3,7 +3,7 @@ package sirttas.elementalcraft.pureore.loader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +27,7 @@ public class LoadedPureOre {
     private static final String MINECRAFT = "minecraft";
     private static final String DEEPSLATE = "deepslate";
 
-    private static final Comparator<ResourceLocation> MINECRAFT_NAMESPACE_COMPARATOR = (name1, name2) -> {
+    private static final Comparator<Identifier> MINECRAFT_NAMESPACE_COMPARATOR = (name1, name2) -> {
         if (MINECRAFT.equals(name1.getNamespace()) && !MINECRAFT.equals(name2.getNamespace())) {
             return -1;
         } else if (!MINECRAFT.equals(name1.getNamespace()) && MINECRAFT.equals(name2.getNamespace())) {
@@ -36,7 +36,7 @@ public class LoadedPureOre {
         return 0;
     };
 
-    private static final Comparator<ResourceLocation> DEEPSLATE_COMPARATOR = (name1, name2) -> {
+    private static final Comparator<Identifier> DEEPSLATE_COMPARATOR = (name1, name2) -> {
         if (name1.getPath().contains(DEEPSLATE) && !name2.getPath().contains(DEEPSLATE)) {
             return 1;
         } else if (!name1.getPath().contains(DEEPSLATE) && name2.getPath().contains(DEEPSLATE)) {
@@ -45,9 +45,9 @@ public class LoadedPureOre {
         return 0;
     };
 
-    private static final Comparator<Item> DESCRIPTION_COMPARATOR = Comparator.comparing(BuiltInRegistries.ITEM::getKey, MINECRAFT_NAMESPACE_COMPARATOR.thenComparing(DEEPSLATE_COMPARATOR).thenComparing(ResourceLocation::compareTo));
+    private static final Comparator<Item> DESCRIPTION_COMPARATOR = Comparator.comparing(BuiltInRegistries.ITEM::getKey, MINECRAFT_NAMESPACE_COMPARATOR.thenComparing(DEEPSLATE_COMPARATOR).thenComparing(Identifier::compareTo));
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final Set<Holder<Item>> ores;
     private final Map<RecipeType<?>, Recipe<?>> recipes;
 
@@ -58,7 +58,7 @@ public class LoadedPureOre {
     private final int outputSize;
     private final double luckRatio;
 
-    public LoadedPureOre(ResourceLocation id, int elementConsumption, int inputSize, int outputSize, double luckRatio) {
+    public LoadedPureOre(Identifier id, int elementConsumption, int inputSize, int outputSize, double luckRatio) {
         this.id = id;
         this.ores = new HashSet<>();
         recipes = new HashMap<>();
@@ -88,7 +88,7 @@ public class LoadedPureOre {
         return result;
     }
 
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return id;
     }
 

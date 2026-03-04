@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen.recipe.builder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -44,20 +44,20 @@ public class MeltingRecipeBuilder {
     public void save(RecipeOutput recipeOutput) {
         var id = BuiltInRegistries.FLUID.getKey(this.result);
 
-        this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), MeltingRecipe.NAME + '/' + id.getPath()));
+        this.save(recipeOutput, Identifier.fromNamespaceAndPath(id.getNamespace(), MeltingRecipe.NAME + '/' + id.getPath()));
     }
 
     public void save(RecipeOutput recipeOutput, String save) {
-        var resourcelocation = BuiltInRegistries.FLUID.getKey(this.result);
+        var Identifier = BuiltInRegistries.FLUID.getKey(this.result);
 
-        if (ResourceLocation.parse(save).equals(resourcelocation)) {
+        if (Identifier.parse(save).equals(Identifier)) {
             throw new IllegalStateException("Melting Recipe " + save + " should remove its 'save' argument");
         } else {
             this.save(recipeOutput, ElementalCraftApi.createRL(MeltingRecipe.NAME + '/' + save));
         }
     }
 
-    public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+    public void save(RecipeOutput recipeOutput, Identifier id) {
         recipeOutput.accept(id, new MeltingRecipe(input, result, cooldown, elementAmount, fillingAmount), null);
     }
 }

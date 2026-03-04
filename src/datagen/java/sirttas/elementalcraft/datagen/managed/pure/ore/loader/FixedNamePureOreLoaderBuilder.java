@@ -1,16 +1,16 @@
 package sirttas.elementalcraft.datagen.managed.pure.ore.loader;
 
 import net.minecraft.core.HolderSet;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import sirttas.elementalcraft.pureore.loader.FixedNamePureOreLoader;
 import sirttas.elementalcraft.pureore.loader.IPureOreLoader;
 
 public class FixedNamePureOreLoaderBuilder extends AbstractPureOreLoaderBuilder {
 
-    private final ResourceLocation fixedName;
+    private final Identifier fixedName;
 
-    protected FixedNamePureOreLoaderBuilder(HolderSet<Item> source, ResourceLocation fixedName) {
+    protected FixedNamePureOreLoaderBuilder(HolderSet<Item> source, Identifier fixedName) {
         super(source);
         this.fixedName = fixedName;
     }

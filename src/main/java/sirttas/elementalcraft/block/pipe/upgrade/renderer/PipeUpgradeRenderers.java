@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.pipe.upgrade.renderer;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.beam.ElementBeamPipeUpgradeRenderer;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class PipeUpgradeRenderers {
 
-    private static final Map<ResourceLocation, IPipeUpgradeRenderer<?>> RENDERERS = new HashMap<>();
+    private static final Map<Identifier, IPipeUpgradeRenderer<?>> RENDERERS = new HashMap<>();
 
     static {
         register(PipeUpgradeTypes.ELEMENT_VALVE, new ElementValvePipeUpgradeRenderer());

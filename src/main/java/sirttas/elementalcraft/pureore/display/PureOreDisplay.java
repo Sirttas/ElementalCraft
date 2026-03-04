@@ -2,7 +2,7 @@ package sirttas.elementalcraft.pureore.display;
 
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.color.ECColorHelper;
@@ -14,11 +14,11 @@ public record PureOreDisplay(
         int[] colors
 ) {
 
-    public PureOreDisplay(ResourceLocation id, PureOre pureOre) {
+    public PureOreDisplay(Identifier id, PureOre pureOre) {
         this(loadPureOreName(id, pureOre), loadPureOreColors(pureOre));
     }
 
-    private static Component loadPureOreName(ResourceLocation id, PureOre pureOre) {
+    private static Component loadPureOreName(Identifier id, PureOre pureOre) {
         var translationKey = "tooltip.elementalcraft.pure_ore." + id.getNamespace() + "." + id.getPath();
 
         if (Language.getInstance().has(translationKey)) {

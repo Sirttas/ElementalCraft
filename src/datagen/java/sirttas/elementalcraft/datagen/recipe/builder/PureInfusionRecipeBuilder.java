@@ -2,7 +2,7 @@ package sirttas.elementalcraft.datagen.recipe.builder;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -61,21 +61,21 @@ public class PureInfusionRecipeBuilder {
 	}
 	
 	public void save(RecipeOutput recipeOutput) {
-		ResourceLocation id = BuiltInRegistries.ITEM.getKey(this.result);
+		Identifier id = BuiltInRegistries.ITEM.getKey(this.result);
 
-		this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), PureInfusionRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, Identifier.fromNamespaceAndPath(id.getNamespace(), PureInfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
-		ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
-		if (ResourceLocation.parse(save).equals(resourcelocation)) {
+		Identifier Identifier = BuiltInRegistries.ITEM.getKey(this.result);
+		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Pure Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
 			this.save(recipeOutput, ElementalCraftApi.createRL(PureInfusionRecipe.NAME + '/' + save));
 		}
 	}
 
-	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+	public void save(RecipeOutput recipeOutput, Identifier id) {
 		recipeOutput.accept(id, new PureInfusionRecipe(elementAmount, this.ingredients, new ItemStack(this.result)), null);
 	}
 }

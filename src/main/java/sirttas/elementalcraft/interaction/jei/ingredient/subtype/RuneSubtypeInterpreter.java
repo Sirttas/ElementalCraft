@@ -17,6 +17,6 @@ public class RuneSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
     public @NotNull String getLegacyStringSubtypeInfo(@NotNull ItemStack ingredient, @NotNull UidContext context) {
         var key = RuneItem.getRune(ingredient).getKey();
 
-        return key == null ? "" : key.location().toString();
+        return key == null ? "" : key.identifier().toString();
     }
 }

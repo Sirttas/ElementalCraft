@@ -131,7 +131,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
             return Blocks.AIR.defaultBlockState();
         }
         return upgrade.unwrap().map(k -> upgradeStates.computeIfAbsent(k, k2 -> {
-            var state = BuiltInRegistries.BLOCK.get(k.location()).defaultBlockState();
+            var state = BuiltInRegistries.BLOCK.get(k.identifier()).defaultBlockState();
 
             if (state.isAir()) {
                 return Blocks.AIR.defaultBlockState();

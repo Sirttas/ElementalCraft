@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.client.model;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECModelHelper {
 
     private ECModelHelper() {}
 
-    public static ModelResourceLocation standalone(String path) {
-        return ModelResourceLocation.standalone(ElementalCraftApi.createRL(path));
+    public static ModelIdentifier standalone(String path) {
+        return ModelIdentifier.standalone(ElementalCraftApi.createRL(path));
     }
 }

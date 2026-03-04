@@ -3,8 +3,8 @@ package sirttas.elementalcraft.datagen.managed;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
@@ -39,9 +39,9 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	private static final IBlockPosPredicate LUCK_PREDICATE = createLuckPredicate(ECTags.Blocks.RUNE_AFFECTED_LUCK);
 	private static final IBlockPosPredicate TZEENTCH_PREDICATE = createLuckPredicate(ECTags.Blocks.RUNE_AFFECTED_TZEENTCH);
 
-	public static final ResourceLocation MINOR_SLATE = ElementalCraftApi.createRL("item/minor_rune_slate");
-	public static final ResourceLocation SLATE = ElementalCraftApi.createRL("item/rune_slate");
-	public static final ResourceLocation MAJOR_SLATE = ElementalCraftApi.createRL("item/major_rune_slate");
+	public static final Identifier MINOR_SLATE = ElementalCraftApi.createRL("item/minor_rune_slate");
+	public static final Identifier SLATE = ElementalCraftApi.createRL("item/rune_slate");
+	public static final Identifier MAJOR_SLATE = ElementalCraftApi.createRL("item/major_rune_slate");
 
 	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ECItemModelProvider itemModelProvider) {
 		super(packOutput, registries, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
@@ -162,8 +162,8 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 		return super.run(cache).thenCompose(v -> itemModelProvider.generateAll(cache));
 	}
 
-	private Rune.Builder builder(ResourceKey<Rune> key, ResourceLocation slate) {
-		var name = key.location().getPath();
+	private Rune.Builder builder(ResourceKey<Rune> key, Identifier slate) {
+		var name = key.identifier().getPath();
 		var path = ElementalCraftApi.RUNE_MANAGER.getFolder() + '/' + name;
 		var runeTexture = ElementalCraftApi.createRL(path);
 		var builder = Rune.Builder.create().model(itemModelProvider.runeTexture(path, slate, runeTexture)).sprite(runeTexture);

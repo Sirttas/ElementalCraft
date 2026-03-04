@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.spell.renderer;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class SpellRenderers {
 
-    private static final Map<ResourceLocation, ISpellRenderer> SPELL_RENDERERS = new HashMap<>();
+    private static final Map<Identifier, ISpellRenderer> SPELL_RENDERERS = new HashMap<>();
 
     static {
         register(Spells.FLAME_CLEAVE, new FlameCleaveSpellRenderer());

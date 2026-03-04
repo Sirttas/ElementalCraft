@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -97,11 +97,11 @@ public record RangeVariants(Map<String, Holder<Range>> delegate) implements Map<
 
     public static class Builder {
 
-        public static final Codec<Builder> CODEC = Codec.unboundedMap(Codec.STRING, Codec.either(ResourceLocation.CODEC, Range.Builder.CODEC)).xmap(Builder::new, b -> b.ranges);
+        public static final Codec<Builder> CODEC = Codec.unboundedMap(Codec.STRING, Codec.either(Identifier.CODEC, Range.Builder.CODEC)).xmap(Builder::new, b -> b.ranges);
 
-        private final Map<String, Either<ResourceLocation, Range.Builder>> ranges;
+        private final Map<String, Either<Identifier, Range.Builder>> ranges;
 
-        public Builder(Map<String, Either<ResourceLocation, Range.Builder>> ranges) {
+        public Builder(Map<String, Either<Identifier, Range.Builder>> ranges) {
             this.ranges = new HashMap<>(ranges);
         }
 
@@ -114,7 +114,7 @@ public record RangeVariants(Map<String, Holder<Range>> delegate) implements Map<
             return this;
         }
 
-        public Builder put(String name, ResourceLocation loc) {
+        public Builder put(String name, Identifier loc) {
             ranges.put(name, Either.left(loc));
             return this;
         }

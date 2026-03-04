@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -21,7 +21,7 @@ public class TigerJewel extends AttributeJewel {
 
     public static final String NAME = "tiger";
 
-    private static final ResourceLocation ATTACK_SPEED_ID = ElementalCraftApi.createRL("tiger_jewel_attack_speed");
+    private static final Identifier ATTACK_SPEED_ID = ElementalCraftApi.createRL("tiger_jewel_attack_speed");
 
     public TigerJewel() {
         super(ElementType.AIR, 10, () -> {

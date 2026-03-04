@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
 import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
@@ -14,7 +14,7 @@ import sirttas.elementalcraft.renderer.ECRendererHelper;
 import javax.annotation.Nonnull;
 
 public class TranslocationShrineUpgradeRenderer implements BlockEntityRenderer<TranslocationShrineUpgradeBlockEntity> {
-    public static final ModelResourceLocation RING_LOCATION = ECModelHelper.standalone("block/shrine_upgrade_translocation_ring");
+    public static final ModelIdentifier RING_LOCATION = ECModelHelper.standalone("block/shrine_upgrade_translocation_ring");
 
     private BakedModel ringModel;
 

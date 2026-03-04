@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -29,11 +29,11 @@ public class HasRunePredicate implements IRunePredicate {
 	private final ResourceKey<Rune> key;
 
 
-	public HasRunePredicate(ResourceLocation runeId) {
+	public HasRunePredicate(Identifier runeId) {
 		this(runeId, 1);
 	}
 
-	public HasRunePredicate(ResourceLocation runeId, int count) {
+	public HasRunePredicate(Identifier runeId, int count) {
 		this(IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, runeId), count);
 	}
 
@@ -60,7 +60,7 @@ public class HasRunePredicate implements IRunePredicate {
 	@Override
 	@Nonnull
 	public List<Component> getTooltip() {
-		var loc = key.location();
+		var loc = key.identifier();
 
 		return List.of(Component.translatable("tooltip.elementalcraft.predicate.rune", count, Component.translatable("elementalcraft.rune." + loc.getNamespace() + "." + loc.getPath())));
 	}

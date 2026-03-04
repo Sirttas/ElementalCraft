@@ -85,7 +85,7 @@ public class ShrinePropertiesBuilder implements IConfigurableBlockEntityProperti
     }
 
     public ShrinePropertiesBuilder range(String name, ResourceKey<Range> key) {
-        this.ranges.put(name, key.location());
+        this.ranges.put(name, key.identifier());
         return this;
     }
 

@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.client.model;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -76,33 +76,33 @@ public class ECModelHandler {
         event.register(ECModelHelper.standalone("item/air_mill_wood_saw_broken"));
     }
 
-    private static void registerRuneModels(Consumer<ResourceLocation> addModel) {
+    private static void registerRuneModels(Consumer<Identifier> addModel) {
         ElementalCraftApi.RUNE_MANAGER.getData().values().forEach(rune -> addModel.accept(rune.getModelName()));
         addAllModelsInManagerFolder(ElementalCraftApi.RUNE_MANAGER, addModel);
     }
 
-    private static void registerBuddingShrinePlatesModels(Consumer<ResourceLocation> addModel) {
+    private static void registerBuddingShrinePlatesModels(Consumer<Identifier> addModel) {
         ElementalCraftApi.BUD_TYPE_MANAGER.getData().values().forEach(budType -> addModel.accept(budType.plateModel()));
         addModel.accept(BuddingShrineBudType.AMETHYST.plateModel());
         addAllModelsFolder(BuddingShrineBudType.PLATE_MODEL_FOLDER, addModel);
     }
 
-    private static void addAllModelsInManagerFolder(IDataManager<?> manager, Consumer<ResourceLocation> addModel) {
+    private static void addAllModelsInManagerFolder(IDataManager<?> manager, Consumer<Identifier> addModel) {
         addAllModelsFolder(manager.getFolder(), addModel);
     }
 
-    private static void addAllModelsFolder(String folder, Consumer<ResourceLocation> addModel) {
+    private static void addAllModelsFolder(String folder, Consumer<Identifier> addModel) {
         Minecraft.getInstance().getResourceManager().listResources("models/" + folder, fileName -> fileName.getPath().endsWith(".json")).keySet().forEach(addModel);
     }
 
-    private static Consumer<ResourceLocation> addModel(Consumer<ModelResourceLocation> consumer) {
+    private static Consumer<Identifier> addModel(Consumer<ModelIdentifier> consumer) {
         return m -> {
             var path = StringUtils.removeStart(StringUtils.removeEnd(m.getPath(), ".json"), "models/");
 
             if (path.startsWith("item/")) {
-                consumer.accept(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(m.getNamespace(), StringUtils.removeStart(path, "item/"))));
+                consumer.accept(ModelIdentifier.inventory(Identifier.fromNamespaceAndPath(m.getNamespace(), StringUtils.removeStart(path, "item/"))));
             } else {
-                consumer.accept(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(m.getNamespace(), path)));
+                consumer.accept(ModelIdentifier.standalone(Identifier.fromNamespaceAndPath(m.getNamespace(), path)));
             }
         };
     }

@@ -4,7 +4,7 @@ import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -41,7 +41,7 @@ public class SourceIngredientHelper implements IIngredientHelper<IngredientSourc
 
 	@Nonnull
 	@Override
-	public ResourceLocation getResourceLocation(@Nonnull IngredientSource ingredient) {
+	public Identifier getIdentifier(@Nonnull IngredientSource ingredient) {
 		return ElementalCraftApi.createRL(getName(ingredient));
 	}
 

@@ -5,7 +5,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,7 +16,12 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
-import sirttas.elementalcraft.infusion.tool.effect.*;
+import sirttas.elementalcraft.infusion.tool.effect.AttributeToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.AutoSmeltToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.DodgeToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
+import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -24,8 +29,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<ToolInfusion, ToolInfusion> {
 
-	private static final ResourceLocation ATTACK_SEED_ID = ElementalCraftApi.createRL("tool_infusion_attack_speed");
-	private static final ResourceLocation MOVEMENT_SPEED_ID = ElementalCraftApi.createRL("tool_infusion_movement_speed");
+	private static final Identifier ATTACK_SEED_ID = ElementalCraftApi.createRL("tool_infusion_attack_speed");
+	private static final Identifier MOVEMENT_SPEED_ID = ElementalCraftApi.createRL("tool_infusion_movement_speed");
 
 	public ToolInfusionProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraftApi.TOOL_INFUSION_MANAGER, ToolInfusion.CODEC);
@@ -81,7 +86,7 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 
 	private void addEnchantment(ElementType type, Holder<Enchantment> enchantment) {
 		addEnchantment(type, enchantment, enchantment.unwrapKey()
-				.map(k -> k.location().getPath())
+				.map(k -> k.identifier().getPath())
 				.orElseThrow(() -> new IllegalArgumentException("Enchantment has no key")));
 	}
 

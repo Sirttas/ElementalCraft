@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen.recipe.builder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -54,20 +54,20 @@ public class CrackingRecipeBuilder {
     public void save(RecipeOutput recipeOutput) {
         var id = BuiltInRegistries.BLOCK.getKey(this.result);
 
-        this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), CrackingRecipe.NAME + '/' + id.getPath()));
+        this.save(recipeOutput, Identifier.fromNamespaceAndPath(id.getNamespace(), CrackingRecipe.NAME + '/' + id.getPath()));
     }
 
     public void save(RecipeOutput recipeOutput, String save) {
-        var resourcelocation = BuiltInRegistries.BLOCK.getKey(this.result);
+        var Identifier = BuiltInRegistries.BLOCK.getKey(this.result);
 
-        if (ResourceLocation.parse(save).equals(resourcelocation)) {
+        if (Identifier.parse(save).equals(Identifier)) {
             throw new IllegalStateException("Cracking Recipe " + save + " should remove its 'save' argument");
         } else {
             this.save(recipeOutput, ElementalCraftApi.createRL(CrackingRecipe.NAME + '/' + save));
         }
     }
 
-    public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+    public void save(RecipeOutput recipeOutput, Identifier id) {
         recipeOutput.accept(id, factory.create(input, result, elementAmount), null);
     }
 }

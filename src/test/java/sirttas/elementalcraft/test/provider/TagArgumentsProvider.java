@@ -25,10 +25,10 @@ public class TagArgumentsProvider implements ArgumentsProvider, AnnotationConsum
     public void accept(TagSource tagSource) {
         registryKey = ArgumentProviderHelper.getRegistryKey(tagSource.registryNamespace(), tagSource.registry());
         tagKeys = Arrays.stream(tagSource.value())
-                .map(tag -> TagKey.create(registryKey, ArgumentProviderHelper.getResourceLocation(tag)))
+                .map(tag -> TagKey.create(registryKey, ArgumentProviderHelper.getIdentifier(tag)))
                 .toList();
         excludeKeys = Arrays.stream(tagSource.exclude())
-                .map(exclude -> ResourceKey.create(registryKey, ArgumentProviderHelper.getResourceLocation(exclude)))
+                .map(exclude -> ResourceKey.create(registryKey, ArgumentProviderHelper.getIdentifier(exclude)))
                 .toList();
     }
 
@@ -43,7 +43,7 @@ public class TagArgumentsProvider implements ArgumentsProvider, AnnotationConsum
                     var key = holder.getKey();
 
                     if (key != null) {
-                        return Arguments.of(Named.of(key.location().toString(), holder.value()));
+                        return Arguments.of(Named.of(key.identifier().toString(), holder.value()));
                     }
                     return Arguments.of(holder.value());
                 });

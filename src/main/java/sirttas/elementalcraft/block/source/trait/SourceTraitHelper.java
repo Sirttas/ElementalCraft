@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block.source.trait;
 
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
@@ -28,7 +28,7 @@ public class SourceTraitHelper {
 		traits.clear();
 		if (tag != null) {
 			for (String name : tag.getAllKeys()) {
-				var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.getOrCreateHolder(ResourceLocation.parse(name));
+				var trait = ElementalCraftApi.SOURCE_TRAIT_MANAGER.getOrCreateHolder(Identifier.parse(name));
 				
 				if (trait.isBound()) {
 					var value = trait.value().load(tag.get(name));

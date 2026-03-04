@@ -15,11 +15,11 @@ public record SpellTickCooldownPayload(Spell spell) implements CustomPacketPaylo
 	public static final StreamCodec<FriendlyByteBuf, SpellTickCooldownPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), SpellTickCooldownPayload::new);
 
 	public SpellTickCooldownPayload(FriendlyByteBuf buf) {
-		this(Spells.REGISTRY.get(buf.readResourceLocation()));
+		this(Spells.REGISTRY.get(buf.readIdentifier()));
 	}
 
 	public void write(FriendlyByteBuf buf) {
-		buf.writeResourceLocation(spell.getKey());
+		buf.writeIdentifier(spell.getKey());
 	}
 
 	@Override

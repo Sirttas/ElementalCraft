@@ -6,14 +6,14 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 interface BookIcon {
 
-    Codec<TextureIcon> TEXTURE_CODEC = ResourceLocation.CODEC.xmap(TextureIcon::new, TextureIcon::texture);
+    Codec<TextureIcon> TEXTURE_CODEC = Identifier.CODEC.xmap(TextureIcon::new, TextureIcon::texture);
 
     static Codec<StackIcon> stackCodec(HolderLookup.Provider lookupProvider) {
         return PatchouliFile.stackCodec(lookupProvider).xmap(StackIcon::new, StackIcon::stack);
@@ -40,7 +40,7 @@ interface BookIcon {
     default void validate(ExistingFileHelper existingFileHelper) {}
 
     record TextureIcon(
-            ResourceLocation texture
+            Identifier texture
     ) implements BookIcon {
 
         @Override

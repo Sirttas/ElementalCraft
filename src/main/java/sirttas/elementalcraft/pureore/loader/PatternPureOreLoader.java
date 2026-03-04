@@ -6,7 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -52,7 +52,7 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
     }
 
     @Override
-    protected PureOreTagGroup load(Map<ResourceLocation, LoadedPureOre> pureOres, Holder<Item> ore) {
+    protected PureOreTagGroup load(Map<Identifier, LoadedPureOre> pureOres, Holder<Item> ore) {
         var np = namespacePattern.orElseGet(() -> Pattern.compile("^" + namespace + "$"));
         var key = ore.getKey();
 
@@ -60,10 +60,10 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
             throw new PureOreException("Holder " + ore + " has no key");
         }
 
-        var id = key.location();
+        var id = key.identifier();
         var tags = ore.tags()
                 .filter(t -> {
-                    var location = t.location();
+                    var location = t.identifier();
 
                     return np.matcher(location.getNamespace()).find() && tagPattern.matcher(location.getPath()).find();
                 }).toList();
@@ -74,11 +74,11 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
                         id::toString,
                         np::pattern,
                         tagPattern::pattern,
-                        () -> tags.stream().map(t -> t.location().toString()).collect(Collectors.joining(", ")));
+                        () -> tags.stream().map(t -> t.identifier().toString()).collect(Collectors.joining(", ")));
             }
-            id = ResourceLocation.fromNamespaceAndPath(namespace, cleanPath(tagPattern.matcher(tags.getFirst().location().getPath()).replaceAll("")));
+            id = Identifier.fromNamespaceAndPath(namespace, cleanPath(tagPattern.matcher(tags.getFirst().identifier().getPath()).replaceAll("")));
         } else {
-            id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), cleanPath(id.getPath()));
+            id = Identifier.fromNamespaceAndPath(id.getNamespace(), cleanPath(id.getPath()));
         }
 
         return new PureOreTagGroup(id, tags);

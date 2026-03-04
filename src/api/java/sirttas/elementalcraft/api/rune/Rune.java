@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,17 +27,17 @@ import java.util.Map;
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	
 	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).and(builder.group(
-			ResourceLocation.CODEC.fieldOf(ECNames.MODEL).forGetter(Rune::getModelName),
-			ResourceLocation.CODEC.fieldOf(ECNames.EFFECT_SPRITE).forGetter(Rune::getSpriteName)
+			Identifier.CODEC.fieldOf(ECNames.MODEL).forGetter(Rune::getModelName),
+			Identifier.CODEC.fieldOf(ECNames.EFFECT_SPRITE).forGetter(Rune::getSpriteName)
 	)).apply(builder, Rune::new));
 
-	private final ResourceLocation modelName;
-	private final ResourceLocation fxSpriteName;
+	private final Identifier modelName;
+	private final Identifier fxSpriteName;
 	
 	@OnlyIn(Dist.CLIENT)
 	private Material sprite;
 
-	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount, ResourceLocation modelName, ResourceLocation fxSpriteName) {
+	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount, Identifier modelName, Identifier fxSpriteName) {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
 		this.modelName = modelName;
 		this.fxSpriteName = fxSpriteName;
@@ -59,11 +59,11 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		return String.format("%+d%%", Math.round(multiplier * 100));
 	}
 
-	public ResourceLocation getModelName() {
+	public Identifier getModelName() {
 		return modelName;
 	}
 
-	public ResourceLocation getSpriteName() {
+	public Identifier getSpriteName() {
 		return fxSpriteName;
 	}
 
@@ -112,8 +112,8 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
 		private int maxAmount;
-		private ResourceLocation model;
-		private ResourceLocation sprite;
+		private Identifier model;
+		private Identifier sprite;
 
 		private Builder() {
 			this.bonuses = new EnumMap<>(BonusType.class);
@@ -146,13 +146,13 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		}
 
 		public Builder model(ItemModelBuilder model) {
-			ResourceLocation modelLoc = model.getLocation();
+			Identifier modelLoc = model.getLocation();
 			
-			this.model = ResourceLocation.fromNamespaceAndPath(modelLoc.getNamespace(), modelLoc.getPath());
+			this.model = Identifier.fromNamespaceAndPath(modelLoc.getNamespace(), modelLoc.getPath());
 			return this;
 		}
 
-		public Builder sprite(ResourceLocation sprite) {
+		public Builder sprite(Identifier sprite) {
 			this.sprite = sprite;
 			return this;
 		}

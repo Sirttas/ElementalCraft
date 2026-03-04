@@ -10,7 +10,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenPosition;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -27,7 +27,7 @@ public class VibrationRecipeCategory extends AbstractECRecipeCategory<Ingredient
 
 	public static final String NAME = "vibration";
 
-	private static final ResourceLocation TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/vibration.png");
+	private static final Identifier TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/vibration.png");
 
 	private static final ItemStack VIBRATION_SYNTHESIZER = new ItemStack(ECBlocks.VIBRATION_SYNTHESIZER.get());
 	private static final List<ItemStack> CONTAINERS = List.of(

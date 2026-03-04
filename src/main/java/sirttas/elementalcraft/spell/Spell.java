@@ -6,8 +6,8 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -58,8 +58,8 @@ public class Spell implements IElementTypeProvider {
 		return this.descriptionId;
 	}
 
-	public ResourceLocation getKey() {
-		return key.location();
+	public Identifier getKey() {
+		return key.identifier();
 	}
 
 	public Component getDisplayName() {

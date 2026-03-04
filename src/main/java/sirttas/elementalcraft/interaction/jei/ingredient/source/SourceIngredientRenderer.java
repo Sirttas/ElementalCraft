@@ -7,7 +7,7 @@ import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -18,8 +18,8 @@ import java.util.List;
 
 public class SourceIngredientRenderer implements IIngredientRenderer<IngredientSource> {
 
-	private static final ResourceLocation OUTER = ElementalCraftApi.createRL("textures/effect/source_outer.png");
-	private static final ResourceLocation MIDDLE = ElementalCraftApi.createRL("textures/effect/source_middle.png");
+	private static final Identifier OUTER = ElementalCraftApi.createRL("textures/effect/source_outer.png");
+	private static final Identifier MIDDLE = ElementalCraftApi.createRL("textures/effect/source_middle.png");
 
 	@Override
 	public void render(@Nonnull GuiGraphics guiGraphics, @Nonnull IngredientSource source) {

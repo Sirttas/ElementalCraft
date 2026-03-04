@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.pipe.upgrade;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 
@@ -18,7 +18,7 @@ public class PipeUpgradeHelper {
             return null;
         }
 
-        var type = PipeUpgradeTypes.REGISTRY.get(ResourceLocation.parse(tag.getString("id")));
+        var type = PipeUpgradeTypes.REGISTRY.get(Identifier.parse(tag.getString("id")));
 
         if (type != null) {
             var upgrade = type.create(pipe, direction);

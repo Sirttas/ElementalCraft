@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.client.model;
 
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -14,13 +14,13 @@ import java.util.function.Function;
 @OnlyIn(Dist.CLIENT)
 public class ECModelShapers {
 
-    private static final Map<ResourceLocation,  Function<ModelManager, AbstractECModelShaper<?>>> FACTORIES = new HashMap<>();
-    private static final Map<ResourceLocation,  AbstractECModelShaper<?>> SHAPERS = new HashMap<>();
+    private static final Map<Identifier,  Function<ModelManager, AbstractECModelShaper<?>>> FACTORIES = new HashMap<>();
+    private static final Map<Identifier,  AbstractECModelShaper<?>> SHAPERS = new HashMap<>();
 
     private ECModelShapers() { }
 
     @SuppressWarnings("unchecked")
-    public static <T> AbstractECModelShaper<T> get(ResourceLocation name) {
+    public static <T> AbstractECModelShaper<T> get(Identifier name) {
         return (AbstractECModelShaper<T>) SHAPERS.get(name);
     }
 
@@ -28,7 +28,7 @@ public class ECModelShapers {
         return List.copyOf(SHAPERS.values());
     }
 
-    public static void register(ResourceLocation name, Function<ModelManager, AbstractECModelShaper<?>> factory) {
+    public static void register(Identifier name, Function<ModelManager, AbstractECModelShaper<?>> factory) {
         FACTORIES.put(name, factory);
     }
 

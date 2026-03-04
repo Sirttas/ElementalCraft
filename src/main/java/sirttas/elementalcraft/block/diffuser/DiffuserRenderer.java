@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.core.BlockPos;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class DiffuserRenderer implements BlockEntityRenderer<DiffuserBlockEntity> {
 	
-	public static final ModelResourceLocation CUBE_LOCATION = ECModelHelper.standalone("block/diffuser_cube");
+	public static final ModelIdentifier CUBE_LOCATION = ECModelHelper.standalone("block/diffuser_cube");
 	
 	private static final Quaternionf ROTATION = Axis.XP.rotationDegrees(45);
 	static {

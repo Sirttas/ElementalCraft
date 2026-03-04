@@ -9,7 +9,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import sirttas.elementalcraft.ElementalCraft;
@@ -63,7 +63,7 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 		return List.copyOf(this.generatePureOres().values());
 	}
 
-	private Map<ResourceLocation, LoadedPureOre> generatePureOres() {
+	private Map<Identifier, LoadedPureOre> generatePureOres() {
 		var list = streamSource().toList();
 		var id = this.getId();
 
@@ -72,12 +72,12 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 			return Collections.emptyMap();
 		}
 
-		Map<ResourceLocation, LoadedPureOre> pureOres = new HashMap<>();
+		Map<Identifier, LoadedPureOre> pureOres = new HashMap<>();
 		ElementalCraftApi.LOGGER.info("Loading pure ores: {}.\r\n\tSource ores: {}",
 				() -> id,
 				() -> list.stream()
 						.mapMulti(ElementalCraftUtils.cast(Holder.Reference.class))
-						.map(r -> r.key().location().toString())
+						.map(r -> r.key().identifier().toString())
 						.collect(Collectors.joining(", ")));
 
 		list.forEach(holder -> register(pureOres, holder));
@@ -85,7 +85,7 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 	}
 
 	@Nonnull
-	public ResourceLocation getId() {
+	public Identifier getId() {
 		return ElementalCraft.PURE_ORE_LOADERS_MANAGER.getId(this);
 	}
 
@@ -94,7 +94,7 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 		return this.source.stream();
 	}
 
-	private LoadedPureOre register(Map<ResourceLocation, LoadedPureOre> pureOres, Holder<Item> ore) {
+	private LoadedPureOre register(Map<Identifier, LoadedPureOre> pureOres, Holder<Item> ore) {
 		for (LoadedPureOre generatedPureOre : pureOres.values()) {
 			if (generatedPureOre.contains(ore)) {
 				return generatedPureOre;
@@ -109,10 +109,10 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 		return entry;
 	}
 
-	protected abstract PureOreTagGroup load(Map<ResourceLocation, LoadedPureOre> pureOres, Holder<Item> ore);
+	protected abstract PureOreTagGroup load(Map<Identifier, LoadedPureOre> pureOres, Holder<Item> ore);
 
 	public record PureOreTagGroup(
-			ResourceLocation id,
+			Identifier id,
 			List<TagKey<Item>> tags
 	) {}
 }

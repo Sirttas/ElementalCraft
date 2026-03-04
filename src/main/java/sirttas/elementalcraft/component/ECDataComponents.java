@@ -6,7 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.component.CustomData;
 import net.neoforged.bus.api.IEventBus;
@@ -48,9 +48,9 @@ public class ECDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<CustomData>> PIPE_UPGRADE_DATA = register("pipe_upgrade_data", b -> b
             .persistent(CustomData.CODEC_WITH_ID)
             .networkSynchronized(CustomData.STREAM_CODEC));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> PURE_ORE = register("pure_ore", b -> b
-            .persistent(ResourceLocation.CODEC)
-            .networkSynchronized(ResourceLocation.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Identifier>> PURE_ORE = register("pure_ore", b -> b
+            .persistent(Identifier.CODEC)
+            .networkSynchronized(Identifier.STREAM_CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Jewel>> JEWEL = register(ECNames.JEWEL, b -> b
             .persistent(Jewels.REGISTRY.byNameCodec())
             .networkSynchronized(ByteBufCodecs.registry(Jewels.REGISTRY_KEY)));

@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -28,11 +28,11 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
 	private final int count;
 	private final ResourceKey<ShrineUpgrade> key;
 
-    public HasShrineUpgradePredicate(ResourceLocation upgradeId) {
+    public HasShrineUpgradePredicate(Identifier upgradeId) {
         this(upgradeId, 1);
     }
 
-    public HasShrineUpgradePredicate(ResourceLocation upgradeId, int count) {
+    public HasShrineUpgradePredicate(Identifier upgradeId, int count) {
         this(IDataManager.createKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, upgradeId), count);
     }
 
@@ -59,7 +59,7 @@ public class HasShrineUpgradePredicate implements IShrinePredicate {
 	@Override
 	@Nonnull
 	public List<Component> getTooltip() {
-		var loc = key.location();
+		var loc = key.identifier();
 
 		return List.of(Component.translatable("tooltip.elementalcraft.predicate.shrine_upgrade", count, Component.translatable("block." + loc.getNamespace() + "." + loc.getPath())));
 	}

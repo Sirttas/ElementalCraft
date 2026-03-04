@@ -3,8 +3,8 @@ package sirttas.elementalcraft.api.rune.handler;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -79,7 +79,7 @@ public interface IRuneHandler {
 	
 	static ListTag writeNBT(IRuneHandler handler) {
 		return handler.getRunes().stream()
-				.map(rune -> StringTag.valueOf(rune.getKey().location().toString()))
+				.map(rune -> StringTag.valueOf(rune.getKey().identifier().toString()))
 				.collect(Collectors.toCollection(ListTag::new));
 	}
 
@@ -88,7 +88,7 @@ public interface IRuneHandler {
 		nbtTagList.forEach(nbt -> {
 			String name = nbt.getAsString();
 
-			handler.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(ResourceLocation.parse(name)));
+			handler.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(Identifier.parse(name)));
         });
 	}
 }

@@ -108,7 +108,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 		public static ToolInfusionRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
 			var elementAmount = buffer.readInt();
 			var input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			var toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(buffer.readResourceLocation());
+			var toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(buffer.readIdentifier());
 
 			return new ToolInfusionRecipe(toolInfusion, input, elementAmount);
 		}
@@ -116,7 +116,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 		public static void toNetwork(RegistryFriendlyByteBuf buffer, ToolInfusionRecipe recipe) {
 			buffer.writeInt(recipe.getElementAmount());
 			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
-			buffer.writeResourceLocation(ElementalCraftApi.TOOL_INFUSION_MANAGER.getId(recipe.getToolInfusion()));
+			buffer.writeIdentifier(ElementalCraftApi.TOOL_INFUSION_MANAGER.getId(recipe.getToolInfusion()));
 		}
 	}
 }

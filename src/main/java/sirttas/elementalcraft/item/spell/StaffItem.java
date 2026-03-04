@@ -3,7 +3,7 @@ package sirttas.elementalcraft.item.spell;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -34,7 +34,7 @@ public class StaffItem extends FocusItem {
 
 	public static final String NAME = "staff";
 
-	public static final ResourceLocation BASE_ATTACK_RANGE_ID = ElementalCraftApi.createRL("staff_attack_range");
+	public static final Identifier BASE_ATTACK_RANGE_ID = ElementalCraftApi.createRL("staff_attack_range");
 
 	public static final ItemAttributeModifiers ATTRIBUTE_MODIFIERS = ItemAttributeModifiers.builder()
 			.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 8, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)

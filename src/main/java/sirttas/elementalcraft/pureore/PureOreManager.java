@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.pureore;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
@@ -13,7 +13,7 @@ public class PureOreManager {
 
 	private static final PureOreManager INSTANCE = new PureOreManager();
 
-	private final Map<ResourceLocation, PureOre> pureOres = new HashMap<>();
+	private final Map<Identifier, PureOre> pureOres = new HashMap<>();
 
 	private PureOreManager() { }
 
@@ -25,7 +25,7 @@ public class PureOreManager {
 		return pureOres.values().stream().anyMatch(pureOre -> pureOre.test(ore));
 	}
 
-	public ItemStack createPureOre(ResourceLocation id) {
+	public ItemStack createPureOre(Identifier id) {
 		if (this.pureOres.containsKey(id)) {
 			ItemStack stack = new ItemStack(ECItems.PURE_ORE);
 	
@@ -35,16 +35,16 @@ public class PureOreManager {
 		return ItemStack.EMPTY;
 	}
 
-	void replacePureOres(Map<ResourceLocation, PureOre> pureOres) {
+	void replacePureOres(Map<Identifier, PureOre> pureOres) {
 		this.pureOres.clear();
 		this.pureOres.putAll(pureOres);
 	}
 
-	Map<ResourceLocation, PureOre> getPureOres() {
+	Map<Identifier, PureOre> getPureOres() {
 		return Map.copyOf(pureOres);
 	}
 
-	public List<ResourceLocation> getOres() {
+	public List<Identifier> getOres() {
 		return List.copyOf(pureOres.keySet());
 	}
 }

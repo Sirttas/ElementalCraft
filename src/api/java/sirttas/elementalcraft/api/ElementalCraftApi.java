@@ -2,7 +2,7 @@ package sirttas.elementalcraft.api;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sirttas.dpanvil.api.data.IDataManager;
@@ -65,10 +65,10 @@ public class ElementalCraftApi {
 
     private ElementalCraftApi() {}
 
-	public static ResourceLocation createRL(String name) {
+	public static Identifier createRL(String name) {
 		if (name.contains(":")) {
-			return ResourceLocation.parse(name);
+			return Identifier.parse(name);
 		}
-		return ResourceLocation.fromNamespaceAndPath(MODID, name);
+		return Identifier.fromNamespaceAndPath(MODID, name);
 	}
 }

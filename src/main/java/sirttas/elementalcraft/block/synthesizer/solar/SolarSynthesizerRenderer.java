@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.client.model.ECModelHelper;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class SolarSynthesizerRenderer implements BlockEntityRenderer<SolarSynthesizerBlockEntity> {
 
 	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_fire_synthesizer_beam");
-	public static final ModelResourceLocation LENS_LOCATION = ECModelHelper.standalone("block/solar_fire_synthesizer_lens");
+	public static final ModelIdentifier LENS_LOCATION = ECModelHelper.standalone("block/solar_fire_synthesizer_lens");
 
 	private static final float RED = ElementType.FIRE.getRed();
 	private static final float GREEN = ElementType.FIRE.getGreen();

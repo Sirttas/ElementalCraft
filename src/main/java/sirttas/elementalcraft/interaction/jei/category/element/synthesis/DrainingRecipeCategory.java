@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.navigation.ScreenPosition;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -23,7 +23,7 @@ import java.util.List;
 public class DrainingRecipeCategory extends AbstractECRecipeCategory<IngredientElementType> {
 
 	public static final String NAME = "draining";
-	public static final ResourceLocation TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/draining.png");
+	public static final Identifier TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/draining.png");
 
 	private static final ItemStack DRAINING_SYNTHESIZER = new ItemStack(ECBlocks.DRAINING_SYNTHESIZER.get());
 	private static final List<ItemStack> CONTAINERS = List.of(

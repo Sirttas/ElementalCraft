@@ -28,7 +28,7 @@ import java.util.stream.StreamSupport;
 
 public class ToolInfusionHelper {
 
-	private static final Holder<ToolInfusion> NONE = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(DPAnvilNames.ResourceLocations.NONE);
+	private static final Holder<ToolInfusion> NONE = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(DPAnvilNames.Identifiers.NONE);
 
 	private ToolInfusionHelper() {}
 

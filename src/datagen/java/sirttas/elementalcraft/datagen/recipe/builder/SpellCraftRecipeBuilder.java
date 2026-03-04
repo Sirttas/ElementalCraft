@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.datagen.recipe.builder;
 
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,9 +19,9 @@ public class SpellCraftRecipeBuilder {
 
 	private Ingredient gem;
 	private Ingredient crystal;
-	private final ResourceLocation output;
+	private final Identifier output;
 
-	private SpellCraftRecipeBuilder(ResourceLocation output) {
+	private SpellCraftRecipeBuilder(Identifier output) {
 		this.output = output;
 	}
 	
@@ -63,7 +63,7 @@ public class SpellCraftRecipeBuilder {
 		this.save(recipeOutput, ElementalCraftApi.createRL(SpellCraftRecipe.NAME + '/' + save));
 	}
 
-	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+	public void save(RecipeOutput recipeOutput, Identifier id) {
 		var spell = Spells.REGISTRY.getHolder(output).orElseThrow();
 		var stack = new ItemStack(ECItems.SCROLL);
 

@@ -27,7 +27,7 @@ public class ECPickupAdvancementGenerator extends AbstractECAdvancementGenerator
 
 		for (var entry : BuiltInRegistries.ITEM.entrySet()) {
 			var item = entry.getValue();
-			var key = entry.getKey().location();
+			var key = entry.getKey().identifier();
 
 			if (ElementalCraft.owns(key)) {
 				itemPickup(item, root, key, saver);

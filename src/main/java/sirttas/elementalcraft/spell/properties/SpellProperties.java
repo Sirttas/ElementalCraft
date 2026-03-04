@@ -70,7 +70,7 @@ public record SpellProperties(
 	}
 
     public static ResourceKey<SpellProperties> getKey(ResourceKey<Spell> key) {
-		return IDataManager.createKey(ElementalCraft.SPELL_PROPERTIES_MANAGER_KEY, key.location());
+		return IDataManager.createKey(ElementalCraft.SPELL_PROPERTIES_MANAGER_KEY, key.identifier());
     }
 
     @Override

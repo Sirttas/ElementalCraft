@@ -1,8 +1,8 @@
 package sirttas.elementalcraft;
 
 import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -137,10 +137,10 @@ public class ElementalCraft {
 	}
 
 	public static boolean owns(ResourceKey<?> key) {
-		return owns(key.location());
+		return owns(key.identifier());
 	}
 
-	public static boolean owns(ResourceLocation location) {
+	public static boolean owns(Identifier location) {
 		return ElementalCraftApi.MODID.equals(location.getNamespace());
 	}
 

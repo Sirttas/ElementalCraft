@@ -5,8 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
@@ -41,10 +41,10 @@ public record Range(
     }
 
     public static Range.Builder withParent(ResourceKey<Range> parent) {
-        return withParent(parent.location());
+        return withParent(parent.identifier());
     }
 
-    public static Range.Builder withParent(ResourceLocation parent) {
+    public static Range.Builder withParent(Identifier parent) {
         return new Range.Builder(parent);
     }
 
@@ -72,12 +72,12 @@ public record Range(
             throw new UnsupportedOperationException("Builder deserialization is not supported.");
         }));
 
-        private final ResourceLocation parent;
+        private final Identifier parent;
         private AABB box;
         private GrowthRatio growthRatio;
         private boolean stitch;
 
-        private Builder(ResourceLocation parent) {
+        private Builder(Identifier parent) {
             this.parent = parent;
             this.box = null;
             this.growthRatio = GrowthRatio.DEFAULT;

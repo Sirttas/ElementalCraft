@@ -5,8 +5,8 @@ import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -75,7 +75,7 @@ public class PureOreGenerator {
         var recipeManager = server.getRecipeManager();
         var factories = createFactories(recipeManager);
         var registry = server.registryAccess();
-        var pureOreSets = new HashMap<ResourceLocation, LoadedPureOreSet>();
+        var pureOreSets = new HashMap<Identifier, LoadedPureOreSet>();
 
         ElementalCraftApi.LOGGER.info("Pure ore generation started.\n\r\tRecipe Types: {}",
                 () -> factories.stream()
@@ -120,7 +120,7 @@ public class PureOreGenerator {
         ElementalCraftApi.LOGGER.info("Pure ore generation ended in {}ms\r\n\tOres: {}.",
                 () -> Duration.between(start, Instant.now()).toMillis(),
                 () -> pureOreSets.keySet().stream()
-                        .map(ResourceLocation::toString)
+                        .map(Identifier::toString)
                         .collect(Collectors.joining(", ")));
     }
 
@@ -170,7 +170,7 @@ public class PureOreGenerator {
         }
     }
 
-    private static ResourceLocation buildRecipeId(@Nonnull ResourceLocation factoryId, @Nonnull ResourceLocation sourceId) {
+    private static Identifier buildRecipeId(@Nonnull Identifier factoryId, @Nonnull Identifier sourceId) {
         return ElementalCraftApi.createRL("pure_ore/" + factoryId.getNamespace() + "/" + factoryId.getPath() + "/" + sourceId.getNamespace() + "/" + sourceId.getPath());
     }
 
@@ -186,19 +186,19 @@ public class PureOreGenerator {
             return !ores.isEmpty() && ores.values().stream().anyMatch(LoadedPureOre::isProcessable);
         }
 
-        public List<RecipeHolder<OrePurificationRecipe>> getOrePurificationRecipes(ResourceLocation pureOreId) {
+        public List<RecipeHolder<OrePurificationRecipe>> getOrePurificationRecipes(Identifier pureOreId) {
             return ores.entrySet().stream()
                     .map(entry -> new RecipeHolder<>(buildOrePurificationRecipeId(entry.getKey().getKey(), pureOreId), entry.getValue().getOrePurificationRecipe()))
                     .toList();
         }
 
-        private static ResourceLocation buildOrePurificationRecipeId(@Nullable ResourceKey<IPureOreLoader> loaderKey, @Nonnull ResourceLocation sourceId) {
+        private static Identifier buildOrePurificationRecipeId(@Nullable ResourceKey<IPureOreLoader> loaderKey, @Nonnull Identifier sourceId) {
             if (loaderKey == null) {
                 ElementalCraftApi.LOGGER.warn("Unknown loader for pure ore {}.", sourceId);
                 return ElementalCraftApi.createRL("ore_purification/generated/unknown_loader/" + sourceId.getNamespace() + "/" + sourceId.getPath());
             }
 
-            var loaderId = loaderKey.location();
+            var loaderId = loaderKey.identifier();
 
             return ElementalCraftApi.createRL("ore_purification/generated/" + loaderId.getNamespace() + "/" + loaderId.getPath() + "/" + sourceId.getNamespace() + "/" + sourceId.getPath());
         }

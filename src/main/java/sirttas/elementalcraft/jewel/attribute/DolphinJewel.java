@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -20,7 +20,7 @@ public class DolphinJewel extends AttributeJewel {
 
     public static final String NAME = "dolphin";
 
-    private static final ResourceLocation SWIM_SPEED_ID = ElementalCraftApi.createRL("dolphin_jewel_swim_speed");
+    private static final Identifier SWIM_SPEED_ID = ElementalCraftApi.createRL("dolphin_jewel_swim_speed");
 
     public DolphinJewel() {
         super(ElementType.WATER, 50, () -> {

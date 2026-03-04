@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -21,8 +21,8 @@ public class BearJewel extends AttributeJewel {
 
     public static final String NAME = "bear";
 
-    private static final ResourceLocation ATTACK_DAMAGE_ID = ElementalCraftApi.createRL("bear_jewel_attack_damage");
-    private static final ResourceLocation ATTACK_KNOCKBACK_ID = ElementalCraftApi.createRL("bear_jewel_attack_knockback");
+    private static final Identifier ATTACK_DAMAGE_ID = ElementalCraftApi.createRL("bear_jewel_attack_damage");
+    private static final Identifier ATTACK_KNOCKBACK_ID = ElementalCraftApi.createRL("bear_jewel_attack_knockback");
 
     public BearJewel() {
         super(ElementType.EARTH, 10, () -> {

@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -26,8 +26,8 @@ public class EntryBuilder implements PatchouliFile {
     private String name;
     private BookIcon icon;
     private boolean priority;
-    private ResourceLocation advancement;
-    private ResourceLocation turnIn;
+    private Identifier advancement;
+    private Identifier turnIn;
     private int sortNum;
     private boolean ignoreValidation;
 
@@ -44,11 +44,11 @@ public class EntryBuilder implements PatchouliFile {
     public static Codec<EntryBuilder> codec(HolderLookup.Provider lookupProvider) {
         return RecordCodecBuilder.create(builder -> builder.group(
                 Codec.STRING.fieldOf("name").forGetter(b -> b.name),
-                ResourceLocation.CODEC.fieldOf("category").forGetter(b -> ResourceLocation.fromNamespaceAndPath(b.category.getNamespace(), b.category.getFileName())),
+                Identifier.CODEC.fieldOf("category").forGetter(b -> Identifier.fromNamespaceAndPath(b.category.getNamespace(), b.category.getFileName())),
                 BookIcon.codec(lookupProvider).optionalFieldOf("icon", null).forGetter(b -> b.icon),
                 Codec.BOOL.optionalFieldOf("priority", false).forGetter(b -> b.priority),
-                ResourceLocation.CODEC.optionalFieldOf("advancement", null).forGetter(b -> b.advancement),
-                ResourceLocation.CODEC.optionalFieldOf("turnin", null).forGetter(b -> b.turnIn),
+                Identifier.CODEC.optionalFieldOf("advancement", null).forGetter(b -> b.advancement),
+                Identifier.CODEC.optionalFieldOf("turnin", null).forGetter(b -> b.turnIn),
                 Codec.INT.fieldOf("sortnum").forGetter(b -> b.sortNum),
                 PageBuilder.codec(lookupProvider).listOf().fieldOf("pages").forGetter(b -> b.pages)
         ).apply(builder, (a1, a2, a3, a4, a5, a6, a7, a8) -> {
@@ -66,13 +66,13 @@ public class EntryBuilder implements PatchouliFile {
         return this;
     }
 
-    public EntryBuilder icon(ResourceLocation icon) {
+    public EntryBuilder icon(Identifier icon) {
         this.icon = new BookIcon.TextureIcon(icon);
         return this;
     }
 
     public EntryBuilder icon(String icon) {
-        return this.icon(ResourceLocation.fromNamespaceAndPath(category.getNamespace(), icon));
+        return this.icon(Identifier.fromNamespaceAndPath(category.getNamespace(), icon));
     }
 
     public EntryBuilder icon(ItemStack icon) {
@@ -89,12 +89,12 @@ public class EntryBuilder implements PatchouliFile {
         return this;
     }
 
-    public EntryBuilder advancement(ResourceLocation advancement) {
+    public EntryBuilder advancement(Identifier advancement) {
         this.advancement = advancement;
         return this;
     }
 
-    public EntryBuilder turnIn(ResourceLocation turnIn) {
+    public EntryBuilder turnIn(Identifier turnIn) {
         this.turnIn = turnIn;
         return this;
     }

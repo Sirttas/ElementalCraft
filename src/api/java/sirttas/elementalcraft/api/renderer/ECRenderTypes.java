@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.opengl.GL14;
 
 import java.util.function.Function;
@@ -50,7 +50,7 @@ public class ECRenderTypes extends RenderType {
 				RenderSystem.depthMask(true);
 			});
 
-	private static final Function<ResourceLocation, RenderType> SOURCE = Util.memoize(location -> {
+	private static final Function<Identifier, RenderType> SOURCE = Util.memoize(location -> {
 		var rendertype = RenderType.CompositeState.builder()
 				.setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
 				.setTextureState(new RenderStateShard.TextureStateShard(location, false, false))
@@ -64,7 +64,7 @@ public class ECRenderTypes extends RenderType {
 	});
 
 
-	public static RenderType source(ResourceLocation location) {
+	public static RenderType source(Identifier location) {
 		return SOURCE.apply(location);
 	}
 

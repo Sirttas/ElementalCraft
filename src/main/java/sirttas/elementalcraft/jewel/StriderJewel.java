@@ -37,7 +37,7 @@ public class StriderJewel extends Jewel {
 
     @Override
     public void appendHoverText(List<Component> tooltip) {
-        var key = tag.location();
+        var key = tag.identifier();
 
         tooltip.add(Component.translatable("tooltip.elementalcraft.strider." + key.getNamespace() + '.' + key.getPath().replace("/", ".")).withStyle(ChatFormatting.BLUE));
         super.appendHoverText(tooltip);

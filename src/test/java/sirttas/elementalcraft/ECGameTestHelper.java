@@ -5,8 +5,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestInfo;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -222,20 +222,20 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     }
 
     public void assertRuneIs(Holder<Rune> rune, ResourceKey<Rune> name) {
-        assertRuneIs(rune, name.location());
+        assertRuneIs(rune, name.identifier());
     }
 
-    public void assertRuneIs(Holder<Rune> rune, ResourceLocation name) {
+    public void assertRuneIs(Holder<Rune> rune, Identifier name) {
         if (!rune.is(IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, name))) {
             throw new GameTestAssertException("Expected rune " + name + " but got " + rune);
         }
     }
 
     public void assertRuneIs(ItemStack stack, ResourceKey<Rune> name) {
-        assertRuneIs(stack, name.location());
+        assertRuneIs(stack, name.identifier());
     }
 
-    public void assertRuneIs(ItemStack stack, ResourceLocation name) {
+    public void assertRuneIs(ItemStack stack, Identifier name) {
         var rune = RuneItem.getRune(stack);
 
         if (rune == null) {

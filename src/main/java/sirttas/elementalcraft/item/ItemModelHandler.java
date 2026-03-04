@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.item;
 
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.util.FastColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -40,12 +40,12 @@ public class ItemModelHandler {
         replaceModels(modelRegistry, AirMillWoodSawBlock.NAME, AirMillBlockItemModel::new);
     }
 
-    private static void replaceModels(Map<ModelResourceLocation, BakedModel> modelRegistry, String name, UnaryOperator<BakedModel> modelFactory) {
+    private static void replaceModels(Map<ModelIdentifier, BakedModel> modelRegistry, String name, UnaryOperator<BakedModel> modelFactory) {
         replaceModels(modelRegistry, name, (k, v) -> modelFactory.apply(v));
     }
 
-    private static void replaceModels(Map<ModelResourceLocation, BakedModel> modelRegistry, String name, BiFunction<ModelResourceLocation, BakedModel, BakedModel> modelFactory) {
-        modelRegistry.computeIfPresent(ModelResourceLocation.inventory(ElementalCraftApi.createRL(name)), modelFactory);
+    private static void replaceModels(Map<ModelIdentifier, BakedModel> modelRegistry, String name, BiFunction<ModelIdentifier, BakedModel, BakedModel> modelFactory) {
+        modelRegistry.computeIfPresent(ModelIdentifier.inventory(ElementalCraftApi.createRL(name)), modelFactory);
     }
 
     @SubscribeEvent

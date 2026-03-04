@@ -197,7 +197,7 @@ public class ECItems {
 			RegistryHelper.register(r, new TranslocationShrineUpgradeBlockItem(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), new Item.Properties()), ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
 			for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
 				var block = entry.getValue();
-				var registryName = entry.getKey().location();
+				var registryName = entry.getKey().identifier();
 
 				if (ElementalCraft.owns(registryName) && !registry.containsKey(registryName)) {
 					RegistryHelper.register(r, registryName, switch (block) {

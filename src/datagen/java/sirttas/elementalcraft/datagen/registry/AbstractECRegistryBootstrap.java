@@ -7,7 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
@@ -40,10 +40,10 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
     public <U> HolderSet<U> createHolderSet(ResourceKey<Registry<U>> registry, String ... names) {
         return createHolderSet(registry, Arrays.stream(names)
                 .map(ElementalCraftApi::createRL)
-                .toArray(ResourceLocation[]::new));
+                .toArray(Identifier[]::new));
     }
 
-    public <U> HolderSet<U> createHolderSet(ResourceKey<Registry<U>> registry, ResourceLocation ... names) {
+    public <U> HolderSet<U> createHolderSet(ResourceKey<Registry<U>> registry, Identifier ... names) {
         var reg = context.lookup(registry);
 
         return HolderSet.direct(Arrays.stream(names)
@@ -55,7 +55,7 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
         return getReference(registry, ElementalCraftApi.createRL(name));
     }
 
-    public <U> Holder<U> getReference(ResourceKey<Registry<U>> registry, ResourceLocation name) {
+    public <U> Holder<U> getReference(ResourceKey<Registry<U>> registry, Identifier name) {
         return context.lookup(registry).getOrThrow(ResourceKey.create(registry, name));
     }
 

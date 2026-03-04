@@ -2,7 +2,7 @@ package sirttas.elementalcraft.datagen.managed;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -20,9 +20,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<SpellProperties, SpellProperties.Builder> {
 
-	private static final ResourceLocation REACH_DISTANCE_ID = ElementalCraftApi.createRL("spell_reach_distance");
-	private static final ResourceLocation ATTACK_DAMAGE_ID = ElementalCraftApi.createRL("spell_attack_damage");
-	private static final ResourceLocation ATTACK_KNOCKBACK_ID = ElementalCraftApi.createRL("spell_attack_knockback");
+	private static final Identifier REACH_DISTANCE_ID = ElementalCraftApi.createRL("spell_reach_distance");
+	private static final Identifier ATTACK_DAMAGE_ID = ElementalCraftApi.createRL("spell_attack_damage");
+	private static final Identifier ATTACK_KNOCKBACK_ID = ElementalCraftApi.createRL("spell_attack_knockback");
 
 	public SpellPropertiesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraft.SPELL_PROPERTIES_MANAGER, SpellProperties.Builder.ENCODER);

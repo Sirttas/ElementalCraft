@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.datagen.language;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -37,7 +37,7 @@ public abstract class AbstractECLanguageProvider extends LanguageProvider {
     }
 
     public void addRune(ResourceKey<Rune> key, String name) {
-        var id = key.location();
+        var id = key.identifier();
 
         add("elementalcraft.rune." + id.getNamespace() + '.' + id.getPath(), name);
     }
@@ -62,12 +62,12 @@ public abstract class AbstractECLanguageProvider extends LanguageProvider {
         add("tooltip.elementalcraft." + key, name);
     }
 
-    public void addPureOre(ResourceLocation key, String name) {
+    public void addPureOre(Identifier key, String name) {
         addTooltip("pure_ore." + key.getNamespace() + '.' + key.getPath(), name);
     }
 
     public void addPureOre(String key, String name) {
-        addPureOre(ResourceLocation.fromNamespaceAndPath("c", key), name);
+        addPureOre(Identifier.fromNamespaceAndPath("c", key), name);
     }
 
     public void addSourceTrait(String key, String name) {

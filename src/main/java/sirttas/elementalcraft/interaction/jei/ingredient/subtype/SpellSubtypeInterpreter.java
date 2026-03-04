@@ -17,6 +17,6 @@ public class SpellSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
     public @NotNull String getLegacyStringSubtypeInfo(@NotNull ItemStack ingredient, @NotNull UidContext context) {
         var key = SpellHelper.getSpell(ingredient).getKey();
 
-        return key == null ? "" : key.location().toString();
+        return key == null ? "" : key.identifier().toString();
     }
 }

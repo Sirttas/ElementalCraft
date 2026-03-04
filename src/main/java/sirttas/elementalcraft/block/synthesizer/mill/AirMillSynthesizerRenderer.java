@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 
 public class AirMillSynthesizerRenderer implements BlockEntityRenderer<AirMillSynthesizerBlockEntity> {
 
-	public static final ModelResourceLocation SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_synthesizer_shaft");
+	public static final ModelIdentifier SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_synthesizer_shaft");
 
 	private BakedModel shaftModel;
 

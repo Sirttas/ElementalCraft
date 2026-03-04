@@ -7,7 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
@@ -150,11 +150,11 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				.addOptionalTag(common("storage_blocks/raw_vibranium"))
 				.addOptionalTag(common("storage_blocks/raw_iridium"))
 				.addOptionalTag(common("storage_blocks/raw_azure_silver"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_aquite"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_charoite"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_falsite"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_ventium"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_horizonite"));
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_aquite"))
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_charoite"))
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_falsite"))
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_ventium"))
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BLUE_SKIES, "storage_blocks/raw_horizonite"));
 
 		tag(ECTags.Items.RUNE_SLATES).add(ECItems.MINOR_RUNE_SLATE.get(), ECItems.RUNE_SLATE.get(), ECItems.MAJOR_RUNE_SLATE.get());
 
@@ -167,13 +167,13 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 
 		tag(ECTags.Items.GROVE_SHRINE_FLOWERS).addTag(ItemTags.FLOWERS);
 		tag(ECTags.Items.MYSTICAL_GROVE_FLOWERS)
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "double_mystical_flowers"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "mystical_flowers"));
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BotaniaAPI.MODID, "double_mystical_flowers"))
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BotaniaAPI.MODID, "mystical_flowers"));
 		tag(ECTags.Items.GROVE_SHRINE_BLACKLIST)
 				.add(Items.CHORUS_FLOWER, Items.WITHER_ROSE, Items.SPORE_BLOSSOM)
 				.addTag(ECTags.Items.MYSTICAL_GROVE_FLOWERS)
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "special_flowers"))
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath(BotaniaAPI.MODID, "floating_flowers"));
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BotaniaAPI.MODID, "special_flowers"))
+				.addOptionalTag(Identifier.fromNamespaceAndPath(BotaniaAPI.MODID, "floating_flowers"));
 
 		tag(ECTags.Items.WHITE_FLOWERS).add(Items.LILY_OF_THE_VALLEY);
 		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP, Items.TORCHFLOWER);
@@ -222,18 +222,18 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS).addOptionalTag(common("geore_shards"));
 		tag(ECTags.Items.PURE_ORES_SOURCES_GEORE_BLOCKS).addOptionalTag(common("geore_blocks"));
 
-		tag(ECTags.Items.PURE_ORES_SOURCES_RESONANT_ORE).addOptionalTag(ResourceLocation.fromNamespaceAndPath("deepresonance", "resonant_ore"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_RESONANT_ORE).addOptionalTag(Identifier.fromNamespaceAndPath("deepresonance", "resonant_ore"));
 
-		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_URANINITE).addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_raw"));
+		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_URANINITE).addOptional(Identifier.fromNamespaceAndPath(POWAH, "uraninite_raw"));
 		tag(ECTags.Items.PURE_ORES_SOURCES_POOR_URANINITE)
-				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_ore_poor"))
-				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore_poor"));
+				.addOptional(Identifier.fromNamespaceAndPath(POWAH, "uraninite_ore_poor"))
+				.addOptional(Identifier.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore_poor"));
 		tag(ECTags.Items.PURE_ORES_SOURCES_URANINITE)
-				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_ore"))
-				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore"));
+				.addOptional(Identifier.fromNamespaceAndPath(POWAH, "uraninite_ore"))
+				.addOptional(Identifier.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore"));
 		tag(ECTags.Items.PURE_ORES_SOURCES_DENSE_URANINITE)
-				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "uraninite_ore_dense"))
-				.addOptional(ResourceLocation.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore_dense"));
+				.addOptional(Identifier.fromNamespaceAndPath(POWAH, "uraninite_ore_dense"))
+				.addOptional(Identifier.fromNamespaceAndPath(POWAH, "deepslate_uraninite_ore_dense"));
 
 		tag(ECTags.Items.PURE_ORES_SPECIFICS).addTags(
 				ECTags.Items.PURE_ORES_SOURCES_RESONANT_ORE,
@@ -257,13 +257,13 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		);
 	}
 
-	private ResourceLocation common(String name) {
-		return ResourceLocation.fromNamespaceAndPath(ECNames.COMMON_TAGS_NAMESPACE, name);
+	private Identifier common(String name) {
+		return Identifier.fromNamespaceAndPath(ECNames.COMMON_TAGS_NAMESPACE, name);
 	}
 
 	protected <T> Item[] getItems(List<String> modIds, Class<T> clazz, Predicate<T> filter) {
 		return BuiltInRegistries.ITEM.entrySet().stream()
-				.filter(e -> modIds.contains(e.getKey().location().getNamespace()) && clazz.isInstance(e.getValue()))
+				.filter(e -> modIds.contains(e.getKey().identifier().getNamespace()) && clazz.isInstance(e.getValue()))
 				.sorted(Map.Entry.comparingByKey())
 				.map(e -> clazz.cast(e.getValue()))
 				.filter(filter)

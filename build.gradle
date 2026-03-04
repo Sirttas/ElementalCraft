@@ -129,7 +129,7 @@ neoForge {
         }
 
         data {
-            data()
+            clientData()
 
             gameDirectory = file('runs/data')
             sourceSet = sourceSets.datagen

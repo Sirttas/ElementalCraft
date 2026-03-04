@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 import sirttas.dpanvil.api.data.IDataManager;
@@ -39,7 +39,7 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
                 .addSource(single(SourceRendererHelper.OUTER))
                 .addSource(single(SourceRendererHelper.MIDDLE))
                 .addSource(single(GuiHandler.TRANSLOCATION_ANCHOR_MARKER));
-        atlas(ResourceLocation.withDefaultNamespace("armor_trims"))
+        atlas(Identifier.withDefaultNamespace("armor_trims"))
                 .addSource(new PalettedPermutations(List.of(
                         createTrimPattern("coast"),
                         createTrimPattern("coast_leggings"),
@@ -77,7 +77,7 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
                         createTrimPattern("bolt_leggings"),
                         createTrimPattern("flow"),
                         createTrimPattern("flow_leggings")
-                ), ResourceLocation.withDefaultNamespace("trims/color_palettes/trim_palette"), Map.of(
+                ), Identifier.withDefaultNamespace("trims/color_palettes/trim_palette"), Map.of(
                         "drenched_iron", createTrimPermutation("drenched_iron"),
                         "swift_alloy", createTrimPermutation("swift_alloy"),
                         "fireite", createTrimPermutation("fireite"),
@@ -98,11 +98,11 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
         return directory(manager.getFolder());
     }
 
-    private ResourceLocation createTrimPermutation(String name) {
+    private Identifier createTrimPermutation(String name) {
         return ElementalCraftApi.createRL("trims/color_palettes/" + name);
     }
 
-    private ResourceLocation createTrimPattern(String name) {
-        return ResourceLocation.withDefaultNamespace("trims/models/armor/" + name);
+    private Identifier createTrimPattern(String name) {
+        return Identifier.withDefaultNamespace("trims/models/armor/" + name);
     }
 }

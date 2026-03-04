@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.SessionSearchTrees;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -22,7 +22,7 @@ public class PureOreDisplayManager {
     private static final SessionSearchTrees.Key SEARCH_TREE_RELOAD_KEY = new SessionSearchTrees.Key();
     private static final PureOreDisplayManager INSTANCE = new PureOreDisplayManager();
 
-    private final Map<ResourceLocation, PureOreDisplay> pureOreDisplays = new HashMap<>();
+    private final Map<Identifier, PureOreDisplay> pureOreDisplays = new HashMap<>();
 
     private PureOreDisplayManager() { }
 
@@ -30,7 +30,7 @@ public class PureOreDisplayManager {
         return INSTANCE;
     }
 
-    public void regenerate(Map<ResourceLocation, PureOre> pureOres) {
+    public void regenerate(Map<Identifier, PureOre> pureOres) {
         ClientPacketListener clientpacketlistener = Minecraft.getInstance().getConnection();
 
         if (clientpacketlistener == null) {
@@ -40,7 +40,7 @@ public class PureOreDisplayManager {
         clientpacketlistener.searchTrees().register(SEARCH_TREE_RELOAD_KEY, () -> doRegenerate(pureOres));
     }
 
-    private void doRegenerate(Map<ResourceLocation, PureOre> pureOres) {
+    private void doRegenerate(Map<Identifier, PureOre> pureOres) {
         this.pureOreDisplays.clear();
         for (var entry : pureOres.entrySet()) {
             var id = entry.getKey();

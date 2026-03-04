@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block.source.trait;
 
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -46,7 +46,7 @@ public class SourceTraits {
 		return key(ElementalCraftApi.createRL(name));
 	}
 
-	private static ResourceKey<SourceTrait> key(ResourceLocation name) {
+	private static ResourceKey<SourceTrait> key(Identifier name) {
 		return IDataManager.createKey(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, name);
 	}
 }

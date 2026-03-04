@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -142,15 +142,15 @@ public class ECTags {
 		}
 
 		private static TagKey<Item> createTag(String namespace, String name) {
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(namespace, name));
+			return ItemTags.create(Identifier.fromNamespaceAndPath(namespace, name));
 		}
 
 		private static TagKey<Item> createCommonTag(String name) {
 			return createTag(ECNames.COMMON_TAGS_NAMESPACE, name);
 		}
 
-		public static HolderSet.Named<Item> getTag(ResourceLocation loc) {
-			return getTag(t -> t.location().equals(loc));
+		public static HolderSet.Named<Item> getTag(Identifier loc) {
+			return getTag(t -> t.identifier().equals(loc));
 		}
 
 		public static HolderSet.Named<Item> getTag(TagKey<Item> key) {
@@ -245,11 +245,11 @@ public class ECTags {
 		}
 
 		private static TagKey<Block> createTag(String modId, String name) {
-			return BlockTags.create(ResourceLocation.fromNamespaceAndPath(modId, name));
+			return BlockTags.create(Identifier.fromNamespaceAndPath(modId, name));
 		}
 
-		public static HolderSet.Named<Block> getTag(ResourceLocation loc) {
-			return getTag(t -> t.location().equals(loc));
+		public static HolderSet.Named<Block> getTag(Identifier loc) {
+			return getTag(t -> t.identifier().equals(loc));
 		}
 
 		public static HolderSet.Named<Block> getTag(TagKey<Block> key) {
@@ -300,7 +300,7 @@ public class ECTags {
 		}
 
 		private static TagKey<Biome> createTag(String modId, String name) {
-			return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(modId, name));
+			return TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(modId, name));
 		}
 	}
 
@@ -321,7 +321,7 @@ public class ECTags {
 		}
 
 		private static TagKey<DamageType> createTag(String modId, String name) {
-			return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(modId, name));
+			return TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(modId, name));
 		}
 	}
 
@@ -340,7 +340,7 @@ public class ECTags {
 		}
 
 		private static TagKey<GameEvent> createTag(String modId, String name) {
-			return TagKey.create(Registries.GAME_EVENT, ResourceLocation.fromNamespaceAndPath(modId, name));
+			return TagKey.create(Registries.GAME_EVENT, Identifier.fromNamespaceAndPath(modId, name));
 		}
 	}
 

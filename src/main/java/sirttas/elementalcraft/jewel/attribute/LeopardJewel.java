@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -20,7 +20,7 @@ public class LeopardJewel extends AttributeJewel {
 
     public static final String NAME = "leopard";
 
-    private static final ResourceLocation MOVEMENT_SPEED_ID = ElementalCraftApi.createRL("leopard_jewel_movement_speed");
+    private static final Identifier MOVEMENT_SPEED_ID = ElementalCraftApi.createRL("leopard_jewel_movement_speed");
 
     public LeopardJewel() {
         super(ElementType.AIR, 5, () -> {

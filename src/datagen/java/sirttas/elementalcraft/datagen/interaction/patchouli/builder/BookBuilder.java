@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -24,9 +24,9 @@ public class BookBuilder implements PatchouliFile {
     public static final Codec<BookBuilder> CODEC = RecordCodecBuilder.create(builder -> builder.group(
             Codec.STRING.fieldOf("name").forGetter(b -> b.name),
             Codec.STRING.fieldOf("landing_text").forGetter(b -> b.landingText),
-            ResourceLocation.CODEC.fieldOf("model").forGetter(b -> b.model),
+            Identifier.CODEC.fieldOf("model").forGetter(b -> b.model),
             Codec.STRING.fieldOf("version").forGetter(b -> b.version),
-            ResourceLocation.CODEC.optionalFieldOf("creative_tab", null).forGetter(b -> b.creativeTab),
+            Identifier.CODEC.optionalFieldOf("creative_tab", null).forGetter(b -> b.creativeTab),
             Codec.BOOL.optionalFieldOf("i18n", false).forGetter(b -> b.i18n),
             Codec.unboundedMap(Codec.STRING, Codec.STRING).fieldOf("macros").forGetter(b -> b.macros),
             Codec.BOOL.fieldOf("use_resource_pack").forGetter(b -> true)
@@ -36,7 +36,7 @@ public class BookBuilder implements PatchouliFile {
 
     private static final ExistingFileHelper.ResourceType MODEL_RESOURCE_TYPE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".json", "models/item");
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final Map<String, String> macros;
     final ExistingFileHelper existingFileHelper;
     final TranslationKeyValidator translationKeyValidator;
@@ -45,13 +45,13 @@ public class BookBuilder implements PatchouliFile {
 
     private String name;
     private String landingText;
-    private ResourceLocation model;
+    private Identifier model;
     private String version;
     @Nullable
-    private ResourceLocation creativeTab;
+    private Identifier creativeTab;
     boolean i18n;
 
-    public BookBuilder(ResourceLocation id, ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
+    public BookBuilder(Identifier id, ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
         this.id = id;
         this.existingFileHelper = existingFileHelper;
         this.translationKeyValidator = translationKeyValidator;
@@ -59,7 +59,7 @@ public class BookBuilder implements PatchouliFile {
         this.categories = new ArrayList<>();
         this.name = "item." + id.getNamespace() + "." + id.getPath();
         this.landingText = "patchouli.default_landing_text";
-        this.model = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath());
+        this.model = Identifier.fromNamespaceAndPath(id.getNamespace(), id.getPath());
         this.version = "0";
         this.i18n = false;
     }
@@ -74,7 +74,7 @@ public class BookBuilder implements PatchouliFile {
         return this;
     }
 
-    public BookBuilder model(ResourceLocation model) {
+    public BookBuilder model(Identifier model) {
         this.model = model;
         return this;
     }
@@ -85,7 +85,7 @@ public class BookBuilder implements PatchouliFile {
     }
 
     public BookBuilder creativeTab(Holder<CreativeModeTab> creativeTab) {
-        this.creativeTab = Objects.requireNonNull(creativeTab.getKey()).location();
+        this.creativeTab = Objects.requireNonNull(creativeTab.getKey()).identifier();
         return this;
     }
 

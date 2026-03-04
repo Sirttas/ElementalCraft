@@ -2,8 +2,8 @@ package sirttas.elementalcraft.block.pipe.upgrade;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 @OnlyIn(Dist.CLIENT)
 public class PipeUpgradeModelShaper extends AbstractECModelShaper<PipeUpgradeType<?>> {
 
-    public static final ResourceLocation NAME = ElementalCraftApi.createRL("pipe_upgrade");
+    public static final Identifier NAME = ElementalCraftApi.createRL("pipe_upgrade");
 
     public PipeUpgradeModelShaper(ModelManager modelManager) {
         super(modelManager);
@@ -33,13 +33,13 @@ public class PipeUpgradeModelShaper extends AbstractECModelShaper<PipeUpgradeTyp
     }
 
     @Override
-    public void registerModels(Consumer<ModelResourceLocation> addModel) {
+    public void registerModels(Consumer<ModelIdentifier> addModel) {
         PipeUpgradeTypes.REGISTRY.forEach(type -> addModel.accept(getModelLocation(type)));
     }
 
-    private ModelResourceLocation getModelLocation(PipeUpgradeType<?> type) {
+    private ModelIdentifier getModelLocation(PipeUpgradeType<?> type) {
         var key = type.getKey();
 
-        return ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(key.getNamespace(), PipeUpgrade.FOLDER + key.getPath()));
+        return ModelIdentifier.standalone(Identifier.fromNamespaceAndPath(key.getNamespace(), PipeUpgrade.FOLDER + key.getPath()));
     }
 }

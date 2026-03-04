@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen.interaction.patchouli.builder.page;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -22,7 +22,7 @@ public interface PageBuilder {
         return new TextPageBuilder(text);
     }
 
-    static CraftingPageBuilder crafting(ResourceLocation recipeId, ResourceLocation recipe2Id) {
+    static CraftingPageBuilder crafting(Identifier recipeId, Identifier recipe2Id) {
         return new CraftingPageBuilder(recipeId, recipe2Id);
     }
 
@@ -50,11 +50,11 @@ public interface PageBuilder {
         return new MultiblockPageBuilder();
     }
 
-    static ImagePageBuilder image(String text, boolean border, ResourceLocation... images) {
+    static ImagePageBuilder image(String text, boolean border, Identifier... images) {
         return new ImagePageBuilder(List.of(images), text, border);
     }
 
-    static ImagePageBuilder image(String text,  ResourceLocation... images) {
+    static ImagePageBuilder image(String text,  Identifier... images) {
         return new ImagePageBuilder(List.of(images), text, false);
     }
 

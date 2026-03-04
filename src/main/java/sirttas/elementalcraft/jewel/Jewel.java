@@ -2,7 +2,7 @@ package sirttas.elementalcraft.jewel;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,7 +24,7 @@ public class Jewel implements IElementTypeProvider, ItemLike {
 	private final boolean ticking;
 
 	private String descriptionId;
-	private ResourceLocation key;
+	private Identifier key;
 	private Item item;
 
 	protected Jewel(ElementType elementType, int consumption, boolean ticking) { // TODO create propery
@@ -46,17 +46,17 @@ public class Jewel implements IElementTypeProvider, ItemLike {
 		return ticking;
 	}
 
-	public ResourceLocation getKey() {
+	public Identifier getKey() {
 		if (key == null) {
 			key = Jewels.REGISTRY.getKey(this);
 		}
 		return key;
 	}
 
-	public ResourceLocation getModelName() {
+	public Identifier getModelName() {
 		var id = this.getKey();
 
-		return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "elementalcraft/jewels/" + id.getPath());
+		return Identifier.fromNamespaceAndPath(id.getNamespace(), "elementalcraft/jewels/" + id.getPath());
 	}
 
 	@Nonnull

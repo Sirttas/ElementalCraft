@@ -3,7 +3,7 @@ package sirttas.elementalcraft.pureore.factory;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.BlastingRecipe;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
@@ -70,7 +70,7 @@ public class PureOreRecipeFactoryTypes {
 		register(registry, id, type);
 	}
 
-	public static <C extends RecipeInput, T extends Recipe<C>> void register(RegisterEvent.RegisterHelper<IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry, ResourceLocation id, IPureOreRecipeFactoryType<C, T> type) {
+	public static <C extends RecipeInput, T extends Recipe<C>> void register(RegisterEvent.RegisterHelper<IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry, Identifier id, IPureOreRecipeFactoryType<C, T> type) {
 		var namespace = id.getNamespace();
 		var path = id.getPath();
 

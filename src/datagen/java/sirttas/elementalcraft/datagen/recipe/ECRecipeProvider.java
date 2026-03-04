@@ -22,8 +22,8 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -120,7 +120,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	protected void buildRecipes(@NotNull RecipeOutput oldRecipeOutput, @NotNull HolderLookup.Provider holderLookup) {
 		var recipeOutput = new RecipeOutput() {
 			@Override
-			public void accept(@NotNull ResourceLocation id, @NotNull Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition @NotNull ... conditions) {
+			public void accept(@NotNull Identifier id, @NotNull Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition @NotNull ... conditions) {
 				oldRecipeOutput.accept(id, recipe, advancement, conditions);
 				existingFileHelper.trackGenerated(id, RECIPE);
 			}
@@ -745,7 +745,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	private void registerSlabsStairsWalls(RecipeOutput recipeOutput) {
 		BuiltInRegistries.BLOCK.entrySet().forEach(e -> {
 			var block = e.getValue();
-			var key = e.getKey().location();
+			var key = e.getKey().identifier();
 
 			if (ElementalCraft.owns(key) && !exists(block) && (block instanceof SlabBlock || block instanceof StairBlock || block instanceof WallBlock)) {
 				String name = key.getPath();
@@ -1745,7 +1745,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void grindToDye(ItemLike dye, TagKey<Item> from, RecipeOutput recipeOutput) {
-		var tagName = from.location();
+		var tagName = from.identifier();
 
 		GrindingRecipeBuilder.grindingRecipe(dye)
 				.withCount(2)
@@ -1970,10 +1970,10 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private Ingredient createRuneIngredient(ResourceKey<Rune> rune) {
-		return createRuneIngredient(rune.location());
+		return createRuneIngredient(rune.identifier());
 	}
 
-	private Ingredient createRuneIngredient(ResourceLocation rune) {
+	private Ingredient createRuneIngredient(Identifier rune) {
 		return DataComponentIngredient.of(true, ECDataComponents.RUNE, ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune), ECItems.RUNE.get());
 	}
 
@@ -2251,8 +2251,8 @@ public class ECRecipeProvider extends RecipeProvider {
 			}
 
 			@Override
-			public void accept(@NotNull ResourceLocation resourceLocation, @NotNull Recipe<?> recipe, @Nullable AdvancementHolder advancementHolder, ICondition @NotNull ... iConditions) {
-				recipeOutput.accept(resourceLocation, recipe instanceof ShapedRecipe shaped ? new StaffRecipe(shaped) : recipe, advancementHolder, iConditions);
+			public void accept(@NotNull Identifier Identifier, @NotNull Recipe<?> recipe, @Nullable AdvancementHolder advancementHolder, ICondition @NotNull ... iConditions) {
+				recipeOutput.accept(Identifier, recipe instanceof ShapedRecipe shaped ? new StaffRecipe(shaped) : recipe, advancementHolder, iConditions);
 			}
 		};
 	}
@@ -2269,10 +2269,10 @@ public class ECRecipeProvider extends RecipeProvider {
 		patternBuilder.apply(builder)
 				.define('U', ECItems.UNSET_JEWEL.get())
 				.unlockedBy("has_unset_jewel", has(ECItems.UNSET_JEWEL))
-				.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(jewelKey.getNamespace(), "jewel/" + jewelKey.getPath()));
+				.save(recipeOutput, Identifier.fromNamespaceAndPath(jewelKey.getNamespace(), "jewel/" + jewelKey.getPath()));
 	}
 
-	private ResourceLocation from(ItemLike from, ItemLike to) {
+	private Identifier from(ItemLike from, ItemLike to) {
 		return  ElementalCraftApi.createRL(BuiltInRegistries.ITEM.getKey(to.asItem()).getPath() + FROM + BuiltInRegistries.ITEM.getKey(from.asItem()).getPath());
 	}
 

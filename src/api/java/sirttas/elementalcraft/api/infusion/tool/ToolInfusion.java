@@ -9,7 +9,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -30,7 +30,7 @@ public class ToolInfusion implements IElementTypeProvider {
 	).apply(builder, ToolInfusion::new));
 	public static final Codec<Holder<ToolInfusion>> HOLDER_CODEC = DataManagerCodecs.holderCodec(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, CODEC);
 
-	private ResourceLocation id;
+	private Identifier id;
 	private final ElementType elementType;
 	private final List<IToolInfusionEffect> effects;
 	
@@ -60,11 +60,11 @@ public class ToolInfusion implements IElementTypeProvider {
 		return elementType;
 	}
 
-	public ResourceLocation getId() {
+	public Identifier getId() {
 		return id;
 	}
 
-	public void setId(ResourceLocation id) {
+	public void setId(Identifier id) {
 		this.id = id;
 	}
 

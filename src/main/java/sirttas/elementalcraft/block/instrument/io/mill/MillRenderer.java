@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -21,15 +21,15 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class MillRenderer<T extends AbstractMillBlockEntity<?>> implements BlockEntityRenderer<T> {
 
-	public static final ModelResourceLocation WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_grindstone_shaft");
-	public static final ModelResourceLocation AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_grindstone_shaft");
-	public static final ModelResourceLocation WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_wood_saw_shaft");
-	public static final ModelResourceLocation AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_wood_saw_shaft");
+	public static final ModelIdentifier WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_grindstone_shaft");
+	public static final ModelIdentifier AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_grindstone_shaft");
+	public static final ModelIdentifier WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_wood_saw_shaft");
+	public static final ModelIdentifier AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_wood_saw_shaft");
 
-	private final ModelResourceLocation modelLocation;
+	private final ModelIdentifier modelLocation;
 	private BakedModel model;
 
-	public MillRenderer(ModelResourceLocation modelLocation) {
+	public MillRenderer(ModelIdentifier modelLocation) {
 		this.modelLocation = modelLocation;
 	}
 

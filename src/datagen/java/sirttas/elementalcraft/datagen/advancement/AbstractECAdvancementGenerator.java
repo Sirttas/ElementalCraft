@@ -10,7 +10,7 @@ import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.ItemUsedOnLocationTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
@@ -55,11 +55,11 @@ public abstract class AbstractECAdvancementGenerator implements AdvancementProvi
 
 	protected abstract void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver);
 
-	protected AdvancementHolder itemPickup(ItemLike item, AdvancementHolder parent, ResourceLocation name, @NotNull Consumer<AdvancementHolder> saver) {
+	protected AdvancementHolder itemPickup(ItemLike item, AdvancementHolder parent, Identifier name, @NotNull Consumer<AdvancementHolder> saver) {
 		return Advancement.Builder.advancement()
 				.parent(parent)
 				.addCriterion("has_" + name.getPath(), hasItem(item))
-				.save(saver, ResourceLocation.fromNamespaceAndPath(name.getNamespace(), "pickup/" + name.getPath()), existingFileHelper);
+				.save(saver, Identifier.fromNamespaceAndPath(name.getNamespace(), "pickup/" + name.getPath()), existingFileHelper);
 	}
 
 	protected static Criterion<InventoryChangeTrigger.TriggerInstance> hasItem(ItemLike... item) {

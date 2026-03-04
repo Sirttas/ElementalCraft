@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
@@ -67,14 +67,14 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		air = models().getExistingFile(ResourceLocation.withDefaultNamespace("block/air"));
+		air = models().getExistingFile(Identifier.withDefaultNamespace("block/air"));
         airMilUpper = models().getBuilder("air_mill_upper").parent(air).texture("particle", prefix("air_mill_blades"));
         containerConnector = models().getExistingFile(prefix("container_connector"));
         coverFrame = models().getExistingFile(prefix("cover_frame"));
 
 		BuiltInRegistries.BLOCK.holders().forEach(h -> {
 			var block = h.value();
-			var key = h.key().location();
+			var key = h.key().identifier();
 
 			if (ElementalCraft.owns(key) && !exists(key)) {
 				save(key, block);
@@ -82,23 +82,23 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		});
     }
 
-    private boolean exists(ResourceLocation name) {
+    private boolean exists(Identifier name) {
 		return existingFileHelper.exists(name, PackType.CLIENT_RESOURCES, ".json", "blockstates");
 	}
 
-	private boolean modelExists(ResourceLocation name) {
+	private boolean modelExists(Identifier name) {
 		return existingFileHelper.exists(name, PackType.CLIENT_RESOURCES, ".json", "models/block");
 	}
 
-    public static ResourceLocation prefix(String name) {
+    public static Identifier prefix(String name) {
 		return prefix(ElementalCraftApi.createRL(name));
 	}
 	
-	public static ResourceLocation prefix(ResourceLocation name) {
-		return ResourceLocation.fromNamespaceAndPath(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
+	public static Identifier prefix(Identifier name) {
+		return Identifier.fromNamespaceAndPath(name.getNamespace(), ModelProvider.BLOCK_FOLDER + '/' + name.getPath());
 	}
 
-	private void save(ResourceLocation key, Block block) {
+	private void save(Identifier key, Block block) {
 		String name = key.getPath();
 
 		if (block instanceof SlabBlock slabBlock) {
@@ -290,9 +290,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			.part().modelFile(coverFrame).uvLock(true).addModel().condition(CoverType.PROPERTY, CoverType.FRAME).end();
 	}
 
-	private void slabBlock(ResourceLocation key, SlabBlock block) {
+	private void slabBlock(Identifier key, SlabBlock block) {
 		String name = key.getPath();
-		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
+		Identifier sourceName = prefix(name.substring(0, name.length() - 5));
 		ModelFile bottom = models().slab(name, sourceName, sourceName, sourceName);
 		ModelFile top = models().slabTop(name + "_top", sourceName, sourceName, sourceName);
 		ModelFile full = models().getExistingFile(sourceName);
@@ -300,9 +300,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		slabBlock(block, bottom, top, full);
 	}
 
-	private void stairsBlock(ResourceLocation key, StairBlock block) {
+	private void stairsBlock(Identifier key, StairBlock block) {
 		String name = key.getPath();
-		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 7));
+		Identifier sourceName = prefix(name.substring(0, name.length() - 7));
 		ModelFile stair = models().stairs(name, sourceName, sourceName, sourceName);
 		ModelFile inner = models().stairsInner(name + "_inner", sourceName, sourceName, sourceName);
 		ModelFile outer = models().stairsOuter(name + "_outer", sourceName, sourceName, sourceName);
@@ -310,9 +310,9 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		stairsBlock(block, stair, inner, outer);
 	}
 
-	private void wallBlock(ResourceLocation key, WallBlock block) {
+	private void wallBlock(Identifier key, WallBlock block) {
 		String name = key.getPath();
-		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
+		Identifier sourceName = prefix(name.substring(0, name.length() - 5));
 		ModelFile post = models().wallPost(name + "_post", sourceName);
 		ModelFile side = models().wallSide(name + SIDE, sourceName);
 		ModelFile sideTall = models().wallSideTall(name + "_side_tall", sourceName);
@@ -320,20 +320,20 @@ public class ECBlockStateProvider extends BlockStateProvider {
 		wallBlock(block, post, side, sideTall);
 	}
 
-	private void paneBlock(ResourceLocation key, IronBarsBlock block) {
+	private void paneBlock(Identifier key, IronBarsBlock block) {
 		String name = key.getPath();
-		ResourceLocation sourceName = prefix(name.substring(0, name.length() - 5));
+		Identifier sourceName = prefix(name.substring(0, name.length() - 5));
 
 		paneBlockWithRenderType(block, sourceName, sourceName, TRANSLUCENT);
 	}
 
-	public void fenceBlock(ResourceLocation key, FenceBlock block, ResourceLocation postTexture, ResourceLocation sideTexture) {
+	public void fenceBlock(Identifier key, FenceBlock block, Identifier postTexture, Identifier sideTexture) {
 		String baseName = key.toString();
 
 		fourWayBlock(block, models().fencePost(baseName + "_post", postTexture), models().fenceSide(baseName + SIDE, sideTexture));
 	}
 
-	public void springalineCluster(ResourceLocation key,Block block) {
+	public void springalineCluster(Identifier key,Block block) {
 		String name = key.getPath();
 		
 		directionalBlock(block, models().withExistingParent(name, prefix("minecraft:cross")).texture("cross", prefix(name)).renderType("cutout"));

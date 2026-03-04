@@ -13,7 +13,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -91,7 +91,7 @@ public class ItemSourceTraitHolder implements ISourceTraitHolder {
             ItemSourceTraitHolder holder = new ItemSourceTraitHolder();
 
             for (int j = 0; j < i; j++) {
-                var k = ElementalCraftApi.SOURCE_TRAIT_MANAGER.getOrCreateHolder(ResourceLocation.STREAM_CODEC.decode(buf));
+                var k = ElementalCraftApi.SOURCE_TRAIT_MANAGER.getOrCreateHolder(Identifier.STREAM_CODEC.decode(buf));
                 var v = k.value().valueStreamCodec().decode(buf);
 
                 holder.traits.put(k, v);
@@ -103,7 +103,7 @@ public class ItemSourceTraitHolder implements ISourceTraitHolder {
         public void encode(@NotNull RegistryFriendlyByteBuf buf, ItemSourceTraitHolder holder) {
             ByteBufCodecs.writeCount(buf, holder.traits.size(), Integer.MAX_VALUE);
             holder.traits.forEach((k, v) -> {
-                ResourceLocation.STREAM_CODEC.encode(buf, ElementalCraftApi.SOURCE_TRAIT_MANAGER.getId(k));
+                Identifier.STREAM_CODEC.encode(buf, ElementalCraftApi.SOURCE_TRAIT_MANAGER.getId(k));
                 k.value().valueStreamCodec().encode(buf, v);
             });
         }

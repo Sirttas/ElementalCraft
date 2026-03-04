@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.pipe.upgrade.capability;
 
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.capabilities.BaseCapability;
 import net.neoforged.neoforge.capabilities.CapabilityRegistry;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
@@ -21,20 +21,20 @@ public class PipeUpgradeCapability<T, C> extends BaseCapability<T, C> {
 
     final Map<PipeUpgradeType<?>, List<ICapabilityProvider<PipeUpgrade, C, T>>> providers = new IdentityHashMap<>();
 
-    private PipeUpgradeCapability(ResourceLocation name, Class<T> typeClass, Class<C> contextClass) {
+    private PipeUpgradeCapability(Identifier name, Class<T> typeClass, Class<C> contextClass) {
         super(name, typeClass, contextClass);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T, C> PipeUpgradeCapability<T, C> create(ResourceLocation name, Class<T> typeClass, Class<C> contextClass) {
+    public static <T, C> PipeUpgradeCapability<T, C> create(Identifier name, Class<T> typeClass, Class<C> contextClass) {
         return (PipeUpgradeCapability<T, C>) registry.create(name, typeClass, contextClass);
     }
 
-    public static <T> PipeUpgradeCapability<T, Void> createVoid(ResourceLocation name, Class<T> typeClass) {
+    public static <T> PipeUpgradeCapability<T, Void> createVoid(Identifier name, Class<T> typeClass) {
         return create(name, typeClass, void.class);
     }
 
-    public static <T> PipeUpgradeCapability<T, Direction> createSided(ResourceLocation name, Class<T> typeClass) {
+    public static <T> PipeUpgradeCapability<T, Direction> createSided(Identifier name, Class<T> typeClass) {
         return create(name, typeClass, Direction.class);
     }
 

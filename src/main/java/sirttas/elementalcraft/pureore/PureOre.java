@@ -5,7 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -32,7 +32,7 @@ public record PureOre(
             PureOre::new
     );
 
-    public static ResourceLocation getId(ItemStack stack) {
+    public static Identifier getId(ItemStack stack) {
         return stack.get(ECDataComponents.PURE_ORE);
     }
 

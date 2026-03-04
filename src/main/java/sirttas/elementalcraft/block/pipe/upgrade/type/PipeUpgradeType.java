@@ -4,7 +4,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -22,7 +22,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     public final Factory<T> factory;
 
     private Item item;
-    private ResourceLocation key;
+    private Identifier key;
     private String descriptionId;
     private ResourceKey<LootTable> lootTable;
     @OnlyIn(Dist.CLIENT)
@@ -47,7 +47,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     }
 
     @Nonnull
-    public ResourceLocation getKey() {
+    public Identifier getKey() {
         if (key == null) {
             key = PipeUpgradeTypes.REGISTRY.getKey(this);
         }
@@ -81,7 +81,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
         if (lootTable == null) {
             var k = getKey();
 
-            lootTable = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(k.getNamespace(), PipeUpgrade.FOLDER + k.getPath()));
+            lootTable = ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(k.getNamespace(), PipeUpgrade.FOLDER + k.getPath()));
         }
         return lootTable;
     }

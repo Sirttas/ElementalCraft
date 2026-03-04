@@ -2,7 +2,7 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -26,12 +26,12 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	}
 
 	@Override
-	protected ResourceLocation getId() {
+	protected Identifier getId() {
 		return BuiltInRegistries.ITEM.getKey(this.result);
 	}
 	
 	@Override
-	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+	public void save(RecipeOutput recipeOutput, Identifier id) {
 		recipeOutput.accept(id, new InfusionRecipe(elementType, elementAmount, this.ingredient, new ItemStack(this.result)), null);
 	}
 }

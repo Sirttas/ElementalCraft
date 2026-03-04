@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -24,7 +24,7 @@ public class CombustionRecipeCategory extends AbstractECRecipeCategory<IJeiFueli
 
 	public static final String NAME = "combustion";
 
-	private static final ResourceLocation TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/combustion.png");
+	private static final Identifier TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/combustion.png");
 	private static final ItemStack COMBUSTION_SYNTHESIZER = new ItemStack(ECBlocks.COMBUSTION_SYNTHESIZER.get());
 	private static final List<ItemStack> CONTAINERS = List.of(
 			new ItemStack(ECBlocks.SMALL_CONTAINER.get()),

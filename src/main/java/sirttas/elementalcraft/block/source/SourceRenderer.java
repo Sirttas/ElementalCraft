@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 
 public class SourceRenderer implements BlockEntityRenderer<SourceBlockEntity> {
 
-	public static final ModelResourceLocation STABILIZER_LOCATION = ECModelHelper.standalone("block/source_stabilizer");
+	public static final ModelIdentifier STABILIZER_LOCATION = ECModelHelper.standalone("block/source_stabilizer");
 	
 	private BakedModel stabilizerModel;
 

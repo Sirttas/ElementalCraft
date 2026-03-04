@@ -23,7 +23,7 @@ public class RegistryArgumentsProvider implements ArgumentsProvider, AnnotationC
     public void accept(RegistrySource registrySource) {
         key = ArgumentProviderHelper.getRegistryKey(registrySource.namespace(), registrySource.value());
         excludeKeys = Arrays.stream(registrySource.exclude())
-                .map(exclude -> ResourceKey.create(key, ArgumentProviderHelper.getResourceLocation(exclude)))
+                .map(exclude -> ResourceKey.create(key, ArgumentProviderHelper.getIdentifier(exclude)))
                 .toList();
     }
 
@@ -32,6 +32,6 @@ public class RegistryArgumentsProvider implements ArgumentsProvider, AnnotationC
         return EphemeralTestServerProvider.grabServer().registryAccess().registry(key).stream()
                 .flatMap(registry -> registry.entrySet().stream())
                 .filter(entry -> excludeKeys.stream().noneMatch(excludeKeys -> excludeKeys.equals(entry.getKey())))
-                .map(entry -> Arguments.of(Named.of(entry.getKey().location().toString(), entry.getValue())));
+                .map(entry -> Arguments.of(Named.of(entry.getKey().identifier().toString(), entry.getValue())));
     }
 }

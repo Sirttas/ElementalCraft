@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -32,7 +32,7 @@ public class BudTypeShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBl
 	public static final String SPRINGALINE_NAME = "shrine_upgrade_springaline";
 	public static final String CERTUS_QUARTZ_NAME = "shrine_upgrade_certus_quartz";
 	public static final MapCodec<BudTypeShrineUpgradeBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ResourceLocation.CODEC.xmap(l -> DataPackAnvilApi.createResourceKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, l), ResourceKey::location).fieldOf("shrine_upgrade").forGetter(p -> p.key),
+            Identifier.CODEC.xmap(l -> DataPackAnvilApi.createResourceKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, l), ResourceKey::location).fieldOf("shrine_upgrade").forGetter(p -> p.key),
             Codec.STRING.fieldOf("tooltip_key").forGetter(p -> p.tooltipKey),
             propertiesCodec()
     ).apply(instance, BudTypeShrineUpgradeBlock::new));

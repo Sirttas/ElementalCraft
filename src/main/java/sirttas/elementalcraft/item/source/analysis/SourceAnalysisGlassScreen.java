@@ -8,7 +8,7 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 
 public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAnalysisGlassMenu> implements MenuAccess<SourceAnalysisGlassMenu>, IRefreshedScreen {
 	
-	private static final ResourceLocation SOURCE_ANALYSIS_GLASS_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/source_analysis_glass.png");
+	private static final Identifier SOURCE_ANALYSIS_GLASS_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/source_analysis_glass.png");
 
 	private TraitsList traitsList;
 

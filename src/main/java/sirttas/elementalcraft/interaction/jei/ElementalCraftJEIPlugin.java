@@ -15,7 +15,7 @@ import mezz.jei.library.plugins.vanilla.cooking.fuel.FuelingRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -89,7 +89,7 @@ import java.util.stream.IntStream;
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
-	private static final ResourceLocation ID = ElementalCraftApi.createRL("main");
+	private static final Identifier ID = ElementalCraftApi.createRL("main");
 
 	private final Supplier<HolderSet.Named<Item>> spellCastTools;
 	private final Supplier<HolderSet.Named<Item>> jewelSocketalbes;
@@ -101,7 +101,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 
 	@Nonnull
 	@Override
-	public ResourceLocation getPluginUid() {
+	public Identifier getPluginUid() {
 		return ID;
 	}
 
@@ -308,7 +308,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 
 					SpellHelper.setSpell(scroll, spell);
 					SpellHelper.addSpell(stack, spell);
-					downstream.accept(factory.createAnvilRecipe(new ItemStack(item), List.of(scroll), List.of(stack), spell.key().location()));
+					downstream.accept(factory.createAnvilRecipe(new ItemStack(item), List.of(scroll), List.of(stack), spell.key().identifier()));
 				})).toList();
 	}
 

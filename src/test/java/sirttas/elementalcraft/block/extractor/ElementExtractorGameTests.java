@@ -75,7 +75,7 @@ public class ElementExtractorGameTests {
 
             if (runes.length > 0) {
                 extractorTag.put(ECNames.RUNE_HANDLER, Arrays.stream(runes)
-                        .map(rune -> StringTag.valueOf(rune.location().toString()))
+                        .map(rune -> StringTag.valueOf(rune.identifier().toString()))
                         .collect(Collectors.toCollection(ListTag::new)));
             }
             return builder.placeFloorLever(0, 1, 1, true)

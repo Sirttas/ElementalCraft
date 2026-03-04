@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.phys.AABB;
@@ -22,8 +22,8 @@ import java.util.Objects;
 
 public class ElementPipeRenderer implements BlockEntityRenderer<ElementPipeBlockEntity> {
 
-	public static final ModelResourceLocation SIDE_LOCATION = ECModelHelper.standalone("block/elementpipe_side");
-	public static final ModelResourceLocation EXTRACT_LOCATION = ECModelHelper.standalone("block/elementpipe_extract");
+	public static final ModelIdentifier SIDE_LOCATION = ECModelHelper.standalone("block/elementpipe_side");
+	public static final ModelIdentifier EXTRACT_LOCATION = ECModelHelper.standalone("block/elementpipe_extract");
 	
 	private static final AABB BOX = new AABB(0, 0, 0, 1, 1, 1);
 	

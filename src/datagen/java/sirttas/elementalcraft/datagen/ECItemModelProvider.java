@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.AmethystClusterBlock;
@@ -43,7 +43,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 	protected void registerModels() {
 		for (var entry : BuiltInRegistries.ITEM.entrySet()) {
 			var item = entry.getValue();
-			var key = entry.getKey().location();
+			var key = entry.getKey().identifier();
 
 			if (ElementalCraft.owns(key) && !exists(key)) {
 				String name = key.getPath();
@@ -70,7 +70,7 @@ public class ECItemModelProvider extends ItemModelProvider {
 				}else if (item instanceof JewelItem) {
 					singleJewelTexture(key.getPath());
 				} else if (item instanceof FocusItem || item instanceof SourceAnalysisGlassItem || item instanceof ChiselItem) {
-					singleTexture(name, ResourceLocation.withDefaultNamespace(ITEM_PREFIX + "handheld"), "layer0", ElementalCraftApi.createRL(ITEM_PREFIX + name));
+					singleTexture(name, Identifier.withDefaultNamespace(ITEM_PREFIX + "handheld"), "layer0", ElementalCraftApi.createRL(ITEM_PREFIX + name));
 				} else if (item instanceof ElementHolderItem) {
 					withExistingParent(name, ElementalCraftApi.createRL(ITEM_PREFIX + "template_element_holder"));
 				} else {
@@ -100,19 +100,19 @@ public class ECItemModelProvider extends ItemModelProvider {
 		return singleTexture(name, ElementalCraftApi.createRL(BLOCK_PREFIX + name));
 	}
 
-	public ItemModelBuilder singleTexture(String name, ResourceLocation texture) {
-		return singleTexture(name, ResourceLocation.withDefaultNamespace(ITEM_PREFIX + "generated"), "layer0", texture);
+	public ItemModelBuilder singleTexture(String name, Identifier texture) {
+		return singleTexture(name, Identifier.withDefaultNamespace(ITEM_PREFIX + "generated"), "layer0", texture);
 	}
 
 	public ItemModelBuilder singleJewelTexture(String name) {
 		return singleTexture(name, ElementalCraftApi.createRL("elementalcraft/jewels/" + name));
 	}
 
-	public ItemModelBuilder runeTexture(String name, ResourceLocation slate, ResourceLocation rune) {
+	public ItemModelBuilder runeTexture(String name, Identifier slate, Identifier rune) {
 		return singleTexture(name, slate).texture("layer1", rune);
 	}
 
-	private boolean exists(ResourceLocation key) {
+	private boolean exists(Identifier key) {
 		return existingFileHelper.exists(key, PackType.CLIENT_RESOURCES, ".json", "models/item");
 	}
 

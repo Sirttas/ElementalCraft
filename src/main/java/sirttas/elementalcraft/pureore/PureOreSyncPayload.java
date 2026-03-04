@@ -5,7 +5,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -14,13 +14,13 @@ import sirttas.elementalcraft.pureore.display.PureOreDisplayManager;
 
 import java.util.Map;
 
-public record PureOreSyncPayload(Map<ResourceLocation, PureOre> pureOres) implements CustomPacketPayload {
+public record PureOreSyncPayload(Map<Identifier, PureOre> pureOres) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<PureOreSyncPayload> TYPE = PayloadHelper.createType("pure_ore_sync");
     public static final StreamCodec<RegistryFriendlyByteBuf, PureOreSyncPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.map(
                     Maps::newHashMapWithExpectedSize,
-                    StreamCodec.of(RegistryFriendlyByteBuf::writeResourceLocation, RegistryFriendlyByteBuf::readResourceLocation),
+                    StreamCodec.of(RegistryFriendlyByteBuf::writeIdentifier, RegistryFriendlyByteBuf::readIdentifier),
                     PureOre.STREAM_CODEC
             ),
             PureOreSyncPayload::pureOres,

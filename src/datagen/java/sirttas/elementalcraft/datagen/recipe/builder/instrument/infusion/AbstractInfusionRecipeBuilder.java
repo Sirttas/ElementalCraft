@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument.infusion;
 
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
@@ -21,22 +21,22 @@ public abstract class AbstractInfusionRecipeBuilder {
 		return this;
 	}
 
-	protected abstract ResourceLocation getId();
+	protected abstract Identifier getId();
 	
 	public void save(RecipeOutput recipeOutput) {
-		ResourceLocation id = getId();
+		Identifier id = getId();
 
-		this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(id.getNamespace(), IInfusionRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, Identifier.fromNamespaceAndPath(id.getNamespace(), IInfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
-		ResourceLocation resourcelocation = getId();
-		if (ResourceLocation.parse(save).equals(resourcelocation)) {
+		Identifier Identifier = getId();
+		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
 			this.save(recipeOutput, ElementalCraftApi.createRL(IInfusionRecipe.NAME + '/' + save));
 		}
 	}
 
-	public abstract void save(RecipeOutput recipeOutput, ResourceLocation id);
+	public abstract void save(RecipeOutput recipeOutput, Identifier id);
 }

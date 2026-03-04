@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -38,9 +38,9 @@ public class SourceAltarStructure extends Structure {
 
 	public static final MapCodec<SourceAltarStructure> CODEC = simpleCodec(SourceAltarStructure::new);
 
-	public static final ResourceLocation CHAPEL = ElementalCraftApi.createRL("altar/chapel");
-	public static final ResourceLocation MEDIUM = ElementalCraftApi.createRL("altar/medium");
-	public static final ResourceLocation SMALL = ElementalCraftApi.createRL("altar/small");
+	public static final Identifier CHAPEL = ElementalCraftApi.createRL("altar/chapel");
+	public static final Identifier MEDIUM = ElementalCraftApi.createRL("altar/medium");
+	public static final Identifier SMALL = ElementalCraftApi.createRL("altar/small");
 
 	public SourceAltarStructure(Structure.StructureSettings settings) {
 		super(settings);
@@ -52,7 +52,7 @@ public class SourceAltarStructure extends Structure {
 		builder.addPiece(new Piece(context.structureTemplateManager(), getRoll(random), new BlockPos(context.chunkPos().getMinBlockX(), 90, context.chunkPos().getMinBlockZ()), elementType));
 	}
 
-	private static ResourceLocation getRoll(RandomSource random) {
+	private static Identifier getRoll(RandomSource random) {
 		int roll = random.nextInt(20);
 
 		if (roll == 0) {
@@ -85,7 +85,7 @@ public class SourceAltarStructure extends Structure {
 
 		private final ElementType elementType;
 
-		public Piece(StructureTemplateManager manager, ResourceLocation templateName, BlockPos pos, ElementType elementType) {
+		public Piece(StructureTemplateManager manager, Identifier templateName, BlockPos pos, ElementType elementType) {
 			super(ECStructureTypes.SOURCE_ALTAR_PIECE_TYPE.get(), 0, manager, templateName, templateName.toString(), makeSettings(templateName), pos);
 			this.elementType = elementType;
 		}
@@ -95,7 +95,7 @@ public class SourceAltarStructure extends Structure {
 			this.elementType = ElementType.byName(tag.getString("ElementType"));
 		}
 
-		private static StructurePlaceSettings makeSettings(ResourceLocation id) {
+		private static StructurePlaceSettings makeSettings(Identifier id) {
 			return new StructurePlaceSettings()
 					.setMirror(Mirror.NONE)
 					.setRotationPivot(new BlockPos(1, 0, 1))

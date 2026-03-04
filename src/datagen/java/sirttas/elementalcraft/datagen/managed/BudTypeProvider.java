@@ -8,7 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
@@ -58,7 +58,7 @@ public class BudTypeProvider extends AbstractManagedDataBuilderProvider<BuddingS
         private static final Codec<BuddingShrineBudTypeBuilder> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                 BuiltInRegistries.BLOCK.byNameCodec().listOf().fieldOf("sequence").forGetter(b -> b.sequence),
                 DataManagerCodecs.holderCodec(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, ShrineUpgrade.CODEC, false).fieldOf("requires_upgrade").forGetter(b -> b.requiredUpgrade),
-                ResourceLocation.CODEC.fieldOf("plate_model").forGetter(b -> b.plateModel),
+                Identifier.CODEC.fieldOf("plate_model").forGetter(b -> b.plateModel),
                 NeoForgeConditionsPreprocessor.fieldOf(b -> b.conditions)
         ).apply(builder, (a1, a2, a3, a4) -> {
             throw new UnsupportedOperationException("Builder deserialization is not supported.");
@@ -66,10 +66,10 @@ public class BudTypeProvider extends AbstractManagedDataBuilderProvider<BuddingS
 
         private final List<Block> sequence;
         private final Holder<ShrineUpgrade> requiredUpgrade;
-        private final ResourceLocation plateModel;
+        private final Identifier plateModel;
         private final List<ICondition> conditions;
 
-        public BuddingShrineBudTypeBuilder(List<Block> sequence, Holder<ShrineUpgrade> requiredUpgrade, ResourceLocation plateModel) {
+        public BuddingShrineBudTypeBuilder(List<Block> sequence, Holder<ShrineUpgrade> requiredUpgrade, Identifier plateModel) {
             this.sequence = sequence;
             this.requiredUpgrade = requiredUpgrade;
             this.plateModel = plateModel;

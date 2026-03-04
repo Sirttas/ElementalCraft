@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.instrument.io.purifier;
 
 import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.testframework.annotation.ForEachTest;
@@ -28,7 +28,7 @@ public class PurifierGameTests {
             assertThat(purifier.getInventory().getItem(1))
                     .is(ECItems.PURE_ORE)
                     .hasCount(2)
-                    .satisfies(s -> assertThat(PureOre.getId(s)).isEqualTo(ResourceLocation.fromNamespaceAndPath(ECNames.COMMON_TAGS_NAMESPACE, "iron")));
+                    .satisfies(s -> assertThat(PureOre.getId(s)).isEqualTo(Identifier.fromNamespaceAndPath(ECNames.COMMON_TAGS_NAMESPACE, "iron")));
         });
     }
 

@@ -5,7 +5,7 @@ import net.minecraft.core.HolderOwner;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.holdersets.AndHolderSet;
@@ -23,8 +23,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IPureOreLoader, IPureOreLoaderBuilder> {
 
-    private static final ResourceLocation FIXED_RESONATING = ElementalCraftApi.createRL("resonating");
-    private static final ResourceLocation FIXED_URANINITE = ElementalCraftApi.createRL("uraninite");
+    private static final Identifier FIXED_RESONATING = ElementalCraftApi.createRL("resonating");
+    private static final Identifier FIXED_URANINITE = ElementalCraftApi.createRL("uraninite");
 
     private static final String NAMESPACE_PATTERN = "^(c|forge|blue_skies)$";
     private static final String DEEPSLATE_PATTERN = "^deepslate_";
@@ -103,7 +103,7 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
         return pattern(name, tag, "^" + name + "/");
     }
 
-    protected FixedNamePureOreLoaderBuilder fixedName(String name, TagKey<Item> tag, ResourceLocation fixedName) {
+    protected FixedNamePureOreLoaderBuilder fixedName(String name, TagKey<Item> tag, Identifier fixedName) {
         return (FixedNamePureOreLoaderBuilder) add(ElementalCraftApi.createRL(name), new FixedNamePureOreLoaderBuilder(createHolderSet(tag), fixedName));
     }
 

@@ -4,8 +4,8 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.range.Range;
@@ -21,7 +21,7 @@ public class SynthesizerPropertiesBuilder implements IConfigurableBlockEntityPro
             Codec.INT.fieldOf(ECNames.ELEMENT_CAPACITY).forGetter(b -> b.bufferCapacity),
             Codec.INT.fieldOf(ECNames.MAX_RUNES).forGetter(b -> b.maxRunes),
             Codec.FLOAT.optionalFieldOf("synthesis_multiplier", 1F).forGetter(b -> b.synthesisMultiplier),
-            Codec.either(ResourceLocation.CODEC, Range.Builder.CODEC).optionalFieldOf(ECNames.RANGE).forGetter(b -> Optional.ofNullable(b.range))
+            Codec.either(Identifier.CODEC, Range.Builder.CODEC).optionalFieldOf(ECNames.RANGE).forGetter(b -> Optional.ofNullable(b.range))
     ).apply(builder, (a1, a2, a3, a4, a5, a6) -> {
         throw new UnsupportedOperationException("Builder deserialization is not supported.");
     }));
@@ -31,7 +31,7 @@ public class SynthesizerPropertiesBuilder implements IConfigurableBlockEntityPro
     private int bufferCapacity;
     private int maxRunes;
     private float synthesisMultiplier;
-    private Either<ResourceLocation, Range.Builder> range;
+    private Either<Identifier, Range.Builder> range;
 
     public SynthesizerPropertiesBuilder() {
         this.elementType = ElementType.NONE;
@@ -73,7 +73,7 @@ public class SynthesizerPropertiesBuilder implements IConfigurableBlockEntityPro
     }
 
     public SynthesizerPropertiesBuilder range(ResourceKey<Range> key) {
-        this.range = Either.left(key.location());
+        this.range = Either.left(key.identifier());
         return this;
     }
 

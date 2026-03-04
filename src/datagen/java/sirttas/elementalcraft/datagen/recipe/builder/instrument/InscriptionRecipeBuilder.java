@@ -2,8 +2,8 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import com.google.common.collect.Lists;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -19,23 +19,23 @@ import java.util.List;
 
 public class InscriptionRecipeBuilder {
 
-	private final ResourceLocation output;
+	private final Identifier output;
 	private final List<Ingredient> ingredients = Lists.newArrayList();
 	private final ElementType elementType;
 	private int elementAmount;
 	private Ingredient slate;
 
-	public InscriptionRecipeBuilder(ResourceLocation output, ElementType elementType) {
+	public InscriptionRecipeBuilder(Identifier output, ElementType elementType) {
 		this.elementType = elementType;
 		elementAmount = 5000;
 		this.output = output;
 	}
 
 	public static InscriptionRecipeBuilder inscriptionRecipe(ResourceKey<Rune> output, ElementType elementType) {
-		return inscriptionRecipe(output.location(), elementType);
+		return inscriptionRecipe(output.identifier(), elementType);
 	}
 
-	public static InscriptionRecipeBuilder inscriptionRecipe(ResourceLocation output, ElementType elementType) {
+	public static InscriptionRecipeBuilder inscriptionRecipe(Identifier output, ElementType elementType) {
 		return new InscriptionRecipeBuilder(output, elementType);
 	}
 
@@ -78,7 +78,7 @@ public class InscriptionRecipeBuilder {
 		this.save(recipeOutput, ElementalCraftApi.createRL(InscriptionRecipe.NAME + '/' + save));
 	}
 
-	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+	public void save(RecipeOutput recipeOutput, Identifier id) {
 		var i = new ArrayList<Ingredient>(ingredients.size() + 1);
 
 		i.add(slate);

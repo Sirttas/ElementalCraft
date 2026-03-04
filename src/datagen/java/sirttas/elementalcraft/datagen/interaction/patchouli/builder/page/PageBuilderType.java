@@ -3,7 +3,7 @@ package sirttas.elementalcraft.datagen.interaction.patchouli.builder.page;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public interface PageBuilderType {
         });
     }
 
-    static PageBuilderType register(ResourceLocation name, MapCodec<? extends PageBuilder> codec) {
+    static PageBuilderType register(Identifier name, MapCodec<? extends PageBuilder> codec) {
         return register(name.toString(), codec);
     }
 

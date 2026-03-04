@@ -2,7 +2,7 @@ package sirttas.elementalcraft.item.rune;
 
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.item.Item;
@@ -70,7 +70,7 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 		return stack.get(ECDataComponents.RUNE);
 	}
 
-	public ItemStack getRuneStack(ResourceLocation rune) {
+	public ItemStack getRuneStack(Identifier rune) {
 		return getRuneStack(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune));
 	}
 
@@ -97,7 +97,7 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 		var id = rune != null ? rune.getKey() : null;
 
 		if (id != null) {
-			var location = id.location();
+			var location = id.identifier();
 
 			return Component.translatable("elementalcraft.rune." + location.getNamespace() + '.' + location.getPath());
 		}

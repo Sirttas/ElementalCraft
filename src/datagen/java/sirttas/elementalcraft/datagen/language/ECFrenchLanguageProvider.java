@@ -2,7 +2,7 @@ package sirttas.elementalcraft.datagen.language;
 
 import appeng.api.ids.AEConstants;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -440,9 +440,9 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPureOre("ventium", "Fragment de minerai de ventium pur");
         addPureOre(ElementalCraftApi.createRL("resonating"), "Fragment de minerai résonant pur");
         addPureOre(ElementalCraftApi.createRL("uraninite"), "Fragment de minerai d'uraninite pur");
-        addPureOre(ResourceLocation.withDefaultNamespace("amethyst"), "Fragment de minerai d'améthyste pur");
+        addPureOre(Identifier.withDefaultNamespace("amethyst"), "Fragment de minerai d'améthyste pur");
         addPureOre(ElementalCraftApi.createRL("springaline"), "Fragment de minerai de printanite pur");
-        addPureOre(ResourceLocation.fromNamespaceAndPath(AEConstants.MOD_ID, "quartz"), "Fragment de minerai de quartz de certus pur");
+        addPureOre(Identifier.fromNamespaceAndPath(AEConstants.MOD_ID, "quartz"), "Fragment de minerai de quartz de certus pur");
 
         addTooltip("element_amount.0", "Petite quantité");
         addTooltip("element_amount.1", "Faible quantité");
