@@ -8,11 +8,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -54,9 +56,20 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 		var speed = sorter.runeHandler.getBonus(Rune.BonusType.SPEED) + 1;
 		int cooldown = ECConfig.SERVER.sorterCooldown.get();
 
+        Direction source = state.getValue(ISorterBlock.SOURCE);
+        Direction target = state.getValue(ISorterBlock.TARGET);
+        IItemHandler sourceInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(source), source.getOpposite());
+        IItemHandler targetInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(target), target.getOpposite());
+
 		sorter.tick += speed;
 		while (sorter.tick > cooldown) {
-			sorter.tick -= cooldown * Math.max(1, sorter.transfer((int) Math.floor(sorter.tick / cooldown)));
+            var transferred = sorter.transfer(sourceInv, targetInv, (int) Math.floor(sorter.tick / cooldown));
+
+            if (transferred == 0) {
+                sorter.tick = 0;
+                break;
+            }
+			sorter.tick -= cooldown * transferred;
 		}
 		profiler.pop();
 	}
@@ -91,20 +104,14 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 		return index;
 	}
 
-	private int transfer(int amount) {
-		BlockState state = this.getBlockState();
-		Direction source = state.getValue(ISorterBlock.SOURCE);
-		Direction target = state.getValue(ISorterBlock.TARGET);
-		IItemHandler sourceInv = ECContainerHelper.getItemHandlerAt(level, worldPosition.relative(source), source.getOpposite());
-		IItemHandler targetInv = ECContainerHelper.getItemHandlerAt(level, worldPosition.relative(target), target.getOpposite());
-
+	private int transfer(IItemHandler sourceInv, IItemHandler targetInv, int amount) {
 		if (stacks.isEmpty()) {
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				if (!sourceInv.getStackInSlot(i).isEmpty() && doTransfer(sourceInv, targetInv, i, amount, true) > 0) {
-					return doTransfer(sourceInv, targetInv, i, amount, false);
+				if (!sourceInv.getStackInSlot(i).isEmpty()) {
+					return doTransfer(sourceInv, targetInv, i, doTransfer(sourceInv, targetInv, i, amount, true), false);
 				}
 			}
-		} else if (!doesTargetUsesSingleSet(target) || index > 0 || ECContainerHelper.isEmpty(targetInv)) {
+		} else if (!doesTargetUsesSingleSet(this.getBlockState().getValue(ISorterBlock.TARGET)) || index > 0 || ECContainerHelper.isEmpty(targetInv)) {
 			ItemStack stack = stacks.get(index).copy();
 
 			for (int i = 0; i < sourceInv.getSlots(); i++) {
@@ -138,7 +145,8 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 			this.setChanged();
             if (!stack.isEmpty()) {
                 if (!ItemHandlerHelper.insertItem(sourceInv, stack, false).isEmpty()) {
-                    throw new IllegalStateException("Couldn't return leftover items to source inventory after failed transfer from ordered sorter");
+                    ElementalCraftApi.LOGGER.error("Couldn't return leftover items to source inventory after failed transfer from ordered sorter");
+                    level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack));
                 }
             }
 		}
