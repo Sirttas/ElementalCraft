@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.instrument.enchantment.liquefier;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.world.item.ItemStack;

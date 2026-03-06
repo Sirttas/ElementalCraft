@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.api.range;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 
