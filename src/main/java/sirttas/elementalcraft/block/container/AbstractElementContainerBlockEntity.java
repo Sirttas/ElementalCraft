@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.container;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
@@ -52,10 +53,10 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 	protected abstract void setElementType(ElementType type);
 
 	@Override
-	protected void applyImplicitComponents(@NotNull DataComponentInput input) {
-		super.applyImplicitComponents(input);
-		setElementType(input.getOrDefault(ECDataComponents.ELEMENT_TYPE, ElementType.NONE));
-		elementStorage.setElementAmount(input.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0));
+	protected void applyImplicitComponents(@NotNull DataComponentGetter getter) {
+		super.applyImplicitComponents(getter);
+		setElementType(getter.getOrDefault(ECDataComponents.ELEMENT_TYPE, ElementType.NONE));
+		elementStorage.setElementAmount(getter.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0));
 	}
 
 	@Override

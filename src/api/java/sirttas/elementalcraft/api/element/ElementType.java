@@ -7,11 +7,12 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.Mth;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.resource.Resource;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public enum ElementType implements StringRepresentable, IElementTypeProvider {
+public enum ElementType implements StringRepresentable, IElementTypeProvider, Resource {
 
 	NONE("none", 0, 0, 0),
 	WATER("water", 43, 173, 255),
@@ -30,7 +31,7 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 
 	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).toList());
 	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values);
-	public static final StreamCodec<ByteBuf, ElementType> STREAM_CODEC = ByteBufCodecs.INT.map(i -> values()[i], Enum::ordinal);
+	public static final StreamCodec<@NotNull ByteBuf, @NotNull ElementType> STREAM_CODEC = ByteBufCodecs.INT.map(i -> values()[i], Enum::ordinal);
 	
 	private final String name;
 	private final float r;
@@ -43,7 +44,7 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
         this.r = r / 255F;
 		this.g = g / 255F;
 		this.b = b / 255F;
-		this.color = Mth.color(this.r, this.g, this.b);
+		this.color = ARGB.color(r, g, b);
 	}
 
 	public float getRed() {
@@ -87,6 +88,11 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider {
 	public @NotNull ElementType getElementType() {
 		return this;
 	}
+
+    @Override
+    public boolean isEmpty() {
+        return this == NONE;
+    }
 
 	public String getDescriptionId() {
 		return "element.elementalcraft." + getSerializedName();

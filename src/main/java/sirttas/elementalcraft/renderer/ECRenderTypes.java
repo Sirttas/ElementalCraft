@@ -1,15 +1,16 @@
-package sirttas.elementalcraft.api.renderer;
+package sirttas.elementalcraft.renderer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.util.Util;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import org.lwjgl.opengl.GL14;
 
 import java.util.function.Function;
@@ -21,10 +22,10 @@ public class ECRenderTypes extends RenderType {
 
 	@SuppressWarnings("deprecation")
 	public static final RenderType GHOST = create(GHOST_NAME, DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 256, false, false,
-			CompositeState.builder()
-					.setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEntityShadowShader))
-					.setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, false))
-					.setTransparencyState(new RenderStateShard.TransparencyStateShard(GHOST_NAME,
+            RenderSetup.builder(RenderPipelines.SOLID_BLOCK)
+					.setShaderState(new RenderSetup.RenderSetupBuilder(GameRenderer::getRendertypeEntityShadowShader))
+					.setTextureState(new RenderSetup.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, false))
+					.setTransparencyState(new RenderSetup.TransparencyStateShard(GHOST_NAME,
 						() -> {
 							RenderSystem.enableBlend();
 							RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
@@ -37,7 +38,7 @@ public class ECRenderTypes extends RenderType {
 						}))
 					.createCompositeState(false));
 
-	protected static final RenderStateShard.TransparencyStateShard SOURCE_TRANSPARENCY = new RenderStateShard.TransparencyStateShard(SOURCE_NAME,
+	protected static final RenderSetup.TransparencyStateShard SOURCE_TRANSPARENCY = new RenderSetup.TransparencyStateShard(SOURCE_NAME,
 			() -> {
 				RenderSystem.enableDepthTest();
 				RenderSystem.depthMask(false);
@@ -53,7 +54,7 @@ public class ECRenderTypes extends RenderType {
 	private static final Function<Identifier, RenderType> SOURCE = Util.memoize(location -> {
 		var rendertype = RenderType.CompositeState.builder()
 				.setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-				.setTextureState(new RenderStateShard.TextureStateShard(location, false, false))
+				.setTextureState(new RenderSetup.TextureStateShard(location, false, false))
 				.setTransparencyState(SOURCE_TRANSPARENCY)
 				.setCullState(NO_CULL)
 				.setLightmapState(LIGHTMAP)

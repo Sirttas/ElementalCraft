@@ -7,8 +7,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -17,26 +20,31 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
-import sirttas.elementalcraft.api.renderer.ECRenderTypes;
+import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
 import sirttas.elementalcraft.event.TickHandler;
+
+import java.util.List;
 
 public class ECRendererHelper {
 
@@ -58,10 +66,6 @@ public class ECRendererHelper {
 
     public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, Material renderMaterial, int width, int height, int light, int overlay) {
         renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), 0, 0, width, height, 1F, 1F, 1F, light, overlay);
-    }
-
-    public static void renderIcon(PoseStack poseStack, VertexConsumer builder, int width, int height, int light, int overlay) {
-        renderIcon(poseStack, builder, 0, 0, width, height, 1F, 1F, 1F, light, overlay);
     }
 
     public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light, int overlay) {
@@ -96,6 +100,43 @@ public class ECRendererHelper {
                 .setOverlay(overlay)
                 .setLight(light)
                 .setNormal(pose, 0, 1, 0);
+    }
+
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material renderMaterial, int width, int height, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.texture()), 0, 0, width, height, 1F, 1F, 1F, light);
+    }
+
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.texture()), x, y, width, height, r, g, b, light);
+    }
+
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, float x, float y, int width, int height, float r, float g, float b, int light) {;
+        nodeCollector.submitCustomGeometry(poseStack, renderType, (pose, builder) -> {
+            builder.addVertex(pose, x, y, 0)
+                    .setColor(r, g, b, 1F)
+                    .setUv(0, 0)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(pose, 0, 1, 0);
+            builder.addVertex(pose, x + width, y, 0)
+                    .setColor(r, g, b, 1F)
+                    .setUv(1, 0)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(pose, 0, 1, 0);
+            builder.addVertex(pose, x + width, y + height, 0)
+                    .setColor(r, g, b, 1F)
+                    .setUv(1, 1)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(pose, 0, 1, 0);
+            builder.addVertex(pose, x, y + height, 0)
+                    .setColor(r, g, b, 1F)
+                    .setUv(0, 1)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(pose, 0, 1, 0);
+        });
     }
 
     public static Quaternionf getRotation(Direction direction) {
@@ -324,15 +365,26 @@ public class ECRendererHelper {
         poseStack.popPose();
     }
 
-    @Deprecated
-    public static void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockState state, int light, int overlay) {
-        renderModel(model, matrixStack, buffer, state, light, overlay, ModelData.EMPTY);
+    public static void submitRunes(@NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, List<Holder<@NotNull Rune>> runes, float tick, int lightCoords) {
+        int runeCount = runes.size();
+
+        poseStack.pushPose();
+        poseStack.translate(0.5F, 0.75F, 0.5F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(tick / 2));
+        for (var rune : runes) {
+            poseStack.mulPose(Axis.YP.rotationDegrees(90F / runeCount));
+            poseStack.pushPose();
+            poseStack.translate(0.75F, 0F, 0F);
+            poseStack.mulPose(Axis.YP.rotationDegrees(90));
+            poseStack.scale(1F / 64F, 1F / 64F, 1F / 64F);
+            ECRendererHelper.submitIcon(poseStack, nodeCollector, rune.value().getSprite(), 16, -16, lightCoords);
+            poseStack.popPose();
+        }
+        poseStack.popPose();
     }
 
-    public static void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockState state, int light, int overlay, ModelData data) {
-        var renderType = state != null ? ItemBlockRenderTypes.getRenderType(state, false) : Sheets.cutoutBlockSheet();
-
-        Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(matrixStack.last(), buffer.getBuffer(renderType), state, model, 1, 1, 1, light, overlay, data, renderType);
+    public static void renderModel(BlockStateModel model, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, BlockAndTintGetter level, BlockPos pos, BlockState state) {
+        ModelBlockRenderer.renderModel(matrixStack.last(), buffer, model, 1, 1, 1, light, overlay, level, pos, state);
     }
 
     public static float getClientTicks(float partialTicks) {

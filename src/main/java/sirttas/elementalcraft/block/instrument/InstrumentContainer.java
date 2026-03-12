@@ -5,13 +5,12 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.container.AbstractSynchronizableContainer;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class InstrumentContainer extends AbstractSynchronizableContainer implements INBTSerializable<CompoundTag> {
+public class InstrumentContainer extends AbstractSynchronizableContainer {
 
 	private final NonNullList<ItemStack> stacks;
 	private final int size;

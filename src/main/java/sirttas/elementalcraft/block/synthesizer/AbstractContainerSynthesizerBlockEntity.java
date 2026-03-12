@@ -8,7 +8,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class AbstractContainerSynthesizerBlockEntity extends AbstractSynthesizerBlockEntity implements IContainerBlockEntity {
 
-    protected AbstractContainerSynthesizerBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> propertiesHolder, BlockPos pos, BlockState state) {
+    protected AbstractContainerSynthesizerBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> propertiesHolder, BlockPos pos, BlockState state) {
         super(blockEntityType, propertiesHolder, pos, state);
     }
 

@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -64,14 +64,14 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 
 	@Nonnull
 	@Override
-	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final DiffuserBlockEntity diffuser = (DiffuserBlockEntity) level.getBlockEntity(pos);
 
 		if (diffuser != null && player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
-			if (level.isClientSide) {
+			if (level.isClientSide()) {
 				diffuser.startShowingRange();
 			}
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		return super.useItemOn(stack, state, level, pos, player, hand, hit);
 	}
@@ -79,7 +79,7 @@ public class DiffuserBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECTicker(level, type, ECBlockEntityTypes.DIFFUSER, level.isClientSide ? DiffuserBlockEntity::clientTick : DiffuserBlockEntity::serverTick);
+		return createECTicker(level, type, ECBlockEntityTypes.DIFFUSER, level.isClientSide() ? DiffuserBlockEntity::clientTick : DiffuserBlockEntity::serverTick);
 	}
 	
 	@Nonnull

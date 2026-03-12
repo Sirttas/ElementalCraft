@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.instrument.io.mill.grindstone.air;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -53,9 +54,9 @@ public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEnt
 	}
 
 	@Override
-	protected void applyImplicitComponents(@NotNull DataComponentInput input) {
-		super.applyImplicitComponents(input);
-		damage = input.getOrDefault(ECDataComponents.AIR_MILL_DAMAGE, AirMill.getMaxDamage());
+	protected void applyImplicitComponents(@NotNull DataComponentGetter getter) {
+		super.applyImplicitComponents(getter);
+		damage = getter.getOrDefault(ECDataComponents.AIR_MILL_DAMAGE, AirMill.getMaxDamage());
 	}
 
 	@Override

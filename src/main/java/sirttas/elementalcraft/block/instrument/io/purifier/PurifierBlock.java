@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -83,7 +83,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 	private static final VoxelShape EAST_SHAPE = Shapes.or(MAIN_SHAPE, EAST_OVEN);
 	private static final VoxelShape WEST_SHAPE = Shapes.or(MAIN_SHAPE, WEST_OVEN);
 
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<@NotNull Direction> FACING = HorizontalDirectionalBlock.FACING;
 
 	public PurifierBlock(BlockBehaviour.Properties properties) {
 		super(properties);
@@ -110,7 +110,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 
 	@Nonnull
     @Override
-	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final PurifierBlockEntity purifier = (PurifierBlockEntity) level.getBlockEntity(pos);
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
@@ -122,7 +122,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 				return this.onSlotActivated(inv, player, heldItem, 0);
 			}
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Nonnull

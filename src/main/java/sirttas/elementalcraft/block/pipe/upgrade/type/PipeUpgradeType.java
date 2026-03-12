@@ -3,13 +3,14 @@ package sirttas.elementalcraft.block.pipe.upgrade.type;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeModelShaper;
@@ -24,7 +25,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     private Item item;
     private Identifier key;
     private String descriptionId;
-    private ResourceKey<LootTable> lootTable;
+    private ResourceKey<@NotNull LootTable> lootTable;
     @OnlyIn(Dist.CLIENT)
     private BakedModel model;
 
@@ -77,7 +78,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
         return model;
     }
 
-    public ResourceKey<LootTable> getLootTable() {
+    public ResourceKey<@NotNull LootTable> getLootTable() {
         if (lootTable == null) {
             var k = getKey();
 

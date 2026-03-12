@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.source;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -139,19 +140,19 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
 	@Override
-	protected void applyImplicitComponents(@NotNull DataComponentInput input) {
-		super.applyImplicitComponents(input);
+	protected void applyImplicitComponents(@NotNull DataComponentGetter getter) {
+		super.applyImplicitComponents(getter);
 
-		var traits = input.getOrDefault(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.EMPTY).getTraits();
+		var traits = getter.getOrDefault(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.EMPTY).getTraits();
 
 		if (!traits.isEmpty()) {
 			traitHolder.setTraits(traits);
 			initStorageFromTraits();
-			elementStorage.setElementAmount(input.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, elementStorage.getElementCapacity()));
+			elementStorage.setElementAmount(getter.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, elementStorage.getElementCapacity()));
 		} else {
 			initStorageFromTraits();
 		}
-		analyzed = input.getOrDefault(ECDataComponents.SOURCE_ANALYZED, false);
+		analyzed = getter.getOrDefault(ECDataComponents.SOURCE_ANALYZED, false);
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public class RangeBasedSourceTraitValueProvider extends LinearSourceTraitValuePr
 	
 	@Override
 	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
-	    BlockPos spawn = level instanceof ServerLevel serverLevel ? serverLevel.getSharedSpawnPos() : BlockPos.ZERO;
+	    BlockPos spawn = level instanceof ServerLevel serverLevel ? serverLevel.getRespawnData().pos() : BlockPos.ZERO;
         var rangeSq = new BlockPos(spawn.getX(), 0, spawn.getZ()).distSqr(new BlockPos(pos.getX(), 0, pos.getZ()));
         var newStart = Math.min(start + (context.luck() * luckRatio), end);
 

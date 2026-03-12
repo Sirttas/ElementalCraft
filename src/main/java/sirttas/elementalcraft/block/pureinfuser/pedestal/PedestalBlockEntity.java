@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.pureinfuser.pedestal;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
@@ -60,9 +61,9 @@ public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElem
 	}
 
 	@Override
-	protected void applyImplicitComponents(@NotNull DataComponentInput input) {
-		super.applyImplicitComponents(input);
-		elementStorage.setElementAmount(input.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0));
+	protected void applyImplicitComponents(@NotNull DataComponentGetter getter) {
+		super.applyImplicitComponents(getter);
+		elementStorage.setElementAmount(getter.getOrDefault(ECDataComponents.ELEMENT_AMOUNT, 0));
 	}
 
 	@Override

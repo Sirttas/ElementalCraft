@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.item.pipe;
 
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
@@ -31,14 +31,14 @@ public class PipeUpgradeItem extends Item implements IPipeInteractingItem {
 
     @Nonnull
     @Override
-    public ItemInteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
+    public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
         var stack = context.getItemInHand();
         var face = context.getClickedFace();
         var player = context.getPlayer();
         var level = pipe.getLevel();
 
         if (level == null || pipe.getUpgrade(face) != null) {
-           return ItemInteractionResult.FAIL;
+           return InteractionResult.FAIL;
         }
 
         var upgrade = getPipeUpgradeType().create(pipe, face);
@@ -53,9 +53,9 @@ public class PipeUpgradeItem extends Item implements IPipeInteractingItem {
             if (player != null) {
                 ECPlayerHelper.shrinkItemInHand(player, stack, context.getHand());
             }
-            return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return ItemInteractionResult.FAIL;
+        return InteractionResult.FAIL;
     }
 
     @Nonnull

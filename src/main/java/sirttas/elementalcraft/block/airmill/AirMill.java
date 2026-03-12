@@ -2,10 +2,11 @@ package sirttas.elementalcraft.block.airmill;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
@@ -33,11 +34,11 @@ public interface AirMill {
         BlockEntityHelper.renderItemBreaking(level, pos.above(), new ItemStack(ECItems.AIR_MILL));
     }
 
-    static ItemInteractionResult setMill(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand) {
+    static InteractionResult setMill(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand) {
         var blockEntity = level.getBlockEntity(pos);
 
         if (!(blockEntity instanceof AirMill mill)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         var damage = stack.getDamageValue();
@@ -45,26 +46,24 @@ public interface AirMill {
         var millDamage = mill.getDamage();
 
         if (millDamage <= 0) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         var repair = Math.min(millDamage, maxDamage - damage);
 
         if (repair <= 0) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         mill.setDamage(millDamage - repair);
-        level.setBlock(pos, state.setValue(AbstractAirMillBlock.BROKEN, false), 3);
-        if (!player.getAbilities().instabuild) {
-            stack.setDamageValue(damage + repair);
-            if (stack.getDamageValue() >= maxDamage) {
-                stack.shrink(1);
-            }
-            if (stack.isEmpty()) {
-                player.setItemInHand(hand, ItemStack.EMPTY);
-            }
+        level.setBlock(pos, state.setValue(AbstractAirMillBlock.BROKEN, false), Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
+
+        var copy = stack.copy();
+
+        copy.setDamageValue(damage + repair);
+        if (copy.getDamageValue() >= maxDamage) {
+            copy.shrink(1);
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS.heldItemTransformedTo(copy);
     }
 }

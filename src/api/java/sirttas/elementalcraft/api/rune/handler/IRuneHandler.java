@@ -1,27 +1,29 @@
 package sirttas.elementalcraft.api.rune.handler;
 
 import net.minecraft.core.Holder;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.range.Range;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 
+import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public interface IRuneHandler {
 
-	void addRune(Holder<Rune> rune);
+	void addRune(Holder<@NotNull Rune> rune);
 
-	void removeRune(Holder<Rune> rune);
+	void removeRune(Holder<@NotNull Rune> rune);
 
 	int getMaxRunes();
 
@@ -29,7 +31,7 @@ public interface IRuneHandler {
 		getRunes().forEach(this::removeRune);
 	}
 
-	List<Holder<Rune>> getRunes();
+	List<Holder<@NotNull Rune>> getRunes();
 	
 	default int getRuneCount() {
 		return getRunes().size();
@@ -39,7 +41,7 @@ public interface IRuneHandler {
 		return getRunes().isEmpty();
 	}
 
-	default int getRuneCount(Holder<Rune> rune) {
+	default int getRuneCount(Holder<@NotNull Rune> rune) {
 		var runes = getRunes();
 		
 		return runes == null ? 0 : (int) runes.stream()
@@ -47,7 +49,7 @@ public interface IRuneHandler {
 				.count();
 	}
 
-	default int getRuneCount(ResourceKey<Rune> rune) {
+	default int getRuneCount(ResourceKey<@NotNull Rune> rune) {
 		var runes = getRunes();
 
 		return runes == null ? 0 : (int) runes.stream()
@@ -77,18 +79,16 @@ public interface IRuneHandler {
 		return handleElementTransfer(from, to, from.getElementType(), amount);
 	}
 	
-	static ListTag writeNBT(IRuneHandler handler) {
-		return handler.getRunes().stream()
-				.map(rune -> StringTag.valueOf(rune.getKey().identifier().toString()))
-				.collect(Collectors.toCollection(ListTag::new));
+	default void save(@Nonnull ValueOutput valueOutput) {
+        var list = valueOutput.list(ECNames.RUNE_HANDLER, Identifier.CODEC);
+
+		for ( var rune : this.getRunes()) {
+            list.add(rune.getKey().identifier());
+        }
 	}
 
-	static void readNBT(IRuneHandler handler, ListTag nbtTagList) {
-		handler.clear();
-		nbtTagList.forEach(nbt -> {
-			String name = nbt.getAsString();
-
-			handler.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(Identifier.parse(name)));
-        });
+    default void load(@Nonnull ValueInput valueInput) {
+        this.clear();
+        valueInput.list(ECNames.RUNE_HANDLER, Identifier.CODEC).ifPresent(list -> list.forEach(id -> this.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(id))));
 	}
 }

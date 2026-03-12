@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -151,9 +151,9 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	}
 
 	@Override
-	protected @NotNull ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+	protected @NotNull InteractionResult useItemOn(@Nonnull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (stack.is(ECItems.COVER_FRAME.get()) && !player.isShiftKeyDown()) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
 		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) level.getBlockEntity(pos);
@@ -181,18 +181,18 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			}
 			return value;
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
-	private ItemInteractionResult upgrade(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand) {
+	private InteractionResult upgrade(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand) {
 		if (!state.is(this)) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var stack = player.getItemInHand(hand);
 
 		if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem item) || !(item.getBlock() instanceof ElementPipeBlock block) || block.type.getTiers() <= type.getTiers()) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var oldBlockEntity = getBlockEntity(level, pos);
@@ -216,10 +216,10 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 			this.upgrade(level.getBlockState(p), level, p, player, hand);
 		}
-		return ItemInteractionResult.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
-	private ItemInteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand, BlockHitResult hit) {
+	private InteractionResult onShapeActivated(Direction face, ElementPipeBlockEntity pipe, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (face != null) {
 			ItemStack stack = player.getItemInHand(hand);
 
@@ -228,7 +228,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			}
 			return pipe.activatePipe(player, face);
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override

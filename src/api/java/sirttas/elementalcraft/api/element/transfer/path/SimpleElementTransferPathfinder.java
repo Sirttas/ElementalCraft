@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.element.transfer.path;
 
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -38,10 +39,7 @@ public class SimpleElementTransferPathfinder {
         if (type == ElementType.NONE) {
             return Collections.emptyList();
         }
-
-        var profiler = level.getProfiler();
-
-        profiler.push("elementalcraft:simple_element_transfer_pathfinding");
+        Profiler.get().push("elementalcraft:simple_element_transfer_pathfinding");
         this.type = type;
         this.source = source;
         this.nodes.clear();
@@ -52,7 +50,7 @@ public class SimpleElementTransferPathfinder {
             nodes.pop().visit();
         }
         paths.sort(Comparator.comparing(Path::weight));
-        profiler.pop();
+        Profiler.get().pop();
         return List.copyOf(paths);
     }
 

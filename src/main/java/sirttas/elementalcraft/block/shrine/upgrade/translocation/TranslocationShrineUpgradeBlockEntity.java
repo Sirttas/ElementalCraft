@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.shrine.upgrade.translocation;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -47,9 +48,9 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
     }
 
     @Override
-    protected void applyImplicitComponents(@NotNull DataComponentInput input) {
-        super.applyImplicitComponents(input);
-        var pos = input.get(ECDataComponents.TARGET_POS);
+    protected void applyImplicitComponents(@NotNull DataComponentGetter getter) {
+        super.applyImplicitComponents(getter);
+        var pos = getter.get(ECDataComponents.TARGET_POS);
 
         if (pos != null) {
             setTarget(pos);

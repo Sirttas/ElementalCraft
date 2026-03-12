@@ -5,7 +5,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
@@ -16,7 +15,7 @@ import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class SourceTraitHolder implements ISourceTraitHolder, INBTSerializable<CompoundTag> {
+public class SourceTraitHolder implements ISourceTraitHolder {
 
     private final Map<Holder<SourceTrait>, ISourceTraitValue> traits;
 

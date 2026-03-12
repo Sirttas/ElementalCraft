@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -32,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @EventBusSubscriber(modid = ElementalCraftApi.MODID)
-public class ElementPipeTransferer implements IElementTransferer, INBTSerializable<CompoundTag> {
+public class ElementPipeTransferer implements IElementTransferer {
 
     private static final Collection<ElementPipeTransferer> TRANSFERERS = new ReferenceOpenHashSet<>();
 

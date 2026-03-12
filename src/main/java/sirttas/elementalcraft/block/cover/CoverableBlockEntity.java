@@ -5,7 +5,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -51,24 +51,24 @@ public class CoverableBlockEntity extends AbstractECBlockEntity implements Cover
         return coverState;
     }
 
-    public ItemInteractionResult putCover(Player player, InteractionHand hand) {
+    public InteractionResult putCover(Player player, InteractionHand hand) {
         if (level == null) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         var stack = player.getItemInHand(hand);
         if (stack.isEmpty()) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         var item = stack.getItem();
         if (!(item instanceof BlockItem blockItem)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         var state = blockItem.getBlock().defaultBlockState();
         if (state == coverState) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
         if (!coverState.isAir()) {
@@ -78,7 +78,7 @@ public class CoverableBlockEntity extends AbstractECBlockEntity implements Cover
         level.setBlockAndUpdate(getBlockPos(), level.getBlockState(worldPosition).setValue(CoverType.PROPERTY, CoverType.COVERED));
 
         ECPlayerHelper.shrinkItemInHand(player, stack, hand);
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override

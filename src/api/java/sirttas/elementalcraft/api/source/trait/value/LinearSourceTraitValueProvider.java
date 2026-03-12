@@ -146,7 +146,7 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	
 	@Override
 	public ISourceTraitValue load(Tag tag) {
-		return tag instanceof FloatTag floatTag ? createValue(floatTag.getAsFloat()) : null;
+		return tag instanceof FloatTag(float value) ? createValue(value) : null;
 	}
 
 	@Override

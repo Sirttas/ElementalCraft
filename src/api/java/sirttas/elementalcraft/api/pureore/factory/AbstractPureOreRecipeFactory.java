@@ -9,22 +9,23 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractPureOreRecipeFactory<C extends RecipeInput, T extends Recipe<C>> implements IPureOreRecipeFactory<C, T> {
+public abstract class AbstractPureOreRecipeFactory<C extends RecipeInput, T extends Recipe<@NotNull C>> implements IPureOreRecipeFactory<C, T> {
 
-	private final RecipeType<T> recipeType;
-	private final Collection<RecipeHolder<T>> recipes;
+	private final RecipeType<@NotNull T> recipeType;
+	private final Collection<RecipeHolder<@NotNull T>> recipes;
 	
-	protected AbstractPureOreRecipeFactory(@Nonnull RecipeManager recipeManager, @Nonnull RecipeType<T> recipeType) {
+	protected AbstractPureOreRecipeFactory(@Nonnull RecipeManager recipeManager, @Nonnull RecipeType<@NotNull T> recipeType) {
 		this.recipeType = recipeType;
-		this.recipes = recipeManager.byType(recipeType);
+		this.recipes = recipeManager.recipeMap().byType(recipeType);
 	}
 
-	public List<RecipeHolder<T>> getRecipes(Collection<Holder<Item>> ores) {
+	public List<RecipeHolder<@NotNull T>> getRecipes(Collection<Holder<@NotNull Item>> ores) {
 		var stacks = ores.stream()
 				.map(ItemStack::new)
 				.toList();
@@ -35,7 +36,7 @@ public abstract class AbstractPureOreRecipeFactory<C extends RecipeInput, T exte
 	}
 
 	@Override
-	public RecipeType<T> getRecipeType() {
+	public RecipeType<@NotNull T> getRecipeType() {
 		return recipeType;
 	}
 

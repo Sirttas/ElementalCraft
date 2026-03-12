@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -80,8 +79,8 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 	private static final VoxelShape BOWL_WEST = Shapes.or(BASE_BOWL, BOWL_WEST_1, BOWL_WEST_2, BOWL_WEST_3, BOWL_WEST_TAPE);
 	private static final VoxelShape BOWL_EAST = Shapes.or(BASE_BOWL, BOWL_EAST_1, BOWL_EAST_2, BOWL_EAST_3, BOWL_EAST_TAPE);
 
-	public static final EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<@NotNull Part> PART = EnumProperty.create("part", Part.class);
+	public static final EnumProperty<@NotNull Direction> FACING = HorizontalDirectionalBlock.FACING;
 
 	public BreedingShrineBlock(BlockBehaviour.Properties properties) {
 		super(ElementType.EARTH, properties);

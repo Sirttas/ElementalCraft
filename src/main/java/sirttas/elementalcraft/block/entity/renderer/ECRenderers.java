@@ -3,15 +3,12 @@ package sirttas.elementalcraft.block.entity.renderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import sirttas.elementalcraft.api.ElementalCraftApi;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.container.ContainerRenderer;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -44,18 +41,16 @@ import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerRe
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
 public final class ECRenderers {
 
 	private ECRenderers() {}
-	
-	@SubscribeEvent
-	public static void registerModels(RegisterGeometryLoaders evt) {
+
+	public static void registerBlockEntityRenderer() {
 		register(ECBlockEntityTypes.PIPE, ElementPipeRenderer::new);
-		register(ECBlockEntityTypes.INFUSER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.2, 0.5)));
+		register(ECBlockEntityTypes.INFUSER, d -> SingleItemRenderer.create(d, new Vec3(0.5, 0.2, 0.5)));
 		register(ECBlockEntityTypes.EXTRACTOR, ExtractorRenderer::new);
 		register(ECBlockEntityTypes.CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
-		register(ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.5, 0.5), 0.7F));
+		register(ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, d -> SingleItemRenderer.create(d, new Vec3(0.5, 0.5, 0.5), 0.7F));
 		register(ECBlockEntityTypes.DRAINING_SYNTHESIZER, DrainingSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.VIBRATION_SYNTHESIZER, VibrationSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerRenderer::new);
@@ -71,7 +66,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION));
 		register(ECBlockEntityTypes.AIR_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION));
 		register(ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER, EnchantmentLiquefierRenderer::new);
-		register(ECBlockEntityTypes.PEDESTAL, () -> new SingleItemRenderer<>(new Vec3(0.5, 0.9, 0.5)));
+		register(ECBlockEntityTypes.PEDESTAL, d -> SingleItemRenderer.create(d, new Vec3(0.5, 0.9, 0.5)));
 		register(ECBlockEntityTypes.PURE_INFUSER, PureInfuserRenderer::new);
 		register(ECBlockEntityTypes.FIRE_FURNACE, FireFurnaceRenderer::new);
 		register(ECBlockEntityTypes.FIRE_BLAST_FURNACE, FireFurnaceRenderer::new);
@@ -108,15 +103,11 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.SOURCE_BREEDER_PEDESTAL, SourceBreederPedestalRenderer::new);
 	}
 
-	public static <T extends BlockEntity> void register(DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> type, Supplier<BlockEntityRenderer<? super T>> renderProvider) {
-		register(type.get(), renderProvider);
+	public static <T extends BlockEntity, S extends BlockEntityRenderState> void register(DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull T>> type, Supplier<BlockEntityRenderer<@NotNull T, @NotNull S>> renderProvider) {
+		register(type, d -> renderProvider.get());
 	}
 
-	public static <T extends BlockEntity> void register(DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> type, BlockEntityRendererProvider<T> renderProvider) {
+	public static <T extends BlockEntity, S extends BlockEntityRenderState> void register(DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull T>> type, BlockEntityRendererProvider<@NotNull T, @NotNull S> renderProvider) {
 		BlockEntityRenderers.register(type.get(), renderProvider);
-	}
-
-	public static <T extends BlockEntity> void register(BlockEntityType<T> type, Supplier<BlockEntityRenderer<? super T>> renderProvider) {
-		BlockEntityRenderers.register(type, d -> renderProvider.get());
 	}
 }

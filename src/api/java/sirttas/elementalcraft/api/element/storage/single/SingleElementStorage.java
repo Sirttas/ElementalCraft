@@ -2,14 +2,13 @@ package sirttas.elementalcraft.api.element.storage.single;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.EmptyElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.sync.AbstractSynchronizable;
 
-public class SingleElementStorage extends AbstractSynchronizable implements ISettableSingleElementStorage, INBTSerializable<CompoundTag> {
+public class SingleElementStorage extends AbstractSynchronizable implements ISettableSingleElementStorage {
 
 	protected int elementAmount;
 	protected int elementCapacity;
@@ -64,7 +63,6 @@ public class SingleElementStorage extends AbstractSynchronizable implements ISet
 		return elementAmount + "/" + elementCapacity + " " + elementType.getSerializedName();
 	}
 
-	@Override
 	public CompoundTag serializeNBT(@NotNull HolderLookup.Provider provider) {
 		CompoundTag compound = new CompoundTag();
 
@@ -74,10 +72,9 @@ public class SingleElementStorage extends AbstractSynchronizable implements ISet
 		return compound;
 	}
 
-	@Override
 	public void deserializeNBT(@NotNull HolderLookup.Provider provider, @NotNull CompoundTag compound) {
-		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE));
-		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT);
-		elementCapacity = compound.getInt(ECNames.ELEMENT_CAPACITY);
+		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE).orElse(""));
+		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT).orElse(0);
+		elementCapacity = compound.getInt(ECNames.ELEMENT_CAPACITY).orElse(0);
 	}
 }

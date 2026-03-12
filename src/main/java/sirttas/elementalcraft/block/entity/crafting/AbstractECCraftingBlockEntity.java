@@ -64,7 +64,7 @@ public abstract class AbstractECCraftingBlockEntity<I extends RecipeInput, R ext
 
 	@Override
 	public void process() {
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			assemble();
 		}
 		recipe = null;

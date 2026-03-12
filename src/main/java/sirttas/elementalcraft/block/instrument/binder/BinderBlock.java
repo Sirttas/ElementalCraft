@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -77,7 +77,7 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 
 	@Nonnull
 	@Override
-	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final BinderBlockEntity binder = (BinderBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
@@ -87,7 +87,7 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
-				return ItemInteractionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 			for (int i = 0; i < inv.getSlots(); i++) {
 				if (inv.getStackInSlot(i).isEmpty()) {
@@ -95,7 +95,7 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 				}
 			}
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
 	@Nonnull

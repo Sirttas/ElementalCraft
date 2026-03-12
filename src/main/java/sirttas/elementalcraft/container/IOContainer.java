@@ -7,13 +7,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 
 import javax.annotation.Nonnull;
 
-public class IOContainer extends AbstractSynchronizableContainer implements WorldlyContainer, INBTSerializable<CompoundTag> {
+public class IOContainer extends AbstractSynchronizableContainer implements WorldlyContainer {
 
 	private ItemStack input;
 	private ItemStack output;

@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -66,7 +66,7 @@ public class DrainingSynthesizerBlock extends AbstractECContainerBlock {
 	
 	@Nonnull
     @Override
-	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @NotNull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @NotNull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		DrainingSynthesizerBlockEntity synthesizer = (DrainingSynthesizerBlockEntity) level.getBlockEntity(pos);
 
 		if (synthesizer != null && synthesizer.needsElement()) {
@@ -76,7 +76,7 @@ public class DrainingSynthesizerBlock extends AbstractECContainerBlock {
 				player.hurt(player.damageSources().source(ECDamageTypes.DRAINING, player), 1.0F);
 			}
 			synthesizer.fill();
-			return ItemInteractionResult.CONSUME;
+			return InteractionResult.CONSUME;
 		}
 		return super.useItemOn(stack, state, level, pos, player, hand, hit);
 	}

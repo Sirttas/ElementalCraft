@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -40,14 +40,14 @@ public class ChiselItem extends TieredItem implements IPipeInteractingItem {
 
 	@Nonnull
 	@Override
-	public ItemInteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
+	public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
 		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, pipe, context.getClickedFace()), context);
 	}
 
 	@Nonnull
-	private ItemInteractionResult doUse(IRuneHandler handler, UseOnContext context) {
+	private InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
 		if (handler == null) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var level = context.getLevel();
@@ -65,9 +65,9 @@ public class ChiselItem extends TieredItem implements IPipeInteractingItem {
 					}
 				}
 			}
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
     @Override

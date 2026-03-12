@@ -5,7 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -240,16 +240,16 @@ public class ElementPipeBlockEntity extends CoverableBlockEntity {
 		}
 	}
 	
-	public ItemInteractionResult activatePipe(@Nullable Player player, Direction face) {
+	public InteractionResult activatePipe(@Nullable Player player, Direction face) {
 		if (level == null) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var upgrade = getUpgrade(face);
 
 		if (upgrade != null) {
 			removeUpgrade(player, face);
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 
 		var opposite = face.getOpposite();
@@ -265,14 +265,14 @@ public class ElementPipeBlockEntity extends CoverableBlockEntity {
 				} else {
 					this.setConnection(face, ConnectionType.DISCONNECT);
 				}
-				return ItemInteractionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 			case EXTRACT, CONNECT -> {
 				this.setConnection(face, ConnectionType.DISCONNECT);
 				if (level.getBlockEntity(adjacent) instanceof ElementPipeBlockEntity pipe) {
 					pipe.setConnection(face.getOpposite(), ConnectionType.DISCONNECT);
 				}
-				return ItemInteractionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 			case DISCONNECT -> {
 				var storage = level.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, adjacent, opposite);
@@ -285,10 +285,10 @@ public class ElementPipeBlockEntity extends CoverableBlockEntity {
 					this.setConnection(face, ConnectionType.CONNECT);
 					pipe.setConnection(face.getOpposite(), ConnectionType.CONNECT);
 				}
-				return ItemInteractionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 			default -> {
-				return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+				return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 			}
 		}
 	}

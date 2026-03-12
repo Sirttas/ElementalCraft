@@ -2,22 +2,23 @@ package sirttas.elementalcraft.block.sorter;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 
 public interface ISorterBlock {
 
-	DirectionProperty SOURCE = DirectionProperty.create("source", Direction.values());
-	DirectionProperty TARGET = DirectionProperty.create("target", Direction.values());
+    EnumProperty<@NotNull Direction> SOURCE = EnumProperty.create("source", Direction.class);
+    EnumProperty<@NotNull Direction> TARGET = EnumProperty.create("target", Direction.class);
 
 	default VoxelShape getSourceShape(BlockState state) {
 		return ECShapes.sourceShape(state.getValue(SOURCE));
@@ -51,22 +52,22 @@ public interface ISorterBlock {
 		return getCurrentShape(state);
 	}
 	
-	default ItemInteractionResult moveIO(BlockState state, Level level, BlockPos pos, BlockHitResult hit) {
+	default InteractionResult moveIO(BlockState state, Level level, BlockPos pos, BlockHitResult hit) {
 		return this.moveIO(state, level, pos, hit, getShape(state, pos, hit));
 	}
 	
-	default ItemInteractionResult moveIO(BlockState state, Level level, BlockPos pos, BlockHitResult hit, VoxelShape shape) {
+	default InteractionResult moveIO(BlockState state, Level level, BlockPos pos, BlockHitResult hit, VoxelShape shape) {
 		Direction direction = hit.getDirection().getOpposite();
 
 		if (state.getValue(SOURCE) == direction || state.getValue(TARGET) == direction) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		} else if (ECShapes.SOURCE_SHAPES.contains(shape)) {
 			level.setBlockAndUpdate(pos, state.setValue(SOURCE, direction));
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		} else if (ECShapes.TARGET_SHAPES.contains(shape)) {
 			level.setBlockAndUpdate(pos, state.setValue(TARGET, direction));
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 }

@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -33,7 +33,7 @@ public class OverloadShrineBlock extends AbstractShrineBlock<OverloadShrineBlock
 	private static final VoxelShape WEST_SHAPE = Shapes.or(BASE, Block.box(0D, 3D, 0D, 3D, 16D, 16D));
 	private static final VoxelShape EAST_SHAPE = Shapes.or(BASE, Block.box(13D, 3D, 0D, 16D, 16D, 16D));
 
-	public static final DirectionProperty FACING = DirectionProperty.create("facing", d -> d != Direction.DOWN);
+	public static final EnumProperty<@NotNull Direction> FACING = EnumProperty.create("facing", Direction.class, d -> d != Direction.DOWN);
 
 	public OverloadShrineBlock(BlockBehaviour.Properties properties) {
 		super(ElementType.AIR, properties);

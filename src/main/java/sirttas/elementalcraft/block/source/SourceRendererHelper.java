@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.Material;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.renderer.ECRenderTypes;
+import sirttas.elementalcraft.renderer.ECRenderTypes;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;

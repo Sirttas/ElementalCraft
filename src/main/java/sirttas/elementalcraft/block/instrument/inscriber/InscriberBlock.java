@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -116,7 +116,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	private static final VoxelShape WEST_SHAPE = Shapes.or(BASE_SHAPE, BACK_WEST, PLATE_WEST);
 	private static final VoxelShape EAST_SHAPE = Shapes.or(BASE_SHAPE, BACK_EAST, PLATE_EAST);
 
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<@NotNull Direction> FACING = HorizontalDirectionalBlock.FACING;
 
 	public InscriberBlock(BlockBehaviour.Properties properties) {
 		super(properties);
@@ -144,7 +144,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 
 	@Nonnull
 	@Override
-	protected ItemInteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final InscriberBlockEntity inscriber = (InscriberBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
 		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
@@ -156,27 +156,27 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 				for (int i = 0; i < inv.getSlots(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
-				return ItemInteractionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			} else if (heldItem.canPerformAction(ECItemAbilities.CHISEL_INSCRIBE_RUNE)) {
-				return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+				return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 			}
 			for (int i = 0; i < inv.getSlots(); i++) {
-				if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == ItemInteractionResult.SUCCESS) {
-					return ItemInteractionResult.SUCCESS;
+				if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == InteractionResult.SUCCESS) {
+					return InteractionResult.SUCCESS;
 				}
 			}
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
-	private ItemInteractionResult makeProgress(Player player, InteractionHand hand, InscriberBlockEntity inscriber, ItemStack heldItem) {
+	private InteractionResult makeProgress(Player player, InteractionHand hand, InscriberBlockEntity inscriber, ItemStack heldItem) {
 		if (inscriber.useChisel()) {
 			if (heldItem.isDamageableItem() && !player.getAbilities().instabuild) {
 				heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 			}
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Nonnull

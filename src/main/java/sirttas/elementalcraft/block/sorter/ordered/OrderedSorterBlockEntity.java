@@ -7,7 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -73,21 +73,21 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 		profiler.pop();
 	}
 
-	public ItemInteractionResult addStack(ItemStack stack) {
+	public InteractionResult addStack(ItemStack stack) {
 		if (!stacks.isEmpty() && stack.isEmpty()) {
 			stacks.clear();
 			index = 0;
 			this.setChanged();
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		} else if (stacks.size() < ECConfig.SERVER.sorterMaxItem.get()) {
 			ItemStack copy = stack.copy();
 
 			copy.setCount(1);
 			stacks.add(copy);
 			this.setChanged();
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	public List<ItemStack> getStacks() {

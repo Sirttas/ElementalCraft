@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
@@ -16,8 +17,8 @@ import sirttas.elementalcraft.block.container.reservoir.ReservoirBlock;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlockEntity;
 import sirttas.elementalcraft.block.cover.CoverableBlockEntity;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
+import sirttas.elementalcraft.block.extractor.ElementExtractorBlock;
 import sirttas.elementalcraft.block.extractor.ElementExtractorBlockEntity;
-import sirttas.elementalcraft.block.extractor.RudimentaryElementExtractorBlock;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlockEntity;
 import sirttas.elementalcraft.block.instrument.binder.improved.ImprovedBinderBlockEntity;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerBlockEntity;
@@ -71,84 +72,79 @@ import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerBlockEntit
 import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlockEntity;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
 
 public class ECBlockEntityTypes {
 
-    private static final DeferredRegister<BlockEntityType<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, ElementalCraftApi.MODID);
+    private static final DeferredRegister<@NotNull BlockEntityType<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SourceBlockEntity>> SOURCE = register(() -> builder(SourceBlockEntity::new, ECBlocks.FIRE_SOURCE, ECBlocks.WATER_SOURCE, ECBlocks.EARTH_SOURCE, ECBlocks.AIR_SOURCE), SourceBlock.NAME);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElementContainerBlockEntity>> CONTAINER = register(() -> builder(ElementContainerBlockEntity::new, ECBlocks.CONTAINER, ECBlocks.SMALL_CONTAINER), ElementContainerBlock.NAME);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ReservoirBlockEntity>> RESERVOIR = register(() -> builder(ReservoirBlockEntity::new, ECBlocks.FIRE_RESERVOIR,ECBlocks. WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR), ReservoirBlock.NAME);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CreativeElementContainerBlockEntity>> CREATIVE_CONTAINER = register(CreativeElementContainerBlockEntity::new, ECBlocks.CREATIVE_CONTAINER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElementExtractorBlockEntity>> EXTRACTOR = register(() -> builder(ElementExtractorBlockEntity::new, ECBlocks.RUDIMENTARY_EXTRACTOR, ECBlocks.EXTRACTOR, ECBlocks.IMPROVED_EXTRACTOR), RudimentaryElementExtractorBlock.NAME);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrackingSynthesizerBlockEntity>> CRACKING_SYNTHESIZER = register(CrackingSynthesizerBlockEntity::new, ECBlocks.CRACKING_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CombustionSynthesizerBlockEntity>> COMBUSTION_SYNTHESIZER = register(CombustionSynthesizerBlockEntity::new, ECBlocks.COMBUSTION_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DrainingSynthesizerBlockEntity>> DRAINING_SYNTHESIZER = register(DrainingSynthesizerBlockEntity::new, ECBlocks.DRAINING_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VibrationSynthesizerBlockEntity>> VIBRATION_SYNTHESIZER = register(VibrationSynthesizerBlockEntity::new, ECBlocks.VIBRATION_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SolarSynthesizerBlockEntity>> SOLAR_SYNTHESIZER = register(SolarSynthesizerBlockEntity::new, ECBlocks.SOLAR_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CulinarySynthesizerBlockEntity>> CULINARY_SYNTHESIZER = register(CulinarySynthesizerBlockEntity::new, ECBlocks.CULINARY_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SculkCrackingSynthesizerBlockEntity>> SCULK_CRACKING_SYNTHESIZER = register(SculkCrackingSynthesizerBlockEntity::new, ECBlocks.SCULK_CRACKING_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AirMillSynthesizerBlockEntity>> AIR_MILL_SYNTHESIZER = register(AirMillSynthesizerBlockEntity::new, ECBlocks.AIR_MILL_SYNTHESIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DiffuserBlockEntity>> DIFFUSER = register(DiffuserBlockEntity::new, ECBlocks.DIFFUSER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<InfuserBlockEntity>> INFUSER = register(InfuserBlockEntity::new, ECBlocks.INFUSER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BinderBlockEntity>> BINDER = register(BinderBlockEntity::new, ECBlocks.BINDER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ImprovedBinderBlockEntity>> BINDER_IMPROVED = register(ImprovedBinderBlockEntity::new, ECBlocks.BINDER_IMPROVED);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystallizerBlockEntity>> CRYSTALLIZER = register(CrystallizerBlockEntity::new, ECBlocks.CRYSTALLIZER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<InscriberBlockEntity>> INSCRIBER = register(InscriberBlockEntity::new, ECBlocks.INSCRIBER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WaterMillGrindstoneBlockEntity>> WATER_MILL_GRINDSTONE = register(WaterMillGrindstoneBlockEntity::new, ECBlocks.WATER_MILL_GRINDSTONE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AirMillGrindstoneBlockEntity>> AIR_MILL_GRINDSTONE = register(AirMillGrindstoneBlockEntity::new, ECBlocks.AIR_MILL_GRINDSTONE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WaterMillWoodSawBlockEntity>> WATER_MILL_WOOD_SAW = register(WaterMillWoodSawBlockEntity::new, ECBlocks.WATER_MILL_WOOD_SAW);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AirMillWoodSawBlockEntity>> AIR_MILL_WOOD_SAW = register(AirMillWoodSawBlockEntity::new, ECBlocks.AIR_MILL_WOOD_SAW);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EnchantmentLiquefierBlockEntity>> ENCHANTMENT_LIQUEFIER = register(EnchantmentLiquefierBlockEntity::new, ECBlocks.ENCHANTMENT_LIQUEFIER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PedestalBlockEntity>> PEDESTAL = register(() -> builder(PedestalBlockEntity::new, ECBlocks.FIRE_PEDESTAL, ECBlocks.WATER_PEDESTAL, ECBlocks.EARTH_PEDESTAL, ECBlocks.AIR_PEDESTAL), PedestalBlock.NAME);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PureInfuserBlockEntity>> PURE_INFUSER = register(PureInfuserBlockEntity::new, ECBlocks.PURE_INFUSER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FireFurnaceBlockEntity>> FIRE_FURNACE = register(FireFurnaceBlockEntity::new, ECBlocks.FIRE_FURNACE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FireBlastFurnaceBlockEntity>> FIRE_BLAST_FURNACE = register(FireBlastFurnaceBlockEntity::new, ECBlocks.FIRE_BLAST_FURNACE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PurifierBlockEntity>> PURIFIER = register(PurifierBlockEntity::new, ECBlocks.PURIFIER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElementPipeBlockEntity>> PIPE = register(() -> builder(ElementPipeBlockEntity::new, ECBlocks.PIPE_RUDIMENTARY, ECBlocks.PIPE, ECBlocks.PIPE_IMPROVED, ECBlocks.PIPE_CREATIVE), ElementPipeBlock.NAME);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FirePylonBlockEntity>> FIRE_PYLON = register(FirePylonBlockEntity::new, ECBlocks.FIRE_PYLON);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VacuumShrineBlockEntity>> VACUUM_SHRINE = register(VacuumShrineBlockEntity::new, ECBlocks.VACUUM_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GrowthShrineBlockEntity>> GROWTH_SHRINE = register(GrowthShrineBlockEntity::new, ECBlocks.GROWTH_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HarvestShrineBlockEntity>> HARVEST_SHRINE = register(HarvestShrineBlockEntity::new, ECBlocks.HARVEST_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LumberShrineBlockEntity>> LUMBER_SHRINE = register(LumberShrineBlockEntity::new, ECBlocks.LUMBER_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MeltingShrineBlockEntity>> LAVA_SHRINE = register(MeltingShrineBlockEntity::new, ECBlocks.MELTING_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OreShrineBlockEntity>> ORE_SHRINE = register(OreShrineBlockEntity::new, ECBlocks.ORE_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OverloadShrineBlockEntity>> OVERLOAD_SHRINE = register(OverloadShrineBlockEntity::new, ECBlocks.OVERLOAD_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SweetShrineBlockEntity>> SWEET_SHRINE = register(SweetShrineBlockEntity::new, ECBlocks.SWEET_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EnderLockShrineBlockEntity>> ENDER_LOCK_SHRINE = register(EnderLockShrineBlockEntity::new, ECBlocks.ENDER_LOCK_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BreedingShrineBlockEntity>> BREEDING_SHRINE = register(BreedingShrineBlockEntity::new, ECBlocks.BREEDING_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GroveShrineBlockEntity>> GROVE_SHRINE = register(GroveShrineBlockEntity::new, ECBlocks.GROVE_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpringShrineBlockEntity>> SPRING_SHRINE = register(SpringShrineBlockEntity::new, ECBlocks.SPRING_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BuddingShrineBlockEntity>> BUDDING_SHRINE = register(BuddingShrineBlockEntity::new, ECBlocks.BUDDING_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpawningShrineBlockEntity>> SPAWNING_SHRINE = register(SpawningShrineBlockEntity::new, ECBlocks.SPAWNING_SHRINE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AccelerationShrineUpgradeBlockEntity>> ACCELERATION_SHRINE_UPGRADE = register(AccelerationShrineUpgradeBlockEntity::new, ECBlocks.ACCELERATION_SHRINE_UPGRADE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OverclockedAccelerationShrineUpgradeBlockEntity>> OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE = register(OverclockedAccelerationShrineUpgradeBlockEntity::new, ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GreaterFortuneShrineUpgradeBlockEntity>> GREATER_FORTUNE_SHRINE_UPGRADE = register(GreaterFortuneShrineUpgradeBlockEntity::new, ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TranslocationShrineUpgradeBlockEntity>> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlockEntity::new, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VortexShrineUpgradeBlockEntity>> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlockEntity::new, ECBlocks.VORTEX_SHRINE_UPGRADE);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OrderedSorterBlockEntity>> SORTER = register(OrderedSorterBlockEntity::new, ECBlocks.ORDERED_SORTER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoverableBlockEntity>> COVERABLE = register(CoverableBlockEntity::new, ECBlocks.RETRIEVER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SourceBlockEntity>> SOURCE = register(SourceBlock.NAME, SourceBlockEntity::new, ECBlocks.FIRE_SOURCE, ECBlocks.WATER_SOURCE, ECBlocks.EARTH_SOURCE, ECBlocks.AIR_SOURCE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull ElementContainerBlockEntity>> CONTAINER = register(ElementContainerBlock.NAME, ElementContainerBlockEntity::new, ECBlocks.CONTAINER, ECBlocks.SMALL_CONTAINER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull ReservoirBlockEntity>> RESERVOIR = register(ReservoirBlock.NAME, ReservoirBlockEntity::new,ECBlocks.FIRE_RESERVOIR, ECBlocks. WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull CreativeElementContainerBlockEntity>> CREATIVE_CONTAINER = register(CreativeElementContainerBlockEntity::new, ECBlocks.CREATIVE_CONTAINER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull ElementExtractorBlockEntity>> EXTRACTOR = register(ElementExtractorBlock.NAME, ElementExtractorBlockEntity::new, ECBlocks.RUDIMENTARY_EXTRACTOR, ECBlocks.EXTRACTOR, ECBlocks.IMPROVED_EXTRACTOR);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull CrackingSynthesizerBlockEntity>> CRACKING_SYNTHESIZER = register(CrackingSynthesizerBlockEntity::new, ECBlocks.CRACKING_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull CombustionSynthesizerBlockEntity>> COMBUSTION_SYNTHESIZER = register(CombustionSynthesizerBlockEntity::new, ECBlocks.COMBUSTION_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull DrainingSynthesizerBlockEntity>> DRAINING_SYNTHESIZER = register(DrainingSynthesizerBlockEntity::new, ECBlocks.DRAINING_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull VibrationSynthesizerBlockEntity>> VIBRATION_SYNTHESIZER = register(VibrationSynthesizerBlockEntity::new, ECBlocks.VIBRATION_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SolarSynthesizerBlockEntity>> SOLAR_SYNTHESIZER = register(SolarSynthesizerBlockEntity::new, ECBlocks.SOLAR_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull CulinarySynthesizerBlockEntity>> CULINARY_SYNTHESIZER = register(CulinarySynthesizerBlockEntity::new, ECBlocks.CULINARY_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SculkCrackingSynthesizerBlockEntity>> SCULK_CRACKING_SYNTHESIZER = register(SculkCrackingSynthesizerBlockEntity::new, ECBlocks.SCULK_CRACKING_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull AirMillSynthesizerBlockEntity>> AIR_MILL_SYNTHESIZER = register(AirMillSynthesizerBlockEntity::new, ECBlocks.AIR_MILL_SYNTHESIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull DiffuserBlockEntity>> DIFFUSER = register(DiffuserBlockEntity::new, ECBlocks.DIFFUSER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull InfuserBlockEntity>> INFUSER = register(InfuserBlockEntity::new, ECBlocks.INFUSER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull BinderBlockEntity>> BINDER = register(BinderBlockEntity::new, ECBlocks.BINDER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull ImprovedBinderBlockEntity>> BINDER_IMPROVED = register(ImprovedBinderBlockEntity::new, ECBlocks.BINDER_IMPROVED);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull CrystallizerBlockEntity>> CRYSTALLIZER = register(CrystallizerBlockEntity::new, ECBlocks.CRYSTALLIZER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull InscriberBlockEntity>> INSCRIBER = register(InscriberBlockEntity::new, ECBlocks.INSCRIBER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull WaterMillGrindstoneBlockEntity>> WATER_MILL_GRINDSTONE = register(WaterMillGrindstoneBlockEntity::new, ECBlocks.WATER_MILL_GRINDSTONE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull AirMillGrindstoneBlockEntity>> AIR_MILL_GRINDSTONE = register(AirMillGrindstoneBlockEntity::new, ECBlocks.AIR_MILL_GRINDSTONE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull WaterMillWoodSawBlockEntity>> WATER_MILL_WOOD_SAW = register(WaterMillWoodSawBlockEntity::new, ECBlocks.WATER_MILL_WOOD_SAW);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull AirMillWoodSawBlockEntity>> AIR_MILL_WOOD_SAW = register(AirMillWoodSawBlockEntity::new, ECBlocks.AIR_MILL_WOOD_SAW);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull EnchantmentLiquefierBlockEntity>> ENCHANTMENT_LIQUEFIER = register(EnchantmentLiquefierBlockEntity::new, ECBlocks.ENCHANTMENT_LIQUEFIER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull PedestalBlockEntity>> PEDESTAL = register(PedestalBlock.NAME, PedestalBlockEntity::new, ECBlocks.FIRE_PEDESTAL, ECBlocks.WATER_PEDESTAL, ECBlocks.EARTH_PEDESTAL, ECBlocks.AIR_PEDESTAL);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull PureInfuserBlockEntity>> PURE_INFUSER = register(PureInfuserBlockEntity::new, ECBlocks.PURE_INFUSER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull FireFurnaceBlockEntity>> FIRE_FURNACE = register(FireFurnaceBlockEntity::new, ECBlocks.FIRE_FURNACE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull FireBlastFurnaceBlockEntity>> FIRE_BLAST_FURNACE = register(FireBlastFurnaceBlockEntity::new, ECBlocks.FIRE_BLAST_FURNACE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull PurifierBlockEntity>> PURIFIER = register(PurifierBlockEntity::new, ECBlocks.PURIFIER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull ElementPipeBlockEntity>> PIPE = register(ElementPipeBlock.NAME, ElementPipeBlockEntity::new, ECBlocks.PIPE_RUDIMENTARY, ECBlocks.PIPE, ECBlocks.PIPE_IMPROVED, ECBlocks.PIPE_CREATIVE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull FirePylonBlockEntity>> FIRE_PYLON = register(FirePylonBlockEntity::new, ECBlocks.FIRE_PYLON);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull VacuumShrineBlockEntity>> VACUUM_SHRINE = register(VacuumShrineBlockEntity::new, ECBlocks.VACUUM_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull GrowthShrineBlockEntity>> GROWTH_SHRINE = register(GrowthShrineBlockEntity::new, ECBlocks.GROWTH_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull HarvestShrineBlockEntity>> HARVEST_SHRINE = register(HarvestShrineBlockEntity::new, ECBlocks.HARVEST_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull LumberShrineBlockEntity>> LUMBER_SHRINE = register(LumberShrineBlockEntity::new, ECBlocks.LUMBER_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull MeltingShrineBlockEntity>> LAVA_SHRINE = register(MeltingShrineBlockEntity::new, ECBlocks.MELTING_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull OreShrineBlockEntity>> ORE_SHRINE = register(OreShrineBlockEntity::new, ECBlocks.ORE_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull OverloadShrineBlockEntity>> OVERLOAD_SHRINE = register(OverloadShrineBlockEntity::new, ECBlocks.OVERLOAD_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SweetShrineBlockEntity>> SWEET_SHRINE = register(SweetShrineBlockEntity::new, ECBlocks.SWEET_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull EnderLockShrineBlockEntity>> ENDER_LOCK_SHRINE = register(EnderLockShrineBlockEntity::new, ECBlocks.ENDER_LOCK_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull BreedingShrineBlockEntity>> BREEDING_SHRINE = register(BreedingShrineBlockEntity::new, ECBlocks.BREEDING_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull GroveShrineBlockEntity>> GROVE_SHRINE = register(GroveShrineBlockEntity::new, ECBlocks.GROVE_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SpringShrineBlockEntity>> SPRING_SHRINE = register(SpringShrineBlockEntity::new, ECBlocks.SPRING_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull BuddingShrineBlockEntity>> BUDDING_SHRINE = register(BuddingShrineBlockEntity::new, ECBlocks.BUDDING_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SpawningShrineBlockEntity>> SPAWNING_SHRINE = register(SpawningShrineBlockEntity::new, ECBlocks.SPAWNING_SHRINE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull AccelerationShrineUpgradeBlockEntity>> ACCELERATION_SHRINE_UPGRADE = register(AccelerationShrineUpgradeBlockEntity::new, ECBlocks.ACCELERATION_SHRINE_UPGRADE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull OverclockedAccelerationShrineUpgradeBlockEntity>> OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE = register(OverclockedAccelerationShrineUpgradeBlockEntity::new, ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull GreaterFortuneShrineUpgradeBlockEntity>> GREATER_FORTUNE_SHRINE_UPGRADE = register(GreaterFortuneShrineUpgradeBlockEntity::new, ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull TranslocationShrineUpgradeBlockEntity>> TRANSLOCATION_SHRINE_UPGRADE = register(TranslocationShrineUpgradeBlockEntity::new, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull VortexShrineUpgradeBlockEntity>> VORTEX_SHRINE_UPGRADE = register(VortexShrineUpgradeBlockEntity::new, ECBlocks.VORTEX_SHRINE_UPGRADE);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull OrderedSorterBlockEntity>> SORTER = register(OrderedSorterBlockEntity::new, ECBlocks.ORDERED_SORTER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull CoverableBlockEntity>> COVERABLE = register(CoverableBlockEntity::new, ECBlocks.RETRIEVER);
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SourceBreederBlockEntity>> SOURCE_BREEDER = register(SourceBreederBlockEntity::new, ECBlocks.SOURCE_BREEDER);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SourceBreederPedestalBlockEntity>> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlockEntity::new, ECBlocks.SOURCE_BREEDER_PEDESTAL);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SourceBreederBlockEntity>> SOURCE_BREEDER = register(SourceBreederBlockEntity::new, ECBlocks.SOURCE_BREEDER);
+    public static final DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull SourceBreederPedestalBlockEntity>> SOURCE_BREEDER_PEDESTAL = register(SourceBreederPedestalBlockEntity::new, ECBlocks.SOURCE_BREEDER_PEDESTAL);
 
 
     private ECBlockEntityTypes() {}
 
     @SafeVarargs
-    private static <T extends BlockEntity> BlockEntityType.Builder<T> builder(BlockEntityType.BlockEntitySupplier<T> factory, DeferredHolder<Block, ? extends Block>... validBlocks) {
-        return BlockEntityType.Builder.of(factory, Arrays.stream(validBlocks)
+    private static <T extends BlockEntity> DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull T>> register(String name, BlockEntityType.BlockEntitySupplier<@NotNull T> supplier, DeferredHolder<@NotNull Block, ? extends @NotNull Block>... blocks) {
+        return DEFERRED_REGISTER.register(name, () -> new BlockEntityType<>(supplier, Arrays.stream(blocks)
                 .map(DeferredHolder::get)
-                .toArray(Block[]::new));
+                .toArray(Block[]::new)));
     }
 
-    private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(BlockEntityType.BlockEntitySupplier<T> factory, DeferredHolder<Block, ? extends Block> block) {
-        return register(() -> builder(factory, block), block.getId().getPath());
-    }
-
-    private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(Supplier<BlockEntityType.Builder<T>> builder, String name) {
-        return DEFERRED_REGISTER.register(name, () -> builder.get().build(null));
+    private static <T extends BlockEntity> DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull T>> register(BlockEntityType.BlockEntitySupplier<@NotNull T> supplier, DeferredHolder<@NotNull Block, ? extends @NotNull Block> block) {
+        return DEFERRED_REGISTER.register(block.getId().getPath(), () -> new BlockEntityType<>(supplier, block.get()));
     }
 
     public static void register(IEventBus bus) {

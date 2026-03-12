@@ -4,7 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -40,14 +40,14 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 
 	@Nonnull
 	@Override
-	public ItemInteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
+	public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
 		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, pipe, context.getClickedFace()), context);
 	}
 
 	@Nonnull
-	public ItemInteractionResult doUse(IRuneHandler handler, UseOnContext context) {
+	public InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
 		if (handler == null) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 
 		var level = context.getLevel();
@@ -61,9 +61,9 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 			if (player != null) {
 				ECPlayerHelper.shrinkItemInHand(player, stack, context.getHand());
 			}
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	public static Holder<Rune> getRune(ItemStack stack) {

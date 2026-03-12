@@ -5,12 +5,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class SingleStackContainer extends AbstractSynchronizableContainer implements INBTSerializable<CompoundTag> {
+public class SingleStackContainer extends AbstractSynchronizableContainer {
 
 	protected ItemStack stack;
 

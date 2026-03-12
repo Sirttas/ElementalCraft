@@ -184,8 +184,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	@Override
 	public ISourceTraitValue load(Tag tag) {
 		return switch (tag) {
-			case IntTag intTag -> getStep(intTag.getAsInt()); // TODO 1.22 remove
-			case StringTag stringTag -> findStep(stringTag.getAsString());
+			case StringTag stringTag -> findStep(stringTag.value());
 			case null, default -> null;
 		};
 	}

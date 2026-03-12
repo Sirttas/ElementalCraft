@@ -64,11 +64,11 @@ public final class FixedSourceTraitValueProvider implements ISourceTraitValuePro
 
     @Override
     public Codec<ISourceTraitValue> valueCodec() {
-        return Codec.unit(value);
+        return MapCodec.<ISourceTraitValue>unit(value).codec();
     }
 
     @Override
-    public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+    public StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ISourceTraitValue> valueStreamCodec() {
         return StreamCodec.unit(value);
     }
 

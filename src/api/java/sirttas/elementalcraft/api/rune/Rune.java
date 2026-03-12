@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
@@ -131,7 +131,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			return predicate(IBlockPosPredicate.match(block));
 		}
 
-		public Builder match(TagKey<Block> tag) {
+		public Builder match(TagKey<@NotNull Block> tag) {
 			return predicate(IBlockPosPredicate.match(tag));
 		}
 
@@ -145,10 +145,8 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			return this;
 		}
 
-		public Builder model(ItemModelBuilder model) {
-			Identifier modelLoc = model.getLocation();
-			
-			this.model = Identifier.fromNamespaceAndPath(modelLoc.getNamespace(), modelLoc.getPath());
+		public Builder model(Identifier model) {
+			this.model = model;
 			return this;
 		}
 
