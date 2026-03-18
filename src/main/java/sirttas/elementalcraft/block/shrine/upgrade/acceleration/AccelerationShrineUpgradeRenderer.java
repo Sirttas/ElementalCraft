@@ -18,7 +18,7 @@ public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<Ac
 
 	private static final Vector3f POSITION = new Vector3f(0, 2F / 16, 0);
 
-	public static final ModelIdentifier CLOCK_LOCATION = ECModelHelper.standalone("block/shrine_upgrade_acceleration_clock");
+	public static final ModelIdentifier CLOCK_LOCATION = ECModelHelper.createStandaloneKey("block/shrine_upgrade_acceleration_clock");
 
 	private BakedModel clockModel;
 

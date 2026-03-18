@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 
 public class SourceRenderer implements BlockEntityRenderer<SourceBlockEntity> {
 
-	public static final ModelIdentifier STABILIZER_LOCATION = ECModelHelper.standalone("block/source_stabilizer");
+	public static final ModelIdentifier STABILIZER_LOCATION = ECModelHelper.createStandaloneKey("block/source_stabilizer");
 	
 	private BakedModel stabilizerModel;
 

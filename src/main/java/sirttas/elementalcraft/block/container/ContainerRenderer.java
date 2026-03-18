@@ -2,22 +2,34 @@ package sirttas.elementalcraft.block.container;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> implements BlockEntityRenderer<T> {
+public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> implements BlockEntityRenderer<@NotNull T, @NotNull ContainerRenderState> {
+
     @Override
-    public void render(@Nonnull T container, float pPartialTick, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        if (Boolean.FALSE.equals(ECConfig.CLIENT.renderInstrumentShadow.get())) {
+    public ContainerRenderState createRenderState() {
+        return new ContainerRenderState(Minecraft.getInstance().getBlockRenderer()); // TODO use BlockEntityRendererProvider.Context
+    }
+
+    @Override
+    public void extractRenderState(T container, ContainerRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(container, renderState, partialTick, cameraPosition, breakProgress);
+
+        if (!ECConfig.CLIENT.renderInstrumentShadow.get()) {
+            renderState.ghostBlockRenderState.clear();
             return;
         }
 
@@ -28,29 +40,27 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
             return;
         }
 
-        var pos = container.getBlockPos();
-        var iterator =  List.of(player.getMainHandItem(), player.getOffhandItem()).iterator();
-        boolean wasRendered = false;
+        var instrumentPos = container.getBlockPos().above(container instanceof ReservoirBlockEntity ? 2 : 1);
+        var itemsInHands = List.of(player.getMainHandItem(), player.getOffhandItem());
 
-        while(iterator.hasNext() && !wasRendered) {
-            var stack = iterator.next();
-
+        for (var stack : itemsInHands) {
             if (stack.getItem() instanceof BlockItem blockItem) {
                 var block = blockItem.getBlock();
-                var instrumentPos = pos.above(container instanceof ReservoirBlockEntity ? 2 : 1);
 
                 if (level.getBlockState(instrumentPos).isAir()) {
                     var state = block.getStateForPlacement(new DirectionalPlaceContext(level, instrumentPos, Direction.DOWN, stack, Direction.UP));
 
                     if (state != null && state.canSurvive(level, instrumentPos) && state.is(container.getCompatibleTools())) {
-                        poseStack.pushPose();
-                        poseStack.translate(0, 1, 0);
-                        ECRendererHelper.renderGhost(state, poseStack, bufferSource, level, instrumentPos);
-                        poseStack.popPose();
-                        wasRendered = true;
+                        renderState.ghostBlockRenderState.update(level, state, instrumentPos, level.getRandom());
+                        return;
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public void submit(ContainerRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        renderState.ghostBlockRenderState.submit(poseStack, nodeCollector);
     }
 }

@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 
 public class AirMillSynthesizerRenderer implements BlockEntityRenderer<AirMillSynthesizerBlockEntity> {
 
-	public static final ModelIdentifier SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_synthesizer_shaft");
+	public static final ModelIdentifier SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/air_mill_synthesizer_shaft");
 
 	private BakedModel shaftModel;
 

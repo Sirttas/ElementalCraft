@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 
 public class VortexShrineUpgradeRenderer implements BlockEntityRenderer<VortexShrineUpgradeBlockEntity> {
 
-	public static final ModelIdentifier RING_LOCATION = ECModelHelper.standalone("block/shrine_upgrade_vortex_ring");
+	public static final ModelIdentifier RING_LOCATION = ECModelHelper.createStandaloneKey("block/shrine_upgrade_vortex_ring");
 
 	private BakedModel ringModel;
 

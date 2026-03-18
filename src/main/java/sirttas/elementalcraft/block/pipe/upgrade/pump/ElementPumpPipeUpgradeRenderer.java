@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelIdentifier;
+import net.minecraft.client.resources.model.ModelManager;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 
 public class ElementPumpPipeUpgradeRenderer implements IPipeUpgradeRenderer<ElementPumpPipeUpgrade> {
 
-    public static final ModelIdentifier PUMP_LOCATION = ECModelHelper.standalone(PipeUpgrade.FOLDER + "element_pump_pump");
+    public static final ModelIdentifier PUMP_LOCATION = ECModelHelper.createStandaloneKey(PipeUpgrade.FOLDER + "element_pump_pump");
     private BakedModel pumpModel;
 
     @Override

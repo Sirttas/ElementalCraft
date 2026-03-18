@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class SolarSynthesizerRenderer implements BlockEntityRenderer<SolarSynthesizerBlockEntity> {
 
 	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_fire_synthesizer_beam");
-	public static final ModelIdentifier LENS_LOCATION = ECModelHelper.standalone("block/solar_fire_synthesizer_lens");
+	public static final ModelIdentifier LENS_LOCATION = ECModelHelper.createStandaloneKey("block/solar_fire_synthesizer_lens");
 
 	private static final float RED = ElementType.FIRE.getRed();
 	private static final float GREEN = ElementType.FIRE.getGreen();

@@ -12,7 +12,7 @@ import sirttas.elementalcraft.renderer.ECRendererHelper;
 import javax.annotation.Nonnull;
 
 public class TranslocationShrineUpgradeRenderer implements BlockEntityRenderer<TranslocationShrineUpgradeBlockEntity> {
-    public static final ModelIdentifier RING_LOCATION = ECModelHelper.standalone("block/shrine_upgrade_translocation_ring");
+    public static final ModelIdentifier RING_LOCATION = ECModelHelper.createStandaloneKey("block/shrine_upgrade_translocation_ring");
 
     private BakedModel ringModel;
 

@@ -20,7 +20,6 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -33,18 +32,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
-import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
 import sirttas.elementalcraft.event.TickHandler;
-
-import java.util.List;
 
 public class ECRendererHelper {
 
@@ -362,24 +357,6 @@ public class ECRendererHelper {
             ECRendererHelper.renderIcon(poseStack, buffer, rune.value().getSprite(), 16, -16, light, overlay);
             poseStack.popPose();
         });
-        poseStack.popPose();
-    }
-
-    public static void submitRunes(@NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, List<Holder<@NotNull Rune>> runes, float tick, int lightCoords) {
-        int runeCount = runes.size();
-
-        poseStack.pushPose();
-        poseStack.translate(0.5F, 0.75F, 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(tick / 2));
-        for (var rune : runes) {
-            poseStack.mulPose(Axis.YP.rotationDegrees(90F / runeCount));
-            poseStack.pushPose();
-            poseStack.translate(0.75F, 0F, 0F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(90));
-            poseStack.scale(1F / 64F, 1F / 64F, 1F / 64F);
-            ECRendererHelper.submitIcon(poseStack, nodeCollector, rune.value().getSprite(), 16, -16, lightCoords);
-            poseStack.popPose();
-        }
         poseStack.popPose();
     }
 

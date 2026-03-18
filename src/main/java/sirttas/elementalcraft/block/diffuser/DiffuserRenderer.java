@@ -2,54 +2,59 @@ package sirttas.elementalcraft.block.diffuser;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelIdentifier;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Util;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
-import javax.annotation.Nonnull;
-
 @OnlyIn(Dist.CLIENT)
-public class DiffuserRenderer implements BlockEntityRenderer<DiffuserBlockEntity> {
+public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBlockEntity, @NotNull DiffuserRenderState> {
 	
-	public static final ModelIdentifier CUBE_LOCATION = ECModelHelper.standalone("block/diffuser_cube");
+	public static final StandaloneModelKey<@NotNull BlockModelPart> CUBE_LOCATION = ECModelHelper.createStandaloneKey("diffuser_cube");
 	
-	private static final Quaternionf ROTATION = Axis.XP.rotationDegrees(45);
-	static {
-		ROTATION.mul(Axis.ZP.rotationDegrees(45));
-	}
-	
-	private BakedModel cubeModel;
-	
-	@Override
-	public void render(@Nonnull DiffuserBlockEntity diffuser, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int light, int overlay) {
-		if (diffuser.showsRange()) {
-			BlockPos pos = diffuser.getBlockPos();
+	private static final Quaternionf ROTATION = Util.make(() -> {
+        var axis = Axis.XP.rotationDegrees(45);
 
-			LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), diffuser.getRange().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
-		}
+        axis.mul(Axis.ZP.rotationDegrees(45));
+        return axis;
+    });
+	
+	private final BlockStateModel cubeModel;
 
-		float angle = ECRendererHelper.getClientTicks(partialTicks);
+    public DiffuserRenderer() {
+        cubeModel = ECModelHelper.loadStandaloneModel(CUBE_LOCATION);
+    }
 
-		if (cubeModel == null) {
-			cubeModel = Minecraft.getInstance().getModelManager().getModel(CUBE_LOCATION);
-		}
-		ECRendererHelper.renderRunes(poseStack, bufferSource, diffuser.getRuneHandler(), angle, light, overlay);
-		poseStack.pushPose();
-		poseStack.translate(0.5, 1.1, 0.5);
-		poseStack.mulPose(Axis.YP.rotationDegrees(angle));
-		poseStack.mulPose(ROTATION);
-		poseStack.translate(-3D / 16, -3D / 16, -3D / 16);
-		ECRendererHelper.renderModel(cubeModel, poseStack, bufferSource, diffuser, light, overlay);
-		poseStack.popPose();
-	}
+    @Override
+    public DiffuserRenderState createRenderState() {
+        return new DiffuserRenderState();
+    }
+
+    @Override
+    public void submit(DiffuserRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        renderState.range.submit();
+
+        float angle = ECRendererHelper.getClientTicks(renderState.partialTick);
+
+        renderState.runes.submit(renderState, poseStack, nodeCollector);
+        poseStack.pushPose();
+        poseStack.translate(0.5, 1.1, 0.5);
+        poseStack.mulPose(Axis.YP.rotationDegrees(angle));
+        poseStack.mulPose(ROTATION);
+        poseStack.translate(-3D / 16, -3D / 16, -3D / 16);
+        nodeCollector.submitCustomGeometry(poseStack, RenderTypes.solidMovingBlock(), (pose, consumer) -> ModelBlockRenderer.renderModel(pose, consumer, cubeModel, 1, 1, 1, renderState.lightCoords, OverlayTexture.NO_OVERLAY));
+        poseStack.popPose();
+    }
 }

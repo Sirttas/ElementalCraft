@@ -21,10 +21,10 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class MillRenderer<T extends AbstractMillBlockEntity<?>> implements BlockEntityRenderer<T> {
 
-	public static final ModelIdentifier WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_grindstone_shaft");
-	public static final ModelIdentifier AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_grindstone_shaft");
-	public static final ModelIdentifier WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/water_mill_wood_saw_shaft");
-	public static final ModelIdentifier AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.standalone("block/air_mill_wood_saw_shaft");
+	public static final ModelIdentifier WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/water_mill_grindstone_shaft");
+	public static final ModelIdentifier AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/air_mill_grindstone_shaft");
+	public static final ModelIdentifier WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/water_mill_wood_saw_shaft");
+	public static final ModelIdentifier AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/air_mill_wood_saw_shaft");
 
 	private final ModelIdentifier modelLocation;
 	private BakedModel model;

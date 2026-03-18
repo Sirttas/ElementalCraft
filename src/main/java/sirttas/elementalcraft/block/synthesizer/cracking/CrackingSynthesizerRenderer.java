@@ -5,8 +5,8 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.core.BlockPos;
@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 
 public class CrackingSynthesizerRenderer<T extends AbstractCrackingSynthesizerBlockEntity<?>> implements BlockEntityRenderer<T> {
 
-	public static final ModelIdentifier HEAD_LOCATION = ECModelHelper.standalone("block/cracking_earth_synthesizer_head");
+	public static final ModelIdentifier HEAD_LOCATION = ECModelHelper.createStandaloneKey("block/cracking_earth_synthesizer_head");
 
 	private BakedModel headModel;
 
@@ -30,7 +30,7 @@ public class CrackingSynthesizerRenderer<T extends AbstractCrackingSynthesizerBl
 		if (crackingSynthesizer.showsRange()) {
 			BlockPos pos = crackingSynthesizer.getBlockPos();
 
-			LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), crackingSynthesizer.getRange().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
+			LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderTypes.lines()), crackingSynthesizer.getRange().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
 		}
 		if (headModel == null) {
 			headModel = minecraft.getModelManager().getModel(HEAD_LOCATION);

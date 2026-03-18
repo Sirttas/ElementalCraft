@@ -7,8 +7,13 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ContainerRenderer;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -41,11 +46,13 @@ import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerRe
 
 import java.util.function.Supplier;
 
+@EventBusSubscriber(modid = ElementalCraftApi.MODID, value = Dist.CLIENT)
 public final class ECRenderers {
 
 	private ECRenderers() {}
 
-	public static void registerBlockEntityRenderer() {
+    @SubscribeEvent
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		register(ECBlockEntityTypes.PIPE, ElementPipeRenderer::new);
 		register(ECBlockEntityTypes.INFUSER, d -> SingleItemRenderer.create(d, new Vec3(0.5, 0.2, 0.5)));
 		register(ECBlockEntityTypes.EXTRACTOR, ExtractorRenderer::new);

@@ -71,9 +71,9 @@ public class ECModelHandler {
         event.register(ElementBeamPipeUpgradeRenderer.RING_2_LOCATION);
         event.register(ElementBeamPipeUpgradeRenderer.RING_3_LOCATION);
         event.register(ElementPumpPipeUpgradeRenderer.PUMP_LOCATION);
-        event.register(ECModelHelper.standalone("item/air_mill_synthesizer_broken"));
-        event.register(ECModelHelper.standalone("item/air_mill_grindstone_broken"));
-        event.register(ECModelHelper.standalone("item/air_mill_wood_saw_broken"));
+        event.register(ECModelHelper.createStandaloneKey("item/air_mill_synthesizer_broken"));
+        event.register(ECModelHelper.createStandaloneKey("item/air_mill_grindstone_broken"));
+        event.register(ECModelHelper.createStandaloneKey("item/air_mill_wood_saw_broken"));
     }
 
     private static void registerRuneModels(Consumer<Identifier> addModel) {
