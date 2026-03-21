@@ -91,12 +91,22 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     }
 
     @Nonnull
-    public Player mockChiselPlayer(BlockPos pos) {
+    public Player mockPlayerWithItem(Vec3 pos, ItemStack itemStack) {
         var player = makeMockPlayer();
 
-        player.moveTo(absoluteVec(Vec3.atCenterOf(pos)));
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.SWIFT_ALLOY_CHISEL));
+        player.moveTo(absoluteVec(pos));
+        player.setItemInHand(InteractionHand.MAIN_HAND, itemStack);
         return player;
+    }
+
+    @Nonnull
+    public Player mockChiselPlayer(Vec3 pos) {
+        return mockPlayerWithItem(pos, new ItemStack(ECItems.SWIFT_ALLOY_CHISEL));
+    }
+
+    @Nonnull
+    public Player mockChiselPlayer(BlockPos pos) {
+        return mockChiselPlayer(Vec3.atLowerCornerOf(pos));
     }
 
     public Player mockPlayerWithJewel(Supplier<? extends Jewel> jewel) {
@@ -114,15 +124,13 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     }
 
     public Player mockPlayerWithSpell(Vec3 pos, Holder<Spell> spell) {
-        var player = makeMockPlayer(GameType.SURVIVAL);
 
-        player.moveTo(absoluteVec(pos));
 
         var scroll = new ItemStack(ECItems.SCROLL);
 
         SpellHelper.setSpell(scroll, spell);
 
-        player.setItemInHand(InteractionHand.MAIN_HAND, scroll);
+        var player = mockPlayerWithItem(pos, scroll);
         player.addItem(createFullPureHolder());
         getLevel().addFreshEntity(player);
         return player;

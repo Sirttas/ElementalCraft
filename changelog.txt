@@ -1,4 +1,5 @@
 - fix crash while loading sources (issue #187)
+- fix a dupe with the mills (issue #188)
 
 
 7.1.2:

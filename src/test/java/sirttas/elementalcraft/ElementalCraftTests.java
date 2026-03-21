@@ -17,6 +17,7 @@ import net.neoforged.testframework.summary.GitHubActionsStepSummaryDumper;
 import net.neoforged.testframework.summary.JUnitSummaryDumper;
 import org.lwjgl.glfw.GLFW;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.block.ECContainerBlockGameTests;
 import sirttas.elementalcraft.block.airmill.AirMillGameTests;
 import sirttas.elementalcraft.block.container.ContainerGameTests;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirGameTests;
@@ -71,6 +72,7 @@ public class ElementalCraftTests {
     }
 
     private static void registerAdditionalTests(Consumer<Test> registrar) {
+        ECContainerBlockGameTests.collectTests().forEach(registrar);
         ElementHolderGameTests.collectTests().forEach(registrar);
         ElementExtractorGameTests.collectTests().forEach(registrar);
         InfuserGameTests.collectTests().forEach(registrar);
