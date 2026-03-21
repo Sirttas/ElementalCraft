@@ -3,7 +3,9 @@ package sirttas.elementalcraft.block.container;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.Direction;
@@ -19,9 +21,15 @@ import java.util.List;
 
 public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> implements BlockEntityRenderer<@NotNull T, @NotNull ContainerRenderState> {
 
+    private final BlockRenderDispatcher blockRenderDispatcher;
+
+    public ContainerRenderer(BlockEntityRendererProvider.Context context) {
+        this.blockRenderDispatcher = context.blockRenderDispatcher();
+    }
+
     @Override
     public ContainerRenderState createRenderState() {
-        return new ContainerRenderState(Minecraft.getInstance().getBlockRenderer()); // TODO use BlockEntityRendererProvider.Context
+        return new ContainerRenderState(blockRenderDispatcher);
     }
 
     @Override

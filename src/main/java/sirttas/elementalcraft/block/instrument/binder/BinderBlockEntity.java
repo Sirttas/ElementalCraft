@@ -24,16 +24,16 @@ import java.util.stream.Collectors;
 
 public class BinderBlockEntity extends AbstractInstrumentBlockEntity<MultipleItemsSingleElementRecipeInput, AbstractBindingRecipe> implements IBinder {
 
-	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(BinderBlock.NAME);
-	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
-	private static final int MAX_INVENTORY_SIZE = 20;
+	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(BinderBlock.NAME);
+	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+	protected static final int MAX_INVENTORY_SIZE = 20;
 	private final InstrumentContainer inventory;
 
 	public BinderBlockEntity(BlockPos pos, BlockState state) {
 		this(ECBlockEntityTypes.BINDER, PROPERTIES, pos, state);
 	}
 
-	protected BinderBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+	protected BinderBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, properties, pos, state);
 		inventory = new InstrumentContainer(this::setChanged, MAX_INVENTORY_SIZE);
 		particleOffset = new Vec3(0, 0.2, 0);
@@ -51,7 +51,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<MultipleIte
 	}
 
 	@Override
-	protected void setRemainingItems(NonNullList<ItemStack> remainingItems) {
+	protected void setRemainingItems(NonNullList<@NotNull ItemStack> remainingItems) {
 		var list = remainingItems.stream()
 				.filter(s -> !s.isEmpty())
 				.collect(Collectors.toList());

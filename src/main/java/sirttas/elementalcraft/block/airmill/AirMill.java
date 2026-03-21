@@ -64,6 +64,6 @@ public interface AirMill {
         if (copy.getDamageValue() >= maxDamage) {
             copy.shrink(1);
         }
-        return InteractionResult.SUCCESS.heldItemTransformedTo(copy);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(copy); // FIXME is this necessary
     }
 }

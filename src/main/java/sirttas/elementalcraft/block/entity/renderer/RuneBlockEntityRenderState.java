@@ -1,8 +1,8 @@
-package sirttas.elementalcraft.block.shrine.upgrade.fortune.greater;
+package sirttas.elementalcraft.block.entity.renderer;
 
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import sirttas.elementalcraft.renderer.state.RunesRenderState;
 
-public class GreaterFortuneShrineUpgradeRenderState extends BlockEntityRenderState {
+public class RuneBlockEntityRenderState extends BlockEntityRenderState {
     public final RunesRenderState runes = new RunesRenderState();
 }

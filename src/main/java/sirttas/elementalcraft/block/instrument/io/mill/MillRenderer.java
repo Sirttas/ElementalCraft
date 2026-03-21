@@ -3,72 +3,71 @@ package sirttas.elementalcraft.block.instrument.io.mill;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelIdentifier;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.airmill.AirMill;
+import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderState;
+import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
 import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
-import javax.annotation.Nonnull;
-
 @OnlyIn(Dist.CLIENT)
-public class MillRenderer<T extends AbstractMillBlockEntity<?>> implements BlockEntityRenderer<T> {
+public class MillRenderer<T extends AbstractMillBlockEntity<?>> extends IOInstrumentRenderer<T, IOInstrumentRenderState> {
 
-	public static final ModelIdentifier WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/water_mill_grindstone_shaft");
-	public static final ModelIdentifier AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/air_mill_grindstone_shaft");
-	public static final ModelIdentifier WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/water_mill_wood_saw_shaft");
-	public static final ModelIdentifier AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/air_mill_wood_saw_shaft");
+	public static final StandaloneModelKey<@NotNull BlockModelPart> WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("water_mill_grindstone_shaft");
+	public static final StandaloneModelKey<@NotNull BlockModelPart> AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("air_mill_grindstone_shaft");
+	public static final StandaloneModelKey<@NotNull BlockModelPart> WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("water_mill_wood_saw_shaft");
+	public static final StandaloneModelKey<@NotNull BlockModelPart> AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("air_mill_wood_saw_shaft");
 
-	private final ModelIdentifier modelLocation;
-	private BakedModel model;
+    private final BlockStateModel model;
 
-	public MillRenderer(ModelIdentifier modelLocation) {
-		this.modelLocation = modelLocation;
+	public MillRenderer(BlockEntityRendererProvider.@NotNull Context context, StandaloneModelKey<@NotNull BlockModelPart> key) {
+        super(context);
+        model = ECModelHelper.loadStandaloneModel(key);
 	}
 
-	@Override
-	public void render(@Nonnull T te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		if (model == null && modelLocation != null) {
-			model = Minecraft.getInstance().getModelManager().getModel(modelLocation);
-		}
-		Container inv = te.getInventory();
-		ItemStack stack = inv.getItem(0);
-		ItemStack stack2 = inv.getItem(1);
-		float tick = ECRendererHelper.getClientTicks(partialTicks);
+    @Override
+    public @NotNull IOInstrumentRenderState createRenderState() {
+        return new IOInstrumentRenderState();
+    }
 
-		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
+    @Override
+    public void submit(@NotNull IOInstrumentRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+		float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+
+        renderState.runes.submit(renderState, poseStack, nodeCollector);
 		if (!(te instanceof AirMill airMill) || !airMill.isBroken()) {
-			matrixStack.pushPose();
-			matrixStack.translate(0, 1 / 4D, 0);
+			poseStack.pushPose();
+			poseStack.translate(0, 1 / 4D, 0);
 			if (te.isRunning()) {
-				matrixStack.translate(0.5, 0, 0.5);
-				matrixStack.mulPose(Axis.YP.rotationDegrees(-5 * tick));
-				matrixStack.translate(-0.5, 0, -0.5);
+				poseStack.translate(0.5, 0, 0.5);
+				poseStack.mulPose(Axis.YP.rotationDegrees(-5 * tick));
+				poseStack.translate(-0.5, 0, -0.5);
 			}
-			ECRendererHelper.renderModel(model, matrixStack, buffer, te, light, overlay);
-			matrixStack.popPose();
+			ECRendererHelper.renderModel(model, poseStack, buffer, te, light, overlay);
+			poseStack.popPose();
 		}
 		if (!stack.isEmpty() || !stack2.isEmpty()) {
-			matrixStack.translate(0.5, 0.3, 0.5);
-			matrixStack.mulPose(ECRendererHelper.getRotation(te.getBlockState().getValue(AbstractMillBlock.FACING)));
-			matrixStack.translate(0, 0, -3 / 8D);
+			poseStack.translate(0.5, 0.3, 0.5);
+			poseStack.mulPose(ECRendererHelper.getRotation(te.getBlockState().getValue(AbstractMillBlock.FACING)));
+			poseStack.translate(0, 0, -3 / 8D);
 			if (!stack.isEmpty()) {
-				matrixStack.pushPose();
-				matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
-				ECRendererHelper.renderItem(stack, matrixStack, buffer, light, overlay);
-				matrixStack.popPose();
+				poseStack.pushPose();
+				poseStack.mulPose(Axis.YP.rotationDegrees(tick));
+				ECRendererHelper.renderItem(stack, poseStack, buffer, light, overlay);
+				poseStack.popPose();
 			}
 			if (!stack2.isEmpty()) {
-				matrixStack.translate(0, 0, 3 / 4D);
-				matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
-				ECRendererHelper.renderItem(stack2, matrixStack, buffer, light, overlay);
+				poseStack.translate(0, 0, 3 / 4D);
+				poseStack.mulPose(Axis.YP.rotationDegrees(tick));
+				ECRendererHelper.renderItem(stack2, poseStack, buffer, light, overlay);
 			}
 		}
 	}

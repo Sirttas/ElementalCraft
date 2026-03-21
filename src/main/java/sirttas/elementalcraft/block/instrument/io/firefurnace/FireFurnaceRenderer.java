@@ -2,37 +2,44 @@ package sirttas.elementalcraft.block.instrument.io.firefurnace;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderState;
+import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
-import javax.annotation.Nonnull;
-
 @OnlyIn(Dist.CLIENT)
-public class FireFurnaceRenderer implements BlockEntityRenderer<AbstractFireFurnaceBlockEntity<?>> {
+public class FireFurnaceRenderer<T extends AbstractFireFurnaceBlockEntity<?>> extends IOInstrumentRenderer<@NotNull T, @NotNull IOInstrumentRenderState> {
 
-	@Override
-	public void render(AbstractFireFurnaceBlockEntity<?> te, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		Container inv = te.getInventory();
-		ItemStack stack = inv.getItem(0);
-		ItemStack stack2 = inv.getItem(1);
-		float tick = ECRendererHelper.getClientTicks(partialTicks);
+    public FireFurnaceRenderer(BlockEntityRendererProvider.Context context) {
+        super(context);
+    }
 
-		ECRendererHelper.renderRunes(poseStack, buffer, te.getRuneHandler(), tick, light, overlay);
-		poseStack.translate(0.5F, 0.3F, 0.5F);
-		if (!stack.isEmpty() || !stack2.isEmpty()) {
-			poseStack.mulPose(Axis.YP.rotationDegrees(tick));
-			if (!stack.isEmpty()) {
-				ECRendererHelper.renderItem(stack, poseStack, buffer, light, overlay);
-			}
-			if (!stack2.isEmpty()) {
-				poseStack.translate(0, 0.5F, 0);
-				ECRendererHelper.renderItem(stack2, poseStack, buffer, light, overlay);
-			}
-		}
-	}
+    @Override
+    public @NotNull IOInstrumentRenderState createRenderState() {
+        return new IOInstrumentRenderState();
+    }
+
+    @Override
+    public void submit(IOInstrumentRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+
+        renderState.runes.submit(renderState, poseStack, nodeCollector);
+        if (!renderState.material.isEmpty() || !renderState.result.isEmpty()) {
+            poseStack.translate(0.5F, 0.3F, 0.5F);
+            poseStack.mulPose(Axis.YP.rotationDegrees(tick));
+            if (!renderState.material.isEmpty()) {
+                renderState.material.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            }
+            if (!renderState.result.isEmpty()) {
+                poseStack.translate(0, 0.5F, 0);
+                renderState.result.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            }
+        }
+    }
 }

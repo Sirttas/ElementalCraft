@@ -31,7 +31,7 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 
 	protected AbstractFireFurnaceBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-		this.registerDefaultState(this.stateDefinition.any()
+		this.registerDefaultState(this.stateDefinition.any() // TODO add facing
 				.setValue(WATERLOGGED, false));
 	}
 

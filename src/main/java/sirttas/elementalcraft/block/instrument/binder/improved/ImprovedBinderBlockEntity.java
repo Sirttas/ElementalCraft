@@ -18,8 +18,8 @@ import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
 public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInfuser {
 
-	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(ImprovedBinderBlock.NAME);
-	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(ImprovedBinderBlock.NAME);
+	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	public ImprovedBinderBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.BINDER_IMPROVED, PROPERTIES, pos, state);

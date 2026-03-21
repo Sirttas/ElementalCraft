@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.entity.renderer.SingleItemRenderer;
+import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.event.TickHandler;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-public class PureInfuserRenderer extends SingleItemRenderer<PureInfuserBlockEntity> {
+public class PureInfuserRenderer extends SingleItemBlockEntityRenderer<PureInfuserBlockEntity> {
 
 	public PureInfuserRenderer() {
 		super(new Vec3(0.5, 0.9, 0.5));

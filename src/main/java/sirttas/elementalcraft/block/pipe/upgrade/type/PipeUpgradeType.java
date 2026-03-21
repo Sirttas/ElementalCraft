@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.block.pipe.upgrade.type;
 
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -13,8 +12,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeModelShaper;
-import sirttas.elementalcraft.client.model.ECModelShapers;
 
 import javax.annotation.Nonnull;
 
@@ -27,7 +24,6 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     private String descriptionId;
     private ResourceKey<@NotNull LootTable> lootTable;
     @OnlyIn(Dist.CLIENT)
-    private BakedModel model;
 
 
     public PipeUpgradeType(Factory<T> factory) {
@@ -67,15 +63,6 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
             descriptionId = "elementalcraft.pipe_upgrade." + id.getNamespace() + '.' + id.getPath();
         }
         return descriptionId;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Nonnull
-    public BakedModel getModel() {
-        if (model == null) {
-            model = ECModelShapers.get(PipeUpgradeModelShaper.NAME).getBlockModel(this);
-        }
-        return model;
     }
 
     public ResourceKey<@NotNull LootTable> getLootTable() {

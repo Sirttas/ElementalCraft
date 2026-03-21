@@ -1,11 +1,12 @@
-package sirttas.elementalcraft.block.entity.renderer;
+package sirttas.elementalcraft.block.instrument.crystallizer;
 
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import sirttas.elementalcraft.renderer.state.RunesRenderState;
 
-public class SingleItemRenderState extends BlockEntityRenderState {
+public class CrystallizerRenderState extends BlockEntityRenderState {
     public float partialTick;
     public final RunesRenderState runes = new RunesRenderState();
-    public final ItemStackRenderState item = new ItemStackRenderState();
+    public final ItemStackRenderState gem = new ItemStackRenderState();
+    public final ItemStackRenderState crystal = new ItemStackRenderState();
 }

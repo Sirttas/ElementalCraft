@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.entity.renderer.SingleItemRenderer;
+import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
 import sirttas.elementalcraft.block.source.SourceRendererHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
@@ -17,7 +17,7 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 
-public class SourceBreederRenderer extends SingleItemRenderer<SourceBreederBlockEntity> {
+public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceBreederBlockEntity> {
 
     private final BlockState pedestalState;
 

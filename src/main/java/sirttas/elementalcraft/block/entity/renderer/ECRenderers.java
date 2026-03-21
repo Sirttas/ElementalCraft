@@ -17,7 +17,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ContainerRenderer;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
-import sirttas.elementalcraft.block.extractor.ExtractorRenderer;
 import sirttas.elementalcraft.block.instrument.binder.BinderRenderer;
 import sirttas.elementalcraft.block.instrument.crystallizer.CrystallizerRenderer;
 import sirttas.elementalcraft.block.instrument.enchantment.liquefier.EnchantmentLiquefierRenderer;
@@ -31,7 +30,6 @@ import sirttas.elementalcraft.block.shrine.ShrineRenderer;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeRenderer;
-import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.sorter.ordered.OrderedSorterRenderer;
@@ -54,10 +52,10 @@ public final class ECRenderers {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		register(ECBlockEntityTypes.PIPE, ElementPipeRenderer::new);
-		register(ECBlockEntityTypes.INFUSER, d -> SingleItemRenderer.create(d, new Vec3(0.5, 0.2, 0.5)));
-		register(ECBlockEntityTypes.EXTRACTOR, ExtractorRenderer::new);
+		register(ECBlockEntityTypes.INFUSER, context -> SingleItemBlockEntityRenderer.create(context, new Vec3(0.5, 0.2, 0.5)));
+		register(ECBlockEntityTypes.EXTRACTOR, RuneBlockEntityRenderer::create);
 		register(ECBlockEntityTypes.CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
-		register(ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, d -> SingleItemRenderer.create(d, new Vec3(0.5, 0.5, 0.5), 0.7F));
+		register(ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, context -> SingleItemBlockEntityRenderer.create(context, new Vec3(0.5, 0.5, 0.5), 0.7F));
 		register(ECBlockEntityTypes.DRAINING_SYNTHESIZER, DrainingSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.VIBRATION_SYNTHESIZER, VibrationSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerRenderer::new);
@@ -68,12 +66,12 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.BINDER_IMPROVED, BinderRenderer::new);
 		register(ECBlockEntityTypes.CRYSTALLIZER, CrystallizerRenderer::new);
 		register(ECBlockEntityTypes.INSCRIBER, InscriberRenderer::new);
-		register(ECBlockEntityTypes.WATER_MILL_GRINDSTONE, d -> new MillRenderer<>(MillRenderer.WATER_MILL_GRINDSTONE_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.AIR_MILL_GRINDSTONE, d -> new MillRenderer<>(MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.AIR_MILL_WOOD_SAW, d -> new MillRenderer<>(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION));
+		register(ECBlockEntityTypes.WATER_MILL_GRINDSTONE, context -> new MillRenderer<>(context, MillRenderer.WATER_MILL_GRINDSTONE_SHAFT_LOCATION));
+		register(ECBlockEntityTypes.AIR_MILL_GRINDSTONE, context -> new MillRenderer<>(context, MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION));
+		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, context -> new MillRenderer<>(context, MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION));
+		register(ECBlockEntityTypes.AIR_MILL_WOOD_SAW, context -> new MillRenderer<>(context, MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION));
 		register(ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER, EnchantmentLiquefierRenderer::new);
-		register(ECBlockEntityTypes.PEDESTAL, d -> SingleItemRenderer.create(d, new Vec3(0.5, 0.9, 0.5)));
+		register(ECBlockEntityTypes.PEDESTAL, context -> SingleItemBlockEntityRenderer.create(context, new Vec3(0.5, 0.9, 0.5)));
 		register(ECBlockEntityTypes.PURE_INFUSER, PureInfuserRenderer::new);
 		register(ECBlockEntityTypes.FIRE_FURNACE, FireFurnaceRenderer::new);
 		register(ECBlockEntityTypes.FIRE_BLAST_FURNACE, FireFurnaceRenderer::new);
@@ -82,7 +80,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.VORTEX_SHRINE_UPGRADE, VortexShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.TRANSLOCATION_SHRINE_UPGRADE, TranslocationShrineUpgradeRenderer::new);
 		register(ECBlockEntityTypes.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, OverclockedAccelerationShrineUpgradeRenderer::new);
-		register(ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE, GreaterFortuneShrineUpgradeRenderer::new);
+		register(ECBlockEntityTypes.GREATER_FORTUNE_SHRINE_UPGRADE, RuneBlockEntityRenderer::create);
 		register(ECBlockEntityTypes.SORTER, OrderedSorterRenderer::new);
 		register(ECBlockEntityTypes.SOURCE, SourceRenderer::new);
 

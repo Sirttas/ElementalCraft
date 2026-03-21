@@ -2,34 +2,44 @@ package sirttas.elementalcraft.block.instrument.enchantment.liquefier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.block.instrument.InstrumentContainer;
+import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderState;
+import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
-import javax.annotation.Nonnull;
-
 @OnlyIn(Dist.CLIENT)
-public class EnchantmentLiquefierRenderer implements BlockEntityRenderer<EnchantmentLiquefierBlockEntity> {
+public class EnchantmentLiquefierRenderer extends IOInstrumentRenderer<@NotNull EnchantmentLiquefierBlockEntity, @NotNull IOInstrumentRenderState> {
 
-	@Override
-	public void render(EnchantmentLiquefierBlockEntity te, float partialTicks, PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		float tick = ECRendererHelper.getClientTicks(partialTicks);
-		InstrumentContainer inv = (InstrumentContainer) te.getInventory();
+    public EnchantmentLiquefierRenderer(BlockEntityRendererProvider.Context context) {
+        super(context);
+    }
 
-		matrixStack.translate(0F, 0.25F, 0F);
-		ECRendererHelper.renderRunes(matrixStack, buffer, te.getRuneHandler(), tick, light, overlay);
-		matrixStack.translate(0.5F, 0.45F, 0.5F);
-		matrixStack.pushPose();
-		matrixStack.scale(0.75F, 0.75F, 0.75F);
-		matrixStack.mulPose(Axis.YP.rotationDegrees(tick));
-		ECRendererHelper.renderItem(inv.getItem(1), matrixStack, buffer, light, overlay);
-		matrixStack.popPose();
-		matrixStack.translate(0F, 0.75F, 0F);
-		matrixStack.scale(0.75F, 0.75F, 0.75F);
-		matrixStack.mulPose(Axis.YP.rotationDegrees(-tick));
-		ECRendererHelper.renderItem(inv.getItem(0), matrixStack, buffer, light, overlay);
-	}
+    @Override
+    public IOInstrumentRenderState createRenderState() {
+        return new IOInstrumentRenderState();
+    }
+
+    @Override
+    public void submit(IOInstrumentRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+
+        poseStack.translate(0F, 0.25F, 0F);
+        renderState.runes.submit(renderState, poseStack, nodeCollector);
+        poseStack.translate(0.5F, 0.45F, 0.5F);
+        poseStack.pushPose();
+        poseStack.scale(0.75F, 0.75F, 0.75F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(tick));
+        renderState.material.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        poseStack.popPose();
+        poseStack.translate(0F, 0.75F, 0F);
+        poseStack.scale(0.75F, 0.75F, 0.75F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(-tick));
+        renderState.result.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+    }
 }

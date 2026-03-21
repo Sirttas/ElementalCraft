@@ -34,8 +34,8 @@ public class RunesRenderState {
                 .toList();
     }
 
-    public void update(BlockEntity blockEntity, float partialTick) {
-        this.update(blockEntity.getLevel().getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, null), partialTick);
+    public void update(BlockEntity blockEntity, float partialTicks) {
+        this.update(blockEntity.getLevel().getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, null), partialTicks);
     }
 
     public void clear() {
