@@ -43,13 +43,13 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 			stack = heldItem.copy();
 			stack.setCount(size);
-			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND);
+			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND, size);
 			inventory.insertItem(slot, stack, false);
 			return ItemInteractionResult.SUCCESS;
 		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
 
-			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND);
+			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND, size);
 			stack.grow(size);
 			return ItemInteractionResult.SUCCESS;
 		}

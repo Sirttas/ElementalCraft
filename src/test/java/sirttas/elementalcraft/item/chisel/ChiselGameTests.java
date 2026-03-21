@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
@@ -35,7 +36,7 @@ public class ChiselGameTests {
         var pos = helper.absolutePos(new BlockPos(0, 2, 0));
         var itemHandler = ECContainerHelper.getItemHandlerAt(helper.getLevel(), pos);
         var container = ElementPipeGameTests.getElementStorage(helper, 0, 1, 0);
-        var player = helper.mockChiselPlayer(new BlockPos(0, 2, 0));
+        var player = helper.mockChiselPlayer(new Vec3(0, 2, 0));
 
         itemHandler.insertItem(0, new ItemStack(ECItems.MINOR_RUNE_SLATE), false);
         itemHandler.insertItem(1, new ItemStack(Items.COAL), false);
