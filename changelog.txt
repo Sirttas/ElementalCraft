@@ -1,3 +1,4 @@
+- downgrade JEI version to be compatible with TMRV
 - fix crash while loading sources (issue #187)
 - fix a dupe with the mills (issue #188)
 
