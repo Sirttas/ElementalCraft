@@ -13,8 +13,12 @@ public class ECPlayerHelper {
     }
 
     public static void shrinkItemInHand(Player player, ItemStack itemStack, InteractionHand hand) {
+        shrinkItemInHand(player, itemStack, hand, 1);
+    }
+
+    public static void shrinkItemInHand(Player player, ItemStack itemStack, InteractionHand hand, int size) {
         if (!player.getAbilities().instabuild) {
-            itemStack.shrink(1);
+            itemStack.shrink(size);
             if (itemStack.isEmpty()) {
                 player.setItemInHand(hand, ItemStack.EMPTY);
             }

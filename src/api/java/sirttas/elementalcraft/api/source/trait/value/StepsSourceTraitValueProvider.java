@@ -55,7 +55,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 				if (result.isSuccess()) {
 					return result.map(p -> p.mapFirst(f -> findStep(f)));
 				}
-				return  Codec.INT.decode(ops, input).map(p -> p.mapFirst(f -> getStep(f)));
+				return Codec.INT.decode(ops, input).map(p -> p.mapFirst(f -> getStep(f)));
             }
 
             @Override
@@ -120,7 +120,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	@Deprecated
 	private Step getStep(int stepIndex) {
 		if (stepIndex < 0 || stepIndex >= steps.size()) {
-			throw new IllegalArgumentException("Step index: " + stepIndex + " out of range (0, " + steps.size() + ")");
+			return null;
 		}
 		var step =  this.steps.get(stepIndex);
 

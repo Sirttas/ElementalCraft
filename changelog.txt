@@ -2,6 +2,13 @@
 - add a facing property for fire furnace and fire blast furnace
 
 
+7.1.3:
+
+- downgrade JEI version to be compatible with TMRV
+- fix crash while loading sources (issue #187)
+- fix a dupe with the mills (issue #188)
+
+
 7.1.2:
 
 - repair and translocation spells can no longer be found in chest, they must be crafted
